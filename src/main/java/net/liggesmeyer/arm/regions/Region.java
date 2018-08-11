@@ -438,7 +438,7 @@ public abstract class Region {
                         if(this.region.contains(x, y, z)){
                             Location loc = new Location(world, x, y, z);
                             String write = loc.getBlock().getType() + ";" + loc.getBlockX() + ";" + loc.getBlockY() + ";" + loc.getBlockZ() + ";" + loc.getPitch() + ";" + loc.getYaw() + ";" + loc.getBlock().getData();
-                            if(loc.getBlock().getType() == Material.SIGN || loc.getBlock().getType() == Material.WALL_SIGN){
+                            if(loc.getBlock().getType() == Material.SIGN_POST || loc.getBlock().getType() == Material.WALL_SIGN){
                                 Sign sign = (Sign) loc.getBlock().getState();
                                 write += ";";
                                 write += sign.getLine(0) + "<.:>" + sign.getLine(1) + "<.:>" + sign.getLine(2) + "<.:>" + sign.getLine(3);
@@ -560,7 +560,7 @@ public abstract class Region {
             if(mat != null) {
                 loc.getBlock().setType(mat);
                 loc.getBlock().setData(Byte.parseByte(coordinates[6]));
-                if(mat == Material.SIGN || mat == Material.WALL_SIGN) {
+                if(mat == Material.SIGN_POST || mat == Material.WALL_SIGN) {
                     String[] lines = coordinates[7].split("<.:>", 4);
                     Sign sign = (Sign) loc.getBlock().getState();
                     for(int m = 0; i< lines.length; m++){
@@ -609,20 +609,20 @@ public abstract class Region {
                     }
                 }
             }
-            if(last){
-                world.save();
-                if(player != null) {
-                    player.sendMessage(Messages.PREFIX + Messages.RESET_COMPLETE);
-                }
-            } else {
-                if(player != null) {
-                    double percent = 100;
-                    percent = percent * end;
-                    percent = percent / ((double)blockdata.size());
-                    String message = Messages.RESET_IN_PERCENT;
-                    message = message.replace("%percent%", Math.floor(percent) + "");
-                    player.sendMessage(Messages.PREFIX + message);
-                }
+        }
+        if(last){
+            world.save();
+            if(player != null) {
+                player.sendMessage(Messages.PREFIX + Messages.RESET_COMPLETE);
+            }
+        } else {
+            if(player != null) {
+                double percent = 100;
+                percent = percent * end;
+                percent = percent / ((double)blockdata.size());
+                String message = Messages.RESET_IN_PERCENT;
+                message = message.replace("%percent%", Math.floor(percent) + "");
+                player.sendMessage(Messages.PREFIX + message);
             }
         }
     }

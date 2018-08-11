@@ -166,7 +166,7 @@ public class ARMListener implements Listener {
 
     @EventHandler
     public void removeSign(BlockBreakEvent block) {
-        if ((block.getBlock().getType() != Material.SIGN) && (block.getBlock().getType() != Material.WALL_SIGN)) {
+        if ((block.getBlock().getType() != Material.SIGN_POST) && (block.getBlock().getType() != Material.WALL_SIGN)) {
             return;
         }
         if (!Main.getWorldguard().canBuild(block.getPlayer(), block.getBlock().getLocation())) {

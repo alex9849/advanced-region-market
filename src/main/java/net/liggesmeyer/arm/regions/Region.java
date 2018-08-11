@@ -1,5 +1,30 @@
 package net.liggesmeyer.arm.regions;
 
+import com.sk89q.worldedit.EditSession;
+import com.sk89q.worldedit.MaxChangedBlocksException;
+import com.sk89q.worldedit.WorldEdit;
+import com.sk89q.worldedit.CuboidClipboard;
+import com.sk89q.worldedit.EditSession;
+import com.sk89q.worldedit.EmptyClipboardException;
+import com.sk89q.worldedit.LocalPlayer;
+import com.sk89q.worldedit.LocalSession;
+import com.sk89q.worldedit.MaxChangedBlocksException;
+import com.sk89q.worldedit.Vector;
+import com.sk89q.worldedit.WorldEdit;
+import com.sk89q.worldedit.bukkit.BukkitUtil;
+import com.sk89q.worldedit.bukkit.BukkitWorld;
+import com.sk89q.worldedit.bukkit.WorldEditPlugin;
+import com.sk89q.worldedit.data.DataException;
+import com.sk89q.worldedit.internal.LocalWorldAdapter;
+import com.sk89q.worldedit.schematic.SchematicFormat;
+import com.sk89q.worldedit.session.ClipboardHolder;
+import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
+import com.sk89q.worldedit.extent.clipboard.io.ClipboardWriter;
+import com.sk89q.worldedit.function.operation.ForwardExtentCopy;
+import com.sk89q.worldedit.function.operation.Operations;
+import com.sk89q.worldedit.regions.CuboidRegion;
+import com.sk89q.worldedit.extent.clipboard.BlockArrayClipboard;
+import com.sk89q.worldedit.util.io.Closer;
 import com.sk89q.worldguard.domains.DefaultDomain;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import net.liggesmeyer.arm.AutoPrice;
@@ -347,6 +372,47 @@ public abstract class Region {
 
     public void createSchematic(){
 
+        /*
+        WorldEdit we = Main.getWorldedit().getWorldEdit();
+        int maxX = this.region.getMaximumPoint().getBlockX();
+        int minX = this.region.getMinimumPoint().getBlockX();
+        int maxY = this.region.getMaximumPoint().getBlockY();
+        int minY = this.region.getMinimumPoint().getBlockY();
+        int maxZ = this.region.getMaximumPoint().getBlockZ();
+        int minZ = this.region.getMinimumPoint().getBlockZ();
+        File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
+        File schematicdic = new File(pluginfolder + "/schematics/" + this.regionworld + "/" + region.getId() + ".schematic");
+        File schematicfolder = new File(pluginfolder + "/schematics/" + this.regionworld);
+        if(schematicdic.exists()){
+            schematicdic.delete();
+        }
+        schematicfolder.mkdirs();
+
+        com.sk89q.worldedit.world.World world = LocalWorldAdapter.adapt(new BukkitWorld(Bukkit.getWorld(this.getRegionworld())));
+        EditSession weSession = Main.getWorldedit().getWorldEdit().getEditSessionFactory().getEditSession(world, (maxX - minX) * (maxY - minY) * (maxZ - minZ));
+        weSession.enableQueue();
+        CuboidRegion weData = new CuboidRegion(world, this.getRegion().getMinimumPoint(), this.getRegion().getMaximumPoint());
+        BlockArrayClipboard clip = new BlockArrayClipboard(weData);
+        clip.setOrigin(this.getRegion().getMinimumPoint());
+        ForwardExtentCopy copy = new ForwardExtentCopy(weSession, new CuboidRegion(world, this.getRegion().getMinimumPoint(), this.getRegion().getMaximumPoint()), clip, this.getRegion().getMinimumPoint());
+        try{
+            Operations.completeLegacy(copy);
+        } catch (MaxChangedBlocksException e) {
+            e.printStackTrace();
+        }
+
+        try{
+            Closer closer = Closer.create();
+            FileOutputStream fos = closer.register(new FileOutputStream(schematicdic));
+            BufferedOutputStream bos = closer.register(new BufferedOutputStream(fos));
+            ClipboardWriter writer = closer.register(ClipboardFormat.SCHEMATIC.getWriter(bos));
+            writer.write(clip, world.getWorldData());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+*/
+        //Old method
+
         int maxX = this.region.getMaximumPoint().getBlockX();
         int minX = this.region.getMinimumPoint().getBlockX();
         int maxY = this.region.getMaximumPoint().getBlockY();
@@ -415,6 +481,8 @@ public abstract class Region {
     }
 
     public boolean resetBlocks(Player player){
+
+
         if(player != null) {
             player.sendMessage(Messages.PREFIX + Messages.LOADING_SCHEMATIC);
         }
@@ -486,70 +554,75 @@ public abstract class Region {
             loc.setPitch(Float.parseFloat(coordinates[4]));
             loc.setYaw(Float.parseFloat(coordinates[5]));
             Material mat = Material.getMaterial(coordinates[0]);
-            loc.getBlock().setType(mat);
-        //    loc.getBlock().setData(Byte.parseByte(coordinates[6]));
-            if(mat == Material.SIGN || mat == Material.WALL_SIGN) {
-                String[] lines = coordinates[7].split("<.:>", 4);
-                Sign sign = (Sign) loc.getBlock().getState();
-                for(int m = 0; i< lines.length; m++){
-                    if(lines[m] == null) {
-                        lines[m] = "";
+            if(mat == null) {
+                mat = Material.getMaterial("LEGACY_" + coordinates[0]);
+            }
+            if(mat != null) {
+                loc.getBlock().setType(mat);
+                loc.getBlock().setData(Byte.parseByte(coordinates[6]));
+                if(mat == Material.SIGN || mat == Material.WALL_SIGN) {
+                    String[] lines = coordinates[7].split("<.:>", 4);
+                    Sign sign = (Sign) loc.getBlock().getState();
+                    for(int m = 0; i< lines.length; m++){
+                        if(lines[m] == null) {
+                            lines[m] = "";
+                        }
                     }
-                }
-                sign.setLine(0, lines[0]);
-                sign.setLine(1, lines[1]);
-                sign.setLine(2, lines[2]);
-                sign.setLine(3, lines[3]);
-                sign.update();
-            } else if(mat == Material.CHEST || mat == Material.TRAPPED_CHEST) {
-                Chest chest = (Chest) loc.getBlock().getState();
-                Block block01 = (chest.getLocation().add(-1, 0, 0).getBlock());
-                Block block02 = (chest.getLocation().add(0, 0, -1).getBlock());
+                    sign.setLine(0, lines[0]);
+                    sign.setLine(1, lines[1]);
+                    sign.setLine(2, lines[2]);
+                    sign.setLine(3, lines[3]);
+                    sign.update();
+                } else if(mat == Material.CHEST || mat == Material.TRAPPED_CHEST) {
+                    Chest chest = (Chest) loc.getBlock().getState();
+                    Block block01 = (chest.getLocation().add(-1, 0, 0).getBlock());
+                    Block block02 = (chest.getLocation().add(0, 0, -1).getBlock());
 
-                if(coordinates.length > 7) {
-                    String[] lines = coordinates[7].split("<.:>");
+                    if(coordinates.length > 7) {
+                        String[] lines = coordinates[7].split("<.:>");
 
-                    if(block01.getType() == Material.CHEST || block01.getType() == Material.TRAPPED_CHEST || block02.getType() == Material.CHEST || block02.getType() == Material.TRAPPED_CHEST){
-                        for(int m = 27; m < 54; m++) {
-                            chest.getInventory().setItem(m, null);
-                        }
-                        for(int m = 0; m < lines.length; m++){
-                            if(lines[m] != null || !lines[m].equals("::")){
-                                String[] itm = lines[m].split(":", 3);
-                                ItemStack stack = new ItemStack(Material.getMaterial(itm[1]));
-                                stack.setAmount(Integer.parseInt(itm[2]));
-                                chest.getInventory().setItem(Integer.parseInt(itm[0]) + 27, stack);
+                        if(block01.getType() == Material.CHEST || block01.getType() == Material.TRAPPED_CHEST || block02.getType() == Material.CHEST || block02.getType() == Material.TRAPPED_CHEST){
+                            for(int m = 27; m < 54; m++) {
+                                chest.getInventory().setItem(m, null);
                             }
-                        }
-                    } else {
-                        for(int m = 0; m < 27; m++) {
-                            chest.getInventory().setItem(m, null);
-                        }
-                        for(int m = 0; m < lines.length; m++){
-                            if(lines[m] != null || !lines[m].equals("::")){
-                                String[] itm = lines[m].split(":", 3);
-                                ItemStack stack = new ItemStack(Material.getMaterial(itm[1]));
-                                stack.setAmount(Integer.parseInt(itm[2]));
-                                chest.getInventory().setItem(Integer.parseInt(itm[0]), stack);
+                            for(int m = 0; m < lines.length; m++){
+                                if(lines[m] != null || !lines[m].equals("::")){
+                                    String[] itm = lines[m].split(":", 3);
+                                    ItemStack stack = new ItemStack(Material.getMaterial(itm[1]));
+                                    stack.setAmount(Integer.parseInt(itm[2]));
+                                    chest.getInventory().setItem(Integer.parseInt(itm[0]) + 27, stack);
+                                }
+                            }
+                        } else {
+                            for(int m = 0; m < 27; m++) {
+                                chest.getInventory().setItem(m, null);
+                            }
+                            for(int m = 0; m < lines.length; m++){
+                                if(lines[m] != null || !lines[m].equals("::")){
+                                    String[] itm = lines[m].split(":", 3);
+                                    ItemStack stack = new ItemStack(Material.getMaterial(itm[1]));
+                                    stack.setAmount(Integer.parseInt(itm[2]));
+                                    chest.getInventory().setItem(Integer.parseInt(itm[0]), stack);
+                                }
                             }
                         }
                     }
                 }
             }
-        }
-        if(last){
-            world.save();
-            if(player != null) {
-                player.sendMessage(Messages.PREFIX + Messages.RESET_COMPLETE);
-            }
-        } else {
-            if(player != null) {
-                double percent = 100;
-                percent = percent * end;
-                percent = percent / ((double)blockdata.size());
-                String message = Messages.RESET_IN_PERCENT;
-                message = message.replace("%percent%", Math.floor(percent) + "");
-                player.sendMessage(Messages.PREFIX + message);
+            if(last){
+                world.save();
+                if(player != null) {
+                    player.sendMessage(Messages.PREFIX + Messages.RESET_COMPLETE);
+                }
+            } else {
+                if(player != null) {
+                    double percent = 100;
+                    percent = percent * end;
+                    percent = percent / ((double)blockdata.size());
+                    String message = Messages.RESET_IN_PERCENT;
+                    message = message.replace("%percent%", Math.floor(percent) + "");
+                    player.sendMessage(Messages.PREFIX + message);
+                }
             }
         }
     }

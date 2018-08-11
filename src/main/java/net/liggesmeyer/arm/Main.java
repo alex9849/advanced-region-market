@@ -234,12 +234,12 @@ public class Main extends JavaPlugin {
                                     Location loc = new Location(world, x, yy, z);
                                     Location locminone = new Location(world, x, yy - 1, z);
 
-                                    if ((loc.getBlock().getType() != Material.SIGN) && (loc.getBlock().getType() != Material.WALL_SIGN)){
+                                    if ((loc.getBlock().getType() != Material.SIGN_POST) && (loc.getBlock().getType() != Material.WALL_SIGN)){
                                         if(locminone.getBlock().getType() == Material.AIR || locminone.getBlock().getType() == Material.LAVA || locminone.getBlock().getType() == Material.WATER
                                                 || locminone.getBlock().getType() == Material.STATIONARY_LAVA || locminone.getBlock().getType() == Material.STATIONARY_WATER) {
                                             locminone.getBlock().setType(Material.STONE);
                                         }
-                                        loc.getBlock().setType(Material.SIGN);
+                                        loc.getBlock().setType(Material.SIGN_POST);
 
                                     }
 

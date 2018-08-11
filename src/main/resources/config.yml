@@ -1,0 +1,138 @@
+############################################
+#      db      `7MM"""Mq.  `7MMM.     ,MMF'#
+#     ;MM:       MM   `MM.   MMMb    dPMM  #
+#    ,V^MM.      MM   ,M9    M YM   ,M MM  #
+#   ,M  `MM      MMmmdM9     M  Mb  M' MM  #
+#   AbmmmqMA     MM  YM.     M  YM.P'  MM  #
+#  A'     VML    MM   `Mb.   M  `YM'   MM  #
+#.AMA.   .AMMA..JMML. .JMM..JML. `'  .JMML.#
+############################################
+
+# If you are creating a sell-region you can write this instead of the price in the last line of a
+# sell-sign and ARM will calculate the price by multiplying the square meters of the region
+# with the number standing here
+AutoPrice:
+  example1: 1
+  example2: 0.5
+
+# If you activate one of these functions you have to fill in the MySQL data
+AutoResetAndTakeOver:
+  # If enabled the region will be resetted and released after the
+  # owner was not online for the amount of days standing at 'autoresetAfter'.
+  # It's recommended for BUNGEECORD servers to install ARMProxy in order to
+  # update the 'last online'-table if a user joined on another server in your network
+  enableAutoReset: false
+  autoresetAfter: 60
+  # If enabled all members of a region will have the opportunity to take over a region
+  # if the owner of it was not online for the amount of days standing at 'takeoverAfter'
+  # The members will be notified via GUI.
+  # It's recommended for BUNGEECORD servers to install ARMProxy in order to
+  # update the 'last online'-table if a user joined on another server in your network
+  enableTakeOver: false
+  takeoverAfter: 50
+  mysql-server: 'localhost'
+  mysql-database: 'database'
+  mysql-password: 'password'
+  mysql-user: 'user'
+  mysql-prefix: 'arm_'
+
+# A region can have a regionkind. If it has, members can find it by searching for a free region with a specific kind
+# via command or GUI. You have to select a MATERIAL that will be shown as icon for the region and regionkind in the GUI
+# You can also describe your regionkind by writing the information in the lore.
+# If you don't want to write a lore just write "- ''"
+# (List of all Materials: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html)
+# To search and buy a region with a regionkind the user needs to have the permission 'arm.buyregion.REGIONKIND'
+# (for example 'arm.buyregion.examplekind1')
+RegionKinds:
+  starter:
+    item: WOOD_SPADE
+    lore:
+    - 'A region for everyone'
+  small:
+    item: STONE_SPADE
+    lore:
+    - 'A bit larger and good for small'
+    - 'groups'
+  medium:
+    item: IRON_SPADE
+    lore:
+    - 'A mid-sized region'
+  large:
+    item: DIAMOND_SPADE
+    lore:
+    - 'A really large region'
+  shop:
+    item: EMERALD
+    lore:
+    - 'A shop where you can sell your stuff'
+
+# Limits can be assigned to players by giving them the permission arm.limit.LIMITGROUP
+# you can set limits by writing a regionkind and the limit behind it. Not existing regionkinds
+# will be ignored. If you want to limit regions without a kind use 'Default'. If you want to
+# limit the total amount of regions a player can have write total. With '-1' you can set the limit to unlimited
+# If a player has more than one limit group ARM will compare the groups and give him the best limits from
+# his groups. By default all player have no limit. The permission 'arm.admin.bypasslimit' will set the limit
+# to unlimited too.
+
+Limits:
+  examplegroup1:
+    total: 2
+    Default: -1
+    starter: 1
+    small: 1
+    medium: 0
+    large: 0
+    shop: 1
+  examplegroup2:
+    total: 10
+    Default: -1
+    starter: 1
+    small: 2
+    medium: 1
+    large: 1
+    shop: 1
+  examplegroup3:
+    total: -1
+    Default: -1
+    starter: 1
+    small: 2
+    medium: 2
+    large: 2
+    shop: 2
+
+Other:
+  # If users have the permission 'arm.resetownregion' they can reset their own regions via GUI (only!) the number below
+  # is the cooldown for the next reset in days.
+  userResetCooldown: 7
+  # If set on true the user will be teleported in the middle of their region if they buy one.
+  TeleportAfterSellRegionBought: true
+  TeleportAfterRentRegionBought: false
+  TeleportAfterRentRegionExtend: false
+  # If players have the permission 'arm.member.resetregion' they can sell their region
+  # back to the server (who resets it) via GUI.
+  # You can define the percentage they will get back here. If they don't have the permission the button will
+  # be removed from the GUI.
+  paypackPercentage: 50
+
+#Here you can change the Blocks that will be shown in the GUI. You can use
+#this (https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html) as a List for possible blocks.
+#You can change the names of the item and the lore of the items in the messages.yml
+GUI:
+  RegionOwnerItem: ENDER_CHEST
+  RegionMemberItem: CHEST
+  RegionFinderItem: COMPASS
+  GoBackItem: OAK_DOOR
+  WarningYesItem: MELON_STEM
+  WarningNoItem: REDSTONE_BLOCK
+  TPItem: ENDER_PEARL
+  SellRegionItem: DIAMOND
+  ResetItem: TNT
+  ExtendItem: CLOCK
+  InfoItem: BOOK
+  PromoteMemberToOwnerItem: LADDER
+  RemoveMemberItem: LAVA_BUCKET
+
+#Do not change this
+Version: 1.2
+# Programmed by Alex9849
+# If you like my plugin you are free to donate me via PayPal https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2Z6VVLS5SZXJS

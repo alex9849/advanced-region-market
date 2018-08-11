@@ -1,0 +1,11 @@
+name: AdvancedRegionMarket
+version: 1.2
+main: net.liggesmeyer.arm.Main
+depend: [WorldGuard, WorldEdit, Vault]
+softdepend: [Multiverse-Core]
+author: alex9849
+commands:
+   arm:
+      description: Shows the help page of ARM
+      usage: /arm help
+      permission-message: You don't have <permission>

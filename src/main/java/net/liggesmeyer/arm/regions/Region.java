@@ -125,6 +125,7 @@ public abstract class Region {
             config.set("Regions." + this.regionworld + "." + this.region.getId() + ".world", regionworld);
             config.set("Regions." + this.regionworld + "." + this.region.getId() + ".price", price);
             config.set("Regions." + this.regionworld + "." + this.region.getId() + ".sold", false);
+            config.set("Regions." + this.regionworld + "." + this.region.getId() + ".kind", regionKind.getName());
             config.set("Regions." + this.regionworld + "." + this.region.getId() + ".rentregion", false);
             config.set("Regions." + this.regionworld + "." + this.region.getId() + ".autoreset", autoreset);
             config.set("Regions." + this.regionworld + "." + this.region.getId() + ".lastreset", lastreset);

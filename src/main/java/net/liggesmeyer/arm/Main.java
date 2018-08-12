@@ -4,6 +4,8 @@ import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import net.liggesmeyer.arm.Group.LimitGroup;
+import net.liggesmeyer.arm.Preseter.Preset;
+import net.liggesmeyer.arm.Preseter.RentPreset;
 import net.liggesmeyer.arm.Preseter.SellPreset;
 import net.liggesmeyer.arm.gui.Gui;
 import net.liggesmeyer.arm.regions.Region;
@@ -75,7 +77,8 @@ public class Main extends JavaPlugin {
     private static final String SET_DO_BLOCK_RESET = " (?i)doblockreset [^;\n ]+ (false|true)";
     private static final String HELP = " (?i)help";
     private static final String RELOAD = " (?i)reload";
-    private static final String PRESET = " (?i)preset [^;\n]+";
+    private static final String SELLPRESET = " (?i)sellpreset [^;\n]+";
+    private static final String RENTPRESET = " (?i)rentpreset [^;\n]+";
 
     public void onEnable(){
 
@@ -486,7 +489,7 @@ public class Main extends JavaPlugin {
                     if (allargs.matches(Main.SET_ALLOW_ONLY_NEW_BLOCKS)) {
                         return Region.setHotel(sender, args[1], args[2]);
                     } else {
-                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm allowonlynewblocks [REGION] [true/false]");
+                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm hotel [REGION] [true/false]");
                         return true;
                     }
                 } else if (args[0].equalsIgnoreCase("updateschematic")) {
@@ -598,8 +601,8 @@ public class Main extends JavaPlugin {
                         sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm doblockreset [REGION] [true/false]");
                         return true;
                     }
-                } else if (args[0].equalsIgnoreCase("preset")) {
-                    if (allargs.matches(PRESET)) {
+                } else if (args[0].equalsIgnoreCase("sellpreset")) {
+                    if (allargs.matches(SELLPRESET)) {
                         if (sender.hasPermission(Permission.ADMIN_PRESET)) {
                             SellPreset.onCommand(sender, allargs, args);
                         } else {
@@ -607,7 +610,19 @@ public class Main extends JavaPlugin {
                         }
                         return true;
                     } else {
-                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm preset [SETTING]");
+                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm sellpreset [SETTING]");
+                        return true;
+                    }
+                } else if (args[0].equalsIgnoreCase("rentpreset")) {
+                    if (allargs.matches(RENTPRESET)) {
+                        if (sender.hasPermission(Permission.ADMIN_PRESET)) {
+                            RentPreset.onCommand(sender, allargs, args);
+                        } else {
+                            sender.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
+                        }
+                        return true;
+                    } else {
+                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm rentpreset [SETTING]");
                         return true;
                     }
                 }

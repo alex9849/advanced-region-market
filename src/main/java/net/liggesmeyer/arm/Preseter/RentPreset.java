@@ -8,32 +8,73 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
-public class SellPreset extends Preset{
-    protected static final String SET_PRICE = " (?i)sellpreset (?i)price [+-]?([0-9]+[.])?[0-9]+";
-    protected static final String REMOVE_PRICE = " (?i)sellpreset (?i)price (?i)remove";
-    protected static final String SET_REGIONKIND = " (?i)sellpreset (?i)regionkind [^;\n ]+";
-    protected static final String REMOVE_REGIONKIND = " (?i)sellpreset (?i)regionkind (?i)remove";
-    protected static final String SET_AUTO_RESET = " (?i)sellpreset (?i)autoreset (false|true)";
-    protected static final String REMOVE_AUTO_RESET = " (?i)sellpreset (?i)autoreset (?i)remove";
-    protected static final String SET_HOTEL = " (?i)sellpreset (?i)hotel (false|true)";
-    protected static final String REMOVE_HOTEL = " (?i)sellpreset (?i)hotel (?i)remove";
-    protected static final String SET_DO_BLOCK_RESET = " (?i)sellpreset (?i)doblockreset (false|true)";
-    protected static final String REMOVE_DO_BLOCK_RESET = " (?i)sellpreset (?i)doblockreset (?i)remove";
-    protected static final String RESET = " (?i)sellpreset (?i)reset";
-    protected static final String INFO = " (?i)sellpreset (?i)info";
-    protected static ArrayList<SellPreset> list = new ArrayList<>();
+public class RentPreset extends Preset {
+    protected static final String SET_PRICE = " (?i)rentpreset (?i)price [+-]?([0-9]+[.])?[0-9]+";
+    protected static final String REMOVE_PRICE = " (?i)rentpreset (?i)price remove";
+    protected static final String SET_EXTEND_PER_CLICK = " (?i)rentpreset (?i)extendperclick ([0-9]+(s|m|h|d))";
+    protected static final String REMOVE_EXTEND_PER_CLICK = " (?i)rentpreset (?i)extendperclick remove";
+    protected static final String SET_MAX_RENT_TIME = " (?i)rentpreset (?i)maxrenttime ([0-9]+(s|m|h|d))";
+    protected static final String SET_REGIONKIND = " (?i)rentpreset (?i)regionkind [^;\n ]+";
+    protected static final String REMOVE_REGIONKIND = " (?i)rentpreset (?i)regionkind remove";
+    protected static final String SET_AUTO_RESET = " (?i)rentpreset (?i)autoreset (false|true)";
+    protected static final String REMOVE_AUTO_RESET = " (?i)rentpreset (?i)autoreset remove";
+    protected static final String SET_HOTEL = " (?i)rentpreset (?i)hotel (false|true)";
+    protected static final String REMOVE_HOTEL = " (?i)rentpreset (?i)hotel remove";
+    protected static final String SET_DO_BLOCK_RESET = " (?i)rentpreset (?i)doblockreset (false|true)";
+    protected static final String REMOVE_DO_BLOCK_RESET = " (?i)rentpreset (?i)doblockreset remove";
+    protected static final String RESET = " (?i)rentpreset (?i)reset";
+    protected static final String INFO = " (?i)rentpreset (?i)info";
+    protected static ArrayList<RentPreset> list = new ArrayList<>();
+    protected boolean hasMaxRentTime = false;
+    protected long maxRentTime = 0;
+    protected boolean hasExtendPerClick = false;
+    protected long extendPerClick = 0;
 
-    public SellPreset(Player player){
+    public RentPreset(Player player) {
         super(player);
     }
 
-    public static ArrayList<SellPreset> getList(){
-        return SellPreset.list;
+    public boolean hasExtendPerClick() {
+        return hasExtendPerClick;
     }
 
+    public void removeExtendPerClick(){
+        this.hasExtendPerClick = false;
+        this.extendPerClick = 0;
+    }
 
+    public long getMaxRentTime(){
+        return this.maxRentTime;
+    }
 
+    public long getExtendPerClick(){
+        return this.extendPerClick;
+    }
+
+    public void setExtendPerClick(String string) {
+        this.hasExtendPerClick = true;
+        this.extendPerClick = RentRegion.stringToTime(string);
+    }
+
+    public void setMaxRentTime(String string) {
+        this.hasMaxRentTime = true;
+        this.maxRentTime = RentRegion.stringToTime(string);
+    }
+
+    public boolean hasMaxRentTime() {
+        return hasMaxRentTime;
+    }
+
+    public void removeMaxRentTime() {
+        this.hasMaxRentTime = false;
+        this.maxRentTime = 0;
+    }
+
+    public static ArrayList<RentPreset> getList(){
+        return RentPreset.list;
+    }
 
     public static boolean hasPreset(Player player){
         for(int i = 0; i < getList().size(); i++) {
@@ -44,7 +85,7 @@ public class SellPreset extends Preset{
         return false;
     }
 
-    public static SellPreset getPreset(Player player) {
+    public static RentPreset getPreset(Player player) {
         for(int i = 0; i < getList().size(); i++) {
             if(getList().get(i).getAssignedPlayer() == player) {
                 return getList().get(i);
@@ -63,6 +104,38 @@ public class SellPreset extends Preset{
         return false;
     }
 
+    public String longToTime(long time){
+
+        long remainingDays = TimeUnit.DAYS.convert(time, TimeUnit.MILLISECONDS);
+        time = time - (remainingDays * 1000 * 60 * 60 *24);
+
+        long remainingHours = TimeUnit.HOURS.convert(time, TimeUnit.MILLISECONDS);
+        time = time - (remainingHours * 1000 * 60 * 60);
+
+        long remainingMinutes = TimeUnit.MINUTES.convert(time, TimeUnit.MILLISECONDS);
+        time = time - (remainingMinutes * 1000 * 60);
+
+        long remainingSeconds = TimeUnit.SECONDS.convert(time, TimeUnit.MILLISECONDS);
+
+
+        String timetoString = "";
+        if(remainingDays != 0) {
+            timetoString = timetoString + remainingDays + "d";
+        }
+        if(remainingHours != 0) {
+            timetoString = timetoString + remainingHours + "h";
+        }
+        if(remainingMinutes != 0) {
+            timetoString = timetoString + remainingMinutes + "m";
+        }
+        if(remainingSeconds != 0) {
+            timetoString = timetoString + remainingSeconds + "s";
+        }
+
+        return timetoString;
+    }
+
+    @Override
     public void getPresetInfo(Player player) {
         String price = "not defined";
         if(this.hasPrice()) {
@@ -73,8 +146,10 @@ public class SellPreset extends Preset{
             regKind = this.getRegionKind();
         }
 
-        player.sendMessage(ChatColor.GOLD + "=========[SellPreset INFO]=========");
+        player.sendMessage(ChatColor.GOLD + "=========[RentPreset INFO]=========");
         player.sendMessage(Messages.REGION_INFO_PRICE + price);
+        player.sendMessage(Messages.REGION_INFO_EXTEND_PER_CLICK + longToTime(this.extendPerClick));
+        player.sendMessage(Messages.REGION_INFO_MAX_RENT_TIME + longToTime(this.maxRentTime));
         player.sendMessage(Messages.REGION_INFO_TYPE + regKind.getName());
         player.sendMessage(Messages.REGION_INFO_AUTORESET + this.isAutoReset());
         player.sendMessage(Messages.REGION_INFO_HOTEL + this.isHotel());
@@ -93,7 +168,7 @@ public class SellPreset extends Preset{
                 player.sendMessage(Messages.PRESET_SET);
                 return true;
             } else {
-                getList().add(new SellPreset(player));
+                getList().add(new RentPreset(player));
                 getPreset(player).setPrice(Double.parseDouble(args[2]));
                 player.sendMessage(Messages.PRESET_SET);
                 return true;
@@ -114,7 +189,7 @@ public class SellPreset extends Preset{
                     getPreset(player).setRegionKind(regkind);
                     player.sendMessage(Messages.PRESET_SET);
                 } else {
-                    getList().add(new SellPreset(player));
+                    getList().add(new RentPreset(player));
                     getPreset(player).setRegionKind(regkind);
                     player.sendMessage(Messages.PRESET_SET);
                 }
@@ -137,7 +212,7 @@ public class SellPreset extends Preset{
                 player.sendMessage(Messages.PRESET_SET);
                 return true;
             } else {
-                getList().add(new SellPreset(player));
+                getList().add(new RentPreset(player));
                 getPreset(player).setAutoReset(Boolean.parseBoolean(args[2]));
                 player.sendMessage(Messages.PRESET_SET);
                 return true;
@@ -157,7 +232,7 @@ public class SellPreset extends Preset{
                 player.sendMessage(Messages.PRESET_SET);
                 return true;
             } else {
-                getList().add(new SellPreset(player));
+                getList().add(new RentPreset(player));
                 getPreset(player).setHotel(Boolean.parseBoolean(args[2]));
                 player.sendMessage(Messages.PRESET_SET);
                 return true;
@@ -193,7 +268,7 @@ public class SellPreset extends Preset{
                 player.sendMessage(Messages.PRESET_SET);
                 return true;
             } else {
-                getList().add(new SellPreset(player));
+                getList().add(new RentPreset(player));
                 getPreset(player).setDoBlockReset(Boolean.parseBoolean(args[2]));
                 player.sendMessage(Messages.PRESET_SET);
                 return true;
@@ -207,7 +282,50 @@ public class SellPreset extends Preset{
                 player.sendMessage(Messages.PRESET_REMOVED);
                 return true;
             }
-        } else {
+
+        } else if(command.matches(SET_EXTEND_PER_CLICK)) {
+            if(hasPreset(player)) {
+                getPreset(player).setExtendPerClick(args[2]);
+                player.sendMessage(Messages.PRESET_SET);
+                return true;
+            } else {
+                getList().add(new RentPreset(player));
+                getPreset(player).setExtendPerClick(args[2]);
+                player.sendMessage(Messages.PRESET_SET);
+                return true;
+            }
+        } else if(command.matches(REMOVE_EXTEND_PER_CLICK)) {
+            if(hasPreset(player)){
+                getPreset(player).removeExtendPerClick();
+                player.sendMessage(Messages.PRESET_REMOVED);
+                return true;
+            } else {
+                player.sendMessage(Messages.PRESET_REMOVED);
+                return true;
+            }
+
+        } else if(command.matches(SET_MAX_RENT_TIME)) {
+            if(hasPreset(player)) {
+                getPreset(player).setMaxRentTime(args[2]);
+                player.sendMessage(Messages.PRESET_SET);
+                return true;
+            } else {
+                getList().add(new RentPreset(player));
+                getPreset(player).setMaxRentTime(args[2]);
+                player.sendMessage(Messages.PRESET_SET);
+                return true;
+            }
+        } else if(command.matches(REMOVE_EXTEND_PER_CLICK)) {
+            if(hasPreset(player)){
+                getPreset(player).removeMaxRentTime();
+                player.sendMessage(Messages.PRESET_REMOVED);
+                return true;
+            } else {
+                player.sendMessage(Messages.PRESET_REMOVED);
+                return true;
+            }
+
+        }else {
             player.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use:");
             player.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "/arm sellpreset reset");
             player.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "/arm sellpreset info");
@@ -216,7 +334,10 @@ public class SellPreset extends Preset{
             player.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "/arm sellpreset autoreset (true/false/remove)");
             player.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "/arm sellpreset hotel (true/false/remove)");
             player.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "/arm sellpreset doblockreset (true/false/remove)");
+            player.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "/arm sellpreset extendperclick <ExtendPerClick (Ex.: 5d)>");
+            player.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "/arm sellpreset maxrenttime <MaxRentTime (Ex.: 5d)>");
         }
         return true;
     }
+
 }

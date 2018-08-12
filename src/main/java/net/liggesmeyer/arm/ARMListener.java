@@ -1,7 +1,9 @@
 package net.liggesmeyer.arm;
 
-import com.sk89q.worldguard.LocalPlayer;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import net.liggesmeyer.arm.Preseter.Preset;
+import net.liggesmeyer.arm.Preseter.RentPreset;
+import net.liggesmeyer.arm.Preseter.SellPreset;
 import net.liggesmeyer.arm.gui.Gui;
 import net.liggesmeyer.arm.regions.Region;
 import net.liggesmeyer.arm.regions.RegionKind;
@@ -18,6 +20,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 
 import java.sql.ResultSet;
@@ -30,7 +33,21 @@ public class ARMListener implements Listener {
 
     @EventHandler
     public void addSign(SignChangeEvent sign) {
+        RegionKind regionkind = RegionKind.DEFAULT;
+        Boolean autoReset = true;
+        Boolean isHotel = false;
+        Boolean doBlockReset = true;
+
         if(sign.getLine(0).equalsIgnoreCase("[ARM-Sell]")){
+
+            if(SellPreset.hasPreset(sign.getPlayer())) {
+                Preset preset = SellPreset.getPreset(sign.getPlayer());
+                regionkind = preset.getRegionKind();
+                autoReset = preset.isAutoReset();
+                isHotel = preset.isHotel();
+                doBlockReset = preset.isDoBlockReset();
+            }
+
             if(!sign.getPlayer().hasPermission(Permission.ADMIN_CREATE_SELL)){
                 sign.getPlayer().sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
                 return;
@@ -53,14 +70,21 @@ public class ARMListener implements Listener {
                 return;
             }
             ProtectedRegion region = Main.getWorldguard().getRegionManager(Bukkit.getWorld(worldname)).getRegion(regionname);
-            Double price;
+            Double price = null;
 
+            if(SellPreset.hasPreset(sign.getPlayer())){
+                if(SellPreset.getPreset(sign.getPlayer()).hasPrice()){
+                    price = SellPreset.getPreset(sign.getPlayer()).getPrice();
+                }
+            }
 
-            try{
-                price = Region.calculatePrice(region, sign.getLine(3));
-            } catch (IllegalArgumentException e){
-                sign.getPlayer().sendMessage(Messages.PREFIX + Messages.PLEASE_USE_A_NUMBER_AS_PRICE + " or a RegionType");
-                return;
+            if(price == null) {
+                try{
+                    price = Region.calculatePrice(region, sign.getLine(3));
+                } catch (IllegalArgumentException e){
+                    sign.getPlayer().sendMessage(Messages.PREFIX + Messages.PLEASE_USE_A_NUMBER_AS_PRICE + " or a RegionType");
+                    return;
+                }
             }
 
             if(price < 0) {
@@ -87,7 +111,7 @@ public class ARMListener implements Listener {
             LinkedList<Sign> sellsign = new LinkedList<Sign>();
             sellsign.add((Sign) sign.getBlock().getState());
             Material defaultlogo = Material.BED;
-            Region.getRegionList().add(new SellRegion(region, worldname, sellsign, price, false, true, false, true, RegionKind.DEFAULT, null,1,true));
+            Region.getRegionList().add(new SellRegion(region, worldname, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,1,true));
             sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_ADDED_TO_ARM);
             sign.setCancelled(true);
         }
@@ -98,6 +122,15 @@ public class ARMListener implements Listener {
                 sign.getPlayer().sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
                 return;
             }
+
+            if(RentPreset.hasPreset(sign.getPlayer())) {
+                Preset preset = RentPreset.getPreset(sign.getPlayer());
+                regionkind = preset.getRegionKind();
+                autoReset = preset.isAutoReset();
+                isHotel = preset.isHotel();
+                doBlockReset = preset.isDoBlockReset();
+            }
+
             String worldname = sign.getLine(1);
             String regionname = sign.getLine(2);
 
@@ -118,24 +151,40 @@ public class ARMListener implements Listener {
             double price = 0;
             long extendPerClick = 0;
             long maxRentTime = 0;
+            Boolean priceready = false;
 
-            try{
-                String[] priceline = sign.getLine(3).split(";", 3);
-                String pricestring = priceline[0];
-                String extendPerClickString = priceline[1];
-                String maxRentTimeString = priceline[2];
-                extendPerClick = RentRegion.stringToTime(extendPerClickString);
-                maxRentTime = RentRegion.stringToTime(maxRentTimeString);
-                price = Integer.parseInt(pricestring);
-            } catch (ArrayIndexOutOfBoundsException e) {
-                sign.getPlayer().sendMessage(Messages.PREFIX + "Please write your price in line 3 in the following pattern:");
-                sign.getPlayer().sendMessage("<Price>;<Extend per Click (ex.: 5d)>;<Max rent Time (ex.: 10d)>");
-                return;
-            } catch (IllegalArgumentException e) {
-                sign.getPlayer().sendMessage(Messages.PREFIX + "Please use d for days, h for hours, m for minutes and s for seconds");
-                sign.getPlayer().sendMessage(Messages.PREFIX + "Please write you price in line 3 in the following pattern:");
-                sign.getPlayer().sendMessage("<Price>;<Extend per Click (ex.: 5d)>;<Max rent Time (ex.: 10d)>");
-                return;
+            if(RentPreset.hasPreset(sign.getPlayer())) {
+                RentPreset preset = RentPreset.getPreset(sign.getPlayer());
+                if(preset.hasPrice() && preset.hasExtendPerClick() && preset.hasMaxRentTime()) {
+                    price = preset.getPrice();
+                    extendPerClick = preset.getExtendPerClick();
+                    maxRentTime = preset.getMaxRentTime();
+                    priceready = true;
+                } else {
+                    sign.getPlayer().sendMessage(Messages.PREFIX + ChatColor.RED + "Your preset needs to have an option at Price, MaxRentTime and ExtendPerClick to take affect!");
+                    sign.getPlayer().sendMessage(Messages.PREFIX + ChatColor.GRAY + "Trying to complete action with information on sign...");
+                }
+            }
+
+            if(!priceready) {
+                try{
+                    String[] priceline = sign.getLine(3).split(";", 3);
+                    String pricestring = priceline[0];
+                    String extendPerClickString = priceline[1];
+                    String maxRentTimeString = priceline[2];
+                    extendPerClick = RentRegion.stringToTime(extendPerClickString);
+                    maxRentTime = RentRegion.stringToTime(maxRentTimeString);
+                    price = Integer.parseInt(pricestring);
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    sign.getPlayer().sendMessage(Messages.PREFIX + "Please write your price in line 3 in the following pattern:");
+                    sign.getPlayer().sendMessage("<Price>;<Extend per Click (ex.: 5d)>;<Max rent Time (ex.: 10d)>");
+                    return;
+                } catch (IllegalArgumentException e) {
+                    sign.getPlayer().sendMessage(Messages.PREFIX + "Please use d for days, h for hours, m for minutes and s for seconds");
+                    sign.getPlayer().sendMessage(Messages.PREFIX + "Please write you price in line 3 in the following pattern:");
+                    sign.getPlayer().sendMessage("<Price>;<Extend per Click (ex.: 5d)>;<Max rent Time (ex.: 10d)>");
+                    return;
+                }
             }
 
 
@@ -157,7 +206,7 @@ public class ARMListener implements Listener {
             LinkedList<Sign> sellsign = new LinkedList<Sign>();
             sellsign.add((Sign) sign.getBlock().getState());
             Material defaultlogo = Material.BED;
-            Region.getRegionList().add(new RentRegion(region, worldname, sellsign, price, false, true, false, true, RegionKind.DEFAULT, null,
+            Region.getRegionList().add(new RentRegion(region, worldname, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,
                     1,1, maxRentTime, extendPerClick, true));
             sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_ADDED_TO_ARM);
             sign.setCancelled(true);
@@ -302,6 +351,16 @@ public class ARMListener implements Listener {
             }, 40L);
         }
 
+    }
+
+    @EventHandler
+    public void onPlayerQuit(PlayerQuitEvent event) {
+        if(SellPreset.hasPreset(event.getPlayer())){
+            SellPreset.removePreset(event.getPlayer());
+        }
+        if(RentPreset.hasPreset(event.getPlayer())) {
+            RentPreset.removePreset(event.getPlayer());
+        }
     }
 
     public static void doOvertakeCheck(Player player) {

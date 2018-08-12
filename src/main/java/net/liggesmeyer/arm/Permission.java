@@ -25,6 +25,7 @@ public class Permission {
     public static final String ADMIN_DELETEREGION = "arm.admin.deleteregion";
     public static final String ADMIN_EXTEND = "arm.admin.extend";
     public static final String ADMIN_RELOAD = "arm.admin.reload";
+    public static final String ADMIN_PRESET = "arm.admin.preset";
 
     public static final String MEMBER_RESETREGIONBLOCKS = "arm.member.resetregionblocks";
     public static final String MEMBER_RESETREGION = "arm.member.sellregion";

@@ -123,7 +123,11 @@ public class Messages {
     public static String REGION_IS_NOT_A_RENTREGION = "Region is not a rentregion!";
     public static String REGION_NOT_OWN = "You do not own this region!";
     public static String REGION_NOT_SOLD = "Region not sold!";
+    public static String PRESET_REMOVED = "Preset removed!";
+    public static String PRESET_SET = "Preset set!";
     public static String REGION_INFO_DO_BLOCK_RESET = "DoBlockReset: ";
+    public static String PRESET_NOT_EXISTING = "No preset existing!";
+
 
     public static List<String> GUI_TELEPORT_TO_REGION_BUTTON_LORE = new LinkedList<>();
     public static List<String> GUI_MAKE_OWNER_BUTTON_LORE = new LinkedList<>();

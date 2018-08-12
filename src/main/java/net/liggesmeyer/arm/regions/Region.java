@@ -14,8 +14,14 @@ import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.BukkitUtil;
 import com.sk89q.worldedit.bukkit.BukkitWorld;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
+import com.sk89q.worldedit.bukkit.selections.CuboidSelection;
+import com.sk89q.worldedit.bukkit.selections.Polygonal2DSelection;
+import com.sk89q.worldedit.bukkit.selections.Selection;
 import com.sk89q.worldedit.data.DataException;
+import com.sk89q.worldedit.extent.clipboard.Clipboard;
 import com.sk89q.worldedit.internal.LocalWorldAdapter;
+import com.sk89q.worldedit.regions.RegionSelector;
+import com.sk89q.worldedit.schematic.MCEditSchematicFormat;
 import com.sk89q.worldedit.schematic.SchematicFormat;
 import com.sk89q.worldedit.session.ClipboardHolder;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
@@ -42,11 +48,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
+
+import javax.annotation.Nullable;
 import java.io.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.logging.Level;
 
 public abstract class Region {
     private static List<Region> regionList = new ArrayList<>();
@@ -371,15 +380,6 @@ public abstract class Region {
     }
 
     public void createSchematic(){
-
-        /*
-        WorldEdit we = Main.getWorldedit().getWorldEdit();
-        int maxX = this.region.getMaximumPoint().getBlockX();
-        int minX = this.region.getMinimumPoint().getBlockX();
-        int maxY = this.region.getMaximumPoint().getBlockY();
-        int minY = this.region.getMinimumPoint().getBlockY();
-        int maxZ = this.region.getMaximumPoint().getBlockZ();
-        int minZ = this.region.getMinimumPoint().getBlockZ();
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
         File schematicdic = new File(pluginfolder + "/schematics/" + this.regionworld + "/" + region.getId() + ".schematic");
         File schematicfolder = new File(pluginfolder + "/schematics/" + this.regionworld);
@@ -387,32 +387,32 @@ public abstract class Region {
             schematicdic.delete();
         }
         schematicfolder.mkdirs();
+        Vector max = this.getRegion().getMaximumPoint();
+        Vector min = this.getRegion().getMinimumPoint();
+        max = max.subtract(min);
+        max = max.add(new Vector(1,1,1));
+        Bukkit.getLogger().log(Level.INFO, min + "" + max);
 
-        com.sk89q.worldedit.world.World world = LocalWorldAdapter.adapt(new BukkitWorld(Bukkit.getWorld(this.getRegionworld())));
-        EditSession weSession = Main.getWorldedit().getWorldEdit().getEditSessionFactory().getEditSession(world, (maxX - minX) * (maxY - minY) * (maxZ - minZ));
-        weSession.enableQueue();
-        CuboidRegion weData = new CuboidRegion(world, this.getRegion().getMinimumPoint(), this.getRegion().getMaximumPoint());
-        BlockArrayClipboard clip = new BlockArrayClipboard(weData);
-        clip.setOrigin(this.getRegion().getMinimumPoint());
-        ForwardExtentCopy copy = new ForwardExtentCopy(weSession, new CuboidRegion(world, this.getRegion().getMinimumPoint(), this.getRegion().getMaximumPoint()), clip, this.getRegion().getMinimumPoint());
-        try{
-            Operations.completeLegacy(copy);
-        } catch (MaxChangedBlocksException e) {
-            e.printStackTrace();
-        }
+        EditSession editSession = WorldEdit.getInstance().getEditSessionFactory().getEditSession(new BukkitWorld(Bukkit.getWorld(this.getRegionworld())), Integer.MAX_VALUE);
 
-        try{
-            Closer closer = Closer.create();
-            FileOutputStream fos = closer.register(new FileOutputStream(schematicdic));
-            BufferedOutputStream bos = closer.register(new BufferedOutputStream(fos));
-            ClipboardWriter writer = closer.register(ClipboardFormat.SCHEMATIC.getWriter(bos));
-            writer.write(clip, world.getWorldData());
+
+        CuboidClipboard clipboard = new CuboidClipboard(max, min);
+
+        clipboard.copy(editSession);
+
+
+        try {
+            SchematicFormat.MCEDIT.save(clipboard, schematicdic);
+            editSession.flushQueue();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (DataException e) {
+            e.printStackTrace();
         }
-*/
-        //Old method
 
+
+        //Old method
+/*
         int maxX = this.region.getMaximumPoint().getBlockX();
         int minX = this.region.getMinimumPoint().getBlockX();
         int maxY = this.region.getMaximumPoint().getBlockY();
@@ -473,7 +473,7 @@ public abstract class Region {
             e.printStackTrace();
         }
 
-
+*/
     }
 
     public boolean resetBlocks(){
@@ -481,64 +481,29 @@ public abstract class Region {
     }
 
     public boolean resetBlocks(Player player){
+        int maxX = this.region.getMaximumPoint().getBlockX();
+        int minX = this.region.getMinimumPoint().getBlockX();
+        int maxY = this.region.getMaximumPoint().getBlockY();
+        int minY = this.region.getMinimumPoint().getBlockY();
+        int maxZ = this.region.getMaximumPoint().getBlockZ();
+        int minZ = this.region.getMinimumPoint().getBlockZ();
 
-
-        if(player != null) {
-            player.sendMessage(Messages.PREFIX + Messages.LOADING_SCHEMATIC);
-        }
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-        List<String> blocks = new ArrayList<>();
+        File file = new File(pluginfolder + "/schematics/" + this.regionworld + "/" + region.getId() + ".schematic");
         try {
-            FileReader filereader = new FileReader(pluginfolder + "/schematics/" + this.regionworld + "/" + region.getId() + ".schematic");
-            BufferedReader reader = new BufferedReader(filereader);
-            String line;
-            while ((line = reader.readLine()) != null){
-                blocks.add(line);
-            }
-            reader.close();
-            filereader.close();
-        } catch (FileNotFoundException e) {
+            BukkitWorld bw = new BukkitWorld(Bukkit.getWorld(this.getRegionworld()));
+            EditSession editSession = new EditSession(bw, Integer.MAX_VALUE);
+            SchematicFormat.MCEDIT.load(file).paste(editSession, this.getRegion().getMinimumPoint(), false);
+        } catch (MaxChangedBlocksException e) {
             e.printStackTrace();
-            return false;
         } catch (IOException e) {
             e.printStackTrace();
-            return false;
+        } catch (DataException e) {
+            e.printStackTrace();
         }
+        player.sendMessage(Messages.PREFIX + Messages.RESET_COMPLETE);
 
-        final Player finalPlayer = player;
-        final List<String> blockdata = blocks;
-        blocks = null;
-        final String worldstring = this.regionworld;
-        int blockclount = blockdata.size();
-        int fortask = blockclount / 50000;
-        if(player != null) {
-            player.sendMessage(Messages.PREFIX + Messages.LOADING_SCHEMATIC_COMPLETE);
-            player.sendMessage(Messages.PREFIX + Messages.RESET_REGION_RESETING_BLOCKS);
-        }
 
-        for(int i = 0; i <= fortask; i++){
-            Plugin plugin = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket");
-            final int finalI = i;
-            boolean last = false;
-            if(i == fortask){
-                last = true;
-            } else {
-                last = false;
-            }
-            final boolean finalLast = last;
-            plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-
-                @Override
-                public void run() {
-                    Region.resetBlockPart(finalI * 50000, (finalI + 1) * 50000, blockdata, worldstring, finalLast, finalPlayer);
-                }
-            }, 20*(i + 1));
-        }
-
-        File builtblocksdic = new File(pluginfolder + "/schematics/" + this.regionworld + "/" + region.getId() + "--builtblocks.schematic");
-        if(builtblocksdic.exists()){
-            builtblocksdic.delete();
-        }
         return true;
     }
 

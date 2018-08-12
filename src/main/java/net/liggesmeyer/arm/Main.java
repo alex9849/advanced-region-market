@@ -4,6 +4,7 @@ import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import net.liggesmeyer.arm.Group.LimitGroup;
+import net.liggesmeyer.arm.Preseter.SellPreset;
 import net.liggesmeyer.arm.gui.Gui;
 import net.liggesmeyer.arm.regions.Region;
 import net.liggesmeyer.arm.regions.RegionKind;
@@ -74,6 +75,7 @@ public class Main extends JavaPlugin {
     private static final String SET_DO_BLOCK_RESET = " (?i)doblockreset [^;\n ]+ (false|true)";
     private static final String HELP = " (?i)help";
     private static final String RELOAD = " (?i)reload";
+    private static final String PRESET = " (?i)preset [^;\n]+";
 
     public void onEnable(){
 
@@ -594,6 +596,18 @@ public class Main extends JavaPlugin {
                         return true;
                     } else {
                         sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm doblockreset [REGION] [true/false]");
+                        return true;
+                    }
+                } else if (args[0].equalsIgnoreCase("preset")) {
+                    if (allargs.matches(PRESET)) {
+                        if (sender.hasPermission(Permission.ADMIN_PRESET)) {
+                            SellPreset.onCommand(sender, allargs, args);
+                        } else {
+                            sender.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
+                        }
+                        return true;
+                    } else {
+                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm preset [SETTING]");
                         return true;
                     }
                 }

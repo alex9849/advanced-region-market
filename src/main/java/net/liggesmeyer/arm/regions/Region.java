@@ -1,18 +1,14 @@
 package net.liggesmeyer.arm.regions;
 
+import com.boydti.fawe.object.clipboard.ReadOnlyClipboard;
 import com.boydti.fawe.object.schematic.Schematic;
 import com.boydti.fawe.util.EditSessionBuilder;
+import com.sk89q.worldedit.*;
 import com.sk89q.worldedit.EditSession;
-import com.sk89q.worldedit.MaxChangedBlocksException;
-import com.sk89q.worldedit.WorldEdit;
-import com.sk89q.worldedit.CuboidClipboard;
-import com.sk89q.worldedit.EditSession;
-import com.sk89q.worldedit.EmptyClipboardException;
-import com.sk89q.worldedit.LocalPlayer;
-import com.sk89q.worldedit.LocalSession;
 import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.Vector;
 import com.sk89q.worldedit.WorldEdit;
+import com.sk89q.worldedit.blocks.BaseBlock;
 import com.sk89q.worldedit.bukkit.BukkitUtil;
 import com.sk89q.worldedit.bukkit.BukkitWorld;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
@@ -20,9 +16,14 @@ import com.sk89q.worldedit.bukkit.selections.CuboidSelection;
 import com.sk89q.worldedit.bukkit.selections.Polygonal2DSelection;
 import com.sk89q.worldedit.bukkit.selections.Selection;
 import com.sk89q.worldedit.data.DataException;
+import com.sk89q.worldedit.entity.BaseEntity;
+import com.sk89q.worldedit.entity.Entity;
 import com.sk89q.worldedit.extent.Extent;
 import com.sk89q.worldedit.extent.clipboard.Clipboard;
+import com.sk89q.worldedit.extent.clipboard.io.ClipboardReader;
+import com.sk89q.worldedit.extent.clipboard.io.ClipboardWriter;
 import com.sk89q.worldedit.function.mask.ExistingBlockMask;
+import com.sk89q.worldedit.function.operation.Operation;
 import com.sk89q.worldedit.internal.LocalWorldAdapter;
 import com.sk89q.worldedit.math.transform.AffineTransform;
 import com.sk89q.worldedit.regions.RegionSelector;
@@ -34,6 +35,8 @@ import com.sk89q.worldedit.function.operation.ForwardExtentCopy;
 import com.sk89q.worldedit.function.operation.Operations;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.extent.clipboard.BlockArrayClipboard;
+import com.sk89q.worldedit.util.io.Closer;
+import com.sk89q.worldedit.world.biome.BaseBiome;
 import com.sk89q.worldedit.world.registry.WorldData;
 import com.sk89q.worldguard.domains.DefaultDomain;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
@@ -41,6 +44,7 @@ import net.liggesmeyer.arm.AutoPrice;
 import net.liggesmeyer.arm.Main;
 import net.liggesmeyer.arm.Messages;
 import net.liggesmeyer.arm.Permission;
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.bukkit.*;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -407,24 +411,32 @@ public abstract class Region {
             }
         } else {
 
-            max = max.subtract(min);
-            max = max.add(new Vector(1,1,1));
-
-            EditSession editSession = WorldEdit.getInstance().getEditSessionFactory().getEditSession(new BukkitWorld(Bukkit.getWorld(this.getRegionworld())), Integer.MAX_VALUE);
-
-            CuboidClipboard clipboard = new CuboidClipboard(max, min);
-
-            clipboard.copy(editSession);
-
-
+            if(schematicdic.exists()) {
+                schematicdic.delete();
+            }
+            com.sk89q.worldedit.world.World world = new BukkitWorld(Bukkit.getWorld(this.getRegionworld()));
+            WorldData worldData = world.getWorldData();
+            EditSession editSession = Main.getWorldedit().getWorldEdit().getEditSessionFactory().getEditSession(world, Integer.MAX_VALUE);
+            CuboidRegion reg = new CuboidRegion(world, this.getRegion().getMinimumPoint(), this.getRegion().getMaximumPoint());
+            BlockArrayClipboard clip = new BlockArrayClipboard(reg);
+            clip.setOrigin(this.getRegion().getMinimumPoint());
+            ForwardExtentCopy copy = new ForwardExtentCopy(editSession, new CuboidRegion(world, this.getRegion().getMinimumPoint(), this.getRegion().getMaximumPoint()), clip, this.getRegion().getMinimumPoint());
             try {
-                SchematicFormat.MCEDIT.save(clipboard, schematicdic);
-                editSession.flushQueue();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (DataException e) {
+                Operations.completeLegacy(copy);
+            } catch(MaxChangedBlocksException e) {
                 e.printStackTrace();
             }
+            try(Closer closer = Closer.create()) {
+                schematicdic.createNewFile();
+                FileOutputStream fileOutputStream = closer.register(new FileOutputStream(schematicdic));
+                BufferedOutputStream bufferedOutputStream = closer.register(new BufferedOutputStream(fileOutputStream));
+                ClipboardWriter writer = closer.register(ClipboardFormat.SCHEMATIC.getWriter(bufferedOutputStream));
+                writer.write(clip, worldData);
+            } catch(IOException e) {
+                e.printStackTrace();
+                return;
+            }
+            return;
         }
 
 
@@ -503,49 +515,38 @@ public abstract class Region {
         File file = new File(pluginfolder + "/schematics/" + this.regionworld + "/" + region.getId() + ".schematic");
 
 
-/*
-        com.sk89q.worldedit.world.World weWorld = new BukkitWorld(Bukkit.getWorld(this.getRegionworld()));
-        WorldData worldData = weWorld.getWorldData();
-        try {
-            Clipboard clipboard = ClipboardFormat.SCHEMATIC.getReader(new FileInputStream(file)).read(worldData);
-            com.sk89q.worldedit.regions.Region region = clipboard.getRegion();
-            Extent extent = WorldEdit.getInstance().getEditSessionFactory().getEditSession(weWorld, -1);
-            AffineTransform transform = new AffineTransform();
-            ForwardExtentCopy copy = new ForwardExtentCopy(extent, clipboard.getRegion(), clipboard.getOrigin(), extent, this.getRegion().getMinimumPoint());
-            if (!transform.isIdentity()) copy.setTransform(transform);
-            if (true) {
-                copy.setSourceMask(new ExistingBlockMask(clipboard));
+        if(Main.isFaWeInstalled()) {
+
+            com.sk89q.worldedit.world.World weWorld = new BukkitWorld(Bukkit.getWorld(this.getRegionworld()));
+            WorldData worldData = weWorld.getWorldData();
+            Clipboard clipboard;
+            try {
+                clipboard = ClipboardFormat.SCHEMATIC.getReader(new FileInputStream(file)).read(worldData);
+                Schematic schem = new Schematic(clipboard);
+                schem.paste(weWorld, this.getRegion().getMinimumPoint());
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            Operations.completeLegacy(copy);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (MaxChangedBlocksException e) {
-            e.printStackTrace();
+
+        } else {
+
+            com.sk89q.worldedit.world.World world = new BukkitWorld(Bukkit.getWorld(this.getRegionworld()));
+            WorldData worldData = world.getWorldData();
+            Clipboard clipboard;
+            try {
+                clipboard = ClipboardFormat.SCHEMATIC.getReader(new FileInputStream(file)).read(worldData);
+                Extent source = clipboard;
+                Extent destination = WorldEdit.getInstance().getEditSessionFactory().getEditSession(world, Integer.MAX_VALUE);
+                ForwardExtentCopy copy = new ForwardExtentCopy(source, clipboard.getRegion(), clipboard.getOrigin(), destination, this.getRegion().getMinimumPoint());
+
+                Operations.completeLegacy(copy);
+            } catch (IOException | WorldEditException e) {
+                e.printStackTrace();
+            }
+
         }
-        return true;
-        */
 
-
-        int maxX = this.region.getMaximumPoint().getBlockX();
-        int minX = this.region.getMinimumPoint().getBlockX();
-        int maxY = this.region.getMaximumPoint().getBlockY();
-        int minY = this.region.getMinimumPoint().getBlockY();
-        int maxZ = this.region.getMaximumPoint().getBlockZ();
-        int minZ = this.region.getMinimumPoint().getBlockZ();
-
-        try {
-            BukkitWorld bw = new BukkitWorld(Bukkit.getWorld(this.getRegionworld()));
-            EditSession editSession = new EditSession(bw, Integer.MAX_VALUE);
-            SchematicFormat.MCEDIT.load(file).paste(editSession, this.getRegion().getMinimumPoint(), false);
-        } catch (MaxChangedBlocksException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (DataException e) {
-            e.printStackTrace();
-        }
         player.sendMessage(Messages.PREFIX + Messages.RESET_COMPLETE);
-
 
         return true;
 

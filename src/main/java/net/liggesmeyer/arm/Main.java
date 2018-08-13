@@ -27,6 +27,7 @@ import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -148,6 +149,7 @@ public class Main extends JavaPlugin {
         BlockPlaceEvent.getHandlerList().unregister(this);
         BlockPhysicsEvent.getHandlerList().unregister(this);
         PlayerJoinEvent.getHandlerList().unregister(this);
+        PlayerQuitEvent.getHandlerList().unregister(this);
         getServer().getScheduler().cancelTasks(this);
     }
 
@@ -611,6 +613,7 @@ public class Main extends JavaPlugin {
                         return true;
                     } else {
                         sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm sellpreset [SETTING]");
+                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "or (for help): /arm sellpreset help");
                         return true;
                     }
                 } else if (args[0].equalsIgnoreCase("rentpreset")) {
@@ -654,6 +657,7 @@ public class Main extends JavaPlugin {
         sender.sendMessage(ChatColor.GOLD + "/arm extend [REGION]");
         sender.sendMessage(ChatColor.GOLD + "/arm delete [REGION]");
         sender.sendMessage(ChatColor.GOLD + "/arm doblockreset [REGION] [true/false]");
+        sender.sendMessage(ChatColor.GOLD + "/arm sellpreset [SETTING]");
         sender.sendMessage(ChatColor.GOLD + "/arm limit");
         sender.sendMessage(ChatColor.GOLD + "/arm reload");
         return true;
@@ -766,6 +770,9 @@ public class Main extends JavaPlugin {
         Region.generatedefaultConfig();
         Region.setRegionsConf();
         Messages.generatedefaultConfig();
+        Preset.generatedefaultConfig();
+        Preset.loadConfig();
+        SellPreset.loadPresets();
         this.generatedefaultconfig();
         FileConfiguration pluginConfig = this.getConfig();
         Double version = pluginConfig.getDouble("Version");

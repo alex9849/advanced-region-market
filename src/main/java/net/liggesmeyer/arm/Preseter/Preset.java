@@ -3,13 +3,20 @@ package net.liggesmeyer.arm.Preseter;
 import net.liggesmeyer.arm.Messages;
 import net.liggesmeyer.arm.regions.RegionKind;
 import net.liggesmeyer.arm.regions.RentRegion;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.Configuration;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
+import java.io.*;
 import java.util.ArrayList;
 
 public abstract class Preset {
+    private static YamlConfiguration config;
     protected Player assignedPlayer;
     protected boolean hasPrice = false;
     protected double price = 0;
@@ -21,9 +28,22 @@ public abstract class Preset {
     protected boolean isHotel = false;
     protected boolean hasDoBlockReset = false;
     protected boolean doBlockReset = true;
+    protected String name = "default";
 
     public Preset(Player player){
         assignedPlayer = player;
+    }
+
+    public String getName(){
+        return this.name;
+    }
+
+    public void setName(String name){
+        this.name = name;
+    }
+
+    public void setPlayer(Player player){
+        this.assignedPlayer = player;
     }
 
     public Player getAssignedPlayer(){
@@ -126,5 +146,45 @@ public abstract class Preset {
 
     public boolean isHotel() {
         return isHotel;
+    }
+
+    public static YamlConfiguration getConfig(){
+        return Preset.config;
+    }
+
+    public static void generatedefaultConfig(){
+        Plugin plugin = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket");
+        File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
+        File messagesdic = new File(pluginfolder + "/presets.yml");
+        if(!messagesdic.exists()){
+            try {
+                InputStream stream = plugin.getResource("presets.yml");
+                byte[] buffer = new byte[stream.available()];
+                stream.read(buffer);
+                OutputStream output = new FileOutputStream(messagesdic);
+                output.write(buffer);
+                output.close();
+                stream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void loadConfig(){
+        Messages.generatedefaultConfig();
+        File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
+        File presetsconfigdic = new File(pluginfolder + "/presets.yml");
+        Preset.config = YamlConfiguration.loadConfiguration(presetsconfigdic);
+    }
+
+    public static void saveRegionsConf(YamlConfiguration conf) {
+        File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
+        File regionsconfigdic = new File(pluginfolder + "/presets.yml");
+        try {
+            conf.save(regionsconfigdic);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RegionKind {
-    private String name;
-    private Material material;
+    private final String name;
+    private final Material material;
     public static final RegionKind DEFAULT = new RegionKind("Default", Material.BED, new ArrayList<String>());
     private static List<RegionKind> list = new ArrayList<>();
-    private List<String> lore = new ArrayList<>();
+    private final List<String> lore;
 
     public RegionKind(String name, Material material, List<String> lore){
         this.name = name;

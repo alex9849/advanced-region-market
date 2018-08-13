@@ -626,6 +626,7 @@ public class Main extends JavaPlugin {
                         return true;
                     } else {
                         sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm rentpreset [SETTING]");
+                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "or (for help): /arm rentpreset help");
                         return true;
                     }
                 }
@@ -658,6 +659,7 @@ public class Main extends JavaPlugin {
         sender.sendMessage(ChatColor.GOLD + "/arm delete [REGION]");
         sender.sendMessage(ChatColor.GOLD + "/arm doblockreset [REGION] [true/false]");
         sender.sendMessage(ChatColor.GOLD + "/arm sellpreset [SETTING]");
+        sender.sendMessage(ChatColor.GOLD + "/arm rentpreset [SETTING]");
         sender.sendMessage(ChatColor.GOLD + "/arm limit");
         sender.sendMessage(ChatColor.GOLD + "/arm reload");
         return true;

@@ -43,12 +43,21 @@ public class SellPreset extends Preset{
 
     public SellPreset getCopy(){
         SellPreset copy = new SellPreset(null);
-        copy.setPrice(this.price);
-        copy.setDoBlockReset(this.doBlockReset);
-        copy.setHotel(this.isHotel);
-        copy.setAutoReset(this.autoReset);
-        copy.setDoBlockReset(this.doBlockReset);
-        copy.setRegionKind(this.regionKind);
+        if(this.hasPrice) {
+            copy.setPrice(this.price);
+        }
+        if(this.hasDoBlockReset) {
+            copy.setDoBlockReset(this.doBlockReset);
+        }
+        if(this.hasIsHotel) {
+            copy.setHotel(this.isHotel);
+        }
+        if(this.hasAutoReset) {
+            copy.setAutoReset(this.autoReset);
+        }
+        if(this.hasRegionKind) {
+            copy.setRegionKind(this.regionKind);
+        }
         return copy;
     }
 
@@ -389,7 +398,7 @@ public class SellPreset extends Preset{
     public static void listPresets(Player player) {
         String presets = "";
 
-        player.sendMessage(Messages.PREFIX + "Presets:");
+        player.sendMessage(Messages.PREFIX + "SellPresets:");
         for(int i = 0; i < patterns.size(); i++) {
             player.sendMessage(" - " + patterns.get(i).getName());
         }

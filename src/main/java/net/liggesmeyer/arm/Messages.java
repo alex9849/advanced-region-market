@@ -126,7 +126,12 @@ public class Messages {
     public static String PRESET_REMOVED = "Preset removed!";
     public static String PRESET_SET = "Preset set!";
     public static String REGION_INFO_DO_BLOCK_RESET = "DoBlockReset: ";
-    public static String PRESET_NOT_EXISTING = "No preset existing!";
+    public static String PRESET_SAVED = "Preset saved!";
+    public static String PRESET_ALREADY_EXISTS = "A preset with this name already exists!";
+    public static String PRESET_PLAYER_DONT_HAS_PRESET = "You do not have a preset!";
+    public static String PRESET_DELETED = "Preset deleted!";
+    public static String PRESET_NOT_FOUND = "No preset with this name found!";
+    public static String PRESET_LOADED = "Preset loaded!";
 
 
     public static List<String> GUI_TELEPORT_TO_REGION_BUTTON_LORE = new LinkedList<>();

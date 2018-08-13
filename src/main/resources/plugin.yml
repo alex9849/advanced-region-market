@@ -2,7 +2,7 @@ name: AdvancedRegionMarket
 version: 1.2
 main: net.liggesmeyer.arm.Main
 depend: [WorldGuard, WorldEdit, Vault]
-softdepend: [Multiverse-Core]
+softdepend: [Multiverse-Core, FastAsyncWorldEdit]
 author: alex9849
 commands:
    arm:

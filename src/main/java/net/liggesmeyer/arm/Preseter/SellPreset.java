@@ -117,21 +117,23 @@ public class SellPreset extends Preset{
             if(command.matches(SET_PRICE)){
                 if(hasPreset(player)) {
                     getPreset(player).setPrice(Double.parseDouble(args[2]));
-                    player.sendMessage(Messages.PRESET_SET);
+                    player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
+                    player.sendMessage(Messages.PREFIX + "Price-line on signs can now be let empty");
                     return true;
                 } else {
                     getList().add(new SellPreset(player));
                     getPreset(player).setPrice(Double.parseDouble(args[2]));
-                    player.sendMessage(Messages.PRESET_SET);
+                    player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
+                    player.sendMessage(Messages.PREFIX + "Price-line on signs can now be let empty");
                     return true;
                 }
             } else if(command.matches(REMOVE_PRICE)){
                 if(hasPreset(player)){
                     getPreset(player).removePrice();
-                    player.sendMessage(Messages.PRESET_REMOVED);
+                    player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
                     return true;
                 } else {
-                    player.sendMessage(Messages.PRESET_REMOVED);
+                    player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
                     return true;
                 }
             } else {
@@ -145,11 +147,11 @@ public class SellPreset extends Preset{
                     RegionKind regkind = RegionKind.getRegionKind(args[2]);
                     if(hasPreset(player)) {
                         getPreset(player).setRegionKind(regkind);
-                        player.sendMessage(Messages.PRESET_SET);
+                        player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
                     } else {
                         getList().add(new SellPreset(player));
                         getPreset(player).setRegionKind(regkind);
-                        player.sendMessage(Messages.PRESET_SET);
+                        player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
                     }
                 } else {
                     player.sendMessage(Messages.PREFIX + Messages.REGIONKIND_DOES_NOT_EXIST);
@@ -158,10 +160,10 @@ public class SellPreset extends Preset{
             } else if(command.matches(REMOVE_REGIONKIND)){
                 if(hasPreset(player)){
                     getPreset(player).removeRegionKind();
-                    player.sendMessage(Messages.PRESET_REMOVED);
+                    player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
                     return true;
                 } else {
-                    player.sendMessage(Messages.PRESET_REMOVED);
+                    player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
                     return true;
                 }
             } else {
@@ -173,21 +175,21 @@ public class SellPreset extends Preset{
             if(command.matches(SET_AUTO_RESET)) {
                 if(hasPreset(player)) {
                     getPreset(player).setAutoReset(Boolean.parseBoolean(args[2]));
-                    player.sendMessage(Messages.PRESET_SET);
+                    player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
                     return true;
                 } else {
                     getList().add(new SellPreset(player));
                     getPreset(player).setAutoReset(Boolean.parseBoolean(args[2]));
-                    player.sendMessage(Messages.PRESET_SET);
+                    player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
                     return true;
                 }
             } else if(command.matches(REMOVE_AUTO_RESET)) {
                 if(hasPreset(player)){
                     getPreset(player).removeAutoReset();
-                    player.sendMessage(Messages.PRESET_REMOVED);
+                    player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
                     return true;
                 } else {
-                    player.sendMessage(Messages.PRESET_REMOVED);
+                    player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
                     return true;
                 }
             } else {
@@ -199,21 +201,21 @@ public class SellPreset extends Preset{
             if(command.matches(SET_HOTEL)) {
                 if(hasPreset(player)) {
                     getPreset(player).setHotel(Boolean.parseBoolean(args[2]));
-                    player.sendMessage(Messages.PRESET_SET);
+                    player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
                     return true;
                 } else {
                     getList().add(new SellPreset(player));
                     getPreset(player).setHotel(Boolean.parseBoolean(args[2]));
-                    player.sendMessage(Messages.PRESET_SET);
+                    player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
                     return true;
                 }
             } else if(command.matches(REMOVE_HOTEL)) {
                 if(hasPreset(player)){
                     getPreset(player).removeHotel();
-                    player.sendMessage(Messages.PRESET_REMOVED);
+                    player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
                     return true;
                 } else {
-                    player.sendMessage(Messages.PRESET_REMOVED);
+                    player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
                     return true;
                 }
             } else {
@@ -225,21 +227,21 @@ public class SellPreset extends Preset{
             if(command.matches(SET_DO_BLOCK_RESET)) {
                 if(hasPreset(player)) {
                     getPreset(player).setDoBlockReset(Boolean.parseBoolean(args[2]));
-                    player.sendMessage(Messages.PRESET_SET);
+                    player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
                     return true;
                 } else {
                     getList().add(new SellPreset(player));
                     getPreset(player).setDoBlockReset(Boolean.parseBoolean(args[2]));
-                    player.sendMessage(Messages.PRESET_SET);
+                    player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
                     return true;
                 }
             } else if(command.matches(REMOVE_DO_BLOCK_RESET)) {
                 if(hasPreset(player)){
                     getPreset(player).removeDoBlockReset();
-                    player.sendMessage(Messages.PRESET_REMOVED);
+                    player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
                     return true;
                 } else {
-                    player.sendMessage(Messages.PRESET_REMOVED);
+                    player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
                     return true;
                 }
             }  else {
@@ -251,13 +253,13 @@ public class SellPreset extends Preset{
             if(command.matches(SAVE)) {
                 if(hasPreset(player)){
                     if(getPreset(player).save(args[2])){
-                        player.sendMessage("Preset saved!");
+                        player.sendMessage(Messages.PREFIX + Messages.PRESET_SAVED);
                     } else {
-                        player.sendMessage("A preset with this name already exists!");
+                        player.sendMessage(Messages.PREFIX + Messages.PRESET_ALREADY_EXISTS);
                     }
                     return true;
                 } else {
-                    player.sendMessage("You do not have a preset!");
+                    player.sendMessage(Messages.PREFIX + Messages.PRESET_PLAYER_DONT_HAS_PRESET);
                     return true;
                 }
             } else {
@@ -268,9 +270,9 @@ public class SellPreset extends Preset{
         else if(args[1].equalsIgnoreCase("delete")) {
             if(command.matches(REMOVE)) {
                 if(removePattern(args[2])){
-                    player.sendMessage("Preset removed");
+                    player.sendMessage(Messages.PREFIX + Messages.PRESET_DELETED);
                 } else {
-                    player.sendMessage("No preset with this name found!");
+                    player.sendMessage(Messages.PREFIX + Messages.PRESET_NOT_FOUND);
                 }
             } else {
                 sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm sellpreset delete [NAME]");
@@ -280,9 +282,9 @@ public class SellPreset extends Preset{
         else if(args[1].equalsIgnoreCase("load")) {
             if(command.matches(LOAD)) {
                 if(assignToPlayer(player, args[2])){
-                    player.sendMessage("Preset loaded!");
+                    player.sendMessage(Messages.PREFIX + Messages.PRESET_LOADED);
                 } else {
-                    player.sendMessage("Preset not found!");
+                    player.sendMessage(Messages.PREFIX + Messages.PRESET_NOT_FOUND);
                 }
             } else {
                 sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm sellpreset load [NAME]");
@@ -291,10 +293,10 @@ public class SellPreset extends Preset{
 
          else if(command.matches(RESET)) {
             if(removePreset(player)){
-                player.sendMessage(Messages.PRESET_REMOVED);
+                player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
                 return true;
             } else {
-                player.sendMessage(Messages.PRESET_NOT_EXISTING);
+                player.sendMessage(Messages.PREFIX + Messages.PRESET_PLAYER_DONT_HAS_PRESET);
                 return true;
             }
 
@@ -303,7 +305,7 @@ public class SellPreset extends Preset{
                 getPreset(player).getPresetInfo(player);
                 return true;
             } else {
-                player.sendMessage(Messages.PRESET_NOT_EXISTING);
+                player.sendMessage(Messages.PREFIX + Messages.PRESET_PLAYER_DONT_HAS_PRESET);
                 return true;
             }
 
@@ -398,9 +400,9 @@ public class SellPreset extends Preset{
     public static void listPresets(Player player) {
         String presets = "";
 
-        player.sendMessage(Messages.PREFIX + "SellPresets:");
+        player.sendMessage(Messages.PREFIX + ChatColor.GOLD + "SellPresets:");
         for(int i = 0; i < patterns.size(); i++) {
-            player.sendMessage(" - " + patterns.get(i).getName());
+            player.sendMessage(ChatColor.GOLD + " - " + patterns.get(i).getName());
         }
     }
 

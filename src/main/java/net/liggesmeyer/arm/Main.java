@@ -1,5 +1,7 @@
 package net.liggesmeyer.arm;
 
+import com.boydti.fawe.Fawe;
+import com.boydti.fawe.FaweAPI;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
@@ -45,6 +47,7 @@ public class Main extends JavaPlugin {
     private static Economy econ;
     private static WorldGuardPlugin worldguard;
     private static WorldEditPlugin worldedit;
+    private static Boolean faWeInstalled;
     private static boolean enableAutoReset;
     private static boolean enableTakeOver;
     private static Statement stmt;
@@ -104,7 +107,10 @@ public class Main extends JavaPlugin {
         if (!setupEconomy()) {
             getLogger().log(Level.INFO, "Please install Vault and a economy Plugin!");
         }
-
+        Main.faWeInstalled = setupFaWe();
+        if(!faWeInstalled) {
+            getLogger().log(Level.INFO, "It is recommended to install FaWe!");
+        }
         File schematicdic = new File(getDataFolder() + "/schematics");
         if(!schematicdic.exists()){
             schematicdic.mkdirs();
@@ -137,6 +143,7 @@ public class Main extends JavaPlugin {
         Main.econ = null;
         Main.worldguard = null;
         Main.worldedit = null;
+        Main.faWeInstalled = false;
         Region.Reset();
         LimitGroup.Reset();
         AutoPrice.Reset();
@@ -183,6 +190,15 @@ public class Main extends JavaPlugin {
         }
         Main.worldedit = (WorldEditPlugin) plugin;
         return worldedit != null;
+    }
+
+    private boolean setupFaWe(){
+        Plugin plugin = getServer().getPluginManager().getPlugin("FastAsyncWorldEdit");
+
+        if (plugin == null) {
+            return false;
+        }
+        return true;
     }
 
     private void loadRegions() {
@@ -369,6 +385,10 @@ public class Main extends JavaPlugin {
             Main.stmt.executeUpdate("CREATE TABLE `" + mysqldatabase + "`.`" + Main.sqlPrefix + "lastlogin` ( `id` INT NOT NULL AUTO_INCREMENT , `uuid` VARCHAR(40) NOT NULL , `lastlogin` TIMESTAMP NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;");
         }
 
+    }
+
+    public static Boolean isFaWeInstalled() {
+        return Main.faWeInstalled;
     }
 
     public static Economy getEcon(){

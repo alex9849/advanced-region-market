@@ -46,6 +46,7 @@ public class ARMListener implements Listener {
                 autoReset = preset.isAutoReset();
                 isHotel = preset.isHotel();
                 doBlockReset = preset.isDoBlockReset();
+                sign.getPlayer().sendMessage(Messages.PREFIX + "Applying preset...");
             }
 
             if(!sign.getPlayer().hasPermission(Permission.ADMIN_CREATE_SELL)){
@@ -72,9 +73,11 @@ public class ARMListener implements Listener {
             ProtectedRegion region = Main.getWorldguard().getRegionManager(Bukkit.getWorld(worldname)).getRegion(regionname);
             Double price = null;
 
-            if(SellPreset.hasPreset(sign.getPlayer())){
-                if(SellPreset.getPreset(sign.getPlayer()).hasPrice()){
-                    price = SellPreset.getPreset(sign.getPlayer()).getPrice();
+            if(sign.getLine(3).equals("")){
+                if(SellPreset.hasPreset(sign.getPlayer())){
+                    if(SellPreset.getPreset(sign.getPlayer()).hasPrice()){
+                        price = SellPreset.getPreset(sign.getPlayer()).getPrice();
+                    }
                 }
             }
 
@@ -129,6 +132,7 @@ public class ARMListener implements Listener {
                 autoReset = preset.isAutoReset();
                 isHotel = preset.isHotel();
                 doBlockReset = preset.isDoBlockReset();
+                sign.getPlayer().sendMessage(Messages.PREFIX + "Applying preset...");
             }
 
             String worldname = sign.getLine(1);
@@ -153,16 +157,17 @@ public class ARMListener implements Listener {
             long maxRentTime = 0;
             Boolean priceready = false;
 
-            if(RentPreset.hasPreset(sign.getPlayer())) {
-                RentPreset preset = RentPreset.getPreset(sign.getPlayer());
-                if(preset.hasPrice() && preset.hasExtendPerClick() && preset.hasMaxRentTime()) {
-                    price = preset.getPrice();
-                    extendPerClick = preset.getExtendPerClick();
-                    maxRentTime = preset.getMaxRentTime();
-                    priceready = true;
-                } else {
-                    sign.getPlayer().sendMessage(Messages.PREFIX + ChatColor.RED + "Your preset needs to have an option at Price, MaxRentTime and ExtendPerClick to take affect!");
-                    sign.getPlayer().sendMessage(Messages.PREFIX + ChatColor.GRAY + "Trying to complete action with information on sign...");
+            if(sign.getLine(3).equals("")) {
+                if(RentPreset.hasPreset(sign.getPlayer())) {
+                    RentPreset preset = RentPreset.getPreset(sign.getPlayer());
+                    if(preset.hasPrice() && preset.hasExtendPerClick() && preset.hasMaxRentTime()) {
+                        price = preset.getPrice();
+                        extendPerClick = preset.getExtendPerClick();
+                        maxRentTime = preset.getMaxRentTime();
+                        priceready = true;
+                    } else {
+                        sign.getPlayer().sendMessage(Messages.PREFIX + ChatColor.RED + "Your preset needs to have an option at Price, MaxRentTime and ExtendPerClick to take affect!");
+                    }
                 }
             }
 

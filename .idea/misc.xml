@@ -7,6 +7,17 @@
         <option value="$PROJECT_DIR$/pom.xml" />
       </list>
     </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/amodule/pom.xml" />
+        <option value="$PROJECT_DIR$/arminterfaces/pom.xml" />
+        <option value="$PROJECT_DIR$/interfaces/pom.xml" />
+        <option value="$PROJECT_DIR$/we5Handler/pom.xml" />
+        <option value="$PROJECT_DIR$/we5handler/pom.xml" />
+        <option value="$PROJECT_DIR$/wg5handler/pom.xml" />
+        <option value="$PROJECT_DIR$/worldguard5handler/pom.xml" />
+      </set>
+    </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />

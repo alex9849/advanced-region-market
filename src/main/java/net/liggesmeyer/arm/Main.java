@@ -3,8 +3,6 @@ package net.liggesmeyer.arm;
 import Handlers.WorldGuard6;
 import Interfaces.WorldEditInterface;
 import Interfaces.WorldGuardInterface;
-import com.boydti.fawe.Fawe;
-import com.boydti.fawe.FaweAPI;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
@@ -202,7 +200,6 @@ public class Main extends JavaPlugin {
         } else {
             version = "6";
         }
-
         try {
             final Class<?> weClass = Class.forName("Handlers.WorldEdit" + version);
             if(WorldEditInterface.class.isAssignableFrom(weClass)) {

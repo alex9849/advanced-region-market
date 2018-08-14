@@ -1,17 +1,14 @@
-package Interfaces;
+package inter;
 
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
-import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 public abstract class WorldGuardInterface {

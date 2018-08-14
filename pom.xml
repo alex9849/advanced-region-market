@@ -6,7 +6,13 @@
 
     <groupId>net.liggesmeyer</groupId>
     <artifactId>advancedregionmarket</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>arminterfaces</module>
+        <module>arminterface</module>
+    </modules>
+
 
     <repositories>
         <repository>
@@ -80,26 +86,28 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.12.1-R0.1-SNAPSHOT</version>
+            <version>1.8.8-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <!--Bukkit API-->
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
-            <version>1.12-R0.1-SNAPSHOT</version>
+            <version>1.8.8-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <!--Worldedit API-->
         <dependency>
             <groupId>com.sk89q.worldedit</groupId>
             <artifactId>worldedit-bukkit</artifactId>
+            <scope>provided</scope>
             <version>6.1.1-SNAPSHOT</version>
         </dependency>
         <!--Worldguard API-->
-       <dependency>
+        <dependency>
             <groupId>com.sk89q</groupId>
             <artifactId>worldguard</artifactId>
+            <scope>provided</scope>
             <version>6.1</version>
         </dependency>
         <!--Vault API-->

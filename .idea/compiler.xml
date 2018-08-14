@@ -6,8 +6,18 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="advancedregionmarket" />
+        <module name="arminterface" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="advancedregionmarketparent" target="1.8" />
+      <module name="amodule" target="1.8" />
+      <module name="arminterfaces" target="1.8" />
+      <module name="interfaces" target="1.8" />
+      <module name="we5Handler" target="1.8" />
+      <module name="we5handler" target="1.8" />
+      <module name="wg5handler" target="1.8" />
+      <module name="worldguard5handler" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>

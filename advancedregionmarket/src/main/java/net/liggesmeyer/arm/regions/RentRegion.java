@@ -1,11 +1,10 @@
 package net.liggesmeyer.arm.regions;
 
-import com.sk89q.worldguard.domains.DefaultDomain;
+import net.liggesmeyer.arm.Permission;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import net.liggesmeyer.arm.Group.LimitGroup;
 import net.liggesmeyer.arm.Main;
 import net.liggesmeyer.arm.Messages;
-import net.liggesmeyer.arm.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -30,13 +29,13 @@ public class RentRegion extends Region {
         this.rentExtendPerClick = rentExtendPerClick;
 
         if(newreg) {
-            YamlConfiguration config = Region.getRegionsConf();
+            YamlConfiguration config = getRegionsConf();
 
             config.set("Regions." + this.regionworld + "." + this.region.getId() + ".rentregion", true);
             config.set("Regions." + this.regionworld + "." + this.region.getId() + ".payedTill", payedTill);
             config.set("Regions." + this.regionworld + "." + this.region.getId() + ".maxRentTime", maxRentTime);
             config.set("Regions." + this.regionworld + "." + this.region.getId() + ".rentExtendPerClick", rentExtendPerClick);
-            Region.saveRegionsConf(config);
+            saveRegionsConf(config);
             this.updateSignText(rentsign.get(0));
         }
     }
@@ -215,10 +214,10 @@ public class RentRegion extends Region {
 
 
 
-        YamlConfiguration config = Region.getRegionsConf();
+        YamlConfiguration config = getRegionsConf();
         config.set("Regions." + this.regionworld + "." + this.region.getId() + ".sold", true);
         config.set("Regions." + this.regionworld + "." + this.region.getId() + ".payedTill", this.payedTill);
-        Region.saveRegionsConf(config);
+        saveRegionsConf(config);
 
     }
 
@@ -238,7 +237,7 @@ public class RentRegion extends Region {
 
     @Override
     public double getPaybackMoney() {
-        double amount = (this.getPrice() * Region.paybackPercentage)/100;
+        double amount = (this.getPrice() * paybackPercentage)/100;
         GregorianCalendar acttime = new GregorianCalendar();
         long remaining = this.payedTill - acttime.getTimeInMillis();
         amount = amount * (remaining / rentExtendPerClick);
@@ -370,9 +369,9 @@ public class RentRegion extends Region {
     }
 
     public static void doSignUpdate(){
-        for (int i = 0; i < Region.getRegionList().size(); i++) {
-            if(Region.getRegionList().get(i) instanceof RentRegion) {
-                RentRegion region = (RentRegion) Region.getRegionList().get(i);
+        for (int i = 0; i < getRegionList().size(); i++) {
+            if(getRegionList().get(i) instanceof RentRegion) {
+                RentRegion region = (RentRegion) getRegionList().get(i);
                 if(region.isSold()){
                     GregorianCalendar actualtime = new GregorianCalendar();
                     if(region.payedTill < actualtime.getTimeInMillis()){
@@ -440,9 +439,9 @@ public class RentRegion extends Region {
             }
             Main.getEcon().withdrawPlayer(player, price);
             this.payedTill = this.payedTill + this.rentExtendPerClick;
-            YamlConfiguration config = Region.getRegionsConf();
+            YamlConfiguration config = getRegionsConf();
             config.set("Regions." + this.regionworld + "." + this.region.getId() + ".payedTill", this.payedTill);
-            Region.saveRegionsConf(config);
+            saveRegionsConf(config);
 
             String message = Messages.RENT_EXTEND_MESSAGE;
             message = message.replace("%remaining%", this.calcRemainingTime());

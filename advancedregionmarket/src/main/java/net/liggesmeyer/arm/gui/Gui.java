@@ -1,12 +1,12 @@
 package net.liggesmeyer.arm.gui;
 
-import net.liggesmeyer.arm.Group.LimitGroup;
 import net.liggesmeyer.arm.Main;
 import net.liggesmeyer.arm.Messages;
 import net.liggesmeyer.arm.Permission;
 import net.liggesmeyer.arm.regions.Region;
-import net.liggesmeyer.arm.regions.RegionKind;
 import net.liggesmeyer.arm.regions.RentRegion;
+import net.liggesmeyer.arm.Group.LimitGroup;
+import net.liggesmeyer.arm.regions.RegionKind;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;

@@ -1,5 +1,6 @@
 package net.liggesmeyer.inter;
 
+import org.bukkit.World;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import org.bukkit.entity.Player;
 
@@ -7,11 +8,11 @@ import java.io.File;
 
 public abstract class WorldEditInterface {
 
-    public abstract void createSchematic(ProtectedRegion region, File filepath);
+    public abstract void createSchematic(ProtectedRegion region, File schematicpath, File schematicdic, World world);
 
-    public abstract void resetBlocks(ProtectedRegion region, File filepath, Player player);
+    public abstract void resetBlocks(ProtectedRegion region, File schematicpath, World world, Player player);
 
-    public void resetBlocks(ProtectedRegion region, File filepath) {
-        this.resetBlocks(region, filepath, null);
+    public void resetBlocks(ProtectedRegion region, File schematicpath, World world) {
+        this.resetBlocks(region, schematicpath, world, null);
     }
 }

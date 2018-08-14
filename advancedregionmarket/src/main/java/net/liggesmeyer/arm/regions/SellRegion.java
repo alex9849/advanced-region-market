@@ -1,11 +1,10 @@
 package net.liggesmeyer.arm.regions;
 
-import com.sk89q.worldguard.domains.DefaultDomain;
-import com.sk89q.worldguard.protection.regions.ProtectedRegion;
-import net.liggesmeyer.arm.Group.LimitGroup;
 import net.liggesmeyer.arm.Main;
 import net.liggesmeyer.arm.Messages;
 import net.liggesmeyer.arm.Permission;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import net.liggesmeyer.arm.Group.LimitGroup;
 import org.bukkit.*;
 import org.bukkit.block.Sign;
 import org.bukkit.configuration.file.YamlConfiguration;

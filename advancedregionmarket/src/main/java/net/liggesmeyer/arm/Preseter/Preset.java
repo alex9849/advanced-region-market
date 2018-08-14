@@ -2,18 +2,12 @@ package net.liggesmeyer.arm.Preseter;
 
 import net.liggesmeyer.arm.Messages;
 import net.liggesmeyer.arm.regions.RegionKind;
-import net.liggesmeyer.arm.regions.RentRegion;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.Configuration;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import java.io.*;
-import java.util.ArrayList;
 
 public abstract class Preset {
     private static YamlConfiguration config;

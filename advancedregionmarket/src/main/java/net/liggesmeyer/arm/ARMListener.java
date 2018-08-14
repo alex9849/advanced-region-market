@@ -1,13 +1,13 @@
 package net.liggesmeyer.arm;
 
-import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import net.liggesmeyer.arm.Preseter.Preset;
 import net.liggesmeyer.arm.Preseter.RentPreset;
 import net.liggesmeyer.arm.Preseter.SellPreset;
+import net.liggesmeyer.arm.regions.RentRegion;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import net.liggesmeyer.arm.gui.Gui;
 import net.liggesmeyer.arm.regions.Region;
 import net.liggesmeyer.arm.regions.RegionKind;
-import net.liggesmeyer.arm.regions.RentRegion;
 import net.liggesmeyer.arm.regions.SellRegion;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

@@ -1,9 +1,7 @@
 package net.liggesmeyer.arm.Preseter;
 
 import net.liggesmeyer.arm.Messages;
-import net.liggesmeyer.arm.regions.Region;
 import net.liggesmeyer.arm.regions.RegionKind;
-import net.liggesmeyer.arm.regions.RentRegion;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;

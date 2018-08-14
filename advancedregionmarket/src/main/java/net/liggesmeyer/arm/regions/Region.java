@@ -1,69 +1,23 @@
 package net.liggesmeyer.arm.regions;
 
-import com.boydti.fawe.object.clipboard.ReadOnlyClipboard;
-import com.boydti.fawe.object.schematic.Schematic;
-import com.boydti.fawe.util.EditSessionBuilder;
-import com.sk89q.worldedit.*;
-import com.sk89q.worldedit.EditSession;
-import com.sk89q.worldedit.MaxChangedBlocksException;
-import com.sk89q.worldedit.Vector;
-import com.sk89q.worldedit.WorldEdit;
-import com.sk89q.worldedit.blocks.BaseBlock;
-import com.sk89q.worldedit.bukkit.BukkitUtil;
-import com.sk89q.worldedit.bukkit.BukkitWorld;
-import com.sk89q.worldedit.bukkit.WorldEditPlugin;
-import com.sk89q.worldedit.bukkit.selections.CuboidSelection;
-import com.sk89q.worldedit.bukkit.selections.Polygonal2DSelection;
-import com.sk89q.worldedit.bukkit.selections.Selection;
-import com.sk89q.worldedit.data.DataException;
-import com.sk89q.worldedit.entity.BaseEntity;
-import com.sk89q.worldedit.entity.Entity;
-import com.sk89q.worldedit.extent.Extent;
-import com.sk89q.worldedit.extent.clipboard.Clipboard;
-import com.sk89q.worldedit.extent.clipboard.io.ClipboardReader;
-import com.sk89q.worldedit.extent.clipboard.io.ClipboardWriter;
-import com.sk89q.worldedit.function.mask.ExistingBlockMask;
-import com.sk89q.worldedit.function.operation.Operation;
-import com.sk89q.worldedit.internal.LocalWorldAdapter;
-import com.sk89q.worldedit.math.transform.AffineTransform;
-import com.sk89q.worldedit.regions.RegionSelector;
-import com.sk89q.worldedit.schematic.MCEditSchematicFormat;
-import com.sk89q.worldedit.schematic.SchematicFormat;
-import com.sk89q.worldedit.session.ClipboardHolder;
-import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
-import com.sk89q.worldedit.function.operation.ForwardExtentCopy;
-import com.sk89q.worldedit.function.operation.Operations;
-import com.sk89q.worldedit.regions.CuboidRegion;
-import com.sk89q.worldedit.extent.clipboard.BlockArrayClipboard;
-import com.sk89q.worldedit.util.io.Closer;
-import com.sk89q.worldedit.world.biome.BaseBiome;
-import com.sk89q.worldedit.world.registry.WorldData;
-import com.sk89q.worldguard.domains.DefaultDomain;
-import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import net.liggesmeyer.arm.AutoPrice;
-import net.liggesmeyer.arm.Main;
 import net.liggesmeyer.arm.Messages;
 import net.liggesmeyer.arm.Permission;
-import org.apache.commons.lang.exception.ExceptionUtils;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import net.liggesmeyer.arm.Main;
 import org.bukkit.*;
 import org.bukkit.Location;
-import org.bukkit.block.Block;
-import org.bukkit.block.Chest;
 import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
-import javax.annotation.Nullable;
 import java.io.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.*;
-import java.util.logging.Level;
 
 public abstract class Region {
     private static List<Region> regionList = new ArrayList<>();
@@ -389,7 +343,10 @@ public abstract class Region {
     }
 
     public void createSchematic(){
-        Main.getWorldEditInterface().createSchematic(this);
+        File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
+        File schematicpath = new File(pluginfolder + "/schematics/" + this.getRegionworld() + "/" + this.getRegion().getId() + ".schematic");
+        File schematicfolder = new File(pluginfolder + "/schematics/" + this.getRegionworld());
+        Main.getWorldEditInterface().createSchematic(this.getRegion(), schematicpath, schematicfolder, Bukkit.getWorld(this.getRegionworld()));
 
         //Old method
 /*
@@ -461,7 +418,9 @@ public abstract class Region {
     }
 
     public boolean resetBlocks(Player player){
-        Main.getWorldEditInterface().resetBlocks(this, player);
+        File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
+        File file = new File(pluginfolder + "/schematics/" + this.getRegionworld() + "/" + this.getRegion().getId() + ".schematic");
+        Main.getWorldEditInterface().resetBlocks(this.getRegion(), file, Bukkit.getWorld(this.getRegionworld()), player);
         return true;
     }
 

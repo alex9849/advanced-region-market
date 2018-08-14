@@ -4,9 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 
-import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Map;
 
 public class CustomHolder implements InventoryHolder {
 

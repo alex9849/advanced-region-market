@@ -1,20 +1,20 @@
 package net.liggesmeyer.arm;
 
 import Handlers.WorldGuard6;
-import Interfaces.WorldEditInterface;
-import Interfaces.WorldGuardInterface;
+import net.liggesmeyer.arm.Preseter.Preset;
+import net.liggesmeyer.arm.Preseter.RentPreset;
+import net.liggesmeyer.arm.Preseter.SellPreset;
+import net.liggesmeyer.arm.regions.Region;
+import net.liggesmeyer.arm.regions.RentRegion;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import net.liggesmeyer.arm.Group.LimitGroup;
-import net.liggesmeyer.arm.Preseter.Preset;
-import net.liggesmeyer.arm.Preseter.RentPreset;
-import net.liggesmeyer.arm.Preseter.SellPreset;
 import net.liggesmeyer.arm.gui.Gui;
-import net.liggesmeyer.arm.regions.Region;
 import net.liggesmeyer.arm.regions.RegionKind;
-import net.liggesmeyer.arm.regions.RentRegion;
 import net.liggesmeyer.arm.regions.SellRegion;
+import net.liggesmeyer.inter.WorldEditInterface;
+import net.liggesmeyer.inter.WorldGuardInterface;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.*;
 import org.bukkit.block.Sign;

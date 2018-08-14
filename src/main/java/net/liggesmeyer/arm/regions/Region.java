@@ -606,8 +606,8 @@ public abstract class Region {
     public void regionInfo(CommandSender sender){
         String owners = "";
         String members = "";
-        List<UUID> ownerslist = new LinkedList(this.getRegion().getOwners().getUniqueIds());
-        List<UUID> memberslist = new LinkedList(this.getRegion().getMembers().getUniqueIds());
+        List<UUID> ownerslist = Main.getWorldGuardInterface().getOwners(this.getRegion());
+        List<UUID> memberslist = Main.getWorldGuardInterface().getMembers(this.getRegion());
         for(int i = 0; i < ownerslist.size() - 1; i++){
             owners = owners + Bukkit.getOfflinePlayer(ownerslist.get(i)).getName() + ", ";
         }
@@ -701,12 +701,11 @@ public abstract class Region {
             sender.sendMessage(Messages.PREFIX + Messages.REGION_ADD_MEMBER_NOT_ONLINE);
             return;
         }
-
-        if(this.getRegion().getOwners().contains(((Player) sender).getUniqueId()) && sender.hasPermission(Permission.MEMBER_ADDMEMBER)) {
-            this.getRegion().getMembers().addPlayer(playermember.getUniqueId());
+        if(Main.getWorldGuardInterface().hasOwner((Player) sender, this.getRegion()) && sender.hasPermission(Permission.MEMBER_ADDMEMBER)) {
+            Main.getWorldGuardInterface().addMember(playermember, this.getRegion());
             sender.sendMessage(Messages.PREFIX + Messages.REGION_ADD_MEMBER_ADDED);
         } else if (sender.hasPermission(Permission.ADMIN_ADDMEMBER)){
-            this.getRegion().getMembers().addPlayer(playermember.getUniqueId());
+            Main.getWorldGuardInterface().addMember(playermember, this.getRegion());
             sender.sendMessage(Messages.PREFIX + Messages.REGION_ADD_MEMBER_ADDED);
         } else if (!(sender.hasPermission(Permission.MEMBER_ADDMEMBER))){
             sender.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
@@ -719,20 +718,20 @@ public abstract class Region {
 
         OfflinePlayer removemember = Bukkit.getOfflinePlayer(member);
 
-        if(this.getRegion().getOwners().contains(((Player) sender).getUniqueId()) && sender.hasPermission(Permission.MEMBER_REMOVEMEMBER)) {
-            if(!(this.getRegion().getMembers().contains(removemember.getUniqueId()))) {
+        if(Main.getWorldGuardInterface().hasOwner((Player) sender, this.getRegion()) && sender.hasPermission(Permission.MEMBER_REMOVEMEMBER)) {
+            if(!(Main.getWorldGuardInterface().hasMember(removemember, this.getRegion()))) {
                 sender.sendMessage(Messages.PREFIX + Messages.REGION_REMOVE_MEMBER_NOT_A_MEMBER);
                 return;
             }
-            this.getRegion().getMembers().removePlayer(removemember.getUniqueId());
+            Main.getWorldGuardInterface().removeMember(removemember, this.getRegion());
             sender.sendMessage(Messages.PREFIX + Messages.REGION_REMOVE_MEMBER_REMOVED);
             return;
         } else if (sender.hasPermission(Permission.ADMIN_REMOVEMEMBER)){
-            if(!(this.getRegion().getMembers().contains(removemember.getUniqueId()))) {
+            if(!(Main.getWorldGuardInterface().hasMember(removemember, this.getRegion()))) {
                 sender.sendMessage(Messages.PREFIX + Messages.REGION_REMOVE_MEMBER_NOT_A_MEMBER);
                 return;
             }
-            this.getRegion().getMembers().removePlayer(removemember.getUniqueId());
+            Main.getWorldGuardInterface().removeMember(removemember, this.getRegion());
             sender.sendMessage(Messages.PREFIX + Messages.REGION_REMOVE_MEMBER_REMOVED);
             return;
         } else if (!(sender.hasPermission(Permission.MEMBER_REMOVEMEMBER))){
@@ -776,7 +775,7 @@ public abstract class Region {
     public static List<Region> getRegionsByOwner(UUID uuid) {
         List<Region> regions = new LinkedList<>();
         for (int i = 0; i < Region.getRegionList().size(); i++){
-            if(Region.getRegionList().get(i).getRegion().getOwners().contains(uuid)){
+            if(Main.getWorldGuardInterface().hasOwner(uuid, Region.getRegionList().get(i).getRegion())){
                 regions.add(Region.getRegionList().get(i));
             }
         }
@@ -871,20 +870,17 @@ public abstract class Region {
     }
 
     public void setNewOwner(OfflinePlayer member){
-        LinkedList<UUID> owner = new LinkedList<>(this.getRegion().getOwners().getUniqueIds());
+        ArrayList<UUID> owner = Main.getWorldGuardInterface().getOwners(this.getRegion());
         for (int i = 0; i < owner.size(); i++) {
-            this.getRegion().getMembers().addPlayer(owner.get(i));
+            Main.getWorldGuardInterface().addMember(owner.get(i), this.getRegion());
         }
-        DefaultDomain newOwner = new DefaultDomain();
-        newOwner.addPlayer(member.getUniqueId());
-        this.getRegion().setOwners(newOwner);
-        this.getRegion().getMembers().removePlayer(member.getUniqueId());
+        Main.getWorldGuardInterface().setOwner(member, this.getRegion());
     }
 
     public static List<Region> getRegionsByMember(UUID uuid) {
         List<Region> regions = new LinkedList<>();
         for (int i = 0; i < Region.getRegionList().size(); i++){
-            if(Region.getRegionList().get(i).getRegion().getMembers().contains(uuid)){
+            if(Main.getWorldGuardInterface().hasMember(uuid, Region.getRegionList().get(i).getRegion())){
                 regions.add(Region.getRegionList().get(i));
             }
         }
@@ -927,7 +923,7 @@ public abstract class Region {
     }
 
     public int getRemainingDaysTillReset(){
-        LinkedList<UUID> ownerlist = new LinkedList<>(this.getRegion().getOwners().getUniqueIds());
+        ArrayList<UUID> ownerlist = Main.getWorldGuardInterface().getOwners(this.getRegion());
             UUID owner = ownerlist.get(0);
             if(Main.getEnableTakeOver() ||Main.getEnableAutoReset()) {
                 try{
@@ -976,10 +972,8 @@ public abstract class Region {
         config.set("Regions." + this.regionworld + "." + this.getRegion().getId() + ".sold", false);
         config.set("Regions." + this.regionworld + "." + this.getRegion().getId() + ".lastreset", 1);
         saveRegionsConf(config);
-        DefaultDomain newMember = new DefaultDomain();
-        this.region.setMembers(newMember);
-        DefaultDomain newOwner = new DefaultDomain();
-        this.region.setOwners(newOwner);
+        Main.getWorldGuardInterface().deleteMembers(this.getRegion());
+        Main.getWorldGuardInterface().deleteOwners(this.getRegion());
         this.sold = false;
         this.lastreset = 1;
 
@@ -998,10 +992,10 @@ public abstract class Region {
                 return true;
             }
             for(int i = 0; i < Region.getRegionList().size(); i++) {
-                if(Region.getRegionList().get(i).getRegion().getOwners().contains(oplayer.getUniqueId())){
+                if(Main.getWorldGuardInterface().hasOwner(oplayer, Region.getRegionList().get(i).getRegion())){
                     selectedRegionsOwner.add(Region.getRegionList().get(i).getRegion().getId());
                 }
-                if(Region.getRegionList().get(i).getRegion().getMembers().contains(oplayer.getUniqueId())){
+                if(Main.getWorldGuardInterface().hasMember(oplayer, Region.getRegionList().get(i).getRegion())){
                     selectedRegionsMember.add(Region.getRegionList().get(i).getRegion().getId());
                 }
             }
@@ -1035,35 +1029,8 @@ public abstract class Region {
     public static boolean listRegionsCommand(CommandSender sender){
         if(sender instanceof Player) {
             Player player = (Player) sender;
-            if(sender.hasPermission(Permission.MEMBER_LISTREGIONS)){
-                LinkedList<String> selectedRegionsOwner = new LinkedList<>();
-                LinkedList<String> selectedRegionsMember = new LinkedList<>();
-                for(int i = 0; i < Region.getRegionList().size(); i++) {
-                    if(Region.getRegionList().get(i).getRegion().getOwners().contains(player.getUniqueId())){
-                        selectedRegionsOwner.add(Region.getRegionList().get(i).getRegion().getId());
-                    }
-                    if(Region.getRegionList().get(i).getRegion().getMembers().contains(player.getUniqueId())){
-                        selectedRegionsMember.add(Region.getRegionList().get(i).getRegion().getId());
-                    }
-                }
-
-                String regionstring = "";
-                for(int i = 0; i < selectedRegionsOwner.size() - 1; i++) {
-                    regionstring = regionstring + selectedRegionsOwner.get(i) + ", ";
-                }
-                if(selectedRegionsOwner.size() != 0){
-                    regionstring = regionstring + selectedRegionsOwner.get(selectedRegionsOwner.size() - 1);
-                }
-                sender.sendMessage(ChatColor.GOLD + "Owner: " + regionstring);
-
-                regionstring = "";
-                for(int i = 0; i < selectedRegionsMember.size() - 1; i++) {
-                    regionstring = regionstring + selectedRegionsMember.get(i) + ", ";
-                }
-                if(selectedRegionsMember.size() != 0){
-                    regionstring = regionstring + selectedRegionsMember.get(selectedRegionsMember.size() - 1);
-                }
-                sender.sendMessage(ChatColor.GOLD + "Member: " + regionstring);
+            if(player.hasPermission(Permission.MEMBER_LISTREGIONS)){
+                Region.listRegionsCommand(player, player.getName());
                 return true;
 
 
@@ -1104,17 +1071,11 @@ public abstract class Region {
         config.set("Regions." + region.regionworld + "." + region.region.getId() + ".sold", true);
         saveRegionsConf(config);
 
-        if (region instanceof SellRegion) {
-            SellRegion sellregion = (SellRegion) region;
-            DefaultDomain newOwner = new DefaultDomain();
-            newOwner.addPlayer(player.getUniqueId());
-            sellregion.getRegion().setOwners(newOwner);
-        }
+        Main.getWorldGuardInterface().setOwner(player, region.getRegion());
+
         if (region instanceof RentRegion) {
             RentRegion rentregion = (RentRegion) region;
-            DefaultDomain newOwner = new DefaultDomain();
-            newOwner.addPlayer(player.getUniqueId());
-            rentregion.getRegion().setOwners(newOwner);
+
             if(!region.isSold()){
                 GregorianCalendar actualtime = new GregorianCalendar();
                 rentregion.setPayedTill(actualtime.getTimeInMillis() + rentregion.getRentExtendPerClick());
@@ -1305,10 +1266,8 @@ public abstract class Region {
         config.set("Regions." + this.regionworld + "." + this.getRegion().getId() + ".sold", false);
         saveRegionsConf(config);
 
-        DefaultDomain newOwner = new DefaultDomain();
-        DefaultDomain newMember = new DefaultDomain();
-        this.getRegion().setOwners(newOwner);
-        this.getRegion().setMembers(newMember);
+        Main.getWorldGuardInterface().deleteOwners(this.getRegion());
+        Main.getWorldGuardInterface().deleteMembers(this.getRegion());
     }
 
     public static boolean extendCommand(String regionName, CommandSender sender){

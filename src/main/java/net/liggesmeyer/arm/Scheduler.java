@@ -29,7 +29,7 @@ public class Scheduler implements Runnable {
                     List<Region> regions = Region.getRegionsByMember(UUID.fromString(rs.getString("uuid")));
                     for (int i = 0; i < regions.size(); i++){
                         if(regions.get(i).getAutoreset()){
-                            regions.get(i).getRegion().getMembers().removePlayer(UUID.fromString(rs.getString("uuid")));
+                            Main.getWorldGuardInterface().removeMember(UUID.fromString(rs.getString("uuid")), regions.get(i).getRegion());
                         }
                     }
                     Main.getStmt().executeUpdate("DELETE FROM `" + Main.getSqlPrefix() + "lastlogin` WHERE `uuid` = '" + rs.getString("uuid") + "'");

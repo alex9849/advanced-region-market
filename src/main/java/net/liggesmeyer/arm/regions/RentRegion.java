@@ -206,11 +206,8 @@ public class RentRegion extends Region {
     @Override
     protected void setSold(OfflinePlayer player){
         this.sold = true;
-        DefaultDomain newOwner = new DefaultDomain();
-        newOwner.addPlayer(player.getUniqueId());
-        this.region.setOwners(newOwner);
-        DefaultDomain newMember = new DefaultDomain();
-        this.region.setMembers(newMember);
+        Main.getWorldGuardInterface().deleteMembers(this.getRegion());
+        Main.getWorldGuardInterface().setOwner(player, this.getRegion());
 
         for(int i = 0; i < this.sellsign.size(); i++){
             this.updateSignText(this.sellsign.get(i));
@@ -227,7 +224,7 @@ public class RentRegion extends Region {
 
     @Override
     public void userSell(Player player){
-        List<UUID> defdomain = new ArrayList<>(this.region.getOwners().getUniqueIds());
+        List<UUID> defdomain = Main.getWorldGuardInterface().getOwners(this.getRegion());
         double amount = this.getPaybackMoney();
 
         if(amount > 0){
@@ -417,7 +414,7 @@ public class RentRegion extends Region {
             }
         }
 
-        if(!this.getRegion().getOwners().contains(player.getUniqueId())) {
+        if(!Main.getWorldGuardInterface().hasOwner(player, this.getRegion())) {
             if(!player.hasPermission(Permission.ADMIN_EXTEND)){
                 player.sendMessage(Messages.PREFIX + Messages.REGION_NOT_OWN);
                 return;

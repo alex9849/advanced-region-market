@@ -1,6 +1,8 @@
 package net.liggesmeyer.arm;
 
+import Handlers.WorldGuard6;
 import Interfaces.WorldEditInterface;
+import Interfaces.WorldGuardInterface;
 import com.boydti.fawe.Fawe;
 import com.boydti.fawe.FaweAPI;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
@@ -47,6 +49,7 @@ import java.util.logging.Level;
 public class Main extends JavaPlugin {
     private static Economy econ;
     private static WorldGuardPlugin worldguard;
+    private static WorldGuardInterface worldGuardInterface;
     private static WorldEditPlugin worldedit;
     private static WorldEditInterface worldEditInterface;
     private static Boolean faWeInstalled;
@@ -181,6 +184,7 @@ public class Main extends JavaPlugin {
             return false;
         }
         Main.worldguard = (WorldGuardPlugin) plugin;
+        Main.worldGuardInterface = new WorldGuard6(Main.worldguard);
         return worldguard != null;
     }
 
@@ -211,6 +215,14 @@ public class Main extends JavaPlugin {
 
 
         return worldedit != null;
+    }
+
+    public static WorldGuardPlugin getWorldGuard(){
+        return Main.worldguard;
+    }
+
+    public static WorldGuardInterface getWorldGuardInterface() {
+        return  Main.worldGuardInterface;
     }
 
     public static WorldEditInterface getWorldEditInterface(){
@@ -268,7 +280,7 @@ public class Main extends JavaPlugin {
                                     regionKind = result;
                                 }
                             }
-                            ProtectedRegion region = Main.getWorldguard().getRegionManager(Bukkit.getWorld(regionworld)).getRegion(regionname);
+                            ProtectedRegion region = Main.getWorldGuardInterface().getRegionManager(Bukkit.getWorld(regionworld)).getRegion(regionname);
 
                             if(region != null) {
                                 List<String> regionsignsloc = Region.getRegionsConf().getStringList("Regions." + worlds.get(y) + "." + regions.get(i) + ".signs");
@@ -418,10 +430,6 @@ public class Main extends JavaPlugin {
 
     public static Economy getEcon(){
         return Main.econ;
-    }
-
-    protected static WorldGuardPlugin getWorldguard(){
-        return Main.worldguard;
     }
 
     public static WorldEditPlugin getWorldedit() {return Main.worldedit;}

@@ -1,6 +1,7 @@
 package net.liggesmeyer.arm.gui;
 
 import net.liggesmeyer.arm.Group.LimitGroup;
+import net.liggesmeyer.arm.Main;
 import net.liggesmeyer.arm.Messages;
 import net.liggesmeyer.arm.Permission;
 import net.liggesmeyer.arm.regions.Region;
@@ -17,6 +18,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
@@ -529,7 +531,7 @@ public class Gui implements Listener {
     }
 
     public static void openMemberList(Player player, Region region){
-        LinkedList<UUID> members = new LinkedList<>(region.getRegion().getMembers().getUniqueIds());
+        ArrayList<UUID> members = Main.getWorldGuardInterface().getMembers(region.getRegion());
 
         int invsize = 0;
         while (members.size() + 1 > invsize) {
@@ -607,7 +609,7 @@ public class Gui implements Listener {
         Icon removeMenu = new Icon(removeItem, 4).addClickAction(new ClickAction() {
             @Override
             public void execute(Player player) {
-                region.getRegion().getMembers().removePlayer(member.getUniqueId());
+                Main.getWorldGuardInterface().removeMember(member.getUniqueId(), region.getRegion());
                 player.sendMessage(Messages.PREFIX + Messages.REGION_REMOVE_MEMBER_REMOVED);
                 player.closeInventory();
             }

@@ -1,10 +1,10 @@
 package Handlers;
 
-import Interfaces.WorldGuardInterface;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.domains.DefaultDomain;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import net.liggesmeyer.inter.WorldGuardInterface;
 import net.liggesmeyer.arm.Main;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;

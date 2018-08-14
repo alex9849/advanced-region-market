@@ -1,4 +1,4 @@
-package inter;
+package net.liggesmeyer.inter;
 
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.managers.RegionManager;

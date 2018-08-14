@@ -1,6 +1,5 @@
 package Handlers;
 
-import Interfaces.WorldEditInterface;
 import com.boydti.fawe.object.schematic.Schematic;
 import com.sk89q.worldedit.*;
 import com.sk89q.worldedit.bukkit.BukkitWorld;
@@ -8,6 +7,7 @@ import com.sk89q.worldedit.data.DataException;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.schematic.SchematicFormat;
+import net.liggesmeyer.inter.WorldEditInterface;
 import net.liggesmeyer.arm.Main;
 import net.liggesmeyer.arm.Messages;
 import net.liggesmeyer.arm.regions.Region;

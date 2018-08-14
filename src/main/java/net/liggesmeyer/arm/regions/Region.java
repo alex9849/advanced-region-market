@@ -389,56 +389,7 @@ public abstract class Region {
     }
 
     public void createSchematic(){
-        File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-        File schematicdic = new File(pluginfolder + "/schematics/" + this.regionworld + "/" + region.getId() + ".schematic");
-        File schematicfolder = new File(pluginfolder + "/schematics/" + this.regionworld);
-        if(schematicdic.exists()){
-            schematicdic.delete();
-        }
-
-        Vector max = this.getRegion().getMaximumPoint();
-        Vector min = this.getRegion().getMinimumPoint();
-
-        schematicfolder.mkdirs();
-
-        if(Main.isFaWeInstalled()) {
-            CuboidRegion copyregion = new CuboidRegion(new BukkitWorld(Bukkit.getWorld(getRegionworld())), min, max);
-            Schematic schematic = new Schematic(copyregion);
-            try {
-                schematic.save(schematicdic, ClipboardFormat.SCHEMATIC);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-
-            if(schematicdic.exists()) {
-                schematicdic.delete();
-            }
-            com.sk89q.worldedit.world.World world = new BukkitWorld(Bukkit.getWorld(this.getRegionworld()));
-            WorldData worldData = world.getWorldData();
-            EditSession editSession = Main.getWorldedit().getWorldEdit().getEditSessionFactory().getEditSession(world, Integer.MAX_VALUE);
-            CuboidRegion reg = new CuboidRegion(world, this.getRegion().getMinimumPoint(), this.getRegion().getMaximumPoint());
-            BlockArrayClipboard clip = new BlockArrayClipboard(reg);
-            clip.setOrigin(this.getRegion().getMinimumPoint());
-            ForwardExtentCopy copy = new ForwardExtentCopy(editSession, new CuboidRegion(world, this.getRegion().getMinimumPoint(), this.getRegion().getMaximumPoint()), clip, this.getRegion().getMinimumPoint());
-            try {
-                Operations.completeLegacy(copy);
-            } catch(MaxChangedBlocksException e) {
-                e.printStackTrace();
-            }
-            try(Closer closer = Closer.create()) {
-                schematicdic.createNewFile();
-                FileOutputStream fileOutputStream = closer.register(new FileOutputStream(schematicdic));
-                BufferedOutputStream bufferedOutputStream = closer.register(new BufferedOutputStream(fileOutputStream));
-                ClipboardWriter writer = closer.register(ClipboardFormat.SCHEMATIC.getWriter(bufferedOutputStream));
-                writer.write(clip, worldData);
-            } catch(IOException e) {
-                e.printStackTrace();
-                return;
-            }
-            return;
-        }
-
+        Main.getWorldEditInterface().createSchematic(this);
 
         //Old method
 /*
@@ -510,51 +461,8 @@ public abstract class Region {
     }
 
     public boolean resetBlocks(Player player){
-
-        File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-        File file = new File(pluginfolder + "/schematics/" + this.regionworld + "/" + region.getId() + ".schematic");
-
-
-        if(Main.isFaWeInstalled()) {
-
-            com.sk89q.worldedit.world.World weWorld = new BukkitWorld(Bukkit.getWorld(this.getRegionworld()));
-            WorldData worldData = weWorld.getWorldData();
-            Clipboard clipboard;
-            try {
-                clipboard = ClipboardFormat.SCHEMATIC.getReader(new FileInputStream(file)).read(worldData);
-                Schematic schem = new Schematic(clipboard);
-                schem.paste(weWorld, this.getRegion().getMinimumPoint());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        } else {
-
-            com.sk89q.worldedit.world.World world = new BukkitWorld(Bukkit.getWorld(this.getRegionworld()));
-            WorldData worldData = world.getWorldData();
-            Clipboard clipboard;
-            try {
-                clipboard = ClipboardFormat.SCHEMATIC.getReader(new FileInputStream(file)).read(worldData);
-                Extent source = clipboard;
-                Extent destination = WorldEdit.getInstance().getEditSessionFactory().getEditSession(world, Integer.MAX_VALUE);
-                ForwardExtentCopy copy = new ForwardExtentCopy(source, clipboard.getRegion(), clipboard.getOrigin(), destination, this.getRegion().getMinimumPoint());
-
-                Operations.completeLegacy(copy);
-            } catch (IOException | WorldEditException e) {
-                e.printStackTrace();
-            }
-
-        }
-
-        player.sendMessage(Messages.PREFIX + Messages.RESET_COMPLETE);
-
+        Main.getWorldEditInterface().resetBlocks(this, player);
         return true;
-
-
-
-
-
-
     }
 
     public static void resetBlockPart(int start, int end, List<String> blockdata, String worldstring, Boolean last, Player player) {

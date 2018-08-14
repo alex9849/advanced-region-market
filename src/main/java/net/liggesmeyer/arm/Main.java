@@ -1,5 +1,6 @@
 package net.liggesmeyer.arm;
 
+import Interfaces.WorldEditInterface;
 import com.boydti.fawe.Fawe;
 import com.boydti.fawe.FaweAPI;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
@@ -47,6 +48,7 @@ public class Main extends JavaPlugin {
     private static Economy econ;
     private static WorldGuardPlugin worldguard;
     private static WorldEditPlugin worldedit;
+    private static WorldEditInterface worldEditInterface;
     private static Boolean faWeInstalled;
     private static boolean enableAutoReset;
     private static boolean enableTakeOver;
@@ -189,7 +191,30 @@ public class Main extends JavaPlugin {
             return false;
         }
         Main.worldedit = (WorldEditPlugin) plugin;
+        String version = "notSupported";
+
+        if(Main.worldedit.getDescription().getVersion().startsWith("5.")){
+            version = "5";
+        } else {
+            version = "6";
+        }
+
+        try {
+            final Class<?> weClass = Class.forName("Handlers.WorldEdit" + version);
+            if(WorldEditInterface.class.isAssignableFrom(weClass)) {
+                Main.worldEditInterface = (WorldEditInterface) weClass.newInstance();
+            }
+        } catch (Exception e) {
+            Bukkit.getLogger().log(Level.INFO, "[AdvancedRegionMarket] Could not setup WorldEdit! (Handler could not be loaded)");
+            e.printStackTrace();
+        }
+
+
         return worldedit != null;
+    }
+
+    public static WorldEditInterface getWorldEditInterface(){
+        return Main.worldEditInterface;
     }
 
     private boolean setupFaWe(){

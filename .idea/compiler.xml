@@ -8,6 +8,9 @@
         <outputRelativeToContentRoot value="true" />
         <module name="advancedregionmarket" />
         <module name="arminterface" />
+        <module name="we5adapter" />
+        <module name="we6adapter" />
+        <module name="wg6adapter" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -16,7 +19,7 @@
       <module name="arminterfaces" target="1.8" />
       <module name="interfaces" target="1.8" />
       <module name="we5Handler" target="1.8" />
-      <module name="we5handler" target="1.8" />
+      <module name="we5handler" target="1.5" />
       <module name="wg5handler" target="1.8" />
       <module name="worldguard5handler" target="1.8" />
     </bytecodeTargetLevel>

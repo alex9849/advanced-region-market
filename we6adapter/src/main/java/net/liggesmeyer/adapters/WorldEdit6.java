@@ -1,4 +1,4 @@
-package Handlers;
+package net.liggesmeyer.adapters;
 
 import com.boydti.fawe.object.schematic.Schematic;
 import com.sk89q.worldedit.*;
@@ -15,9 +15,6 @@ import com.sk89q.worldedit.util.io.Closer;
 import com.sk89q.worldedit.world.registry.WorldData;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import net.liggesmeyer.inter.WorldEditInterface;
-import net.liggesmeyer.arm.Main;
-import net.liggesmeyer.arm.Messages;
-import net.liggesmeyer.arm.regions.Region;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -37,7 +34,7 @@ public class WorldEdit6 extends WorldEditInterface {
 
         schematicdic.mkdirs();
 
-        if(Main.isFaWeInstalled()) {
+ /*       if(Main.isFaWeInstalled()) {
             CuboidRegion copyregion = new CuboidRegion(new BukkitWorld(world), min, max);
             Schematic schematic = new Schematic(copyregion);
             try {
@@ -45,11 +42,11 @@ public class WorldEdit6 extends WorldEditInterface {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else {
+ *///       } else {
 
             com.sk89q.worldedit.world.World weWorld = new BukkitWorld(world);
             WorldData worldData = weWorld.getWorldData();
-            EditSession editSession = Main.getWorldedit().getWorldEdit().getEditSessionFactory().getEditSession(weWorld, Integer.MAX_VALUE);
+            EditSession editSession = WorldEdit.getInstance().getEditSessionFactory().getEditSession(weWorld, Integer.MAX_VALUE);
             CuboidRegion reg = new CuboidRegion(weWorld, region.getMinimumPoint(), region.getMaximumPoint());
             BlockArrayClipboard clip = new BlockArrayClipboard(reg);
             clip.setOrigin(region.getMinimumPoint());
@@ -59,24 +56,27 @@ public class WorldEdit6 extends WorldEditInterface {
             } catch(MaxChangedBlocksException e) {
                 e.printStackTrace();
             }
-            try(Closer closer = Closer.create()) {
+            try {
+                Closer closer = Closer.create();
                 schematicpath.createNewFile();
                 FileOutputStream fileOutputStream = closer.register(new FileOutputStream(schematicpath));
                 BufferedOutputStream bufferedOutputStream = closer.register(new BufferedOutputStream(fileOutputStream));
                 ClipboardWriter writer = closer.register(ClipboardFormat.SCHEMATIC.getWriter(bufferedOutputStream));
                 writer.write(clip, worldData);
+                closer.close();
+                writer.close();
             } catch(IOException e) {
                 e.printStackTrace();
                 return;
             }
             return;
-        }
+    //    }
     }
 
     @Override
-    public void resetBlocks(ProtectedRegion region, File schematicpath, World world, Player player) {
+    public void resetBlocks(ProtectedRegion region, File schematicpath, World world) {
 
-        if(Main.isFaWeInstalled()) {
+    /*    if(Main.isFaWeInstalled()) {
 
             com.sk89q.worldedit.world.World weWorld = new BukkitWorld(world);
             WorldData worldData = weWorld.getWorldData();
@@ -89,7 +89,7 @@ public class WorldEdit6 extends WorldEditInterface {
                 e.printStackTrace();
             }
 
-        } else {
+   *///     } else {
 
             com.sk89q.worldedit.world.World weWorld = new BukkitWorld(world);
             WorldData worldData = weWorld.getWorldData();
@@ -101,14 +101,12 @@ public class WorldEdit6 extends WorldEditInterface {
                 ForwardExtentCopy copy = new ForwardExtentCopy(source, clipboard.getRegion(), clipboard.getOrigin(), destination, region.getMinimumPoint());
 
                 Operations.completeLegacy(copy);
-            } catch (IOException | WorldEditException e) {
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (WorldEditException e) {
                 e.printStackTrace();
             }
 
-        }
-
-        if(player != null) {
-            player.sendMessage(Messages.PREFIX + Messages.RESET_COMPLETE);
-        }
+    //    }
     }
 }

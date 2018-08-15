@@ -58,7 +58,8 @@
                         <goals>
                             <goal>shade</goal>
                         </goals>
-                        <configuration></configuration>
+                        <configuration>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -107,11 +108,33 @@
             <groupId>com.boydti</groupId>
             <artifactId>fawe-api</artifactId>
             <version>latest</version>
+            <scope>provided</scope>
         </dependency>
-        <!--My interfaces-->
+        <!--My Data-->
         <dependency>
             <groupId>net.liggesmeyer</groupId>
             <artifactId>arminterface</artifactId>
+            <version>1.0</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.liggesmeyer</groupId>
+            <artifactId>we5adapter</artifactId>
+            <version>1.0</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.liggesmeyer</groupId>
+            <artifactId>we6adapter</artifactId>
+            <version>1.0</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.liggesmeyer</groupId>
+            <artifactId>wg6adapter</artifactId>
             <version>1.0</version>
             <type>jar</type>
             <scope>compile</scope>

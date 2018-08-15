@@ -10,7 +10,10 @@
     <version>1.0</version>
     <modules>
         <module>arminterface</module>
+        <module>we5adapter</module>
         <module>advancedregionmarket</module>
+        <module>we6adapter</module>
+        <module>wg6adapter</module>
     </modules>
 
 

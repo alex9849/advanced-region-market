@@ -10,9 +10,5 @@ public abstract class WorldEditInterface {
 
     public abstract void createSchematic(ProtectedRegion region, File schematicpath, File schematicdic, World world);
 
-    public abstract void resetBlocks(ProtectedRegion region, File schematicpath, World world, Player player);
-
-    public void resetBlocks(ProtectedRegion region, File schematicpath, World world) {
-        this.resetBlocks(region, schematicpath, world, null);
-    }
+    public abstract void resetBlocks(ProtectedRegion region, File schematicpath, World world);
 }

@@ -1,11 +1,10 @@
-package Handlers;
+package net.liggesmeyer.adapters;
 
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.domains.DefaultDomain;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import net.liggesmeyer.inter.WorldGuardInterface;
-import net.liggesmeyer.arm.Main;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
@@ -22,7 +21,7 @@ public class WorldGuard6 extends WorldGuardInterface {
 
     @Override
     public RegionManager getRegionManager(World world) {
-        return Main.getWorldGuard().getRegionManager(world);
+        return this.worldGuard.getRegionManager(world);
     }
 
     @Override
@@ -47,7 +46,7 @@ public class WorldGuard6 extends WorldGuardInterface {
 
     @Override
     public ArrayList<UUID> getMembers(ProtectedRegion wgRegion) {
-        return new ArrayList<>(wgRegion.getMembers().getUniqueIds());
+        return new ArrayList<UUID>(wgRegion.getMembers().getUniqueIds());
     }
 
     @Override
@@ -74,7 +73,7 @@ public class WorldGuard6 extends WorldGuardInterface {
 
     @Override
     public ArrayList<UUID> getOwners(ProtectedRegion wgRegion) {
-        return new ArrayList<>(wgRegion.getOwners().getUniqueIds());
+        return new ArrayList<UUID>(wgRegion.getOwners().getUniqueIds());
     }
 
     public boolean canBuild(Player player, Location location){

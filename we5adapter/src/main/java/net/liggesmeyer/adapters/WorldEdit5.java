@@ -1,4 +1,4 @@
-package Handlers;
+package net.liggesmeyer.adapters;
 
 import com.boydti.fawe.object.schematic.Schematic;
 import com.sk89q.worldedit.*;
@@ -9,9 +9,6 @@ import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.schematic.SchematicFormat;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import net.liggesmeyer.inter.WorldEditInterface;
-import net.liggesmeyer.arm.Main;
-import net.liggesmeyer.arm.Messages;
-import net.liggesmeyer.arm.regions.Region;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -32,7 +29,7 @@ public class WorldEdit5 extends WorldEditInterface {
 
         schematicdic.mkdirs();
 
-        if (Main.isFaWeInstalled()) {
+      /*  if (Main.isFaWeInstalled()) {
             CuboidRegion copyregion = new CuboidRegion(new BukkitWorld(world), min, max);
             Schematic schematic = new Schematic(copyregion);
             try {
@@ -40,7 +37,7 @@ public class WorldEdit5 extends WorldEditInterface {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else {
+  *///      } else {
 
             max = max.subtract(min);
             max = max.add(new Vector(1, 1, 1));
@@ -59,11 +56,11 @@ public class WorldEdit5 extends WorldEditInterface {
             } catch (DataException e) {
                 e.printStackTrace();
             }
-        }
+  //      }
     }
 
     @Override
-    public void resetBlocks(ProtectedRegion region, File schematicpath, World world, Player player) {
+    public void resetBlocks(ProtectedRegion region, File schematicpath, World world) {
 
         try {
             BukkitWorld bw = new BukkitWorld(world);
@@ -75,9 +72,6 @@ public class WorldEdit5 extends WorldEditInterface {
             e.printStackTrace();
         } catch (DataException e) {
             e.printStackTrace();
-        }
-        if(player != null) {
-            player.sendMessage(Messages.PREFIX + Messages.RESET_COMPLETE);
         }
     }
 }

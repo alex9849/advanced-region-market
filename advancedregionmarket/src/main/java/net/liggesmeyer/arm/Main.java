@@ -1,6 +1,6 @@
 package net.liggesmeyer.arm;
 
-import Handlers.WorldGuard6;
+import net.liggesmeyer.adapters.*;
 import net.liggesmeyer.arm.Preseter.Preset;
 import net.liggesmeyer.arm.Preseter.RentPreset;
 import net.liggesmeyer.arm.Preseter.SellPreset;
@@ -201,7 +201,7 @@ public class Main extends JavaPlugin {
             version = "6";
         }
         try {
-            final Class<?> weClass = Class.forName("Handlers.WorldEdit" + version);
+            final Class<?> weClass = Class.forName("net.liggesmeyer.adapters.WorldEdit" + version);
             if(WorldEditInterface.class.isAssignableFrom(weClass)) {
                 Main.worldEditInterface = (WorldEditInterface) weClass.newInstance();
             }

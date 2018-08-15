@@ -420,7 +420,10 @@ public abstract class Region {
     public boolean resetBlocks(Player player){
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
         File file = new File(pluginfolder + "/schematics/" + this.getRegionworld() + "/" + this.getRegion().getId() + ".schematic");
-        Main.getWorldEditInterface().resetBlocks(this.getRegion(), file, Bukkit.getWorld(this.getRegionworld()), player);
+        Main.getWorldEditInterface().resetBlocks(this.getRegion(), file, Bukkit.getWorld(this.getRegionworld()));
+        if(player != null) {
+            player.sendMessage(Messages.PREFIX + Messages.RESET_COMPLETE);
+        }
         return true;
     }
 

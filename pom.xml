@@ -14,6 +14,8 @@
         <module>advancedregionmarket</module>
         <module>we6adapter</module>
         <module>wg6adapter</module>
+        <module>wg7adapter</module>
+        <module>we7adapter</module>
     </modules>
 
 

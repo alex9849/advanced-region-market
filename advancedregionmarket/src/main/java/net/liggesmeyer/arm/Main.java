@@ -182,7 +182,23 @@ public class Main extends JavaPlugin {
             return false;
         }
         Main.worldguard = (WorldGuardPlugin) plugin;
-        Main.worldGuardInterface = new WorldGuard6(Main.worldguard);
+        String version = "notSupported";
+        if(Main.worldguard.getDescription().getVersion().startsWith("6.")) {
+            version = "6";
+        } else {
+            version = "7";
+        }
+        try {
+            final Class<?> wgClass = Class.forName("net.liggesmeyer.adapters.WorldEdit" + version);
+            if(WorldGuardInterface.class.isAssignableFrom(wgClass)) {
+                Main.worldGuardInterface = (WorldGuardInterface) wgClass.newInstance();
+            }
+            Bukkit.getLogger().log(Level.INFO, "[AdvancedRegionMarket] Using WorldGuard " + version + "adapter");
+        } catch (Exception e) {
+            Bukkit.getLogger().log(Level.INFO, "[AdvancedRegionMarket] Could not setup WorldGuard! (Handler could not be loaded) Compatible WorldGuard versions: 6, 7");
+            e.printStackTrace();
+        }
+
         return worldguard != null;
     }
 
@@ -205,8 +221,9 @@ public class Main extends JavaPlugin {
             if(WorldEditInterface.class.isAssignableFrom(weClass)) {
                 Main.worldEditInterface = (WorldEditInterface) weClass.newInstance();
             }
+            Bukkit.getLogger().log(Level.INFO, "[AdvancedRegionMarket] Using WorldEdit " + version + "adapter");
         } catch (Exception e) {
-            Bukkit.getLogger().log(Level.INFO, "[AdvancedRegionMarket] Could not setup WorldEdit! (Handler could not be loaded)");
+            Bukkit.getLogger().log(Level.INFO, "[AdvancedRegionMarket] Could not setup WorldEdit! (Handler could not be loaded) Compatible WorldEdit versions: 5, 6, 7");
             e.printStackTrace();
         }
 
@@ -277,7 +294,7 @@ public class Main extends JavaPlugin {
                                     regionKind = result;
                                 }
                             }
-                            ProtectedRegion region = Main.getWorldGuardInterface().getRegionManager(Bukkit.getWorld(regionworld)).getRegion(regionname);
+                            ProtectedRegion region = Main.getWorldGuardInterface().getRegionManager(Bukkit.getWorld(regionworld), Main.worldguard).getRegion(regionname);
 
                             if(region != null) {
                                 List<String> regionsignsloc = Region.getRegionsConf().getStringList("Regions." + worlds.get(y) + "." + regions.get(i) + ".signs");

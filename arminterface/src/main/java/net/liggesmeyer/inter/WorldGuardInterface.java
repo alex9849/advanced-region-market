@@ -12,13 +12,8 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public abstract class WorldGuardInterface {
-    protected WorldGuardPlugin worldGuard;
 
-    public WorldGuardInterface(WorldGuardPlugin wg) {
-        this.worldGuard = wg;
-    }
-
-    public abstract RegionManager getRegionManager(World world);
+    public abstract RegionManager getRegionManager(World world, WorldGuardPlugin worldGuardPlugin);
 
     public abstract void addMember(UUID uuid, ProtectedRegion wgRegion);
 
@@ -60,6 +55,6 @@ public abstract class WorldGuardInterface {
 
     public abstract ArrayList<UUID> getOwners(ProtectedRegion wgRegion);
 
-    public abstract boolean canBuild(Player player, Location location);
+    public abstract boolean canBuild(Player player, Location location, WorldGuardPlugin worldGuardPlugin);
 
 }

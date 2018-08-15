@@ -66,11 +66,11 @@ public class ARMListener implements Listener {
                 }
             }
 
-            if (Main.getWorldGuardInterface().getRegionManager(Bukkit.getWorld(worldname)).getRegion(regionname) == null) {
+            if (Main.getWorldGuardInterface().getRegionManager(Bukkit.getWorld(worldname), Main.getWorldGuard()).getRegion(regionname) == null) {
                 sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_DOES_NOT_EXIST);
                 return;
             }
-            ProtectedRegion region = Main.getWorldGuardInterface().getRegionManager(Bukkit.getWorld(worldname)).getRegion(regionname);
+            ProtectedRegion region = Main.getWorldGuardInterface().getRegionManager(Bukkit.getWorld(worldname), Main.getWorldGuard()).getRegion(regionname);
             Double price = null;
 
             if(sign.getLine(3).equals("")){
@@ -146,11 +146,11 @@ public class ARMListener implements Listener {
                     return;
                 }
             }
-            if (Main.getWorldGuardInterface().getRegionManager(Bukkit.getWorld(worldname)).getRegion(regionname) == null) {
+            if (Main.getWorldGuardInterface().getRegionManager(Bukkit.getWorld(worldname), Main.getWorldGuard()).getRegion(regionname) == null) {
                 sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_DOES_NOT_EXIST);
                 return;
             }
-            ProtectedRegion region = Main.getWorldGuardInterface().getRegionManager(Bukkit.getWorld(worldname)).getRegion(regionname);
+            ProtectedRegion region = Main.getWorldGuardInterface().getRegionManager(Bukkit.getWorld(worldname), Main.getWorldGuard()).getRegion(regionname);
 
             double price = 0;
             long extendPerClick = 0;
@@ -223,7 +223,7 @@ public class ARMListener implements Listener {
         if ((block.getBlock().getType() != Material.SIGN_POST) && (block.getBlock().getType() != Material.WALL_SIGN)) {
             return;
         }
-        if (!Main.getWorldGuardInterface().canBuild(block.getPlayer(), block.getBlock().getLocation())) {
+        if (!Main.getWorldGuardInterface().canBuild(block.getPlayer(), block.getBlock().getLocation(), Main.getWorldGuard())) {
             return;
         }
 
@@ -275,14 +275,14 @@ public class ARMListener implements Listener {
     @EventHandler
     public void addBuiltBlock(BlockPlaceEvent event){
         for(int i = 0; i < Region.getRegionList().size(); i++){
-            if(Main.getWorldGuardInterface().canBuild(event.getPlayer(), event.getBlock().getLocation())){
+            if(Main.getWorldGuardInterface().canBuild(event.getPlayer(), event.getBlock().getLocation(), Main.getWorldGuard())){
                 int x = event.getBlock().getLocation().getBlockX();
                 int y = event.getBlock().getLocation().getBlockY();
                 int z = event.getBlock().getLocation().getBlockZ();
                 if (Region.getRegionList().get(i).getRegion().contains(x, y, z) && Region.getRegionList().get(i).getRegionworld().equals(event.getPlayer().getLocation().getWorld().getName())) {
                     if(Region.getRegionList().get(i).isHotel()){
                         if(Region.getRegionList().get(i).isSold()){
-                            if(Main.getWorldGuardInterface().canBuild(event.getPlayer(), event.getBlock().getLocation())) {
+                            if(Main.getWorldGuardInterface().canBuild(event.getPlayer(), event.getBlock().getLocation(), Main.getWorldGuard())) {
                                 Region.getRegionList().get(i).addBuiltBlock(event.getBlock().getLocation());
                             }
                         }
@@ -297,7 +297,7 @@ public class ARMListener implements Listener {
     @EventHandler
     public void breakBlock(BlockBreakEvent event) {
         if(!event.getPlayer().hasPermission(Permission.ADMIN_BUILDEVERYWHERE)){
-            if(Main.getWorldGuardInterface().canBuild(event.getPlayer(), event.getBlock().getLocation())){
+            if(Main.getWorldGuardInterface().canBuild(event.getPlayer(), event.getBlock().getLocation(), Main.getWorldGuard())){
                 for(int i = 0; i < Region.getRegionList().size(); i++) {
                     if(Region.getRegionList().get(i).isHotel()){
                         int x = event.getBlock().getLocation().getBlockX();

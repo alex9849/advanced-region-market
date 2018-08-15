@@ -1,7 +1,11 @@
 package net.liggesmeyer.adapters;
 
+import com.sk89q.worldedit.Vector;
+import com.sk89q.worldedit.bukkit.BukkitWorld;
+import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.domains.DefaultDomain;
+import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import net.liggesmeyer.inter.WorldGuardInterface;
@@ -13,11 +17,10 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class WorldGuard6 extends WorldGuardInterface {
+public class WorldGuard7 extends WorldGuardInterface {
 
-    @Override
     public RegionManager getRegionManager(World world, WorldGuardPlugin worldGuardPlugin) {
-        return worldGuardPlugin.getRegionManager(world);
+        return WorldGuard.getInstance().getPlatform().getRegionContainer().get(new BukkitWorld(world));
     }
 
     @Override
@@ -73,8 +76,13 @@ public class WorldGuard6 extends WorldGuardInterface {
     }
 
     public boolean canBuild(Player player, Location location, WorldGuardPlugin worldGuardPlugin){
-        return worldGuardPlugin.canBuild(player, location);
+        ApplicableRegionSet regSet = WorldGuard.getInstance().getPlatform().getRegionContainer().get(new BukkitWorld(location.getWorld())).getApplicableRegions(new Vector(location.getX(), location.getY(), location.getZ()));
+        ArrayList<ProtectedRegion> regList = new ArrayList(regSet.getRegions());
+        for(int i = 0; i < regList.size(); i++) {
+            if(regList.get(i).getOwners().contains(player.getUniqueId()) || regList.get(i).getMembers().contains(player.getUniqueId())) {
+                return true;
+            }
+        }
+        return false;
     }
-
-
 }

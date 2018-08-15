@@ -10,7 +10,9 @@
         <module name="arminterface" />
         <module name="we5adapter" />
         <module name="we6adapter" />
+        <module name="we7adapter" />
         <module name="wg6adapter" />
+        <module name="wg7adapter" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

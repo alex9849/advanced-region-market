@@ -4,6 +4,7 @@ main: net.liggesmeyer.arm.Main
 depend: [WorldGuard, WorldEdit, Vault]
 softdepend: [Multiverse-Core, FastAsyncWorldEdit]
 author: alex9849
+api-version: 1.13
 commands:
    arm:
       description: Shows the help page of ARM

@@ -189,11 +189,11 @@ public class Main extends JavaPlugin {
             version = "7";
         }
         try {
-            final Class<?> wgClass = Class.forName("net.liggesmeyer.adapters.WorldEdit" + version);
+            final Class<?> wgClass = Class.forName("net.liggesmeyer.adapters.WorldGuard" + version);
             if(WorldGuardInterface.class.isAssignableFrom(wgClass)) {
                 Main.worldGuardInterface = (WorldGuardInterface) wgClass.newInstance();
             }
-            Bukkit.getLogger().log(Level.INFO, "[AdvancedRegionMarket] Using WorldGuard " + version + "adapter");
+            Bukkit.getLogger().log(Level.INFO, "[AdvancedRegionMarket] Using WorldGuard" + version + " adapter");
         } catch (Exception e) {
             Bukkit.getLogger().log(Level.INFO, "[AdvancedRegionMarket] Could not setup WorldGuard! (Handler could not be loaded) Compatible WorldGuard versions: 6, 7");
             e.printStackTrace();
@@ -213,15 +213,17 @@ public class Main extends JavaPlugin {
 
         if(Main.worldedit.getDescription().getVersion().startsWith("5.")){
             version = "5";
-        } else {
+        } else if(Main.worldedit.getDescription().getVersion().startsWith("6.")) {
             version = "6";
+        } else {
+            version = "7";
         }
         try {
             final Class<?> weClass = Class.forName("net.liggesmeyer.adapters.WorldEdit" + version);
             if(WorldEditInterface.class.isAssignableFrom(weClass)) {
                 Main.worldEditInterface = (WorldEditInterface) weClass.newInstance();
             }
-            Bukkit.getLogger().log(Level.INFO, "[AdvancedRegionMarket] Using WorldEdit " + version + "adapter");
+            Bukkit.getLogger().log(Level.INFO, "[AdvancedRegionMarket] Using WorldEdit" + version + " adapter");
         } catch (Exception e) {
             Bukkit.getLogger().log(Level.INFO, "[AdvancedRegionMarket] Could not setup WorldEdit! (Handler could not be loaded) Compatible WorldEdit versions: 5, 6, 7");
             e.printStackTrace();

@@ -1,5 +1,11 @@
 package net.liggesmeyer.arm.regions;
 
+import com.boydti.fawe.object.schematic.Schematic;
+import com.sk89q.worldedit.bukkit.BukkitWorld;
+import com.sk89q.worldedit.extent.clipboard.Clipboard;
+import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
+import com.sk89q.worldedit.regions.CuboidRegion;
+import com.sk89q.worldedit.world.registry.WorldData;
 import net.liggesmeyer.arm.AutoPrice;
 import net.liggesmeyer.arm.Messages;
 import net.liggesmeyer.arm.Permission;
@@ -343,10 +349,25 @@ public abstract class Region {
     }
 
     public void createSchematic(){
-        File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-        File schematicpath = new File(pluginfolder + "/schematics/" + this.getRegionworld() + "/" + this.getRegion().getId() + ".schematic");
-        File schematicfolder = new File(pluginfolder + "/schematics/" + this.getRegionworld());
-        Main.getWorldEditInterface().createSchematic(this.getRegion(), schematicpath, schematicfolder, Bukkit.getWorld(this.getRegionworld()));
+        if(Main.isFaWeInstalled()) {
+            File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
+            File schematicdic = new File(pluginfolder + "/schematics/" + this.getRegionworld() + "/" + region.getId() + ".schematic");
+            File schematicfolder = new File(pluginfolder + "/schematics/" + this.getRegionworld());
+            if(schematicdic.exists()){
+                schematicdic.delete();
+            }
+            schematicfolder.mkdirs();
+
+            CuboidRegion copyregion = new CuboidRegion(new BukkitWorld(Bukkit.getWorld(this.getRegionworld())), this.getRegion().getMinimumPoint(), this.getRegion().getMaximumPoint());
+            Schematic schematic = new Schematic(copyregion);
+            try {
+                schematic.save(schematicdic, ClipboardFormat.SCHEMATIC);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Main.getWorldEditInterface().createSchematic(this.getRegion(), this.getRegionworld(), Main.getWorldedit().getWorldEdit());
+        }
 
         //Old method
 /*
@@ -418,9 +439,27 @@ public abstract class Region {
     }
 
     public boolean resetBlocks(Player player){
-        File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-        File file = new File(pluginfolder + "/schematics/" + this.getRegionworld() + "/" + this.getRegion().getId() + ".schematic");
-        Main.getWorldEditInterface().resetBlocks(this.getRegion(), file, Bukkit.getWorld(this.getRegionworld()));
+
+        if(Main.isFaWeInstalled()) {
+            File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
+            File schematicdic = new File(pluginfolder + "/schematics/" + this.getRegionworld() + "/" + region.getId() + ".schematic");
+            File schematicfolder = new File(pluginfolder + "/schematics/" + this.getRegionworld());
+
+            com.sk89q.worldedit.world.World weWorld = new BukkitWorld(Bukkit.getWorld(this.getRegionworld()));
+            WorldData worldData = weWorld.getWorldData();
+            Clipboard clipboard;
+            try {
+                clipboard = ClipboardFormat.SCHEMATIC.getReader(new FileInputStream(schematicdic)).read(worldData);
+                Schematic schem = new Schematic(clipboard);
+                schem.paste(weWorld, region.getMinimumPoint());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        } else {
+            Main.getWorldEditInterface().resetBlocks(this.getRegion(), this.getRegionworld(), Main.getWorldedit().getWorldEdit());
+        }
+
         if(player != null) {
             player.sendMessage(Messages.PREFIX + Messages.RESET_COMPLETE);
         }

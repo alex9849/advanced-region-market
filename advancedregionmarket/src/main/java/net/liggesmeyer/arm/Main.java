@@ -905,23 +905,63 @@ public class Main extends JavaPlugin {
             Messages.saveConfig();
         }
         if(version < 1.21) {
-            pluginConfig.set("GUI.RegionOwnerItem", Material.getMaterial(pluginConfig.getString("GUI.RegionOwnerItem"), true).toString());
-            pluginConfig.set("GUI.RegionMemberItem", Material.getMaterial(pluginConfig.getString("GUI.RegionMemberItem"), true).toString());
-            pluginConfig.set("GUI.RegionFinderItem", Material.getMaterial(pluginConfig.getString("GUI.RegionFinderItem"), true).toString());
-            pluginConfig.set("GUI.GoBackItem", Material.getMaterial(pluginConfig.getString("GUI.GoBackItem"), true).toString());
-            pluginConfig.set("GUI.WarningYesItem", Material.getMaterial(pluginConfig.getString("GUI.WarningYesItem"), true).toString());
-            pluginConfig.set("GUI.WarningNoItem", Material.getMaterial(pluginConfig.getString("GUI.WarningNoItem"), true).toString());
-            pluginConfig.set("GUI.SellRegionItem", Material.getMaterial(pluginConfig.getString("GUI.SellRegionItem"), true).toString());
-            pluginConfig.set("GUI.ResetItem", Material.getMaterial(pluginConfig.getString("GUI.ResetItem"), true).toString());
-            pluginConfig.set("GUI.ExtendItem", Material.getMaterial(pluginConfig.getString("GUI.ExtendItem"), true).toString());
-            pluginConfig.set("GUI.InfoItem", Material.getMaterial(pluginConfig.getString("GUI.InfoItem"), true).toString());
-            pluginConfig.set("GUI.PromoteMemberToOwnerItem", Material.getMaterial(pluginConfig.getString("GUI.PromoteMemberToOwnerItem"), true).toString());
-            pluginConfig.set("GUI.RemoveMemberItem", Material.getMaterial(pluginConfig.getString("GUI.RemoveMemberItem"), true).toString());
+            Material mat = null;
+            mat = Material.getMaterial(pluginConfig.getString("GUI.RegionOwnerItem"), true);
+            if(mat != null) {
+                pluginConfig.set("GUI.RegionOwnerItem", mat.toString());
+            }
+            mat = Material.getMaterial(pluginConfig.getString("GUI.RegionMemberItem"), true);
+            if(mat != null) {
+                pluginConfig.set("GUI.RegionMemberItem", mat.toString());
+            }
+            mat = Material.getMaterial(pluginConfig.getString("GUI.RegionFinderItem"), true);
+            if(mat != null) {
+                pluginConfig.set("GUI.RegionFinderItem", mat.toString());
+            }
+            mat = Material.getMaterial(pluginConfig.getString("GUI.GoBackItem"), true);
+            if(mat != null) {
+                pluginConfig.set("GUI.GoBackItem", mat.toString());
+            }
+            mat = Material.getMaterial(pluginConfig.getString("GUI.WarningYesItem"), true);
+            if(mat != null) {
+                pluginConfig.set("GUI.WarningYesItem", mat.toString());
+            }
+            mat = Material.getMaterial(pluginConfig.getString("GUI.WarningNoItem"), true);
+            if(mat != null) {
+                pluginConfig.set("GUI.WarningNoItem", mat.toString());
+            }
+            mat = Material.getMaterial(pluginConfig.getString("GUI.SellRegionItem"), true);
+            if(mat != null) {
+                pluginConfig.set("GUI.SellRegionItem", mat.toString());
+            }
+            mat = Material.getMaterial(pluginConfig.getString("GUI.ResetItem"), true);
+            if(mat != null) {
+                pluginConfig.set("GUI.ResetItem", mat.toString());
+            }
+            mat = Material.getMaterial(pluginConfig.getString("GUI.ExtendItem"), true);
+            if(mat != null) {
+                pluginConfig.set("GUI.ExtendItem", mat.toString());
+            }
+            mat = Material.getMaterial(pluginConfig.getString("GUI.InfoItem"), true);
+            if(mat != null) {
+                pluginConfig.set("GUI.InfoItem", mat.toString());
+            }
+            mat = Material.getMaterial(pluginConfig.getString("GUI.PromoteMemberToOwnerItem"), true);
+            if(mat != null) {
+                pluginConfig.set("GUI.PromoteMemberToOwnerItem", mat.toString());
+            }
+            mat = Material.getMaterial(pluginConfig.getString("GUI.RemoveMemberItem"), true);
+            if(mat != null) {
+                pluginConfig.set("GUI.RemoveMemberItem", mat.toString());
+            }
 
             LinkedList<String> regionKinds = new LinkedList<String>(pluginConfig.getConfigurationSection("RegionKinds").getKeys(false));
             if(regionKinds != null) {
                 for(int i = 0; i < regionKinds.size(); i++){
-                    pluginConfig.set("RegionKinds." + regionKinds.get(i) + ".item", Material.getMaterial(pluginConfig.getString("RegionKinds." + regionKinds.get(i) + ".item"), true).toString());
+                    mat = Material.getMaterial(pluginConfig.getString("RegionKinds." + regionKinds.get(i) + ".item"), true);
+                    if(mat != null) {
+                        pluginConfig.set("RegionKinds." + regionKinds.get(i) + ".item", mat.toString());
+                    }
                 }
             }
             pluginConfig.set("Version", 1.21);

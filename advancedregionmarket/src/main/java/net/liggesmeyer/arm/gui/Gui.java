@@ -28,7 +28,7 @@ public class Gui implements Listener {
     private static Material REGION_MEMBER_ITEM = Material.CHEST;
     private static Material REGION_FINDER_ITEM = Material.COMPASS;
     private static Material GO_BACK_ITEM = Material.OAK_DOOR;
-    private static Material WARNING_YES_ITEM = Material.MELON_STEM;
+    private static Material WARNING_YES_ITEM = Material.MELON;
     private static Material WARNING_NO_ITEM = Material.REDSTONE_BLOCK;
     private static Material TP_ITEM = Material.ENDER_PEARL;
     private static Material SELL_REGION_ITEM = Material.DIAMOND;

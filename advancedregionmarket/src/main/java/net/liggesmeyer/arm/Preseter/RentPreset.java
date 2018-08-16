@@ -1,6 +1,7 @@
 package net.liggesmeyer.arm.Preseter;
 
 import net.liggesmeyer.arm.Messages;
+import net.liggesmeyer.arm.Permission;
 import net.liggesmeyer.arm.regions.RegionKind;
 import net.liggesmeyer.arm.regions.RentRegion;
 import org.bukkit.ChatColor;
@@ -43,6 +44,11 @@ public class RentPreset extends Preset {
 
     public RentPreset(Player player) {
         super(player);
+    }
+
+    public static void reset(){
+        list = new ArrayList<>();
+        patterns = new ArrayList<>();
     }
 
     public RentPreset getCopy(){
@@ -208,6 +214,10 @@ public class RentPreset extends Preset {
         }
         Player player = (Player) sender;
         if(args[1].equalsIgnoreCase("price")) {
+            if(!player.hasPermission(Permission.ADMIN_PRESET_SET_PRICE)) {
+                player.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
+                return true;
+            }
             if(command.matches(SET_PRICE)){
                 if(hasPreset(player)) {
                     getPreset(player).setPrice(Double.parseDouble(args[2]));
@@ -234,6 +244,10 @@ public class RentPreset extends Preset {
         }
 
         else if(args[1].equalsIgnoreCase("regionkind")) {
+            if(!player.hasPermission(Permission.ADMIN_PRESET_SET_REGIONKIND)) {
+                player.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
+                return true;
+            }
             if(command.matches(SET_REGIONKIND)){
                 if(RegionKind.kindExists(args[2]) || args[2].equalsIgnoreCase(RegionKind.DEFAULT.getName())){
                     RegionKind regkind = RegionKind.getRegionKind(args[2]);
@@ -264,6 +278,10 @@ public class RentPreset extends Preset {
         }
 
         else if(args[1].equalsIgnoreCase("autoreset")) {
+            if(!player.hasPermission(Permission.ADMIN_PRESET_SET_AUTORESET)) {
+                player.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
+                return true;
+            }
             if(command.matches(SET_AUTO_RESET)) {
                 if(hasPreset(player)) {
                     getPreset(player).setAutoReset(Boolean.parseBoolean(args[2]));
@@ -290,6 +308,10 @@ public class RentPreset extends Preset {
         }
 
         else if(args[1].equalsIgnoreCase("hotel")) {
+            if(!player.hasPermission(Permission.ADMIN_PRESET_SET_HOTEL)) {
+                player.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
+                return true;
+            }
             if(command.matches(SET_HOTEL)) {
                 if(hasPreset(player)) {
                     getPreset(player).setHotel(Boolean.parseBoolean(args[2]));
@@ -316,6 +338,10 @@ public class RentPreset extends Preset {
         }
 
         else if(args[1].equalsIgnoreCase("doblockreset")) {
+            if(!player.hasPermission(Permission.ADMIN_PRESET_SET_DOBLOCKRESET)) {
+                player.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
+                return true;
+            }
             if(command.matches(SET_DO_BLOCK_RESET)) {
                 if(hasPreset(player)) {
                     getPreset(player).setDoBlockReset(Boolean.parseBoolean(args[2]));
@@ -342,6 +368,10 @@ public class RentPreset extends Preset {
         }
 
         else if(args[1].equalsIgnoreCase("maxrenttime")) {
+            if(!player.hasPermission(Permission.ADMIN_PRESET_SET_MAXRENTTIME)) {
+                player.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
+                return true;
+            }
             if(command.matches(SET_MAX_RENT_TIME)) {
                 if(hasPreset(player)) {
                     getPreset(player).setMaxRentTime(args[2]);
@@ -369,6 +399,10 @@ public class RentPreset extends Preset {
         }
 
         else if(args[1].equalsIgnoreCase("extendperclick")) {
+            if(!player.hasPermission(Permission.ADMIN_PRESET_SET_EXTENDPERCLICK)) {
+                player.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
+                return true;
+            }
             if(command.matches(SET_EXTEND_PER_CLICK)) {
                 if(hasPreset(player)) {
                     getPreset(player).setExtendPerClick(args[2]);
@@ -396,6 +430,10 @@ public class RentPreset extends Preset {
         }
 
         else if(args[1].equalsIgnoreCase("save")) {
+            if(!player.hasPermission(Permission.ADMIN_PRESET_SAVE)) {
+                player.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
+                return true;
+            }
             if(command.matches(SAVE)) {
                 if(hasPreset(player)){
                     if(getPreset(player).save(args[2])){
@@ -414,6 +452,10 @@ public class RentPreset extends Preset {
         }
 
         else if(args[1].equalsIgnoreCase("delete")) {
+            if(!player.hasPermission(Permission.ADMIN_PRESET_DELETE)) {
+                player.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
+                return true;
+            }
             if(command.matches(REMOVE)) {
                 if(removePattern(args[2])){
                     player.sendMessage(Messages.PREFIX + Messages.PRESET_DELETED);
@@ -426,6 +468,10 @@ public class RentPreset extends Preset {
         }
 
         else if(args[1].equalsIgnoreCase("load")) {
+            if(!player.hasPermission(Permission.ADMIN_PRESET_LOAD)) {
+                player.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
+                return true;
+            }
             if(command.matches(LOAD)) {
                 if(assignToPlayer(player, args[2])){
                     player.sendMessage(Messages.PREFIX + Messages.PRESET_LOADED);
@@ -438,6 +484,10 @@ public class RentPreset extends Preset {
         }
 
         else if(command.matches(RESET)) {
+            if(!player.hasPermission(Permission.ADMIN_PRESET_RESET)) {
+                player.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
+                return true;
+            }
             if(removePreset(player)){
                 player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
                 return true;
@@ -447,6 +497,10 @@ public class RentPreset extends Preset {
             }
 
         } else if(command.matches(INFO)) {
+            if(!player.hasPermission(Permission.ADMIN_PRESET_INFO)) {
+                player.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
+                return true;
+            }
             if(hasPreset(player)){
                 getPreset(player).getPresetInfo(player);
                 return true;
@@ -456,10 +510,18 @@ public class RentPreset extends Preset {
             }
 
         } else if(command.matches(LIST)) {
+            if(!player.hasPermission(Permission.ADMIN_PRESET_LIST)) {
+                player.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
+                return true;
+            }
             listPresets(player);
             return true;
 
         } else if(command.matches(HELP)) {
+            if(!player.hasPermission(Permission.ADMIN_PRESET_HELP)) {
+                player.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
+                return true;
+            }
             showHelp(player);
             return true;
 

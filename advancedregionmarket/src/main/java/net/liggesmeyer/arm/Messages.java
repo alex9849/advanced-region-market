@@ -12,6 +12,7 @@ import java.util.List;
 
 public class Messages {
 
+    private static YamlConfiguration config;
     public static String PREFIX = "";
     public static String REGION_BUYMESSAGE = "";
     public static String NOT_ENOUGHT_MONEY = "";
@@ -259,6 +260,18 @@ public class Messages {
         GUI_MY_LIMITS_BUTTON = config.getString("Messages.GUILimitButton");
         GUI_MEMBER_INFO_ITEM = config.getString("Messages.MemberlistInfo");
         GUI_MEMBER_INFO_LORE = config.getStringList("Messages.MemberlistInfoLore");
+        REGION_IS_NOT_A_RENTREGION = config.getString("Messages.RegionIsNotARentregion");
+        REGION_NOT_OWN = config.getString("Messages.RegionNotOwn");
+        REGION_NOT_SOLD = config.getString("Messages.RegionNotSold");
+        PRESET_REMOVED = config.getString("Messages.PresetRemoved");
+        PRESET_SET = config.getString("Messages.PresetSet");
+        REGION_INFO_DO_BLOCK_RESET = config.getString("Messages.RegionInfoDoBlockReset");
+        PRESET_SAVED = config.getString("Messages.PresetSaved");
+        PRESET_ALREADY_EXISTS = config.getString("Messages.PresetAlreadyExists");
+        PRESET_PLAYER_DONT_HAS_PRESET = config.getString("Messages.PresetPlayerDontHasPreset");
+        PRESET_DELETED = config.getString("Messages.PresetDeleted");
+        PRESET_NOT_FOUND = config.getString("Messages.PresetNotFound");
+        PRESET_LOADED = config.getString("Messages.PresetLoaded");
 
         Messages.translateColorCodes();
     }
@@ -365,6 +378,19 @@ public class Messages {
         LIMIT_INFO_TOP = ChatColor.translateAlternateColorCodes('&', LIMIT_INFO_TOP);
         GUI_MY_LIMITS_BUTTON = ChatColor.translateAlternateColorCodes('&', GUI_MY_LIMITS_BUTTON);
         GUI_MEMBER_INFO_ITEM = ChatColor.translateAlternateColorCodes('&', GUI_MEMBER_INFO_ITEM);
+        REGION_IS_NOT_A_RENTREGION = ChatColor.translateAlternateColorCodes('&', REGION_IS_NOT_A_RENTREGION);
+        REGION_NOT_OWN = ChatColor.translateAlternateColorCodes('&', REGION_NOT_OWN);
+        REGION_NOT_SOLD = ChatColor.translateAlternateColorCodes('&', REGION_NOT_SOLD);
+        PRESET_REMOVED = ChatColor.translateAlternateColorCodes('&', PRESET_REMOVED);
+        PRESET_SET= ChatColor.translateAlternateColorCodes('&', PRESET_SET);
+        REGION_INFO_DO_BLOCK_RESET = ChatColor.translateAlternateColorCodes('&', REGION_INFO_DO_BLOCK_RESET);
+        PRESET_SAVED = ChatColor.translateAlternateColorCodes('&', PRESET_SAVED);
+        PRESET_ALREADY_EXISTS = ChatColor.translateAlternateColorCodes('&', PRESET_ALREADY_EXISTS);
+        PRESET_PLAYER_DONT_HAS_PRESET = ChatColor.translateAlternateColorCodes('&', PRESET_PLAYER_DONT_HAS_PRESET);
+        PRESET_DELETED = ChatColor.translateAlternateColorCodes('&', PRESET_DELETED);
+        PRESET_NOT_FOUND = ChatColor.translateAlternateColorCodes('&', PRESET_NOT_FOUND);
+        PRESET_LOADED = ChatColor.translateAlternateColorCodes('&', PRESET_LOADED);
+
 
         for(int i = 0; i < GUI_TELEPORT_TO_REGION_BUTTON_LORE.size(); i++){
             GUI_TELEPORT_TO_REGION_BUTTON_LORE.set(i, ChatColor.translateAlternateColorCodes('&', GUI_TELEPORT_TO_REGION_BUTTON_LORE.get(i)));
@@ -414,6 +440,27 @@ public class Messages {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+        setConfig();
+    }
+
+    public static YamlConfiguration getConfig(){
+        return Messages.config;
+    }
+
+    public static void setConfig(){
+        File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
+        File messagesconfigdic = new File(pluginfolder + "/messages.yml");
+        Messages.config = YamlConfiguration.loadConfiguration(messagesconfigdic);
+    }
+
+    public static void saveConfig(){
+        File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
+        File messagesconfigdic = new File(pluginfolder + "/messages.yml");
+        try {
+            Messages.config.save(messagesconfigdic);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

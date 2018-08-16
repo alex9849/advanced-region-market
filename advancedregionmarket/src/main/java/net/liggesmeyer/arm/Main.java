@@ -112,7 +112,7 @@ public class Main extends JavaPlugin {
         }
         Main.faWeInstalled = setupFaWe();
         if(!faWeInstalled) {
-            getLogger().log(Level.INFO, "It is recommended to install FaWe!");
+            getLogger().log(Level.INFO, "It is recommended to install FaWe! (if you have larger regions)");
         }
         File schematicdic = new File(getDataFolder() + "/schematics");
         if(!schematicdic.exists()){
@@ -151,6 +151,8 @@ public class Main extends JavaPlugin {
         LimitGroup.Reset();
         AutoPrice.Reset();
         RegionKind.Reset();
+        SellPreset.reset();
+        RentPreset.reset();
         getServer().getServicesManager().unregisterAll(this);
         SignChangeEvent.getHandlerList().unregister(this);
         InventoryClickEvent.getHandlerList().unregister(this);
@@ -852,13 +854,13 @@ public class Main extends JavaPlugin {
             pluginConfig.set("GUI.RegionOwnerItem", Material.ENDER_CHEST.toString());
             pluginConfig.set("GUI.RegionMemberItem", Material.CHEST.toString());
             pluginConfig.set("GUI.RegionFinderItem", Material.COMPASS.toString());
-            pluginConfig.set("GUI.GoBackItem", "WOOD_DOOR");
-            pluginConfig.set("GUI.WarningYesItem", "MELON_BLOCK");
+            pluginConfig.set("GUI.GoBackItem", Material.WOOD_DOOR);
+            pluginConfig.set("GUI.WarningYesItem", Material.MELON_BLOCK);
             pluginConfig.set("GUI.WarningNoItem", Material.REDSTONE_BLOCK.toString());
             pluginConfig.set("GUI.TPItem", Material.ENDER_PEARL.toString());
             pluginConfig.set("GUI.SellRegionItem", Material.DIAMOND.toString());
             pluginConfig.set("GUI.ResetItem", Material.TNT.toString());
-            pluginConfig.set("GUI.ExtendItem", "WATCH");
+            pluginConfig.set("GUI.ExtendItem", Material.WATCH);
             pluginConfig.set("GUI.InfoItem", Material.BOOK.toString());
             pluginConfig.set("GUI.PromoteMemberToOwnerItem", Material.LADDER.toString());
             pluginConfig.set("GUI.RemoveMemberItem", Material.LAVA_BUCKET.toString());
@@ -868,6 +870,8 @@ public class Main extends JavaPlugin {
         version = pluginConfig.getDouble("Version");
         if(version < 1.2) {
             getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.2...");
+            getLogger().log(Level.WARNING, "Warning!: ARM uses a new schematic format now! You have to update all region schematics with");
+            getLogger().log(Level.WARNING, "/arm updateschematic [REGION] or go back to ARM version 1.1");
             pluginConfig.set("Version", 1.2);
             saveConfig();
 
@@ -885,6 +889,20 @@ public class Main extends JavaPlugin {
                 }
             }
             Region.saveRegionsConf(regionConf);
+            YamlConfiguration messagesconf = Messages.getConfig();
+            messagesconf.set("Messages.RegionIsNotARentregion", "&4Region is not a rentregion!");
+            messagesconf.set("Messages.RegionNotOwn", "&4You do not own this region!");
+            messagesconf.set("Messages.RegionNotSold", "&4Region not sold!");
+            messagesconf.set("Messages.PresetRemoved", "&aPreset removed!");
+            messagesconf.set("Messages.PresetSet", "&aPreset set!");
+            messagesconf.set("Messages.RegionInfoDoBlockReset", "&6DoBlockReset: ");
+            messagesconf.set("Messages.PresetSaved", "&aPreset saved!");
+            messagesconf.set("Messages.PresetAlreadyExists", "&4A preset with this name already exists!");
+            messagesconf.set("Messages.PresetPlayerDontHasPreset", "&4You do not have a preset!");
+            messagesconf.set("Messages.PresetDeleted", "&aPreset deleted!");
+            messagesconf.set("Messages.PresetNotFound", "&4No preset with this name found!");
+            messagesconf.set("Messages.PresetLoaded", "&aPreset loaded!");
+            Messages.saveConfig();
         }
     }
 }

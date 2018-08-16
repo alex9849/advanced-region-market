@@ -26,6 +26,22 @@ public class Permission {
     public static final String ADMIN_EXTEND = "arm.admin.extend";
     public static final String ADMIN_RELOAD = "arm.admin.reload";
     public static final String ADMIN_PRESET = "arm.admin.preset";
+    public static final String ADMIN_PRESET_SET_PRICE = "arm.admin.preset.setprice";
+    public static final String ADMIN_PRESET_SET_EXTENDPERCLICK = "arm.admin.preset.setextendperclick";
+    public static final String ADMIN_PRESET_SET_MAXRENTTIME = "arm.admin.preset.setmaxrenttime";
+    public static final String ADMIN_PRESET_SET_REGIONKIND = "arm.admin.preset.setregionkind";
+    public static final String ADMIN_PRESET_SET_AUTORESET = "arm.admin.preset.setautoreset";
+    public static final String ADMIN_PRESET_SET_HOTEL = "arm.admin.preset.sethotel";
+    public static final String ADMIN_PRESET_SET_DOBLOCKRESET = "arm.admin.preset.setdoblockreset";
+    public static final String ADMIN_PRESET_INFO = "arm.admin.preset.info";
+    public static final String ADMIN_PRESET_RESET = "arm.admin.preset.reset";
+    public static final String ADMIN_PRESET_HELP = "arm.admin.preset.help";
+    public static final String ADMIN_PRESET_LOAD = "arm.admin.preset.load";
+    public static final String ADMIN_PRESET_DELETE = "arm.admin.preset.delete";
+    public static final String ADMIN_PRESET_SAVE = "arm.admin.preset.save";
+    public static final String ADMIN_PRESET_LIST = "arm.admin.preset.list";
+
+
 
     public static final String MEMBER_RESETREGIONBLOCKS = "arm.member.resetregionblocks";
     public static final String MEMBER_RESETREGION = "arm.member.sellregion";

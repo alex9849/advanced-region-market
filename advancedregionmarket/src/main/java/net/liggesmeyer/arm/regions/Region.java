@@ -17,6 +17,7 @@ import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import java.io.*;
@@ -119,7 +120,6 @@ public abstract class Region {
 
     public void addBuiltBlock(Location loc) {
         this.builtblocks.add(loc);
-
         try {
             File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
             File builtblocksdic = new File(pluginfolder + "/schematics/" + this.regionworld + "/" + region.getId() + "--builtblocks.schematic");
@@ -1172,7 +1172,7 @@ public abstract class Region {
 
         region.unsell();
 
-        player.sendMessage(Messages.PREFIX + region.getRegion().getId() + " is now for sale!");
+        player.sendMessage(Messages.PREFIX + Messages.REGION_NOW_AVIABLE);
         return true;
     }
 

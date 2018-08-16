@@ -121,13 +121,13 @@ GUI:
   RegionOwnerItem: ENDER_CHEST
   RegionMemberItem: CHEST
   RegionFinderItem: COMPASS
-  GoBackItem: OAK_DOOR
-  WarningYesItem: MELON_STEM
+  GoBackItem: WOOD_DOOR
+  WarningYesItem: MELON_BLOCK
   WarningNoItem: REDSTONE_BLOCK
   TPItem: ENDER_PEARL
   SellRegionItem: DIAMOND
   ResetItem: TNT
-  ExtendItem: CLOCK
+  ExtendItem: WATCH
   InfoItem: BOOK
   PromoteMemberToOwnerItem: LADDER
   RemoveMemberItem: LAVA_BUCKET

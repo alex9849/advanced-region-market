@@ -17,7 +17,7 @@ public abstract class Preset {
     protected boolean hasRegionKind = false;
     protected RegionKind regionKind = RegionKind.DEFAULT;
     protected boolean hasAutoReset = false;
-    protected boolean autoReset = false;
+    protected boolean autoReset = true;
     protected boolean hasIsHotel = false;
     protected boolean isHotel = false;
     protected boolean hasDoBlockReset = false;

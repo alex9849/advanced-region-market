@@ -25,15 +25,17 @@
         <dependency>
             <groupId>com.sk89q.worldedit</groupId>
             <artifactId>worldedit-bukkit</artifactId>
-            <scope>provided</scope>
-            <version>6.1.1-SNAPSHOT</version>
+            <scope>system</scope>
+            <version>any</version>
+            <systemPath>E:/Cloud/Programmieren/Lib/plugins/alpha/worldedit-bukkit-7.0.0-SNAPSHOT-dist.jar</systemPath>
         </dependency>
         <!--Worldguard API-->
         <dependency>
             <groupId>com.sk89q</groupId>
             <artifactId>worldguard</artifactId>
-            <scope>provided</scope>
-            <version>6.1</version>
+            <scope>system</scope>
+            <version>any</version>
+            <systemPath>E:/Cloud/Programmieren/Lib/plugins/alpha/worldguard-legacy-7.0.0-SNAPSHOT-dist.jar</systemPath>
         </dependency>
         <!--FaWe API-->
         <dependency>

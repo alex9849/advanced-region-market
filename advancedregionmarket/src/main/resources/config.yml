@@ -45,20 +45,20 @@ AutoResetAndTakeOver:
 # (for example 'arm.buyregion.examplekind1')
 RegionKinds:
   starter:
-    item: WOOD_SPADE
+    item: WOODEN_SHOVEL
     lore:
     - 'A region for everyone'
   small:
-    item: STONE_SPADE
+    item: STONE_SHOVEL
     lore:
     - 'A bit larger and good for small'
     - 'groups'
   medium:
-    item: IRON_SPADE
+    item: IRON_SHOVEL
     lore:
     - 'A mid-sized region'
   large:
-    item: DIAMOND_SPADE
+    item: DIAMOND_SHOVEL
     lore:
     - 'A really large region'
   shop:
@@ -121,18 +121,18 @@ GUI:
   RegionOwnerItem: ENDER_CHEST
   RegionMemberItem: CHEST
   RegionFinderItem: COMPASS
-  GoBackItem: WOOD_DOOR
-  WarningYesItem: MELON_BLOCK
+  GoBackItem: OAK_DOOR
+  WarningYesItem: MELON
   WarningNoItem: REDSTONE_BLOCK
   TPItem: ENDER_PEARL
   SellRegionItem: DIAMOND
   ResetItem: TNT
-  ExtendItem: WATCH
+  ExtendItem: CLOCK
   InfoItem: BOOK
   PromoteMemberToOwnerItem: LADDER
   RemoveMemberItem: LAVA_BUCKET
 
 #Do not change this
-Version: 1.2
+Version: 1.21
 # Programmed by Alex9849
 # If you like my plugin you are free to donate me via PayPal https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2Z6VVLS5SZXJS

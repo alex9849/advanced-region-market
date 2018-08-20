@@ -8,7 +8,7 @@ import java.util.List;
 public class RegionKind {
     private final String name;
     private final Material material;
-    public static final RegionKind DEFAULT = new RegionKind("Default", Material.BED, new ArrayList<String>());
+    public static final RegionKind DEFAULT = new RegionKind("Default", Material.RED_BED, new ArrayList<String>());
     private static List<RegionKind> list = new ArrayList<>();
     private final List<String> lore;
 

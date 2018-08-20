@@ -72,14 +72,14 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.12.2-R0.1-SNAPSHOT</version>
+            <version>1.13-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <!--Bukkit API-->
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
-            <version>1.12.2-R0.1-SNAPSHOT</version>
+            <version>1.13-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <!--Worldedit API-->
@@ -114,13 +114,6 @@
         <dependency>
             <groupId>net.liggesmeyer</groupId>
             <artifactId>arminterface</artifactId>
-            <version>1.0</version>
-            <type>jar</type>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>net.liggesmeyer</groupId>
-            <artifactId>we5adapter</artifactId>
             <version>1.0</version>
             <type>jar</type>
             <scope>compile</scope>

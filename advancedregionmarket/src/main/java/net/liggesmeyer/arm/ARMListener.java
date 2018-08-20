@@ -113,7 +113,6 @@ public class ARMListener implements Listener {
             }
             LinkedList<Sign> sellsign = new LinkedList<Sign>();
             sellsign.add((Sign) sign.getBlock().getState());
-            Material defaultlogo = Material.BED;
             Region.getRegionList().add(new SellRegion(region, worldname, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,1,true));
             sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_ADDED_TO_ARM);
             sign.setCancelled(true);
@@ -210,7 +209,7 @@ public class ARMListener implements Listener {
             }
             LinkedList<Sign> sellsign = new LinkedList<Sign>();
             sellsign.add((Sign) sign.getBlock().getState());
-            Material defaultlogo = Material.BED;
+            Material defaultlogo = Material.RED_BED;
             Region.getRegionList().add(new RentRegion(region, worldname, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,
                     1,1, maxRentTime, extendPerClick, true));
             sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_ADDED_TO_ARM);
@@ -220,7 +219,7 @@ public class ARMListener implements Listener {
 
     @EventHandler
     public void removeSign(BlockBreakEvent block) {
-        if ((block.getBlock().getType() != Material.SIGN_POST) && (block.getBlock().getType() != Material.WALL_SIGN)) {
+        if ((block.getBlock().getType() != Material.SIGN) && (block.getBlock().getType() != Material.WALL_SIGN)) {
             return;
         }
         if (!Main.getWorldGuardInterface().canBuild(block.getPlayer(), block.getBlock().getLocation(), Main.getWorldGuard())) {
@@ -251,7 +250,7 @@ public class ARMListener implements Listener {
     @EventHandler
     public void buyRegion(PlayerInteractEvent event){
         if(event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-            if (event.getClickedBlock().getType() == Material.SIGN_POST || event.getClickedBlock().getType() == Material.WALL_SIGN) {
+            if (event.getClickedBlock().getType() == Material.SIGN || event.getClickedBlock().getType() == Material.WALL_SIGN) {
                 Sign sign = (Sign) event.getClickedBlock().getState();
 
                 for(int i = 0; i < Region.getRegionList().size(); i++){
@@ -319,7 +318,7 @@ public class ARMListener implements Listener {
 
     @EventHandler
     public void protectSigns(BlockPhysicsEvent sign) {
-        if (sign.getBlock().getType() == Material.SIGN_POST || sign.getBlock().getType() == Material.WALL_SIGN){
+        if (sign.getBlock().getType() == Material.SIGN || sign.getBlock().getType() == Material.WALL_SIGN){
             for (int i = 0; i < Region.getRegionList().size() ; i++){
                 if(Region.getRegionList().get(i).hasSign((Sign) sign.getBlock().getState())){
                     sign.setCancelled(true);

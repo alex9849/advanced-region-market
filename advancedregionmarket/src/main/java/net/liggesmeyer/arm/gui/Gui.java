@@ -27,13 +27,13 @@ public class Gui implements Listener {
     private static Material REGION_OWNER_ITEM = Material.ENDER_CHEST;
     private static Material REGION_MEMBER_ITEM = Material.CHEST;
     private static Material REGION_FINDER_ITEM = Material.COMPASS;
-    private static Material GO_BACK_ITEM = Material.WOOD_DOOR;
-    private static Material WARNING_YES_ITEM = Material.MELON_STEM;
+    private static Material GO_BACK_ITEM = Material.OAK_DOOR;
+    private static Material WARNING_YES_ITEM = Material.MELON;
     private static Material WARNING_NO_ITEM = Material.REDSTONE_BLOCK;
     private static Material TP_ITEM = Material.ENDER_PEARL;
     private static Material SELL_REGION_ITEM = Material.DIAMOND;
     private static Material RESET_ITEM = Material.TNT;
-    private static Material EXTEND_ITEM = Material.WATCH;
+    private static Material EXTEND_ITEM = Material.CLOCK;
     private static Material INFO_ITEM = Material.BOOK;
     private static Material PROMOTE_MEMBER_TO_OWNER_ITEM = Material.LADDER;
     private static Material REMOVE_MEMBER_ITEM = Material.LAVA_BUCKET;
@@ -178,7 +178,7 @@ public class Gui implements Listener {
 
         CustomHolder inv = new CustomHolder(9 , region.getRegion().getId());
 
-        ItemStack membersitem = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
+        ItemStack membersitem = new ItemStack(Material.PLAYER_HEAD, 1, (short) 3);
         SkullMeta membersitemmeta = (SkullMeta) membersitem.getItemMeta();
         membersitemmeta.setOwner(player.getDisplayName());
         membersitemmeta.setDisplayName(Messages.GUI_MEMBERS_BUTTON);
@@ -318,7 +318,7 @@ public class Gui implements Listener {
         CustomHolder inv = new CustomHolder(9 , region.getRegion().getId());
 
 
-        ItemStack membersitem = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
+        ItemStack membersitem = new ItemStack(Material.PLAYER_HEAD, 1, (short) 3);
         SkullMeta membersitemmeta = (SkullMeta) membersitem.getItemMeta();
         membersitemmeta.setOwner(player.getDisplayName());
         membersitemmeta.setDisplayName(Messages.GUI_MEMBERS_BUTTON);
@@ -541,7 +541,7 @@ public class Gui implements Listener {
         CustomHolder inv = new CustomHolder(invsize, Messages.GUI_MEMBER_LIST_MENU_NAME.replaceAll("%regionid%", region.getRegion().getId()));
 
         for(int i = 0; i < members.size(); i++) {
-            ItemStack membersitem = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
+            ItemStack membersitem = new ItemStack(Material.PLAYER_HEAD, 1, (short) 3);
             SkullMeta membersitemmeta = (SkullMeta) membersitem.getItemMeta();
             membersitemmeta.setOwner(Bukkit.getOfflinePlayer(members.get(i)).getName());
             membersitemmeta.setDisplayName(Bukkit.getOfflinePlayer(members.get(i)).getName());

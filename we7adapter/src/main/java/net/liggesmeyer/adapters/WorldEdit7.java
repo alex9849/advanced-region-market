@@ -5,13 +5,11 @@ import com.sk89q.worldedit.bukkit.BukkitWorld;
 import com.sk89q.worldedit.extent.Extent;
 import com.sk89q.worldedit.extent.clipboard.BlockArrayClipboard;
 import com.sk89q.worldedit.extent.clipboard.Clipboard;
-import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
-import com.sk89q.worldedit.extent.clipboard.io.ClipboardWriter;
+import com.sk89q.worldedit.extent.clipboard.io.*;
 import com.sk89q.worldedit.function.operation.ForwardExtentCopy;
 import com.sk89q.worldedit.function.operation.Operations;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.util.io.Closer;
-import com.sk89q.worldedit.world.registry.WorldData;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import net.liggesmeyer.inter.WorldEditInterface;
 import org.bukkit.Bukkit;
@@ -31,11 +29,7 @@ public class WorldEdit7 extends WorldEditInterface {
 
         schematicfolder.mkdirs();
 
-        if(schematicdic.exists()) {
-            schematicdic.delete();
-        }
         com.sk89q.worldedit.world.World world = new BukkitWorld(Bukkit.getWorld(worldname));
-        WorldData worldData = world.getWorldData();
         EditSession editSession = we.getEditSessionFactory().getEditSession(world, Integer.MAX_VALUE);
         CuboidRegion reg = new CuboidRegion(world, region.getMinimumPoint(), region.getMaximumPoint());
         BlockArrayClipboard clip = new BlockArrayClipboard(reg);
@@ -51,8 +45,8 @@ public class WorldEdit7 extends WorldEditInterface {
             schematicdic.createNewFile();
             FileOutputStream fileOutputStream = closer.register(new FileOutputStream(schematicdic));
             BufferedOutputStream bufferedOutputStream = closer.register(new BufferedOutputStream(fileOutputStream));
-            ClipboardWriter writer = closer.register(ClipboardFormat.SCHEMATIC.getWriter(bufferedOutputStream));
-            writer.write(clip, worldData);
+            ClipboardWriter writer = closer.register(BuiltInClipboardFormat.SPONGE_SCHEMATIC.getWriter(bufferedOutputStream));
+            writer.write(clip);
             closer.close();
         } catch(IOException e) {
             e.printStackTrace();
@@ -68,15 +62,20 @@ public class WorldEdit7 extends WorldEditInterface {
         File file = new File(pluginfolder + "/schematics/" + worldname + "/" + region.getId() + ".schematic");
 
         com.sk89q.worldedit.world.World world = new BukkitWorld(Bukkit.getWorld(worldname));
-        WorldData worldData = world.getWorldData();
         Clipboard clipboard;
         try {
-            clipboard = ClipboardFormat.SCHEMATIC.getReader(new FileInputStream(file)).read(worldData);
+            Closer closer = Closer.create();
+            FileInputStream fileInputStream = closer.register(new FileInputStream(file));
+            BufferedInputStream bufferedInputStream = closer.register(new BufferedInputStream(fileInputStream));
+            ClipboardFormat clipboardFormat = ClipboardFormats.findByFile(file);
+            ClipboardReader reader = clipboardFormat.getReader(bufferedInputStream);
+            clipboard = reader.read();
             Extent source = clipboard;
             Extent destination = WorldEdit.getInstance().getEditSessionFactory().getEditSession(world, Integer.MAX_VALUE);
             ForwardExtentCopy copy = new ForwardExtentCopy(source, clipboard.getRegion(), clipboard.getOrigin(), destination, region.getMinimumPoint());
 
             Operations.completeLegacy(copy);
+            closer.close();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (WorldEditException e) {

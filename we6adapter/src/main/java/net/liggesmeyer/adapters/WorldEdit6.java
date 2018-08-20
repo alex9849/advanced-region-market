@@ -6,6 +6,7 @@ import com.sk89q.worldedit.extent.Extent;
 import com.sk89q.worldedit.extent.clipboard.BlockArrayClipboard;
 import com.sk89q.worldedit.extent.clipboard.Clipboard;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
+import com.sk89q.worldedit.extent.clipboard.io.ClipboardReader;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardWriter;
 import com.sk89q.worldedit.function.operation.ForwardExtentCopy;
 import com.sk89q.worldedit.function.operation.Operations;
@@ -31,9 +32,6 @@ public class WorldEdit6 extends WorldEditInterface {
 
         schematicfolder.mkdirs();
 
-        if(schematicdic.exists()) {
-            schematicdic.delete();
-        }
         com.sk89q.worldedit.world.World world = new BukkitWorld(Bukkit.getWorld(worldname));
         WorldData worldData = world.getWorldData();
         EditSession editSession = we.getEditSessionFactory().getEditSession(world, Integer.MAX_VALUE);

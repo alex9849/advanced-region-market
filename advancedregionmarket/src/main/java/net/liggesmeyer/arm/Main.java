@@ -50,7 +50,6 @@ public class Main extends JavaPlugin {
     private static WorldGuardInterface worldGuardInterface;
     private static WorldEditPlugin worldedit;
     private static WorldEditInterface worldEditInterface;
-    private static Boolean faWeInstalled;
     private static boolean enableAutoReset;
     private static boolean enableTakeOver;
     private static Statement stmt;
@@ -110,10 +109,6 @@ public class Main extends JavaPlugin {
         if (!setupEconomy()) {
             getLogger().log(Level.INFO, "Please install Vault and a economy Plugin!");
         }
-        Main.faWeInstalled = setupFaWe();
-        if(!faWeInstalled) {
-            getLogger().log(Level.INFO, "It is recommended to install FaWe! (if you have larger regions)");
-        }
         File schematicdic = new File(getDataFolder() + "/schematics");
         if(!schematicdic.exists()){
             schematicdic.mkdirs();
@@ -146,7 +141,6 @@ public class Main extends JavaPlugin {
         Main.econ = null;
         Main.worldguard = null;
         Main.worldedit = null;
-        Main.faWeInstalled = false;
         Region.Reset();
         LimitGroup.Reset();
         AutoPrice.Reset();
@@ -247,15 +241,6 @@ public class Main extends JavaPlugin {
         return Main.worldEditInterface;
     }
 
-    private boolean setupFaWe(){
-        Plugin plugin = getServer().getPluginManager().getPlugin("FastAsyncWorldEdit");
-
-        if (plugin == null) {
-            return false;
-        }
-        return true;
-    }
-
     private void loadRegions() {
 
         Region.setResetcooldown(getConfig().getInt("Other.userResetCooldown"));
@@ -312,12 +297,12 @@ public class Main extends JavaPlugin {
                                     Location loc = new Location(world, x, yy, z);
                                     Location locminone = new Location(world, x, yy - 1, z);
 
-                                    if ((loc.getBlock().getType() != Material.SIGN_POST) && (loc.getBlock().getType() != Material.WALL_SIGN)){
+                                    if ((loc.getBlock().getType() != Material.SIGN) && (loc.getBlock().getType() != Material.WALL_SIGN)){
                                         if(locminone.getBlock().getType() == Material.AIR || locminone.getBlock().getType() == Material.LAVA || locminone.getBlock().getType() == Material.WATER
-                                                || locminone.getBlock().getType() == Material.STATIONARY_LAVA || locminone.getBlock().getType() == Material.STATIONARY_WATER) {
+                                                || locminone.getBlock().getType() == Material.LAVA || locminone.getBlock().getType() == Material.WATER) {
                                             locminone.getBlock().setType(Material.STONE);
                                         }
-                                        loc.getBlock().setType(Material.SIGN_POST);
+                                        loc.getBlock().setType(Material.SIGN);
 
                                     }
 
@@ -440,10 +425,6 @@ public class Main extends JavaPlugin {
             Main.stmt.executeUpdate("CREATE TABLE `" + mysqldatabase + "`.`" + Main.sqlPrefix + "lastlogin` ( `id` INT NOT NULL AUTO_INCREMENT , `uuid` VARCHAR(40) NOT NULL , `lastlogin` TIMESTAMP NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;");
         }
 
-    }
-
-    public static Boolean isFaWeInstalled() {
-        return Main.faWeInstalled;
     }
 
     public static Economy getEcon(){
@@ -848,19 +829,20 @@ public class Main extends JavaPlugin {
         SellPreset.loadPresets();
         this.generatedefaultconfig();
         FileConfiguration pluginConfig = this.getConfig();
+        YamlConfiguration regionConf = Region.getRegionsConf();
         Double version = pluginConfig.getDouble("Version");
         if(version < 1.1) {
             getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.1...");
             pluginConfig.set("GUI.RegionOwnerItem", Material.ENDER_CHEST.toString());
             pluginConfig.set("GUI.RegionMemberItem", Material.CHEST.toString());
             pluginConfig.set("GUI.RegionFinderItem", Material.COMPASS.toString());
-            pluginConfig.set("GUI.GoBackItem", Material.WOOD_DOOR);
-            pluginConfig.set("GUI.WarningYesItem", Material.MELON_BLOCK);
+            pluginConfig.set("GUI.GoBackItem", "WOOD_DOOR");
+            pluginConfig.set("GUI.WarningYesItem", "MELON_BLOCK");
             pluginConfig.set("GUI.WarningNoItem", Material.REDSTONE_BLOCK.toString());
             pluginConfig.set("GUI.TPItem", Material.ENDER_PEARL.toString());
             pluginConfig.set("GUI.SellRegionItem", Material.DIAMOND.toString());
             pluginConfig.set("GUI.ResetItem", Material.TNT.toString());
-            pluginConfig.set("GUI.ExtendItem", Material.WATCH);
+            pluginConfig.set("GUI.ExtendItem", "WATCH");
             pluginConfig.set("GUI.InfoItem", Material.BOOK.toString());
             pluginConfig.set("GUI.PromoteMemberToOwnerItem", Material.LADDER.toString());
             pluginConfig.set("GUI.RemoveMemberItem", Material.LAVA_BUCKET.toString());
@@ -875,7 +857,6 @@ public class Main extends JavaPlugin {
             pluginConfig.set("Version", 1.2);
             saveConfig();
 
-            YamlConfiguration regionConf = Region.getRegionsConf();
 
             LinkedList<String> worlds = new LinkedList<String>(regionConf.getConfigurationSection("Regions").getKeys(false));
             if(worlds != null) {
@@ -903,6 +884,69 @@ public class Main extends JavaPlugin {
             messagesconf.set("Messages.PresetNotFound", "&4No preset with this name found!");
             messagesconf.set("Messages.PresetLoaded", "&aPreset loaded!");
             Messages.saveConfig();
+        }
+        if(version < 1.21) {
+            Material mat = null;
+            mat = Material.getMaterial(pluginConfig.getString("GUI.RegionOwnerItem"), true);
+            if(mat != null) {
+                pluginConfig.set("GUI.RegionOwnerItem", mat.toString());
+            }
+            mat = Material.getMaterial(pluginConfig.getString("GUI.RegionMemberItem"), true);
+            if(mat != null) {
+                pluginConfig.set("GUI.RegionMemberItem", mat.toString());
+            }
+            mat = Material.getMaterial(pluginConfig.getString("GUI.RegionFinderItem"), true);
+            if(mat != null) {
+                pluginConfig.set("GUI.RegionFinderItem", mat.toString());
+            }
+            mat = Material.getMaterial(pluginConfig.getString("GUI.GoBackItem"), true);
+            if(mat != null) {
+                pluginConfig.set("GUI.GoBackItem", mat.toString());
+            }
+            mat = Material.getMaterial(pluginConfig.getString("GUI.WarningYesItem"), true);
+            if(mat != null) {
+                pluginConfig.set("GUI.WarningYesItem", mat.toString());
+            }
+            mat = Material.getMaterial(pluginConfig.getString("GUI.WarningNoItem"), true);
+            if(mat != null) {
+                pluginConfig.set("GUI.WarningNoItem", mat.toString());
+            }
+            mat = Material.getMaterial(pluginConfig.getString("GUI.SellRegionItem"), true);
+            if(mat != null) {
+                pluginConfig.set("GUI.SellRegionItem", mat.toString());
+            }
+            mat = Material.getMaterial(pluginConfig.getString("GUI.ResetItem"), true);
+            if(mat != null) {
+                pluginConfig.set("GUI.ResetItem", mat.toString());
+            }
+            mat = Material.getMaterial(pluginConfig.getString("GUI.ExtendItem"), true);
+            if(mat != null) {
+                pluginConfig.set("GUI.ExtendItem", mat.toString());
+            }
+            mat = Material.getMaterial(pluginConfig.getString("GUI.InfoItem"), true);
+            if(mat != null) {
+                pluginConfig.set("GUI.InfoItem", mat.toString());
+            }
+            mat = Material.getMaterial(pluginConfig.getString("GUI.PromoteMemberToOwnerItem"), true);
+            if(mat != null) {
+                pluginConfig.set("GUI.PromoteMemberToOwnerItem", mat.toString());
+            }
+            mat = Material.getMaterial(pluginConfig.getString("GUI.RemoveMemberItem"), true);
+            if(mat != null) {
+                pluginConfig.set("GUI.RemoveMemberItem", mat.toString());
+            }
+
+            LinkedList<String> regionKinds = new LinkedList<String>(pluginConfig.getConfigurationSection("RegionKinds").getKeys(false));
+            if(regionKinds != null) {
+                for(int i = 0; i < regionKinds.size(); i++){
+                    mat = Material.getMaterial(pluginConfig.getString("RegionKinds." + regionKinds.get(i) + ".item"), true);
+                    if(mat != null) {
+                        pluginConfig.set("RegionKinds." + regionKinds.get(i) + ".item", mat.toString());
+                    }
+                }
+            }
+            pluginConfig.set("Version", 1.21);
+            saveConfig();
         }
     }
 }

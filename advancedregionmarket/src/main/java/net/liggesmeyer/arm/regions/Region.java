@@ -347,70 +347,6 @@ public abstract class Region {
 
     public void createSchematic(){
         Main.getWorldEditInterface().createSchematic(this.getRegion(), this.getRegionworld(), Main.getWorldedit().getWorldEdit());
-
-        //Old method
-/*
-        int maxX = this.region.getMaximumPoint().getBlockX();
-        int minX = this.region.getMinimumPoint().getBlockX();
-        int maxY = this.region.getMaximumPoint().getBlockY();
-        int minY = this.region.getMinimumPoint().getBlockY();
-        int maxZ = this.region.getMaximumPoint().getBlockZ();
-        int minZ = this.region.getMinimumPoint().getBlockZ();
-        World world = Bukkit.getWorld(this.regionworld);
-        File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-        File schematicdic = new File(pluginfolder + "/schematics/" + this.regionworld + "/" + region.getId() + ".schematic");
-        File schematicfolder = new File(pluginfolder + "/schematics/" + this.regionworld);
-        if(schematicdic.exists()){
-            schematicdic.delete();
-        }
-        try {
-            schematicfolder.mkdirs();
-            schematicdic.createNewFile();
-            FileWriter fileWriter = new FileWriter(schematicdic);
-            BufferedWriter writer = new BufferedWriter(fileWriter);
-
-            for(int x = minX; x <= maxX; x++){
-                for (int y = minY; y <= maxY; y++){
-                    for (int z = minZ; z <= maxZ; z++){
-                        if(this.region.contains(x, y, z)){
-                            Location loc = new Location(world, x, y, z);
-                            String write = loc.getBlock().getType() + ";" + loc.getBlockX() + ";" + loc.getBlockY() + ";" + loc.getBlockZ() + ";" + loc.getPitch() + ";" + loc.getYaw() + ";" + loc.getBlock().getData();
-                            if(loc.getBlock().getType() == Material.SIGN_POST || loc.getBlock().getType() == Material.WALL_SIGN){
-                                Sign sign = (Sign) loc.getBlock().getState();
-                                write += ";";
-                                write += sign.getLine(0) + "<.:>" + sign.getLine(1) + "<.:>" + sign.getLine(2) + "<.:>" + sign.getLine(3);
-
-                            } else if(loc.getBlock().getType() == Material.CHEST || loc.getBlock().getType() == Material.TRAPPED_CHEST){
-
-                                Chest chest = (Chest) loc.getBlock().getState();
-                                Inventory inv = chest.getBlockInventory();
-                                write += ";";
-                                for (int i = 0; i < inv.getSize() - 1; i++){
-                                    ItemStack stack = inv.getItem(i);
-                                    if(stack != null){
-                                        write += i + ":" + stack.getType() + ":" + stack.getAmount() + "<.:>";
-                                    }
-                                }
-                                ItemStack stack = inv.getItem(inv.getSize() - 1);
-                                if(stack != null) {
-                                    write += (inv.getSize() - 1) + ":" + stack.getType() + ":" + stack.getAmount();
-                                }
-                            }
-
-                            writer.write(write);
-                            writer.newLine();
-                        }
-                    }
-                }
-            }
-            writer.close();
-            fileWriter.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-*/
     }
 
     public boolean resetBlocks(){
@@ -425,7 +361,15 @@ public abstract class Region {
             this.builtblocks = new ArrayList<>();
         }
 
-        Main.getWorldEditInterface().resetBlocks(this.getRegion(), this.getRegionworld(), Main.getWorldedit().getWorldEdit());
+     /*   if(Main.isFaWeInstalled()) {
+            File schematicdic = new File(pluginfolder + "/schematics/" + this.getRegionworld() + "/" + region.getId() + ".schematic");
+            File schematicfolder = new File(pluginfolder + "/schematics/" + this.getRegionworld());
+            com.sk89q.worldedit.world.World weWorld = new BukkitWorld(Bukkit.getWorld(this.getRegionworld()));
+            Schematic schem = new Schematic(Main.getWorldEditInterface().getClipBoard(this.getRegion(), this.getRegionworld(), Main.getWorldedit().getWorldEdit()));
+            schem.paste(weWorld, region.getMinimumPoint());
+        } else {
+        */    Main.getWorldEditInterface().resetBlocks(this.getRegion(), this.getRegionworld(), Main.getWorldedit().getWorldEdit());
+  //      }
 
         if(player != null) {
             player.sendMessage(Messages.PREFIX + Messages.RESET_COMPLETE);

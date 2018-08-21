@@ -5,7 +5,6 @@ import com.sk89q.worldedit.bukkit.BukkitWorld;
 import com.sk89q.worldedit.extent.Extent;
 import com.sk89q.worldedit.extent.clipboard.BlockArrayClipboard;
 import com.sk89q.worldedit.extent.clipboard.Clipboard;
-import com.sk89q.worldedit.extent.clipboard.io.*;
 import com.sk89q.worldedit.function.operation.ForwardExtentCopy;
 import com.sk89q.worldedit.function.operation.Operations;
 import com.sk89q.worldedit.regions.CuboidRegion;
@@ -45,7 +44,7 @@ public class WorldEdit7 extends WorldEditInterface {
             schematicdic.createNewFile();
             FileOutputStream fileOutputStream = closer.register(new FileOutputStream(schematicdic));
             BufferedOutputStream bufferedOutputStream = closer.register(new BufferedOutputStream(fileOutputStream));
-            ClipboardWriter writer = closer.register(BuiltInClipboardFormat.SPONGE_SCHEMATIC.getWriter(bufferedOutputStream));
+            com.sk89q.worldedit.extent.clipboard.io.ClipboardWriter writer = closer.register(com.sk89q.worldedit.extent.clipboard.io.BuiltInClipboardFormat.SPONGE_SCHEMATIC.getWriter(bufferedOutputStream));
             writer.write(clip);
             closer.close();
         } catch(IOException e) {
@@ -67,8 +66,8 @@ public class WorldEdit7 extends WorldEditInterface {
             Closer closer = Closer.create();
             FileInputStream fileInputStream = closer.register(new FileInputStream(file));
             BufferedInputStream bufferedInputStream = closer.register(new BufferedInputStream(fileInputStream));
-            ClipboardFormat clipboardFormat = ClipboardFormats.findByFile(file);
-            ClipboardReader reader = clipboardFormat.getReader(bufferedInputStream);
+            com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat clipboardFormat = com.sk89q.worldedit.extent.clipboard.io.ClipboardFormats.findByFile(file);
+            com.sk89q.worldedit.extent.clipboard.io.ClipboardReader reader = clipboardFormat.getReader(bufferedInputStream);
             clipboard = reader.read();
             Extent source = clipboard;
             Extent destination = WorldEdit.getInstance().getEditSessionFactory().getEditSession(world, Integer.MAX_VALUE);
@@ -81,6 +80,5 @@ public class WorldEdit7 extends WorldEditInterface {
         } catch (WorldEditException e) {
             e.printStackTrace();
         }
-
     }
 }

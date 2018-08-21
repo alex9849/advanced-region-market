@@ -1,6 +1,7 @@
 package net.liggesmeyer.inter;
 
 import com.sk89q.worldedit.WorldEdit;
+import com.sk89q.worldedit.extent.clipboard.Clipboard;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import org.bukkit.World;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;

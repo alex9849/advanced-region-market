@@ -9,7 +9,9 @@
         <module name="advancedregionmarket" />
         <module name="arminterface" />
         <module name="we6adapter" />
+        <module name="we6faweadapter" />
         <module name="we7adapter" />
+        <module name="we7faweadapter" />
         <module name="wg6adapter" />
         <module name="wg7adapter" />
       </profile>

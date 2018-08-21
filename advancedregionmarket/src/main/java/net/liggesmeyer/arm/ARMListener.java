@@ -222,9 +222,6 @@ public class ARMListener implements Listener {
         if ((block.getBlock().getType() != Material.SIGN) && (block.getBlock().getType() != Material.WALL_SIGN)) {
             return;
         }
-        if (!Main.getWorldGuardInterface().canBuild(block.getPlayer(), block.getBlock().getLocation(), Main.getWorldGuard())) {
-            return;
-        }
 
         if(!Region.checkIfSignExists((Sign) block.getBlock().getState())){
             return;

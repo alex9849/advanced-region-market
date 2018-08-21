@@ -45,6 +45,7 @@ import java.util.List;
 import java.util.logging.Level;
 
 public class Main extends JavaPlugin {
+    private static Boolean faWeInstalled;
     private static Economy econ;
     private static WorldGuardPlugin worldguard;
     private static WorldGuardInterface worldGuardInterface;
@@ -97,6 +98,8 @@ public class Main extends JavaPlugin {
         //Enable bStats
         Metrics metrics = new Metrics(this);
 
+        Main.faWeInstalled = setupFaWe();
+
         //Check if Worldguard is installed
         if (!setupWorldGuard()) {
             getLogger().log(Level.INFO, "Please install Worldguard!");
@@ -109,6 +112,7 @@ public class Main extends JavaPlugin {
         if (!setupEconomy()) {
             getLogger().log(Level.INFO, "Please install Vault and a economy Plugin!");
         }
+
         File schematicdic = new File(getDataFolder() + "/schematics");
         if(!schematicdic.exists()){
             schematicdic.mkdirs();
@@ -171,6 +175,15 @@ public class Main extends JavaPlugin {
         return econ != null;
     }
 
+    private boolean setupFaWe(){
+        Plugin plugin = getServer().getPluginManager().getPlugin("FastAsyncWorldEdit");
+
+        if (plugin == null) {
+            return false;
+        }
+        return true;
+    }
+
     private boolean setupWorldGuard() {
         Plugin plugin = getServer().getPluginManager().getPlugin("WorldGuard");
 
@@ -207,12 +220,13 @@ public class Main extends JavaPlugin {
         Main.worldedit = (WorldEditPlugin) plugin;
         String version = "notSupported";
 
-        if(Main.worldedit.getDescription().getVersion().startsWith("5.")){
-            version = "5";
-        } else if(Main.worldedit.getDescription().getVersion().startsWith("6.")) {
+        if(Main.worldedit.getDescription().getVersion().startsWith("6.")) {
             version = "6";
         } else {
             version = "7";
+        }
+        if(Main.isFaWeInstalled()){
+            version = version + "FaWe";
         }
         try {
             final Class<?> weClass = Class.forName("net.liggesmeyer.adapters.WorldEdit" + version);
@@ -220,8 +234,11 @@ public class Main extends JavaPlugin {
                 Main.worldEditInterface = (WorldEditInterface) weClass.newInstance();
             }
             Bukkit.getLogger().log(Level.INFO, "[AdvancedRegionMarket] Using WorldEdit" + version + " adapter");
+            if(version.equalsIgnoreCase("7")){
+                Bukkit.getLogger().log(Level.INFO, "[AdvancedRegionMarket] It is not recommended to use FaWe if WorldGuard 7 IS USED");;
+            }
         } catch (Exception e) {
-            Bukkit.getLogger().log(Level.INFO, "[AdvancedRegionMarket] Could not setup WorldEdit! (Handler could not be loaded) Compatible WorldEdit versions: 5, 6, 7");
+            Bukkit.getLogger().log(Level.INFO, "[AdvancedRegionMarket] Could not setup WorldEdit! (Handler could not be loaded) Compatible WorldEdit versions: 6, 7");
             e.printStackTrace();
         }
 
@@ -327,6 +344,10 @@ public class Main extends JavaPlugin {
         for(int i = 0; i < Region.getRegionList().size(); i++) {
             Region.getRegionList().get(i).writeSigns();
         }
+    }
+
+    public static Boolean isFaWeInstalled(){
+        return Main.faWeInstalled;
     }
 
     private void loadAutoPrice() {

@@ -234,9 +234,6 @@ public class Main extends JavaPlugin {
                 Main.worldEditInterface = (WorldEditInterface) weClass.newInstance();
             }
             Bukkit.getLogger().log(Level.INFO, "[AdvancedRegionMarket] Using WorldEdit" + version + " adapter");
-            if(version.equalsIgnoreCase("7")){
-                Bukkit.getLogger().log(Level.INFO, "[AdvancedRegionMarket] It is not recommended to use FaWe if WorldGuard 7 IS USED");;
-            }
         } catch (Exception e) {
             Bukkit.getLogger().log(Level.INFO, "[AdvancedRegionMarket] Could not setup WorldEdit! (Handler could not be loaded) Compatible WorldEdit versions: 6, 7");
             e.printStackTrace();

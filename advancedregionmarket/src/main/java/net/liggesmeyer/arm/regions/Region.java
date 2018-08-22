@@ -361,15 +361,7 @@ public abstract class Region {
             this.builtblocks = new ArrayList<>();
         }
 
-     /*   if(Main.isFaWeInstalled()) {
-            File schematicdic = new File(pluginfolder + "/schematics/" + this.getRegionworld() + "/" + region.getId() + ".schematic");
-            File schematicfolder = new File(pluginfolder + "/schematics/" + this.getRegionworld());
-            com.sk89q.worldedit.world.World weWorld = new BukkitWorld(Bukkit.getWorld(this.getRegionworld()));
-            Schematic schem = new Schematic(Main.getWorldEditInterface().getClipBoard(this.getRegion(), this.getRegionworld(), Main.getWorldedit().getWorldEdit()));
-            schem.paste(weWorld, region.getMinimumPoint());
-        } else {
-        */    Main.getWorldEditInterface().resetBlocks(this.getRegion(), this.getRegionworld(), Main.getWorldedit().getWorldEdit());
-  //      }
+        Main.getWorldEditInterface().resetBlocks(this.getRegion(), this.getRegionworld(), Main.getWorldedit().getWorldEdit());
 
         if(player != null) {
             player.sendMessage(Messages.PREFIX + Messages.RESET_COMPLETE);

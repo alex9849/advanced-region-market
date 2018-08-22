@@ -28,6 +28,7 @@ public class WorldEdit7FaWe extends WorldEditInterface {
         CuboidRegion reg = new CuboidRegion(world, region.getMinimumPoint(), region.getMaximumPoint());
         Schematic schem = new Schematic(reg);
         try {
+            schematicdic.createNewFile();
             schem.save(schematicdic, ClipboardFormat.SPONGE_SCHEMATIC);
         } catch (IOException e) {
             e.printStackTrace();

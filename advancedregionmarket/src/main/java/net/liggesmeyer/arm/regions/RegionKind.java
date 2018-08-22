@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RegionKind {
-    private final String name;
-    private final Material material;
-    public static final RegionKind DEFAULT = new RegionKind("Default", Material.RED_BED, new ArrayList<String>());
+    private String name;
+    private Material material;
+    public static RegionKind DEFAULT = new RegionKind("Default", Material.RED_BED, new ArrayList<String>());
     private static List<RegionKind> list = new ArrayList<>();
     private final List<String> lore;
 
@@ -16,6 +16,14 @@ public class RegionKind {
         this.name = name;
         this.material = material;
         this.lore = lore;
+    }
+
+    public void setMaterial(Material mat) {
+        this.material = mat;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getName(){

@@ -126,6 +126,7 @@ public class Messages {
     public static String PRESET_DELETED = "Preset deleted!";
     public static String PRESET_NOT_FOUND = "No preset with this name found!";
     public static String PRESET_LOADED = "Preset loaded!";
+    public static String LIMIT_INFO_TOTAL = "Total"; //Not in Config! Please add
 
 
     public static List<String> GUI_TELEPORT_TO_REGION_BUTTON_LORE = new LinkedList<>();

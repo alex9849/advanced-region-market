@@ -153,7 +153,7 @@ public class LimitGroup {
     public static void getLimitChat(Player player) {
         player.sendMessage(Messages.LIMIT_INFO_TOP);
         String syntaxtotal = Messages.LIMIT_INFO;
-        syntaxtotal = syntaxtotal.replace("%regiontype%", "Total");
+        syntaxtotal = syntaxtotal.replace("%regiontype%", Messages.LIMIT_INFO_TOTAL);
         syntaxtotal = syntaxtotal.replace("%playerownedkind%", getOwnedRegions(player) + "");
         String limit = getLimit(player) + "";
         if(getLimit(player) == Integer.MAX_VALUE){
@@ -164,7 +164,7 @@ public class LimitGroup {
         player.sendMessage(syntaxtotal);
 
         syntaxtotal = Messages.LIMIT_INFO;
-        syntaxtotal = syntaxtotal.replace("%regiontype%", "Default");
+        syntaxtotal = syntaxtotal.replace("%regiontype%", RegionKind.DEFAULT.getName());
         syntaxtotal = syntaxtotal.replace("%playerownedkind%", getOwnedRegions(player, RegionKind.DEFAULT) + "");
         limit = getLimit(player, RegionKind.DEFAULT) + "";
         if(getLimit(player) == Integer.MAX_VALUE){

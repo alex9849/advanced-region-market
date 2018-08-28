@@ -438,6 +438,8 @@ public class Main extends JavaPlugin {
         Main.teleportAfterRentRegionExtend = getConfig().getBoolean("Other.TeleportAfterRentRegionExtend");
         Main.teleportAfterSellRegionBought = getConfig().getBoolean("Other.TeleportAfterSellRegionBought");
         Main.teleportAfterSellRegionBought = getConfig().getBoolean("Other.TeleportAfterSellRegionBought");
+        Main.displayDefaultRegionKindInGUI = getConfig().getBoolean("DefaultRegionKind.DisplayInGUI");
+        Main.displayDefaultRegionKindInLimits = getConfig().getBoolean("DefaultRegionKind.DisplayInLimits");
         Region.setPaypackPercentage(getConfig().getDouble("Other.paypackPercentage"));
     }
 
@@ -713,6 +715,14 @@ public class Main extends JavaPlugin {
             }
         }
         return false;
+    }
+
+    public static boolean isDisplayDefaultRegionKindInGUI(){
+        return Main.displayDefaultRegionKindInGUI;
+    }
+
+    public static boolean isDisplayDefaultRegionKindInLimits(){
+        return Main.displayDefaultRegionKindInLimits;
     }
 
     private static boolean help(CommandSender sender) {

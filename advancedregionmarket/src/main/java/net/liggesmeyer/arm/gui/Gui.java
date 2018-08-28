@@ -468,6 +468,10 @@ public class Gui implements Listener {
             itemcounter++;
         }
 
+        if(Main.isDisplayDefaultRegionKindInGUI()){
+            itemcounter++;
+        }
+
         int invsize = 0;
 
         while (RegionKind.getRegionKindList().size() + itemcounter > invsize) {
@@ -476,7 +480,30 @@ public class Gui implements Listener {
 
         CustomHolder inv = new CustomHolder(invsize, Messages.GUI_REGION_FINDER_MENU_NAME);
 
+        if(Main.isDisplayDefaultRegionKindInGUI()) {
+            String type = RegionKind.DEFAULT.getName();
+            Material material = RegionKind.DEFAULT.getMaterial();
+            if(player.hasPermission(Permission.ARM_BUYKIND + type)){
+                ItemStack stack = new ItemStack(material);
+                ItemMeta meta = stack.getItemMeta();
+                meta.setDisplayName(type);
+                meta.setLore(RegionKind.DEFAULT.getLore());
+                stack.setItemMeta(meta);
+                Icon icon = new Icon(stack, 0).addClickAction(new ClickAction() {
+                    @Override
+                    public void execute(Player player) {
+                        Region.teleportToFreeRegion(RegionKind.DEFAULT, player);
+                    }
+                });
+                inv.addIcon(icon);
+            }
+        }
+
         for(int i = 0; i < RegionKind.getRegionKindList().size(); i++) {
+            int shift = 0;
+            if(Main.isDisplayDefaultRegionKindInGUI()) {
+                shift++;
+            }
             String type = RegionKind.getRegionKindList().get(i).getName();
             Material material = RegionKind.getRegionKindList().get(i).getMaterial();
             if(player.hasPermission(Permission.ARM_BUYKIND + type)){
@@ -485,10 +512,11 @@ public class Gui implements Listener {
                 meta.setDisplayName(type);
                 meta.setLore(RegionKind.getRegionKindList().get(i).getLore());
                 stack.setItemMeta(meta);
-                Icon icon = new Icon(stack, i).addClickAction(new ClickAction() {
+                int finalI = i;
+                Icon icon = new Icon(stack, i + shift).addClickAction(new ClickAction() {
                     @Override
                     public void execute(Player player) {
-                        Region.teleportToFreeRegion(type, player);
+                        Region.teleportToFreeRegion(RegionKind.getRegionKindList().get(finalI), player);
                     }
                 });
                 inv.addIcon(icon);

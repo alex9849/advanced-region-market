@@ -48,6 +48,12 @@ public class RegionKind {
                 return true;
             }
         }
+        if(kind.equalsIgnoreCase("default")) {
+            return true;
+        }
+        if(kind.equalsIgnoreCase(DEFAULT.getName())){
+            return true;
+        }
         return false;
     }
 

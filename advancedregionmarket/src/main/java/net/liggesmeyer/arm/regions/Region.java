@@ -332,9 +332,10 @@ public abstract class Region {
         return sold;
     }
 
-    public static void teleportToFreeRegion(String type, Player player){
+    public static void teleportToFreeRegion(RegionKind type, Player player){
         for (int i = 0; i < Region.getRegionList().size(); i++){
-            if ((Region.getRegionList().get(i).isSold() == false) && Region.getRegionList().get(i).getRegionKind().getName().equalsIgnoreCase(type)){
+
+            if ((Region.getRegionList().get(i).isSold() == false) && (Region.getRegionList().get(i).getRegionKind() == type)){
                 ProtectedRegion regionTP = Region.getRegionList().get(i).getRegion();
                 Region.getRegionList().get(i).teleportToRegion(player);
                 String message = Messages.REGION_TELEPORT_MESSAGE.replace("%regionid%", regionTP.getId());
@@ -350,11 +351,12 @@ public abstract class Region {
             player.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION_TO_SEARCH_THIS_KIND);
             return true;
         }
-        if (!RegionKind.kindExists(type)){
+        RegionKind regionKind = RegionKind.getRegionKind(type);
+        if (regionKind == null){
             player.sendMessage(Messages.PREFIX + Messages.REGIONKIND_DOES_NOT_EXIST);
             return true;
         }
-        Region.teleportToFreeRegion(type, player);
+        Region.teleportToFreeRegion(regionKind, player);
         return true;
     }
 
@@ -691,8 +693,8 @@ public abstract class Region {
                 if (!(loc.getBlock().getType() == Material.AIR) && !(loc.getBlock().getType() == Material.LAVA)) {
                     loc = new Location(world, coordsX, j + 1, coordsZ);
                     player.teleport(loc);
-                    String message = Messages.REGION_TELEPORT_MESSAGE.replace("%regionid%", this.region.getId());
-                    player.sendMessage(Messages.PREFIX + message);
+                //    String message = Messages.REGION_TELEPORT_MESSAGE.replace("%regionid%", this.region.getId());
+                //    player.sendMessage(Messages.PREFIX + message);
                     return;
                 }
             }

@@ -1,5 +1,6 @@
 package net.liggesmeyer.arm.Group;
 
+import net.liggesmeyer.arm.Main;
 import net.liggesmeyer.arm.Messages;
 import net.liggesmeyer.arm.Permission;
 import net.liggesmeyer.arm.regions.Region;
@@ -163,16 +164,18 @@ public class LimitGroup {
 
         player.sendMessage(syntaxtotal);
 
-        syntaxtotal = Messages.LIMIT_INFO;
-        syntaxtotal = syntaxtotal.replace("%regiontype%", RegionKind.DEFAULT.getName());
-        syntaxtotal = syntaxtotal.replace("%playerownedkind%", getOwnedRegions(player, RegionKind.DEFAULT) + "");
-        limit = getLimit(player, RegionKind.DEFAULT) + "";
-        if(getLimit(player) == Integer.MAX_VALUE){
-            limit = Messages.UNLIMITED;
-        }
-        syntaxtotal = syntaxtotal.replace("%limitkind%", limit);
+        if(Main.isDisplayDefaultRegionKindInLimits()) {
+            syntaxtotal = Messages.LIMIT_INFO;
+            syntaxtotal = syntaxtotal.replace("%regiontype%", RegionKind.DEFAULT.getName());
+            syntaxtotal = syntaxtotal.replace("%playerownedkind%", getOwnedRegions(player, RegionKind.DEFAULT) + "");
+            limit = getLimit(player, RegionKind.DEFAULT) + "";
+            if(getLimit(player) == Integer.MAX_VALUE){
+                limit = Messages.UNLIMITED;
+            }
+            syntaxtotal = syntaxtotal.replace("%limitkind%", limit);
 
-        player.sendMessage(syntaxtotal);
+            player.sendMessage(syntaxtotal);
+        }
 
         for(int i = 0; i < RegionKind.getRegionKindList().size(); i++){
             if(player.hasPermission(Permission.ARM_BUYKIND + RegionKind.getRegionKindList().get(i).getName())){

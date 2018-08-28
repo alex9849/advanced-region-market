@@ -66,6 +66,15 @@ RegionKinds:
     lore:
     - 'A shop where you can sell your stuff'
 
+
+DefaultRegionKind:
+  DisplayName: Standard
+  Item: RED_BED
+  Lore:
+  - 'very default'
+  DisplayInLimits: false
+  DisplayInGUI: false
+
 # Limits can be assigned to players by giving them the permission arm.limit.LIMITGROUP
 # you can set limits by writing a regionkind and the limit behind it. Not existing regionkinds
 # will be ignored. If you want to limit regions without a kind use 'Default'. If you want to
@@ -133,6 +142,6 @@ GUI:
   RemoveMemberItem: LAVA_BUCKET
 
 #Do not change this
-Version: 1.21
+Version: 1.3
 # Programmed by Alex9849
 # If you like my plugin you are free to donate me via PayPal https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2Z6VVLS5SZXJS

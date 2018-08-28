@@ -10,7 +10,7 @@ public class RegionKind {
     private Material material;
     public static RegionKind DEFAULT = new RegionKind("Default", Material.RED_BED, new ArrayList<String>());
     private static List<RegionKind> list = new ArrayList<>();
-    private final List<String> lore;
+    private List<String> lore;
 
     public RegionKind(String name, Material material, List<String> lore){
         this.name = name;
@@ -24,6 +24,10 @@ public class RegionKind {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setLore(List<String> lore) {
+        this.lore = lore;
     }
 
     public String getName(){
@@ -57,7 +61,7 @@ public class RegionKind {
                 return list.get(i);
             }
         }
-        if(name.equalsIgnoreCase("default")){
+        if(name.equalsIgnoreCase("default") || name.equalsIgnoreCase(RegionKind.DEFAULT.getName())){
             return RegionKind.DEFAULT;
         }
         return null;

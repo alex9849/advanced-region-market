@@ -91,7 +91,11 @@ public abstract class Region {
             config.set("Regions." + this.regionworld + "." + this.region.getId() + ".world", regionworld);
             config.set("Regions." + this.regionworld + "." + this.region.getId() + ".price", price);
             config.set("Regions." + this.regionworld + "." + this.region.getId() + ".sold", false);
-            config.set("Regions." + this.regionworld + "." + this.region.getId() + ".kind", regionKind.getName());
+            if(regionKind == RegionKind.DEFAULT) {
+                config.set("Regions." + this.regionworld + "." + this.region.getId() + ".kind", "default");
+            } else {
+                config.set("Regions." + this.regionworld + "." + this.region.getId() + ".kind", regionKind.getName());
+            }
             config.set("Regions." + this.regionworld + "." + this.region.getId() + ".rentregion", false);
             config.set("Regions." + this.regionworld + "." + this.region.getId() + ".autoreset", autoreset);
             config.set("Regions." + this.regionworld + "." + this.region.getId() + ".lastreset", lastreset);
@@ -251,16 +255,25 @@ public abstract class Region {
     }
 
     public boolean setKind(String kind){
-        for(int i = 0; i < RegionKind.getRegionKindList().size(); i++){
-            if(kind.equalsIgnoreCase(RegionKind.getRegionKindList().get(i).getName())){
-                YamlConfiguration config = getRegionsConf();
-                config.set("Regions." + this.regionworld + "." + this.region.getId() + ".kind", RegionKind.getRegionKindList().get(i).getName());
-                saveRegionsConf(config);
-                this.regionKind = RegionKind.getRegionKindList().get(i);
-                return true;
-            }
+        RegionKind regionkind = RegionKind.getRegionKind(kind);
+
+        if(regionkind == null) {
+            return false;
+
+        } else if(regionkind == RegionKind.DEFAULT) {
+            YamlConfiguration config = getRegionsConf();
+            config.set("Regions." + this.regionworld + "." + this.region.getId() + ".kind", "default");
+            saveRegionsConf(config);
+            this.regionKind = RegionKind.DEFAULT;
+            return true;
+
+        } else {
+            YamlConfiguration config = getRegionsConf();
+            config.set("Regions." + this.regionworld + "." + this.region.getId() + ".kind", regionkind.getName());
+            saveRegionsConf(config);
+            this.regionKind = regionkind;
+            return true;
         }
-        return false;
     }
 
     public static List<Region> getRegionList() {

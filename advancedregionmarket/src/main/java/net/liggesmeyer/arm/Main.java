@@ -60,6 +60,8 @@ public class Main extends JavaPlugin {
     private static boolean teleportAfterSellRegionBought;
     private static boolean teleportAfterRentRegionBought;
     private static boolean teleportAfterRentRegionExtend;
+    private static boolean displayDefaultRegionKindInGUI;
+    private static boolean displayDefaultRegionKindInLimits;
 
     private static final String SET_REGION_KIND = " (?i)setregionkind [^;\n ]+ [^;\n ]+";
     private static final String LIST_REGION_KIND = " (?i)listregionkinds";
@@ -357,6 +359,14 @@ public class Main extends JavaPlugin {
     }
 
     private void loadRegionKind(){
+        RegionKind.DEFAULT.setName(getConfig().getString("DefaultRegionKind.DisplayName"));
+        RegionKind.DEFAULT.setMaterial(Material.getMaterial(getConfig().getString("DefaultRegionKind.Item")));
+        List<String> defaultlore = getConfig().getStringList("DefaultRegionKind.Lore");
+        for(int x = 0; x < defaultlore.size(); x++){
+            defaultlore.set(x, ChatColor.translateAlternateColorCodes('&', defaultlore.get(x)));
+        }
+        RegionKind.DEFAULT.setLore(defaultlore);
+
         LinkedList<String> regionKinds = new LinkedList<String>(getConfig().getConfigurationSection("RegionKinds").getKeys(false));
         if(regionKinds != null) {
             for(int i = 0; i < regionKinds.size(); i++){
@@ -904,6 +914,7 @@ public class Main extends JavaPlugin {
             Messages.saveConfig();
         }
         if(version < 1.21) {
+            getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.21...");
             Material mat = null;
             mat = Material.getMaterial(pluginConfig.getString("GUI.RegionOwnerItem"), true);
             if(mat != null) {
@@ -964,6 +975,18 @@ public class Main extends JavaPlugin {
                 }
             }
             pluginConfig.set("Version", 1.21);
+            saveConfig();
+        }
+        if(version < 1.3) {
+            getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.3...");
+            pluginConfig.set("DefaultRegionKind.DisplayName", "Default");
+            pluginConfig.set("DefaultRegionKind.Item", Material.RED_BED.toString());
+            List<String> defaultLore = new ArrayList<>();
+            defaultLore.add("very default");
+            pluginConfig.set("DefaultRegionKind.Lore", defaultLore);
+            pluginConfig.set("DefaultRegionKind.DisplayInLimits", true);
+            pluginConfig.set("DefaultRegionKind.DisplayInGUI", false);
+            pluginConfig.set("Version", 1.3);
             saveConfig();
         }
     }

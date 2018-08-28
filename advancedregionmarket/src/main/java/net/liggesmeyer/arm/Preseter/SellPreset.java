@@ -155,8 +155,8 @@ public class SellPreset extends Preset{
                 return true;
             }
             if(command.matches(SET_REGIONKIND)){
-                if(RegionKind.kindExists(args[2]) || args[2].equalsIgnoreCase(RegionKind.DEFAULT.getName())){
-                    RegionKind regkind = RegionKind.getRegionKind(args[2]);
+                RegionKind regkind = RegionKind.getRegionKind(args[2]);
+                if(regkind != null){
                     if(hasPreset(player)) {
                         getPreset(player).setRegionKind(regkind);
                         player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);

@@ -98,7 +98,7 @@ public class ARMListener implements Listener {
             Region searchregion = Region.searchRegionbyNameAndWorld(regionname, worldname);
             if(searchregion != null) {
                 if(!(searchregion instanceof SellRegion)) {
-                    sign.getPlayer().sendMessage(Messages.PREFIX + "Region already registred as a not-sellregion");
+                    sign.getPlayer().sendMessage(Messages.PREFIX + "Region already registered as a non-sellregion");
                     return;
                 }
                 searchregion.addSign(sign.getBlock().getLocation());
@@ -191,7 +191,7 @@ public class ARMListener implements Listener {
             Region searchregion = Region.searchRegionbyNameAndWorld(regionname, worldname);
             if(searchregion != null) {
                 if(!(searchregion instanceof RentRegion)) {
-                    sign.getPlayer().sendMessage(Messages.PREFIX + "Region already registred as a not-rentregion");
+                    sign.getPlayer().sendMessage(Messages.PREFIX + "Region already registered as a non-rentregion");
                     return;
                 }
                 searchregion.addSign(sign.getBlock().getLocation());

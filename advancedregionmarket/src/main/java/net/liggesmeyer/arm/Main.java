@@ -998,6 +998,12 @@ public class Main extends JavaPlugin {
             pluginConfig.set("DefaultRegionKind.DisplayInGUI", false);
             pluginConfig.set("Version", 1.3);
             saveConfig();
+
+            YamlConfiguration messagesconf = Messages.getConfig();
+            messagesconf.set("Messages.LimitInfoTotal", "Total");
+            messagesconf.set("Messages.GUIRegionItemName", "%regionid% (%regionkind%)");
+            messagesconf.set("Messages.GUIRegionFinderRegionKindName", "%regionkind%");
+            Messages.saveConfig();
         }
     }
 }

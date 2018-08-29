@@ -75,6 +75,7 @@ Messages:
   Unlimited: 'Unlimited'
 
   LimitInfoTop: '&6=========[Limit Info]========='
+  LimitInfoTotal: '&6Total'
   LimitInfo: '&6%regiontype%: %playerownedkind%/%limitkind%'
   RegionInfo: '&6=========[Region info]========='
   RegionInfoID: '&6ID: '
@@ -92,8 +93,10 @@ Messages:
 
   GUIMainMenuName: '&1ARM - Menu'
   GUIRegionFinderMenuName: '&1ARM - Regionfinder'
+  GUIRegionFinderRegionKindName: '%regionkind%'
   GUIMemberListMenuName: '&1ARM - Members of %regionid%'
   GUIOwnRegionsMenuName: '&1ARM - My regions (Owner)'
+  GUIRegionItemName: '%regionid% (%regionkind%)'
   GUIMakeOwnerWarningName: '&4&lAre you shure?'
   GUIMemberRegionsMenuName: '&1ARM - My regions (Member)'
   GUIResetRegionWarningName: '&4&lReset your region?'

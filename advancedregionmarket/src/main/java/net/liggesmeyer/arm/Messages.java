@@ -127,6 +127,8 @@ public class Messages {
     public static String PRESET_NOT_FOUND = "No preset with this name found!";
     public static String PRESET_LOADED = "Preset loaded!";
     public static String LIMIT_INFO_TOTAL = "Total"; //Not in Config! Please add
+    public static String GUI_REGION_ITEM_NAME = "%regionid% (%regionkind%)";
+    public static String GUI_REGIONFINDER_REGIONKIND_NAME = "%regionkind%";
 
 
     public static List<String> GUI_TELEPORT_TO_REGION_BUTTON_LORE = new LinkedList<>();
@@ -273,6 +275,9 @@ public class Messages {
         PRESET_DELETED = config.getString("Messages.PresetDeleted");
         PRESET_NOT_FOUND = config.getString("Messages.PresetNotFound");
         PRESET_LOADED = config.getString("Messages.PresetLoaded");
+        LIMIT_INFO_TOTAL = config.getString("Messages.LimitInfoTotal");
+        GUI_REGION_ITEM_NAME = config.getString("Messages.GUIRegionItemName");
+        GUI_REGIONFINDER_REGIONKIND_NAME = config.getString("Messages.GUIRegionFinderRegionKindName");
 
         Messages.translateColorCodes();
     }
@@ -391,6 +396,9 @@ public class Messages {
         PRESET_DELETED = ChatColor.translateAlternateColorCodes('&', PRESET_DELETED);
         PRESET_NOT_FOUND = ChatColor.translateAlternateColorCodes('&', PRESET_NOT_FOUND);
         PRESET_LOADED = ChatColor.translateAlternateColorCodes('&', PRESET_LOADED);
+        LIMIT_INFO_TOTAL = ChatColor.translateAlternateColorCodes('&', LIMIT_INFO_TOTAL);
+        GUI_REGION_ITEM_NAME = ChatColor.translateAlternateColorCodes('&', GUI_REGION_ITEM_NAME);
+        GUI_REGIONFINDER_REGIONKIND_NAME = ChatColor.translateAlternateColorCodes('&', GUI_REGIONFINDER_REGIONKIND_NAME);
 
 
         for(int i = 0; i < GUI_TELEPORT_TO_REGION_BUTTON_LORE.size(); i++){

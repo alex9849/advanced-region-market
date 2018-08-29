@@ -368,7 +368,7 @@ public class RentRegion extends Region {
         return timetoString;
     }
 
-    public static void doSignUpdate(){
+    public static void doUpdates(){
         for (int i = 0; i < getRegionList().size(); i++) {
             if(getRegionList().get(i) instanceof RentRegion) {
                 RentRegion region = (RentRegion) getRegionList().get(i);

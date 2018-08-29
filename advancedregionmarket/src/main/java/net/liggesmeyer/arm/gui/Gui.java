@@ -7,6 +7,7 @@ import net.liggesmeyer.arm.regions.Region;
 import net.liggesmeyer.arm.regions.RentRegion;
 import net.liggesmeyer.arm.Group.LimitGroup;
 import net.liggesmeyer.arm.regions.RegionKind;
+import net.liggesmeyer.arm.regions.SellRegion;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -97,16 +98,16 @@ public class Gui implements Listener {
         CustomHolder inv = new CustomHolder(invsize, Messages.GUI_OWN_REGIONS_MENU_NAME);
 
         for (int i = 0; i < regions.size(); i++) {
-            String displaykind = "";
-            if(regions.get(i).getRegionKind() != RegionKind.DEFAULT){
-                displaykind = " (" + regions.get(i).getRegionKind().getName() + ")";
-            }
+
+            String regionDisplayName = Messages.GUI_REGION_ITEM_NAME;
+            regionDisplayName = regionDisplayName.replace("%regionid%", regions.get(i).getRegion().getId());
+            regionDisplayName = regionDisplayName.replace("%regionkind%", regions.get(i).getRegionKind().getName());
 
             if(regions.get(i) instanceof RentRegion) {
                 RentRegion region = (RentRegion) regions.get(i);
                 ItemStack stack = new ItemStack(region.getLogo());
                 ItemMeta meta = stack.getItemMeta();
-                meta.setDisplayName(region.getRegion().getId() + displaykind);
+                meta.setDisplayName(regionDisplayName);
                 List<String> regionlore = new LinkedList<>(Messages.GUI_RENT_REGION_LORE);
                 for (int j = 0; j < regionlore.size(); j++) {
                     regionlore.set(j, regionlore.get(j).replace("%extendpercick%", region.getExtendPerClick()));
@@ -124,10 +125,10 @@ public class Gui implements Listener {
                     }
                 });
                 inv.addIcon(icon);
-            } else {
+            } else if (regions.get(i) instanceof SellRegion) {
                 ItemStack stack = new ItemStack(regions.get(i).getLogo());
                 ItemMeta meta = stack.getItemMeta();
-                meta.setDisplayName(regions.get(i).getRegion().getId() + displaykind);
+                meta.setDisplayName(regionDisplayName);
                 stack.setItemMeta(meta);
                 int finalI = i;
                 Icon icon = new Icon(stack, i).addClickAction(new ClickAction() {
@@ -481,22 +482,21 @@ public class Gui implements Listener {
         CustomHolder inv = new CustomHolder(invsize, Messages.GUI_REGION_FINDER_MENU_NAME);
 
         if(Main.isDisplayDefaultRegionKindInGUI()) {
-            String type = RegionKind.DEFAULT.getName();
+            String displayName = Messages.GUI_REGIONFINDER_REGIONKIND_NAME;
+            displayName = displayName.replace("%regionkind%", RegionKind.DEFAULT.getName());
             Material material = RegionKind.DEFAULT.getMaterial();
-            if(player.hasPermission(Permission.ARM_BUYKIND + type)){
-                ItemStack stack = new ItemStack(material);
-                ItemMeta meta = stack.getItemMeta();
-                meta.setDisplayName(type);
-                meta.setLore(RegionKind.DEFAULT.getLore());
-                stack.setItemMeta(meta);
-                Icon icon = new Icon(stack, 0).addClickAction(new ClickAction() {
-                    @Override
-                    public void execute(Player player) {
-                        Region.teleportToFreeRegion(RegionKind.DEFAULT, player);
-                    }
-                });
-                inv.addIcon(icon);
-            }
+            ItemStack stack = new ItemStack(material);
+            ItemMeta meta = stack.getItemMeta();
+            meta.setDisplayName(displayName);
+            meta.setLore(RegionKind.DEFAULT.getLore());
+            stack.setItemMeta(meta);
+            Icon icon = new Icon(stack, 0).addClickAction(new ClickAction() {
+                @Override
+                public void execute(Player player) {
+                    Region.teleportToFreeRegion(RegionKind.DEFAULT, player);
+                }
+            });
+            inv.addIcon(icon);
         }
 
         for(int i = 0; i < RegionKind.getRegionKindList().size(); i++) {
@@ -504,12 +504,13 @@ public class Gui implements Listener {
             if(Main.isDisplayDefaultRegionKindInGUI()) {
                 shift++;
             }
-            String type = RegionKind.getRegionKindList().get(i).getName();
+            String displayName = Messages.GUI_REGIONFINDER_REGIONKIND_NAME;
+            displayName = displayName.replace("%regionkind%", RegionKind.getRegionKindList().get(i).getName());
             Material material = RegionKind.getRegionKindList().get(i).getMaterial();
-            if(player.hasPermission(Permission.ARM_BUYKIND + type)){
+            if(player.hasPermission(Permission.ARM_BUYKIND + RegionKind.getRegionKindList().get(i).getName())){
                 ItemStack stack = new ItemStack(material);
                 ItemMeta meta = stack.getItemMeta();
-                meta.setDisplayName(type);
+                meta.setDisplayName(displayName);
                 meta.setLore(RegionKind.getRegionKindList().get(i).getLore());
                 stack.setItemMeta(meta);
                 int finalI = i;
@@ -707,9 +708,13 @@ public class Gui implements Listener {
         CustomHolder inv = new CustomHolder(invsize, Messages.GUI_MEMBER_REGIONS_MENU_NAME);
 
         for (int i = 0; i < regions.size(); i++) {
+            String regionDisplayName = Messages.GUI_REGION_ITEM_NAME;
+            regionDisplayName = regionDisplayName.replace("%regionid%", regions.get(i).getRegion().getId());
+            regionDisplayName = regionDisplayName.replace("%regionkind%", regions.get(i).getRegionKind().getName());
+
             ItemStack stack = new ItemStack(regions.get(i).getLogo());
             ItemMeta meta = stack.getItemMeta();
-            meta.setDisplayName(regions.get(i).getRegion().getId());
+            meta.setDisplayName(regionDisplayName);
             stack.setItemMeta(meta);
             int finalI = i;
             Icon icon = new Icon(stack, i).addClickAction(new ClickAction() {

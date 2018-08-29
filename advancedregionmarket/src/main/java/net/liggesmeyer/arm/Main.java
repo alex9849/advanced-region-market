@@ -441,6 +441,14 @@ public class Main extends JavaPlugin {
         Main.displayDefaultRegionKindInGUI = getConfig().getBoolean("DefaultRegionKind.DisplayInGUI");
         Main.displayDefaultRegionKindInLimits = getConfig().getBoolean("DefaultRegionKind.DisplayInLimits");
         Region.setPaypackPercentage(getConfig().getDouble("Other.paypackPercentage"));
+        try{
+            RentRegion.setExpirationWarningTime(RentRegion.stringToTime(getConfig().getString("Other.RentRegionExpirationWarningTime")));
+            RentRegion.setSendExpirationWarning(getConfig().getBoolean("Other.SendRentRegionExpirationWarning"));
+        } catch (IllegalArgumentException | NullPointerException e) {
+            Bukkit.getLogger().log(Level.INFO, "[AdvancedRegionMarket] Warning! Bad syntax of time format \"RentRegionExpirationWarningTime\" disabling it...");
+            RentRegion.setExpirationWarningTime(0);
+            RentRegion.setSendExpirationWarning(false);
+        }
     }
 
     private static void checkOrCreateMySql(String mysqldatabase) throws SQLException {
@@ -996,6 +1004,8 @@ public class Main extends JavaPlugin {
             pluginConfig.set("DefaultRegionKind.Lore", defaultLore);
             pluginConfig.set("DefaultRegionKind.DisplayInLimits", true);
             pluginConfig.set("DefaultRegionKind.DisplayInGUI", false);
+            pluginConfig.set("Other.SendRentRegionExpirationWarning", true);
+            pluginConfig.set("Other.RentRegionExpirationWarningTime", "2d");
             pluginConfig.set("Version", 1.3);
             saveConfig();
 
@@ -1003,6 +1013,7 @@ public class Main extends JavaPlugin {
             messagesconf.set("Messages.LimitInfoTotal", "Total");
             messagesconf.set("Messages.GUIRegionItemName", "%regionid% (%regionkind%)");
             messagesconf.set("Messages.GUIRegionFinderRegionKindName", "%regionkind%");
+            messagesconf.set("Messages.RentRegionExpirationWarning", "&4[WARNING] This RentRegion(s) will expire soon: &c");
             Messages.saveConfig();
         }
     }

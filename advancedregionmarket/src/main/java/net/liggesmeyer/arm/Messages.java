@@ -129,6 +129,7 @@ public class Messages {
     public static String LIMIT_INFO_TOTAL = "Total"; //Not in Config! Please add
     public static String GUI_REGION_ITEM_NAME = "%regionid% (%regionkind%)";
     public static String GUI_REGIONFINDER_REGIONKIND_NAME = "%regionkind%";
+    public static String RENTREGION_EXPIRATION_WARNING = "[WARNING] This RentRegion(s) will expire soon: ";
 
 
     public static List<String> GUI_TELEPORT_TO_REGION_BUTTON_LORE = new LinkedList<>();
@@ -278,6 +279,7 @@ public class Messages {
         LIMIT_INFO_TOTAL = config.getString("Messages.LimitInfoTotal");
         GUI_REGION_ITEM_NAME = config.getString("Messages.GUIRegionItemName");
         GUI_REGIONFINDER_REGIONKIND_NAME = config.getString("Messages.GUIRegionFinderRegionKindName");
+        RENTREGION_EXPIRATION_WARNING = config.getString("Messages.RentRegionExpirationWarning");
 
         Messages.translateColorCodes();
     }
@@ -399,6 +401,7 @@ public class Messages {
         LIMIT_INFO_TOTAL = ChatColor.translateAlternateColorCodes('&', LIMIT_INFO_TOTAL);
         GUI_REGION_ITEM_NAME = ChatColor.translateAlternateColorCodes('&', GUI_REGION_ITEM_NAME);
         GUI_REGIONFINDER_REGIONKIND_NAME = ChatColor.translateAlternateColorCodes('&', GUI_REGIONFINDER_REGIONKIND_NAME);
+        RENTREGION_EXPIRATION_WARNING = ChatColor.translateAlternateColorCodes('&', RENTREGION_EXPIRATION_WARNING);
 
 
         for(int i = 0; i < GUI_TELEPORT_TO_REGION_BUTTON_LORE.size(); i++){

@@ -68,11 +68,11 @@ RegionKinds:
 
 
 DefaultRegionKind:
-  DisplayName: Standard
+  DisplayName: Default
   Item: RED_BED
   Lore:
   - 'very default'
-  DisplayInLimits: false
+  DisplayInLimits: true
   DisplayInGUI: false
 
 # Limits can be assigned to players by giving them the permission arm.limit.LIMITGROUP
@@ -122,6 +122,9 @@ Other:
   # You can define the percentage they will get back here. If they don't have the permission the button will
   # be removed from the GUI.
   paypackPercentage: 50
+  # If a player rents a rentregion and it will expire soon, he will get a message when he joins the server
+  SendRentRegionExpirationWarning: true
+  RentRegionExpirationWarningTime: '2d'
 
 #Here you can change the Blocks that will be shown in the GUI. You can use
 #this (https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html) as a List for possible blocks.

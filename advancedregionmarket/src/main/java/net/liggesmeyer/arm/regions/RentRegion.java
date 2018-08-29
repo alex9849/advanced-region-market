@@ -19,6 +19,8 @@ public class RentRegion extends Region {
     private long payedTill;
     private long maxRentTime;
     private long rentExtendPerClick;
+    private static long expirationWarningTime;
+    private static Boolean sendExpirationWarning;
 
     public RentRegion(ProtectedRegion region, String regionworld, List<Sign> rentsign, double price, Boolean sold, Boolean autoreset, Boolean allowOnlyNewBlocks,
                       Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, long payedTill, long maxRentTime, long rentExtendPerClick, Boolean newreg) {
@@ -461,5 +463,38 @@ public class RentRegion extends Region {
 
             return;
         }
+    }
+
+    public static void sendExpirationWarnings(Player player) {
+        List<Region> regions = Region.getRegionsByOwner(player.getUniqueId());
+        List<RentRegion> rentRegions = new ArrayList<>();
+        for(int i = 0; i < regions.size(); i++) {
+            if(regions.get(i) instanceof RentRegion) {
+                RentRegion rentRegion = (RentRegion) regions.get(i);
+                if((rentRegion.getPayedTill() - (new GregorianCalendar().getTimeInMillis())) <= RentRegion.expirationWarningTime) {
+                    rentRegions.add(rentRegion);
+                }
+            }
+        }
+        String regionWarnings = "";
+        for(int i = 0; i < rentRegions.size() - 1; i++) {
+            regionWarnings = regionWarnings + rentRegions.get(i).getRegion().getId() + ", ";
+        }
+        if(rentRegions.size() > 0) {
+            regionWarnings = regionWarnings + rentRegions.get(rentRegions.size() - 1).getRegion().getId();
+            player.sendMessage(Messages.PREFIX + Messages.RENTREGION_EXPIRATION_WARNING + regionWarnings);
+        }
+    }
+
+    public static void setExpirationWarningTime(long time) {
+        RentRegion.expirationWarningTime = time;
+    }
+
+    public static void setSendExpirationWarning(Boolean bool) {
+        RentRegion.sendExpirationWarning = bool;
+    }
+
+    public static Boolean isSendExpirationWarning(){
+        return RentRegion.sendExpirationWarning;
     }
 }

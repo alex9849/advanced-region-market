@@ -352,6 +352,17 @@ public class ARMListener implements Listener {
             }, 40L);
         }
 
+        if(RentRegion.isSendExpirationWarning()) {
+            Plugin plugin = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket");
+            Player player = event.getPlayer();
+            Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+                @Override
+                public void run() {
+                    RentRegion.sendExpirationWarnings(player);
+                }
+            }, 40L);
+        }
+
     }
 
     @EventHandler

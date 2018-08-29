@@ -90,6 +90,7 @@ Messages:
   RegionInfoMaxRentTime: '&6Max rent time: '
   RegionInfoExtendPerClick: '&6Extend per click: '
   RegionInfoRemainingTime: '&6Remaining time: '
+  RentRegionExpirationWarning: '&4WARNING! This RentRegion(s) will expire soon: &c'
 
   GUIMainMenuName: '&1ARM - Menu'
   GUIRegionFinderMenuName: '&1ARM - Regionfinder'

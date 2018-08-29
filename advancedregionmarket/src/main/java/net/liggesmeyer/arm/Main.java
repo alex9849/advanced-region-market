@@ -268,13 +268,13 @@ public class Main extends JavaPlugin {
                     LinkedList<String> regions = new LinkedList<String>(Region.getRegionsConf().getConfigurationSection("Regions." + worlds.get(y)).getKeys(false));
                     if(regions != null) {
                         for(int i = 0; i < regions.size(); i++){
-                            String regionworld = Region.getRegionsConf().getString("Regions." + worlds.get(y) + "." + regions.get(i) + ".world");
+                            String regionworld = worlds.get(y);
                             String regionname = regions.get(i);
                             int price = Region.getRegionsConf().getInt("Regions." + worlds.get(y) + "." + regions.get(i) + ".price");
                             boolean sold = Region.getRegionsConf().getBoolean("Regions." + worlds.get(y) + "." + regions.get(i) + ".sold");
                             String kind = Region.getRegionsConf().getString("Regions." + worlds.get(y) + "." + regions.get(i) + ".kind");
                             boolean autoreset = Region.getRegionsConf().getBoolean("Regions." + worlds.get(y) + "." + regions.get(i) + ".autoreset");
-                            boolean rentregion = Region.getRegionsConf().getBoolean("Regions." + worlds.get(y) + "." + regions.get(i) + ".rentregion");
+                            String regiontype = Region.getRegionsConf().getString("Regions." + worlds.get(y) + "." + regions.get(i) + ".regiontype");
                             boolean allowonlynewblocks = Region.getRegionsConf().getBoolean("Regions." + worlds.get(y) + "." + regions.get(i) + ".allowonlynewblocks");
                             boolean doBlockReset = Region.getRegionsConf().getBoolean("Regions." + worlds.get(y) + "." + regions.get(i) + ".doBlockReset");
                             long lastreset = Region.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".lastreset");
@@ -324,14 +324,18 @@ public class Main extends JavaPlugin {
 
                                     regionsigns.add((Sign) loc.getBlock().getState());
                                 }
-                                if (rentregion){
+                                if (regiontype.equalsIgnoreCase("rentregion")){
                                     long payedtill = Region.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".payedTill");
                                     long maxRentTime = Region.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".maxRentTime");
                                     long rentExtendPerClick = Region.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".rentExtendPerClick");
-                                    Region.getRegionList().add(new RentRegion(region, regionworld, regionsigns, price, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, teleportLoc,
-                                            lastreset, payedtill, maxRentTime, rentExtendPerClick,false));
-                                } else {
-                                    Region.getRegionList().add(new SellRegion(region, regionworld, regionsigns, price, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, teleportLoc, lastreset,false));
+                                    Region armregion = new RentRegion(region, regionworld, regionsigns, price, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, teleportLoc,
+                                            lastreset, payedtill, maxRentTime, rentExtendPerClick,false);
+                                    armregion.updateSigns();
+                                    Region.getRegionList().add(armregion);
+                                } else if (regiontype.equalsIgnoreCase("sellregion")){
+                                    Region armregion = new SellRegion(region, regionworld, regionsigns, price, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, teleportLoc, lastreset,false);
+                                    armregion.updateSigns();
+                                    Region.getRegionList().add(armregion);
                                 }
                             }
                         }
@@ -1015,6 +1019,25 @@ public class Main extends JavaPlugin {
             messagesconf.set("Messages.GUIRegionFinderRegionKindName", "%regionkind%");
             messagesconf.set("Messages.RentRegionExpirationWarning", "&4[WARNING] This RentRegion(s) will expire soon: &c");
             Messages.saveConfig();
+
+            LinkedList<String> worlds = new LinkedList<String>(regionConf.getConfigurationSection("Regions").getKeys(false));
+            if(worlds != null) {
+                for(int y = 0; y < worlds.size(); y++) {
+                    LinkedList<String> regions = new LinkedList<String>(regionConf.getConfigurationSection("Regions." + worlds.get(y)).getKeys(false));
+                    if(regions != null) {
+                        for (int i = 0; i < regions.size(); i++) {
+                            if(regionConf.getBoolean("Regions." + worlds.get(y) + "." + regions.get(i) + ".rentregion")) {
+                                regionConf.set("Regions." + worlds.get(y) + "." + regions.get(i) + ".regiontype", "rentregion");
+                            } else {
+                                regionConf.set("Regions." + worlds.get(y) + "." + regions.get(i) + ".regiontype", "sellregion");
+                            }
+                            regionConf.set("Regions." + worlds.get(y) + "." + regions.get(i) + ".rentregion", null);
+                            regionConf.set("Regions." + worlds.get(y) + "." + regions.get(i) + ".world", null);
+                        }
+                    }
+                }
+            }
+            Region.saveRegionsConf(regionConf);
         }
     }
 }

@@ -33,7 +33,7 @@ public class RentRegion extends Region {
         if(newreg) {
             YamlConfiguration config = getRegionsConf();
 
-            config.set("Regions." + this.regionworld + "." + this.region.getId() + ".rentregion", true);
+            config.set("Regions." + this.regionworld + "." + this.region.getId() + ".regiontype", "rentregion");
             config.set("Regions." + this.regionworld + "." + this.region.getId() + ".payedTill", payedTill);
             config.set("Regions." + this.regionworld + "." + this.region.getId() + ".maxRentTime", maxRentTime);
             config.set("Regions." + this.regionworld + "." + this.region.getId() + ".rentExtendPerClick", rentExtendPerClick);

@@ -88,7 +88,6 @@ public abstract class Region {
         if(newreg){
             YamlConfiguration config = getRegionsConf();
 
-            config.set("Regions." + this.regionworld + "." + this.region.getId() + ".world", regionworld);
             config.set("Regions." + this.regionworld + "." + this.region.getId() + ".price", price);
             config.set("Regions." + this.regionworld + "." + this.region.getId() + ".sold", false);
             if(regionKind == RegionKind.DEFAULT) {
@@ -96,7 +95,7 @@ public abstract class Region {
             } else {
                 config.set("Regions." + this.regionworld + "." + this.region.getId() + ".kind", regionKind.getName());
             }
-            config.set("Regions." + this.regionworld + "." + this.region.getId() + ".rentregion", false);
+            config.set("Regions." + this.regionworld + "." + this.region.getId() + ".regiontype", "sellregion");
             config.set("Regions." + this.regionworld + "." + this.region.getId() + ".autoreset", autoreset);
             config.set("Regions." + this.regionworld + "." + this.region.getId() + ".lastreset", lastreset);
             config.set("Regions." + this.regionworld + "." + this.region.getId() + ".isHotel", isHotel);
@@ -199,6 +198,12 @@ public abstract class Region {
 
     public ProtectedRegion getRegion() {
         return region;
+    }
+
+    public void updateSigns() {
+        for (int i = 0; i < this.sellsign.size(); i++) {
+            this.updateSignText(this.sellsign.get(i));
+        }
     }
 
     public String getRegionworld() {

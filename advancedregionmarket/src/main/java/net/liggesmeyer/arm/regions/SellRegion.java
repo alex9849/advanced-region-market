@@ -17,9 +17,9 @@ public class SellRegion extends Region {
     public SellRegion(ProtectedRegion region, String regionworld, List<Sign> sellsign, double price, Boolean sold, Boolean autoreset, Boolean allowOnlyNewBlocks, Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, Boolean newreg) {
         super(region, regionworld, sellsign, price, sold, autoreset,allowOnlyNewBlocks, doBlockReset, regionKind, teleportLoc, lastreset, newreg);
 
-        this.updateSignText(sellsign.get(0));
-        Bukkit.getServer().getWorld(regionworld).save();
-
+        if(newreg) {
+            this.updateSignText(sellsign.get(0));
+        }
     }
 
     @Override

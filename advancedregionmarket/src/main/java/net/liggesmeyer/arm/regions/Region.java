@@ -793,7 +793,7 @@ public abstract class Region {
 
     protected abstract void setSold(OfflinePlayer player);
     protected abstract void updateSignText(Sign mysign);
-    protected abstract void buy(Player player);
+    public abstract void buy(Player player);
     public abstract void userSell(Player player);
     public abstract double getPaybackMoney();
 
@@ -906,26 +906,8 @@ public abstract class Region {
             playersender.sendMessage(Messages.PREFIX + "Player not found!");
             return true;
         }
-        YamlConfiguration config = getRegionsConf();
-        config.set("Regions." + region.regionworld + "." + region.region.getId() + ".sold", true);
-        saveRegionsConf(config);
 
-        Main.getWorldGuardInterface().setOwner(player, region.getRegion());
-
-        if (region instanceof RentRegion) {
-            RentRegion rentregion = (RentRegion) region;
-
-            if(!region.isSold()){
-                GregorianCalendar actualtime = new GregorianCalendar();
-                rentregion.setPayedTill(actualtime.getTimeInMillis() + rentregion.getRentExtendPerClick());
-                config.set("Regions." + rentregion.regionworld + "." + rentregion.region.getId() + ".payedTill", rentregion.getPayedTill());
-                saveRegionsConf(config);
-            }
-        }
-        region.sold = true;
-        for (int i = 0; i < region.sellsign.size(); i++) {
-            region.updateSignText(region.sellsign.get(i));
-        }
+        region.setSold(player);
         sender.sendMessage(Messages.PREFIX + "Owner set!");
         return true;
     }

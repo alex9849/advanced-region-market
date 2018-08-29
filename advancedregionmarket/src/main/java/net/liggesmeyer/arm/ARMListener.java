@@ -95,22 +95,19 @@ public class ARMListener implements Listener {
                 return;
             }
 
-
-            for(int i = 0; i < Region.getRegionList().size(); i++) {
-                if (Region.getRegionList().get(i).getRegionworld().equals(worldname)) {
-                    if (Region.getRegionList().get(i).getRegion().getId().equals(regionname)) {
-                        if (Region.getRegionList().get(i) instanceof RentRegion) {
-                            sign.getPlayer().sendMessage(Messages.PREFIX + "Region already registred as rentregion");
-                            return;
-                        }
-                        Region.getRegionList().get(i).addSign(sign.getBlock().getLocation());
-                        sign.setCancelled(true);
-                        sign.getPlayer().sendMessage(Messages.PREFIX + Messages.SIGN_ADDED_TO_REGION);
-                        return;
-
-                    }
+            Region searchregion = Region.searchRegionbyNameAndWorld(regionname, worldname);
+            if(searchregion != null) {
+                if(!(searchregion instanceof SellRegion)) {
+                    sign.getPlayer().sendMessage(Messages.PREFIX + "Region already registred as a not-sellregion");
+                    return;
                 }
+                searchregion.addSign(sign.getBlock().getLocation());
+                sign.setCancelled(true);
+                sign.getPlayer().sendMessage(Messages.PREFIX + Messages.SIGN_ADDED_TO_REGION);
+                return;
             }
+
+
             LinkedList<Sign> sellsign = new LinkedList<Sign>();
             sellsign.add((Sign) sign.getBlock().getState());
             Region.getRegionList().add(new SellRegion(region, worldname, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,1,true));
@@ -191,22 +188,18 @@ public class ARMListener implements Listener {
                 }
             }
 
-
-            for(int i = 0; i < Region.getRegionList().size(); i++) {
-                if (Region.getRegionList().get(i).getRegionworld().equals(worldname)) {
-                    if (Region.getRegionList().get(i).getRegion().getId().equals(regionname)) {
-                        if (Region.getRegionList().get(i) instanceof SellRegion) {
-                            sign.getPlayer().sendMessage(Messages.PREFIX + "Region already registred as sellregion");
-                            return;
-                        }
-                        Region.getRegionList().get(i).addSign(sign.getBlock().getLocation());
-                        sign.setCancelled(true);
-                        sign.getPlayer().sendMessage(Messages.PREFIX + Messages.SIGN_ADDED_TO_REGION);
-                        return;
-
-                    }
+            Region searchregion = Region.searchRegionbyNameAndWorld(regionname, worldname);
+            if(searchregion != null) {
+                if(!(searchregion instanceof RentRegion)) {
+                    sign.getPlayer().sendMessage(Messages.PREFIX + "Region already registred as a not-rentregion");
+                    return;
                 }
+                searchregion.addSign(sign.getBlock().getLocation());
+                sign.setCancelled(true);
+                sign.getPlayer().sendMessage(Messages.PREFIX + Messages.SIGN_ADDED_TO_REGION);
+                return;
             }
+
             LinkedList<Sign> sellsign = new LinkedList<Sign>();
             sellsign.add((Sign) sign.getBlock().getState());
             Material defaultlogo = Material.RED_BED;
@@ -252,16 +245,7 @@ public class ARMListener implements Listener {
 
                 for(int i = 0; i < Region.getRegionList().size(); i++){
                     if(Region.getRegionList().get(i).hasSign(sign)){
-                        if(Region.getRegionList().get(i) instanceof SellRegion){
-                            SellRegion region = (SellRegion) Region.getRegionList().get(i);
-                            region.buy(event.getPlayer());
-                            return;
-                        }
-                        if(Region.getRegionList().get(i) instanceof RentRegion){
-                            RentRegion region = (RentRegion) Region.getRegionList().get(i);
-                            region.buy(event.getPlayer());
-                            return;
-                        }
+                        Region.getRegionList().get(i).buy(event.getPlayer());
                     }
                 }
             }

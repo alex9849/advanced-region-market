@@ -187,15 +187,11 @@ public class RentRegion extends Region {
             return;
         }
 
-        GregorianCalendar actualtime = new GregorianCalendar();
-        this.payedTill = actualtime.getTimeInMillis() + this.rentExtendPerClick;
-
         if(Main.getEcon().getBalance(player) < this.price) {
             player.sendMessage(Messages.PREFIX + Messages.NOT_ENOUGHT_MONEY);
             return;
         }
         Main.getEcon().withdrawPlayer(player, price);
-
 
         this.setSold(player);
         if(Main.isTeleportAfterRentRegionBought()){
@@ -206,15 +202,15 @@ public class RentRegion extends Region {
 
     @Override
     protected void setSold(OfflinePlayer player){
+        if(!this.sold) {
+            GregorianCalendar actualtime = new GregorianCalendar();
+            this.payedTill = actualtime.getTimeInMillis() + this.rentExtendPerClick;
+        }
         this.sold = true;
         Main.getWorldGuardInterface().deleteMembers(this.getRegion());
         Main.getWorldGuardInterface().setOwner(player, this.getRegion());
 
-        for(int i = 0; i < this.sellsign.size(); i++){
-            this.updateSignText(this.sellsign.get(i));
-        }
-
-
+        this.updateSigns();
 
         YamlConfiguration config = getRegionsConf();
         config.set("Regions." + this.regionworld + "." + this.region.getId() + ".sold", true);

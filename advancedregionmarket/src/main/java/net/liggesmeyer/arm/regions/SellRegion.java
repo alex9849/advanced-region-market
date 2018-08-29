@@ -157,9 +157,7 @@ public class SellRegion extends Region {
         Main.getWorldGuardInterface().deleteMembers(this.getRegion());
         Main.getWorldGuardInterface().setOwner(player, this.getRegion());
 
-        for (Sign aSellsign : this.sellsign) {
-            this.updateSignText(aSellsign);
-        }
+        this.updateSigns();
 
         YamlConfiguration config = Region.getRegionsConf();
         config.set("Regions." + this.regionworld + "." + this.region.getId() + ".sold", true);

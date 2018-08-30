@@ -56,6 +56,7 @@ public class Permission {
     public static final String ARM_HELP = "arm.help";
     public static final String ARM_BUY_SELLREGION = "arm.buy.sellregion";
     public static final String ARM_BUY_RENTREGION = "arm.buy.rentregion";
+    public static final String ARM_BUY_CONTRACTREGION = "arm.buy.contractregion";
     public static final String ARM_BUYKIND = "arm.buykind.";
     public static final String ARM_LIMIT = "arm.limit.";
 }

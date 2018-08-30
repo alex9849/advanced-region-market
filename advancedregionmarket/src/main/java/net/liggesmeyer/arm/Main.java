@@ -4,15 +4,12 @@ import net.liggesmeyer.adapters.*;
 import net.liggesmeyer.arm.Preseter.Preset;
 import net.liggesmeyer.arm.Preseter.RentPreset;
 import net.liggesmeyer.arm.Preseter.SellPreset;
-import net.liggesmeyer.arm.regions.Region;
-import net.liggesmeyer.arm.regions.RentRegion;
+import net.liggesmeyer.arm.regions.*;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import net.liggesmeyer.arm.Group.LimitGroup;
 import net.liggesmeyer.arm.gui.Gui;
-import net.liggesmeyer.arm.regions.RegionKind;
-import net.liggesmeyer.arm.regions.SellRegion;
 import net.liggesmeyer.inter.WorldEditInterface;
 import net.liggesmeyer.inter.WorldGuardInterface;
 import net.milkbowl.vault.economy.Economy;
@@ -334,6 +331,13 @@ public class Main extends JavaPlugin {
                                     Region.getRegionList().add(armregion);
                                 } else if (regiontype.equalsIgnoreCase("sellregion")){
                                     Region armregion = new SellRegion(region, regionworld, regionsigns, price, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, teleportLoc, lastreset,false);
+                                    armregion.updateSigns();
+                                    Region.getRegionList().add(armregion);
+                                } else if (regiontype.equalsIgnoreCase("contractregion")) {
+                                    long payedtill = Region.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".payedTill");
+                                    long extendTime = Region.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".extendTime");
+                                    Boolean terminated = Region.getRegionsConf().getBoolean("Regions." + worlds.get(y) + "." + regions.get(i) + ".terminated");
+                                    Region armregion = new ContractRegion(region, regionworld, regionsigns, price, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, teleportLoc, lastreset,extendTime, payedtill, terminated, false);
                                     armregion.updateSigns();
                                     Region.getRegionList().add(armregion);
                                 }

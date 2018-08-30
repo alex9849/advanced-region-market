@@ -126,10 +126,19 @@ public class Messages {
     public static String PRESET_DELETED = "Preset deleted!";
     public static String PRESET_NOT_FOUND = "No preset with this name found!";
     public static String PRESET_LOADED = "Preset loaded!";
-    public static String LIMIT_INFO_TOTAL = "Total"; //Not in Config! Please add
+    public static String LIMIT_INFO_TOTAL = "Total";
     public static String GUI_REGION_ITEM_NAME = "%regionid% (%regionkind%)";
     public static String GUI_REGIONFINDER_REGIONKIND_NAME = "%regionkind%";
     public static String RENTREGION_EXPIRATION_WARNING = "[WARNING] This RentRegion(s) will expire soon: ";
+    public static String CONTRACT_SIGN1 = "&2Contract"; //PLEASE ADD TODO
+    public static String CONTRACT_SIGN2 = "&2available";
+    public static String CONTRACT_SIGN3 = "%regionid%";
+    public static String CONTRACT_SIGN4 = "%price%%currency%/%extend%";
+    public static String CONTRACT_SOLD_SIGN1 = "&4Contract in use";
+    public static String CONTRACT_SOLD_SIGN2 = "%regionid%/%owner%";
+    public static String CONTRACT_SOLD_SIGN3 = "%price%%currency%/%extend%";
+    public static String CONTRACT_SOLD_SIGN4 = "%remaining%";
+    public static String CONTRACT_REGION_EXTENDED = "&aYour contract region %regionid% has been extended for %extend%. (For %price%%currency%.) ";
 
 
     public static List<String> GUI_TELEPORT_TO_REGION_BUTTON_LORE = new LinkedList<>();
@@ -402,6 +411,15 @@ public class Messages {
         GUI_REGION_ITEM_NAME = ChatColor.translateAlternateColorCodes('&', GUI_REGION_ITEM_NAME);
         GUI_REGIONFINDER_REGIONKIND_NAME = ChatColor.translateAlternateColorCodes('&', GUI_REGIONFINDER_REGIONKIND_NAME);
         RENTREGION_EXPIRATION_WARNING = ChatColor.translateAlternateColorCodes('&', RENTREGION_EXPIRATION_WARNING);
+        CONTRACT_SIGN1 = ChatColor.translateAlternateColorCodes('&', CONTRACT_SIGN1);
+        CONTRACT_SIGN2 = ChatColor.translateAlternateColorCodes('&', CONTRACT_SIGN2);
+        CONTRACT_SIGN3 = ChatColor.translateAlternateColorCodes('&', CONTRACT_SIGN3);
+        CONTRACT_SIGN4 = ChatColor.translateAlternateColorCodes('&', CONTRACT_SIGN4);
+        CONTRACT_SOLD_SIGN1 = ChatColor.translateAlternateColorCodes('&', CONTRACT_SOLD_SIGN1);
+        CONTRACT_SOLD_SIGN2 = ChatColor.translateAlternateColorCodes('&', CONTRACT_SOLD_SIGN2);
+        CONTRACT_SOLD_SIGN3 = ChatColor.translateAlternateColorCodes('&', CONTRACT_SOLD_SIGN3);
+        CONTRACT_SOLD_SIGN4 = ChatColor.translateAlternateColorCodes('&', CONTRACT_SOLD_SIGN4);
+        CONTRACT_REGION_EXTENDED = ChatColor.translateAlternateColorCodes('&', CONTRACT_REGION_EXTENDED);
 
 
         for(int i = 0; i < GUI_TELEPORT_TO_REGION_BUTTON_LORE.size(); i++){

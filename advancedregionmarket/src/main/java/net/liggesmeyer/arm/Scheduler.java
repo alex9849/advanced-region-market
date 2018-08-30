@@ -1,5 +1,6 @@
 package net.liggesmeyer.arm;
 
+import net.liggesmeyer.arm.regions.ContractRegion;
 import net.liggesmeyer.arm.regions.Region;
 import net.liggesmeyer.arm.regions.RentRegion;
 
@@ -12,6 +13,7 @@ public class Scheduler implements Runnable {
     @Override
     public void run() {
         RentRegion.doUpdates();
+        ContractRegion.doUpdates();
 
         if(Main.getEnableAutoReset()){
 

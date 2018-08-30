@@ -484,12 +484,10 @@ public abstract class Region {
             sender.sendMessage(Messages.REGION_INFO_HOTEL + this.isHotel);
             sender.sendMessage(Messages.REGION_INFO_DO_BLOCK_RESET + this.isDoBlockReset);
         }
-        if (this instanceof RentRegion){
-            sender.sendMessage(Messages.REGION_INFO_REMAINING_TIME + ((RentRegion) this).calcRemainingTime());
-            sender.sendMessage(Messages.REGION_INFO_EXTEND_PER_CLICK + ((RentRegion) this).getExtendPerClick());
-            sender.sendMessage(Messages.REGION_INFO_MAX_RENT_TIME + ((RentRegion) this).getMaxRentTime());
-        }
+        this.displayExtraInfo(sender);
     }
+
+    public abstract void displayExtraInfo(CommandSender sender);
 
     public static boolean regionInfoCommand(CommandSender sender){
         if (!(sender instanceof Player)) {

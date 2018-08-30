@@ -11,6 +11,7 @@ import net.liggesmeyer.arm.gui.Gui;
 import net.liggesmeyer.arm.gui.Icon;
 import org.bukkit.*;
 import org.bukkit.block.Sign;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -28,6 +29,11 @@ public class SellRegion extends Region {
         if(newreg) {
             this.updateSignText(sellsign.get(0));
         }
+    }
+
+    @Override
+    public void displayExtraInfo(CommandSender sender) {
+        return;
     }
 
     @Override

@@ -14,6 +14,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Sign;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -206,6 +207,13 @@ public class RentRegion extends Region {
             this.teleportToRegion(player);
         }
         player.sendMessage(Messages.PREFIX + Messages.REGION_BUYMESSAGE);
+    }
+
+    @Override
+    public void displayExtraInfo(CommandSender sender) {
+        sender.sendMessage(Messages.REGION_INFO_REMAINING_TIME + this.calcRemainingTime());
+        sender.sendMessage(Messages.REGION_INFO_EXTEND_PER_CLICK + this.getExtendPerClick());
+        sender.sendMessage(Messages.REGION_INFO_MAX_RENT_TIME + this.getMaxRentTime());
     }
 
     @Override

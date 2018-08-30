@@ -1022,6 +1022,36 @@ public class Main extends JavaPlugin {
             messagesconf.set("Messages.GUIRegionItemName", "%regionid% (%regionkind%)");
             messagesconf.set("Messages.GUIRegionFinderRegionKindName", "%regionkind%");
             messagesconf.set("Messages.RentRegionExpirationWarning", "&4[WARNING] This RentRegion(s) will expire soon: &c");
+            messagesconf.set("Messages.ContractSign1", "&2Contract");
+            messagesconf.set("Messages.ContractSign2", "&2available");
+            messagesconf.set("Messages.ContractSign3", "%regionid%");
+            messagesconf.set("Messages.ContractSign4", "%price%%currency%/%extend%");
+            messagesconf.set("Messages.ContractSoldSign1", "&4Contract in use");
+            messagesconf.set("Messages.ContractSoldSign2", "%regionid%/%owner%");
+            messagesconf.set("Messages.ContractSoldSign3", "%price%%currency%/%extend%");
+            messagesconf.set("Messages.ContractSoldSign4", "%remaining%");
+            messagesconf.set("Messages.ContractRegionExtended", "&aYour contract region %regionid% has been extended for %extend%. (For %price%%currency%.)");
+            messagesconf.set("Messages.GUIContractItem", "&6Manage contract");
+            messagesconf.set("Messages.RegionInfoTerminated", "&6Terminated: ");
+            messagesconf.set("Messages.RegionInfoAutoExtendTime", "&6Extend time: ");
+            messagesconf.set("Messages.RegionInfoRemainingTime", "&6Next extend in: ");
+            messagesconf.set("Messages.ContractRegionChangeTerminated", "&6The contract of &a%regionid% &6has been set to %statuslong%");
+            messagesconf.set("Messages.ContractRegionStatusActiveLong", "&aActive&6! Next Extension in %remaining%");
+            messagesconf.set("Messages.ContractRegionStatusActive", "&aActive");
+            messagesconf.set("Messages.ContractRegionStatusTerminatedLong", "&4Terminated&6! It will be resetted in %remaining%");
+            messagesconf.set("Messages.ContractRegionStatusTerminated", "&4Terminated");
+
+            List<String> contractItemLore = new ArrayList<>();
+            contractItemLore.add("&aStatus: %status%");
+            contractItemLore.add("&aIf active the next extend is in:");
+            contractItemLore.add("&6%remaining%");
+            messagesconf.set("Messages.GUIContractItemLore", contractItemLore);
+            List<String> contractItemRegionLore = new ArrayList<>();
+            contractItemRegionLore.add("&aStatus: %status%");
+            contractItemRegionLore.add("&aIf active the next extend is in:");
+            contractItemRegionLore.add("&6%remaining%");
+            messagesconf.set("Messages.GUIContractItemRegionLore", contractItemRegionLore);
+
             Messages.saveConfig();
 
             LinkedList<String> worlds = new LinkedList<String>(regionConf.getConfigurationSection("Regions").getKeys(false));

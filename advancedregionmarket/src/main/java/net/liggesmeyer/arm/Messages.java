@@ -139,7 +139,15 @@ public class Messages {
     public static String CONTRACT_SOLD_SIGN3 = "%price%%currency%/%extend%";
     public static String CONTRACT_SOLD_SIGN4 = "%remaining%";
     public static String CONTRACT_REGION_EXTENDED = "&aYour contract region %regionid% has been extended for %extend%. (For %price%%currency%.) ";
-
+    public static String GUI_CONTRACT_ITEM = "&aManage contract";
+    public static String REGION_INFO_TERMINATED = "&6Terminated: ";
+    public static String REGION_INFO_AUTO_EXTEND_TIME = "&6Extend time: ";
+    public static String REGION_INFO_NEXT_EXTEND_REMAINING_TIME = "&6Next extend in: ";
+    public static String CONTRACT_REGION_CHANGE_TERMINATED = "&6The contract of &a%regionid% &6has been set to %statuslong%";
+    public static String CONTRACT_REGION_STATUS_ACTIVE_LONG = "&aActive&6! Next Extension in %remaining%";
+    public static String CONTRACT_REGION_STATUS_ACTIVE = "&aActive";
+    public static String CONTRACT_REGION_STATUS_TERMINATED_LONG = "&4Terminated&6! It will be resetted in %remaining%";
+    public static String CONTRACT_REGION_STATUS_TERMINATED = "&4Terminated";
 
     public static List<String> GUI_TELEPORT_TO_REGION_BUTTON_LORE = new LinkedList<>();
     public static List<String> GUI_MAKE_OWNER_BUTTON_LORE = new LinkedList<>();
@@ -151,6 +159,8 @@ public class Messages {
     public static List<String> GUI_RENT_REGION_LORE = new LinkedList<>();
     public static List<String> GUI_USER_SELL_BUTTON_LORE = new LinkedList<>();
     public static List<String> GUI_MEMBER_INFO_LORE = new LinkedList<>();
+    public static List<String> GUI_CONTRACT_ITEM_LORE = new LinkedList<>();
+    public static List<String> GUI_CONTRACT_REGION_LORE = new LinkedList<>();
 
 
 
@@ -289,6 +299,26 @@ public class Messages {
         GUI_REGION_ITEM_NAME = config.getString("Messages.GUIRegionItemName");
         GUI_REGIONFINDER_REGIONKIND_NAME = config.getString("Messages.GUIRegionFinderRegionKindName");
         RENTREGION_EXPIRATION_WARNING = config.getString("Messages.RentRegionExpirationWarning");
+        CONTRACT_SIGN1 = config.getString("Messages.ContractSign1");
+        CONTRACT_SIGN2 = config.getString("Messages.ContractSign2");
+        CONTRACT_SIGN3 = config.getString("Messages.ContractSign3");
+        CONTRACT_SIGN4 = config.getString("Messages.ContractSign4");
+        CONTRACT_SOLD_SIGN1 = config.getString("Messages.ContractSoldSign1");
+        CONTRACT_SOLD_SIGN2 = config.getString("Messages.ContractSoldSign2");
+        CONTRACT_SOLD_SIGN3 = config.getString("Messages.ContractSoldSign3");
+        CONTRACT_SOLD_SIGN4 = config.getString("Messages.ContractSoldSign4");
+        CONTRACT_REGION_EXTENDED = config.getString("Messages.ContractRegionExtended");
+        GUI_CONTRACT_ITEM = config.getString("Messages.GUIContractItem");
+        REGION_INFO_TERMINATED = config.getString("Messages.RegionInfoTerminated");
+        REGION_INFO_AUTO_EXTEND_TIME = config.getString("Messages.RegionInfoAutoExtendTime");
+        REGION_INFO_NEXT_EXTEND_REMAINING_TIME = config.getString("Messages.RegionInfoRemainingTime");
+        CONTRACT_REGION_CHANGE_TERMINATED = config.getString("Messages.ContractRegionChangeTerminated");
+        CONTRACT_REGION_STATUS_ACTIVE_LONG = config.getString("Messages.ContractRegionStatusActiveLong");
+        CONTRACT_REGION_STATUS_ACTIVE = config.getString("Messages.ContractRegionStatusActive");
+        CONTRACT_REGION_STATUS_TERMINATED_LONG = config.getString("Messages.ContractRegionStatusTerminatedLong");
+        CONTRACT_REGION_STATUS_TERMINATED = config.getString("Messages.ContractRegionStatusTerminated");
+        GUI_CONTRACT_ITEM_LORE = config.getStringList("Messages.GUIContractItemLore");
+        GUI_CONTRACT_REGION_LORE = config.getStringList("Messages.GUIContractItemRegionLore");
 
         Messages.translateColorCodes();
     }
@@ -420,6 +450,15 @@ public class Messages {
         CONTRACT_SOLD_SIGN3 = ChatColor.translateAlternateColorCodes('&', CONTRACT_SOLD_SIGN3);
         CONTRACT_SOLD_SIGN4 = ChatColor.translateAlternateColorCodes('&', CONTRACT_SOLD_SIGN4);
         CONTRACT_REGION_EXTENDED = ChatColor.translateAlternateColorCodes('&', CONTRACT_REGION_EXTENDED);
+        GUI_CONTRACT_ITEM = ChatColor.translateAlternateColorCodes('&', GUI_CONTRACT_ITEM);
+        REGION_INFO_TERMINATED = ChatColor.translateAlternateColorCodes('&', REGION_INFO_TERMINATED);
+        REGION_INFO_AUTO_EXTEND_TIME = ChatColor.translateAlternateColorCodes('&', REGION_INFO_AUTO_EXTEND_TIME);
+        REGION_INFO_NEXT_EXTEND_REMAINING_TIME = ChatColor.translateAlternateColorCodes('&', REGION_INFO_NEXT_EXTEND_REMAINING_TIME);
+        CONTRACT_REGION_CHANGE_TERMINATED = ChatColor.translateAlternateColorCodes('&', CONTRACT_REGION_CHANGE_TERMINATED);
+        CONTRACT_REGION_STATUS_ACTIVE_LONG = ChatColor.translateAlternateColorCodes('&', CONTRACT_REGION_STATUS_ACTIVE_LONG);
+        CONTRACT_REGION_STATUS_ACTIVE = ChatColor.translateAlternateColorCodes('&', CONTRACT_REGION_STATUS_ACTIVE);
+        CONTRACT_REGION_STATUS_TERMINATED_LONG = ChatColor.translateAlternateColorCodes('&', CONTRACT_REGION_STATUS_TERMINATED_LONG);
+        CONTRACT_REGION_STATUS_TERMINATED = ChatColor.translateAlternateColorCodes('&', CONTRACT_REGION_STATUS_TERMINATED);
 
 
         for(int i = 0; i < GUI_TELEPORT_TO_REGION_BUTTON_LORE.size(); i++){
@@ -451,6 +490,12 @@ public class Messages {
         }
         for(int i = 0; i < GUI_MEMBER_INFO_LORE.size(); i++){
             GUI_MEMBER_INFO_LORE.set(i, ChatColor.translateAlternateColorCodes('&', GUI_MEMBER_INFO_LORE.get(i)));
+        }
+        for(int i = 0; i < GUI_CONTRACT_ITEM_LORE.size(); i++){
+            GUI_CONTRACT_ITEM_LORE.set(i, ChatColor.translateAlternateColorCodes('&', GUI_CONTRACT_ITEM_LORE.get(i)));
+        }
+        for(int i = 0; i < GUI_CONTRACT_REGION_LORE.size(); i++){
+            GUI_CONTRACT_REGION_LORE.set(i, ChatColor.translateAlternateColorCodes('&', GUI_CONTRACT_REGION_LORE.get(i)));
         }
     }
 

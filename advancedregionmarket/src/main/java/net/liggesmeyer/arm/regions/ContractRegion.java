@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Sign;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
@@ -39,6 +40,13 @@ public class ContractRegion extends Region {
             saveRegionsConf(config);
             this.updateSignText(contractsign.get(0));
         }
+    }
+
+    @Override
+    public void displayExtraInfo(CommandSender sender) {
+        sender.sendMessage(Messages.REGION_INFO_TERMINATED + this.terminated);
+        sender.sendMessage(Messages.REGION_INFO_AUTO_EXTEND_TIME + this.getExtendTimeString());
+        sender.sendMessage(Messages.REGION_INFO_NEXT_EXTEND_REMAINING_TIME + this.calcRemainingTime());
     }
 
     @Override
@@ -158,8 +166,13 @@ public class ContractRegion extends Region {
             return;
         }
         if(this.sold) {
-            player.sendMessage(Messages.PREFIX + Messages.REGION_ALREADY_SOLD);
-            return;
+            if(Main.getWorldGuardInterface().getOwners(getRegion()).contains(player.getUniqueId()) || player.hasPermission(Permission.ADMIN_TERMINATE_CONTRACT)) {
+                this.changeTerminated(player);
+                return;
+            } else {
+                player.sendMessage(Messages.PREFIX + Messages.REGION_ALREADY_SOLD);
+                return;
+            }
         }
         if (this.regionKind != RegionKind.DEFAULT){
             if(!player.hasPermission(Permission.ARM_BUYKIND + this.regionKind.getName())){
@@ -206,7 +219,7 @@ public class ContractRegion extends Region {
 
     @Override
     public void userSell(Player player) {
-
+        this.resetRegion(player);
     }
 
     @Override
@@ -308,20 +321,22 @@ public class ContractRegion extends Region {
                                 region.extend();
                                 region.updateSigns();
                             } else {
-                                if(Main.getEcon().getBalance(oplayer) < region.getPrice()) {
-                                    region.unsell();
-                                    if(region.isDoBlockReset()){
-                                        region.resetBlocks();
-                                    }
-                                } else {
-                                    Main.getEcon().withdrawPlayer(oplayer, region.getPrice());
-                                    if(oplayer.isOnline()) {
-                                        Player player = Bukkit.getPlayer(owners.get(0));
-                                        region.extend(player);
-                                        region.updateSigns();
+                                if(Main.getEcon().hasAccount(oplayer)) {
+                                    if(Main.getEcon().getBalance(oplayer) < region.getPrice()) {
+                                        region.unsell();
+                                        if(region.isDoBlockReset()){
+                                            region.resetBlocks();
+                                        }
                                     } else {
-                                        region.extend();
-                                        region.updateSigns();
+                                        Main.getEcon().withdrawPlayer(oplayer, region.getPrice());
+                                        if(oplayer.isOnline()) {
+                                            Player player = Bukkit.getPlayer(owners.get(0));
+                                            region.extend(player);
+                                            region.updateSigns();
+                                        } else {
+                                            region.extend();
+                                            region.updateSigns();
+                                        }
                                     }
                                 }
                             }
@@ -353,6 +368,52 @@ public class ContractRegion extends Region {
             sendmessage = sendmessage.replace("%extend%", getExtendTimeString());
             sendmessage = sendmessage.replace("%regionid%", getRegion().getId());
             player.sendMessage(sendmessage);
+        }
+    }
+
+    public void changeTerminated(){
+        this.changeTerminated(null);
+    }
+
+    public void changeTerminated(Player player) {
+        this.setTerminated(!this.terminated, player);
+    }
+
+    public void setTerminated(Boolean bool) {
+        this.setTerminated(bool, null);
+    }
+
+    public void setTerminated(Boolean bool, Player player) {
+        this.terminated = bool;
+        YamlConfiguration config = Region.getRegionsConf();
+        config.set("Regions." + this.regionworld + "." + this.region.getId() + ".terminated", terminated);
+        Region.saveRegionsConf(config);
+        if(player != null) {
+            String sendmessage = Messages.CONTRACT_REGION_CHANGE_TERMINATED;
+            sendmessage = sendmessage.replace("%regionid%", this.getRegion().getId());
+            sendmessage = sendmessage.replace("%statuslong%", getTerminationStringLong());
+            sendmessage = sendmessage.replace("%status%", getTerminationStringLong());
+            player.sendMessage(Messages.PREFIX + sendmessage);
+        }
+    }
+
+    public String getTerminationStringLong(){
+        String retMessage;
+        if(this.terminated) {
+            retMessage = Messages.CONTRACT_REGION_STATUS_TERMINATED_LONG;
+        } else {
+            retMessage = Messages.CONTRACT_REGION_STATUS_ACTIVE_LONG;
+        }
+        retMessage = retMessage.replace("%remaining%", this.calcRemainingTime());
+        retMessage = retMessage.replace("%regionid%", this.getRegion().getId());
+        return retMessage;
+    }
+
+    public String getTerminationString(){
+        if(this.terminated) {
+            return Messages.CONTRACT_REGION_STATUS_TERMINATED;
+        } else {
+            return Messages.CONTRACT_REGION_STATUS_ACTIVE;
         }
     }
 }

@@ -228,43 +228,46 @@ public class ContractRegion extends Region {
     }
 
     public String calcRemainingTime() {
-            GregorianCalendar actualtime = new GregorianCalendar();
-            GregorianCalendar payedTill = new GregorianCalendar();
-            payedTill.setTimeInMillis(this.payedTill);
+        GregorianCalendar actualtime = new GregorianCalendar();
+        GregorianCalendar payedTill = new GregorianCalendar();
+        payedTill.setTimeInMillis(this.payedTill);
 
-            long remainingMilliSeconds = payedTill.getTimeInMillis() - actualtime.getTimeInMillis();
+        long remainingMilliSeconds = payedTill.getTimeInMillis() - actualtime.getTimeInMillis();
 
-            if(remainingMilliSeconds < 0){
-                return "0s";
-            }
+        if(remainingMilliSeconds < 0){
+            return "0s";
+        }
 
-            long remainingDays = TimeUnit.DAYS.convert(remainingMilliSeconds, TimeUnit.MILLISECONDS);
-            remainingMilliSeconds = remainingMilliSeconds - (remainingDays * 1000 * 60 * 60 *24);
+        long remainingDays = TimeUnit.DAYS.convert(remainingMilliSeconds, TimeUnit.MILLISECONDS);
+        remainingMilliSeconds = remainingMilliSeconds - (remainingDays * 1000 * 60 * 60 *24);
 
-            long remainingHours = TimeUnit.HOURS.convert(remainingMilliSeconds, TimeUnit.MILLISECONDS);
-            remainingMilliSeconds = remainingMilliSeconds - (remainingHours * 1000 * 60 * 60);
+        long remainingHours = TimeUnit.HOURS.convert(remainingMilliSeconds, TimeUnit.MILLISECONDS);
+        remainingMilliSeconds = remainingMilliSeconds - (remainingHours * 1000 * 60 * 60);
 
-            long remainingMinutes = TimeUnit.MINUTES.convert(remainingMilliSeconds, TimeUnit.MILLISECONDS);
-            remainingMilliSeconds = remainingMilliSeconds - (remainingMinutes * 1000 * 60);
+        long remainingMinutes = TimeUnit.MINUTES.convert(remainingMilliSeconds, TimeUnit.MILLISECONDS);
+        remainingMilliSeconds = remainingMilliSeconds - (remainingMinutes * 1000 * 60);
 
-            long remainingSeconds = TimeUnit.SECONDS.convert(remainingMilliSeconds, TimeUnit.MILLISECONDS);
+        long remainingSeconds = TimeUnit.SECONDS.convert(remainingMilliSeconds, TimeUnit.MILLISECONDS);
 
 
-            String timetoString = "";
-            if(remainingDays != 0) {
-                timetoString = timetoString + remainingDays + "d";
-            }
-            if(remainingHours != 0) {
-                timetoString = timetoString + remainingHours + "h";
-            }
-            if(remainingMinutes != 0) {
-                timetoString = timetoString + remainingMinutes + "m";
-            }
-            if(remainingSeconds != 0) {
-                timetoString = timetoString + remainingSeconds + "s";
-            }
+        String timetoString = "";
+        if(remainingDays != 0) {
+            timetoString = timetoString + remainingDays + "d";
+        }
+        if(remainingHours != 0) {
+            timetoString = timetoString + remainingHours + "h";
+        }
+        if(remainingMinutes != 0) {
+            timetoString = timetoString + remainingMinutes + "m";
+        }
+        if(remainingSeconds != 0) {
+            timetoString = timetoString + remainingSeconds + "s";
+        }
+        if(remainingSeconds == 0 && remainingMinutes == 0 && remainingHours == 0 && remainingDays == 0){
+            timetoString = "0" + "s";
+        }
 
-            return timetoString;
+        return timetoString;
         }
 
     public String getExtendTimeString(){
@@ -294,6 +297,9 @@ public class ContractRegion extends Region {
         }
         if(remainingSeconds != 0) {
             timetoString = timetoString + remainingSeconds + "s";
+        }
+        if(remainingSeconds == 0 && remainingMinutes == 0 && remainingHours == 0 && remainingDays == 0){
+            timetoString = "0" + "s";
         }
 
         return timetoString;

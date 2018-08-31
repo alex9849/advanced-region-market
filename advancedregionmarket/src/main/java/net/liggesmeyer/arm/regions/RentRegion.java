@@ -314,6 +314,9 @@ public class RentRegion extends Region {
         if(remainingSeconds != 0) {
             timetoString = timetoString + remainingSeconds + "s";
         }
+        if(remainingSeconds == 0 && remainingMinutes == 0 && remainingHours == 0 && remainingDays == 0){
+            timetoString = "0" + "s";
+        }
 
         return timetoString;
     }
@@ -345,6 +348,9 @@ public class RentRegion extends Region {
         }
         if(remainingSeconds != 0) {
             timetoString = timetoString + remainingSeconds + "s";
+        }
+        if(remainingSeconds == 0 && remainingMinutes == 0 && remainingHours == 0 && remainingDays == 0){
+            timetoString = "0" + "s";
         }
 
         return timetoString;

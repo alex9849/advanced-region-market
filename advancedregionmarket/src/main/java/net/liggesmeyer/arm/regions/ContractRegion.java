@@ -437,6 +437,19 @@ public class ContractRegion extends Region {
         if(!(region instanceof ContractRegion)) {
             player.sendMessage(Messages.PREFIX + Messages.REGION_IS_NOT_A_CONTRACT_REGION);
         }
+
+        if(!region.sold) {
+            player.sendMessage(Messages.PREFIX + Messages.REGION_NOT_SOLD);
+            return true;
+        }
+
+        if(!Main.getWorldGuardInterface().hasOwner(player, region.getRegion())) {
+            if(!player.hasPermission(Permission.ADMIN_TERMINATE_CONTRACT)){
+                player.sendMessage(Messages.PREFIX + Messages.REGION_NOT_OWN);
+                return true;
+            }
+        }
+
         ContractRegion contractRegion = (ContractRegion) region;
         contractRegion.setTerminated(Boolean.parseBoolean(setting), player);
         return true;

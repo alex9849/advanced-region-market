@@ -433,13 +433,14 @@ public class RentRegion extends Region {
             }
         }
 
+        if(!this.sold) {
+            player.sendMessage(Messages.PREFIX + Messages.REGION_NOT_SOLD);
+            return;
+        }
+
         if(!Main.getWorldGuardInterface().hasOwner(player, this.getRegion())) {
             if(!player.hasPermission(Permission.ADMIN_EXTEND)){
                 player.sendMessage(Messages.PREFIX + Messages.REGION_NOT_OWN);
-                return;
-            }
-            if(!this.sold) {
-                player.sendMessage(Messages.PREFIX + Messages.REGION_NOT_SOLD);
                 return;
             }
         }

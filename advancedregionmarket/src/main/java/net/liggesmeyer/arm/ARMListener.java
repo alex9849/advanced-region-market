@@ -10,6 +10,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -24,12 +26,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.logging.Level;
 
 public class ARMListener implements Listener {
 
 
     @EventHandler
     public void addSign(SignChangeEvent sign) {
+        if(sign.isCancelled()) {
+            return;
+        }
+
         RegionKind regionkind = RegionKind.DEFAULT;
         Boolean autoReset = true;
         Boolean isHotel = false;
@@ -278,6 +285,10 @@ public class ARMListener implements Listener {
 
     @EventHandler
     public void removeSign(BlockBreakEvent block) {
+        if(block.isCancelled()){
+            return;
+        }
+
         if ((block.getBlock().getType() != Material.SIGN) && (block.getBlock().getType() != Material.WALL_SIGN)) {
             return;
         }
@@ -364,7 +375,7 @@ public class ARMListener implements Listener {
     }
 
     @EventHandler
-    public void protectSigns(BlockPhysicsEvent sign) {
+    public void protectSignPhysics(BlockPhysicsEvent sign) {
         if (sign.getBlock().getType() == Material.SIGN || sign.getBlock().getType() == Material.WALL_SIGN){
             for (int i = 0; i < Region.getRegionList().size() ; i++){
                 if(Region.getRegionList().get(i).hasSign((Sign) sign.getBlock().getState())){
@@ -373,6 +384,8 @@ public class ARMListener implements Listener {
             }
         }
     }
+
+
 
     @EventHandler
     public void setLastLoginAndOpenOvertake(PlayerJoinEvent event) {

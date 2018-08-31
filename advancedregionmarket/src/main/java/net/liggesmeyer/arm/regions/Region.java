@@ -28,6 +28,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.logging.Level;
 
 public abstract class Region {
     private static List<Region> regionList = new ArrayList<>();

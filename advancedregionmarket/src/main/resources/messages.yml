@@ -152,6 +152,8 @@ Messages:
   - '&cYou can only reset you region once every %days% days'
   - '&2You and all members keep their rights on the region'
   RegionTransferCompleteMessage: '&aTransfer complete!'
+  RegiontransferMemberNotOnline: '&4Member not online!'
+  RegiontransferLimitError: '&4Transfer aborted! (Region would exceed players limit)'
   GUICloseWindow: '&6Close window'
   TakeOverItemLore:
   - '&aYou are a member of this region. The owner of it was not online'
@@ -160,12 +162,12 @@ Messages:
   - '&cIf the region does not get transferred or the owner does not come online'
   - '&cin the next&7 %days% &cdays the region will be resetted and everybody on it'
   - '&cwill lose their rights. Afterwards it will go back for sale!'
-  MemberlistInfo: '&6Adding members:'
-  MemberlistInfoLore:
+  OwnerMemberlistInfo: '&6Adding members:'
+  OwnerMemberlistInfoLore:
   - '&aYou can add members to your region'
   - '&ain order to build with them together'
   - '&aYou can add members with:'
-  - '&6/arm addmember REGIONID USERNAME'
+  - '&6/arm addmember %regionid% USERNAME'
   - '&aMembers need to be online to add them'
   GUIExtendRentRegionButton: '&1Extend region'
   GUIExtendRentRegionButtonLore:

@@ -6,6 +6,7 @@ import net.liggesmeyer.arm.Permission;
 import net.liggesmeyer.arm.regions.Region;
 import net.liggesmeyer.arm.regions.RegionKind;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;

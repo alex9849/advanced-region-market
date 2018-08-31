@@ -757,8 +757,10 @@ public class Gui implements Listener {
         for(int i = 0; i < members.size(); i++) {
             ItemStack membersitem = new ItemStack(Material.PLAYER_HEAD, 1, (short) 3);
             SkullMeta membersitemmeta = (SkullMeta) membersitem.getItemMeta();
-            membersitemmeta.setOwner(Bukkit.getOfflinePlayer(members.get(i)).getName());
-            membersitemmeta.setDisplayName(Bukkit.getOfflinePlayer(members.get(i)).getName());
+            if(Bukkit.getOfflinePlayer(members.get(i)).getName() != null) {
+                membersitemmeta.setOwner(Bukkit.getOfflinePlayer(members.get(i)).getName());
+                membersitemmeta.setDisplayName(Bukkit.getOfflinePlayer(members.get(i)).getName());
+            }
             membersitem.setItemMeta(membersitemmeta);
             int finalI = i;
             Icon membersicon = new Icon(membersitem, i).addClickAction(new ClickAction() {
@@ -773,8 +775,12 @@ public class Gui implements Listener {
         if(members.size() == 0){
             ItemStack info = new ItemStack(Gui.INFO_ITEM);
             ItemMeta infoMeta = info.getItemMeta();
-            infoMeta.setDisplayName(Messages.MEMBERLIST_INFO);
-            infoMeta.setLore(Messages.MEMBERLIST_INFO_LORE);
+            infoMeta.setDisplayName(Messages.GUI_OWNER_MEMBER_INFO_ITEM);
+            List<String> lore = new ArrayList<>(Messages.GUI_OWNER_MEMBER_INFO_LORE);
+            for(int i = 0; i < lore.size(); i++) {
+                lore.set(i, lore.get(i).replace("%regionid%", region.getRegion().getId()));
+            }
+            infoMeta.setLore(lore);
             info.setItemMeta(infoMeta);
             Icon infoButton = new Icon(info, (0));
             inv.addIcon(infoButton);
@@ -855,12 +861,21 @@ public class Gui implements Listener {
         ItemMeta yesItemMeta = yesItem.getItemMeta();
         yesItemMeta.setDisplayName(Messages.GUI_YES);
         yesItem.setItemMeta(yesItemMeta);
-
+        Player onlinemember = Bukkit.getPlayer(member.getUniqueId());
         Icon yesButton = new Icon(yesItem, 0).addClickAction(new ClickAction() {
             @Override
             public void execute(Player player) {
-                region.setNewOwner(member);
-                player.sendMessage(Messages.PREFIX + "Transfer Complete");
+                if(onlinemember == null) {
+                    player.sendMessage(Messages.PREFIX + Messages.REGION_TRANSFER_MEMBER_NOT_ONLINE);
+                    return;
+                }
+                if(LimitGroup.isCanBuyAnother(onlinemember, region)) {
+                    region.setNewOwner(onlinemember);
+                    player.sendMessage(Messages.PREFIX + Messages.REGION_TRANSFER_COMPLETE_MESSAGE);
+                } else {
+                    player.sendMessage(Messages.PREFIX + Messages.REGION_TRANSFER_LIMIT_ERROR);
+                }
+
                 player.closeInventory();
             }
         });

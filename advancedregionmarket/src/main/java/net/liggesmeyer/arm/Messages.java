@@ -149,6 +149,9 @@ public class Messages {
     public static String CONTRACT_REGION_STATUS_TERMINATED_LONG = "&4Terminated&6! It will be resetted in %remaining%";
     public static String CONTRACT_REGION_STATUS_TERMINATED = "&4Terminated";
     public static String REGION_IS_NOT_A_CONTRACT_REGION = "&4Region is not a contractregion!";
+    public static String GUI_OWNER_MEMBER_INFO_ITEM = "";
+    public static String REGION_TRANSFER_MEMBER_NOT_ONLINE = "Member not online!";
+    public static String REGION_TRANSFER_LIMIT_ERROR = "Transfer aborted! (Region would exceed players limit)";
 
     public static List<String> GUI_TELEPORT_TO_REGION_BUTTON_LORE = new LinkedList<>();
     public static List<String> GUI_MAKE_OWNER_BUTTON_LORE = new LinkedList<>();
@@ -162,7 +165,7 @@ public class Messages {
     public static List<String> GUI_MEMBER_INFO_LORE = new LinkedList<>();
     public static List<String> GUI_CONTRACT_ITEM_LORE = new LinkedList<>();
     public static List<String> GUI_CONTRACT_REGION_LORE = new LinkedList<>();
-
+    public static List<String> GUI_OWNER_MEMBER_INFO_LORE = new LinkedList<>();
 
 
     public static void read(){
@@ -249,7 +252,7 @@ public class Messages {
         GUI_TAKEOVER_MENU_NAME = config.getString("Messages.GUIRegionTakeOverMenuName");
         REGION_TRANSFER_COMPLETE_MESSAGE = config.getString("Messages.RegionTransferCompleteMessage");
         GUI_CLOSE = config.getString("Messages.GUICloseWindow");
-        MEMBERLIST_INFO = config.getString("Messages.MemberlistInfo");
+        GUI_OWNER_MEMBER_INFO_ITEM = config.getString("Messages.OwnerMemberlistInfo");
         RENT_SIGN1 = config.getString("Messages.RentSign1");
         RENT_SIGN2 = config.getString("Messages.RentSign2");
         RENT_SIGN3 = config.getString("Messages.RentSign3");
@@ -271,7 +274,7 @@ public class Messages {
         GUI_REMOVE_MEMBER_BUTTON_LORE = config.getStringList("Messages.GUIRemoveMemberButtonLore");
         GUI_RESET_REGION_BUTTON_LORE = config.getStringList("Messages.GUIResetRegionButtonLore");
         GUI_TAKEOVER_ITEM_LORE = config.getStringList("Messages.TakeOverItemLore");
-        MEMBERLIST_INFO_LORE = config.getStringList("Messages.MemberlistInfoLore");
+        GUI_OWNER_MEMBER_INFO_LORE = config.getStringList("Messages.OwnerMemberlistInfoLore");
         GUI_EXTEND_BUTTON_LORE = config.getStringList("Messages.GUIExtendRentRegionButtonLore");
         GUI_RENT_REGION_LORE = config.getStringList("Messages.GUIRentRegionLore");
         GUI_USER_SELL_BUTTON_LORE = config.getStringList("Messages.GUIUserSellButtonLore");
@@ -321,6 +324,8 @@ public class Messages {
         GUI_CONTRACT_ITEM_LORE = config.getStringList("Messages.GUIContractItemLore");
         GUI_CONTRACT_REGION_LORE = config.getStringList("Messages.GUIContractItemRegionLore");
         REGION_IS_NOT_A_CONTRACT_REGION = config.getString("Messages.RegionIsNotAContractRegion");
+        REGION_TRANSFER_MEMBER_NOT_ONLINE = config.getString("Messages.RegiontransferMemberNotOnline");
+        REGION_TRANSFER_LIMIT_ERROR = config.getString("Messages.RegiontransferLimitError");
 
         Messages.translateColorCodes();
     }
@@ -462,6 +467,9 @@ public class Messages {
         CONTRACT_REGION_STATUS_TERMINATED_LONG = ChatColor.translateAlternateColorCodes('&', CONTRACT_REGION_STATUS_TERMINATED_LONG);
         CONTRACT_REGION_STATUS_TERMINATED = ChatColor.translateAlternateColorCodes('&', CONTRACT_REGION_STATUS_TERMINATED);
         REGION_IS_NOT_A_CONTRACT_REGION = ChatColor.translateAlternateColorCodes('&', REGION_IS_NOT_A_CONTRACT_REGION);
+        GUI_OWNER_MEMBER_INFO_ITEM = ChatColor.translateAlternateColorCodes('&', GUI_OWNER_MEMBER_INFO_ITEM);
+        REGION_TRANSFER_MEMBER_NOT_ONLINE = ChatColor.translateAlternateColorCodes('&', REGION_TRANSFER_MEMBER_NOT_ONLINE);
+        REGION_TRANSFER_LIMIT_ERROR = ChatColor.translateAlternateColorCodes('&', REGION_TRANSFER_LIMIT_ERROR);
 
 
         for(int i = 0; i < GUI_TELEPORT_TO_REGION_BUTTON_LORE.size(); i++){
@@ -499,6 +507,9 @@ public class Messages {
         }
         for(int i = 0; i < GUI_CONTRACT_REGION_LORE.size(); i++){
             GUI_CONTRACT_REGION_LORE.set(i, ChatColor.translateAlternateColorCodes('&', GUI_CONTRACT_REGION_LORE.get(i)));
+        }
+        for(int i = 0; i < GUI_OWNER_MEMBER_INFO_LORE.size(); i++) {
+            GUI_OWNER_MEMBER_INFO_LORE.set(i, ChatColor.translateAlternateColorCodes('&', GUI_OWNER_MEMBER_INFO_LORE.get(i)));
         }
     }
 

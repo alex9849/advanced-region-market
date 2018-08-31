@@ -1066,6 +1066,8 @@ public class Main extends JavaPlugin {
             messagesconf.set("Messages.ContractRegionStatusTerminatedLong", "&4Terminated&6! It will be resetted in %remaining%");
             messagesconf.set("Messages.ContractRegionStatusTerminated", "&4Terminated");
             messagesconf.set("Messages.RegionIsNotAContractRegion", "&4Region is not a contractregion!");
+            messagesconf.set("Messages.RegiontransferMemberNotOnline", "&4Member not online!");
+            messagesconf.set("Messages.RegiontransferLimitError", "&4Transfer aborted! (Region would exceed players limit)");
 
             List<String> contractItemLore = new ArrayList<>();
             contractItemLore.add("&aStatus: %status%");
@@ -1077,6 +1079,16 @@ public class Main extends JavaPlugin {
             contractItemRegionLore.add("&aIf active the next extend is in:");
             contractItemRegionLore.add("&6%remaining%");
             messagesconf.set("Messages.GUIContractItemRegionLore", contractItemRegionLore);
+            List<String> memberlistInfolore = new LinkedList<>(messagesconf.getStringList("Messages.MemberlistInfoLore"));
+            String memberlistinfo = messagesconf.getString("Messages.MemberlistInfo");
+            List<String> ownermemberlistInfolore = new LinkedList<>(messagesconf.getStringList("Messages.MemberlistInfoLore"));
+            String ownermemberlistinfo = messagesconf.getString("Messages.MemberlistInfo");
+            messagesconf.set("Messages.MemberlistInfo", null);
+            messagesconf.set("Messages.MemberlistInfoLore", null);
+            messagesconf.set("Messages.MemberlistInfo", memberlistinfo);
+            messagesconf.set("Messages.MemberlistInfoLore", memberlistInfolore);
+            messagesconf.set("Messages.OwnerMemberlistInfo", ownermemberlistinfo);
+            messagesconf.set("Messages.OwnerMemberlistInfoLore", ownermemberlistInfolore);
 
             Messages.saveConfig();
 

@@ -75,6 +75,7 @@ Messages:
   RegionNotOwn: '&4You do not own this region!'
   RegionNotSold: '&4Region not sold!'
   RegionIsNotARentregion: '&4Region is not a rentregion!'
+  RegionIsNotAContractRegion: '&4Region is not a contractregion!'
   RegionTeleportMessage: '&7You have been teleported to %regionid%'
   RegionKinds: '&6Regionkinds:'
   ResetRegionResetingBlocks: '&7Resetting blocks...'

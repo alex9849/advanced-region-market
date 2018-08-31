@@ -130,7 +130,7 @@ public class Messages {
     public static String GUI_REGION_ITEM_NAME = "%regionid% (%regionkind%)";
     public static String GUI_REGIONFINDER_REGIONKIND_NAME = "%regionkind%";
     public static String RENTREGION_EXPIRATION_WARNING = "[WARNING] This RentRegion(s) will expire soon: ";
-    public static String CONTRACT_SIGN1 = "&2Contract"; //PLEASE ADD TODO
+    public static String CONTRACT_SIGN1 = "&2Contract";
     public static String CONTRACT_SIGN2 = "&2available";
     public static String CONTRACT_SIGN3 = "%regionid%";
     public static String CONTRACT_SIGN4 = "%price%%currency%/%extend%";
@@ -148,6 +148,7 @@ public class Messages {
     public static String CONTRACT_REGION_STATUS_ACTIVE = "&aActive";
     public static String CONTRACT_REGION_STATUS_TERMINATED_LONG = "&4Terminated&6! It will be resetted in %remaining%";
     public static String CONTRACT_REGION_STATUS_TERMINATED = "&4Terminated";
+    public static String REGION_IS_NOT_A_CONTRACT_REGION = "&4Region is not a contractregion!";
 
     public static List<String> GUI_TELEPORT_TO_REGION_BUTTON_LORE = new LinkedList<>();
     public static List<String> GUI_MAKE_OWNER_BUTTON_LORE = new LinkedList<>();
@@ -319,6 +320,7 @@ public class Messages {
         CONTRACT_REGION_STATUS_TERMINATED = config.getString("Messages.ContractRegionStatusTerminated");
         GUI_CONTRACT_ITEM_LORE = config.getStringList("Messages.GUIContractItemLore");
         GUI_CONTRACT_REGION_LORE = config.getStringList("Messages.GUIContractItemRegionLore");
+        REGION_IS_NOT_A_CONTRACT_REGION = config.getString("Messages.RegionIsNotAContractRegion");
 
         Messages.translateColorCodes();
     }
@@ -459,6 +461,7 @@ public class Messages {
         CONTRACT_REGION_STATUS_ACTIVE = ChatColor.translateAlternateColorCodes('&', CONTRACT_REGION_STATUS_ACTIVE);
         CONTRACT_REGION_STATUS_TERMINATED_LONG = ChatColor.translateAlternateColorCodes('&', CONTRACT_REGION_STATUS_TERMINATED_LONG);
         CONTRACT_REGION_STATUS_TERMINATED = ChatColor.translateAlternateColorCodes('&', CONTRACT_REGION_STATUS_TERMINATED);
+        REGION_IS_NOT_A_CONTRACT_REGION = ChatColor.translateAlternateColorCodes('&', REGION_IS_NOT_A_CONTRACT_REGION);
 
 
         for(int i = 0; i < GUI_TELEPORT_TO_REGION_BUTTON_LORE.size(); i++){

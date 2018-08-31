@@ -57,8 +57,10 @@ public class Main extends JavaPlugin {
     private static boolean teleportAfterSellRegionBought;
     private static boolean teleportAfterRentRegionBought;
     private static boolean teleportAfterRentRegionExtend;
+    private static boolean teleportAfterContractRegionBought;
     private static boolean displayDefaultRegionKindInGUI;
     private static boolean displayDefaultRegionKindInLimits;
+    private static boolean sendContractRegionExtendMessage;
 
     private static final String SET_REGION_KIND = " (?i)setregionkind [^;\n ]+ [^;\n ]+";
     private static final String LIST_REGION_KIND = " (?i)listregionkinds";
@@ -81,6 +83,7 @@ public class Main extends JavaPlugin {
     private static final String EXTEND = " (?i)extend [^;\n ]+";
     private static final String DELETE = " (?i)delete [^;\n ]+";
     private static final String SET_DO_BLOCK_RESET = " (?i)doblockreset [^;\n ]+ (false|true)";
+    private static final String TERMINATE = " (?i)terminate [^;\n ]+ (false|true)";
     private static final String HELP = " (?i)help";
     private static final String RELOAD = " (?i)reload";
     private static final String SELLPRESET = " (?i)sellpreset [^;\n]+";
@@ -135,7 +138,7 @@ public class Main extends JavaPlugin {
         }
         loadOther();
         loadRegions();
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Scheduler() , 0 ,20*10);
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Scheduler() , 0 ,20*getConfig().getInt("Other.SignAndResetUpdateInterval"));
         Bukkit.getLogger().log(Level.INFO, "Programmed by Alex9849");
 
     }
@@ -256,8 +259,6 @@ public class Main extends JavaPlugin {
 
     private void loadRegions() {
 
-        Region.setResetcooldown(getConfig().getInt("Other.userResetCooldown"));
-
         LinkedList<String> worlds = new LinkedList<String>(Region.getRegionsConf().getConfigurationSection("Regions").getKeys(false));
         if(worlds != null) {
             for(int y = 0; y < worlds.size(); y++) {
@@ -357,6 +358,10 @@ public class Main extends JavaPlugin {
         return Main.faWeInstalled;
     }
 
+    public static Boolean isSendContractRegionExtendMessage() {
+        return Main.sendContractRegionExtendMessage;
+    }
+
     private void loadAutoPrice() {
         LinkedList<String> autoPrices = new LinkedList<>(getConfig().getConfigurationSection("AutoPrice").getKeys(false));
         if(autoPrices != null) {
@@ -441,11 +446,17 @@ public class Main extends JavaPlugin {
         }
     }
 
+    public static boolean isTeleportAfterContractRegionBought(){
+        return Main.teleportAfterContractRegionBought;
+    }
+
     private void loadOther(){
         Main.teleportAfterRentRegionBought = getConfig().getBoolean("Other.TeleportAfterRentRegionBought");
         Main.teleportAfterRentRegionExtend = getConfig().getBoolean("Other.TeleportAfterRentRegionExtend");
         Main.teleportAfterSellRegionBought = getConfig().getBoolean("Other.TeleportAfterSellRegionBought");
-        Main.teleportAfterSellRegionBought = getConfig().getBoolean("Other.TeleportAfterSellRegionBought");
+        Main.teleportAfterContractRegionBought = getConfig().getBoolean("Other.TeleportAfterContractRegionBought");
+        Main.sendContractRegionExtendMessage = getConfig().getBoolean("Other.SendContractRegionExtendMessage");
+        Region.setResetcooldown(getConfig().getInt("Other.userResetCooldown"));
         Main.displayDefaultRegionKindInGUI = getConfig().getBoolean("DefaultRegionKind.DisplayInGUI");
         Main.displayDefaultRegionKindInLimits = getConfig().getBoolean("DefaultRegionKind.DisplayInLimits");
         Region.setPaypackPercentage(getConfig().getDouble("Other.paypackPercentage"));
@@ -727,6 +738,18 @@ public class Main extends JavaPlugin {
                         sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "or (for help): /arm rentpreset help");
                         return true;
                     }
+                } else if (args[0].equalsIgnoreCase("terminate")) {
+                    if (allargs.matches(TERMINATE)) {
+                        if (sender.hasPermission(Permission.ARM_BUY_CONTRACTREGION)) {
+                            ContractRegion.terminateCommand(sender, args[1], args[2]);
+                        } else {
+                            sender.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
+                        }
+                        return true;
+                    } else {
+                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm terminate [REGION] [true/false]");
+                        return true;
+                    }
                 }
             }
         }
@@ -764,6 +787,7 @@ public class Main extends JavaPlugin {
         sender.sendMessage(ChatColor.GOLD + "/arm extend [REGION]");
         sender.sendMessage(ChatColor.GOLD + "/arm delete [REGION]");
         sender.sendMessage(ChatColor.GOLD + "/arm doblockreset [REGION] [true/false]");
+        sender.sendMessage(ChatColor.GOLD + "/arm terminate [REGION] [true/false]");
         sender.sendMessage(ChatColor.GOLD + "/arm sellpreset [SETTING]");
         sender.sendMessage(ChatColor.GOLD + "/arm rentpreset [SETTING]");
         sender.sendMessage(ChatColor.GOLD + "/arm limit");
@@ -1014,6 +1038,9 @@ public class Main extends JavaPlugin {
             pluginConfig.set("DefaultRegionKind.DisplayInGUI", false);
             pluginConfig.set("Other.SendRentRegionExpirationWarning", true);
             pluginConfig.set("Other.RentRegionExpirationWarningTime", "2d");
+            pluginConfig.set("Other.TeleportAfterContractRegionBought", true);
+            pluginConfig.set("Other.SendContractRegionExtendMessage", true);
+            pluginConfig.set("Other.SignAndResetUpdateInterval", 10);
             pluginConfig.set("Version", 1.3);
             saveConfig();
 
@@ -1040,6 +1067,7 @@ public class Main extends JavaPlugin {
             messagesconf.set("Messages.ContractRegionStatusActive", "&aActive");
             messagesconf.set("Messages.ContractRegionStatusTerminatedLong", "&4Terminated&6! It will be resetted in %remaining%");
             messagesconf.set("Messages.ContractRegionStatusTerminated", "&4Terminated");
+            messagesconf.set("Messages.RegionIsNotAContractRegion", "&4Region is not a contractregion!");
 
             List<String> contractItemLore = new ArrayList<>();
             contractItemLore.add("&aStatus: %status%");

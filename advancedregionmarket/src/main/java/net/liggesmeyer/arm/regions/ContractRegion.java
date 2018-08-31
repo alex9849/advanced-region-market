@@ -210,9 +210,9 @@ public class ContractRegion extends Region {
         Main.getEcon().withdrawPlayer(player, price);
 
         this.setSold(player);
-     /*   if(Main.isTeleportAfterSellRegionBought()){
+        if(Main.isTeleportAfterContractRegionBought()){
             this.teleportToRegion(player);
-        } */
+        }
         player.sendMessage(Messages.PREFIX + Messages.REGION_BUYMESSAGE);
 
     }
@@ -361,7 +361,7 @@ public class ContractRegion extends Region {
         YamlConfiguration config = Region.getRegionsConf();
         config.set("Regions." + this.regionworld + "." + this.region.getId() + ".payedTill", payedTill);
         Region.saveRegionsConf(config);
-        if(player != null) {
+        if((player != null) && Main.isSendContractRegionExtendMessage()) {
             String sendmessage = Messages.CONTRACT_REGION_EXTENDED;
             sendmessage = sendmessage.replace("%price%", this.price + "");
             sendmessage = sendmessage.replace("%currency%", Messages.CURRENCY);
@@ -415,5 +415,24 @@ public class ContractRegion extends Region {
         } else {
             return Messages.CONTRACT_REGION_STATUS_ACTIVE;
         }
+    }
+
+    public static boolean terminateCommand(CommandSender sender, String regionName, String setting){
+        if(!(sender instanceof Player)) {
+            sender.sendMessage(Messages.PREFIX + Messages.COMMAND_ONLY_INGAME);
+            return true;
+        }
+        Player player = (Player) sender;
+        Region region = Region.searchRegionbyNameAndWorld(regionName, player.getWorld().getName());
+        if(region == null){
+            player.sendMessage(Messages.PREFIX + Messages.REGION_DOES_NOT_EXIST);
+            return true;
+        }
+        if(!(region instanceof ContractRegion)) {
+            player.sendMessage(Messages.PREFIX + Messages.REGION_IS_NOT_A_CONTRACT_REGION);
+        }
+        ContractRegion contractRegion = (ContractRegion) region;
+        contractRegion.setTerminated(Boolean.parseBoolean(setting), player);
+        return true;
     }
 }

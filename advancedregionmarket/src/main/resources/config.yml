@@ -117,6 +117,7 @@ Other:
   TeleportAfterSellRegionBought: true
   TeleportAfterRentRegionBought: false
   TeleportAfterRentRegionExtend: false
+  TeleportAfterContractRegionBought: true
   # If players have the permission 'arm.member.resetregion' they can sell their region
   # back to the server (who resets it) via GUI.
   # You can define the percentage they will get back here. If they don't have the permission the button will
@@ -125,6 +126,9 @@ Other:
   # If a player rents a rentregion and it will expire soon, he will get a message when he joins the server
   SendRentRegionExpirationWarning: true
   RentRegionExpirationWarningTime: '2d'
+  SendContractRegionExtendMessage: true
+  # The updateinterval for all signs and expiration checks
+  SignAndResetUpdateInterval: 10
 
 #Here you can change the Blocks that will be shown in the GUI. You can use
 #this (https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html) as a List for possible blocks.

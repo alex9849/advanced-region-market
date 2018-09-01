@@ -377,39 +377,41 @@ public class SellPreset extends Preset{
 
     public static void loadPresets(){
         YamlConfiguration config = getConfig();
-        LinkedList<String> presets = new LinkedList<String>(config.getConfigurationSection("SellPresets").getKeys(false));
-        if(presets != null) {
-            for(int i = 0; i < presets.size(); i++) {
-                String name = presets.get(i);
-                Boolean hasPrice = config.getBoolean("SellPresets." + presets.get(i) + ".hasPrice");
-                Boolean hasRegionKind = config.getBoolean("SellPresets." + presets.get(i) + ".hasRegionKind");
-                Boolean hasAutoReset = config.getBoolean("SellPresets." + presets.get(i) + ".hasAutoReset");
-                Boolean hasIsHotel = config.getBoolean("SellPresets." + presets.get(i) + ".hasIsHotel");
-                Boolean hasDoBlockReset = config.getBoolean("SellPresets." + presets.get(i) + ".hasDoBlockReset");
-                double price = config.getDouble("SellPresets." + presets.get(i) + ".price");
-                RegionKind regionKind = RegionKind.getRegionKind(config.getString("SellPresets." + presets.get(i) + ".regionKind"));
-                Boolean autoReset = config.getBoolean("SellPresets." + presets.get(i) + ".autoReset");
-                Boolean isHotel = config.getBoolean("SellPresets." + presets.get(i) + ".isHotel");
-                Boolean doBlockReset = config.getBoolean("SellPresets." + presets.get(i) + ".doBlockReset");
-                SellPreset preset = new SellPreset(null);
+        if(config.get("SellPresets") != null) {
+            LinkedList<String> presets = new LinkedList<String>(config.getConfigurationSection("SellPresets").getKeys(false));
+            if(presets != null) {
+                for(int i = 0; i < presets.size(); i++) {
+                    String name = presets.get(i);
+                    Boolean hasPrice = config.getBoolean("SellPresets." + presets.get(i) + ".hasPrice");
+                    Boolean hasRegionKind = config.getBoolean("SellPresets." + presets.get(i) + ".hasRegionKind");
+                    Boolean hasAutoReset = config.getBoolean("SellPresets." + presets.get(i) + ".hasAutoReset");
+                    Boolean hasIsHotel = config.getBoolean("SellPresets." + presets.get(i) + ".hasIsHotel");
+                    Boolean hasDoBlockReset = config.getBoolean("SellPresets." + presets.get(i) + ".hasDoBlockReset");
+                    double price = config.getDouble("SellPresets." + presets.get(i) + ".price");
+                    RegionKind regionKind = RegionKind.getRegionKind(config.getString("SellPresets." + presets.get(i) + ".regionKind"));
+                    Boolean autoReset = config.getBoolean("SellPresets." + presets.get(i) + ".autoReset");
+                    Boolean isHotel = config.getBoolean("SellPresets." + presets.get(i) + ".isHotel");
+                    Boolean doBlockReset = config.getBoolean("SellPresets." + presets.get(i) + ".doBlockReset");
+                    SellPreset preset = new SellPreset(null);
 
-                preset.setName(name);
-                if(hasPrice){
-                    preset.setPrice(price);
+                    preset.setName(name);
+                    if(hasPrice){
+                        preset.setPrice(price);
+                    }
+                    if(hasRegionKind){
+                        preset.setRegionKind(regionKind);
+                    }
+                    if(hasAutoReset){
+                        preset.setAutoReset(autoReset);
+                    }
+                    if(hasIsHotel){
+                        preset.setHotel(isHotel);
+                    }
+                    if(hasDoBlockReset){
+                        preset.setDoBlockReset(doBlockReset);
+                    }
+                    patterns.add(preset);
                 }
-                if(hasRegionKind){
-                    preset.setRegionKind(regionKind);
-                }
-                if(hasAutoReset){
-                    preset.setAutoReset(autoReset);
-                }
-                if(hasIsHotel){
-                    preset.setHotel(isHotel);
-                }
-                if(hasDoBlockReset){
-                    preset.setDoBlockReset(doBlockReset);
-                }
-                patterns.add(preset);
             }
         }
     }

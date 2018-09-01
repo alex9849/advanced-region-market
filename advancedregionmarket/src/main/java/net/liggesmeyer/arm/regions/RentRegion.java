@@ -400,9 +400,7 @@ public class RentRegion extends Region {
                             region.resetBlocks();
                         }
                     } else {
-                        for (int y = 0; y < region.sellsign.size(); y++){
-                            region.updateSignText(region.sellsign.get(y));
-                        }
+                        region.updateSigns();
                     }
                 }
             }

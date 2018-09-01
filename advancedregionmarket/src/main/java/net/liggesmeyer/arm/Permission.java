@@ -40,6 +40,7 @@ public class Permission {
     public static final String ADMIN_PRESET_DELETE = "arm.admin.preset.delete";
     public static final String ADMIN_PRESET_SAVE = "arm.admin.preset.save";
     public static final String ADMIN_PRESET_LIST = "arm.admin.preset.list";
+    public static final String ADMIN_PRESET_SET_EXTEND = "arm.admin.preset.setextend";
     public static final String ADMIN_TERMINATE_CONTRACT = "arm.admin.terminatecontract";
 
 

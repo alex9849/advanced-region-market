@@ -1,5 +1,6 @@
 package net.liggesmeyer.arm;
 
+import net.liggesmeyer.arm.Preseter.ContractPreset;
 import net.liggesmeyer.arm.Preseter.Preset;
 import net.liggesmeyer.arm.Preseter.RentPreset;
 import net.liggesmeyer.arm.Preseter.SellPreset;
@@ -216,15 +217,15 @@ public class ARMListener implements Listener {
                 sign.getPlayer().sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
                 return;
             }
-           /*
-            if(RentPreset.hasPreset(sign.getPlayer())) {
-                Preset preset = RentPreset.getPreset(sign.getPlayer());
+
+            if(ContractPreset.hasPreset(sign.getPlayer())) {
+                Preset preset = ContractPreset.getPreset(sign.getPlayer());
                 regionkind = preset.getRegionKind();
                 autoReset = preset.isAutoReset();
                 isHotel = preset.isHotel();
                 doBlockReset = preset.isDoBlockReset();
                 sign.getPlayer().sendMessage(Messages.PREFIX + "Applying preset...");
-            } */
+            }
 
             String worldname = sign.getLine(1);
             String regionname = sign.getLine(2);
@@ -247,22 +248,39 @@ public class ARMListener implements Listener {
             long extendtime = 0;
             Boolean priceready = false;
 
-            try{
-                String[] priceline = sign.getLine(3).split(";", 2);
-                String pricestring = priceline[0];
-                String extendtimeString = priceline[1];
-                extendtime = RentRegion.stringToTime(extendtimeString);
-                price = Integer.parseInt(pricestring);
-            } catch (ArrayIndexOutOfBoundsException e) {
-                sign.getPlayer().sendMessage(Messages.PREFIX + "Please write your price in line 3 in the following pattern:");
-                sign.getPlayer().sendMessage("<Price>;<Extendtime (ex.: 5d)>");
-                return;
-            } catch (IllegalArgumentException e) {
-                sign.getPlayer().sendMessage(Messages.PREFIX + "Please use d for days, h for hours, m for minutes and s for seconds");
-                sign.getPlayer().sendMessage(Messages.PREFIX + "Please write you price in line 3 in the following pattern:");
-                sign.getPlayer().sendMessage("<Price>;<Extendtime (ex.: 5d)>");
-                return;
+            if(sign.getLine(3).equals("")) {
+                if(ContractPreset.hasPreset(sign.getPlayer())) {
+                    ContractPreset preset = ContractPreset.getPreset(sign.getPlayer());
+                    if(preset.hasPrice() && preset.hasExtend()) {
+                        price = preset.getPrice();
+                        extendtime = preset.getExtend();
+                        priceready = true;
+                    } else {
+                        sign.getPlayer().sendMessage(Messages.PREFIX + ChatColor.RED + "Your preset needs to have an option at Price and Extend to take affect!");
+                    }
+                }
             }
+
+            if(!priceready) {
+                try{
+                    String[] priceline = sign.getLine(3).split(";", 2);
+                    String pricestring = priceline[0];
+                    String extendtimeString = priceline[1];
+                    extendtime = RentRegion.stringToTime(extendtimeString);
+                    price = Integer.parseInt(pricestring);
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    sign.getPlayer().sendMessage(Messages.PREFIX + "Please write your price in line 3 in the following pattern:");
+                    sign.getPlayer().sendMessage("<Price>;<Extendtime (ex.: 5d)>");
+                    return;
+                } catch (IllegalArgumentException e) {
+                    sign.getPlayer().sendMessage(Messages.PREFIX + "Please use d for days, h for hours, m for minutes and s for seconds");
+                    sign.getPlayer().sendMessage(Messages.PREFIX + "Please write you price in line 3 in the following pattern:");
+                    sign.getPlayer().sendMessage("<Price>;<Extendtime (ex.: 5d)>");
+                    return;
+                }
+            }
+
+
             Region searchregion = Region.searchRegionbyNameAndWorld(regionname, worldname);
             if(searchregion != null) {
                 if(!(searchregion instanceof ContractRegion)) {

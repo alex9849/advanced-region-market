@@ -152,6 +152,10 @@ public class Messages {
     public static String GUI_OWNER_MEMBER_INFO_ITEM = "";
     public static String REGION_TRANSFER_MEMBER_NOT_ONLINE = "Member not online!";
     public static String REGION_TRANSFER_LIMIT_ERROR = "Transfer aborted! (Region would exceed players limit)";
+    public static String TIME_SECONDS = "s";
+    public static String TIME_MINUTES = "m";
+    public static String TIME_HOURS = "h";
+    public static String TIME_DAYS = "d";
 
     public static List<String> GUI_TELEPORT_TO_REGION_BUTTON_LORE = new LinkedList<>();
     public static List<String> GUI_MAKE_OWNER_BUTTON_LORE = new LinkedList<>();
@@ -326,6 +330,10 @@ public class Messages {
         REGION_IS_NOT_A_CONTRACT_REGION = config.getString("Messages.RegionIsNotAContractRegion");
         REGION_TRANSFER_MEMBER_NOT_ONLINE = config.getString("Messages.RegiontransferMemberNotOnline");
         REGION_TRANSFER_LIMIT_ERROR = config.getString("Messages.RegiontransferLimitError");
+        TIME_SECONDS = config.getString("Messages.Seconds");
+        TIME_MINUTES = config.getString("Messages.Minutes");
+        TIME_HOURS = config.getString("Messages.Hours");
+        TIME_DAYS = config.getString("Messages.Days");
 
         Messages.translateColorCodes();
     }
@@ -470,6 +478,10 @@ public class Messages {
         GUI_OWNER_MEMBER_INFO_ITEM = ChatColor.translateAlternateColorCodes('&', GUI_OWNER_MEMBER_INFO_ITEM);
         REGION_TRANSFER_MEMBER_NOT_ONLINE = ChatColor.translateAlternateColorCodes('&', REGION_TRANSFER_MEMBER_NOT_ONLINE);
         REGION_TRANSFER_LIMIT_ERROR = ChatColor.translateAlternateColorCodes('&', REGION_TRANSFER_LIMIT_ERROR);
+        TIME_SECONDS = ChatColor.translateAlternateColorCodes('&', TIME_SECONDS);
+        TIME_MINUTES = ChatColor.translateAlternateColorCodes('&', TIME_MINUTES);
+        TIME_HOURS = ChatColor.translateAlternateColorCodes('&', TIME_HOURS);
+        TIME_DAYS = ChatColor.translateAlternateColorCodes('&', TIME_DAYS);
 
 
         for(int i = 0; i < GUI_TELEPORT_TO_REGION_BUTTON_LORE.size(); i++){

@@ -59,6 +59,8 @@ public class Main extends JavaPlugin {
     private static boolean displayDefaultRegionKindInGUI;
     private static boolean displayDefaultRegionKindInLimits;
     private static boolean sendContractRegionExtendMessage;
+    private static String REMAINING_TIME_TIMEFORMAT = "%date%";
+    private static String DATE_TIMEFORMAT = "dd.MM.yyyy hh:mm";
 
     private static final String SET_REGION_KIND = " (?i)setregionkind [^;\n ]+ [^;\n ]+";
     private static final String LIST_REGION_KIND = " (?i)listregionkinds";
@@ -469,6 +471,8 @@ public class Main extends JavaPlugin {
         Region.setResetcooldown(getConfig().getInt("Other.userResetCooldown"));
         Main.displayDefaultRegionKindInGUI = getConfig().getBoolean("DefaultRegionKind.DisplayInGUI");
         Main.displayDefaultRegionKindInLimits = getConfig().getBoolean("DefaultRegionKind.DisplayInLimits");
+        Main.REMAINING_TIME_TIMEFORMAT = getConfig().getString("Other.RemainingTimeFormat");
+        Main.DATE_TIMEFORMAT = getConfig().getString("Other.DateTimeFormat");
         Region.setPaypackPercentage(getConfig().getDouble("Other.paypackPercentage"));
         try{
             RentRegion.setExpirationWarningTime(RentRegion.stringToTime(getConfig().getString("Other.RentRegionExpirationWarningTime")));
@@ -779,6 +783,14 @@ public class Main extends JavaPlugin {
         return false;
     }
 
+    public static String getRemainingTimeTimeformat(){
+        return Main.REMAINING_TIME_TIMEFORMAT;
+    }
+
+    public static String getDateTimeformat(){
+        return Main.DATE_TIMEFORMAT;
+    }
+
     public static boolean isDisplayDefaultRegionKindInGUI(){
         return Main.displayDefaultRegionKindInGUI;
     }
@@ -1067,6 +1079,8 @@ public class Main extends JavaPlugin {
             pluginConfig.set("Other.TeleportAfterContractRegionBought", true);
             pluginConfig.set("Other.SendContractRegionExtendMessage", true);
             pluginConfig.set("Other.SignAndResetUpdateInterval", 10);
+            pluginConfig.set("Other.RemainingTimeFormat", "%countdown%");
+            pluginConfig.set("Other.DateTimeFormat", "dd.MM.yyyy hh:mm");
             pluginConfig.set("Version", 1.3);
             saveConfig();
 
@@ -1117,6 +1131,10 @@ public class Main extends JavaPlugin {
             messagesconf.set("Messages.MemberlistInfoLore", memberlistInfolore);
             messagesconf.set("Messages.OwnerMemberlistInfo", ownermemberlistinfo);
             messagesconf.set("Messages.OwnerMemberlistInfoLore", ownermemberlistInfolore);
+            messagesconf.set("Messages.Seconds", "s");
+            messagesconf.set("Messages.Minutes", "m");
+            messagesconf.set("Messages.Hours", "h");
+            messagesconf.set("Messages.Days", "d");
 
             Messages.saveConfig();
 

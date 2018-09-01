@@ -56,6 +56,11 @@ Messages:
   ContractSoldSign3: '%price%%currency%/%extend%'
   ContractSoldSign4: '%remaining%'
 
+  Seconds: 's'
+  Minutes: 'm'
+  Hours: 'h'
+  Days: 'd'
+
   ContractRegionExtended: '&aYour contract region %regionid% has been extended for %extend%. (For %price%%currency%.)'
   ContractRegionChangeTerminated: '&6The contract of &a%regionid% &6has been set to %statuslong%'
   ContractRegionStatusActiveLong: '&aActive&6! Next Extension in %remaining%'

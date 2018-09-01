@@ -13,6 +13,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
+import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.List;
@@ -282,6 +283,24 @@ public class ContractRegion extends Region {
     }
 
     public String calcRemainingTime() {
+        String timetoString = Main.getRemainingTimeTimeformat();
+        timetoString = timetoString.replace("%countdown%", this.getCountdown());
+        timetoString = timetoString.replace("%date%", this.getDate(Main.getDateTimeformat()));
+
+
+        return timetoString;
+    }
+
+    private String getDate(String regex) {
+        GregorianCalendar payedTill = new GregorianCalendar();
+        payedTill.setTimeInMillis(this.payedTill);
+
+        SimpleDateFormat sdf = new SimpleDateFormat(regex);
+
+        return sdf.format(payedTill.getTime());
+    }
+
+    private String getCountdown(){
         GregorianCalendar actualtime = new GregorianCalendar();
         GregorianCalendar payedTill = new GregorianCalendar();
         payedTill.setTimeInMillis(this.payedTill);
@@ -289,7 +308,7 @@ public class ContractRegion extends Region {
         long remainingMilliSeconds = payedTill.getTimeInMillis() - actualtime.getTimeInMillis();
 
         if(remainingMilliSeconds < 0){
-            return "0s";
+            return "0" + Messages.TIME_SECONDS;
         }
 
         long remainingDays = TimeUnit.DAYS.convert(remainingMilliSeconds, TimeUnit.MILLISECONDS);
@@ -306,23 +325,23 @@ public class ContractRegion extends Region {
 
         String timetoString = "";
         if(remainingDays != 0) {
-            timetoString = timetoString + remainingDays + "d";
+            timetoString = timetoString + remainingDays + Messages.TIME_DAYS;
         }
         if(remainingHours != 0) {
-            timetoString = timetoString + remainingHours + "h";
+            timetoString = timetoString + remainingHours + Messages.TIME_HOURS;
         }
         if(remainingMinutes != 0) {
-            timetoString = timetoString + remainingMinutes + "m";
+            timetoString = timetoString + remainingMinutes + Messages.TIME_MINUTES;
         }
         if(remainingSeconds != 0) {
-            timetoString = timetoString + remainingSeconds + "s";
+            timetoString = timetoString + remainingSeconds + Messages.TIME_SECONDS;
         }
         if(remainingSeconds == 0 && remainingMinutes == 0 && remainingHours == 0 && remainingDays == 0){
-            timetoString = "0" + "s";
+            timetoString = "0" + Messages.TIME_SECONDS;
         }
 
         return timetoString;
-        }
+    }
 
     public String getExtendTimeString(){
         long time = this.extendTime;
@@ -341,19 +360,19 @@ public class ContractRegion extends Region {
 
         String timetoString = "";
         if(remainingDays != 0) {
-            timetoString = timetoString + remainingDays + "d";
+            timetoString = timetoString + remainingDays + Messages.TIME_DAYS;
         }
         if(remainingHours != 0) {
-            timetoString = timetoString + remainingHours + "h";
+            timetoString = timetoString + remainingHours + Messages.TIME_HOURS;
         }
         if(remainingMinutes != 0) {
-            timetoString = timetoString + remainingMinutes + "m";
+            timetoString = timetoString + remainingMinutes + Messages.TIME_MINUTES;
         }
         if(remainingSeconds != 0) {
-            timetoString = timetoString + remainingSeconds + "s";
+            timetoString = timetoString + remainingSeconds + Messages.TIME_SECONDS;
         }
         if(remainingSeconds == 0 && remainingMinutes == 0 && remainingHours == 0 && remainingDays == 0){
-            timetoString = "0" + "s";
+            timetoString = "0" + Messages.TIME_SECONDS;
         }
 
         return timetoString;

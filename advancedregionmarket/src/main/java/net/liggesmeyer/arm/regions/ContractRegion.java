@@ -50,6 +50,52 @@ public class ContractRegion extends Region {
     }
 
     @Override
+    public void updateRegion() {
+        if(this.isSold()){
+            GregorianCalendar actualtime = new GregorianCalendar();
+            if((this.payedTill < actualtime.getTimeInMillis()) && this.terminated){
+                this.unsell();
+                if(this.isDoBlockReset()){
+                    this.resetBlocks();
+                }
+            } else if(this.payedTill < actualtime.getTimeInMillis()) {
+                List<UUID> owners = Main.getWorldGuardInterface().getOwners(this.getRegion());
+                if(owners.size() == 0){
+                    this.extend();
+                    this.updateSigns();
+                } else {
+                    OfflinePlayer oplayer = Bukkit.getOfflinePlayer(owners.get(0));
+                    if(oplayer == null) {
+                        this.extend();
+                        this.updateSigns();
+                    } else {
+                        if(Main.getEcon().hasAccount(oplayer)) {
+                            if(Main.getEcon().getBalance(oplayer) < this.getPrice()) {
+                                this.unsell();
+                                if(this.isDoBlockReset()){
+                                    this.resetBlocks();
+                                }
+                            } else {
+                                Main.getEcon().withdrawPlayer(oplayer, this.getPrice());
+                                if(oplayer.isOnline()) {
+                                    Player player = Bukkit.getPlayer(owners.get(0));
+                                    this.extend(player);
+                                    this.updateSigns();
+                                } else {
+                                    this.extend();
+                                    this.updateSigns();
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                this.updateSigns();
+            }
+        }
+    }
+
+    @Override
     protected void setSold(OfflinePlayer player) {
         if(!this.sold) {
             GregorianCalendar actualtime = new GregorianCalendar();
@@ -90,6 +136,7 @@ public class ContractRegion extends Region {
             line1 = line1.replace("%owner%", ownername);
             line1 = line1.replace("%extend%", this.getExtendTimeString());
             line1 = line1.replace("%remaining%", this.calcRemainingTime());
+            line1 = line1.replace("%status%", this.getTerminationString());
 
             String line2 = Messages.CONTRACT_SOLD_SIGN2.replace("%regionid%", this.getRegion().getId());
             line2 = line2.replace("%price%", this.price + "");
@@ -98,6 +145,7 @@ public class ContractRegion extends Region {
             line2 = line2.replace("%owner%", ownername);
             line2 = line2.replace("%extend%", this.getExtendTimeString());
             line2 = line2.replace("%remaining%", this.calcRemainingTime());
+            line2 = line2.replace("%status%", this.getTerminationString());
 
             String line3 = Messages.CONTRACT_SOLD_SIGN3.replace("%regionid%", this.getRegion().getId());
             line3 = line3.replace("%price%", this.price + "");
@@ -106,6 +154,7 @@ public class ContractRegion extends Region {
             line3 = line3.replace("%owner%", ownername);
             line3 = line3.replace("%extend%", this.getExtendTimeString());
             line3 = line3.replace("%remaining%", this.calcRemainingTime());
+            line3 = line3.replace("%status%", this.getTerminationString());
 
             String line4 = Messages.CONTRACT_SOLD_SIGN4.replace("%regionid%", this.getRegion().getId());
             line4 = line4.replace("%price%", this.price + "");
@@ -114,6 +163,7 @@ public class ContractRegion extends Region {
             line4 = line4.replace("%owner%", ownername);
             line4 = line4.replace("%extend%", this.getExtendTimeString());
             line4 = line4.replace("%remaining%", this.calcRemainingTime());
+            line4 = line4.replace("%status%", this.getTerminationString());
 
             mysign.setLine(0, line1);
             mysign.setLine(1, line2);
@@ -128,6 +178,7 @@ public class ContractRegion extends Region {
             line1 = line1.replace("%dimensions%", this.getDimensions());
             line1 = line1.replace("%extend%", this.getExtendTimeString());
             line1 = line1.replace("%remaining%", this.calcRemainingTime());
+            line1 = line1.replace("%status%", this.getTerminationString());
 
             String line2 = Messages.CONTRACT_SIGN2.replace("%regionid%", this.getRegion().getId());
             line2 = line2.replace("%price%", this.price + "");
@@ -135,6 +186,7 @@ public class ContractRegion extends Region {
             line2 = line2.replace("%dimensions%", this.getDimensions());
             line2 = line2.replace("%extend%", this.getExtendTimeString());
             line2 = line2.replace("%remaining%", this.calcRemainingTime());
+            line2 = line2.replace("%status%", this.getTerminationString());
 
             String line3 = Messages.CONTRACT_SIGN3.replace("%regionid%", this.getRegion().getId());
             line3 = line3.replace("%price%", this.price + "");
@@ -142,6 +194,7 @@ public class ContractRegion extends Region {
             line3 = line3.replace("%dimensions%", this.getDimensions());
             line3 = line3.replace("%extend%", this.getExtendTimeString());
             line3 = line3.replace("%remaining%", this.calcRemainingTime());
+            line3 = line3.replace("%status%", this.getTerminationString());
 
             String line4 = Messages.CONTRACT_SIGN4.replace("%regionid%", this.getRegion().getId());
             line4 = line4.replace("%price%", this.price + "");
@@ -149,6 +202,7 @@ public class ContractRegion extends Region {
             line4 = line4.replace("%dimensions%", this.getDimensions());
             line4 = line4.replace("%extend%", this.getExtendTimeString());
             line4 = line4.replace("%remaining%", this.calcRemainingTime());
+            line4 = line4.replace("%status%", this.getTerminationString());
 
             mysign.setLine(0, line1);
             mysign.setLine(1, line2);
@@ -303,56 +357,6 @@ public class ContractRegion extends Region {
         }
 
         return timetoString;
-    }
-
-    public static void doUpdates(){
-        for (int i = 0; i < getRegionList().size(); i++) {
-            if(getRegionList().get(i) instanceof ContractRegion) {
-                ContractRegion region = (ContractRegion) getRegionList().get(i);
-                if(region.isSold()){
-                    GregorianCalendar actualtime = new GregorianCalendar();
-                    if((region.payedTill < actualtime.getTimeInMillis()) && region.terminated){
-                        region.unsell();
-                        if(region.isDoBlockReset()){
-                            region.resetBlocks();
-                        }
-                    } else if(region.payedTill < actualtime.getTimeInMillis()) {
-                        List<UUID> owners = Main.getWorldGuardInterface().getOwners(region.getRegion());
-                        if(owners.size() == 0){
-                            region.extend();
-                            region.updateSigns();
-                        } else {
-                            OfflinePlayer oplayer = Bukkit.getOfflinePlayer(owners.get(0));
-                            if(oplayer == null) {
-                                region.extend();
-                                region.updateSigns();
-                            } else {
-                                if(Main.getEcon().hasAccount(oplayer)) {
-                                    if(Main.getEcon().getBalance(oplayer) < region.getPrice()) {
-                                        region.unsell();
-                                        if(region.isDoBlockReset()){
-                                            region.resetBlocks();
-                                        }
-                                    } else {
-                                        Main.getEcon().withdrawPlayer(oplayer, region.getPrice());
-                                        if(oplayer.isOnline()) {
-                                            Player player = Bukkit.getPlayer(owners.get(0));
-                                            region.extend(player);
-                                            region.updateSigns();
-                                        } else {
-                                            region.extend();
-                                            region.updateSigns();
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    } else {
-                        region.updateSigns();
-                    }
-                }
-            }
-        }
     }
 
     public void extend(){

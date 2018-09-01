@@ -12,8 +12,7 @@ import java.util.*;
 public class Scheduler implements Runnable {
     @Override
     public void run() {
-        RentRegion.doUpdates();
-        ContractRegion.doUpdates();
+        Region.updateRegions();
 
         if(Main.getEnableAutoReset()){
 

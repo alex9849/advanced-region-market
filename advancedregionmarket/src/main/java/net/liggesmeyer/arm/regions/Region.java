@@ -490,6 +490,14 @@ public abstract class Region {
 
     public abstract void displayExtraInfo(CommandSender sender);
 
+    public abstract void updateRegion();
+
+    public static void updateRegions(){
+        for(int i = 0; i < Region.getRegionList().size(); i++) {
+            Region.getRegionList().get(i).updateRegion();
+        }
+    }
+
     public static boolean regionInfoCommand(CommandSender sender){
         if (!(sender instanceof Player)) {
             sender.sendMessage(Messages.PREFIX + Messages.COMMAND_ONLY_INGAME);

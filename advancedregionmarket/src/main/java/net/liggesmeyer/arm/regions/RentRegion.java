@@ -217,6 +217,21 @@ public class RentRegion extends Region {
     }
 
     @Override
+    public void updateRegion() {
+        if(this.isSold()){
+            GregorianCalendar actualtime = new GregorianCalendar();
+            if(this.payedTill < actualtime.getTimeInMillis()){
+                this.unsell();
+                if(this.isDoBlockReset()){
+                    this.resetBlocks();
+                }
+            } else {
+                this.updateSigns();
+            }
+        }
+    }
+
+    @Override
     protected void setSold(OfflinePlayer player){
         if(!this.sold) {
             GregorianCalendar actualtime = new GregorianCalendar();
@@ -386,25 +401,6 @@ public class RentRegion extends Region {
         }
 
         return timetoString;
-    }
-
-    public static void doUpdates(){
-        for (int i = 0; i < getRegionList().size(); i++) {
-            if(getRegionList().get(i) instanceof RentRegion) {
-                RentRegion region = (RentRegion) getRegionList().get(i);
-                if(region.isSold()){
-                    GregorianCalendar actualtime = new GregorianCalendar();
-                    if(region.payedTill < actualtime.getTimeInMillis()){
-                        region.unsell();
-                        if(region.isDoBlockReset()){
-                            region.resetBlocks();
-                        }
-                    } else {
-                        region.updateSigns();
-                    }
-                }
-            }
-        }
     }
 
     public void setPayedTill(long payedTill) {

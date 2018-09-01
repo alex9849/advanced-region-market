@@ -367,7 +367,7 @@ public class Main extends JavaPlugin {
     }
 
     private void loadAutoPrice() {
-        if(Region.getRegionsConf().get("AutoPrice") != null) {
+        if(getConfig().get("AutoPrice") != null) {
             LinkedList<String> autoPrices = new LinkedList<>(getConfig().getConfigurationSection("AutoPrice").getKeys(false));
             if(autoPrices != null) {
                 for(int i = 0; i < autoPrices.size(); i++){
@@ -386,7 +386,7 @@ public class Main extends JavaPlugin {
         }
         RegionKind.DEFAULT.setLore(defaultlore);
 
-        if(Region.getRegionsConf().get("RegionKinds") != null) {
+        if(getConfig().get("RegionKinds") != null) {
             LinkedList<String> regionKinds = new LinkedList<String>(getConfig().getConfigurationSection("RegionKinds").getKeys(false));
             if(regionKinds != null) {
                 for(int i = 0; i < regionKinds.size(); i++){
@@ -446,7 +446,7 @@ public class Main extends JavaPlugin {
     }
 
     private void loadGroups(){
-        if(Region.getRegionsConf().get("Limits") != null) {
+        if(getConfig().get("Limits") != null) {
             List<String> groups = new ArrayList<>(getConfig().getConfigurationSection("Limits").getKeys(false));
             if(groups != null) {
                 for(int i = 0; i < groups.size(); i++) {

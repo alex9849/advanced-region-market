@@ -37,6 +37,11 @@ public class SellRegion extends Region {
     }
 
     @Override
+    public void updateRegion() {
+        this.updateSigns();
+    }
+
+    @Override
     protected void updateSignText(Sign mysign){
         if(this.sold){
 

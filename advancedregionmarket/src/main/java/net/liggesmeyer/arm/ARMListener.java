@@ -90,7 +90,7 @@ public class ARMListener implements Listener {
                 try{
                     price = Region.calculatePrice(region, sign.getLine(3));
                 } catch (IllegalArgumentException e){
-                    sign.getPlayer().sendMessage(Messages.PREFIX + Messages.PLEASE_USE_A_NUMBER_AS_PRICE + " or a RegionType");
+                    sign.getPlayer().sendMessage(Messages.PREFIX + Messages.PLEASE_USE_A_NUMBER_AS_PRICE + " or an AutoPrice");
                     return;
                 }
             }

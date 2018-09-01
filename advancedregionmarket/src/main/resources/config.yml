@@ -127,7 +127,7 @@ Other:
   SendRentRegionExpirationWarning: true
   RentRegionExpirationWarningTime: '2d'
   SendContractRegionExtendMessage: true
-  # The updateinterval for all signs and expiration checks
+  # The updateinterval for all signs and expiration checks in seconds
   SignAndResetUpdateInterval: 10
 
 #Here you can change the Blocks that will be shown in the GUI. You can use

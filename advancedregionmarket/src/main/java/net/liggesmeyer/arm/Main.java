@@ -61,6 +61,7 @@ public class Main extends JavaPlugin {
     private static boolean sendContractRegionExtendMessage;
     private static String REMAINING_TIME_TIMEFORMAT = "%date%";
     private static String DATE_TIMEFORMAT = "dd.MM.yyyy hh:mm";
+    private static boolean useShortCountdown = false;
 
     private static final String SET_REGION_KIND = " (?i)setregionkind [^;\n ]+ [^;\n ]+";
     private static final String LIST_REGION_KIND = " (?i)listregionkinds";
@@ -277,7 +278,7 @@ public class Main extends JavaPlugin {
                                     String kind = Region.getRegionsConf().getString("Regions." + worlds.get(y) + "." + regions.get(i) + ".kind");
                                     boolean autoreset = Region.getRegionsConf().getBoolean("Regions." + worlds.get(y) + "." + regions.get(i) + ".autoreset");
                                     String regiontype = Region.getRegionsConf().getString("Regions." + worlds.get(y) + "." + regions.get(i) + ".regiontype");
-                                    boolean allowonlynewblocks = Region.getRegionsConf().getBoolean("Regions." + worlds.get(y) + "." + regions.get(i) + ".allowonlynewblocks");
+                                    boolean allowonlynewblocks = Region.getRegionsConf().getBoolean("Regions." + worlds.get(y) + "." + regions.get(i) + ".isHotel");
                                     boolean doBlockReset = Region.getRegionsConf().getBoolean("Regions." + worlds.get(y) + "." + regions.get(i) + ".doBlockReset");
                                     long lastreset = Region.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".lastreset");
                                     String teleportLocString = Region.getRegionsConf().getString("Regions." + worlds.get(y) + "." + regions.get(i) + ".teleportLoc");
@@ -358,6 +359,10 @@ public class Main extends JavaPlugin {
         for(int i = 0; i < Region.getRegionList().size(); i++) {
             Region.getRegionList().get(i).writeSigns();
         }
+    }
+
+    public static boolean isUseShortCountdown() {
+        return Main.useShortCountdown;
     }
 
     public static Boolean isFaWeInstalled(){
@@ -473,6 +478,7 @@ public class Main extends JavaPlugin {
         Main.displayDefaultRegionKindInLimits = getConfig().getBoolean("DefaultRegionKind.DisplayInLimits");
         Main.REMAINING_TIME_TIMEFORMAT = getConfig().getString("Other.RemainingTimeFormat");
         Main.DATE_TIMEFORMAT = getConfig().getString("Other.DateTimeFormat");
+        Main.useShortCountdown = getConfig().getBoolean("Other.ShortCountdown");
         Region.setPaypackPercentage(getConfig().getDouble("Other.paypackPercentage"));
         try{
             RentRegion.setExpirationWarningTime(RentRegion.stringToTime(getConfig().getString("Other.RentRegionExpirationWarningTime")));
@@ -1081,6 +1087,7 @@ public class Main extends JavaPlugin {
             pluginConfig.set("Other.SignAndResetUpdateInterval", 10);
             pluginConfig.set("Other.RemainingTimeFormat", "%countdown%");
             pluginConfig.set("Other.DateTimeFormat", "dd.MM.yyyy hh:mm");
+            pluginConfig.set("Other.ShortCountdown", false);
             pluginConfig.set("Version", 1.3);
             saveConfig();
 
@@ -1135,6 +1142,10 @@ public class Main extends JavaPlugin {
             messagesconf.set("Messages.Minutes", "m");
             messagesconf.set("Messages.Hours", "h");
             messagesconf.set("Messages.Days", "d");
+            messagesconf.set("Messages.SecondsForShortCountDown", "second(s)");
+            messagesconf.set("Messages.MinutesForShortCountDown", "minute(s)");
+            messagesconf.set("Messages.HoursForShortCountDown", "hour(s)");
+            messagesconf.set("Messages.DaysForShortCountDown", "day(s)");
 
             Messages.saveConfig();
 

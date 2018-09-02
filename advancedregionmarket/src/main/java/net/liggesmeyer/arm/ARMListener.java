@@ -16,6 +16,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -347,8 +348,11 @@ public class ARMListener implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void addBuiltBlock(BlockPlaceEvent event){
+        if(event.isCancelled()) {
+            return;
+        }
         for(int i = 0; i < Region.getRegionList().size(); i++){
             if(Main.getWorldGuardInterface().canBuild(event.getPlayer(), event.getBlock().getLocation(), Main.getWorldGuard())){
                 int x = event.getBlock().getLocation().getBlockX();
@@ -369,8 +373,11 @@ public class ARMListener implements Listener {
 
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void breakBlock(BlockBreakEvent event) {
+        if(event.isCancelled()) {
+            return;
+        }
         if(!event.getPlayer().hasPermission(Permission.ADMIN_BUILDEVERYWHERE)){
             if(Main.getWorldGuardInterface().canBuild(event.getPlayer(), event.getBlock().getLocation(), Main.getWorldGuard())){
                 for(int i = 0; i < Region.getRegionList().size(); i++) {

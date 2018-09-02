@@ -60,6 +60,11 @@ Messages:
   Minutes: 'm'
   Hours: 'h'
   Days: 'd'
+  SecondsForShortCountDown: 'second(s)'
+  MinutesForShortCountDown: 'minute(s)'
+  HoursForShortCountDown: 'hour(s)'
+  DaysForShortCountDown: 'day(s)'
+
 
   ContractRegionExtended: '&aYour contract region %regionid% has been extended for %extend%. (For %price%%currency%.)'
   ContractRegionChangeTerminated: '&6The contract of &a%regionid% &6has been set to %statuslong%'
@@ -190,7 +195,7 @@ Messages:
   - '&cresetted! You and all members of it will loose'
   - '&ctheir rights on it.'
   - '&cYou will get &6%paybackmoney% %currency% &cback'
-  GUIUserSellWarning: '&4&lSell rour region?'
+  GUIUserSellWarning: '&4&lSell your region?'
   GUILimitButton: '&6My limits'
   MemberlistInfo: '&6How to become a Member:'
   MemberlistInfoLore:

@@ -284,7 +284,7 @@ public class ContractRegion extends Region {
 
     public String calcRemainingTime() {
         String timetoString = Main.getRemainingTimeTimeformat();
-        timetoString = timetoString.replace("%countdown%", this.getCountdown());
+        timetoString = timetoString.replace("%countdown%", this.getCountdown(Main.isUseShortCountdown()));
         timetoString = timetoString.replace("%date%", this.getDate(Main.getDateTimeformat()));
 
 
@@ -300,15 +300,31 @@ public class ContractRegion extends Region {
         return sdf.format(payedTill.getTime());
     }
 
-    private String getCountdown(){
+    private String getCountdown(Boolean mini){
         GregorianCalendar actualtime = new GregorianCalendar();
         GregorianCalendar payedTill = new GregorianCalendar();
         payedTill.setTimeInMillis(this.payedTill);
 
         long remainingMilliSeconds = payedTill.getTimeInMillis() - actualtime.getTimeInMillis();
 
+        String sec;
+        String min;
+        String hour;
+        String days;
+        if(mini) {
+            sec = " " + Messages.TIME_SECONDS_SHORT;
+            min = " " + Messages.TIME_MINUTES_SHORT;
+            hour = " " + Messages.TIME_HOURS_SHORT;
+            days = " " + Messages.TIME_DAYS_SHORT;
+        } else {
+            sec = Messages.TIME_SECONDS;
+            min = Messages.TIME_MINUTES;
+            hour = Messages.TIME_HOURS;
+            days = Messages.TIME_DAYS;
+        }
+
         if(remainingMilliSeconds < 0){
-            return "0" + Messages.TIME_SECONDS;
+            return "0" + sec;
         }
 
         long remainingDays = TimeUnit.DAYS.convert(remainingMilliSeconds, TimeUnit.MILLISECONDS);
@@ -325,19 +341,31 @@ public class ContractRegion extends Region {
 
         String timetoString = "";
         if(remainingDays != 0) {
-            timetoString = timetoString + remainingDays + Messages.TIME_DAYS;
+            timetoString = timetoString + remainingDays + days;
+            if(mini){
+                return timetoString;
+            }
         }
         if(remainingHours != 0) {
-            timetoString = timetoString + remainingHours + Messages.TIME_HOURS;
+            timetoString = timetoString + remainingHours + hour;
+            if(mini){
+                return timetoString;
+            }
         }
         if(remainingMinutes != 0) {
-            timetoString = timetoString + remainingMinutes + Messages.TIME_MINUTES;
+            timetoString = timetoString + remainingMinutes + min;
+            if(mini){
+                return timetoString;
+            }
         }
         if(remainingSeconds != 0) {
-            timetoString = timetoString + remainingSeconds + Messages.TIME_SECONDS;
+            timetoString = timetoString + remainingSeconds + sec;
+            if(mini){
+                return timetoString;
+            }
         }
         if(remainingSeconds == 0 && remainingMinutes == 0 && remainingHours == 0 && remainingDays == 0){
-            timetoString = "0" + Messages.TIME_SECONDS;
+            timetoString = "0" + sec;
         }
 
         return timetoString;
@@ -396,7 +424,7 @@ public class ContractRegion extends Region {
             sendmessage = sendmessage.replace("%currency%", Messages.CURRENCY);
             sendmessage = sendmessage.replace("%extend%", getExtendTimeString());
             sendmessage = sendmessage.replace("%regionid%", getRegion().getId());
-            player.sendMessage(sendmessage);
+            player.sendMessage(Messages.PREFIX + sendmessage);
         }
     }
 

@@ -156,6 +156,10 @@ public class Messages {
     public static String TIME_MINUTES = "m";
     public static String TIME_HOURS = "h";
     public static String TIME_DAYS = "d";
+    public static String TIME_SECONDS_SHORT = "";
+    public static String TIME_MINUTES_SHORT = "";
+    public static String TIME_HOURS_SHORT = "";
+    public static String TIME_DAYS_SHORT = "";
 
     public static List<String> GUI_TELEPORT_TO_REGION_BUTTON_LORE = new LinkedList<>();
     public static List<String> GUI_MAKE_OWNER_BUTTON_LORE = new LinkedList<>();
@@ -334,6 +338,10 @@ public class Messages {
         TIME_MINUTES = config.getString("Messages.Minutes");
         TIME_HOURS = config.getString("Messages.Hours");
         TIME_DAYS = config.getString("Messages.Days");
+        TIME_SECONDS_SHORT = config.getString("Messages.SecondsForShortCountDown");
+        TIME_MINUTES_SHORT = config.getString("Messages.MinutesForShortCountDown");
+        TIME_HOURS_SHORT = config.getString("Messages.HoursForShortCountDown");
+        TIME_DAYS_SHORT = config.getString("Messages.DaysForShortCountDown");
 
         Messages.translateColorCodes();
     }
@@ -482,6 +490,10 @@ public class Messages {
         TIME_MINUTES = ChatColor.translateAlternateColorCodes('&', TIME_MINUTES);
         TIME_HOURS = ChatColor.translateAlternateColorCodes('&', TIME_HOURS);
         TIME_DAYS = ChatColor.translateAlternateColorCodes('&', TIME_DAYS);
+        TIME_SECONDS_SHORT = ChatColor.translateAlternateColorCodes('&', TIME_SECONDS_SHORT);
+        TIME_MINUTES_SHORT = ChatColor.translateAlternateColorCodes('&', TIME_MINUTES_SHORT);
+        TIME_HOURS_SHORT = ChatColor.translateAlternateColorCodes('&', TIME_HOURS_SHORT);
+        TIME_DAYS_SHORT = ChatColor.translateAlternateColorCodes('&', TIME_DAYS_SHORT);
 
 
         for(int i = 0; i < GUI_TELEPORT_TO_REGION_BUTTON_LORE.size(); i++){

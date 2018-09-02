@@ -133,6 +133,7 @@ Other:
   RemainingTimeFormat: '%countdown%'
   # dd for days, MM for months, yyyy for years, hh for hours, mm for minutes
   DateTimeFormat: 'dd.MM.yyyy hh:mm'
+  ShortCountdown: false
 
 #Here you can change the Blocks that will be shown in the GUI. You can use
 #this (https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html) as a List for possible blocks.

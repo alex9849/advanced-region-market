@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>armparent</artifactId>
-        <groupId>net.liggesmeyer</groupId>
+        <groupId>net.alex9849</groupId>
         <version>1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -112,49 +112,49 @@
         </dependency>
         <!--My Data-->
         <dependency>
-            <groupId>net.liggesmeyer</groupId>
+            <groupId>net.alex9849</groupId>
             <artifactId>arminterface</artifactId>
             <version>1.0</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>net.liggesmeyer</groupId>
+            <groupId>net.alex9849</groupId>
             <artifactId>wg6adapter</artifactId>
             <version>1.0</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>net.liggesmeyer</groupId>
+            <groupId>net.alex9849</groupId>
             <artifactId>wg7adapter</artifactId>
             <version>1.0</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>net.liggesmeyer</groupId>
+            <groupId>net.alex9849</groupId>
             <artifactId>we7adapter</artifactId>
             <version>1.0</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>net.liggesmeyer</groupId>
+            <groupId>net.alex9849</groupId>
             <artifactId>we6adapter</artifactId>
             <version>1.0</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>net.liggesmeyer</groupId>
+            <groupId>net.alex9849</groupId>
             <artifactId>we7faweadapter</artifactId>
             <version>1.0</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>net.liggesmeyer</groupId>
+            <groupId>net.alex9849</groupId>
             <artifactId>we6faweadapter</artifactId>
             <version>1.0</version>
             <type>jar</type>

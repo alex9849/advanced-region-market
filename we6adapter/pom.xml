@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>armparent</artifactId>
-        <groupId>net.liggesmeyer</groupId>
+        <groupId>net.alex9849</groupId>
         <version>1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -44,7 +44,7 @@
         </dependency>
         <!--My interfaces-->
         <dependency>
-            <groupId>net.liggesmeyer</groupId>
+            <groupId>net.alex9849</groupId>
             <artifactId>arminterface</artifactId>
             <version>1.0</version>
             <type>jar</type>

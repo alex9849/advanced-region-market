@@ -8,6 +8,7 @@ import net.alex9849.arm.Main;
 import org.bukkit.*;
 import org.bukkit.Location;
 import org.bukkit.block.Sign;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -18,6 +19,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.logging.Level;
 
 public abstract class Region {
     private static List<Region> regionList = new ArrayList<>();
@@ -198,6 +200,15 @@ public abstract class Region {
 
     public void updateSigns() {
         for (int i = 0; i < this.sellsign.size(); i++) {
+            Location loc = new Location(this.sellsign.get(i).getLocation().getWorld(), this.sellsign.get(i).getLocation().getBlockX(), this.sellsign.get(i).getLocation().getBlockY(), this.sellsign.get(i).getLocation().getBlockZ());
+            if (loc.getBlock().getType() != this.sellsign.get(i).getType()) {
+                loc.getBlock().setType(this.sellsign.get(i).getType());
+                loc.getBlock().setBlockData(this.sellsign.get(i).getBlockData());
+                this.sellsign.set(i, (Sign) loc.getBlock().getState());
+
+                Bukkit.getLogger().log(Level.INFO, loc.getBlock().getBlockData().getAsString());
+            }
+
             this.updateSignText(this.sellsign.get(i));
         }
     }

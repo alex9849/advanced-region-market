@@ -12,6 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -403,6 +404,7 @@ public class ARMListener implements Listener {
             for (int i = 0; i < Region.getRegionList().size() ; i++){
                 if(Region.getRegionList().get(i).hasSign((Sign) sign.getBlock().getState())){
                     sign.setCancelled(true);
+                    return;
                 }
             }
         }

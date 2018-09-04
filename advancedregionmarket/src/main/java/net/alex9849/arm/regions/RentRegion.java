@@ -221,6 +221,8 @@ public class RentRegion extends Region {
             } else {
                 this.updateSigns();
             }
+        } else {
+            this.updateSigns();
         }
     }
 

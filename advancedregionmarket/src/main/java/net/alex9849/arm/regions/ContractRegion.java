@@ -93,6 +93,8 @@ public class ContractRegion extends Region {
             } else {
                 this.updateSigns();
             }
+        } else {
+            this.updateSigns();
         }
     }
 

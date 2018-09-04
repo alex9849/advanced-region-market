@@ -205,8 +205,6 @@ public abstract class Region {
                 loc.getBlock().setType(this.sellsign.get(i).getType());
                 loc.getBlock().setBlockData(this.sellsign.get(i).getBlockData());
                 this.sellsign.set(i, (Sign) loc.getBlock().getState());
-
-                Bukkit.getLogger().log(Level.INFO, loc.getBlock().getBlockData().getAsString());
             }
 
             this.updateSignText(this.sellsign.get(i));

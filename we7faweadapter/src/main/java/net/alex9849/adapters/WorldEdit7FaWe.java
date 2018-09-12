@@ -2,6 +2,7 @@ package net.alex9849.adapters;
 
 import com.boydti.fawe.object.schematic.Schematic;
 import com.sk89q.worldedit.bukkit.BukkitWorld;
+import com.sk89q.worldedit.extent.clipboard.io.BuiltInClipboardFormat;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormats;
 import com.sk89q.worldedit.regions.CuboidRegion;
@@ -11,6 +12,7 @@ import org.bukkit.Bukkit;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
 
 public class WorldEdit7FaWe extends WorldEditInterface {
 

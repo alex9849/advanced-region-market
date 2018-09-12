@@ -264,7 +264,10 @@ public class RentRegion extends Region {
         double amount = (this.getPrice() * paybackPercentage)/100;
         GregorianCalendar acttime = new GregorianCalendar();
         long remaining = this.payedTill - acttime.getTimeInMillis();
-        amount = amount * (remaining / rentExtendPerClick);
+        amount = amount * ((double)remaining / (double)rentExtendPerClick);
+        amount = amount * 10;
+        amount = Math.round(amount);
+        amount = amount / 10d;
         return amount;
     }
 

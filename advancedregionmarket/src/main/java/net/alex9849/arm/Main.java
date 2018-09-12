@@ -414,13 +414,16 @@ public class Main extends JavaPlugin {
         Gui.setGoBackItem(Material.getMaterial(pluginConf.getString("GUI.GoBackItem")));
         Gui.setWarningYesItem(Material.getMaterial(pluginConf.getString("GUI.WarningYesItem")));
         Gui.setWarningNoItem(Material.getMaterial(pluginConf.getString("GUI.WarningNoItem")));
-        Gui.setTpItem(Material.getMaterial(pluginConf.getString("GUI.Region.TPItem")));
-        Gui.setSellRegionItem(Material.getMaterial(pluginConf.getString("GUI.Region.SellRegionItem")));
-        Gui.setResetItem(Material.getMaterial(pluginConf.getString("GUI.Region.ResetItem")));
-        Gui.setExtendItem(Material.getMaterial(pluginConf.getString("GUI.RentRegion.ExtendItem")));
-        Gui.setInfoItem(Material.getMaterial(pluginConf.getString("GUI.Region.InfoItem")));
-        Gui.setPromoteMemberToOwnerItem(Material.getMaterial(pluginConf.getString("GUI.Region.PromoteMemberToOwnerItem")));
-        Gui.setRemoveMemberItem(Material.getMaterial(pluginConf.getString("GUI.Region.RemoveMemberItem")));
+        Gui.setTpItem(Material.getMaterial(pluginConf.getString("GUI.TPItem")));
+        Gui.setSellRegionItem(Material.getMaterial(pluginConf.getString("GUI.SellRegionItem")));
+        Gui.setResetItem(Material.getMaterial(pluginConf.getString("GUI.ResetItem")));
+        Gui.setExtendItem(Material.getMaterial(pluginConf.getString("GUI.ExtendItem")));
+        Gui.setInfoItem(Material.getMaterial(pluginConf.getString("GUI.InfoItem")));
+        Gui.setPromoteMemberToOwnerItem(Material.getMaterial(pluginConf.getString("GUI.PromoteMemberToOwnerItem")));
+        Gui.setRemoveMemberItem(Material.getMaterial(pluginConf.getString("GUI.RemoveMemberItem")));
+        Gui.setFillItem(Material.getMaterial(pluginConf.getString("GUI.FillItem")));
+        Gui.setContractItem(Material.getMaterial(pluginConf.getString("GUI.ContractItem")));
+
     }
 
     private Boolean loadAutoReset(){
@@ -1173,6 +1176,15 @@ public class Main extends JavaPlugin {
                 }
             }
             Region.saveRegionsConf(regionConf);
+        }
+        if(version < 1.4) {
+            pluginConfig.set("GUI.FillItem", "GRAY_STAINED_GLASS_PANE");
+            pluginConfig.set("GUI.ContractItem", "WRITABLE_BOOK");
+            pluginConfig.set("GUI.DisplayRegionOwnerButton", true);
+            pluginConfig.set("GUI.DisplayRegionMemberButton", true);
+            pluginConfig.set("GUI.DisplayRegionFinderButton", true);
+            pluginConfig.set("Version", 1.4);
+            saveConfig();
         }
     }
 }

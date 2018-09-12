@@ -9,10 +9,12 @@ import net.alex9849.arm.Group.LimitGroup;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -37,60 +39,99 @@ public class Gui implements Listener {
     private static Material PROMOTE_MEMBER_TO_OWNER_ITEM = Material.LADDER;
     private static Material REMOVE_MEMBER_ITEM = Material.LAVA_BUCKET;
     private static Material CONTRACT_ITEM = Material.WRITABLE_BOOK;
+    private static Material FILL_ITEM = Material.GRAY_STAINED_GLASS_PANE;
 
     public static void openARMGui(Player player) {
         CustomHolder menu = new CustomHolder(9, Messages.GUI_MAIN_MENU_NAME);
+        FileConfiguration config = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getConfig();
 
-        ItemStack myRegions = new ItemStack(Gui.REGION_OWNER_ITEM);
-        ItemMeta myRegionsMeta = myRegions.getItemMeta();
-        myRegionsMeta.setDisplayName(Messages.GUI_MY_OWN_REGIONS);
-        myRegions.setItemMeta(myRegionsMeta);
+        int itemcounter = 0;
+        int actitem = 1;
 
-        ItemStack mymRegions = new ItemStack(Gui.REGION_MEMBER_ITEM);
-        ItemMeta mymRegionsMeta = mymRegions.getItemMeta();
-        mymRegionsMeta.setDisplayName(Messages.GUI_MY_MEMBER_REGIONS);
-        mymRegions.setItemMeta(mymRegionsMeta);
+        if(config.getBoolean("GUI.DisplayRegionOwnerButton")){
+            itemcounter++;
+        }
+        if(config.getBoolean("GUI.DisplayRegionMemberButton")){
+            itemcounter++;
+        }
+        if(config.getBoolean("GUI.DisplayRegionFinderButton")){
+            itemcounter++;
+        }
 
-        ItemStack searchRegion = new ItemStack(Gui.REGION_FINDER_ITEM);
-        ItemMeta searchRegionMeta = searchRegion.getItemMeta();
-        searchRegionMeta.setDisplayName(Messages.GUI_SEARCH_FREE_REGION);
-        searchRegion.setItemMeta(searchRegionMeta);
 
-        Icon regionMenu = new Icon(myRegions, 0).addClickAction(new ClickAction() {
-            @Override
-            public void execute(Player player) {
-                Gui.openRegionOwnerGui(player);
+        if(config.getBoolean("GUI.DisplayRegionOwnerButton")){
+            ItemStack myRegions = new ItemStack(Gui.REGION_OWNER_ITEM);
+            ItemMeta myRegionsMeta = myRegions.getItemMeta();
+            myRegionsMeta.setDisplayName(Messages.GUI_MY_OWN_REGIONS);
+            myRegions.setItemMeta(myRegionsMeta);
+
+            Icon regionMenu = new Icon(myRegions, getPosition(actitem, itemcounter)).addClickAction(new ClickAction() {
+                @Override
+                public void execute(Player player) {
+                    Gui.openRegionOwnerGui(player, true);
+                }
+            });
+            menu.addIcon(regionMenu);
+            actitem++;
+            if(itemcounter == 1) {
+                Gui.openRegionOwnerGui(player, false);
             }
-        });
+        }
+        if(config.getBoolean("GUI.DisplayRegionMemberButton")){
+            ItemStack mymRegions = new ItemStack(Gui.REGION_MEMBER_ITEM);
+            ItemMeta mymRegionsMeta = mymRegions.getItemMeta();
+            mymRegionsMeta.setDisplayName(Messages.GUI_MY_MEMBER_REGIONS);
+            mymRegions.setItemMeta(mymRegionsMeta);
 
-        menu.addIcon(regionMenu);
+            Icon regionMemberMenu = new Icon(mymRegions, getPosition(actitem, itemcounter)).addClickAction(new ClickAction() {
+                @Override
+                public void execute(Player player) {
+                    Gui.openRegionMemberGui(player, true);
+                }
+            });
 
-        Icon regionMemberMenu = new Icon(mymRegions, 4).addClickAction(new ClickAction() {
-            @Override
-            public void execute(Player player) {
-                Gui.openRegionMemberGui(player);
+            menu.addIcon(regionMemberMenu);
+            actitem++;
+            if(itemcounter == 1) {
+                Gui.openRegionMemberGui(player, false);
             }
-        });
+        }
+        if(config.getBoolean("GUI.DisplayRegionFinderButton")){
+            ItemStack searchRegion = new ItemStack(Gui.REGION_FINDER_ITEM);
+            ItemMeta searchRegionMeta = searchRegion.getItemMeta();
+            searchRegionMeta.setDisplayName(Messages.GUI_SEARCH_FREE_REGION);
+            searchRegion.setItemMeta(searchRegionMeta);
 
-        menu.addIcon(regionMemberMenu);
+            Icon regionfinder = new Icon(searchRegion, getPosition(actitem, itemcounter)).addClickAction(new ClickAction() {
+                @Override
+                public void execute(Player player) {
+                    Gui.openRegionFinder(player, true);
+                }
+            });
 
-        Icon regionfinder = new Icon(searchRegion, 8).addClickAction(new ClickAction() {
-            @Override
-            public void execute(Player player) {
-                Gui.openRegionFinder(player);
+            menu.addIcon(regionfinder);
+            actitem++;
+            if(itemcounter == 1) {
+                Gui.openRegionFinder(player, false);
             }
-        });
+        }
 
-        menu.addIcon(regionfinder);
+        menu = Gui.placeFillItems(menu);
 
-        player.openInventory(menu.getInventory());
+        if(itemcounter != 1) {
+            player.openInventory(menu.getInventory());
+        }
     }
 
-    public static void openRegionOwnerGui(Player player) {
+    public static void openRegionOwnerGui(Player player, Boolean withGoBack) {
         List<Region> regions = Region.getRegionsByOwner(player.getUniqueId());
 
         int invsize = 0;
-        while (regions.size() + 1 > invsize) {
+        int itemcounter = 0;
+        if(withGoBack) {
+            itemcounter++;
+        }
+        while (regions.size() + itemcounter > invsize) {
             invsize = invsize + 9;
         }
 
@@ -163,19 +204,23 @@ public class Gui implements Listener {
             }
         }
 
-        ItemStack goBack = new ItemStack(Gui.GO_BACK_ITEM);
-        ItemMeta goBackMeta = goBack.getItemMeta();
-        goBackMeta.setDisplayName(Messages.GUI_GO_BACK);
-        goBack.setItemMeta(goBackMeta);
+        if(withGoBack) {
+            ItemStack goBack = new ItemStack(Gui.GO_BACK_ITEM);
+            ItemMeta goBackMeta = goBack.getItemMeta();
+            goBackMeta.setDisplayName(Messages.GUI_GO_BACK);
+            goBack.setItemMeta(goBackMeta);
 
-        Icon gobackButton = new Icon(goBack, (invsize - 1)).addClickAction(new ClickAction() {
-            @Override
-            public void execute(Player player) {
-                Gui.openARMGui(player);
-            }
-        });
+            Icon gobackButton = new Icon(goBack, (invsize - 1)).addClickAction(new ClickAction() {
+                @Override
+                public void execute(Player player) {
+                    Gui.openARMGui(player);
+                }
+            });
 
-        inv.addIcon(gobackButton);
+            inv.addIcon(gobackButton);
+        }
+
+        inv = Gui.placeFillItems(inv);
 
         player.openInventory(inv.getInventory());
 
@@ -307,13 +352,14 @@ public class Gui implements Listener {
         Icon gobackicon = new Icon(gobackitem, getPosition(actitem, itemcounter)).addClickAction(new ClickAction() {
             @Override
             public void execute(Player player) {
-                Gui.openRegionOwnerGui(player);
+                Gui.openRegionOwnerGui(player, isMainPageMultipleItems());
             }
         });
         inv.addIcon(gobackicon);
 
         actitem++;
 
+        inv = Gui.placeFillItems(inv);
 
         player.openInventory(inv.getInventory());
 
@@ -473,11 +519,13 @@ public class Gui implements Listener {
         Icon gobackicon = new Icon(gobackitem, getPosition(actitem, itemcounter)).addClickAction(new ClickAction() {
             @Override
             public void execute(Player player) {
-                Gui.openRegionOwnerGui(player);
+                Gui.openRegionOwnerGui(player, isMainPageMultipleItems());
             }
         });
         inv.addIcon(gobackicon);
         actitem++;
+
+        inv = Gui.placeFillItems(inv);
 
         player.openInventory(inv.getInventory());
     }
@@ -586,7 +634,6 @@ public class Gui implements Listener {
 
             actitem++;
         }
-//TODO Cancel Contract
         ItemStack extendItem = new ItemStack(Gui.CONTRACT_ITEM);
         ItemMeta extendItemMeta = extendItem.getItemMeta();
         extendItemMeta.setDisplayName(Messages.GUI_CONTRACT_ITEM);
@@ -636,21 +683,25 @@ public class Gui implements Listener {
         Icon gobackicon = new Icon(gobackitem, getPosition(actitem, itemcounter)).addClickAction(new ClickAction() {
             @Override
             public void execute(Player player) {
-                Gui.openRegionOwnerGui(player);
+                Gui.openRegionOwnerGui(player, isMainPageMultipleItems());
             }
         });
         inv.addIcon(gobackicon);
         actitem++;
 
+        inv = Gui.placeFillItems(inv);
+
         player.openInventory(inv.getInventory());
 
     }
 
-    public static void openRegionFinder(Player player) {
+    public static void openRegionFinder(Player player, Boolean withGoBack) {
 
-        int itemcounter = 1;
+        int itemcounter = 0;
         int actitem = 1;
-
+        if(withGoBack) {
+            itemcounter++;
+        }
         if(player.hasPermission(Permission.MEMBER_LIMIT)){
             itemcounter++;
         }
@@ -727,19 +778,23 @@ public class Gui implements Listener {
         }
 
 
-        ItemStack goBack = new ItemStack(Gui.GO_BACK_ITEM);
-        ItemMeta goBackMeta = goBack.getItemMeta();
-        goBackMeta.setDisplayName(Messages.GUI_GO_BACK);
-        goBack.setItemMeta(goBackMeta);
+        if(withGoBack) {
+            ItemStack goBack = new ItemStack(Gui.GO_BACK_ITEM);
+            ItemMeta goBackMeta = goBack.getItemMeta();
+            goBackMeta.setDisplayName(Messages.GUI_GO_BACK);
+            goBack.setItemMeta(goBackMeta);
 
-        Icon gobackButton = new Icon(goBack, (invsize - 1)).addClickAction(new ClickAction() {
-            @Override
-            public void execute(Player player) {
-                Gui.openARMGui(player);
-            }
-        });
+            Icon gobackButton = new Icon(goBack, (invsize - 1)).addClickAction(new ClickAction() {
+                @Override
+                public void execute(Player player) {
+                    Gui.openARMGui(player);
+                }
+            });
 
-        inv.addIcon(gobackButton);
+            inv.addIcon(gobackButton);
+        }
+
+        inv = Gui.placeFillItems(inv);
 
         player.openInventory(inv.getInventory());
 
@@ -800,6 +855,9 @@ public class Gui implements Listener {
         });
 
         inv.addIcon(gobackButton);
+
+        inv = Gui.placeFillItems(inv);
+
         player.openInventory(inv.getInventory());
 
     }
@@ -851,6 +909,8 @@ public class Gui implements Listener {
 
         inv.addIcon(gobackButton);
 
+        inv = Gui.placeFillItems(inv);
+
         player.openInventory(inv.getInventory());
 
     }
@@ -877,6 +937,7 @@ public class Gui implements Listener {
                     player.sendMessage(Messages.PREFIX + Messages.REGION_TRANSFER_LIMIT_ERROR);
                 }
 
+
                 player.closeInventory();
             }
         });
@@ -895,14 +956,20 @@ public class Gui implements Listener {
         });
         inv.addIcon(noButton);
 
+        inv = Gui.placeFillItems(inv);
+
         player.openInventory(inv.getInventory());
     }
 
-    public static void openRegionMemberGui(Player player) {
+    public static void openRegionMemberGui(Player player, Boolean withGoBack) {
         List<Region> regions = Region.getRegionsByMember(player.getUniqueId());
 
         int invsize = 0;
-        while (regions.size() + 1 > invsize) {
+        int itemcounter = 0;
+        if(withGoBack) {
+            itemcounter++;
+        }
+        while (regions.size() + itemcounter > invsize) {
             invsize = invsize + 9;
         }
 
@@ -937,19 +1004,23 @@ public class Gui implements Listener {
             inv.addIcon(infoButton);
         }
 
-        ItemStack goBack = new ItemStack(Gui.GO_BACK_ITEM);
-        ItemMeta goBackMeta = goBack.getItemMeta();
-        goBackMeta.setDisplayName(Messages.GUI_GO_BACK);
-        goBack.setItemMeta(goBackMeta);
+        if(withGoBack) {
+            ItemStack goBack = new ItemStack(Gui.GO_BACK_ITEM);
+            ItemMeta goBackMeta = goBack.getItemMeta();
+            goBackMeta.setDisplayName(Messages.GUI_GO_BACK);
+            goBack.setItemMeta(goBackMeta);
 
-        Icon gobackButton = new Icon(goBack, (invsize - 1)).addClickAction(new ClickAction() {
-            @Override
-            public void execute(Player player) {
-                Gui.openARMGui(player);
-            }
-        });
+            Icon gobackButton = new Icon(goBack, (invsize - 1)).addClickAction(new ClickAction() {
+                @Override
+                public void execute(Player player) {
+                    Gui.openARMGui(player);
+                }
+            });
+            inv.addIcon(gobackButton);
+        }
 
-        inv.addIcon(gobackButton);
+
+        inv = Gui.placeFillItems(inv);
 
         player.openInventory(inv.getInventory());
     }
@@ -1010,11 +1081,13 @@ public class Gui implements Listener {
         Icon gobackicon = new Icon(gobackitem, getPosition(actitem, itemcounter)).addClickAction(new ClickAction() {
             @Override
             public void execute(Player player) {
-                Gui.openRegionMemberGui(player);
+                Gui.openRegionMemberGui(player, isMainPageMultipleItems());
             }
         });
         inv.addIcon(gobackicon);
         actitem++;
+
+        inv = Gui.placeFillItems(inv);
 
         player.openInventory(inv.getInventory());
     }
@@ -1062,6 +1135,8 @@ public class Gui implements Listener {
         });
         inv.addIcon(icon);
 
+        inv = Gui.placeFillItems(inv);
+
         player.openInventory(inv.getInventory());
     }
 
@@ -1094,6 +1169,8 @@ public class Gui implements Listener {
             }
         });
         inv.addIcon(noButton);
+
+        inv = Gui.placeFillItems(inv);
 
         player.openInventory(inv.getInventory());
     }
@@ -1128,6 +1205,8 @@ public class Gui implements Listener {
         });
         inv.addIcon(noButton);
 
+        inv = Gui.placeFillItems(inv);
+
         player.openInventory(inv.getInventory());
     }
 
@@ -1139,6 +1218,23 @@ public class Gui implements Listener {
         } else if (region instanceof ContractRegion) {
             Gui.openContractRegionManagerOwner(player, (ContractRegion) region);
         }
+    }
+
+    private static boolean isMainPageMultipleItems(){
+        FileConfiguration config = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getConfig();
+
+        int itemcounter = 0;
+
+        if(config.getBoolean("GUI.DisplayRegionOwnerButton")){
+            itemcounter++;
+        }
+        if(config.getBoolean("GUI.DisplayRegionMemberButton")){
+            itemcounter++;
+        }
+        if(config.getBoolean("GUI.DisplayRegionFinderButton")){
+            itemcounter++;
+        }
+        return (itemcounter > 1);
     }
 
     @EventHandler
@@ -1162,6 +1258,28 @@ public class Gui implements Listener {
                 }
             }
         }
+    }
+
+    private static CustomHolder placeFillItems(CustomHolder inv) {
+        if(Gui.FILL_ITEM != Material.AIR) {
+            ItemStack fillItem = new ItemStack(Gui.FILL_ITEM);
+            ItemMeta fillItemMeta = fillItem.getItemMeta();
+            fillItemMeta.setDisplayName(" ");
+            fillItem.setItemMeta(fillItemMeta);
+            for(int i = 0; i < inv.getInventory().getSize(); i++) {
+                if(inv.getIcon(i) == null) {
+                    Icon fillIcon = new Icon(fillItem, i).addClickAction(new ClickAction() {
+                        @Override
+                        public void execute(Player player) {
+                            return;
+                        }
+                    });
+                    inv.addIcon(fillIcon);
+                }
+            }
+            return inv;
+        }
+        return inv;
     }
 
     private static int getPosition(int itemNr, int maxItems){
@@ -1293,6 +1411,18 @@ public class Gui implements Listener {
     public static void setRegionFinderItem(Material regionFinderItem) {
         if(regionFinderItem != null) {
             Gui.REGION_FINDER_ITEM = regionFinderItem;
+        }
+    }
+
+    public static void setFillItem(Material fillItem) {
+        if(fillItem != null) {
+            Gui.FILL_ITEM = fillItem;
+        }
+    }
+
+    public static void setContractItem(Material contractItem) {
+        if(contractItem != null) {
+            Gui.CONTRACT_ITEM = contractItem;
         }
     }
 

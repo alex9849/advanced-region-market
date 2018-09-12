@@ -43,7 +43,7 @@
             <artifactId>fawe-api</artifactId>
             <scope>system</scope>
             <version>any</version>
-            <systemPath>E:/Cloud/Programmieren/Lib/plugins/alpha/FastAsyncWorldEdit-bukkit-18.08.22-9927cde-2017.jar</systemPath>
+            <systemPath>E:/Cloud/Programmieren/Lib/plugins/alpha/FastAsyncWorldEdit-bukkit-18.09.12-c1f9120-2041.jar</systemPath>
         </dependency>
         <!--My interfaces-->
         <dependency>

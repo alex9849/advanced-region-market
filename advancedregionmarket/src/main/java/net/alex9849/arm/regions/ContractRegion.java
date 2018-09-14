@@ -489,6 +489,7 @@ public class ContractRegion extends Region {
         }
         if(!(region instanceof ContractRegion)) {
             player.sendMessage(Messages.PREFIX + Messages.REGION_IS_NOT_A_CONTRACT_REGION);
+            return true;
         }
 
         if(!region.sold) {

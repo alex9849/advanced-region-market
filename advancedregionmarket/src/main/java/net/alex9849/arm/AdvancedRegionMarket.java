@@ -113,7 +113,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         loadOther();
         loadRegions();
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Scheduler() , 0 ,20*getConfig().getInt("Other.SignAndResetUpdateInterval"));
-        this.commandHandler = new CommandHandler();
+        this.commandHandler = new CommandHandler(getConfig().getBoolean("Other.CompleteRegionsOnTabComplete"));
         getCommand("arm").setTabCompleter(this.commandHandler);
         Bukkit.getLogger().log(Level.INFO, "Programmed by Alex9849");
 
@@ -894,6 +894,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
             pluginConfig.set("GUI.DisplayRegionOwnerButton", true);
             pluginConfig.set("GUI.DisplayRegionMemberButton", true);
             pluginConfig.set("GUI.DisplayRegionFinderButton", true);
+            pluginConfig.set("Other.CompleteRegionsOnTabComplete", false);
             pluginConfig.set("Version", 1.4);
             saveConfig();
             YamlConfiguration messages = Messages.getConfig();

@@ -97,7 +97,7 @@ Messages:
   RegionAddMemberDoNotOwn: '&4You do not own this region!'
   RegionRemoveMemberNotAMember: '&4The selected player is not a member of the region'
   RegionRemoveMemberRemoved: '&aMember has been removed!'
-  RegionRemoveMemberDoNotOwn: '&aYou do not own this region!'
+  RegionRemoveMemberDoNotOwn: '&4You do not own this region!'
   RegionBuyOutOfLimit: '&4Out of Limit! You have &7%playerownedkind%/%limitkind% &4%regionkind%-regions and &7%playerownedtotal%/%limittotal% &4Regions total!'
   Unlimited: 'Unlimited'
 

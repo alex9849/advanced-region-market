@@ -330,6 +330,7 @@ public abstract class Region {
         }
 
         sender.sendMessage(Messages.REGIONKINDS);
+        sender.sendMessage("-" + "default");
         for (int i = 0; i < RegionKind.getRegionKindList().size(); i++){
            sender.sendMessage("- " + RegionKind.getRegionKindList().get(i).getName());
         }
@@ -518,7 +519,7 @@ public abstract class Region {
 
         Player player = (Player) sender;
 
-        if(!player.hasPermission(Permission.MEMBER_INFO)) {
+        if(!player.hasPermission(Permission.MEMBER_INFO) && !player.hasPermission(Permission.ADMIN_INFO)) {
             player.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
             return true;
         }
@@ -543,7 +544,7 @@ public abstract class Region {
 
         Player player = (Player) sender;
 
-        if(!player.hasPermission(Permission.MEMBER_INFO)) {
+        if(!player.hasPermission(Permission.MEMBER_INFO) && !player.hasPermission(Permission.ADMIN_INFO)) {
             player.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
             return true;
         }
@@ -847,7 +848,12 @@ public abstract class Region {
     }
 
     public static boolean listRegionsCommand(CommandSender sender, String args){
-        if(sender.hasPermission(Permission.ADMIN_LISTREGIONS)){
+        if(!(sender instanceof Player)){
+            sender.sendMessage(Messages.PREFIX + Messages.COMMAND_ONLY_INGAME);
+            return true;
+        }
+        Player player = (Player) sender;
+        if(sender.hasPermission(Permission.ADMIN_LISTREGIONS) || (player.getName().equalsIgnoreCase(args) && player.hasPermission(Permission.MEMBER_LISTREGIONS))){
             LinkedList<String> selectedRegionsOwner = new LinkedList<>();
             LinkedList<String> selectedRegionsMember = new LinkedList<>();
             OfflinePlayer oplayer = Bukkit.getOfflinePlayer(args);
@@ -896,8 +902,6 @@ public abstract class Region {
             if(player.hasPermission(Permission.MEMBER_LISTREGIONS)){
                 Region.listRegionsCommand(player, player.getName());
                 return true;
-
-
             } else {
                 sender.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
                 return true;
@@ -1190,7 +1194,7 @@ public abstract class Region {
 
         region.setDoBlockReset(boolsetting);
 
-        player.sendMessage(Messages.PREFIX + "Setted doBlockReset for " + region.getRegion().getId() + " to " + setting);
+        player.sendMessage(Messages.PREFIX + "DoBlockReset has been set to " + setting + "(for " + region.getRegion().getId() + ")");
         return true;
     }
 

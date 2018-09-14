@@ -15,16 +15,24 @@ import net.alex9849.inter.WorldEditInterface;
 import org.bukkit.Bukkit;
 
 import java.io.*;
+import java.util.logging.Level;
 
 public class WorldEdit7 extends WorldEditInterface {
 
     @Override
     public void createSchematic(ProtectedRegion region, String worldname, WorldEdit we) {
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-        File schematicdic = new File(pluginfolder + "/schematics/" + worldname + "/" + region.getId() + ".schematic");
+        File rawschematicdic = new File(pluginfolder + "/schematics/" + worldname + "/" + region.getId());
+        File schematicdic = new File(rawschematicdic + "." + BuiltInClipboardFormat.SPONGE_SCHEMATIC.getPrimaryFileExtension());
         File schematicfolder = new File(pluginfolder + "/schematics/" + worldname);
-        if(schematicdic.exists()){
-            schematicdic.delete();
+
+        for (BuiltInClipboardFormat format : BuiltInClipboardFormat.values()) {
+            for (String extension : format.getFileExtensions()) {
+                if (new File(rawschematicdic.getAbsolutePath() + "." + extension).exists()) {
+                    File delfile = new File(rawschematicdic.getAbsolutePath() + "." + extension);
+                    delfile.delete();
+                }
+            }
         }
 
         schematicfolder.mkdirs();
@@ -59,7 +67,16 @@ public class WorldEdit7 extends WorldEditInterface {
     public void resetBlocks(ProtectedRegion region, String worldname, WorldEdit we) {
 
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-        File file = new File(pluginfolder + "/schematics/" + worldname + "/" + region.getId() + ".schematic");
+        File rawschematicdic = new File(pluginfolder + "/schematics/" + worldname + "/" + region.getId());
+        File file = null;
+
+        for (BuiltInClipboardFormat format : BuiltInClipboardFormat.values()) {
+            for (String extension : format.getFileExtensions()) {
+                if (new File(rawschematicdic.getAbsolutePath() + "." + extension).exists()) {
+                    file = new File(rawschematicdic.getAbsolutePath() + "." + extension);
+                }
+            }
+        }
 
         com.sk89q.worldedit.world.World world = new BukkitWorld(Bukkit.getWorld(worldname));
         Clipboard clipboard;

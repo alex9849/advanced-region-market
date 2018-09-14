@@ -160,6 +160,7 @@ public class Messages {
     public static String TIME_MINUTES_SHORT = "";
     public static String TIME_HOURS_SHORT = "";
     public static String TIME_DAYS_SHORT = "";
+    public static String NOT_A_MEMBER_OR_OWNER = "";
 
     public static List<String> GUI_TELEPORT_TO_REGION_BUTTON_LORE = new LinkedList<>();
     public static List<String> GUI_MAKE_OWNER_BUTTON_LORE = new LinkedList<>();
@@ -342,6 +343,7 @@ public class Messages {
         TIME_MINUTES_SHORT = config.getString("Messages.MinutesForShortCountDown");
         TIME_HOURS_SHORT = config.getString("Messages.HoursForShortCountDown");
         TIME_DAYS_SHORT = config.getString("Messages.DaysForShortCountDown");
+        NOT_A_MEMBER_OR_OWNER = config.getString("Messages.UserNotAMemberOrOwner");
 
         Messages.translateColorCodes();
     }
@@ -494,6 +496,7 @@ public class Messages {
         TIME_MINUTES_SHORT = ChatColor.translateAlternateColorCodes('&', TIME_MINUTES_SHORT);
         TIME_HOURS_SHORT = ChatColor.translateAlternateColorCodes('&', TIME_HOURS_SHORT);
         TIME_DAYS_SHORT = ChatColor.translateAlternateColorCodes('&', TIME_DAYS_SHORT);
+        NOT_A_MEMBER_OR_OWNER = ChatColor.translateAlternateColorCodes('&', NOT_A_MEMBER_OR_OWNER);
 
 
         for(int i = 0; i < GUI_TELEPORT_TO_REGION_BUTTON_LORE.size(); i++){

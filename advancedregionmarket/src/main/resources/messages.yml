@@ -14,6 +14,7 @@ Messages:
   NoPermissionToSearchKind: '&4You are not allowed to search regions of this kind'
   RegionkindDoesNotExist: '&4The selected regionkind does not exist!'
   NoPermissionsToBuyThisKindOfRegion: '&4You do not have permission to buy this kind of region'
+  UserNotAMemberOrOwner: '&4You are not a member or owner of this region!'
 
   RentExtendMessage: '&aRegion extended for &6%extendpercick%&a (For %price% %currency%. New remaining time: &6%remaining%'
   Buymessage: '&aRegion successfully bought!'

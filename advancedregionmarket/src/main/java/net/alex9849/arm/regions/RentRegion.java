@@ -1,9 +1,9 @@
 package net.alex9849.arm.regions;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Permission;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import net.alex9849.arm.Group.LimitGroup;
-import net.alex9849.arm.Main;
 import net.alex9849.arm.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -189,14 +189,14 @@ public class RentRegion extends Region {
             return;
         }
 
-        if(Main.getEcon().getBalance(player) < this.price) {
+        if(AdvancedRegionMarket.getEcon().getBalance(player) < this.price) {
             player.sendMessage(Messages.PREFIX + Messages.NOT_ENOUGHT_MONEY);
             return;
         }
-        Main.getEcon().withdrawPlayer(player, price);
+        AdvancedRegionMarket.getEcon().withdrawPlayer(player, price);
 
         this.setSold(player);
-        if(Main.isTeleportAfterRentRegionBought()){
+        if(AdvancedRegionMarket.isTeleportAfterRentRegionBought()){
             this.teleportToRegion(player);
         }
         player.sendMessage(Messages.PREFIX + Messages.REGION_BUYMESSAGE);
@@ -233,8 +233,8 @@ public class RentRegion extends Region {
             this.payedTill = actualtime.getTimeInMillis() + this.rentExtendPerClick;
         }
         this.sold = true;
-        Main.getWorldGuardInterface().deleteMembers(this.getRegion());
-        Main.getWorldGuardInterface().setOwner(player, this.getRegion());
+        AdvancedRegionMarket.getWorldGuardInterface().deleteMembers(this.getRegion());
+        AdvancedRegionMarket.getWorldGuardInterface().setOwner(player, this.getRegion());
 
         this.updateSigns();
 
@@ -247,12 +247,12 @@ public class RentRegion extends Region {
 
     @Override
     public void userSell(Player player){
-        List<UUID> defdomain = Main.getWorldGuardInterface().getOwners(this.getRegion());
+        List<UUID> defdomain = AdvancedRegionMarket.getWorldGuardInterface().getOwners(this.getRegion());
         double amount = this.getPaybackMoney();
 
         if(amount > 0){
             for(int i = 0; i < defdomain.size(); i++) {
-                Main.getEcon().depositPlayer(Bukkit.getOfflinePlayer(defdomain.get(i)), amount);
+                AdvancedRegionMarket.getEcon().depositPlayer(Bukkit.getOfflinePlayer(defdomain.get(i)), amount);
             }
         }
 
@@ -292,9 +292,9 @@ public class RentRegion extends Region {
     }
 
     public String calcRemainingTime() {
-        String timetoString = Main.getRemainingTimeTimeformat();
-        timetoString = timetoString.replace("%countdown%", this.getCountdown(Main.isUseShortCountdown()));
-        timetoString = timetoString.replace("%date%", this.getDate(Main.getDateTimeformat()));
+        String timetoString = AdvancedRegionMarket.getRemainingTimeTimeformat();
+        timetoString = timetoString.replace("%countdown%", this.getCountdown(AdvancedRegionMarket.isUseShortCountdown()));
+        timetoString = timetoString.replace("%date%", this.getDate(AdvancedRegionMarket.getDateTimeformat()));
 
 
         return timetoString;
@@ -479,7 +479,7 @@ public class RentRegion extends Region {
             return;
         }
 
-        if(!Main.getWorldGuardInterface().hasOwner(player, this.getRegion())) {
+        if(!AdvancedRegionMarket.getWorldGuardInterface().hasOwner(player, this.getRegion())) {
             if(!player.hasPermission(Permission.ADMIN_EXTEND)){
                 player.sendMessage(Messages.PREFIX + Messages.REGION_NOT_OWN);
                 return;
@@ -495,11 +495,11 @@ public class RentRegion extends Region {
             player.sendMessage(Messages.PREFIX + errormessage);
             return;
         } else {
-            if(Main.getEcon().getBalance(player) < this.price) {
+            if(AdvancedRegionMarket.getEcon().getBalance(player) < this.price) {
                 player.sendMessage(Messages.PREFIX + Messages.NOT_ENOUGHT_MONEY);
                 return;
             }
-            Main.getEcon().withdrawPlayer(player, price);
+            AdvancedRegionMarket.getEcon().withdrawPlayer(player, price);
             this.payedTill = this.payedTill + this.rentExtendPerClick;
             YamlConfiguration config = getRegionsConf();
             config.set("Regions." + this.regionworld + "." + this.region.getId() + ".payedTill", this.payedTill);
@@ -517,7 +517,7 @@ public class RentRegion extends Region {
                 this.updateSignText(this.sellsign.get(i));
             }
 
-            if(Main.isTeleportAfterRentRegionExtend()) {
+            if(AdvancedRegionMarket.isTeleportAfterRentRegionExtend()) {
                 this.teleportToRegion(player);
             }
 

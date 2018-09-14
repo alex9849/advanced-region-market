@@ -1,7 +1,7 @@
 package net.alex9849.arm.regions;
 
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
-import net.alex9849.arm.Main;
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.Group.LimitGroup;
@@ -60,7 +60,7 @@ public class ContractRegion extends Region {
                     this.resetBlocks();
                 }
             } else if(this.payedTill < actualtime.getTimeInMillis()) {
-                List<UUID> owners = Main.getWorldGuardInterface().getOwners(this.getRegion());
+                List<UUID> owners = AdvancedRegionMarket.getWorldGuardInterface().getOwners(this.getRegion());
                 if(owners.size() == 0){
                     this.extend();
                     this.updateSigns();
@@ -70,14 +70,14 @@ public class ContractRegion extends Region {
                         this.extend();
                         this.updateSigns();
                     } else {
-                        if(Main.getEcon().hasAccount(oplayer)) {
-                            if(Main.getEcon().getBalance(oplayer) < this.getPrice()) {
+                        if(AdvancedRegionMarket.getEcon().hasAccount(oplayer)) {
+                            if(AdvancedRegionMarket.getEcon().getBalance(oplayer) < this.getPrice()) {
                                 this.unsell();
                                 if(this.isDoBlockReset()){
                                     this.resetBlocks();
                                 }
                             } else {
-                                Main.getEcon().withdrawPlayer(oplayer, this.getPrice());
+                                AdvancedRegionMarket.getEcon().withdrawPlayer(oplayer, this.getPrice());
                                 if(oplayer.isOnline()) {
                                     Player player = Bukkit.getPlayer(owners.get(0));
                                     this.extend(player);
@@ -106,8 +106,8 @@ public class ContractRegion extends Region {
         }
         this.sold = true;
         this.terminated = false;
-        Main.getWorldGuardInterface().deleteMembers(this.getRegion());
-        Main.getWorldGuardInterface().setOwner(player, this.getRegion());
+        AdvancedRegionMarket.getWorldGuardInterface().deleteMembers(this.getRegion());
+        AdvancedRegionMarket.getWorldGuardInterface().setOwner(player, this.getRegion());
 
         this.updateSigns();
 
@@ -223,7 +223,7 @@ public class ContractRegion extends Region {
             return;
         }
         if(this.sold) {
-            if(Main.getWorldGuardInterface().getOwners(getRegion()).contains(player.getUniqueId()) || player.hasPermission(Permission.ADMIN_TERMINATE_CONTRACT)) {
+            if(AdvancedRegionMarket.getWorldGuardInterface().getOwners(getRegion()).contains(player.getUniqueId()) || player.hasPermission(Permission.ADMIN_TERMINATE_CONTRACT)) {
                 this.changeTerminated(player);
                 return;
             } else {
@@ -260,14 +260,14 @@ public class ContractRegion extends Region {
             player.sendMessage(Messages.PREFIX + message);
             return;
         }
-        if(Main.getEcon().getBalance(player) < this.price) {
+        if(AdvancedRegionMarket.getEcon().getBalance(player) < this.price) {
             player.sendMessage(Messages.PREFIX + Messages.NOT_ENOUGHT_MONEY);
             return;
         }
-        Main.getEcon().withdrawPlayer(player, price);
+        AdvancedRegionMarket.getEcon().withdrawPlayer(player, price);
 
         this.setSold(player);
-        if(Main.isTeleportAfterContractRegionBought()){
+        if(AdvancedRegionMarket.isTeleportAfterContractRegionBought()){
             this.teleportToRegion(player);
         }
         player.sendMessage(Messages.PREFIX + Messages.REGION_BUYMESSAGE);
@@ -285,9 +285,9 @@ public class ContractRegion extends Region {
     }
 
     public String calcRemainingTime() {
-        String timetoString = Main.getRemainingTimeTimeformat();
-        timetoString = timetoString.replace("%countdown%", this.getCountdown(Main.isUseShortCountdown()));
-        timetoString = timetoString.replace("%date%", this.getDate(Main.getDateTimeformat()));
+        String timetoString = AdvancedRegionMarket.getRemainingTimeTimeformat();
+        timetoString = timetoString.replace("%countdown%", this.getCountdown(AdvancedRegionMarket.isUseShortCountdown()));
+        timetoString = timetoString.replace("%date%", this.getDate(AdvancedRegionMarket.getDateTimeformat()));
 
 
         return timetoString;
@@ -420,7 +420,7 @@ public class ContractRegion extends Region {
         YamlConfiguration config = Region.getRegionsConf();
         config.set("Regions." + this.regionworld + "." + this.region.getId() + ".payedTill", payedTill);
         Region.saveRegionsConf(config);
-        if((player != null) && Main.isSendContractRegionExtendMessage()) {
+        if((player != null) && AdvancedRegionMarket.isSendContractRegionExtendMessage()) {
             String sendmessage = Messages.CONTRACT_REGION_EXTENDED;
             sendmessage = sendmessage.replace("%price%", this.price + "");
             sendmessage = sendmessage.replace("%currency%", Messages.CURRENCY);
@@ -496,7 +496,7 @@ public class ContractRegion extends Region {
             return true;
         }
 
-        if(!Main.getWorldGuardInterface().hasOwner(player, region.getRegion())) {
+        if(!AdvancedRegionMarket.getWorldGuardInterface().hasOwner(player, region.getRegion())) {
             if(!player.hasPermission(Permission.ADMIN_TERMINATE_CONTRACT)){
                 player.sendMessage(Messages.PREFIX + Messages.REGION_NOT_OWN);
                 return true;

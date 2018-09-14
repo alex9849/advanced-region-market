@@ -1,10 +1,12 @@
-package net.alex9849.arm;
+package net.alex9849.arm.Handler;
 
+import net.alex9849.arm.AdvancedRegionMarket;
+import net.alex9849.arm.Messages;
+import net.alex9849.arm.Permission;
 import net.alex9849.arm.Preseter.ContractPreset;
 import net.alex9849.arm.Preseter.Preset;
 import net.alex9849.arm.Preseter.RentPreset;
 import net.alex9849.arm.Preseter.SellPreset;
-import net.alex9849.arm.regions.*;
 import net.alex9849.arm.regions.*;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import net.alex9849.arm.gui.Gui;
@@ -12,7 +14,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -71,11 +72,11 @@ public class ARMListener implements Listener {
                 }
             }
 
-            if (Main.getWorldGuardInterface().getRegionManager(Bukkit.getWorld(worldname), Main.getWorldGuard()).getRegion(regionname) == null) {
+            if (AdvancedRegionMarket.getWorldGuardInterface().getRegionManager(Bukkit.getWorld(worldname), AdvancedRegionMarket.getWorldGuard()).getRegion(regionname) == null) {
                 sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_DOES_NOT_EXIST);
                 return;
             }
-            ProtectedRegion region = Main.getWorldGuardInterface().getRegionManager(Bukkit.getWorld(worldname), Main.getWorldGuard()).getRegion(regionname);
+            ProtectedRegion region = AdvancedRegionMarket.getWorldGuardInterface().getRegionManager(Bukkit.getWorld(worldname), AdvancedRegionMarket.getWorldGuard()).getRegion(regionname);
             Double price = null;
 
             if(sign.getLine(3).equals("")){
@@ -147,11 +148,11 @@ public class ARMListener implements Listener {
                     return;
                 }
             }
-            if (Main.getWorldGuardInterface().getRegionManager(Bukkit.getWorld(worldname), Main.getWorldGuard()).getRegion(regionname) == null) {
+            if (AdvancedRegionMarket.getWorldGuardInterface().getRegionManager(Bukkit.getWorld(worldname), AdvancedRegionMarket.getWorldGuard()).getRegion(regionname) == null) {
                 sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_DOES_NOT_EXIST);
                 return;
             }
-            ProtectedRegion region = Main.getWorldGuardInterface().getRegionManager(Bukkit.getWorld(worldname), Main.getWorldGuard()).getRegion(regionname);
+            ProtectedRegion region = AdvancedRegionMarket.getWorldGuardInterface().getRegionManager(Bukkit.getWorld(worldname), AdvancedRegionMarket.getWorldGuard()).getRegion(regionname);
 
             double price = 0;
             long extendPerClick = 0;
@@ -238,11 +239,11 @@ public class ARMListener implements Listener {
                     return;
                 }
             }
-            if (Main.getWorldGuardInterface().getRegionManager(Bukkit.getWorld(worldname), Main.getWorldGuard()).getRegion(regionname) == null) {
+            if (AdvancedRegionMarket.getWorldGuardInterface().getRegionManager(Bukkit.getWorld(worldname), AdvancedRegionMarket.getWorldGuard()).getRegion(regionname) == null) {
                 sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_DOES_NOT_EXIST);
                 return;
             }
-            ProtectedRegion region = Main.getWorldGuardInterface().getRegionManager(Bukkit.getWorld(worldname), Main.getWorldGuard()).getRegion(regionname);
+            ProtectedRegion region = AdvancedRegionMarket.getWorldGuardInterface().getRegionManager(Bukkit.getWorld(worldname), AdvancedRegionMarket.getWorldGuard()).getRegion(regionname);
 
             double price = 0;
             long extendtime = 0;
@@ -353,14 +354,14 @@ public class ARMListener implements Listener {
             return;
         }
         for(int i = 0; i < Region.getRegionList().size(); i++){
-            if(Main.getWorldGuardInterface().canBuild(event.getPlayer(), event.getBlock().getLocation(), Main.getWorldGuard())){
+            if(AdvancedRegionMarket.getWorldGuardInterface().canBuild(event.getPlayer(), event.getBlock().getLocation(), AdvancedRegionMarket.getWorldGuard())){
                 int x = event.getBlock().getLocation().getBlockX();
                 int y = event.getBlock().getLocation().getBlockY();
                 int z = event.getBlock().getLocation().getBlockZ();
                 if (Region.getRegionList().get(i).getRegion().contains(x, y, z) && Region.getRegionList().get(i).getRegionworld().equals(event.getPlayer().getLocation().getWorld().getName())) {
                     if(Region.getRegionList().get(i).isHotel()){
                         if(Region.getRegionList().get(i).isSold()){
-                            if(Main.getWorldGuardInterface().canBuild(event.getPlayer(), event.getBlock().getLocation(), Main.getWorldGuard())) {
+                            if(AdvancedRegionMarket.getWorldGuardInterface().canBuild(event.getPlayer(), event.getBlock().getLocation(), AdvancedRegionMarket.getWorldGuard())) {
                                 Region.getRegionList().get(i).addBuiltBlock(event.getBlock().getLocation());
                             }
                         }
@@ -378,7 +379,7 @@ public class ARMListener implements Listener {
             return;
         }
         if(!event.getPlayer().hasPermission(Permission.ADMIN_BUILDEVERYWHERE)){
-            if(Main.getWorldGuardInterface().canBuild(event.getPlayer(), event.getBlock().getLocation(), Main.getWorldGuard())){
+            if(AdvancedRegionMarket.getWorldGuardInterface().canBuild(event.getPlayer(), event.getBlock().getLocation(), AdvancedRegionMarket.getWorldGuard())){
                 for(int i = 0; i < Region.getRegionList().size(); i++) {
                     if(Region.getRegionList().get(i).isHotel()){
                         int x = event.getBlock().getLocation().getBlockX();
@@ -414,14 +415,14 @@ public class ARMListener implements Listener {
 
     @EventHandler
     public void setLastLoginAndOpenOvertake(PlayerJoinEvent event) {
-        if(Main.getEnableAutoReset() || Main.getEnableTakeOver()){
+        if(AdvancedRegionMarket.getEnableAutoReset() || AdvancedRegionMarket.getEnableTakeOver()){
             try{
-                ResultSet rs = Main.getStmt().executeQuery("SELECT * FROM `" + Main.getSqlPrefix() + "lastlogin` WHERE `uuid` = '" + event.getPlayer().getUniqueId().toString() + "'");
+                ResultSet rs = AdvancedRegionMarket.getStmt().executeQuery("SELECT * FROM `" + AdvancedRegionMarket.getSqlPrefix() + "lastlogin` WHERE `uuid` = '" + event.getPlayer().getUniqueId().toString() + "'");
 
                 if(rs.next()){
-                    Main.getStmt().executeUpdate("UPDATE `" + Main.getSqlPrefix() + "lastlogin` SET `lastlogin` = CURRENT_TIMESTAMP WHERE `uuid` = '" + event.getPlayer().getUniqueId().toString() + "'");
+                    AdvancedRegionMarket.getStmt().executeUpdate("UPDATE `" + AdvancedRegionMarket.getSqlPrefix() + "lastlogin` SET `lastlogin` = CURRENT_TIMESTAMP WHERE `uuid` = '" + event.getPlayer().getUniqueId().toString() + "'");
                 } else {
-                    Main.getStmt().executeUpdate("INSERT INTO `" + Main.getSqlPrefix() + "lastlogin` (`uuid`, `lastlogin`) VALUES ('" + event.getPlayer().getUniqueId().toString() + "', CURRENT_TIMESTAMP)");
+                    AdvancedRegionMarket.getStmt().executeUpdate("INSERT INTO `" + AdvancedRegionMarket.getSqlPrefix() + "lastlogin` (`uuid`, `lastlogin`) VALUES ('" + event.getPlayer().getUniqueId().toString() + "', CURRENT_TIMESTAMP)");
                 }
 
             } catch (SQLException e) {
@@ -429,7 +430,7 @@ public class ARMListener implements Listener {
             }
         }
 
-        if(Main.getEnableTakeOver()){
+        if(AdvancedRegionMarket.getEnableTakeOver()){
             Plugin plugin = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket");
             Player player = event.getPlayer();
             Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
@@ -465,7 +466,7 @@ public class ARMListener implements Listener {
 
     public static void doOvertakeCheck(Player player) {
         GregorianCalendar comparedate = new GregorianCalendar();
-        comparedate.add(Calendar.DAY_OF_MONTH, (-1 * Main.getTakeoverAfter()));
+        comparedate.add(Calendar.DAY_OF_MONTH, (-1 * AdvancedRegionMarket.getTakeoverAfter()));
         Date convertdate = new Date();
         convertdate.setTime(comparedate.getTimeInMillis());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -473,7 +474,7 @@ public class ARMListener implements Listener {
 
 
         try {
-            ResultSet rs = Main.getStmt().executeQuery("SELECT * FROM `" + Main.getSqlPrefix() + "lastlogin` WHERE `lastlogin` < '" + compareTime + "'");
+            ResultSet rs = AdvancedRegionMarket.getStmt().executeQuery("SELECT * FROM `" + AdvancedRegionMarket.getSqlPrefix() + "lastlogin` WHERE `lastlogin` < '" + compareTime + "'");
 
             List<Region> overtake = new LinkedList<>();
             while (rs.next()){
@@ -481,7 +482,7 @@ public class ARMListener implements Listener {
 
                 for(int i = 0; i < regions.size(); i++){
                     if(regions.get(i).getAutoreset()){
-                        if(Main.getWorldGuardInterface().hasMember(player, regions.get(i).getRegion())){
+                        if(AdvancedRegionMarket.getWorldGuardInterface().hasMember(player, regions.get(i).getRegion())){
                             overtake.add(regions.get(i));
                         }
                     }

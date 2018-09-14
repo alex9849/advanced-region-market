@@ -1,10 +1,12 @@
 package net.alex9849.arm;
 
+import net.alex9849.arm.Handler.ARMListener;
+import net.alex9849.arm.Handler.CommandHandler;
+import net.alex9849.arm.Handler.Scheduler;
 import net.alex9849.arm.Preseter.ContractPreset;
 import net.alex9849.arm.Preseter.Preset;
 import net.alex9849.arm.Preseter.RentPreset;
 import net.alex9849.arm.Preseter.SellPreset;
-import net.alex9849.arm.regions.*;
 import net.alex9849.arm.regions.*;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
@@ -20,7 +22,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.event.block.*;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -37,7 +38,7 @@ import java.sql.*;
 import java.util.*;
 import java.util.logging.Level;
 
-public class Main extends JavaPlugin {
+public class AdvancedRegionMarket extends JavaPlugin {
     private static Boolean faWeInstalled;
     private static Economy econ;
     private static WorldGuardPlugin worldguard;
@@ -60,38 +61,11 @@ public class Main extends JavaPlugin {
     private static String REMAINING_TIME_TIMEFORMAT = "%date%";
     private static String DATE_TIMEFORMAT = "dd.MM.yyyy hh:mm";
     private static boolean useShortCountdown = false;
-
-    private static final String SET_REGION_KIND = " (?i)setregionkind [^;\n ]+ [^;\n ]+";
-    private static final String LIST_REGION_KIND = " (?i)listregionkinds";
-    private static final String FIND_REGION_BY_TYPE = " (?i)findfreeregion [^;\n ]+";
-    private static final String RESET_REGION_BLOCKS = " (?i)resetblocks [^;\n ]+";
-    private static final String RESET_REGION = " (?i)reset [^;\n ]+";
-    private static final String REGION_INFO_WITHOUT_REGIONNAME = " (?i)info";
-    private static final String REGION_INFO_WITH_REGIONNAME = " (?i)info [^;\n ]+";
-    private static final String ADDMEMBER_WITH_REGIONNAME = " (?i)addmember [^;\n ]+ [^;\n ]+";
-    private static final String REMOVEMEMBER_WITH_REGIONNAME = " (?i)removemember [^;\n ]+ [^;\n ]+";
-    private static final String CHANGE_AUTORESET = " (?i)autoreset [^;\n ]+ (false|true)";
-    private static final String LIST_REGIONS_OTHER = " (?i)listregions [^;\n ]+";
-    private static final String LIST_REGIONS = " (?i)listregions";
-    private static final String SET_OWNER = " (?i)setowner [^;\n ]+ [^;\n ]+";
-    private static final String SET_ALLOW_ONLY_NEW_BLOCKS = " (?i)hotel [^;\n ]+ (false|true)";
-    private static final String CREATE_NEW_SCHEMATIC = " (?i)updateschematic [^;\n ]+";
-    private static final String TELEPORT = " (?i)tp [^;\n ]+";
-    private static final String SET_WARP = " (?i)setwarp [^;\n ]+";
-    private static final String UNSELL = " (?i)unsell [^;\n ]+";
-    private static final String EXTEND = " (?i)extend [^;\n ]+";
-    private static final String DELETE = " (?i)delete [^;\n ]+";
-    private static final String SET_DO_BLOCK_RESET = " (?i)doblockreset [^;\n ]+ (false|true)";
-    private static final String TERMINATE = " (?i)terminate [^;\n ]+ (false|true)";
-    private static final String HELP = " (?i)help";
-    private static final String RELOAD = " (?i)reload";
-    private static final String SELLPRESET = " (?i)sellpreset [^;\n]+";
-    private static final String RENTPRESET = " (?i)rentpreset [^;\n]+";
-    private static final String CONTRACTPRESET = " (?i)contractpreset [^;\n]+";
+    private CommandHandler commandHandler;
 
     public void onEnable(){
 
-        if(!Main.isAllowStartup(this)){
+        if(!AdvancedRegionMarket.isAllowStartup(this)){
             this.setEnabled(false);
             getLogger().log(Level.WARNING, "Plugin remotely deactivated!");
             return;
@@ -100,7 +74,7 @@ public class Main extends JavaPlugin {
         //Enable bStats
         Metrics metrics = new Metrics(this);
 
-        Main.faWeInstalled = setupFaWe();
+        AdvancedRegionMarket.faWeInstalled = setupFaWe();
 
         //Check if Worldguard is installed
         if (!setupWorldGuard()) {
@@ -139,14 +113,16 @@ public class Main extends JavaPlugin {
         loadOther();
         loadRegions();
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Scheduler() , 0 ,20*getConfig().getInt("Other.SignAndResetUpdateInterval"));
+        this.commandHandler = new CommandHandler();
+        getCommand("arm").setTabCompleter(this.commandHandler);
         Bukkit.getLogger().log(Level.INFO, "Programmed by Alex9849");
 
     }
 
     public void onDisable(){
-        Main.econ = null;
-        Main.worldguard = null;
-        Main.worldedit = null;
+        AdvancedRegionMarket.econ = null;
+        AdvancedRegionMarket.worldguard = null;
+        AdvancedRegionMarket.worldedit = null;
         Region.Reset();
         LimitGroup.Reset();
         AutoPrice.Reset();
@@ -175,7 +151,7 @@ public class Main extends JavaPlugin {
         if (rsp == null) {
             return false;
         }
-        Main.econ = rsp.getProvider();
+        AdvancedRegionMarket.econ = rsp.getProvider();
         return econ != null;
     }
 
@@ -194,9 +170,9 @@ public class Main extends JavaPlugin {
         if (plugin == null || !(plugin instanceof WorldGuardPlugin)) {
             return false;
         }
-        Main.worldguard = (WorldGuardPlugin) plugin;
+        AdvancedRegionMarket.worldguard = (WorldGuardPlugin) plugin;
         String version = "notSupported";
-        if(Main.worldguard.getDescription().getVersion().startsWith("6.")) {
+        if(AdvancedRegionMarket.worldguard.getDescription().getVersion().startsWith("6.")) {
             version = "6";
         } else {
             version = "7";
@@ -204,7 +180,7 @@ public class Main extends JavaPlugin {
         try {
             final Class<?> wgClass = Class.forName("net.alex9849.adapters.WorldGuard" + version);
             if(WorldGuardInterface.class.isAssignableFrom(wgClass)) {
-                Main.worldGuardInterface = (WorldGuardInterface) wgClass.newInstance();
+                AdvancedRegionMarket.worldGuardInterface = (WorldGuardInterface) wgClass.newInstance();
             }
             Bukkit.getLogger().log(Level.INFO, "[AdvancedRegionMarket] Using WorldGuard" + version + " adapter");
         } catch (Exception e) {
@@ -221,21 +197,21 @@ public class Main extends JavaPlugin {
         if (plugin == null || !(plugin instanceof WorldEditPlugin)) {
             return false;
         }
-        Main.worldedit = (WorldEditPlugin) plugin;
+        AdvancedRegionMarket.worldedit = (WorldEditPlugin) plugin;
         String version = "notSupported";
 
-        if(Main.worldedit.getDescription().getVersion().startsWith("6.")) {
+        if(AdvancedRegionMarket.worldedit.getDescription().getVersion().startsWith("6.")) {
             version = "6";
         } else {
             version = "7";
         }
-        if(Main.isFaWeInstalled()){
+        if(AdvancedRegionMarket.isFaWeInstalled()){
             version = version + "FaWe";
         }
         try {
             final Class<?> weClass = Class.forName("net.alex9849.adapters.WorldEdit" + version);
             if(WorldEditInterface.class.isAssignableFrom(weClass)) {
-                Main.worldEditInterface = (WorldEditInterface) weClass.newInstance();
+                AdvancedRegionMarket.worldEditInterface = (WorldEditInterface) weClass.newInstance();
             }
             Bukkit.getLogger().log(Level.INFO, "[AdvancedRegionMarket] Using WorldEdit" + version + " adapter");
         } catch (Exception e) {
@@ -248,15 +224,15 @@ public class Main extends JavaPlugin {
     }
 
     public static WorldGuardPlugin getWorldGuard(){
-        return Main.worldguard;
+        return AdvancedRegionMarket.worldguard;
     }
 
     public static WorldGuardInterface getWorldGuardInterface() {
-        return  Main.worldGuardInterface;
+        return  AdvancedRegionMarket.worldGuardInterface;
     }
 
     public static WorldEditInterface getWorldEditInterface(){
-        return Main.worldEditInterface;
+        return AdvancedRegionMarket.worldEditInterface;
     }
 
     private void loadRegions() {
@@ -300,7 +276,7 @@ public class Main extends JavaPlugin {
                                             regionKind = result;
                                         }
                                     }
-                                    ProtectedRegion region = Main.getWorldGuardInterface().getRegionManager(Bukkit.getWorld(regionworld), Main.worldguard).getRegion(regionname);
+                                    ProtectedRegion region = AdvancedRegionMarket.getWorldGuardInterface().getRegionManager(Bukkit.getWorld(regionworld), AdvancedRegionMarket.worldguard).getRegion(regionname);
 
                                     if(region != null) {
                                         List<String> regionsignsloc = Region.getRegionsConf().getStringList("Regions." + worlds.get(y) + "." + regions.get(i) + ".signs");
@@ -359,16 +335,25 @@ public class Main extends JavaPlugin {
         }
     }
 
+    public static AdvancedRegionMarket getARM() {
+        Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("AdvancedRegionMarket");
+        if(plugin instanceof AdvancedRegionMarket) {
+            return (AdvancedRegionMarket) plugin;
+        } else {
+            return null;
+        }
+    }
+
     public static boolean isUseShortCountdown() {
-        return Main.useShortCountdown;
+        return AdvancedRegionMarket.useShortCountdown;
     }
 
     public static Boolean isFaWeInstalled(){
-        return Main.faWeInstalled;
+        return AdvancedRegionMarket.faWeInstalled;
     }
 
     public static Boolean isSendContractRegionExtendMessage() {
-        return Main.sendContractRegionExtendMessage;
+        return AdvancedRegionMarket.sendContractRegionExtendMessage;
     }
 
     private void loadAutoPrice() {
@@ -428,22 +413,22 @@ public class Main extends JavaPlugin {
 
     private Boolean loadAutoReset(){
         Boolean success = true;
-        Main.enableAutoReset = getConfig().getBoolean("AutoResetAndTakeOver.enableAutoReset");
-        Main.enableTakeOver = getConfig().getBoolean("AutoResetAndTakeOver.enableTakeOver");
-        if(Main.enableAutoReset || Main.enableTakeOver) {
+        AdvancedRegionMarket.enableAutoReset = getConfig().getBoolean("AutoResetAndTakeOver.enableAutoReset");
+        AdvancedRegionMarket.enableTakeOver = getConfig().getBoolean("AutoResetAndTakeOver.enableTakeOver");
+        if(AdvancedRegionMarket.enableAutoReset || AdvancedRegionMarket.enableTakeOver) {
             String mysqlhost = getConfig().getString("AutoResetAndTakeOver.mysql-server");
             String mysqldatabase = getConfig().getString("AutoResetAndTakeOver.mysql-database");
             String mysqlpass = getConfig().getString("AutoResetAndTakeOver.mysql-password");
             String mysqluser = getConfig().getString("AutoResetAndTakeOver.mysql-user");
-            Main.sqlPrefix = getConfig().getString("AutoResetAndTakeOver.mysql-prefix");
-            Main.autoResetAfter = getConfig().getInt("AutoResetAndTakeOver.autoresetAfter");
-            Main.takeoverAfter = getConfig().getInt("AutoResetAndTakeOver.takeoverAfter");
+            AdvancedRegionMarket.sqlPrefix = getConfig().getString("AutoResetAndTakeOver.mysql-prefix");
+            AdvancedRegionMarket.autoResetAfter = getConfig().getInt("AutoResetAndTakeOver.autoresetAfter");
+            AdvancedRegionMarket.takeoverAfter = getConfig().getInt("AutoResetAndTakeOver.takeoverAfter");
 
             try {
                 Class.forName("com.mysql.jdbc.Driver").newInstance();
                 Connection con = DriverManager.getConnection("jdbc:mysql://" + mysqlhost + "/" + mysqldatabase, mysqluser, mysqlpass);
-                Main.stmt = con.createStatement();
-                Main.checkOrCreateMySql(mysqldatabase);
+                AdvancedRegionMarket.stmt = con.createStatement();
+                AdvancedRegionMarket.checkOrCreateMySql(mysqldatabase);
                 getLogger().log(Level.INFO, "SQL Login successful!");
             } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
                 getLogger().log(Level.INFO, "SQL Login faulty!");
@@ -465,21 +450,21 @@ public class Main extends JavaPlugin {
     }
 
     public static boolean isTeleportAfterContractRegionBought(){
-        return Main.teleportAfterContractRegionBought;
+        return AdvancedRegionMarket.teleportAfterContractRegionBought;
     }
 
     private void loadOther(){
-        Main.teleportAfterRentRegionBought = getConfig().getBoolean("Other.TeleportAfterRentRegionBought");
-        Main.teleportAfterRentRegionExtend = getConfig().getBoolean("Other.TeleportAfterRentRegionExtend");
-        Main.teleportAfterSellRegionBought = getConfig().getBoolean("Other.TeleportAfterSellRegionBought");
-        Main.teleportAfterContractRegionBought = getConfig().getBoolean("Other.TeleportAfterContractRegionBought");
-        Main.sendContractRegionExtendMessage = getConfig().getBoolean("Other.SendContractRegionExtendMessage");
+        AdvancedRegionMarket.teleportAfterRentRegionBought = getConfig().getBoolean("Other.TeleportAfterRentRegionBought");
+        AdvancedRegionMarket.teleportAfterRentRegionExtend = getConfig().getBoolean("Other.TeleportAfterRentRegionExtend");
+        AdvancedRegionMarket.teleportAfterSellRegionBought = getConfig().getBoolean("Other.TeleportAfterSellRegionBought");
+        AdvancedRegionMarket.teleportAfterContractRegionBought = getConfig().getBoolean("Other.TeleportAfterContractRegionBought");
+        AdvancedRegionMarket.sendContractRegionExtendMessage = getConfig().getBoolean("Other.SendContractRegionExtendMessage");
         Region.setResetcooldown(getConfig().getInt("Other.userResetCooldown"));
-        Main.displayDefaultRegionKindInGUI = getConfig().getBoolean("DefaultRegionKind.DisplayInGUI");
-        Main.displayDefaultRegionKindInLimits = getConfig().getBoolean("DefaultRegionKind.DisplayInLimits");
-        Main.REMAINING_TIME_TIMEFORMAT = getConfig().getString("Other.RemainingTimeFormat");
-        Main.DATE_TIMEFORMAT = getConfig().getString("Other.DateTimeFormat");
-        Main.useShortCountdown = getConfig().getBoolean("Other.ShortCountdown");
+        AdvancedRegionMarket.displayDefaultRegionKindInGUI = getConfig().getBoolean("DefaultRegionKind.DisplayInGUI");
+        AdvancedRegionMarket.displayDefaultRegionKindInLimits = getConfig().getBoolean("DefaultRegionKind.DisplayInLimits");
+        AdvancedRegionMarket.REMAINING_TIME_TIMEFORMAT = getConfig().getString("Other.RemainingTimeFormat");
+        AdvancedRegionMarket.DATE_TIMEFORMAT = getConfig().getString("Other.DateTimeFormat");
+        AdvancedRegionMarket.useShortCountdown = getConfig().getBoolean("Other.ShortCountdown");
         Region.setPaypackPercentage(getConfig().getDouble("Other.paypackPercentage"));
         try{
             RentRegion.setExpirationWarningTime(RentRegion.stringToTime(getConfig().getString("Other.RentRegionExpirationWarningTime")));
@@ -492,321 +477,47 @@ public class Main extends JavaPlugin {
     }
 
     private static void checkOrCreateMySql(String mysqldatabase) throws SQLException {
-        ResultSet rs = Main.stmt.executeQuery("SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'");
+        ResultSet rs = AdvancedRegionMarket.stmt.executeQuery("SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'");
         Boolean createLastlogin = true;
         while (rs.next()){
-            if(rs.getString("TABLE_NAME").equals(Main.sqlPrefix + "lastlogin")){
+            if(rs.getString("TABLE_NAME").equals(AdvancedRegionMarket.sqlPrefix + "lastlogin")){
                 createLastlogin = false;
             }
         }
         if(createLastlogin){
-            Main.stmt.executeUpdate("CREATE TABLE `" + mysqldatabase + "`.`" + Main.sqlPrefix + "lastlogin` ( `id` INT NOT NULL AUTO_INCREMENT , `uuid` VARCHAR(40) NOT NULL , `lastlogin` TIMESTAMP NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;");
+            AdvancedRegionMarket.stmt.executeUpdate("CREATE TABLE `" + mysqldatabase + "`.`" + AdvancedRegionMarket.sqlPrefix + "lastlogin` ( `id` INT NOT NULL AUTO_INCREMENT , `uuid` VARCHAR(40) NOT NULL , `lastlogin` TIMESTAMP NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;");
         }
 
     }
 
     public static Economy getEcon(){
-        return Main.econ;
+        return AdvancedRegionMarket.econ;
     }
 
-    public static WorldEditPlugin getWorldedit() {return Main.worldedit;}
+    public static WorldEditPlugin getWorldedit() {return AdvancedRegionMarket.worldedit;}
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args) {
-        String allargs = "";
-        for (int i = 0; i < args.length; i++) {
-            allargs = allargs + " " + args[i];
-        }
-
-        if (cmd.getName().equalsIgnoreCase("arm")) {
-            if (args.length >= 1) {
-                if (args[0].equalsIgnoreCase("setregionkind")) {
-                    if (allargs.matches(Main.SET_REGION_KIND)) {                         //DONE
-                        return Region.setRegionKindCommand(sender, args[2], args[1]);
-                    } else {
-                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm setregionkind [REGIONKIND] [REGION]");
-                        return true;
-                    }
-                } else if (args[0].equalsIgnoreCase("listregionkinds")) {
-                    if (allargs.matches(Main.LIST_REGION_KIND)) {                  //Done
-                        return Region.listRegionKindsCommand(sender);
-                    } else {
-                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm listregionkinds");
-                        return true;
-                    }
-                } else if (args[0].equalsIgnoreCase("findfreeregion")) {
-                    if (allargs.matches(Main.FIND_REGION_BY_TYPE)) {              //DONE
-                        if (sender instanceof Player) {
-                            return Region.teleportToFreeRegionCommand(args[1], ((Player) sender).getPlayer());
-                        }
-                    } else {
-                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm findfreeregion [REGIONKIND]");
-                        return true;
-                    }
-                } else if (args[0].equalsIgnoreCase("help")) {
-                    if (allargs.matches(Main.HELP)) {                            //DONE
-                        return Main.help(sender);
-                    } else {
-                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm help");
-                        return true;
-                    }
-                } else if (args[0].equalsIgnoreCase("resetblocks")) {
-                    if (allargs.matches(Main.RESET_REGION_BLOCKS)) {             //DONE
-                        return Region.resetRegionBlocksCommand(args[1], sender);
-                    } else {
-                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm resetblocks [REGION]");
-                        return true;
-                    }
-                } else if (args[0].equalsIgnoreCase("reset")) {
-                    if (allargs.matches(Main.RESET_REGION)) {                    //DONE
-                        return Region.resetRegionCommand(args[1], sender);
-                    } else {
-                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm reset [REGION]");
-                        return true;
-                    }
-                } else if (args[0].equalsIgnoreCase("info")) {
-                    if (allargs.matches(Main.REGION_INFO_WITHOUT_REGIONNAME)) {   //DONE
-                        return Region.regionInfoCommand(sender);
-                    } else if (allargs.matches(Main.REGION_INFO_WITH_REGIONNAME)) {      //DONE
-                        return Region.regionInfoCommand(sender, args[1]);
-                    } else {
-                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm info [REGION] or /arm info");
-                        return true;
-                    }
-                } else if (args[0].equalsIgnoreCase("addmember")) {
-                    if (allargs.matches(Main.ADDMEMBER_WITH_REGIONNAME)) {        //DONE
-                        return Region.addMemberCommand(sender, args[2], args[1]);
-                    } else {
-                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm addmember [REGION] [NEWMEMBER]");
-                        return true;
-                    }
-                } else if (args[0].equalsIgnoreCase("removemember")) {
-                    if (allargs.matches(Main.REMOVEMEMBER_WITH_REGIONNAME)) {      //DONE
-                        return Region.removeMemberCommand(sender, args[2], args[1]);
-                    } else {
-                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm removemember [REGION] [OLDMEMBER]");
-                        return true;
-                    }
-                } else if (args[0].equalsIgnoreCase("gui")) {
-                    if (allargs.matches(" gui")) {
-                        if (sender instanceof Player) {
-                            if (sender.hasPermission(Permission.MEMBER_GUI)) {
-                                Gui.openARMGui((Player) sender);
-                            } else {
-                                sender.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-                            }
-                            return true;
-                        }
-                    } else {
-                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm gui");
-                        return true;
-                    }
-                } else if (args[0].equalsIgnoreCase("autoreset")) {
-                    if (allargs.matches(Main.CHANGE_AUTORESET)) {
-                        return Region.changeAutoresetCommand(sender, args[1], args[2]);
-                    } else {
-                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm autoreset [REGION] [true/false]");
-                        return true;
-                    }
-                } else if (args[0].equalsIgnoreCase("listregions")) {
-                    if (allargs.matches(Main.LIST_REGIONS_OTHER)) {
-                        return Region.listRegionsCommand(sender, args[1]);
-                    } else if (allargs.matches(Main.LIST_REGIONS)) {
-                        return Region.listRegionsCommand(sender);
-                    } else {
-                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm listregions or /arm listregions [PLAYER]");
-                        return true;
-                    }
-                } else if (args[0].equalsIgnoreCase("hotel")) {
-                    if (allargs.matches(Main.SET_ALLOW_ONLY_NEW_BLOCKS)) {
-                        return Region.setHotel(sender, args[1], args[2]);
-                    } else {
-                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm hotel [REGION] [true/false]");
-                        return true;
-                    }
-                } else if (args[0].equalsIgnoreCase("updateschematic")) {
-                    if (allargs.matches(Main.CREATE_NEW_SCHEMATIC)) {
-                        return Region.createNewSchematic(sender, args[1]);
-                    } else {
-                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm updateschematic [REGION]");
-                        return true;
-                    }
-                } else if (args[0].equalsIgnoreCase("setowner")) {
-                    if (allargs.matches(Main.SET_OWNER)) {
-                        return Region.setRegionOwner(sender, args[1], args[2]);
-                    } else {
-                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm setowner [REGION] [PLAYER]");
-                        return true;
-                    }
-                } else if (args[0].equalsIgnoreCase("tp")) {
-                    if (allargs.matches(Main.TELEPORT)) {
-                        return Region.teleport(sender, args[1]);
-                    } else {
-                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm tp [REGION]");
-                        return true;
-                    }
-                } else if (args[0].equalsIgnoreCase("limit")) {
-                if (allargs.matches(" limit")) {
-                    if (sender.hasPermission(Permission.MEMBER_LIMIT)) {
-                        LimitGroup.getLimitCommand(sender);
-                    } else {
-                        sender.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-                    }
-                    return true;
-                } else {
-                    sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm limit");
-                    return true;
-                }
-            } else if (args[0].equalsIgnoreCase("setwarp")) {
-                    if (allargs.matches(SET_WARP)) {
-                        if (sender.hasPermission(Permission.ADMIN_SETWARP)) {
-                            Region.setTeleportLocation(args[1], sender);
-                        } else {
-                            sender.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-                        }
-                        return true;
-                    } else {
-                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm setwarp [REGION]");
-                        return true;
-                    }
-                } else if (args[0].equalsIgnoreCase("reload")) {
-                    if (allargs.matches(RELOAD)) {
-                        if (sender.hasPermission(Permission.ADMIN_RELOAD)) {
-                            sender.sendMessage(Messages.PREFIX + "Reloading...");
-                            this.onDisable();
-                            Bukkit.getServer().getPluginManager().getPlugin("AdvancedRegionMarket").reloadConfig();
-                            this.onEnable();
-                            sender.sendMessage(Messages.PREFIX + "Complete!");
-                        } else {
-                            sender.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-                        }
-                        return true;
-                    } else {
-                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm reload");
-                        return true;
-                    }
-                } else if (args[0].equalsIgnoreCase("unsell")) {
-                    if (allargs.matches(UNSELL)) {
-                        if (sender.hasPermission(Permission.ADMIN_UNSELL)) {
-                            Region.unsellCommand(args[1], sender);
-                        } else {
-                            sender.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-                        }
-                        return true;
-                    } else {
-                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm unsell [REGION]");
-                        return true;
-                    }
-                } else if (args[0].equalsIgnoreCase("extend")) {
-                    if (allargs.matches(EXTEND)) {
-                        if (sender.hasPermission(Permission.ARM_BUY_RENTREGION)) {
-                            Region.extendCommand(args[1], sender);
-                        } else {
-                            sender.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-                        }
-                        return true;
-                    } else {
-                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm extend [REGION]");
-                        return true;
-                    }
-                } else if (args[0].equalsIgnoreCase("delete")) {
-                    if (allargs.matches(DELETE)) {
-                        if (sender.hasPermission(Permission.ADMIN_DELETEREGION)) {
-                            Region.deleteCommand(args[1], sender);
-                        } else {
-                            sender.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-                        }
-                        return true;
-                    } else {
-                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm delete [REGION]");
-                        return true;
-                    }
-                } else if (args[0].equalsIgnoreCase("doblockreset")) {
-                    if (allargs.matches(SET_DO_BLOCK_RESET)) {
-                        if (sender.hasPermission(Permission.ADMIN_CHANGE_DO_BLOCK_RESET)) {
-                            Region.setDoBlockResetCommand(args[1], args[2], sender);
-                        } else {
-                            sender.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-                        }
-                        return true;
-                    } else {
-                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm doblockreset [REGION] [true/false]");
-                        return true;
-                    }
-                } else if (args[0].equalsIgnoreCase("sellpreset")) {
-                    if (allargs.matches(SELLPRESET)) {
-                        if (sender.hasPermission(Permission.ADMIN_PRESET)) {
-                            SellPreset.onCommand(sender, allargs, args);
-                        } else {
-                            sender.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-                        }
-                        return true;
-                    } else {
-                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm sellpreset [SETTING]");
-                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "or (for help): /arm sellpreset help");
-                        return true;
-                    }
-                } else if (args[0].equalsIgnoreCase("rentpreset")) {
-                    if (allargs.matches(RENTPRESET)) {
-                        if (sender.hasPermission(Permission.ADMIN_PRESET)) {
-                            RentPreset.onCommand(sender, allargs, args);
-                        } else {
-                            sender.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-                        }
-                        return true;
-                    } else {
-                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm rentpreset [SETTING]");
-                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "or (for help): /arm rentpreset help");
-                        return true;
-                    }
-                } else if (args[0].equalsIgnoreCase("contractpreset")) {
-                    if (allargs.matches(CONTRACTPRESET)) {
-                        if (sender.hasPermission(Permission.ADMIN_PRESET)) {
-                            ContractPreset.onCommand(sender, allargs, args);
-                        } else {
-                            sender.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-                        }
-                        return true;
-                    } else {
-                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm contractpreset [SETTING]");
-                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "or (for help): /arm contractpreset help");
-                        return true;
-                    }
-                }else if (args[0].equalsIgnoreCase("terminate")) {
-                    if (allargs.matches(TERMINATE)) {
-                        if (sender.hasPermission(Permission.ARM_BUY_CONTRACTREGION)) {
-                            ContractRegion.terminateCommand(sender, args[1], args[2]);
-                        } else {
-                            sender.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-                        }
-                        return true;
-                    } else {
-                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm terminate [REGION] [true/false]");
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
+        return this.commandHandler.executeCommand(sender, cmd, commandsLabel, args);
     }
 
     public static String getRemainingTimeTimeformat(){
-        return Main.REMAINING_TIME_TIMEFORMAT;
+        return AdvancedRegionMarket.REMAINING_TIME_TIMEFORMAT;
     }
 
     public static String getDateTimeformat(){
-        return Main.DATE_TIMEFORMAT;
+        return AdvancedRegionMarket.DATE_TIMEFORMAT;
     }
 
     public static boolean isDisplayDefaultRegionKindInGUI(){
-        return Main.displayDefaultRegionKindInGUI;
+        return AdvancedRegionMarket.displayDefaultRegionKindInGUI;
     }
 
     public static boolean isDisplayDefaultRegionKindInLimits(){
-        return Main.displayDefaultRegionKindInLimits;
+        return AdvancedRegionMarket.displayDefaultRegionKindInLimits;
     }
 
-    private static boolean help(CommandSender sender) {
+    public static boolean help(CommandSender sender) {
         if(!sender.hasPermission(Permission.ARM_HELP)){
             sender.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
             return true;
@@ -843,23 +554,23 @@ public class Main extends JavaPlugin {
     }
 
     public static String getSqlPrefix(){
-        return Main.sqlPrefix;
+        return AdvancedRegionMarket.sqlPrefix;
     }
 
     public static boolean getEnableAutoReset(){
-        return Main.enableAutoReset;
+        return AdvancedRegionMarket.enableAutoReset;
     }
 
     public static int getAutoResetAfter(){
-        return Main.autoResetAfter;
+        return AdvancedRegionMarket.autoResetAfter;
     }
 
     public static boolean getEnableTakeOver(){
-        return Main.enableTakeOver;
+        return AdvancedRegionMarket.enableTakeOver;
     }
 
     public static int getTakeoverAfter(){
-        return Main.takeoverAfter;
+        return AdvancedRegionMarket.takeoverAfter;
     }
 
     public static boolean isTeleportAfterRentRegionBought() {
@@ -1185,6 +896,9 @@ public class Main extends JavaPlugin {
             pluginConfig.set("GUI.DisplayRegionFinderButton", true);
             pluginConfig.set("Version", 1.4);
             saveConfig();
+            YamlConfiguration messages = Messages.getConfig();
+            messages.set("Messages.UserNotAMemberOrOwner", "&4You are not a member or owner of this region!");
+            Messages.saveConfig();
         }
     }
 }

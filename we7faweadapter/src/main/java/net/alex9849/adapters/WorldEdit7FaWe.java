@@ -18,10 +18,17 @@ public class WorldEdit7FaWe extends WorldEditInterface {
 
     public void createSchematic(com.sk89q.worldguard.protection.regions.ProtectedRegion region, String worldname, com.sk89q.worldedit.WorldEdit we) {
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-        File schematicdic = new File(pluginfolder + "/schematics/" + worldname + "/" + region.getId() + ".schematic");
+        File rawschematicdic = new File(pluginfolder + "/schematics/" + worldname + "/" + region.getId());
+        File schematicdic = new File(rawschematicdic + "." + ClipboardFormat.SPONGE_SCHEMATIC.getPrimaryFileExtension());
         File schematicfolder = new File(pluginfolder + "/schematics/" + worldname);
-        if(schematicdic.exists()){
-            schematicdic.delete();
+
+        for (ClipboardFormat format : ClipboardFormat.values()) {
+            for (String extension : format.getFileExtensions()) {
+                if (new File(rawschematicdic.getAbsolutePath() + "." + extension).exists()) {
+                    File delfile = new File(rawschematicdic.getAbsolutePath() + "." + extension);
+                    delfile.delete();
+                }
+            }
         }
 
         schematicfolder.mkdirs();
@@ -40,10 +47,25 @@ public class WorldEdit7FaWe extends WorldEditInterface {
 
     public void resetBlocks(com.sk89q.worldguard.protection.regions.ProtectedRegion region, String worldname, com.sk89q.worldedit.WorldEdit we) {
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-        File file = new File(pluginfolder + "/schematics/" + worldname + "/" + region.getId() + ".schematic");
+        File rawschematicdic = new File(pluginfolder + "/schematics/" + worldname + "/" + region.getId());
+        File file = null;
+
+        for (ClipboardFormat format : ClipboardFormat.values()) {
+            for (String extension : format.getFileExtensions()) {
+                if (new File(rawschematicdic.getAbsolutePath() + "." + extension).exists()) {
+                    file = new File(rawschematicdic.getAbsolutePath() + "." + extension);
+                }
+            }
+        }
         World weWorld = new BukkitWorld(Bukkit.getWorld(worldname));
         try {
-            ClipboardFormats.findByFile(file).load(file).paste(weWorld, region.getMinimumPoint());
+            if(ClipboardFormat.SPONGE_SCHEMATIC.isFormat(file)) {
+                ClipboardFormat.SPONGE_SCHEMATIC.load(file).paste(weWorld, region.getMinimumPoint());
+            } else if(ClipboardFormat.SCHEMATIC.isFormat(file)) {
+                ClipboardFormat.SCHEMATIC.load(file).paste(weWorld, region.getMinimumPoint());
+            } else {
+                ClipboardFormats.findByFile(file).load(file).paste(weWorld, region.getMinimumPoint());
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

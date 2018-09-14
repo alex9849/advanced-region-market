@@ -1,6 +1,6 @@
 package net.alex9849.arm.Group;
 
-import net.alex9849.arm.Main;
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.regions.Region;
@@ -164,7 +164,7 @@ public class LimitGroup {
 
         player.sendMessage(syntaxtotal);
 
-        if(Main.isDisplayDefaultRegionKindInLimits()) {
+        if(AdvancedRegionMarket.isDisplayDefaultRegionKindInLimits()) {
             syntaxtotal = Messages.LIMIT_INFO;
             syntaxtotal = syntaxtotal.replace("%regiontype%", RegionKind.DEFAULT.getName());
             syntaxtotal = syntaxtotal.replace("%playerownedkind%", getOwnedRegions(player, RegionKind.DEFAULT) + "");

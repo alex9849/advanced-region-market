@@ -1,6 +1,6 @@
 package net.alex9849.arm.regions;
 
-import net.alex9849.arm.Main;
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
@@ -150,14 +150,14 @@ public class SellRegion extends Region {
             return;
         }
 
-        if(Main.getEcon().getBalance(player) < this.price) {
+        if(AdvancedRegionMarket.getEcon().getBalance(player) < this.price) {
             player.sendMessage(Messages.PREFIX + Messages.NOT_ENOUGHT_MONEY);
             return;
         }
-        Main.getEcon().withdrawPlayer(player, price);
+        AdvancedRegionMarket.getEcon().withdrawPlayer(player, price);
 
         this.setSold(player);
-        if(Main.isTeleportAfterSellRegionBought()){
+        if(AdvancedRegionMarket.isTeleportAfterSellRegionBought()){
             this.teleportToRegion(player);
         }
         player.sendMessage(Messages.PREFIX + Messages.REGION_BUYMESSAGE);
@@ -166,8 +166,8 @@ public class SellRegion extends Region {
     @Override
     protected void setSold(OfflinePlayer player){
         this.sold = true;
-        Main.getWorldGuardInterface().deleteMembers(this.getRegion());
-        Main.getWorldGuardInterface().setOwner(player, this.getRegion());
+        AdvancedRegionMarket.getWorldGuardInterface().deleteMembers(this.getRegion());
+        AdvancedRegionMarket.getWorldGuardInterface().setOwner(player, this.getRegion());
 
         this.updateSigns();
 
@@ -178,12 +178,12 @@ public class SellRegion extends Region {
 
     @Override
     public void userSell(Player player){
-        List<UUID> defdomain = Main.getWorldGuardInterface().getOwners(this.region);
+        List<UUID> defdomain = AdvancedRegionMarket.getWorldGuardInterface().getOwners(this.region);
         double amount = this.getPaybackMoney();
 
         if(amount > 0){
             for(int i = 0; i < defdomain.size(); i++) {
-                Main.getEcon().depositPlayer(Bukkit.getOfflinePlayer(defdomain.get(i)), amount);
+                AdvancedRegionMarket.getEcon().depositPlayer(Bukkit.getOfflinePlayer(defdomain.get(i)), amount);
             }
         }
 

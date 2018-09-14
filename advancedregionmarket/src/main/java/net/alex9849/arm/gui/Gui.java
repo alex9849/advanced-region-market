@@ -1,9 +1,8 @@
 package net.alex9849.arm.gui;
 
-import net.alex9849.arm.Main;
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
-import net.alex9849.arm.regions.*;
 import net.alex9849.arm.regions.*;
 import net.alex9849.arm.Group.LimitGroup;
 import org.bukkit.Bukkit;
@@ -14,7 +13,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -293,7 +291,7 @@ public class Gui implements Listener {
                 @Override
                 public void execute(Player player) {
                     if(region.timeSinceLastReset() >= Region.getResetCooldown()){
-                        Gui.openRegionResetWarning(player, region);
+                        Gui.openRegionResetWarning(player, region, true);
                     } else {
                         String message = Messages.RESET_REGION_COOLDOWN_ERROR.replace("%remainingdays%", (Region.getResetCooldown() - region.timeSinceLastReset()) + "");
                         player.sendMessage(Messages.PREFIX + message);
@@ -320,7 +318,7 @@ public class Gui implements Listener {
             Icon reseticon = new Icon(resetItem, getPosition(actitem, itemcounter)).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) {
-                    Gui.openSellWarning(player, region);
+                    Gui.openSellWarning(player, region, true);
                 }
             });
             inv.addIcon(reseticon);
@@ -436,7 +434,7 @@ public class Gui implements Listener {
                 @Override
                 public void execute(Player player) {
                     if(region.timeSinceLastReset() >= Region.getResetCooldown()){
-                        Gui.openRegionResetWarning(player, region);
+                        Gui.openRegionResetWarning(player, region, true);
                     } else {
                         String message = Messages.RESET_REGION_COOLDOWN_ERROR.replace("%remainingdays%", (Region.getResetCooldown() - region.timeSinceLastReset()) + "");
                         player.sendMessage(Messages.PREFIX + message);
@@ -463,7 +461,7 @@ public class Gui implements Listener {
             Icon reseticon = new Icon(resetItem, getPosition(actitem, itemcounter)).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) {
-                    Gui.openSellWarning(player, region);
+                    Gui.openSellWarning(player, region, true);
                 }
             });
             inv.addIcon(reseticon);
@@ -600,7 +598,7 @@ public class Gui implements Listener {
                 @Override
                 public void execute(Player player) {
                     if(region.timeSinceLastReset() >= Region.getResetCooldown()){
-                        Gui.openRegionResetWarning(player, region);
+                        Gui.openRegionResetWarning(player, region, true);
                     } else {
                         String message = Messages.RESET_REGION_COOLDOWN_ERROR.replace("%remainingdays%", (Region.getResetCooldown() - region.timeSinceLastReset()) + "");
                         player.sendMessage(Messages.PREFIX + message);
@@ -627,7 +625,7 @@ public class Gui implements Listener {
             Icon reseticon = new Icon(resetItem, getPosition(actitem, itemcounter)).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) {
-                    Gui.openSellWarning(player, region);
+                    Gui.openSellWarning(player, region, true);
                 }
             });
             inv.addIcon(reseticon);
@@ -706,7 +704,7 @@ public class Gui implements Listener {
             itemcounter++;
         }
 
-        if(Main.isDisplayDefaultRegionKindInGUI()){
+        if(AdvancedRegionMarket.isDisplayDefaultRegionKindInGUI()){
             itemcounter++;
         }
 
@@ -718,7 +716,7 @@ public class Gui implements Listener {
 
         CustomHolder inv = new CustomHolder(invsize, Messages.GUI_REGION_FINDER_MENU_NAME);
 
-        if(Main.isDisplayDefaultRegionKindInGUI()) {
+        if(AdvancedRegionMarket.isDisplayDefaultRegionKindInGUI()) {
             String displayName = Messages.GUI_REGIONFINDER_REGIONKIND_NAME;
             displayName = displayName.replace("%regionkind%", RegionKind.DEFAULT.getName());
             Material material = RegionKind.DEFAULT.getMaterial();
@@ -738,7 +736,7 @@ public class Gui implements Listener {
 
         for(int i = 0; i < RegionKind.getRegionKindList().size(); i++) {
             int shift = 0;
-            if(Main.isDisplayDefaultRegionKindInGUI()) {
+            if(AdvancedRegionMarket.isDisplayDefaultRegionKindInGUI()) {
                 shift++;
             }
             String displayName = Messages.GUI_REGIONFINDER_REGIONKIND_NAME;
@@ -801,7 +799,7 @@ public class Gui implements Listener {
     }
 
     public static void openMemberList(Player player, Region region){
-        ArrayList<UUID> members = Main.getWorldGuardInterface().getMembers(region.getRegion());
+        ArrayList<UUID> members = AdvancedRegionMarket.getWorldGuardInterface().getMembers(region.getRegion());
 
         int invsize = 0;
         while (members.size() + 1 > invsize) {
@@ -888,7 +886,7 @@ public class Gui implements Listener {
         Icon removeMenu = new Icon(removeItem, 4).addClickAction(new ClickAction() {
             @Override
             public void execute(Player player) {
-                Main.getWorldGuardInterface().removeMember(member.getUniqueId(), region.getRegion());
+                AdvancedRegionMarket.getWorldGuardInterface().removeMember(member.getUniqueId(), region.getRegion());
                 player.sendMessage(Messages.PREFIX + Messages.REGION_REMOVE_MEMBER_REMOVED);
                 player.closeInventory();
             }
@@ -1140,7 +1138,7 @@ public class Gui implements Listener {
         player.openInventory(inv.getInventory());
     }
 
-    public static void openRegionResetWarning(Player player, Region region){
+    public static void openRegionResetWarning(Player player, Region region, Boolean goBack){
         CustomHolder inv = new CustomHolder(9, Messages.GUI_RESET_REGION_WARNING_NAME);
 
         ItemStack yesItem = new ItemStack(Gui.WARNING_YES_ITEM);
@@ -1165,7 +1163,12 @@ public class Gui implements Listener {
         Icon noButton = new Icon(noItem, 8).addClickAction(new ClickAction() {
             @Override
             public void execute(Player player) {
-                Gui.decideOwnerManager(player, region);
+                if(goBack){
+                    Gui.decideOwnerManager(player, region);
+                } else {
+                    player.closeInventory();
+                }
+
             }
         });
         inv.addIcon(noButton);
@@ -1175,7 +1178,7 @@ public class Gui implements Listener {
         player.openInventory(inv.getInventory());
     }
 
-    public static void openSellWarning(Player player, Region region){
+    public static void openSellWarning(Player player, Region region, Boolean goBack){
         CustomHolder inv = new CustomHolder(9, Messages.GUI_USER_SELL_WARNING);
 
         ItemStack yesItem = new ItemStack(Gui.WARNING_YES_ITEM);
@@ -1200,7 +1203,12 @@ public class Gui implements Listener {
         Icon noButton = new Icon(noItem, 8).addClickAction(new ClickAction() {
             @Override
             public void execute(Player player) {
-                Gui.decideOwnerManager(player, region);
+                if(goBack) {
+                    Gui.decideOwnerManager(player, region);
+                } else {
+                    player.closeInventory();
+                }
+
             }
         });
         inv.addIcon(noButton);

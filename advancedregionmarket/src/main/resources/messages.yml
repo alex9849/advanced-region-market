@@ -120,6 +120,8 @@ Messages:
   RegionInfoTerminated: '&6Terminated: '
   RegionInfoAutoExtendTime: '&6Extend time: '
   RegionInfoRemainingTime: '&6Next extend in: '
+  RegionInfoYes: 'yes'
+  RegionInfoNo: 'no'
   RentRegionExpirationWarning: '&4WARNING! This RentRegion(s) will expire soon: &c'
 
   GUIMainMenuName: '&1ARM - Menu'

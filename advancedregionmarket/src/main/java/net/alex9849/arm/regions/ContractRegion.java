@@ -46,7 +46,7 @@ public class ContractRegion extends Region {
 
     @Override
     public void displayExtraInfo(CommandSender sender) {
-        sender.sendMessage(Messages.REGION_INFO_TERMINATED + this.terminated);
+        sender.sendMessage(Messages.REGION_INFO_TERMINATED + Messages.convertYesNo(this.terminated));
         sender.sendMessage(Messages.REGION_INFO_AUTO_EXTEND_TIME + this.getExtendTimeString());
         sender.sendMessage(Messages.REGION_INFO_NEXT_EXTEND_REMAINING_TIME + this.calcRemainingTime());
     }

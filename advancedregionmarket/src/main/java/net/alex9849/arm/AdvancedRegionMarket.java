@@ -904,6 +904,8 @@ public class AdvancedRegionMarket extends JavaPlugin {
             saveConfig();
             YamlConfiguration messages = Messages.getConfig();
             messages.set("Messages.UserNotAMemberOrOwner", "&4You are not a member or owner of this region!");
+            messages.set("Messages.RegionInfoYes", "Yes");
+            messages.set("Messages.RegionInfoNo", "No");
             Messages.saveConfig();
         }
     }

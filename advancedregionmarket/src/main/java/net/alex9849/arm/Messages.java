@@ -161,6 +161,8 @@ public class Messages {
     public static String TIME_HOURS_SHORT = "";
     public static String TIME_DAYS_SHORT = "";
     public static String NOT_A_MEMBER_OR_OWNER = "";
+    public static String YES = "";
+    public static String NO = "";
 
     public static List<String> GUI_TELEPORT_TO_REGION_BUTTON_LORE = new LinkedList<>();
     public static List<String> GUI_MAKE_OWNER_BUTTON_LORE = new LinkedList<>();
@@ -344,6 +346,8 @@ public class Messages {
         TIME_HOURS_SHORT = config.getString("Messages.HoursForShortCountDown");
         TIME_DAYS_SHORT = config.getString("Messages.DaysForShortCountDown");
         NOT_A_MEMBER_OR_OWNER = config.getString("Messages.UserNotAMemberOrOwner");
+        YES = config.getString("Messages.RegionInfoYes");
+        NO = config.getString("Messages.RegionInfoNo");
 
         Messages.translateColorCodes();
     }
@@ -497,6 +501,8 @@ public class Messages {
         TIME_HOURS_SHORT = ChatColor.translateAlternateColorCodes('&', TIME_HOURS_SHORT);
         TIME_DAYS_SHORT = ChatColor.translateAlternateColorCodes('&', TIME_DAYS_SHORT);
         NOT_A_MEMBER_OR_OWNER = ChatColor.translateAlternateColorCodes('&', NOT_A_MEMBER_OR_OWNER);
+        YES = ChatColor.translateAlternateColorCodes('&', YES);
+        NO = ChatColor.translateAlternateColorCodes('&', NO);
 
 
         for(int i = 0; i < GUI_TELEPORT_TO_REGION_BUTTON_LORE.size(); i++){
@@ -577,6 +583,14 @@ public class Messages {
             Messages.config.save(messagesconfigdic);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public static String convertYesNo(Boolean bool) {
+        if(bool) {
+            return Messages.YES;
+        } else {
+            return Messages.NO;
         }
     }
 

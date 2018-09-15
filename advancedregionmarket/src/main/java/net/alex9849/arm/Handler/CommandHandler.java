@@ -353,6 +353,10 @@ public class CommandHandler implements TabCompleter {
 
         Player player = (Player) commandSender;
 
+        for(int i = 0; i < args.length; i++) {
+            args[i] = args[i].toLowerCase();
+        }
+
         if(command.getName().equalsIgnoreCase("arm")) {
             if (args.length >= 1) {
                 if ("setregionkind".startsWith(args[0])) {

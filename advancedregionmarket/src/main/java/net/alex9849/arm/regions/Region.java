@@ -473,19 +473,19 @@ public abstract class Region {
 
         sender.sendMessage(Messages.REGION_INFO);
         sender.sendMessage(Messages.REGION_INFO_ID + this.getRegion().getId());
-        sender.sendMessage(Messages.REGION_INFO_SOLD + this.isSold());
+        sender.sendMessage(Messages.REGION_INFO_SOLD + Messages.convertYesNo(this.isSold()));
         sender.sendMessage(Messages.REGION_INFO_PRICE + this.price + " " + Messages.CURRENCY);
         sender.sendMessage(Messages.REGION_INFO_TYPE + this.getRegionKind().getName());
         sender.sendMessage(Messages.REGION_INFO_OWNER + owners);
         sender.sendMessage(Messages.REGION_INFO_MEMBERS + members);
         if(sender.hasPermission(Permission.ADMIN_INFO)){
-            String autoresetmsg = Messages.REGION_INFO_AUTORESET + this.autoreset;
+            String autoresetmsg = Messages.REGION_INFO_AUTORESET + Messages.convertYesNo(this.autoreset);
             if((!AdvancedRegionMarket.getEnableAutoReset()) && this.autoreset){
                 autoresetmsg = autoresetmsg + " (but globally disabled)";
             }
             sender.sendMessage(autoresetmsg);
-            sender.sendMessage(Messages.REGION_INFO_HOTEL + this.isHotel);
-            sender.sendMessage(Messages.REGION_INFO_DO_BLOCK_RESET + this.isDoBlockReset);
+            sender.sendMessage(Messages.REGION_INFO_HOTEL + Messages.convertYesNo(this.isHotel));
+            sender.sendMessage(Messages.REGION_INFO_DO_BLOCK_RESET + Messages.convertYesNo(this.isDoBlockReset));
         }
         this.displayExtraInfo(sender);
     }

@@ -46,24 +46,28 @@ AutoResetAndTakeOver:
 RegionKinds:
   starter:
     item: WOODEN_SHOVEL
-    displayName: 'Starter'
+    displayName: 'Starter-Region'
     lore:
     - 'A region for everyone'
   small:
     item: STONE_SHOVEL
+    displayName: 'Small-Region'
     lore:
     - 'A bit larger and good for small'
     - 'groups'
   medium:
     item: IRON_SHOVEL
+    displayName: 'Small-Region'
     lore:
     - 'A mid-sized region'
   large:
     item: DIAMOND_SHOVEL
+    displayName: 'Small-Region'
     lore:
     - 'A really large region'
   shop:
     item: EMERALD
+    displayName: 'Small-Region'
     lore:
     - 'A shop where you can sell your stuff'
 

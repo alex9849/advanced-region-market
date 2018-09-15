@@ -147,9 +147,9 @@ public class Diagram {
         neededhashtags = (int) Math.round(neededhashtags * (percent / 100));
         String diagram = ChatColor.GOLD + "[";
         ChatColor color = null;
-        if(percent < 70) {
+        if(percent < 65) {
             color = ChatColor.GREEN;
-        } else if (percent < 90) {
+        } else if (percent < 85) {
             color = ChatColor.YELLOW;
         } else {
             color = ChatColor.DARK_RED;

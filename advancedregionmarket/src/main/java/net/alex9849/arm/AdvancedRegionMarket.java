@@ -876,19 +876,23 @@ public class AdvancedRegionMarket extends JavaPlugin {
 
             Messages.saveConfig();
 
-            LinkedList<String> worlds = new LinkedList<String>(regionConf.getConfigurationSection("Regions").getKeys(false));
-            if(worlds != null) {
-                for(int y = 0; y < worlds.size(); y++) {
-                    LinkedList<String> regions = new LinkedList<String>(regionConf.getConfigurationSection("Regions." + worlds.get(y)).getKeys(false));
-                    if(regions != null) {
-                        for (int i = 0; i < regions.size(); i++) {
-                            if(regionConf.getBoolean("Regions." + worlds.get(y) + "." + regions.get(i) + ".rentregion")) {
-                                regionConf.set("Regions." + worlds.get(y) + "." + regions.get(i) + ".regiontype", "rentregion");
-                            } else {
-                                regionConf.set("Regions." + worlds.get(y) + "." + regions.get(i) + ".regiontype", "sellregion");
+            if(regionConf.get("Regions") != null) {
+                LinkedList<String> worlds = new LinkedList<String>(regionConf.getConfigurationSection("Regions").getKeys(false));
+                if(worlds != null) {
+                    for(int y = 0; y < worlds.size(); y++) {
+                        if(regionConf.get("Regions." + worlds.get(y)) != null) {
+                            LinkedList<String> regions = new LinkedList<String>(regionConf.getConfigurationSection("Regions." + worlds.get(y)).getKeys(false));
+                            if(regions != null) {
+                                for (int i = 0; i < regions.size(); i++) {
+                                    if(regionConf.getBoolean("Regions." + worlds.get(y) + "." + regions.get(i) + ".rentregion")) {
+                                        regionConf.set("Regions." + worlds.get(y) + "." + regions.get(i) + ".regiontype", "rentregion");
+                                    } else {
+                                        regionConf.set("Regions." + worlds.get(y) + "." + regions.get(i) + ".regiontype", "sellregion");
+                                    }
+                                    regionConf.set("Regions." + worlds.get(y) + "." + regions.get(i) + ".rentregion", null);
+                                    regionConf.set("Regions." + worlds.get(y) + "." + regions.get(i) + ".world", null);
+                                }
                             }
-                            regionConf.set("Regions." + worlds.get(y) + "." + regions.get(i) + ".rentregion", null);
-                            regionConf.set("Regions." + worlds.get(y) + "." + regions.get(i) + ".world", null);
                         }
                     }
                 }

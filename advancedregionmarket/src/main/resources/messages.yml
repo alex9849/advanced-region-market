@@ -128,7 +128,7 @@ Messages:
   SellRegion: 'SellRegion'
   ContractRegion: 'ContractRegion'
   RegionStats: '&6=========[Region stats]========='
-  RegionStatsPattern: '&8Used regions (%regionkind%8):'
+  RegionStatsPattern: '&8Used regions (%regionkind%&8):'
 
   GUIMainMenuName: '&1ARM - Menu'
   GUIRegionFinderMenuName: '&1ARM - Regionfinder'

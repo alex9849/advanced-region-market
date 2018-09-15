@@ -3,6 +3,7 @@ package net.alex9849.arm.Group;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
+import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.RegionKind;
 import org.bukkit.Bukkit;
@@ -138,11 +139,10 @@ public class LimitGroup {
         return Region.getRegionsByOwner(player.getUniqueId()).size();
     }
 
-    public static boolean getLimitCommand(CommandSender sender){
+    public static boolean getLimitCommand(CommandSender sender) throws InputException {
 
         if(!(sender instanceof Player)){
-            sender.sendMessage(Messages.PREFIX + Messages.COMMAND_ONLY_INGAME);
-            return true;
+            throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Player player = (Player) sender;
 

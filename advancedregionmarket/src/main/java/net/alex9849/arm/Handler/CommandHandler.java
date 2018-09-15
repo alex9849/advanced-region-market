@@ -468,6 +468,11 @@ public class CommandHandler implements TabCompleter {
                         returnme.add("gui");
                     }
                 }
+                if ("limit".startsWith(args[0])) {
+                    if (player.hasPermission(Permission.MEMBER_LIMIT)) {
+                        returnme.add("limit");
+                    }
+                }
             }
         }
         return returnme;

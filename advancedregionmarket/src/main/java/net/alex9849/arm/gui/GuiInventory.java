@@ -6,23 +6,23 @@ import org.bukkit.inventory.InventoryHolder;
 
 import java.util.LinkedList;
 
-public class CustomHolder implements InventoryHolder {
+public class GuiInventory implements InventoryHolder {
 
-    private final LinkedList<Icon> icons = new LinkedList<>();
+    private final LinkedList<ClickItem> icons = new LinkedList<>();
 
     private int size;
     private final String title;
 
-    public CustomHolder(int size, String title) {
+    public GuiInventory(int size, String title) {
         this.size = size;
         this.title = title;
     }
 
-    public void addIcon(Icon icon) {
+    public void addIcon(ClickItem icon) {
         this.icons.add(icon);
     }
 
-    public Icon getIcon(int position) {
+    public ClickItem getIcon(int position) {
         for(int i = 0; i < this.icons.size(); i++){
             if(this.icons.get(i).poistion == position){
                 return this.icons.get(i);

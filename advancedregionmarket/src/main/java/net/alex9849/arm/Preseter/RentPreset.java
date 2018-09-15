@@ -15,37 +15,42 @@ import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
 
 public class RentPreset extends Preset {
-    protected static final String SET_PRICE = " (?i)rentpreset (?i)price [+-]?([0-9]+[.])?[0-9]+";
-    protected static final String REMOVE_PRICE = " (?i)rentpreset (?i)price remove";
-    protected static final String SET_EXTEND_PER_CLICK = " (?i)rentpreset (?i)extendperclick ([0-9]+(s|m|h|d))";
-    protected static final String REMOVE_EXTEND_PER_CLICK = " (?i)rentpreset (?i)extendperclick remove";
-    protected static final String SET_MAX_RENT_TIME = " (?i)rentpreset (?i)maxrenttime ([0-9]+(s|m|h|d))";
-    protected static final String REMOVE_MAX_RENT_TIME = " (?i)rentpreset (?i)maxrenttime remove";
-    protected static final String SET_REGIONKIND = " (?i)rentpreset (?i)regionkind [^;\n ]+";
-    protected static final String REMOVE_REGIONKIND = " (?i)rentpreset (?i)regionkind remove";
-    protected static final String SET_AUTO_RESET = " (?i)rentpreset (?i)autoreset (false|true)";
-    protected static final String REMOVE_AUTO_RESET = " (?i)rentpreset (?i)autoreset remove";
-    protected static final String SET_HOTEL = " (?i)rentpreset (?i)hotel (false|true)";
-    protected static final String REMOVE_HOTEL = " (?i)rentpreset (?i)hotel remove";
-    protected static final String SET_DO_BLOCK_RESET = " (?i)rentpreset (?i)doblockreset (false|true)";
-    protected static final String REMOVE_DO_BLOCK_RESET = " (?i)rentpreset (?i)doblockreset remove";
-    protected static final String RESET = " (?i)rentpreset (?i)reset";
-    protected static final String INFO = " (?i)rentpreset (?i)info";
-    protected static final String HELP = " (?i)rentpreset (?i)help";
-    protected static final String LOAD = " (?i)rentpreset (?i)load [^;\n ]+";
-    protected static final String REMOVE = " (?i)rentpreset (?i)delete [^;\n ]+";
-    protected static final String SAVE = " (?i)rentpreset (?i)save [^;\n ]+";
-    protected static final String LIST = " (?i)rentpreset (?i)list";
+    private static final String SET_PRICE = " (?i)rentpreset (?i)price [+-]?([0-9]+[.])?[0-9]+";
+    private static final String REMOVE_PRICE = " (?i)rentpreset (?i)price remove";
+    private static final String SET_EXTEND_PER_CLICK = " (?i)rentpreset (?i)extendperclick ([0-9]+(s|m|h|d))";
+    private static final String REMOVE_EXTEND_PER_CLICK = " (?i)rentpreset (?i)extendperclick remove";
+    private static final String SET_MAX_RENT_TIME = " (?i)rentpreset (?i)maxrenttime ([0-9]+(s|m|h|d))";
+    private static final String REMOVE_MAX_RENT_TIME = " (?i)rentpreset (?i)maxrenttime remove";
+    private static final String SET_REGIONKIND = " (?i)rentpreset (?i)regionkind [^;\n ]+";
+    private static final String REMOVE_REGIONKIND = " (?i)rentpreset (?i)regionkind remove";
+    private static final String SET_AUTO_RESET = " (?i)rentpreset (?i)autoreset (false|true)";
+    private static final String REMOVE_AUTO_RESET = " (?i)rentpreset (?i)autoreset remove";
+    private static final String SET_HOTEL = " (?i)rentpreset (?i)hotel (false|true)";
+    private static final String REMOVE_HOTEL = " (?i)rentpreset (?i)hotel remove";
+    private static final String SET_DO_BLOCK_RESET = " (?i)rentpreset (?i)doblockreset (false|true)";
+    private static final String REMOVE_DO_BLOCK_RESET = " (?i)rentpreset (?i)doblockreset remove";
+    private static final String RESET = " (?i)rentpreset (?i)reset";
+    private static final String INFO = " (?i)rentpreset (?i)info";
+    private static final String HELP = " (?i)rentpreset (?i)help";
+    private static final String LOAD = " (?i)rentpreset (?i)load [^;\n ]+";
+    private static final String REMOVE = " (?i)rentpreset (?i)delete [^;\n ]+";
+    private static final String SAVE = " (?i)rentpreset (?i)save [^;\n ]+";
+    private static final String LIST = " (?i)rentpreset (?i)list";
     protected static ArrayList<RentPreset> list = new ArrayList<>();
     protected static ArrayList<RentPreset> patterns = new ArrayList<>();
-    protected boolean hasMaxRentTime = false;
-    protected long maxRentTime = 0;
-    protected boolean hasExtendPerClick = false;
-    protected long extendPerClick = 0;
+    private boolean hasMaxRentTime = false;
+    private long maxRentTime = 0;
+    private boolean hasExtendPerClick = false;
+    private long extendPerClick = 0;
 
     public RentPreset(Player player) {
         super(player);
     }
+
+    public static ArrayList<RentPreset> getPatterns(){
+        return RentPreset.patterns;
+    }
+
 
     public static void reset(){
         list = new ArrayList<>();

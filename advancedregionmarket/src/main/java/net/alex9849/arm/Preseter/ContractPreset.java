@@ -15,33 +15,38 @@ import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
 
 public class ContractPreset extends Preset {
-    protected static final String SET_PRICE = " (?i)contractpreset (?i)price [+-]?([0-9]+[.])?[0-9]+";
-    protected static final String REMOVE_PRICE = " (?i)contractpreset (?i)price remove";
-    protected static final String SET_EXTEND = " (?i)contractpreset (?i)extend ([0-9]+(s|m|h|d))";
-    protected static final String REMOVE_EXTEND = " (?i)contractpreset (?i)extend remove";
-    protected static final String SET_REGIONKIND = " (?i)contractpreset (?i)regionkind [^;\n ]+";
-    protected static final String REMOVE_REGIONKIND = " (?i)contractpreset (?i)regionkind remove";
-    protected static final String SET_AUTO_RESET = " (?i)contractpreset (?i)autoreset (false|true)";
-    protected static final String REMOVE_AUTO_RESET = " (?i)contractpreset (?i)autoreset remove";
-    protected static final String SET_HOTEL = " (?i)contractpreset (?i)hotel (false|true)";
-    protected static final String REMOVE_HOTEL = " (?i)contractpreset (?i)hotel remove";
-    protected static final String SET_DO_BLOCK_RESET = " (?i)contractpreset (?i)doblockreset (false|true)";
-    protected static final String REMOVE_DO_BLOCK_RESET = " (?i)contractpreset (?i)doblockreset remove";
-    protected static final String RESET = " (?i)contractpreset (?i)reset";
-    protected static final String INFO = " (?i)contractpreset (?i)info";
-    protected static final String HELP = " (?i)contractpreset (?i)help";
-    protected static final String LOAD = " (?i)contractpreset (?i)load [^;\n ]+";
-    protected static final String REMOVE = " (?i)contractpreset (?i)delete [^;\n ]+";
-    protected static final String SAVE = " (?i)contractpreset (?i)save [^;\n ]+";
-    protected static final String LIST = " (?i)contractpreset (?i)list";
+    private static final String SET_PRICE = " (?i)contractpreset (?i)price [+-]?([0-9]+[.])?[0-9]+";
+    private static final String REMOVE_PRICE = " (?i)contractpreset (?i)price remove";
+    private static final String SET_EXTEND = " (?i)contractpreset (?i)extend ([0-9]+(s|m|h|d))";
+    private static final String REMOVE_EXTEND = " (?i)contractpreset (?i)extend remove";
+    private static final String SET_REGIONKIND = " (?i)contractpreset (?i)regionkind [^;\n ]+";
+    private static final String REMOVE_REGIONKIND = " (?i)contractpreset (?i)regionkind remove";
+    private static final String SET_AUTO_RESET = " (?i)contractpreset (?i)autoreset (false|true)";
+    private static final String REMOVE_AUTO_RESET = " (?i)contractpreset (?i)autoreset remove";
+    private static final String SET_HOTEL = " (?i)contractpreset (?i)hotel (false|true)";
+    private static final String REMOVE_HOTEL = " (?i)contractpreset (?i)hotel remove";
+    private static final String SET_DO_BLOCK_RESET = " (?i)contractpreset (?i)doblockreset (false|true)";
+    private static final String REMOVE_DO_BLOCK_RESET = " (?i)contractpreset (?i)doblockreset remove";
+    private static final String RESET = " (?i)contractpreset (?i)reset";
+    private static final String INFO = " (?i)contractpreset (?i)info";
+    private static final String HELP = " (?i)contractpreset (?i)help";
+    private static final String LOAD = " (?i)contractpreset (?i)load [^;\n ]+";
+    private static final String REMOVE = " (?i)contractpreset (?i)delete [^;\n ]+";
+    private static final String SAVE = " (?i)contractpreset (?i)save [^;\n ]+";
+    private static final String LIST = " (?i)contractpreset (?i)list";
     protected static ArrayList<ContractPreset> list = new ArrayList<>();
     protected static ArrayList<ContractPreset> patterns = new ArrayList<>();
-    protected boolean hasExtend = false;
-    protected long extend = 0;
+    private boolean hasExtend = false;
+    private long extend = 0;
 
     public ContractPreset(Player player) {
         super(player);
     }
+
+    public static ArrayList<ContractPreset> getPatterns(){
+        return ContractPreset.patterns;
+    }
+
 
     public static void reset(){
         list = new ArrayList<>();

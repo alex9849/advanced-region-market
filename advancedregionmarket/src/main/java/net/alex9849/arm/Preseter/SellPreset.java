@@ -13,23 +13,23 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class SellPreset extends Preset{
-    protected static final String SET_PRICE = " (?i)sellpreset (?i)price [+-]?([0-9]+[.])?[0-9]+";
-    protected static final String REMOVE_PRICE = " (?i)sellpreset (?i)price (?i)remove";
-    protected static final String SET_REGIONKIND = " (?i)sellpreset (?i)regionkind [^;\n ]+";
-    protected static final String REMOVE_REGIONKIND = " (?i)sellpreset (?i)regionkind (?i)remove";
-    protected static final String SET_AUTO_RESET = " (?i)sellpreset (?i)autoreset (false|true)";
-    protected static final String REMOVE_AUTO_RESET = " (?i)sellpreset (?i)autoreset (?i)remove";
-    protected static final String SET_HOTEL = " (?i)sellpreset (?i)hotel (false|true)";
-    protected static final String REMOVE_HOTEL = " (?i)sellpreset (?i)hotel (?i)remove";
-    protected static final String SET_DO_BLOCK_RESET = " (?i)sellpreset (?i)doblockreset (false|true)";
-    protected static final String REMOVE_DO_BLOCK_RESET = " (?i)sellpreset (?i)doblockreset (?i)remove";
-    protected static final String RESET = " (?i)sellpreset (?i)reset";
-    protected static final String INFO = " (?i)sellpreset (?i)info";
-    protected static final String LIST = " (?i)sellpreset (?i)list";
-    protected static final String HELP = " (?i)sellpreset (?i)help";
-    protected static final String LOAD = " (?i)sellpreset (?i)load [^;\n ]+";
-    protected static final String REMOVE = " (?i)sellpreset (?i)delete [^;\n ]+";
-    protected static final String SAVE = " (?i)sellpreset (?i)save [^;\n ]+";
+    private static final String SET_PRICE = " (?i)sellpreset (?i)price [+-]?([0-9]+[.])?[0-9]+";
+    private static final String REMOVE_PRICE = " (?i)sellpreset (?i)price (?i)remove";
+    private static final String SET_REGIONKIND = " (?i)sellpreset (?i)regionkind [^;\n ]+";
+    private static final String REMOVE_REGIONKIND = " (?i)sellpreset (?i)regionkind (?i)remove";
+    private static final String SET_AUTO_RESET = " (?i)sellpreset (?i)autoreset (false|true)";
+    private static final String REMOVE_AUTO_RESET = " (?i)sellpreset (?i)autoreset (?i)remove";
+    private static final String SET_HOTEL = " (?i)sellpreset (?i)hotel (false|true)";
+    private static final String REMOVE_HOTEL = " (?i)sellpreset (?i)hotel (?i)remove";
+    private static final String SET_DO_BLOCK_RESET = " (?i)sellpreset (?i)doblockreset (false|true)";
+    private static final String REMOVE_DO_BLOCK_RESET = " (?i)sellpreset (?i)doblockreset (?i)remove";
+    private static final String RESET = " (?i)sellpreset (?i)reset";
+    private static final String INFO = " (?i)sellpreset (?i)info";
+    private static final String LIST = " (?i)sellpreset (?i)list";
+    private static final String HELP = " (?i)sellpreset (?i)help";
+    private static final String LOAD = " (?i)sellpreset (?i)load [^;\n ]+";
+    private static final String REMOVE = " (?i)sellpreset (?i)delete [^;\n ]+";
+    private static final String SAVE = " (?i)sellpreset (?i)save [^;\n ]+";
     protected static ArrayList<SellPreset> list = new ArrayList<>();
     protected static ArrayList<SellPreset> patterns = new ArrayList<>();
 
@@ -39,6 +39,10 @@ public class SellPreset extends Preset{
 
     public static ArrayList<SellPreset> getList(){
         return SellPreset.list;
+    }
+
+    public static ArrayList<SellPreset> getPatterns(){
+        return SellPreset.patterns;
     }
 
     public static void reset(){

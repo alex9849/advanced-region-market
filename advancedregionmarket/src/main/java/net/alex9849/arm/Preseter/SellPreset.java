@@ -129,13 +129,13 @@ public class SellPreset extends Preset{
                 if(hasPreset(player)) {
                     getPreset(player).setPrice(Double.parseDouble(args[2]));
                     player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
-                    player.sendMessage(Messages.PREFIX + "Price-line on signs can now be let empty");
+                    player.sendMessage(Messages.PREFIX + "You can leave the price-line on signs empty now");
                     return true;
                 } else {
                     getList().add(new SellPreset(player));
                     getPreset(player).setPrice(Double.parseDouble(args[2]));
                     player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
-                    player.sendMessage(Messages.PREFIX + "Price-line on signs can now be let empty");
+                    player.sendMessage(Messages.PREFIX + "You can leave the price-line on signs empty now");
                     return true;
                 }
             } else if(command.matches(REMOVE_PRICE)){

@@ -226,6 +226,9 @@ public class RentPreset extends Preset {
                 if(hasPreset(player)) {
                     getPreset(player).setPrice(Double.parseDouble(args[2]));
                     player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
+                    if(getPreset(player).hasExtendPerClick() && getPreset(player).hasMaxRentTime()) {
+                        player.sendMessage(Messages.PREFIX + "You can leave the price-line on signs empty now");
+                    }
                     return true;
                 } else {
                     getList().add(new RentPreset(player));
@@ -375,6 +378,9 @@ public class RentPreset extends Preset {
                 if(hasPreset(player)) {
                     getPreset(player).setMaxRentTime(args[2]);
                     player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
+                    if(getPreset(player).hasPrice() && getPreset(player).hasExtendPerClick()) {
+                        player.sendMessage(Messages.PREFIX + "You can leave the price-line on signs empty now");
+                    }
                     return true;
                 } else {
                     getList().add(new RentPreset(player));
@@ -405,6 +411,9 @@ public class RentPreset extends Preset {
                 if(hasPreset(player)) {
                     getPreset(player).setExtendPerClick(args[2]);
                     player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
+                    if(getPreset(player).hasPrice() && getPreset(player).hasMaxRentTime()) {
+                        player.sendMessage(Messages.PREFIX + "You can leave the price-line on signs empty now");
+                    }
                     return true;
                 } else {
                     getList().add(new RentPreset(player));

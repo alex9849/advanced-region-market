@@ -195,6 +195,9 @@ public class ContractPreset extends Preset {
                 if(hasPreset(player)) {
                     getPreset(player).setPrice(Double.parseDouble(args[2]));
                     player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
+                    if(getPreset(player).hasExtend()) {
+                        player.sendMessage(Messages.PREFIX + "You can leave the price-line on signs empty now");
+                    }
                     return true;
                 } else {
                     getList().add(new ContractPreset(player));
@@ -344,6 +347,9 @@ public class ContractPreset extends Preset {
                 if(hasPreset(player)) {
                     getPreset(player).setExtend(args[2]);
                     player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
+                    if(getPreset(player).hasPrice()) {
+                        player.sendMessage(Messages.PREFIX + "You can leave the price-line on signs empty now");
+                    }
                     return true;
                 } else {
                     getList().add(new ContractPreset(player));

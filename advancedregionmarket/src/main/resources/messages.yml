@@ -76,7 +76,7 @@ Messages:
 
   PresetRemoved: '&aPreset removed!'
   PresetSet: '&aPreset set!'
-  PresetSaved: 'P&areset saved!'
+  PresetSaved: '&aPreset saved!'
   PresetAlreadyExists: '&4A preset with this name already exists!'
   PresetPlayerDontHasPreset: '&4You do not have a preset!'
   PresetDeleted: '&aPreset deleted!'

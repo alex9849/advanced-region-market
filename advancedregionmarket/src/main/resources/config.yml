@@ -46,6 +46,7 @@ AutoResetAndTakeOver:
 RegionKinds:
   starter:
     item: WOODEN_SHOVEL
+    displayName: 'Starter'
     lore:
     - 'A region for everyone'
   small:
@@ -134,9 +135,9 @@ Other:
   # dd for days, MM for months, yyyy for years, hh for hours, mm for minutes
   DateTimeFormat: 'dd.MM.yyyy hh:mm'
   ShortCountdown: false
-  # If enabled ARM will suggest Regions on tab-complete! This is set to false, by default. It can cause heavy laggs if you have many regions
+  # If enabled ARM will suggest Regions on tab-complete! This may cause lags if you have many regions!
   # Enable it only when you just manage a few regions with ARM!
-  CompleteRegionsOnTabComplete: false
+  CompleteRegionsOnTabComplete: true
 
 #Here you can change the Blocks that will be shown in the GUI. You can use
 #this (https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html) as a List for possible blocks.

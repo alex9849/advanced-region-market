@@ -741,7 +741,7 @@ public class Gui implements Listener {
                 shift++;
             }
             String displayName = Messages.GUI_REGIONFINDER_REGIONKIND_NAME;
-            displayName = displayName.replace("%regionkind%", RegionKind.getRegionKindList().get(i).getName());
+            displayName = displayName.replace("%regionkind%", RegionKind.getRegionKindList().get(i).getDisplayName());
             Material material = RegionKind.getRegionKindList().get(i).getMaterial();
             if(player.hasPermission(Permission.ARM_BUYKIND + RegionKind.getRegionKindList().get(i).getName())){
                 ItemStack stack = new ItemStack(material);

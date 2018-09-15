@@ -8,14 +8,16 @@ import java.util.List;
 public class RegionKind {
     private String name;
     private Material material;
-    public static RegionKind DEFAULT = new RegionKind("Default", Material.RED_BED, new ArrayList<String>());
+    public static RegionKind DEFAULT = new RegionKind("Default", Material.RED_BED, new ArrayList<String>(), "Default");
     private static List<RegionKind> list = new ArrayList<>();
     private List<String> lore;
+    private String displayName;
 
-    public RegionKind(String name, Material material, List<String> lore){
+    public RegionKind(String name, Material material, List<String> lore, String displayName){
         this.name = name;
         this.material = material;
         this.lore = lore;
+        this.displayName = displayName;
     }
 
     public void setMaterial(Material mat) {
@@ -75,5 +77,9 @@ public class RegionKind {
 
     public List<String> getLore(){
         return this.lore;
+    }
+
+    public String getDisplayName() {
+        return this.displayName;
     }
 }

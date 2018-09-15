@@ -382,11 +382,13 @@ public class AdvancedRegionMarket extends JavaPlugin {
             if(regionKinds != null) {
                 for(int i = 0; i < regionKinds.size(); i++){
                     Material mat = Material.getMaterial(getConfig().getString("RegionKinds." + regionKinds.get(i) + ".item"));
+                    String displayName = getConfig().getString("RegionKinds." + regionKinds.get(i) + ".displayName");
                     List<String> lore = getConfig().getStringList("RegionKinds." + regionKinds.get(i) + ".lore");
                     for(int x = 0; x < lore.size(); x++){
                         lore.set(x, ChatColor.translateAlternateColorCodes('&', lore.get(x)));
                     }
-                    RegionKind.getRegionKindList().add(new RegionKind(regionKinds.get(i), mat, lore));
+                    displayName = ChatColor.translateAlternateColorCodes('&', displayName);
+                    RegionKind.getRegionKindList().add(new RegionKind(regionKinds.get(i), mat, lore, displayName));
                 }
             }
         }
@@ -901,6 +903,14 @@ public class AdvancedRegionMarket extends JavaPlugin {
             pluginConfig.set("GUI.DisplayRegionFinderButton", true);
             pluginConfig.set("Other.CompleteRegionsOnTabComplete", false);
             pluginConfig.set("Version", 1.4);
+            if(pluginConfig.get("RegionKinds") != null) {
+                LinkedList<String> regionkinds = new LinkedList<String>(pluginConfig.getConfigurationSection("RegionKinds").getKeys(false));
+                if(regionkinds != null) {
+                    for(int y = 0; y < regionkinds.size(); y++) {
+                        pluginConfig.set("RegionKinds." + regionkinds.get(y) + ".displayName", regionkinds.get(y));
+                    }
+                }
+            }
             saveConfig();
             YamlConfiguration messages = Messages.getConfig();
             messages.set("Messages.UserNotAMemberOrOwner", "&4You are not a member or owner of this region!");
@@ -910,7 +920,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
             messages.set("Messages.SellRegion", "SellRegion");
             messages.set("Messages.ContractRegion", "ContractRegion");
             messages.set("Messages.RegionStats", "&6=========[Region stats]=========");
-            messages.set("Messages.RegionStatsPattern", "&rUsed regions (%regionkind%&r):");
+            messages.set("Messages.RegionStatsPattern", "&8Used regions (%regionkind%&8):");
             Messages.saveConfig();
         }
     }

@@ -164,7 +164,7 @@ public class Messages {
     public static String YES = "";
     public static String NO = "";
     public static String REGION_STATS = "&6=========[Region stats]=========";
-    public static String REGION_STATS_PATTERN = "&6Used regions (%regionkind%)";
+    public static String REGION_STATS_PATTERN = "&6Used regions (%8egionkind%&8)";
     public static String RENT_REGION = "&6Rentregion";
     public static String SELL_REGION = "&6Sellregion";
     public static String CONTRACT_REGION = "&6Contractregion";

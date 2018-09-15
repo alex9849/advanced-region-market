@@ -178,7 +178,7 @@ public class LimitGroup {
         }
 
         for(int i = 0; i < RegionKind.getRegionKindList().size(); i++){
-            if(player.hasPermission(Permission.ARM_BUYKIND + RegionKind.getRegionKindList().get(i).getName())){
+            if(player.hasPermission(Permission.ARM_BUYKIND + RegionKind.getRegionKindList().get(i).getDisplayName())){
                 syntaxtotal = Messages.LIMIT_INFO;
                 syntaxtotal = syntaxtotal.replace("%regiontype%", RegionKind.getRegionKindList().get(i).getName());
                 syntaxtotal = syntaxtotal.replace("%playerownedkind%", getOwnedRegions(player, RegionKind.getRegionKindList().get(i)) + "");

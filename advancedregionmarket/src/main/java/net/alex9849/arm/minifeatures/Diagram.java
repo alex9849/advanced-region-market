@@ -64,6 +64,8 @@ public class Diagram {
             }
         }
         String regtypesting = Messages.REGION_STATS_PATTERN;
+        sender.sendMessage(regtypesting.replace("%regionkind%", Messages.LIMIT_INFO_TOTAL));
+        sender.sendMessage(generateDiagramm(soldsellregions + soldrentregions + soldcontractregions, sellregions + rentregions + contractregions));
         sender.sendMessage(regtypesting.replace("%regionkind%", Messages.SELL_REGION));
         sender.sendMessage(generateDiagramm(soldsellregions, sellregions));
         sender.sendMessage(regtypesting.replace("%regionkind%", Messages.RENT_REGION));

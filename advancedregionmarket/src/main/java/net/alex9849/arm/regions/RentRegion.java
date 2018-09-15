@@ -5,6 +5,7 @@ import net.alex9849.arm.Permission;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import net.alex9849.arm.Group.LimitGroup;
 import net.alex9849.arm.Messages;
+import net.alex9849.arm.exceptions.InputException;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -142,16 +143,14 @@ public class RentRegion extends Region {
     }
 
     @Override
-    public void buy(Player player){
+    public void buy(Player player) throws InputException {
 
         if(!player.hasPermission(Permission.ARM_BUY_RENTREGION)) {
-            player.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-            return;
+            throw new InputException(player, Messages.NO_PERMISSION);
         }
         if (this.regionKind != RegionKind.DEFAULT){
             if(!player.hasPermission(Permission.ARM_BUYKIND + this.regionKind.getName())){
-                player.sendMessage(Messages.PREFIX + Messages.NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION);
-                return;
+                throw new InputException(player, Messages.NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION);
             }
         }
 
@@ -162,7 +161,7 @@ public class RentRegion extends Region {
 
         if (this.regionKind != RegionKind.DEFAULT){
             if(!player.hasPermission(Permission.ARM_BUYKIND + this.regionKind.getName())){
-                player.sendMessage(Messages.PREFIX + Messages.NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION);
+                throw new InputException(player, Messages.NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION);
             }
         }
 
@@ -185,13 +184,11 @@ public class RentRegion extends Region {
             message = message.replace("%playerownedtotal%", LimitGroup.getOwnedRegions(player) + "");
             message = message.replace("%limittotal%", limittotalS);
 
-            player.sendMessage(Messages.PREFIX + message);
-            return;
+            throw new InputException(player, message);
         }
 
         if(AdvancedRegionMarket.getEcon().getBalance(player) < this.price) {
-            player.sendMessage(Messages.PREFIX + Messages.NOT_ENOUGHT_MONEY);
-            return;
+            throw new InputException(player, Messages.NOT_ENOUGHT_MONEY);
         }
         AdvancedRegionMarket.getEcon().withdrawPlayer(player, price);
 
@@ -462,27 +459,23 @@ public class RentRegion extends Region {
         return this.payedTill;
     }
 
-    public void extendRegion(Player player) {
+    public void extendRegion(Player player) throws InputException {
         if(!player.hasPermission(Permission.ARM_BUY_RENTREGION)) {
-            player.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-            return;
+            throw new InputException(player, Messages.NO_PERMISSION);
         }
         if (this.regionKind != RegionKind.DEFAULT){
             if(!player.hasPermission(Permission.ARM_BUYKIND + this.regionKind.getName())){
-                player.sendMessage(Messages.PREFIX + Messages.NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION);
-                return;
+                throw new InputException(player, Messages.NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION);
             }
         }
 
         if(!this.sold) {
-            player.sendMessage(Messages.PREFIX + Messages.REGION_NOT_SOLD);
-            return;
+            throw new InputException(player, Messages.REGION_NOT_SOLD);
         }
 
         if(!AdvancedRegionMarket.getWorldGuardInterface().hasOwner(player, this.getRegion())) {
             if(!player.hasPermission(Permission.ADMIN_EXTEND)){
-                player.sendMessage(Messages.PREFIX + Messages.REGION_NOT_OWN);
-                return;
+                throw new InputException(player, Messages.REGION_NOT_OWN);
             }
         }
         GregorianCalendar actualtime = new GregorianCalendar();
@@ -492,12 +485,10 @@ public class RentRegion extends Region {
             errormessage = errormessage.replace("%maxrenttime%", this.getMaxRentTime());
             errormessage = errormessage.replace("%extendpercick%", this.getExtendPerClick());
             errormessage = errormessage.replace("%price%", this.price + Messages.CURRENCY);
-            player.sendMessage(Messages.PREFIX + errormessage);
-            return;
+            throw new InputException(player, errormessage);
         } else {
             if(AdvancedRegionMarket.getEcon().getBalance(player) < this.price) {
-                player.sendMessage(Messages.PREFIX + Messages.NOT_ENOUGHT_MONEY);
-                return;
+                throw new InputException(player, Messages.NOT_ENOUGHT_MONEY);
             }
             AdvancedRegionMarket.getEcon().withdrawPlayer(player, price);
             this.payedTill = this.payedTill + this.rentExtendPerClick;

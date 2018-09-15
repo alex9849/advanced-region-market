@@ -5,6 +5,7 @@ import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.Group.LimitGroup;
+import net.alex9849.arm.exceptions.InputException;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -216,25 +217,22 @@ public class ContractRegion extends Region {
     }
 
     @Override
-    public void buy(Player player) {
+    public void buy(Player player) throws InputException {
 
         if(!player.hasPermission(Permission.ARM_BUY_CONTRACTREGION)) {
-            player.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-            return;
+            throw new InputException(player, Messages.NO_PERMISSION);
         }
         if(this.sold) {
             if(AdvancedRegionMarket.getWorldGuardInterface().getOwners(getRegion()).contains(player.getUniqueId()) || player.hasPermission(Permission.ADMIN_TERMINATE_CONTRACT)) {
                 this.changeTerminated(player);
                 return;
             } else {
-                player.sendMessage(Messages.PREFIX + Messages.REGION_ALREADY_SOLD);
-                return;
+                throw new InputException(player, Messages.REGION_ALREADY_SOLD);
             }
         }
         if (this.regionKind != RegionKind.DEFAULT){
             if(!player.hasPermission(Permission.ARM_BUYKIND + this.regionKind.getName())){
-                player.sendMessage(Messages.PREFIX + Messages.NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION);
-                return;
+                throw new InputException(player, Messages.NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION);
             }
         }
 
@@ -261,8 +259,7 @@ public class ContractRegion extends Region {
             return;
         }
         if(AdvancedRegionMarket.getEcon().getBalance(player) < this.price) {
-            player.sendMessage(Messages.PREFIX + Messages.NOT_ENOUGHT_MONEY);
-            return;
+            throw new InputException(player, Messages.NOT_ENOUGHT_MONEY);
         }
         AdvancedRegionMarket.getEcon().withdrawPlayer(player, price);
 
@@ -476,31 +473,26 @@ public class ContractRegion extends Region {
         }
     }
 
-    public static boolean terminateCommand(CommandSender sender, String regionName, String setting){
+    public static boolean terminateCommand(CommandSender sender, String regionName, String setting) throws InputException {
         if(!(sender instanceof Player)) {
-            sender.sendMessage(Messages.PREFIX + Messages.COMMAND_ONLY_INGAME);
-            return true;
+            throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Player player = (Player) sender;
         Region region = Region.searchRegionbyNameAndWorld(regionName, player.getWorld().getName());
         if(region == null){
-            player.sendMessage(Messages.PREFIX + Messages.REGION_DOES_NOT_EXIST);
-            return true;
+            throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
         }
         if(!(region instanceof ContractRegion)) {
-            player.sendMessage(Messages.PREFIX + Messages.REGION_IS_NOT_A_CONTRACT_REGION);
-            return true;
+            throw new InputException(sender, Messages.REGION_IS_NOT_A_CONTRACT_REGION);
         }
 
         if(!region.sold) {
-            player.sendMessage(Messages.PREFIX + Messages.REGION_NOT_SOLD);
-            return true;
+            throw new InputException(sender, Messages.REGION_NOT_SOLD);
         }
 
         if(!AdvancedRegionMarket.getWorldGuardInterface().hasOwner(player, region.getRegion())) {
             if(!player.hasPermission(Permission.ADMIN_TERMINATE_CONTRACT)){
-                player.sendMessage(Messages.PREFIX + Messages.REGION_NOT_OWN);
-                return true;
+                throw new InputException(sender, Messages.REGION_NOT_OWN);
             }
         }
 

@@ -8,6 +8,7 @@ import net.alex9849.arm.Permission;
 import net.alex9849.arm.Preseter.ContractPreset;
 import net.alex9849.arm.Preseter.RentPreset;
 import net.alex9849.arm.Preseter.SellPreset;
+import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.gui.Gui;
 import net.alex9849.arm.regions.ContractRegion;
 import net.alex9849.arm.regions.Region;
@@ -64,7 +65,7 @@ public class CommandHandler implements TabCompleter {
         this.completeRegions = completeRegions;
     }
 
-    public boolean executeCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args){
+    public boolean executeCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args) throws InputException {
         String allargs = "";
         for (int i = 0; i < args.length; i++) {
             allargs = allargs + " " + args[i];

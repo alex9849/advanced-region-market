@@ -5,6 +5,7 @@ import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import net.alex9849.arm.Group.LimitGroup;
+import net.alex9849.arm.exceptions.InputException;
 import org.bukkit.*;
 import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
@@ -110,20 +111,17 @@ public class SellRegion extends Region {
     }
 
     @Override
-    public void buy(Player player){
+    public void buy(Player player) throws InputException {
 
         if(!player.hasPermission(Permission.ARM_BUY_SELLREGION)) {
-            player.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-            return;
+            throw new InputException(player, Messages.NO_PERMISSION);
         }
         if(this.sold) {
-            player.sendMessage(Messages.PREFIX + Messages.REGION_ALREADY_SOLD);
-            return;
+            throw new InputException(player, Messages.REGION_ALREADY_SOLD);
         }
         if (this.regionKind != RegionKind.DEFAULT){
             if(!player.hasPermission(Permission.ARM_BUYKIND + this.regionKind.getName())){
-                player.sendMessage(Messages.PREFIX + Messages.NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION);
-                return;
+                throw new InputException(player, Messages.NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION);
             }
         }
 
@@ -146,13 +144,11 @@ public class SellRegion extends Region {
             message = message.replace("%playerownedtotal%", LimitGroup.getOwnedRegions(player) + "");
             message = message.replace("%limittotal%", limittotalS);
 
-            player.sendMessage(Messages.PREFIX + message);
-            return;
+            throw new InputException(player, message);
         }
 
         if(AdvancedRegionMarket.getEcon().getBalance(player) < this.price) {
-            player.sendMessage(Messages.PREFIX + Messages.NOT_ENOUGHT_MONEY);
-            return;
+            throw new InputException(player, Messages.NOT_ENOUGHT_MONEY);
         }
         AdvancedRegionMarket.getEcon().withdrawPlayer(player, price);
 

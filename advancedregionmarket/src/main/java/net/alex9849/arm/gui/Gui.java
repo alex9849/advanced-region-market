@@ -3,6 +3,7 @@ package net.alex9849.arm.gui;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
+import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.regions.*;
 import net.alex9849.arm.Group.LimitGroup;
 import org.bukkit.Bukkit;
@@ -289,12 +290,12 @@ public class Gui implements Listener {
             resetItem.setItemMeta(resetitemItemMeta);
             ClickItem reseticon = new ClickItem(resetItem, getPosition(actitem, itemcounter)).addClickAction(new ClickAction() {
                 @Override
-                public void execute(Player player) {
+                public void execute(Player player) throws InputException {
                     if(region.timeSinceLastReset() >= Region.getResetCooldown()){
                         Gui.openRegionResetWarning(player, region, true);
                     } else {
                         String message = Messages.RESET_REGION_COOLDOWN_ERROR.replace("%remainingdays%", (Region.getResetCooldown() - region.timeSinceLastReset()) + "");
-                        player.sendMessage(Messages.PREFIX + message);
+                        throw new InputException(player, message);
                     }
                 }
             });
@@ -432,12 +433,12 @@ public class Gui implements Listener {
             resetItem.setItemMeta(resetitemItemMeta);
             ClickItem reseticon = new ClickItem(resetItem, getPosition(actitem, itemcounter)).addClickAction(new ClickAction() {
                 @Override
-                public void execute(Player player) {
+                public void execute(Player player) throws InputException {
                     if(region.timeSinceLastReset() >= Region.getResetCooldown()){
                         Gui.openRegionResetWarning(player, region, true);
                     } else {
                         String message = Messages.RESET_REGION_COOLDOWN_ERROR.replace("%remainingdays%", (Region.getResetCooldown() - region.timeSinceLastReset()) + "");
-                        player.sendMessage(Messages.PREFIX + message);
+                        throw new InputException(player, message);
                     }
                 }
             });
@@ -484,7 +485,7 @@ public class Gui implements Listener {
         extendItem.setItemMeta(extendItemMeta);
         ClickItem extendicon = new ClickItem(extendItem, getPosition(actitem, itemcounter)).addClickAction(new ClickAction() {
             @Override
-            public void execute(Player player) {
+            public void execute(Player player) throws InputException {
                 region.buy(player);
                 Gui.decideOwnerManager(player, region);
             }
@@ -596,12 +597,12 @@ public class Gui implements Listener {
             resetItem.setItemMeta(resetitemItemMeta);
             ClickItem reseticon = new ClickItem(resetItem, getPosition(actitem, itemcounter)).addClickAction(new ClickAction() {
                 @Override
-                public void execute(Player player) {
+                public void execute(Player player) throws InputException {
                     if(region.timeSinceLastReset() >= Region.getResetCooldown()){
                         Gui.openRegionResetWarning(player, region, true);
                     } else {
                         String message = Messages.RESET_REGION_COOLDOWN_ERROR.replace("%remainingdays%", (Region.getResetCooldown() - region.timeSinceLastReset()) + "");
-                        player.sendMessage(Messages.PREFIX + message);
+                        throw new InputException(player, message);
                     }
                 }
             });
@@ -727,7 +728,7 @@ public class Gui implements Listener {
             stack.setItemMeta(meta);
             ClickItem icon = new ClickItem(stack, 0).addClickAction(new ClickAction() {
                 @Override
-                public void execute(Player player) {
+                public void execute(Player player) throws InputException {
                     Region.teleportToFreeRegion(RegionKind.DEFAULT, player);
                 }
             });
@@ -751,7 +752,7 @@ public class Gui implements Listener {
                 int finalI = i;
                 ClickItem icon = new ClickItem(stack, i + shift).addClickAction(new ClickAction() {
                     @Override
-                    public void execute(Player player) {
+                    public void execute(Player player) throws InputException {
                         Region.teleportToFreeRegion(RegionKind.getRegionKindList().get(finalI), player);
                     }
                 });
@@ -923,20 +924,17 @@ public class Gui implements Listener {
         Player onlinemember = Bukkit.getPlayer(member.getUniqueId());
         ClickItem yesButton = new ClickItem(yesItem, 0).addClickAction(new ClickAction() {
             @Override
-            public void execute(Player player) {
+            public void execute(Player player) throws InputException {
+                player.closeInventory();
                 if(onlinemember == null) {
-                    player.sendMessage(Messages.PREFIX + Messages.REGION_TRANSFER_MEMBER_NOT_ONLINE);
-                    return;
+                    throw new InputException(player, Messages.REGION_TRANSFER_MEMBER_NOT_ONLINE);
                 }
                 if(LimitGroup.isCanBuyAnother(onlinemember, region)) {
                     region.setNewOwner(onlinemember);
                     player.sendMessage(Messages.PREFIX + Messages.REGION_TRANSFER_COMPLETE_MESSAGE);
                 } else {
-                    player.sendMessage(Messages.PREFIX + Messages.REGION_TRANSFER_LIMIT_ERROR);
+                    throw new InputException(player, Messages.REGION_TRANSFER_LIMIT_ERROR);
                 }
-
-
-                player.closeInventory();
             }
         });
         inv.addIcon(yesButton);
@@ -1246,7 +1244,7 @@ public class Gui implements Listener {
     }
 
     @EventHandler
-    public void onClick(InventoryClickEvent event) {
+    public void onClick(InventoryClickEvent event) throws InputException {
         if (event.getView().getTopInventory().getHolder() instanceof GuiInventory) {
             event.setCancelled(true);
 
@@ -1262,7 +1260,11 @@ public class Gui implements Listener {
                 if (icon == null) return;
 
                 for (ClickAction clickAction : icon.getClickActions()) {
-                    clickAction.execute(player);
+                    try {
+                        clickAction.execute(player);
+                    } catch (InputException inputException) {
+                        inputException.sendMessage();
+                    }
                 }
             }
         }

@@ -2,6 +2,7 @@ package net.alex9849.arm.Preseter;
 
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.Messages;
+import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.regions.RegionKind;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -111,16 +112,14 @@ public class SellPreset extends Preset{
         player.sendMessage(Messages.REGION_INFO_DO_BLOCK_RESET + this.isDoBlockReset());
     }
 
-    public static boolean onCommand(CommandSender sender, String command, String[] args) {
+    public static boolean onCommand(CommandSender sender, String command, String[] args) throws InputException {
         if(!(sender instanceof Player)) {
-            sender.sendMessage(Messages.PREFIX + Messages.COMMAND_ONLY_INGAME);
-            return true;
+            throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Player player = (Player) sender;
         if(args[1].equalsIgnoreCase("price")) {
             if(!player.hasPermission(Permission.ADMIN_PRESET_SET_PRICE)) {
-                player.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-                return true;
+                throw new InputException(sender, Messages.NO_PERMISSION);
             }
             if(command.matches(SET_PRICE)){
                 if(hasPreset(player)) {
@@ -151,8 +150,8 @@ public class SellPreset extends Preset{
 
         else if(args[1].equalsIgnoreCase("regionkind")) {
             if(!player.hasPermission(Permission.ADMIN_PRESET_SET_REGIONKIND)) {
-                player.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-                return true;
+                throw new InputException(sender, Messages.NO_PERMISSION);
+
             }
             if(command.matches(SET_REGIONKIND)){
                 RegionKind regkind = RegionKind.getRegionKind(args[2]);
@@ -185,8 +184,7 @@ public class SellPreset extends Preset{
 
         else if(args[1].equalsIgnoreCase("autoreset")) {
             if(!player.hasPermission(Permission.ADMIN_PRESET_SET_AUTORESET)) {
-                player.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-                return true;
+                throw new InputException(sender, Messages.NO_PERMISSION);
             }
             if(command.matches(SET_AUTO_RESET)) {
                 if(hasPreset(player)) {
@@ -215,8 +213,7 @@ public class SellPreset extends Preset{
 
         else if(args[1].equalsIgnoreCase("hotel")) {
             if(!player.hasPermission(Permission.ADMIN_PRESET_SET_HOTEL)) {
-                player.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-                return true;
+                throw new InputException(sender, Messages.NO_PERMISSION);
             }
             if(command.matches(SET_HOTEL)) {
                 if(hasPreset(player)) {
@@ -245,8 +242,7 @@ public class SellPreset extends Preset{
 
         else if(args[1].equalsIgnoreCase("doblockreset")) {
             if(!player.hasPermission(Permission.ADMIN_PRESET_SET_DOBLOCKRESET)) {
-                player.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-                return true;
+                throw new InputException(sender, Messages.NO_PERMISSION);
             }
             if(command.matches(SET_DO_BLOCK_RESET)) {
                 if(hasPreset(player)) {
@@ -275,8 +271,7 @@ public class SellPreset extends Preset{
 
         else if(args[1].equalsIgnoreCase("save")) {
             if(!player.hasPermission(Permission.ADMIN_PRESET_SAVE)) {
-                player.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-                return true;
+                throw new InputException(sender, Messages.NO_PERMISSION);
             }
             if(command.matches(SAVE)) {
                 if(hasPreset(player)){
@@ -297,8 +292,7 @@ public class SellPreset extends Preset{
 
         else if(args[1].equalsIgnoreCase("delete")) {
             if(!player.hasPermission(Permission.ADMIN_PRESET_DELETE)) {
-                player.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-                return true;
+                throw new InputException(sender, Messages.NO_PERMISSION);
             }
             if(command.matches(REMOVE)) {
                 if(removePattern(args[2])){
@@ -313,8 +307,7 @@ public class SellPreset extends Preset{
 
         else if(args[1].equalsIgnoreCase("load")) {
             if(!player.hasPermission(Permission.ADMIN_PRESET_LOAD)) {
-                player.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-                return true;
+                throw new InputException(sender, Messages.NO_PERMISSION);
             }
             if(command.matches(LOAD)) {
                 if(assignToPlayer(player, args[2])){
@@ -329,8 +322,7 @@ public class SellPreset extends Preset{
 
          else if(command.matches(RESET)) {
             if(!player.hasPermission(Permission.ADMIN_PRESET_RESET)) {
-                player.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-                return true;
+                throw new InputException(sender, Messages.NO_PERMISSION);
             }
             if(removePreset(player)){
                 player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
@@ -342,8 +334,7 @@ public class SellPreset extends Preset{
 
         } else if(command.matches(INFO)) {
             if(!player.hasPermission(Permission.ADMIN_PRESET_INFO)) {
-                player.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-                return true;
+                throw new InputException(sender, Messages.NO_PERMISSION);
             }
             if(hasPreset(player)){
                 getPreset(player).getPresetInfo(player);
@@ -355,16 +346,14 @@ public class SellPreset extends Preset{
 
         } else if(command.matches(LIST)) {
             if(!player.hasPermission(Permission.ADMIN_PRESET_LIST)) {
-                player.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-                return true;
+                throw new InputException(sender, Messages.NO_PERMISSION);
             }
             listPresets(player);
             return true;
 
         } else if(command.matches(HELP)) {
             if(!player.hasPermission(Permission.ADMIN_PRESET_HELP)) {
-                player.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-                return true;
+                throw new InputException(sender, Messages.NO_PERMISSION);
             }
             showHelp(player);
             return true;

@@ -7,6 +7,7 @@ import net.alex9849.arm.Preseter.ContractPreset;
 import net.alex9849.arm.Preseter.Preset;
 import net.alex9849.arm.Preseter.RentPreset;
 import net.alex9849.arm.Preseter.SellPreset;
+import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.regions.*;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import net.alex9849.arm.gui.Gui;
@@ -39,266 +40,256 @@ public class ARMListener implements Listener {
             return;
         }
 
-        RegionKind regionkind = RegionKind.DEFAULT;
-        Boolean autoReset = true;
-        Boolean isHotel = false;
-        Boolean doBlockReset = true;
+        try {
+            RegionKind regionkind = RegionKind.DEFAULT;
+            Boolean autoReset = true;
+            Boolean isHotel = false;
+            Boolean doBlockReset = true;
 
-        if(sign.getLine(0).equalsIgnoreCase("[ARM-Sell]")){
+            if(sign.getLine(0).equalsIgnoreCase("[ARM-Sell]")){
 
-            if(SellPreset.hasPreset(sign.getPlayer())) {
-                Preset preset = SellPreset.getPreset(sign.getPlayer());
-                regionkind = preset.getRegionKind();
-                autoReset = preset.isAutoReset();
-                isHotel = preset.isHotel();
-                doBlockReset = preset.isDoBlockReset();
-                sign.getPlayer().sendMessage(Messages.PREFIX + "Applying preset...");
-            }
-
-            if(!sign.getPlayer().hasPermission(Permission.ADMIN_CREATE_SELL)){
-                sign.getPlayer().sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-                return;
-            }
-
-            String worldname = sign.getLine(1);
-            String regionname = sign.getLine(2);
-
-            if (sign.getLine(1).equals("")){
-                worldname = sign.getBlock().getLocation().getWorld().getName();
-            } else {
-                if (Bukkit.getWorld(worldname) == null) {
-                    sign.getPlayer().sendMessage(Messages.PREFIX + Messages.WORLD_DOES_NOT_EXIST);
-                    return;
+                if(SellPreset.hasPreset(sign.getPlayer())) {
+                    Preset preset = SellPreset.getPreset(sign.getPlayer());
+                    regionkind = preset.getRegionKind();
+                    autoReset = preset.isAutoReset();
+                    isHotel = preset.isHotel();
+                    doBlockReset = preset.isDoBlockReset();
+                    sign.getPlayer().sendMessage(Messages.PREFIX + "Applying preset...");
                 }
-            }
 
-            if (AdvancedRegionMarket.getWorldGuardInterface().getRegionManager(Bukkit.getWorld(worldname), AdvancedRegionMarket.getWorldGuard()).getRegion(regionname) == null) {
-                sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_DOES_NOT_EXIST);
-                return;
-            }
-            ProtectedRegion region = AdvancedRegionMarket.getWorldGuardInterface().getRegionManager(Bukkit.getWorld(worldname), AdvancedRegionMarket.getWorldGuard()).getRegion(regionname);
-            Double price = null;
+                if(!sign.getPlayer().hasPermission(Permission.ADMIN_CREATE_SELL)){
+                    throw new InputException(sign.getPlayer(), Messages.NO_PERMISSION);
+                }
 
-            if(sign.getLine(3).equals("")){
-                if(SellPreset.hasPreset(sign.getPlayer())){
-                    if(SellPreset.getPreset(sign.getPlayer()).hasPrice()){
-                        price = SellPreset.getPreset(sign.getPlayer()).getPrice();
+                String worldname = sign.getLine(1);
+                String regionname = sign.getLine(2);
+
+                if (sign.getLine(1).equals("")){
+                    worldname = sign.getBlock().getLocation().getWorld().getName();
+                } else {
+                    if (Bukkit.getWorld(worldname) == null) {
+                        throw new InputException(sign.getPlayer(), Messages.WORLD_DOES_NOT_EXIST);
                     }
                 }
-            }
 
-            if(price == null) {
-                try{
-                    price = Region.calculatePrice(region, sign.getLine(3));
-                } catch (IllegalArgumentException e){
-                    sign.getPlayer().sendMessage(Messages.PREFIX + Messages.PLEASE_USE_A_NUMBER_AS_PRICE + " or an AutoPrice");
+                if (AdvancedRegionMarket.getWorldGuardInterface().getRegionManager(Bukkit.getWorld(worldname), AdvancedRegionMarket.getWorldGuard()).getRegion(regionname) == null) {
+                    throw new InputException(sign.getPlayer(), Messages.REGION_DOES_NOT_EXIST);
+                }
+                ProtectedRegion region = AdvancedRegionMarket.getWorldGuardInterface().getRegionManager(Bukkit.getWorld(worldname), AdvancedRegionMarket.getWorldGuard()).getRegion(regionname);
+                Double price = null;
+
+                if(sign.getLine(3).equals("")){
+                    if(SellPreset.hasPreset(sign.getPlayer())){
+                        if(SellPreset.getPreset(sign.getPlayer()).hasPrice()){
+                            price = SellPreset.getPreset(sign.getPlayer()).getPrice();
+                        }
+                    }
+                }
+
+                if(price == null) {
+                    try{
+                        price = Region.calculatePrice(region, sign.getLine(3));
+                    } catch (IllegalArgumentException e){
+                        throw new InputException(sign.getPlayer(), Messages.PLEASE_USE_A_NUMBER_AS_PRICE + " or an AutoPrice");
+                    }
+                }
+
+                if(price < 0) {
+                    throw new InputException(sign.getPlayer(), ChatColor.DARK_RED + "Price must be positive!");
+                }
+
+                Region searchregion = Region.searchRegionbyNameAndWorld(regionname, worldname);
+                if(searchregion != null) {
+                    if(!(searchregion instanceof SellRegion)) {
+                        throw new InputException(sign.getPlayer(), "Region already registered as a non-sellregion");
+                    }
+                    searchregion.addSign(sign.getBlock().getLocation());
+                    sign.setCancelled(true);
+                    sign.getPlayer().sendMessage(Messages.PREFIX + Messages.SIGN_ADDED_TO_REGION);
                     return;
                 }
-            }
 
-            if(price < 0) {
-                sign.getPlayer().sendMessage(Messages.PREFIX + ChatColor.DARK_RED + "Price must be positive!");
-                return;
-            }
 
-            Region searchregion = Region.searchRegionbyNameAndWorld(regionname, worldname);
-            if(searchregion != null) {
-                if(!(searchregion instanceof SellRegion)) {
-                    sign.getPlayer().sendMessage(Messages.PREFIX + "Region already registered as a non-sellregion");
-                    return;
-                }
-                searchregion.addSign(sign.getBlock().getLocation());
+                LinkedList<Sign> sellsign = new LinkedList<Sign>();
+                sellsign.add((Sign) sign.getBlock().getState());
+                Region.getRegionList().add(new SellRegion(region, worldname, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,1,true));
+                sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_ADDED_TO_ARM);
                 sign.setCancelled(true);
-                sign.getPlayer().sendMessage(Messages.PREFIX + Messages.SIGN_ADDED_TO_REGION);
-                return;
             }
 
 
-            LinkedList<Sign> sellsign = new LinkedList<Sign>();
-            sellsign.add((Sign) sign.getBlock().getState());
-            Region.getRegionList().add(new SellRegion(region, worldname, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,1,true));
-            sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_ADDED_TO_ARM);
-            sign.setCancelled(true);
-        }
-
-
-        if(sign.getLine(0).equalsIgnoreCase("[ARM-Rent]")){
-            if(!sign.getPlayer().hasPermission(Permission.ADMIN_CREATE_RENT)){
-                sign.getPlayer().sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-                return;
-            }
-
-            if(RentPreset.hasPreset(sign.getPlayer())) {
-                Preset preset = RentPreset.getPreset(sign.getPlayer());
-                regionkind = preset.getRegionKind();
-                autoReset = preset.isAutoReset();
-                isHotel = preset.isHotel();
-                doBlockReset = preset.isDoBlockReset();
-                sign.getPlayer().sendMessage(Messages.PREFIX + "Applying preset...");
-            }
-
-            String worldname = sign.getLine(1);
-            String regionname = sign.getLine(2);
-
-            if (sign.getLine(1).equals("")){
-                worldname = sign.getBlock().getLocation().getWorld().getName();
-            } else {
-                if (Bukkit.getWorld(worldname) == null) {
-                    sign.getPlayer().sendMessage(Messages.PREFIX + Messages.WORLD_DOES_NOT_EXIST);
-                    return;
+            if(sign.getLine(0).equalsIgnoreCase("[ARM-Rent]")){
+                if(!sign.getPlayer().hasPermission(Permission.ADMIN_CREATE_RENT)){
+                    throw new InputException(sign.getPlayer(), Messages.NO_PERMISSION);
                 }
-            }
-            if (AdvancedRegionMarket.getWorldGuardInterface().getRegionManager(Bukkit.getWorld(worldname), AdvancedRegionMarket.getWorldGuard()).getRegion(regionname) == null) {
-                sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_DOES_NOT_EXIST);
-                return;
-            }
-            ProtectedRegion region = AdvancedRegionMarket.getWorldGuardInterface().getRegionManager(Bukkit.getWorld(worldname), AdvancedRegionMarket.getWorldGuard()).getRegion(regionname);
 
-            double price = 0;
-            long extendPerClick = 0;
-            long maxRentTime = 0;
-            Boolean priceready = false;
-
-            if(sign.getLine(3).equals("")) {
                 if(RentPreset.hasPreset(sign.getPlayer())) {
-                    RentPreset preset = RentPreset.getPreset(sign.getPlayer());
-                    if(preset.hasPrice() && preset.hasExtendPerClick() && preset.hasMaxRentTime()) {
-                        price = preset.getPrice();
-                        extendPerClick = preset.getExtendPerClick();
-                        maxRentTime = preset.getMaxRentTime();
-                        priceready = true;
-                    } else {
-                        sign.getPlayer().sendMessage(Messages.PREFIX + ChatColor.RED + "Your preset needs to have an option at Price, MaxRentTime and ExtendPerClick to take affect!");
+                    Preset preset = RentPreset.getPreset(sign.getPlayer());
+                    regionkind = preset.getRegionKind();
+                    autoReset = preset.isAutoReset();
+                    isHotel = preset.isHotel();
+                    doBlockReset = preset.isDoBlockReset();
+                    sign.getPlayer().sendMessage(Messages.PREFIX + "Applying preset...");
+                }
+
+                String worldname = sign.getLine(1);
+                String regionname = sign.getLine(2);
+
+                if (sign.getLine(1).equals("")){
+                    worldname = sign.getBlock().getLocation().getWorld().getName();
+                } else {
+                    if (Bukkit.getWorld(worldname) == null) {
+                        throw new InputException(sign.getPlayer(), Messages.WORLD_DOES_NOT_EXIST);
                     }
                 }
-            }
+                if (AdvancedRegionMarket.getWorldGuardInterface().getRegionManager(Bukkit.getWorld(worldname), AdvancedRegionMarket.getWorldGuard()).getRegion(regionname) == null) {
+                    throw new InputException(sign.getPlayer(), Messages.REGION_DOES_NOT_EXIST);
+                }
+                ProtectedRegion region = AdvancedRegionMarket.getWorldGuardInterface().getRegionManager(Bukkit.getWorld(worldname), AdvancedRegionMarket.getWorldGuard()).getRegion(regionname);
 
-            if(!priceready) {
-                try{
-                    String[] priceline = sign.getLine(3).split(";", 3);
-                    String pricestring = priceline[0];
-                    String extendPerClickString = priceline[1];
-                    String maxRentTimeString = priceline[2];
-                    extendPerClick = RentRegion.stringToTime(extendPerClickString);
-                    maxRentTime = RentRegion.stringToTime(maxRentTimeString);
-                    price = Integer.parseInt(pricestring);
-                } catch (ArrayIndexOutOfBoundsException e) {
-                    sign.getPlayer().sendMessage(Messages.PREFIX + "Please write your price in line 3 in the following pattern:");
-                    sign.getPlayer().sendMessage("<Price>;<Extend per Click (ex.: 5d)>;<Max rent Time (ex.: 10d)>");
-                    return;
-                } catch (IllegalArgumentException e) {
-                    sign.getPlayer().sendMessage(Messages.PREFIX + "Please use d for days, h for hours, m for minutes and s for seconds");
-                    sign.getPlayer().sendMessage(Messages.PREFIX + "Please write you price in line 3 in the following pattern:");
-                    sign.getPlayer().sendMessage("<Price>;<Extend per Click (ex.: 5d)>;<Max rent Time (ex.: 10d)>");
+                double price = 0;
+                long extendPerClick = 0;
+                long maxRentTime = 0;
+                Boolean priceready = false;
+
+                if(sign.getLine(3).equals("")) {
+                    if(RentPreset.hasPreset(sign.getPlayer())) {
+                        RentPreset preset = RentPreset.getPreset(sign.getPlayer());
+                        if(preset.hasPrice() && preset.hasExtendPerClick() && preset.hasMaxRentTime()) {
+                            price = preset.getPrice();
+                            extendPerClick = preset.getExtendPerClick();
+                            maxRentTime = preset.getMaxRentTime();
+                            priceready = true;
+                        } else {
+                            throw new InputException(sign.getPlayer(), ChatColor.RED + "Your preset needs to have an option at Price, MaxRentTime and ExtendPerClick to take affect!");
+                        }
+                    }
+                }
+
+                if(!priceready) {
+                    try{
+                        String[] priceline = sign.getLine(3).split(";", 3);
+                        String pricestring = priceline[0];
+                        String extendPerClickString = priceline[1];
+                        String maxRentTimeString = priceline[2];
+                        extendPerClick = RentRegion.stringToTime(extendPerClickString);
+                        maxRentTime = RentRegion.stringToTime(maxRentTimeString);
+                        price = Integer.parseInt(pricestring);
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        sign.getPlayer().sendMessage(Messages.PREFIX + "Please write your price in line 3 in the following pattern:");
+                        sign.getPlayer().sendMessage("<Price>;<Extend per Click (ex.: 5d)>;<Max rent Time (ex.: 10d)>");
+                        return;
+                    } catch (IllegalArgumentException e) {
+                        sign.getPlayer().sendMessage(Messages.PREFIX + "Please use d for days, h for hours, m for minutes and s for seconds");
+                        sign.getPlayer().sendMessage(Messages.PREFIX + "Please write you price in line 3 in the following pattern:");
+                        sign.getPlayer().sendMessage("<Price>;<Extend per Click (ex.: 5d)>;<Max rent Time (ex.: 10d)>");
+                        return;
+                    }
+                }
+
+                Region searchregion = Region.searchRegionbyNameAndWorld(regionname, worldname);
+                if(searchregion != null) {
+                    if(!(searchregion instanceof RentRegion)) {
+                        throw new InputException(sign.getPlayer(), "Region already registered as a non-rentregion");
+                    }
+                    searchregion.addSign(sign.getBlock().getLocation());
+                    sign.setCancelled(true);
+                    sign.getPlayer().sendMessage(Messages.PREFIX + Messages.SIGN_ADDED_TO_REGION);
                     return;
                 }
-            }
 
-            Region searchregion = Region.searchRegionbyNameAndWorld(regionname, worldname);
-            if(searchregion != null) {
-                if(!(searchregion instanceof RentRegion)) {
-                    sign.getPlayer().sendMessage(Messages.PREFIX + "Region already registered as a non-rentregion");
-                    return;
-                }
-                searchregion.addSign(sign.getBlock().getLocation());
+                LinkedList<Sign> sellsign = new LinkedList<Sign>();
+                sellsign.add((Sign) sign.getBlock().getState());
+                Region.getRegionList().add(new RentRegion(region, worldname, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,
+                        1,1, maxRentTime, extendPerClick, true));
+                sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_ADDED_TO_ARM);
                 sign.setCancelled(true);
-                sign.getPlayer().sendMessage(Messages.PREFIX + Messages.SIGN_ADDED_TO_REGION);
-                return;
             }
-
-            LinkedList<Sign> sellsign = new LinkedList<Sign>();
-            sellsign.add((Sign) sign.getBlock().getState());
-            Region.getRegionList().add(new RentRegion(region, worldname, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,
-                    1,1, maxRentTime, extendPerClick, true));
-            sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_ADDED_TO_ARM);
-            sign.setCancelled(true);
-        }
-        if(sign.getLine(0).equalsIgnoreCase("[ARM-Contract]")) {
-            if(!sign.getPlayer().hasPermission(Permission.ADMIN_CREATE_RENT)){
-                sign.getPlayer().sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-                return;
-            }
-
-            if(ContractPreset.hasPreset(sign.getPlayer())) {
-                Preset preset = ContractPreset.getPreset(sign.getPlayer());
-                regionkind = preset.getRegionKind();
-                autoReset = preset.isAutoReset();
-                isHotel = preset.isHotel();
-                doBlockReset = preset.isDoBlockReset();
-                sign.getPlayer().sendMessage(Messages.PREFIX + "Applying preset...");
-            }
-
-            String worldname = sign.getLine(1);
-            String regionname = sign.getLine(2);
-
-            if (sign.getLine(1).equals("")){
-                worldname = sign.getBlock().getLocation().getWorld().getName();
-            } else {
-                if (Bukkit.getWorld(worldname) == null) {
-                    sign.getPlayer().sendMessage(Messages.PREFIX + Messages.WORLD_DOES_NOT_EXIST);
-                    return;
+            if(sign.getLine(0).equalsIgnoreCase("[ARM-Contract]")) {
+                if(!sign.getPlayer().hasPermission(Permission.ADMIN_CREATE_RENT)){
+                    throw new InputException(sign.getPlayer(), Messages.NO_PERMISSION);
                 }
-            }
-            if (AdvancedRegionMarket.getWorldGuardInterface().getRegionManager(Bukkit.getWorld(worldname), AdvancedRegionMarket.getWorldGuard()).getRegion(regionname) == null) {
-                sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_DOES_NOT_EXIST);
-                return;
-            }
-            ProtectedRegion region = AdvancedRegionMarket.getWorldGuardInterface().getRegionManager(Bukkit.getWorld(worldname), AdvancedRegionMarket.getWorldGuard()).getRegion(regionname);
 
-            double price = 0;
-            long extendtime = 0;
-            Boolean priceready = false;
-
-            if(sign.getLine(3).equals("")) {
                 if(ContractPreset.hasPreset(sign.getPlayer())) {
-                    ContractPreset preset = ContractPreset.getPreset(sign.getPlayer());
-                    if(preset.hasPrice() && preset.hasExtend()) {
-                        price = preset.getPrice();
-                        extendtime = preset.getExtend();
-                        priceready = true;
-                    } else {
-                        sign.getPlayer().sendMessage(Messages.PREFIX + ChatColor.RED + "Your preset needs to have an option at Price and Extend to take affect!");
+                    Preset preset = ContractPreset.getPreset(sign.getPlayer());
+                    regionkind = preset.getRegionKind();
+                    autoReset = preset.isAutoReset();
+                    isHotel = preset.isHotel();
+                    doBlockReset = preset.isDoBlockReset();
+                    sign.getPlayer().sendMessage(Messages.PREFIX + "Applying preset...");
+                }
+
+                String worldname = sign.getLine(1);
+                String regionname = sign.getLine(2);
+
+                if (sign.getLine(1).equals("")){
+                    worldname = sign.getBlock().getLocation().getWorld().getName();
+                } else {
+                    if (Bukkit.getWorld(worldname) == null) {
+                        throw new InputException(sign.getPlayer(), Messages.WORLD_DOES_NOT_EXIST);
                     }
                 }
-            }
+                if (AdvancedRegionMarket.getWorldGuardInterface().getRegionManager(Bukkit.getWorld(worldname), AdvancedRegionMarket.getWorldGuard()).getRegion(regionname) == null) {
+                    throw new InputException(sign.getPlayer(), Messages.REGION_DOES_NOT_EXIST);
+                }
+                ProtectedRegion region = AdvancedRegionMarket.getWorldGuardInterface().getRegionManager(Bukkit.getWorld(worldname), AdvancedRegionMarket.getWorldGuard()).getRegion(regionname);
 
-            if(!priceready) {
-                try{
-                    String[] priceline = sign.getLine(3).split(";", 2);
-                    String pricestring = priceline[0];
-                    String extendtimeString = priceline[1];
-                    extendtime = RentRegion.stringToTime(extendtimeString);
-                    price = Integer.parseInt(pricestring);
-                } catch (ArrayIndexOutOfBoundsException e) {
-                    sign.getPlayer().sendMessage(Messages.PREFIX + "Please write your price in line 3 in the following pattern:");
-                    sign.getPlayer().sendMessage("<Price>;<Extendtime (ex.: 5d)>");
-                    return;
-                } catch (IllegalArgumentException e) {
-                    sign.getPlayer().sendMessage(Messages.PREFIX + "Please use d for days, h for hours, m for minutes and s for seconds");
-                    sign.getPlayer().sendMessage(Messages.PREFIX + "Please write you price in line 3 in the following pattern:");
-                    sign.getPlayer().sendMessage("<Price>;<Extendtime (ex.: 5d)>");
+                double price = 0;
+                long extendtime = 0;
+                Boolean priceready = false;
+
+                if(sign.getLine(3).equals("")) {
+                    if(ContractPreset.hasPreset(sign.getPlayer())) {
+                        ContractPreset preset = ContractPreset.getPreset(sign.getPlayer());
+                        if(preset.hasPrice() && preset.hasExtend()) {
+                            price = preset.getPrice();
+                            extendtime = preset.getExtend();
+                            priceready = true;
+                        } else {
+                            throw new InputException(sign.getPlayer(), ChatColor.RED + "Your preset needs to have an option at Price and Extend to take affect!");
+                        }
+                    }
+                }
+
+                if(!priceready) {
+                    try{
+                        String[] priceline = sign.getLine(3).split(";", 2);
+                        String pricestring = priceline[0];
+                        String extendtimeString = priceline[1];
+                        extendtime = RentRegion.stringToTime(extendtimeString);
+                        price = Integer.parseInt(pricestring);
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        sign.getPlayer().sendMessage(Messages.PREFIX + "Please write your price in line 3 in the following pattern:");
+                        sign.getPlayer().sendMessage("<Price>;<Extendtime (ex.: 5d)>");
+                        return;
+                    } catch (IllegalArgumentException e) {
+                        sign.getPlayer().sendMessage(Messages.PREFIX + "Please use d for days, h for hours, m for minutes and s for seconds");
+                        sign.getPlayer().sendMessage(Messages.PREFIX + "Please write you price in line 3 in the following pattern:");
+                        sign.getPlayer().sendMessage("<Price>;<Extendtime (ex.: 5d)>");
+                        return;
+                    }
+                }
+
+
+                Region searchregion = Region.searchRegionbyNameAndWorld(regionname, worldname);
+                if(searchregion != null) {
+                    if(!(searchregion instanceof ContractRegion)) {
+                        throw new InputException(sign.getPlayer(), "Region already registered as a non-contractregion");
+                    }
+                    searchregion.addSign(sign.getBlock().getLocation());
+                    sign.setCancelled(true);
+                    sign.getPlayer().sendMessage(Messages.PREFIX + Messages.SIGN_ADDED_TO_REGION);
                     return;
                 }
-            }
-
-
-            Region searchregion = Region.searchRegionbyNameAndWorld(regionname, worldname);
-            if(searchregion != null) {
-                if(!(searchregion instanceof ContractRegion)) {
-                    sign.getPlayer().sendMessage(Messages.PREFIX + "Region already registered as a non-contractregion");
-                    return;
-                }
-                searchregion.addSign(sign.getBlock().getLocation());
+                LinkedList<Sign> sellsign = new LinkedList<Sign>();
+                sellsign.add((Sign) sign.getBlock().getState());
+                Region.getRegionList().add(new ContractRegion(region, worldname, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,
+                        1, extendtime, 1, false, true));
+                sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_ADDED_TO_ARM);
                 sign.setCancelled(true);
-                sign.getPlayer().sendMessage(Messages.PREFIX + Messages.SIGN_ADDED_TO_REGION);
-                return;
             }
-            LinkedList<Sign> sellsign = new LinkedList<Sign>();
-            sellsign.add((Sign) sign.getBlock().getState());
-            Region.getRegionList().add(new ContractRegion(region, worldname, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,
-                    1, extendtime, 1, false, true));
-            sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_ADDED_TO_ARM);
-            sign.setCancelled(true);
+        } catch (InputException inputException) {
+            inputException.sendMessage();
         }
     }
 
@@ -308,43 +299,50 @@ public class ARMListener implements Listener {
             return;
         }
 
-        if ((block.getBlock().getType() != Material.SIGN) && (block.getBlock().getType() != Material.WALL_SIGN)) {
-            return;
-        }
-
-        if(!Region.checkIfSignExists((Sign) block.getBlock().getState())){
-            return;
-        }
-
-        if(!block.getPlayer().hasPermission(Permission.ADMIN_REMOVE)) {
-            block.getPlayer().sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-            block.setCancelled(true);
-            return;
-        }
-        double loc_x = block.getBlock().getLocation().getX();
-        double loc_y = block.getBlock().getLocation().getY();
-        double loc_z = block.getBlock().getLocation().getZ();
-        Location loc = new Location(block.getBlock().getWorld(), loc_x, loc_y, loc_z);
-
-        for (int i = 0; i < Region.getRegionList().size(); i++) {
-            if(Region.getRegionList().get(i).removeSign(loc, block.getPlayer())){
+        try {
+            if ((block.getBlock().getType() != Material.SIGN) && (block.getBlock().getType() != Material.WALL_SIGN)) {
                 return;
             }
+
+            if(!Region.checkIfSignExists((Sign) block.getBlock().getState())){
+                return;
+            }
+
+            if(!block.getPlayer().hasPermission(Permission.ADMIN_REMOVE)) {
+                block.setCancelled(true);
+                throw new InputException(block.getPlayer(), Messages.NO_PERMISSION);
+            }
+            double loc_x = block.getBlock().getLocation().getX();
+            double loc_y = block.getBlock().getLocation().getY();
+            double loc_z = block.getBlock().getLocation().getZ();
+            Location loc = new Location(block.getBlock().getWorld(), loc_x, loc_y, loc_z);
+
+            for (int i = 0; i < Region.getRegionList().size(); i++) {
+                if(Region.getRegionList().get(i).removeSign(loc, block.getPlayer())){
+                    return;
+                }
+            }
+        } catch (InputException inputException) {
+            inputException.sendMessage();
         }
     }
 
     @EventHandler
     public void buyRegion(PlayerInteractEvent event){
-        if(event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-            if (event.getClickedBlock().getType() == Material.SIGN || event.getClickedBlock().getType() == Material.WALL_SIGN) {
-                Sign sign = (Sign) event.getClickedBlock().getState();
+        try {
+            if(event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                if (event.getClickedBlock().getType() == Material.SIGN || event.getClickedBlock().getType() == Material.WALL_SIGN) {
+                    Sign sign = (Sign) event.getClickedBlock().getState();
 
-                for(int i = 0; i < Region.getRegionList().size(); i++){
-                    if(Region.getRegionList().get(i).hasSign(sign)){
-                        Region.getRegionList().get(i).buy(event.getPlayer());
+                    for(int i = 0; i < Region.getRegionList().size(); i++){
+                        if(Region.getRegionList().get(i).hasSign(sign)){
+                            Region.getRegionList().get(i).buy(event.getPlayer());
+                        }
                     }
                 }
             }
+        } catch (InputException inputException) {
+            inputException.sendMessage();
         }
     }
 
@@ -378,7 +376,10 @@ public class ARMListener implements Listener {
         if(event.isCancelled()) {
             return;
         }
-        if(!event.getPlayer().hasPermission(Permission.ADMIN_BUILDEVERYWHERE)){
+        try {
+            if(event.getPlayer().hasPermission(Permission.ADMIN_BUILDEVERYWHERE)){
+                return;
+            }
             if(AdvancedRegionMarket.getWorldGuardInterface().canBuild(event.getPlayer(), event.getBlock().getLocation(), AdvancedRegionMarket.getWorldGuard())){
                 for(int i = 0; i < Region.getRegionList().size(); i++) {
                     if(Region.getRegionList().get(i).isHotel()){
@@ -390,12 +391,14 @@ public class ARMListener implements Listener {
                                 return;
                             } else {
                                 event.setCancelled(true);
-                                event.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_ERROR_CAN_NOT_BUILD_HERE);
+                                throw new InputException(event.getPlayer(), Messages.REGION_ERROR_CAN_NOT_BUILD_HERE);
                             }
                         }
                     }
                 }
             }
+        } catch (InputException inputException) {
+            inputException.sendMessage();
         }
     }
 

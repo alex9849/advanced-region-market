@@ -7,6 +7,7 @@ import net.alex9849.arm.Preseter.ContractPreset;
 import net.alex9849.arm.Preseter.Preset;
 import net.alex9849.arm.Preseter.RentPreset;
 import net.alex9849.arm.Preseter.SellPreset;
+import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.regions.*;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
@@ -498,7 +499,12 @@ public class AdvancedRegionMarket extends JavaPlugin {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args) {
-        return this.commandHandler.executeCommand(sender, cmd, commandsLabel, args);
+        try {
+            return this.commandHandler.executeCommand(sender, cmd, commandsLabel, args);
+        } catch (InputException inputException) {
+            inputException.sendMessage();
+            return true;
+        }
     }
 
     public static String getRemainingTimeTimeformat(){
@@ -517,10 +523,9 @@ public class AdvancedRegionMarket extends JavaPlugin {
         return AdvancedRegionMarket.displayDefaultRegionKindInLimits;
     }
 
-    public static boolean help(CommandSender sender) {
+    public static boolean help(CommandSender sender) throws InputException {
         if(!sender.hasPermission(Permission.ARM_HELP)){
-            sender.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-            return true;
+            throw new InputException(sender, Messages.NO_PERMISSION);
         }
         sender.sendMessage(ChatColor.GOLD + "/arm setregionkind [KIND] [REGION]");
         sender.sendMessage(ChatColor.GOLD + "/arm listregionkinds");

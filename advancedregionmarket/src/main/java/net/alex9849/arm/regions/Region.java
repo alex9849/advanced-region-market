@@ -5,6 +5,7 @@ import net.alex9849.arm.AutoPrice;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.gui.Gui;
 import org.bukkit.*;
 import org.bukkit.Location;
@@ -289,11 +290,10 @@ public abstract class Region {
         return regionList;
     }
 
-    public static boolean setRegionKindCommand(CommandSender sender, String region, String kind){
+    public static boolean setRegionKindCommand(CommandSender sender, String region, String kind) throws InputException {
         if(sender instanceof Player){
             if(!sender.hasPermission(Permission.ADMIN_SETREGIONKIND)) {
-                sender.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-                return true;
+                throw new InputException(sender, Messages.NO_PERMISSION);
             }
             Player player = (Player) sender;
             for(int i = 0; i < Region.getRegionList().size(); i++){
@@ -302,17 +302,14 @@ public abstract class Region {
                         sender.sendMessage(Messages.PREFIX + Messages.REGION_KIND_SET);
                         return true;
                     } else {
-                        sender.sendMessage(Messages.PREFIX + Messages.REGION_KIND_NOT_EXIST);
-                        return true;
+                        throw new InputException(sender, Messages.REGION_KIND_NOT_EXIST);
                     }
                 }
             }
-            sender.sendMessage(Messages.PREFIX + Messages.REGION_KIND_REGION_NOT_EXIST);
-            return true;
+            throw new InputException(sender, Messages.REGION_KIND_REGION_NOT_EXIST);
         } else {
-            sender.sendMessage(Messages.PREFIX + Messages.COMMAND_ONLY_INGAME);
+            throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
-        return true;
     }
 
     public static void Reset(){
@@ -323,10 +320,9 @@ public abstract class Region {
         return this.regionKind;
     }
 
-    public static boolean listRegionKindsCommand(CommandSender sender){
+    public static boolean listRegionKindsCommand(CommandSender sender) throws InputException {
         if(!sender.hasPermission(Permission.ADMIN_LISTREGIONKINDS)) {
-            sender.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-            return true;
+            throw new InputException(sender, Messages.NO_PERMISSION);
         }
 
         sender.sendMessage(Messages.REGIONKINDS);
@@ -342,7 +338,7 @@ public abstract class Region {
         return sold;
     }
 
-    public static void teleportToFreeRegion(RegionKind type, Player player){
+    public static void teleportToFreeRegion(RegionKind type, Player player) throws InputException {
         for (int i = 0; i < Region.getRegionList().size(); i++){
 
             if ((Region.getRegionList().get(i).isSold() == false) && (Region.getRegionList().get(i).getRegionKind() == type)){
@@ -353,18 +349,16 @@ public abstract class Region {
                 return;
             }
         }
-        player.sendMessage(Messages.PREFIX + Messages.NO_FREE_REGION_WITH_THIS_KIND);
+        throw new InputException(player, Messages.NO_FREE_REGION_WITH_THIS_KIND);
     }
 
-    public static boolean teleportToFreeRegionCommand(String type, Player player){
+    public static boolean teleportToFreeRegionCommand(String type, Player player) throws InputException {
         if(!player.hasPermission(Permission.ARM_BUYKIND + type)){
-            player.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION_TO_SEARCH_THIS_KIND);
-            return true;
+            throw new InputException(player, Messages.NO_PERMISSION_TO_SEARCH_THIS_KIND);
         }
         RegionKind regionKind = RegionKind.getRegionKind(type);
         if (regionKind == null){
-            player.sendMessage(Messages.PREFIX + Messages.REGIONKIND_DOES_NOT_EXIST);
-            return true;
+            throw new InputException(player, Messages.REGIONKIND_DOES_NOT_EXIST);
         }
         Region.teleportToFreeRegion(regionKind, player);
         return true;
@@ -403,22 +397,19 @@ public abstract class Region {
         return null;
     }
 
-    public static boolean resetRegionBlocksCommand(String region, CommandSender sender) {
+    public static boolean resetRegionBlocksCommand(String region, CommandSender sender) throws InputException {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.PREFIX + Messages.COMMAND_ONLY_INGAME);
-            return true;
+            throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Player player = (Player) sender;
 
         if(!player.hasPermission(Permission.ADMIN_RESETREGIONBLOCKS) && !player.hasPermission(Permission.MEMBER_RESETREGIONBLOCKS)){
-            player.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-            return true;
+            throw new InputException(player, Messages.NO_PERMISSION);
         }
 
         Region resregion = Region.searchRegionbyNameAndWorld(region, (player).getPlayer().getWorld().getName());
         if(resregion == null) {
-            player.sendMessage(Messages.PREFIX + Messages.REGION_DOES_NOT_EXIST);
-            return true;
+            throw new InputException(player, Messages.REGION_DOES_NOT_EXIST);
         }
 
         if(player.hasPermission(Permission.ADMIN_RESETREGIONBLOCKS)) {
@@ -430,29 +421,27 @@ public abstract class Region {
                     Gui.openRegionResetWarning(player, resregion, false);
                 } else {
                     String message = Messages.RESET_REGION_COOLDOWN_ERROR.replace("%remainingdays%", (Region.getResetCooldown() - resregion.timeSinceLastReset()) + "");
-                    player.sendMessage(Messages.PREFIX + message);
+                    throw new InputException(player, message);
                 }
             } else {
-                player.sendMessage(Messages.PREFIX + Messages.REGION_NOT_OWN);
+                throw new InputException(player, Messages.REGION_NOT_OWN);
             }
             return true;
         }
     }
 
-    public static boolean resetRegionCommand(String region, CommandSender sender) {
+    public static boolean resetRegionCommand(String region, CommandSender sender) throws InputException {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.PREFIX + Messages.COMMAND_ONLY_INGAME);
+            throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
 
         if(!sender.hasPermission(Permission.ADMIN_RESETREGION)){
-            sender.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-            return true;
+            throw new InputException(sender, Messages.NO_PERMISSION);
         }
 
         Region resregion = Region.searchRegionbyNameAndWorld(region, ((Player) sender).getPlayer().getWorld().getName());
         if(resregion == null) {
-            sender.sendMessage(Messages.PREFIX + Messages.REGION_DOES_NOT_EXIST);
-            return true;
+            throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
         } else {
             resregion.setAviable();
 
@@ -511,17 +500,15 @@ public abstract class Region {
         }
     }
 
-    public static boolean regionInfoCommand(CommandSender sender){
+    public static boolean regionInfoCommand(CommandSender sender) throws InputException {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.PREFIX + Messages.COMMAND_ONLY_INGAME);
-            return true;
+            throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
 
         Player player = (Player) sender;
 
         if(!player.hasPermission(Permission.MEMBER_INFO) && !player.hasPermission(Permission.ADMIN_INFO)) {
-            player.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-            return true;
+            throw new InputException(player, Messages.NO_PERMISSION);
         }
 
         Location loc = (player).getLocation();
@@ -532,39 +519,34 @@ public abstract class Region {
                 return true;
             }
         }
-        player.sendMessage(Messages.PREFIX + Messages.HAVE_TO_STAND_ON_REGION_TO_SHOW_INFO);
-        return true;
+        throw new InputException(player, Messages.HAVE_TO_STAND_ON_REGION_TO_SHOW_INFO);
     }
 
-    public static boolean regionInfoCommand(CommandSender sender, String regionname){
+    public static boolean regionInfoCommand(CommandSender sender, String regionname) throws InputException {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.PREFIX + Messages.COMMAND_ONLY_INGAME);
-            return true;
+            throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
 
         Player player = (Player) sender;
 
         if(!player.hasPermission(Permission.MEMBER_INFO) && !player.hasPermission(Permission.ADMIN_INFO)) {
-            player.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-            return true;
+            throw new InputException(player, Messages.NO_PERMISSION);
         }
 
         Region region = Region.searchRegionbyNameAndWorld(regionname, (player).getWorld().getName());
 
         if(region == null){
-            player.sendMessage(Messages.PREFIX + Messages.REGION_DOES_NOT_EXIST);
-            return true;
+            throw new InputException(player, Messages.REGION_DOES_NOT_EXIST);
         }
 
         region.regionInfo(player);
         return true;
     }
 
-    public void addMember(Player sender, String member) {
+    public void addMember(Player sender, String member) throws InputException {
         Player playermember = Bukkit.getPlayer(member);
         if(playermember == null) {
-            sender.sendMessage(Messages.PREFIX + Messages.REGION_ADD_MEMBER_NOT_ONLINE);
-            return;
+            throw new InputException(sender, Messages.REGION_ADD_MEMBER_NOT_ONLINE);
         }
         if(AdvancedRegionMarket.getWorldGuardInterface().hasOwner((Player) sender, this.getRegion()) && sender.hasPermission(Permission.MEMBER_ADDMEMBER)) {
             AdvancedRegionMarket.getWorldGuardInterface().addMember(playermember, this.getRegion());
@@ -573,65 +555,57 @@ public abstract class Region {
             AdvancedRegionMarket.getWorldGuardInterface().addMember(playermember, this.getRegion());
             sender.sendMessage(Messages.PREFIX + Messages.REGION_ADD_MEMBER_ADDED);
         } else if (!(sender.hasPermission(Permission.MEMBER_ADDMEMBER))){
-            sender.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
+            throw new InputException(sender, Messages.NO_PERMISSION);
         } else {
-            sender.sendMessage(Messages.PREFIX + Messages.REGION_ADD_MEMBER_DO_NOT_OWN);
+            throw new InputException(sender, Messages.REGION_ADD_MEMBER_DO_NOT_OWN);
         }
     }
 
-    public void removeMember(Player sender, String member) {
+    public void removeMember(Player sender, String member) throws InputException {
 
         OfflinePlayer removemember = Bukkit.getOfflinePlayer(member);
 
         if(AdvancedRegionMarket.getWorldGuardInterface().hasOwner((Player) sender, this.getRegion()) && sender.hasPermission(Permission.MEMBER_REMOVEMEMBER)) {
             if(!(AdvancedRegionMarket.getWorldGuardInterface().hasMember(removemember, this.getRegion()))) {
-                sender.sendMessage(Messages.PREFIX + Messages.REGION_REMOVE_MEMBER_NOT_A_MEMBER);
-                return;
+                throw new InputException(sender, Messages.REGION_REMOVE_MEMBER_NOT_A_MEMBER);
             }
             AdvancedRegionMarket.getWorldGuardInterface().removeMember(removemember, this.getRegion());
             sender.sendMessage(Messages.PREFIX + Messages.REGION_REMOVE_MEMBER_REMOVED);
             return;
         } else if (sender.hasPermission(Permission.ADMIN_REMOVEMEMBER)){
             if(!(AdvancedRegionMarket.getWorldGuardInterface().hasMember(removemember, this.getRegion()))) {
-                sender.sendMessage(Messages.PREFIX + Messages.REGION_REMOVE_MEMBER_NOT_A_MEMBER);
-                return;
+                throw new InputException(sender, Messages.REGION_REMOVE_MEMBER_NOT_A_MEMBER);
             }
             AdvancedRegionMarket.getWorldGuardInterface().removeMember(removemember, this.getRegion());
             sender.sendMessage(Messages.PREFIX + Messages.REGION_REMOVE_MEMBER_REMOVED);
             return;
         } else if (!(sender.hasPermission(Permission.MEMBER_REMOVEMEMBER))){
-            sender.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-            return;
+            throw new InputException(sender, Messages.NO_PERMISSION);
         } else {
-            sender.sendMessage(Messages.PREFIX + Messages.REGION_REMOVE_MEMBER_DO_NOT_OWN);
-            return;
+            throw new InputException(sender, Messages.REGION_REMOVE_MEMBER_DO_NOT_OWN);
         }
 
     }
 
-    public static boolean addMemberCommand(CommandSender sender, String member, String regionname) {
+    public static boolean addMemberCommand(CommandSender sender, String member, String regionname) throws InputException {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.PREFIX + Messages.COMMAND_ONLY_INGAME);
-            return true;
+            throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Region region = Region.searchRegionbyNameAndWorld(regionname, ((Player) sender).getWorld().getName());
         if(region == null){
-            sender.sendMessage(Messages.PREFIX + Messages.REGION_DOES_NOT_EXIST);
-            return true;
+            throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
         }
         region.addMember((Player) sender, member);
         return true;
     }
 
-    public static boolean removeMemberCommand(CommandSender sender, String member, String regionname){
+    public static boolean removeMemberCommand(CommandSender sender, String member, String regionname) throws InputException {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.PREFIX + Messages.COMMAND_ONLY_INGAME);
-            return true;
+            throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Region region = Region.searchRegionbyNameAndWorld(regionname, ((Player) sender).getWorld().getName());
         if(region == null){
-            sender.sendMessage(Messages.PREFIX + Messages.REGION_DOES_NOT_EXIST);
-            return true;
+            throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
         }
         region.removeMember((Player) sender, member);
         return true;
@@ -682,21 +656,18 @@ public abstract class Region {
 
     }
 
-    public static boolean changeAutoresetCommand(CommandSender sender, String regionname, String state) {
+    public static boolean changeAutoresetCommand(CommandSender sender, String regionname, String state) throws InputException {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.PREFIX + Messages.COMMAND_ONLY_INGAME);
-            return true;
+            throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
 
         if(!sender.hasPermission(Permission.ADMIN_CHANGEAUTORESET)){
-            sender.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-            return true;
+            throw new InputException(sender, Messages.NO_PERMISSION);
         }
 
         Region region = Region.searchRegionbyNameAndWorld(regionname, ((Player) sender).getWorld().getName());
         if(region == null){
-            sender.sendMessage(Messages.PREFIX + Messages.REGION_DOES_NOT_EXIST);
-            return true;
+            throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
         }
 
         region.setAutoreset(Boolean.parseBoolean(state));
@@ -724,8 +695,6 @@ public abstract class Region {
                 if (!(loc.getBlock().getType() == Material.AIR) && !(loc.getBlock().getType() == Material.LAVA)) {
                     loc = new Location(world, coordsX, j + 1, coordsZ);
                     player.teleport(loc);
-                //    String message = Messages.REGION_TELEPORT_MESSAGE.replace("%regionid%", this.region.getId());
-                //    player.sendMessage(Messages.PREFIX + message);
                     return;
                 }
             }
@@ -819,7 +788,7 @@ public abstract class Region {
 
     protected abstract void setSold(OfflinePlayer player);
     protected abstract void updateSignText(Sign mysign);
-    public abstract void buy(Player player);
+    public abstract void buy(Player player) throws InputException;
     public abstract void userSell(Player player);
     public abstract double getPaybackMoney();
 
@@ -847,10 +816,9 @@ public abstract class Region {
         }
     }
 
-    public static boolean listRegionsCommand(CommandSender sender, String args){
+    public static boolean listRegionsCommand(CommandSender sender, String args) throws InputException {
         if(!(sender instanceof Player)){
-            sender.sendMessage(Messages.PREFIX + Messages.COMMAND_ONLY_INGAME);
-            return true;
+            throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Player player = (Player) sender;
         if(sender.hasPermission(Permission.ADMIN_LISTREGIONS) || (player.getName().equalsIgnoreCase(args) && player.hasPermission(Permission.MEMBER_LISTREGIONS))){
@@ -858,8 +826,7 @@ public abstract class Region {
             LinkedList<String> selectedRegionsMember = new LinkedList<>();
             OfflinePlayer oplayer = Bukkit.getOfflinePlayer(args);
             if(oplayer == null){
-                sender.sendMessage(Messages.PREFIX + "Player does not exist!");
-                return true;
+                throw new InputException(sender, "Player does not exist!");
             }
             for(int i = 0; i < Region.getRegionList().size(); i++) {
                 if(AdvancedRegionMarket.getWorldGuardInterface().hasOwner(oplayer, Region.getRegionList().get(i).getRegion())){
@@ -891,49 +858,42 @@ public abstract class Region {
 
 
         } else {
-            sender.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-            return true;
+            throw new InputException(sender, Messages.NO_PERMISSION);
         }
     }
 
-    public static boolean listRegionsCommand(CommandSender sender){
+    public static boolean listRegionsCommand(CommandSender sender) throws InputException {
         if(sender instanceof Player) {
             Player player = (Player) sender;
             if(player.hasPermission(Permission.MEMBER_LISTREGIONS)){
                 Region.listRegionsCommand(player, player.getName());
                 return true;
             } else {
-                sender.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-                return true;
+                throw new InputException(sender, Messages.NO_PERMISSION);
             }
         } else {
-            sender.sendMessage(Messages.PREFIX + Messages.COMMAND_ONLY_INGAME);
-            return true;
+            throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
     }
 
-    public static boolean setRegionOwner(CommandSender sender, String regionString, String ownerString){
+    public static boolean setRegionOwner(CommandSender sender, String regionString, String ownerString) throws InputException {
 
         if(!sender.hasPermission(Permission.ADMIN_SETOWNER)) {
-            sender.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-            return true;
+            throw new InputException(sender, Messages.NO_PERMISSION);
         }
 
         if(!(sender instanceof Player)) {
-            sender.sendMessage(Messages.PREFIX + Messages.COMMAND_ONLY_INGAME);
-            return true;
+            throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Player playersender = (Player) sender;
         Region region = Region.searchRegionbyNameAndWorld(regionString, playersender.getWorld().getName());
         if (region == null) {
-            sender.sendMessage(Messages.PREFIX + Messages.REGION_DOES_NOT_EXIST);
-            return true;
+            throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
         }
         OfflinePlayer player = Bukkit.getOfflinePlayer(ownerString);
 
         if (player == null) {
-            playersender.sendMessage(Messages.PREFIX + "Player not found!");
-            return true;
+            throw new InputException(sender, "Player not found!");
         }
 
         region.setSold(player);
@@ -964,20 +924,17 @@ public abstract class Region {
         saveRegionsConf(config);
     }
 
-    public static boolean setHotel(CommandSender sender, String regionString, String booleanstring){
+    public static boolean setHotel(CommandSender sender, String regionString, String booleanstring) throws InputException {
         if(!sender.hasPermission(Permission.ADMIN_CHANGE_IS_HOTEL)){
-            sender.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-            return true;
+            throw new InputException(sender, Messages.NO_PERMISSION);
         }
         if(!(sender instanceof Player)) {
-            sender.sendMessage(Messages.PREFIX + Messages.COMMAND_ONLY_INGAME);
-            return true;
+            throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Player player = (Player) sender;
         Region region = Region.searchRegionbyNameAndWorld(regionString, player.getWorld().getName());
         if(region == null) {
-            player.sendMessage(Messages.PREFIX + Messages.REGION_DOES_NOT_EXIST);
-            return true;
+            throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
         }
         region.setHotel(Boolean.parseBoolean(booleanstring));
         String state = "disabled";
@@ -988,21 +945,18 @@ public abstract class Region {
         return true;
     }
 
-    public static boolean createNewSchematic(CommandSender sender, String regionString) {
+    public static boolean createNewSchematic(CommandSender sender, String regionString) throws InputException {
         if(!sender.hasPermission(Permission.ADMIN_UPDATESCHEMATIC)){
-            sender.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-            return true;
+            throw new InputException(sender, Messages.NO_PERMISSION);
         }
         if(!(sender instanceof Player)) {
-            sender.sendMessage(Messages.PREFIX + Messages.COMMAND_ONLY_INGAME);
-            return true;
+            throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Player player = (Player) sender;
         Region region = Region.searchRegionbyNameAndWorld(regionString, player.getWorld().getName());
 
         if(region == null) {
-            player.sendMessage(Messages.PREFIX + Messages.REGION_DOES_NOT_EXIST);
-            return true;
+            throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
         }
         player.sendMessage(Messages.PREFIX + "Creating schematic...");
         region.createSchematic();
@@ -1010,27 +964,23 @@ public abstract class Region {
         return true;
     }
 
-    public static boolean teleport(CommandSender sender, String regionString) {
+    public static boolean teleport(CommandSender sender, String regionString) throws InputException {
         if (!sender.hasPermission(Permission.ADMIN_TP) && !sender.hasPermission(Permission.MEMBER_TP)) {
-            sender.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-            return true;
+            throw new InputException(sender, Messages.NO_PERMISSION);
         }
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Messages.PREFIX + Messages.COMMAND_ONLY_INGAME);
-            return true;
+            throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Player player = (Player) sender;
         Region region = Region.searchRegionbyNameAndWorld(regionString, player.getWorld().getName());
 
         if (region == null) {
-            player.sendMessage(Messages.PREFIX + Messages.REGION_DOES_NOT_EXIST);
-            return true;
+            throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
         }
 
         if(!AdvancedRegionMarket.getWorldGuardInterface().hasMember(player, region.getRegion()) && !AdvancedRegionMarket.getWorldGuardInterface().hasOwner(player, region.getRegion())){
             if(!player.hasPermission(Permission.ADMIN_TP)){
-                player.sendMessage(Messages.PREFIX + Messages.NOT_A_MEMBER_OR_OWNER);
-                return true;
+                throw new InputException(sender, Messages.NOT_A_MEMBER_OR_OWNER);
             }
         }
 
@@ -1082,16 +1032,14 @@ public abstract class Region {
         Region.paybackPercentage = percent;
     }
 
-    public static boolean setTeleportLocation(String regionName, CommandSender sender){
+    public static boolean setTeleportLocation(String regionName, CommandSender sender) throws InputException {
         if(!(sender instanceof Player)) {
-            sender.sendMessage(Messages.PREFIX + Messages.COMMAND_ONLY_INGAME);
-            return true;
+            throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Player player = (Player) sender;
         Region region = Region.searchRegionbyNameAndWorld(regionName, player.getWorld().getName());
         if(region == null){
-            player.sendMessage(Messages.PREFIX + Messages.REGION_DOES_NOT_EXIST);
-            return true;
+            throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
         }
 
         region.setTeleportLocation(player.getLocation());
@@ -1100,16 +1048,14 @@ public abstract class Region {
         return true;
     }
 
-    public static boolean unsellCommand(String regionName, CommandSender sender){
+    public static boolean unsellCommand(String regionName, CommandSender sender) throws InputException {
         if(!(sender instanceof Player)) {
-            sender.sendMessage(Messages.PREFIX + Messages.COMMAND_ONLY_INGAME);
-            return true;
+            throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Player player = (Player) sender;
         Region region = Region.searchRegionbyNameAndWorld(regionName, player.getWorld().getName());
         if(region == null){
-            player.sendMessage(Messages.PREFIX + Messages.REGION_DOES_NOT_EXIST);
-            return true;
+            throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
         }
 
         region.unsell();
@@ -1128,21 +1074,18 @@ public abstract class Region {
         AdvancedRegionMarket.getWorldGuardInterface().deleteMembers(this.getRegion());
     }
 
-    public static boolean extendCommand(String regionName, CommandSender sender){
+    public static boolean extendCommand(String regionName, CommandSender sender) throws InputException {
         if(!(sender instanceof Player)) {
-            sender.sendMessage(Messages.PREFIX + Messages.COMMAND_ONLY_INGAME);
-            return true;
+            throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Player player = (Player) sender;
         Region region = Region.searchRegionbyNameAndWorld(regionName, player.getWorld().getName());
         if(region == null){
-            player.sendMessage(Messages.PREFIX + Messages.REGION_DOES_NOT_EXIST);
-            return true;
+            throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
         }
 
         if(!(region instanceof RentRegion)) {
-            player.sendMessage(Messages.PREFIX + Messages.REGION_IS_NOT_A_RENTREGION);
-            return true;
+            throw new InputException(sender, Messages.REGION_IS_NOT_A_RENTREGION);
         }
 
         ((RentRegion) region).extendRegion(player);
@@ -1150,16 +1093,14 @@ public abstract class Region {
         return true;
     }
 
-    public static boolean deleteCommand(String regionName, CommandSender sender){
+    public static boolean deleteCommand(String regionName, CommandSender sender) throws InputException {
         if(!(sender instanceof Player)) {
-            sender.sendMessage(Messages.PREFIX + Messages.COMMAND_ONLY_INGAME);
-            return true;
+            throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Player player = (Player) sender;
         Region region = Region.searchRegionbyNameAndWorld(regionName, player.getWorld().getName());
         if(region == null){
-            player.sendMessage(Messages.PREFIX + Messages.REGION_DOES_NOT_EXIST);
-            return true;
+            throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
         }
 
         region.unsell();
@@ -1178,16 +1119,14 @@ public abstract class Region {
         return isDoBlockReset;
     }
 
-    public static boolean setDoBlockResetCommand(String regionName, String setting, CommandSender sender){
+    public static boolean setDoBlockResetCommand(String regionName, String setting, CommandSender sender) throws InputException {
         if(!(sender instanceof Player)) {
-            sender.sendMessage(Messages.PREFIX + Messages.COMMAND_ONLY_INGAME);
-            return true;
+            throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Player player = (Player) sender;
         Region region = Region.searchRegionbyNameAndWorld(regionName, player.getWorld().getName());
         if(region == null){
-            player.sendMessage(Messages.PREFIX + Messages.REGION_DOES_NOT_EXIST);
-            return true;
+            throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
         }
 
         Boolean boolsetting = Boolean.parseBoolean(setting);

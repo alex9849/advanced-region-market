@@ -906,6 +906,11 @@ public class AdvancedRegionMarket extends JavaPlugin {
             messages.set("Messages.UserNotAMemberOrOwner", "&4You are not a member or owner of this region!");
             messages.set("Messages.RegionInfoYes", "Yes");
             messages.set("Messages.RegionInfoNo", "No");
+            messages.set("Messages.RentRegion", "RentRegion");
+            messages.set("Messages.SellRegion", "SellRegion");
+            messages.set("Messages.ContractRegion", "ContractRegion");
+            messages.set("Messages.RegionStats", "&6=========[Region stats]=========");
+            messages.set("Messages.RegionStatsPattern", "&rUsed regions (%regionkind%&r):");
             Messages.saveConfig();
         }
     }

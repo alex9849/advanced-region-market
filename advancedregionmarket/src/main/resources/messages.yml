@@ -124,6 +124,12 @@ Messages:
   RegionInfoNo: 'no'
   RentRegionExpirationWarning: '&4WARNING! This RentRegion(s) will expire soon: &c'
 
+  RentRegion: 'RentRegion'
+  SellRegion: 'SellRegion'
+  ContractRegion: 'ContractRegion'
+  RegionStats: '&6=========[Region stats]========='
+  RegionStatsPattern: '&rUsed regions (%regionkind%&r):'
+
   GUIMainMenuName: '&1ARM - Menu'
   GUIRegionFinderMenuName: '&1ARM - Regionfinder'
   GUIRegionFinderRegionKindName: '%regionkind%'

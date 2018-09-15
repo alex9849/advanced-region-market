@@ -163,6 +163,11 @@ public class Messages {
     public static String NOT_A_MEMBER_OR_OWNER = "";
     public static String YES = "";
     public static String NO = "";
+    public static String REGION_STATS = "&6=========[Region stats]=========";
+    public static String REGION_STATS_PATTERN = "&6Used regions (%regionkind%)";
+    public static String RENT_REGION = "&6Rentregion";
+    public static String SELL_REGION = "&6Sellregion";
+    public static String CONTRACT_REGION = "&6Contractregion";
 
     public static List<String> GUI_TELEPORT_TO_REGION_BUTTON_LORE = new LinkedList<>();
     public static List<String> GUI_MAKE_OWNER_BUTTON_LORE = new LinkedList<>();
@@ -348,6 +353,11 @@ public class Messages {
         NOT_A_MEMBER_OR_OWNER = config.getString("Messages.UserNotAMemberOrOwner");
         YES = config.getString("Messages.RegionInfoYes");
         NO = config.getString("Messages.RegionInfoNo");
+        RENT_REGION = config.getString("Messages.RentRegion");
+        SELL_REGION = config.getString("Messages.SellRegion");
+        CONTRACT_REGION = config.getString("Messages.ContractRegion");
+        REGION_STATS = config.getString("Messages.RegionStats");
+        REGION_STATS_PATTERN = config.getString("Messages.RegionStatsPattern");
 
         Messages.translateColorCodes();
     }
@@ -503,7 +513,11 @@ public class Messages {
         NOT_A_MEMBER_OR_OWNER = ChatColor.translateAlternateColorCodes('&', NOT_A_MEMBER_OR_OWNER);
         YES = ChatColor.translateAlternateColorCodes('&', YES);
         NO = ChatColor.translateAlternateColorCodes('&', NO);
-
+        REGION_STATS = ChatColor.translateAlternateColorCodes('&', REGION_STATS);
+        RENT_REGION = ChatColor.translateAlternateColorCodes('&', RENT_REGION);
+        SELL_REGION = ChatColor.translateAlternateColorCodes('&', SELL_REGION);
+        CONTRACT_REGION = ChatColor.translateAlternateColorCodes('&', CONTRACT_REGION);
+        REGION_STATS_PATTERN = ChatColor.translateAlternateColorCodes('&', REGION_STATS_PATTERN);
 
         for(int i = 0; i < GUI_TELEPORT_TO_REGION_BUTTON_LORE.size(); i++){
             GUI_TELEPORT_TO_REGION_BUTTON_LORE.set(i, ChatColor.translateAlternateColorCodes('&', GUI_TELEPORT_TO_REGION_BUTTON_LORE.get(i)));

@@ -10,6 +10,7 @@ import net.alex9849.arm.Preseter.RentPreset;
 import net.alex9849.arm.Preseter.SellPreset;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.gui.Gui;
+import net.alex9849.arm.minifeatures.Diagram;
 import net.alex9849.arm.regions.ContractRegion;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.RegionKind;
@@ -55,6 +56,8 @@ public class CommandHandler implements TabCompleter {
     private static final String REGEX_SELLPRESET = " (?i)sellpreset [^;\n]+";
     private static final String REGEX_RENTPRESET = " (?i)rentpreset [^;\n]+";
     private static final String REGEX_CONTRACTPRESET = " (?i)contractpreset [^;\n]+";
+    private static final String REGEX_REGION_STATS_WITH_ARGS = " (?i)regionstats [^;\n]+";
+    private static final String REGEX_REGION_STATS = " (?i)regionstats";
     private Boolean completeRegions = false;
 
     private enum PlayerRegionStatus {
@@ -325,7 +328,7 @@ public class CommandHandler implements TabCompleter {
                         sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "or (for help): /arm contractpreset help");
                         return true;
                     }
-                }else if (args[0].equalsIgnoreCase("terminate")) {
+                } else if (args[0].equalsIgnoreCase("terminate")) {
                     if (allargs.matches(REGEX_TERMINATE)) {
                         if (sender.hasPermission(Permission.ARM_BUY_CONTRACTREGION)) {
                             ContractRegion.terminateCommand(sender, args[1], args[2]);
@@ -336,6 +339,19 @@ public class CommandHandler implements TabCompleter {
                     } else {
                         sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm terminate [REGION] [true/false]");
                         return true;
+                    }
+                } else if (args[0].equalsIgnoreCase("regionstats")) {
+                    if (sender.hasPermission(Permission.ADMIN_REGION_STATS)) {
+                        if(allargs.matches(REGEX_REGION_STATS)) {
+                            return Diagram.sendRegionStats(sender);
+                        } else if (allargs.matches(REGEX_REGION_STATS_WITH_ARGS)) {
+                            return Diagram.sendRegionStats(sender, args[1]);
+                        } else {
+                            sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm regionstats [RegionKind/Nothing]");
+                            return true;
+                        }
+                    } else {
+                        sender.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
                     }
                 }
             }
@@ -454,6 +470,11 @@ public class CommandHandler implements TabCompleter {
                 if ("sellpreset".startsWith(args[0]) || "rentpreset".startsWith(args[0]) || "contractpreset".startsWith(args[0])) {
                     if (player.hasPermission(Permission.ADMIN_PRESET)) {
                         returnme.addAll(onTabCompletePreset(player, args));
+                    }
+                }
+                if ("regionstats".startsWith(args[0])) {
+                    if (player.hasPermission(Permission.ADMIN_REGION_STATS)) {
+                        returnme.addAll(onTabompleteRegionStats(player, args));
                     }
                 }
             }
@@ -1006,6 +1027,32 @@ public class CommandHandler implements TabCompleter {
             }
             if("false".startsWith(args[2])) {
                 returnme.add("false");
+            }
+        }
+        return  returnme;
+    }
+
+    private List<String> onTabompleteRegionStats(Player player, String args[]) {
+        List<String> returnme = new ArrayList<>();
+        if(args.length == 1) {
+            returnme.add("regionstats");
+        } else if(args.length == 2) {
+            for(RegionKind regionkind : RegionKind.getRegionKindList()) {
+                if(regionkind.getName().startsWith(args[1])) {
+                    returnme.add(regionkind.getName());
+                }
+            }
+            if("default".startsWith(args[1])) {
+                returnme.add("default");
+            }
+            if("rentregion".startsWith(args[1])) {
+                returnme.add("rentregion");
+            }
+            if("sellregion".startsWith(args[1])) {
+                returnme.add("sellregion");
+            }
+            if("contractregion".startsWith(args[1])) {
+                returnme.add("contractregion");
             }
         }
         return  returnme;

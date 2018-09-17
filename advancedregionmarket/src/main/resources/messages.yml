@@ -66,6 +66,7 @@ Messages:
   HoursForShortCountDown: 'hour(s)'
   DaysForShortCountDown: 'day(s)'
 
+  TeleporterNoSaveLocation: '&4Could not find a save teleport location'
 
   ContractRegionExtended: '&aYour contract region %regionid% has been extended for %extend%. (For %price%%currency%.)'
   ContractRegionChangeTerminated: '&6The contract of &a%regionid% &6has been set to %statuslong%'

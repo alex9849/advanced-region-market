@@ -928,14 +928,15 @@ public class AdvancedRegionMarket extends JavaPlugin {
             Messages.saveConfig();
         }
         if(version < 1.5) {
-            pluginConfig.set("Version", 1.5);
+            pluginConfig.set("Version", 1.41);
             saveConfig();
             YamlConfiguration messages = Messages.getConfig();
             String remaningTimeContract = messages.getString("Messages.RegionInfoRemainingTime");
             messages.set("Messages.RegionInfoRemainingTime", null);
             messages.set("Messages.RentRegionInfoRemainingTime", "Remaining time:");
             messages.set("Messages.ContractRegionInfoRemainingTime", remaningTimeContract);
-
+            messages.set("Messages.TeleporterNoSaveLocation", "&4Could not find a save teleport location");
+            Messages.saveConfig();
         }
     }
 }

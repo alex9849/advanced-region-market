@@ -269,7 +269,7 @@ public class Gui implements Listener {
             teleporteritem.setItemMeta(teleporteritemmeta);
             ClickItem teleportericon = new ClickItem(teleporteritem, getPosition(actitem, itemcounter)).addClickAction(new ClickAction() {
                 @Override
-                public void execute(Player player) {
+                public void execute(Player player) throws InputException {
                     Teleporter.teleport(player, region);
                     player.closeInventory();
                 }
@@ -410,7 +410,7 @@ public class Gui implements Listener {
             teleporteritem.setItemMeta(teleporteritemmeta);
             ClickItem teleportericon = new ClickItem(teleporteritem, getPosition(actitem, itemcounter)).addClickAction(new ClickAction() {
                 @Override
-                public void execute(Player player) {
+                public void execute(Player player) throws InputException {
                     Teleporter.teleport(player, region);
                     player.closeInventory();
                 }
@@ -574,7 +574,7 @@ public class Gui implements Listener {
             teleporteritem.setItemMeta(teleporteritemmeta);
             ClickItem teleportericon = new ClickItem(teleporteritem, getPosition(actitem, itemcounter)).addClickAction(new ClickAction() {
                 @Override
-                public void execute(Player player) {
+                public void execute(Player player) throws InputException {
                     Teleporter.teleport(player, region);
                     player.closeInventory();
                 }
@@ -1044,7 +1044,7 @@ public class Gui implements Listener {
             teleporteritem.setItemMeta(teleporteritemmeta);
             ClickItem teleportericon = new ClickItem(teleporteritem, getPosition(actitem, itemcounter)).addClickAction(new ClickAction() {
                 @Override
-                public void execute(Player player) {
+                public void execute(Player player) throws InputException {
                     Teleporter.teleport(player, region);
                     player.closeInventory();
                 }

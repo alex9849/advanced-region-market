@@ -168,6 +168,7 @@ public class Messages {
     public static String RENT_REGION = "&6Rentregion";
     public static String SELL_REGION = "&6Sellregion";
     public static String CONTRACT_REGION = "&6Contractregion";
+    public static String TELEPORTER_NO_SAVE_LOCATION_FOUND = "&4Could not find a save teleport location";
 
     public static List<String> GUI_TELEPORT_TO_REGION_BUTTON_LORE = new LinkedList<>();
     public static List<String> GUI_MAKE_OWNER_BUTTON_LORE = new LinkedList<>();
@@ -358,6 +359,7 @@ public class Messages {
         CONTRACT_REGION = config.getString("Messages.ContractRegion");
         REGION_STATS = config.getString("Messages.RegionStats");
         REGION_STATS_PATTERN = config.getString("Messages.RegionStatsPattern");
+        TELEPORTER_NO_SAVE_LOCATION_FOUND = config.getString("Messages.TeleporterNoSaveLocation");
 
         Messages.translateColorCodes();
     }
@@ -518,6 +520,7 @@ public class Messages {
         SELL_REGION = ChatColor.translateAlternateColorCodes('&', SELL_REGION);
         CONTRACT_REGION = ChatColor.translateAlternateColorCodes('&', CONTRACT_REGION);
         REGION_STATS_PATTERN = ChatColor.translateAlternateColorCodes('&', REGION_STATS_PATTERN);
+        TELEPORTER_NO_SAVE_LOCATION_FOUND = ChatColor.translateAlternateColorCodes('&', TELEPORTER_NO_SAVE_LOCATION_FOUND);
 
         for(int i = 0; i < GUI_TELEPORT_TO_REGION_BUTTON_LORE.size(); i++){
             GUI_TELEPORT_TO_REGION_BUTTON_LORE.set(i, ChatColor.translateAlternateColorCodes('&', GUI_TELEPORT_TO_REGION_BUTTON_LORE.get(i)));

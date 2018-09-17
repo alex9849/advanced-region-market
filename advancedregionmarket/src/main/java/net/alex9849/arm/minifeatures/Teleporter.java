@@ -38,22 +38,9 @@ public class Teleporter {
         return true;
     }
 
-    public static void teleport(Player player, Region region) {
+    public static void teleport(Player player, Region region) throws InputException {
 
         if(region.getTeleportLocation() == null) {
-            /*
-            World world = Bukkit.getWorld(region.getRegionworld());
-            double coordsX = (region.getRegion().getMinimumPoint().getX() + region.getRegion().getMaximumPoint().getX()) / 2;
-            double coordsZ = (region.getRegion().getMinimumPoint().getZ() + region.getRegion().getMaximumPoint().getZ()) / 2;
-            for (int j = region.getRegion().getMaximumPoint().getBlockY(); j > region.getRegion().getMinimumPoint().getBlockY(); j--) {
-                Location loc = new Location(world, coordsX, j, coordsZ);
-                Location locp1 = new Location(world, coordsX, j + 1, coordsZ);
-                if (!(loc.getBlock().getType() == Material.AIR) && !(loc.getBlock().getType() == Material.LAVA)) {
-                    loc = new Location(world, coordsX, j, coordsZ);
-                    player.teleport(loc);
-                    return;
-                }
-            } */
 
             World world = Bukkit.getWorld(region.getRegionworld());
             if(world == null) {
@@ -71,6 +58,7 @@ public class Teleporter {
                     for (int y = maxY; y >= minY; y--) {
                         Location loc = new Location(world, x, y, z);
                         if(isSaveTeleport(loc)) {
+                            loc.add(0.5, 0, 0.5);
                             player.teleport(loc);
                             return;
                         }
@@ -78,6 +66,7 @@ public class Teleporter {
                 }
             }
 
+            throw new InputException(player, Messages.TELEPORTER_NO_SAVE_LOCATION_FOUND);
 
         } else {
             player.teleport(region.getTeleportLocation());
@@ -85,12 +74,12 @@ public class Teleporter {
     }
 
     private static boolean isSaveTeleport(Location loc) {
-        Location locP1 = loc.add(0, 1, 0);
-        Location locM1 = loc.add(0, -1, 0);
+        Location locP1 = new Location(loc.getWorld(), loc.getBlockX(), loc.getBlockY() + 1, loc.getBlockZ());
+        Location locM1 = new Location(loc.getWorld(), loc.getBlockX(), loc.getBlockY() - 1, loc.getBlockZ());
         if(!(loc.getBlock().getType() == Material.AIR) || !(locP1.getBlock().getType() == Material.AIR)) {
             return false;
         }
-        if((locM1.getBlock().getType() != Material.AIR) && (locM1.getBlock().getType() != Material.LAVA)) {
+        if((locM1.getBlock().getType() == Material.AIR) || (locM1.getBlock().getType() == Material.LAVA) || (locM1.getBlock().getType() == Material.MAGMA_BLOCK)) {
             return false;
         }
         return true;

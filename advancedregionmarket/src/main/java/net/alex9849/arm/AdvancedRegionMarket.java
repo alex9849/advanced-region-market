@@ -17,6 +17,7 @@ import net.alex9849.arm.gui.Gui;
 import net.alex9849.inter.WorldEditInterface;
 import net.alex9849.inter.WorldGuardInterface;
 import net.milkbowl.vault.economy.Economy;
+import org.apache.commons.lang.ObjectUtils;
 import org.bukkit.*;
 import org.bukkit.block.Sign;
 import org.bukkit.command.Command;
@@ -927,14 +928,18 @@ public class AdvancedRegionMarket extends JavaPlugin {
             messages.set("Messages.RegionStatsPattern", "&8Used regions (%regionkind%&8):");
             Messages.saveConfig();
         }
-        if(version < 1.5) {
+        if(version < 1.41) {
             pluginConfig.set("Version", 1.41);
             saveConfig();
             YamlConfiguration messages = Messages.getConfig();
             String remaningTimeContract = messages.getString("Messages.RegionInfoRemainingTime");
             messages.set("Messages.RegionInfoRemainingTime", null);
             messages.set("Messages.RentRegionInfoRemainingTime", "Remaining time:");
-            messages.set("Messages.ContractRegionInfoRemainingTime", remaningTimeContract);
+            if(remaningTimeContract == null) {
+                messages.set("Messages.ContractRegionInfoRemainingTime", "&6Next extend in: ");
+            } else {
+                messages.set("Messages.ContractRegionInfoRemainingTime", remaningTimeContract);
+            }
             messages.set("Messages.TeleporterNoSaveLocation", "&4Could not find a save teleport location");
             Messages.saveConfig();
         }

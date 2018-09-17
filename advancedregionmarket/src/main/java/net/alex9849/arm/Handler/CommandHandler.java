@@ -625,7 +625,7 @@ public class CommandHandler implements TabCompleter {
                             returnme.add("remove");
                         }
                         for(RegionKind regionkind : RegionKind.getRegionKindList()) {
-                            if(regionkind.getName().startsWith(args[2])) {
+                            if(regionkind.getName().toLowerCase().startsWith(args[2])) {
                                 returnme.add(regionkind.getName());
                             }
                         }
@@ -726,21 +726,21 @@ public class CommandHandler implements TabCompleter {
         List<String> returnme = new ArrayList<>();
         if(args[0].equalsIgnoreCase("sellpreset")) {
             for(SellPreset preset: SellPreset.getPatterns()) {
-                if(preset.getName().startsWith(args[2])) {
+                if(preset.getName().toLowerCase().startsWith(args[2])) {
                     returnme.add(preset.getName());
                 }
             }
         }
         if(args[0].equalsIgnoreCase("rentpreset")) {
             for(RentPreset preset: RentPreset.getPatterns()) {
-                if(preset.getName().startsWith(args[2])) {
+                if(preset.getName().toLowerCase().startsWith(args[2])) {
                     returnme.add(preset.getName());
                 }
             }
         }
         if(args[0].equalsIgnoreCase("contractpreset")) {
             for(ContractPreset preset: ContractPreset.getPatterns()) {
-                if(preset.getName().startsWith(args[2])) {
+                if(preset.getName().toLowerCase().startsWith(args[2])) {
                     returnme.add(preset.getName());
                 }
             }
@@ -754,7 +754,7 @@ public class CommandHandler implements TabCompleter {
             returnme.add("setregionkind");
         } else if (args.length == 2) {
             for(RegionKind regionkind : RegionKind.getRegionKindList()) {
-                if(regionkind.getName().startsWith(args[1])) {
+                if(regionkind.getName().toLowerCase().startsWith(args[1])) {
                     returnme.add(regionkind.getName());
                 }
             }
@@ -785,7 +785,7 @@ public class CommandHandler implements TabCompleter {
             }
         } else if (args.length == 2) {
             for(RegionKind regionkind : RegionKind.getRegionKindList()) {
-                if(regionkind.getName().startsWith(args[1])) {
+                if(regionkind.getName().toLowerCase().startsWith(args[1])) {
                     if(player.hasPermission(Permission.ARM_BUYKIND + regionkind.getName())) {
                         returnme.add(regionkind.getName());
                     }
@@ -1038,7 +1038,7 @@ public class CommandHandler implements TabCompleter {
             returnme.add("regionstats");
         } else if(args.length == 2) {
             for(RegionKind regionkind : RegionKind.getRegionKindList()) {
-                if(regionkind.getName().startsWith(args[1])) {
+                if(regionkind.getName().toLowerCase().startsWith(args[1])) {
                     returnme.add(regionkind.getName());
                 }
             }
@@ -1086,7 +1086,7 @@ public class CommandHandler implements TabCompleter {
 
         if(this.completeRegions) {
             for(Region region : Region.getRegionList()) {
-                if(region.getRegion().getId().startsWith(arg)) {
+                if(region.getRegion().getId().toLowerCase().startsWith(arg)) {
                     if(playerstatus == PlayerRegionStatus.OWNER) {
                         if(AdvancedRegionMarket.getWorldGuardInterface().hasOwner(player, region.getRegion())) {
                             returnme.add(region.getRegion().getId());
@@ -1112,7 +1112,7 @@ public class CommandHandler implements TabCompleter {
     private List<String> completeOnlinePlayers(String args) {
         List<String> returnme = new ArrayList<>();
         for(Player player : Bukkit.getServer().getOnlinePlayers()) {
-            if(player.getName().startsWith(args)) {
+            if(player.getName().toLowerCase().startsWith(args)) {
                 returnme.add(player.getName());
             }
         }
@@ -1126,7 +1126,7 @@ public class CommandHandler implements TabCompleter {
         for(UUID uuids: uuidList) {
             OfflinePlayer oplayer = Bukkit.getOfflinePlayer(uuids);
             if(oplayer != null) {
-                if (oplayer.getName().startsWith(args)) {
+                if (oplayer.getName().toLowerCase().startsWith(args)) {
                     returnme.add(oplayer.getName());
                 }
             }

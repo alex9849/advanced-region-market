@@ -927,5 +927,15 @@ public class AdvancedRegionMarket extends JavaPlugin {
             messages.set("Messages.RegionStatsPattern", "&8Used regions (%regionkind%&8):");
             Messages.saveConfig();
         }
+        if(version < 1.5) {
+            pluginConfig.set("Version", 1.5);
+            saveConfig();
+            YamlConfiguration messages = Messages.getConfig();
+            String remaningTimeContract = messages.getString("Messages.RegionInfoRemainingTime");
+            messages.set("Messages.RegionInfoRemainingTime", null);
+            messages.set("Messages.RentRegionInfoRemainingTime", "Remaining time:");
+            messages.set("Messages.ContractRegionInfoRemainingTime", remaningTimeContract);
+
+        }
     }
 }

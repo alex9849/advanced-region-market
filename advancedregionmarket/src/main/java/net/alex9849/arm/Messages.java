@@ -284,7 +284,7 @@ public class Messages {
         GUI_EXTEND_BUTTON = config.getString("Messages.GUIExtendRentRegionButton");
         REGION_INFO_MAX_RENT_TIME = config.getString("Messages.RegionInfoMaxRentTime");
         REGION_INFO_EXTEND_PER_CLICK = config.getString("Messages.RegionInfoExtendPerClick");
-        REGION_INFO_REMAINING_TIME = config.getString("Messages.RegionInfoRemainingTime");
+        REGION_INFO_REMAINING_TIME = config.getString("Messages.RentRegionInfoRemainingTime");
         GUI_TELEPORT_TO_REGION_BUTTON_LORE = config.getStringList("Messages.GUITeleportToRegionButtonLore");
         GUI_MAKE_OWNER_BUTTON_LORE = config.getStringList("Messages.GUIMakeOwnerButtonLore");
         GUI_REMOVE_MEMBER_BUTTON_LORE = config.getStringList("Messages.GUIRemoveMemberButtonLore");
@@ -331,7 +331,7 @@ public class Messages {
         GUI_CONTRACT_ITEM = config.getString("Messages.GUIContractItem");
         REGION_INFO_TERMINATED = config.getString("Messages.RegionInfoTerminated");
         REGION_INFO_AUTO_EXTEND_TIME = config.getString("Messages.RegionInfoAutoExtendTime");
-        REGION_INFO_NEXT_EXTEND_REMAINING_TIME = config.getString("Messages.RegionInfoRemainingTime");
+        REGION_INFO_NEXT_EXTEND_REMAINING_TIME = config.getString("Messages.ContractRegionInfoRemainingTime");
         CONTRACT_REGION_CHANGE_TERMINATED = config.getString("Messages.ContractRegionChangeTerminated");
         CONTRACT_REGION_STATUS_ACTIVE_LONG = config.getString("Messages.ContractRegionStatusActiveLong");
         CONTRACT_REGION_STATUS_ACTIVE = config.getString("Messages.ContractRegionStatusActive");

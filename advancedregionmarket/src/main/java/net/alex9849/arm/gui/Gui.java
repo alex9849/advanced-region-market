@@ -4,6 +4,7 @@ import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.InputException;
+import net.alex9849.arm.minifeatures.Teleporter;
 import net.alex9849.arm.regions.*;
 import net.alex9849.arm.Group.LimitGroup;
 import org.bukkit.Bukkit;
@@ -269,7 +270,7 @@ public class Gui implements Listener {
             ClickItem teleportericon = new ClickItem(teleporteritem, getPosition(actitem, itemcounter)).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) {
-                    region.teleportToRegion(player);
+                    Teleporter.teleport(player, region);
                     player.closeInventory();
                 }
             });
@@ -410,7 +411,7 @@ public class Gui implements Listener {
             ClickItem teleportericon = new ClickItem(teleporteritem, getPosition(actitem, itemcounter)).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) {
-                    region.teleportToRegion(player);
+                    Teleporter.teleport(player, region);
                     player.closeInventory();
                 }
             });
@@ -574,7 +575,7 @@ public class Gui implements Listener {
             ClickItem teleportericon = new ClickItem(teleporteritem, getPosition(actitem, itemcounter)).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) {
-                    region.teleportToRegion(player);
+                    Teleporter.teleport(player, region);
                     player.closeInventory();
                 }
             });
@@ -1044,7 +1045,7 @@ public class Gui implements Listener {
             ClickItem teleportericon = new ClickItem(teleporteritem, getPosition(actitem, itemcounter)).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) {
-                    region.teleportToRegion(player);
+                    Teleporter.teleport(player, region);
                     player.closeInventory();
                 }
             });

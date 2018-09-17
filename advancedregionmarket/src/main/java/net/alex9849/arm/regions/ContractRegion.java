@@ -6,6 +6,7 @@ import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.Group.LimitGroup;
 import net.alex9849.arm.exceptions.InputException;
+import net.alex9849.arm.minifeatures.Teleporter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -265,7 +266,7 @@ public class ContractRegion extends Region {
 
         this.setSold(player);
         if(AdvancedRegionMarket.isTeleportAfterContractRegionBought()){
-            this.teleportToRegion(player);
+            Teleporter.teleport(player, this);
         }
         player.sendMessage(Messages.PREFIX + Messages.REGION_BUYMESSAGE);
 

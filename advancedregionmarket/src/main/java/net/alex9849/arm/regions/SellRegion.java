@@ -6,6 +6,7 @@ import net.alex9849.arm.Permission;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import net.alex9849.arm.Group.LimitGroup;
 import net.alex9849.arm.exceptions.InputException;
+import net.alex9849.arm.minifeatures.Teleporter;
 import org.bukkit.*;
 import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
@@ -154,7 +155,7 @@ public class SellRegion extends Region {
 
         this.setSold(player);
         if(AdvancedRegionMarket.isTeleportAfterSellRegionBought()){
-            this.teleportToRegion(player);
+            Teleporter.teleport(player, this);
         }
         player.sendMessage(Messages.PREFIX + Messages.REGION_BUYMESSAGE);
     }

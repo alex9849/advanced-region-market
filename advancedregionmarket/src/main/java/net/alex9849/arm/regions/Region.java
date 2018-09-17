@@ -7,6 +7,7 @@ import net.alex9849.arm.Permission;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.gui.Gui;
+import net.alex9849.arm.minifeatures.Teleporter;
 import org.bukkit.*;
 import org.bukkit.Location;
 import org.bukkit.block.Sign;
@@ -343,7 +344,7 @@ public abstract class Region {
 
             if ((Region.getRegionList().get(i).isSold() == false) && (Region.getRegionList().get(i).getRegionKind() == type)){
                 ProtectedRegion regionTP = Region.getRegionList().get(i).getRegion();
-                Region.getRegionList().get(i).teleportToRegion(player);
+                Teleporter.teleport(player, Region.getRegionList().get(i));
                 String message = Messages.REGION_TELEPORT_MESSAGE.replace("%regionid%", regionTP.getId());
                 player.sendMessage(Messages.PREFIX + message);
                 return;
@@ -685,22 +686,8 @@ public abstract class Region {
         return this.getRegionKind().getMaterial();
     }
 
-    public void teleportToRegion(Player player) {
-        if(this.teleportLocation == null) {
-            World world = Bukkit.getWorld(this.regionworld);
-            double coordsX = (this.getRegion().getMinimumPoint().getX() + this.getRegion().getMaximumPoint().getX()) / 2;
-            double coordsZ = (this.getRegion().getMinimumPoint().getZ() + this.getRegion().getMaximumPoint().getZ()) / 2;
-            for (int j = this.region.getMaximumPoint().getBlockY(); j > 0; j--) {
-                Location loc = new Location(world, coordsX, j, coordsZ);
-                if (!(loc.getBlock().getType() == Material.AIR) && !(loc.getBlock().getType() == Material.LAVA)) {
-                    loc = new Location(world, coordsX, j + 1, coordsZ);
-                    player.teleport(loc);
-                    return;
-                }
-            }
-        } else {
-            player.teleport(this.teleportLocation);
-        }
+    public Location getTeleportLocation() {
+        return this.teleportLocation;
     }
 
     public void setNewOwner(OfflinePlayer member){
@@ -961,30 +948,6 @@ public abstract class Region {
         player.sendMessage(Messages.PREFIX + "Creating schematic...");
         region.createSchematic();
         player.sendMessage(Messages.PREFIX + Messages.COMPLETE);
-        return true;
-    }
-
-    public static boolean teleport(CommandSender sender, String regionString) throws InputException {
-        if (!sender.hasPermission(Permission.ADMIN_TP) && !sender.hasPermission(Permission.MEMBER_TP)) {
-            throw new InputException(sender, Messages.NO_PERMISSION);
-        }
-        if (!(sender instanceof Player)) {
-            throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
-        }
-        Player player = (Player) sender;
-        Region region = Region.searchRegionbyNameAndWorld(regionString, player.getWorld().getName());
-
-        if (region == null) {
-            throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
-        }
-
-        if(!AdvancedRegionMarket.getWorldGuardInterface().hasMember(player, region.getRegion()) && !AdvancedRegionMarket.getWorldGuardInterface().hasOwner(player, region.getRegion())){
-            if(!player.hasPermission(Permission.ADMIN_TP)){
-                throw new InputException(sender, Messages.NOT_A_MEMBER_OR_OWNER);
-            }
-        }
-
-        region.teleportToRegion(player);
         return true;
     }
 

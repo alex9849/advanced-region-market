@@ -4,7 +4,8 @@ public class Permission {
     public static final String ADMIN_CHANGEAUTORESET = "arm.admin.changeautoreset";
     public static final String ADMIN_CREATE_SELL = "arm.admin.create.sellregion";
     public static final String ADMIN_CREATE_RENT = "arm.admin.create.rentregion";
-    public static final String ADMIN_REMOVE = "arm.admin.remove";
+    public static final String ADMIN_CREATE_CONTRACT = "arm.admin.create.contractregion";
+    public static final String ADMIN_REMOVE_SIGN = "arm.admin.remove";
     public static final String ADMIN_BUILDEVERYWHERE = "arm.admin.buildeverywhere";
     public static final String ADMIN_UPDATESCHEMATIC = "arm.admin.updateschematic";
     public static final String ADMIN_CHANGE_IS_HOTEL = "arm.admin.changeishotel";

@@ -115,15 +115,15 @@ Limits:
     shop: 2
 
 Other:
-  # If users have the permission 'arm.resetownregion' they can reset their own regions via GUI (only!) the number below
-  # is the cooldown for the next reset in days.
+  # If users have the permission 'arm.resetregionblocks' they can reset their own regions. The number
+  # behind is the cooldown when they can reset their region again (in days).
   userResetCooldown: 7
   # If set on true the user will be teleported in the middle of their region if they buy one.
   TeleportAfterSellRegionBought: true
   TeleportAfterRentRegionBought: false
   TeleportAfterRentRegionExtend: false
   TeleportAfterContractRegionBought: true
-  # If players have the permission 'arm.member.resetregion' they can sell their region
+  # If players have the permission 'arm.member.sellregion' they can sell their region
   # back to the server (who resets it) via GUI.
   # You can define the percentage they will get back here. If they don't have the permission the button will
   # be removed from the GUI.

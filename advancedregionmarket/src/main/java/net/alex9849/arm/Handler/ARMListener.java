@@ -206,7 +206,7 @@ public class ARMListener implements Listener {
                 sign.setCancelled(true);
             }
             if(sign.getLine(0).equalsIgnoreCase("[ARM-Contract]")) {
-                if(!sign.getPlayer().hasPermission(Permission.ADMIN_CREATE_RENT)){
+                if(!sign.getPlayer().hasPermission(Permission.ADMIN_CREATE_CONTRACT)){
                     throw new InputException(sign.getPlayer(), Messages.NO_PERMISSION);
                 }
 
@@ -308,7 +308,7 @@ public class ARMListener implements Listener {
                 return;
             }
 
-            if(!block.getPlayer().hasPermission(Permission.ADMIN_REMOVE)) {
+            if(!block.getPlayer().hasPermission(Permission.ADMIN_REMOVE_SIGN)) {
                 block.setCancelled(true);
                 throw new InputException(block.getPlayer(), Messages.NO_PERMISSION);
             }

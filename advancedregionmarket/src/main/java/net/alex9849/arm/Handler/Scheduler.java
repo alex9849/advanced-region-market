@@ -2,11 +2,14 @@ package net.alex9849.arm.Handler;
 
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.regions.Region;
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.logging.Level;
 
 public class Scheduler implements Runnable {
     @Override
@@ -35,7 +38,13 @@ public class Scheduler implements Runnable {
                     AdvancedRegionMarket.getStmt().executeUpdate("DELETE FROM `" + AdvancedRegionMarket.getSqlPrefix() + "lastlogin` WHERE `uuid` = '" + rs.getString("uuid") + "'");
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
+                Bukkit.getServer().getLogger().log(Level.WARNING, "[AdvancedRegionMarket] SQL connection lost. Reconnecting...");
+                AdvancedRegionMarket arm = AdvancedRegionMarket.getARM();
+                if(arm != null) {
+                    arm.connectSQL();
+                } else {
+                    e.printStackTrace();
+                }
             }
         }
     }

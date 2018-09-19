@@ -107,7 +107,8 @@ public class AdvancedRegionMarket extends JavaPlugin {
         loadRegionKind();
         loadGroups();
         loadGUI();
-        if(!loadAutoReset()) {
+        loadAutoReset();
+        if(!connectSQL()) {
             this.setEnabled(false);
             getLogger().log(Level.WARNING, "SQL Login wrong! Disabeling Plugin...");
             return;
@@ -415,10 +416,13 @@ public class AdvancedRegionMarket extends JavaPlugin {
 
     }
 
-    private Boolean loadAutoReset(){
-        Boolean success = true;
+    private void loadAutoReset() {
         AdvancedRegionMarket.enableAutoReset = getConfig().getBoolean("AutoResetAndTakeOver.enableAutoReset");
         AdvancedRegionMarket.enableTakeOver = getConfig().getBoolean("AutoResetAndTakeOver.enableTakeOver");
+    }
+
+    public Boolean connectSQL(){
+        Boolean success = true;
         if(AdvancedRegionMarket.enableAutoReset || AdvancedRegionMarket.enableTakeOver) {
             String mysqlhost = getConfig().getString("AutoResetAndTakeOver.mysql-server");
             String mysqldatabase = getConfig().getString("AutoResetAndTakeOver.mysql-database");

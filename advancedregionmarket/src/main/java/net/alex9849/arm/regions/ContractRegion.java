@@ -274,7 +274,10 @@ public class ContractRegion extends Region {
 
     @Override
     public void userSell(Player player) {
-        this.resetRegion(player);
+        this.unsell();
+        if(this.isDoBlockReset()){
+            this.resetBlocks(player);
+        }
     }
 
     @Override

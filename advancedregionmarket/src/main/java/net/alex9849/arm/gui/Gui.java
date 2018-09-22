@@ -1149,7 +1149,7 @@ public class Gui implements Listener {
             @Override
             public void execute(Player player) {
                 player.closeInventory();
-                region.userReset(player);
+                region.userBlockReset(player);
             }
         });
         inv.addIcon(yesButton);

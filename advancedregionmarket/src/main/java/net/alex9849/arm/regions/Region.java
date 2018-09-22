@@ -444,7 +444,7 @@ public abstract class Region {
         if(resregion == null) {
             throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
         } else {
-            resregion.setAviable();
+            resregion.unsell();
 
             resregion.resetBlocks((Player) sender);
             sender.sendMessage(Messages.PREFIX + Messages.REGION_NOW_AVIABLE);
@@ -726,7 +726,7 @@ public abstract class Region {
         return days;
     }
 
-    public void userReset(Player player){
+    public void userBlockReset(Player player){
         this.resetBlocks(player);
         GregorianCalendar calendar = new GregorianCalendar();
         this.lastreset = calendar.getTimeInMillis();
@@ -785,22 +785,6 @@ public abstract class Region {
 
         this.resetBlocks(player);
         return;
-    }
-
-    public void setAviable(){
-
-        YamlConfiguration config = getRegionsConf();
-        config.set("Regions." + this.regionworld + "." + this.getRegion().getId() + ".sold", false);
-        config.set("Regions." + this.regionworld + "." + this.getRegion().getId() + ".lastreset", 1);
-        saveRegionsConf(config);
-        AdvancedRegionMarket.getWorldGuardInterface().deleteMembers(this.getRegion());
-        AdvancedRegionMarket.getWorldGuardInterface().deleteOwners(this.getRegion());
-        this.sold = false;
-        this.lastreset = 1;
-
-        for(int i = 0; i < this.sellsign.size(); i++){
-            this.updateSignText(this.sellsign.get(i));
-        }
     }
 
     public static boolean listRegionsCommand(CommandSender sender, String args) throws InputException {
@@ -1028,13 +1012,18 @@ public abstract class Region {
     }
 
     public void unsell(){
-        this.setAviable();
         YamlConfiguration config = getRegionsConf();
         config.set("Regions." + this.regionworld + "." + this.getRegion().getId() + ".sold", false);
+        config.set("Regions." + this.regionworld + "." + this.getRegion().getId() + ".lastreset", 1);
         saveRegionsConf(config);
-
-        AdvancedRegionMarket.getWorldGuardInterface().deleteOwners(this.getRegion());
         AdvancedRegionMarket.getWorldGuardInterface().deleteMembers(this.getRegion());
+        AdvancedRegionMarket.getWorldGuardInterface().deleteOwners(this.getRegion());
+        this.sold = false;
+        this.lastreset = 1;
+
+        for(int i = 0; i < this.sellsign.size(); i++){
+            this.updateSignText(this.sellsign.get(i));
+        }
     }
 
     public static boolean extendCommand(String regionName, CommandSender sender) throws InputException {

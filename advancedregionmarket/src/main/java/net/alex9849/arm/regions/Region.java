@@ -370,10 +370,6 @@ public abstract class Region {
     }
 
     public boolean resetBlocks(){
-        return this.resetBlocks(null);
-    }
-
-    public boolean resetBlocks(Player player){
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
         File builtblocksdic = new File(pluginfolder + "/schematics/" + this.regionworld + "/" + region.getId() + "--builtblocks.schematic");
         if(builtblocksdic.exists()){
@@ -383,9 +379,6 @@ public abstract class Region {
 
         AdvancedRegionMarket.getWorldEditInterface().resetBlocks(this.getRegion(), this.getRegionworld(), AdvancedRegionMarket.getWorldedit().getWorldEdit());
 
-        if(player != null) {
-            player.sendMessage(Messages.PREFIX + Messages.RESET_COMPLETE);
-        }
         return true;
     }
 
@@ -414,7 +407,8 @@ public abstract class Region {
         }
 
         if(player.hasPermission(Permission.ADMIN_RESETREGIONBLOCKS)) {
-            resregion.resetBlocks(player);
+            resregion.resetBlocks();
+            player.sendMessage(Messages.PREFIX + Messages.RESET_COMPLETE);
             return true;
         } else {
             if(AdvancedRegionMarket.getWorldGuardInterface().hasOwner(player, resregion.getRegion())) {
@@ -446,7 +440,7 @@ public abstract class Region {
         } else {
             resregion.unsell();
 
-            resregion.resetBlocks((Player) sender);
+            resregion.resetBlocks();
             sender.sendMessage(Messages.PREFIX + Messages.REGION_NOW_AVIABLE);
             return true;
         }
@@ -628,7 +622,7 @@ public abstract class Region {
             if(regions.get(i).getAutoreset()){
                 regions.get(i).unsell();
                 if(regions.get(i).isDoBlockReset()) {
-                    regions.get(i).resetBlocks(null);
+                    regions.get(i).resetBlocks();
                 }
             }
         }
@@ -727,12 +721,13 @@ public abstract class Region {
     }
 
     public void userBlockReset(Player player){
-        this.resetBlocks(player);
+        this.resetBlocks();
         GregorianCalendar calendar = new GregorianCalendar();
         this.lastreset = calendar.getTimeInMillis();
         YamlConfiguration config = getRegionsConf();
         config.set("Regions." + this.regionworld + "." + this.region.getId() + ".lastreset", this.lastreset);
         saveRegionsConf(config);
+        player.sendMessage(Messages.PREFIX + Messages.RESET_COMPLETE);
     }
 
     public static void setResetcooldown(int cooldown){
@@ -779,11 +774,11 @@ public abstract class Region {
     public abstract void userSell(Player player);
     public abstract double getPaybackMoney();
 
-    public void resetRegion(Player player){
+    public void resetRegion(){
 
         this.unsell();
 
-        this.resetBlocks(player);
+        this.resetBlocks();
         return;
     }
 
@@ -795,9 +790,11 @@ public abstract class Region {
 
         this.unsell();
         if(this.isDoBlockReset()){
-            this.resetBlocks(player);
+            this.resetBlocks();
         }
-        return;
+        if(player != null) {
+            player.sendMessage(Messages.PREFIX + Messages.RESET_COMPLETE);
+        }
     }
 
     public static boolean listRegionsCommand(CommandSender sender, String args) throws InputException {

@@ -787,6 +787,19 @@ public abstract class Region {
         return;
     }
 
+    public void automaticResetRegion(){
+        this.automaticResetRegion(null);
+    }
+
+    public void automaticResetRegion(Player player){
+
+        this.unsell();
+        if(this.isDoBlockReset()){
+            this.resetBlocks(player);
+        }
+        return;
+    }
+
     public static boolean listRegionsCommand(CommandSender sender, String args) throws InputException {
         if(!(sender instanceof Player)){
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);

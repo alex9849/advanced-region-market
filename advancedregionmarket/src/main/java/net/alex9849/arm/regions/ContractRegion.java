@@ -57,10 +57,7 @@ public class ContractRegion extends Region {
         if(this.isSold()){
             GregorianCalendar actualtime = new GregorianCalendar();
             if((this.payedTill < actualtime.getTimeInMillis()) && this.terminated){
-                this.unsell();
-                if(this.isDoBlockReset()){
-                    this.resetBlocks();
-                }
+                this.automaticResetRegion();
             } else if(this.payedTill < actualtime.getTimeInMillis()) {
                 List<UUID> owners = AdvancedRegionMarket.getWorldGuardInterface().getOwners(this.getRegion());
                 if(owners.size() == 0){
@@ -74,10 +71,7 @@ public class ContractRegion extends Region {
                     } else {
                         if(AdvancedRegionMarket.getEcon().hasAccount(oplayer)) {
                             if(AdvancedRegionMarket.getEcon().getBalance(oplayer) < this.getPrice()) {
-                                this.unsell();
-                                if(this.isDoBlockReset()){
-                                    this.resetBlocks();
-                                }
+                                this.automaticResetRegion();
                             } else {
                                 AdvancedRegionMarket.getEcon().withdrawPlayer(oplayer, this.getPrice());
                                 if(oplayer.isOnline()) {
@@ -274,10 +268,7 @@ public class ContractRegion extends Region {
 
     @Override
     public void userSell(Player player) {
-        this.unsell();
-        if(this.isDoBlockReset()){
-            this.resetBlocks(player);
-        }
+        this.automaticResetRegion(player);
     }
 
     @Override

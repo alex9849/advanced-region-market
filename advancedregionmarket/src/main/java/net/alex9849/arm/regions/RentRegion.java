@@ -212,10 +212,7 @@ public class RentRegion extends Region {
         if(this.isSold()){
             GregorianCalendar actualtime = new GregorianCalendar();
             if(this.payedTill < actualtime.getTimeInMillis()){
-                this.unsell();
-                if(this.isDoBlockReset()){
-                    this.resetBlocks();
-                }
+                this.automaticResetRegion();
             } else {
                 this.updateSigns();
             }
@@ -254,10 +251,7 @@ public class RentRegion extends Region {
             }
         }
 
-        this.unsell();
-        if(this.isDoBlockReset()){
-            this.resetBlocks(player);
-        }
+        this.automaticResetRegion(player);
     }
 
     @Override

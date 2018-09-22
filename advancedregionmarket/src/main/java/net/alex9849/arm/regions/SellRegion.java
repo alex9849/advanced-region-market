@@ -184,10 +184,7 @@ public class SellRegion extends Region {
             }
         }
 
-        this.unsell();
-        if(this.isDoBlockReset()){
-            this.resetBlocks(player);
-        }
+        this.automaticResetRegion(player);
     }
 
     @Override

@@ -938,7 +938,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
             YamlConfiguration messages = Messages.getConfig();
             String remaningTimeContract = messages.getString("Messages.RegionInfoRemainingTime");
             messages.set("Messages.RegionInfoRemainingTime", null);
-            messages.set("Messages.RentRegionInfoRemainingTime", "Remaining time:");
+            messages.set("Messages.RentRegionInfoRemainingTime", "&6Remaining time: ");
             if(remaningTimeContract == null) {
                 messages.set("Messages.ContractRegionInfoRemainingTime", "&6Next extend in: ");
             } else {

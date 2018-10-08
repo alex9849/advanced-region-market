@@ -44,6 +44,7 @@ public class Permission {
     public static final String ADMIN_PRESET_SET_EXTEND = "arm.admin.preset.setextend";
     public static final String ADMIN_TERMINATE_CONTRACT = "arm.admin.terminatecontract";
     public static final String ADMIN_REGION_STATS = "arm.admin.regionstatus";
+    public static final String ADMIN_BYPASS_TELEPORTER_COOLDOWN = "arm.admin.bypassteleportercooldown";
 
 
 

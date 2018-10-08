@@ -142,6 +142,9 @@ Other:
   # If enabled ARM will suggest Regions on tab-complete! This may cause lags if you have many regions!
   # Enable it only when you just manage a few regions with ARM!
   CompleteRegionsOnTabComplete: true
+  # Time in seconds the server should wait before teleporting someone. If the player moves while the countdown runs the teleportation will abort.
+  # Set this to 0 to disable the countdown. Players with the permisison arm.admin.bypassteleportercooldown won't get a countdown
+  TeleporterTimer: 0
 
 #Here you can change the Blocks that will be shown in the GUI. You can use
 #this (https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html) as a List for possible blocks.

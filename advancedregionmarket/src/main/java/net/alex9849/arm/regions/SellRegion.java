@@ -6,7 +6,7 @@ import net.alex9849.arm.Permission;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import net.alex9849.arm.Group.LimitGroup;
 import net.alex9849.arm.exceptions.InputException;
-import net.alex9849.arm.minifeatures.Teleporter;
+import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import org.bukkit.*;
 import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;

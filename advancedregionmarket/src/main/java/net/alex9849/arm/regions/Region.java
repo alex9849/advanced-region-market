@@ -7,7 +7,7 @@ import net.alex9849.arm.Permission;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.gui.Gui;
-import net.alex9849.arm.minifeatures.Teleporter;
+import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import org.bukkit.*;
 import org.bukkit.Location;
 import org.bukkit.block.Sign;
@@ -344,9 +344,8 @@ public abstract class Region {
 
             if ((Region.getRegionList().get(i).isSold() == false) && (Region.getRegionList().get(i).getRegionKind() == type)){
                 ProtectedRegion regionTP = Region.getRegionList().get(i).getRegion();
-                Teleporter.teleport(player, Region.getRegionList().get(i));
                 String message = Messages.REGION_TELEPORT_MESSAGE.replace("%regionid%", regionTP.getId());
-                player.sendMessage(Messages.PREFIX + message);
+                Teleporter.teleport(player, Region.getRegionList().get(i), Messages.PREFIX + message);
                 return;
             }
         }

@@ -6,7 +6,7 @@ import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.Group.LimitGroup;
 import net.alex9849.arm.exceptions.InputException;
-import net.alex9849.arm.minifeatures.Teleporter;
+import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;

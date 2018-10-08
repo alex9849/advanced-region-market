@@ -947,5 +947,13 @@ public class AdvancedRegionMarket extends JavaPlugin {
             messages.set("Messages.TeleporterNoSaveLocation", "&4Could not find a save teleport location");
             Messages.saveConfig();
         }
+        if(version < 1.44) {
+            pluginConfig.set("Other.TeleporterTimer", 0);
+            pluginConfig.set("Version", 1.44);
+            YamlConfiguration messages = Messages.getConfig();
+            messages.set("Messages.TeleporterDontMove", "&6Teleportation will commence in &c%time% Seconds&6. Do not move!");
+            messages.set("Messages.TeleporterTeleportationAborded", "&4Teleportation aborded!");
+            Messages.saveConfig();
+        }
     }
 }

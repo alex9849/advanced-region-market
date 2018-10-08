@@ -4,7 +4,7 @@ import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.InputException;
-import net.alex9849.arm.minifeatures.Teleporter;
+import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import net.alex9849.arm.regions.*;
 import net.alex9849.arm.Group.LimitGroup;
 import org.bukkit.Bukkit;

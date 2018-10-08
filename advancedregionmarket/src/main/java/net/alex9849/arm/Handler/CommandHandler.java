@@ -11,7 +11,7 @@ import net.alex9849.arm.Preseter.SellPreset;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.gui.Gui;
 import net.alex9849.arm.minifeatures.Diagram;
-import net.alex9849.arm.minifeatures.Teleporter;
+import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import net.alex9849.arm.regions.ContractRegion;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.RegionKind;
@@ -22,7 +22,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -197,7 +196,7 @@ public class CommandHandler implements TabCompleter {
                     }
                 } else if (args[0].equalsIgnoreCase("tp")) {
                     if (allargs.matches(REGEX_TELEPORT)) {
-                        return Teleporter.teleport(sender, args[1]);
+                        return Teleporter.teleportCommand(sender, args[1]);
                     } else {
                         sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm tp [REGION]");
                         return true;

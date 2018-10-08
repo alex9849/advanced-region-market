@@ -345,7 +345,7 @@ public abstract class Region {
             if ((Region.getRegionList().get(i).isSold() == false) && (Region.getRegionList().get(i).getRegionKind() == type)){
                 ProtectedRegion regionTP = Region.getRegionList().get(i).getRegion();
                 String message = Messages.REGION_TELEPORT_MESSAGE.replace("%regionid%", regionTP.getId());
-                Teleporter.teleport(player, Region.getRegionList().get(i), Messages.PREFIX + message);
+                Teleporter.teleport(player, Region.getRegionList().get(i), Messages.PREFIX + message, true);
                 return;
             }
         }

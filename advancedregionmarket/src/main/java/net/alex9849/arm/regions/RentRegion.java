@@ -195,7 +195,7 @@ public class RentRegion extends Region {
 
         this.setSold(player);
         if(AdvancedRegionMarket.isTeleportAfterRentRegionBought()){
-            Teleporter.teleport(player, this);
+            Teleporter.teleport(player, this, "", AdvancedRegionMarket.getARM().getConfig().getBoolean("Other.TeleportAfterRegionBoughtCountdown"));
         }
         player.sendMessage(Messages.PREFIX + Messages.REGION_BUYMESSAGE);
     }

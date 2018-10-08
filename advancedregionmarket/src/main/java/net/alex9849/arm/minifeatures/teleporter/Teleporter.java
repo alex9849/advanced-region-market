@@ -40,7 +40,7 @@ public class Teleporter {
         return true;
     }
 
-    public static void teleport(Player player, Region region, String message) throws InputException {
+    public static void teleport(Player player, Region region, String message, Boolean useCountdown) throws InputException {
 
         if(region.getTeleportLocation() == null) {
 
@@ -61,7 +61,11 @@ public class Teleporter {
                         Location loc = new Location(world, x, y, z);
                         if(isSaveTeleport(loc)) {
                             loc.add(0.5, 0, 0.5);
-                            scheduleTeleport(player, loc, message, 60);
+                            int timer = 0;
+                            if(useCountdown) {
+                                timer = 20 * AdvancedRegionMarket.getARM().getConfig().getInt("Other.TeleporterTimer");
+                            }
+                            scheduleTeleport(player, loc, message, timer);
                             return;
                         }
                     }
@@ -76,7 +80,7 @@ public class Teleporter {
     }
 
     public static void teleport(Player player, Region region) throws InputException {
-        teleport(player, region, "");
+        teleport(player, region, "", true);
     }
 
     private static boolean isSaveTeleport(Location loc) {
@@ -92,8 +96,11 @@ public class Teleporter {
     }
 
     public static void scheduleTeleport(Player player, Location loc, String message, int ticks) {
-        if((ticks == 0)) {
+        if((ticks == 0) || player.hasPermission(Permission.ADMIN_BYPASS_TELEPORTER_COOLDOWN)) {
             player.teleport(loc);
+            if(!message.equals("")) {
+                player.sendMessage(message);
+            }
             return;
         } else {
             String preTPmessage = Messages.TELEPORTER_DONT_MOVE.replace("%time%", (ticks/20) + "");

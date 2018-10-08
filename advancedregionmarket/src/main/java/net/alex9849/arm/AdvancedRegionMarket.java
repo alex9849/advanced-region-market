@@ -949,7 +949,9 @@ public class AdvancedRegionMarket extends JavaPlugin {
         }
         if(version < 1.44) {
             pluginConfig.set("Other.TeleporterTimer", 0);
+            pluginConfig.set("Other.TeleportAfterRegionBoughtCountdown", false);
             pluginConfig.set("Version", 1.44);
+            saveConfig();
             YamlConfiguration messages = Messages.getConfig();
             messages.set("Messages.TeleporterDontMove", "&6Teleportation will commence in &c%time% Seconds&6. Do not move!");
             messages.set("Messages.TeleporterTeleportationAborded", "&4Teleportation aborded!");

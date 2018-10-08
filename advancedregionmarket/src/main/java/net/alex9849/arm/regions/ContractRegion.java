@@ -260,7 +260,7 @@ public class ContractRegion extends Region {
 
         this.setSold(player);
         if(AdvancedRegionMarket.isTeleportAfterContractRegionBought()){
-            Teleporter.teleport(player, this);
+            Teleporter.teleport(player, this, "", AdvancedRegionMarket.getARM().getConfig().getBoolean("Other.TeleportAfterRegionBoughtCountdown"));
         }
         player.sendMessage(Messages.PREFIX + Messages.REGION_BUYMESSAGE);
 

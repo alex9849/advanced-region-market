@@ -41,9 +41,7 @@ public class Scheduler implements Runnable {
                 Bukkit.getServer().getLogger().log(Level.WARNING, "[AdvancedRegionMarket] SQL connection lost. Reconnecting...");
                 AdvancedRegionMarket arm = AdvancedRegionMarket.getARM();
                 if(arm != null) {
-                    if(arm.connectSQL()) {
-                        Bukkit.getLogger().log(Level.INFO, "SQL Login successful!");
-                    } else {
+                    if(!arm.connectSQL()) {
                         Bukkit.getLogger().log(Level.INFO, "SQL Login failed!");
                     }
                 } else {

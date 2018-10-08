@@ -114,7 +114,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
             this.setEnabled(false);
             return;
         }
-        getLogger().log(Level.INFO, "SQL Login successful!");
         loadOther();
         loadRegions();
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Scheduler() , 0 ,20*getConfig().getInt("Other.SignAndResetUpdateInterval"));
@@ -439,6 +438,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
                 Connection con = DriverManager.getConnection("jdbc:mysql://" + mysqlhost + "/" + mysqldatabase, mysqluser, mysqlpass);
                 AdvancedRegionMarket.stmt = con.createStatement();
                 AdvancedRegionMarket.checkOrCreateMySql(mysqldatabase);
+                getLogger().log(Level.INFO, "SQL Login successful!");
             } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
                 success = false;
             }

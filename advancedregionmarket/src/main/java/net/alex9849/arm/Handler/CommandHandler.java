@@ -8,6 +8,7 @@ import net.alex9849.arm.Permission;
 import net.alex9849.arm.Preseter.ContractPreset;
 import net.alex9849.arm.Preseter.RentPreset;
 import net.alex9849.arm.Preseter.SellPreset;
+import net.alex9849.arm.commands.BasicArmCommand;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.gui.Gui;
 import net.alex9849.arm.minifeatures.Diagram;
@@ -22,10 +23,15 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.util.*;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
+import java.util.logging.Level;
 
 public class CommandHandler implements TabCompleter {
 
@@ -59,9 +65,63 @@ public class CommandHandler implements TabCompleter {
     private static final String REGEX_REGION_STATS_WITH_ARGS = " (?i)regionstats [^;\n]+";
     private static final String REGEX_REGION_STATS = " (?i)regionstats";
     private Boolean completeRegions = false;
+    private List<BasicArmCommand> commands = new ArrayList<>();
 
     private enum PlayerRegionStatus {
             ALL, MEMBER, OWNER, MEMBER_OR_OWNER;
+    }
+
+    public void loadCommands(){
+
+        this.commands = new ArrayList<>();
+
+        /*
+        Reflections reflections = new Reflections("net.alex9849.arm.commands");
+        List<Class<?>> commandClasses = new ArrayList<>(reflections.getSubTypesOf(BasicArmCommand.class));
+*/
+        /*
+        for (Class cmdClass : commandClasses) {
+            if(BasicArmCommand.class.isAssignableFrom(cmdClass)) {
+                try {
+                    this.commands.add((BasicArmCommand) cmdClass.newInstance());
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+*/
+        try {
+            JarFile jarFile = new JarFile(getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
+
+            Enumeration<JarEntry> jarEntryEnumeration = jarFile.entries();
+
+            while(jarEntryEnumeration.hasMoreElements()) {
+                JarEntry jarEntry = jarEntryEnumeration.nextElement();
+                String jarEntryClassPath = jarEntry.getName().replace("/", ".");
+                if(jarEntryClassPath.startsWith("net.alex9849.arm.commands") && jarEntryClassPath.endsWith(".class")) {
+                    String loadClassPath = jarEntryClassPath.substring(0, jarEntryClassPath.length() - 6);
+                    Class<?> commandClass = Class.forName(loadClassPath);
+                    if(BasicArmCommand.class.isAssignableFrom(commandClass) && commandClass != BasicArmCommand.class) {
+                        this.commands.add((BasicArmCommand) commandClass.newInstance());
+                    }
+                }
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void unloadCommands() {
+        this.commands = new ArrayList<>();
     }
 
     public CommandHandler(Boolean completeRegions) {
@@ -362,6 +422,28 @@ public class CommandHandler implements TabCompleter {
 
     @Override
     public List<String> onTabComplete(CommandSender commandSender, Command command, String commandsLabel, String[] args) {
+        List<String> returnme = new ArrayList<>();
+        if(!(commandSender instanceof Player)) {
+            return returnme;
+        }
+
+        Player player = (Player) commandSender;
+
+        for(int i = 0; i < args.length; i++) {
+            args[i] = args[i].toLowerCase();
+        }
+
+        if(command.getName().equalsIgnoreCase("arm")) {
+            for(int i = 0; i < this.commands.size(); i++) {
+                returnme.addAll(this.commands.get(i).onTabComplete(player, args));
+            }
+        }
+
+        return returnme;
+    }
+
+
+    public List<String> OLDonTabComplete(CommandSender commandSender, Command command, String commandsLabel, String[] args) {
         List<String> returnme = new ArrayList<>();
         if(!(commandSender instanceof Player)) {
             return returnme;

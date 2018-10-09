@@ -34,7 +34,7 @@ import java.util.*;
 public class ARMListener implements Listener {
 
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void addSign(SignChangeEvent sign) {
         if(sign.isCancelled()) {
             return;
@@ -293,7 +293,7 @@ public class ARMListener implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void removeSign(BlockBreakEvent block) {
         if(block.isCancelled()){
             return;
@@ -346,7 +346,7 @@ public class ARMListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void addBuiltBlock(BlockPlaceEvent event){
         if(event.isCancelled()) {
             return;
@@ -371,7 +371,7 @@ public class ARMListener implements Listener {
 
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void breakBlock(BlockBreakEvent event) {
         if(event.isCancelled()) {
             return;

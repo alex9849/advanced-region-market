@@ -118,6 +118,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         loadRegions();
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Scheduler() , 0 ,20*getConfig().getInt("Other.SignAndResetUpdateInterval"));
         this.commandHandler = new CommandHandler(getConfig().getBoolean("Other.CompleteRegionsOnTabComplete"));
+        this.commandHandler.loadCommands();
         getCommand("arm").setTabCompleter(this.commandHandler);
         Bukkit.getLogger().log(Level.INFO, "Programmed by Alex9849");
 
@@ -134,6 +135,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         SellPreset.reset();
         RentPreset.reset();
         ContractPreset.reset();
+        this.commandHandler.unloadCommands();
         getServer().getServicesManager().unregisterAll(this);
         SignChangeEvent.getHandlerList().unregister(this);
         InventoryClickEvent.getHandlerList().unregister(this);

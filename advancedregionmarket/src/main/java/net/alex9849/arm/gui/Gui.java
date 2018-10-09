@@ -3,6 +3,7 @@ package net.alex9849.arm.gui;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
+import net.alex9849.arm.commands.LimitCommand;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import net.alex9849.arm.regions.*;
@@ -770,7 +771,7 @@ public class Gui implements Listener {
             ClickItem gobackButton = new ClickItem(goBack, (invsize - 2)).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) {
-                    LimitGroup.getLimitChat(player);
+                    LimitCommand.getLimitChat(player);
                 }
             });
 

@@ -58,7 +58,6 @@ public class CommandHandler implements TabCompleter {
     private static final String REGEX_SET_DO_BLOCK_RESET = " (?i)doblockreset [^;\n ]+ (false|true)";
     private static final String REGEX_TERMINATE = " (?i)terminate [^;\n ]+ (false|true)";
     private static final String REGEX_HELP = " (?i)help";
-    private static final String REGEX_RELOAD = " (?i)reload";
     private static final String REGEX_SELLPRESET = " (?i)sellpreset [^;\n]+";
     private static final String REGEX_RENTPRESET = " (?i)rentpreset [^;\n]+";
     private static final String REGEX_CONTRACTPRESET = " (?i)contractpreset [^;\n]+";
@@ -575,21 +574,6 @@ public class CommandHandler implements TabCompleter {
                 if ("listregionkinds".startsWith(args[0])) {
                     if (player.hasPermission(Permission.ADMIN_LISTREGIONKINDS)) {
                         returnme.add("listregionkinds");
-                    }
-                }
-                if ("help".startsWith(args[0])) {
-                    if (player.hasPermission(Permission.ARM_HELP)) {
-                        returnme.add("help");
-                    }
-                }
-                if ("reload".startsWith(args[0])) {
-                    if (player.hasPermission(Permission.ADMIN_RELOAD)) {
-                        returnme.add("reload");
-                    }
-                }
-                if ("gui".startsWith(args[0])) {
-                    if (player.hasPermission(Permission.MEMBER_GUI)) {
-                        returnme.add("gui");
                     }
                 }
                 if ("limit".startsWith(args[0])) {

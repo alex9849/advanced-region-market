@@ -66,11 +66,13 @@ public class HelpCommand extends BasicArmCommand {
 
     @Override
     public List<String> onTabComplete(Player player, String[] args) {
-        List<String> returnme = new ArrayList<>();
 
-        if (rootCommand.startsWith(args[0])) {
-            if (player.hasPermission(Permission.ARM_HELP)) {
-                returnme.add("help");
+        List<String> returnme = new ArrayList<>();
+        if(args.length == 1) {
+            if (this.rootCommand.startsWith(args[0])) {
+                if (player.hasPermission(Permission.ARM_HELP)) {
+                    returnme.add(this.rootCommand);
+                }
             }
         }
         return returnme;

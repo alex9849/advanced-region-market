@@ -75,23 +75,6 @@ public class CommandHandler implements TabCompleter {
 
         this.commands = new ArrayList<>();
 
-        /*
-        Reflections reflections = new Reflections("net.alex9849.arm.commands");
-        List<Class<?>> commandClasses = new ArrayList<>(reflections.getSubTypesOf(BasicArmCommand.class));
-*/
-        /*
-        for (Class cmdClass : commandClasses) {
-            if(BasicArmCommand.class.isAssignableFrom(cmdClass)) {
-                try {
-                    this.commands.add((BasicArmCommand) cmdClass.newInstance());
-                } catch (InstantiationException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-*/
         try {
             JarFile jarFile = new JarFile(getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
 
@@ -128,7 +111,8 @@ public class CommandHandler implements TabCompleter {
         this.completeRegions = completeRegions;
     }
 
-    public boolean executeCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args) throws InputException {
+    /*
+    public boolean OldexecuteCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args) throws InputException {
         String allargs = "";
         for (int i = 0; i < args.length; i++) {
             allargs = allargs + " " + args[i];
@@ -418,7 +402,34 @@ public class CommandHandler implements TabCompleter {
         }
         return false;
     }
+*/
 
+    public boolean executeCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args) throws InputException {
+        String allargs = "";
+
+        for (int i = 0; i < args.length; i++) {
+            if(i == 0) {
+                allargs = args[i];
+            } else {
+                allargs = allargs + " " + args[i];
+            }
+        }
+
+        if(cmd.getName().equalsIgnoreCase("arm") || (args.length >= 1)) {
+            for(int i = 0; i < this.commands.size(); i++) {
+                if(this.commands.get(i).getRootCommand().equalsIgnoreCase(args[0])) {
+                    if(this.commands.get(i).matchesRegex(allargs)) {
+                        return this.commands.get(i).runCommand(sender, cmd, commandsLabel, args);
+                    } else {
+                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: " + this.commands.get(i).getUsage());
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
 
     @Override
     public List<String> onTabComplete(CommandSender commandSender, Command command, String commandsLabel, String[] args) {

@@ -136,6 +136,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         RentPreset.reset();
         ContractPreset.reset();
         this.commandHandler.unloadCommands();
+        this.commandHandler = null;
         getServer().getServicesManager().unregisterAll(this);
         SignChangeEvent.getHandlerList().unregister(this);
         InventoryClickEvent.getHandlerList().unregister(this);
@@ -530,37 +531,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
 
     public static boolean isDisplayDefaultRegionKindInLimits(){
         return AdvancedRegionMarket.displayDefaultRegionKindInLimits;
-    }
-
-    public static boolean help(CommandSender sender) throws InputException {
-        if(!sender.hasPermission(Permission.ARM_HELP)){
-            throw new InputException(sender, Messages.NO_PERMISSION);
-        }
-        sender.sendMessage(ChatColor.GOLD + "/arm setregionkind [KIND] [REGION]");
-        sender.sendMessage(ChatColor.GOLD + "/arm listregionkinds");
-        sender.sendMessage(ChatColor.GOLD + "/arm findfreeregion [KIND]");
-        sender.sendMessage(ChatColor.GOLD + "/arm resetblocks [REGION]");
-        sender.sendMessage(ChatColor.GOLD + "/arm reset [REGION]");
-        sender.sendMessage(ChatColor.GOLD + "/arm info [REGION]");
-        sender.sendMessage(ChatColor.GOLD + "/arm addmember [REGION] [PLAYER]");
-        sender.sendMessage(ChatColor.GOLD + "/arm removemember [REGION] [PLAYER]");
-        sender.sendMessage(ChatColor.GOLD + "/arm autoreset [REGION] [true/false]");
-        sender.sendMessage(ChatColor.GOLD + "/arm listregions [PLAYER]");
-        sender.sendMessage(ChatColor.GOLD + "/arm setowner [REGION] [PLAYER]");
-        sender.sendMessage(ChatColor.GOLD + "/arm hotel [REGION] [true/false]");
-        sender.sendMessage(ChatColor.GOLD + "/arm updateschematic [REGION]");
-        sender.sendMessage(ChatColor.GOLD + "/arm setwarp [REGION]");
-        sender.sendMessage(ChatColor.GOLD + "/arm unsell [REGION]");
-        sender.sendMessage(ChatColor.GOLD + "/arm extend [REGION]");
-        sender.sendMessage(ChatColor.GOLD + "/arm delete [REGION]");
-        sender.sendMessage(ChatColor.GOLD + "/arm doblockreset [REGION] [true/false]");
-        sender.sendMessage(ChatColor.GOLD + "/arm terminate [REGION] [true/false]");
-        sender.sendMessage(ChatColor.GOLD + "/arm sellpreset [SETTING]");
-        sender.sendMessage(ChatColor.GOLD + "/arm rentpreset [SETTING]");
-        sender.sendMessage(ChatColor.GOLD + "/arm contractpreset [SETTING]");
-        sender.sendMessage(ChatColor.GOLD + "/arm limit");
-        sender.sendMessage(ChatColor.GOLD + "/arm reload");
-        return true;
     }
 
     public static Statement getStmt() {

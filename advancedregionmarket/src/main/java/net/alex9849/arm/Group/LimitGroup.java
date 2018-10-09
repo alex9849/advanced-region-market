@@ -138,4 +138,45 @@ public class LimitGroup {
     public static int getOwnedRegions(Player player){
         return Region.getRegionsByOwner(player.getUniqueId()).size();
     }
+
+    public static void getLimitChat(Player player) {
+        player.sendMessage(Messages.LIMIT_INFO_TOP);
+        String syntaxtotal = Messages.LIMIT_INFO;
+        syntaxtotal = syntaxtotal.replace("%regiontype%", Messages.LIMIT_INFO_TOTAL);
+        syntaxtotal = syntaxtotal.replace("%playerownedkind%", LimitGroup.getOwnedRegions(player) + "");
+        String limit = LimitGroup.getLimit(player) + "";
+        if(LimitGroup.getLimit(player) == Integer.MAX_VALUE){
+            limit = Messages.UNLIMITED;
+        }
+        syntaxtotal = syntaxtotal.replace("%limitkind%", limit);
+
+        player.sendMessage(syntaxtotal);
+
+        if(AdvancedRegionMarket.isDisplayDefaultRegionKindInLimits()) {
+            syntaxtotal = Messages.LIMIT_INFO;
+            syntaxtotal = syntaxtotal.replace("%regiontype%", RegionKind.DEFAULT.getName());
+            syntaxtotal = syntaxtotal.replace("%playerownedkind%", LimitGroup.getOwnedRegions(player, RegionKind.DEFAULT) + "");
+            limit = LimitGroup.getLimit(player, RegionKind.DEFAULT) + "";
+            if(LimitGroup.getLimit(player) == Integer.MAX_VALUE){
+                limit = Messages.UNLIMITED;
+            }
+            syntaxtotal = syntaxtotal.replace("%limitkind%", limit);
+
+            player.sendMessage(syntaxtotal);
+        }
+
+        for(int i = 0; i < RegionKind.getRegionKindList().size(); i++){
+            if(player.hasPermission(Permission.ARM_BUYKIND + RegionKind.getRegionKindList().get(i).getDisplayName())){
+                syntaxtotal = Messages.LIMIT_INFO;
+                syntaxtotal = syntaxtotal.replace("%regiontype%", RegionKind.getRegionKindList().get(i).getName());
+                syntaxtotal = syntaxtotal.replace("%playerownedkind%", LimitGroup.getOwnedRegions(player, RegionKind.getRegionKindList().get(i)) + "");
+                limit = LimitGroup.getLimit(player, RegionKind.getRegionKindList().get(i)) + "";
+                if(LimitGroup.getLimit(player, RegionKind.getRegionKindList().get(i)) == Integer.MAX_VALUE){
+                    limit = Messages.UNLIMITED;
+                }
+                syntaxtotal = syntaxtotal.replace("%limitkind%", limit);
+                player.sendMessage(syntaxtotal);
+            }
+        }
+    }
 }

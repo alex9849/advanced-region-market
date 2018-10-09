@@ -321,20 +321,6 @@ public abstract class Region {
         return this.regionKind;
     }
 
-    public static boolean listRegionKindsCommand(CommandSender sender) throws InputException {
-        if(!sender.hasPermission(Permission.ADMIN_LISTREGIONKINDS)) {
-            throw new InputException(sender, Messages.NO_PERMISSION);
-        }
-
-        sender.sendMessage(Messages.REGIONKINDS);
-        sender.sendMessage("-" + "default");
-        for (int i = 0; i < RegionKind.getRegionKindList().size(); i++){
-           sender.sendMessage("- " + RegionKind.getRegionKindList().get(i).getName());
-        }
-        return true;
-
-    }
-
     public boolean isSold() {
         return sold;
     }
@@ -350,18 +336,6 @@ public abstract class Region {
             }
         }
         throw new InputException(player, Messages.NO_FREE_REGION_WITH_THIS_KIND);
-    }
-
-    public static boolean teleportToFreeRegionCommand(String type, Player player) throws InputException {
-        if(!player.hasPermission(Permission.ARM_BUYKIND + type)){
-            throw new InputException(player, Messages.NO_PERMISSION_TO_SEARCH_THIS_KIND);
-        }
-        RegionKind regionKind = RegionKind.getRegionKind(type);
-        if (regionKind == null){
-            throw new InputException(player, Messages.REGIONKIND_DOES_NOT_EXIST);
-        }
-        Region.teleportToFreeRegion(regionKind, player);
-        return true;
     }
 
     public void createSchematic(){

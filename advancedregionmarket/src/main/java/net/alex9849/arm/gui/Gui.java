@@ -771,7 +771,7 @@ public class Gui implements Listener {
             ClickItem gobackButton = new ClickItem(goBack, (invsize - 2)).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) {
-                    LimitCommand.getLimitChat(player);
+                    LimitGroup.getLimitChat(player);
                 }
             });
 

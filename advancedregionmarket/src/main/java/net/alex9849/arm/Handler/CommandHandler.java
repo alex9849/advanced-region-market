@@ -36,8 +36,6 @@ import java.util.logging.Level;
 public class CommandHandler implements TabCompleter {
 
     private static final String REGEX_SET_REGION_KIND = " (?i)setregionkind [^;\n ]+ [^;\n ]+";
-    private static final String REGEX_LIST_REGION_KIND = " (?i)listregionkinds";
-    private static final String REGEX_FIND_REGION_BY_TYPE = " (?i)findfreeregion [^;\n ]+";
     private static final String REGEX_RESET_REGION_BLOCKS = " (?i)resetblocks [^;\n ]+";
     private static final String REGEX_RESET_REGION = " (?i)reset [^;\n ]+";
     private static final String REGEX_REGION_INFO_WITHOUT_REGIONNAME = " (?i)info";
@@ -57,12 +55,9 @@ public class CommandHandler implements TabCompleter {
     private static final String REGEX_DELETE = " (?i)delete [^;\n ]+";
     private static final String REGEX_SET_DO_BLOCK_RESET = " (?i)doblockreset [^;\n ]+ (false|true)";
     private static final String REGEX_TERMINATE = " (?i)terminate [^;\n ]+ (false|true)";
-    private static final String REGEX_HELP = " (?i)help";
     private static final String REGEX_SELLPRESET = " (?i)sellpreset [^;\n]+";
     private static final String REGEX_RENTPRESET = " (?i)rentpreset [^;\n]+";
     private static final String REGEX_CONTRACTPRESET = " (?i)contractpreset [^;\n]+";
-    private static final String REGEX_REGION_STATS_WITH_ARGS = " (?i)regionstats [^;\n]+";
-    private static final String REGEX_REGION_STATS = " (?i)regionstats";
     private Boolean completeRegions = false;
     private List<BasicArmCommand> commands = new ArrayList<>();
 
@@ -124,22 +119,6 @@ public class CommandHandler implements TabCompleter {
                         return Region.setRegionKindCommand(sender, args[2], args[1]);
                     } else {
                         sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm setregionkind [REGIONKIND] [REGION]");
-                        return true;
-                    }
-                } else if (args[0].equalsIgnoreCase("listregionkinds")) {
-                    if (allargs.matches(REGEX_LIST_REGION_KIND)) {                  //Done
-                        return Region.listRegionKindsCommand(sender);
-                    } else {
-                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm listregionkinds");
-                        return true;
-                    }
-                } else if (args[0].equalsIgnoreCase("findfreeregion")) {
-                    if (allargs.matches(REGEX_FIND_REGION_BY_TYPE)) {              //DONE
-                        if (sender instanceof Player) {
-                            return Region.teleportToFreeRegionCommand(args[1], ((Player) sender).getPlayer());
-                        }
-                    } else {
-                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm findfreeregion [REGIONKIND]");
                         return true;
                     }
                 } else if (args[0].equalsIgnoreCase("help")) {
@@ -383,19 +362,6 @@ public class CommandHandler implements TabCompleter {
                         sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm terminate [REGION] [true/false]");
                         return true;
                     }
-                } else if (args[0].equalsIgnoreCase("regionstats")) {
-                    if (sender.hasPermission(Permission.ADMIN_REGION_STATS)) {
-                        if(allargs.matches(REGEX_REGION_STATS)) {
-                            return Diagram.sendRegionStats(sender);
-                        } else if (allargs.matches(REGEX_REGION_STATS_WITH_ARGS)) {
-                            return Diagram.sendRegionStats(sender, args[1]);
-                        } else {
-                            sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm regionstats [RegionKind/Nothing]");
-                            return true;
-                        }
-                    } else {
-                        sender.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-                    }
                 }
             }
         }
@@ -470,9 +436,6 @@ public class CommandHandler implements TabCompleter {
                 if ("setregionkind".startsWith(args[0])) {
                     if (player.hasPermission(Permission.ADMIN_SETREGIONKIND))
                         returnme.addAll(onTabCompleteSetRegionKind(player, args));
-                }
-                if ("findfreeregion".startsWith(args[0])) {
-                    returnme.addAll(onTabCompleteFindFreeRegion(player, args));
                 }
                 if ("autoreset".startsWith(args[0])) {
                     if(player.hasPermission(Permission.ADMIN_CHANGEAUTORESET)) {
@@ -562,23 +525,6 @@ public class CommandHandler implements TabCompleter {
                 if ("sellpreset".startsWith(args[0]) || "rentpreset".startsWith(args[0]) || "contractpreset".startsWith(args[0])) {
                     if (player.hasPermission(Permission.ADMIN_PRESET)) {
                         returnme.addAll(onTabCompletePreset(player, args));
-                    }
-                }
-                if ("regionstats".startsWith(args[0])) {
-                    if (player.hasPermission(Permission.ADMIN_REGION_STATS)) {
-                        returnme.addAll(onTabompleteRegionStats(player, args));
-                    }
-                }
-            }
-            if(args.length == 1) {
-                if ("listregionkinds".startsWith(args[0])) {
-                    if (player.hasPermission(Permission.ADMIN_LISTREGIONKINDS)) {
-                        returnme.add("listregionkinds");
-                    }
-                }
-                if ("limit".startsWith(args[0])) {
-                    if (player.hasPermission(Permission.MEMBER_LIMIT)) {
-                        returnme.add("limit");
                     }
                 }
             }
@@ -844,39 +790,6 @@ public class CommandHandler implements TabCompleter {
         return returnme;
     }
 
-    private List<String> onTabCompleteFindFreeRegion(Player player, String args[]) {
-        List<String> returnme = new ArrayList<>();
-
-        if(args.length == 1) {
-            Boolean addffr = false;
-            for(RegionKind regionkind : RegionKind.getRegionKindList()) {
-                if (player.hasPermission(Permission.ARM_BUYKIND + regionkind.getName())) {
-                    addffr = true;
-                }
-            }
-            if(player.hasPermission(Permission.ARM_BUYKIND + "default")) {
-                addffr = true;
-            }
-            if(addffr) {
-                returnme.add("findfreeregion");
-            }
-        } else if (args.length == 2) {
-            for(RegionKind regionkind : RegionKind.getRegionKindList()) {
-                if(regionkind.getName().toLowerCase().startsWith(args[1])) {
-                    if(player.hasPermission(Permission.ARM_BUYKIND + regionkind.getName())) {
-                        returnme.add(regionkind.getName());
-                    }
-                }
-            }
-            if("default".startsWith(args[1])) {
-                if(player.hasPermission(Permission.ARM_BUYKIND + "default")) {
-                    returnme.add("default");
-                }
-            }
-        }
-        return returnme;
-    }
-
     private List<String> onTabompleteAutoreset(Player player, String args[]) {
         List<String> returnme = new ArrayList<>();
         if(args.length == 1) {
@@ -1104,32 +1017,6 @@ public class CommandHandler implements TabCompleter {
             }
             if("false".startsWith(args[2])) {
                 returnme.add("false");
-            }
-        }
-        return  returnme;
-    }
-
-    private List<String> onTabompleteRegionStats(Player player, String args[]) {
-        List<String> returnme = new ArrayList<>();
-        if(args.length == 1) {
-            returnme.add("regionstats");
-        } else if(args.length == 2) {
-            for(RegionKind regionkind : RegionKind.getRegionKindList()) {
-                if(regionkind.getName().toLowerCase().startsWith(args[1])) {
-                    returnme.add(regionkind.getName());
-                }
-            }
-            if("default".startsWith(args[1])) {
-                returnme.add("default");
-            }
-            if("rentregion".startsWith(args[1])) {
-                returnme.add("rentregion");
-            }
-            if("sellregion".startsWith(args[1])) {
-                returnme.add("sellregion");
-            }
-            if("contractregion".startsWith(args[1])) {
-                returnme.add("contractregion");
             }
         }
         return  returnme;

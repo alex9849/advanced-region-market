@@ -1,6 +1,9 @@
 package net.alex9849.arm.regions;
 
+import net.alex9849.arm.AdvancedRegionMarket;
+import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,5 +84,20 @@ public class RegionKind {
 
     public String getDisplayName() {
         return this.displayName;
+    }
+
+    public static List<String> completeTabRegionKinds(String arg) {
+        List<String> returnme = new ArrayList<>();
+
+        for (RegionKind regionkind : RegionKind.getRegionKindList()) {
+            if (regionkind.getName().toLowerCase().startsWith(arg)) {
+                returnme.add(regionkind.getName());
+            }
+        }
+        if ("default".startsWith(arg)) {
+            returnme.add("default");
+        }
+
+        return returnme;
     }
 }

@@ -36,8 +36,6 @@ import java.util.logging.Level;
 
 public class CommandHandler implements TabCompleter {
 
-    private static final String REGEX_SET_REGION_KIND = " (?i)setregionkind [^;\n ]+ [^;\n ]+";
-    private static final String REGEX_RESET_REGION_BLOCKS = " (?i)resetblocks [^;\n ]+";
     private static final String REGEX_RESET_REGION = " (?i)reset [^;\n ]+";
     private static final String REGEX_ADDMEMBER_WITH_REGIONNAME = " (?i)addmember [^;\n ]+ [^;\n ]+";
     private static final String REGEX_REMOVEMEMBER_WITH_REGIONNAME = " (?i)removemember [^;\n ]+ [^;\n ]+";
@@ -105,21 +103,7 @@ public class CommandHandler implements TabCompleter {
 
         if (cmd.getName().equalsIgnoreCase("arm")) {
             if (args.length >= 1) {
-                if (args[0].equalsIgnoreCase("setregionkind")) {
-                    if (allargs.matches(REGEX_SET_REGION_KIND)) {                         //DONE
-                        return Region.setRegionKindCommand(sender, args[2], args[1]);
-                    } else {
-                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm setregionkind [REGIONKIND] [REGION]");
-                        return true;
-                    }
-                } else if (args[0].equalsIgnoreCase("resetblocks")) {
-                    if (allargs.matches(REGEX_RESET_REGION_BLOCKS)) {             //DONE
-                        return Region.resetRegionBlocksCommand(args[1], sender);
-                    } else {
-                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm resetblocks [REGION]");
-                        return true;
-                    }
-                } else if (args[0].equalsIgnoreCase("addmember")) {
+                if (args[0].equalsIgnoreCase("addmember")) {
                     if (allargs.matches(REGEX_ADDMEMBER_WITH_REGIONNAME)) {        //DONE
                         return Region.addMemberCommand(sender, args[2], args[1]);
                     } else {
@@ -269,18 +253,6 @@ public class CommandHandler implements TabCompleter {
                         sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "or (for help): /arm contractpreset help");
                         return true;
                     }
-                } else if (args[0].equalsIgnoreCase("terminate")) {
-                    if (allargs.matches(REGEX_TERMINATE)) {
-                        if (sender.hasPermission(Permission.ARM_BUY_CONTRACTREGION)) {
-                            ContractRegion.terminateCommand(sender, args[1], args[2]);
-                        } else {
-                            sender.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-                        }
-                        return true;
-                    } else {
-                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm terminate [REGION] [true/false]");
-                        return true;
-                    }
                 }
             }
         }
@@ -352,10 +324,6 @@ public class CommandHandler implements TabCompleter {
 
         if(command.getName().equalsIgnoreCase("arm")) {
             if (args.length >= 1) {
-                if ("setregionkind".startsWith(args[0])) {
-                    if (player.hasPermission(Permission.ADMIN_SETREGIONKIND))
-                        returnme.addAll(onTabCompleteSetRegionKind(player, args));
-                }
                 if ("autoreset".startsWith(args[0])) {
                     if(player.hasPermission(Permission.ADMIN_CHANGEAUTORESET)) {
                         returnme.addAll(onTabompleteAutoreset(player, args));
@@ -371,11 +339,6 @@ public class CommandHandler implements TabCompleter {
                         returnme.addAll(onTabompleteDoBlockReset(player, args));
                     }
                 }
-                if ("terminate".startsWith(args[0])) {
-                    if(player.hasPermission(Permission.ADMIN_TERMINATE_CONTRACT) || player.hasPermission(Permission.ARM_BUY_CONTRACTREGION)) {
-                        returnme.addAll(onTabompleteTerminate(player, args));
-                    }
-                }
                 if ("delete".startsWith(args[0])) {
                     if (player.hasPermission(Permission.ADMIN_DELETEREGION)) {
                         returnme.addAll(onTabompleteDelete(player, args));
@@ -386,19 +349,9 @@ public class CommandHandler implements TabCompleter {
                         returnme.addAll(onTabompleteExtend(player, args));
                     }
                 }
-                if ("unsell".startsWith(args[0])) {
-                    if (player.hasPermission(Permission.ADMIN_UNSELL)) {
-                        returnme.addAll(onTabompleteUnsell(player, args));
-                    }
-                }
                 if ("updateschematic".startsWith(args[0])) {
                     if (player.hasPermission(Permission.ADMIN_UPDATESCHEMATIC)) {
                         returnme.addAll(onTabompleteUpdateSchematic(player, args));
-                    }
-                }
-                if ("resetblocks".startsWith(args[0])) {
-                    if (player.hasPermission(Permission.MEMBER_RESETREGIONBLOCKS) || player.hasPermission(Permission.ADMIN_RESETREGIONBLOCKS)) {
-                        returnme.addAll(onTabompleteResetBlocks(player, args));
                     }
                 }
                 if ("addmember".startsWith(args[0])) {
@@ -670,25 +623,6 @@ public class CommandHandler implements TabCompleter {
         return returnme;
     }
 
-    private List<String> onTabCompleteSetRegionKind(Player player, String args[]) {
-        List<String> returnme = new ArrayList<>();
-        if(args.length == 1) {
-            returnme.add("setregionkind");
-        } else if (args.length == 2) {
-            for(RegionKind regionkind : RegionKind.getRegionKindList()) {
-                if(regionkind.getName().toLowerCase().startsWith(args[1])) {
-                    returnme.add(regionkind.getName());
-                }
-            }
-            if("default".startsWith(args[1])) {
-                returnme.add("default");
-            }
-        } else if(args.length == 3) {
-            returnme.addAll(Region.completeTabRegions(player, args[2], PlayerRegionRelationship.ALL));
-        }
-        return returnme;
-    }
-
     private List<String> onTabompleteAutoreset(Player player, String args[]) {
         List<String> returnme = new ArrayList<>();
         if(args.length == 1) {
@@ -727,16 +661,6 @@ public class CommandHandler implements TabCompleter {
         List<String> returnme = new ArrayList<>();
         if(args.length == 1) {
             returnme.add("delete");
-        } else if(args.length == 2) {
-            returnme.addAll(Region.completeTabRegions(player, args[1], PlayerRegionRelationship.ALL));
-        }
-        return  returnme;
-    }
-
-    private List<String> onTabompleteUnsell(Player player, String args[]) {
-        List<String> returnme = new ArrayList<>();
-        if(args.length == 1) {
-            returnme.add("unsell");
         } else if(args.length == 2) {
             returnme.addAll(Region.completeTabRegions(player, args[1], PlayerRegionRelationship.ALL));
         }
@@ -842,51 +766,12 @@ public class CommandHandler implements TabCompleter {
         return  returnme;
     }
 
-    private List<String> onTabompleteResetBlocks(Player player, String args[]) {
-        List<String> returnme = new ArrayList<>();
-        if(args.length == 1) {
-            returnme.add("resetblocks");
-        } else if(args.length == 2) {
-            PlayerRegionRelationship playerRegionRelationship = null;
-            if(player.hasPermission(Permission.ADMIN_RESETREGIONBLOCKS)) {
-                playerRegionRelationship = PlayerRegionRelationship.ALL;
-            } else {
-                playerRegionRelationship = PlayerRegionRelationship.OWNER;
-            }
-            returnme.addAll(Region.completeTabRegions(player, args[1], playerRegionRelationship));
-        }
-        return  returnme;
-    }
-
     private List<String> onTabompleteDoBlockReset(Player player, String args[]) {
         List<String> returnme = new ArrayList<>();
         if(args.length == 1) {
             returnme.add("doblockreset");
         } else if(args.length == 2) {
             returnme.addAll(Region.completeTabRegions(player, args[1], PlayerRegionRelationship.ALL));
-        } else if(args.length == 3) {
-            if("true".startsWith(args[2])) {
-                returnme.add("true");
-            }
-            if("false".startsWith(args[2])) {
-                returnme.add("false");
-            }
-        }
-        return  returnme;
-    }
-
-    private List<String> onTabompleteTerminate(Player player, String args[]) {
-        List<String> returnme = new ArrayList<>();
-        if(args.length == 1) {
-            returnme.add("terminate");
-        } else if(args.length == 2) {
-            PlayerRegionRelationship playerRegionRelationship = null;
-            if(player.hasPermission(Permission.ADMIN_TERMINATE_CONTRACT)) {
-                playerRegionRelationship = PlayerRegionRelationship.ALL;
-            } else {
-                playerRegionRelationship = PlayerRegionRelationship.OWNER;
-            }
-            returnme.addAll(Region.completeTabRegions(player, args[1], playerRegionRelationship));
         } else if(args.length == 3) {
             if("true".startsWith(args[2])) {
                 returnme.add("true");

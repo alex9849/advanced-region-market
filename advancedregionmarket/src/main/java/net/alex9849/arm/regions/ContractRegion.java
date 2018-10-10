@@ -467,32 +467,4 @@ public class ContractRegion extends Region {
             return Messages.CONTRACT_REGION_STATUS_ACTIVE;
         }
     }
-
-    public static boolean terminateCommand(CommandSender sender, String regionName, String setting) throws InputException {
-        if(!(sender instanceof Player)) {
-            throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
-        }
-        Player player = (Player) sender;
-        Region region = Region.searchRegionbyNameAndWorld(regionName, player.getWorld().getName());
-        if(region == null){
-            throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
-        }
-        if(!(region instanceof ContractRegion)) {
-            throw new InputException(sender, Messages.REGION_IS_NOT_A_CONTRACT_REGION);
-        }
-
-        if(!region.sold) {
-            throw new InputException(sender, Messages.REGION_NOT_SOLD);
-        }
-
-        if(!AdvancedRegionMarket.getWorldGuardInterface().hasOwner(player, region.getRegion())) {
-            if(!player.hasPermission(Permission.ADMIN_TERMINATE_CONTRACT)){
-                throw new InputException(sender, Messages.REGION_NOT_OWN);
-            }
-        }
-
-        ContractRegion contractRegion = (ContractRegion) region;
-        contractRegion.setTerminated(Boolean.parseBoolean(setting), player);
-        return true;
-    }
 }

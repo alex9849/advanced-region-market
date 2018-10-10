@@ -16,30 +16,6 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 public class Teleporter {
 
-    public static boolean teleportCommand(CommandSender sender, String regionString) throws InputException {
-        if (!sender.hasPermission(Permission.ADMIN_TP) && !sender.hasPermission(Permission.MEMBER_TP)) {
-            throw new InputException(sender, Messages.NO_PERMISSION);
-        }
-        if (!(sender instanceof Player)) {
-            throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
-        }
-        Player player = (Player) sender;
-        Region region = Region.searchRegionbyNameAndWorld(regionString, player.getWorld().getName());
-
-        if (region == null) {
-            throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
-        }
-
-        if(!AdvancedRegionMarket.getWorldGuardInterface().hasMember(player, region.getRegion()) && !AdvancedRegionMarket.getWorldGuardInterface().hasOwner(player, region.getRegion())){
-            if(!player.hasPermission(Permission.ADMIN_TP)){
-                throw new InputException(sender, Messages.NOT_A_MEMBER_OR_OWNER);
-            }
-        }
-
-        teleport(player, region);
-        return true;
-    }
-
     public static void teleport(Player player, Region region, String message, Boolean useCountdown) throws InputException {
 
         if(region.getTeleportLocation() == null) {

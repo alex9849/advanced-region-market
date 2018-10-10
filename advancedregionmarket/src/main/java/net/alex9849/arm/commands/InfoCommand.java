@@ -1,11 +1,13 @@
 package net.alex9849.arm.commands;
 
 import net.alex9849.arm.Handler.CommandHandler;
+import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.RegionKind;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -41,9 +43,9 @@ public class InfoCommand extends BasicArmCommand {
     @Override
     public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
         if (allargs.matches(this.regex)) {
-            return Region.regionInfoCommand(sender);
+            return regionInfoCommand(sender);
         } else {
-            return Region.regionInfoCommand(sender, args[1]);
+            return regionInfoCommand(sender, args[1]);
         }
     }
 
@@ -64,5 +66,48 @@ public class InfoCommand extends BasicArmCommand {
         }
 
         return returnme;
+    }
+
+    private boolean regionInfoCommand(CommandSender sender) throws InputException {
+        if (!(sender instanceof Player)) {
+            throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
+        }
+
+        Player player = (Player) sender;
+
+        if(!player.hasPermission(Permission.MEMBER_INFO) && !player.hasPermission(Permission.ADMIN_INFO)) {
+            throw new InputException(player, Messages.NO_PERMISSION);
+        }
+
+        Location loc = (player).getLocation();
+
+        for(int i = 0; i < Region.getRegionList().size(); i++) {
+            if(Region.getRegionList().get(i).getRegion().contains(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()) && Region.getRegionList().get(i).getRegionworld().equals(loc.getWorld().getName())) {
+                Region.getRegionList().get(i).regionInfo(player);
+                return true;
+            }
+        }
+        throw new InputException(player, Messages.HAVE_TO_STAND_ON_REGION_TO_SHOW_INFO);
+    }
+
+    private boolean regionInfoCommand(CommandSender sender, String regionname) throws InputException {
+        if (!(sender instanceof Player)) {
+            throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
+        }
+
+        Player player = (Player) sender;
+
+        if(!player.hasPermission(Permission.MEMBER_INFO) && !player.hasPermission(Permission.ADMIN_INFO)) {
+            throw new InputException(player, Messages.NO_PERMISSION);
+        }
+
+        Region region = Region.searchRegionbyNameAndWorld(regionname, (player).getWorld().getName());
+
+        if(region == null){
+            throw new InputException(player, Messages.REGION_DOES_NOT_EXIST);
+        }
+
+        region.regionInfo(player);
+        return true;
     }
 }

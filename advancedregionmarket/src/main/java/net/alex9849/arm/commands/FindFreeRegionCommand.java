@@ -70,7 +70,7 @@ public class FindFreeRegionCommand extends BasicArmCommand {
                         addffr = true;
                     }
                     if(addffr) {
-                        returnme.add("findfreeregion");
+                        returnme.add(this.rootCommand);
                     }
                 } else if (args.length == 2) {
                     for(RegionKind regionkind : RegionKind.getRegionKindList()) {

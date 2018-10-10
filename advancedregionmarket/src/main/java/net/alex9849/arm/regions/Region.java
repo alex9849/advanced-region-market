@@ -400,27 +400,6 @@ public abstract class Region {
         }
     }
 
-    public static boolean resetRegionCommand(String region, CommandSender sender) throws InputException {
-        if (!(sender instanceof Player)) {
-            throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
-        }
-
-        if(!sender.hasPermission(Permission.ADMIN_RESETREGION)){
-            throw new InputException(sender, Messages.NO_PERMISSION);
-        }
-
-        Region resregion = Region.searchRegionbyNameAndWorld(region, ((Player) sender).getPlayer().getWorld().getName());
-        if(resregion == null) {
-            throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
-        } else {
-            resregion.unsell();
-
-            resregion.resetBlocks();
-            sender.sendMessage(Messages.PREFIX + Messages.REGION_NOW_AVIABLE);
-            return true;
-        }
-    }
-
     public void regionInfo(CommandSender sender){
         String owners = "";
         String members = "";
@@ -468,49 +447,6 @@ public abstract class Region {
         for(int i = 0; i < Region.getRegionList().size(); i++) {
             Region.getRegionList().get(i).updateRegion();
         }
-    }
-
-    public static boolean regionInfoCommand(CommandSender sender) throws InputException {
-        if (!(sender instanceof Player)) {
-            throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
-        }
-
-        Player player = (Player) sender;
-
-        if(!player.hasPermission(Permission.MEMBER_INFO) && !player.hasPermission(Permission.ADMIN_INFO)) {
-            throw new InputException(player, Messages.NO_PERMISSION);
-        }
-
-        Location loc = (player).getLocation();
-
-        for(int i = 0; i < Region.getRegionList().size(); i++) {
-            if(Region.getRegionList().get(i).getRegion().contains(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()) && Region.getRegionList().get(i).getRegionworld().equals(loc.getWorld().getName())) {
-                Region.getRegionList().get(i).regionInfo(player);
-                return true;
-            }
-        }
-        throw new InputException(player, Messages.HAVE_TO_STAND_ON_REGION_TO_SHOW_INFO);
-    }
-
-    public static boolean regionInfoCommand(CommandSender sender, String regionname) throws InputException {
-        if (!(sender instanceof Player)) {
-            throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
-        }
-
-        Player player = (Player) sender;
-
-        if(!player.hasPermission(Permission.MEMBER_INFO) && !player.hasPermission(Permission.ADMIN_INFO)) {
-            throw new InputException(player, Messages.NO_PERMISSION);
-        }
-
-        Region region = Region.searchRegionbyNameAndWorld(regionname, (player).getWorld().getName());
-
-        if(region == null){
-            throw new InputException(player, Messages.REGION_DOES_NOT_EXIST);
-        }
-
-        region.regionInfo(player);
-        return true;
     }
 
     public void addMember(Player sender, String member) throws InputException {
@@ -962,22 +898,6 @@ public abstract class Region {
 
     public static void setPaypackPercentage(double percent){
         Region.paybackPercentage = percent;
-    }
-
-    public static boolean setTeleportLocation(String regionName, CommandSender sender) throws InputException {
-        if(!(sender instanceof Player)) {
-            throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
-        }
-        Player player = (Player) sender;
-        Region region = Region.searchRegionbyNameAndWorld(regionName, player.getWorld().getName());
-        if(region == null){
-            throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
-        }
-
-        region.setTeleportLocation(player.getLocation());
-
-        player.sendMessage(Messages.PREFIX + "Warp set!");
-        return true;
     }
 
     public static boolean unsellCommand(String regionName, CommandSender sender) throws InputException {

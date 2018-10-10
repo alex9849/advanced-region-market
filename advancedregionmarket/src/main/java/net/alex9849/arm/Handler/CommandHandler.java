@@ -112,34 +112,11 @@ public class CommandHandler implements TabCompleter {
                         sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm setregionkind [REGIONKIND] [REGION]");
                         return true;
                     }
-                } else if (args[0].equalsIgnoreCase("help")) {
-                    if (allargs.matches(REGEX_HELP)) {                            //DONE
-                        return AdvancedRegionMarket.help(sender);
-                    } else {
-                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm help");
-                        return true;
-                    }
                 } else if (args[0].equalsIgnoreCase("resetblocks")) {
                     if (allargs.matches(REGEX_RESET_REGION_BLOCKS)) {             //DONE
                         return Region.resetRegionBlocksCommand(args[1], sender);
                     } else {
                         sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm resetblocks [REGION]");
-                        return true;
-                    }
-                } else if (args[0].equalsIgnoreCase("reset")) {
-                    if (allargs.matches(REGEX_RESET_REGION)) {                    //DONE
-                        return Region.resetRegionCommand(args[1], sender);
-                    } else {
-                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm reset [REGION]");
-                        return true;
-                    }
-                } else if (args[0].equalsIgnoreCase("info")) {
-                    if (allargs.matches(REGEX_REGION_INFO_WITHOUT_REGIONNAME)) {   //DONE
-                        return Region.regionInfoCommand(sender);
-                    } else if (allargs.matches(REGEX_REGION_INFO_WITH_REGIONNAME)) {      //DONE
-                        return Region.regionInfoCommand(sender, args[1]);
-                    } else {
-                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm info [REGION] or /arm info");
                         return true;
                     }
                 } else if (args[0].equalsIgnoreCase("addmember")) {
@@ -154,20 +131,6 @@ public class CommandHandler implements TabCompleter {
                         return Region.removeMemberCommand(sender, args[2], args[1]);
                     } else {
                         sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm removemember [REGION] [OLDMEMBER]");
-                        return true;
-                    }
-                } else if (args[0].equalsIgnoreCase("gui")) {
-                    if (allargs.matches(" gui")) {
-                        if (sender instanceof Player) {
-                            if (sender.hasPermission(Permission.MEMBER_GUI)) {
-                                Gui.openARMGui((Player) sender);
-                            } else {
-                                sender.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-                            }
-                            return true;
-                        }
-                    } else {
-                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm gui");
                         return true;
                     }
                 } else if (args[0].equalsIgnoreCase("autoreset")) {
@@ -207,13 +170,6 @@ public class CommandHandler implements TabCompleter {
                         sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm setowner [REGION] [PLAYER]");
                         return true;
                     }
-                } else if (args[0].equalsIgnoreCase("tp")) {
-                    if (allargs.matches(REGEX_TELEPORT)) {
-                        return Teleporter.teleportCommand(sender, args[1]);
-                    } else {
-                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm tp [REGION]");
-                        return true;
-                    }
                 } else if (args[0].equalsIgnoreCase("limit")) {
                     if (allargs.matches(" limit")) {
                         if (sender.hasPermission(Permission.MEMBER_LIMIT)) {
@@ -224,34 +180,6 @@ public class CommandHandler implements TabCompleter {
                         return true;
                     } else {
                         sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm limit");
-                        return true;
-                    }
-                } else if (args[0].equalsIgnoreCase("setwarp")) {
-                    if (allargs.matches(REGEX_SET_WARP)) {
-                        if (sender.hasPermission(Permission.ADMIN_SETWARP)) {
-                            Region.setTeleportLocation(args[1], sender);
-                        } else {
-                            sender.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-                        }
-                        return true;
-                    } else {
-                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm setwarp [REGION]");
-                        return true;
-                    }
-                } else if (args[0].equalsIgnoreCase("reload")) {
-                    if (allargs.matches(REGEX_RELOAD)) {
-                        if (sender.hasPermission(Permission.ADMIN_RELOAD)) {
-                            sender.sendMessage(Messages.PREFIX + "Reloading...");
-                            AdvancedRegionMarket.getARM().onDisable();
-                            Bukkit.getServer().getPluginManager().getPlugin("AdvancedRegionMarket").reloadConfig();
-                            AdvancedRegionMarket.getARM().onEnable();
-                            sender.sendMessage(Messages.PREFIX + "Complete!");
-                        } else {
-                            sender.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);
-                        }
-                        return true;
-                    } else {
-                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm reload");
                         return true;
                     }
                 } else if (args[0].equalsIgnoreCase("unsell")) {
@@ -463,16 +391,6 @@ public class CommandHandler implements TabCompleter {
                         returnme.addAll(onTabompleteUnsell(player, args));
                     }
                 }
-                if ("setwarp".startsWith(args[0])) {
-                    if (player.hasPermission(Permission.ADMIN_SETWARP)) {
-                        returnme.addAll(onTabompleteSetWarp(player, args));
-                    }
-                }
-                if ("tp".startsWith(args[0])) {
-                    if (player.hasPermission(Permission.ADMIN_TP) || player.hasPermission(Permission.MEMBER_TP)) {
-                        returnme.addAll(onTabompleteTP(player, args));
-                    }
-                }
                 if ("updateschematic".startsWith(args[0])) {
                     if (player.hasPermission(Permission.ADMIN_UPDATESCHEMATIC)) {
                         returnme.addAll(onTabompleteUpdateSchematic(player, args));
@@ -481,11 +399,6 @@ public class CommandHandler implements TabCompleter {
                 if ("resetblocks".startsWith(args[0])) {
                     if (player.hasPermission(Permission.MEMBER_RESETREGIONBLOCKS) || player.hasPermission(Permission.ADMIN_RESETREGIONBLOCKS)) {
                         returnme.addAll(onTabompleteResetBlocks(player, args));
-                    }
-                }
-                if("reset".startsWith(args[0])) {
-                    if(player.hasPermission(Permission.ADMIN_RESETREGION)) {
-                        returnme.addAll(onTabompleteReset(player, args));
                     }
                 }
                 if ("addmember".startsWith(args[0])) {
@@ -820,16 +733,6 @@ public class CommandHandler implements TabCompleter {
         return  returnme;
     }
 
-    private List<String> onTabompleteReset(Player player, String args[]) {
-        List<String> returnme = new ArrayList<>();
-        if(args.length == 1) {
-            returnme.add("reset");
-        } else if(args.length == 2) {
-            returnme.addAll(Region.completeTabRegions(player, args[1], PlayerRegionRelationship.ALL));
-        }
-        return  returnme;
-    }
-
     private List<String> onTabompleteUnsell(Player player, String args[]) {
         List<String> returnme = new ArrayList<>();
         if(args.length == 1) {
@@ -848,16 +751,6 @@ public class CommandHandler implements TabCompleter {
             if(player.hasPermission(Permission.ADMIN_LISTREGIONS)) {
                 returnme.addAll(this.completeOnlinePlayers(args[1]));
             }
-        }
-        return  returnme;
-    }
-
-    private List<String> onTabompleteSetWarp(Player player, String args[]) {
-        List<String> returnme = new ArrayList<>();
-        if(args.length == 1) {
-            returnme.add("setwarp");
-        } else if(args.length == 2) {
-            returnme.addAll(Region.completeTabRegions(player, args[1], PlayerRegionRelationship.ALL));
         }
         return  returnme;
     }
@@ -959,22 +852,6 @@ public class CommandHandler implements TabCompleter {
                 playerRegionRelationship = PlayerRegionRelationship.ALL;
             } else {
                 playerRegionRelationship = PlayerRegionRelationship.OWNER;
-            }
-            returnme.addAll(Region.completeTabRegions(player, args[1], playerRegionRelationship));
-        }
-        return  returnme;
-    }
-
-    private List<String> onTabompleteTP(Player player, String args[]) {
-        List<String> returnme = new ArrayList<>();
-        if(args.length == 1) {
-            returnme.add("tp");
-        } else if(args.length == 2) {
-            PlayerRegionRelationship playerRegionRelationship = null;
-            if(player.hasPermission(Permission.ADMIN_TP)) {
-                playerRegionRelationship = PlayerRegionRelationship.ALL;
-            } else {
-                playerRegionRelationship = PlayerRegionRelationship.MEMBER_OR_OWNER;
             }
             returnme.addAll(Region.completeTabRegions(player, args[1], playerRegionRelationship));
         }

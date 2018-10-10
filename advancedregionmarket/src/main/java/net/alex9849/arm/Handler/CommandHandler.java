@@ -12,6 +12,7 @@ import net.alex9849.arm.commands.BasicArmCommand;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.gui.Gui;
 import net.alex9849.arm.minifeatures.Diagram;
+import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import net.alex9849.arm.regions.ContractRegion;
 import net.alex9849.arm.regions.Region;
@@ -38,8 +39,6 @@ public class CommandHandler implements TabCompleter {
     private static final String REGEX_SET_REGION_KIND = " (?i)setregionkind [^;\n ]+ [^;\n ]+";
     private static final String REGEX_RESET_REGION_BLOCKS = " (?i)resetblocks [^;\n ]+";
     private static final String REGEX_RESET_REGION = " (?i)reset [^;\n ]+";
-    private static final String REGEX_REGION_INFO_WITHOUT_REGIONNAME = " (?i)info";
-    private static final String REGEX_REGION_INFO_WITH_REGIONNAME = " (?i)info [^;\n ]+";
     private static final String REGEX_ADDMEMBER_WITH_REGIONNAME = " (?i)addmember [^;\n ]+ [^;\n ]+";
     private static final String REGEX_REMOVEMEMBER_WITH_REGIONNAME = " (?i)removemember [^;\n ]+ [^;\n ]+";
     private static final String REGEX_CHANGE_AUTORESET = " (?i)autoreset [^;\n ]+ (false|true)";
@@ -60,10 +59,6 @@ public class CommandHandler implements TabCompleter {
     private static final String REGEX_CONTRACTPRESET = " (?i)contractpreset [^;\n]+";
     private Boolean completeRegions = false;
     private List<BasicArmCommand> commands = new ArrayList<>();
-
-    private enum PlayerRegionStatus {
-            ALL, MEMBER, OWNER, MEMBER_OR_OWNER;
-    }
 
     public void loadCommands(){
 
@@ -99,10 +94,6 @@ public class CommandHandler implements TabCompleter {
 
     public void unloadCommands() {
         this.commands = new ArrayList<>();
-    }
-
-    public CommandHandler(Boolean completeRegions) {
-        this.completeRegions = completeRegions;
     }
 
     /*
@@ -384,7 +375,7 @@ public class CommandHandler implements TabCompleter {
             for(int i = 0; i < this.commands.size(); i++) {
                 if(this.commands.get(i).getRootCommand().equalsIgnoreCase(args[0])) {
                     if(this.commands.get(i).matchesRegex(allargs)) {
-                        return this.commands.get(i).runCommand(sender, cmd, commandsLabel, args);
+                        return this.commands.get(i).runCommand(sender, cmd, commandsLabel, args, allargs);
                     } else {
                         sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: " + this.commands.get(i).getUsage());
                         return true;
@@ -510,11 +501,6 @@ public class CommandHandler implements TabCompleter {
                 if ("removemember".startsWith(args[0])) {
                     if (player.hasPermission(Permission.ADMIN_REMOVEMEMBER) || player.hasPermission(Permission.MEMBER_REMOVEMEMBER)) {
                         returnme.addAll(onTabompleteRemoveMember(player, args));
-                    }
-                }
-                if("info".startsWith(args[0])) {
-                    if(player.hasPermission(Permission.ADMIN_INFO) || player.hasPermission(Permission.MEMBER_INFO)) {
-                        returnme.addAll(onTabompleteInfo(player, args));
                     }
                 }
                 if ("listregions".startsWith(args[0])) {
@@ -785,7 +771,7 @@ public class CommandHandler implements TabCompleter {
                 returnme.add("default");
             }
         } else if(args.length == 3) {
-            returnme.addAll(this.completeRegions(player, args[2], PlayerRegionStatus.ALL));
+            returnme.addAll(Region.completeTabRegions(player, args[2], PlayerRegionRelationship.ALL));
         }
         return returnme;
     }
@@ -795,7 +781,7 @@ public class CommandHandler implements TabCompleter {
         if(args.length == 1) {
             returnme.add("autoreset");
         } else if(args.length == 2) {
-            returnme.addAll(this.completeRegions(player, args[1], PlayerRegionStatus.ALL));
+            returnme.addAll(Region.completeTabRegions(player, args[1], PlayerRegionRelationship.ALL));
         } else if(args.length == 3) {
             if("true".startsWith(args[2])) {
                 returnme.add("true");
@@ -812,7 +798,7 @@ public class CommandHandler implements TabCompleter {
         if(args.length == 1) {
             returnme.add("hotel");
         } else if(args.length == 2) {
-            returnme.addAll(this.completeRegions(player, args[1], PlayerRegionStatus.ALL));
+            returnme.addAll(Region.completeTabRegions(player, args[1], PlayerRegionRelationship.ALL));
         } else if(args.length == 3) {
             if("true".startsWith(args[2])) {
                 returnme.add("true");
@@ -829,7 +815,7 @@ public class CommandHandler implements TabCompleter {
         if(args.length == 1) {
             returnme.add("delete");
         } else if(args.length == 2) {
-            returnme.addAll(this.completeRegions(player, args[1], PlayerRegionStatus.ALL));
+            returnme.addAll(Region.completeTabRegions(player, args[1], PlayerRegionRelationship.ALL));
         }
         return  returnme;
     }
@@ -839,7 +825,7 @@ public class CommandHandler implements TabCompleter {
         if(args.length == 1) {
             returnme.add("reset");
         } else if(args.length == 2) {
-            returnme.addAll(this.completeRegions(player, args[1], PlayerRegionStatus.ALL));
+            returnme.addAll(Region.completeTabRegions(player, args[1], PlayerRegionRelationship.ALL));
         }
         return  returnme;
     }
@@ -849,17 +835,7 @@ public class CommandHandler implements TabCompleter {
         if(args.length == 1) {
             returnme.add("unsell");
         } else if(args.length == 2) {
-            returnme.addAll(this.completeRegions(player, args[1], PlayerRegionStatus.ALL));
-        }
-        return  returnme;
-    }
-
-    private List<String> onTabompleteInfo(Player player, String args[]) {
-        List<String> returnme = new ArrayList<>();
-        if(args.length == 1) {
-            returnme.add("info");
-        } else if(args.length == 2) {
-            returnme.addAll(this.completeRegions(player, args[1], PlayerRegionStatus.ALL));
+            returnme.addAll(Region.completeTabRegions(player, args[1], PlayerRegionRelationship.ALL));
         }
         return  returnme;
     }
@@ -881,7 +857,7 @@ public class CommandHandler implements TabCompleter {
         if(args.length == 1) {
             returnme.add("setwarp");
         } else if(args.length == 2) {
-            returnme.addAll(this.completeRegions(player, args[1], PlayerRegionStatus.ALL));
+            returnme.addAll(Region.completeTabRegions(player, args[1], PlayerRegionRelationship.ALL));
         }
         return  returnme;
     }
@@ -891,7 +867,7 @@ public class CommandHandler implements TabCompleter {
         if(args.length == 1) {
             returnme.add("updateschematic");
         } else if(args.length == 2) {
-            returnme.addAll(this.completeRegions(player, args[1], PlayerRegionStatus.ALL));
+            returnme.addAll(Region.completeTabRegions(player, args[1], PlayerRegionRelationship.ALL));
         }
         return  returnme;
     }
@@ -901,13 +877,13 @@ public class CommandHandler implements TabCompleter {
         if(args.length == 1) {
             returnme.add("extend");
         } else if(args.length == 2) {
-            PlayerRegionStatus playerRegionStatus = null;
+            PlayerRegionRelationship playerRegionRelationship = null;
             if(player.hasPermission(Permission.ADMIN_EXTEND)) {
-                playerRegionStatus = PlayerRegionStatus.ALL;
+                playerRegionRelationship = PlayerRegionRelationship.ALL;
             } else {
-                playerRegionStatus = PlayerRegionStatus.OWNER;
+                playerRegionRelationship = PlayerRegionRelationship.OWNER;
             }
-            returnme.addAll(this.completeRegions(player, args[1], playerRegionStatus));
+            returnme.addAll(Region.completeTabRegions(player, args[1], playerRegionRelationship));
         }
         return  returnme;
     }
@@ -917,13 +893,13 @@ public class CommandHandler implements TabCompleter {
         if(args.length == 1) {
             returnme.add("addmember");
         } else if(args.length == 2) {
-            PlayerRegionStatus playerRegionStatus = null;
+            PlayerRegionRelationship playerRegionRelationship = null;
             if(player.hasPermission(Permission.ADMIN_ADDMEMBER)) {
-                playerRegionStatus = PlayerRegionStatus.ALL;
+                playerRegionRelationship = PlayerRegionRelationship.ALL;
             } else {
-                playerRegionStatus = PlayerRegionStatus.OWNER;
+                playerRegionRelationship = PlayerRegionRelationship.OWNER;
             }
-            returnme.addAll(this.completeRegions(player, args[1], playerRegionStatus));
+            returnme.addAll(Region.completeTabRegions(player, args[1], playerRegionRelationship));
         } else if(args.length == 3) {
             returnme.addAll(this.completeOnlinePlayers(args[2]));
         }
@@ -935,13 +911,13 @@ public class CommandHandler implements TabCompleter {
         if(args.length == 1) {
             returnme.add("removemember");
         } else if(args.length == 2) {
-            PlayerRegionStatus playerRegionStatus = null;
+            PlayerRegionRelationship playerRegionRelationship = null;
             if(player.hasPermission(Permission.ADMIN_REMOVEMEMBER)) {
-                playerRegionStatus = PlayerRegionStatus.ALL;
+                playerRegionRelationship = PlayerRegionRelationship.ALL;
             } else {
-                playerRegionStatus = PlayerRegionStatus.OWNER;
+                playerRegionRelationship = PlayerRegionRelationship.OWNER;
             }
-            returnme.addAll(this.completeRegions(player, args[1], playerRegionStatus));
+            returnme.addAll(Region.completeTabRegions(player, args[1], playerRegionRelationship));
         } else if(args.length == 3) {
             if(this.completeRegions) {
                 Region region = Region.searchRegionbyNameAndWorld(args[1], player.getWorld().getName());
@@ -960,13 +936,13 @@ public class CommandHandler implements TabCompleter {
         if(args.length == 1) {
             returnme.add("setowner");
         } else if(args.length == 2) {
-            PlayerRegionStatus playerRegionStatus = null;
+            PlayerRegionRelationship playerRegionRelationship = null;
             if(player.hasPermission(Permission.ADMIN_SETOWNER)) {
-                playerRegionStatus = PlayerRegionStatus.ALL;
+                playerRegionRelationship = PlayerRegionRelationship.ALL;
             } else {
-                playerRegionStatus = PlayerRegionStatus.OWNER;
+                playerRegionRelationship = PlayerRegionRelationship.OWNER;
             }
-            returnme.addAll(this.completeRegions(player, args[1], playerRegionStatus));
+            returnme.addAll(Region.completeTabRegions(player, args[1], playerRegionRelationship));
         } else if(args.length == 3) {
             returnme.addAll(this.completeOnlinePlayers(args[2]));
         }
@@ -978,13 +954,13 @@ public class CommandHandler implements TabCompleter {
         if(args.length == 1) {
             returnme.add("resetblocks");
         } else if(args.length == 2) {
-            PlayerRegionStatus playerRegionStatus = null;
+            PlayerRegionRelationship playerRegionRelationship = null;
             if(player.hasPermission(Permission.ADMIN_RESETREGIONBLOCKS)) {
-                playerRegionStatus = PlayerRegionStatus.ALL;
+                playerRegionRelationship = PlayerRegionRelationship.ALL;
             } else {
-                playerRegionStatus = PlayerRegionStatus.OWNER;
+                playerRegionRelationship = PlayerRegionRelationship.OWNER;
             }
-            returnme.addAll(this.completeRegions(player, args[1], playerRegionStatus));
+            returnme.addAll(Region.completeTabRegions(player, args[1], playerRegionRelationship));
         }
         return  returnme;
     }
@@ -994,13 +970,13 @@ public class CommandHandler implements TabCompleter {
         if(args.length == 1) {
             returnme.add("tp");
         } else if(args.length == 2) {
-            PlayerRegionStatus playerRegionStatus = null;
+            PlayerRegionRelationship playerRegionRelationship = null;
             if(player.hasPermission(Permission.ADMIN_TP)) {
-                playerRegionStatus = PlayerRegionStatus.ALL;
+                playerRegionRelationship = PlayerRegionRelationship.ALL;
             } else {
-                playerRegionStatus = PlayerRegionStatus.MEMBER_OR_OWNER;
+                playerRegionRelationship = PlayerRegionRelationship.MEMBER_OR_OWNER;
             }
-            returnme.addAll(this.completeRegions(player, args[1], playerRegionStatus));
+            returnme.addAll(Region.completeTabRegions(player, args[1], playerRegionRelationship));
         }
         return  returnme;
     }
@@ -1010,7 +986,7 @@ public class CommandHandler implements TabCompleter {
         if(args.length == 1) {
             returnme.add("doblockreset");
         } else if(args.length == 2) {
-            returnme.addAll(this.completeRegions(player, args[1], PlayerRegionStatus.ALL));
+            returnme.addAll(Region.completeTabRegions(player, args[1], PlayerRegionRelationship.ALL));
         } else if(args.length == 3) {
             if("true".startsWith(args[2])) {
                 returnme.add("true");
@@ -1027,13 +1003,13 @@ public class CommandHandler implements TabCompleter {
         if(args.length == 1) {
             returnme.add("terminate");
         } else if(args.length == 2) {
-            PlayerRegionStatus playerRegionStatus = null;
+            PlayerRegionRelationship playerRegionRelationship = null;
             if(player.hasPermission(Permission.ADMIN_TERMINATE_CONTRACT)) {
-                playerRegionStatus = PlayerRegionStatus.ALL;
+                playerRegionRelationship = PlayerRegionRelationship.ALL;
             } else {
-                playerRegionStatus = PlayerRegionStatus.OWNER;
+                playerRegionRelationship = PlayerRegionRelationship.OWNER;
             }
-            returnme.addAll(this.completeRegions(player, args[1], playerRegionStatus));
+            returnme.addAll(Region.completeTabRegions(player, args[1], playerRegionRelationship));
         } else if(args.length == 3) {
             if("true".startsWith(args[2])) {
                 returnme.add("true");
@@ -1043,34 +1019,6 @@ public class CommandHandler implements TabCompleter {
             }
         }
         return  returnme;
-    }
-
-    private List<String> completeRegions(Player player, String arg, PlayerRegionStatus playerstatus) {
-        List<String> returnme = new ArrayList<>();
-
-        if(this.completeRegions) {
-            for(Region region : Region.getRegionList()) {
-                if(region.getRegion().getId().toLowerCase().startsWith(arg)) {
-                    if(playerstatus == PlayerRegionStatus.OWNER) {
-                        if(AdvancedRegionMarket.getWorldGuardInterface().hasOwner(player, region.getRegion())) {
-                            returnme.add(region.getRegion().getId());
-                        }
-                    } else if (playerstatus == PlayerRegionStatus.MEMBER) {
-                        if(AdvancedRegionMarket.getWorldGuardInterface().hasMember(player, region.getRegion())) {
-                            returnme.add(region.getRegion().getId());
-                        }
-                    } else if (playerstatus == PlayerRegionStatus.MEMBER_OR_OWNER) {
-                        if(AdvancedRegionMarket.getWorldGuardInterface().hasMember(player, region.getRegion()) || AdvancedRegionMarket.getWorldGuardInterface().hasOwner(player, region.getRegion())) {
-                            returnme.add(region.getRegion().getId());
-                        }
-                    } else if (playerstatus == PlayerRegionStatus.ALL) {
-                        returnme.add(region.getRegion().getId());
-                    }
-                }
-            }
-        }
-
-        return returnme;
     }
 
     private List<String> completeOnlinePlayers(String args) {

@@ -36,7 +36,7 @@ public class FindFreeRegionCommand extends BasicArmCommand {
     }
 
     @Override
-    public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args) throws InputException {
+    public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if(!player.hasPermission(Permission.ARM_BUYKIND + args[1])){

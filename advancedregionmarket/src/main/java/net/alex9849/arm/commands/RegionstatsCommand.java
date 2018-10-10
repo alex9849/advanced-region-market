@@ -39,17 +39,8 @@ public class RegionstatsCommand extends BasicArmCommand {
     }
 
     @Override
-    public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args) throws InputException {
+    public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
         if (sender.hasPermission(Permission.ADMIN_REGION_STATS)) {
-            String allargs = "";
-
-            for (int i = 0; i < args.length; i++) {
-                if(i == 0) {
-                    allargs = args[i];
-                } else {
-                    allargs = allargs + " " + args[i];
-                }
-            }
 
             if(allargs.matches(regex)) {
                 return Diagram.sendRegionStats(sender);

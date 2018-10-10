@@ -15,7 +15,7 @@ public abstract class BasicArmCommand {
 
     public abstract String getUsage();
 
-    public abstract boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args) throws InputException;
+    public abstract boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException;
 
     public abstract List<String> onTabComplete(Player player, String args[]);
 }

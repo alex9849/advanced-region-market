@@ -33,7 +33,7 @@ public class ListRegionKindsCommand extends BasicArmCommand {
     }
 
     @Override
-    public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args) throws InputException {
+    public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
         if(!sender.hasPermission(Permission.ADMIN_LISTREGIONKINDS)) {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }

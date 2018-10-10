@@ -35,7 +35,7 @@ public class LimitCommand extends BasicArmCommand {
     }
 
     @Override
-    public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args) throws InputException {
+    public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
         if (sender.hasPermission(Permission.MEMBER_LIMIT)) {
             if(!(sender instanceof Player)){
                 throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);

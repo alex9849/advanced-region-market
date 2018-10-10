@@ -32,7 +32,7 @@ public class GuiCommand extends BasicArmCommand {
     }
 
     @Override
-    public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args) throws InputException {
+    public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
         if (sender instanceof Player) {
             if (sender.hasPermission(Permission.MEMBER_GUI)) {
                 Gui.openARMGui((Player) sender);

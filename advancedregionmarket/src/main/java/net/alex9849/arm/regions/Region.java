@@ -7,6 +7,7 @@ import net.alex9849.arm.Permission;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.gui.Gui;
+import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import org.bukkit.*;
 import org.bukkit.Location;
@@ -24,6 +25,7 @@ import java.util.*;
 
 public abstract class Region {
     private static List<Region> regionList = new ArrayList<>();
+    private static boolean completeTabRegions;
 
     protected ProtectedRegion region;
     protected String regionworld;
@@ -1077,5 +1079,37 @@ public abstract class Region {
         YamlConfiguration config = getRegionsConf();
         config.set("Regions." + this.regionworld + "." + this.getRegion().getId() + ".doBlockReset", bool);
         saveRegionsConf(config);
+    }
+
+    public static List<String> completeTabRegions(Player player, String arg, PlayerRegionRelationship playerRegionRelationship) {
+        List<String> returnme = new ArrayList<>();
+
+        if(Region.completeTabRegions) {
+            for(Region region : Region.getRegionList()) {
+                if(region.getRegion().getId().toLowerCase().startsWith(arg)) {
+                    if(playerRegionRelationship == PlayerRegionRelationship.OWNER) {
+                        if(AdvancedRegionMarket.getWorldGuardInterface().hasOwner(player, region.getRegion())) {
+                            returnme.add(region.getRegion().getId());
+                        }
+                    } else if (playerRegionRelationship == PlayerRegionRelationship.MEMBER) {
+                        if(AdvancedRegionMarket.getWorldGuardInterface().hasMember(player, region.getRegion())) {
+                            returnme.add(region.getRegion().getId());
+                        }
+                    } else if (playerRegionRelationship == PlayerRegionRelationship.MEMBER_OR_OWNER) {
+                        if(AdvancedRegionMarket.getWorldGuardInterface().hasMember(player, region.getRegion()) || AdvancedRegionMarket.getWorldGuardInterface().hasOwner(player, region.getRegion())) {
+                            returnme.add(region.getRegion().getId());
+                        }
+                    } else if (playerRegionRelationship == PlayerRegionRelationship.ALL) {
+                        returnme.add(region.getRegion().getId());
+                    }
+                }
+            }
+        }
+
+        return returnme;
+    }
+
+    public static void setCompleteTabRegions(Boolean bool) {
+        Region.completeTabRegions = bool;
     }
 }

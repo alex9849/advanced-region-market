@@ -62,7 +62,7 @@ public class ListRegionsCommand extends BasicArmCommand {
                 if (player.hasPermission(Permission.ADMIN_LISTREGIONS) || player.hasPermission(Permission.MEMBER_LISTREGIONS)) {
                     if(args.length == 1) {
                         returnme.add(this.rootCommand);
-                    } else if(args.length == 2) {
+                    } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
                         if(player.hasPermission(Permission.ADMIN_LISTREGIONS)) {
                             returnme.addAll(CommandHandler.tabCompleteOnlinePlayers(args[1]));
                         }

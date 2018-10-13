@@ -63,7 +63,7 @@ public class SetWarpCommand extends BasicArmCommand {
                 if (player.hasPermission(Permission.ADMIN_SETWARP)) {
                     if(args.length == 1) {
                         returnme.add(this.rootCommand);
-                    } else if(args.length == 2) {
+                    } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
                         returnme.addAll(Region.completeTabRegions(player, args[1], PlayerRegionRelationship.ALL));
                     }
                 }

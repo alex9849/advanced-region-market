@@ -76,7 +76,7 @@ public class TerminateCommand extends BasicArmCommand {
                 if(player.hasPermission(Permission.ADMIN_TERMINATE_CONTRACT) || player.hasPermission(Permission.ARM_BUY_CONTRACTREGION)) {
                     if(args.length == 1) {
                         returnme.add(this.rootCommand);
-                    } else if(args.length == 2) {
+                    } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
                         PlayerRegionRelationship playerRegionRelationship = null;
                         if(player.hasPermission(Permission.ADMIN_TERMINATE_CONTRACT)) {
                             playerRegionRelationship = PlayerRegionRelationship.ALL;
@@ -84,7 +84,7 @@ public class TerminateCommand extends BasicArmCommand {
                             playerRegionRelationship = PlayerRegionRelationship.OWNER;
                         }
                         returnme.addAll(Region.completeTabRegions(player, args[1], playerRegionRelationship));
-                    } else if(args.length == 3) {
+                    } else if(args.length == 3 && (args[0].equalsIgnoreCase(this.rootCommand))) {
                         if("true".startsWith(args[2])) {
                             returnme.add("true");
                         }

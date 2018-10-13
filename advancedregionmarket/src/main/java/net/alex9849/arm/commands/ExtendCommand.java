@@ -67,7 +67,7 @@ public class ExtendCommand extends BasicArmCommand {
                 if (player.hasPermission(Permission.ADMIN_EXTEND) || player.hasPermission(Permission.ARM_BUY_RENTREGION)) {
                     if(args.length == 1) {
                         returnme.add(this.rootCommand);
-                    } else if(args.length == 2) {
+                    } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
                         PlayerRegionRelationship playerRegionRelationship = null;
                         if(player.hasPermission(Permission.ADMIN_EXTEND)) {
                             playerRegionRelationship = PlayerRegionRelationship.ALL;

@@ -72,7 +72,7 @@ public class FindFreeRegionCommand extends BasicArmCommand {
                     if(addffr) {
                         returnme.add(this.rootCommand);
                     }
-                } else if (args.length == 2) {
+                } else if (args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
                     for(RegionKind regionkind : RegionKind.getRegionKindList()) {
                         if(regionkind.getName().toLowerCase().startsWith(args[1])) {
                             if(player.hasPermission(Permission.ARM_BUYKIND + regionkind.getName())) {

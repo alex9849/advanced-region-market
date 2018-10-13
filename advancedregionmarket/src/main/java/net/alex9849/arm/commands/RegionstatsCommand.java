@@ -62,7 +62,7 @@ public class RegionstatsCommand extends BasicArmCommand {
                 if (player.hasPermission(Permission.ADMIN_REGION_STATS)) {
                     if(args.length == 1) {
                         returnme.add(this.rootCommand);
-                    } else if(args.length == 2) {
+                    } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
                         for(RegionKind regionkind : RegionKind.getRegionKindList()) {
                             if(regionkind.getName().toLowerCase().startsWith(args[1])) {
                                 returnme.add(regionkind.getName());

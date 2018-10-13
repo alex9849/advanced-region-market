@@ -74,7 +74,7 @@ public class AddMemberCommand extends BasicArmCommand {
                 if (player.hasPermission(Permission.ADMIN_ADDMEMBER) || player.hasPermission(Permission.MEMBER_ADDMEMBER)) {
                     if(args.length == 1) {
                         returnme.add(this.rootCommand);
-                    } else if(args.length == 2) {
+                    } else if(args.length == 2 && args[0].equalsIgnoreCase(this.rootCommand)) {
                         PlayerRegionRelationship playerRegionRelationship = null;
                         if(player.hasPermission(Permission.ADMIN_ADDMEMBER)) {
                             playerRegionRelationship = PlayerRegionRelationship.ALL;
@@ -82,7 +82,7 @@ public class AddMemberCommand extends BasicArmCommand {
                             playerRegionRelationship = PlayerRegionRelationship.OWNER;
                         }
                         returnme.addAll(Region.completeTabRegions(player, args[1], playerRegionRelationship));
-                    } else if(args.length == 3) {
+                    } else if(args.length == 3 && args[0].equalsIgnoreCase(this.rootCommand)) {
                         returnme.addAll(CommandHandler.tabCompleteOnlinePlayers(args[2]));
                     }
                 }

@@ -64,9 +64,9 @@ public class HotelCommand extends BasicArmCommand {
                 if(player.hasPermission(Permission.ADMIN_CHANGE_IS_HOTEL)) {
                     if(args.length == 1) {
                         returnme.add(this.rootCommand);
-                    } else if(args.length == 2) {
+                    } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
                         returnme.addAll(Region.completeTabRegions(player, args[1], PlayerRegionRelationship.ALL));
-                    } else if(args.length == 3) {
+                    } else if(args.length == 3 && (args[0].equalsIgnoreCase(this.rootCommand))) {
                         if("true".startsWith(args[2])) {
                             returnme.add("true");
                         }

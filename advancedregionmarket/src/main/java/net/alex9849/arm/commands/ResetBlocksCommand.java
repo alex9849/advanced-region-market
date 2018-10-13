@@ -78,7 +78,7 @@ public class ResetBlocksCommand extends BasicArmCommand {
                 if (player.hasPermission(Permission.MEMBER_RESETREGIONBLOCKS) || player.hasPermission(Permission.ADMIN_RESETREGIONBLOCKS)) {
                     if(args.length == 1) {
                         returnme.add(this.rootCommand);
-                    } else if(args.length == 2) {
+                    } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
                         PlayerRegionRelationship playerRegionRelationship = null;
                         if(player.hasPermission(Permission.ADMIN_RESETREGIONBLOCKS)) {
                             playerRegionRelationship = PlayerRegionRelationship.ALL;

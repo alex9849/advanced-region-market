@@ -1,4 +1,4 @@
-package net.alex9849.arm;
+package net.alex9849.arm.minifeatures;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,7 @@ public class AutoPrice {
     private double pricepersquaremeter;
     private String name;
 
-    AutoPrice(String name, double pricepersquaremeter){
+    public AutoPrice(String name, double pricepersquaremeter){
         this.pricepersquaremeter = pricepersquaremeter;
         this.name = name;
     }

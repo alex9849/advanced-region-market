@@ -8,6 +8,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Preset {
     private static YamlConfiguration config;
@@ -180,5 +182,31 @@ public abstract class Preset {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static List<String> onTabCompleteCompleteSavedPresets(String args[]) {
+        List<String> returnme = new ArrayList<>();
+        if(args[0].equalsIgnoreCase("sellpreset")) {
+            for(SellPreset preset: SellPreset.getPatterns()) {
+                if(preset.getName().toLowerCase().startsWith(args[2])) {
+                    returnme.add(preset.getName());
+                }
+            }
+        }
+        if(args[0].equalsIgnoreCase("rentpreset")) {
+            for(RentPreset preset: RentPreset.getPatterns()) {
+                if(preset.getName().toLowerCase().startsWith(args[2])) {
+                    returnme.add(preset.getName());
+                }
+            }
+        }
+        if(args[0].equalsIgnoreCase("contractpreset")) {
+            for(ContractPreset preset: ContractPreset.getPatterns()) {
+                if(preset.getName().toLowerCase().startsWith(args[2])) {
+                    returnme.add(preset.getName());
+                }
+            }
+        }
+        return returnme;
     }
 }

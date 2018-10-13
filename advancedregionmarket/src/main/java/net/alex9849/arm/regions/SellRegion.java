@@ -161,7 +161,7 @@ public class SellRegion extends Region {
     }
 
     @Override
-    protected void setSold(OfflinePlayer player){
+    public void setSold(OfflinePlayer player){
         this.sold = true;
         AdvancedRegionMarket.getWorldGuardInterface().deleteMembers(this.getRegion());
         AdvancedRegionMarket.getWorldGuardInterface().setOwner(player, this.getRegion());

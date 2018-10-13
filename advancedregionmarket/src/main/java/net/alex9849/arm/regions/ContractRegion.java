@@ -95,7 +95,7 @@ public class ContractRegion extends Region {
     }
 
     @Override
-    protected void setSold(OfflinePlayer player) {
+    public void setSold(OfflinePlayer player) {
         if(!this.sold) {
             GregorianCalendar actualtime = new GregorianCalendar();
             this.payedTill = actualtime.getTimeInMillis() + this.extendTime;

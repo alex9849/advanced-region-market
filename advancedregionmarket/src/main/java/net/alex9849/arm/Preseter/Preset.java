@@ -46,6 +46,32 @@ public abstract class Preset {
         return this.assignedPlayer;
     }
 
+    public static boolean assignToPlayer(PresetType presetType, Player player, String presetName) {
+        if(presetType == PresetType.SELLPRESET) {
+            return SellPreset.assignToPlayer(player, presetName);
+        } else if(presetType == PresetType.RENTPRESET) {
+            return RentPreset.assignToPlayer(player, presetName);
+        } else if(presetType == PresetType.CONTRACTPRESET) {
+            return ContractPreset.assignToPlayer(player, presetName);
+        } else {
+            return false;
+        }
+    }
+
+    public abstract boolean save(String name);
+
+    public static boolean delete(PresetType presetType, String presetName) {
+        if(presetType == PresetType.SELLPRESET) {
+            return SellPreset.removePattern(presetName);
+        } else if(presetType == PresetType.RENTPRESET) {
+            return RentPreset.removePattern(presetName);
+        } else if(presetType == PresetType.CONTRACTPRESET) {
+            return ContractPreset.removePattern(presetName);
+        } else {
+            return false;
+        }
+    }
+
     public void setPrice(double price){
         if(price < 0){
             price = price * (-1);
@@ -104,6 +130,18 @@ public abstract class Preset {
         this.regionKind = RegionKind.DEFAULT;
     }
 
+    public static Preset getPreset(PresetType presetType, Player player) {
+        if(presetType == PresetType.SELLPRESET) {
+            return SellPreset.getPreset(player);
+        } else if(presetType == PresetType.RENTPRESET) {
+            return RentPreset.getPreset(player);
+        } else if(presetType == PresetType.CONTRACTPRESET) {
+            return ContractPreset.getPreset(player);
+        } else {
+            return null;
+        }
+    }
+
     public void setAutoReset(Boolean autoReset) {
         this.hasAutoReset = true;
         this.autoReset = autoReset;
@@ -143,6 +181,8 @@ public abstract class Preset {
     public boolean isHotel() {
         return isHotel;
     }
+
+    public abstract void remove();
 
     public static YamlConfiguration getConfig(){
         return Preset.config;
@@ -184,25 +224,25 @@ public abstract class Preset {
         }
     }
 
-    public static List<String> onTabCompleteCompleteSavedPresets(String args[]) {
+    public static List<String> onTabCompleteCompleteSavedPresets(String presetname, PresetType presetType) {
         List<String> returnme = new ArrayList<>();
-        if(args[0].equalsIgnoreCase("sellpreset")) {
+        if(presetType == PresetType.SELLPRESET) {
             for(SellPreset preset: SellPreset.getPatterns()) {
-                if(preset.getName().toLowerCase().startsWith(args[2])) {
+                if(preset.getName().toLowerCase().startsWith(presetname)) {
                     returnme.add(preset.getName());
                 }
             }
         }
-        if(args[0].equalsIgnoreCase("rentpreset")) {
+        if(presetType == PresetType.RENTPRESET) {
             for(RentPreset preset: RentPreset.getPatterns()) {
-                if(preset.getName().toLowerCase().startsWith(args[2])) {
+                if(preset.getName().toLowerCase().startsWith(presetname)) {
                     returnme.add(preset.getName());
                 }
             }
         }
-        if(args[0].equalsIgnoreCase("contractpreset")) {
+        if(presetType == PresetType.CONTRACTPRESET) {
             for(ContractPreset preset: ContractPreset.getPatterns()) {
-                if(preset.getName().toLowerCase().startsWith(args[2])) {
+                if(preset.getName().toLowerCase().startsWith(presetname)) {
                     returnme.add(preset.getName());
                 }
             }

@@ -465,6 +465,9 @@ public class ARMListener implements Listener {
         if(RentPreset.hasPreset(event.getPlayer())) {
             RentPreset.removePreset(event.getPlayer());
         }
+        if(ContractPreset.hasPreset(event.getPlayer())) {
+            ContractPreset.removePreset(event.getPlayer());
+        }
     }
 
     public static void doOvertakeCheck(Player player) {

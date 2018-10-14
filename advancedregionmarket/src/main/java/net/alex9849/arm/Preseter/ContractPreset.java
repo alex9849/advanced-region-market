@@ -2,6 +2,7 @@ package net.alex9849.arm.Preseter;
 
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
+import net.alex9849.arm.Preseter.commands.*;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.regions.RentRegion;
 import net.alex9849.arm.regions.RegionKind;
@@ -15,25 +16,7 @@ import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
 
 public class ContractPreset extends Preset {
-    private static final String SET_PRICE = "(?i)contractpreset (?i)price [+-]?([0-9]+[.])?[0-9]+";
-    private static final String REMOVE_PRICE = "(?i)contractpreset (?i)price remove";
-    private static final String SET_EXTEND = "(?i)contractpreset (?i)extend ([0-9]+(s|m|h|d))";
-    private static final String REMOVE_EXTEND = "(?i)contractpreset (?i)extend remove";
-    private static final String SET_REGIONKIND = "(?i)contractpreset (?i)regionkind [^;\n ]+";
-    private static final String REMOVE_REGIONKIND = "(?i)contractpreset (?i)regionkind remove";
-    private static final String SET_AUTO_RESET = "(?i)contractpreset (?i)autoreset (false|true)";
-    private static final String REMOVE_AUTO_RESET = "(?i)contractpreset (?i)autoreset remove";
-    private static final String SET_HOTEL = "(?i)contractpreset (?i)hotel (false|true)";
-    private static final String REMOVE_HOTEL = "(?i)contractpreset (?i)hotel remove";
-    private static final String SET_DO_BLOCK_RESET = "(?i)contractpreset (?i)doblockreset (false|true)";
-    private static final String REMOVE_DO_BLOCK_RESET = "(?i)contractpreset (?i)doblockreset remove";
-    private static final String RESET = "(?i)contractpreset (?i)reset";
-    private static final String INFO = "(?i)contractpreset (?i)info";
-    private static final String HELP = "(?i)contractpreset (?i)help";
-    private static final String LOAD = "(?i)contractpreset (?i)load [^;\n ]+";
-    private static final String REMOVE = "(?i)contractpreset (?i)delete [^;\n ]+";
-    private static final String SAVE = "(?i)contractpreset (?i)save [^;\n ]+";
-    private static final String LIST = "(?i)contractpreset (?i)list";
+    private static ArrayList<BasicPresetCommand> commands = new ArrayList<>();
     protected static ArrayList<ContractPreset> list = new ArrayList<>();
     protected static ArrayList<ContractPreset> patterns = new ArrayList<>();
     private boolean hasExtend = false;
@@ -47,10 +30,18 @@ public class ContractPreset extends Preset {
         return ContractPreset.patterns;
     }
 
-
     public static void reset(){
         list = new ArrayList<>();
         patterns = new ArrayList<>();
+    }
+
+    public static boolean hasPreset(Player player){
+        for(int i = 0; i < getList().size(); i++) {
+            if(getList().get(i).getAssignedPlayer() == player) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public ContractPreset getCopy(){
@@ -101,15 +92,6 @@ public class ContractPreset extends Preset {
 
     public static ArrayList<ContractPreset> getList(){
         return ContractPreset.list;
-    }
-
-    public static boolean hasPreset(Player player){
-        for(int i = 0; i < getList().size(); i++) {
-            if(getList().get(i).getAssignedPlayer() == player) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public static ContractPreset getPreset(Player player) {
@@ -163,6 +145,11 @@ public class ContractPreset extends Preset {
     }
 
     @Override
+    public void remove() {
+        ContractPreset.removePreset(this.getAssignedPlayer());
+    }
+
+    @Override
     public void getPresetInfo(Player player) {
         String price = "not defined";
         if(this.hasPrice()) {
@@ -182,289 +169,53 @@ public class ContractPreset extends Preset {
         player.sendMessage(Messages.REGION_INFO_DO_BLOCK_RESET + this.isDoBlockReset());
     }
 
+    public static void loadCommands() {
+        commands.add(new AutoResetCommand());
+        commands.add(new ContractPresetExtendCommand());
+        commands.add(new DeleteCommand());
+        commands.add(new DoBlockResetCommand());
+        commands.add(new HelpCommand());
+        commands.add(new HotelCommand());
+        commands.add(new InfoCommand());
+        commands.add(new ListCommand());
+        commands.add(new LoadCommand());
+        commands.add(new PriceCommand());
+        commands.add(new RegionKindCommand());
+        commands.add(new ResetCommand());
+        commands.add(new SaveCommand());
+    }
+
     public static boolean onCommand(CommandSender sender, String command, String[] args) throws InputException {
+
         if(!(sender instanceof Player)) {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Player player = (Player) sender;
-        if(args[1].equalsIgnoreCase("price")) {
-            if(!player.hasPermission(Permission.ADMIN_PRESET_SET_PRICE)) {
-                throw new InputException(sender, Messages.NO_PERMISSION);
-            }
-            if(command.matches(SET_PRICE)){
-                if(hasPreset(player)) {
-                    getPreset(player).setPrice(Double.parseDouble(args[2]));
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
-                    if(getPreset(player).hasExtend()) {
-                        player.sendMessage(Messages.PREFIX + "You can leave the price-line on signs empty now");
-                    }
-                    return true;
-                } else {
-                    getList().add(new ContractPreset(player));
-                    getPreset(player).setPrice(Double.parseDouble(args[2]));
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
-                    return true;
-                }
-            } else if(command.matches(REMOVE_PRICE)){
-                if(hasPreset(player)){
-                    getPreset(player).removePrice();
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
-                    return true;
-                } else {
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
-                    return true;
-                }
+
+        String allargs = "";
+        String newargs[] = new String[allargs.length() - 1];
+
+        for (int i = 1; i < args.length; i++) {
+            newargs[i -1] = args[i];
+            if(i == 1) {
+                allargs = args[i];
             } else {
-                sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm contractpreset price ([PRICE]/remove)");
+                allargs = allargs + " " + args[i];
             }
         }
 
-        else if(args[1].equalsIgnoreCase("regionkind")) {
-            if(!player.hasPermission(Permission.ADMIN_PRESET_SET_REGIONKIND)) {
-                throw new InputException(sender, Messages.NO_PERMISSION);
-            }
-            if(command.matches(SET_REGIONKIND)){
-                RegionKind regkind = RegionKind.getRegionKind(args[2]);
-                if(regkind != null){
-                    if(hasPreset(player)) {
-                        getPreset(player).setRegionKind(regkind);
-                        player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
-                    } else {
-                        getList().add(new ContractPreset(player));
-                        getPreset(player).setRegionKind(regkind);
-                        player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
-                    }
+        for(int i = 0; i < commands.size(); i++) {
+            if(commands.get(i).getRootCommand().equalsIgnoreCase(newargs[0])) {
+                if(commands.get(i).matchesRegex(allargs)) {
+                    return commands.get(i).runCommand(player, newargs, allargs, PresetType.CONTRACTPRESET);
                 } else {
-                    player.sendMessage(Messages.PREFIX + Messages.REGIONKIND_DOES_NOT_EXIST);
+                    sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm contractpreset " + commands.get(i).getUsage());
                     return true;
                 }
-            } else if(command.matches(REMOVE_REGIONKIND)){
-                if(hasPreset(player)){
-                    getPreset(player).removeRegionKind();
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
-                    return true;
-                } else {
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
-                    return true;
-                }
-            } else {
-                sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm contractpreset regionkind ([REGIONKIND]/remove)");
             }
         }
 
-        else if(args[1].equalsIgnoreCase("autoreset")) {
-            if(!player.hasPermission(Permission.ADMIN_PRESET_SET_AUTORESET)) {
-                throw new InputException(sender, Messages.NO_PERMISSION);
-            }
-            if(command.matches(SET_AUTO_RESET)) {
-                if(hasPreset(player)) {
-                    getPreset(player).setAutoReset(Boolean.parseBoolean(args[2]));
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
-                    return true;
-                } else {
-                    getList().add(new ContractPreset(player));
-                    getPreset(player).setAutoReset(Boolean.parseBoolean(args[2]));
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
-                    return true;
-                }
-            } else if(command.matches(REMOVE_AUTO_RESET)) {
-                if(hasPreset(player)){
-                    getPreset(player).removeAutoReset();
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
-                    return true;
-                } else {
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
-                    return true;
-                }
-            } else {
-                sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm contractpreset autoreset (true/false/remove)");
-            }
-        }
-
-        else if(args[1].equalsIgnoreCase("hotel")) {
-            if(!player.hasPermission(Permission.ADMIN_PRESET_SET_HOTEL)) {
-                throw new InputException(sender, Messages.NO_PERMISSION);
-            }
-            if(command.matches(SET_HOTEL)) {
-                if(hasPreset(player)) {
-                    getPreset(player).setHotel(Boolean.parseBoolean(args[2]));
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
-                    return true;
-                } else {
-                    getList().add(new ContractPreset(player));
-                    getPreset(player).setHotel(Boolean.parseBoolean(args[2]));
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
-                    return true;
-                }
-            } else if(command.matches(REMOVE_HOTEL)) {
-                if(hasPreset(player)){
-                    getPreset(player).removeHotel();
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
-                    return true;
-                } else {
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
-                    return true;
-                }
-            } else {
-                sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm contractpreset hotel (true/false/remove)");
-            }
-        }
-
-        else if(args[1].equalsIgnoreCase("doblockreset")) {
-            if(!player.hasPermission(Permission.ADMIN_PRESET_SET_DOBLOCKRESET)) {
-                throw new InputException(sender, Messages.NO_PERMISSION);
-            }
-            if(command.matches(SET_DO_BLOCK_RESET)) {
-                if(hasPreset(player)) {
-                    getPreset(player).setDoBlockReset(Boolean.parseBoolean(args[2]));
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
-                    return true;
-                } else {
-                    getList().add(new ContractPreset(player));
-                    getPreset(player).setDoBlockReset(Boolean.parseBoolean(args[2]));
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
-                    return true;
-                }
-            } else if(command.matches(REMOVE_DO_BLOCK_RESET)) {
-                if(hasPreset(player)){
-                    getPreset(player).removeDoBlockReset();
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
-                    return true;
-                } else {
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
-                    return true;
-                }
-            }  else {
-                sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm contractpreset doblockreset (true/false/remove)");
-            }
-        }
-
-        else if(args[1].equalsIgnoreCase("extend")) {
-            if(!player.hasPermission(Permission.ADMIN_PRESET_SET_EXTEND)) {
-                throw new InputException(sender, Messages.NO_PERMISSION);
-            }
-            if(command.matches(SET_EXTEND)) {
-                if(hasPreset(player)) {
-                    getPreset(player).setExtend(args[2]);
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
-                    if(getPreset(player).hasPrice()) {
-                        player.sendMessage(Messages.PREFIX + "You can leave the price-line on signs empty now");
-                    }
-                    return true;
-                } else {
-                    getList().add(new ContractPreset(player));
-                    getPreset(player).setExtend(args[2]);
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
-                    return true;
-                }
-            } else if(command.matches(REMOVE_EXTEND)) {
-                if(hasPreset(player)){
-                    getPreset(player).removeExtend();
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
-                    return true;
-                } else {
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
-                    return true;
-                }
-            }  else {
-                sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm contractpreset extend ([TIME(Expample: 10h)]/remove)");
-                sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "For example: /arm contractpreset extend 1d");
-            }
-        }
-
-        else if(args[1].equalsIgnoreCase("save")) {
-            if(!player.hasPermission(Permission.ADMIN_PRESET_SAVE)) {
-                throw new InputException(sender, Messages.NO_PERMISSION);
-            }
-            if(command.matches(SAVE)) {
-                if(hasPreset(player)){
-                    if(getPreset(player).save(args[2])){
-                        player.sendMessage(Messages.PREFIX + Messages.PRESET_SAVED);
-                    } else {
-                        player.sendMessage(Messages.PREFIX + Messages.PRESET_ALREADY_EXISTS);
-                    }
-                    return true;
-                } else {
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_PLAYER_DONT_HAS_PRESET);
-                    return true;
-                }
-            } else {
-                sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm contractpreset save [NAME]");
-            }
-        }
-
-        else if(args[1].equalsIgnoreCase("delete")) {
-            if(!player.hasPermission(Permission.ADMIN_PRESET_DELETE)) {
-                throw new InputException(sender, Messages.NO_PERMISSION);
-            }
-            if(command.matches(REMOVE)) {
-                if(removePattern(args[2])){
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_DELETED);
-                } else {
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_NOT_FOUND);
-                }
-            } else {
-                sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm contractpreset delete [NAME]");
-            }
-        }
-
-        else if(args[1].equalsIgnoreCase("load")) {
-            if(!player.hasPermission(Permission.ADMIN_PRESET_LOAD)) {
-                throw new InputException(sender, Messages.NO_PERMISSION);
-            }
-            if(command.matches(LOAD)) {
-                if(assignToPlayer(player, args[2])){
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_LOADED);
-                } else {
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_NOT_FOUND);
-                }
-            } else {
-                sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm contractpreset load [NAME]");
-            }
-        }
-
-        else if(command.matches(RESET)) {
-            if(!player.hasPermission(Permission.ADMIN_PRESET_RESET)) {
-                throw new InputException(sender, Messages.NO_PERMISSION);
-            }
-            if(removePreset(player)){
-                player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
-                return true;
-            } else {
-                player.sendMessage(Messages.PREFIX + Messages.PRESET_PLAYER_DONT_HAS_PRESET);
-                return true;
-            }
-
-        } else if(command.matches(INFO)) {
-            if(!player.hasPermission(Permission.ADMIN_PRESET_INFO)) {
-                throw new InputException(sender, Messages.NO_PERMISSION);
-            }
-            if(hasPreset(player)){
-                getPreset(player).getPresetInfo(player);
-                return true;
-            } else {
-                player.sendMessage(Messages.PREFIX + Messages.PRESET_PLAYER_DONT_HAS_PRESET);
-                return true;
-            }
-
-        } else if(command.matches(LIST)) {
-            if(!player.hasPermission(Permission.ADMIN_PRESET_LIST)) {
-                throw new InputException(sender, Messages.NO_PERMISSION);
-            }
-            listPresets(player);
-            return true;
-
-        } else if(command.matches(HELP)) {
-            if(!player.hasPermission(Permission.ADMIN_PRESET_HELP)) {
-                throw new InputException(sender, Messages.NO_PERMISSION);
-            }
-            showHelp(player);
-            return true;
-
-        } else {
-            player.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "/arm contractpreset help");
-        }
-        return true;
+        return false;
     }
 
     public static boolean assignToPlayer(Player player, String name) {
@@ -557,6 +308,7 @@ public class ContractPreset extends Preset {
         }
     }
 
+    @Override
     public boolean save(String name){
         if(patternExists(name)) {
             return false;

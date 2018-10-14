@@ -2,6 +2,7 @@ package net.alex9849.arm.Preseter;
 
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.Messages;
+import net.alex9849.arm.Preseter.commands.*;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.regions.RegionKind;
 import net.alex9849.arm.regions.RentRegion;
@@ -15,27 +16,7 @@ import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
 
 public class RentPreset extends Preset {
-    private static final String SET_PRICE = "(?i)rentpreset (?i)price [+-]?([0-9]+[.])?[0-9]+";
-    private static final String REMOVE_PRICE = "(?i)rentpreset (?i)price remove";
-    private static final String SET_EXTEND_PER_CLICK = "(?i)rentpreset (?i)extendperclick ([0-9]+(s|m|h|d))";
-    private static final String REMOVE_EXTEND_PER_CLICK = "(?i)rentpreset (?i)extendperclick remove";
-    private static final String SET_MAX_RENT_TIME = "(?i)rentpreset (?i)maxrenttime ([0-9]+(s|m|h|d))";
-    private static final String REMOVE_MAX_RENT_TIME = "(?i)rentpreset (?i)maxrenttime remove";
-    private static final String SET_REGIONKIND = "(?i)rentpreset (?i)regionkind [^;\n ]+";
-    private static final String REMOVE_REGIONKIND = "(?i)rentpreset (?i)regionkind remove";
-    private static final String SET_AUTO_RESET = "(?i)rentpreset (?i)autoreset (false|true)";
-    private static final String REMOVE_AUTO_RESET = "(?i)rentpreset (?i)autoreset remove";
-    private static final String SET_HOTEL = "(?i)rentpreset (?i)hotel (false|true)";
-    private static final String REMOVE_HOTEL = "(?i)rentpreset (?i)hotel remove";
-    private static final String SET_DO_BLOCK_RESET = "(?i)rentpreset (?i)doblockreset (false|true)";
-    private static final String REMOVE_DO_BLOCK_RESET = "(?i)rentpreset (?i)doblockreset remove";
-    private static final String RESET = "(?i)rentpreset (?i)reset";
-    private static final String INFO = "(?i)rentpreset (?i)info";
-    private static final String HELP = "(?i)rentpreset (?i)help";
-    private static final String LOAD = "(?i)rentpreset (?i)load [^;\n ]+";
-    private static final String REMOVE = "(?i)rentpreset (?i)delete [^;\n ]+";
-    private static final String SAVE = "(?i)rentpreset (?i)save [^;\n ]+";
-    private static final String LIST = "(?i)rentpreset (?i)list";
+    private static ArrayList<BasicPresetCommand> commands = new ArrayList<>();
     protected static ArrayList<RentPreset> list = new ArrayList<>();
     protected static ArrayList<RentPreset> patterns = new ArrayList<>();
     private boolean hasMaxRentTime = false;
@@ -213,322 +194,57 @@ public class RentPreset extends Preset {
         player.sendMessage(Messages.REGION_INFO_DO_BLOCK_RESET + this.isDoBlockReset());
     }
 
+    @Override
+    public void remove() {
+        RentPreset.removePreset(this.getAssignedPlayer());
+    }
+
+    public static void loadCommands() {
+        commands.add(new AutoResetCommand());
+        commands.add(new RentPresetExtendPerClickCommand());
+        commands.add(new RentPresetMaxRentTimeCommand());
+        commands.add(new DeleteCommand());
+        commands.add(new DoBlockResetCommand());
+        commands.add(new HelpCommand());
+        commands.add(new HotelCommand());
+        commands.add(new InfoCommand());
+        commands.add(new ListCommand());
+        commands.add(new LoadCommand());
+        commands.add(new PriceCommand());
+        commands.add(new RegionKindCommand());
+        commands.add(new ResetCommand());
+        commands.add(new SaveCommand());
+    }
+
     public static boolean onCommand(CommandSender sender, String command, String[] args) throws InputException {
+
         if(!(sender instanceof Player)) {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Player player = (Player) sender;
-        if(args[1].equalsIgnoreCase("price")) {
-            if(!player.hasPermission(Permission.ADMIN_PRESET_SET_PRICE)) {
-                throw new InputException(sender, Messages.NO_PERMISSION);
-            }
-            if(command.matches(SET_PRICE)){
-                if(hasPreset(player)) {
-                    getPreset(player).setPrice(Double.parseDouble(args[2]));
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
-                    if(getPreset(player).hasExtendPerClick() && getPreset(player).hasMaxRentTime()) {
-                        player.sendMessage(Messages.PREFIX + "You can leave the price-line on signs empty now");
-                    }
-                    return true;
-                } else {
-                    getList().add(new RentPreset(player));
-                    getPreset(player).setPrice(Double.parseDouble(args[2]));
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
-                    return true;
-                }
-            } else if(command.matches(REMOVE_PRICE)){
-                if(hasPreset(player)){
-                    getPreset(player).removePrice();
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
-                    return true;
-                } else {
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
-                    return true;
-                }
+
+        String allargs = "";
+
+        for (int i = 1; i < args.length; i++) {
+            if(i == 1) {
+                allargs = args[i];
             } else {
-                sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm rentpreset price ([PRICE]/remove)");
+                allargs = allargs + " " + args[i];
             }
         }
 
-        else if(args[1].equalsIgnoreCase("regionkind")) {
-            if(!player.hasPermission(Permission.ADMIN_PRESET_SET_REGIONKIND)) {
-                throw new InputException(sender, Messages.NO_PERMISSION);
-            }
-            if(command.matches(SET_REGIONKIND)){
-                RegionKind regkind = RegionKind.getRegionKind(args[2]);
-                if(regkind != null){
-                    if(hasPreset(player)) {
-                        getPreset(player).setRegionKind(regkind);
-                        player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
-                    } else {
-                        getList().add(new RentPreset(player));
-                        getPreset(player).setRegionKind(regkind);
-                        player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
-                    }
+        for(int i = 0; i < commands.size(); i++) {
+            if(commands.get(i).getRootCommand().equalsIgnoreCase(args[0])) {
+                if(commands.get(i).matchesRegex(allargs)) {
+                    return commands.get(i).runCommand(player, args, allargs, PresetType.RENTPRESET);
                 } else {
-                    player.sendMessage(Messages.PREFIX + Messages.REGIONKIND_DOES_NOT_EXIST);
+                    sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm rentpreset " + commands.get(i).getUsage());
                     return true;
                 }
-            } else if(command.matches(REMOVE_REGIONKIND)){
-                if(hasPreset(player)){
-                    getPreset(player).removeRegionKind();
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
-                    return true;
-                } else {
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
-                    return true;
-                }
-            } else {
-                sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm rentpreset regionkind ([REGIONKIND]/remove)");
             }
         }
 
-        else if(args[1].equalsIgnoreCase("autoreset")) {
-            if(!player.hasPermission(Permission.ADMIN_PRESET_SET_AUTORESET)) {
-                throw new InputException(sender, Messages.NO_PERMISSION);
-            }
-            if(command.matches(SET_AUTO_RESET)) {
-                if(hasPreset(player)) {
-                    getPreset(player).setAutoReset(Boolean.parseBoolean(args[2]));
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
-                    return true;
-                } else {
-                    getList().add(new RentPreset(player));
-                    getPreset(player).setAutoReset(Boolean.parseBoolean(args[2]));
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
-                    return true;
-                }
-            } else if(command.matches(REMOVE_AUTO_RESET)) {
-                if(hasPreset(player)){
-                    getPreset(player).removeAutoReset();
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
-                    return true;
-                } else {
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
-                    return true;
-                }
-            } else {
-                sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm rentpreset autoreset (true/false/remove)");
-            }
-        }
-
-        else if(args[1].equalsIgnoreCase("hotel")) {
-            if(!player.hasPermission(Permission.ADMIN_PRESET_SET_HOTEL)) {
-                throw new InputException(sender, Messages.NO_PERMISSION);
-            }
-            if(command.matches(SET_HOTEL)) {
-                if(hasPreset(player)) {
-                    getPreset(player).setHotel(Boolean.parseBoolean(args[2]));
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
-                    return true;
-                } else {
-                    getList().add(new RentPreset(player));
-                    getPreset(player).setHotel(Boolean.parseBoolean(args[2]));
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
-                    return true;
-                }
-            } else if(command.matches(REMOVE_HOTEL)) {
-                if(hasPreset(player)){
-                    getPreset(player).removeHotel();
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
-                    return true;
-                } else {
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
-                    return true;
-                }
-            } else {
-                sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm rentpreset hotel (true/false/remove)");
-            }
-        }
-
-        else if(args[1].equalsIgnoreCase("doblockreset")) {
-            if(!player.hasPermission(Permission.ADMIN_PRESET_SET_DOBLOCKRESET)) {
-                throw new InputException(sender, Messages.NO_PERMISSION);
-            }
-            if(command.matches(SET_DO_BLOCK_RESET)) {
-                if(hasPreset(player)) {
-                    getPreset(player).setDoBlockReset(Boolean.parseBoolean(args[2]));
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
-                    return true;
-                } else {
-                    getList().add(new RentPreset(player));
-                    getPreset(player).setDoBlockReset(Boolean.parseBoolean(args[2]));
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
-                    return true;
-                }
-            } else if(command.matches(REMOVE_DO_BLOCK_RESET)) {
-                if(hasPreset(player)){
-                    getPreset(player).removeDoBlockReset();
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
-                    return true;
-                } else {
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
-                    return true;
-                }
-            }  else {
-                sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm rentpreset doblockreset (true/false/remove)");
-            }
-        }
-
-        else if(args[1].equalsIgnoreCase("maxrenttime")) {
-            if(!player.hasPermission(Permission.ADMIN_PRESET_SET_MAXRENTTIME)) {
-                throw new InputException(sender, Messages.NO_PERMISSION);
-            }
-            if(command.matches(SET_MAX_RENT_TIME)) {
-                if(hasPreset(player)) {
-                    getPreset(player).setMaxRentTime(args[2]);
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
-                    if(getPreset(player).hasPrice() && getPreset(player).hasExtendPerClick()) {
-                        player.sendMessage(Messages.PREFIX + "You can leave the price-line on signs empty now");
-                    }
-                    return true;
-                } else {
-                    getList().add(new RentPreset(player));
-                    getPreset(player).setMaxRentTime(args[2]);
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
-                    return true;
-                }
-            } else if(command.matches(REMOVE_MAX_RENT_TIME)) {
-                if(hasPreset(player)){
-                    getPreset(player).removeMaxRentTime();
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
-                    return true;
-                } else {
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
-                    return true;
-                }
-            }  else {
-                sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm rentpreset maxrenttime ([TIME(Expample: 10h)]/remove)");
-                sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "For example: /arm rentpreset maxrenttime 1d");
-            }
-        }
-
-        else if(args[1].equalsIgnoreCase("extendperclick")) {
-            if(!player.hasPermission(Permission.ADMIN_PRESET_SET_EXTENDPERCLICK)) {
-                throw new InputException(sender, Messages.NO_PERMISSION);
-            }
-            if(command.matches(SET_EXTEND_PER_CLICK)) {
-                if(hasPreset(player)) {
-                    getPreset(player).setExtendPerClick(args[2]);
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
-                    if(getPreset(player).hasPrice() && getPreset(player).hasMaxRentTime()) {
-                        player.sendMessage(Messages.PREFIX + "You can leave the price-line on signs empty now");
-                    }
-                    return true;
-                } else {
-                    getList().add(new RentPreset(player));
-                    getPreset(player).setExtendPerClick(args[2]);
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
-                    return true;
-                }
-            } else if(command.matches(REMOVE_EXTEND_PER_CLICK)) {
-                if(hasPreset(player)){
-                    getPreset(player).removeExtendPerClick();
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
-                    return true;
-                } else {
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
-                    return true;
-                }
-            }  else {
-                sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm rentpreset extendperclick ([TIME(Expample: 10h)]/remove)");
-                sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "For example: /arm rentpreset extendperclick 1d");
-            }
-        }
-
-        else if(args[1].equalsIgnoreCase("save")) {
-            if(!player.hasPermission(Permission.ADMIN_PRESET_SAVE)) {
-                throw new InputException(sender, Messages.NO_PERMISSION);
-            }
-            if(command.matches(SAVE)) {
-                if(hasPreset(player)){
-                    if(getPreset(player).save(args[2])){
-                        player.sendMessage(Messages.PREFIX + Messages.PRESET_SAVED);
-                    } else {
-                        player.sendMessage(Messages.PREFIX + Messages.PRESET_ALREADY_EXISTS);
-                    }
-                    return true;
-                } else {
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_PLAYER_DONT_HAS_PRESET);
-                    return true;
-                }
-            } else {
-                sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm rentpreset save [NAME]");
-            }
-        }
-
-        else if(args[1].equalsIgnoreCase("delete")) {
-            if(!player.hasPermission(Permission.ADMIN_PRESET_DELETE)) {
-                throw new InputException(sender, Messages.NO_PERMISSION);
-            }
-            if(command.matches(REMOVE)) {
-                if(removePattern(args[2])){
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_DELETED);
-                } else {
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_NOT_FOUND);
-                }
-            } else {
-                sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm rentpreset delete [NAME]");
-            }
-        }
-
-        else if(args[1].equalsIgnoreCase("load")) {
-            if(!player.hasPermission(Permission.ADMIN_PRESET_LOAD)) {
-                throw new InputException(sender, Messages.NO_PERMISSION);
-            }
-            if(command.matches(LOAD)) {
-                if(assignToPlayer(player, args[2])){
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_LOADED);
-                } else {
-                    player.sendMessage(Messages.PREFIX + Messages.PRESET_NOT_FOUND);
-                }
-            } else {
-                sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm rentpreset load [NAME]");
-            }
-        }
-
-        else if(command.matches(RESET)) {
-            if(!player.hasPermission(Permission.ADMIN_PRESET_RESET)) {
-                throw new InputException(sender, Messages.NO_PERMISSION);
-            }
-            if(removePreset(player)){
-                player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
-                return true;
-            } else {
-                player.sendMessage(Messages.PREFIX + Messages.PRESET_PLAYER_DONT_HAS_PRESET);
-                return true;
-            }
-
-        } else if(command.matches(INFO)) {
-            if(!player.hasPermission(Permission.ADMIN_PRESET_INFO)) {
-                throw new InputException(sender, Messages.NO_PERMISSION);
-            }
-            if(hasPreset(player)){
-                getPreset(player).getPresetInfo(player);
-                return true;
-            } else {
-                player.sendMessage(Messages.PREFIX + Messages.PRESET_PLAYER_DONT_HAS_PRESET);
-                return true;
-            }
-
-        } else if(command.matches(LIST)) {
-            if(!player.hasPermission(Permission.ADMIN_PRESET_LIST)) {
-                throw new InputException(sender, Messages.NO_PERMISSION);
-            }
-            listPresets(player);
-            return true;
-
-        } else if(command.matches(HELP)) {
-            if(!player.hasPermission(Permission.ADMIN_PRESET_HELP)) {
-                throw new InputException(sender, Messages.NO_PERMISSION);
-            }
-            showHelp(player);
-            return true;
-
-        } else {
-            player.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "/arm rentpreset help");
-        }
-        return true;
+        return false;
     }
 
     public static boolean assignToPlayer(Player player, String name) {
@@ -626,6 +342,7 @@ public class RentPreset extends Preset {
         }
     }
 
+    @Override
     public boolean save(String name){
         if(patternExists(name)) {
             return false;

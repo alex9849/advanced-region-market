@@ -15,7 +15,7 @@ public class SaveCommand extends BasicPresetCommand {
 
     private final String rootCommand = "save";
     private final String regex = "(?i)save [^;\n ]+";
-    private final String usage = "save";
+    private final String usage = "save [PRESETNAME]";
 
     @Override
     public boolean matchesRegex(String command) {

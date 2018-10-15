@@ -89,7 +89,7 @@ public class RentPresetExtendPerClickCommand extends BasicPresetCommand {
                     if("remove".startsWith(args[1])) {
                         returnme.add("remove");
                     }
-                    if(args[2].matches("[0-9]+")) {
+                    if(args[1].matches("[0-9]+")) {
                         returnme.add(args[1] + "s");
                         returnme.add(args[1] + "m");
                         returnme.add(args[1] + "h");

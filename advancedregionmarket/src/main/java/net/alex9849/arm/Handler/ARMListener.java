@@ -3,10 +3,7 @@ package net.alex9849.arm.Handler;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
-import net.alex9849.arm.Preseter.ContractPreset;
-import net.alex9849.arm.Preseter.Preset;
-import net.alex9849.arm.Preseter.RentPreset;
-import net.alex9849.arm.Preseter.SellPreset;
+import net.alex9849.arm.Preseter.*;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.regions.*;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
@@ -47,9 +44,8 @@ public class ARMListener implements Listener {
             Boolean doBlockReset = true;
 
             if(sign.getLine(0).equalsIgnoreCase("[ARM-Sell]")){
-
-                if(SellPreset.hasPreset(sign.getPlayer())) {
-                    Preset preset = SellPreset.getPreset(sign.getPlayer());
+                SellPreset preset = (SellPreset) Preset.getPreset(PresetType.SELLPRESET, sign.getPlayer());
+                if(preset != null) {
                     regionkind = preset.getRegionKind();
                     autoReset = preset.isAutoReset();
                     isHotel = preset.isHotel();
@@ -123,8 +119,8 @@ public class ARMListener implements Listener {
                     throw new InputException(sign.getPlayer(), Messages.NO_PERMISSION);
                 }
 
-                if(RentPreset.hasPreset(sign.getPlayer())) {
-                    Preset preset = RentPreset.getPreset(sign.getPlayer());
+                RentPreset preset = (RentPreset) Preset.getPreset(PresetType.RENTPRESET, sign.getPlayer());
+                if(preset != null) {
                     regionkind = preset.getRegionKind();
                     autoReset = preset.isAutoReset();
                     isHotel = preset.isHotel();
@@ -153,8 +149,7 @@ public class ARMListener implements Listener {
                 Boolean priceready = false;
 
                 if(sign.getLine(3).equals("")) {
-                    if(RentPreset.hasPreset(sign.getPlayer())) {
-                        RentPreset preset = RentPreset.getPreset(sign.getPlayer());
+                    if(preset != null) {
                         if(preset.hasPrice() && preset.hasExtendPerClick() && preset.hasMaxRentTime()) {
                             price = preset.getPrice();
                             extendPerClick = preset.getExtendPerClick();
@@ -210,8 +205,8 @@ public class ARMListener implements Listener {
                     throw new InputException(sign.getPlayer(), Messages.NO_PERMISSION);
                 }
 
-                if(ContractPreset.hasPreset(sign.getPlayer())) {
-                    Preset preset = ContractPreset.getPreset(sign.getPlayer());
+                ContractPreset preset = (ContractPreset) Preset.getPreset(PresetType.CONTRACTPRESET, sign.getPlayer());
+                if(preset != null) {
                     regionkind = preset.getRegionKind();
                     autoReset = preset.isAutoReset();
                     isHotel = preset.isHotel();
@@ -239,8 +234,7 @@ public class ARMListener implements Listener {
                 Boolean priceready = false;
 
                 if(sign.getLine(3).equals("")) {
-                    if(ContractPreset.hasPreset(sign.getPlayer())) {
-                        ContractPreset preset = ContractPreset.getPreset(sign.getPlayer());
+                    if(preset != null) {
                         if(preset.hasPrice() && preset.hasExtend()) {
                             price = preset.getPrice();
                             extendtime = preset.getExtend();

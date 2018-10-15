@@ -12,9 +12,9 @@ import java.util.List;
 
 public class HelpCommand extends BasicPresetCommand {
 
-    private final String rootCommand = "info";
-    private final String regex = "(?i)info";
-    private final String usage = "info";
+    private final String rootCommand = "help";
+    private final String regex = "(?i)help";
+    private final String usage = "help";
 
     @Override
     public boolean matchesRegex(String command) {

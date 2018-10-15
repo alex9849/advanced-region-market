@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class RentPreset extends Preset {
@@ -223,20 +224,10 @@ public class RentPreset extends Preset {
         }
         Player player = (Player) sender;
 
-        String allargs = "";
-
-        for (int i = 1; i < args.length; i++) {
-            if(i == 1) {
-                allargs = args[i];
-            } else {
-                allargs = allargs + " " + args[i];
-            }
-        }
-
         for(int i = 0; i < commands.size(); i++) {
             if(commands.get(i).getRootCommand().equalsIgnoreCase(args[0])) {
-                if(commands.get(i).matchesRegex(allargs)) {
-                    return commands.get(i).runCommand(player, args, allargs, PresetType.RENTPRESET);
+                if(commands.get(i).matchesRegex(command)) {
+                    return commands.get(i).runCommand(player, args, command, PresetType.RENTPRESET);
                 } else {
                     sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm rentpreset " + commands.get(i).getUsage());
                     return true;
@@ -245,6 +236,16 @@ public class RentPreset extends Preset {
         }
 
         return false;
+    }
+
+    public static List<String> onTabComplete(Player player, String[] args) {
+        List<String> returnme = new ArrayList<>();
+
+        for(BasicPresetCommand command : commands) {
+            returnme.addAll(command.onTabComplete(player, args, PresetType.RENTPRESET));
+        }
+
+        return returnme;
     }
 
     public static boolean assignToPlayer(Player player, String name) {

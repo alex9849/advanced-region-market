@@ -15,7 +15,7 @@ public class LoadCommand extends BasicPresetCommand {
 
     private final String rootCommand = "load";
     private final String regex = "(?i)load [^;\n ]+";
-    private final String usage = "load";
+    private final String usage = "load [PRESETNAME]";
 
     @Override
     public boolean matchesRegex(String command) {

@@ -15,7 +15,7 @@ public class DeleteCommand extends BasicPresetCommand {
 
     private final String rootCommand = "delete";
     private final String regex = "(?i)delete [^;\n ]+";
-    private final String usage = "delete";
+    private final String usage = "delete [PRESETNAME]";
 
     @Override
     public boolean matchesRegex(String command) {

@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 public class SellPreset extends Preset{
     private static ArrayList<BasicPresetCommand> commands = new ArrayList<>();
@@ -128,20 +129,10 @@ public class SellPreset extends Preset{
         }
         Player player = (Player) sender;
 
-        String allargs = "";
-
-        for (int i = 1; i < args.length; i++) {
-            if(i == 1) {
-                allargs = args[i];
-            } else {
-                allargs = allargs + " " + args[i];
-            }
-        }
-
         for(int i = 0; i < commands.size(); i++) {
             if(commands.get(i).getRootCommand().equalsIgnoreCase(args[0])) {
-                if(commands.get(i).matchesRegex(allargs)) {
-                    return commands.get(i).runCommand(player, args, allargs, PresetType.SELLPRESET);
+                if(commands.get(i).matchesRegex(command)) {
+                    return commands.get(i).runCommand(player, args, command, PresetType.SELLPRESET);
                 } else {
                     sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: /arm sellpreset " + commands.get(i).getUsage());
                     return true;
@@ -150,6 +141,16 @@ public class SellPreset extends Preset{
         }
 
         return false;
+    }
+
+    public static List<String> onTabComplete(Player player, String[] args) {
+        List<String> returnme = new ArrayList<>();
+
+        for(BasicPresetCommand command : commands) {
+            returnme.addAll(command.onTabComplete(player, args, PresetType.SELLPRESET));
+        }
+
+        return returnme;
     }
 
     public static void loadPresets(){

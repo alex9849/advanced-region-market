@@ -1,7 +1,6 @@
 package net.alex9849.arm.Preseter;
 
 import net.alex9849.arm.Messages;
-import net.alex9849.arm.Permission;
 import net.alex9849.arm.Preseter.commands.*;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.regions.RentRegion;
@@ -19,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 public class ContractPreset extends Preset {
     private static ArrayList<BasicPresetCommand> commands = new ArrayList<>();
     protected static ArrayList<ContractPreset> list = new ArrayList<>();
-    protected static ArrayList<ContractPreset> patterns = new ArrayList<>();
+    private static ArrayList<ContractPreset> patterns = new ArrayList<>();
     private boolean hasExtend = false;
     private long extend = 0;
 
@@ -34,15 +33,6 @@ public class ContractPreset extends Preset {
     public static void reset(){
         list = new ArrayList<>();
         patterns = new ArrayList<>();
-    }
-
-    public static boolean hasPreset(Player player){
-        for(int i = 0; i < getList().size(); i++) {
-            if(getList().get(i).getAssignedPlayer() == player) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public ContractPreset getCopy(){

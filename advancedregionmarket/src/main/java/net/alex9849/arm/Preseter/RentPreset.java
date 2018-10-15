@@ -115,15 +115,6 @@ public class RentPreset extends Preset {
         return RentPreset.list;
     }
 
-    public static boolean hasPreset(Player player){
-        for(int i = 0; i < getList().size(); i++) {
-            if(getList().get(i).getAssignedPlayer() == player) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public static RentPreset getPreset(Player player) {
         for(int i = 0; i < getList().size(); i++) {
             if(getList().get(i).getAssignedPlayer() == player) {

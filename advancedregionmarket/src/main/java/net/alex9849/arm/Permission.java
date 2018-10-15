@@ -2,7 +2,7 @@ package net.alex9849.arm;
 
 public class Permission {
     public static final String ADMIN_CHANGEAUTORESET = "arm.admin.changeautoreset";
-    public static final String ADMIN_CREATE_SELL = "arm.admin.create.sellregion";
+    public static final String ADMIN_CREATE_SELL = "arm.admin.create.selloffer";
     public static final String ADMIN_CREATE_RENT = "arm.admin.create.rentregion";
     public static final String ADMIN_CREATE_CONTRACT = "arm.admin.create.contractregion";
     public static final String ADMIN_REMOVE_SIGN = "arm.admin.remove";
@@ -49,7 +49,7 @@ public class Permission {
 
 
     public static final String MEMBER_RESETREGIONBLOCKS = "arm.member.resetregionblocks";
-    public static final String MEMBER_RESETREGION = "arm.member.sellregion";
+    public static final String MEMBER_RESETREGION = "arm.member.selloffer";
     public static final String MEMBER_INFO = "arm.member.info";
     public static final String MEMBER_ADDMEMBER = "arm.member.addmember";
     public static final String MEMBER_REMOVEMEMBER = "arm.member.removemember";
@@ -57,9 +57,11 @@ public class Permission {
     public static final String MEMBER_GUI = "arm.member.gui";
     public static final String MEMBER_TP = "arm.member.tp";
     public static final String MEMBER_LIMIT = "arm.member.limit";
+    public static final String MEMBER_OFFER_CREATE = "arm.member.offer.create";
+    public static final String MEMBER_OFFER_ANSWER = "arm.member.offer.answer";
 
     public static final String ARM_HELP = "arm.help";
-    public static final String ARM_BUY_SELLREGION = "arm.buy.sellregion";
+    public static final String ARM_BUY_SELLREGION = "arm.buy.selloffer";
     public static final String ARM_BUY_RENTREGION = "arm.buy.rentregion";
     public static final String ARM_BUY_CONTRACTREGION = "arm.buy.contractregion";
     public static final String ARM_BUYKIND = "arm.buykind.";

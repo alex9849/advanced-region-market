@@ -75,9 +75,9 @@ public class ARMListener implements Listener {
                 Double price = null;
 
                 if(sign.getLine(3).equals("")){
-                    if(SellPreset.hasPreset(sign.getPlayer())){
-                        if(SellPreset.getPreset(sign.getPlayer()).hasPrice()){
-                            price = SellPreset.getPreset(sign.getPlayer()).getPrice();
+                    if(preset != null){
+                        if(preset.hasPrice()){
+                            price = preset.getPrice();
                         }
                     }
                 }
@@ -97,7 +97,7 @@ public class ARMListener implements Listener {
                 Region searchregion = Region.searchRegionbyNameAndWorld(regionname, worldname);
                 if(searchregion != null) {
                     if(!(searchregion instanceof SellRegion)) {
-                        throw new InputException(sign.getPlayer(), "Region already registered as a non-sellregion");
+                        throw new InputException(sign.getPlayer(), "Region already registered as a non-selloffer");
                     }
                     searchregion.addSign(sign.getBlock().getLocation());
                     sign.setCancelled(true);
@@ -453,15 +453,9 @@ public class ARMListener implements Listener {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        if(SellPreset.hasPreset(event.getPlayer())){
-            SellPreset.removePreset(event.getPlayer());
-        }
-        if(RentPreset.hasPreset(event.getPlayer())) {
-            RentPreset.removePreset(event.getPlayer());
-        }
-        if(ContractPreset.hasPreset(event.getPlayer())) {
-            ContractPreset.removePreset(event.getPlayer());
-        }
+        SellPreset.removePreset(event.getPlayer());
+        RentPreset.removePreset(event.getPlayer());
+        ContractPreset.removePreset(event.getPlayer());
     }
 
     public static void doOvertakeCheck(Player player) {

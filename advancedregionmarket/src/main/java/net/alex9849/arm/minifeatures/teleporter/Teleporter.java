@@ -13,6 +13,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 public class Teleporter {
 
@@ -74,7 +75,7 @@ public class Teleporter {
     public static void scheduleTeleport(Player player, Location loc, String message, int ticks) {
         if((ticks == 0) || player.hasPermission(Permission.ADMIN_BYPASS_TELEPORTER_COOLDOWN)) {
             player.teleport(loc);
-            if(!message.equals("")) {
+            if(!message.equals("") && message != null) {
                 player.sendMessage(message);
             }
             return;
@@ -92,6 +93,7 @@ public class Teleporter {
                         player.sendMessage(message);
                     }
                     PlayerMoveEvent.getHandlerList().unregister(listener);
+                    PlayerQuitEvent.getHandlerList().unregister(listener);
                 }
             }, ticks).getTaskId();
 

@@ -61,15 +61,6 @@ public class SellPreset extends Preset{
         SellPreset.removePreset(this.getAssignedPlayer());
     }
 
-    public static boolean hasPreset(Player player){
-        for(int i = 0; i < getList().size(); i++) {
-            if(getList().get(i).getAssignedPlayer() == player) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public static SellPreset getPreset(Player player) {
         for(int i = 0; i < getList().size(); i++) {
             if(getList().get(i).getAssignedPlayer() == player) {

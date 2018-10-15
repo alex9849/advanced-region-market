@@ -7,23 +7,24 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 public class TeleporterListener implements Listener {
     private Player player;
     private Integer teleportTask;
     private double tolerance = 0.5;
 
-    public TeleporterListener(Player player, int teleportTask) {
+    protected TeleporterListener(Player player, int teleportTask) {
         this.player = player;
         this.teleportTask = teleportTask;
     }
 
-    public TeleporterListener(Player player) {
+    protected TeleporterListener(Player player) {
         this.player = player;
     }
 
     @EventHandler
-    public void playerMove(PlayerMoveEvent event) {
+    private void playerMove(PlayerMoveEvent event) {
         if(event.getPlayer().getUniqueId() == player.getUniqueId()) {
             if (event.getFrom().getX() == event.getTo().getX()) {
                 if (event.getFrom().getY() == event.getTo().getY()) {
@@ -42,12 +43,23 @@ public class TeleporterListener implements Listener {
                     this.player.sendMessage(Messages.PREFIX + Messages.TELEPORTER_TELEPORTATION_ABORDED);
                     Bukkit.getScheduler().cancelTask(this.teleportTask);
                     PlayerMoveEvent.getHandlerList().unregister(this);
+                    PlayerQuitEvent.getHandlerList().unregister(this);
                 }
             }
         }
     }
 
-    public void setTeleportTaskID(int taskID) {
+    @EventHandler
+    private void playerLeave(PlayerQuitEvent event) {
+        if(event.getPlayer().getUniqueId() == this.player.getUniqueId()) {
+            Bukkit.getScheduler().cancelTask(this.teleportTask);
+            PlayerMoveEvent.getHandlerList().unregister(this);
+            PlayerQuitEvent.getHandlerList().unregister(this);
+
+        }
+    }
+
+    protected void setTeleportTaskID(int taskID) {
         this.teleportTask = taskID;
     }
 }

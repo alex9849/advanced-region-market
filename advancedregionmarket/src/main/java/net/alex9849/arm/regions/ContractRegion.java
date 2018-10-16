@@ -232,26 +232,7 @@ public class ContractRegion extends Region {
         }
 
         if(!LimitGroup.isCanBuyAnother(player, this)) {
-            int limittotal = LimitGroup.getLimit(player);
-            int limitkind = LimitGroup.getLimit(player, this.regionKind);
-            String limittotalS = "" + limittotal;
-            String limitkindS = "" + limitkind;
-
-            if (limitkind == Integer.MAX_VALUE) {
-                limitkindS = Messages.UNLIMITED;
-            }
-            if (limittotal == Integer.MAX_VALUE) {
-                limittotalS = Messages.UNLIMITED;
-            }
-            String message = Messages.REGION_BUY_OUT_OF_LIMIT;
-            message = message.replace("%playerownedkind%", LimitGroup.getOwnedRegions(player, this.regionKind) + "");
-            message = message.replace("%limitkind%", limitkindS);
-            message = message.replace("%regionkind%", this.regionKind.getName());
-            message = message.replace("%playerownedtotal%", LimitGroup.getOwnedRegions(player) + "");
-            message = message.replace("%limittotal%", limittotalS);
-
-            player.sendMessage(Messages.PREFIX + message);
-            return;
+            throw new InputException(player, LimitGroup.getRegionBuyOutOfLimitMessage(player, this.regionKind));
         }
         if(AdvancedRegionMarket.getEcon().getBalance(player) < this.price) {
             throw new InputException(player, Messages.NOT_ENOUGHT_MONEY);

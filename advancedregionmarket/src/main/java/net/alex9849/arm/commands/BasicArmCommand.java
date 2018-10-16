@@ -13,7 +13,7 @@ public abstract class BasicArmCommand {
 
     public abstract String getRootCommand();
 
-    public abstract String getUsage();
+    public abstract List<String> getUsage();
 
     public abstract boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException;
 

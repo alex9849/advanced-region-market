@@ -14,13 +14,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class RemoveMemberCommand extends BasicArmCommand {
 
     private final String rootCommand = "removemember";
     private final String regex = "(?i)removemember [^;\n ]+ [^;\n ]+";
-    private final String usage = "/arm removemember [REGION] [MEMBER]";
+    private final List<String> usage = new ArrayList<>(Arrays.asList("removemember [REGION] [MEMBER]"));
 
     @Override
     public boolean matchesRegex(String command) {
@@ -33,7 +34,7 @@ public class RemoveMemberCommand extends BasicArmCommand {
     }
 
     @Override
-    public String getUsage() {
+    public List<String> getUsage() {
         return this.usage;
     }
 

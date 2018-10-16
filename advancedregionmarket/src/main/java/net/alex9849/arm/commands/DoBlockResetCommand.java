@@ -10,13 +10,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class DoBlockResetCommand extends BasicArmCommand {
 
     private final String rootCommand = "doblockreset";
     private final String regex = "(?i)doblockreset [^;\n ]+ (false|true)";
-    private final String usage = "/arm doblockreset [REGION] [true/false]";
+    private final List<String> usage = new ArrayList<>(Arrays.asList("doblockreset [REGION] [true/false]"));
 
     @Override
     public boolean matchesRegex(String command) {
@@ -29,7 +30,7 @@ public class DoBlockResetCommand extends BasicArmCommand {
     }
 
     @Override
-    public String getUsage() {
+    public List<String> getUsage() {
         return this.usage;
     }
 

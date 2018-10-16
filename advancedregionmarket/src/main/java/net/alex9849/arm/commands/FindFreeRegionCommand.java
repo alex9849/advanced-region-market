@@ -12,14 +12,14 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 import java.lang.reflect.Member;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class FindFreeRegionCommand extends BasicArmCommand {
 
     private final String rootCommand = "findfreeregion";
     private final String regex = "(?i)findfreeregion [^;\n ]+";
-    private final String usage = "/arm findfreeregion [REGIONKIND]";
-
+    private final List<String> usage = new ArrayList<>(Arrays.asList("findfreeregion [REGIONKIND]"));
     @Override
     public boolean matchesRegex(String command) {
         return command.matches(this.regex);
@@ -31,7 +31,7 @@ public class FindFreeRegionCommand extends BasicArmCommand {
     }
 
     @Override
-    public String getUsage() {
+    public List<String> getUsage() {
         return this.usage;
     }
 

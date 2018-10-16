@@ -9,13 +9,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class SellPresetCommand extends BasicArmCommand {
 
     private final String rootCommand = "sellpreset";
     private final String regex = "(?i)sellpreset [^;\n]+";
-    private final String usage = "/arm sellpreset [SETTING] or (for help): /arm sellpreset help";
+    private final List<String> usage = new ArrayList<>(Arrays.asList("sellpreset [SETTING]", "sellpreset help"));
 
     @Override
     public boolean matchesRegex(String command) {
@@ -28,7 +29,7 @@ public class SellPresetCommand extends BasicArmCommand {
     }
 
     @Override
-    public String getUsage() {
+    public List<String> getUsage() {
         return this.usage;
     }
 

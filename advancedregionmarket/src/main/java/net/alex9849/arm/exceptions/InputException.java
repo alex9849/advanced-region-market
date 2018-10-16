@@ -5,21 +5,35 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 public class InputException extends IOException {
-    private String message;
-    private CommandSender sender;
+    private ArrayList<CommandSender> senders = new ArrayList<>();
+    private ArrayList<String> messages = new ArrayList<>();
 
     public InputException (CommandSender sender, String message) {
-        this.message = message;
-        this.sender = sender;
+        this.messages.add(message);
+        this.senders.add(sender);
+    }
+
+    public InputException (Collection<CommandSender> senders, Collection<String> messages) {
+        if(senders.size() != senders.size()) {
+            throw new IllegalArgumentException("The size of CommandSenders and Strings needs to be the same by creating an InputException!");
+        }
+        this.senders.addAll(senders);
+        this.messages.addAll(messages);
     }
 
     public InputException() {
     }
 
-    public void sendMessage(){
-        this.sender.sendMessage(Messages.PREFIX + this.message);
+    public void sendMessages(){
+        for(int i = 0; i < this.senders.size(); i++) {
+            this.senders.get(i).sendMessage(Messages.PREFIX + this.messages.get(i));
+        }
     }
 
 

@@ -10,13 +10,15 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ContractPresetCommand extends SellPresetCommand {
 
     private final String rootCommand = "contractpreset";
     private final String regex = "(?i)contractpreset [^;\n]+";
-    private final String usage = "/arm contractpreset [SETTING] or (for help): /arm contractpreset help";
+    private final List<String> usage = new ArrayList<>(Arrays.asList("contractpreset [SETTING]", "contractpreset help"));
+
 
     @Override
     public boolean matchesRegex(String command) {
@@ -29,7 +31,7 @@ public class ContractPresetCommand extends SellPresetCommand {
     }
 
     @Override
-    public String getUsage() {
+    public List<String> getUsage() {
         return this.usage;
     }
 

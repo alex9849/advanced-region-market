@@ -171,6 +171,23 @@ public class Messages {
     public static String TELEPORTER_NO_SAVE_LOCATION_FOUND = "&4Could not find a save teleport location";
     public static String TELEPORTER_DONT_MOVE = "&6Teleportation will commence in &c%time% Seconds&6. Do not move!";
     public static String TELEPORTER_TELEPORTATION_ABORDED = "&4Teleportation aborded!";
+    public static String OFFER_SENT = "&aYour offer has been sent";
+    public static String OFFER_ACCEPTED_SELLER = "&a%buyer% &aaccepted your offer";
+    public static String OFFER_ACCEPTED_BUYER = "&aOffer accepted! You are now the owner of &c%region%";
+    public static String NO_OFFER_TO_ANSWER = "&4You dont have an offer to answer";
+    public static String OFFER_REJECTED = "&aOffer rejected!";
+    public static String OFFER_HAS_BEEN_REJECTED = "&4%seller% &4rejected your offer!";
+    public static String NO_OFFER_TO_REJECT = "&4You do not have an offer to reject";
+    public static String OFFER_CANCELED = "&aYour offer has been cancelled!";
+    public static String OFFER_HAS_BEEN_CANCELLED = "&4%seller% &4cancelled his offer!";
+    public static String NO_OFFER_TO_CANCEL = "&4You do not have an offer to cancel";
+    public static String BUYER_ALREADY_GOT_AN_OFFER = "&4The selected buyer already got an offer that he has to answer first!";
+    public static String SELLER_ALREADY_CREATED_AN_OFFER = "&4You have already created an offer! Please wait for an answer or cancel it first!";
+    public static String SELLER_DOES_NOT_LONGER_OWN_REGION = "&4%seller% &4does not longer own this region. His offer has been cancelled";
+    public static String INCOMING_OFFER = "&c%seller% &6offers you his region &c%region% &6in the world &c%world% &6for &c%price% %currency%&6! \nYou can accept his offer with &c/arm offer accept &6or reject it &c/arm offer reject";
+    public static String SELECTED_PLAYER_NOT_ONLINE = "&4The selected player is not online";
+    public static String BAD_SYNTAX = "&7Bad syntax! Please use: &8%command%";
+    public static String BAD_SYNTAX_SPLITTER = "&7or &8%command%";
 
     public static List<String> GUI_TELEPORT_TO_REGION_BUTTON_LORE = new LinkedList<>();
     public static List<String> GUI_MAKE_OWNER_BUTTON_LORE = new LinkedList<>();
@@ -527,6 +544,23 @@ public class Messages {
         TELEPORTER_NO_SAVE_LOCATION_FOUND = ChatColor.translateAlternateColorCodes('&', TELEPORTER_NO_SAVE_LOCATION_FOUND);
         TELEPORTER_DONT_MOVE = ChatColor.translateAlternateColorCodes('&', TELEPORTER_DONT_MOVE);
         TELEPORTER_TELEPORTATION_ABORDED = ChatColor.translateAlternateColorCodes('&', TELEPORTER_TELEPORTATION_ABORDED);
+        OFFER_SENT = ChatColor.translateAlternateColorCodes('&', OFFER_SENT);
+        OFFER_ACCEPTED_SELLER = ChatColor.translateAlternateColorCodes('&', OFFER_ACCEPTED_SELLER);
+        OFFER_ACCEPTED_BUYER = ChatColor.translateAlternateColorCodes('&', OFFER_ACCEPTED_BUYER);
+        NO_OFFER_TO_ANSWER = ChatColor.translateAlternateColorCodes('&', NO_OFFER_TO_ANSWER);
+        OFFER_REJECTED = ChatColor.translateAlternateColorCodes('&', OFFER_REJECTED);
+        OFFER_HAS_BEEN_REJECTED = ChatColor.translateAlternateColorCodes('&', OFFER_HAS_BEEN_REJECTED);
+        NO_OFFER_TO_REJECT = ChatColor.translateAlternateColorCodes('&', NO_OFFER_TO_REJECT);
+        OFFER_CANCELED = ChatColor.translateAlternateColorCodes('&', OFFER_CANCELED);
+        OFFER_HAS_BEEN_CANCELLED = ChatColor.translateAlternateColorCodes('&', OFFER_HAS_BEEN_CANCELLED);
+        NO_OFFER_TO_CANCEL = ChatColor.translateAlternateColorCodes('&', NO_OFFER_TO_CANCEL);
+        BUYER_ALREADY_GOT_AN_OFFER = ChatColor.translateAlternateColorCodes('&', BUYER_ALREADY_GOT_AN_OFFER);
+        SELLER_ALREADY_CREATED_AN_OFFER = ChatColor.translateAlternateColorCodes('&', SELLER_ALREADY_CREATED_AN_OFFER);
+        SELLER_DOES_NOT_LONGER_OWN_REGION = ChatColor.translateAlternateColorCodes('&', SELLER_DOES_NOT_LONGER_OWN_REGION);
+        INCOMING_OFFER = ChatColor.translateAlternateColorCodes('&', INCOMING_OFFER);
+        SELECTED_PLAYER_NOT_ONLINE = ChatColor.translateAlternateColorCodes('&', SELECTED_PLAYER_NOT_ONLINE);
+        BAD_SYNTAX = ChatColor.translateAlternateColorCodes('&', BAD_SYNTAX);
+        BAD_SYNTAX_SPLITTER = ChatColor.translateAlternateColorCodes('&', BAD_SYNTAX_SPLITTER);
 
         for(int i = 0; i < GUI_TELEPORT_TO_REGION_BUTTON_LORE.size(); i++){
             GUI_TELEPORT_TO_REGION_BUTTON_LORE.set(i, ChatColor.translateAlternateColorCodes('&', GUI_TELEPORT_TO_REGION_BUTTON_LORE.get(i)));

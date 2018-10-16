@@ -14,7 +14,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,7 +24,7 @@ public class ListRegionsCommand extends BasicArmCommand {
 
     private final String rootCommand = "listregions";
     private final String regex = "(?i)listregions";
-    private final String usage = "/arm listregions or /arm listregions [PLAYER]";
+    private final List<String> usage = new ArrayList<>(Arrays.asList("listregions", "listregions [PLAYER]"));
     private final String regex_with_args = "(?i)listregions [^;\n ]+";
 
     @Override
@@ -40,7 +42,7 @@ public class ListRegionsCommand extends BasicArmCommand {
     }
 
     @Override
-    public String getUsage() {
+    public List<String> getUsage() {
         return this.usage;
     }
 

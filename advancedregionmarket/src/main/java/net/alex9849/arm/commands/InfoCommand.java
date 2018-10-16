@@ -13,13 +13,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class InfoCommand extends BasicArmCommand {
     private final String rootCommand = "info";
     private final String regex = "(?i)info";
-    private final String usage = "/arm info [REGION] or /arm info";
     private final String regex_with_args = "(?i)info [^;\n ]+";
+    private final List<String> usage = new ArrayList<>(Arrays.asList("info [REGION]", "info"));
 
     @Override
     public boolean matchesRegex(String command) {
@@ -36,7 +37,7 @@ public class InfoCommand extends BasicArmCommand {
     }
 
     @Override
-    public String getUsage() {
+    public List<String> getUsage() {
         return this.usage;
     }
 

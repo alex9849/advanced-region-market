@@ -13,13 +13,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class AddMemberCommand extends BasicArmCommand {
 
     private final String rootCommand = "addmember";
     private final String regex = "(?i)addmember [^;\n ]+ [^;\n ]+";
-    private final String usage = "/arm addmember [REGION] [NEWMEMBER]";
+    private final List<String> usage = new ArrayList<>(Arrays.asList("addmember [REGION] [NEWMEMBER]"));
 
     @Override
     public boolean matchesRegex(String command) {
@@ -32,7 +33,7 @@ public class AddMemberCommand extends BasicArmCommand {
     }
 
     @Override
-    public String getUsage() {
+    public List<String> getUsage() {
         return this.usage;
     }
 

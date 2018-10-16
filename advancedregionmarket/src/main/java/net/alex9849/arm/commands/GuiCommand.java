@@ -9,12 +9,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class GuiCommand extends BasicArmCommand {
     private final String rootCommand = "gui";
     private final String regex = "(?i)gui";
-    private final String usage = "/arm gui";
+    private final List<String> usage = new ArrayList<>(Arrays.asList("gui"));
 
     @Override
     public boolean matchesRegex(String command) {
@@ -27,7 +28,7 @@ public class GuiCommand extends BasicArmCommand {
     }
 
     @Override
-    public String getUsage() {
+    public List<String> getUsage() {
         return this.usage;
     }
 

@@ -9,13 +9,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class HelpCommand extends BasicArmCommand {
 
     private final String rootCommand = "help";
     private final String regex = "(?i)help";
-    private final String usage = "/arm help";
+    private final List<String> usage = new ArrayList<>(Arrays.asList("help"));
 
     @Override
     public boolean matchesRegex(String command) {
@@ -28,7 +29,7 @@ public class HelpCommand extends BasicArmCommand {
     }
 
     @Override
-    public String getUsage() {
+    public List<String> getUsage() {
         return this.usage;
     }
 

@@ -9,13 +9,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ListRegionKindsCommand extends BasicArmCommand {
 
     private final String rootCommand = "listregionkinds";
     private final String regex = "(?i)listregionkinds";
-    private final String usage = "/arm listregionkinds";
+    private final List<String> usage = new ArrayList<>(Arrays.asList("listregionkinds"));
 
     @Override
     public boolean matchesRegex(String command) {
@@ -28,7 +29,7 @@ public class ListRegionKindsCommand extends BasicArmCommand {
     }
 
     @Override
-    public String getUsage() {
+    public List<String> getUsage() {
         return this.usage;
     }
 

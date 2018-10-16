@@ -86,13 +86,22 @@ public class CommandHandler implements TabCompleter {
             }
         }
 
-        if(cmd.getName().equalsIgnoreCase("arm") || (args.length >= 1)) {
+        if(cmd.getName().equalsIgnoreCase("arm") && (args.length >= 1)) {
             for(int i = 0; i < this.commands.size(); i++) {
                 if(this.commands.get(i).getRootCommand().equalsIgnoreCase(args[0])) {
                     if(this.commands.get(i).matchesRegex(allargs)) {
                         return this.commands.get(i).runCommand(sender, cmd, commandsLabel, args, allargs);
                     } else {
-                        sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + "Bad syntax! Use: " + this.commands.get(i).getUsage());
+                        List<String> syntax = this.commands.get(i).getUsage();
+                        if(syntax.size() >= 1) {
+                            String message = Messages.BAD_SYNTAX;
+
+                            message = message.replace("%command%", "/" + commandsLabel + " " + syntax.get(0));
+                            for(int x = 1; x < syntax.size(); x++) {
+                                message = message + " " + Messages.BAD_SYNTAX_SPLITTER.replace("%command%", "/" + commandsLabel + " " + syntax.get(x));
+                            }
+                            sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + message);
+                        }
                         return true;
                     }
                 }

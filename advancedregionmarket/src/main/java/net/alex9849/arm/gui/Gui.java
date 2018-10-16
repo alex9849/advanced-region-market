@@ -866,35 +866,52 @@ public class Gui implements Listener {
     public static void openMemberManager(Player player, Region region, OfflinePlayer member) {
         GuiInventory inv = new GuiInventory(9, region.getRegion().getId() + " - " + member.getName());
 
-        ItemStack makeOwnerItem = new ItemStack(Gui.PROMOTE_MEMBER_TO_OWNER_ITEM);
-        ItemMeta makeOwnerItemMeta = makeOwnerItem.getItemMeta();
-        makeOwnerItemMeta.setDisplayName(Messages.GUI_MAKE_OWNER_BUTTON);
-        makeOwnerItemMeta.setLore(Messages.GUI_MAKE_OWNER_BUTTON_LORE);
-        makeOwnerItem.setItemMeta(makeOwnerItemMeta);
+        int itemcounter = 1;
+        int actitem = 1;
 
-        ClickItem makeOwnerMenu = new ClickItem(makeOwnerItem, 0).addClickAction(new ClickAction() {
-            @Override
-            public void execute(Player player) {
-                Gui.openMakeOwnerWarning(player, region, member);
-            }
-        });
-        inv.addIcon(makeOwnerMenu);
+        if(player.hasPermission(Permission.MEMBER_REMOVEMEMBER)){
+            itemcounter++;
+        }
+        if(player.hasPermission(Permission.MEMBER_PROMOTE)){
+            itemcounter++;
+        }
 
-        ItemStack removeItem = new ItemStack(Gui.REMOVE_MEMBER_ITEM);
-        ItemMeta removeItemMeta = removeItem.getItemMeta();
-        removeItemMeta.setDisplayName(Messages.GUI_REMOVE_MEMBER_BUTTON);
-        removeItemMeta.setLore(Messages.GUI_REMOVE_MEMBER_BUTTON_LORE);
-        removeItem.setItemMeta(removeItemMeta);
+        if(player.hasPermission(Permission.MEMBER_PROMOTE)){
+            ItemStack makeOwnerItem = new ItemStack(Gui.PROMOTE_MEMBER_TO_OWNER_ITEM);
+            ItemMeta makeOwnerItemMeta = makeOwnerItem.getItemMeta();
+            makeOwnerItemMeta.setDisplayName(Messages.GUI_MAKE_OWNER_BUTTON);
+            makeOwnerItemMeta.setLore(Messages.GUI_MAKE_OWNER_BUTTON_LORE);
+            makeOwnerItem.setItemMeta(makeOwnerItemMeta);
 
-        ClickItem removeMenu = new ClickItem(removeItem, 4).addClickAction(new ClickAction() {
-            @Override
-            public void execute(Player player) {
-                AdvancedRegionMarket.getWorldGuardInterface().removeMember(member.getUniqueId(), region.getRegion());
-                player.sendMessage(Messages.PREFIX + Messages.REGION_REMOVE_MEMBER_REMOVED);
-                player.closeInventory();
-            }
-        });
-        inv.addIcon(removeMenu);
+            ClickItem makeOwnerMenu = new ClickItem(makeOwnerItem, getPosition(actitem, itemcounter)).addClickAction(new ClickAction() {
+                @Override
+                public void execute(Player player) {
+                    Gui.openMakeOwnerWarning(player, region, member, true);
+                }
+            });
+            inv.addIcon(makeOwnerMenu);
+            actitem++;
+        }
+
+        if(player.hasPermission(Permission.MEMBER_REMOVEMEMBER)){
+            ItemStack removeItem = new ItemStack(Gui.REMOVE_MEMBER_ITEM);
+            ItemMeta removeItemMeta = removeItem.getItemMeta();
+            removeItemMeta.setDisplayName(Messages.GUI_REMOVE_MEMBER_BUTTON);
+            removeItemMeta.setLore(Messages.GUI_REMOVE_MEMBER_BUTTON_LORE);
+            removeItem.setItemMeta(removeItemMeta);
+
+            ClickItem removeMenu = new ClickItem(removeItem, getPosition(actitem, itemcounter)).addClickAction(new ClickAction() {
+                @Override
+                public void execute(Player player) {
+                    AdvancedRegionMarket.getWorldGuardInterface().removeMember(member.getUniqueId(), region.getRegion());
+                    player.sendMessage(Messages.PREFIX + Messages.REGION_REMOVE_MEMBER_REMOVED);
+                    player.closeInventory();
+                }
+            });
+            inv.addIcon(removeMenu);
+            actitem++;
+        }
+
 
         ItemStack goBack = new ItemStack(Gui.GO_BACK_ITEM);
         ItemMeta goBackMeta = goBack.getItemMeta();
@@ -916,7 +933,7 @@ public class Gui implements Listener {
 
     }
 
-    public static void openMakeOwnerWarning(Player player, Region region, OfflinePlayer member) {
+    public static void openMakeOwnerWarning(Player player, Region region, OfflinePlayer member, Boolean goback) {
         GuiInventory inv = new GuiInventory(9, Messages.GUI_MAKE_OWNER_WARNING_NAME);
 
         ItemStack yesItem = new ItemStack(Gui.WARNING_YES_ITEM);
@@ -949,7 +966,12 @@ public class Gui implements Listener {
         ClickItem noButton = new ClickItem(noItem, 8).addClickAction(new ClickAction() {
             @Override
             public void execute(Player player) {
-                Gui.openMemberList(player, region);
+                if(goback) {
+                    Gui.openMemberManager(player, region, member);
+                } else {
+                    player.closeInventory();
+                }
+
             }
         });
         inv.addIcon(noButton);
@@ -1265,7 +1287,7 @@ public class Gui implements Listener {
                     try {
                         clickAction.execute(player);
                     } catch (InputException inputException) {
-                        inputException.sendMessage();
+                        inputException.sendMessages();
                     }
                 }
             }

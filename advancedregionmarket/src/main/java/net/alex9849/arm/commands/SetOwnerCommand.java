@@ -13,13 +13,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class SetOwnerCommand extends BasicArmCommand {
 
     private final String rootCommand = "setowner";
     private final String regex = "(?i)setowner [^;\n ]+ [^;\n ]+";
-    private final String usage = "/arm setowner [REGION] [PLAYER]";
+    private final List<String> usage = new ArrayList<>(Arrays.asList("setowner [REGION] [PLAYER]"));
 
     @Override
     public boolean matchesRegex(String command) {
@@ -32,7 +33,7 @@ public class SetOwnerCommand extends BasicArmCommand {
     }
 
     @Override
-    public String getUsage() {
+    public List<String> getUsage() {
         return this.usage;
     }
 

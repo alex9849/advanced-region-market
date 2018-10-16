@@ -10,13 +10,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class SetWarpCommand extends BasicArmCommand {
 
     private final String rootCommand = "setwarp";
     private final String regex = "(?i)setwarp [^;\n ]+";
-    private final String usage = "/arm setwarp [REGION]";
+    private final List<String> usage = new ArrayList<>(Arrays.asList("setwarp [REGION]"));
 
     @Override
     public boolean matchesRegex(String command) {
@@ -29,7 +30,7 @@ public class SetWarpCommand extends BasicArmCommand {
     }
 
     @Override
-    public String getUsage() {
+    public List<String> getUsage() {
         return this.usage;
     }
 

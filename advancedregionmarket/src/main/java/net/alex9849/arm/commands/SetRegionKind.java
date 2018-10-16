@@ -11,12 +11,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class SetRegionKind extends BasicArmCommand {
     private final String rootCommand = "setregionkind";
     private final String regex = "(?i)setregionkind [^;\n ]+ [^;\n ]+";
-    private final String usage = "/arm setregionkind [REGIONKIND] [REGION]";
+    private final List<String> usage = new ArrayList<>(Arrays.asList("setregionkind [REGIONKIND] [REGION]"));
 
     @Override
     public boolean matchesRegex(String command) {
@@ -29,7 +30,7 @@ public class SetRegionKind extends BasicArmCommand {
     }
 
     @Override
-    public String getUsage() {
+    public List<String> getUsage() {
         return this.usage;
     }
 

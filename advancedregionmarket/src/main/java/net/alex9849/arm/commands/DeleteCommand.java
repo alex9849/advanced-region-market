@@ -10,13 +10,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class DeleteCommand extends BasicArmCommand {
 
     private final String rootCommand = "delete";
     private final String regex = "(?i)delete [^;\n ]+";
-    private final String usage = "/arm delete [REGION]";
+    private final List<String> usage = new ArrayList<>(Arrays.asList("delete [REGION]"));
 
     @Override
     public boolean matchesRegex(String command) {
@@ -29,7 +30,7 @@ public class DeleteCommand extends BasicArmCommand {
     }
 
     @Override
-    public String getUsage() {
+    public List<String> getUsage() {
         return this.usage;
     }
 

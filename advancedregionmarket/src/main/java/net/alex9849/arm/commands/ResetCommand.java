@@ -10,13 +10,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ResetCommand extends BasicArmCommand {
 
     private final String rootCommand = "reset";
     private final String regex = "(?i)reset [^;\n ]+";
-    private final String usage = "/arm reset [REGION]";
+    private final List<String> usage = new ArrayList<>(Arrays.asList("reset [REGION]"));
 
     @Override
     public boolean matchesRegex(String command) {
@@ -29,7 +30,7 @@ public class ResetCommand extends BasicArmCommand {
     }
 
     @Override
-    public String getUsage() {
+    public List<String> getUsage() {
         return this.usage;
     }
 

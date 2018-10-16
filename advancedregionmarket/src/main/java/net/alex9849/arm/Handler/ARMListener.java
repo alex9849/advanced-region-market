@@ -283,7 +283,7 @@ public class ARMListener implements Listener {
                 sign.setCancelled(true);
             }
         } catch (InputException inputException) {
-            inputException.sendMessage();
+            inputException.sendMessages();
         }
     }
 
@@ -317,7 +317,7 @@ public class ARMListener implements Listener {
                 }
             }
         } catch (InputException inputException) {
-            inputException.sendMessage();
+            inputException.sendMessages();
         }
     }
 
@@ -336,7 +336,7 @@ public class ARMListener implements Listener {
                 }
             }
         } catch (InputException inputException) {
-            inputException.sendMessage();
+            inputException.sendMessages();
         }
     }
 
@@ -392,7 +392,7 @@ public class ARMListener implements Listener {
                 }
             }
         } catch (InputException inputException) {
-            inputException.sendMessage();
+            inputException.sendMessages();
         }
     }
 

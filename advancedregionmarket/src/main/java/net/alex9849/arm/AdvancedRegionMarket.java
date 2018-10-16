@@ -516,7 +516,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         try {
             return this.commandHandler.executeCommand(sender, cmd, commandsLabel, args);
         } catch (InputException inputException) {
-            inputException.sendMessage();
+            inputException.sendMessages();
             return true;
         }
     }

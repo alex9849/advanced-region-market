@@ -179,4 +179,25 @@ public class LimitGroup {
             }
         }
     }
+
+    public static String getRegionBuyOutOfLimitMessage(Player player, RegionKind regionKind) {
+        int limittotal = LimitGroup.getLimit(player);
+        int limitkind = LimitGroup.getLimit(player, regionKind);
+        String limittotalS = "" + limittotal;
+        String limitkindS = "" + limitkind;
+
+        if (limitkind == Integer.MAX_VALUE) {
+            limitkindS = Messages.UNLIMITED;
+        }
+        if (limittotal == Integer.MAX_VALUE) {
+            limittotalS = Messages.UNLIMITED;
+        }
+        String message = Messages.REGION_BUY_OUT_OF_LIMIT;
+        message = message.replace("%playerownedkind%", LimitGroup.getOwnedRegions(player, regionKind) + "");
+        message = message.replace("%limitkind%", limitkindS);
+        message = message.replace("%regionkind%", regionKind.getDisplayName());
+        message = message.replace("%playerownedtotal%", LimitGroup.getOwnedRegions(player) + "");
+        message = message.replace("%limittotal%", limittotalS);
+        return message;
+    }
 }

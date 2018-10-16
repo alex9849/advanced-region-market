@@ -59,6 +59,7 @@ public class Permission {
     public static final String MEMBER_LIMIT = "arm.member.limit";
     public static final String MEMBER_OFFER_CREATE = "arm.member.offer.create";
     public static final String MEMBER_OFFER_ANSWER = "arm.member.offer.answer";
+    public static final String MEMBER_PROMOTE = "arm.member.promote";
 
     public static final String ARM_HELP = "arm.help";
     public static final String ARM_BUY_SELLREGION = "arm.buy.selloffer";

@@ -1,9 +1,9 @@
 package net.alex9849.arm.regions;
 
-import net.alex9849.arm.AdvancedRegionMarket;
-import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
+import net.alex9849.arm.Permission;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
+
+import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,5 +99,13 @@ public class RegionKind {
         }
 
         return returnme;
+    }
+
+    public static boolean hasPermission(CommandSender sender, RegionKind regionKind) {
+        if(regionKind == RegionKind.DEFAULT) {
+            return true;
+        } else {
+            return sender.hasPermission(Permission.ARM_BUYKIND + regionKind.getName());
+        }
     }
 }

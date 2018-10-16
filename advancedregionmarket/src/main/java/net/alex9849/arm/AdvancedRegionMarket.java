@@ -881,6 +881,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
             Region.saveRegionsConf(regionConf);
         }
         if(version < 1.4) {
+            getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.4...");
             pluginConfig.set("GUI.FillItem", "GRAY_STAINED_GLASS_PANE");
             pluginConfig.set("GUI.ContractItem", "WRITABLE_BOOK");
             pluginConfig.set("GUI.DisplayRegionOwnerButton", true);
@@ -909,6 +910,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
             Messages.saveConfig();
         }
         if(version < 1.41) {
+            getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.4.1...");
             pluginConfig.set("Version", 1.41);
             saveConfig();
             YamlConfiguration messages = Messages.getConfig();
@@ -924,6 +926,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
             Messages.saveConfig();
         }
         if(version < 1.44) {
+            getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.4.4...");
             pluginConfig.set("Other.TeleporterTimer", 0);
             pluginConfig.set("Other.TeleportAfterRegionBoughtCountdown", false);
             pluginConfig.set("Version", 1.44);
@@ -931,6 +934,33 @@ public class AdvancedRegionMarket extends JavaPlugin {
             YamlConfiguration messages = Messages.getConfig();
             messages.set("Messages.TeleporterDontMove", "&6Teleportation will commence in &c%time% Seconds&6. Do not move!");
             messages.set("Messages.TeleporterTeleportationAborded", "&4Teleportation aborded!");
+            Messages.saveConfig();
+        }
+        if(version < 1.5) {
+            getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.5...");
+            pluginConfig.set("Version", 1.5);
+            pluginConfig.set("Reselling.Offers.OfferTimeOut", 30);
+            saveConfig();
+
+            YamlConfiguration messages = Messages.getConfig();
+            messages.set("Messages.OfferSent", "&aYour offer has been sent");
+            messages.set("Messages.OfferAcceptedSeller", "&a%buyer% &aaccepted your offer");
+            messages.set("Messages.OfferAcceptedBuyer", "&aOffer accepted! You are now the owner of &c%region%");
+            messages.set("Messages.NoOfferToAnswer", "&4You dont have an offer to answer");
+            messages.set("Messages.OfferRejected", "&aOffer rejected!");
+            messages.set("Messages.OfferHasBeenRejected", "&4%seller% &4rejected your offer!");
+            messages.set("Messages.NoOfferToReject", "&4You do not have an offer to reject");
+            messages.set("Messages.OfferCancelled", "&aYour offer has been cancelled!");
+            messages.set("Messages.OfferHasBeenCancelled", "&4%seller% &4cancelled his offer!");
+            messages.set("Messages.NoOfferToCancel", "&4You do not have an offer to cancel");
+            messages.set("Messages.BuyerAlreadyGotAnOffer", "&4The selected buyer already got an offer that he has to answer first!");
+            messages.set("Messages.SellerAlreadyCreatedAnOffer", "&4You have already created an offer! Please wait for an answer or cancel it first!");
+            messages.set("Messages.SellerDoesNotLongerOwnRegion", "&4%seller% &4does not longer own this region. His offer has been cancelled");
+            messages.set("Messages.IncommingOffer", "&c%seller% &6offers you his region &c%region% &6in the world &c%world% &6for &c%price% %currency%&6! \nYou can accept his offer with &c/arm offer accept &6or reject it &c/arm offer reject");
+            messages.set("Messages.SelectedPlayerIsNotOnline", "&4The selected player is not online");
+            messages.set("Messages.BadSyntax", "&7Bad syntax! Please use: &8%command%");
+            messages.set("Messages.BadSyntaxSplitter", "&7or &8%command%");
+            messages.set("Messages.OfferTimedOut", "&4Offer timed out!");
             Messages.saveConfig();
         }
     }

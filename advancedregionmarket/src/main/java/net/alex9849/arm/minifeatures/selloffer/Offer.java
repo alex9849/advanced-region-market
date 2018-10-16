@@ -81,6 +81,10 @@ public class Offer {
         return this.seller;
     }
 
+    private void activateTimer(int ticks) {
+        this.offerListener.activateCancelTimer(ticks);
+    }
+
     public static Offer createOffer(Region region, double price, Player seller, Player buyer) throws InputException {
         for(int i = 0; i < offerList.size(); i++) {
             if(offerList.get(i).getBuyer().getUniqueId() == buyer.getUniqueId()) {
@@ -99,6 +103,10 @@ public class Offer {
         }
         Offer offer = new Offer(region, price, seller, buyer);
         offerList.add(offer);
+        int timer = AdvancedRegionMarket.getARM().getConfig().getInt("Reselling.Offers.OfferTimeOut");
+        if(timer != 0) {
+            offer.activateTimer(20 * timer);
+        }
         return offer;
     }
 

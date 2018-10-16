@@ -147,6 +147,10 @@ Other:
   # Set this to 0 to disable the countdown. Players with the permisison arm.admin.bypassteleportercooldown won't get a countdown
   TeleporterTimer: 0
 
+Reselling:
+  Offers:
+    OfferTimeOut: 30
+
 #Here you can change the Blocks that will be shown in the GUI. You can use
 #this (https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html) as a List for possible blocks.
 #You can change the names of the item and the lore of the items in the messages.yml

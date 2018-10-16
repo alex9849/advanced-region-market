@@ -171,6 +171,7 @@ public class Messages {
     public static String TELEPORTER_NO_SAVE_LOCATION_FOUND = "&4Could not find a save teleport location";
     public static String TELEPORTER_DONT_MOVE = "&6Teleportation will commence in &c%time% Seconds&6. Do not move!";
     public static String TELEPORTER_TELEPORTATION_ABORDED = "&4Teleportation aborded!";
+
     public static String OFFER_SENT = "&aYour offer has been sent";
     public static String OFFER_ACCEPTED_SELLER = "&a%buyer% &aaccepted your offer";
     public static String OFFER_ACCEPTED_BUYER = "&aOffer accepted! You are now the owner of &c%region%";
@@ -186,6 +187,7 @@ public class Messages {
     public static String SELLER_DOES_NOT_LONGER_OWN_REGION = "&4%seller% &4does not longer own this region. His offer has been cancelled";
     public static String INCOMING_OFFER = "&c%seller% &6offers you his region &c%region% &6in the world &c%world% &6for &c%price% %currency%&6! \nYou can accept his offer with &c/arm offer accept &6or reject it &c/arm offer reject";
     public static String SELECTED_PLAYER_NOT_ONLINE = "&4The selected player is not online";
+    public static String OFFER_TIMED_OUT = "&4Offer timed out!";
     public static String BAD_SYNTAX = "&7Bad syntax! Please use: &8%command%";
     public static String BAD_SYNTAX_SPLITTER = "&7or &8%command%";
 
@@ -381,6 +383,26 @@ public class Messages {
         TELEPORTER_NO_SAVE_LOCATION_FOUND = config.getString("Messages.TeleporterNoSaveLocation");
         TELEPORTER_DONT_MOVE = config.getString("Messages.TeleporterDontMove");
         TELEPORTER_TELEPORTATION_ABORDED = config.getString("Messages.TeleporterTeleportationAborded");
+        OFFER_SENT = config.getString("Messages.OfferSent");
+        OFFER_ACCEPTED_SELLER = config.getString("Messages.OfferAcceptedSeller");
+        OFFER_ACCEPTED_BUYER = config.getString("Messages.OfferAcceptedBuyer");
+        NO_OFFER_TO_ANSWER = config.getString("Messages.NoOfferToAnswer");
+        OFFER_REJECTED = config.getString("Messages.OfferRejected");
+        OFFER_HAS_BEEN_REJECTED = config.getString("Messages.OfferHasBeenRejected");
+        NO_OFFER_TO_REJECT = config.getString("Messages.NoOfferToReject");
+        OFFER_CANCELED = config.getString("Messages.OfferCancelled");
+        OFFER_HAS_BEEN_CANCELLED = config.getString("Messages.OfferHasBeenCancelled");
+        NO_OFFER_TO_CANCEL = config.getString("Messages.NoOfferToCancel");
+        BUYER_ALREADY_GOT_AN_OFFER = config.getString("Messages.BuyerAlreadyGotAnOffer");
+        SELLER_ALREADY_CREATED_AN_OFFER = config.getString("Messages.SellerAlreadyCreatedAnOffer");
+        SELLER_DOES_NOT_LONGER_OWN_REGION = config.getString("Messages.SellerDoesNotLongerOwnRegion");
+        INCOMING_OFFER = config.getString("Messages.IncommingOffer");
+        SELECTED_PLAYER_NOT_ONLINE = config.getString("Messages.SelectedPlayerIsNotOnline");
+        BAD_SYNTAX = config.getString("Messages.BadSyntax");
+        BAD_SYNTAX_SPLITTER = config.getString("Messages.BadSyntaxSplitter");
+        OFFER_TIMED_OUT = config.getString("Messages.OfferTimedOut");
+
+
 
         Messages.translateColorCodes();
     }
@@ -561,6 +583,7 @@ public class Messages {
         SELECTED_PLAYER_NOT_ONLINE = ChatColor.translateAlternateColorCodes('&', SELECTED_PLAYER_NOT_ONLINE);
         BAD_SYNTAX = ChatColor.translateAlternateColorCodes('&', BAD_SYNTAX);
         BAD_SYNTAX_SPLITTER = ChatColor.translateAlternateColorCodes('&', BAD_SYNTAX_SPLITTER);
+        OFFER_TIMED_OUT = ChatColor.translateAlternateColorCodes('&', OFFER_TIMED_OUT);
 
         for(int i = 0; i < GUI_TELEPORT_TO_REGION_BUTTON_LORE.size(); i++){
             GUI_TELEPORT_TO_REGION_BUTTON_LORE.set(i, ChatColor.translateAlternateColorCodes('&', GUI_TELEPORT_TO_REGION_BUTTON_LORE.get(i)));

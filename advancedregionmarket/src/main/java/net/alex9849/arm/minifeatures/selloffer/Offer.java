@@ -49,7 +49,10 @@ public class Offer {
         Economy econ = AdvancedRegionMarket.getEcon();
 
         if(econ.getBalance(buyer) < price) {
-            throw new InputException(buyer, Messages.NOT_ENOUGHT_MONEY);
+            this.reject();
+            List<CommandSender> senders = new ArrayList<>(Arrays.asList(buyer, seller));
+            List<String> messages = new ArrayList<>(Arrays.asList(Messages.NOT_ENOUGHT_MONEY, this.getConvertedMessage(Messages.OFFER_HAS_BEEN_REJECTED)));
+            throw new InputException(senders, messages);
         }
         econ.withdrawPlayer(seller, price);
         econ.depositPlayer(buyer, price);

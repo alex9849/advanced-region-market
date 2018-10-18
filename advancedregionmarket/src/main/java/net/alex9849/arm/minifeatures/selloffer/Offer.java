@@ -33,7 +33,7 @@ public class Offer {
     }
 
     public void accept() throws InputException {
-        if(!region.isSold() || !AdvancedRegionMarket.getWorldGuardInterface().hasOwner(buyer.getUniqueId(), region.getRegion())) {
+        if(!region.isSold() || !AdvancedRegionMarket.getWorldGuardInterface().hasOwner(seller.getUniqueId(), region.getRegion())) {
             this.reject();
             List<CommandSender> senders = new ArrayList<>(Arrays.asList(buyer, seller));
             List<String> messages = new ArrayList<>(Arrays.asList(this.getConvertedMessage(Messages.SELLER_DOES_NOT_LONGER_OWN_REGION), this.getConvertedMessage(Messages.OFFER_HAS_BEEN_REJECTED)));
@@ -54,8 +54,8 @@ public class Offer {
             List<String> messages = new ArrayList<>(Arrays.asList(Messages.NOT_ENOUGHT_MONEY, this.getConvertedMessage(Messages.OFFER_HAS_BEEN_REJECTED)));
             throw new InputException(senders, messages);
         }
-        econ.withdrawPlayer(seller, price);
-        econ.depositPlayer(buyer, price);
+        econ.depositPlayer(seller, price);
+        econ.withdrawPlayer(buyer, price);
 
         AdvancedRegionMarket.getWorldGuardInterface().setOwner(buyer, region.getRegion());
 

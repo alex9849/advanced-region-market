@@ -1,5 +1,6 @@
 package net.alex9849.arm.commands;
 
+import net.alex9849.arm.Handler.CommandHandler;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.InputException;
@@ -10,17 +11,19 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class HelpCommand extends BasicArmCommand {
 
     private final String rootCommand = "help";
+    private final String regex_args = "(?i)help [0-9]+";
     private final String regex = "(?i)help";
-    private final List<String> usage = new ArrayList<>(Arrays.asList("help"));
+    private final List<String> usage = new ArrayList<>(Arrays.asList("help", "help [page]"));
 
     @Override
     public boolean matchesRegex(String command) {
-        return command.matches(this.regex);
+        return command.matches(this.regex) || command.matches(this.regex_args);
     }
 
     @Override
@@ -38,30 +41,44 @@ public class HelpCommand extends BasicArmCommand {
         if(!sender.hasPermission(Permission.ARM_HELP)){
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
-        sender.sendMessage(ChatColor.GOLD + "/arm setregionkind [KIND] [REGION]");
-        sender.sendMessage(ChatColor.GOLD + "/arm listregionkinds");
-        sender.sendMessage(ChatColor.GOLD + "/arm findfreeregion [KIND]");
-        sender.sendMessage(ChatColor.GOLD + "/arm resetblocks [REGION]");
-        sender.sendMessage(ChatColor.GOLD + "/arm reset [REGION]");
-        sender.sendMessage(ChatColor.GOLD + "/arm info [REGION]");
-        sender.sendMessage(ChatColor.GOLD + "/arm addmember [REGION] [PLAYER]");
-        sender.sendMessage(ChatColor.GOLD + "/arm removemember [REGION] [PLAYER]");
-        sender.sendMessage(ChatColor.GOLD + "/arm autoreset [REGION] [true/false]");
-        sender.sendMessage(ChatColor.GOLD + "/arm listregions [PLAYER]");
-        sender.sendMessage(ChatColor.GOLD + "/arm setowner [REGION] [PLAYER]");
-        sender.sendMessage(ChatColor.GOLD + "/arm hotel [REGION] [true/false]");
-        sender.sendMessage(ChatColor.GOLD + "/arm updateschematic [REGION]");
-        sender.sendMessage(ChatColor.GOLD + "/arm setwarp [REGION]");
-        sender.sendMessage(ChatColor.GOLD + "/arm unsell [REGION]");
-        sender.sendMessage(ChatColor.GOLD + "/arm extend [REGION]");
-        sender.sendMessage(ChatColor.GOLD + "/arm delete [REGION]");
-        sender.sendMessage(ChatColor.GOLD + "/arm doblockreset [REGION] [true/false]");
-        sender.sendMessage(ChatColor.GOLD + "/arm terminate [REGION] [true/false]");
-        sender.sendMessage(ChatColor.GOLD + "/arm sellpreset [SETTING]");
-        sender.sendMessage(ChatColor.GOLD + "/arm rentpreset [SETTING]");
-        sender.sendMessage(ChatColor.GOLD + "/arm contractpreset [SETTING]");
-        sender.sendMessage(ChatColor.GOLD + "/arm limit");
-        sender.sendMessage(ChatColor.GOLD + "/arm reload");
+        int selectedpage;
+        if(allargs.matches(this.regex_args)) {
+            selectedpage = Integer.parseInt(args[1]);
+        } else {
+            selectedpage = 1;
+        }
+
+        List<BasicArmCommand> commands = CommandHandler.getLatestHandler().getCommands();
+        List<String> usages = new ArrayList<>();
+
+        Collections.sort(usages);
+
+        for(BasicArmCommand command : commands) {
+            usages.addAll(command.getUsage());
+        }
+
+        final int commandsPerPage = 7;
+        int pages = usages.size() / commandsPerPage;
+        if((usages.size() % commandsPerPage) != 0) {
+            pages++;
+        }
+
+        if(pages < selectedpage) {
+            selectedpage = pages;
+        }
+
+        int firstCommand = (selectedpage * commandsPerPage) - commandsPerPage;
+        int lastCommand = selectedpage * commandsPerPage;
+
+        if(usages.size() < lastCommand) {
+            lastCommand = usages.size();
+        }
+
+        sender.sendMessage(Messages.HELP_HEADLINE.replace("%actualpage%", selectedpage + "").replace("%maxpage%", pages + ""));
+        for(int i = firstCommand; i < lastCommand; i++) {
+            sender.sendMessage(ChatColor.GOLD + "/" + commandsLabel + " " + usages.get(i));
+        }
+
         return true;
     }
 
@@ -78,4 +95,6 @@ public class HelpCommand extends BasicArmCommand {
         }
         return returnme;
     }
+
+
 }

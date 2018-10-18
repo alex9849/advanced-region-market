@@ -38,8 +38,22 @@ import java.util.logging.Level;
 public class CommandHandler implements TabCompleter {
 
     private List<BasicArmCommand> commands = new ArrayList<>();
+    private static CommandHandler latestHandler;
 
-    public void loadCommands(){
+    public CommandHandler() {
+        this.loadCommands();
+        CommandHandler.latestHandler = this;
+    }
+
+    public static CommandHandler getLatestHandler() {
+        return latestHandler;
+    }
+
+    public List<BasicArmCommand> getCommands() {
+        return this.commands;
+    }
+
+    private void loadCommands(){
 
         this.commands = new ArrayList<>();
 
@@ -69,10 +83,6 @@ public class CommandHandler implements TabCompleter {
         } catch (InstantiationException e) {
             e.printStackTrace();
         }
-    }
-
-    public void unloadCommands() {
-        this.commands = new ArrayList<>();
     }
 
     public boolean executeCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args) throws InputException {

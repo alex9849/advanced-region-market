@@ -171,7 +171,6 @@ public class Messages {
     public static String TELEPORTER_NO_SAVE_LOCATION_FOUND = "&4Could not find a save teleport location";
     public static String TELEPORTER_DONT_MOVE = "&6Teleportation will commence in &c%time% Seconds&6. Do not move!";
     public static String TELEPORTER_TELEPORTATION_ABORDED = "&4Teleportation aborded!";
-
     public static String OFFER_SENT = "&aYour offer has been sent";
     public static String OFFER_ACCEPTED_SELLER = "&a%buyer% &aaccepted your offer";
     public static String OFFER_ACCEPTED_BUYER = "&aOffer accepted! You are now the owner of &c%region%";
@@ -190,6 +189,8 @@ public class Messages {
     public static String OFFER_TIMED_OUT = "&4Offer timed out!";
     public static String BAD_SYNTAX = "&7Bad syntax! Please use: &8%command%";
     public static String BAD_SYNTAX_SPLITTER = "&7or &8%command%";
+    public static String HELP_HEADLINE = "&6=====[AdvancedRegionMarket Help ]=====\n&3Page %actualpage% / %maxpage%";
+
 
     public static List<String> GUI_TELEPORT_TO_REGION_BUTTON_LORE = new LinkedList<>();
     public static List<String> GUI_MAKE_OWNER_BUTTON_LORE = new LinkedList<>();
@@ -584,6 +585,7 @@ public class Messages {
         BAD_SYNTAX = ChatColor.translateAlternateColorCodes('&', BAD_SYNTAX);
         BAD_SYNTAX_SPLITTER = ChatColor.translateAlternateColorCodes('&', BAD_SYNTAX_SPLITTER);
         OFFER_TIMED_OUT = ChatColor.translateAlternateColorCodes('&', OFFER_TIMED_OUT);
+        HELP_HEADLINE = ChatColor.translateAlternateColorCodes('&', HELP_HEADLINE);
 
         for(int i = 0; i < GUI_TELEPORT_TO_REGION_BUTTON_LORE.size(); i++){
             GUI_TELEPORT_TO_REGION_BUTTON_LORE.set(i, ChatColor.translateAlternateColorCodes('&', GUI_TELEPORT_TO_REGION_BUTTON_LORE.get(i)));

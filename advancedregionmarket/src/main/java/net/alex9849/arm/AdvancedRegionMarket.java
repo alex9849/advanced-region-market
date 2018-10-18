@@ -119,7 +119,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
         Region.setCompleteTabRegions(getConfig().getBoolean("Other.CompleteRegionsOnTabComplete"));
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Scheduler() , 0 ,20*getConfig().getInt("Other.SignAndResetUpdateInterval"));
         this.commandHandler = new CommandHandler();
-        this.commandHandler.loadCommands();
         SellPreset.loadCommands();
         RentPreset.loadCommands();
         ContractPreset.loadCommands();
@@ -139,8 +138,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
         SellPreset.reset();
         RentPreset.reset();
         ContractPreset.reset();
-        this.commandHandler.unloadCommands();
-        this.commandHandler = null;
         getServer().getServicesManager().unregisterAll(this);
         SignChangeEvent.getHandlerList().unregister(this);
         InventoryClickEvent.getHandlerList().unregister(this);
@@ -956,7 +953,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
             messages.set("Messages.BuyerAlreadyGotAnOffer", "&4The selected buyer already got an offer that he has to answer first!");
             messages.set("Messages.SellerAlreadyCreatedAnOffer", "&4You have already created an offer! Please wait for an answer or cancel it first!");
             messages.set("Messages.SellerDoesNotLongerOwnRegion", "&4%seller% &4does not longer own this region. His offer has been cancelled");
-            messages.set("Messages.IncommingOffer", "&c%seller% &6offers you his region &c%region% &6in the world &c%world% &6for &c%price% %currency%&6! \nYou can accept his offer with &c/arm offer accept &6or reject it &c/arm offer reject");
+            messages.set("Messages.IncommingOffer", "&c%seller% &6offers you his region &c%region% &6in the world &c%world% &6for &c%price% %currency%&6! You can accept his offer with &c/arm offer accept &6or reject it &c/arm offer reject");
             messages.set("Messages.SelectedPlayerIsNotOnline", "&4The selected player is not online");
             messages.set("Messages.BadSyntax", "&7Bad syntax! Please use: &8%command%");
             messages.set("Messages.BadSyntaxSplitter", "&7or &8%command%");

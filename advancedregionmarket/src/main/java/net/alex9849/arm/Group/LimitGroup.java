@@ -83,7 +83,19 @@ public class LimitGroup {
         if(player.hasPermission(Permission.ADMIN_LIMIT_BYPASS)) {
             return Integer.MAX_VALUE;
         }
-        int maxregionswiththistype = -1;
+        int maxregionswiththistype = 0;
+
+        for(int i = 0; i < groupList.size(); i++) {
+            if (regionkind == RegionKind.DEFAULT) {
+                for (int y = 0; y < groupList.get(i).getRegionKindLimits().size(); y++) {
+                    if (groupList.get(i).getRegionKindLimits().get(y).getRegionKind() == regionkind) {
+                        if (maxregionswiththistype < groupList.get(i).getRegionKindLimits().get(y).getLimit()) {
+                            maxregionswiththistype = groupList.get(i).getRegionKindLimits().get(y).getLimit();
+                        }
+                    }
+                }
+            }
+        }
 
         for(int i = 0; i < groupList.size(); i++){
             if(player.hasPermission(Permission.ARM_LIMIT + groupList.get(i).getName())){
@@ -95,10 +107,6 @@ public class LimitGroup {
                     }
                 }
             }
-        }
-
-        if(maxregionswiththistype == -1){
-            maxregionswiththistype = Integer.MAX_VALUE;
         }
 
         return maxregionswiththistype;
@@ -157,7 +165,7 @@ public class LimitGroup {
             syntaxtotal = syntaxtotal.replace("%regiontype%", RegionKind.DEFAULT.getName());
             syntaxtotal = syntaxtotal.replace("%playerownedkind%", LimitGroup.getOwnedRegions(player, RegionKind.DEFAULT) + "");
             limit = LimitGroup.getLimit(player, RegionKind.DEFAULT) + "";
-            if(LimitGroup.getLimit(player) == Integer.MAX_VALUE){
+            if(LimitGroup.getLimit(player, RegionKind.DEFAULT) == Integer.MAX_VALUE){
                 limit = Messages.UNLIMITED;
             }
             syntaxtotal = syntaxtotal.replace("%limitkind%", limit);

@@ -1,5 +1,6 @@
 package net.alex9849.arm.Preseter;
 
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.regions.RegionKind;
 import org.bukkit.Bukkit;
@@ -24,6 +25,7 @@ public abstract class Preset {
     protected boolean isHotel = false;
     protected boolean hasDoBlockReset = false;
     protected boolean doBlockReset = true;
+    protected List<String> runCommands = new ArrayList<>();
     protected String name = "default";
 
     public Preset(Player player){
@@ -36,6 +38,36 @@ public abstract class Preset {
 
     public void setName(String name){
         this.name = name;
+    }
+
+    public void addCommand(String command) {
+        this.runCommands.add(command);
+    }
+
+    public void addCommand(List<String> command) {
+        this.runCommands.addAll(command);
+    }
+
+    public List<String> getCommands() {
+        return this.runCommands;
+    }
+
+    public void executeSavedCommands(Player player, ProtectedRegion region) {
+        for(String command : this.runCommands) {
+            String cmd = command.replace("%region%", region.getId());
+            player.performCommand(cmd);
+        }
+    }
+
+    public void removeCommand(int index) {
+
+        if(index < 0) {
+            return;
+        }
+
+        if(this.runCommands.size() > index) {
+            this.runCommands.remove(index);
+        }
     }
 
     public void setPlayer(Player player){

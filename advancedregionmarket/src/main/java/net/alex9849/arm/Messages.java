@@ -190,6 +190,7 @@ public class Messages {
     public static String BAD_SYNTAX = "&7Bad syntax! Please use: &8%command%";
     public static String BAD_SYNTAX_SPLITTER = "&7or &8%command%";
     public static String HELP_HEADLINE = "&6=====[AdvancedRegionMarket Help ]=====\n&3Page %actualpage% / %maxpage%";
+    public static String PRESET_COMMANDS = "&6Commands:";
 
 
     public static List<String> GUI_TELEPORT_TO_REGION_BUTTON_LORE = new LinkedList<>();
@@ -586,6 +587,7 @@ public class Messages {
         BAD_SYNTAX_SPLITTER = ChatColor.translateAlternateColorCodes('&', BAD_SYNTAX_SPLITTER);
         OFFER_TIMED_OUT = ChatColor.translateAlternateColorCodes('&', OFFER_TIMED_OUT);
         HELP_HEADLINE = ChatColor.translateAlternateColorCodes('&', HELP_HEADLINE);
+        PRESET_COMMANDS = ChatColor.translateAlternateColorCodes('&', PRESET_COMMANDS);
 
         for(int i = 0; i < GUI_TELEPORT_TO_REGION_BUTTON_LORE.size(); i++){
             GUI_TELEPORT_TO_REGION_BUTTON_LORE.set(i, ChatColor.translateAlternateColorCodes('&', GUI_TELEPORT_TO_REGION_BUTTON_LORE.get(i)));

@@ -53,6 +53,7 @@ public class SellPreset extends Preset{
         if(this.hasRegionKind) {
             copy.setRegionKind(this.regionKind);
         }
+        copy.addCommand(this.runCommands);
         return copy;
     }
 
@@ -96,6 +97,11 @@ public class SellPreset extends Preset{
         player.sendMessage(Messages.REGION_INFO_AUTORESET + this.isAutoReset());
         player.sendMessage(Messages.REGION_INFO_HOTEL + this.isHotel());
         player.sendMessage(Messages.REGION_INFO_DO_BLOCK_RESET + this.isDoBlockReset());
+        player.sendMessage(Messages.PRESET_COMMANDS);
+        for(int i = 0; i < this.runCommands.size(); i++) {
+            String message = (i + 1) +". /" + this.runCommands.get(i);
+            player.sendMessage(ChatColor.GOLD + message);
+        }
     }
 
     public static void loadCommands() {
@@ -111,6 +117,8 @@ public class SellPreset extends Preset{
         commands.add(new RegionKindCommand());
         commands.add(new ResetCommand());
         commands.add(new SaveCommand());
+        commands.add(new AddCommandCommand());
+        commands.add(new RemoveCommandCommand());
     }
 
     public static boolean onCommand(CommandSender sender, String command, String[] args) throws InputException {
@@ -161,6 +169,10 @@ public class SellPreset extends Preset{
                     Boolean autoReset = config.getBoolean("SellPresets." + presets.get(i) + ".autoReset");
                     Boolean isHotel = config.getBoolean("SellPresets." + presets.get(i) + ".isHotel");
                     Boolean doBlockReset = config.getBoolean("SellPresets." + presets.get(i) + ".doBlockReset");
+                    List<String> commands = config.getStringList("SellPresets." + presets.get(i) + ".commands");
+                    if(commands == null) {
+                        commands = new ArrayList<>();
+                    }
                     SellPreset preset = new SellPreset(null);
 
                     preset.setName(name);
@@ -179,6 +191,7 @@ public class SellPreset extends Preset{
                     if(hasDoBlockReset){
                         preset.setDoBlockReset(doBlockReset);
                     }
+                    preset.addCommand(commands);
                     patterns.add(preset);
                 }
             }
@@ -259,6 +272,7 @@ public class SellPreset extends Preset{
         config.set("SellPresets." + name + ".autoReset", autoReset);
         config.set("SellPresets." + name + ".isHotel", isHotel);
         config.set("SellPresets." + name + ".doBlockReset", doBlockReset);
+        config.set("SellPresets." + name + ".commands", this.runCommands);
         saveRegionsConf(config);
 
         SellPreset preset = new SellPreset(null);
@@ -278,6 +292,7 @@ public class SellPreset extends Preset{
         if(hasDoBlockReset){
             preset.setDoBlockReset(doBlockReset);
         }
+        preset.addCommand(this.runCommands);
         patterns.add(preset);
 
         return true;

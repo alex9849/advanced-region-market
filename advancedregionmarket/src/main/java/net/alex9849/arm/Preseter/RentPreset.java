@@ -62,6 +62,7 @@ public class RentPreset extends Preset {
         if(this.hasExtendPerClick) {
             copy.setExtendPerClick(this.extendPerClick);
         }
+        copy.addCommand(this.runCommands);
         return copy;
     }
 
@@ -184,6 +185,11 @@ public class RentPreset extends Preset {
         player.sendMessage(Messages.REGION_INFO_AUTORESET + this.isAutoReset());
         player.sendMessage(Messages.REGION_INFO_HOTEL + this.isHotel());
         player.sendMessage(Messages.REGION_INFO_DO_BLOCK_RESET + this.isDoBlockReset());
+        player.sendMessage(Messages.PRESET_COMMANDS);
+        for(int i = 0; i < this.runCommands.size(); i++) {
+            String message = (i + 1) +". /" + this.runCommands.get(i);
+            player.sendMessage(ChatColor.GOLD + message);
+        }
     }
 
     @Override
@@ -206,6 +212,8 @@ public class RentPreset extends Preset {
         commands.add(new RegionKindCommand());
         commands.add(new ResetCommand());
         commands.add(new SaveCommand());
+        commands.add(new AddCommandCommand());
+        commands.add(new RemoveCommandCommand());
     }
 
     public static boolean onCommand(CommandSender sender, String command, String[] args) throws InputException {
@@ -273,6 +281,10 @@ public class RentPreset extends Preset {
                     Boolean doBlockReset = config.getBoolean("RentPresets." + presets.get(i) + ".doBlockReset");
                     Long maxRentTime = config.getLong("RentPresets." + presets.get(i) + ".maxRentTime");
                     Long extendPerClick = config.getLong("RentPresets." + presets.get(i) + ".extendPerClick");
+                    List<String> commands = config.getStringList("RentPresets." + presets.get(i) + ".commands");
+                    if(commands == null) {
+                        commands = new ArrayList<>();
+                    }
                     RentPreset preset = new RentPreset(null);
 
                     preset.setName(name);
@@ -297,6 +309,7 @@ public class RentPreset extends Preset {
                     if(hasExtendPerClick) {
                         preset.setExtendPerClick(extendPerClick);
                     }
+                    preset.addCommand(commands);
                     patterns.add(preset);
                 }
             }
@@ -354,6 +367,7 @@ public class RentPreset extends Preset {
         config.set("RentPresets." + name + ".autoReset", autoReset);
         config.set("RentPresets." + name + ".isHotel", isHotel);
         config.set("RentPresets." + name + ".doBlockReset", doBlockReset);
+        config.set("RentPresets." + name + ".commands", this.runCommands);
         saveRegionsConf(config);
 
         RentPreset preset = new RentPreset(null);
@@ -379,6 +393,7 @@ public class RentPreset extends Preset {
         if(hasExtendPerClick){
             preset.setExtendPerClick(extendPerClick);
         }
+        preset.addCommand(this.runCommands);
         patterns.add(preset);
 
         return true;

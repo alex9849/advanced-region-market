@@ -55,6 +55,7 @@ public class ContractPreset extends Preset {
         if(this.hasExtend) {
             copy.setExtend(this.extend);
         }
+        copy.addCommand(this.runCommands);
         return copy;
     }
 
@@ -158,6 +159,11 @@ public class ContractPreset extends Preset {
         player.sendMessage(Messages.REGION_INFO_AUTORESET + this.isAutoReset());
         player.sendMessage(Messages.REGION_INFO_HOTEL + this.isHotel());
         player.sendMessage(Messages.REGION_INFO_DO_BLOCK_RESET + this.isDoBlockReset());
+        player.sendMessage(Messages.PRESET_COMMANDS);
+        for(int i = 0; i < this.runCommands.size(); i++) {
+            String message = (i + 1) +". /" + this.runCommands.get(i);
+            player.sendMessage(ChatColor.GOLD + message);
+        }
     }
 
     public static void loadCommands() {
@@ -174,6 +180,8 @@ public class ContractPreset extends Preset {
         commands.add(new RegionKindCommand());
         commands.add(new ResetCommand());
         commands.add(new SaveCommand());
+        commands.add(new AddCommandCommand());
+        commands.add(new RemoveCommandCommand());
     }
 
     public static boolean onCommand(CommandSender sender, String command, String[] args) throws InputException {
@@ -239,6 +247,10 @@ public class ContractPreset extends Preset {
                     Boolean isHotel = config.getBoolean("ContractPresets." + presets.get(i) + ".isHotel");
                     Boolean doBlockReset = config.getBoolean("ContractPresets." + presets.get(i) + ".doBlockReset");
                     Long extend = config.getLong("ContractPresets." + presets.get(i) + ".extend");
+                    List<String> commands = config.getStringList("ContractPresets." + presets.get(i) + ".commands");
+                    if(commands == null) {
+                        commands = new ArrayList<>();
+                    }
                     ContractPreset preset = new ContractPreset(null);
 
                     preset.setName(name);
@@ -260,6 +272,7 @@ public class ContractPreset extends Preset {
                     if(hasExtend) {
                         preset.setExtend(extend);
                     }
+                    preset.addCommand(commands);
                     patterns.add(preset);
                 }
             }
@@ -315,6 +328,7 @@ public class ContractPreset extends Preset {
         config.set("ContractPresets." + name + ".autoReset", autoReset);
         config.set("ContractPresets." + name + ".isHotel", isHotel);
         config.set("ContractPresets." + name + ".doBlockReset", doBlockReset);
+        config.set("ContractPresets." + name + ".commands", this.runCommands);
         saveRegionsConf(config);
 
         ContractPreset preset = new ContractPreset(null);
@@ -337,6 +351,7 @@ public class ContractPreset extends Preset {
         if(hasExtend){
             preset.setExtend(extend);
         }
+        preset.addCommand(this.runCommands);
         patterns.add(preset);
 
         return true;

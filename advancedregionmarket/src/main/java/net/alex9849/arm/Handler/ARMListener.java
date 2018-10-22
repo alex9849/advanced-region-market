@@ -111,6 +111,11 @@ public class ARMListener implements Listener {
                 Region.getRegionList().add(new SellRegion(region, worldname, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,1,true));
                 sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_ADDED_TO_ARM);
                 sign.setCancelled(true);
+
+                if(preset != null) {
+                    preset.executeSavedCommands(sign.getPlayer(), region);
+                }
+
             }
 
 
@@ -199,6 +204,11 @@ public class ARMListener implements Listener {
                         1,1, maxRentTime, extendPerClick, true));
                 sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_ADDED_TO_ARM);
                 sign.setCancelled(true);
+
+                if(preset != null) {
+                    preset.executeSavedCommands(sign.getPlayer(), region);
+                }
+
             }
             if(sign.getLine(0).equalsIgnoreCase("[ARM-Contract]")) {
                 if(!sign.getPlayer().hasPermission(Permission.ADMIN_CREATE_CONTRACT)){
@@ -281,6 +291,11 @@ public class ARMListener implements Listener {
                         1, extendtime, 1, false, true));
                 sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_ADDED_TO_ARM);
                 sign.setCancelled(true);
+
+                if(preset != null) {
+                    preset.executeSavedCommands(sign.getPlayer(), region);
+                }
+
             }
         } catch (InputException inputException) {
             inputException.sendMessages();

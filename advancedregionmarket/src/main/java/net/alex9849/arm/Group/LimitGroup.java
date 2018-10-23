@@ -85,18 +85,6 @@ public class LimitGroup {
         }
         int maxregionswiththistype = 0;
 
-        for(int i = 0; i < groupList.size(); i++) {
-            if (regionkind == RegionKind.DEFAULT) {
-                for (int y = 0; y < groupList.get(i).getRegionKindLimits().size(); y++) {
-                    if (groupList.get(i).getRegionKindLimits().get(y).getRegionKind() == regionkind) {
-                        if (maxregionswiththistype < groupList.get(i).getRegionKindLimits().get(y).getLimit()) {
-                            maxregionswiththistype = groupList.get(i).getRegionKindLimits().get(y).getLimit();
-                        }
-                    }
-                }
-            }
-        }
-
         for(int i = 0; i < groupList.size(); i++){
             if(player.hasPermission(Permission.ARM_LIMIT + groupList.get(i).getName())){
                 for(int y = 0; y < groupList.get(i).getRegionKindLimits().size(); y++) {

@@ -317,7 +317,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
                                                     lastreset, payedtill, maxRentTime, rentExtendPerClick,false);
                                             armregion.updateSigns();
                                             Region.getRegionList().add(armregion);
-                                        } else if (regiontype.equalsIgnoreCase("selloffer")){
+                                        } else if (regiontype.equalsIgnoreCase("sellregion")){
                                             Region armregion = new SellRegion(region, regionworld, regionsigns, price, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, teleportLoc, lastreset,false);
                                             armregion.updateSigns();
                                             Region.getRegionList().add(armregion);
@@ -865,7 +865,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
                                     if(regionConf.getBoolean("Regions." + worlds.get(y) + "." + regions.get(i) + ".rentregion")) {
                                         regionConf.set("Regions." + worlds.get(y) + "." + regions.get(i) + ".regiontype", "rentregion");
                                     } else {
-                                        regionConf.set("Regions." + worlds.get(y) + "." + regions.get(i) + ".regiontype", "selloffer");
+                                        regionConf.set("Regions." + worlds.get(y) + "." + regions.get(i) + ".regiontype", "sellregion");
                                     }
                                     regionConf.set("Regions." + worlds.get(y) + "." + regions.get(i) + ".rentregion", null);
                                     regionConf.set("Regions." + worlds.get(y) + "." + regions.get(i) + ".world", null);

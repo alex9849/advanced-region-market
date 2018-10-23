@@ -95,7 +95,7 @@ public abstract class Region {
             } else {
                 config.set("Regions." + this.regionworld + "." + this.region.getId() + ".kind", regionKind.getName());
             }
-            config.set("Regions." + this.regionworld + "." + this.region.getId() + ".regiontype", "selloffer");
+            config.set("Regions." + this.regionworld + "." + this.region.getId() + ".regiontype", "sellregion");
             config.set("Regions." + this.regionworld + "." + this.region.getId() + ".autoreset", autoreset);
             config.set("Regions." + this.regionworld + "." + this.region.getId() + ".lastreset", lastreset);
             config.set("Regions." + this.regionworld + "." + this.region.getId() + ".isHotel", isHotel);

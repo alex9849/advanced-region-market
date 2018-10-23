@@ -75,8 +75,8 @@ public class RegionstatsCommand extends BasicArmCommand {
                         if("rentregion".startsWith(args[1])) {
                             returnme.add("rentregion");
                         }
-                        if("selloffer".startsWith(args[1])) {
-                            returnme.add("selloffer");
+                        if("sellregion".startsWith(args[1])) {
+                            returnme.add("sellregion");
                         }
                         if("contractregion".startsWith(args[1])) {
                             returnme.add("contractregion");

@@ -97,7 +97,7 @@ public class ARMListener implements Listener {
                 Region searchregion = Region.searchRegionbyNameAndWorld(regionname, worldname);
                 if(searchregion != null) {
                     if(!(searchregion instanceof SellRegion)) {
-                        throw new InputException(sign.getPlayer(), "Region already registered as a non-selloffer");
+                        throw new InputException(sign.getPlayer(), "Region already registered as a non-sellregion");
                     }
                     searchregion.addSign(sign.getBlock().getLocation());
                     sign.setCancelled(true);

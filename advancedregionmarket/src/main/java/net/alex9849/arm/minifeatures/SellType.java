@@ -4,7 +4,7 @@ public enum SellType {
     SELL, RENT, CONTRACT;
 
     public static SellType getSelltype(String string) {
-        if (string.equalsIgnoreCase("selloffer")) {
+        if (string.equalsIgnoreCase("sellregion")) {
             return SellType.SELL;
         } else if (string.equalsIgnoreCase("rentregion")) {
             return SellType.RENT;

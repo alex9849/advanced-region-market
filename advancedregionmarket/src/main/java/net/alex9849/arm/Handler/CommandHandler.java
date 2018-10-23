@@ -8,7 +8,7 @@ import net.alex9849.arm.Permission;
 import net.alex9849.arm.Preseter.ContractPreset;
 import net.alex9849.arm.Preseter.RentPreset;
 import net.alex9849.arm.Preseter.SellPreset;
-import net.alex9849.arm.commands.BasicArmCommand;
+import net.alex9849.arm.commands.*;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.gui.Gui;
 import net.alex9849.arm.minifeatures.Diagram;
@@ -53,7 +53,41 @@ public class CommandHandler implements TabCompleter {
         return this.commands;
     }
 
-    private void loadCommands(){
+    private void loadCommands() {
+        this.commands = new ArrayList<>();
+
+        this.commands.add(new AddMemberCommand());
+        this.commands.add(new AutoResetCommand());
+        this.commands.add(new ContractPresetCommand());
+        this.commands.add(new DeleteCommand());
+        this.commands.add(new DoBlockResetCommand());
+        this.commands.add(new ExtendCommand());
+        this.commands.add(new FindFreeRegionCommand());
+        this.commands.add(new GuiCommand());
+        this.commands.add(new HelpCommand());
+        this.commands.add(new HotelCommand());
+        this.commands.add(new InfoCommand());
+        this.commands.add(new LimitCommand());
+        this.commands.add(new ListRegionKindsCommand());
+        this.commands.add(new ListRegionsCommand());
+        this.commands.add(new OfferCommand());
+        this.commands.add(new RegionstatsCommand());
+        this.commands.add(new ReloadCommand());
+        this.commands.add(new RemoveMemberCommand());
+        this.commands.add(new RentPresetCommand());
+        this.commands.add(new ResetBlocksCommand());
+        this.commands.add(new ResetCommand());
+        this.commands.add(new SellPresetCommand());
+        this.commands.add(new SetOwnerCommand());
+        this.commands.add(new SetRegionKind());
+        this.commands.add(new SetWarpCommand());
+        this.commands.add(new TerminateCommand());
+        this.commands.add(new TPCommand());
+        this.commands.add(new UnsellCommand());
+        this.commands.add(new UpdateSchematicCommand());
+    }
+
+    private void oldloadCommands(){
 
         this.commands = new ArrayList<>();
 

@@ -918,7 +918,7 @@ public class Gui implements Listener {
         goBackMeta.setDisplayName(Messages.GUI_GO_BACK);
         goBack.setItemMeta(goBackMeta);
 
-        ClickItem gobackButton = new ClickItem(goBack, (8)).addClickAction(new ClickAction() {
+        ClickItem gobackButton = new ClickItem(goBack, getPosition(actitem, itemcounter)).addClickAction(new ClickAction() {
             @Override
             public void execute(Player player) {
                 Gui.openMemberList(player, region);
@@ -926,6 +926,7 @@ public class Gui implements Listener {
         });
 
         inv.addIcon(gobackButton);
+        actitem++;
 
         inv = Gui.placeFillItems(inv);
 

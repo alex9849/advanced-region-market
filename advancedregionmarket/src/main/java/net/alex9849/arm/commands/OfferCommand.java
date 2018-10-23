@@ -24,7 +24,7 @@ public class OfferCommand extends BasicArmCommand {
     private final String regex_cancel = "(?i)offer (?i)cancel";
     private final String regex_reject = "(?i)offer (?i)reject";
     private final String regex_accept = "(?i)offer (?i)accept";
-    private final List<String> usage = new ArrayList<>(Arrays.asList("offer [REGION] [BUYER] [PRICE]", "offer accept", "offer reject", "offer cancel"));
+    private final List<String> usage = new ArrayList<>(Arrays.asList("offer [BUYER] [REGION] [PRICE]", "offer accept", "offer reject", "offer cancel"));
 
     @Override
     public boolean matchesRegex(String command) {
@@ -50,7 +50,7 @@ public class OfferCommand extends BasicArmCommand {
 
         if (allargs.matches(regex_new)) {
             if(player.hasPermission(Permission.MEMBER_OFFER_CREATE)) {
-                Region region = Region.searchRegionbyNameAndWorld(args[1], player.getLocation().getWorld().getName());
+                Region region = Region.searchRegionbyNameAndWorld(args[2], player.getLocation().getWorld().getName());
                 if(region == null) {
                     throw new InputException(player, Messages.REGION_DOES_NOT_EXIST);
                 }
@@ -60,7 +60,7 @@ public class OfferCommand extends BasicArmCommand {
                 if(!region.isSold()) {
                     throw new InputException(player, Messages.REGION_NOT_SOLD);
                 }
-                Player buyer = Bukkit.getPlayer(args[2]);
+                Player buyer = Bukkit.getPlayer(args[1]);
                 if(buyer == null) {
                     throw new InputException(player, Messages.SELECTED_PLAYER_NOT_ONLINE);
                 }
@@ -122,7 +122,7 @@ public class OfferCommand extends BasicArmCommand {
                         returnme.add(this.rootCommand);
                     } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
                         if(player.hasPermission(Permission.MEMBER_OFFER_CREATE)) {
-                            returnme.addAll(Region.completeTabRegions(player, args[1], PlayerRegionRelationship.OWNER));
+                            returnme.addAll(CommandHandler.tabCompleteOnlinePlayers(args[1]));
                             if("cancel".startsWith(args[1])) {
                                 returnme.add("cancel");
                             }
@@ -137,10 +137,10 @@ public class OfferCommand extends BasicArmCommand {
                         }
                     } else if(args.length == 3 && (args[0].equalsIgnoreCase(this.rootCommand))) {
                         if(player.hasPermission(Permission.MEMBER_OFFER_CREATE)) {
-                            List<String> regions = Region.completeTabRegions(player, args[1], PlayerRegionRelationship.OWNER);
-                            if(regions.size() > 0) {
-                                if(args[1].equalsIgnoreCase(regions.get(0))) {
-                                    returnme.addAll(CommandHandler.tabCompleteOnlinePlayers(args[2]));
+                            List<String> players = CommandHandler.tabCompleteOnlinePlayers(args[1]);
+                            if(players.size() > 0) {
+                                if(args[1].equalsIgnoreCase(players.get(0))) {
+                                    returnme.addAll(Region.completeTabRegions(player, args[2], PlayerRegionRelationship.OWNER));
                                 }
                             }
                         }

@@ -108,12 +108,13 @@ public class ARMListener implements Listener {
 
                 LinkedList<Sign> sellsign = new LinkedList<Sign>();
                 sellsign.add((Sign) sign.getBlock().getState());
-                Region.getRegionList().add(new SellRegion(region, worldname, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,1,true));
+                SellRegion addRegion = new SellRegion(region, worldname, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,1,true);
+                Region.getRegionList().add(addRegion);
                 sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_ADDED_TO_ARM);
                 sign.setCancelled(true);
 
                 if(preset != null) {
-                    preset.executeSavedCommands(sign.getPlayer(), region);
+                    preset.executeSavedCommands(sign.getPlayer(), addRegion);
                 }
 
             }
@@ -200,13 +201,16 @@ public class ARMListener implements Listener {
 
                 LinkedList<Sign> sellsign = new LinkedList<Sign>();
                 sellsign.add((Sign) sign.getBlock().getState());
-                Region.getRegionList().add(new RentRegion(region, worldname, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,
-                        1,1, maxRentTime, extendPerClick, true));
+
+                RentRegion addRegion = new RentRegion(region, worldname, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,
+                        1,1, maxRentTime, extendPerClick, true);
+                Region.getRegionList().add(addRegion);
+
                 sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_ADDED_TO_ARM);
                 sign.setCancelled(true);
 
                 if(preset != null) {
-                    preset.executeSavedCommands(sign.getPlayer(), region);
+                    preset.executeSavedCommands(sign.getPlayer(), addRegion);
                 }
 
             }
@@ -287,13 +291,15 @@ public class ARMListener implements Listener {
                 }
                 LinkedList<Sign> sellsign = new LinkedList<Sign>();
                 sellsign.add((Sign) sign.getBlock().getState());
-                Region.getRegionList().add(new ContractRegion(region, worldname, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,
-                        1, extendtime, 1, false, true));
+
+                ContractRegion addRegion = new ContractRegion(region, worldname, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,
+                        1, extendtime, 1, false, true);
+                Region.getRegionList().add(addRegion);
                 sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_ADDED_TO_ARM);
                 sign.setCancelled(true);
 
                 if(preset != null) {
-                    preset.executeSavedCommands(sign.getPlayer(), region);
+                    preset.executeSavedCommands(sign.getPlayer(), addRegion);
                 }
 
             }

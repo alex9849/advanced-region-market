@@ -2,7 +2,10 @@ package net.alex9849.arm.Preseter;
 
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import net.alex9849.arm.Messages;
+import net.alex9849.arm.regions.ContractRegion;
+import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.RegionKind;
+import net.alex9849.arm.regions.RentRegion;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -52,9 +55,26 @@ public abstract class Preset {
         return this.runCommands;
     }
 
-    public void executeSavedCommands(Player player, ProtectedRegion region) {
+    public void executeSavedCommands(Player player, Region region) {
         for(String command : this.runCommands) {
-            String cmd = command.replace("%region%", region.getId());
+            String cmd = command.replace("%regionid%", region.getRegion().getId());
+            cmd = cmd.replace("%dimensions%", region.getDimensions());
+            cmd = cmd.replace("%regionkind%", region.getRegionKind().getName());
+            cmd = cmd.replace("%regionkinddisplay%", region.getRegionKind().getDisplayName());
+            cmd = cmd.replace("%world%", region.getRegionworld());
+            cmd = cmd.replace("%price%", region.getPrice() + "");
+
+            if(region instanceof RentRegion) {
+                RentRegion rentRegion = (RentRegion) region;
+                cmd = cmd.replace("%extendpercick%", rentRegion.getExtendPerClick());
+                cmd = cmd.replace("%maxrenttime%", rentRegion.getMaxRentTime());
+            }
+            if(region instanceof ContractRegion) {
+                ContractRegion contractRegion = (ContractRegion) region;
+                cmd = cmd.replace("%extend%", contractRegion.getExtendTimeString());
+            }
+
+
             player.performCommand(cmd);
         }
     }

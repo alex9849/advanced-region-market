@@ -6,6 +6,7 @@ Messages:
   WorldDoesNotExist: '&4The selected world does not exist!'
   RegionDoesNotExist: '&4The selected region does not exist in this (or the selected) world !'
   RegionKindNotExist: '&4Kind does not exist!'
+  PriceCanNotBeNegative: '&4Price can not be negative!'
   RegionKindRegionNotExist: '&4Region does not exist'
   CommandOnlyIngame: '&4This command can only be executed ingame!'
   RentExtendError: '&4You can not rent this region for more than &6%maxrenttime% &4at once'
@@ -88,6 +89,7 @@ Messages:
   PresetDeleted: '&aPreset deleted!'
   PresetNotFound: '&4No preset with this name found!'
   PresetLoaded: '&aPreset loaded!'
+  PresetSetupCommands: '&6Setup commands:'
 
   OfferSent: '&aYour offer has been sent'
   OfferAcceptedSeller: '&a%buyer% &aaccepted your offer'

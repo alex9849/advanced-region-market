@@ -97,7 +97,7 @@ public class SellPreset extends Preset{
         player.sendMessage(Messages.REGION_INFO_AUTORESET + this.isAutoReset());
         player.sendMessage(Messages.REGION_INFO_HOTEL + this.isHotel());
         player.sendMessage(Messages.REGION_INFO_DO_BLOCK_RESET + this.isDoBlockReset());
-        player.sendMessage(Messages.PRESET_COMMANDS);
+        player.sendMessage(Messages.PRESET_SETUP_COMMANDS);
         for(int i = 0; i < this.runCommands.size(); i++) {
             String message = (i + 1) +". /" + this.runCommands.get(i);
             player.sendMessage(ChatColor.GOLD + message);

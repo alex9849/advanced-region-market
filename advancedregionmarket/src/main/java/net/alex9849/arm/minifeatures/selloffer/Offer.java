@@ -3,6 +3,7 @@ package net.alex9849.arm.minifeatures.selloffer;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Group.LimitGroup;
 import net.alex9849.arm.Messages;
+import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.regions.Region;
 import net.milkbowl.vault.economy.Economy;
@@ -23,7 +24,7 @@ public class Offer {
 
     private Offer(Region region, double price, Player seller, Player buyer) throws InputException {
         if(price < 0) {
-            throw new InputException(seller, "Price can not be negative!");
+            throw new InputException(seller, Messages.PRICE_CAN_NOT_BE_NEGATIVE);
         }
         this.region = region;
         this.price = price;
@@ -39,6 +40,14 @@ public class Offer {
             List<String> messages = new ArrayList<>(Arrays.asList(this.getConvertedMessage(Messages.SELLER_DOES_NOT_LONGER_OWN_REGION), this.getConvertedMessage(Messages.OFFER_HAS_BEEN_REJECTED)));
             throw new InputException(senders, messages);
         }
+
+        if(!buyer.hasPermission(Permission.ARM_BUYKIND + this.region.getRegionKind().getName())) {
+            this.reject();
+            List<CommandSender> senders = new ArrayList<>(Arrays.asList(buyer, seller));
+            List<String> messages = new ArrayList<>(Arrays.asList(Messages.NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION, this.getConvertedMessage(Messages.OFFER_HAS_BEEN_REJECTED)));
+            throw new InputException(senders, messages);
+        }
+
         if(!LimitGroup.isCanBuyAnother(buyer, region)) {
             this.reject();
             List<CommandSender> senders = new ArrayList<>(Arrays.asList(buyer, seller));

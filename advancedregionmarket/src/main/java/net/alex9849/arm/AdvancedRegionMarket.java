@@ -958,6 +958,8 @@ public class AdvancedRegionMarket extends JavaPlugin {
             messages.set("Messages.BadSyntax", "&7Bad syntax! Please use: &8%command%");
             messages.set("Messages.BadSyntaxSplitter", "&7or &8%command%");
             messages.set("Messages.OfferTimedOut", "&4Offer timed out!");
+            messages.set("Messages.PresetSetupCommands", "&6Setup commands:");
+            messages.set("Messages.PriceCanNotBeNegative", "&4Price can not be negative!");
             Messages.saveConfig();
         }
     }

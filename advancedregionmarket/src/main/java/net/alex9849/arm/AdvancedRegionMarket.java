@@ -697,20 +697,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
                 }
             }
             Region.saveRegionsConf(regionConf);
-            YamlConfiguration messagesconf = Messages.getConfig();
-            messagesconf.set("Messages.RegionIsNotARentregion", "&4Region is not a rentregion!");
-            messagesconf.set("Messages.RegionNotOwn", "&4You do not own this region!");
-            messagesconf.set("Messages.RegionNotSold", "&4Region not sold!");
-            messagesconf.set("Messages.PresetRemoved", "&aPreset removed!");
-            messagesconf.set("Messages.PresetSet", "&aPreset set!");
-            messagesconf.set("Messages.RegionInfoDoBlockReset", "&6DoBlockReset: ");
-            messagesconf.set("Messages.PresetSaved", "&aPreset saved!");
-            messagesconf.set("Messages.PresetAlreadyExists", "&4A preset with this name already exists!");
-            messagesconf.set("Messages.PresetPlayerDontHasPreset", "&4You do not have a preset!");
-            messagesconf.set("Messages.PresetDeleted", "&aPreset deleted!");
-            messagesconf.set("Messages.PresetNotFound", "&4No preset with this name found!");
-            messagesconf.set("Messages.PresetLoaded", "&aPreset loaded!");
-            Messages.saveConfig();
         }
         if(version < 1.21) {
             getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.21...");
@@ -796,64 +782,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
             pluginConfig.set("Version", 1.3);
             saveConfig();
 
-            YamlConfiguration messagesconf = Messages.getConfig();
-            messagesconf.set("Messages.LimitInfoTotal", "Total");
-            messagesconf.set("Messages.GUIRegionItemName", "%regionid% (%regionkind%)");
-            messagesconf.set("Messages.GUIRegionFinderRegionKindName", "%regionkind%");
-            messagesconf.set("Messages.RentRegionExpirationWarning", "&4[WARNING] This RentRegion(s) will expire soon: &c");
-            messagesconf.set("Messages.ContractSign1", "&2Contract");
-            messagesconf.set("Messages.ContractSign2", "&2available");
-            messagesconf.set("Messages.ContractSign3", "%regionid%");
-            messagesconf.set("Messages.ContractSign4", "%price%%currency%/%extend%");
-            messagesconf.set("Messages.ContractSoldSign1", "&4Contract in use");
-            messagesconf.set("Messages.ContractSoldSign2", "%regionid%/%owner%");
-            messagesconf.set("Messages.ContractSoldSign3", "%price%%currency%/%extend%");
-            messagesconf.set("Messages.ContractSoldSign4", "%remaining%");
-            messagesconf.set("Messages.ContractRegionExtended", "&aYour contract region %regionid% has been extended for %extend%. (For %price%%currency%.)");
-            messagesconf.set("Messages.GUIContractItem", "&6Manage contract");
-            messagesconf.set("Messages.RegionInfoTerminated", "&6Terminated: ");
-            messagesconf.set("Messages.RegionInfoAutoExtendTime", "&6Extend time: ");
-            messagesconf.set("Messages.RegionInfoRemainingTime", "&6Next extend in: ");
-            messagesconf.set("Messages.ContractRegionChangeTerminated", "&6The contract of &a%regionid% &6has been set to %statuslong%");
-            messagesconf.set("Messages.ContractRegionStatusActiveLong", "&aActive&6! Next Extension in %remaining%");
-            messagesconf.set("Messages.ContractRegionStatusActive", "&aActive");
-            messagesconf.set("Messages.ContractRegionStatusTerminatedLong", "&4Terminated&6! It will be resetted in %remaining%");
-            messagesconf.set("Messages.ContractRegionStatusTerminated", "&4Terminated");
-            messagesconf.set("Messages.RegionIsNotAContractRegion", "&4Region is not a contractregion!");
-            messagesconf.set("Messages.RegiontransferMemberNotOnline", "&4Member not online!");
-            messagesconf.set("Messages.RegiontransferLimitError", "&4Transfer aborted! (Region would exceed players limit)");
-
-            List<String> contractItemLore = new ArrayList<>();
-            contractItemLore.add("&aStatus: %status%");
-            contractItemLore.add("&aIf active the next extend is in:");
-            contractItemLore.add("&6%remaining%");
-            messagesconf.set("Messages.GUIContractItemLore", contractItemLore);
-            List<String> contractItemRegionLore = new ArrayList<>();
-            contractItemRegionLore.add("&aStatus: %status%");
-            contractItemRegionLore.add("&aIf active the next extend is in:");
-            contractItemRegionLore.add("&6%remaining%");
-            messagesconf.set("Messages.GUIContractItemRegionLore", contractItemRegionLore);
-            List<String> memberlistInfolore = new LinkedList<>(messagesconf.getStringList("Messages.MemberlistInfoLore"));
-            String memberlistinfo = messagesconf.getString("Messages.MemberlistInfo");
-            List<String> ownermemberlistInfolore = new LinkedList<>(messagesconf.getStringList("Messages.MemberlistInfoLore"));
-            String ownermemberlistinfo = messagesconf.getString("Messages.MemberlistInfo");
-            messagesconf.set("Messages.MemberlistInfo", null);
-            messagesconf.set("Messages.MemberlistInfoLore", null);
-            messagesconf.set("Messages.MemberlistInfo", memberlistinfo);
-            messagesconf.set("Messages.MemberlistInfoLore", memberlistInfolore);
-            messagesconf.set("Messages.OwnerMemberlistInfo", ownermemberlistinfo);
-            messagesconf.set("Messages.OwnerMemberlistInfoLore", ownermemberlistInfolore);
-            messagesconf.set("Messages.Seconds", "s");
-            messagesconf.set("Messages.Minutes", "m");
-            messagesconf.set("Messages.Hours", "h");
-            messagesconf.set("Messages.Days", "d");
-            messagesconf.set("Messages.SecondsForShortCountDown", "second(s)");
-            messagesconf.set("Messages.MinutesForShortCountDown", "minute(s)");
-            messagesconf.set("Messages.HoursForShortCountDown", "hour(s)");
-            messagesconf.set("Messages.DaysForShortCountDown", "day(s)");
-
-            Messages.saveConfig();
-
             if(regionConf.get("Regions") != null) {
                 LinkedList<String> worlds = new LinkedList<String>(regionConf.getConfigurationSection("Regions").getKeys(false));
                 if(worlds != null) {
@@ -895,32 +823,11 @@ public class AdvancedRegionMarket extends JavaPlugin {
                 }
             }
             saveConfig();
-            YamlConfiguration messages = Messages.getConfig();
-            messages.set("Messages.UserNotAMemberOrOwner", "&4You are not a member or owner of this region!");
-            messages.set("Messages.RegionInfoYes", "Yes");
-            messages.set("Messages.RegionInfoNo", "No");
-            messages.set("Messages.RentRegion", "RentRegion");
-            messages.set("Messages.SellRegion", "SellRegion");
-            messages.set("Messages.ContractRegion", "ContractRegion");
-            messages.set("Messages.RegionStats", "&6=========[Region stats]=========");
-            messages.set("Messages.RegionStatsPattern", "&8Used regions (%regionkind%&8):");
-            Messages.saveConfig();
         }
         if(version < 1.41) {
             getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.4.1...");
             pluginConfig.set("Version", 1.41);
             saveConfig();
-            YamlConfiguration messages = Messages.getConfig();
-            String remaningTimeContract = messages.getString("Messages.RegionInfoRemainingTime");
-            messages.set("Messages.RegionInfoRemainingTime", null);
-            messages.set("Messages.RentRegionInfoRemainingTime", "&6Remaining time: ");
-            if(remaningTimeContract == null) {
-                messages.set("Messages.ContractRegionInfoRemainingTime", "&6Next extend in: ");
-            } else {
-                messages.set("Messages.ContractRegionInfoRemainingTime", remaningTimeContract);
-            }
-            messages.set("Messages.TeleporterNoSaveLocation", "&4Could not find a save teleport location");
-            Messages.saveConfig();
         }
         if(version < 1.44) {
             getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.4.4...");
@@ -928,39 +835,12 @@ public class AdvancedRegionMarket extends JavaPlugin {
             pluginConfig.set("Other.TeleportAfterRegionBoughtCountdown", false);
             pluginConfig.set("Version", 1.44);
             saveConfig();
-            YamlConfiguration messages = Messages.getConfig();
-            messages.set("Messages.TeleporterDontMove", "&6Teleportation will commence in &c%time% Seconds&6. Do not move!");
-            messages.set("Messages.TeleporterTeleportationAborded", "&4Teleportation aborded!");
-            Messages.saveConfig();
         }
         if(version < 1.5) {
             getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.5...");
             pluginConfig.set("Version", 1.5);
             pluginConfig.set("Reselling.Offers.OfferTimeOut", 30);
             saveConfig();
-
-            YamlConfiguration messages = Messages.getConfig();
-            messages.set("Messages.OfferSent", "&aYour offer has been sent");
-            messages.set("Messages.OfferAcceptedSeller", "&a%buyer% &aaccepted your offer");
-            messages.set("Messages.OfferAcceptedBuyer", "&aOffer accepted! You are now the owner of &c%region%");
-            messages.set("Messages.NoOfferToAnswer", "&4You dont have an offer to answer");
-            messages.set("Messages.OfferRejected", "&aOffer rejected!");
-            messages.set("Messages.OfferHasBeenRejected", "&4%seller% &4rejected your offer!");
-            messages.set("Messages.NoOfferToReject", "&4You do not have an offer to reject");
-            messages.set("Messages.OfferCancelled", "&aYour offer has been cancelled!");
-            messages.set("Messages.OfferHasBeenCancelled", "&4%seller% &4cancelled his offer!");
-            messages.set("Messages.NoOfferToCancel", "&4You do not have an offer to cancel");
-            messages.set("Messages.BuyerAlreadyGotAnOffer", "&4The selected buyer already got an offer that he has to answer first!");
-            messages.set("Messages.SellerAlreadyCreatedAnOffer", "&4You have already created an offer! Please wait for an answer or cancel it first!");
-            messages.set("Messages.SellerDoesNotLongerOwnRegion", "&4%seller% &4does not longer own this region. His offer has been cancelled");
-            messages.set("Messages.IncommingOffer", "&c%seller% &6offers you his region &c%region% &6in the world &c%world% &6for &c%price% %currency%&6! You can accept his offer with &c/arm offer accept &6or reject it &c/arm offer reject");
-            messages.set("Messages.SelectedPlayerIsNotOnline", "&4The selected player is not online");
-            messages.set("Messages.BadSyntax", "&7Bad syntax! Please use: &8%command%");
-            messages.set("Messages.BadSyntaxSplitter", "&7or &8%command%");
-            messages.set("Messages.OfferTimedOut", "&4Offer timed out!");
-            messages.set("Messages.PresetSetupCommands", "&6Setup commands:");
-            messages.set("Messages.PriceCanNotBeNegative", "&4Price can not be negative!");
-            Messages.saveConfig();
         }
     }
 }

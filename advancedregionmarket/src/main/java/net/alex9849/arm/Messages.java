@@ -7,6 +7,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -184,7 +186,7 @@ public class Messages {
     public static String BUYER_ALREADY_GOT_AN_OFFER = "&4The selected buyer already got an offer that he has to answer first!";
     public static String SELLER_ALREADY_CREATED_AN_OFFER = "&4You have already created an offer! Please wait for an answer or cancel it first!";
     public static String SELLER_DOES_NOT_LONGER_OWN_REGION = "&4%seller% &4does not longer own this region. His offer has been cancelled";
-    public static String INCOMING_OFFER = "&c%seller% &6offers you his region &c%region% &6in the world &c%world% &6for &c%price% %currency%&6! \nYou can accept his offer with &c/arm offer accept &6or reject it &c/arm offer reject";
+    public static String INCOMING_OFFER = "";
     public static String SELECTED_PLAYER_NOT_ONLINE = "&4The selected player is not online";
     public static String OFFER_TIMED_OUT = "&4Offer timed out!";
     public static String BAD_SYNTAX = "&7Bad syntax! Please use: &8%command%";
@@ -634,6 +636,234 @@ public class Messages {
         }
     }
 
+    private static void updateDefauts() {
+        config.addDefault("Messages.Prefix", "&b[ARM]&r");
+        config.addDefault("Messages.NoPermission", "&4You do not have permission!");
+        config.addDefault("Messages.NotEnoughtMoney", "&4You do not have enough money!");
+        config.addDefault("Messages.RegionAlreadySold", "&4Region already Sold!");
+        config.addDefault("Messages.WorldDoesNotExist", "&4The selected world does not exist!");
+        config.addDefault("Messages.RegionDoesNotExist", "&4The selected region does not exist in this (or the selected) world!");
+        config.addDefault("Messages.RegionKindNotExist", "&4Kind does not exist!");
+        config.addDefault("Messages.PriceCanNotBeNegative", "&4Price can not be negative!");
+        config.addDefault("Messages.RegionKindRegionNotExist", "&4Region does not exist");
+        config.addDefault("Messages.CommandOnlyIngame", "&4This command can only be executed ingame!");
+        config.addDefault("Messages.RentExtendError", "&4You can not rent this region for more than &6%maxrenttime% &4at once");
+        config.addDefault("Messages.RegionErrorCanNotBuildHere", "&4You only allowed to break blocks you placed here!");
+        config.addDefault("Messages.NoFreeRegionWithThisKind", "&7No free region with this type found :(");
+        config.addDefault("Messages.NoPermissionToSearchKind", "&4You are not allowed to search regions of this kind");
+        config.addDefault("Messages.RegionkindDoesNotExist", "&4The selected regionkind does not exist!");
+        config.addDefault("Messages.NoPermissionsToBuyThisKindOfRegion", "&4You do not have permission to buy this kind of region");
+        config.addDefault("Messages.UserNotAMemberOrOwner", "&4You are not a member or owner of this region!");
+        config.addDefault("Messages.SelectedPlayerIsNotOnline", "&4The selected player is not online");
+        config.addDefault("Messages.BadSyntax", "&7Bad syntax! Please use: &8%command%");
+        config.addDefault("Messages.BadSyntaxSplitter", "&7or &8%command%");
+
+        config.addDefault("Messages.RentExtendMessage", "&aRegion extended for &6%extendpercick%&a (For %price% %currency%. New remaining time: &6%remaining%");
+        config.addDefault("Messages.Buymessage", "&aRegion successfully bought!");
+        config.addDefault("Messages.RegionAddedToARM", "&7Regionsign has been created and region has been added to ARM!");
+        config.addDefault("Messages.SignRemovedFromRegion", "&7Regionsign removed! %remaining% Sign(s) remaining before region gets removed from ARM!");
+        config.addDefault("Messages.SignAddedToRegion", "&7Regionsign has been added!");
+        config.addDefault("Messages.UseANumberAsPrice", "&4Please use a number as a price in line 4!");
+        config.addDefault("Messages.RegionRemovedFromARM", "&7The region has been removed from ARM!");
+        config.addDefault("Messages.RegionKindSet", "&aRegionkind set!");
+        config.addDefault("Messages.ResetComplete", "&aReset complete!");
+        config.addDefault("Messages.ResetPerCentComplete", "&7%percent% complete...");
+        config.addDefault("Messages.Complete", "&aComplete!");
+        config.addDefault("Messages.LoadingSchematic", "&7Loading Schematic...");
+        config.addDefault("Messages.LoadingSchematicComplete", "&7Schematic loaded!");
+        config.addDefault("Messages.ResetRegionCooldownError", "&7You have to wait&6 %remainingdays% &7days till you can reset your region again");
+
+        config.addDefault("Messages.Currency", "EUR");
+        config.addDefault("Messages.SellSign1", "&2For Sale");
+        config.addDefault("Messages.SellSign2", "%regionid%");
+        config.addDefault("Messages.SellSign3", "%price%%currency%");
+        config.addDefault("Messages.SellSign4", "%dimensions%");
+        config.addDefault("Messages.SoldSign1", "&4Sold");
+        config.addDefault("Messages.SoldSign2", "%regionid%");
+        config.addDefault("Messages.SoldSign3", "");
+        config.addDefault("Messages.SoldSign4", "%owner%");
+        config.addDefault("Messages.RentSign1", "&2For Rent");
+        config.addDefault("Messages.RentSign2", "%regionid%");
+        config.addDefault("Messages.RentSign3", "%price%%currency%/%extendpercick%");
+        config.addDefault("Messages.RentSign4", "Max.: %maxrenttime%");
+        config.addDefault("Messages.RentedSign1", "&4Rented");
+        config.addDefault("Messages.RentedSign2", "%regionid%/%owner%");
+        config.addDefault("Messages.RentedSign3", "%price%%currency%/%extendpercick%");
+        config.addDefault("Messages.RentedSign4", "%remaining%");
+        config.addDefault("Messages.ContractSign1", "&2Contract");
+        config.addDefault("Messages.ContractSign2", "&2available");
+        config.addDefault("Messages.ContractSign3", "%regionid%");
+        config.addDefault("Messages.ContractSign4", "%price%%currency%/%extend%");
+        config.addDefault("Messages.ContractSoldSign1", "&4Contract in use");
+        config.addDefault("Messages.ContractSoldSign2", "%regionid%/%owner%");
+        config.addDefault("Messages.ContractSoldSign3", "%price%%currency%/%extend%");
+        config.addDefault("Messages.ContractSoldSign4", "%remaining%");
+
+
+        config.addDefault("Messages.Seconds", "s");
+        config.addDefault("Messages.Minutes", "m");
+        config.addDefault("Messages.Hours", "h");
+        config.addDefault("Messages.Days", "d");
+        config.addDefault("Messages.SecondsForShortCountDown", "second(s)");
+        config.addDefault("Messages.MinutesForShortCountDown", "minute(s)");
+        config.addDefault("Messages.HoursForShortCountDown", "hour(s)");
+        config.addDefault("Messages.DaysForShortCountDown", "day(s)");
+
+        config.addDefault("Messages.TeleporterNoSaveLocation", "&4Could not find a save teleport location");
+        config.addDefault("Messages.TeleporterDontMove", "&6Teleportation will commence in &c%time% Seconds&6. Do not move!");
+        config.addDefault("Messages.TeleporterTeleportationAborded", "&4Teleportation aborded!");
+
+        config.addDefault("Messages.ContractRegionExtended", "&aYour contract region %regionid% has been extended for %extend%. (For %price%%currency%.)");
+        config.addDefault("Messages.ContractRegionChangeTerminated", "&6The contract of &a%regionid% &6has been set to %statuslong%");
+        config.addDefault("Messages.ContractRegionStatusActiveLong", "&aActive&6! Next Extension in %remaining%");
+        config.addDefault("Messages.ContractRegionStatusActive", "&aActive");
+        config.addDefault("Messages.ContractRegionStatusTerminatedLong", "&4Terminated&6! It will be resetted in %remaining%");
+        config.addDefault("Messages.ContractRegionStatusTerminated", "&4Terminated");
+
+        config.addDefault("Messages.PresetRemoved", "&aPreset removed!");
+        config.addDefault("Messages.PresetSet", "&aPreset set!");
+        config.addDefault("Messages.PresetSaved", "&aPreset saved!");
+        config.addDefault("Messages.PresetAlreadyExists", "&4A preset with this name already exists!");
+        config.addDefault("Messages.PresetPlayerDontHasPreset", "&4You do not have a preset!");
+        config.addDefault("Messages.PresetDeleted", "&aPreset deleted!");
+        config.addDefault("Messages.PresetNotFound", "&4No preset with this name found!");
+        config.addDefault("Messages.PresetLoaded", "&aPreset loaded!");
+        config.addDefault("Messages.PresetSetupCommands", "&6Setup commands:");
+
+        config.addDefault("Messages.OfferSent", "&aYour offer has been sent");
+        config.addDefault("Messages.OfferAcceptedSeller", "&a%buyer% &aaccepted your offer");
+        config.addDefault("Messages.OfferAcceptedBuyer", "&aOffer accepted! You are now the owner of &c%region%");
+        config.addDefault("Messages.NoOfferToAnswer", "&4You dont have an offer to answer");
+        config.addDefault("Messages.OfferRejected", "&aOffer rejected!");
+        config.addDefault("Messages.OfferHasBeenRejected", "&4%seller% &4rejected your offer!");
+        config.addDefault("Messages.NoOfferToReject", "&4You do not have an offer to reject");
+        config.addDefault("Messages.OfferCancelled", "&aYour offer has been cancelled!");
+        config.addDefault("Messages.OfferHasBeenCancelled", "&4%seller% &4cancelled his offer!");
+        config.addDefault("Messages.NoOfferToCancel", "&4You do not have an offer to cancel");
+        config.addDefault("Messages.BuyerAlreadyGotAnOffer", "&4The selected buyer already got an offer that he has to answer first!");
+        config.addDefault("Messages.SellerAlreadyCreatedAnOffer", "&4You have already created an offer! Please wait for an answer or cancel it first!");
+        config.addDefault("Messages.SellerDoesNotLongerOwnRegion", "&4%seller% &4does not longer own this region. His offer has been cancelled");
+        config.addDefault("Messages.IncommingOffer", "&c%seller% &6offers you his region &c%region% &6in the world &c%world% &6for &c%price% %currency%&6! " +
+                "You can accept his offer with &c/arm offer accept &6or reject it &c/arm offer reject");
+        config.addDefault("Messages.OfferTimedOut", "&4Offer timed out!");
+
+        config.addDefault("Messages.RegionNotOwn", "&4You do not own this region!");
+        config.addDefault("Messages.RegionNotSold", "&4Region not sold!");
+        config.addDefault("Messages.RegionIsNotARentregion", "&4Region is not a rentregion!");
+        config.addDefault("Messages.RegionIsNotAContractRegion", "&4Region is not a contractregion!");
+        config.addDefault("Messages.RegionTeleportMessage", "&7You have been teleported to %regionid%");
+        config.addDefault("Messages.RegionKinds", "&6Regionkinds:");
+        config.addDefault("Messages.ResetRegionResetingBlocks", "&7Resetting blocks...");
+        config.addDefault("Messages.RegionNowAviable", "&aRegion is now available!");
+        config.addDefault("Messages.HaveToStandOnRegionToShowInfo", "&7You have to stand on the region to show its info");
+        config.addDefault("Messages.RegionAddMemberNotOnline", "&4The selected player is not online!");
+        config.addDefault("Messages.RegionAddMemberAdded", "&aMember has been added!");
+        config.addDefault("Messages.RegionAddMemberDoNotOwn", "&4You do not own this region!");
+        config.addDefault("Messages.RegionRemoveMemberNotAMember", "&4The selected player is not a member of the region");
+        config.addDefault("Messages.RegionRemoveMemberRemoved", "&aMember has been removed!");
+        config.addDefault("Messages.RegionRemoveMemberDoNotOwn", "&4You do not own this region!");
+        config.addDefault("Messages.RegionBuyOutOfLimit", "&4Out of Limit! You have &7%playerownedkind%/%limitkind% &4%regionkind%-regions and &7%playerownedtotal%/%limittotal% &4Regions total!");
+        config.addDefault("Messages.Unlimited", "'Unlimited'");
+
+        config.addDefault("Messages.LimitInfoTop", "&6=========[Limit Info]=========");
+        config.addDefault("Messages.LimitInfoTotal", "&6Total");
+        config.addDefault("Messages.LimitInfo", "&6%regiontype%: %playerownedkind%/%limitkind%");
+        config.addDefault("Messages.RegionInfo", "&6=========[Region info]=========");
+        config.addDefault("Messages.RegionInfoID", "&6ID: ");
+        config.addDefault("Messages.RegionInfoSold", "&6Sold: ");
+        config.addDefault("Messages.RegionInfoPrice", "&6Price: ");
+        config.addDefault("Messages.RegionInfoType", "&6Type: ");
+        config.addDefault("Messages.RegionInfoOwner", "&6Owner: ");
+        config.addDefault("Messages.RegionInfoMembers", "&6Members: ");
+        config.addDefault("Messages.RegionInfoDoBlockReset", "&6DoBlockReset: ");
+        config.addDefault("Messages.isHotel", "&6isHotel: ");
+        config.addDefault("Messages.RegionInfoAutoreset", "&6Autoreset: ");
+        config.addDefault("Messages.RegionInfoMaxRentTime", "&6Max rent time: ");
+        config.addDefault("Messages.RegionInfoExtendPerClick", "&6Extend per click: ");
+        config.addDefault("Messages.RentRegionInfoRemainingTime", "&6Remaining time: ");
+        config.addDefault("Messages.RegionInfoTerminated", "&6Terminated: ");
+        config.addDefault("Messages.RegionInfoAutoExtendTime", "&6Extend time: ");
+        config.addDefault("Messages.ContractRegionInfoRemainingTime", "&6Next extend in: ");
+        config.addDefault("Messages.RegionInfoYes", "yes");
+        config.addDefault("Messages.RegionInfoNo", "no");
+        config.addDefault("Messages.RentRegionExpirationWarning", "&4WARNING! This RentRegion(s) will expire soon: &c");
+
+        config.addDefault("Messages.RentRegion", "RentRegion");
+        config.addDefault("Messages.SellRegion", "SellRegion");
+        config.addDefault("Messages.ContractRegion", "ContractRegion");
+        config.addDefault("Messages.RegionStats", "&6=========[Region stats]=========");
+        config.addDefault("Messages.RegionStatsPattern", "&8Used regions (%regionkind%&8):");
+
+        config.addDefault("Messages.GUIMainMenuName", "&1ARM - Menu");
+        config.addDefault("Messages.GUIRegionFinderMenuName", "&1ARM - Regionfinder");
+        config.addDefault("Messages.GUIRegionFinderRegionKindName", "%regionkind%");
+        config.addDefault("Messages.GUIMemberListMenuName", "&1ARM - Members of %regionid%");
+        config.addDefault("Messages.GUIOwnRegionsMenuName", "&1ARM - My regions (Owner)");
+        config.addDefault("Messages.GUIRegionItemName", "%regionid% (%regionkind%)");
+        config.addDefault("Messages.GUIMakeOwnerWarningName", "&4&lAre you shure?");
+        config.addDefault("Messages.GUIMemberRegionsMenuName", "&1ARM - My regions (Member)");
+        config.addDefault("Messages.GUIResetRegionWarningName", "&4&lReset your region?");
+        config.addDefault("Messages.GUIRegionTakeOverMenuName", "&4Region take-over");
+        config.addDefault("Messages.GUIGoBack", "&6Go back");
+        config.addDefault("Messages.GUIMyOwnRegions", "&6My regions (Owner)");
+        config.addDefault("Messages.GUIMyMemberRegions", "&6My regions (Member)");
+        config.addDefault("Messages.GUISearchFreeRegion", "&6Search free region");
+        config.addDefault("Messages.GUIMembersButton", "&6Members");
+        config.addDefault("Messages.GUITeleportToRegionButton", "&6Teleport to region");
+
+        config.addDefault("Messages.GUITeleportToRegionButtonLore", new ArrayList<String>(Arrays.asList("Click to teleport you to",
+                "your region")));
+        config.addDefault("Messages.GUIShowInfosButton", "&6Show infos");
+        config.addDefault("Messages.GUIMakeOwnerButton", "&aMake owner");
+        config.addDefault("Messages.GUIMakeOwnerButtonLore", new ArrayList<String>(Arrays.asList("Click to transfer your owner rights",
+                "to the selected member.", "&4WARNING: &cYou will lose your owner", "&crights and become a member")));
+        config.addDefault("Messages.GUIRemoveMemberButton", "&4Remove");
+        config.addDefault("Messages.GUIRemoveMemberButtonLore", new ArrayList<String>(Arrays.asList("Click to remove the selected member",
+                "from your region")));
+        config.addDefault("Messages.GUIWarningYes", "&aYes");
+        config.addDefault("Messages.GUIWarningNo", "&4No");
+        config.addDefault("Messages.GUIResetRegionButton", "&4Reset region");
+        config.addDefault("Messages.GUIResetRegionButtonLore", new ArrayList<String>(Arrays.asList("Click to reset your region",
+                "&4WARNING: &cThis can not be undone! Your region", "&cwill be resetted and everything on it will", "&cbe deleted!",
+                "&cYou can only reset you region once every %days% days", "&2You and all members keep their rights on the region")));
+        config.addDefault("Messages.RegionTransferCompleteMessage", "&aTransfer complete!");
+        config.addDefault("Messages.RegiontransferMemberNotOnline", "&4Member not online!");
+        config.addDefault("Messages.RegiontransferLimitError", "&4Transfer aborted! (Region would exceed players limit)");
+        config.addDefault("Messages.GUICloseWindow", "&6Close window");
+        config.addDefault("Messages.TakeOverItemLore", new ArrayList<String>(Arrays.asList("&aYou are a member of this region. The owner of it was not online",
+                "&afor more than&7 50 &adays. You can transfer the owner rights to your", "&aaccount for free. The actual owner of it will become a member of it.",
+                "&cIf the region does not get transferred or the owner does not come online",
+                "&cin the next&7 %days% &cdays the region will be resetted and everybody on it",
+                "&cwill lose their rights. Afterwards it will go back for sale!")));
+        config.addDefault("Messages.OwnerMemberlistInfo", "&6Adding members:");
+        config.addDefault("Messages.OwnerMemberlistInfoLore", new ArrayList<String>(Arrays.asList("&aYou can add members to your region",
+                "&ain order to build with them together", "&aYou can add members with:",
+                "&6/arm addmember %regionid% USERNAME", "&aMembers need to be online to add them")));
+        config.addDefault("Messages.GUIExtendRentRegionButton", "&1Extend region");
+        config.addDefault("Messages.GUIExtendRentRegionButtonLore", new ArrayList<String>(Arrays.asList("&aClick to extend your region for &6%extendpercick%",
+                "&athis will cost you &6%price%%currency%&a!", "&aThis region will expire in &6%remaining%&a.", "&aYou can extend your region up to &6%maxrenttime%&a.")));
+        config.addDefault("Messages.GUIRentRegionLore", new ArrayList<String>(Arrays.asList("&aExpires in &6%remaining%")));
+        config.addDefault("Messages.GUIUserSellButton", "&4Reset and sell Region");
+        config.addDefault("Messages.GUIUserSellButtonLore", new ArrayList<String>(Arrays.asList("Click to sell your region",
+                "&4WARNING: &cThis can not be undone! Your region", "&cwill be released and all blocks on it will be", "&cresetted! You and all members of it will loose",
+                "&ctheir rights on it.", "&cYou will get &6%paybackmoney% %currency% &cback")));
+        config.addDefault("Messages.GUIUserSellWarning", "&4&lSell your region?");
+        config.addDefault("Messages.GUILimitButton", "&6My limits");
+        config.addDefault("Messages.MemberlistInfo", "&6How to become a Member:");
+        config.addDefault("Messages.MemberlistInfoLore", new ArrayList<String>(Arrays.asList("&aYou can be added as a member to",
+                "&athe region of someone else in order", "&ato build with him together", "&aJust ask a region owner to add you with:",
+                "&6/arm addmember REGIONID USERNAME", "&aYou need to be online for this")));
+        config.addDefault("Messages.GUIContractItem", "&6Manage contract");
+        config.addDefault("Messages.GUIContractItemLore", new ArrayList<String>(Arrays.asList("&aStatus: %status%", "&aIf active the next extend is in:",
+                "&6%remaining%")));
+        config.addDefault("Messages.GUIContractItemRegionLore", new ArrayList<String>(Arrays.asList("&aStatus: %status%", "&aIf active the next extend is in:",
+                "&6%remaining%")));
+
+
+        config.options().copyDefaults(true);
+        saveConfig();
+    }
+
     public static void generatedefaultConfig(){
         Plugin plugin = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket");
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
@@ -652,6 +882,7 @@ public class Messages {
             }
         }
         setConfig();
+        updateDefauts();
     }
 
     public static YamlConfiguration getConfig(){

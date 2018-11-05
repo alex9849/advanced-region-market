@@ -43,7 +43,7 @@ public abstract class Region {
     protected boolean isDoBlockReset;
 
     public Region(ProtectedRegion region, String regionworld, List<Sign> sellsign, double price, Boolean sold, Boolean autoreset,
-                  Boolean isHotel, Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, Boolean newreg){
+                  Boolean isHotel, Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, Boolean writeInFile){
         this.region = region;
         this.sellsign = new ArrayList<Sign>(sellsign);
         this.sold = sold;
@@ -85,7 +85,7 @@ public abstract class Region {
 
 
 
-        if(newreg){
+        if(writeInFile){
             YamlConfiguration config = getRegionsConf();
 
             config.set("Regions." + this.regionworld + "." + this.region.getId() + ".price", price);
@@ -479,7 +479,7 @@ public abstract class Region {
         int minX = this.getRegion().getMinimumPoint().getBlockX();
         int minY = this.getRegion().getMinimumPoint().getBlockY();
         int minZ = this.getRegion().getMinimumPoint().getBlockZ();
-        return Math.abs(maxX - minX) + "x" + Math.abs(maxY - minY) + "x" + Math.abs(maxZ - minZ);
+        return Math.abs((maxX - minX) + 1) + "x" + (Math.abs(maxY - minY) + 1) + "x" + (Math.abs(maxZ - minZ) + 1);
 
     }
 

@@ -56,7 +56,7 @@ public class ResetBlocksCommand extends BasicArmCommand {
             player.sendMessage(Messages.PREFIX + Messages.RESET_COMPLETE);
             return true;
         } else {
-            if(AdvancedRegionMarket.getWorldGuardInterface().hasOwner(player, resregion.getRegion())) {
+            if(resregion.getRegion().hasOwner(player.getUniqueId())) {
                 if(resregion.timeSinceLastReset() >= Region.getResetCooldown()){
                     Gui.openRegionResetWarning(player, resregion, false);
                 } else {

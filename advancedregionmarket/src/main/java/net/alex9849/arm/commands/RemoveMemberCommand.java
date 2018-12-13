@@ -49,18 +49,18 @@ public class RemoveMemberCommand extends BasicArmCommand {
         }
         OfflinePlayer removemember = Bukkit.getOfflinePlayer(args[2]);
 
-        if(AdvancedRegionMarket.getWorldGuardInterface().hasOwner((Player) sender, region.getRegion()) && sender.hasPermission(Permission.MEMBER_REMOVEMEMBER)) {
-            if(!(AdvancedRegionMarket.getWorldGuardInterface().hasMember(removemember, region.getRegion()))) {
+        if(region.getRegion().hasOwner(((Player) sender).getUniqueId()) && sender.hasPermission(Permission.MEMBER_REMOVEMEMBER)) {
+            if(!region.getRegion().hasMember(removemember.getUniqueId())) {
                 throw new InputException(sender, Messages.REGION_REMOVE_MEMBER_NOT_A_MEMBER);
             }
-            AdvancedRegionMarket.getWorldGuardInterface().removeMember(removemember, region.getRegion());
+            region.getRegion().removeMember(removemember.getUniqueId());
             sender.sendMessage(Messages.PREFIX + Messages.REGION_REMOVE_MEMBER_REMOVED);
             return true;
         } else if (sender.hasPermission(Permission.ADMIN_REMOVEMEMBER)){
-            if(!(AdvancedRegionMarket.getWorldGuardInterface().hasMember(removemember, region.getRegion()))) {
+            if(!region.getRegion().hasMember(removemember.getUniqueId())) {
                 throw new InputException(sender, Messages.REGION_REMOVE_MEMBER_NOT_A_MEMBER);
             }
-            AdvancedRegionMarket.getWorldGuardInterface().removeMember(removemember, region.getRegion());
+            region.getRegion().removeMember(removemember.getUniqueId());
             sender.sendMessage(Messages.PREFIX + Messages.REGION_REMOVE_MEMBER_REMOVED);
             return true;
         } else if (!(sender.hasPermission(Permission.MEMBER_REMOVEMEMBER))){
@@ -90,7 +90,7 @@ public class RemoveMemberCommand extends BasicArmCommand {
                     } else if(args.length == 3 && (args[0].equalsIgnoreCase(this.rootCommand))) {
                         Region region = Region.searchRegionbyNameAndWorld(args[1], player.getWorld().getName());
                         if(region != null) {
-                            if(AdvancedRegionMarket.getWorldGuardInterface().hasOwner(player, region.getRegion()) || player.hasPermission(Permission.ADMIN_REMOVEMEMBER)) {
+                            if(region.getRegion().hasOwner(player.getUniqueId()) || player.hasPermission(Permission.ADMIN_REMOVEMEMBER)) {
                                 returnme.addAll(CommandHandler.tabCompleteRegionMembers(args[2], region.getRegion()));
                             }
                         }

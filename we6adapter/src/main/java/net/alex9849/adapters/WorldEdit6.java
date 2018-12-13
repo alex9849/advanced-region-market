@@ -12,7 +12,7 @@ import com.sk89q.worldedit.function.operation.Operations;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.util.io.Closer;
 import com.sk89q.worldedit.world.registry.WorldData;
-import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import net.alex9849.inter.WGRegion;
 import net.alex9849.inter.WorldEditInterface;
 import org.bukkit.Bukkit;
 
@@ -21,7 +21,7 @@ import java.io.*;
 public class WorldEdit6 extends WorldEditInterface {
 
     @Override
-    public void createSchematic(ProtectedRegion region, String worldname, WorldEdit we) {
+    public void createSchematic(WGRegion region, String worldname, WorldEdit we) {
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
         File schematicdic = new File(pluginfolder + "/schematics/" + worldname + "/" + region.getId() + ".schematic");
         File schematicfolder = new File(pluginfolder + "/schematics/" + worldname);
@@ -31,13 +31,16 @@ public class WorldEdit6 extends WorldEditInterface {
 
         schematicfolder.mkdirs();
 
+        BlockVector minPoint = new BlockVector(region.getMinPoint().getBlockX(), region.getMinPoint().getBlockY(), region.getMinPoint().getBlockZ());
+        BlockVector maxPoint = new BlockVector(region.getMaxPoint().getBlockX(), region.getMaxPoint().getBlockY(), region.getMaxPoint().getBlockZ());
+
         com.sk89q.worldedit.world.World world = new BukkitWorld(Bukkit.getWorld(worldname));
         WorldData worldData = world.getWorldData();
         EditSession editSession = we.getEditSessionFactory().getEditSession(world, Integer.MAX_VALUE);
-        CuboidRegion reg = new CuboidRegion(world, region.getMinimumPoint(), region.getMaximumPoint());
+        CuboidRegion reg = new CuboidRegion(world, minPoint, maxPoint);
         BlockArrayClipboard clip = new BlockArrayClipboard(reg);
-        clip.setOrigin(region.getMinimumPoint());
-        ForwardExtentCopy copy = new ForwardExtentCopy(editSession, new CuboidRegion(world, region.getMinimumPoint(), region.getMaximumPoint()), clip, region.getMinimumPoint());
+        clip.setOrigin(minPoint);
+        ForwardExtentCopy copy = new ForwardExtentCopy(editSession, new CuboidRegion(world, minPoint, maxPoint), clip, minPoint);
         try {
             Operations.completeLegacy(copy);
         } catch(MaxChangedBlocksException e) {
@@ -59,19 +62,20 @@ public class WorldEdit6 extends WorldEditInterface {
     }
 
     @Override
-    public void resetBlocks(ProtectedRegion region, String worldname, WorldEdit we) {
+    public void resetBlocks(WGRegion region, String worldname, WorldEdit we) {
 
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
         File file = new File(pluginfolder + "/schematics/" + worldname + "/" + region.getId() + ".schematic");
 
         com.sk89q.worldedit.world.World world = new BukkitWorld(Bukkit.getWorld(worldname));
+        BlockVector minPoint = new BlockVector(region.getMinPoint().getBlockX(), region.getMinPoint().getBlockY(), region.getMinPoint().getBlockZ());
         WorldData worldData = world.getWorldData();
         Clipboard clipboard;
         try {
             clipboard = ClipboardFormat.SCHEMATIC.getReader(new FileInputStream(file)).read(worldData);
             Extent source = clipboard;
             Extent destination = WorldEdit.getInstance().getEditSessionFactory().getEditSession(world, Integer.MAX_VALUE);
-            ForwardExtentCopy copy = new ForwardExtentCopy(source, clipboard.getRegion(), clipboard.getOrigin(), destination, region.getMinimumPoint());
+            ForwardExtentCopy copy = new ForwardExtentCopy(source, clipboard.getRegion(), clipboard.getOrigin(), destination, minPoint);
 
             Operations.completeLegacy(copy);
         } catch (IOException e) {

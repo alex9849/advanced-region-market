@@ -6,8 +6,8 @@ import net.alex9849.arm.Permission;
 import net.alex9849.arm.Preseter.*;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.regions.*;
-import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import net.alex9849.arm.gui.Gui;
+import net.alex9849.inter.WGRegion;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -71,7 +71,7 @@ public class ARMListener implements Listener {
                 if (AdvancedRegionMarket.getWorldGuardInterface().getRegionManager(Bukkit.getWorld(worldname), AdvancedRegionMarket.getWorldGuard()).getRegion(regionname) == null) {
                     throw new InputException(sign.getPlayer(), Messages.REGION_DOES_NOT_EXIST);
                 }
-                ProtectedRegion region = AdvancedRegionMarket.getWorldGuardInterface().getRegionManager(Bukkit.getWorld(worldname), AdvancedRegionMarket.getWorldGuard()).getRegion(regionname);
+                WGRegion region = AdvancedRegionMarket.getWorldGuardInterface().getRegion(Bukkit.getWorld(worldname), AdvancedRegionMarket.getWorldGuard(), regionname);
                 Double price = null;
 
                 if(sign.getLine(3).equals("")){
@@ -147,7 +147,7 @@ public class ARMListener implements Listener {
                 if (AdvancedRegionMarket.getWorldGuardInterface().getRegionManager(Bukkit.getWorld(worldname), AdvancedRegionMarket.getWorldGuard()).getRegion(regionname) == null) {
                     throw new InputException(sign.getPlayer(), Messages.REGION_DOES_NOT_EXIST);
                 }
-                ProtectedRegion region = AdvancedRegionMarket.getWorldGuardInterface().getRegionManager(Bukkit.getWorld(worldname), AdvancedRegionMarket.getWorldGuard()).getRegion(regionname);
+                WGRegion region = AdvancedRegionMarket.getWorldGuardInterface().getRegion(Bukkit.getWorld(worldname), AdvancedRegionMarket.getWorldGuard(), regionname);
 
                 double price = 0;
                 long extendPerClick = 0;
@@ -241,7 +241,7 @@ public class ARMListener implements Listener {
                 if (AdvancedRegionMarket.getWorldGuardInterface().getRegionManager(Bukkit.getWorld(worldname), AdvancedRegionMarket.getWorldGuard()).getRegion(regionname) == null) {
                     throw new InputException(sign.getPlayer(), Messages.REGION_DOES_NOT_EXIST);
                 }
-                ProtectedRegion region = AdvancedRegionMarket.getWorldGuardInterface().getRegionManager(Bukkit.getWorld(worldname), AdvancedRegionMarket.getWorldGuard()).getRegion(regionname);
+                WGRegion region = AdvancedRegionMarket.getWorldGuardInterface().getRegion(Bukkit.getWorld(worldname), AdvancedRegionMarket.getWorldGuard(), regionname);
 
                 double price = 0;
                 long extendtime = 0;
@@ -497,7 +497,7 @@ public class ARMListener implements Listener {
 
                 for(int i = 0; i < regions.size(); i++){
                     if(regions.get(i).getAutoreset()){
-                        if(AdvancedRegionMarket.getWorldGuardInterface().hasMember(player, regions.get(i).getRegion())){
+                        if(regions.get(i).getRegion().hasMember(player.getUniqueId())){
                             overtake.add(regions.get(i));
                         }
                     }

@@ -51,7 +51,7 @@ public class TPCommand extends BasicArmCommand {
             throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
         }
 
-        if(!AdvancedRegionMarket.getWorldGuardInterface().hasMember(player, region.getRegion()) && !AdvancedRegionMarket.getWorldGuardInterface().hasOwner(player, region.getRegion())){
+        if(!region.getRegion().hasMember(player.getUniqueId()) && !region.getRegion().hasOwner(player.getUniqueId())){
             if(!player.hasPermission(Permission.ADMIN_TP)){
                 throw new InputException(sender, Messages.NOT_A_MEMBER_OR_OWNER);
             }

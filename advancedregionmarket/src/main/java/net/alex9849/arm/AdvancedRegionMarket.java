@@ -12,9 +12,9 @@ import net.alex9849.arm.minifeatures.AutoPrice;
 import net.alex9849.arm.regions.*;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
-import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import net.alex9849.arm.Group.LimitGroup;
 import net.alex9849.arm.gui.Gui;
+import net.alex9849.inter.WGRegion;
 import net.alex9849.inter.WorldEditInterface;
 import net.alex9849.inter.WorldGuardInterface;
 import net.milkbowl.vault.economy.Economy;
@@ -284,7 +284,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
                                             regionKind = result;
                                         }
                                     }
-                                    ProtectedRegion region = AdvancedRegionMarket.getWorldGuardInterface().getRegionManager(Bukkit.getWorld(regionworld), AdvancedRegionMarket.worldguard).getRegion(regionname);
+                                    WGRegion region = AdvancedRegionMarket.getWorldGuardInterface().getRegion(Bukkit.getWorld(regionworld), AdvancedRegionMarket.worldguard, regionname);
 
                                     if(region != null) {
                                         List<String> regionsignsloc = Region.getRegionsConf().getStringList("Regions." + worlds.get(y) + "." + regions.get(i) + ".signs");

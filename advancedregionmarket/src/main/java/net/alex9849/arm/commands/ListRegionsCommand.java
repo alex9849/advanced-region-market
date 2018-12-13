@@ -88,10 +88,10 @@ public class ListRegionsCommand extends BasicArmCommand {
                 throw new InputException(sender, "Player does not exist!");
             }
             for(int i = 0; i < Region.getRegionList().size(); i++) {
-                if(AdvancedRegionMarket.getWorldGuardInterface().hasOwner(oplayer, Region.getRegionList().get(i).getRegion())){
+                if(Region.getRegionList().get(i).getRegion().hasOwner(oplayer.getUniqueId())){
                     selectedRegionsOwner.add(Region.getRegionList().get(i).getRegion().getId());
                 }
-                if(AdvancedRegionMarket.getWorldGuardInterface().hasMember(oplayer, Region.getRegionList().get(i).getRegion())){
+                if(Region.getRegionList().get(i).getRegion().hasMember(oplayer.getUniqueId())){
                     selectedRegionsMember.add(Region.getRegionList().get(i).getRegion().getId());
                 }
             }

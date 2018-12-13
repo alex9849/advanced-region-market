@@ -54,7 +54,7 @@ public class TerminateCommand extends BasicArmCommand {
                 throw new InputException(sender, Messages.REGION_NOT_SOLD);
             }
 
-            if(!AdvancedRegionMarket.getWorldGuardInterface().hasOwner(player, region.getRegion())) {
+            if(!region.getRegion().hasOwner(player.getUniqueId())) {
                 if(!player.hasPermission(Permission.ADMIN_TERMINATE_CONTRACT)){
                     throw new InputException(sender, Messages.REGION_NOT_OWN);
                 }

@@ -4,10 +4,10 @@ import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.minifeatures.AutoPrice;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
-import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
+import net.alex9849.inter.WGRegion;
 import org.bukkit.*;
 import org.bukkit.Location;
 import org.bukkit.block.Sign;
@@ -15,6 +15,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.util.Vector;
 
 import java.io.*;
 import java.sql.ResultSet;
@@ -26,7 +27,7 @@ public abstract class Region {
     private static List<Region> regionList = new ArrayList<>();
     private static boolean completeTabRegions;
 
-    protected ProtectedRegion region;
+    protected WGRegion region;
     protected String regionworld;
     protected ArrayList<Sign> sellsign;
     protected ArrayList<Location> builtblocks;
@@ -42,7 +43,7 @@ public abstract class Region {
     protected Location teleportLocation;
     protected boolean isDoBlockReset;
 
-    public Region(ProtectedRegion region, String regionworld, List<Sign> sellsign, double price, Boolean sold, Boolean autoreset,
+    public Region(WGRegion region, String regionworld, List<Sign> sellsign, double price, Boolean sold, Boolean autoreset,
                   Boolean isHotel, Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, Boolean writeInFile){
         this.region = region;
         this.sellsign = new ArrayList<Sign>(sellsign);
@@ -205,7 +206,7 @@ public abstract class Region {
         return false;
     }
 
-    public ProtectedRegion getRegion() {
+    public WGRegion getRegion() {
         return region;
     }
 
@@ -245,13 +246,15 @@ public abstract class Region {
         return this.sellsign.size();
     }
 
-    public static double calculatePrice(ProtectedRegion region, String regiontype){
+    public static double calculatePrice(WGRegion region, String regiontype){
 
-        int maxX = AdvancedRegionMarket.getWorldGuardInterface().getMaxX(region);
-        int minX = AdvancedRegionMarket.getWorldGuardInterface().getMinX(region);
-        int minY = AdvancedRegionMarket.getWorldGuardInterface().getMinY(region);
-        int maxZ = AdvancedRegionMarket.getWorldGuardInterface().getMaxZ(region);
-        int minZ = AdvancedRegionMarket.getWorldGuardInterface().getMinZ(region);
+        Vector min = region.getMinPoint();
+        Vector max = region.getMaxPoint();
+        int maxX = max.getBlockX();
+        int maxZ = max.getBlockZ();
+        int minX = min.getBlockX();
+        int minY = min.getBlockY();
+        int minZ = min.getBlockZ();
         double price = 0;
         double priceperblock = 0;
 
@@ -317,7 +320,7 @@ public abstract class Region {
         for (int i = 0; i < Region.getRegionList().size(); i++){
 
             if ((Region.getRegionList().get(i).isSold() == false) && (Region.getRegionList().get(i).getRegionKind() == type)){
-                ProtectedRegion regionTP = Region.getRegionList().get(i).getRegion();
+                WGRegion regionTP = Region.getRegionList().get(i).getRegion();
                 String message = Messages.REGION_TELEPORT_MESSAGE.replace("%regionid%", regionTP.getId());
                 Teleporter.teleport(player, Region.getRegionList().get(i), Messages.PREFIX + message, true);
                 return;
@@ -355,8 +358,8 @@ public abstract class Region {
     public void regionInfo(CommandSender sender){
         String owners = "";
         String members = "";
-        List<UUID> ownerslist = AdvancedRegionMarket.getWorldGuardInterface().getOwners(this.getRegion());
-        List<UUID> memberslist = AdvancedRegionMarket.getWorldGuardInterface().getMembers(this.getRegion());
+        List<UUID> ownerslist = this.getRegion().getOwners();
+        List<UUID> memberslist = this.getRegion().getMembers();
         for(int i = 0; i < ownerslist.size() - 1; i++){
             owners = owners + Bukkit.getOfflinePlayer(ownerslist.get(i)).getName() + ", ";
         }
@@ -404,7 +407,7 @@ public abstract class Region {
     public static List<Region> getRegionsByOwner(UUID uuid) {
         List<Region> regions = new LinkedList<>();
         for (int i = 0; i < Region.getRegionList().size(); i++){
-            if(AdvancedRegionMarket.getWorldGuardInterface().hasOwner(uuid, Region.getRegionList().get(i).getRegion())){
+            if(Region.getRegionList().get(i).getRegion().hasOwner(uuid)){
                 regions.add(Region.getRegionList().get(i));
             }
         }
@@ -455,17 +458,17 @@ public abstract class Region {
     }
 
     public void setNewOwner(OfflinePlayer member){
-        ArrayList<UUID> owner = AdvancedRegionMarket.getWorldGuardInterface().getOwners(this.getRegion());
+        ArrayList<UUID> owner = this.getRegion().getOwners();
         for (int i = 0; i < owner.size(); i++) {
-            AdvancedRegionMarket.getWorldGuardInterface().addMember(owner.get(i), this.getRegion());
+            this.getRegion().addMember(owner.get(i));
         }
-        AdvancedRegionMarket.getWorldGuardInterface().setOwner(member, this.getRegion());
+        this.getRegion().setOwner(member);
     }
 
     public static List<Region> getRegionsByMember(UUID uuid) {
         List<Region> regions = new LinkedList<>();
         for (int i = 0; i < Region.getRegionList().size(); i++){
-            if(AdvancedRegionMarket.getWorldGuardInterface().hasMember(uuid, Region.getRegionList().get(i).getRegion())){
+            if(Region.getRegionList().get(i).getRegion().hasMember(uuid)) {
                 regions.add(Region.getRegionList().get(i));
             }
         }
@@ -473,12 +476,14 @@ public abstract class Region {
     }
 
     public String getDimensions(){
-        int maxX = AdvancedRegionMarket.getWorldGuardInterface().getMaxX(region);
-        int maxY = AdvancedRegionMarket.getWorldGuardInterface().getMaxY(region);
-        int maxZ = AdvancedRegionMarket.getWorldGuardInterface().getMaxZ(region);
-        int minX = AdvancedRegionMarket.getWorldGuardInterface().getMinX(region);
-        int minY = AdvancedRegionMarket.getWorldGuardInterface().getMinY(region);
-        int minZ = AdvancedRegionMarket.getWorldGuardInterface().getMinZ(region);
+        Vector min = this.getRegion().getMinPoint();
+        Vector max = this.getRegion().getMaxPoint();
+        int maxX = max.getBlockX();
+        int maxY = max.getBlockY();
+        int maxZ = max.getBlockZ();
+        int minX = min.getBlockX();
+        int minY = min.getBlockY();
+        int minZ = min.getBlockZ();
         return Math.abs((maxX - minX) + 1) + "x" + (Math.abs(maxY - minY) + 1) + "x" + (Math.abs(maxZ - minZ) + 1);
 
     }
@@ -509,7 +514,8 @@ public abstract class Region {
     }
 
     public int getRemainingDaysTillReset(){
-        ArrayList<UUID> ownerlist = AdvancedRegionMarket.getWorldGuardInterface().getOwners(this.getRegion());
+        ArrayList<UUID> ownerlist = this.getRegion().getOwners();
+        if(ownerlist.size() > 0) {
             UUID owner = ownerlist.get(0);
             if(AdvancedRegionMarket.getEnableTakeOver() ||AdvancedRegionMarket.getEnableAutoReset()) {
                 try{
@@ -529,6 +535,8 @@ public abstract class Region {
                     e.printStackTrace();
                 }
             }
+        }
+
         return 0;
     }
 
@@ -639,8 +647,8 @@ public abstract class Region {
         config.set("Regions." + this.regionworld + "." + this.getRegion().getId() + ".sold", false);
         config.set("Regions." + this.regionworld + "." + this.getRegion().getId() + ".lastreset", 1);
         saveRegionsConf(config);
-        AdvancedRegionMarket.getWorldGuardInterface().deleteMembers(this.getRegion());
-        AdvancedRegionMarket.getWorldGuardInterface().deleteOwners(this.getRegion());
+        this.getRegion().deleteMembers();
+        this.getRegion().deleteOwners();
         this.sold = false;
         this.lastreset = 1;
 
@@ -667,15 +675,15 @@ public abstract class Region {
             for(Region region : Region.getRegionList()) {
                 if(region.getRegion().getId().toLowerCase().startsWith(arg)) {
                     if(playerRegionRelationship == PlayerRegionRelationship.OWNER) {
-                        if(AdvancedRegionMarket.getWorldGuardInterface().hasOwner(player, region.getRegion())) {
+                        if(region.getRegion().hasOwner(player.getUniqueId())) {
                             returnme.add(region.getRegion().getId());
                         }
                     } else if (playerRegionRelationship == PlayerRegionRelationship.MEMBER) {
-                        if(AdvancedRegionMarket.getWorldGuardInterface().hasMember(player, region.getRegion())) {
+                        if(region.getRegion().hasMember(player.getUniqueId())) {
                             returnme.add(region.getRegion().getId());
                         }
                     } else if (playerRegionRelationship == PlayerRegionRelationship.MEMBER_OR_OWNER) {
-                        if(AdvancedRegionMarket.getWorldGuardInterface().hasMember(player, region.getRegion()) || AdvancedRegionMarket.getWorldGuardInterface().hasOwner(player, region.getRegion())) {
+                        if(region.getRegion().hasMember(player.getUniqueId()) || region.getRegion().hasOwner(player.getUniqueId())) {
                             returnme.add(region.getRegion().getId());
                         }
                     } else if (playerRegionRelationship == PlayerRegionRelationship.ALL) {

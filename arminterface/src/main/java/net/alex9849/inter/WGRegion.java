@@ -45,4 +45,6 @@ public abstract class WGRegion {
     public abstract void removeOwner(UUID uuid);
 
     public abstract ArrayList<UUID> getOwners();
+
+    public abstract boolean contains(int x, int y, int z);
 }

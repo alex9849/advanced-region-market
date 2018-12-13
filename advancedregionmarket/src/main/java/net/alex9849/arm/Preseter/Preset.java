@@ -1,6 +1,5 @@
 package net.alex9849.arm.Preseter;
 
-import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.regions.ContractRegion;
 import net.alex9849.arm.regions.Region;

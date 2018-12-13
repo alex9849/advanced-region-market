@@ -2,11 +2,11 @@ package net.alex9849.arm.regions;
 
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Permission;
-import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import net.alex9849.arm.Group.LimitGroup;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
+import net.alex9849.inter.WGRegion;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -26,7 +26,7 @@ public class RentRegion extends Region {
     private static long expirationWarningTime;
     private static Boolean sendExpirationWarning;
 
-    public RentRegion(ProtectedRegion region, String regionworld, List<Sign> rentsign, double price, Boolean sold, Boolean autoreset, Boolean allowOnlyNewBlocks,
+    public RentRegion(WGRegion region, String regionworld, List<Sign> rentsign, double price, Boolean sold, Boolean autoreset, Boolean allowOnlyNewBlocks,
                       Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, long payedTill, long maxRentTime, long rentExtendPerClick, Boolean newreg) {
         super(region, regionworld, rentsign, price, sold, autoreset, allowOnlyNewBlocks, doBlockReset, regionKind, teleportLoc, lastreset, newreg);
 
@@ -51,7 +51,7 @@ public class RentRegion extends Region {
 
         if (this.sold){
 
-            LinkedList<UUID> ownerlist = new LinkedList<>(this.getRegion().getOwners().getUniqueIds());
+            LinkedList<UUID> ownerlist = new LinkedList<>(this.getRegion().getOwners());
             String ownername;
             if(ownerlist.size() < 1){
                 ownername = "Unknown";
@@ -210,8 +210,8 @@ public class RentRegion extends Region {
             this.payedTill = actualtime.getTimeInMillis() + this.rentExtendPerClick;
         }
         this.sold = true;
-        AdvancedRegionMarket.getWorldGuardInterface().deleteMembers(this.getRegion());
-        AdvancedRegionMarket.getWorldGuardInterface().setOwner(player, this.getRegion());
+        this.getRegion().deleteMembers();
+        this.getRegion().setOwner(player);
 
         this.updateSigns();
 
@@ -224,7 +224,7 @@ public class RentRegion extends Region {
 
     @Override
     public void userSell(Player player){
-        List<UUID> defdomain = AdvancedRegionMarket.getWorldGuardInterface().getOwners(this.getRegion());
+        List<UUID> defdomain = this.getRegion().getOwners();
         double amount = this.getPaybackMoney();
 
         if(amount > 0){
@@ -453,7 +453,7 @@ public class RentRegion extends Region {
             throw new InputException(player, Messages.REGION_NOT_SOLD);
         }
 
-        if(!AdvancedRegionMarket.getWorldGuardInterface().hasOwner(player, this.getRegion())) {
+        if(!this.getRegion().hasOwner(player.getUniqueId())) {
             if(!player.hasPermission(Permission.ADMIN_EXTEND)){
                 throw new InputException(player, Messages.REGION_NOT_OWN);
             }

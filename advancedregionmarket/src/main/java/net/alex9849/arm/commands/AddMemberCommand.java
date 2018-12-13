@@ -51,11 +51,11 @@ public class AddMemberCommand extends BasicArmCommand {
         if(playermember == null) {
             throw new InputException(sender, Messages.REGION_ADD_MEMBER_NOT_ONLINE);
         }
-        if(AdvancedRegionMarket.getWorldGuardInterface().hasOwner((Player) sender, region.getRegion()) && sender.hasPermission(Permission.MEMBER_ADDMEMBER)) {
-            AdvancedRegionMarket.getWorldGuardInterface().addMember(playermember, region.getRegion());
+        if(region.getRegion().hasOwner(((Player) sender).getUniqueId()) && sender.hasPermission(Permission.MEMBER_ADDMEMBER)) {
+            region.getRegion().addMember(playermember.getUniqueId());
             sender.sendMessage(Messages.PREFIX + Messages.REGION_ADD_MEMBER_ADDED);
         } else if (sender.hasPermission(Permission.ADMIN_ADDMEMBER)){
-            AdvancedRegionMarket.getWorldGuardInterface().addMember(playermember, region.getRegion());
+            region.getRegion().addMember(playermember.getUniqueId());
             sender.sendMessage(Messages.PREFIX + Messages.REGION_ADD_MEMBER_ADDED);
         } else if (!(sender.hasPermission(Permission.MEMBER_ADDMEMBER))){
             throw new InputException(sender, Messages.NO_PERMISSION);

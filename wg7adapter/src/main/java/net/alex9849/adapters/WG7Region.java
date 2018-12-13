@@ -100,4 +100,8 @@ public class WG7Region extends WGRegion {
         return new ArrayList<UUID>(this.region.getOwners().getUniqueIds());
     }
 
+    public boolean contains(int x, int y, int z) {
+        return this.region.contains(x, y, z);
+    }
+
 }

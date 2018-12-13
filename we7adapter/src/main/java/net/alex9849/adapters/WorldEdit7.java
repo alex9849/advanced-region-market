@@ -8,9 +8,10 @@ import com.sk89q.worldedit.extent.clipboard.Clipboard;
 import com.sk89q.worldedit.extent.clipboard.io.*;
 import com.sk89q.worldedit.function.operation.ForwardExtentCopy;
 import com.sk89q.worldedit.function.operation.Operations;
+import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.util.io.Closer;
-import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import net.alex9849.inter.WGRegion;
 import net.alex9849.inter.WorldEditInterface;
 import org.bukkit.Bukkit;
 
@@ -19,7 +20,7 @@ import java.io.*;
 public class WorldEdit7 extends WorldEditInterface {
 
     @Override
-    public void createSchematic(ProtectedRegion region, String worldname, WorldEdit we) {
+    public void createSchematic(WGRegion region, String worldname, WorldEdit we) {
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
         File rawschematicdic = new File(pluginfolder + "/schematics/" + worldname + "/" + region.getId());
         File schematicdic = new File(rawschematicdic + "." + BuiltInClipboardFormat.SPONGE_SCHEMATIC.getPrimaryFileExtension());
@@ -37,11 +38,14 @@ public class WorldEdit7 extends WorldEditInterface {
         schematicfolder.mkdirs();
 
         com.sk89q.worldedit.world.World world = new BukkitWorld(Bukkit.getWorld(worldname));
+        BlockVector3 minPoint = BlockVector3.at(region.getMinPoint().getBlockX(), region.getMinPoint().getBlockY(), region.getMinPoint().getBlockZ());
+        BlockVector3 maxPoint = BlockVector3.at(region.getMaxPoint().getBlockX(), region.getMaxPoint().getBlockY(), region.getMaxPoint().getBlockZ());
+
         EditSession editSession = we.getEditSessionFactory().getEditSession(world, Integer.MAX_VALUE);
-        CuboidRegion reg = new CuboidRegion(world, region.getMinimumPoint(), region.getMaximumPoint());
+        CuboidRegion reg = new CuboidRegion(world, minPoint, maxPoint);
         BlockArrayClipboard clip = new BlockArrayClipboard(reg);
-        clip.setOrigin(region.getMinimumPoint());
-        ForwardExtentCopy copy = new ForwardExtentCopy(editSession, new CuboidRegion(world, region.getMinimumPoint(), region.getMaximumPoint()), clip, region.getMinimumPoint());
+        clip.setOrigin(minPoint);
+        ForwardExtentCopy copy = new ForwardExtentCopy(editSession, new CuboidRegion(world, minPoint, maxPoint), clip, minPoint);
         try {
             Operations.completeLegacy(copy);
         } catch(MaxChangedBlocksException e) {
@@ -63,7 +67,7 @@ public class WorldEdit7 extends WorldEditInterface {
     }
 
     @Override
-    public void resetBlocks(ProtectedRegion region, String worldname, WorldEdit we) {
+    public void resetBlocks(WGRegion region, String worldname, WorldEdit we) {
 
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
         File rawschematicdic = new File(pluginfolder + "/schematics/" + worldname + "/" + region.getId());
@@ -78,6 +82,7 @@ public class WorldEdit7 extends WorldEditInterface {
         }
 
         com.sk89q.worldedit.world.World world = new BukkitWorld(Bukkit.getWorld(worldname));
+        BlockVector3 minPoint = BlockVector3.at(region.getMinPoint().getBlockX(), region.getMinPoint().getBlockY(), region.getMinPoint().getBlockZ());
         Clipboard clipboard;
         try {
             Closer closer = Closer.create();
@@ -88,7 +93,7 @@ public class WorldEdit7 extends WorldEditInterface {
             clipboard = reader.read();
             Extent source = clipboard;
             Extent destination = WorldEdit.getInstance().getEditSessionFactory().getEditSession(world, Integer.MAX_VALUE);
-            ForwardExtentCopy copy = new ForwardExtentCopy(source, clipboard.getRegion(), clipboard.getOrigin(), destination, region.getMinimumPoint());
+            ForwardExtentCopy copy = new ForwardExtentCopy(source, clipboard.getRegion(), clipboard.getOrigin(), destination, minPoint);
 
             Operations.completeLegacy(copy);
             closer.close();

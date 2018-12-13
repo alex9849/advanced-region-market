@@ -54,7 +54,7 @@ public class OfferCommand extends BasicArmCommand {
                 if(region == null) {
                     throw new InputException(player, Messages.REGION_DOES_NOT_EXIST);
                 }
-                if(!AdvancedRegionMarket.getWorldGuardInterface().hasOwner(player.getUniqueId(), region.getRegion())) {
+                if(!region.getRegion().hasOwner(player.getUniqueId())) {
                     throw new InputException(player, Messages.REGION_NOT_OWN);
                 }
                 if(!region.isSold()) {

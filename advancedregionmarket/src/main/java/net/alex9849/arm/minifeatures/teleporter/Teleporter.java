@@ -5,6 +5,7 @@ import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.regions.Region;
+import net.alex9849.inter.WGRegion;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -14,6 +15,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.util.Vector;
 
 public class Teleporter {
 
@@ -25,12 +27,14 @@ public class Teleporter {
             if(world == null) {
                 return;
             }
-            int minX = AdvancedRegionMarket.getWorldGuardInterface().getMinX(region.getRegion());
-            int minY = AdvancedRegionMarket.getWorldGuardInterface().getMinY(region.getRegion());
-            int minZ = AdvancedRegionMarket.getWorldGuardInterface().getMinZ(region.getRegion());
-            int maxX = AdvancedRegionMarket.getWorldGuardInterface().getMaxX(region.getRegion());
-            int maxY = AdvancedRegionMarket.getWorldGuardInterface().getMaxY(region.getRegion());
-            int maxZ = AdvancedRegionMarket.getWorldGuardInterface().getMaxZ(region.getRegion());
+            Vector min = region.getRegion().getMinPoint();
+            Vector max = region.getRegion().getMaxPoint();
+            int maxX = max.getBlockX();
+            int maxY = max.getBlockY();
+            int maxZ = max.getBlockZ();
+            int minX = min.getBlockX();
+            int minY = min.getBlockY();
+            int minZ = min.getBlockZ();
 
             for (int x = maxX; x >= minX; x--) {
                 for (int z = maxZ; z >= minZ; z--) {

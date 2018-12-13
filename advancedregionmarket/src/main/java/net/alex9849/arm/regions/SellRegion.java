@@ -3,10 +3,10 @@ package net.alex9849.arm.regions;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
-import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import net.alex9849.arm.Group.LimitGroup;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
+import net.alex9849.inter.WGRegion;
 import org.bukkit.*;
 import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
@@ -18,7 +18,7 @@ import java.util.*;
 public class SellRegion extends Region {
 
 
-    public SellRegion(ProtectedRegion region, String regionworld, List<Sign> sellsign, double price, Boolean sold, Boolean autoreset, Boolean allowOnlyNewBlocks, Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, Boolean newreg) {
+    public SellRegion(WGRegion region, String regionworld, List<Sign> sellsign, double price, Boolean sold, Boolean autoreset, Boolean allowOnlyNewBlocks, Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, Boolean newreg) {
         super(region, regionworld, sellsign, price, sold, autoreset,allowOnlyNewBlocks, doBlockReset, regionKind, teleportLoc, lastreset, newreg);
 
         if(newreg) {
@@ -40,7 +40,7 @@ public class SellRegion extends Region {
     protected void updateSignText(Sign mysign){
         if(this.sold){
 
-            LinkedList<UUID> ownerlist = new LinkedList<>(this.getRegion().getOwners().getUniqueIds());
+            LinkedList<UUID> ownerlist = new LinkedList<>(this.getRegion().getOwners());
             String ownername;
             if(ownerlist.size() == 0){
                 ownername = "Unknown";
@@ -145,8 +145,8 @@ public class SellRegion extends Region {
     @Override
     public void setSold(OfflinePlayer player){
         this.sold = true;
-        AdvancedRegionMarket.getWorldGuardInterface().deleteMembers(this.getRegion());
-        AdvancedRegionMarket.getWorldGuardInterface().setOwner(player, this.getRegion());
+        this.getRegion().deleteMembers();
+        this.getRegion().setOwner(player);
 
         this.updateSigns();
 
@@ -157,7 +157,7 @@ public class SellRegion extends Region {
 
     @Override
     public void userSell(Player player){
-        List<UUID> defdomain = AdvancedRegionMarket.getWorldGuardInterface().getOwners(this.region);
+        List<UUID> defdomain = this.getRegion().getOwners();
         double amount = this.getPaybackMoney();
 
         if(amount > 0){

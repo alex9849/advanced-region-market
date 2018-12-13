@@ -1,22 +1,22 @@
 package net.alex9849.adapters;
 
 import com.boydti.fawe.object.schematic.Schematic;
+import com.sk89q.worldedit.BlockVector;
 import com.sk89q.worldedit.bukkit.BukkitWorld;
-import com.sk89q.worldedit.extent.clipboard.io.BuiltInClipboardFormat;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormats;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.world.World;
+import net.alex9849.inter.WGRegion;
 import net.alex9849.inter.WorldEditInterface;
 import org.bukkit.Bukkit;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
 
 public class WorldEdit7FaWe extends WorldEditInterface {
 
-    public void createSchematic(com.sk89q.worldguard.protection.regions.ProtectedRegion region, String worldname, com.sk89q.worldedit.WorldEdit we) {
+    public void createSchematic(WGRegion region, String worldname, com.sk89q.worldedit.WorldEdit we) {
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
         File rawschematicdic = new File(pluginfolder + "/schematics/" + worldname + "/" + region.getId());
         File schematicdic = new File(rawschematicdic + "." + ClipboardFormat.SPONGE_SCHEMATIC.getPrimaryFileExtension());
@@ -32,9 +32,11 @@ public class WorldEdit7FaWe extends WorldEditInterface {
         }
 
         schematicfolder.mkdirs();
+        BlockVector minPoint = new BlockVector(region.getMinPoint().getBlockX(), region.getMinPoint().getBlockY(), region.getMinPoint().getBlockZ());
+        BlockVector maxPoint = new BlockVector(region.getMaxPoint().getBlockX(), region.getMaxPoint().getBlockY(), region.getMaxPoint().getBlockZ());
 
         com.sk89q.worldedit.world.World world = new BukkitWorld(Bukkit.getWorld(worldname));
-        CuboidRegion reg = new CuboidRegion(world, region.getMinimumPoint(), region.getMaximumPoint());
+        CuboidRegion reg = new CuboidRegion(world, minPoint, maxPoint);
         Schematic schem = new Schematic(reg);
         try {
             schematicdic.createNewFile();
@@ -45,7 +47,7 @@ public class WorldEdit7FaWe extends WorldEditInterface {
 
     }
 
-    public void resetBlocks(com.sk89q.worldguard.protection.regions.ProtectedRegion region, String worldname, com.sk89q.worldedit.WorldEdit we) {
+    public void resetBlocks(WGRegion region, String worldname, com.sk89q.worldedit.WorldEdit we) {
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
         File rawschematicdic = new File(pluginfolder + "/schematics/" + worldname + "/" + region.getId());
         File file = null;
@@ -58,13 +60,14 @@ public class WorldEdit7FaWe extends WorldEditInterface {
             }
         }
         World weWorld = new BukkitWorld(Bukkit.getWorld(worldname));
+        BlockVector minPoint = new BlockVector(region.getMinPoint().getBlockX(), region.getMinPoint().getBlockY(), region.getMinPoint().getBlockZ());
         try {
             if(ClipboardFormat.SPONGE_SCHEMATIC.isFormat(file)) {
-                ClipboardFormat.SPONGE_SCHEMATIC.load(file).paste(weWorld, region.getMinimumPoint());
+                ClipboardFormat.SPONGE_SCHEMATIC.load(file).paste(weWorld, minPoint);
             } else if(ClipboardFormat.SCHEMATIC.isFormat(file)) {
-                ClipboardFormat.SCHEMATIC.load(file).paste(weWorld, region.getMinimumPoint());
+                ClipboardFormat.SCHEMATIC.load(file).paste(weWorld, minPoint);
             } else {
-                ClipboardFormats.findByFile(file).load(file).paste(weWorld, region.getMinimumPoint());
+                ClipboardFormats.findByFile(file).load(file).paste(weWorld, minPoint);
             }
         } catch (IOException e) {
             e.printStackTrace();

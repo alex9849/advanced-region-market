@@ -1,22 +1,9 @@
 package net.alex9849.arm.Handler;
 
-import com.sk89q.worldguard.protection.regions.ProtectedRegion;
-import net.alex9849.arm.AdvancedRegionMarket;
-import net.alex9849.arm.Group.LimitGroup;
 import net.alex9849.arm.Messages;
-import net.alex9849.arm.Permission;
-import net.alex9849.arm.Preseter.ContractPreset;
-import net.alex9849.arm.Preseter.RentPreset;
-import net.alex9849.arm.Preseter.SellPreset;
 import net.alex9849.arm.commands.*;
 import net.alex9849.arm.exceptions.InputException;
-import net.alex9849.arm.gui.Gui;
-import net.alex9849.arm.minifeatures.Diagram;
-import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
-import net.alex9849.arm.minifeatures.teleporter.Teleporter;
-import net.alex9849.arm.regions.ContractRegion;
-import net.alex9849.arm.regions.Region;
-import net.alex9849.arm.regions.RegionKind;
+import net.alex9849.inter.WGRegion;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -24,16 +11,12 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Modifier;
-import java.net.URL;
 import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-import java.util.logging.Level;
 
 public class CommandHandler implements TabCompleter {
 
@@ -187,10 +170,10 @@ public class CommandHandler implements TabCompleter {
         return returnme;
     }
 
-    public static List<String> tabCompleteRegionMembers(String args, ProtectedRegion region) {
+    public static List<String> tabCompleteRegionMembers(String args, WGRegion region) {
         List<String> returnme = new ArrayList<>();
 
-        List<UUID> uuidList = AdvancedRegionMarket.getWorldGuardInterface().getMembers(region);
+        List<UUID> uuidList = region.getMembers();
         for(UUID uuids: uuidList) {
             OfflinePlayer oplayer = Bukkit.getOfflinePlayer(uuids);
             if(oplayer != null) {

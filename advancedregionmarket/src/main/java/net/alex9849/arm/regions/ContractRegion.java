@@ -1,12 +1,12 @@
 package net.alex9849.arm.regions;
 
-import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.Group.LimitGroup;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
+import net.alex9849.inter.WGRegion;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -27,7 +27,7 @@ public class ContractRegion extends Region {
     private long extendTime;
     private boolean terminated;
 
-    public ContractRegion(ProtectedRegion region, String regionworld, List<Sign> contractsign, double price, Boolean sold, Boolean autoreset, Boolean isHotel, Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, long extendTime, long payedTill, Boolean terminated, Boolean newreg) {
+    public ContractRegion(WGRegion region, String regionworld, List<Sign> contractsign, double price, Boolean sold, Boolean autoreset, Boolean isHotel, Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, long extendTime, long payedTill, Boolean terminated, Boolean newreg) {
         super(region, regionworld, contractsign, price, sold, autoreset, isHotel, doBlockReset, regionKind, teleportLoc, lastreset, newreg);
         this.payedTill = payedTill;
         this.extendTime = extendTime;
@@ -59,7 +59,7 @@ public class ContractRegion extends Region {
             if((this.payedTill < actualtime.getTimeInMillis()) && this.terminated){
                 this.automaticResetRegion();
             } else if(this.payedTill < actualtime.getTimeInMillis()) {
-                List<UUID> owners = AdvancedRegionMarket.getWorldGuardInterface().getOwners(this.getRegion());
+                List<UUID> owners = this.getRegion().getOwners();
                 if(owners.size() == 0){
                     this.extend();
                     this.updateSigns();
@@ -102,8 +102,8 @@ public class ContractRegion extends Region {
         }
         this.sold = true;
         this.terminated = false;
-        AdvancedRegionMarket.getWorldGuardInterface().deleteMembers(this.getRegion());
-        AdvancedRegionMarket.getWorldGuardInterface().setOwner(player, this.getRegion());
+        this.getRegion().deleteMembers();
+        this.getRegion().setOwner(player);
 
         this.updateSigns();
 
@@ -119,7 +119,7 @@ public class ContractRegion extends Region {
 
         if (this.sold) {
 
-            LinkedList<UUID> ownerlist = new LinkedList<>(this.getRegion().getOwners().getUniqueIds());
+            LinkedList<UUID> ownerlist = new LinkedList<>(this.getRegion().getOwners());
             String ownername;
             if (ownerlist.size() < 1) {
                 ownername = "Unknown";
@@ -218,7 +218,7 @@ public class ContractRegion extends Region {
             throw new InputException(player, Messages.NO_PERMISSION);
         }
         if(this.sold) {
-            if(AdvancedRegionMarket.getWorldGuardInterface().getOwners(getRegion()).contains(player.getUniqueId()) || player.hasPermission(Permission.ADMIN_TERMINATE_CONTRACT)) {
+            if(this.getRegion().hasOwner(player.getUniqueId()) || player.hasPermission(Permission.ADMIN_TERMINATE_CONTRACT)) {
                 this.changeTerminated(player);
                 return;
             } else {

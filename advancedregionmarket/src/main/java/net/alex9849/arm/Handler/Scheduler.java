@@ -32,7 +32,7 @@ public class Scheduler implements Runnable {
                     List<Region> regions = Region.getRegionsByMember(UUID.fromString(rs.getString("uuid")));
                     for (int i = 0; i < regions.size(); i++){
                         if(regions.get(i).getAutoreset()){
-                            AdvancedRegionMarket.getWorldGuardInterface().removeMember(UUID.fromString(rs.getString("uuid")), regions.get(i).getRegion());
+                            regions.get(i).getRegion().removeMember(UUID.fromString(rs.getString("uuid")));
                         }
                     }
                     AdvancedRegionMarket.getStmt().executeUpdate("DELETE FROM `" + AdvancedRegionMarket.getSqlPrefix() + "lastlogin` WHERE `uuid` = '" + rs.getString("uuid") + "'");

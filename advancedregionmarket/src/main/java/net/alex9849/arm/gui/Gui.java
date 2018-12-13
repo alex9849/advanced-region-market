@@ -802,7 +802,7 @@ public class Gui implements Listener {
     }
 
     public static void openMemberList(Player player, Region region){
-        ArrayList<UUID> members = AdvancedRegionMarket.getWorldGuardInterface().getMembers(region.getRegion());
+        ArrayList<UUID> members = region.getRegion().getMembers();
 
         int invsize = 0;
         while (members.size() + 1 > invsize) {
@@ -903,7 +903,7 @@ public class Gui implements Listener {
             ClickItem removeMenu = new ClickItem(removeItem, getPosition(actitem, itemcounter)).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) {
-                    AdvancedRegionMarket.getWorldGuardInterface().removeMember(member.getUniqueId(), region.getRegion());
+                    region.getRegion().removeMember(member.getUniqueId());
                     player.sendMessage(Messages.PREFIX + Messages.REGION_REMOVE_MEMBER_REMOVED);
                     player.closeInventory();
                 }

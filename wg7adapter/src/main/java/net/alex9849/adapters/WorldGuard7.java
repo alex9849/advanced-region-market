@@ -1,20 +1,14 @@
 package net.alex9849.adapters;
 
-import com.sk89q.worldedit.Vector;
 import com.sk89q.worldedit.bukkit.BukkitWorld;
-import com.sk89q.worldedit.util.Direction;
+import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.domains.DefaultDomain;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
-import com.sk89q.worldguard.protection.flags.BooleanFlag;
-import com.sk89q.worldguard.protection.flags.Flag;
-import com.sk89q.worldguard.protection.flags.Flags;
-import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import net.alex9849.inter.WorldGuardInterface;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
@@ -82,7 +76,7 @@ public class WorldGuard7 extends WorldGuardInterface {
     }
 
     public boolean canBuild(Player player, Location location, WorldGuardPlugin worldGuardPlugin){
-        ApplicableRegionSet regSet = WorldGuard.getInstance().getPlatform().getRegionContainer().get(new BukkitWorld(location.getWorld())).getApplicableRegions(new Vector(location.getX(), location.getY(), location.getZ()));
+        ApplicableRegionSet regSet = WorldGuard.getInstance().getPlatform().getRegionContainer().get(new BukkitWorld(location.getWorld())).getApplicableRegions(BlockVector3.at(location.getX(), location.getY(), location.getZ()));
         ArrayList<ProtectedRegion> regList = new ArrayList(regSet.getRegions());
         for(int i = 0; i < regList.size(); i++) {
             if(regList.get(i).getOwners().contains(player.getUniqueId()) || regList.get(i).getMembers().contains(player.getUniqueId())) {
@@ -90,6 +84,30 @@ public class WorldGuard7 extends WorldGuardInterface {
             }
         }
         return false;
+    }
+
+    public int getMaxX(ProtectedRegion region) {
+        return region.getMaximumPoint().getBlockX();
+    }
+
+    public int getMaxY(ProtectedRegion region) {
+        return region.getMaximumPoint().getBlockY();
+    }
+
+    public int getMaxZ(ProtectedRegion region) {
+        return region.getMaximumPoint().getBlockZ();
+    }
+
+    public int getMinX(ProtectedRegion region) {
+        return region.getMinimumPoint().getBlockX();
+    }
+
+    public int getMinY(ProtectedRegion region) {
+        return region.getMinimumPoint().getBlockY();
+    }
+
+    public int getMinZ(ProtectedRegion region) {
+        return region.getMinimumPoint().getBlockZ();
     }
 
 }

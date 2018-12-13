@@ -65,7 +65,7 @@ public class RentRegion extends Region {
             line1 = line1.replace("%currency%", Messages.CURRENCY);
             line1 = line1.replace("%dimensions%", this.getDimensions());
             line1 = line1.replace("%owner%", ownername);
-            line1 = line1.replace("%extendpercick%", this.getExtendPerClick());
+            line1 = line1.replace("%extendperclick%", this.getExtendPerClick());
             line1 = line1.replace("%maxrenttime%", this.getMaxRentTime());
             line1 = line1.replace("%remaining%", this.calcRemainingTime());
 
@@ -74,7 +74,7 @@ public class RentRegion extends Region {
             line2 = line2.replace("%currency%", Messages.CURRENCY);
             line2 = line2.replace("%dimensions%", this.getDimensions());
             line2 = line2.replace("%owner%", ownername);
-            line2 = line2.replace("%extendpercick%", this.getExtendPerClick());
+            line2 = line2.replace("%extendperclick%", this.getExtendPerClick());
             line2 = line2.replace("%maxrenttime%", this.getMaxRentTime());
             line2 = line2.replace("%remaining%", this.calcRemainingTime());
 
@@ -83,7 +83,7 @@ public class RentRegion extends Region {
             line3 = line3.replace("%currency%", Messages.CURRENCY);
             line3 = line3.replace("%dimensions%", this.getDimensions());
             line3 = line3.replace("%owner%", ownername);
-            line3 = line3.replace("%extendpercick%", this.getExtendPerClick());
+            line3 = line3.replace("%extendperclick%", this.getExtendPerClick());
             line3 = line3.replace("%maxrenttime%", this.getMaxRentTime());
             line3 = line3.replace("%remaining%", this.calcRemainingTime());
 
@@ -92,7 +92,7 @@ public class RentRegion extends Region {
             line4 = line4.replace("%currency%", Messages.CURRENCY);
             line4 = line4.replace("%dimensions%", this.getDimensions());
             line4 = line4.replace("%owner%", ownername);
-            line4 = line4.replace("%extendpercick%", this.getExtendPerClick());
+            line4 = line4.replace("%extendperclick%", this.getExtendPerClick());
             line4 = line4.replace("%maxrenttime%", this.getMaxRentTime());
             line4 = line4.replace("%remaining%", this.calcRemainingTime());
 
@@ -107,7 +107,7 @@ public class RentRegion extends Region {
             line1 = line1.replace("%price%", this.price + "");
             line1 = line1.replace("%currency%", Messages.CURRENCY);
             line1 = line1.replace("%dimensions%", this.getDimensions());
-            line1 = line1.replace("%extendpercick%", this.getExtendPerClick());
+            line1 = line1.replace("%extendperclick%", this.getExtendPerClick());
             line1 = line1.replace("%maxrenttime%", this.getMaxRentTime());
             line1 = line1.replace("%remaining%", this.calcRemainingTime());
 
@@ -115,7 +115,7 @@ public class RentRegion extends Region {
             line2 = line2.replace("%price%", this.price + "");
             line2 = line2.replace("%currency%", Messages.CURRENCY);
             line2 = line2.replace("%dimensions%", this.getDimensions());
-            line2 = line2.replace("%extendpercick%", this.getExtendPerClick());
+            line2 = line2.replace("%extendperclick%", this.getExtendPerClick());
             line2 = line2.replace("%maxrenttime%", this.getMaxRentTime());
             line2 = line2.replace("%remaining%", this.calcRemainingTime());
 
@@ -123,7 +123,7 @@ public class RentRegion extends Region {
             line3 = line3.replace("%price%", this.price + "");
             line3 = line3.replace("%currency%", Messages.CURRENCY);
             line3 = line3.replace("%dimensions%", this.getDimensions());
-            line3 = line3.replace("%extendpercick%", this.getExtendPerClick());
+            line3 = line3.replace("%extendperclick%", this.getExtendPerClick());
             line3 = line3.replace("%maxrenttime%", this.getMaxRentTime());
             line3 = line3.replace("%remaining%", this.calcRemainingTime());
 
@@ -131,7 +131,7 @@ public class RentRegion extends Region {
             line4 = line4.replace("%price%", this.price + "");
             line4 = line4.replace("%currency%", Messages.CURRENCY);
             line4 = line4.replace("%dimensions%", this.getDimensions());
-            line4 = line4.replace("%extendpercick%", this.getExtendPerClick());
+            line4 = line4.replace("%extendperclick%", this.getExtendPerClick());
             line4 = line4.replace("%maxrenttime%", this.getMaxRentTime());
             line4 = line4.replace("%remaining%", this.calcRemainingTime());
 
@@ -463,7 +463,7 @@ public class RentRegion extends Region {
             String errormessage = Messages.RENT_EXTEND_ERROR;
             errormessage = errormessage.replace("%remaining%", this.calcRemainingTime());
             errormessage = errormessage.replace("%maxrenttime%", this.getMaxRentTime());
-            errormessage = errormessage.replace("%extendpercick%", this.getExtendPerClick());
+            errormessage = errormessage.replace("%extendperclick%", this.getExtendPerClick());
             errormessage = errormessage.replace("%price%", this.price + Messages.CURRENCY);
             throw new InputException(player, errormessage);
         } else {
@@ -479,7 +479,7 @@ public class RentRegion extends Region {
             String message = Messages.RENT_EXTEND_MESSAGE;
             message = message.replace("%remaining%", this.calcRemainingTime());
             message = message.replace("%maxrenttime%", this.getMaxRentTime());
-            message = message.replace("%extendpercick%", this.getExtendPerClick());
+            message = message.replace("%extendperclick%", this.getExtendPerClick());
             message = message.replace("%price%", this.price + "");
             message = message.replace("%currency%", Messages.CURRENCY);
             player.sendMessage(Messages.PREFIX + message);

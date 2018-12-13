@@ -25,12 +25,12 @@ public class Teleporter {
             if(world == null) {
                 return;
             }
-            int minX = region.getRegion().getMinimumPoint().getBlockX();
-            int minY = region.getRegion().getMinimumPoint().getBlockY();
-            int minZ = region.getRegion().getMinimumPoint().getBlockZ();
-            int maxX = region.getRegion().getMaximumPoint().getBlockX();
-            int maxY = region.getRegion().getMaximumPoint().getBlockY();
-            int maxZ = region.getRegion().getMaximumPoint().getBlockZ();
+            int minX = AdvancedRegionMarket.getWorldGuardInterface().getMinX(region.getRegion());
+            int minY = AdvancedRegionMarket.getWorldGuardInterface().getMinY(region.getRegion());
+            int minZ = AdvancedRegionMarket.getWorldGuardInterface().getMinZ(region.getRegion());
+            int maxX = AdvancedRegionMarket.getWorldGuardInterface().getMaxX(region.getRegion());
+            int maxY = AdvancedRegionMarket.getWorldGuardInterface().getMaxY(region.getRegion());
+            int maxZ = AdvancedRegionMarket.getWorldGuardInterface().getMaxZ(region.getRegion());
 
             for (int x = maxX; x >= minX; x--) {
                 for (int z = maxZ; z >= minZ; z--) {

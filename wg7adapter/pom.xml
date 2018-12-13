@@ -27,7 +27,7 @@
             <artifactId>worldedit-bukkit</artifactId>
             <scope>system</scope>
             <version>any</version>
-            <systemPath>E:/Cloud/Programmieren/Lib/plugins/alpha/worldedit-bukkit-7.0.0-SNAPSHOT-dist.jar</systemPath>
+            <systemPath>E:/Cloud/Programmieren/Lib/plugins/alpha/worldedit-bukkit-7.0.0-beta-03.jar</systemPath>
         </dependency>
         <!--Worldguard API-->
         <dependency>
@@ -35,7 +35,7 @@
             <artifactId>worldguard</artifactId>
             <scope>system</scope>
             <version>any</version>
-            <systemPath>E:/Cloud/Programmieren/Lib/plugins/alpha/worldguard-legacy-7.0.0-SNAPSHOT-dist.jar</systemPath>
+            <systemPath>E:/Cloud/Programmieren/Lib/plugins/alpha/worldguard-legacy-7.0.0-beta-02.jar</systemPath>
         </dependency>
         <!--My interfaces-->
         <dependency>

@@ -15,7 +15,6 @@ import net.alex9849.inter.WorldEditInterface;
 import org.bukkit.Bukkit;
 
 import java.io.*;
-import java.util.logging.Level;
 
 public class WorldEdit7 extends WorldEditInterface {
 

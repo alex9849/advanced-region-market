@@ -247,11 +247,11 @@ public abstract class Region {
 
     public static double calculatePrice(ProtectedRegion region, String regiontype){
 
-        int maxX = region.getMaximumPoint().getBlockX();
-        int minX = region.getMinimumPoint().getBlockX();
-        int minY = region.getMinimumPoint().getBlockY();
-        int maxZ = region.getMaximumPoint().getBlockZ();
-        int minZ = region.getMinimumPoint().getBlockZ();
+        int maxX = AdvancedRegionMarket.getWorldGuardInterface().getMaxX(region);
+        int minX = AdvancedRegionMarket.getWorldGuardInterface().getMinX(region);
+        int minY = AdvancedRegionMarket.getWorldGuardInterface().getMinY(region);
+        int maxZ = AdvancedRegionMarket.getWorldGuardInterface().getMaxZ(region);
+        int minZ = AdvancedRegionMarket.getWorldGuardInterface().getMinZ(region);
         double price = 0;
         double priceperblock = 0;
 
@@ -473,12 +473,12 @@ public abstract class Region {
     }
 
     public String getDimensions(){
-        int maxX = this.getRegion().getMaximumPoint().getBlockX();
-        int maxY = this.getRegion().getMaximumPoint().getBlockY();
-        int maxZ = this.getRegion().getMaximumPoint().getBlockZ();
-        int minX = this.getRegion().getMinimumPoint().getBlockX();
-        int minY = this.getRegion().getMinimumPoint().getBlockY();
-        int minZ = this.getRegion().getMinimumPoint().getBlockZ();
+        int maxX = AdvancedRegionMarket.getWorldGuardInterface().getMaxX(region);
+        int maxY = AdvancedRegionMarket.getWorldGuardInterface().getMaxY(region);
+        int maxZ = AdvancedRegionMarket.getWorldGuardInterface().getMaxZ(region);
+        int minX = AdvancedRegionMarket.getWorldGuardInterface().getMinX(region);
+        int minY = AdvancedRegionMarket.getWorldGuardInterface().getMinY(region);
+        int minZ = AdvancedRegionMarket.getWorldGuardInterface().getMinZ(region);
         return Math.abs((maxX - minX) + 1) + "x" + (Math.abs(maxY - minY) + 1) + "x" + (Math.abs(maxZ - minZ) + 1);
 
     }

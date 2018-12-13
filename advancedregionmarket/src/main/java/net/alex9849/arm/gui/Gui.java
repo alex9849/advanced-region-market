@@ -151,7 +151,7 @@ public class Gui implements Listener {
                 meta.setDisplayName(regionDisplayName);
                 List<String> regionlore = new LinkedList<>(Messages.GUI_RENT_REGION_LORE);
                 for (int j = 0; j < regionlore.size(); j++) {
-                    regionlore.set(j, regionlore.get(j).replace("%extendpercick%", region.getExtendPerClick()));
+                    regionlore.set(j, regionlore.get(j).replace("%extendperclick%", region.getExtendPerClick()));
                     regionlore.set(j, regionlore.get(j).replace("%currency%", Messages.CURRENCY));
                     regionlore.set(j, regionlore.get(j).replace("%price%", region.getPrice() + ""));
                     regionlore.set(j, regionlore.get(j).replace("%remaining%", region.calcRemainingTime()));
@@ -477,7 +477,7 @@ public class Gui implements Listener {
         extendItemMeta.setDisplayName(Messages.GUI_EXTEND_BUTTON);
         List<String> extendmessage = new LinkedList<>(Messages.GUI_EXTEND_BUTTON_LORE);
         for (int i = 0; i < extendmessage.size(); i++) {
-            extendmessage.set(i, extendmessage.get(i).replace("%extendpercick%", region.getExtendPerClick()));
+            extendmessage.set(i, extendmessage.get(i).replace("%extendperclick%", region.getExtendPerClick()));
             extendmessage.set(i, extendmessage.get(i).replace("%price%", region.getPrice() + ""));
             extendmessage.set(i, extendmessage.get(i).replace("%remaining%", region.calcRemainingTime()));
             extendmessage.set(i, extendmessage.get(i).replace("%maxrenttime%", region.getMaxRentTime()));

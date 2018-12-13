@@ -2,9 +2,6 @@ package net.alex9849.adapters;
 
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.domains.DefaultDomain;
-import com.sk89q.worldguard.protection.FlagValueCalculator;
-import com.sk89q.worldguard.protection.flags.Flag;
-import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import net.alex9849.inter.WorldGuardInterface;
@@ -77,5 +74,29 @@ public class WorldGuard6 extends WorldGuardInterface {
 
     public boolean canBuild(Player player, Location location, WorldGuardPlugin worldGuardPlugin){
         return worldGuardPlugin.canBuild(player, location);
+    }
+
+    public int getMaxX(ProtectedRegion region) {
+        return region.getMaximumPoint().getBlockX();
+    }
+
+    public int getMaxY(ProtectedRegion region) {
+        return region.getMaximumPoint().getBlockY();
+    }
+
+    public int getMaxZ(ProtectedRegion region) {
+        return region.getMaximumPoint().getBlockZ();
+    }
+
+    public int getMinX(ProtectedRegion region) {
+        return region.getMinimumPoint().getBlockX();
+    }
+
+    public int getMinY(ProtectedRegion region) {
+        return region.getMinimumPoint().getBlockY();
+    }
+
+    public int getMinZ(ProtectedRegion region) {
+        return region.getMinimumPoint().getBlockZ();
     }
 }

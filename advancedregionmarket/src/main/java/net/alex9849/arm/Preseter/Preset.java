@@ -66,7 +66,7 @@ public abstract class Preset {
 
             if(region instanceof RentRegion) {
                 RentRegion rentRegion = (RentRegion) region;
-                cmd = cmd.replace("%extendpercick%", rentRegion.getExtendPerClick());
+                cmd = cmd.replace("%extendperclick%", rentRegion.getExtendPerClick());
                 cmd = cmd.replace("%maxrenttime%", rentRegion.getMaxRentTime());
             }
             if(region instanceof ContractRegion) {

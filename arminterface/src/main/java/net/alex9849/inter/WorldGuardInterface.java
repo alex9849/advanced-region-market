@@ -57,4 +57,16 @@ public abstract class WorldGuardInterface {
 
     public abstract boolean canBuild(Player player, Location location, WorldGuardPlugin worldGuardPlugin);
 
+    public abstract int getMaxX(ProtectedRegion region);
+
+    public abstract int getMaxY(ProtectedRegion region);
+
+    public abstract int getMaxZ(ProtectedRegion region);
+
+    public abstract int getMinX(ProtectedRegion region);
+
+    public abstract int getMinY(ProtectedRegion region);
+
+    public abstract int getMinZ(ProtectedRegion region);
+
 }

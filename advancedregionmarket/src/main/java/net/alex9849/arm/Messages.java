@@ -658,7 +658,7 @@ public class Messages {
         config.addDefault("Messages.BadSyntax", "&7Bad syntax! Please use: &8%command%");
         config.addDefault("Messages.BadSyntaxSplitter", "&7or &8%command%");
 
-        config.addDefault("Messages.RentExtendMessage", "&aRegion extended for &6%extendpercick%&a (For %price% %currency%. New remaining time: &6%remaining%");
+        config.addDefault("Messages.RentExtendMessage", "&aRegion extended for &6%extendperclick%&a (For %price% %currency%. New remaining time: &6%remaining%");
         config.addDefault("Messages.Buymessage", "&aRegion successfully bought!");
         config.addDefault("Messages.RegionAddedToARM", "&7Regionsign has been created and region has been added to ARM!");
         config.addDefault("Messages.SignRemovedFromRegion", "&7Regionsign removed! %remaining% Sign(s) remaining before region gets removed from ARM!");
@@ -684,11 +684,11 @@ public class Messages {
         config.addDefault("Messages.SoldSign4", "%owner%");
         config.addDefault("Messages.RentSign1", "&2For Rent");
         config.addDefault("Messages.RentSign2", "%regionid%");
-        config.addDefault("Messages.RentSign3", "%price%%currency%/%extendpercick%");
+        config.addDefault("Messages.RentSign3", "%price%%currency%/%extendperclick%");
         config.addDefault("Messages.RentSign4", "Max.: %maxrenttime%");
         config.addDefault("Messages.RentedSign1", "&4Rented");
         config.addDefault("Messages.RentedSign2", "%regionid%/%owner%");
-        config.addDefault("Messages.RentedSign3", "%price%%currency%/%extendpercick%");
+        config.addDefault("Messages.RentedSign3", "%price%%currency%/%extendperclick%");
         config.addDefault("Messages.RentedSign4", "%remaining%");
         config.addDefault("Messages.ContractSign1", "&2Contract");
         config.addDefault("Messages.ContractSign2", "&2available");
@@ -840,7 +840,7 @@ public class Messages {
                 "&ain order to build with them together", "&aYou can add members with:",
                 "&6/arm addmember %regionid% USERNAME", "&aMembers need to be online to add them")));
         config.addDefault("Messages.GUIExtendRentRegionButton", "&1Extend region");
-        config.addDefault("Messages.GUIExtendRentRegionButtonLore", new ArrayList<String>(Arrays.asList("&aClick to extend your region for &6%extendpercick%",
+        config.addDefault("Messages.GUIExtendRentRegionButtonLore", new ArrayList<String>(Arrays.asList("&aClick to extend your region for &6%extendperclick%",
                 "&athis will cost you &6%price%%currency%&a!", "&aThis region will expire in &6%remaining%&a.", "&aYou can extend your region up to &6%maxrenttime%&a.")));
         config.addDefault("Messages.GUIRentRegionLore", new ArrayList<String>(Arrays.asList("&aExpires in &6%remaining%")));
         config.addDefault("Messages.GUIUserSellButton", "&4Reset and sell Region");

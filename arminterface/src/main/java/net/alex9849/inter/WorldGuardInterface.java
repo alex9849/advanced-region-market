@@ -15,6 +15,8 @@ public abstract class WorldGuardInterface {
 
     public abstract RegionManager getRegionManager(World world, WorldGuardPlugin worldGuardPlugin);
 
+    public abstract WGRegion getRegion(World world, WorldGuardPlugin worldGuardPlugin, String regionID);
+
     public abstract void addMember(UUID uuid, ProtectedRegion wgRegion);
 
     public void addMember(OfflinePlayer player, ProtectedRegion wgRegion){

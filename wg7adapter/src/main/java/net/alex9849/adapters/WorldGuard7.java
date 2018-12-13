@@ -1,13 +1,14 @@
 package net.alex9849.adapters;
 
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.bukkit.BukkitWorld;
-import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.domains.DefaultDomain;
-import com.sk89q.worldguard.protection.ApplicableRegionSet;
+import com.sk89q.worldguard.protection.flags.Flags;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import com.sk89q.worldguard.protection.regions.RegionQuery;
 import net.alex9849.inter.WorldGuardInterface;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -21,6 +22,20 @@ public class WorldGuard7 extends WorldGuardInterface {
 
     public RegionManager getRegionManager(World world, WorldGuardPlugin worldGuardPlugin) {
         return WorldGuard.getInstance().getPlatform().getRegionContainer().get(new BukkitWorld(world));
+    }
+
+    public WG7Region getRegion(World world, WorldGuardPlugin worldGuardPlugin, String regionID) {
+        RegionManager regionManager = this.getRegionManager(world, worldGuardPlugin);
+        if(regionManager == null) {
+            return null;
+        }
+
+        ProtectedRegion region = regionManager.getRegion(regionID);
+        if(region == null) {
+            return null;
+        }
+
+        return new WG7Region(region);
     }
 
     @Override
@@ -76,14 +91,20 @@ public class WorldGuard7 extends WorldGuardInterface {
     }
 
     public boolean canBuild(Player player, Location location, WorldGuardPlugin worldGuardPlugin){
-        ApplicableRegionSet regSet = WorldGuard.getInstance().getPlatform().getRegionContainer().get(new BukkitWorld(location.getWorld())).getApplicableRegions(BlockVector3.at(location.getX(), location.getY(), location.getZ()));
+
+        RegionQuery query = WorldGuard.getInstance().getPlatform().getRegionContainer().createQuery();
+        com.sk89q.worldedit.util.Location loc = BukkitAdapter.adapt(location);
+
+        return query.testState(loc, WorldGuardPlugin.inst().wrapPlayer(player), Flags.BUILD);
+
+    /*    ApplicableRegionSet regSet = WorldGuard.getInstance().getPlatform().getRegionContainer().get(new BukkitWorld(location.getWorld())).getApplicableRegions(BlockVector3.at(location.getX(), location.getY(), location.getZ()));
         ArrayList<ProtectedRegion> regList = new ArrayList(regSet.getRegions());
         for(int i = 0; i < regList.size(); i++) {
             if(regList.get(i).getOwners().contains(player.getUniqueId()) || regList.get(i).getMembers().contains(player.getUniqueId())) {
                 return true;
             }
         }
-        return false;
+        return false; */
     }
 
     public int getMaxX(ProtectedRegion region) {

@@ -20,6 +20,20 @@ public class WorldGuard6 extends WorldGuardInterface {
         return worldGuardPlugin.getRegionManager(world);
     }
 
+    public WG6Region getRegion(World world, WorldGuardPlugin worldGuardPlugin, String regionID) {
+        RegionManager regionManager = this.getRegionManager(world, worldGuardPlugin);
+        if(regionManager == null) {
+            return null;
+        }
+
+        ProtectedRegion region = regionManager.getRegion(regionID);
+        if(region == null) {
+            return null;
+        }
+
+        return new WG6Region(region);
+    }
+
     @Override
     public void addMember(UUID uuid, ProtectedRegion wgRegion) {
         wgRegion.getMembers().addPlayer(uuid);

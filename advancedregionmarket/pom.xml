@@ -13,6 +13,11 @@
 
     <artifactId>advancedregionmarket</artifactId>
 
+    <properties>
+        <maven.compiler.source>6</maven.compiler.source>
+        <maven.compiler.target>1.6</maven.compiler.target>
+    </properties>
+
     <build>
         <!-- Uses the properties in this file for plugin.yml and config.yml -->
         <resources>
@@ -128,6 +133,13 @@
         <dependency>
             <groupId>net.alex9849</groupId>
             <artifactId>wg7adapter</artifactId>
+            <version>1.0</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.alex9849</groupId>
+            <artifactId>wg7Aadapter</artifactId>
             <version>1.0</version>
             <type>jar</type>
             <scope>compile</scope>

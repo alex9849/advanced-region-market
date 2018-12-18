@@ -96,6 +96,7 @@ public class WorldEdit7 extends WorldEditInterface {
             ForwardExtentCopy copy = new ForwardExtentCopy(source, clipboard.getRegion(), clipboard.getOrigin(), destination, minPoint);
 
             Operations.completeLegacy(copy);
+            ((EditSession) destination).flushSession();
             closer.close();
         } catch (IOException e) {
             e.printStackTrace();

@@ -13,12 +13,17 @@
     <packaging>jar</packaging>
     <version>1.0</version>
 
+    <properties>
+        <maven.compiler.source>6</maven.compiler.source>
+        <maven.compiler.target>1.6</maven.compiler.target>
+    </properties>
+
     <dependencies>
         <!--Bukkit API-->
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
-            <version>1.8.8-R0.1-SNAPSHOT</version>
+            <version>1.13.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <!--Worldedit API-->
@@ -27,7 +32,7 @@
             <artifactId>worldedit-bukkit</artifactId>
             <scope>system</scope>
             <version>any</version>
-            <systemPath>E:/Cloud/Programmieren/Lib/plugins/alpha/worldedit-bukkit-7.0.0-beta-03.jar</systemPath>
+            <systemPath>${project.basedir}/../lib/plugins/alpha/worldedit-bukkit-7.0.0-beta-03.jar</systemPath>
         </dependency>
         <!--Worldguard API-->
         <dependency>
@@ -35,7 +40,7 @@
             <artifactId>worldguard</artifactId>
             <scope>system</scope>
             <version>any</version>
-            <systemPath>E:/Cloud/Programmieren/Lib/plugins/alpha/worldguard-legacy-7.0.0-beta-02.jar</systemPath>
+            <systemPath>${project.basedir}/../lib/plugins/alpha/worldguard-legacy-7.0.0-beta-02.jar</systemPath>
         </dependency>
         <!--My interfaces-->
         <dependency>

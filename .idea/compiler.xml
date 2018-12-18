@@ -13,6 +13,7 @@
         <module name="we7adapter" />
         <module name="we7faweadapter" />
         <module name="wg6adapter" />
+        <module name="wg7Aadapter" />
         <module name="wg7adapter" />
       </profile>
     </annotationProcessing>

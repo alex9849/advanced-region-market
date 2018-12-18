@@ -183,7 +183,24 @@ public class AdvancedRegionMarket extends JavaPlugin {
         if(AdvancedRegionMarket.worldguard.getDescription().getVersion().startsWith("6.")) {
             version = "6";
         } else {
-            version = "7";
+            //Dann ist es wahrscheinlich WorldGuard 7
+
+            Integer wgBuild = parseWorldGuardBuildNumber(AdvancedRegionMarket.worldguard);
+
+            if (wgBuild == null) {
+                version = "7b";
+            } else {
+                if(wgBuild < 1754) {
+                    version = "7a";
+                } else {
+                    version = "7b";
+                }
+            }
+
+            if(isFaWeInstalled() && worldguard.getDescription().getVersion().equals("7.0.0-SNAPSHOT;0dc5781")) {
+                version = "7a";
+            }
+
         }
         try {
             final Class<?> wgClass = Class.forName("net.alex9849.adapters.WorldGuard" + version);
@@ -197,6 +214,27 @@ public class AdvancedRegionMarket extends JavaPlugin {
         }
 
         return worldguard != null;
+    }
+
+    private Integer parseWorldGuardBuildNumber(WorldGuardPlugin wg) {
+
+        String version = wg.getDescription().getVersion();
+        if(!version.contains("-SNAPSHOT;")) {
+            return null;
+        }
+
+        String buildNumberString = version.substring(version.indexOf("-SNAPSHOT;") + 10);
+
+        if(buildNumberString.contains("-")) {
+            buildNumberString = buildNumberString.substring(0, buildNumberString.indexOf("-"));
+        }
+
+        try {
+            return Integer.parseInt(buildNumberString);
+        } catch (NumberFormatException e) {
+            return null;
+        }
+
     }
 
     private boolean setupWorldEdit() {

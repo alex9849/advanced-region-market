@@ -1,6 +1,6 @@
 package net.alex9849.adapters;
 
-import com.sk89q.worldedit.math.BlockVector3;
+import com.sk89q.worldedit.BlockVector;
 import com.sk89q.worldguard.domains.DefaultDomain;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import net.alex9849.inter.WGRegion;
@@ -10,11 +10,11 @@ import org.bukkit.util.Vector;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class WG7Region extends WGRegion {
+public class WG7aRegion extends WGRegion {
 
     private ProtectedRegion region;
 
-    WG7Region(ProtectedRegion region) {
+    WG7aRegion(ProtectedRegion region) {
         this.region = region;
     }
 
@@ -43,12 +43,12 @@ public class WG7Region extends WGRegion {
     }
 
     public Vector getMaxPoint()  {
-        BlockVector3 wgVector = this.region.getMaximumPoint();
+        BlockVector wgVector = this.region.getMaximumPoint();
         return new Vector(wgVector.getBlockX(), wgVector.getBlockY(), wgVector.getBlockZ());
     }
 
     public Vector getMinPoint()  {
-        BlockVector3 wgVector = this.region.getMinimumPoint();
+        BlockVector wgVector = this.region.getMinimumPoint();
         return new Vector(wgVector.getBlockX(), wgVector.getBlockY(), wgVector.getBlockZ());
     }
 

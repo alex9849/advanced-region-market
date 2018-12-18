@@ -10,11 +10,11 @@ import org.bukkit.util.Vector;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class WG7bRegion extends WGRegion {
+public class WG7Region extends WGRegion {
 
     private ProtectedRegion region;
 
-    WG7bRegion(ProtectedRegion region) {
+    WG7Region(ProtectedRegion region) {
         this.region = region;
     }
 

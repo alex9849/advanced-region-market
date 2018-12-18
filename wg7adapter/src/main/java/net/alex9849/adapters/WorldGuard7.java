@@ -17,13 +17,13 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class WorldGuard7b extends WorldGuardInterface {
+public class WorldGuard7 extends WorldGuardInterface {
 
     public RegionManager getRegionManager(World world, WorldGuardPlugin worldGuardPlugin) {
         return WorldGuard.getInstance().getPlatform().getRegionContainer().get(new BukkitWorld(world));
     }
 
-    public WG7bRegion getRegion(World world, WorldGuardPlugin worldGuardPlugin, String regionID) {
+    public WG7Region getRegion(World world, WorldGuardPlugin worldGuardPlugin, String regionID) {
         RegionManager regionManager = this.getRegionManager(world, worldGuardPlugin);
         if(regionManager == null) {
             return null;
@@ -34,7 +34,7 @@ public class WorldGuard7b extends WorldGuardInterface {
             return null;
         }
 
-        return new WG7bRegion(region);
+        return new WG7Region(region);
     }
 
     @Override

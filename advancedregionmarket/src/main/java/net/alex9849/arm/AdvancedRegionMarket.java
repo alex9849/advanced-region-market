@@ -185,9 +185,9 @@ public class AdvancedRegionMarket extends JavaPlugin {
         } else {
             //Dann ist es wahrscheinlich WorldGuard 7
 
-            Integer wgBuild = parseWorldGuardBuildNumber(AdvancedRegionMarket.worldguard);
+           // Integer wgBuild = parseWorldGuardBuildNumber(AdvancedRegionMarket.worldguard);
 
-            if (wgBuild == null) {
+           /* if (wgBuild == null) {
                 version = "7b";
             } else {
                 if(wgBuild < 1754) {
@@ -200,6 +200,8 @@ public class AdvancedRegionMarket extends JavaPlugin {
             if(isFaWeInstalled() && worldguard.getDescription().getVersion().equals("7.0.0-SNAPSHOT;0dc5781")) {
                 version = "7a";
             }
+            */
+           version = "7";
 
         }
         try {
@@ -216,7 +218,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         return worldguard != null;
     }
 
-    private Integer parseWorldGuardBuildNumber(WorldGuardPlugin wg) {
+  /*  private Integer parseWorldGuardBuildNumber(WorldGuardPlugin wg) {
 
         String version = wg.getDescription().getVersion();
         if(!version.contains("-SNAPSHOT;")) {
@@ -236,6 +238,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         }
 
     }
+    */
 
     private boolean setupWorldEdit() {
         Plugin plugin = getServer().getPluginManager().getPlugin("WorldEdit");
@@ -251,9 +254,11 @@ public class AdvancedRegionMarket extends JavaPlugin {
         } else {
             version = "7";
         }
+
         if(AdvancedRegionMarket.isFaWeInstalled()){
             version = version + "FaWe";
         }
+
         try {
             final Class<?> weClass = Class.forName("net.alex9849.adapters.WorldEdit" + version);
             if(WorldEditInterface.class.isAssignableFrom(weClass)) {

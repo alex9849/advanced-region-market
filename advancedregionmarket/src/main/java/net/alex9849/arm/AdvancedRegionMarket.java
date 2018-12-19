@@ -721,7 +721,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         }
         version = pluginConfig.getDouble("Version");
         if(version < 1.2) {
-            getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.2...");
+            getLogger().log(Level.WARNING, "Upddating AdvancedRegionMarket config to 1.2...");
             getLogger().log(Level.WARNING, "Warning!: ARM uses a new schematic format now! You have to update all region schematics with");
             getLogger().log(Level.WARNING, "/arm updateschematic [REGION] or go back to ARM version 1.1");
             pluginConfig.set("Version", 1.2);

@@ -552,6 +552,12 @@ public abstract class Region {
     public abstract void userSell(Player player);
     public abstract double getPaybackMoney();
 
+    /*
+    public static boolean allowAction(OfflinePlayer oPlayer, ) {
+
+    }
+    */
+
     public void resetRegion(){
 
         this.unsell();

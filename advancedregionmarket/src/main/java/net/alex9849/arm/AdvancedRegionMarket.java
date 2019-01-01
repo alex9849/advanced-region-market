@@ -893,5 +893,24 @@ public class AdvancedRegionMarket extends JavaPlugin {
             pluginConfig.set("Reselling.Offers.OfferTimeOut", 30);
             saveConfig();
         }
+        if(version < 1.6) {
+            getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.6...");
+            double paybackPercentage = pluginConfig.getDouble("Other.paypackPercentage");
+            pluginConfig.set("DefaultRegionKind.PaypackPercentage", paybackPercentage);
+
+            if(pluginConfig.get("RegionKinds") != null) {
+                LinkedList<String> regionkinds = new LinkedList<String>(pluginConfig.getConfigurationSection("RegionKinds").getKeys(false));
+                if(regionkinds != null) {
+                    for(int y = 0; y < regionkinds.size(); y++) {
+                        pluginConfig.set("RegionKinds." + regionkinds.get(y) + ".paypackPercentage", paybackPercentage);
+                        pluginConfig.set("RegionKinds." + regionkinds.get(y) + ".displayInLimits", true);
+                        pluginConfig.set("RegionKinds." + regionkinds.get(y) + ".displayInGUI", true);
+                    }
+                }
+            }
+
+            pluginConfig.set("Version", 1.6);
+            saveConfig();
+        }
     }
 }

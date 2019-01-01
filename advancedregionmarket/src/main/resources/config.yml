@@ -47,27 +47,42 @@ RegionKinds:
   starter:
     item: WOODEN_SHOVEL
     displayName: 'Starter-Region'
+    displayInLimits: true
+    displayInGUI: true
+    paypackPercentage: 100
     lore:
     - 'A region for everyone'
   small:
     item: STONE_SHOVEL
     displayName: 'Small-Region'
+    displayInLimits: true
+    displayInGUI: true
+    paypackPercentage: 50
     lore:
     - 'A bit larger and good for small'
     - 'groups'
   medium:
     item: IRON_SHOVEL
     displayName: 'Medium-Region'
+    displayInLimits: true
+    displayInGUI: true
+    paypackPercentage: 40
     lore:
     - 'A mid-sized region'
   large:
     item: DIAMOND_SHOVEL
     displayName: 'Large-Region'
+    displayInLimits: true
+    displayInGUI: true
+    paypackPercentage: 30
     lore:
     - 'A really large region'
   shop:
     item: EMERALD
     displayName: 'Shop-Region'
+    displayInLimits: true
+    displayInGUI: true
+    paypackPercentage: 80
     lore:
     - 'A shop where you can sell your stuff'
 
@@ -79,6 +94,7 @@ DefaultRegionKind:
   - 'very default'
   DisplayInLimits: true
   DisplayInGUI: false
+  PaypackPercentage: 50
 
 # Limits can be assigned to players by giving them the permission arm.limit.LIMITGROUP
 # you can set limits by writing a regionkind and the limit behind it. Not existing regionkinds

@@ -13,7 +13,6 @@
         <module name="we7adapter" />
         <module name="we7faweadapter" />
         <module name="wg6adapter" />
-        <module name="wg7Aadapter" />
         <module name="wg7adapter" />
       </profile>
     </annotationProcessing>
@@ -26,6 +25,7 @@
       <module name="we5Handler" target="1.8" />
       <module name="we5handler" target="1.5" />
       <module name="wg5handler" target="1.8" />
+      <module name="wg7adapterBeta01" target="1.6" />
       <module name="worldguard5handler" target="1.8" />
     </bytecodeTargetLevel>
   </component>

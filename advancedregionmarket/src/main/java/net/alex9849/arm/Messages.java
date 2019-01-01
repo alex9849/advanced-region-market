@@ -763,7 +763,7 @@ public class Messages {
         config.addDefault("Messages.RegionRemoveMemberRemoved", "&aMember has been removed!");
         config.addDefault("Messages.RegionRemoveMemberDoNotOwn", "&4You do not own this region!");
         config.addDefault("Messages.RegionBuyOutOfLimit", "&4Out of Limit! You have &7%playerownedkind%/%limitkind% &4%regionkind%-regions and &7%playerownedtotal%/%limittotal% &4Regions total!");
-        config.addDefault("Messages.Unlimited", "'Unlimited'");
+        config.addDefault("Messages.Unlimited", "Unlimited");
 
         config.addDefault("Messages.LimitInfoTop", "&6=========[Limit Info]=========");
         config.addDefault("Messages.LimitInfoTotal", "&6Total");

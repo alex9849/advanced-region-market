@@ -238,7 +238,7 @@ public class RentRegion extends Region {
 
     @Override
     public double getPaybackMoney() {
-        double amount = (this.getPrice() * paybackPercentage)/100;
+        double amount = (this.getPrice() * this.getRegionKind().getPaybackPercentage())/100;
         GregorianCalendar acttime = new GregorianCalendar();
         long remaining = this.payedTill - acttime.getTimeInMillis();
         amount = amount * ((double)remaining / (double)rentExtendPerClick);

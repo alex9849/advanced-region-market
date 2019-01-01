@@ -11,16 +11,22 @@ import java.util.List;
 public class RegionKind {
     private String name;
     private Material material;
-    public static RegionKind DEFAULT = new RegionKind("Default", Material.RED_BED, new ArrayList<String>(), "Default");
+    public static RegionKind DEFAULT = new RegionKind("Default", Material.RED_BED, new ArrayList<String>(), "Default", true, true, 50);
     private static List<RegionKind> list = new ArrayList<>();
     private List<String> lore;
     private String displayName;
+    private boolean displayInGUI;
+    private boolean displayInLimits;
+    private double paybackPercentage;
 
-    public RegionKind(String name, Material material, List<String> lore, String displayName){
+    public RegionKind(String name, Material material, List<String> lore, String displayName, boolean displayInGUI, boolean displayInLimits, double paybackPercentage){
         this.name = name;
         this.material = material;
         this.lore = lore;
         this.displayName = displayName;
+        this.displayInGUI = displayInGUI;
+        this.displayInLimits = displayInLimits;
+        this.paybackPercentage = paybackPercentage;
     }
 
     public void setMaterial(Material mat) {
@@ -107,5 +113,29 @@ public class RegionKind {
         } else {
             return sender.hasPermission(Permission.ARM_BUYKIND + regionKind.getName());
         }
+    }
+
+    public void setPaybackPercentage(double paybackPercentage) {
+        this.paybackPercentage = paybackPercentage;
+    }
+
+    public void setDisplayInGUI(boolean displayInGUI) {
+        this.displayInGUI = displayInGUI;
+    }
+
+    public void setDisplayInLimits(boolean displayInLimits) {
+        this.displayInLimits = displayInLimits;
+    }
+
+    public boolean isDisplayInGUI() {
+        return displayInGUI;
+    }
+
+    public boolean isDisplayInLimits() {
+        return displayInLimits;
+    }
+
+    public double getPaybackPercentage() {
+        return paybackPercentage;
     }
 }

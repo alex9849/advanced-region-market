@@ -254,7 +254,14 @@ public class ContractRegion extends Region {
 
     @Override
     public double getPaybackMoney() {
-        return 0;
+        double amount = (this.getPrice() * this.getRegionKind().getPaybackPercentage())/100;
+        GregorianCalendar acttime = new GregorianCalendar();
+        long remaining = this.payedTill - acttime.getTimeInMillis();
+        amount = amount * ((double)remaining / (double)extendTime);
+        amount = amount * 10;
+        amount = Math.round(amount);
+        amount = amount / 10d;
+        return amount;
     }
 
     public String calcRemainingTime() {

@@ -707,19 +707,25 @@ public class Gui implements Listener {
             itemcounter++;
         }
 
-        if(AdvancedRegionMarket.isDisplayDefaultRegionKindInGUI()){
+        if(RegionKind.DEFAULT.isDisplayInGUI()){
             itemcounter++;
+        }
+
+        for(RegionKind regionKind : RegionKind.getRegionKindList()) {
+            if(regionKind.isDisplayInGUI()) {
+                itemcounter++;
+            }
         }
 
         int invsize = 0;
 
-        while (RegionKind.getRegionKindList().size() + itemcounter > invsize) {
+        while (itemcounter > invsize) {
             invsize = invsize + 9;
         }
 
         GuiInventory inv = new GuiInventory(invsize, Messages.GUI_REGION_FINDER_MENU_NAME);
 
-        if(AdvancedRegionMarket.isDisplayDefaultRegionKindInGUI()) {
+        if(RegionKind.DEFAULT.isDisplayInGUI()) {
             String displayName = Messages.GUI_REGIONFINDER_REGIONKIND_NAME;
             displayName = displayName.replace("%regionkind%", RegionKind.DEFAULT.getName());
             Material material = RegionKind.DEFAULT.getMaterial();
@@ -737,29 +743,34 @@ public class Gui implements Listener {
             inv.addIcon(icon);
         }
 
+        int itempos = 0;
+        if(RegionKind.DEFAULT.isDisplayInGUI()) {
+            itempos++;
+        }
+
         for(int i = 0; i < RegionKind.getRegionKindList().size(); i++) {
-            int shift = 0;
-            if(AdvancedRegionMarket.isDisplayDefaultRegionKindInGUI()) {
-                shift++;
+            if(RegionKind.getRegionKindList().get(i).isDisplayInGUI()) {
+                String displayName = Messages.GUI_REGIONFINDER_REGIONKIND_NAME;
+                displayName = displayName.replace("%regionkind%", RegionKind.getRegionKindList().get(i).getDisplayName());
+                Material material = RegionKind.getRegionKindList().get(i).getMaterial();
+                if(player.hasPermission(Permission.ARM_BUYKIND + RegionKind.getRegionKindList().get(i).getName())){
+                    ItemStack stack = new ItemStack(material);
+                    ItemMeta meta = stack.getItemMeta();
+                    meta.setDisplayName(displayName);
+                    meta.setLore(RegionKind.getRegionKindList().get(i).getLore());
+                    stack.setItemMeta(meta);
+                    int finalI = i;
+                    ClickItem icon = new ClickItem(stack, itempos).addClickAction(new ClickAction() {
+                        @Override
+                        public void execute(Player player) throws InputException {
+                            Region.teleportToFreeRegion(RegionKind.getRegionKindList().get(finalI), player);
+                        }
+                    });
+                    inv.addIcon(icon);
+                }
+                itempos++;
             }
-            String displayName = Messages.GUI_REGIONFINDER_REGIONKIND_NAME;
-            displayName = displayName.replace("%regionkind%", RegionKind.getRegionKindList().get(i).getDisplayName());
-            Material material = RegionKind.getRegionKindList().get(i).getMaterial();
-            if(player.hasPermission(Permission.ARM_BUYKIND + RegionKind.getRegionKindList().get(i).getName())){
-                ItemStack stack = new ItemStack(material);
-                ItemMeta meta = stack.getItemMeta();
-                meta.setDisplayName(displayName);
-                meta.setLore(RegionKind.getRegionKindList().get(i).getLore());
-                stack.setItemMeta(meta);
-                int finalI = i;
-                ClickItem icon = new ClickItem(stack, i + shift).addClickAction(new ClickAction() {
-                    @Override
-                    public void execute(Player player) throws InputException {
-                        Region.teleportToFreeRegion(RegionKind.getRegionKindList().get(finalI), player);
-                    }
-                });
-                inv.addIcon(icon);
-            }
+
         }
 
         if(player.hasPermission(Permission.MEMBER_LIMIT)){

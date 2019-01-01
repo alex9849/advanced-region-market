@@ -148,7 +148,7 @@ public class LimitGroup {
 
         player.sendMessage(syntaxtotal);
 
-        if(AdvancedRegionMarket.isDisplayDefaultRegionKindInLimits()) {
+        if(RegionKind.DEFAULT.isDisplayInLimits()) {
             syntaxtotal = Messages.LIMIT_INFO;
             syntaxtotal = syntaxtotal.replace("%regiontype%", RegionKind.DEFAULT.getName());
             syntaxtotal = syntaxtotal.replace("%playerownedkind%", LimitGroup.getOwnedRegions(player, RegionKind.DEFAULT) + "");
@@ -162,7 +162,7 @@ public class LimitGroup {
         }
 
         for(int i = 0; i < RegionKind.getRegionKindList().size(); i++){
-            if(player.hasPermission(Permission.ARM_BUYKIND + RegionKind.getRegionKindList().get(i).getDisplayName())){
+            if(player.hasPermission(Permission.ARM_BUYKIND + RegionKind.getRegionKindList().get(i).getName()) && RegionKind.getRegionKindList().get(i).isDisplayInLimits()){
                 syntaxtotal = Messages.LIMIT_INFO;
                 syntaxtotal = syntaxtotal.replace("%regiontype%", RegionKind.getRegionKindList().get(i).getName());
                 syntaxtotal = syntaxtotal.replace("%playerownedkind%", LimitGroup.getOwnedRegions(player, RegionKind.getRegionKindList().get(i)) + "");

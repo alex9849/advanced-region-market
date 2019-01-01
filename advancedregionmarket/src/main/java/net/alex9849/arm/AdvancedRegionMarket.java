@@ -57,8 +57,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
     private static boolean teleportAfterRentRegionBought;
     private static boolean teleportAfterRentRegionExtend;
     private static boolean teleportAfterContractRegionBought;
-    private static boolean displayDefaultRegionKindInGUI;
-    private static boolean displayDefaultRegionKindInLimits;
     private static boolean sendContractRegionExtendMessage;
     private static String REMAINING_TIME_TIMEFORMAT = "%date%";
     private static String DATE_TIMEFORMAT = "dd.MM.yyyy hh:mm";
@@ -436,6 +434,9 @@ public class AdvancedRegionMarket extends JavaPlugin {
     private void loadRegionKind(){
         RegionKind.DEFAULT.setName(getConfig().getString("DefaultRegionKind.DisplayName"));
         RegionKind.DEFAULT.setMaterial(Material.getMaterial(getConfig().getString("DefaultRegionKind.Item")));
+        RegionKind.DEFAULT.setDisplayInGUI(getConfig().getBoolean("DefaultRegionKind.DisplayInGUI"));
+        RegionKind.DEFAULT.setDisplayInLimits(getConfig().getBoolean("DefaultRegionKind.DisplayInLimits"));
+        RegionKind.DEFAULT.setPaybackPercentage(getConfig().getDouble("DefaultRegionKind.PaypackPercentage"));
         List<String> defaultlore = getConfig().getStringList("DefaultRegionKind.Lore");
         for(int x = 0; x < defaultlore.size(); x++){
             defaultlore.set(x, ChatColor.translateAlternateColorCodes('&', defaultlore.get(x)));
@@ -448,12 +449,15 @@ public class AdvancedRegionMarket extends JavaPlugin {
                 for(int i = 0; i < regionKinds.size(); i++){
                     Material mat = Material.getMaterial(getConfig().getString("RegionKinds." + regionKinds.get(i) + ".item"));
                     String displayName = getConfig().getString("RegionKinds." + regionKinds.get(i) + ".displayName");
+                    boolean displayInGUI = getConfig().getBoolean("RegionKinds." + regionKinds.get(i) + ".displayInGUI");
+                    boolean displayInLimits = getConfig().getBoolean("RegionKinds." + regionKinds.get(i) + ".displayInLimits");
+                    double paybackPercentage = getConfig().getDouble("RegionKinds." + regionKinds.get(i) + ".paypackPercentage");
                     List<String> lore = getConfig().getStringList("RegionKinds." + regionKinds.get(i) + ".lore");
                     for(int x = 0; x < lore.size(); x++){
                         lore.set(x, ChatColor.translateAlternateColorCodes('&', lore.get(x)));
                     }
                     displayName = ChatColor.translateAlternateColorCodes('&', displayName);
-                    RegionKind.getRegionKindList().add(new RegionKind(regionKinds.get(i), mat, lore, displayName));
+                    RegionKind.getRegionKindList().add(new RegionKind(regionKinds.get(i), mat, lore, displayName, displayInGUI, displayInLimits, paybackPercentage));
                 }
             }
         }
@@ -530,12 +534,9 @@ public class AdvancedRegionMarket extends JavaPlugin {
         AdvancedRegionMarket.teleportAfterContractRegionBought = getConfig().getBoolean("Other.TeleportAfterContractRegionBought");
         AdvancedRegionMarket.sendContractRegionExtendMessage = getConfig().getBoolean("Other.SendContractRegionExtendMessage");
         Region.setResetcooldown(getConfig().getInt("Other.userResetCooldown"));
-        AdvancedRegionMarket.displayDefaultRegionKindInGUI = getConfig().getBoolean("DefaultRegionKind.DisplayInGUI");
-        AdvancedRegionMarket.displayDefaultRegionKindInLimits = getConfig().getBoolean("DefaultRegionKind.DisplayInLimits");
         AdvancedRegionMarket.REMAINING_TIME_TIMEFORMAT = getConfig().getString("Other.RemainingTimeFormat");
         AdvancedRegionMarket.DATE_TIMEFORMAT = getConfig().getString("Other.DateTimeFormat");
         AdvancedRegionMarket.useShortCountdown = getConfig().getBoolean("Other.ShortCountdown");
-        Region.setPaypackPercentage(getConfig().getDouble("Other.paypackPercentage"));
         try{
             RentRegion.setExpirationWarningTime(RentRegion.stringToTime(getConfig().getString("Other.RentRegionExpirationWarningTime")));
             RentRegion.setSendExpirationWarning(getConfig().getBoolean("Other.SendRentRegionExpirationWarning"));
@@ -582,14 +583,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
 
     public static String getDateTimeformat(){
         return AdvancedRegionMarket.DATE_TIMEFORMAT;
-    }
-
-    public static boolean isDisplayDefaultRegionKindInGUI(){
-        return AdvancedRegionMarket.displayDefaultRegionKindInGUI;
-    }
-
-    public static boolean isDisplayDefaultRegionKindInLimits(){
-        return AdvancedRegionMarket.displayDefaultRegionKindInLimits;
     }
 
     public static Statement getStmt() {

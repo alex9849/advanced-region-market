@@ -39,7 +39,6 @@ public abstract class Region {
     protected static int resetcooldown;
     private static YamlConfiguration regionsconf;
     protected RegionKind regionKind;
-    protected static double paybackPercentage;
     protected Location teleportLocation;
     protected boolean isDoBlockReset;
 
@@ -642,10 +641,6 @@ public abstract class Region {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public static void setPaypackPercentage(double percent){
-        Region.paybackPercentage = percent;
     }
 
     public void unsell(){

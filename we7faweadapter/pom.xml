@@ -40,7 +40,7 @@
             <artifactId>worldguard</artifactId>
             <scope>system</scope>
             <version>any</version>
-            <systemPath>${project.basedir}/../lib/plugins/alpha/WG7Faweb.jar</systemPath>
+            <systemPath>${project.basedir}/../lib/plugins/FaWe/WG7FaWe2085.jar</systemPath>
         </dependency>
         <!--FaWe API-->
         <dependency>
@@ -48,7 +48,7 @@
             <artifactId>fawe-api</artifactId>
             <scope>system</scope>
             <version>any</version>
-            <systemPath>${project.basedir}/../lib/plugins/alpha/FaWe-We7b.jar</systemPath>
+            <systemPath>${project.basedir}/../lib/plugins/FaWe/FastAsyncWorldEdit-bukkit-18.12.29-9556f81-2087.jar</systemPath>
         </dependency>
         <!--My interfaces-->
         <dependency>

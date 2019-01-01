@@ -32,7 +32,7 @@
             <artifactId>worldedit-bukkit</artifactId>
             <scope>system</scope>
             <version>any</version>
-            <systemPath>${project.basedir}/../lib/plugins/alpha/worldedit-bukkit-7.0.0-beta-03.jar</systemPath>
+            <systemPath>${project.basedir}/../lib/plugins/worldedit/worldedit-bukkit-7.0.0-beta-03.jar</systemPath>
         </dependency>
         <!--Worldguard API-->
         <dependency>
@@ -40,7 +40,7 @@
             <artifactId>worldguard</artifactId>
             <scope>system</scope>
             <version>any</version>
-            <systemPath>${project.basedir}/../lib/plugins/alpha/worldguard-legacy-7.0.0-beta-02.jar</systemPath>
+            <systemPath>${project.basedir}/../lib/plugins/worldguard/worldguard-7.0.0-beta-02.jar</systemPath>
         </dependency>
         <!--My interfaces-->
         <dependency>

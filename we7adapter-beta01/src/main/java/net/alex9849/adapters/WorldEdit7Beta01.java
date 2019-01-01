@@ -1,0 +1,106 @@
+package net.alex9849.adapters;
+
+import com.sk89q.worldedit.*;
+import com.sk89q.worldedit.bukkit.BukkitWorld;
+import com.sk89q.worldedit.extent.Extent;
+import com.sk89q.worldedit.extent.clipboard.BlockArrayClipboard;
+import com.sk89q.worldedit.extent.clipboard.Clipboard;
+import com.sk89q.worldedit.extent.clipboard.io.*;
+import com.sk89q.worldedit.function.operation.ForwardExtentCopy;
+import com.sk89q.worldedit.function.operation.Operations;
+import com.sk89q.worldedit.regions.CuboidRegion;
+import com.sk89q.worldedit.util.io.Closer;
+import net.alex9849.inter.WGRegion;
+import net.alex9849.inter.WorldEditInterface;
+import org.bukkit.Bukkit;
+
+import java.io.*;
+
+public class WorldEdit7Beta01 extends WorldEditInterface {
+
+    @Override
+    public void createSchematic(WGRegion region, String worldname, WorldEdit we) {
+        File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
+        File rawschematicdic = new File(pluginfolder + "/schematics/" + worldname + "/" + region.getId());
+        File schematicdic = new File(rawschematicdic + "." + BuiltInClipboardFormat.SPONGE_SCHEMATIC.getPrimaryFileExtension());
+        File schematicfolder = new File(pluginfolder + "/schematics/" + worldname);
+
+        for (BuiltInClipboardFormat format : BuiltInClipboardFormat.values()) {
+            for (String extension : format.getFileExtensions()) {
+                if (new File(rawschematicdic.getAbsolutePath() + "." + extension).exists()) {
+                    File delfile = new File(rawschematicdic.getAbsolutePath() + "." + extension);
+                    delfile.delete();
+                }
+            }
+        }
+
+        schematicfolder.mkdirs();
+
+        com.sk89q.worldedit.world.World world = new BukkitWorld(Bukkit.getWorld(worldname));
+        Vector minPoint = new Vector(region.getMinPoint().getBlockX(), region.getMinPoint().getBlockY(), region.getMinPoint().getBlockZ());
+        Vector maxPoint = new Vector(region.getMaxPoint().getBlockX(), region.getMaxPoint().getBlockY(), region.getMaxPoint().getBlockZ());
+
+        EditSession editSession = we.getEditSessionFactory().getEditSession(world, Integer.MAX_VALUE);
+        CuboidRegion reg = new CuboidRegion(world, minPoint, maxPoint);
+        BlockArrayClipboard clip = new BlockArrayClipboard(reg);
+        clip.setOrigin(minPoint);
+        ForwardExtentCopy copy = new ForwardExtentCopy(editSession, new CuboidRegion(world, minPoint, maxPoint), clip, minPoint);
+        try {
+            Operations.completeLegacy(copy);
+        } catch(MaxChangedBlocksException e) {
+            e.printStackTrace();
+        }
+        try {
+            Closer closer = Closer.create();
+            schematicdic.createNewFile();
+            FileOutputStream fileOutputStream = closer.register(new FileOutputStream(schematicdic));
+            BufferedOutputStream bufferedOutputStream = closer.register(new BufferedOutputStream(fileOutputStream));
+            ClipboardWriter writer = closer.register(BuiltInClipboardFormat.SPONGE_SCHEMATIC.getWriter(bufferedOutputStream));
+            writer.write(clip);
+            closer.close();
+        } catch(IOException e) {
+            e.printStackTrace();
+            return;
+        }
+        return;
+    }
+
+    @Override
+    public void resetBlocks(WGRegion region, String worldname, WorldEdit we) {
+
+        File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
+        File rawschematicdic = new File(pluginfolder + "/schematics/" + worldname + "/" + region.getId());
+        File file = null;
+
+        for (BuiltInClipboardFormat format : BuiltInClipboardFormat.values()) {
+            for (String extension : format.getFileExtensions()) {
+                if (new File(rawschematicdic.getAbsolutePath() + "." + extension).exists()) {
+                    file = new File(rawschematicdic.getAbsolutePath() + "." + extension);
+                }
+            }
+        }
+
+        com.sk89q.worldedit.world.World world = new BukkitWorld(Bukkit.getWorld(worldname));
+        Vector minPoint = new Vector(region.getMinPoint().getBlockX(), region.getMinPoint().getBlockY(), region.getMinPoint().getBlockZ());
+        Clipboard clipboard;
+        try {
+            Closer closer = Closer.create();
+            FileInputStream fileInputStream = closer.register(new FileInputStream(file));
+            BufferedInputStream bufferedInputStream = closer.register(new BufferedInputStream(fileInputStream));
+            ClipboardFormat clipboardFormat = ClipboardFormats.findByFile(file);
+            ClipboardReader reader = clipboardFormat.getReader(bufferedInputStream);
+            clipboard = reader.read();
+            Extent source = clipboard;
+            Extent destination = WorldEdit.getInstance().getEditSessionFactory().getEditSession(world, Integer.MAX_VALUE);
+            ForwardExtentCopy copy = new ForwardExtentCopy(source, clipboard.getRegion(), clipboard.getOrigin(), destination, minPoint);
+
+            ((EditSession) destination).flushQueue();
+            Operations.completeLegacy(copy);
+            closer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (WorldEditException e) {
+            e.printStackTrace();
+        }
+    }
+}

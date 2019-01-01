@@ -139,6 +139,20 @@
         </dependency>
         <dependency>
             <groupId>net.alex9849</groupId>
+            <artifactId>wg7adapter-beta01</artifactId>
+            <version>1.0</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.alex9849</groupId>
+            <artifactId>we7adapter-beta01</artifactId>
+            <version>1.0</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.alex9849</groupId>
             <artifactId>we7adapter</artifactId>
             <version>1.0</version>
             <type>jar</type>

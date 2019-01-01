@@ -183,25 +183,14 @@ public class AdvancedRegionMarket extends JavaPlugin {
         if(AdvancedRegionMarket.worldguard.getDescription().getVersion().startsWith("6.")) {
             version = "6";
         } else {
-            //Dann ist es wahrscheinlich WorldGuard 7
 
-           // Integer wgBuild = parseWorldGuardBuildNumber(AdvancedRegionMarket.worldguard);
-
-           /* if (wgBuild == null) {
-                version = "7b";
-            } else {
-                if(wgBuild < 1754) {
-                    version = "7a";
-                } else {
-                    version = "7b";
-                }
-            }
-
-            if(isFaWeInstalled() && worldguard.getDescription().getVersion().equals("7.0.0-SNAPSHOT;0dc5781")) {
-                version = "7a";
-            }
-            */
            version = "7";
+
+           if((parseWorldGuardBuildNumber(worldguard) != null) && (parseWorldGuardBuildNumber(worldguard) < 1754)){
+               version = "7Beta01";
+           }
+
+
 
         }
         try {
@@ -218,7 +207,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         return worldguard != null;
     }
 
-  /*  private Integer parseWorldGuardBuildNumber(WorldGuardPlugin wg) {
+    private Integer parseWorldGuardBuildNumber(WorldGuardPlugin wg) {
 
         String version = wg.getDescription().getVersion();
         if(!version.contains("-SNAPSHOT;")) {
@@ -238,7 +227,28 @@ public class AdvancedRegionMarket extends JavaPlugin {
         }
 
     }
-    */
+
+    private Integer parseWorldEditBuildNumber(WorldEditPlugin wg) {
+
+        String version = wg.getDescription().getVersion();
+        if(!version.contains("-SNAPSHOT;")) {
+            return null;
+        }
+
+        String buildNumberString = version.substring(version.indexOf("-SNAPSHOT;") + 10);
+
+        if(buildNumberString.contains("-")) {
+            buildNumberString = buildNumberString.substring(0, buildNumberString.indexOf("-"));
+        }
+
+        try {
+            return Integer.parseInt(buildNumberString);
+        } catch (NumberFormatException e) {
+            return null;
+        }
+
+    }
+
 
     private boolean setupWorldEdit() {
         Plugin plugin = getServer().getPluginManager().getPlugin("WorldEdit");
@@ -248,14 +258,19 @@ public class AdvancedRegionMarket extends JavaPlugin {
         }
         AdvancedRegionMarket.worldedit = (WorldEditPlugin) plugin;
         String version = "notSupported";
+        Boolean hasFaWeHandler = true;
 
         if(AdvancedRegionMarket.worldedit.getDescription().getVersion().startsWith("6.")) {
             version = "6";
         } else {
             version = "7";
+            if(AdvancedRegionMarket.worldedit.getDescription().getVersion().contains("beta-01") || ((parseWorldEditBuildNumber(worldedit) != null) && (parseWorldEditBuildNumber(worldedit) < 3930))){
+                version = "7Beta01";
+                hasFaWeHandler = false;
+            }
         }
 
-        if(AdvancedRegionMarket.isFaWeInstalled()){
+        if(AdvancedRegionMarket.isFaWeInstalled() && hasFaWeHandler){
             version = version + "FaWe";
         }
 

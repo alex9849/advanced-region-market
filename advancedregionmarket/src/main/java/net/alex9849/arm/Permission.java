@@ -62,11 +62,9 @@ public class Permission {
     public static final String MEMBER_OFFER_CREATE = "arm.member.offer.create";
     public static final String MEMBER_OFFER_ANSWER = "arm.member.offer.answer";
     public static final String MEMBER_PROMOTE = "arm.member.promote";
+    public static final String MEMBER_BUY = "arm.member.buy";
 
     public static final String ARM_HELP = "arm.help";
-    public static final String ARM_BUY_SELLREGION = "arm.buy.sellregion";
-    public static final String ARM_BUY_RENTREGION = "arm.buy.rentregion";
-    public static final String ARM_BUY_CONTRACTREGION = "arm.buy.contractregion";
     public static final String ARM_BUYKIND = "arm.buykind.";
     public static final String ARM_LIMIT = "arm.limit.";
 }

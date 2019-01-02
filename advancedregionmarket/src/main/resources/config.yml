@@ -49,6 +49,10 @@ RegionKinds:
     displayName: 'Starter-Region'
     displayInLimits: true
     displayInGUI: true
+  # If players have the permission 'arm.member.sellregion' they can sell their region
+  # back to the server (who resets it) via GUI.
+  # You can define the percentage they will get back here. If they don't have the permission the button will
+  # be removed from the GUI.
     paypackPercentage: 100
     lore:
     - 'A region for everyone'
@@ -140,11 +144,6 @@ Other:
   TeleportAfterRentRegionExtend: false
   TeleportAfterContractRegionBought: true
   TeleportAfterRegionBoughtCountdown: false
-  # If players have the permission 'arm.member.sellregion' they can sell their region
-  # back to the server (who resets it) via GUI.
-  # You can define the percentage they will get back here. If they don't have the permission the button will
-  # be removed from the GUI.
-  paypackPercentage: 50
   # If a player rents a rentregion and it will expire soon, he will get a message when he joins the server
   SendRentRegionExpirationWarning: true
   RentRegionExpirationWarningTime: '2d'

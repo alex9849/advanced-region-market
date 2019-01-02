@@ -214,7 +214,7 @@ public class ContractRegion extends Region {
     @Override
     public void buy(Player player) throws InputException {
 
-        if(!player.hasPermission(Permission.ARM_BUY_CONTRACTREGION)) {
+        if(!player.hasPermission(Permission.MEMBER_BUY)) {
             throw new InputException(player, Messages.NO_PERMISSION);
         }
         if(this.sold) {

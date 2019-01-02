@@ -37,7 +37,7 @@ public class TerminateCommand extends BasicArmCommand {
 
     @Override
     public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
-        if (sender.hasPermission(Permission.ARM_BUY_CONTRACTREGION) || sender.hasPermission(Permission.ADMIN_TERMINATE_CONTRACT)) {
+        if (sender.hasPermission(Permission.MEMBER_BUY) || sender.hasPermission(Permission.ADMIN_TERMINATE_CONTRACT)) {
             if(!(sender instanceof Player)) {
                 throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
             }
@@ -74,7 +74,7 @@ public class TerminateCommand extends BasicArmCommand {
 
         if(args.length >= 1) {
             if (this.rootCommand.startsWith(args[0])) {
-                if(player.hasPermission(Permission.ADMIN_TERMINATE_CONTRACT) || player.hasPermission(Permission.ARM_BUY_CONTRACTREGION)) {
+                if(player.hasPermission(Permission.ADMIN_TERMINATE_CONTRACT) || player.hasPermission(Permission.MEMBER_BUY)) {
                     if(args.length == 1) {
                         returnme.add(this.rootCommand);
                     } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {

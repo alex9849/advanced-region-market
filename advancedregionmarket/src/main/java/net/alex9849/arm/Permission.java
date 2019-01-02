@@ -51,7 +51,7 @@ public class Permission {
 
 
     public static final String MEMBER_RESETREGIONBLOCKS = "arm.member.resetregionblocks";
-    public static final String MEMBER_RESETREGION = "arm.member.sellregion";
+    public static final String MEMBER_SELLBACK = "arm.member.sellregion";
     public static final String MEMBER_INFO = "arm.member.info";
     public static final String MEMBER_ADDMEMBER = "arm.member.addmember";
     public static final String MEMBER_REMOVEMEMBER = "arm.member.removemember";

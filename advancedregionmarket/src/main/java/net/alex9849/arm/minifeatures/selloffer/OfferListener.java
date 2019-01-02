@@ -20,6 +20,7 @@ public class OfferListener implements Listener {
         this.seller = seller;
         this.buyer = buyer;
         this.offer = offer;
+        this.isTimerActive = false;
     }
 
     @EventHandler

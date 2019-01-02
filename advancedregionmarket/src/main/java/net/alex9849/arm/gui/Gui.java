@@ -235,7 +235,7 @@ public class Gui implements Listener {
         if(player.hasPermission(Permission.MEMBER_TP)){
             itemcounter++;
         }
-        if(player.hasPermission(Permission.MEMBER_RESETREGION)){
+        if(player.hasPermission(Permission.MEMBER_SELLBACK)){
             itemcounter++;
         }
         if(player.hasPermission(Permission.MEMBER_RESETREGIONBLOCKS)){
@@ -306,7 +306,7 @@ public class Gui implements Listener {
             actitem++;
         }
 
-        if(player.hasPermission(Permission.MEMBER_RESETREGION)) {
+        if(player.hasPermission(Permission.MEMBER_SELLBACK)) {
             ItemStack resetItem = new ItemStack(Gui.SELL_REGION_ITEM);
             ItemMeta resetitemItemMeta = resetItem.getItemMeta();
             resetitemItemMeta.setDisplayName(Messages.GUI_USER_SELL_BUTTON);
@@ -375,7 +375,7 @@ public class Gui implements Listener {
         if(player.hasPermission(Permission.MEMBER_TP)){
             itemcounter++;
         }
-        if(player.hasPermission(Permission.MEMBER_RESETREGION)){
+        if(player.hasPermission(Permission.MEMBER_SELLBACK)){
             itemcounter++;
         }
         if(player.hasPermission(Permission.MEMBER_RESETREGIONBLOCKS)){
@@ -449,7 +449,7 @@ public class Gui implements Listener {
             actitem++;
         }
 
-        if(player.hasPermission(Permission.MEMBER_RESETREGION)) {
+        if(player.hasPermission(Permission.MEMBER_SELLBACK)) {
             ItemStack resetItem = new ItemStack(Gui.SELL_REGION_ITEM);
             ItemMeta resetitemItemMeta = resetItem.getItemMeta();
             resetitemItemMeta.setDisplayName(Messages.GUI_USER_SELL_BUTTON);
@@ -539,7 +539,7 @@ public class Gui implements Listener {
         if(player.hasPermission(Permission.MEMBER_TP)){
             itemcounter++;
         }
-        if(player.hasPermission(Permission.MEMBER_RESETREGION)){
+        if(player.hasPermission(Permission.MEMBER_SELLBACK)){
             itemcounter++;
         }
         if(player.hasPermission(Permission.MEMBER_RESETREGIONBLOCKS)){
@@ -613,7 +613,7 @@ public class Gui implements Listener {
             actitem++;
         }
 
-        if(player.hasPermission(Permission.MEMBER_RESETREGION)) {
+        if(player.hasPermission(Permission.MEMBER_SELLBACK)) {
             ItemStack resetItem = new ItemStack(Gui.SELL_REGION_ITEM);
             ItemMeta resetitemItemMeta = resetItem.getItemMeta();
             resetitemItemMeta.setDisplayName(Messages.GUI_USER_SELL_BUTTON);
@@ -1222,9 +1222,13 @@ public class Gui implements Listener {
 
         ClickItem yesButton = new ClickItem(yesItem, 0).addClickAction(new ClickAction() {
             @Override
-            public void execute(Player player) {
+            public void execute(Player player) throws InputException {
                 player.closeInventory();
-                region.userSell(player);
+                if(region.getRegion().hasOwner(player.getUniqueId())) {
+                    region.userSell(player);
+                } else {
+                    throw new InputException(player, Messages.REGION_NOT_OWN);
+                }
             }
         });
         inv.addIcon(yesButton);

@@ -194,6 +194,8 @@ public class Messages {
     public static String HELP_HEADLINE = "&6=====[AdvancedRegionMarket Help ]=====\n&3Page %actualpage% / %maxpage%";
     public static String PRESET_SETUP_COMMANDS = "&6Setup commands:";
     public static String PRICE_CAN_NOT_BE_NEGATIVE = "&4Price can not be negative!";
+    public static String SELLBACK_WARNING = "&4WARNING: &cThis can not be undone! Your region &6%region% &cwill be released and all blocks on it will be resetted! " +
+            "You and all members will loose their rights on it. You will get &6%paybackmoney% %currency% &cback";
 
 
     public static List<String> GUI_TELEPORT_TO_REGION_BUTTON_LORE = new LinkedList<>();
@@ -408,6 +410,7 @@ public class Messages {
         OFFER_TIMED_OUT = config.getString("Messages.OfferTimedOut");
         PRESET_SETUP_COMMANDS = config.getString("Messages.PresetSetupCommands");
         PRICE_CAN_NOT_BE_NEGATIVE = config.getString("Messages.PriceCanNotBeNegative");
+        SELLBACK_WARNING = config.getString("Messages.SellBackWarning");
 
 
 
@@ -594,6 +597,7 @@ public class Messages {
         HELP_HEADLINE = ChatColor.translateAlternateColorCodes('&', HELP_HEADLINE);
         PRESET_SETUP_COMMANDS = ChatColor.translateAlternateColorCodes('&', PRESET_SETUP_COMMANDS);
         PRICE_CAN_NOT_BE_NEGATIVE = ChatColor.translateAlternateColorCodes('&', PRICE_CAN_NOT_BE_NEGATIVE);
+        SELLBACK_WARNING = ChatColor.translateAlternateColorCodes('&', SELLBACK_WARNING);
 
         for(int i = 0; i < GUI_TELEPORT_TO_REGION_BUTTON_LORE.size(); i++){
             GUI_TELEPORT_TO_REGION_BUTTON_LORE.set(i, ChatColor.translateAlternateColorCodes('&', GUI_TELEPORT_TO_REGION_BUTTON_LORE.get(i)));
@@ -746,6 +750,8 @@ public class Messages {
         config.addDefault("Messages.IncommingOffer", "&c%seller% &6offers you his region &c%region% &6in the world &c%world% &6for &c%price% %currency%&6! " +
                 "You can accept his offer with &c/arm offer accept &6or reject it &c/arm offer reject");
         config.addDefault("Messages.OfferTimedOut", "&4Offer timed out!");
+        config.addDefault("Messages.SellBackWarning", "&4WARNING: &cThis can not be undone! Your region &6%region% &cwill be released and all blocks on it will be resetted! " +
+                "You and all members will loose their rights on it. You will get &6%paybackmoney% %currency% &cback");
 
         config.addDefault("Messages.RegionNotOwn", "&4You do not own this region!");
         config.addDefault("Messages.RegionNotSold", "&4Region not sold!");

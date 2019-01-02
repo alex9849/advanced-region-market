@@ -261,7 +261,12 @@ public class ContractRegion extends Region {
         amount = amount * 10;
         amount = Math.round(amount);
         amount = amount / 10d;
-        return amount;
+
+        if(amount > 0) {
+            return amount;
+        } else {
+            return 0;
+        }
     }
 
     public String calcRemainingTime() {

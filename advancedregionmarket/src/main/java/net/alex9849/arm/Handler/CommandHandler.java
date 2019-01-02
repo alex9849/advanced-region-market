@@ -69,6 +69,7 @@ public class CommandHandler implements TabCompleter {
         this.commands.add(new UnsellCommand());
         this.commands.add(new UpdateSchematicCommand());
         this.commands.add(new BuyCommand());
+        this.commands.add(new SellBackCommand());
     }
 
     private void oldloadCommands(){

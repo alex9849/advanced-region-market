@@ -171,7 +171,12 @@ public class SellRegion extends Region {
 
     @Override
     public double getPaybackMoney() {
-        return (this.getPrice() * this.getRegionKind().getPaybackPercentage())/100;
+        double money = (this.getPrice() * this.getRegionKind().getPaybackPercentage())/100;
+        if (money > 0) {
+            return money;
+        } else {
+            return 0;
+        }
     }
 
 }

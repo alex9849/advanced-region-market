@@ -689,6 +689,10 @@ public abstract class Region {
                         }
                     } else if (playerRegionRelationship == PlayerRegionRelationship.ALL) {
                         returnme.add(region.getRegion().getId());
+                    } else if (playerRegionRelationship == PlayerRegionRelationship.AVAILABLE) {
+                        if(!region.isSold()) {
+                            returnme.add(region.getRegion().getId());
+                        }
                     }
                 }
             }

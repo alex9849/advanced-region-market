@@ -27,8 +27,8 @@ public class RentRegion extends Region {
     private static Boolean sendExpirationWarning;
 
     public RentRegion(WGRegion region, String regionworld, List<Sign> rentsign, double price, Boolean sold, Boolean autoreset, Boolean allowOnlyNewBlocks,
-                      Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, long payedTill, long maxRentTime, long rentExtendPerClick, Boolean newreg) {
-        super(region, regionworld, rentsign, price, sold, autoreset, allowOnlyNewBlocks, doBlockReset, regionKind, teleportLoc, lastreset, newreg);
+                      Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, long payedTill, long maxRentTime, long rentExtendPerClick, Boolean newreg, List<Region> subregions, boolean isTown) {
+        super(region, regionworld, rentsign, price, sold, autoreset, allowOnlyNewBlocks, doBlockReset, regionKind, teleportLoc, lastreset, newreg, subregions, isTown);
 
         this.payedTill = payedTill;
         this.maxRentTime = maxRentTime;

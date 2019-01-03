@@ -8,6 +8,7 @@ import com.sk89q.worldguard.domains.DefaultDomain;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import net.alex9849.inter.WGRegion;
 import net.alex9849.inter.WorldGuardInterface;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -37,58 +38,6 @@ public class WorldGuard7Beta01 extends WorldGuardInterface {
         return new WG7RegionBeta01(region);
     }
 
-    @Override
-    public void addMember(UUID uuid, ProtectedRegion wgRegion) {
-        wgRegion.getMembers().addPlayer(uuid);
-    }
-
-    @Override
-    public boolean hasMember(UUID uuid, ProtectedRegion wgRegion) {
-        return wgRegion.getMembers().contains(uuid);
-    }
-
-    public void deleteMembers(ProtectedRegion wgRegion) {
-        DefaultDomain defaultDomain = new DefaultDomain();
-        wgRegion.setMembers(defaultDomain);
-    }
-
-    @Override
-    public void removeMember(UUID uuid, ProtectedRegion wgRegion) {
-        wgRegion.getMembers().removePlayer(uuid);
-    }
-
-    @Override
-    public ArrayList<UUID> getMembers(ProtectedRegion wgRegion) {
-        return new ArrayList<UUID>(wgRegion.getMembers().getUniqueIds());
-    }
-
-    @Override
-    public void setOwner(OfflinePlayer player, ProtectedRegion wgRegion) {
-        DefaultDomain newOwner = new DefaultDomain();
-        newOwner.addPlayer(player.getUniqueId());
-        wgRegion.setOwners(newOwner);
-    }
-
-    @Override
-    public boolean hasOwner(UUID uuid, ProtectedRegion wgRegion) {
-        return wgRegion.getOwners().contains(uuid);
-    }
-
-    public void deleteOwners(ProtectedRegion wgRegion) {
-        DefaultDomain defaultDomain = new DefaultDomain();
-        wgRegion.setOwners(defaultDomain);
-    }
-
-    @Override
-    public void removeOwner(UUID uuid, ProtectedRegion wgRegion) {
-        wgRegion.getOwners().removePlayer(uuid);
-    }
-
-    @Override
-    public ArrayList<UUID> getOwners(ProtectedRegion wgRegion) {
-        return new ArrayList<UUID>(wgRegion.getOwners().getUniqueIds());
-    }
-
     public boolean canBuild(Player player, Location location, WorldGuardPlugin worldGuardPlugin){
 
         /*
@@ -110,28 +59,9 @@ public class WorldGuard7Beta01 extends WorldGuardInterface {
 
     }
 
-    public int getMaxX(ProtectedRegion region) {
-        return region.getMaximumPoint().getBlockX();
-    }
-
-    public int getMaxY(ProtectedRegion region) {
-        return region.getMaximumPoint().getBlockY();
-    }
-
-    public int getMaxZ(ProtectedRegion region) {
-        return region.getMaximumPoint().getBlockZ();
-    }
-
-    public int getMinX(ProtectedRegion region) {
-        return region.getMinimumPoint().getBlockX();
-    }
-
-    public int getMinY(ProtectedRegion region) {
-        return region.getMinimumPoint().getBlockY();
-    }
-
-    public int getMinZ(ProtectedRegion region) {
-        return region.getMinimumPoint().getBlockZ();
+    @Override
+    public WGRegion createRegion(WGRegion parentRegion, Location pos1, Location pos2) {
+        return null;
     }
 
 }

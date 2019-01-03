@@ -49,6 +49,10 @@ public class Permission {
     public static final String ADMIN_BYPASS_TELEPORTER_COOLDOWN = "arm.admin.bypassteleportercooldown";
 
 
+    public static final String SUBREGION_TOOL = "arm.subregion.tool";
+
+
+
 
     public static final String MEMBER_RESETREGIONBLOCKS = "arm.member.resetregionblocks";
     public static final String MEMBER_SELLBACK = "arm.member.sellregion";

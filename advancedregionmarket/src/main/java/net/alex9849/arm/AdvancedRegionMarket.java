@@ -7,6 +7,7 @@ import net.alex9849.arm.Preseter.ContractPreset;
 import net.alex9849.arm.Preseter.Preset;
 import net.alex9849.arm.Preseter.RentPreset;
 import net.alex9849.arm.Preseter.SellPreset;
+import net.alex9849.arm.commands.*;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.minifeatures.AutoPrice;
 import net.alex9849.arm.regions.*;
@@ -61,7 +62,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
     private static String REMAINING_TIME_TIMEFORMAT = "%date%";
     private static String DATE_TIMEFORMAT = "dd.MM.yyyy hh:mm";
     private static boolean useShortCountdown = false;
-    private CommandHandler commandHandler;
+    private static CommandHandler commandHandler;
 
     public void onEnable(){
 
@@ -116,13 +117,47 @@ public class AdvancedRegionMarket extends JavaPlugin {
         loadRegions();
         Region.setCompleteTabRegions(getConfig().getBoolean("Other.CompleteRegionsOnTabComplete"));
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Scheduler() , 0 ,20*getConfig().getInt("Other.SignAndResetUpdateInterval"));
-        this.commandHandler = new CommandHandler();
+        AdvancedRegionMarket.commandHandler = new CommandHandler(new ArrayList<>(Arrays.asList("help")), "");
+        List<BasicArmCommand> commands = new ArrayList<>();
+        commands.add(new AddMemberCommand());
+        commands.add(new AutoResetCommand());
+        commands.add(new ContractPresetCommand());
+        commands.add(new DeleteCommand());
+        commands.add(new DoBlockResetCommand());
+        commands.add(new ExtendCommand());
+        commands.add(new FindFreeRegionCommand());
+        commands.add(new GuiCommand());
+        commands.add(new HelpCommand());
+        commands.add(new HotelCommand());
+        commands.add(new InfoCommand());
+        commands.add(new LimitCommand());
+        commands.add(new ListRegionKindsCommand());
+        commands.add(new ListRegionsCommand());
+        commands.add(new OfferCommand());
+        commands.add(new RegionstatsCommand());
+        commands.add(new ReloadCommand());
+        commands.add(new RemoveMemberCommand());
+        commands.add(new RentPresetCommand());
+        commands.add(new ResetBlocksCommand());
+        commands.add(new ResetCommand());
+        commands.add(new SellPresetCommand());
+        commands.add(new SetOwnerCommand());
+        commands.add(new SetRegionKind());
+        commands.add(new SetWarpCommand());
+        commands.add(new TerminateCommand());
+        commands.add(new TPCommand());
+        commands.add(new UnsellCommand());
+        commands.add(new UpdateSchematicCommand());
+        commands.add(new BuyCommand());
+        commands.add(new SellBackCommand());
+        commands.add(new SubRegionCommand());
+        AdvancedRegionMarket.commandHandler.addCommands(commands);
+
         SellPreset.loadCommands();
         RentPreset.loadCommands();
         ContractPreset.loadCommands();
         getCommand("arm").setTabCompleter(this.commandHandler);
         Bukkit.getLogger().log(Level.INFO, "Programmed by Alex9849");
-
     }
 
     public void onDisable(){
@@ -247,6 +282,9 @@ public class AdvancedRegionMarket extends JavaPlugin {
 
     }
 
+    public static CommandHandler getCommandHandler() {
+        return AdvancedRegionMarket.commandHandler;
+    }
 
     private boolean setupWorldEdit() {
         Plugin plugin = getServer().getPluginManager().getPlugin("WorldEdit");
@@ -370,18 +408,18 @@ public class AdvancedRegionMarket extends JavaPlugin {
                                             long maxRentTime = Region.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".maxRentTime");
                                             long rentExtendPerClick = Region.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".rentExtendPerClick");
                                             Region armregion = new RentRegion(region, regionworld, regionsigns, price, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, teleportLoc,
-                                                    lastreset, payedtill, maxRentTime, rentExtendPerClick,false);
+                                                    lastreset, payedtill, maxRentTime, rentExtendPerClick,false, new ArrayList<Region>(), false);
                                             armregion.updateSigns();
                                             Region.getRegionList().add(armregion);
                                         } else if (regiontype.equalsIgnoreCase("sellregion")){
-                                            Region armregion = new SellRegion(region, regionworld, regionsigns, price, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, teleportLoc, lastreset,false);
+                                            Region armregion = new SellRegion(region, regionworld, regionsigns, price, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, teleportLoc, lastreset,false, new ArrayList<Region>(), false);
                                             armregion.updateSigns();
                                             Region.getRegionList().add(armregion);
                                         } else if (regiontype.equalsIgnoreCase("contractregion")) {
                                             long payedtill = Region.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".payedTill");
                                             long extendTime = Region.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".extendTime");
                                             Boolean terminated = Region.getRegionsConf().getBoolean("Regions." + worlds.get(y) + "." + regions.get(i) + ".terminated");
-                                            Region armregion = new ContractRegion(region, regionworld, regionsigns, price, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, teleportLoc, lastreset,extendTime, payedtill, terminated, false);
+                                            Region armregion = new ContractRegion(region, regionworld, regionsigns, price, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, teleportLoc, lastreset,extendTime, payedtill, terminated, false, new ArrayList<Region>(), false);
                                             armregion.updateSigns();
                                             Region.getRegionList().add(armregion);
                                         }

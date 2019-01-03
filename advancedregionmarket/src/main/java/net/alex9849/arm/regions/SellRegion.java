@@ -18,8 +18,8 @@ import java.util.*;
 public class SellRegion extends Region {
 
 
-    public SellRegion(WGRegion region, String regionworld, List<Sign> sellsign, double price, Boolean sold, Boolean autoreset, Boolean allowOnlyNewBlocks, Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, Boolean newreg) {
-        super(region, regionworld, sellsign, price, sold, autoreset,allowOnlyNewBlocks, doBlockReset, regionKind, teleportLoc, lastreset, newreg);
+    public SellRegion(WGRegion region, String regionworld, List<Sign> sellsign, double price, Boolean sold, Boolean autoreset, Boolean allowOnlyNewBlocks, Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, Boolean newreg, List<Region> subregions, boolean isTown) {
+        super(region, regionworld, sellsign, price, sold, autoreset,allowOnlyNewBlocks, doBlockReset, regionKind, teleportLoc, lastreset, newreg, subregions, isTown);
 
         if(newreg) {
             this.updateSignText(sellsign.get(0));

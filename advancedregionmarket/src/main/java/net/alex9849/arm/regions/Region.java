@@ -41,9 +41,11 @@ public abstract class Region {
     protected RegionKind regionKind;
     protected Location teleportLocation;
     protected boolean isDoBlockReset;
+    protected List<Region> subregions;
+    protected boolean isTown;
 
     public Region(WGRegion region, String regionworld, List<Sign> sellsign, double price, Boolean sold, Boolean autoreset,
-                  Boolean isHotel, Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, Boolean writeInFile){
+                  Boolean isHotel, Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, Boolean writeInFile, List<Region> subregions, boolean isTown){
         this.region = region;
         this.sellsign = new ArrayList<Sign>(sellsign);
         this.sold = sold;
@@ -550,12 +552,6 @@ public abstract class Region {
     public abstract void buy(Player player) throws InputException;
     public abstract void userSell(Player player);
     public abstract double getPaybackMoney();
-
-    /*
-    public static boolean allowAction(OfflinePlayer oPlayer, ) {
-
-    }
-    */
 
     public void resetRegion(){
 

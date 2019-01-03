@@ -20,88 +20,22 @@ import java.util.jar.JarFile;
 
 public class CommandHandler implements TabCompleter {
 
-    private List<BasicArmCommand> commands = new ArrayList<>();
-    private static CommandHandler latestHandler;
+    private List<BasicArmCommand> commands;
+    private List<String> usage;
+    private String rootcommand;
 
-    public CommandHandler() {
-        this.loadCommands();
-        CommandHandler.latestHandler = this;
-    }
-
-    public static CommandHandler getLatestHandler() {
-        return latestHandler;
+    public CommandHandler(List<String> usage, String rootcommand) {
+        this.usage = usage;
+        this.rootcommand = rootcommand;
+        this.commands = new ArrayList<>();
     }
 
     public List<BasicArmCommand> getCommands() {
         return this.commands;
     }
 
-    private void loadCommands() {
-        this.commands = new ArrayList<>();
-
-        this.commands.add(new AddMemberCommand());
-        this.commands.add(new AutoResetCommand());
-        this.commands.add(new ContractPresetCommand());
-        this.commands.add(new DeleteCommand());
-        this.commands.add(new DoBlockResetCommand());
-        this.commands.add(new ExtendCommand());
-        this.commands.add(new FindFreeRegionCommand());
-        this.commands.add(new GuiCommand());
-        this.commands.add(new HelpCommand());
-        this.commands.add(new HotelCommand());
-        this.commands.add(new InfoCommand());
-        this.commands.add(new LimitCommand());
-        this.commands.add(new ListRegionKindsCommand());
-        this.commands.add(new ListRegionsCommand());
-        this.commands.add(new OfferCommand());
-        this.commands.add(new RegionstatsCommand());
-        this.commands.add(new ReloadCommand());
-        this.commands.add(new RemoveMemberCommand());
-        this.commands.add(new RentPresetCommand());
-        this.commands.add(new ResetBlocksCommand());
-        this.commands.add(new ResetCommand());
-        this.commands.add(new SellPresetCommand());
-        this.commands.add(new SetOwnerCommand());
-        this.commands.add(new SetRegionKind());
-        this.commands.add(new SetWarpCommand());
-        this.commands.add(new TerminateCommand());
-        this.commands.add(new TPCommand());
-        this.commands.add(new UnsellCommand());
-        this.commands.add(new UpdateSchematicCommand());
-        this.commands.add(new BuyCommand());
-        this.commands.add(new SellBackCommand());
-    }
-
-    private void oldloadCommands(){
-
-        this.commands = new ArrayList<>();
-
-        try {
-            JarFile jarFile = new JarFile(getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
-
-            Enumeration<JarEntry> jarEntryEnumeration = jarFile.entries();
-
-            while(jarEntryEnumeration.hasMoreElements()) {
-                JarEntry jarEntry = jarEntryEnumeration.nextElement();
-                String jarEntryClassPath = jarEntry.getName().replace("/", ".");
-                if(jarEntryClassPath.startsWith("net.alex9849.arm.commands") && jarEntryClassPath.endsWith(".class")) {
-                    String loadClassPath = jarEntryClassPath.substring(0, jarEntryClassPath.length() - 6);
-                    Class<?> commandClass = Class.forName(loadClassPath);
-                    if(BasicArmCommand.class.isAssignableFrom(commandClass) && !Modifier.isAbstract(commandClass.getModifiers())) {
-                        this.commands.add((BasicArmCommand) commandClass.newInstance());
-                    }
-                }
-
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        }
+    public void addCommands(Collection<? extends BasicArmCommand> commands) {
+        this.commands.addAll(commands);
     }
 
     public boolean executeCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args) throws InputException {
@@ -125,18 +59,32 @@ public class CommandHandler implements TabCompleter {
                         if(syntax.size() >= 1) {
                             String message = Messages.BAD_SYNTAX;
 
-                            message = message.replace("%command%", "/" + commandsLabel + " " + syntax.get(0));
-                            for(int x = 1; x < syntax.size(); x++) {
-                                message = message + " " + Messages.BAD_SYNTAX_SPLITTER.replace("%command%", "/" + commandsLabel + " " + syntax.get(x));
+                            String rootcommand = "";
+                            if(!this.rootcommand.equals("")) {
+                                rootcommand = this.rootcommand + " ";
                             }
-                            sender.sendMessage(Messages.PREFIX + ChatColor.DARK_GRAY + message);
+
+                            message = message.replace("%command%", "/" + commandsLabel + " " + rootcommand + syntax.get(0));
+
+                            for(int x = 1; x < syntax.size(); x++) {
+                                message = message + " " + Messages.BAD_SYNTAX_SPLITTER.replace("%command%", "/" + commandsLabel + " " + rootcommand + syntax.get(x));
+                            }
+                            throw new InputException(sender, ChatColor.DARK_GRAY + message);
                         }
                         return true;
                     }
                 }
             }
         }
+        if(this.usage.size() >= 1) {
+            String message = Messages.BAD_SYNTAX;
 
+            message = message.replace("%command%", "/" + commandsLabel + " " + this.usage.get(0));
+            for(int x = 1; x < this.usage.size(); x++) {
+                message = message + " " + Messages.BAD_SYNTAX_SPLITTER.replace("%command%", "/" + commandsLabel + " " + this.usage.get(x));
+            }
+            throw new InputException(sender, ChatColor.DARK_GRAY + message);
+        }
         return false;
     }
 

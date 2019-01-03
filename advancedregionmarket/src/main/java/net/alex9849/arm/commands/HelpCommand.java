@@ -1,5 +1,6 @@
 package net.alex9849.arm.commands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Handler.CommandHandler;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
@@ -48,7 +49,7 @@ public class HelpCommand extends BasicArmCommand {
             selectedpage = 1;
         }
 
-        List<BasicArmCommand> commands = CommandHandler.getLatestHandler().getCommands();
+        List<BasicArmCommand> commands = AdvancedRegionMarket.getCommandHandler().getCommands();
         List<String> usages = new ArrayList<>();
 
         Collections.sort(usages);

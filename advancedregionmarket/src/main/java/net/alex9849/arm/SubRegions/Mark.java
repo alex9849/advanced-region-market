@@ -62,4 +62,17 @@ public class Mark {
         return wgRegion;
     }
 
+    public Player getCreator() {
+        return this.creator;
+    }
+
+    public static Mark getMark(Player player) {
+        for(Mark mark : markList) {
+            if(mark.getCreator().getUniqueId().equals(player.getUniqueId())) {
+                return mark;
+            }
+        }
+        return null;
+    }
+
 }

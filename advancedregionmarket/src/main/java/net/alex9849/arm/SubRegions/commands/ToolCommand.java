@@ -45,6 +45,8 @@ public class ToolCommand extends BasicArmCommand {
         Player player = (Player) sender;
         player.getInventory().addItem(new ItemStack(Material.FEATHER, 1));
         ItemStack subRegionTool = new ItemStack(Material.FEATHER, 1);
+        //TODO Change me
+        subRegionTool.getItemMeta().setDisplayName("Subregion Tool");
         player.getInventory().addItem(subRegionTool);
         return true;
     }

@@ -4,6 +4,7 @@ import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.Preseter.*;
+import net.alex9849.arm.SubRegions.Mark;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.regions.*;
 import net.alex9849.arm.gui.Gui;
@@ -343,22 +344,8 @@ public class ARMListener implements Listener {
     }
 
     @EventHandler
-    public void buyRegion(PlayerInteractEvent event){
-        try {
-            if(event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                if (event.getClickedBlock().getType() == Material.SIGN || event.getClickedBlock().getType() == Material.WALL_SIGN) {
-                    Sign sign = (Sign) event.getClickedBlock().getState();
-
-                    for(int i = 0; i < Region.getRegionList().size(); i++){
-                        if(Region.getRegionList().get(i).hasSign(sign)){
-                            Region.getRegionList().get(i).buy(event.getPlayer());
-                        }
-                    }
-                }
-            }
-        } catch (InputException inputException) {
-            inputException.sendMessages();
-        }
+    public void interactEvent(PlayerInteractEvent event){
+        this.buyregion(event);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -509,6 +496,36 @@ public class ARMListener implements Listener {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void buyregion(PlayerInteractEvent event) {
+        try {
+            if(event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                if (event.getClickedBlock().getType() == Material.SIGN || event.getClickedBlock().getType() == Material.WALL_SIGN) {
+                    Sign sign = (Sign) event.getClickedBlock().getState();
+
+                    for(int i = 0; i < Region.getRegionList().size(); i++){
+                        if(Region.getRegionList().get(i).hasSign(sign)){
+                            Region.getRegionList().get(i).buy(event.getPlayer());
+                        }
+                    }
+                }
+            }
+        } catch (InputException inputException) {
+            inputException.sendMessages();
+        }
+    }
+
+    private void setSubregionMark(PlayerInteractEvent event){
+        Player player = event.getPlayer();
+        if(player.hasPermission(Permission.SUBREGION_MARK)) {
+            //TODO change me --> see ToolCommand
+            if((event.getItem().getType() == Material.FEATHER) && (event.getItem().getItemMeta().getDisplayName().equals("Subregion Tool"))) {
+                if(Mark.getMark(event.getPlayer()) == null) {
+                    //TODO
+                }
+            }
         }
     }
 

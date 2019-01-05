@@ -1,9 +1,14 @@
 package net.alex9849.adapters;
 
+import com.sk89q.worldedit.BlockVector;
+import com.sk89q.worldedit.BlockVector2D;
+import com.sk89q.worldedit.Vector;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.domains.DefaultDomain;
 import com.sk89q.worldguard.protection.managers.RegionManager;
+import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import com.sk89q.worldguard.protection.regions.RegionType;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.inter.WorldGuardInterface;
 import org.bukkit.Location;
@@ -12,6 +17,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class WorldGuard6 extends WorldGuardInterface {
@@ -40,8 +46,26 @@ public class WorldGuard6 extends WorldGuardInterface {
     }
 
     @Override
-    public WGRegion createRegion(WGRegion parentRegion, Location pos1, Location pos2) {
+    public WGRegion createRegion(WGRegion parentRegion, World world, String regionID, Location pos1, Location pos2, WorldGuardPlugin worldGuardPlugin) {
+        WG6Region wg6Region = (WG6Region) parentRegion;
+        ProtectedRegion protectedRegion = new ProtectedCuboidRegion(regionID, new BlockVector(pos1.getBlockX(), pos1.getBlockY(), pos1.getBlockZ()), new BlockVector(pos2.getBlockX(), pos2.getBlockY(), pos2.getBlockZ()));
+        this.getRegionManager(world, worldGuardPlugin).addRegion(protectedRegion);
+        try {
+            protectedRegion.setParent(wg6Region.getRegion());
+        } catch (ProtectedRegion.CircularInheritanceException e) {
+            e.printStackTrace();
+        }
         return null;
+    }
+
+    @Override
+    public List<WGRegion> getApplicableRegions(World world, Location loc, WorldGuardPlugin worldGuardPlugin) {
+        List<ProtectedRegion> protectedRegions = new ArrayList<ProtectedRegion>(worldGuardPlugin.getRegionManager(world).getApplicableRegions(loc).getRegions());
+        List<WGRegion> wg6Regions = new ArrayList<WGRegion>();
+        for(ProtectedRegion pRegion : protectedRegions) {
+            wg6Regions.add(new WG6Region(pRegion));
+        }
+        return wg6Regions;
     }
 
 }

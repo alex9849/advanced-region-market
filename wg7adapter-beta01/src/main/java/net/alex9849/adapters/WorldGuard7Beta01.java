@@ -1,22 +1,22 @@
 package net.alex9849.adapters;
 
+import com.sk89q.worldedit.BlockVector;
 import com.sk89q.worldedit.Vector;
 import com.sk89q.worldedit.bukkit.BukkitWorld;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
-import com.sk89q.worldguard.domains.DefaultDomain;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.managers.RegionManager;
+import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.inter.WorldGuardInterface;
 import org.bukkit.Location;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
-import java.util.UUID;
+import java.util.List;
 
 public class WorldGuard7Beta01 extends WorldGuardInterface {
 
@@ -60,8 +60,26 @@ public class WorldGuard7Beta01 extends WorldGuardInterface {
     }
 
     @Override
-    public WGRegion createRegion(WGRegion parentRegion, Location pos1, Location pos2) {
+    public WGRegion createRegion(WGRegion parentRegion, World world, String regionID, Location pos1, Location pos2, WorldGuardPlugin worldGuardPlugin) {
+        WG7RegionBeta01 wg7Region = (WG7RegionBeta01) parentRegion;
+        ProtectedRegion protectedRegion = new ProtectedCuboidRegion(regionID, new BlockVector(pos1.getBlockX(), pos1.getBlockY(), pos1.getBlockZ()), new BlockVector(pos2.getBlockX(), pos2.getBlockY(), pos2.getBlockZ()));
+        this.getRegionManager(world, worldGuardPlugin).addRegion(protectedRegion);
+        try {
+            protectedRegion.setParent(wg7Region.getRegion());
+        } catch (ProtectedRegion.CircularInheritanceException e) {
+            e.printStackTrace();
+        }
         return null;
+    }
+
+    @Override
+    public List<WGRegion> getApplicableRegions(World world, Location loc, WorldGuardPlugin worldGuardPlugin) {
+        List<ProtectedRegion> protectedRegions = new ArrayList<ProtectedRegion>(this.getRegionManager(world, worldGuardPlugin).getApplicableRegions(new Vector(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ())).getRegions());
+        List<WGRegion> wg7Regions = new ArrayList<WGRegion>();
+        for(ProtectedRegion pRegion : protectedRegions) {
+            wg7Regions.add(new WG7RegionBeta01(pRegion));
+        }
+        return wg7Regions;
     }
 
 }

@@ -104,4 +104,7 @@ public class WG7Region extends WGRegion {
         return this.region.contains(x, y, z);
     }
 
+    protected ProtectedRegion getRegion() {
+        return this.region;
+    }
 }

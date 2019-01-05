@@ -9,6 +9,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public abstract class WorldGuardInterface {
@@ -19,5 +20,7 @@ public abstract class WorldGuardInterface {
 
     public abstract boolean canBuild(Player player, Location location, WorldGuardPlugin worldGuardPlugin);
 
-    public abstract WGRegion createRegion(WGRegion parentRegion, Location pos1, Location pos2);
+    public abstract WGRegion createRegion(WGRegion parentRegion, World world, String regionID, Location pos1, Location pos2, WorldGuardPlugin worldGuardPlugin);
+
+    public abstract List<WGRegion> getApplicableRegions(World world, Location loc, WorldGuardPlugin worldGuardPlugin);
 }

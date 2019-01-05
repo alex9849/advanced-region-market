@@ -2,6 +2,7 @@ package net.alex9849.arm.commands;
 
 import net.alex9849.arm.Handler.CommandHandler;
 import net.alex9849.arm.Messages;
+import net.alex9849.arm.SubRegions.commands.CreateCommand;
 import net.alex9849.arm.SubRegions.commands.ToolCommand;
 import net.alex9849.arm.exceptions.InputException;
 import org.bukkit.ChatColor;
@@ -23,6 +24,7 @@ public class SubRegionCommand extends BasicArmCommand {
         this.commandHandler = new CommandHandler(this.usage, this.rootCommand);
         List<BasicArmCommand> commands = new ArrayList<>();
         commands.add(new ToolCommand());
+        commands.add(new CreateCommand());
         this.commandHandler.addCommands(commands);
     }
 

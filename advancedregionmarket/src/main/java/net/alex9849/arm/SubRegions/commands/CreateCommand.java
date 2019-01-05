@@ -2,23 +2,22 @@ package net.alex9849.arm.SubRegions.commands;
 
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
+import net.alex9849.arm.SubRegions.Mark;
 import net.alex9849.arm.commands.BasicArmCommand;
 import net.alex9849.arm.exceptions.InputException;
-import org.bukkit.Material;
+import net.alex9849.inter.WGRegion;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ToolCommand extends BasicArmCommand {
-    private final String rootCommand = "tool";
-    private final String regex = "(?i)tool";
-    private final List<String> usage = new ArrayList<>(Arrays.asList("tool"));
+public class CreateCommand extends BasicArmCommand {
+    private final String rootCommand = "create";
+    private final String regex = "(?i)create";
+    private final List<String> usage = new ArrayList<>(Arrays.asList("create"));
 
     @Override
     public boolean matchesRegex(String command) {
@@ -37,25 +36,24 @@ public class ToolCommand extends BasicArmCommand {
 
     @Override
     public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
-        if(!sender.hasPermission(Permission.SUBREGION_TOOL)) {
+        if(!sender.hasPermission(Permission.SUBREGION_CREATE)) {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
         if (!(sender instanceof Player)) {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Player player = (Player) sender;
-        ItemStack subRegionTool = new ItemStack(Material.FEATHER, 1);
-        //TODO Change me
-        ItemMeta itemMeta = subRegionTool.getItemMeta();
-        itemMeta.setDisplayName("Subregion Tool");
-        subRegionTool.setItemMeta(itemMeta);
-        player.getInventory().addItem(subRegionTool);
-        //TODO Add instruction message
+        Mark selection = Mark.getMark(player);
+        if(selection == null) {
+            //TODO
+            throw new InputException(player, "No selection");
+        }
+        WGRegion wgRegion = selection.createWGRegion();
         return true;
     }
 
     @Override
     public List<String> onTabComplete(Player player, String[] args) {
-        return new ArrayList<>();
+        return new ArrayList<String>();
     }
 }

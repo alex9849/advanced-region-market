@@ -54,6 +54,7 @@ public class Permission {
 
     public static final String SUBREGION_TOOL = "arm.subregion.tool";
     public static final String SUBREGION_MARK = "arm.subregion.mark";
+    public static final String SUBREGION_CREATE = "arm.subregion.create";
 
 
 

@@ -58,6 +58,7 @@ public abstract class Region {
         this.builtblocks = new ArrayList<Location>();
         this.isHotel = isHotel;
         this.teleportLocation = teleportLoc;
+        this.subregions = new ArrayList<Region>();
 
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
         File builtblocksdic = new File(pluginfolder + "/schematics/" + this.regionworld + "/" + region.getId() + "--builtblocks.schematic");
@@ -699,5 +700,18 @@ public abstract class Region {
 
     public static void setCompleteTabRegions(Boolean bool) {
         Region.completeTabRegions = bool;
+    }
+
+    public static Region getRegionbyWGRegion(WGRegion wgRegion, World world) {
+        for(Region region : regionList) {
+            if((region.getRegion().getId().equals(wgRegion.getId())) && (region.getRegionworld().equalsIgnoreCase(world.getName()))) {
+                return region;
+            }
+        }
+        return null;
+    }
+
+    public List<Region> getSubregions() {
+        return subregions;
     }
 }

@@ -4,6 +4,7 @@ import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.inter.WGRegion;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -20,36 +21,22 @@ public class Mark {
     public Mark(Region parentRegion, Player creator) {
         this.parentRegion = parentRegion;
         this.creator = creator;
+        for(int i = 0; i < markList.size(); i++) {
+            if(markList.get(i).getCreator().getUniqueId() == creator.getUniqueId()) {
+                markList.remove(i);
+                i--;
+            }
+        }
+        markList.add(this);
     }
 
     public void setPos1(Location pos1) throws InputException {
-        if(!this.parentRegion.getRegionworld().equals(pos1.getWorld().getName())) {
-            //TODO Replace me
-            throw new InputException(this.creator, "meep");
-        }
-        if(!this.parentRegion.getRegion().contains(pos1.getBlockX(), pos1.getBlockY(), pos1.getBlockZ())) {
-            //TODO Replace me
-            throw new InputException(this.creator, "meep");
-        }
-
         this.pos1 = pos1;
-
     }
 
     public void setPos2(Location pos2) throws InputException {
-        if(!this.parentRegion.getRegionworld().equals(pos2.getWorld().getName())) {
-            //TODO Replace me
-            throw new InputException(this.creator, "meep");
-        }
-        if(!this.parentRegion.getRegion().contains(pos2.getBlockX(), pos2.getBlockY(), pos2.getBlockZ())) {
-            //TODO Replace me
-            throw new InputException(this.creator, "meep");
-        }
-
         this.pos2 = pos2;
-
     }
-
 
     public WGRegion createWGRegion() throws InputException {
         if((pos1 == null) || (pos2 == null)) {
@@ -57,7 +44,11 @@ public class Mark {
             throw new InputException(this.creator, "meep");
         }
 
-        WGRegion wgRegion = AdvancedRegionMarket.getWorldGuardInterface().createRegion(this.parentRegion.getRegion(), this.pos1, this.pos2);
+        if(!this.getParentRegion().getRegion().hasOwner(creator.getUniqueId())) {
+            throw new InputException(this.creator, "meep");
+        }
+
+        WGRegion wgRegion = AdvancedRegionMarket.getWorldGuardInterface().createRegion(this.parentRegion.getRegion(), Bukkit.getWorld(this.parentRegion.getRegionworld()), this.parentRegion.getRegion().getId() + "-" + this.parentRegion.getSubregions().size(), this.pos1, this.pos2, AdvancedRegionMarket.getWorldGuard());
         Mark.markList.remove(this);
         return wgRegion;
     }
@@ -75,4 +66,28 @@ public class Mark {
         return null;
     }
 
+    public static void removeMark(Player player) {
+        for(int i = 0; i < markList.size(); i++) {
+            if(markList.get(i).getCreator().getUniqueId() == player.getUniqueId()) {
+                markList.remove(i);
+                i--;
+            }
+        }
+    }
+
+    public Region getParentRegion() {
+        return parentRegion;
+    }
+
+    public static void leftClick() {
+
+    }
+
+    public static void rightClick() {
+
+    }
+
+    public static void resetMarks() {
+        markList = new ArrayList<>();
+    }
 }

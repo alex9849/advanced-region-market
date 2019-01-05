@@ -1,5 +1,6 @@
 package net.alex9849.arm.Handler;
 
+import com.sk89q.worldguard.protection.managers.RegionManager;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
@@ -345,7 +346,12 @@ public class ARMListener implements Listener {
 
     @EventHandler
     public void interactEvent(PlayerInteractEvent event){
-        this.buyregion(event);
+        try {
+            this.buyregion(event);
+            this.setSubregionMark(event);
+        } catch (InputException inputException) {
+            inputException.sendMessages();
+        }
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -417,7 +423,6 @@ public class ARMListener implements Listener {
     }
 
 
-
     @EventHandler
     public void setLastLoginAndOpenOvertake(PlayerJoinEvent event) {
         if(AdvancedRegionMarket.getEnableAutoReset() || AdvancedRegionMarket.getEnableTakeOver()){
@@ -464,6 +469,7 @@ public class ARMListener implements Listener {
         SellPreset.removePreset(event.getPlayer());
         RentPreset.removePreset(event.getPlayer());
         ContractPreset.removePreset(event.getPlayer());
+        Mark.removeMark(event.getPlayer());
     }
 
     public static void doOvertakeCheck(Player player) {
@@ -499,31 +505,76 @@ public class ARMListener implements Listener {
         }
     }
 
-    private void buyregion(PlayerInteractEvent event) {
-        try {
-            if(event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                if (event.getClickedBlock().getType() == Material.SIGN || event.getClickedBlock().getType() == Material.WALL_SIGN) {
-                    Sign sign = (Sign) event.getClickedBlock().getState();
+    private void buyregion(PlayerInteractEvent event) throws InputException {
+        if(event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            if (event.getClickedBlock().getType() == Material.SIGN || event.getClickedBlock().getType() == Material.WALL_SIGN) {
+                Sign sign = (Sign) event.getClickedBlock().getState();
 
-                    for(int i = 0; i < Region.getRegionList().size(); i++){
-                        if(Region.getRegionList().get(i).hasSign(sign)){
-                            Region.getRegionList().get(i).buy(event.getPlayer());
-                        }
+                for(int i = 0; i < Region.getRegionList().size(); i++){
+                    if(Region.getRegionList().get(i).hasSign(sign)){
+                        Region.getRegionList().get(i).buy(event.getPlayer());
                     }
                 }
             }
-        } catch (InputException inputException) {
-            inputException.sendMessages();
         }
     }
 
-    private void setSubregionMark(PlayerInteractEvent event){
+    private void setSubregionMark(PlayerInteractEvent event) throws InputException {
         Player player = event.getPlayer();
         if(player.hasPermission(Permission.SUBREGION_MARK)) {
+            if(event.getItem() == null) {
+                return;
+            }
             //TODO change me --> see ToolCommand
-            if((event.getItem().getType() == Material.FEATHER) && (event.getItem().getItemMeta().getDisplayName().equals("Subregion Tool"))) {
-                if(Mark.getMark(event.getPlayer()) == null) {
-                    //TODO
+            if((event.getItem().getType() == Material.FEATHER) && ((event.getAction() == Action.RIGHT_CLICK_BLOCK) || (event.getAction() == Action.LEFT_CLICK_BLOCK))) {
+                if(event.getItem().getItemMeta().getDisplayName().equals("Subregion Tool")) {
+                    List<WGRegion> applicableRegion = AdvancedRegionMarket.getWorldGuardInterface().getApplicableRegions(event.getClickedBlock().getWorld(), event.getClickedBlock().getLocation(), AdvancedRegionMarket.getWorldGuard());
+                    for(WGRegion wgRegion : applicableRegion) {
+                        if(wgRegion.hasOwner(player.getUniqueId())) {
+                            Mark mark = Mark.getMark(player);
+                            if(mark != null) {
+                                if((mark.getParentRegion().getRegion().getId().equals(wgRegion.getId())) && (mark.getParentRegion().getRegionworld().equalsIgnoreCase(event.getClickedBlock().getWorld().getName()))) {
+                                    if(event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                                        mark.setPos2(event.getClickedBlock().getLocation());
+                                        player.sendMessage("Second position set!");
+                                    } else if(event.getAction() == Action.LEFT_CLICK_BLOCK) {
+                                        mark.setPos1(event.getClickedBlock().getLocation());
+                                        player.sendMessage("First position set!");
+                                    }
+                                    return;
+                                } else {
+                                    Region region = Region.getRegionbyWGRegion(wgRegion, event.getClickedBlock().getWorld());
+                                    if(region == null) {
+                                        throw new InputException(player, "Region not registred");
+                                    }
+                                    player.sendMessage("Mark in other Region. Removing old mark");
+                                    mark = new Mark(region, player);
+                                    if(event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                                        mark.setPos2(event.getClickedBlock().getLocation());
+                                        player.sendMessage("Second position set!");
+                                    } else if(event.getAction() == Action.LEFT_CLICK_BLOCK) {
+                                        mark.setPos1(event.getClickedBlock().getLocation());
+                                        player.sendMessage("First position set!");
+                                    }
+                                    return;
+                                }
+                            } else {
+                                Region region = Region.getRegionbyWGRegion(wgRegion, event.getClickedBlock().getWorld());
+                                if(region == null) {
+                                    throw new InputException(player, "Region not registred");
+                                }
+                                mark = new Mark(region, player);
+                                if(event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                                    mark.setPos2(event.getClickedBlock().getLocation());
+                                    player.sendMessage("Second position set!");
+                                } else if(event.getAction() == Action.LEFT_CLICK_BLOCK) {
+                                    mark.setPos1(event.getClickedBlock().getLocation());
+                                    player.sendMessage("First position set!");
+                                }
+                                return;
+                            }
+                        }
+                    }
                 }
             }
         }

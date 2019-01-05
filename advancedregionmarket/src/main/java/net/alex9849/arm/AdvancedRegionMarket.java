@@ -893,7 +893,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
             pluginConfig.set("Reselling.Offers.OfferTimeOut", 30);
             saveConfig();
         }
-        if(version < 1.6) {
+        if(version < 1.52) {
             getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.6...");
             double paybackPercentage = pluginConfig.getDouble("Other.paypackPercentage");
             pluginConfig.set("DefaultRegionKind.PaypackPercentage", paybackPercentage);

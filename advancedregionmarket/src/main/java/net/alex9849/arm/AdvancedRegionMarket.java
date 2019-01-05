@@ -909,7 +909,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
                 }
             }
 
-            pluginConfig.set("Version", 1.6);
+            pluginConfig.set("Version", 1.52);
             saveConfig();
         }
     }

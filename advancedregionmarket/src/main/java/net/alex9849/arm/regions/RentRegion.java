@@ -146,7 +146,7 @@ public class RentRegion extends Region {
     @Override
     public void buy(Player player) throws InputException {
 
-        if(!player.hasPermission(Permission.MEMBER_BUY)) {
+        if(!Permission.hasAnyBuyPermission(player)) {
             throw new InputException(player, Messages.NO_PERMISSION);
         }
         if (this.regionKind != RegionKind.DEFAULT){
@@ -445,7 +445,7 @@ public class RentRegion extends Region {
     }
 
     public void extendRegion(Player player) throws InputException {
-        if(!player.hasPermission(Permission.MEMBER_BUY)) {
+        if(!Permission.hasAnyBuyPermission(player)) {
             throw new InputException(player, Messages.NO_PERMISSION);
         }
         if (this.regionKind != RegionKind.DEFAULT){

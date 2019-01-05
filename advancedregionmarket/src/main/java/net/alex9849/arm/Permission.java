@@ -1,5 +1,8 @@
 package net.alex9849.arm;
 
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
 public class Permission {
     public static final String ADMIN_CHANGEAUTORESET = "arm.admin.changeautoreset";
     public static final String ADMIN_CREATE_SELL = "arm.admin.create.sellregion";
@@ -67,4 +70,12 @@ public class Permission {
     public static final String ARM_HELP = "arm.help";
     public static final String ARM_BUYKIND = "arm.buykind.";
     public static final String ARM_LIMIT = "arm.limit.";
+
+    private static final String OLD_BUY_SELLREGION = "arm.buy.sellregion";
+    private static final String OLD_BUY_RENTREGION = "arm.buy.rentregion";
+    private static final String OLD_BUY_CONTRACTREGION = "arm.buy.contractregion";
+
+    public static boolean hasAnyBuyPermission(CommandSender sender) {
+        return (sender.hasPermission(MEMBER_BUY) || sender.hasPermission(OLD_BUY_CONTRACTREGION) || sender.hasPermission(OLD_BUY_RENTREGION) || sender.hasPermission(OLD_BUY_SELLREGION));
+    }
 }

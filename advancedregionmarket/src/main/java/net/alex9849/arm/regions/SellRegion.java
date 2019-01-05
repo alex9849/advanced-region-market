@@ -114,7 +114,7 @@ public class SellRegion extends Region {
     @Override
     public void buy(Player player) throws InputException {
 
-        if(!player.hasPermission(Permission.MEMBER_BUY)) {
+        if(!Permission.hasAnyBuyPermission(player)) {
             throw new InputException(player, Messages.NO_PERMISSION);
         }
         if(this.sold) {

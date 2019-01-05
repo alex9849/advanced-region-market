@@ -83,7 +83,8 @@ public class LimitGroup {
         if(player.hasPermission(Permission.ADMIN_LIMIT_BYPASS)) {
             return Integer.MAX_VALUE;
         }
-        int maxregionswiththistype = 0;
+
+        int maxregionswiththistype = -1;
 
         for(int i = 0; i < groupList.size(); i++){
             if(player.hasPermission(Permission.ARM_LIMIT + groupList.get(i).getName())){
@@ -95,6 +96,10 @@ public class LimitGroup {
                     }
                 }
             }
+        }
+
+        if(maxregionswiththistype == -1){
+            maxregionswiththistype = Integer.MAX_VALUE;
         }
 
         return maxregionswiththistype;

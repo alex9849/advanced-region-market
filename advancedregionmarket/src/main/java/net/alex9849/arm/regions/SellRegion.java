@@ -21,9 +21,7 @@ public class SellRegion extends Region {
     public SellRegion(WGRegion region, String regionworld, List<Sign> sellsign, double price, Boolean sold, Boolean autoreset, Boolean allowOnlyNewBlocks, Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, Boolean newreg, List<Region> subregions, boolean isTown) {
         super(region, regionworld, sellsign, price, sold, autoreset,allowOnlyNewBlocks, doBlockReset, regionKind, teleportLoc, lastreset, newreg, subregions, isTown);
 
-        if(newreg) {
-            this.updateSignText(sellsign.get(0));
-        }
+        this.updateSigns();
     }
 
     @Override
@@ -150,9 +148,7 @@ public class SellRegion extends Region {
 
         this.updateSigns();
 
-        YamlConfiguration config = Region.getRegionsConf();
-        config.set("Regions." + this.regionworld + "." + this.region.getId() + ".sold", true);
-        Region.saveRegionsConf(config);
+        RegionManager.getRegionManager().writeRegionsToConfig();
     }
 
     @Override

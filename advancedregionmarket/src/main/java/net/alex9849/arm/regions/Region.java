@@ -45,7 +45,7 @@ public abstract class Region {
     protected boolean isTown;
 
     public Region(WGRegion region, String regionworld, List<Sign> sellsign, double price, Boolean sold, Boolean autoreset,
-                  Boolean isHotel, Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, Boolean writeInFile, List<Region> subregions, boolean isTown){
+                  Boolean isHotel, Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, Boolean createSchematic, List<Region> subregions, boolean isTown){
         this.region = region;
         this.sellsign = new ArrayList<Sign>(sellsign);
         this.sold = sold;
@@ -85,29 +85,7 @@ public abstract class Region {
         } else {
             this.builtblocks = new ArrayList<Location>();
         }
-
-
-
-        if(writeInFile){
-            YamlConfiguration config = getRegionsConf();
-
-            config.set("Regions." + this.regionworld + "." + this.region.getId() + ".price", price);
-            config.set("Regions." + this.regionworld + "." + this.region.getId() + ".sold", false);
-            if(regionKind == RegionKind.DEFAULT) {
-                config.set("Regions." + this.regionworld + "." + this.region.getId() + ".kind", "default");
-            } else {
-                config.set("Regions." + this.regionworld + "." + this.region.getId() + ".kind", regionKind.getName());
-            }
-            config.set("Regions." + this.regionworld + "." + this.region.getId() + ".regiontype", "sellregion");
-            config.set("Regions." + this.regionworld + "." + this.region.getId() + ".autoreset", autoreset);
-            config.set("Regions." + this.regionworld + "." + this.region.getId() + ".lastreset", lastreset);
-            config.set("Regions." + this.regionworld + "." + this.region.getId() + ".isHotel", isHotel);
-            config.set("Regions." + this.regionworld + "." + this.region.getId() + ".doBlockReset", doBlockReset);
-            List<String> regionsigns = config.getStringList("Regions." + this.regionworld + "." + this.region.getId() + ".signs");
-            Location signloc = this.sellsign.get(0).getLocation();
-            regionsigns.add(signloc.getWorld().getName() + ";" + signloc.getX() + ";" + signloc.getY() + ";" + signloc.getZ());
-            config.set("Regions." + this.regionworld + "." + this.region.getId() + ".signs", regionsigns);
-            saveRegionsConf(config);
+        if(createSchematic){
             this.createSchematic();
         }
 
@@ -115,10 +93,7 @@ public abstract class Region {
 
     public void setTeleportLocation(Location loc) {
         this.teleportLocation = loc;
-        String locString = loc.getWorld().getName() + ";" + loc.getBlockX() + ";" + loc.getBlockY() + ";" + loc.getBlockZ() + ";" + loc.getPitch() + ";" + loc.getYaw();
-        YamlConfiguration conf = getRegionsConf();
-        conf.set("Regions." + this.regionworld + "." + this.region.getId() + ".teleportLoc", locString);
-        saveRegionsConf(conf);
+        RegionManager.getRegionManager().writeRegionsToConfig();
     }
 
     public void addSubRegion(Region region) {
@@ -162,11 +137,7 @@ public abstract class Region {
     public void addSign(Location loc){
         Sign newsign = (Sign) loc.getBlock().getState();
         sellsign.add(newsign);
-        YamlConfiguration config = getRegionsConf();
-        List<String> regionsigns = config.getStringList("Regions." + this.regionworld + "." + region.getId() + ".signs");
-        regionsigns.add(loc.getWorld().getName() + ";" + loc.getX() + ";" + loc.getY() + ";" + loc.getZ());
-        config.set("Regions." + this.regionworld + "." + region.getId() + ".signs", regionsigns);
-        saveRegionsConf(config);
+        RegionManager.getRegionManager().writeRegionsToConfig();
         this.updateSignText(newsign);
         Bukkit.getServer().getWorld(regionworld).save();
 
@@ -178,34 +149,21 @@ public abstract class Region {
 
     public boolean removeSign(Location loc, Player destroyer){
         for(int i = 0; i < this.sellsign.size(); i++){
-            if(this.sellsign.get(i).getWorld().getName().equalsIgnoreCase(loc.getWorld().getName())){
+            if(this.sellsign.get(i).getWorld().getName().equals(loc.getWorld().getName())){
                 if(this.sellsign.get(i).getLocation().distance(loc) == 0){
                     this.sellsign.remove(i);
-                    YamlConfiguration config = getRegionsConf();
-                    List<String> regionSigns = config.getStringList("Regions." + this.regionworld + "." + this.region.getId() + ".signs");
-                    for (int j = 0; j < regionSigns.size(); j++){
-                        if (regionSigns.get(j).equals(this.regionworld + ";" + loc.getX() + ";" + loc.getY() + ";" + loc.getZ())){
-                            regionSigns.remove(j);
-                            config.set("Regions." + this.regionworld + "." + this.region.getId() + ".signs", regionSigns);
-                            saveRegionsConf(config);
-                            if(destroyer != null) {
-                                String message = Messages.SIGN_REMOVED_FROM_REGION.replace("%remaining%", this.getNumberOfSigns() + "");
-                                destroyer.sendMessage(Messages.PREFIX + message);
-                            }
-                            if(regionSigns.size() == 0){
-                                for(int x = 0; x < Region.getRegionList().size(); x++) {
-                                    if(Region.getRegionList().get(x) == this){
-                                        config.set("Regions." + this.regionworld + "." + this.region.getId(), null);
-                                        saveRegionsConf(config);
-                                        if(destroyer != null) {
-                                            destroyer.sendMessage(Messages.PREFIX + Messages.REGION_REMOVED_FROM_ARM);
-                                        }
-                                        Region.getRegionList().remove(x);
-                                    }
-                                }
-                            }
+                    if(destroyer != null) {
+                        String message = Messages.SIGN_REMOVED_FROM_REGION.replace("%remaining%", this.getNumberOfSigns() + "");
+                        destroyer.sendMessage(Messages.PREFIX + message);
+                    }
+                    if(this.sellsign.size() == 0) {
+                        RegionManager.getRegionManager().removeRegion(this);
+                        if(destroyer != null) {
+                            destroyer.sendMessage(Messages.PREFIX + Messages.REGION_REMOVED_FROM_ARM);
                         }
                     }
+                    RegionManager.getRegionManager().writeRegionsToConfig();
+
                     return true;
                 }
             }
@@ -292,17 +250,13 @@ public abstract class Region {
             return false;
 
         } else if(regionkind == RegionKind.DEFAULT) {
-            YamlConfiguration config = getRegionsConf();
-            config.set("Regions." + this.regionworld + "." + this.region.getId() + ".kind", "default");
-            saveRegionsConf(config);
             this.regionKind = RegionKind.DEFAULT;
+            RegionManager.getRegionManager().writeRegionsToConfig();
             return true;
 
         } else {
-            YamlConfiguration config = getRegionsConf();
-            config.set("Regions." + this.regionworld + "." + this.region.getId() + ".kind", regionkind.getName());
-            saveRegionsConf(config);
             this.regionKind = regionkind;
+            RegionManager.getRegionManager().writeRegionsToConfig();
             return true;
         }
     }
@@ -449,11 +403,7 @@ public abstract class Region {
 
     public void setAutoreset(Boolean state){
         this.autoreset = state;
-
-        YamlConfiguration config = getRegionsConf();
-        config.set("Regions." + this.regionworld + "." + this.region.getId() + ".autoreset", state);
-        saveRegionsConf(config);
-
+        RegionManager.getRegionManager().writeRegionsToConfig();
     }
 
     public Material getLogo() {
@@ -506,9 +456,7 @@ public abstract class Region {
         this.resetBlocks();
         GregorianCalendar calendar = new GregorianCalendar();
         this.lastreset = calendar.getTimeInMillis();
-        YamlConfiguration config = getRegionsConf();
-        config.set("Regions." + this.regionworld + "." + this.region.getId() + ".lastreset", this.lastreset);
-        saveRegionsConf(config);
+        RegionManager.getRegionManager().writeRegionsToConfig();
         player.sendMessage(Messages.PREFIX + Messages.RESET_COMPLETE);
     }
 
@@ -600,56 +548,10 @@ public abstract class Region {
 
     public void setHotel(Boolean bool) {
         this.isHotel = bool;
-        YamlConfiguration config = getRegionsConf();
-        config.set("Regions." + this.regionworld + "." + this.getRegion().getId() + ".isHotel", bool);
-        saveRegionsConf(config);
-    }
-
-    public static void generatedefaultConfig(){
-        Plugin plugin = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket");
-        File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-        File messagesdic = new File(pluginfolder + "/regions.yml");
-        if(!messagesdic.exists()){
-            try {
-                ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-                InputStream stream = plugin.getResource("regions.yml");
-                byte[] buffer = new byte[stream.available()];
-                stream.read(buffer);
-                OutputStream output = new FileOutputStream(messagesdic);
-                output.write(buffer);
-                output.close();
-                stream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public static YamlConfiguration getRegionsConf() {
-        return Region.regionsconf;
-    }
-
-    public static void setRegionsConf(){
-        File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-        File regionsconfigdic = new File(pluginfolder + "/regions.yml");
-        Region.regionsconf = YamlConfiguration.loadConfiguration(regionsconfigdic);
-    }
-
-    public static void saveRegionsConf(YamlConfiguration conf) {
-        File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-        File regionsconfigdic = new File(pluginfolder + "/regions.yml");
-        try {
-            conf.save(regionsconfigdic);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        RegionManager.getRegionManager().writeRegionsToConfig();
     }
 
     public void unsell(){
-        YamlConfiguration config = getRegionsConf();
-        config.set("Regions." + this.regionworld + "." + this.getRegion().getId() + ".sold", false);
-        config.set("Regions." + this.regionworld + "." + this.getRegion().getId() + ".lastreset", 1);
-        saveRegionsConf(config);
         this.getRegion().deleteMembers();
         this.getRegion().deleteOwners();
         this.sold = false;
@@ -658,6 +560,7 @@ public abstract class Region {
         for(int i = 0; i < this.sellsign.size(); i++){
             this.updateSignText(this.sellsign.get(i));
         }
+        RegionManager.getRegionManager().writeRegionsToConfig();
     }
 
     public boolean isDoBlockReset() {
@@ -666,9 +569,7 @@ public abstract class Region {
 
     public void setDoBlockReset(Boolean bool) {
         this.isDoBlockReset = bool;
-        YamlConfiguration config = getRegionsConf();
-        config.set("Regions." + this.regionworld + "." + this.getRegion().getId() + ".doBlockReset", bool);
-        saveRegionsConf(config);
+        RegionManager.getRegionManager().writeRegionsToConfig();
     }
 
     public static List<String> completeTabRegions(Player player, String arg, PlayerRegionRelationship playerRegionRelationship) {

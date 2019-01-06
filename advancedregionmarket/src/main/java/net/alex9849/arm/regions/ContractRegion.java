@@ -33,16 +33,7 @@ public class ContractRegion extends Region {
         this.extendTime = extendTime;
         this.terminated = terminated;
 
-        if(newreg) {
-            YamlConfiguration config = getRegionsConf();
-
-            config.set("Regions." + this.regionworld + "." + this.region.getId() + ".regiontype", "contractregion");
-            config.set("Regions." + this.regionworld + "." + this.region.getId() + ".payedTill", payedTill);
-            config.set("Regions." + this.regionworld + "." + this.region.getId() + ".extendTime", extendTime);
-            config.set("Regions." + this.regionworld + "." + this.region.getId() + ".terminated", terminated);
-            saveRegionsConf(config);
-            this.updateSignText(contractsign.get(0));
-        }
+        this.updateSigns();
     }
 
     @Override
@@ -107,11 +98,7 @@ public class ContractRegion extends Region {
 
         this.updateSigns();
 
-        YamlConfiguration config = getRegionsConf();
-        config.set("Regions." + this.regionworld + "." + this.region.getId() + ".sold", true);
-        config.set("Regions." + this.regionworld + "." + this.region.getId() + ".payedTill", this.payedTill);
-        config.set("Regions." + this.regionworld + "." + this.region.getId() + ".terminated", terminated);
-        saveRegionsConf(config);
+        RegionManager.getRegionManager().writeRegionsToConfig();
     }
 
     @Override
@@ -402,9 +389,7 @@ public class ContractRegion extends Region {
         while (this.payedTill < actualtime.getTimeInMillis()) {
             this.payedTill = this.payedTill + this.extendTime;
         }
-        YamlConfiguration config = Region.getRegionsConf();
-        config.set("Regions." + this.regionworld + "." + this.region.getId() + ".payedTill", payedTill);
-        Region.saveRegionsConf(config);
+        RegionManager.getRegionManager().writeRegionsToConfig();
         if((player != null) && AdvancedRegionMarket.isSendContractRegionExtendMessage()) {
             String sendmessage = Messages.CONTRACT_REGION_EXTENDED;
             sendmessage = sendmessage.replace("%price%", this.price + "");
@@ -429,9 +414,7 @@ public class ContractRegion extends Region {
 
     public void setTerminated(Boolean bool, Player player) {
         this.terminated = bool;
-        YamlConfiguration config = Region.getRegionsConf();
-        config.set("Regions." + this.regionworld + "." + this.region.getId() + ".terminated", terminated);
-        Region.saveRegionsConf(config);
+        RegionManager.getRegionManager().writeRegionsToConfig();
         if(player != null) {
             String sendmessage = Messages.CONTRACT_REGION_CHANGE_TERMINATED;
             sendmessage = sendmessage.replace("%regionid%", this.getRegion().getId());

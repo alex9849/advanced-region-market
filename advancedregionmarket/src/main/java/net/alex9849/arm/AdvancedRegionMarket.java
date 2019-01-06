@@ -338,26 +338,26 @@ public class AdvancedRegionMarket extends JavaPlugin {
     }
 
     private void loadRegions() {
-        if(Region.getRegionsConf().get("Regions") != null) {
-            LinkedList<String> worlds = new LinkedList<String>(Region.getRegionsConf().getConfigurationSection("Regions").getKeys(false));
+        if(RegionManager.getRegionsConf().get("Regions") != null) {
+            LinkedList<String> worlds = new LinkedList<String>(RegionManager.getRegionsConf().getConfigurationSection("Regions").getKeys(false));
             if(worlds != null) {
                 for(int y = 0; y < worlds.size(); y++) {
                     if(Bukkit.getWorld(worlds.get(y)) != null) {
-                        if(Region.getRegionsConf().get("Regions." + worlds.get(y)) != null) {
-                            LinkedList<String> regions = new LinkedList<String>(Region.getRegionsConf().getConfigurationSection("Regions." + worlds.get(y)).getKeys(false));
+                        if(RegionManager.getRegionsConf().get("Regions." + worlds.get(y)) != null) {
+                            LinkedList<String> regions = new LinkedList<String>(RegionManager.getRegionsConf().getConfigurationSection("Regions." + worlds.get(y)).getKeys(false));
                             if(regions != null) {
                                 for(int i = 0; i < regions.size(); i++){
                                     String regionworld = worlds.get(y);
                                     String regionname = regions.get(i);
-                                    int price = Region.getRegionsConf().getInt("Regions." + worlds.get(y) + "." + regions.get(i) + ".price");
-                                    boolean sold = Region.getRegionsConf().getBoolean("Regions." + worlds.get(y) + "." + regions.get(i) + ".sold");
-                                    String kind = Region.getRegionsConf().getString("Regions." + worlds.get(y) + "." + regions.get(i) + ".kind");
-                                    boolean autoreset = Region.getRegionsConf().getBoolean("Regions." + worlds.get(y) + "." + regions.get(i) + ".autoreset");
-                                    String regiontype = Region.getRegionsConf().getString("Regions." + worlds.get(y) + "." + regions.get(i) + ".regiontype");
-                                    boolean allowonlynewblocks = Region.getRegionsConf().getBoolean("Regions." + worlds.get(y) + "." + regions.get(i) + ".isHotel");
-                                    boolean doBlockReset = Region.getRegionsConf().getBoolean("Regions." + worlds.get(y) + "." + regions.get(i) + ".doBlockReset");
-                                    long lastreset = Region.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".lastreset");
-                                    String teleportLocString = Region.getRegionsConf().getString("Regions." + worlds.get(y) + "." + regions.get(i) + ".teleportLoc");
+                                    int price = RegionManager.getRegionsConf().getInt("Regions." + worlds.get(y) + "." + regions.get(i) + ".price");
+                                    boolean sold = RegionManager.getRegionsConf().getBoolean("Regions." + worlds.get(y) + "." + regions.get(i) + ".sold");
+                                    String kind = RegionManager.getRegionsConf().getString("Regions." + worlds.get(y) + "." + regions.get(i) + ".kind");
+                                    boolean autoreset = RegionManager.getRegionsConf().getBoolean("Regions." + worlds.get(y) + "." + regions.get(i) + ".autoreset");
+                                    String regiontype = RegionManager.getRegionsConf().getString("Regions." + worlds.get(y) + "." + regions.get(i) + ".regiontype");
+                                    boolean allowonlynewblocks = RegionManager.getRegionsConf().getBoolean("Regions." + worlds.get(y) + "." + regions.get(i) + ".isHotel");
+                                    boolean doBlockReset = RegionManager.getRegionsConf().getBoolean("Regions." + worlds.get(y) + "." + regions.get(i) + ".doBlockReset");
+                                    long lastreset = RegionManager.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".lastreset");
+                                    String teleportLocString = RegionManager.getRegionsConf().getString("Regions." + worlds.get(y) + "." + regions.get(i) + ".teleportLoc");
                                     Location teleportLoc = null;
                                     if(teleportLocString != null) {
                                         String[] teleportLocarr = teleportLocString.split(";");
@@ -381,7 +381,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
                                     WGRegion region = AdvancedRegionMarket.getWorldGuardInterface().getRegion(Bukkit.getWorld(regionworld), AdvancedRegionMarket.worldguard, regionname);
 
                                     if(region != null) {
-                                        List<String> regionsignsloc = Region.getRegionsConf().getStringList("Regions." + worlds.get(y) + "." + regions.get(i) + ".signs");
+                                        List<String> regionsignsloc = RegionManager.getRegionsConf().getStringList("Regions." + worlds.get(y) + "." + regions.get(i) + ".signs");
                                         List<Sign> regionsigns = new ArrayList<>();
                                         for(int j = 0; j < regionsignsloc.size(); j++) {
                                             String[] locsplit = regionsignsloc.get(j).split(";", 4);
@@ -404,24 +404,21 @@ public class AdvancedRegionMarket extends JavaPlugin {
                                             regionsigns.add((Sign) loc.getBlock().getState());
                                         }
                                         if (regiontype.equalsIgnoreCase("rentregion")){
-                                            long payedtill = Region.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".payedTill");
-                                            long maxRentTime = Region.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".maxRentTime");
-                                            long rentExtendPerClick = Region.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".rentExtendPerClick");
+                                            long payedtill = RegionManager.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".payedTill");
+                                            long maxRentTime = RegionManager.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".maxRentTime");
+                                            long rentExtendPerClick = RegionManager.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".rentExtendPerClick");
                                             Region armregion = new RentRegion(region, regionworld, regionsigns, price, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, teleportLoc,
                                                     lastreset, payedtill, maxRentTime, rentExtendPerClick,false, new ArrayList<Region>(), false);
-                                            armregion.updateSigns();
-                                            Region.getRegionList().add(armregion);
+                                            RegionManager.getRegionManager().addRegion(armregion);
                                         } else if (regiontype.equalsIgnoreCase("sellregion")){
                                             Region armregion = new SellRegion(region, regionworld, regionsigns, price, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, teleportLoc, lastreset,false, new ArrayList<Region>(), false);
-                                            armregion.updateSigns();
-                                            Region.getRegionList().add(armregion);
+                                            RegionManager.getRegionManager().addRegion(armregion);
                                         } else if (regiontype.equalsIgnoreCase("contractregion")) {
-                                            long payedtill = Region.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".payedTill");
-                                            long extendTime = Region.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".extendTime");
-                                            Boolean terminated = Region.getRegionsConf().getBoolean("Regions." + worlds.get(y) + "." + regions.get(i) + ".terminated");
+                                            long payedtill = RegionManager.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".payedTill");
+                                            long extendTime = RegionManager.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".extendTime");
+                                            Boolean terminated = RegionManager.getRegionsConf().getBoolean("Regions." + worlds.get(y) + "." + regions.get(i) + ".terminated");
                                             Region armregion = new ContractRegion(region, regionworld, regionsigns, price, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, teleportLoc, lastreset,extendTime, payedtill, terminated, false, new ArrayList<Region>(), false);
-                                            armregion.updateSigns();
-                                            Region.getRegionList().add(armregion);
+                                            RegionManager.getRegionManager().addRegion(armregion);
                                         }
                                     }
                                 }
@@ -735,8 +732,8 @@ public class AdvancedRegionMarket extends JavaPlugin {
     }
 
     private void updateConfigs(){
-        Region.generatedefaultConfig();
-        Region.setRegionsConf();
+        RegionManager.generatedefaultConfig();
+        RegionManager.setRegionsConf();
         Messages.generatedefaultConfig();
         Preset.generatedefaultConfig();
         Preset.loadConfig();
@@ -745,7 +742,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         ContractPreset.loadPresets();
         this.generatedefaultconfig();
         FileConfiguration pluginConfig = this.getConfig();
-        YamlConfiguration regionConf = Region.getRegionsConf();
+        YamlConfiguration regionConf = RegionManager.getRegionsConf();
         Double version = pluginConfig.getDouble("Version");
         if(version < 1.1) {
             getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.1...");
@@ -785,7 +782,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
                     }
                 }
             }
-            Region.saveRegionsConf(regionConf);
+            RegionManager.saveRegionsConf();
         }
         if(version < 1.21) {
             getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.21...");
@@ -892,7 +889,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
                     }
                 }
             }
-            Region.saveRegionsConf(regionConf);
+            RegionManager.saveRegionsConf();
         }
         if(version < 1.4) {
             getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.4...");

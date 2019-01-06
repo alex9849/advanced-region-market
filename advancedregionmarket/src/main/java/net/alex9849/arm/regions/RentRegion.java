@@ -27,23 +27,13 @@ public class RentRegion extends Region {
     private static Boolean sendExpirationWarning;
 
     public RentRegion(WGRegion region, String regionworld, List<Sign> rentsign, double price, Boolean sold, Boolean autoreset, Boolean allowOnlyNewBlocks,
-                      Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, long payedTill, long maxRentTime, long rentExtendPerClick, Boolean newreg, List<Region> subregions, boolean isTown) {
-        super(region, regionworld, rentsign, price, sold, autoreset, allowOnlyNewBlocks, doBlockReset, regionKind, teleportLoc, lastreset, newreg, subregions, isTown);
+                      Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, long payedTill, long maxRentTime, long rentExtendPerClick, Boolean createSchematic, List<Region> subregions, boolean isTown) {
+        super(region, regionworld, rentsign, price, sold, autoreset, allowOnlyNewBlocks, doBlockReset, regionKind, teleportLoc, lastreset, createSchematic, subregions, isTown);
 
         this.payedTill = payedTill;
         this.maxRentTime = maxRentTime;
         this.rentExtendPerClick = rentExtendPerClick;
-
-        if(newreg) {
-            YamlConfiguration config = getRegionsConf();
-
-            config.set("Regions." + this.regionworld + "." + this.region.getId() + ".regiontype", "rentregion");
-            config.set("Regions." + this.regionworld + "." + this.region.getId() + ".payedTill", payedTill);
-            config.set("Regions." + this.regionworld + "." + this.region.getId() + ".maxRentTime", maxRentTime);
-            config.set("Regions." + this.regionworld + "." + this.region.getId() + ".rentExtendPerClick", rentExtendPerClick);
-            saveRegionsConf(config);
-            this.updateSignText(rentsign.get(0));
-        }
+        this.updateSigns();
     }
 
     @Override
@@ -215,10 +205,7 @@ public class RentRegion extends Region {
 
         this.updateSigns();
 
-        YamlConfiguration config = getRegionsConf();
-        config.set("Regions." + this.regionworld + "." + this.region.getId() + ".sold", true);
-        config.set("Regions." + this.regionworld + "." + this.region.getId() + ".payedTill", this.payedTill);
-        saveRegionsConf(config);
+        RegionManager.getRegionManager().writeRegionsToConfig();
 
     }
 
@@ -477,9 +464,8 @@ public class RentRegion extends Region {
             }
             AdvancedRegionMarket.getEcon().withdrawPlayer(player, price);
             this.payedTill = this.payedTill + this.rentExtendPerClick;
-            YamlConfiguration config = getRegionsConf();
-            config.set("Regions." + this.regionworld + "." + this.region.getId() + ".payedTill", this.payedTill);
-            saveRegionsConf(config);
+
+            RegionManager.getRegionManager().writeRegionsToConfig();
 
             String message = Messages.RENT_EXTEND_MESSAGE;
             message = message.replace("%remaining%", this.calcRemainingTime());

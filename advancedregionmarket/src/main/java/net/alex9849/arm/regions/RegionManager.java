@@ -1,5 +1,6 @@
 package net.alex9849.arm.regions;
 
+import net.alex9849.inter.WGRegion;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -117,7 +118,7 @@ public class RegionManager {
         RegionManager.regionsconf = YamlConfiguration.loadConfiguration(regionsconfigdic);
     }
 
-    private static void saveRegionsConf() {
+    public static void saveRegionsConf() {
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
         File regionsconfigdic = new File(pluginfolder + "/regions.yml");
         try {

@@ -5,7 +5,7 @@ import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.Preseter.*;
-import net.alex9849.arm.SubRegions.Mark;
+import net.alex9849.arm.SubRegions.SubRegionCreator;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.regions.*;
 import net.alex9849.arm.gui.Gui;
@@ -469,7 +469,7 @@ public class ARMListener implements Listener {
         SellPreset.removePreset(event.getPlayer());
         RentPreset.removePreset(event.getPlayer());
         ContractPreset.removePreset(event.getPlayer());
-        Mark.removeMark(event.getPlayer());
+        SubRegionCreator.removeSubRegioncreator(event.getPlayer());
     }
 
     public static void doOvertakeCheck(Player player) {
@@ -531,14 +531,14 @@ public class ARMListener implements Listener {
                     List<WGRegion> applicableRegion = AdvancedRegionMarket.getWorldGuardInterface().getApplicableRegions(event.getClickedBlock().getWorld(), event.getClickedBlock().getLocation(), AdvancedRegionMarket.getWorldGuard());
                     for(WGRegion wgRegion : applicableRegion) {
                         if(wgRegion.hasOwner(player.getUniqueId())) {
-                            Mark mark = Mark.getMark(player);
-                            if(mark != null) {
-                                if((mark.getParentRegion().getRegion().getId().equals(wgRegion.getId())) && (mark.getParentRegion().getRegionworld().equalsIgnoreCase(event.getClickedBlock().getWorld().getName()))) {
+                            SubRegionCreator subRegionCreator = SubRegionCreator.getSubRegioncreator(player);
+                            if(subRegionCreator != null) {
+                                if((subRegionCreator.getParentRegion().getRegion().getId().equals(wgRegion.getId())) && (subRegionCreator.getParentRegion().getRegionworld().equalsIgnoreCase(event.getClickedBlock().getWorld().getName()))) {
                                     if(event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                                        mark.setPos2(event.getClickedBlock().getLocation());
+                                        subRegionCreator.setPos2(event.getClickedBlock().getLocation());
                                         player.sendMessage("Second position set!");
                                     } else if(event.getAction() == Action.LEFT_CLICK_BLOCK) {
-                                        mark.setPos1(event.getClickedBlock().getLocation());
+                                        subRegionCreator.setPos1(event.getClickedBlock().getLocation());
                                         player.sendMessage("First position set!");
                                     }
                                     return;
@@ -548,12 +548,12 @@ public class ARMListener implements Listener {
                                         throw new InputException(player, "Region not registred");
                                     }
                                     player.sendMessage("Mark in other Region. Removing old mark");
-                                    mark = new Mark(region, player);
+                                    subRegionCreator = new SubRegionCreator(region, player);
                                     if(event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                                        mark.setPos2(event.getClickedBlock().getLocation());
+                                        subRegionCreator.setPos2(event.getClickedBlock().getLocation());
                                         player.sendMessage("Second position set!");
                                     } else if(event.getAction() == Action.LEFT_CLICK_BLOCK) {
-                                        mark.setPos1(event.getClickedBlock().getLocation());
+                                        subRegionCreator.setPos1(event.getClickedBlock().getLocation());
                                         player.sendMessage("First position set!");
                                     }
                                     return;
@@ -563,12 +563,12 @@ public class ARMListener implements Listener {
                                 if(region == null) {
                                     throw new InputException(player, "Region not registred");
                                 }
-                                mark = new Mark(region, player);
+                                subRegionCreator = new SubRegionCreator(region, player);
                                 if(event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                                    mark.setPos2(event.getClickedBlock().getLocation());
+                                    subRegionCreator.setPos2(event.getClickedBlock().getLocation());
                                     player.sendMessage("Second position set!");
                                 } else if(event.getAction() == Action.LEFT_CLICK_BLOCK) {
-                                    mark.setPos1(event.getClickedBlock().getLocation());
+                                    subRegionCreator.setPos1(event.getClickedBlock().getLocation());
                                     player.sendMessage("First position set!");
                                 }
                                 return;

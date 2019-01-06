@@ -1,0 +1,94 @@
+package net.alex9849.arm.SubRegions;
+
+import net.alex9849.arm.AdvancedRegionMarket;
+import net.alex9849.arm.exceptions.InputException;
+import net.alex9849.arm.regions.Region;
+import net.alex9849.inter.WGRegion;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class SubRegionCreator {
+    private static List<SubRegionCreator> subRegionCreatorList = new ArrayList<>();
+    private Location pos1;
+    private Location pos2;
+    private Region parentRegion;
+    private Player creator;
+
+    public SubRegionCreator(Region parentRegion, Player creator) {
+        this.parentRegion = parentRegion;
+        this.creator = creator;
+        for(int i = 0; i < subRegionCreatorList.size(); i++) {
+            if(subRegionCreatorList.get(i).getCreator().getUniqueId() == creator.getUniqueId()) {
+                subRegionCreatorList.remove(i);
+                i--;
+            }
+        }
+        subRegionCreatorList.add(this);
+    }
+
+    public void setPos1(Location pos1) {
+        this.pos1 = pos1;
+    }
+
+    public void setPos2(Location pos2) {
+        this.pos2 = pos2;
+    }
+
+    public WGRegion createWGRegion() throws InputException {
+        if((pos1 == null) || (pos2 == null)) {
+            //TODO Replace me
+            throw new InputException(this.creator, "meep");
+        }
+
+        if(!this.getParentRegion().getRegion().hasOwner(creator.getUniqueId())) {
+            throw new InputException(this.creator, "meep");
+        }
+
+        WGRegion wgRegion = AdvancedRegionMarket.getWorldGuardInterface().createRegion(this.parentRegion.getRegion(), Bukkit.getWorld(this.parentRegion.getRegionworld()),
+                this.parentRegion.getRegion().getId() + "-sub" + this.parentRegion.getSubregions().size(), this.pos1, this.pos2, AdvancedRegionMarket.getWorldGuard());
+        SubRegionCreator.subRegionCreatorList.remove(this);
+        return wgRegion;
+    }
+
+    public Player getCreator() {
+        return this.creator;
+    }
+
+    public static SubRegionCreator getSubRegioncreator(Player player) {
+        for(SubRegionCreator subRegionCreator: subRegionCreatorList) {
+            if(subRegionCreator.getCreator().getUniqueId().equals(player.getUniqueId())) {
+                return subRegionCreator;
+            }
+        }
+        return null;
+    }
+
+    public static void removeSubRegioncreator(Player player) {
+        for(int i = 0; i < subRegionCreatorList.size(); i++) {
+            if(subRegionCreatorList.get(i).getCreator().getUniqueId() == player.getUniqueId()) {
+                subRegionCreatorList.remove(i);
+                i--;
+            }
+        }
+    }
+
+    public Region getParentRegion() {
+        return parentRegion;
+    }
+
+    public static void leftClick() {
+
+    }
+
+    public static void rightClick() {
+
+    }
+
+    public static void resetMarks() {
+        subRegionCreatorList = new ArrayList<>();
+    }
+}

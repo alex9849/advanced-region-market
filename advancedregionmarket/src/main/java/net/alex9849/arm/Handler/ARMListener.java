@@ -56,7 +56,11 @@ public class ARMListener implements Listener {
                 }
 
                 if(!sign.getPlayer().hasPermission(Permission.ADMIN_CREATE_SELL)){
-                    throw new InputException(sign.getPlayer(), Messages.NO_PERMISSION);
+                    if(!Permission.hasAnySubregionCreatePermission(sign.getPlayer())) {
+                        return;
+                    } else {
+                        throw new InputException(sign.getPlayer(), Messages.NO_PERMISSION);
+                    }
                 }
 
                 String worldname = sign.getLine(1);
@@ -124,7 +128,11 @@ public class ARMListener implements Listener {
 
             if(sign.getLine(0).equalsIgnoreCase("[ARM-Rent]")){
                 if(!sign.getPlayer().hasPermission(Permission.ADMIN_CREATE_RENT)){
-                    throw new InputException(sign.getPlayer(), Messages.NO_PERMISSION);
+                    if(!Permission.hasAnySubregionCreatePermission(sign.getPlayer())) {
+                        return;
+                    } else {
+                        throw new InputException(sign.getPlayer(), Messages.NO_PERMISSION);
+                    }
                 }
 
                 RentPreset preset = (RentPreset) Preset.getPreset(PresetType.RENTPRESET, sign.getPlayer());
@@ -218,7 +226,11 @@ public class ARMListener implements Listener {
             }
             if(sign.getLine(0).equalsIgnoreCase("[ARM-Contract]")) {
                 if(!sign.getPlayer().hasPermission(Permission.ADMIN_CREATE_CONTRACT)){
-                    throw new InputException(sign.getPlayer(), Messages.NO_PERMISSION);
+                    if(!Permission.hasAnySubregionCreatePermission(sign.getPlayer())) {
+                        return;
+                    } else {
+                        throw new InputException(sign.getPlayer(), Messages.NO_PERMISSION);
+                    }
                 }
 
                 ContractPreset preset = (ContractPreset) Preset.getPreset(PresetType.CONTRACTPRESET, sign.getPlayer());
@@ -521,7 +533,7 @@ public class ARMListener implements Listener {
 
     private void setSubregionMark(PlayerInteractEvent event) throws InputException {
         Player player = event.getPlayer();
-        if(player.hasPermission(Permission.SUBREGION_MARK)) {
+        if(Permission.hasAnySubregionCreatePermission(player)) {
             if(event.getItem() == null) {
                 return;
             }
@@ -547,12 +559,14 @@ public class ARMListener implements Listener {
                                     if(region == null) {
                                         throw new InputException(player, "Region not registred");
                                     }
-                                    player.sendMessage("Mark in other Region. Removing old mark");
-                                    subRegionCreator = new SubRegionCreator(region, player);
                                     if(event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                                        player.sendMessage("Mark in other Region. Removing old mark");
+                                        subRegionCreator = new SubRegionCreator(region, player);
                                         subRegionCreator.setPos2(event.getClickedBlock().getLocation());
                                         player.sendMessage("Second position set!");
                                     } else if(event.getAction() == Action.LEFT_CLICK_BLOCK) {
+                                        player.sendMessage("Mark in other Region. Removing old mark");
+                                        subRegionCreator = new SubRegionCreator(region, player);
                                         subRegionCreator.setPos1(event.getClickedBlock().getLocation());
                                         player.sendMessage("First position set!");
                                     }
@@ -563,11 +577,12 @@ public class ARMListener implements Listener {
                                 if(region == null) {
                                     throw new InputException(player, "Region not registred");
                                 }
-                                subRegionCreator = new SubRegionCreator(region, player);
                                 if(event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                                    subRegionCreator = new SubRegionCreator(region, player);
                                     subRegionCreator.setPos2(event.getClickedBlock().getLocation());
                                     player.sendMessage("Second position set!");
                                 } else if(event.getAction() == Action.LEFT_CLICK_BLOCK) {
+                                    subRegionCreator = new SubRegionCreator(region, player);
                                     subRegionCreator.setPos1(event.getClickedBlock().getLocation());
                                     player.sendMessage("First position set!");
                                 }

@@ -121,6 +121,11 @@ public abstract class Region {
         saveRegionsConf(conf);
     }
 
+    public void addSubRegion(Region region) {
+        this.subregions.add(region);
+        //TODO Write to config
+    }
+
     public void delete() {
         for(int i = 0; i < this.sellsign.size(); i++) {
             Location loc = this.sellsign.get(i).getLocation();

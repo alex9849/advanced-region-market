@@ -7,6 +7,7 @@ import net.alex9849.inter.WGRegion;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.SignChangeEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,8 @@ public class SubRegionCreator {
     private Location pos2;
     private Region parentRegion;
     private Player creator;
+    private WGRegion wgRegion;
+    private SubSignCreationListener subSignCreationListener;
 
     public SubRegionCreator(Region parentRegion, Player creator) {
         this.parentRegion = parentRegion;
@@ -38,7 +41,7 @@ public class SubRegionCreator {
         this.pos2 = pos2;
     }
 
-    public WGRegion createWGRegion() throws InputException {
+    public void createWGRegion() throws InputException {
         if((pos1 == null) || (pos2 == null)) {
             //TODO Replace me
             throw new InputException(this.creator, "meep");
@@ -48,10 +51,10 @@ public class SubRegionCreator {
             throw new InputException(this.creator, "meep");
         }
 
-        WGRegion wgRegion = AdvancedRegionMarket.getWorldGuardInterface().createRegion(this.parentRegion.getRegion(), Bukkit.getWorld(this.parentRegion.getRegionworld()),
+        this.wgRegion = AdvancedRegionMarket.getWorldGuardInterface().createRegion(this.parentRegion.getRegion(), Bukkit.getWorld(this.parentRegion.getRegionworld()),
                 this.parentRegion.getRegion().getId() + "-sub" + this.parentRegion.getSubregions().size(), this.pos1, this.pos2, AdvancedRegionMarket.getWorldGuard());
-        SubRegionCreator.subRegionCreatorList.remove(this);
-        return wgRegion;
+        Bukkit.getServer().getPluginManager().registerEvents(new SubSignCreationListener(this.creator, this), AdvancedRegionMarket.getARM());
+        return;
     }
 
     public Player getCreator() {
@@ -67,9 +70,20 @@ public class SubRegionCreator {
         return null;
     }
 
+    public void remove() {
+        if(this.subSignCreationListener != null) {
+            this.subSignCreationListener.unregister();
+        }
+        subRegionCreatorList.remove(this);
+    }
+
     public static void removeSubRegioncreator(Player player) {
         for(int i = 0; i < subRegionCreatorList.size(); i++) {
             if(subRegionCreatorList.get(i).getCreator().getUniqueId() == player.getUniqueId()) {
+                SubSignCreationListener subSignCreationListener = subRegionCreatorList.get(i).getSubSignCreationListener();
+                if(subSignCreationListener != null) {
+                    subSignCreationListener.unregister();
+                }
                 subRegionCreatorList.remove(i);
                 i--;
             }
@@ -90,5 +104,13 @@ public class SubRegionCreator {
 
     public static void resetMarks() {
         subRegionCreatorList = new ArrayList<>();
+    }
+
+    private SubSignCreationListener getSubSignCreationListener() {
+        return this.subSignCreationListener;
+    }
+
+    protected WGRegion getSubRegion() {
+        return this.wgRegion;
     }
 }

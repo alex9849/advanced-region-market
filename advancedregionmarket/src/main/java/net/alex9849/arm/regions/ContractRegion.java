@@ -460,4 +460,16 @@ public class ContractRegion extends Region {
             return Messages.CONTRACT_REGION_STATUS_ACTIVE;
         }
     }
+
+    protected long getPayedTill() {
+        return this.payedTill;
+    }
+
+    protected long getExtendTime() {
+        return this.extendTime;
+    }
+
+    protected boolean isTerminated() {
+        return this.terminated;
+    }
 }

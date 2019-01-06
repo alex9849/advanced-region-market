@@ -719,4 +719,16 @@ public abstract class Region {
     public List<Region> getSubregions() {
         return subregions;
     }
+
+    protected List<Sign> getSellSigns() {
+        return this.sellsign;
+    }
+
+    protected long getLastreset() {
+        return this.lastreset;
+    }
+
+    protected boolean isAutoreset() {
+        return this.autoreset;
+    }
 }

@@ -5,6 +5,7 @@ import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.RegionKind;
+import net.alex9849.arm.regions.RegionManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -46,7 +47,7 @@ public class FindFreeRegionCommand extends BasicArmCommand {
             if (regionKind == null){
                 throw new InputException(player, Messages.REGIONKIND_DOES_NOT_EXIST);
             }
-            Region.teleportToFreeRegion(regionKind, player);
+            RegionManager.teleportToFreeRegion(regionKind, player);
             return true;
         } else {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);

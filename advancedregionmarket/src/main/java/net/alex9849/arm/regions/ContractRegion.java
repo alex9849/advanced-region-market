@@ -98,7 +98,7 @@ public class ContractRegion extends Region {
 
         this.updateSigns();
 
-        RegionManager.getRegionManager().writeRegionsToConfig();
+        RegionManager.writeRegionsToConfig();
     }
 
     @Override
@@ -227,6 +227,7 @@ public class ContractRegion extends Region {
         AdvancedRegionMarket.getEcon().withdrawPlayer(player, price);
 
         this.setSold(player);
+        this.resetBuiltBlocks();
         if(AdvancedRegionMarket.isTeleportAfterContractRegionBought()){
             Teleporter.teleport(player, this, "", AdvancedRegionMarket.getARM().getConfig().getBoolean("Other.TeleportAfterRegionBoughtCountdown"));
         }
@@ -389,7 +390,7 @@ public class ContractRegion extends Region {
         while (this.payedTill < actualtime.getTimeInMillis()) {
             this.payedTill = this.payedTill + this.extendTime;
         }
-        RegionManager.getRegionManager().writeRegionsToConfig();
+        RegionManager.writeRegionsToConfig();
         if((player != null) && AdvancedRegionMarket.isSendContractRegionExtendMessage()) {
             String sendmessage = Messages.CONTRACT_REGION_EXTENDED;
             sendmessage = sendmessage.replace("%price%", this.price + "");
@@ -414,7 +415,7 @@ public class ContractRegion extends Region {
 
     public void setTerminated(Boolean bool, Player player) {
         this.terminated = bool;
-        RegionManager.getRegionManager().writeRegionsToConfig();
+        RegionManager.writeRegionsToConfig();
         if(player != null) {
             String sendmessage = Messages.CONTRACT_REGION_CHANGE_TERMINATED;
             sendmessage = sendmessage.replace("%regionid%", this.getRegion().getId());

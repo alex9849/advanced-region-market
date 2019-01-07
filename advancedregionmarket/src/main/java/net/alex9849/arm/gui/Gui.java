@@ -125,7 +125,7 @@ public class Gui implements Listener {
     }
 
     public static void openRegionOwnerGui(Player player, Boolean withGoBack) {
-        List<Region> regions = Region.getRegionsByOwner(player.getUniqueId());
+        List<Region> regions = RegionManager.getRegionsByOwner(player.getUniqueId());
 
         int invsize = 0;
         int itemcounter = 0;
@@ -737,7 +737,7 @@ public class Gui implements Listener {
             ClickItem icon = new ClickItem(stack, 0).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
-                    Region.teleportToFreeRegion(RegionKind.DEFAULT, player);
+                    RegionManager.teleportToFreeRegion(RegionKind.DEFAULT, player);
                 }
             });
             inv.addIcon(icon);
@@ -763,7 +763,7 @@ public class Gui implements Listener {
                     ClickItem icon = new ClickItem(stack, itempos).addClickAction(new ClickAction() {
                         @Override
                         public void execute(Player player) throws InputException {
-                            Region.teleportToFreeRegion(RegionKind.getRegionKindList().get(finalI), player);
+                            RegionManager.teleportToFreeRegion(RegionKind.getRegionKindList().get(finalI), player);
                         }
                     });
                     inv.addIcon(icon);
@@ -994,7 +994,7 @@ public class Gui implements Listener {
     }
 
     public static void openRegionMemberGui(Player player, Boolean withGoBack) {
-        List<Region> regions = Region.getRegionsByMember(player.getUniqueId());
+        List<Region> regions = RegionManager.getRegionsByMember(player.getUniqueId());
 
         int invsize = 0;
         int itemcounter = 0;

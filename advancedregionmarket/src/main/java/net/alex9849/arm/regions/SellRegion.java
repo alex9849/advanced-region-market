@@ -134,6 +134,7 @@ public class SellRegion extends Region {
         AdvancedRegionMarket.getEcon().withdrawPlayer(player, price);
 
         this.setSold(player);
+        this.resetBuiltBlocks();
         if(AdvancedRegionMarket.isTeleportAfterSellRegionBought()){
             Teleporter.teleport(player, this, "", AdvancedRegionMarket.getARM().getConfig().getBoolean("Other.TeleportAfterRegionBoughtCountdown"));
         }
@@ -148,7 +149,7 @@ public class SellRegion extends Region {
 
         this.updateSigns();
 
-        RegionManager.getRegionManager().writeRegionsToConfig();
+        RegionManager.writeRegionsToConfig();
     }
 
     @Override

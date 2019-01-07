@@ -164,7 +164,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         AdvancedRegionMarket.econ = null;
         AdvancedRegionMarket.worldguard = null;
         AdvancedRegionMarket.worldedit = null;
-        Region.Reset();
+        RegionManager.Reset();
         LimitGroup.Reset();
         AutoPrice.Reset();
         RegionKind.Reset();
@@ -409,16 +409,16 @@ public class AdvancedRegionMarket extends JavaPlugin {
                                             long rentExtendPerClick = RegionManager.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".rentExtendPerClick");
                                             Region armregion = new RentRegion(region, regionworld, regionsigns, price, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, teleportLoc,
                                                     lastreset, payedtill, maxRentTime, rentExtendPerClick,false, new ArrayList<Region>(), false);
-                                            RegionManager.getRegionManager().addRegion(armregion);
+                                            RegionManager.addRegion(armregion);
                                         } else if (regiontype.equalsIgnoreCase("sellregion")){
                                             Region armregion = new SellRegion(region, regionworld, regionsigns, price, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, teleportLoc, lastreset,false, new ArrayList<Region>(), false);
-                                            RegionManager.getRegionManager().addRegion(armregion);
+                                            RegionManager.addRegion(armregion);
                                         } else if (regiontype.equalsIgnoreCase("contractregion")) {
                                             long payedtill = RegionManager.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".payedTill");
                                             long extendTime = RegionManager.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".extendTime");
                                             Boolean terminated = RegionManager.getRegionsConf().getBoolean("Regions." + worlds.get(y) + "." + regions.get(i) + ".terminated");
                                             Region armregion = new ContractRegion(region, regionworld, regionsigns, price, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, teleportLoc, lastreset,extendTime, payedtill, terminated, false, new ArrayList<Region>(), false);
-                                            RegionManager.getRegionManager().addRegion(armregion);
+                                            RegionManager.addRegion(armregion);
                                         }
                                     }
                                 }
@@ -427,10 +427,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
                     }
                 }
             }
-        }
-
-        for(int i = 0; i < Region.getRegionList().size(); i++) {
-            Region.getRegionList().get(i).writeSigns();
         }
     }
 
@@ -705,10 +701,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
             return allowStart;
         }
         return allowStart;
-    }
-
-    public ARMAPI getAPI(){
-        return new ARMAPI();
     }
 
     public void generatedefaultconfig(){

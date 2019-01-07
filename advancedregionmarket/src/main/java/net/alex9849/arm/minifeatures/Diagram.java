@@ -43,7 +43,7 @@ public class Diagram {
         int contractregions = 0;
         int soldcontractregions = 0;
 
-        for(Region region : Region.getRegionList()) {
+        for(Region region : RegionManager.getRegions()) {
             if(region instanceof SellRegion) {
                 sellregions++;
                 if(region.isSold()) {
@@ -78,7 +78,7 @@ public class Diagram {
         int regions = 0;
         int soldregions = 0;
 
-        for(Region region : Region.getRegionList()) {
+        for(Region region : RegionManager.getRegions()) {
             if(region.getRegionKind() == regionKind) {
                 regions++;
                 if(region.isSold()) {
@@ -98,7 +98,7 @@ public class Diagram {
 
         if(sellType == SellType.SELL) {
             selltypeName = Messages.SELL_REGION;
-            for(Region region : Region.getRegionList()) {
+            for(Region region : RegionManager.getRegions()) {
                 if(region instanceof SellRegion) {
                     regions++;
                     if(region.isSold()) {
@@ -110,7 +110,7 @@ public class Diagram {
 
         if(sellType == SellType.RENT) {
             selltypeName = Messages.RENT_REGION;
-            for(Region region : Region.getRegionList()) {
+            for(Region region : RegionManager.getRegions()) {
                 if(region instanceof RentRegion) {
                     regions++;
                     if(region.isSold()) {
@@ -122,7 +122,7 @@ public class Diagram {
 
         if(sellType == SellType.CONTRACT) {
             selltypeName = Messages.CONTRACT_REGION;
-            for(Region region : Region.getRegionList()) {
+            for(Region region : RegionManager.getRegions()) {
                 if(region instanceof ContractRegion) {
                     regions++;
                     if(region.isSold()) {

@@ -8,6 +8,7 @@ import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.minifeatures.selloffer.Offer;
 import net.alex9849.arm.regions.Region;
+import net.alex9849.arm.regions.RegionManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -50,7 +51,7 @@ public class OfferCommand extends BasicArmCommand {
 
         if (allargs.matches(regex_new)) {
             if(player.hasPermission(Permission.MEMBER_OFFER_CREATE)) {
-                Region region = Region.searchRegionbyNameAndWorld(args[2], player.getLocation().getWorld().getName());
+                Region region = RegionManager.searchRegionbyNameAndWorld(args[2], player.getLocation().getWorld().getName());
                 if(region == null) {
                     throw new InputException(player, Messages.REGION_DOES_NOT_EXIST);
                 }
@@ -140,7 +141,7 @@ public class OfferCommand extends BasicArmCommand {
                             List<String> players = CommandHandler.tabCompleteOnlinePlayers(args[1]);
                             if(players.size() > 0) {
                                 if(args[1].equalsIgnoreCase(players.get(0))) {
-                                    returnme.addAll(Region.completeTabRegions(player, args[2], PlayerRegionRelationship.OWNER));
+                                    returnme.addAll(RegionManager.completeTabRegions(player, args[2], PlayerRegionRelationship.OWNER));
                                 }
                             }
                         }

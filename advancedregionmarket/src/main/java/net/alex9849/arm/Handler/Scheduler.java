@@ -2,6 +2,7 @@ package net.alex9849.arm.Handler;
 
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.regions.Region;
+import net.alex9849.arm.regions.RegionManager;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
@@ -14,7 +15,7 @@ import java.util.logging.Level;
 public class Scheduler implements Runnable {
     @Override
     public void run() {
-        Region.updateRegions();
+        RegionManager.updateRegions();
 
         if(AdvancedRegionMarket.getEnableAutoReset()){
 
@@ -28,8 +29,8 @@ public class Scheduler implements Runnable {
             try {
                 ResultSet rs = AdvancedRegionMarket.getStmt().executeQuery("SELECT * FROM `" + AdvancedRegionMarket.getSqlPrefix() + "lastlogin` WHERE `lastlogin` < '" + compareTime + "'");
                 if (rs.next()){
-                    Region.autoResetRegionsFromOwner(UUID.fromString(rs.getString("uuid")));
-                    List<Region> regions = Region.getRegionsByMember(UUID.fromString(rs.getString("uuid")));
+                    RegionManager.autoResetRegionsFromOwner(UUID.fromString(rs.getString("uuid")));
+                    List<Region> regions = RegionManager.getRegionsByMember(UUID.fromString(rs.getString("uuid")));
                     for (int i = 0; i < regions.size(); i++){
                         if(regions.get(i).getAutoreset()){
                             regions.get(i).getRegion().removeMember(UUID.fromString(rs.getString("uuid")));

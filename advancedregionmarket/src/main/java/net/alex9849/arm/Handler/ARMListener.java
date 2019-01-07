@@ -100,7 +100,7 @@ public class ARMListener implements Listener {
                     throw new InputException(sign.getPlayer(), ChatColor.DARK_RED + "Price must be positive!");
                 }
 
-                Region searchregion = Region.searchRegionbyNameAndWorld(regionname, worldname);
+                Region searchregion = net.alex9849.arm.regions.RegionManager.searchRegionbyNameAndWorld(regionname, worldname);
                 if(searchregion != null) {
                     if(!(searchregion instanceof SellRegion)) {
                         throw new InputException(sign.getPlayer(), "Region already registered as a non-sellregion");
@@ -115,7 +115,7 @@ public class ARMListener implements Listener {
                 LinkedList<Sign> sellsign = new LinkedList<Sign>();
                 sellsign.add((Sign) sign.getBlock().getState());
                 SellRegion addRegion = new SellRegion(region, worldname, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,1,true, new ArrayList<Region>(), false);
-                Region.getRegionList().add(addRegion);
+                net.alex9849.arm.regions.RegionManager.addRegion(addRegion);
                 sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_ADDED_TO_ARM);
                 sign.setCancelled(true);
 
@@ -198,7 +198,7 @@ public class ARMListener implements Listener {
                     }
                 }
 
-                Region searchregion = Region.searchRegionbyNameAndWorld(regionname, worldname);
+                Region searchregion = net.alex9849.arm.regions.RegionManager.searchRegionbyNameAndWorld(regionname, worldname);
                 if(searchregion != null) {
                     if(!(searchregion instanceof RentRegion)) {
                         throw new InputException(sign.getPlayer(), "Region already registered as a non-rentregion");
@@ -214,7 +214,7 @@ public class ARMListener implements Listener {
 
                 RentRegion addRegion = new RentRegion(region, worldname, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,
                         1,1, maxRentTime, extendPerClick, true, new ArrayList<Region>(), false);
-                Region.getRegionList().add(addRegion);
+                net.alex9849.arm.regions.RegionManager.addRegion(addRegion);
 
                 sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_ADDED_TO_ARM);
                 sign.setCancelled(true);
@@ -293,7 +293,7 @@ public class ARMListener implements Listener {
                 }
 
 
-                Region searchregion = Region.searchRegionbyNameAndWorld(regionname, worldname);
+                Region searchregion = net.alex9849.arm.regions.RegionManager.searchRegionbyNameAndWorld(regionname, worldname);
                 if(searchregion != null) {
                     if(!(searchregion instanceof ContractRegion)) {
                         throw new InputException(sign.getPlayer(), "Region already registered as a non-contractregion");
@@ -308,7 +308,7 @@ public class ARMListener implements Listener {
 
                 ContractRegion addRegion = new ContractRegion(region, worldname, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,
                         1, extendtime, 1, false, true, new ArrayList<Region>(), false);
-                Region.getRegionList().add(addRegion);
+                net.alex9849.arm.regions.RegionManager.addRegion(addRegion);
                 sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_ADDED_TO_ARM);
                 sign.setCancelled(true);
 
@@ -333,7 +333,7 @@ public class ARMListener implements Listener {
                 return;
             }
 
-            if(!Region.checkIfSignExists((Sign) block.getBlock().getState())){
+            if(net.alex9849.arm.regions.RegionManager.getRegion((Sign) block.getBlock().getState()) == null){
                 return;
             }
 
@@ -346,11 +346,7 @@ public class ARMListener implements Listener {
             double loc_z = block.getBlock().getLocation().getZ();
             Location loc = new Location(block.getBlock().getWorld(), loc_x, loc_y, loc_z);
 
-            for (int i = 0; i < Region.getRegionList().size(); i++) {
-                if(Region.getRegionList().get(i).removeSign(loc, block.getPlayer())){
-                    return;
-                }
-            }
+            net.alex9849.arm.regions.RegionManager.getRegion((Sign) block.getBlock().getState()).removeSign(loc, block.getPlayer());
         } catch (InputException inputException) {
             inputException.sendMessages();
         }
@@ -371,24 +367,26 @@ public class ARMListener implements Listener {
         if(event.isCancelled()) {
             return;
         }
-        for(int i = 0; i < Region.getRegionList().size(); i++){
-            if(AdvancedRegionMarket.getWorldGuardInterface().canBuild(event.getPlayer(), event.getBlock().getLocation(), AdvancedRegionMarket.getWorldGuard())){
-                int x = event.getBlock().getLocation().getBlockX();
-                int y = event.getBlock().getLocation().getBlockY();
-                int z = event.getBlock().getLocation().getBlockZ();
-                if (Region.getRegionList().get(i).getRegion().contains(x, y, z) && Region.getRegionList().get(i).getRegionworld().equals(event.getPlayer().getLocation().getWorld().getName())) {
-                    if(Region.getRegionList().get(i).isHotel()){
-                        if(Region.getRegionList().get(i).isSold()){
-                            if(AdvancedRegionMarket.getWorldGuardInterface().canBuild(event.getPlayer(), event.getBlock().getLocation(), AdvancedRegionMarket.getWorldGuard())) {
-                                Region.getRegionList().get(i).addBuiltBlock(event.getBlock().getLocation());
+
+        if(AdvancedRegionMarket.getWorldGuardInterface().canBuild(event.getPlayer(), event.getBlock().getLocation(), AdvancedRegionMarket.getWorldGuard())) {
+            List<Region> playersRegions = net.alex9849.arm.regions.RegionManager.getRegionsByOwnerOrMember(event.getPlayer().getUniqueId());
+            int x = event.getBlock().getLocation().getBlockX();
+            int y = event.getBlock().getLocation().getBlockY();
+            int z = event.getBlock().getLocation().getBlockZ();
+
+            for(Region region : playersRegions) {
+                if(region.getRegion().contains(x, y, z)) {
+                    if(region.getRegionworld().equals(event.getBlock().getWorld().getName())) {
+                        if(region.isHotel()) {
+                            if(region.isSold()) {
+                                region.addBuiltBlock(event.getBlock().getLocation());
                             }
                         }
                     }
-                    return;
                 }
             }
-        }
 
+        }
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -401,17 +399,20 @@ public class ARMListener implements Listener {
                 return;
             }
             if(AdvancedRegionMarket.getWorldGuardInterface().canBuild(event.getPlayer(), event.getBlock().getLocation(), AdvancedRegionMarket.getWorldGuard())){
-                for(int i = 0; i < Region.getRegionList().size(); i++) {
-                    if(Region.getRegionList().get(i).isHotel()){
-                        int x = event.getBlock().getLocation().getBlockX();
-                        int y = event.getBlock().getLocation().getBlockY();
-                        int z = event.getBlock().getLocation().getBlockZ();
-                        if(Region.getRegionList().get(i).getRegion().contains(x, y, z) && Region.getRegionList().get(i).getRegionworld().equals(event.getPlayer().getLocation().getWorld().getName())) {
-                            if(Region.getRegionList().get(i).allowBlockBreak(event.getBlock().getLocation())){
-                                return;
-                            } else {
-                                event.setCancelled(true);
-                                throw new InputException(event.getPlayer(), Messages.REGION_ERROR_CAN_NOT_BUILD_HERE);
+
+                List<Region> playersRegions = net.alex9849.arm.regions.RegionManager.getRegionsByOwnerOrMember(event.getPlayer().getUniqueId());
+                int x = event.getBlock().getLocation().getBlockX();
+                int y = event.getBlock().getLocation().getBlockY();
+                int z = event.getBlock().getLocation().getBlockZ();
+
+                for(Region region : playersRegions) {
+                    if(region.getRegion().contains(x, y, z)) {
+                        if(region.getRegionworld().equals(event.getBlock().getWorld().getName())) {
+                            if(region.isHotel()) {
+                                if(!region.allowBlockBreak(event.getBlock().getLocation())) {
+                                    event.setCancelled(true);
+                                    throw new InputException(event.getPlayer(), Messages.REGION_ERROR_CAN_NOT_BUILD_HERE);
+                                }
                             }
                         }
                     }
@@ -425,11 +426,9 @@ public class ARMListener implements Listener {
     @EventHandler
     public void protectSignPhysics(BlockPhysicsEvent sign) {
         if (sign.getBlock().getType() == Material.SIGN || sign.getBlock().getType() == Material.WALL_SIGN){
-            for (int i = 0; i < Region.getRegionList().size() ; i++){
-                if(Region.getRegionList().get(i).hasSign((Sign) sign.getBlock().getState())){
-                    sign.setCancelled(true);
-                    return;
-                }
+            if(net.alex9849.arm.regions.RegionManager.getRegion((Sign) sign.getBlock().getState()) != null){
+                sign.setCancelled(true);
+                return;
             }
         }
     }
@@ -498,7 +497,7 @@ public class ARMListener implements Listener {
 
             List<Region> overtake = new LinkedList<>();
             while (rs.next()){
-                List<Region> regions = Region.getRegionsByOwner(UUID.fromString(rs.getString("uuid")));
+                List<Region> regions = net.alex9849.arm.regions.RegionManager.getRegionsByOwner(UUID.fromString(rs.getString("uuid")));
 
                 for(int i = 0; i < regions.size(); i++){
                     if(regions.get(i).getAutoreset()){
@@ -522,11 +521,11 @@ public class ARMListener implements Listener {
             if (event.getClickedBlock().getType() == Material.SIGN || event.getClickedBlock().getType() == Material.WALL_SIGN) {
                 Sign sign = (Sign) event.getClickedBlock().getState();
 
-                for(int i = 0; i < Region.getRegionList().size(); i++){
-                    if(Region.getRegionList().get(i).hasSign(sign)){
-                        Region.getRegionList().get(i).buy(event.getPlayer());
-                    }
+                Region region = net.alex9849.arm.regions.RegionManager.getRegion(sign);
+                if(region == null) {
+                    return;
                 }
+                region.buy(event.getPlayer());
             }
         }
     }
@@ -555,7 +554,7 @@ public class ARMListener implements Listener {
                                     }
                                     return;
                                 } else {
-                                    Region region = Region.getRegionbyWGRegion(wgRegion, event.getClickedBlock().getWorld());
+                                    Region region = net.alex9849.arm.regions.RegionManager.getRegion(wgRegion, event.getClickedBlock().getWorld());
                                     if(region == null) {
                                         throw new InputException(player, "Region not registred");
                                     }
@@ -573,7 +572,7 @@ public class ARMListener implements Listener {
                                     return;
                                 }
                             } else {
-                                Region region = Region.getRegionbyWGRegion(wgRegion, event.getClickedBlock().getWorld());
+                                Region region = net.alex9849.arm.regions.RegionManager.getRegion(wgRegion, event.getClickedBlock().getWorld());
                                 if(region == null) {
                                     throw new InputException(player, "Region not registred");
                                 }

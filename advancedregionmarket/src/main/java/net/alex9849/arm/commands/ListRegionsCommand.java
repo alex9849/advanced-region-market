@@ -7,6 +7,7 @@ import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.RegionKind;
+import net.alex9849.arm.regions.RegionManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -81,19 +82,21 @@ public class ListRegionsCommand extends BasicArmCommand {
         }
         Player player = (Player) sender;
         if(sender.hasPermission(Permission.ADMIN_LISTREGIONS) || (player.getName().equalsIgnoreCase(args) && player.hasPermission(Permission.MEMBER_LISTREGIONS))){
-            LinkedList<String> selectedRegionsOwner = new LinkedList<>();
-            LinkedList<String> selectedRegionsMember = new LinkedList<>();
             OfflinePlayer oplayer = Bukkit.getOfflinePlayer(args);
             if(oplayer == null){
                 throw new InputException(sender, "Player does not exist!");
             }
-            for(int i = 0; i < Region.getRegionList().size(); i++) {
-                if(Region.getRegionList().get(i).getRegion().hasOwner(oplayer.getUniqueId())){
-                    selectedRegionsOwner.add(Region.getRegionList().get(i).getRegion().getId());
-                }
-                if(Region.getRegionList().get(i).getRegion().hasMember(oplayer.getUniqueId())){
-                    selectedRegionsMember.add(Region.getRegionList().get(i).getRegion().getId());
-                }
+            List<Region> regionsOwner = RegionManager.getRegionsByOwner(oplayer.getUniqueId());
+            List<Region> regionsMember = RegionManager.getRegionsByMember(oplayer.getUniqueId());
+            List<String> selectedRegionsOwner = new ArrayList<>();
+            List<String> selectedRegionsMember = new ArrayList<>();
+
+            for(Region region : regionsOwner) {
+                selectedRegionsOwner.add(region.getRegion().getId());
+            }
+
+            for(Region region : regionsMember) {
+                selectedRegionsMember.add(region.getRegion().getId());
             }
 
             String regionstring = "";

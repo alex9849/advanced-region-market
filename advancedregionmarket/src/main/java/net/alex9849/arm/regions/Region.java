@@ -24,8 +24,7 @@ import java.sql.Timestamp;
 import java.util.*;
 
 public abstract class Region {
-    private static List<Region> regionList = new ArrayList<>();
-    private static boolean completeTabRegions;
+    public static boolean completeTabRegions;
 
     protected WGRegion region;
     protected String regionworld;
@@ -93,7 +92,7 @@ public abstract class Region {
 
     public void setTeleportLocation(Location loc) {
         this.teleportLocation = loc;
-        RegionManager.getRegionManager().writeRegionsToConfig();
+        RegionManager.writeRegionsToConfig();
     }
 
     public void addSubRegion(Region region) {
@@ -137,7 +136,7 @@ public abstract class Region {
     public void addSign(Location loc){
         Sign newsign = (Sign) loc.getBlock().getState();
         sellsign.add(newsign);
-        RegionManager.getRegionManager().writeRegionsToConfig();
+        RegionManager.writeRegionsToConfig();
         this.updateSignText(newsign);
         Bukkit.getServer().getWorld(regionworld).save();
 
@@ -157,12 +156,12 @@ public abstract class Region {
                         destroyer.sendMessage(Messages.PREFIX + message);
                     }
                     if(this.sellsign.size() == 0) {
-                        RegionManager.getRegionManager().removeRegion(this);
+                        RegionManager.removeRegion(this);
                         if(destroyer != null) {
                             destroyer.sendMessage(Messages.PREFIX + Messages.REGION_REMOVED_FROM_ARM);
                         }
                     }
-                    RegionManager.getRegionManager().writeRegionsToConfig();
+                    RegionManager.writeRegionsToConfig();
 
                     return true;
                 }
@@ -251,22 +250,14 @@ public abstract class Region {
 
         } else if(regionkind == RegionKind.DEFAULT) {
             this.regionKind = RegionKind.DEFAULT;
-            RegionManager.getRegionManager().writeRegionsToConfig();
+            RegionManager.writeRegionsToConfig();
             return true;
 
         } else {
             this.regionKind = regionkind;
-            RegionManager.getRegionManager().writeRegionsToConfig();
+            RegionManager.writeRegionsToConfig();
             return true;
         }
-    }
-
-    public static List<Region> getRegionList() {
-        return regionList;
-    }
-
-    public static void Reset(){
-        Region.regionList = new ArrayList<>();
     }
 
     public RegionKind getRegionKind(){
@@ -277,43 +268,24 @@ public abstract class Region {
         return sold;
     }
 
-    public static void teleportToFreeRegion(RegionKind type, Player player) throws InputException {
-        for (int i = 0; i < Region.getRegionList().size(); i++){
-
-            if ((Region.getRegionList().get(i).isSold() == false) && (Region.getRegionList().get(i).getRegionKind() == type)){
-                WGRegion regionTP = Region.getRegionList().get(i).getRegion();
-                String message = Messages.REGION_TELEPORT_MESSAGE.replace("%regionid%", regionTP.getId());
-                Teleporter.teleport(player, Region.getRegionList().get(i), Messages.PREFIX + message, true);
-                return;
-            }
-        }
-        throw new InputException(player, Messages.NO_FREE_REGION_WITH_THIS_KIND);
-    }
-
     public void createSchematic(){
         AdvancedRegionMarket.getWorldEditInterface().createSchematic(this.getRegion(), this.getRegionworld(), AdvancedRegionMarket.getWorldedit().getWorldEdit());
     }
 
     public boolean resetBlocks(){
+        this.resetBuiltBlocks();
+        AdvancedRegionMarket.getWorldEditInterface().resetBlocks(this.getRegion(), this.getRegionworld(), AdvancedRegionMarket.getWorldedit().getWorldEdit());
+
+        return true;
+    }
+
+    public void resetBuiltBlocks() {
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
         File builtblocksdic = new File(pluginfolder + "/schematics/" + this.regionworld + "/" + region.getId() + "--builtblocks.schematic");
         if(builtblocksdic.exists()){
             builtblocksdic.delete();
             this.builtblocks = new ArrayList<>();
         }
-
-        AdvancedRegionMarket.getWorldEditInterface().resetBlocks(this.getRegion(), this.getRegionworld(), AdvancedRegionMarket.getWorldedit().getWorldEdit());
-
-        return true;
-    }
-
-    public static Region searchRegionbyNameAndWorld(String name, String world){
-        for (int i = 0; i < Region.getRegionList().size(); i++) {
-            if(Region.getRegionList().get(i).getRegion().getId().equalsIgnoreCase(name) && Region.getRegionList().get(i).getRegionworld().equals(world)){
-                return Region.getRegionList().get(i);
-            }
-        }
-        return null;
     }
 
     public void regionInfo(CommandSender sender){
@@ -359,51 +331,13 @@ public abstract class Region {
 
     public abstract void updateRegion();
 
-    public static void updateRegions(){
-        for(int i = 0; i < Region.getRegionList().size(); i++) {
-            Region.getRegionList().get(i).updateRegion();
-        }
-    }
-
-    public static List<Region> getRegionsByOwner(UUID uuid) {
-        List<Region> regions = new LinkedList<>();
-        for (int i = 0; i < Region.getRegionList().size(); i++){
-            if(Region.getRegionList().get(i).getRegion().hasOwner(uuid)){
-                regions.add(Region.getRegionList().get(i));
-            }
-        }
-        return regions;
-    }
-
-    public static boolean autoResetRegionsFromOwner(UUID uuid){
-        List<Region> regions = Region.getRegionsByOwner(uuid);
-        for(int i = 0; i < regions.size(); i++){
-            if(regions.get(i).getAutoreset()){
-                regions.get(i).unsell();
-                if(regions.get(i).isDoBlockReset()) {
-                    regions.get(i).resetBlocks();
-                }
-            }
-        }
-        return true;
-    }
-
-    public static boolean checkIfSignExists(Sign sign) {
-        for(int i = 0; i < Region.getRegionList().size(); i++){
-            if(Region.getRegionList().get(i).hasSign(sign)){
-                return true;
-            }
-        }
-        return false;
-    }
-
     public boolean getAutoreset() {
         return autoreset;
     }
 
     public void setAutoreset(Boolean state){
         this.autoreset = state;
-        RegionManager.getRegionManager().writeRegionsToConfig();
+        RegionManager.writeRegionsToConfig();
     }
 
     public Material getLogo() {
@@ -420,16 +354,6 @@ public abstract class Region {
             this.getRegion().addMember(owner.get(i));
         }
         this.getRegion().setOwner(member);
-    }
-
-    public static List<Region> getRegionsByMember(UUID uuid) {
-        List<Region> regions = new LinkedList<>();
-        for (int i = 0; i < Region.getRegionList().size(); i++){
-            if(Region.getRegionList().get(i).getRegion().hasMember(uuid)) {
-                regions.add(Region.getRegionList().get(i));
-            }
-        }
-        return regions;
     }
 
     public String getDimensions(){
@@ -456,7 +380,7 @@ public abstract class Region {
         this.resetBlocks();
         GregorianCalendar calendar = new GregorianCalendar();
         this.lastreset = calendar.getTimeInMillis();
-        RegionManager.getRegionManager().writeRegionsToConfig();
+        RegionManager.writeRegionsToConfig();
         player.sendMessage(Messages.PREFIX + Messages.RESET_COMPLETE);
     }
 
@@ -548,7 +472,7 @@ public abstract class Region {
 
     public void setHotel(Boolean bool) {
         this.isHotel = bool;
-        RegionManager.getRegionManager().writeRegionsToConfig();
+        RegionManager.writeRegionsToConfig();
     }
 
     public void unsell(){
@@ -560,7 +484,7 @@ public abstract class Region {
         for(int i = 0; i < this.sellsign.size(); i++){
             this.updateSignText(this.sellsign.get(i));
         }
-        RegionManager.getRegionManager().writeRegionsToConfig();
+        RegionManager.writeRegionsToConfig();
     }
 
     public boolean isDoBlockReset() {
@@ -569,52 +493,11 @@ public abstract class Region {
 
     public void setDoBlockReset(Boolean bool) {
         this.isDoBlockReset = bool;
-        RegionManager.getRegionManager().writeRegionsToConfig();
-    }
-
-    public static List<String> completeTabRegions(Player player, String arg, PlayerRegionRelationship playerRegionRelationship) {
-        List<String> returnme = new ArrayList<>();
-
-        if(Region.completeTabRegions) {
-            for(Region region : Region.getRegionList()) {
-                if(region.getRegion().getId().toLowerCase().startsWith(arg)) {
-                    if(playerRegionRelationship == PlayerRegionRelationship.OWNER) {
-                        if(region.getRegion().hasOwner(player.getUniqueId())) {
-                            returnme.add(region.getRegion().getId());
-                        }
-                    } else if (playerRegionRelationship == PlayerRegionRelationship.MEMBER) {
-                        if(region.getRegion().hasMember(player.getUniqueId())) {
-                            returnme.add(region.getRegion().getId());
-                        }
-                    } else if (playerRegionRelationship == PlayerRegionRelationship.MEMBER_OR_OWNER) {
-                        if(region.getRegion().hasMember(player.getUniqueId()) || region.getRegion().hasOwner(player.getUniqueId())) {
-                            returnme.add(region.getRegion().getId());
-                        }
-                    } else if (playerRegionRelationship == PlayerRegionRelationship.ALL) {
-                        returnme.add(region.getRegion().getId());
-                    } else if (playerRegionRelationship == PlayerRegionRelationship.AVAILABLE) {
-                        if(!region.isSold()) {
-                            returnme.add(region.getRegion().getId());
-                        }
-                    }
-                }
-            }
-        }
-
-        return returnme;
+        RegionManager.writeRegionsToConfig();
     }
 
     public static void setCompleteTabRegions(Boolean bool) {
         Region.completeTabRegions = bool;
-    }
-
-    public static Region getRegionbyWGRegion(WGRegion wgRegion, World world) {
-        for(Region region : regionList) {
-            if((region.getRegion().getId().equals(wgRegion.getId())) && (region.getRegionworld().equalsIgnoreCase(world.getName()))) {
-                return region;
-            }
-        }
-        return null;
     }
 
     public List<Region> getSubregions() {

@@ -166,6 +166,7 @@ public class RentRegion extends Region {
         AdvancedRegionMarket.getEcon().withdrawPlayer(player, price);
 
         this.setSold(player);
+        this.resetBuiltBlocks();
         if(AdvancedRegionMarket.isTeleportAfterRentRegionBought()){
             Teleporter.teleport(player, this, "", AdvancedRegionMarket.getARM().getConfig().getBoolean("Other.TeleportAfterRegionBoughtCountdown"));
         }
@@ -205,7 +206,7 @@ public class RentRegion extends Region {
 
         this.updateSigns();
 
-        RegionManager.getRegionManager().writeRegionsToConfig();
+        RegionManager.writeRegionsToConfig();
 
     }
 
@@ -465,7 +466,7 @@ public class RentRegion extends Region {
             AdvancedRegionMarket.getEcon().withdrawPlayer(player, price);
             this.payedTill = this.payedTill + this.rentExtendPerClick;
 
-            RegionManager.getRegionManager().writeRegionsToConfig();
+            RegionManager.writeRegionsToConfig();
 
             String message = Messages.RENT_EXTEND_MESSAGE;
             message = message.replace("%remaining%", this.calcRemainingTime());
@@ -488,7 +489,7 @@ public class RentRegion extends Region {
     }
 
     public static void sendExpirationWarnings(Player player) {
-        List<Region> regions = getRegionsByOwner(player.getUniqueId());
+        List<Region> regions = RegionManager.getRegionsByOwner(player.getUniqueId());
         List<RentRegion> rentRegions = new ArrayList<>();
         for(int i = 0; i < regions.size(); i++) {
             if(regions.get(i) instanceof RentRegion) {

@@ -52,7 +52,7 @@ public class SubSignCreationListener implements Listener {
                 SellRegion sellRegion = new SellRegion(this.subRegionCreator.getSubRegion(), this.subRegionCreator.getParentRegion().getRegionworld(), signList, price, false, false, false, false, RegionKind.DEFAULT, null, 1, true, new ArrayList<Region>(), false);
                 this.subRegionCreator.saveWorldGuardRegion();
                 event.setCancelled(true);
-                this.subRegionCreator.getParentRegion().addSubRegion(sellRegion, true);
+                this.subRegionCreator.getParentRegion().addSubRegion(sellRegion);
                 this.subRegionCreator.remove();
                 event.getPlayer().sendMessage(Messages.PREFIX + "Region created and saved");
             } else if(event.getLine(0).equalsIgnoreCase("[ARM-Rent]")) {

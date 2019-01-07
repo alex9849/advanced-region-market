@@ -23,4 +23,6 @@ public abstract class WorldGuardInterface {
     public abstract WGRegion createRegion(WGRegion parentRegion, World world, String regionID, Location pos1, Location pos2, WorldGuardPlugin worldGuardPlugin);
 
     public abstract List<WGRegion> getApplicableRegions(World world, Location loc, WorldGuardPlugin worldGuardPlugin);
+
+    public abstract void addToRegionManager(WGRegion region, World world, WorldGuardPlugin worldGuardPlugin);
 }

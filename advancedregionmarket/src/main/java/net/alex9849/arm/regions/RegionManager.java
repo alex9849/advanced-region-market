@@ -42,6 +42,32 @@ public class RegionManager {
         regionsconf.set("Regions." + region.getRegionworld() + "." + region.getRegion().getId() + ".lastreset", region.getLastreset());
         regionsconf.set("Regions." + region.getRegionworld() + "." + region.getRegion().getId() + ".isHotel", region.isHotel);
         regionsconf.set("Regions." + region.getRegionworld() + "." + region.getRegion().getId() + ".doBlockReset", region.isDoBlockReset());
+        for(Region subregion : region.getSubregions()) {
+            regionsconf.set("Regions." + region.getRegionworld() + "." + region.getRegion().getId() + ".subregions." + subregion.getRegion().getId() + ".price", subregion.getPrice());
+            regionsconf.set("Regions." + region.getRegionworld() + "." + region.getRegion().getId() + ".subregions." + subregion.getRegion().getId() + ".sold", subregion.isSold());
+            regionsconf.set("Regions." + region.getRegionworld() + "." + region.getRegion().getId() + ".subregions." + subregion.getRegion().getId() + ".isHotel", subregion.isHotel());
+            List<String> subregionsigns = new ArrayList<>();
+            for(Sign sign : subregion.getSellSigns()) {
+                Location signloc = sign.getLocation();
+                subregionsigns.add(signloc.getWorld().getName() + ";" + signloc.getX() + ";" + signloc.getY() + ";" + signloc.getZ());
+            }
+            regionsconf.set("Regions." + region.getRegionworld() + "." + region.getRegion().getId() + ".subregions." + subregion.getRegion().getId() + ".signs", subregionsigns);
+            if(subregion instanceof SellRegion) {
+                regionsconf.set("Regions." + region.getRegionworld() + "." + region.getRegion().getId() + ".subregions." + subregion.getRegion().getId() + ".regiontype", "sellregion");
+            } else if (subregion instanceof RentRegion) {
+                RentRegion rentRegion = (RentRegion) region;
+                regionsconf.set("Regions." + rentRegion.getRegionworld() + "." + rentRegion.getRegion().getId() + ".subregions." + subregion.getRegion().getId() + ".regiontype", "rentregion");
+                regionsconf.set("Regions." + rentRegion.getRegionworld() + "." + rentRegion.getRegion().getId() + ".subregions." + subregion.getRegion().getId() + ".payedTill", rentRegion.getPayedTill());
+                regionsconf.set("Regions." + rentRegion.getRegionworld() + "." + rentRegion.getRegion().getId() + ".subregions." + subregion.getRegion().getId() + ".maxRentTime", rentRegion.getMaxRentTime());
+                regionsconf.set("Regions." + rentRegion.getRegionworld() + "." + rentRegion.getRegion().getId() + ".subregions." + subregion.getRegion().getId() + ".rentExtendPerClick", rentRegion.getRentExtendPerClick());
+            } else if (subregion instanceof ContractRegion) {
+                ContractRegion contractRegion = (ContractRegion) region;
+                regionsconf.set("Regions." + contractRegion.getRegionworld() + "." + contractRegion.getRegion().getId() + ".subregions." + subregion.getRegion().getId() + ".regiontype", "contractregion");
+                regionsconf.set("Regions." + contractRegion.getRegionworld() + "." + contractRegion.getRegion().getId() + ".subregions." + subregion.getRegion().getId() + ".payedTill", contractRegion.getPayedTill());
+                regionsconf.set("Regions." + contractRegion.getRegionworld() + "." + contractRegion.getRegion().getId() + ".subregions." + subregion.getRegion().getId() + ".extendTime", contractRegion.getExtendTime());
+                regionsconf.set("Regions." + contractRegion.getRegionworld() + "." + contractRegion.getRegion().getId() + ".subregions." + subregion.getRegion().getId() + ".terminated", contractRegion.isTerminated());
+            }
+        }
 
         if(region.getTeleportLocation() != null) {
             String teleportloc = region.getTeleportLocation().getWorld().getName() + ";" + region.getTeleportLocation().getBlockX() + ";" +
@@ -77,9 +103,15 @@ public class RegionManager {
     }
 
     public static void removeRegion(Region region) {
-        regionsconf.set("Regions." + region.getRegionworld() + "." + region.getRegion().getId(), null);
-        regionList.remove(region);
-        saveRegionsConf();
+        for(int i = 0; i < regionList.size(); i++) {
+            if(regionList.get(i) == region) {
+                regionList.remove(i);
+                i--;
+            } else {
+                regionList.get(i).getSubregions().remove(region);
+            }
+        }
+        writeRegionsToConfig();
     }
 
     public static void writeRegionsToConfig() {

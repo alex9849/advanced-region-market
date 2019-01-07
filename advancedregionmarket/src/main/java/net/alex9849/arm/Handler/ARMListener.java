@@ -56,11 +56,7 @@ public class ARMListener implements Listener {
                 }
 
                 if(!sign.getPlayer().hasPermission(Permission.ADMIN_CREATE_SELL)){
-                    if(!Permission.hasAnySubregionCreatePermission(sign.getPlayer())) {
-                        return;
-                    } else {
-                        throw new InputException(sign.getPlayer(), Messages.NO_PERMISSION);
-                    }
+                    throw new InputException(sign.getPlayer(), Messages.NO_PERMISSION);
                 }
 
                 String worldname = sign.getLine(1);
@@ -128,11 +124,7 @@ public class ARMListener implements Listener {
 
             if(sign.getLine(0).equalsIgnoreCase("[ARM-Rent]")){
                 if(!sign.getPlayer().hasPermission(Permission.ADMIN_CREATE_RENT)){
-                    if(!Permission.hasAnySubregionCreatePermission(sign.getPlayer())) {
-                        return;
-                    } else {
-                        throw new InputException(sign.getPlayer(), Messages.NO_PERMISSION);
-                    }
+                    throw new InputException(sign.getPlayer(), Messages.NO_PERMISSION);
                 }
 
                 RentPreset preset = (RentPreset) Preset.getPreset(PresetType.RENTPRESET, sign.getPlayer());
@@ -226,11 +218,7 @@ public class ARMListener implements Listener {
             }
             if(sign.getLine(0).equalsIgnoreCase("[ARM-Contract]")) {
                 if(!sign.getPlayer().hasPermission(Permission.ADMIN_CREATE_CONTRACT)){
-                    if(!Permission.hasAnySubregionCreatePermission(sign.getPlayer())) {
-                        return;
-                    } else {
-                        throw new InputException(sign.getPlayer(), Messages.NO_PERMISSION);
-                    }
+                    throw new InputException(sign.getPlayer(), Messages.NO_PERMISSION);
                 }
 
                 ContractPreset preset = (ContractPreset) Preset.getPreset(PresetType.CONTRACTPRESET, sign.getPlayer());

@@ -95,9 +95,12 @@ public abstract class Region {
         RegionManager.writeRegionsToConfig();
     }
 
-    public void addSubRegion(Region region) {
+    public void addSubRegion(Region region, Boolean save) {
         this.subregions.add(region);
-        //TODO Write to config
+
+        if(save) {
+            RegionManager.writeRegionsToConfig();
+        }
     }
 
     public void delete() {

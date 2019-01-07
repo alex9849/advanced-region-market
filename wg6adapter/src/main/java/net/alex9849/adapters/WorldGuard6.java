@@ -54,7 +54,8 @@ public class WorldGuard6 extends WorldGuardInterface {
         } catch (ProtectedRegion.CircularInheritanceException e) {
             e.printStackTrace();
         }
-        return null;
+        WG6Region returnRegion = new WG6Region(protectedRegion);
+        return returnRegion;
     }
 
     @Override
@@ -65,6 +66,12 @@ public class WorldGuard6 extends WorldGuardInterface {
             wg6Regions.add(new WG6Region(pRegion));
         }
         return wg6Regions;
+    }
+
+    @Override
+    public void addToRegionManager(WGRegion region, World world, WorldGuardPlugin worldGuardPlugin) {
+        WG6Region wg6Region = (WG6Region) region;
+        getRegionManager(world, worldGuardPlugin).addRegion(wg6Region.getRegion());
     }
 
 }

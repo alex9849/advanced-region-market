@@ -2,6 +2,7 @@ package net.alex9849.arm.SubRegions;
 
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.exceptions.InputException;
+import net.alex9849.arm.exceptions.LogicalException;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.inter.WGRegion;
 import org.bukkit.Bukkit;
@@ -18,7 +19,7 @@ public class SubRegionCreator {
     private Location pos2;
     private Region parentRegion;
     private Player creator;
-    private WGRegion wgRegion;
+    private WGRegion subRegion;
     private SubSignCreationListener subSignCreationListener;
 
     public SubRegionCreator(Region parentRegion, Player creator) {
@@ -42,17 +43,23 @@ public class SubRegionCreator {
     }
 
     public void createWGRegion() throws InputException {
-        if((pos1 == null) || (pos2 == null)) {
+        if((this.pos1 == null) || (this.pos2 == null)) {
             //TODO Replace me
             throw new InputException(this.creator, "meep");
+        }
+        if(this.subSignCreationListener != null) {
+            this.subSignCreationListener.unregister();
+        }
+
+        if(this.subRegion != null) {
+            this.subRegion = null;
         }
 
         if(!this.getParentRegion().getRegion().hasOwner(creator.getUniqueId())) {
             throw new InputException(this.creator, "meep");
         }
-
-        this.wgRegion = AdvancedRegionMarket.getWorldGuardInterface().createRegion(this.parentRegion.getRegion(), Bukkit.getWorld(this.parentRegion.getRegionworld()),
-                this.parentRegion.getRegion().getId() + "-sub" + this.parentRegion.getSubregions().size(), this.pos1, this.pos2, AdvancedRegionMarket.getWorldGuard());
+        this.getCreator().sendMessage("Test");
+        this.subRegion = AdvancedRegionMarket.getWorldGuardInterface().createRegion(this.parentRegion.getRegion(), Bukkit.getWorld(this.parentRegion.getRegionworld()), this.parentRegion.getRegion().getId() + "-sub" + this.parentRegion.getSubregions().size(), this.pos1, this.pos2, AdvancedRegionMarket.getWorldGuard());
         Bukkit.getServer().getPluginManager().registerEvents(new SubSignCreationListener(this.creator, this), AdvancedRegionMarket.getARM());
         return;
     }
@@ -77,6 +84,14 @@ public class SubRegionCreator {
         subRegionCreatorList.remove(this);
     }
 
+    public void saveWorldGuardRegion() throws LogicalException {
+        if(this.subRegion != null) {
+            AdvancedRegionMarket.getWorldGuardInterface().addToRegionManager(this.subRegion, Bukkit.getWorld(this.parentRegion.getRegionworld()), AdvancedRegionMarket.getWorldGuard());
+        } else {
+            throw new LogicalException("Could not save WorldGaurd Region! Subregion = null");
+        }
+    }
+
     public static void removeSubRegioncreator(Player player) {
         for(int i = 0; i < subRegionCreatorList.size(); i++) {
             if(subRegionCreatorList.get(i).getCreator().getUniqueId() == player.getUniqueId()) {
@@ -94,14 +109,6 @@ public class SubRegionCreator {
         return parentRegion;
     }
 
-    public static void leftClick() {
-
-    }
-
-    public static void rightClick() {
-
-    }
-
     public static void resetMarks() {
         subRegionCreatorList = new ArrayList<>();
     }
@@ -111,6 +118,6 @@ public class SubRegionCreator {
     }
 
     protected WGRegion getSubRegion() {
-        return this.wgRegion;
+        return this.subRegion;
     }
 }

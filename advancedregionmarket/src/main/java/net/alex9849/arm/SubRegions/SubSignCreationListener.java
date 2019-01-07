@@ -3,6 +3,7 @@ package net.alex9849.arm.SubRegions;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.InputException;
+import net.alex9849.arm.exceptions.LogicalException;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.RegionKind;
 import net.alex9849.arm.regions.SellRegion;
@@ -34,7 +35,7 @@ public class SubSignCreationListener implements Listener {
             if(event.getPlayer().getUniqueId() != this.player.getUniqueId()) {
                 return;
             }
-            if(event.getLine(0).equalsIgnoreCase("[ARM-Sell]")) {
+            if(event.getLine(0).equalsIgnoreCase("[Sub-Sell]")) {
                 if(!event.getPlayer().hasPermission(Permission.SUBREGION_CREATE_SELL)) {
                     throw new InputException(event.getPlayer(), Messages.NO_PERMISSION);
                 }
@@ -47,10 +48,13 @@ public class SubSignCreationListener implements Listener {
                     throw new InputException(event.getPlayer(), "Use a number as price in line 4");
                 }
                 List<Sign> signList = new ArrayList<>();
-                signList.add((Sign) event.getBlock());
-                SellRegion sellRegion = new SellRegion(this.subRegionCreator.getSubRegion(), this.subRegionCreator.getParentRegion().getRegionworld(), signList, price, false, false, false, false, RegionKind.DEFAULT, null, 1, false, new ArrayList<Region>(), false);
-                this.subRegionCreator.getParentRegion();
-
+                signList.add((Sign) event.getBlock().getState());
+                SellRegion sellRegion = new SellRegion(this.subRegionCreator.getSubRegion(), this.subRegionCreator.getParentRegion().getRegionworld(), signList, price, false, false, false, false, RegionKind.DEFAULT, null, 1, true, new ArrayList<Region>(), false);
+                this.subRegionCreator.saveWorldGuardRegion();
+                event.setCancelled(true);
+                this.subRegionCreator.getParentRegion().addSubRegion(sellRegion, true);
+                this.subRegionCreator.remove();
+                event.getPlayer().sendMessage(Messages.PREFIX + "Region created and saved");
             } else if(event.getLine(0).equalsIgnoreCase("[ARM-Rent]")) {
                 if(!event.getPlayer().hasPermission(Permission.SUBREGION_CREATE_RENT)) {
                     throw new InputException(event.getPlayer(), Messages.NO_PERMISSION);
@@ -62,6 +66,9 @@ public class SubSignCreationListener implements Listener {
             }
         } catch (InputException e) {
             e.sendMessages();
+        } catch (LogicalException e) {
+            e.sendMessage();
+            e.printStackTrace();
         }
     }
 

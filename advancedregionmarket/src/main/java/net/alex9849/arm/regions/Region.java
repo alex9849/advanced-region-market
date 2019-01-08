@@ -42,9 +42,10 @@ public abstract class Region {
     protected boolean isDoBlockReset;
     protected List<Region> subregions;
     protected boolean isTown;
+    protected final boolean isSubregion;
 
     public Region(WGRegion region, String regionworld, List<Sign> sellsign, double price, Boolean sold, Boolean autoreset,
-                  Boolean isHotel, Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, Boolean createSchematic, List<Region> subregions, boolean isTown){
+                  Boolean isHotel, Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, Boolean createSchematic, List<Region> subregions, boolean isTown, boolean isSubregion){
         this.region = region;
         this.sellsign = new ArrayList<Sign>(sellsign);
         this.sold = sold;
@@ -59,6 +60,7 @@ public abstract class Region {
         this.teleportLocation = teleportLoc;
         this.subregions = subregions;
         this.isTown = isTown;
+        this.isSubregion = isSubregion;
 
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
         File builtblocksdic = new File(pluginfolder + "/schematics/" + this.regionworld + "/" + region.getId() + "--builtblocks.schematic");
@@ -158,6 +160,9 @@ public abstract class Region {
                     }
                     if(this.sellsign.size() == 0) {
                         RegionManager.removeRegion(this);
+                        if(this.isSubregion) {
+                            AdvancedRegionMarket.getWorldGuardInterface().removeFromRegionManager(this.getRegion(), Bukkit.getWorld(this.getRegionworld()), AdvancedRegionMarket.getWorldGuard());
+                        }
                         if(destroyer != null) {
                             destroyer.sendMessage(Messages.PREFIX + Messages.REGION_REMOVED_FROM_ARM);
                         }

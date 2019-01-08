@@ -25,4 +25,6 @@ public abstract class WorldGuardInterface {
     public abstract List<WGRegion> getApplicableRegions(World world, Location loc, WorldGuardPlugin worldGuardPlugin);
 
     public abstract void addToRegionManager(WGRegion region, World world, WorldGuardPlugin worldGuardPlugin);
+
+    public abstract void removeFromRegionManager(WGRegion region, World world, WorldGuardPlugin worldGuardPlugin);
 }

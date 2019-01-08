@@ -80,8 +80,20 @@ public class SubRegionCreator {
             throw new InputException(this.creator, "meep");
         }
         this.getCreator().sendMessage("Test");
-        this.subRegion = AdvancedRegionMarket.getWorldGuardInterface().createRegion(this.parentRegion.getRegion(), Bukkit.getWorld(this.parentRegion.getRegionworld()), this.parentRegion.getRegion().getId() + "-sub" + this.parentRegion.getSubregions().size(), this.pos1, this.pos2, AdvancedRegionMarket.getWorldGuard());
-        Bukkit.getServer().getPluginManager().registerEvents(new SubSignCreationListener(this.creator, this), AdvancedRegionMarket.getARM());
+        int subregionID = 0;
+        boolean inUse = false;
+        do {
+            inUse = false;
+            for(Region subregions : this.parentRegion.getSubregions()) {
+                if(subregions.getRegion().getId().equalsIgnoreCase(this.parentRegion.getRegion().getId() + "-sub" + subregionID)) {
+                    inUse = true;
+                    subregionID++;
+                }
+            }
+        } while(inUse);
+        this.subRegion = AdvancedRegionMarket.getWorldGuardInterface().createRegion(this.parentRegion.getRegion(), Bukkit.getWorld(this.parentRegion.getRegionworld()), this.parentRegion.getRegion().getId() + "-sub" + subregionID, this.pos1, this.pos2, AdvancedRegionMarket.getWorldGuard());
+        this.subSignCreationListener = new SubSignCreationListener(this.creator, this);
+        Bukkit.getServer().getPluginManager().registerEvents(this.subSignCreationListener, AdvancedRegionMarket.getARM());
         return;
     }
 

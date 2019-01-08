@@ -88,4 +88,10 @@ public class WorldGuard7Beta01 extends WorldGuardInterface {
         getRegionManager(world, worldGuardPlugin).addRegion(wg6Region.getRegion());
     }
 
+    @Override
+    public void removeFromRegionManager(WGRegion region, World world, WorldGuardPlugin worldGuardPlugin) {
+        WG7RegionBeta01 wg7Region = (WG7RegionBeta01) region;
+        getRegionManager(world, worldGuardPlugin).removeRegion(wg7Region.getRegion().getId());
+    }
+
 }

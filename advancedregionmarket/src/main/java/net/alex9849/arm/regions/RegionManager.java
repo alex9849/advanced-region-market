@@ -29,7 +29,7 @@ public class RegionManager {
         saveRegionsConf();
     }
 
-    private static void writeRegionToYamlObject(Region region) {
+    protected static void writeRegionToYamlObject(Region region) {
         regionsconf.set("Regions." + region.getRegionworld() + "." + region.getRegion().getId(), null);
         regionsconf.set("Regions." + region.getRegionworld() + "." + region.getRegion().getId() + ".price", region.getPrice());
         regionsconf.set("Regions." + region.getRegionworld() + "." + region.getRegion().getId() + ".sold", region.isSold());

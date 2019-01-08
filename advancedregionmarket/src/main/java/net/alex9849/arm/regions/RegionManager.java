@@ -1,5 +1,6 @@
 package net.alex9849.arm.regions;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
@@ -7,6 +8,7 @@ import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import net.alex9849.inter.WGRegion;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Sign;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -120,6 +122,100 @@ public class RegionManager {
             writeRegionToYamlObject(region);
         }
         saveRegionsConf();
+    }
+
+    public static void loadRegionsFromConfig() {
+        regionList = new ArrayList<>();
+        if(RegionManager.getRegionsConf().get("Regions") != null) {
+            LinkedList<String> worlds = new LinkedList<String>(RegionManager.getRegionsConf().getConfigurationSection("Regions").getKeys(false));
+            if(worlds != null) {
+                for(int y = 0; y < worlds.size(); y++) {
+                    if(Bukkit.getWorld(worlds.get(y)) != null) {
+                        if(RegionManager.getRegionsConf().get("Regions." + worlds.get(y)) != null) {
+                            LinkedList<String> regions = new LinkedList<String>(RegionManager.getRegionsConf().getConfigurationSection("Regions." + worlds.get(y)).getKeys(false));
+                            if(regions != null) {
+                                for(int i = 0; i < regions.size(); i++){
+                                    String regionworld = worlds.get(y);
+                                    String regionname = regions.get(i);
+                                    int price = RegionManager.getRegionsConf().getInt("Regions." + worlds.get(y) + "." + regions.get(i) + ".price");
+                                    boolean sold = RegionManager.getRegionsConf().getBoolean("Regions." + worlds.get(y) + "." + regions.get(i) + ".sold");
+                                    String kind = RegionManager.getRegionsConf().getString("Regions." + worlds.get(y) + "." + regions.get(i) + ".kind");
+                                    boolean autoreset = RegionManager.getRegionsConf().getBoolean("Regions." + worlds.get(y) + "." + regions.get(i) + ".autoreset");
+                                    String regiontype = RegionManager.getRegionsConf().getString("Regions." + worlds.get(y) + "." + regions.get(i) + ".regiontype");
+                                    boolean allowonlynewblocks = RegionManager.getRegionsConf().getBoolean("Regions." + worlds.get(y) + "." + regions.get(i) + ".isHotel");
+                                    boolean doBlockReset = RegionManager.getRegionsConf().getBoolean("Regions." + worlds.get(y) + "." + regions.get(i) + ".doBlockReset");
+                                    long lastreset = RegionManager.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".lastreset");
+                                    String teleportLocString = RegionManager.getRegionsConf().getString("Regions." + worlds.get(y) + "." + regions.get(i) + ".teleportLoc");
+                                    Location teleportLoc = null;
+                                    if(teleportLocString != null) {
+                                        String[] teleportLocarr = teleportLocString.split(";");
+                                        World teleportLocWorld = Bukkit.getWorld(teleportLocarr[0]);
+                                        int teleportLocBlockX = Integer.parseInt(teleportLocarr[1]);
+                                        int teleportLocBlockY = Integer.parseInt(teleportLocarr[2]);
+                                        int teleportLocBlockZ = Integer.parseInt(teleportLocarr[3]);
+                                        float teleportLocPitch = Float.parseFloat(teleportLocarr[4]);
+                                        float teleportLocYaw = Float.parseFloat(teleportLocarr[5]);
+                                        teleportLoc = new Location(teleportLocWorld, teleportLocBlockX, teleportLocBlockY, teleportLocBlockZ);
+                                        teleportLoc.setYaw(teleportLocYaw);
+                                        teleportLoc.setPitch(teleportLocPitch);
+                                    }
+                                    RegionKind regionKind = RegionKind.DEFAULT;
+                                    if(kind != null){
+                                        RegionKind result = RegionKind.getRegionKind(kind);
+                                        if(result != null){
+                                            regionKind = result;
+                                        }
+                                    }
+                                    WGRegion region = AdvancedRegionMarket.getWorldGuardInterface().getRegion(Bukkit.getWorld(regionworld), AdvancedRegionMarket.getWorldGuard(), regionname);
+
+                                    if(region != null) {
+                                        List<String> regionsignsloc = RegionManager.getRegionsConf().getStringList("Regions." + worlds.get(y) + "." + regions.get(i) + ".signs");
+                                        List<Sign> regionsigns = new ArrayList<>();
+                                        for(int j = 0; j < regionsignsloc.size(); j++) {
+                                            String[] locsplit = regionsignsloc.get(j).split(";", 4);
+                                            World world = Bukkit.getWorld(locsplit[0]);
+                                            Double x = Double.parseDouble(locsplit[1]);
+                                            Double yy = Double.parseDouble(locsplit[2]);
+                                            Double z = Double.parseDouble(locsplit[3]);
+                                            Location loc = new Location(world, x, yy, z);
+                                            Location locminone = new Location(world, x, yy - 1, z);
+
+                                            if ((loc.getBlock().getType() != Material.SIGN) && (loc.getBlock().getType() != Material.WALL_SIGN)){
+                                                if(locminone.getBlock().getType() == Material.AIR || locminone.getBlock().getType() == Material.LAVA || locminone.getBlock().getType() == Material.WATER
+                                                        || locminone.getBlock().getType() == Material.LAVA || locminone.getBlock().getType() == Material.WATER) {
+                                                    locminone.getBlock().setType(Material.STONE);
+                                                }
+                                                loc.getBlock().setType(Material.SIGN);
+
+                                            }
+
+                                            regionsigns.add((Sign) loc.getBlock().getState());
+                                        }
+                                        if (regiontype.equalsIgnoreCase("rentregion")){
+                                            long payedtill = RegionManager.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".payedTill");
+                                            long maxRentTime = RegionManager.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".maxRentTime");
+                                            long rentExtendPerClick = RegionManager.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".rentExtendPerClick");
+                                            Region armregion = new RentRegion(region, regionworld, regionsigns, price, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, teleportLoc,
+                                                    lastreset, payedtill, maxRentTime, rentExtendPerClick,false, new ArrayList<Region>(), false);
+                                            RegionManager.addRegion(armregion);
+                                        } else if (regiontype.equalsIgnoreCase("sellregion")){
+                                            Region armregion = new SellRegion(region, regionworld, regionsigns, price, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, teleportLoc, lastreset,false, new ArrayList<Region>(), false);
+                                            RegionManager.addRegion(armregion);
+                                        } else if (regiontype.equalsIgnoreCase("contractregion")) {
+                                            long payedtill = RegionManager.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".payedTill");
+                                            long extendTime = RegionManager.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".extendTime");
+                                            Boolean terminated = RegionManager.getRegionsConf().getBoolean("Regions." + worlds.get(y) + "." + regions.get(i) + ".terminated");
+                                            Region armregion = new ContractRegion(region, regionworld, regionsigns, price, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, teleportLoc, lastreset,extendTime, payedtill, terminated, false, new ArrayList<Region>(), false);
+                                            RegionManager.addRegion(armregion);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private static List<Region> getRegionList() {

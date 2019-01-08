@@ -76,6 +76,7 @@ public class WorldEdit6 extends WorldEditInterface {
             Extent source = clipboard;
             Extent destination = WorldEdit.getInstance().getEditSessionFactory().getEditSession(world, Integer.MAX_VALUE);
             ForwardExtentCopy copy = new ForwardExtentCopy(source, clipboard.getRegion(), clipboard.getOrigin(), destination, minPoint);
+            copy.setRemovingEntities(false);
 
             Operations.completeLegacy(copy);
         } catch (IOException e) {

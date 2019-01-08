@@ -739,7 +739,7 @@ public class Messages {
         config.addDefault("Messages.OfferAcceptedBuyer", "&aOffer accepted! You are now the owner of &c%region%");
         config.addDefault("Messages.NoOfferToAnswer", "&4You dont have an offer to answer");
         config.addDefault("Messages.OfferRejected", "&aOffer rejected!");
-        config.addDefault("Messages.OfferHasBeenRejected", "&4%seller% &4rejected your offer!");
+        config.addDefault("Messages.OfferHasBeenRejected", "&4%buyer% &4rejected your offer!");
         config.addDefault("Messages.NoOfferToReject", "&4You do not have an offer to reject");
         config.addDefault("Messages.OfferCancelled", "&aYour offer has been cancelled!");
         config.addDefault("Messages.OfferHasBeenCancelled", "&4%seller% &4cancelled his offer!");

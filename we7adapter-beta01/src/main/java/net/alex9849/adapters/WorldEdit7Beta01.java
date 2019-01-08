@@ -93,6 +93,8 @@ public class WorldEdit7Beta01 extends WorldEditInterface {
             Extent source = clipboard;
             Extent destination = WorldEdit.getInstance().getEditSessionFactory().getEditSession(world, Integer.MAX_VALUE);
             ForwardExtentCopy copy = new ForwardExtentCopy(source, clipboard.getRegion(), clipboard.getOrigin(), destination, minPoint);
+            copy.setCopyingEntities(false);
+            copy.setRemovingEntities(false);
 
             ((EditSession) destination).flushQueue();
             Operations.completeLegacy(copy);

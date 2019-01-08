@@ -329,28 +329,10 @@ public class RegionManager {
         regionsconf = null;
     }
 
-    public static Region searchRegionbyNameAndWorld(String name, String world){
-        for (int i = 0; i < RegionManager.getRegionList().size(); i++) {
-            if(RegionManager.getRegionList().get(i).getRegion().getId().equalsIgnoreCase(name) && RegionManager.getRegionList().get(i).getRegionworld().equals(world)){
-                return RegionManager.getRegionList().get(i);
-            }
-        }
-        return null;
-    }
-
     public static void updateRegions(){
         for(int i = 0; i < RegionManager.getRegionList().size(); i++) {
             RegionManager.getRegionList().get(i).updateRegion();
         }
-    }
-
-    public static Region getRegion(WGRegion wgRegion, World world) {
-        for(Region region : regionList) {
-            if((region.getRegion().getId().equals(wgRegion.getId())) && (region.getRegionworld().equalsIgnoreCase(world.getName()))) {
-                return region;
-            }
-        }
-        return null;
     }
 
     public static List<String> completeTabRegions(Player player, String arg, PlayerRegionRelationship playerRegionRelationship) {
@@ -455,6 +437,43 @@ public class RegionManager {
             if(region.hasSign(sign)) {
                 return region;
             }
+            for(Region subregion : region.getSubregions()) {
+                if(subregion.hasSign(sign)) {
+                    return subregion;
+                }
+            }
+        }
+        return null;
+    }
+
+    public static Region getRegion(WGRegion wgRegion, World world) {
+        for(Region region : regionList) {
+            if(region.getRegionworld().equals(world.getName())) {
+                if(region.getRegion().getId().equals(wgRegion.getId())) {
+                    return region;
+                }
+                for(Region subregion : region.getSubregions()) {
+                    if(subregion.getRegion().getId().equals(wgRegion.getId())) {
+                        return subregion;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    public static Region searchRegionbyNameAndWorld(String name, String world){
+        for(Region region : regionList) {
+            if(region.getRegionworld().equalsIgnoreCase(world)) {
+                if(region.getRegion().getId().equalsIgnoreCase(name)) {
+                    return region;
+                }
+                for(Region subregion : region.getSubregions()) {
+                    if(subregion.getRegion().getId().equalsIgnoreCase(name)) {
+                        return subregion;
+                    }
+                }
+            }
         }
         return null;
     }
@@ -465,6 +484,11 @@ public class RegionManager {
             if(region.getRegion().contains(location.getBlockX(), location.getBlockY(), location.getBlockZ())) {
                 if(region.getRegionworld().equals(location.getWorld().getName())) {
                     regions.add(region);
+                }
+                for(Region subregion : region.getSubregions()) {
+                    if(subregion.getRegion().contains(location.getBlockX(), location.getBlockY(), location.getBlockZ())) {
+                        regions.add(subregion);
+                    }
                 }
             }
         }

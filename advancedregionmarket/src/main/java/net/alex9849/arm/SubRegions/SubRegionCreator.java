@@ -5,8 +5,7 @@ import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.exceptions.LogicalException;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.inter.WGRegion;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.SignChangeEvent;
 
@@ -21,25 +20,45 @@ public class SubRegionCreator {
     private Player creator;
     private WGRegion subRegion;
     private SubSignCreationListener subSignCreationListener;
+    private Integer particleBorderTaskID;
 
     public SubRegionCreator(Region parentRegion, Player creator) {
         this.parentRegion = parentRegion;
         this.creator = creator;
+        this.particleBorderTaskID = null;
         for(int i = 0; i < subRegionCreatorList.size(); i++) {
             if(subRegionCreatorList.get(i).getCreator().getUniqueId() == creator.getUniqueId()) {
-                subRegionCreatorList.remove(i);
+                subRegionCreatorList.get(i).remove();
                 i--;
             }
         }
         subRegionCreatorList.add(this);
     }
 
-    public void setPos1(Location pos1) {
+    public void setPos1(Location pos1) throws InputException {
+        if(!this.parentRegion.getRegion().contains(pos1.getBlockX(), pos1.getBlockY(), pos1.getBlockZ())) {
+            //TODO change message
+            throw new InputException(this.creator, "Position could not be set (outsinde of region)");
+        }
         this.pos1 = pos1;
+
+        if(this.pos1 != null && this.pos2 != null) {
+            this.removeParticleBorders();
+            this.particleBorderTaskID = this.createParticleBorders();
+        }
+
     }
 
-    public void setPos2(Location pos2) {
+    public void setPos2(Location pos2) throws InputException {
+        if(!this.parentRegion.getRegion().contains(pos2.getBlockX(), pos2.getBlockY(), pos2.getBlockZ())) {
+            throw new InputException(this.creator, "Position could not be set (outsinde of region)");
+        }
         this.pos2 = pos2;
+        if(this.pos1 != null && this.pos2 != null) {
+            this.removeParticleBorders();
+            this.particleBorderTaskID = this.createParticleBorders();
+        }
+
     }
 
     public void createWGRegion() throws InputException {
@@ -50,6 +69,8 @@ public class SubRegionCreator {
         if(this.subSignCreationListener != null) {
             this.subSignCreationListener.unregister();
         }
+
+        this.removeParticleBorders();
 
         if(this.subRegion != null) {
             this.subRegion = null;
@@ -81,6 +102,7 @@ public class SubRegionCreator {
         if(this.subSignCreationListener != null) {
             this.subSignCreationListener.unregister();
         }
+        this.removeParticleBorders();
         subRegionCreatorList.remove(this);
     }
 
@@ -110,7 +132,10 @@ public class SubRegionCreator {
     }
 
     public static void resetMarks() {
-        subRegionCreatorList = new ArrayList<>();
+        for(int i = 0; i < subRegionCreatorList.size(); i++) {
+            subRegionCreatorList.get(i).remove();
+            i--;
+        }
     }
 
     private SubSignCreationListener getSubSignCreationListener() {
@@ -119,5 +144,78 @@ public class SubRegionCreator {
 
     protected WGRegion getSubRegion() {
         return this.subRegion;
+    }
+
+    private int createParticleBorders() {
+        int minX;
+        int minY;
+        int minZ;
+        int maxX;
+        int maxY;
+        int maxZ;
+
+        if(this.pos1.getBlockX() < this.pos2.getBlockX()) {
+            minX = this.pos1.getBlockX();
+            maxX = this.pos2.getBlockX();
+        } else {
+            minX = this.pos2.getBlockX();
+            maxX = this.pos1.getBlockX();
+        }
+
+        if(this.pos1.getBlockY() < this.pos2.getBlockY()) {
+            minY = this.pos1.getBlockY();
+            maxY = this.pos2.getBlockY();
+        } else {
+            minY = this.pos2.getBlockY();
+            maxY = this.pos1.getBlockY();
+        }
+
+        if(this.pos1.getBlockZ() < this.pos2.getBlockZ()) {
+            minZ = this.pos1.getBlockZ();
+            maxZ = this.pos2.getBlockZ();
+        } else {
+            minZ = this.pos2.getBlockZ();
+            maxZ = this.pos1.getBlockZ();
+        }
+
+
+        final Player player = this.creator;
+        final Location minPos = new Location(player.getWorld(), minX, minY, minZ);
+        final Location maxPos = new Location(player.getWorld(), maxX, maxY, maxZ);
+
+        List<Location> particleSpawnPoints = new ArrayList<>();
+        for(int i = minPos.getBlockX(); i <= maxPos.getBlockX(); i++) {
+            particleSpawnPoints.add(new Location(player.getWorld(), i, minPos.getBlockY(), minPos.getBlockZ()));
+            particleSpawnPoints.add(new Location(player.getWorld(), i, minPos.getBlockY(), maxPos.getBlockZ()));
+            particleSpawnPoints.add(new Location(player.getWorld(), i, maxPos.getBlockY(), minPos.getBlockZ()));
+            particleSpawnPoints.add(new Location(player.getWorld(), i, maxPos.getBlockY(), maxPos.getBlockZ()));
+        }
+        for(int i = minPos.getBlockY(); i <= maxPos.getBlockY(); i++) {
+            particleSpawnPoints.add(new Location(player.getWorld(), minPos.getBlockX(), i, minPos.getBlockZ()));
+            particleSpawnPoints.add(new Location(player.getWorld(), minPos.getBlockX(), i, maxPos.getBlockZ()));
+            particleSpawnPoints.add(new Location(player.getWorld(), maxPos.getBlockX(), i, minPos.getBlockZ()));
+            particleSpawnPoints.add(new Location(player.getWorld(), maxPos.getBlockX(), i, maxPos.getBlockZ()));
+        }
+        for(int i = minPos.getBlockZ(); i <= maxPos.getBlockZ(); i++) {
+            particleSpawnPoints.add(new Location(player.getWorld(), minPos.getBlockX(), minPos.getBlockY(), i));
+            particleSpawnPoints.add(new Location(player.getWorld(), minPos.getBlockX(), maxPos.getBlockY(), i));
+            particleSpawnPoints.add(new Location(player.getWorld(), maxPos.getBlockX(), minPos.getBlockY(), i));
+            particleSpawnPoints.add(new Location(player.getWorld(), maxPos.getBlockX(), maxPos.getBlockY(), i));
+        }
+        return Bukkit.getScheduler().scheduleSyncRepeatingTask(AdvancedRegionMarket.getARM(), new Runnable() {
+
+            @Override
+            public void run() {
+                for(Location location : particleSpawnPoints) {
+                    player.spawnParticle(Particle.SPELL_WITCH, location.getX() + 0.5, location.getY() + 0.5, location.getBlockZ() + 0.5, 6,0, 0, 0);
+                }
+            }
+        }, 0, 20);
+    }
+
+    private void removeParticleBorders() {
+        if(this.particleBorderTaskID != null) {
+            Bukkit.getScheduler().cancelTask(this.particleBorderTaskID);
+        }
     }
 }

@@ -124,8 +124,11 @@ public class RegionManager {
         saveRegionsConf();
     }
 
+    private static List<Region> getRegionList() {
+        return regionList;
+    }
+
     public static void loadRegionsFromConfig() {
-        regionList = new ArrayList<>();
         if(RegionManager.getRegionsConf().get("Regions") != null) {
             LinkedList<String> worlds = new LinkedList<String>(RegionManager.getRegionsConf().getConfigurationSection("Regions").getKeys(false));
             if(worlds != null) {
@@ -191,21 +194,84 @@ public class RegionManager {
 
                                             regionsigns.add((Sign) loc.getBlock().getState());
                                         }
+                                        List<Region> subregions = new ArrayList<>();
+                                        if(RegionManager.getRegionsConf().getConfigurationSection("Regions." + worlds.get(y) + "." + regions.get(i) + ".subregions") != null) {
+                                            LinkedList<String> subregionsection = new LinkedList<String>(RegionManager.getRegionsConf().getConfigurationSection("Regions." + worlds.get(y) + "." + regions.get(i) + ".subregions").getKeys(false));
+                                            if(subregionsection != null) {
+                                                for (String subregion : subregionsection) {
+                                                    int subregPrice = RegionManager.getRegionsConf().getInt("Regions." + worlds.get(y) + "." + regions.get(i) + ".subregions." + subregion + ".price");
+                                                    boolean subregIsSold = RegionManager.getRegionsConf().getBoolean("Regions." + worlds.get(y) + "." + regions.get(i) + ".subregions." + subregion + ".sold");
+                                                    boolean subregIsHotel = RegionManager.getRegionsConf().getBoolean("Regions." + worlds.get(y) + "." + regions.get(i) + ".subregions." + subregion + ".isHotel");
+                                                    String subregionRegiontype = RegionManager.getRegionsConf().getString("Regions." + worlds.get(y) + "." + regions.get(i) + ".subregions." + subregion + ".regiontype");
+
+                                                    WGRegion subWGRegion = AdvancedRegionMarket.getWorldGuardInterface().getRegion(Bukkit.getWorld(regionworld), AdvancedRegionMarket.getWorldGuard(), subregion);
+
+                                                    if(subWGRegion != null) {
+                                                        List<String> subregionsignsloc = RegionManager.getRegionsConf().getStringList("Regions." + worlds.get(y) + "." + regions.get(i) + ".subregions." + subregion + ".signs");
+                                                        List<Sign> subregionsigns = new ArrayList<>();
+                                                        for(int j = 0; j < subregionsignsloc.size(); j++) {
+                                                            String[] locsplit = subregionsignsloc.get(j).split(";", 4);
+                                                            World world = Bukkit.getWorld(locsplit[0]);
+                                                            Double x = Double.parseDouble(locsplit[1]);
+                                                            Double yy = Double.parseDouble(locsplit[2]);
+                                                            Double z = Double.parseDouble(locsplit[3]);
+                                                            Location loc = new Location(world, x, yy, z);
+                                                            Location locminone = new Location(world, x, yy - 1, z);
+
+                                                            if ((loc.getBlock().getType() != Material.SIGN) && (loc.getBlock().getType() != Material.WALL_SIGN)){
+                                                                if(locminone.getBlock().getType() == Material.AIR || locminone.getBlock().getType() == Material.LAVA || locminone.getBlock().getType() == Material.WATER
+                                                                        || locminone.getBlock().getType() == Material.LAVA || locminone.getBlock().getType() == Material.WATER) {
+                                                                    locminone.getBlock().setType(Material.STONE);
+                                                                }
+                                                                loc.getBlock().setType(Material.SIGN);
+
+                                                            }
+
+                                                            subregionsigns.add((Sign) loc.getBlock().getState());
+
+                                                            if (subregionRegiontype.equalsIgnoreCase("rentregion")){
+                                                                long subregpayedtill = RegionManager.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".subregions." + subregion + ".payedTill");
+                                                                long subregmaxRentTime = RegionManager.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".subregions." + subregion + ".maxRentTime");
+                                                                long subregrentExtendPerClick = RegionManager.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".subregions." + subregion + ".rentExtendPerClick");
+                                                                Region armregion = new RentRegion(subWGRegion, regionworld, subregionsigns, subregPrice, subregIsSold, false, subregIsHotel, false, RegionKind.DEFAULT, null,
+                                                                        1, subregpayedtill, subregmaxRentTime, subregrentExtendPerClick,false, new ArrayList<Region>(), false);
+                                                                subregions.add(armregion);
+                                                            } else if (subregionRegiontype.equalsIgnoreCase("sellregion")){
+                                                                Region armregion = new SellRegion(subWGRegion, regionworld, subregionsigns, subregPrice, subregIsSold, false, subregIsHotel, false, RegionKind.DEFAULT, null, 1,false, new ArrayList<Region>(), false);
+                                                                subregions.add(armregion);
+                                                            } else if (subregionRegiontype.equalsIgnoreCase("contractregion")) {
+                                                                long subregpayedtill = RegionManager.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".subregions." + subregion + ".payedTill");
+                                                                long subregextendTime = RegionManager.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".subregions." + subregion + ".extendTime");
+                                                                Boolean subregterminated = RegionManager.getRegionsConf().getBoolean("Regions." + worlds.get(y) + "." + regions.get(i) + ".subregions." + subregion + ".terminated");
+                                                                Region armregion = new ContractRegion(subWGRegion, regionworld, subregionsigns, subregPrice, subregIsSold, false, subregIsHotel, false, RegionKind.DEFAULT, null, 1, subregextendTime, subregpayedtill, subregterminated, false, new ArrayList<Region>(), false);
+                                                                subregions.add(armregion);
+                                                            }
+
+
+
+                                                        }
+                                                    }
+
+
+                                                }
+                                            }
+                                        }
+
                                         if (regiontype.equalsIgnoreCase("rentregion")){
                                             long payedtill = RegionManager.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".payedTill");
                                             long maxRentTime = RegionManager.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".maxRentTime");
                                             long rentExtendPerClick = RegionManager.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".rentExtendPerClick");
                                             Region armregion = new RentRegion(region, regionworld, regionsigns, price, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, teleportLoc,
-                                                    lastreset, payedtill, maxRentTime, rentExtendPerClick,false, new ArrayList<Region>(), false);
+                                                    lastreset, payedtill, maxRentTime, rentExtendPerClick,false, subregions, false);
                                             RegionManager.addRegion(armregion);
                                         } else if (regiontype.equalsIgnoreCase("sellregion")){
-                                            Region armregion = new SellRegion(region, regionworld, regionsigns, price, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, teleportLoc, lastreset,false, new ArrayList<Region>(), false);
+                                            Region armregion = new SellRegion(region, regionworld, regionsigns, price, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, teleportLoc, lastreset,false, subregions, false);
                                             RegionManager.addRegion(armregion);
                                         } else if (regiontype.equalsIgnoreCase("contractregion")) {
                                             long payedtill = RegionManager.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".payedTill");
                                             long extendTime = RegionManager.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".extendTime");
                                             Boolean terminated = RegionManager.getRegionsConf().getBoolean("Regions." + worlds.get(y) + "." + regions.get(i) + ".terminated");
-                                            Region armregion = new ContractRegion(region, regionworld, regionsigns, price, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, teleportLoc, lastreset,extendTime, payedtill, terminated, false, new ArrayList<Region>(), false);
+                                            Region armregion = new ContractRegion(region, regionworld, regionsigns, price, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, teleportLoc, lastreset,extendTime, payedtill, terminated, false, subregions, false);
                                             RegionManager.addRegion(armregion);
                                         }
                                     }
@@ -216,10 +282,6 @@ public class RegionManager {
                 }
             }
         }
-    }
-
-    private static List<Region> getRegionList() {
-        return regionList;
     }
 
     public static void generatedefaultConfig(){

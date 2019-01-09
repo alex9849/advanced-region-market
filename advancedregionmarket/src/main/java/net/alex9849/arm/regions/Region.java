@@ -45,9 +45,11 @@ public abstract class Region {
     protected List<Region> subregions;
     protected boolean isTown;
     protected final boolean isSubregion;
+    protected Region parentRegion;
+    protected boolean isUserResettable;
 
     public Region(WGRegion region, World regionworld, List<Sign> sellsign, double price, Boolean sold, Boolean autoreset,
-                  Boolean isHotel, Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, List<Region> subregions, boolean isTown, boolean isSubregion){
+                  Boolean isHotel, Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, boolean isUserResettable, List<Region> subregions, boolean isTown, boolean isSubregion){
         this.region = region;
         this.sellsign = new ArrayList<Sign>(sellsign);
         this.sold = sold;
@@ -63,6 +65,7 @@ public abstract class Region {
         this.subregions = subregions;
         this.isTown = isTown;
         this.isSubregion = isSubregion;
+        this.isUserResettable = isUserResettable;
 
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
         File builtblocksdic = new File(pluginfolder + "/schematics/" + this.regionworld + "/" + region.getId() + "--builtblocks.schematic");
@@ -91,9 +94,34 @@ public abstract class Region {
         }
     }
 
+    public boolean isUserResettable() {
+        return this.isUserResettable;
+    }
+
+    public boolean isSubregion() {
+        return isSubregion;
+    }
+
     public void setTeleportLocation(Location loc) {
         this.teleportLocation = loc;
         RegionManager.writeRegionsToConfig();
+    }
+
+    private Region getParentRegion() {
+        if(this.isSubregion) {
+            return this.parentRegion;
+        }
+        return null;
+    }
+
+    public void setParentRegion(Region region) {
+        if(this.isSubregion) {
+            this.parentRegion = region;
+        }
+    }
+
+    public boolean isTown() {
+        return isTown;
     }
 
     public void addSubRegion(Region region) {

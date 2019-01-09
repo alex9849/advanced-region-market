@@ -24,7 +24,11 @@ public class SubRegionCreator {
     private SubSignCreationListener subSignCreationListener;
     private ParticleBorder particleBorder;
 
-    public SubRegionCreator(Region parentRegion, Player creator) {
+    public SubRegionCreator(Region parentRegion, Player creator) throws InputException {
+        if(!parentRegion.isTown()) {
+            //TODO
+            throw new InputException(creator, "This region is not a Town-Region");
+        }
         this.parentRegion = parentRegion;
         this.creator = creator;
         this.particleBorder = null;

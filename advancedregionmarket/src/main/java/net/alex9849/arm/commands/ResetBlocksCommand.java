@@ -58,6 +58,10 @@ public class ResetBlocksCommand extends BasicArmCommand {
             return true;
         } else {
             if(resregion.getRegion().hasOwner(player.getUniqueId())) {
+                if(!resregion.isUserResettable()) {
+                    //TODO
+                    throw new InputException(player, "Region not resettable!");
+                }
                 if(resregion.timeSinceLastReset() >= Region.getResetCooldown()){
                     Gui.openRegionResetWarning(player, resregion, false);
                 } else {

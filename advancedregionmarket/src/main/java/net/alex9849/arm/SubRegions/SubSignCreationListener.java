@@ -49,10 +49,11 @@ public class SubSignCreationListener implements Listener {
                 }
                 List<Sign> signList = new ArrayList<>();
                 signList.add((Sign) event.getBlock().getState());
-                SellRegion sellRegion = new SellRegion(this.subRegionCreator.getSubRegion(), this.subRegionCreator.getParentRegion().getRegionworld(), signList, price, false, false, false, false, RegionKind.DEFAULT, null, 1, new ArrayList<Region>(), false, true);
+                SellRegion sellRegion = new SellRegion(this.subRegionCreator.getSubRegion(), this.subRegionCreator.getParentRegion().getRegionworld(), signList, price, false, false, false, false, RegionKind.DEFAULT, null, 1, false, new ArrayList<Region>(), false, true);
                 this.subRegionCreator.saveWorldGuardRegion();
                 event.setCancelled(true);
                 this.subRegionCreator.getParentRegion().addSubRegion(sellRegion);
+                sellRegion.setParentRegion(this.subRegionCreator.getParentRegion());
                 sellRegion.createSchematic();
                 this.subRegionCreator.remove();
                 event.getPlayer().sendMessage(Messages.PREFIX + "Region created and saved");

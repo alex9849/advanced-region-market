@@ -50,6 +50,11 @@ public class AutoResetCommand extends BasicArmCommand {
             throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
         }
 
+        if(region.isSubregion()) {
+            //TODO
+            throw new InputException(sender, "Region is a subregion. Please change autoreset globally for all subregions in the config.yml!");
+        }
+
         region.setAutoreset(Boolean.parseBoolean(args[2]));
         String message = "disabled";
 

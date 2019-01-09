@@ -185,6 +185,9 @@ public abstract class Region {
                         destroyer.sendMessage(Messages.PREFIX + message);
                     }
                     if(this.sellsign.size() == 0) {
+                        for(int y = 0; i < this.getSubregions().size();) {
+                            this.getSubregions().get(y).delete();
+                        }
                         RegionManager.removeRegion(this);
                         if(this.isSubregion) {
                             AdvancedRegionMarket.getWorldGuardInterface().removeFromRegionManager(this.getRegion(), this.getRegionworld(), AdvancedRegionMarket.getWorldGuard());

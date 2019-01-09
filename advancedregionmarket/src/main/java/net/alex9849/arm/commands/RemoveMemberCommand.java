@@ -87,7 +87,7 @@ public class RemoveMemberCommand extends BasicArmCommand {
                         } else {
                             playerRegionRelationship = PlayerRegionRelationship.OWNER;
                         }
-                        returnme.addAll(RegionManager.completeTabRegions(player, args[1], playerRegionRelationship));
+                        returnme.addAll(RegionManager.completeTabRegions(player, args[1], playerRegionRelationship, true));
                     } else if(args.length == 3 && (args[0].equalsIgnoreCase(this.rootCommand))) {
                         Region region = RegionManager.getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
                         if(region != null) {

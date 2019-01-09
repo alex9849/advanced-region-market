@@ -112,7 +112,7 @@ public class SubRegionCreator {
         if(!this.getParentRegion().getRegion().hasOwner(creator.getUniqueId())) {
             throw new InputException(this.creator, "meep");
         }
-        int subregionID = 0;
+        int subregionID = 1;
         boolean inUse = false;
         do {
             inUse = false;

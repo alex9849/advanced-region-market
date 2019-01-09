@@ -76,7 +76,7 @@ public class ExtendCommand extends BasicArmCommand {
                         } else {
                             playerRegionRelationship = PlayerRegionRelationship.OWNER;
                         }
-                        returnme.addAll(RegionManager.completeTabRegions(player, args[1], playerRegionRelationship));
+                        returnme.addAll(RegionManager.completeTabRegions(player, args[1], playerRegionRelationship, true));
                     }
                 }
             }

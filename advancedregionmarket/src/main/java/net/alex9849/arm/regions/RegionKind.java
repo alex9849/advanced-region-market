@@ -63,7 +63,13 @@ public class RegionKind {
         if(kind.equalsIgnoreCase("default")) {
             return true;
         }
-        if(kind.equalsIgnoreCase(DEFAULT.getName())){
+        if(kind.equalsIgnoreCase(DEFAULT.getDisplayName())){
+            return true;
+        }
+        if(kind.equalsIgnoreCase("subregion")) {
+            return true;
+        }
+        if(kind.equalsIgnoreCase(SUBREGION.getDisplayName())){
             return true;
         }
         return false;
@@ -79,7 +85,10 @@ public class RegionKind {
                 return list.get(i);
             }
         }
-        if(name.equalsIgnoreCase("default") || name.equalsIgnoreCase(RegionKind.DEFAULT.getName())){
+        if(name.equalsIgnoreCase("default") || name.equalsIgnoreCase(RegionKind.DEFAULT.getDisplayName())){
+            return RegionKind.DEFAULT;
+        }
+        if(name.equalsIgnoreCase("subregion") || name.equalsIgnoreCase(RegionKind.SUBREGION.getDisplayName())){
             return RegionKind.DEFAULT;
         }
         return null;
@@ -103,6 +112,9 @@ public class RegionKind {
         }
         if ("default".startsWith(arg)) {
             returnme.add("default");
+        }
+        if ("subregion".startsWith(arg)) {
+            returnme.add("subregion");
         }
 
         return returnme;

@@ -274,22 +274,13 @@ public abstract class Region {
         }
     }
 
-    public boolean setKind(String kind){
-        RegionKind regionkind = RegionKind.getRegionKind(kind);
-
-        if(regionkind == null) {
+    public boolean setKind(RegionKind kind){
+        if(kind == null) {
             return false;
-
-        } else if(regionkind == RegionKind.DEFAULT) {
-            this.regionKind = RegionKind.DEFAULT;
-            RegionManager.writeRegionsToConfig();
-            return true;
-
-        } else {
-            this.regionKind = regionkind;
-            RegionManager.writeRegionsToConfig();
-            return true;
         }
+        this.regionKind = kind;
+        RegionManager.writeRegionsToConfig();
+        return true;
     }
 
     public RegionKind getRegionKind(){

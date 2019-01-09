@@ -51,7 +51,7 @@ public class OfferCommand extends BasicArmCommand {
 
         if (allargs.matches(regex_new)) {
             if(player.hasPermission(Permission.MEMBER_OFFER_CREATE)) {
-                Region region = RegionManager.searchRegionbyNameAndWorld(args[2], player.getLocation().getWorld().getName());
+                Region region = RegionManager.getRegionbyNameAndWorldCommands(args[2], player.getLocation().getWorld().getName());
                 if(region == null) {
                     throw new InputException(player, Messages.REGION_DOES_NOT_EXIST);
                 }

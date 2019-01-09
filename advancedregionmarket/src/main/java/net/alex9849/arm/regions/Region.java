@@ -5,6 +5,7 @@ import net.alex9849.arm.minifeatures.AutoPrice;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.InputException;
+import net.alex9849.arm.minifeatures.ParticleBorder;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import net.alex9849.inter.WGRegion;
@@ -332,6 +333,17 @@ public abstract class Region {
             sender.sendMessage(Messages.REGION_INFO_DO_BLOCK_RESET + Messages.convertYesNo(this.isDoBlockReset));
         }
         this.displayExtraInfo(sender);
+        if(sender instanceof Player) {
+            Player player = (Player) sender;
+            Location rpos1 = new Location(this.getRegionworld(), this.getRegion().getMinPoint().getX(), this.getRegion().getMinPoint().getY(), this.getRegion().getMinPoint().getZ());
+            Location rpos2 = new Location(this.getRegionworld(), this.getRegion().getMaxPoint().getX(), this.getRegion().getMaxPoint().getY(), this.getRegion().getMaxPoint().getZ());
+            new ParticleBorder(rpos1, rpos2, player).createParticleBorder(20 * 30);
+            for(Region subregion : this.getSubregions()) {
+                Location lpos1 = new Location(subregion.getRegionworld(), subregion.getRegion().getMinPoint().getX(), subregion.getRegion().getMinPoint().getY(), subregion.getRegion().getMinPoint().getZ());
+                Location lPos2 = new Location(subregion.getRegionworld(), subregion.getRegion().getMaxPoint().getX(), subregion.getRegion().getMaxPoint().getY(), subregion.getRegion().getMaxPoint().getZ());
+                new ParticleBorder(lpos1, lPos2, player).createParticleBorder(20 * 30);
+            }
+        }
     }
 
     public abstract void displayExtraInfo(CommandSender sender);

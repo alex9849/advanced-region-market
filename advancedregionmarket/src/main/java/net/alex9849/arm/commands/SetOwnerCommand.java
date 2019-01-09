@@ -48,7 +48,7 @@ public class SetOwnerCommand extends BasicArmCommand {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Player playersender = (Player) sender;
-        Region region = RegionManager.searchRegionbyNameAndWorld(args[1], playersender.getWorld().getName());
+        Region region = RegionManager.getRegionbyNameAndWorldCommands(args[1], playersender.getWorld().getName());
         if (region == null) {
             throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
         }

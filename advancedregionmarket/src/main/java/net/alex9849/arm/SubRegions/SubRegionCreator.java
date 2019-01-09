@@ -3,11 +3,13 @@ package net.alex9849.arm.SubRegions;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.exceptions.LogicalException;
+import net.alex9849.arm.minifeatures.ParticleBorder;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.inter.WGRegion;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.SignChangeEvent;
+import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,12 +22,12 @@ public class SubRegionCreator {
     private Player creator;
     private WGRegion subRegion;
     private SubSignCreationListener subSignCreationListener;
-    private Integer particleBorderTaskID;
+    private ParticleBorder particleBorder;
 
     public SubRegionCreator(Region parentRegion, Player creator) {
         this.parentRegion = parentRegion;
         this.creator = creator;
-        this.particleBorderTaskID = null;
+        this.particleBorder = null;
         for(int i = 0; i < subRegionCreatorList.size(); i++) {
             if(subRegionCreatorList.get(i).getCreator().getUniqueId() == creator.getUniqueId()) {
                 subRegionCreatorList.get(i).remove();
@@ -40,11 +42,23 @@ public class SubRegionCreator {
             //TODO change message
             throw new InputException(this.creator, "Position could not be set (outsinde of region)");
         }
+        if(!this.parentRegion.getRegionworld().getName().equals(this.creator.getLocation().getWorld().getName())) {
+            throw new InputException(this.creator, "Position could not be set (outsinde of region)");
+        }
+        for(Region subregion : this.parentRegion.getSubregions()) {
+            if(subregion.getRegion().contains(pos1.getBlockX(), pos1.getBlockY(), pos1.getBlockZ())) {
+                throw new InputException(this.creator, "Position could not be set (there already is a subregion at this position)");
+            }
+        }
         this.pos1 = pos1;
 
         if(this.pos1 != null && this.pos2 != null) {
-            this.removeParticleBorders();
-            this.particleBorderTaskID = this.createParticleBorders();
+            if(this.particleBorder != null) {
+                this.particleBorder.removeBorder();
+                this.particleBorder = null;
+            }
+            this.particleBorder = new ParticleBorder(this.pos1, this.pos2, this.creator);
+            this.particleBorder.createParticleBorder(20 * 30);
         }
 
     }
@@ -53,10 +67,22 @@ public class SubRegionCreator {
         if(!this.parentRegion.getRegion().contains(pos2.getBlockX(), pos2.getBlockY(), pos2.getBlockZ())) {
             throw new InputException(this.creator, "Position could not be set (outsinde of region)");
         }
+        if(!this.parentRegion.getRegionworld().getName().equals(this.creator.getLocation().getWorld().getName())) {
+            throw new InputException(this.creator, "Position could not be set (outsinde of region)");
+        }
+        for(Region subregion : this.parentRegion.getSubregions()) {
+            if(subregion.getRegion().contains(pos2.getBlockX(), pos2.getBlockY(), pos2.getBlockZ())) {
+                throw new InputException(this.creator, "Position could not be set (there already is a subregion at this position)");
+            }
+        }
         this.pos2 = pos2;
         if(this.pos1 != null && this.pos2 != null) {
-            this.removeParticleBorders();
-            this.particleBorderTaskID = this.createParticleBorders();
+            if(this.particleBorder != null) {
+                this.particleBorder.removeBorder();
+                this.particleBorder = null;
+            }
+            this.particleBorder = new ParticleBorder(this.pos1, this.pos2, this.creator);
+            this.particleBorder.createParticleBorder(20 * 30);
         }
 
     }
@@ -70,7 +96,10 @@ public class SubRegionCreator {
             this.subSignCreationListener.unregister();
         }
 
-        this.removeParticleBorders();
+        if(this.particleBorder != null) {
+            this.particleBorder.removeBorder();
+            this.particleBorder = null;
+        }
 
         if(this.subRegion != null) {
             this.subRegion = null;
@@ -79,7 +108,6 @@ public class SubRegionCreator {
         if(!this.getParentRegion().getRegion().hasOwner(creator.getUniqueId())) {
             throw new InputException(this.creator, "meep");
         }
-        this.getCreator().sendMessage("Test");
         int subregionID = 0;
         boolean inUse = false;
         do {
@@ -114,7 +142,10 @@ public class SubRegionCreator {
         if(this.subSignCreationListener != null) {
             this.subSignCreationListener.unregister();
         }
-        this.removeParticleBorders();
+        if(this.particleBorder != null) {
+            this.particleBorder.removeBorder();
+            this.particleBorder = null;
+        }
         subRegionCreatorList.remove(this);
     }
 
@@ -157,6 +188,8 @@ public class SubRegionCreator {
     protected WGRegion getSubRegion() {
         return this.subRegion;
     }
+
+    /*
 
     private int createParticleBorders() {
         int minX;
@@ -230,4 +263,5 @@ public class SubRegionCreator {
             Bukkit.getScheduler().cancelTask(this.particleBorderTaskID);
         }
     }
+    */
 }

@@ -42,7 +42,7 @@ public class SetRegionKind extends BasicArmCommand {
                 throw new InputException(sender, Messages.NO_PERMISSION);
             }
             Player player = (Player) sender;
-            Region region = RegionManager.searchRegionbyNameAndWorld(args[2], player.getWorld().getName());
+            Region region = RegionManager.getRegionbyNameAndWorldCommands(args[2], player.getWorld().getName());
 
             if(region == null) {
                 throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);

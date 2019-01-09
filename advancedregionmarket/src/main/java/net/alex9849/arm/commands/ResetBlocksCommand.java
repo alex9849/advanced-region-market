@@ -47,7 +47,7 @@ public class ResetBlocksCommand extends BasicArmCommand {
             throw new InputException(player, Messages.NO_PERMISSION);
         }
 
-        Region resregion = RegionManager.searchRegionbyNameAndWorld(args[1], (player).getPlayer().getWorld().getName());
+        Region resregion = RegionManager.getRegionbyNameAndWorldCommands(args[1], (player).getPlayer().getWorld().getName());
         if(resregion == null) {
             throw new InputException(player, Messages.REGION_DOES_NOT_EXIST);
         }

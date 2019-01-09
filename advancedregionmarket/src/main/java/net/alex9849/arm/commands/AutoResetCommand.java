@@ -45,7 +45,7 @@ public class AutoResetCommand extends BasicArmCommand {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
 
-        Region region = RegionManager.searchRegionbyNameAndWorld(args[1], ((Player) sender).getWorld().getName());
+        Region region = RegionManager.getRegionbyNameAndWorldCommands(args[1], ((Player) sender).getWorld().getName());
         if(region == null){
             throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
         }

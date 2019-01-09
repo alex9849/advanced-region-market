@@ -545,9 +545,11 @@ public class ARMListener implements Listener {
                                 if((subRegionCreator.getParentRegion().getRegion().getId().equals(wgRegion.getId())) && (subRegionCreator.getParentRegion().getRegionworld().getName().equals(event.getClickedBlock().getWorld().getName()))) {
                                     if(event.getAction() == Action.RIGHT_CLICK_BLOCK) {
                                         subRegionCreator.setPos2(event.getClickedBlock().getLocation());
+                                        event.setCancelled(true);
                                         player.sendMessage("Second position set!");
                                     } else if(event.getAction() == Action.LEFT_CLICK_BLOCK) {
                                         subRegionCreator.setPos1(event.getClickedBlock().getLocation());
+                                        event.setCancelled(true);
                                         player.sendMessage("First position set!");
                                     }
                                     return;
@@ -560,11 +562,13 @@ public class ARMListener implements Listener {
                                         player.sendMessage("Mark in other Region. Removing old mark");
                                         subRegionCreator = new SubRegionCreator(region, player);
                                         subRegionCreator.setPos2(event.getClickedBlock().getLocation());
+                                        event.setCancelled(true);
                                         player.sendMessage("Second position set!");
                                     } else if(event.getAction() == Action.LEFT_CLICK_BLOCK) {
                                         player.sendMessage("Mark in other Region. Removing old mark");
                                         subRegionCreator = new SubRegionCreator(region, player);
                                         subRegionCreator.setPos1(event.getClickedBlock().getLocation());
+                                        event.setCancelled(true);
                                         player.sendMessage("First position set!");
                                     }
                                     return;
@@ -577,10 +581,12 @@ public class ARMListener implements Listener {
                                 if(event.getAction() == Action.RIGHT_CLICK_BLOCK) {
                                     subRegionCreator = new SubRegionCreator(region, player);
                                     subRegionCreator.setPos2(event.getClickedBlock().getLocation());
+                                    event.setCancelled(true);
                                     player.sendMessage("Second position set!");
                                 } else if(event.getAction() == Action.LEFT_CLICK_BLOCK) {
                                     subRegionCreator = new SubRegionCreator(region, player);
                                     subRegionCreator.setPos1(event.getClickedBlock().getLocation());
+                                    event.setCancelled(true);
                                     player.sendMessage("First position set!");
                                 }
                                 return;

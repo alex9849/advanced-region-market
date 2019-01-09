@@ -111,7 +111,7 @@ public class InfoCommand extends BasicArmCommand {
             throw new InputException(player, Messages.NO_PERMISSION);
         }
 
-        Region region = RegionManager.searchRegionbyNameAndWorld(regionname, (player).getWorld().getName());
+        Region region = RegionManager.getRegionbyNameAndWorldCommands(regionname, (player).getWorld().getName());
 
         if(region == null){
             throw new InputException(player, Messages.REGION_DOES_NOT_EXIST);

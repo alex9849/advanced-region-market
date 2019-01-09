@@ -479,6 +479,32 @@ public class RegionManager {
         return null;
     }
 
+    public static Region getRegionbyNameAndWorldCommands(String name, String world) {
+        Region mayReturn = null;
+        for(Region region : regionList) {
+            if(region.getRegionworld().getName().equalsIgnoreCase(world)) {
+                if(region.getRegion().getId().equalsIgnoreCase(name)) {
+                    return region;
+                }
+                for(Region subregion : region.getSubregions()) {
+                    if(subregion.getRegion().getId().equalsIgnoreCase(name)) {
+                        return subregion;
+                    }
+                }
+            } else {
+                if(region.getRegion().getId().equalsIgnoreCase(name)) {
+                    mayReturn = region;
+                }
+                for(Region subregion : region.getSubregions()) {
+                    if(subregion.getRegion().getId().equalsIgnoreCase(name)) {
+                        mayReturn = subregion;
+                    }
+                }
+            }
+        }
+        return mayReturn;
+    }
+
     public static List<Region> getRegionsByLocation(Location location) {
         List<Region> regions = new ArrayList<>();
         for(Region region : regionList) {

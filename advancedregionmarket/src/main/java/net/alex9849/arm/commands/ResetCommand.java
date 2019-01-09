@@ -45,7 +45,7 @@ public class ResetCommand extends BasicArmCommand {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
 
-        Region resregion = RegionManager.searchRegionbyNameAndWorld(args[1], ((Player) sender).getPlayer().getWorld().getName());
+        Region resregion = RegionManager.getRegionbyNameAndWorldCommands(args[1], ((Player) sender).getPlayer().getWorld().getName());
         if(resregion == null) {
             throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
         } else {

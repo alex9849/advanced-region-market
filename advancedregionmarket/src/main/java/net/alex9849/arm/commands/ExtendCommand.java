@@ -43,7 +43,7 @@ public class ExtendCommand extends BasicArmCommand {
                 throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
             }
             Player player = (Player) sender;
-            Region region = RegionManager.searchRegionbyNameAndWorld(args[1], player.getWorld().getName());
+            Region region = RegionManager.getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
             if(region == null){
                 throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
             }

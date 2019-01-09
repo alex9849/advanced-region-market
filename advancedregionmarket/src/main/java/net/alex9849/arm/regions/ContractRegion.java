@@ -1,6 +1,7 @@
 package net.alex9849.arm.regions;
 
 import net.alex9849.arm.AdvancedRegionMarket;
+import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.Group.LimitGroup;
@@ -229,7 +230,7 @@ public class ContractRegion extends Region {
 
         this.setSold(player);
         this.resetBuiltBlocks();
-        if(AdvancedRegionMarket.isTeleportAfterContractRegionBought()){
+        if(ArmSettings.isTeleportAfterContractRegionBought()){
             Teleporter.teleport(player, this, "", AdvancedRegionMarket.getARM().getConfig().getBoolean("Other.TeleportAfterRegionBoughtCountdown"));
         }
         player.sendMessage(Messages.PREFIX + Messages.REGION_BUYMESSAGE);
@@ -259,9 +260,9 @@ public class ContractRegion extends Region {
     }
 
     public String calcRemainingTime() {
-        String timetoString = AdvancedRegionMarket.getRemainingTimeTimeformat();
-        timetoString = timetoString.replace("%countdown%", this.getCountdown(AdvancedRegionMarket.isUseShortCountdown()));
-        timetoString = timetoString.replace("%date%", this.getDate(AdvancedRegionMarket.getDateTimeformat()));
+        String timetoString = ArmSettings.getRemainingTimeTimeformat();
+        timetoString = timetoString.replace("%countdown%", this.getCountdown(ArmSettings.isUseShortCountdown()));
+        timetoString = timetoString.replace("%date%", this.getDate(ArmSettings.getDateTimeformat()));
 
 
         return timetoString;
@@ -392,7 +393,7 @@ public class ContractRegion extends Region {
             this.payedTill = this.payedTill + this.extendTime;
         }
         RegionManager.writeRegionsToConfig();
-        if((player != null) && AdvancedRegionMarket.isSendContractRegionExtendMessage()) {
+        if((player != null) && ArmSettings.isSendContractRegionExtendMessage()) {
             String sendmessage = Messages.CONTRACT_REGION_EXTENDED;
             sendmessage = sendmessage.replace("%price%", this.price + "");
             sendmessage = sendmessage.replace("%currency%", Messages.CURRENCY);

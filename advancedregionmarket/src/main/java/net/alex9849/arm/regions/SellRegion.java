@@ -1,6 +1,7 @@
 package net.alex9849.arm.regions;
 
 import net.alex9849.arm.AdvancedRegionMarket;
+import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.Group.LimitGroup;
@@ -135,7 +136,7 @@ public class SellRegion extends Region {
 
         this.setSold(player);
         this.resetBuiltBlocks();
-        if(AdvancedRegionMarket.isTeleportAfterSellRegionBought()){
+        if(ArmSettings.isTeleportAfterSellRegionBought()){
             Teleporter.teleport(player, this, "", AdvancedRegionMarket.getARM().getConfig().getBoolean("Other.TeleportAfterRegionBoughtCountdown"));
         }
         player.sendMessage(Messages.PREFIX + Messages.REGION_BUYMESSAGE);

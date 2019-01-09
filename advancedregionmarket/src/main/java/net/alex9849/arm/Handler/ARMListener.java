@@ -2,6 +2,7 @@ package net.alex9849.arm.Handler;
 
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import net.alex9849.arm.AdvancedRegionMarket;
+import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.Preseter.*;
@@ -434,14 +435,14 @@ public class ARMListener implements Listener {
 
     @EventHandler
     public void setLastLoginAndOpenOvertake(PlayerJoinEvent event) {
-        if(AdvancedRegionMarket.getEnableAutoReset() || AdvancedRegionMarket.getEnableTakeOver()){
+        if(ArmSettings.isEnableAutoReset() || ArmSettings.isEnableTakeOver()){
             try{
-                ResultSet rs = AdvancedRegionMarket.getStmt().executeQuery("SELECT * FROM `" + AdvancedRegionMarket.getSqlPrefix() + "lastlogin` WHERE `uuid` = '" + event.getPlayer().getUniqueId().toString() + "'");
+                ResultSet rs = ArmSettings.getStmt().executeQuery("SELECT * FROM `" + ArmSettings.getSqlPrefix() + "lastlogin` WHERE `uuid` = '" + event.getPlayer().getUniqueId().toString() + "'");
 
                 if(rs.next()){
-                    AdvancedRegionMarket.getStmt().executeUpdate("UPDATE `" + AdvancedRegionMarket.getSqlPrefix() + "lastlogin` SET `lastlogin` = CURRENT_TIMESTAMP WHERE `uuid` = '" + event.getPlayer().getUniqueId().toString() + "'");
+                    ArmSettings.getStmt().executeUpdate("UPDATE `" + ArmSettings.getSqlPrefix() + "lastlogin` SET `lastlogin` = CURRENT_TIMESTAMP WHERE `uuid` = '" + event.getPlayer().getUniqueId().toString() + "'");
                 } else {
-                    AdvancedRegionMarket.getStmt().executeUpdate("INSERT INTO `" + AdvancedRegionMarket.getSqlPrefix() + "lastlogin` (`uuid`, `lastlogin`) VALUES ('" + event.getPlayer().getUniqueId().toString() + "', CURRENT_TIMESTAMP)");
+                    ArmSettings.getStmt().executeUpdate("INSERT INTO `" + ArmSettings.getSqlPrefix() + "lastlogin` (`uuid`, `lastlogin`) VALUES ('" + event.getPlayer().getUniqueId().toString() + "', CURRENT_TIMESTAMP)");
                 }
 
             } catch (SQLException e) {
@@ -449,7 +450,7 @@ public class ARMListener implements Listener {
             }
         }
 
-        if(AdvancedRegionMarket.getEnableTakeOver()){
+        if(ArmSettings.isEnableTakeOver()){
             Plugin plugin = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket");
             Player player = event.getPlayer();
             Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
@@ -483,7 +484,7 @@ public class ARMListener implements Listener {
 
     public static void doOvertakeCheck(Player player) {
         GregorianCalendar comparedate = new GregorianCalendar();
-        comparedate.add(Calendar.DAY_OF_MONTH, (-1 * AdvancedRegionMarket.getTakeoverAfter()));
+        comparedate.add(Calendar.DAY_OF_MONTH, (-1 * ArmSettings.getTakeoverAfter()));
         Date convertdate = new Date();
         convertdate.setTime(comparedate.getTimeInMillis());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -491,7 +492,7 @@ public class ARMListener implements Listener {
 
 
         try {
-            ResultSet rs = AdvancedRegionMarket.getStmt().executeQuery("SELECT * FROM `" + AdvancedRegionMarket.getSqlPrefix() + "lastlogin` WHERE `lastlogin` < '" + compareTime + "'");
+            ResultSet rs = ArmSettings.getStmt().executeQuery("SELECT * FROM `" + ArmSettings.getSqlPrefix() + "lastlogin` WHERE `lastlogin` < '" + compareTime + "'");
 
             List<Region> overtake = new LinkedList<>();
             while (rs.next()){

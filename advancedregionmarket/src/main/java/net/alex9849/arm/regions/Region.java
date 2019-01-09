@@ -1,6 +1,7 @@
 package net.alex9849.arm.regions;
 
 import net.alex9849.arm.AdvancedRegionMarket;
+import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.minifeatures.AutoPrice;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
@@ -38,7 +39,6 @@ public abstract class Region {
     protected boolean isHotel;
     protected long lastreset;
     protected static int resetcooldown;
-    private static YamlConfiguration regionsconf;
     protected RegionKind regionKind;
     protected Location teleportLocation;
     protected boolean isDoBlockReset;
@@ -353,7 +353,7 @@ public abstract class Region {
         sender.sendMessage(Messages.REGION_INFO_MEMBERS + members);
         if(sender.hasPermission(Permission.ADMIN_INFO)){
             String autoresetmsg = Messages.REGION_INFO_AUTORESET + Messages.convertYesNo(this.autoreset);
-            if((!AdvancedRegionMarket.getEnableAutoReset()) && this.autoreset){
+            if((!ArmSettings.isEnableAutoReset()) && this.autoreset){
                 autoresetmsg = autoresetmsg + " (but globally disabled)";
             }
             sender.sendMessage(autoresetmsg);
@@ -443,9 +443,9 @@ public abstract class Region {
         ArrayList<UUID> ownerlist = this.getRegion().getOwners();
         if(ownerlist.size() > 0) {
             UUID owner = ownerlist.get(0);
-            if(AdvancedRegionMarket.getEnableTakeOver() ||AdvancedRegionMarket.getEnableAutoReset()) {
+            if(ArmSettings.isEnableTakeOver() ||ArmSettings.isEnableAutoReset()) {
                 try{
-                    ResultSet rs = AdvancedRegionMarket.getStmt().executeQuery("SELECT * FROM `" + AdvancedRegionMarket.getSqlPrefix() + "lastlogin` WHERE `uuid` = '" + owner.toString() + "'");
+                    ResultSet rs = ArmSettings.getStmt().executeQuery("SELECT * FROM `" + ArmSettings.getSqlPrefix() + "lastlogin` WHERE `uuid` = '" + owner.toString() + "'");
 
                     if(rs.next()){
                         Timestamp lastlogin = rs.getTimestamp("lastlogin");
@@ -453,7 +453,7 @@ public abstract class Region {
 
                         long time = lastlogin.getTime();
                         long result = calendar.getTimeInMillis() - time;
-                        int days = (int)  (AdvancedRegionMarket.getAutoResetAfter() - (result / (1000 * 60 * 60 * 24)));
+                        int days = (int)  (ArmSettings.getAutoResetAfter() - (result / (1000 * 60 * 60 * 24)));
                         return days;
                     }
 

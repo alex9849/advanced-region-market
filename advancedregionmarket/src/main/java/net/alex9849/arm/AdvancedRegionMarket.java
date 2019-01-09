@@ -48,20 +48,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
     private static WorldGuardInterface worldGuardInterface;
     private static WorldEditPlugin worldedit;
     private static WorldEditInterface worldEditInterface;
-    private static boolean enableAutoReset;
-    private static boolean enableTakeOver;
-    private static Statement stmt;
-    private static String sqlPrefix;
-    private static int autoResetAfter;
-    private static int takeoverAfter;
-    private static boolean teleportAfterSellRegionBought;
-    private static boolean teleportAfterRentRegionBought;
-    private static boolean teleportAfterRentRegionExtend;
-    private static boolean teleportAfterContractRegionBought;
-    private static boolean sendContractRegionExtendMessage;
-    private static String REMAINING_TIME_TIMEFORMAT = "%date%";
-    private static String DATE_TIMEFORMAT = "dd.MM.yyyy hh:mm";
-    private static boolean useShortCountdown = false;
     private static CommandHandler commandHandler;
 
     public void onEnable(){
@@ -346,16 +332,8 @@ public class AdvancedRegionMarket extends JavaPlugin {
         }
     }
 
-    public static boolean isUseShortCountdown() {
-        return AdvancedRegionMarket.useShortCountdown;
-    }
-
     public static Boolean isFaWeInstalled(){
         return AdvancedRegionMarket.faWeInstalled;
-    }
-
-    public static Boolean isSendContractRegionExtendMessage() {
-        return AdvancedRegionMarket.sendContractRegionExtendMessage;
     }
 
     private void loadAutoPrice() {
@@ -422,25 +400,25 @@ public class AdvancedRegionMarket extends JavaPlugin {
     }
 
     private void loadAutoReset() {
-        AdvancedRegionMarket.enableAutoReset = getConfig().getBoolean("AutoResetAndTakeOver.enableAutoReset");
-        AdvancedRegionMarket.enableTakeOver = getConfig().getBoolean("AutoResetAndTakeOver.enableTakeOver");
+        ArmSettings.setEnableAutoReset(getConfig().getBoolean("AutoResetAndTakeOver.enableAutoReset"));
+        ArmSettings.setEnableTakeOver(getConfig().getBoolean("AutoResetAndTakeOver.enableTakeOver"));
     }
 
     public Boolean connectSQL(){
         Boolean success = true;
-        if(AdvancedRegionMarket.enableAutoReset || AdvancedRegionMarket.enableTakeOver) {
+        if(ArmSettings.isEnableAutoReset() || ArmSettings.isEnableTakeOver()) {
             String mysqlhost = getConfig().getString("AutoResetAndTakeOver.mysql-server");
             String mysqldatabase = getConfig().getString("AutoResetAndTakeOver.mysql-database");
             String mysqlpass = getConfig().getString("AutoResetAndTakeOver.mysql-password");
             String mysqluser = getConfig().getString("AutoResetAndTakeOver.mysql-user");
-            AdvancedRegionMarket.sqlPrefix = getConfig().getString("AutoResetAndTakeOver.mysql-prefix");
-            AdvancedRegionMarket.autoResetAfter = getConfig().getInt("AutoResetAndTakeOver.autoresetAfter");
-            AdvancedRegionMarket.takeoverAfter = getConfig().getInt("AutoResetAndTakeOver.takeoverAfter");
+            ArmSettings.setSqlPrefix(getConfig().getString("AutoResetAndTakeOver.mysql-prefix"));
+            ArmSettings.setAutoResetAfter(getConfig().getInt("AutoResetAndTakeOver.autoresetAfter"));
+            ArmSettings.setTakeoverAfter(getConfig().getInt("AutoResetAndTakeOver.takeoverAfter"));
 
             try {
                 Class.forName("com.mysql.jdbc.Driver").newInstance();
                 Connection con = DriverManager.getConnection("jdbc:mysql://" + mysqlhost + "/" + mysqldatabase, mysqluser, mysqlpass);
-                AdvancedRegionMarket.stmt = con.createStatement();
+                ArmSettings.setStmt(con.createStatement());
                 AdvancedRegionMarket.checkOrCreateMySql(mysqldatabase);
                 getLogger().log(Level.INFO, "SQL Login successful!");
             } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
@@ -461,20 +439,16 @@ public class AdvancedRegionMarket extends JavaPlugin {
         }
     }
 
-    public static boolean isTeleportAfterContractRegionBought(){
-        return AdvancedRegionMarket.teleportAfterContractRegionBought;
-    }
-
     private void loadOther(){
-        AdvancedRegionMarket.teleportAfterRentRegionBought = getConfig().getBoolean("Other.TeleportAfterRentRegionBought");
-        AdvancedRegionMarket.teleportAfterRentRegionExtend = getConfig().getBoolean("Other.TeleportAfterRentRegionExtend");
-        AdvancedRegionMarket.teleportAfterSellRegionBought = getConfig().getBoolean("Other.TeleportAfterSellRegionBought");
-        AdvancedRegionMarket.teleportAfterContractRegionBought = getConfig().getBoolean("Other.TeleportAfterContractRegionBought");
-        AdvancedRegionMarket.sendContractRegionExtendMessage = getConfig().getBoolean("Other.SendContractRegionExtendMessage");
+        ArmSettings.setIsTeleportAfterRentRegionBought(getConfig().getBoolean("Other.TeleportAfterRentRegionBought"));
+        ArmSettings.setIsTeleportAfterRentRegionExtend(getConfig().getBoolean("Other.TeleportAfterRentRegionExtend"));
+        ArmSettings.setIsTeleportAfterSellRegionBought(getConfig().getBoolean("Other.TeleportAfterSellRegionBought"));
+        ArmSettings.setIsTeleportAfterContractRegionBought(getConfig().getBoolean("Other.TeleportAfterContractRegionBought"));
+        ArmSettings.setIsSendContractRegionExtendMessage(getConfig().getBoolean("Other.SendContractRegionExtendMessage"));
         Region.setResetcooldown(getConfig().getInt("Other.userResetCooldown"));
-        AdvancedRegionMarket.REMAINING_TIME_TIMEFORMAT = getConfig().getString("Other.RemainingTimeFormat");
-        AdvancedRegionMarket.DATE_TIMEFORMAT = getConfig().getString("Other.DateTimeFormat");
-        AdvancedRegionMarket.useShortCountdown = getConfig().getBoolean("Other.ShortCountdown");
+        ArmSettings.setRemainingTimeTimeformat(getConfig().getString("Other.RemainingTimeFormat"));
+        ArmSettings.setDateTimeformat(getConfig().getString("Other.DateTimeFormat"));
+        ArmSettings.setUseShortCountdown(getConfig().getBoolean("Other.ShortCountdown"));
         try{
             RentRegion.setExpirationWarningTime(RentRegion.stringToTime(getConfig().getString("Other.RentRegionExpirationWarningTime")));
             RentRegion.setSendExpirationWarning(getConfig().getBoolean("Other.SendRentRegionExpirationWarning"));
@@ -486,15 +460,15 @@ public class AdvancedRegionMarket extends JavaPlugin {
     }
 
     private static void checkOrCreateMySql(String mysqldatabase) throws SQLException {
-        ResultSet rs = AdvancedRegionMarket.stmt.executeQuery("SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'");
+        ResultSet rs = ArmSettings.getStmt().executeQuery("SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'");
         Boolean createLastlogin = true;
         while (rs.next()){
-            if(rs.getString("TABLE_NAME").equals(AdvancedRegionMarket.sqlPrefix + "lastlogin")){
+            if(rs.getString("TABLE_NAME").equals(ArmSettings.getSqlPrefix() + "lastlogin")){
                 createLastlogin = false;
             }
         }
         if(createLastlogin){
-            AdvancedRegionMarket.stmt.executeUpdate("CREATE TABLE `" + mysqldatabase + "`.`" + AdvancedRegionMarket.sqlPrefix + "lastlogin` ( `id` INT NOT NULL AUTO_INCREMENT , `uuid` VARCHAR(40) NOT NULL , `lastlogin` TIMESTAMP NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;");
+            ArmSettings.getStmt().executeUpdate("CREATE TABLE `" + mysqldatabase + "`.`" + ArmSettings.getSqlPrefix() + "lastlogin` ( `id` INT NOT NULL AUTO_INCREMENT , `uuid` VARCHAR(40) NOT NULL , `lastlogin` TIMESTAMP NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;");
         }
 
     }
@@ -513,50 +487,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
             inputException.sendMessages();
             return true;
         }
-    }
-
-    public static String getRemainingTimeTimeformat(){
-        return AdvancedRegionMarket.REMAINING_TIME_TIMEFORMAT;
-    }
-
-    public static String getDateTimeformat(){
-        return AdvancedRegionMarket.DATE_TIMEFORMAT;
-    }
-
-    public static Statement getStmt() {
-        return stmt;
-    }
-
-    public static String getSqlPrefix(){
-        return AdvancedRegionMarket.sqlPrefix;
-    }
-
-    public static boolean getEnableAutoReset(){
-        return AdvancedRegionMarket.enableAutoReset;
-    }
-
-    public static int getAutoResetAfter(){
-        return AdvancedRegionMarket.autoResetAfter;
-    }
-
-    public static boolean getEnableTakeOver(){
-        return AdvancedRegionMarket.enableTakeOver;
-    }
-
-    public static int getTakeoverAfter(){
-        return AdvancedRegionMarket.takeoverAfter;
-    }
-
-    public static boolean isTeleportAfterRentRegionBought() {
-        return teleportAfterRentRegionBought;
-    }
-
-    public static boolean isTeleportAfterSellRegionBought() {
-        return teleportAfterSellRegionBought;
-    }
-
-    public static boolean isTeleportAfterRentRegionExtend() {
-        return teleportAfterRentRegionExtend;
     }
 
     public static boolean isAllowStartup(Plugin plugin){

@@ -1,6 +1,7 @@
 package net.alex9849.arm.regions;
 
 import net.alex9849.arm.AdvancedRegionMarket;
+import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.Group.LimitGroup;
 import net.alex9849.arm.Messages;
@@ -168,7 +169,7 @@ public class RentRegion extends Region {
 
         this.setSold(player);
         this.resetBuiltBlocks();
-        if(AdvancedRegionMarket.isTeleportAfterRentRegionBought()){
+        if(ArmSettings.isTeleportAfterRentRegionBought()){
             Teleporter.teleport(player, this, "", AdvancedRegionMarket.getARM().getConfig().getBoolean("Other.TeleportAfterRegionBoughtCountdown"));
         }
         player.sendMessage(Messages.PREFIX + Messages.REGION_BUYMESSAGE);
@@ -263,9 +264,9 @@ public class RentRegion extends Region {
     }
 
     public String calcRemainingTime() {
-        String timetoString = AdvancedRegionMarket.getRemainingTimeTimeformat();
-        timetoString = timetoString.replace("%countdown%", this.getCountdown(AdvancedRegionMarket.isUseShortCountdown()));
-        timetoString = timetoString.replace("%date%", this.getDate(AdvancedRegionMarket.getDateTimeformat()));
+        String timetoString = ArmSettings.getRemainingTimeTimeformat();
+        timetoString = timetoString.replace("%countdown%", this.getCountdown(ArmSettings.isUseShortCountdown()));
+        timetoString = timetoString.replace("%date%", this.getDate(ArmSettings.getDateTimeformat()));
 
 
         return timetoString;
@@ -481,7 +482,7 @@ public class RentRegion extends Region {
                 this.updateSignText(this.sellsign.get(i));
             }
 
-            if(AdvancedRegionMarket.isTeleportAfterRentRegionExtend()) {
+            if(ArmSettings.isTeleportAfterRentRegionExtend()) {
                 Teleporter.teleport(player, this);
             }
 

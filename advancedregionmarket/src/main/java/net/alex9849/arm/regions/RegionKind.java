@@ -89,7 +89,7 @@ public class RegionKind {
             return RegionKind.DEFAULT;
         }
         if(name.equalsIgnoreCase("subregion") || name.equalsIgnoreCase(RegionKind.SUBREGION.getDisplayName())){
-            return RegionKind.DEFAULT;
+            return RegionKind.SUBREGION;
         }
         return null;
     }

@@ -345,7 +345,7 @@ public class ARMListener implements Listener {
             double loc_z = block.getBlock().getLocation().getZ();
             Location loc = new Location(block.getBlock().getWorld(), loc_x, loc_y, loc_z);
 
-            net.alex9849.arm.regions.RegionManager.getRegion((Sign) block.getBlock().getState()).removeSign(loc, block.getPlayer());
+            block.setCancelled(!net.alex9849.arm.regions.RegionManager.getRegion((Sign) block.getBlock().getState()).removeSign(loc, block.getPlayer()));
         } catch (InputException inputException) {
             inputException.sendMessages();
         }

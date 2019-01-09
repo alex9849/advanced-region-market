@@ -359,6 +359,17 @@ public class AdvancedRegionMarket extends JavaPlugin {
         }
         RegionKind.DEFAULT.setLore(defaultlore);
 
+        RegionKind.SUBREGION.setName(getConfig().getString("SubregionRegionKind.DisplayName"));
+        RegionKind.SUBREGION.setMaterial(Material.getMaterial(getConfig().getString("SubregionRegionKind.Item")));
+        RegionKind.SUBREGION.setDisplayInGUI(getConfig().getBoolean("SubregionRegionKind.DisplayInGUI"));
+        RegionKind.SUBREGION.setDisplayInLimits(getConfig().getBoolean("SubregionRegionKind.DisplayInLimits"));
+        RegionKind.SUBREGION.setPaybackPercentage(getConfig().getDouble("SubregionRegionKind.PaypackPercentage"));
+        List<String> subregionlore = getConfig().getStringList("SubregionRegionKind.Lore");
+        for(int x = 0; x < defaultlore.size(); x++){
+            defaultlore.set(x, ChatColor.translateAlternateColorCodes('&', defaultlore.get(x)));
+        }
+        RegionKind.SUBREGION.setLore(defaultlore);
+
         if(getConfig().get("RegionKinds") != null) {
             LinkedList<String> regionKinds = new LinkedList<String>(getConfig().getConfigurationSection("RegionKinds").getKeys(false));
             if(regionKinds != null) {
@@ -449,6 +460,10 @@ public class AdvancedRegionMarket extends JavaPlugin {
         ArmSettings.setRemainingTimeTimeformat(getConfig().getString("Other.RemainingTimeFormat"));
         ArmSettings.setDateTimeformat(getConfig().getString("Other.DateTimeFormat"));
         ArmSettings.setUseShortCountdown(getConfig().getBoolean("Other.ShortCountdown"));
+
+        ArmSettings.setIsAllowSubRegionUserReset(getConfig().getBoolean("Subregions.AllowSubRegionUserReset"));
+        ArmSettings.setIsSubregionBlockReset(getConfig().getBoolean("Subregions.SubregionBlockReset"));
+        ArmSettings.setIsSubregionAutoReset(getConfig().getBoolean("Subregions.SubregionAutoReset"));
         try{
             RentRegion.setExpirationWarningTime(RentRegion.stringToTime(getConfig().getString("Other.RentRegionExpirationWarningTime")));
             RentRegion.setSendExpirationWarning(getConfig().getBoolean("Other.SendRentRegionExpirationWarning"));
@@ -758,7 +773,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
             saveConfig();
         }
         if(version < 1.52) {
-            getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.6...");
+            getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.5.2...");
             double paybackPercentage = pluginConfig.getDouble("Other.paypackPercentage");
             pluginConfig.set("DefaultRegionKind.PaypackPercentage", paybackPercentage);
 
@@ -774,6 +789,23 @@ public class AdvancedRegionMarket extends JavaPlugin {
             }
 
             pluginConfig.set("Version", 1.52);
+            saveConfig();
+        }
+        if(version < 1.6) {
+            getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.6...");
+            pluginConfig.set("SubregionRegionKind.DisplayName", "Subregion");
+            pluginConfig.set("SubregionRegionKind.Item", Material.PLAYER_HEAD.toString());
+            List<String> subregionRegionKindLore = new ArrayList<>();
+            subregionRegionKindLore.add("very subregion");
+            pluginConfig.set("SubregionRegionKind.Lore", subregionRegionKindLore);
+            pluginConfig.set("SubregionRegionKind.DisplayInLimits", true);
+            pluginConfig.set("SubregionRegionKind.DisplayInGUI", false);
+            pluginConfig.set("Subregions.AllowSubRegionUserReset", false);
+            pluginConfig.set("Subregions.SubregionBlockReset", false);
+            pluginConfig.set("Subregions.SubregionPaypackPercentage", 0);
+            pluginConfig.set("Subregions.SubregionAutoReset", true);
+            pluginConfig.set("Other.RegionInfoParticleBorder", true);
+            pluginConfig.set("Version", 1.6);
             saveConfig();
         }
     }

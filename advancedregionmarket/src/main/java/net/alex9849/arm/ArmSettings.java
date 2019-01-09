@@ -11,6 +11,7 @@ public class ArmSettings {
     private static boolean isTeleportAfterRentRegionExtend = false;
     private static boolean isTeleportAfterContractRegionBought = false;
     private static boolean isSendContractRegionExtendMessage = false;
+    private static boolean isRegionInfoParticleBorder = true;
     private static boolean useShortCountdown = false;
     private static String REMAINING_TIME_TIMEFORMAT = "%date%";
     private static String DATE_TIMEFORMAT = "dd.MM.yyyy hh:mm";
@@ -23,6 +24,10 @@ public class ArmSettings {
 
     protected static void setIsAllowSubRegionUserReset(boolean isAllowSubRegionUserReset) {
         ArmSettings.isAllowSubRegionUserReset = isAllowSubRegionUserReset;
+    }
+
+    protected static void setIsRegionInfoParticleBorder(boolean isRegionInfoParticleBorder) {
+        ArmSettings.isRegionInfoParticleBorder = isRegionInfoParticleBorder;
     }
 
     protected static void setIsSubregionBlockReset(boolean isSubregionBlockReset) {
@@ -147,6 +152,10 @@ public class ArmSettings {
 
     public static boolean isEnableTakeOver() {
         return enableTakeOver;
+    }
+
+    public static boolean isRegionInfoParticleBorder() {
+        return isRegionInfoParticleBorder;
     }
 
     public static Statement getStmt() {

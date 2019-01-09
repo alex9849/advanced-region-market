@@ -12,6 +12,7 @@ public class RegionKind {
     private String name;
     private Material material;
     public static RegionKind DEFAULT = new RegionKind("Default", Material.RED_BED, new ArrayList<String>(), "Default", true, true, 50);
+    public static RegionKind SUBREGION = new RegionKind("Subregion", Material.RED_BED, new ArrayList<String>(), "Subregion", false, false, 0);
     private static List<RegionKind> list = new ArrayList<>();
     private List<String> lore;
     private String displayName;

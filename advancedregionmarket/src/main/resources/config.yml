@@ -100,6 +100,15 @@ DefaultRegionKind:
   DisplayInGUI: false
   PaypackPercentage: 50
 
+SubregionRegionKind:
+  DisplayName: Subregion
+  Item: PLAYER_HEAD
+  Lore:
+  - 'very subregion'
+  DisplayInLimits: true
+  DisplayInGUI: false
+  PaypackPercentage: 0
+
 # Limits can be assigned to players by giving them the permission arm.limit.LIMITGROUP
 # you can set limits by writing a regionkind and the limit behind it. Not existing regionkinds
 # will be ignored. If you want to limit regions without a kind use 'Default'. If you want to
@@ -161,6 +170,13 @@ Other:
   # Time in seconds the server should wait before teleporting someone. If the player moves while the countdown runs the teleportation will abort.
   # Set this to 0 to disable the countdown. Players with the permisison arm.admin.bypassteleportercooldown won't get a countdown
   TeleporterTimer: 0
+
+  RegionInfoParticleBorder: true
+
+Subregions:
+  AllowSubRegionUserReset: false
+  SubregionBlockReset: false
+  SubregionAutoReset: true
 
 Reselling:
   Offers:

@@ -528,6 +528,10 @@ public abstract class Region {
         this.sold = false;
         this.lastreset = 1;
 
+        for(int i = 0; i < this.getSubregions().size();) {
+            this.getSubregions().get(i).delete();
+        }
+
         for(int i = 0; i < this.sellsign.size(); i++){
             this.updateSignText(this.sellsign.get(i));
         }

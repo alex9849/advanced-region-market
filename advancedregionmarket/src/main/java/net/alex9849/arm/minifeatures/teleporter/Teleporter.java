@@ -23,7 +23,7 @@ public class Teleporter {
 
         if(region.getTeleportLocation() == null) {
 
-            World world = Bukkit.getWorld(region.getRegionworld());
+            World world = region.getRegionworld();
             if(world == null) {
                 return;
             }

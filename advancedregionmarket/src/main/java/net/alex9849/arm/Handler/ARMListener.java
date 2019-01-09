@@ -10,10 +10,7 @@ import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.regions.*;
 import net.alex9849.arm.gui.Gui;
 import net.alex9849.inter.WGRegion;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -61,19 +58,22 @@ public class ARMListener implements Listener {
 
                 String worldname = sign.getLine(1);
                 String regionname = sign.getLine(2);
+                World regionWorld = null;
 
                 if (sign.getLine(1).equals("")){
                     worldname = sign.getBlock().getLocation().getWorld().getName();
+                    regionWorld = sign.getBlock().getLocation().getWorld();
                 } else {
-                    if (Bukkit.getWorld(worldname) == null) {
+                    regionWorld = Bukkit.getWorld(worldname);
+                    if (regionWorld == null) {
                         throw new InputException(sign.getPlayer(), Messages.WORLD_DOES_NOT_EXIST);
                     }
                 }
 
-                if (AdvancedRegionMarket.getWorldGuardInterface().getRegionManager(Bukkit.getWorld(worldname), AdvancedRegionMarket.getWorldGuard()).getRegion(regionname) == null) {
+                if (AdvancedRegionMarket.getWorldGuardInterface().getRegionManager(regionWorld, AdvancedRegionMarket.getWorldGuard()).getRegion(regionname) == null) {
                     throw new InputException(sign.getPlayer(), Messages.REGION_DOES_NOT_EXIST);
                 }
-                WGRegion region = AdvancedRegionMarket.getWorldGuardInterface().getRegion(Bukkit.getWorld(worldname), AdvancedRegionMarket.getWorldGuard(), regionname);
+                WGRegion region = AdvancedRegionMarket.getWorldGuardInterface().getRegion(regionWorld, AdvancedRegionMarket.getWorldGuard(), regionname);
                 Double price = null;
 
                 if(sign.getLine(3).equals("")){
@@ -110,7 +110,7 @@ public class ARMListener implements Listener {
 
                 LinkedList<Sign> sellsign = new LinkedList<Sign>();
                 sellsign.add((Sign) sign.getBlock().getState());
-                SellRegion addRegion = new SellRegion(region, worldname, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,1, new ArrayList<Region>(), false, false);
+                SellRegion addRegion = new SellRegion(region, regionWorld, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,1, new ArrayList<Region>(), false, false);
                 addRegion.createSchematic();
                 net.alex9849.arm.regions.RegionManager.addRegion(addRegion);
                 sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_ADDED_TO_ARM);
@@ -140,17 +140,21 @@ public class ARMListener implements Listener {
                 String worldname = sign.getLine(1);
                 String regionname = sign.getLine(2);
 
+                World regionWorld = null;
+
                 if (sign.getLine(1).equals("")){
                     worldname = sign.getBlock().getLocation().getWorld().getName();
+                    regionWorld = sign.getBlock().getLocation().getWorld();
                 } else {
-                    if (Bukkit.getWorld(worldname) == null) {
+                    regionWorld = Bukkit.getWorld(worldname);
+                    if (regionWorld == null) {
                         throw new InputException(sign.getPlayer(), Messages.WORLD_DOES_NOT_EXIST);
                     }
                 }
-                if (AdvancedRegionMarket.getWorldGuardInterface().getRegionManager(Bukkit.getWorld(worldname), AdvancedRegionMarket.getWorldGuard()).getRegion(regionname) == null) {
+                if (AdvancedRegionMarket.getWorldGuardInterface().getRegionManager(regionWorld, AdvancedRegionMarket.getWorldGuard()).getRegion(regionname) == null) {
                     throw new InputException(sign.getPlayer(), Messages.REGION_DOES_NOT_EXIST);
                 }
-                WGRegion region = AdvancedRegionMarket.getWorldGuardInterface().getRegion(Bukkit.getWorld(worldname), AdvancedRegionMarket.getWorldGuard(), regionname);
+                WGRegion region = AdvancedRegionMarket.getWorldGuardInterface().getRegion(regionWorld, AdvancedRegionMarket.getWorldGuard(), regionname);
 
                 double price = 0;
                 long extendPerClick = 0;
@@ -205,7 +209,7 @@ public class ARMListener implements Listener {
                 LinkedList<Sign> sellsign = new LinkedList<Sign>();
                 sellsign.add((Sign) sign.getBlock().getState());
 
-                RentRegion addRegion = new RentRegion(region, worldname, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,
+                RentRegion addRegion = new RentRegion(region, regionWorld, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,
                         1,1, maxRentTime, extendPerClick, new ArrayList<Region>(), false, false);
                 addRegion.createSchematic();
                 net.alex9849.arm.regions.RegionManager.addRegion(addRegion);
@@ -234,18 +238,21 @@ public class ARMListener implements Listener {
 
                 String worldname = sign.getLine(1);
                 String regionname = sign.getLine(2);
+                World regionWorld = null;
 
                 if (sign.getLine(1).equals("")){
                     worldname = sign.getBlock().getLocation().getWorld().getName();
+                    regionWorld = sign.getBlock().getLocation().getWorld();
                 } else {
-                    if (Bukkit.getWorld(worldname) == null) {
+                    regionWorld = Bukkit.getWorld(worldname);
+                    if (regionWorld == null) {
                         throw new InputException(sign.getPlayer(), Messages.WORLD_DOES_NOT_EXIST);
                     }
                 }
-                if (AdvancedRegionMarket.getWorldGuardInterface().getRegionManager(Bukkit.getWorld(worldname), AdvancedRegionMarket.getWorldGuard()).getRegion(regionname) == null) {
+                if (AdvancedRegionMarket.getWorldGuardInterface().getRegionManager(regionWorld, AdvancedRegionMarket.getWorldGuard()).getRegion(regionname) == null) {
                     throw new InputException(sign.getPlayer(), Messages.REGION_DOES_NOT_EXIST);
                 }
-                WGRegion region = AdvancedRegionMarket.getWorldGuardInterface().getRegion(Bukkit.getWorld(worldname), AdvancedRegionMarket.getWorldGuard(), regionname);
+                WGRegion region = AdvancedRegionMarket.getWorldGuardInterface().getRegion(regionWorld, AdvancedRegionMarket.getWorldGuard(), regionname);
 
                 double price = 0;
                 long extendtime = 0;
@@ -296,7 +303,7 @@ public class ARMListener implements Listener {
                 LinkedList<Sign> sellsign = new LinkedList<Sign>();
                 sellsign.add((Sign) sign.getBlock().getState());
 
-                ContractRegion addRegion = new ContractRegion(region, worldname, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,
+                ContractRegion addRegion = new ContractRegion(region, regionWorld, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,
                         1, extendtime, 1, false, new ArrayList<Region>(), false, false);
                 addRegion.createSchematic();
                 net.alex9849.arm.regions.RegionManager.addRegion(addRegion);
@@ -367,7 +374,7 @@ public class ARMListener implements Listener {
 
             for(Region region : playersRegions) {
                 if(region.getRegion().contains(x, y, z)) {
-                    if(region.getRegionworld().equals(event.getBlock().getWorld().getName())) {
+                    if(region.getRegionworld().getName().equals(event.getBlock().getWorld().getName())) {
                         if(region.isHotel()) {
                             if(region.isSold()) {
                                 region.addBuiltBlock(event.getBlock().getLocation());
@@ -398,7 +405,7 @@ public class ARMListener implements Listener {
 
                 for(Region region : playersRegions) {
                     if(region.getRegion().contains(x, y, z)) {
-                        if(region.getRegionworld().equals(event.getBlock().getWorld().getName())) {
+                        if(region.getRegionworld().getName().equals(event.getBlock().getWorld().getName())) {
                             if(region.isHotel()) {
                                 if(!region.allowBlockBreak(event.getBlock().getLocation())) {
                                     event.setCancelled(true);
@@ -535,7 +542,7 @@ public class ARMListener implements Listener {
                         if(wgRegion.hasOwner(player.getUniqueId())) {
                             SubRegionCreator subRegionCreator = SubRegionCreator.getSubRegioncreator(player);
                             if(subRegionCreator != null) {
-                                if((subRegionCreator.getParentRegion().getRegion().getId().equals(wgRegion.getId())) && (subRegionCreator.getParentRegion().getRegionworld().equalsIgnoreCase(event.getClickedBlock().getWorld().getName()))) {
+                                if((subRegionCreator.getParentRegion().getRegion().getId().equals(wgRegion.getId())) && (subRegionCreator.getParentRegion().getRegionworld().getName().equals(event.getClickedBlock().getWorld().getName()))) {
                                     if(event.getAction() == Action.RIGHT_CLICK_BLOCK) {
                                         subRegionCreator.setPos2(event.getClickedBlock().getLocation());
                                         player.sendMessage("Second position set!");

@@ -60,7 +60,7 @@ public abstract class Preset {
             cmd = cmd.replace("%dimensions%", region.getDimensions());
             cmd = cmd.replace("%regionkind%", region.getRegionKind().getName());
             cmd = cmd.replace("%regionkinddisplay%", region.getRegionKind().getDisplayName());
-            cmd = cmd.replace("%world%", region.getRegionworld());
+            cmd = cmd.replace("%world%", region.getRegionworld().getName());
             cmd = cmd.replace("%price%", region.getPrice() + "");
 
             if(region instanceof RentRegion) {

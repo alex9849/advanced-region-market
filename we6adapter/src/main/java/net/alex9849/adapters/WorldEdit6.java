@@ -15,16 +15,17 @@ import com.sk89q.worldedit.world.registry.WorldData;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.inter.WorldEditInterface;
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 
 import java.io.*;
 
 public class WorldEdit6 extends WorldEditInterface {
 
     @Override
-    public void createSchematic(WGRegion region, String worldname, WorldEdit we) {
+    public void createSchematic(WGRegion region, World bukkitworld, WorldEdit we) {
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-        File schematicdic = new File(pluginfolder + "/schematics/" + worldname + "/" + region.getId() + ".schematic");
-        File schematicfolder = new File(pluginfolder + "/schematics/" + worldname);
+        File schematicdic = new File(pluginfolder + "/schematics/" + bukkitworld.getName() + "/" + region.getId() + ".schematic");
+        File schematicfolder = new File(pluginfolder + "/schematics/" + bukkitworld.getName());
         if(schematicdic.exists()){
             schematicdic.delete();
         }
@@ -34,7 +35,7 @@ public class WorldEdit6 extends WorldEditInterface {
         BlockVector minPoint = new BlockVector(region.getMinPoint().getBlockX(), region.getMinPoint().getBlockY(), region.getMinPoint().getBlockZ());
         BlockVector maxPoint = new BlockVector(region.getMaxPoint().getBlockX(), region.getMaxPoint().getBlockY(), region.getMaxPoint().getBlockZ());
 
-        com.sk89q.worldedit.world.World world = new BukkitWorld(Bukkit.getWorld(worldname));
+        com.sk89q.worldedit.world.World world = new BukkitWorld(bukkitworld);
         WorldData worldData = world.getWorldData();
         EditSession editSession = we.getEditSessionFactory().getEditSession(world, Integer.MAX_VALUE);
         CuboidRegion reg = new CuboidRegion(world, minPoint, maxPoint);
@@ -62,12 +63,12 @@ public class WorldEdit6 extends WorldEditInterface {
     }
 
     @Override
-    public void resetBlocks(WGRegion region, String worldname, WorldEdit we) throws IOException {
+    public void resetBlocks(WGRegion region, World bukkitworld, WorldEdit we) throws IOException {
 
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-        File file = new File(pluginfolder + "/schematics/" + worldname + "/" + region.getId() + ".schematic");
+        File file = new File(pluginfolder + "/schematics/" + bukkitworld.getName() + "/" + region.getId() + ".schematic");
 
-        com.sk89q.worldedit.world.World world = new BukkitWorld(Bukkit.getWorld(worldname));
+        com.sk89q.worldedit.world.World world = new BukkitWorld(bukkitworld);
         BlockVector minPoint = new BlockVector(region.getMinPoint().getBlockX(), region.getMinPoint().getBlockY(), region.getMinPoint().getBlockZ());
         WorldData worldData = world.getWorldData();
         Clipboard clipboard;

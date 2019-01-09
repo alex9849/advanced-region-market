@@ -91,7 +91,7 @@ public class SubRegionCreator {
                 }
             }
         } while(inUse);
-        this.subRegion = AdvancedRegionMarket.getWorldGuardInterface().createRegion(this.parentRegion.getRegion(), Bukkit.getWorld(this.parentRegion.getRegionworld()), this.parentRegion.getRegion().getId() + "-sub" + subregionID, this.pos1, this.pos2, AdvancedRegionMarket.getWorldGuard());
+        this.subRegion = AdvancedRegionMarket.getWorldGuardInterface().createRegion(this.parentRegion.getRegion(), this.parentRegion.getRegionworld(), this.parentRegion.getRegion().getId() + "-sub" + subregionID, this.pos1, this.pos2, AdvancedRegionMarket.getWorldGuard());
         this.subSignCreationListener = new SubSignCreationListener(this.creator, this);
         Bukkit.getServer().getPluginManager().registerEvents(this.subSignCreationListener, AdvancedRegionMarket.getARM());
         return;
@@ -120,7 +120,7 @@ public class SubRegionCreator {
 
     public void saveWorldGuardRegion() throws LogicalException {
         if(this.subRegion != null) {
-            AdvancedRegionMarket.getWorldGuardInterface().addToRegionManager(this.subRegion, Bukkit.getWorld(this.parentRegion.getRegionworld()), AdvancedRegionMarket.getWorldGuard());
+            AdvancedRegionMarket.getWorldGuardInterface().addToRegionManager(this.subRegion, this.parentRegion.getRegionworld(), AdvancedRegionMarket.getWorldGuard());
         } else {
             throw new LogicalException("Could not save WorldGaurd Region! Subregion = null");
         }

@@ -16,11 +16,11 @@ import java.io.IOException;
 
 public class WorldEdit7FaWe extends WorldEditInterface {
 
-    public void createSchematic(WGRegion region, String worldname, com.sk89q.worldedit.WorldEdit we) {
+    public void createSchematic(WGRegion region, org.bukkit.World bukkitworld, com.sk89q.worldedit.WorldEdit we) {
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-        File rawschematicdic = new File(pluginfolder + "/schematics/" + worldname + "/" + region.getId());
+        File rawschematicdic = new File(pluginfolder + "/schematics/" + bukkitworld.getName() + "/" + region.getId());
         File schematicdic = new File(rawschematicdic + "." + ClipboardFormat.SPONGE_SCHEMATIC.getPrimaryFileExtension());
-        File schematicfolder = new File(pluginfolder + "/schematics/" + worldname);
+        File schematicfolder = new File(pluginfolder + "/schematics/" + bukkitworld.getName());
 
         for (ClipboardFormat format : ClipboardFormat.values()) {
             for (String extension : format.getFileExtensions()) {
@@ -35,7 +35,7 @@ public class WorldEdit7FaWe extends WorldEditInterface {
         BlockVector minPoint = new BlockVector(region.getMinPoint().getBlockX(), region.getMinPoint().getBlockY(), region.getMinPoint().getBlockZ());
         BlockVector maxPoint = new BlockVector(region.getMaxPoint().getBlockX(), region.getMaxPoint().getBlockY(), region.getMaxPoint().getBlockZ());
 
-        com.sk89q.worldedit.world.World world = new BukkitWorld(Bukkit.getWorld(worldname));
+        com.sk89q.worldedit.world.World world = new BukkitWorld(bukkitworld);
         CuboidRegion reg = new CuboidRegion(world, minPoint, maxPoint);
         Schematic schem = new Schematic(reg);
         try {
@@ -47,9 +47,9 @@ public class WorldEdit7FaWe extends WorldEditInterface {
 
     }
 
-    public void resetBlocks(WGRegion region, String worldname, com.sk89q.worldedit.WorldEdit we) throws IOException {
+    public void resetBlocks(WGRegion region, org.bukkit.World bukkitworld, com.sk89q.worldedit.WorldEdit we) throws IOException {
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-        File rawschematicdic = new File(pluginfolder + "/schematics/" + worldname + "/" + region.getId());
+        File rawschematicdic = new File(pluginfolder + "/schematics/" + bukkitworld.getName() + "/" + region.getId());
         File file = null;
 
         for (ClipboardFormat format : ClipboardFormat.values()) {
@@ -59,7 +59,7 @@ public class WorldEdit7FaWe extends WorldEditInterface {
                 }
             }
         }
-        World weWorld = new BukkitWorld(Bukkit.getWorld(worldname));
+        World weWorld = new BukkitWorld(bukkitworld);
         BlockVector minPoint = new BlockVector(region.getMinPoint().getBlockX(), region.getMinPoint().getBlockY(), region.getMinPoint().getBlockZ());
         if(ClipboardFormat.SPONGE_SCHEMATIC.isFormat(file)) {
             ClipboardFormat.SPONGE_SCHEMATIC.load(file).paste(weWorld, minPoint);

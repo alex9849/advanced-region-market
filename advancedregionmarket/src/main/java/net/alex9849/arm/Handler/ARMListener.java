@@ -331,12 +331,12 @@ public class ARMListener implements Listener {
             if ((block.getBlock().getType() != Material.SIGN) && (block.getBlock().getType() != Material.WALL_SIGN)) {
                 return;
             }
-
-            if(net.alex9849.arm.regions.RegionManager.getRegion((Sign) block.getBlock().getState()) == null){
+            Region region = net.alex9849.arm.regions.RegionManager.getRegion((Sign) block.getBlock().getState());
+            if(region == null){
                 return;
             }
 
-            if(!block.getPlayer().hasPermission(Permission.ADMIN_REMOVE_SIGN)) {
+            if(!(block.getPlayer().hasPermission(Permission.ADMIN_REMOVE_SIGN) || (block.getPlayer().hasPermission(Permission.SUBREGION_REMOVE) && region.isSubregion()))) {
                 block.setCancelled(true);
                 throw new InputException(block.getPlayer(), Messages.NO_PERMISSION);
             }
@@ -345,7 +345,22 @@ public class ARMListener implements Listener {
             double loc_z = block.getBlock().getLocation().getZ();
             Location loc = new Location(block.getBlock().getWorld(), loc_x, loc_y, loc_z);
 
-            block.setCancelled(!net.alex9849.arm.regions.RegionManager.getRegion((Sign) block.getBlock().getState()).removeSign(loc, block.getPlayer()));
+            if(block.getPlayer().hasPermission(Permission.ADMIN_REMOVE_SIGN)) {
+                block.setCancelled(!region.removeSign(loc, block.getPlayer()));
+                return;
+            }
+
+            if(region.isSubregion() && block.getPlayer().hasPermission(Permission.SUBREGION_REMOVE)) {
+                if(region.getParentRegion() != null) {
+                    if(region.getParentRegion().getRegion().hasOwner(block.getPlayer().getUniqueId())) {
+                        block.setCancelled(!region.removeSign(loc, block.getPlayer()));
+                        return;
+                    } else {
+                        //TODO
+                        throw new InputException(block.getPlayer(), "You dont own the parent region!");
+                    }
+                }
+            }
         } catch (InputException inputException) {
             inputException.sendMessages();
         }

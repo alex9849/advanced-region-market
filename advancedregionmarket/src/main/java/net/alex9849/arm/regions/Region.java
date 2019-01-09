@@ -107,7 +107,7 @@ public abstract class Region {
         RegionManager.writeRegionsToConfig();
     }
 
-    private Region getParentRegion() {
+    public Region getParentRegion() {
         if(this.isSubregion) {
             return this.parentRegion;
         }

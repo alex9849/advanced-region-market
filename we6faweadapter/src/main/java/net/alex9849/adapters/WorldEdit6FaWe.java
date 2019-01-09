@@ -18,6 +18,7 @@ import org.bukkit.Bukkit;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class WorldEdit6FaWe extends WorldEditInterface {
@@ -46,7 +47,7 @@ public class WorldEdit6FaWe extends WorldEditInterface {
         }
     }
 
-    public void resetBlocks(WGRegion region, String worldname, WorldEdit we) {
+    public void resetBlocks(WGRegion region, String worldname, WorldEdit we) throws IOException {
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
         File file = new File(pluginfolder + "/schematics/" + worldname + "/" + region.getId() + ".schematic");
 
@@ -62,8 +63,6 @@ public class WorldEdit6FaWe extends WorldEditInterface {
 
             Operations.completeLegacy(copy);
 
-        } catch (IOException e) {
-            e.printStackTrace();
         } catch (WorldEditException e) {
             e.printStackTrace();
         }

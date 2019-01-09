@@ -47,7 +47,7 @@ public class WorldEdit7FaWe extends WorldEditInterface {
 
     }
 
-    public void resetBlocks(WGRegion region, String worldname, com.sk89q.worldedit.WorldEdit we) {
+    public void resetBlocks(WGRegion region, String worldname, com.sk89q.worldedit.WorldEdit we) throws IOException {
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
         File rawschematicdic = new File(pluginfolder + "/schematics/" + worldname + "/" + region.getId());
         File file = null;
@@ -61,16 +61,12 @@ public class WorldEdit7FaWe extends WorldEditInterface {
         }
         World weWorld = new BukkitWorld(Bukkit.getWorld(worldname));
         BlockVector minPoint = new BlockVector(region.getMinPoint().getBlockX(), region.getMinPoint().getBlockY(), region.getMinPoint().getBlockZ());
-        try {
-            if(ClipboardFormat.SPONGE_SCHEMATIC.isFormat(file)) {
-                ClipboardFormat.SPONGE_SCHEMATIC.load(file).paste(weWorld, minPoint);
-            } else if(ClipboardFormat.SCHEMATIC.isFormat(file)) {
-                ClipboardFormat.SCHEMATIC.load(file).paste(weWorld, minPoint);
-            } else {
-                ClipboardFormats.findByFile(file).load(file).paste(weWorld, minPoint);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(ClipboardFormat.SPONGE_SCHEMATIC.isFormat(file)) {
+            ClipboardFormat.SPONGE_SCHEMATIC.load(file).paste(weWorld, minPoint);
+        } else if(ClipboardFormat.SCHEMATIC.isFormat(file)) {
+            ClipboardFormat.SCHEMATIC.load(file).paste(weWorld, minPoint);
+        } else {
+            ClipboardFormats.findByFile(file).load(file).paste(weWorld, minPoint);
         }
     }
 }

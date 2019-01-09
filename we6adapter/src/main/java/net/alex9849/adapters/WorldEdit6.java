@@ -62,7 +62,7 @@ public class WorldEdit6 extends WorldEditInterface {
     }
 
     @Override
-    public void resetBlocks(WGRegion region, String worldname, WorldEdit we) {
+    public void resetBlocks(WGRegion region, String worldname, WorldEdit we) throws IOException {
 
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
         File file = new File(pluginfolder + "/schematics/" + worldname + "/" + region.getId() + ".schematic");
@@ -78,8 +78,6 @@ public class WorldEdit6 extends WorldEditInterface {
             ForwardExtentCopy copy = new ForwardExtentCopy(source, clipboard.getRegion(), clipboard.getOrigin(), destination, minPoint);
 
             Operations.completeLegacy(copy);
-        } catch (IOException e) {
-            e.printStackTrace();
         } catch (WorldEditException e) {
             e.printStackTrace();
         }

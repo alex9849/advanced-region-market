@@ -22,6 +22,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.logging.Level;
 
 public abstract class Region {
     public static boolean completeTabRegions;
@@ -45,7 +46,7 @@ public abstract class Region {
     protected final boolean isSubregion;
 
     public Region(WGRegion region, String regionworld, List<Sign> sellsign, double price, Boolean sold, Boolean autoreset,
-                  Boolean isHotel, Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, Boolean createSchematic, List<Region> subregions, boolean isTown, boolean isSubregion){
+                  Boolean isHotel, Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, List<Region> subregions, boolean isTown, boolean isSubregion){
         this.region = region;
         this.sellsign = new ArrayList<Sign>(sellsign);
         this.sold = sold;
@@ -87,10 +88,6 @@ public abstract class Region {
         } else {
             this.builtblocks = new ArrayList<Location>();
         }
-        if(createSchematic){
-            this.createSchematic();
-        }
-
     }
 
     public void setTeleportLocation(Location loc) {
@@ -280,7 +277,11 @@ public abstract class Region {
 
     public boolean resetBlocks(){
         this.resetBuiltBlocks();
-        AdvancedRegionMarket.getWorldEditInterface().resetBlocks(this.getRegion(), this.getRegionworld(), AdvancedRegionMarket.getWorldedit().getWorldEdit());
+        try {
+            AdvancedRegionMarket.getWorldEditInterface().resetBlocks(this.getRegion(), this.getRegionworld(), AdvancedRegionMarket.getWorldedit().getWorldEdit());
+        } catch (IOException e) {
+            Bukkit.getLogger().log(Level.INFO, "[ARM] Could load schematic for Region " + this.getRegion().getId() + "! Does it exist?");
+        }
 
         return true;
     }

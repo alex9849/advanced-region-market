@@ -1,5 +1,6 @@
 package net.alex9849.arm.SubRegions;
 
+import javafx.geometry.Point3D;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.exceptions.LogicalException;
@@ -11,6 +12,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.util.Vector;
 
+import java.awt.*;
+import java.awt.geom.Area;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -112,6 +115,12 @@ public class SubRegionCreator {
         if(!this.getParentRegion().getRegion().hasOwner(creator.getUniqueId())) {
             throw new InputException(this.creator, "meep");
         }
+        for(Region region : this.getParentRegion().getSubregions()) {
+            if(this.checkOverlap(region)) {
+                throw new InputException(this.creator, "overlap");
+            }
+        }
+
         int subregionID = 1;
         boolean inUse = false;
         do {
@@ -193,16 +202,16 @@ public class SubRegionCreator {
         return this.subRegion;
     }
 
-    /*
-
-    private int createParticleBorders() {
+    private boolean checkOverlap(Region region) {
+        if(this.pos2 == null || this.pos1 == null) {
+            return false;
+        }
         int minX;
         int minY;
         int minZ;
         int maxX;
         int maxY;
         int maxZ;
-
         if(this.pos1.getBlockX() < this.pos2.getBlockX()) {
             minX = this.pos1.getBlockX();
             maxX = this.pos2.getBlockX();
@@ -210,7 +219,6 @@ public class SubRegionCreator {
             minX = this.pos2.getBlockX();
             maxX = this.pos1.getBlockX();
         }
-
         if(this.pos1.getBlockY() < this.pos2.getBlockY()) {
             minY = this.pos1.getBlockY();
             maxY = this.pos2.getBlockY();
@@ -218,7 +226,6 @@ public class SubRegionCreator {
             minY = this.pos2.getBlockY();
             maxY = this.pos1.getBlockY();
         }
-
         if(this.pos1.getBlockZ() < this.pos2.getBlockZ()) {
             minZ = this.pos1.getBlockZ();
             maxZ = this.pos2.getBlockZ();
@@ -226,46 +233,19 @@ public class SubRegionCreator {
             minZ = this.pos2.getBlockZ();
             maxZ = this.pos1.getBlockZ();
         }
+        int parentMinX = region.getRegion().getMinPoint().getBlockX();
+        int parentMinY = region.getRegion().getMinPoint().getBlockY();
+        int parentMinZ = region.getRegion().getMinPoint().getBlockZ();
+        int parentMaxX = region.getRegion().getMaxPoint().getBlockX();
+        int parentMaxY = region.getRegion().getMaxPoint().getBlockY();
+        int parentMaxZ = region.getRegion().getMaxPoint().getBlockZ();
 
-
-        final Player player = this.creator;
-        final Location minPos = new Location(player.getWorld(), minX, minY, minZ);
-        final Location maxPos = new Location(player.getWorld(), maxX, maxY, maxZ);
-
-        List<Location> particleSpawnPoints = new ArrayList<>();
-        for(int i = minPos.getBlockX(); i <= maxPos.getBlockX(); i++) {
-            particleSpawnPoints.add(new Location(player.getWorld(), i, minPos.getBlockY(), minPos.getBlockZ()));
-            particleSpawnPoints.add(new Location(player.getWorld(), i, minPos.getBlockY(), maxPos.getBlockZ()));
-            particleSpawnPoints.add(new Location(player.getWorld(), i, maxPos.getBlockY(), minPos.getBlockZ()));
-            particleSpawnPoints.add(new Location(player.getWorld(), i, maxPos.getBlockY(), maxPos.getBlockZ()));
+        if((maxX < parentMinX) || (maxY < parentMinY) || (maxZ < parentMinZ)) {
+            return false;
         }
-        for(int i = minPos.getBlockY(); i <= maxPos.getBlockY(); i++) {
-            particleSpawnPoints.add(new Location(player.getWorld(), minPos.getBlockX(), i, minPos.getBlockZ()));
-            particleSpawnPoints.add(new Location(player.getWorld(), minPos.getBlockX(), i, maxPos.getBlockZ()));
-            particleSpawnPoints.add(new Location(player.getWorld(), maxPos.getBlockX(), i, minPos.getBlockZ()));
-            particleSpawnPoints.add(new Location(player.getWorld(), maxPos.getBlockX(), i, maxPos.getBlockZ()));
+        if((minX > parentMaxX) || (minY > parentMaxY) || (minZ > parentMaxZ)) {
+            return false;
         }
-        for(int i = minPos.getBlockZ(); i <= maxPos.getBlockZ(); i++) {
-            particleSpawnPoints.add(new Location(player.getWorld(), minPos.getBlockX(), minPos.getBlockY(), i));
-            particleSpawnPoints.add(new Location(player.getWorld(), minPos.getBlockX(), maxPos.getBlockY(), i));
-            particleSpawnPoints.add(new Location(player.getWorld(), maxPos.getBlockX(), minPos.getBlockY(), i));
-            particleSpawnPoints.add(new Location(player.getWorld(), maxPos.getBlockX(), maxPos.getBlockY(), i));
-        }
-        return Bukkit.getScheduler().scheduleSyncRepeatingTask(AdvancedRegionMarket.getARM(), new Runnable() {
-
-            @Override
-            public void run() {
-                for(Location location : particleSpawnPoints) {
-                    player.spawnParticle(Particle.SPELL_WITCH, location.getX() + 0.5, location.getY() + 0.5, location.getBlockZ() + 0.5, 6,0, 0, 0);
-                }
-            }
-        }, 0, 20);
+        return true;
     }
-
-    private void removeParticleBorders() {
-        if(this.particleBorderTaskID != null) {
-            Bukkit.getScheduler().cancelTask(this.particleBorderTaskID);
-        }
-    }
-    */
 }

@@ -1,7 +1,8 @@
-package net.alex9849.arm.commands;
+package net.alex9849.arm.SubRegions.commands;
 
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
+import net.alex9849.arm.commands.BasicArmCommand;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regions.Region;
@@ -37,7 +38,7 @@ public class HotelCommand extends BasicArmCommand {
 
     @Override
     public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
-        if(!(sender.hasPermission(Permission.ADMIN_CHANGE_IS_HOTEL))){
+        if(!(sender.hasPermission(Permission.SUBREGION_CHANGE_IS_HOTEL))){
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
         if(!(sender instanceof Player)) {
@@ -48,11 +49,19 @@ public class HotelCommand extends BasicArmCommand {
         if(region == null) {
             throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
         }
+        if(!region.isSubregion()) {
+            //TODO
+            throw new InputException(player, "region not a subregion");
+        }
+        if(!region.getParentRegion().getRegion().hasOwner(player.getUniqueId())) {
+            throw new InputException(player, "dont own parentregion");
+        }
         region.setHotel(Boolean.parseBoolean(args[2]));
         String state = "disabled";
         if(Boolean.parseBoolean(args[2])){
             state = "enabled";
         }
+        //TODO
         player.sendMessage(Messages.PREFIX + "isHotel " + state + " for " + region.getRegion().getId());
         return true;
     }
@@ -63,11 +72,11 @@ public class HotelCommand extends BasicArmCommand {
 
         if(args.length >= 1) {
             if (this.rootCommand.startsWith(args[0])) {
-                if(player.hasPermission(Permission.ADMIN_CHANGE_IS_HOTEL)) {
+                if(player.hasPermission(Permission.SUBREGION_CHANGE_IS_HOTEL)) {
                     if(args.length == 1) {
                         returnme.add(this.rootCommand);
                     } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                        returnme.addAll(RegionManager.completeTabRegions(player, args[1], PlayerRegionRelationship.ALL,true, true));
+                        returnme.addAll(RegionManager.completeTabRegions(player, args[1], PlayerRegionRelationship.PARENTREGION_OWNER,false, true));
                     } else if(args.length == 3 && (args[0].equalsIgnoreCase(this.rootCommand))) {
                         if("true".startsWith(args[2])) {
                             returnme.add("true");

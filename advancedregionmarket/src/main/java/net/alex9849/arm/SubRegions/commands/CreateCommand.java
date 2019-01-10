@@ -54,6 +54,15 @@ public class CreateCommand extends BasicArmCommand {
 
     @Override
     public List<String> onTabComplete(Player player, String[] args) {
-        return new ArrayList<String>();
+        List<String> returnme = new ArrayList<>();
+        if(Permission.hasAnySubregionCreatePermission(player)) {
+            if(args.length == 1) {
+                if(this.rootCommand.startsWith(args[0])) {
+                    returnme.add(this.rootCommand);
+                }
+            }
+        }
+
+        return returnme;
     }
 }

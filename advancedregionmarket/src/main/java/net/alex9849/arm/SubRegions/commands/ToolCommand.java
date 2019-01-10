@@ -56,6 +56,15 @@ public class ToolCommand extends BasicArmCommand {
 
     @Override
     public List<String> onTabComplete(Player player, String[] args) {
-        return new ArrayList<>();
+        List<String> returnme = new ArrayList<>();
+        if(player.hasPermission(Permission.SUBREGION_TOOL)) {
+            if(args.length == 1) {
+                if(this.rootCommand.startsWith(args[0])) {
+                    returnme.add(this.rootCommand);
+                }
+            }
+        }
+
+        return returnme;
     }
 }

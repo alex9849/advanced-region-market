@@ -2,7 +2,9 @@ package net.alex9849.arm.commands;
 
 import net.alex9849.arm.Handler.CommandHandler;
 import net.alex9849.arm.Messages;
+import net.alex9849.arm.Permission;
 import net.alex9849.arm.SubRegions.commands.CreateCommand;
+import net.alex9849.arm.SubRegions.commands.HotelCommand;
 import net.alex9849.arm.SubRegions.commands.ToolCommand;
 import net.alex9849.arm.exceptions.InputException;
 import org.bukkit.ChatColor;
@@ -25,6 +27,7 @@ public class SubRegionCommand extends BasicArmCommand {
         List<BasicArmCommand> commands = new ArrayList<>();
         commands.add(new ToolCommand());
         commands.add(new CreateCommand());
+        commands.add(new HotelCommand());
         this.commandHandler.addCommands(commands);
     }
 
@@ -63,6 +66,25 @@ public class SubRegionCommand extends BasicArmCommand {
 
     @Override
     public List<String> onTabComplete(Player player, String[] args) {
-        return new ArrayList<String>();
+        List<String> returnme = new ArrayList<>();
+        if(args.length >= 1) {
+            if(this.rootCommand.startsWith(args[0])) {
+                if(Permission.hasAnySubregionPermission(player)) {
+                    if(args.length == 1) {
+                        if(this.rootCommand.startsWith(args[0])) {
+                            returnme.add(this.rootCommand);
+                        }
+                    }
+                    if(args.length > 1) {
+                        String[] newargs = new String[args.length - 1];
+                        for(int i = 0; i < newargs.length; i++) {
+                            newargs[i] = args[i + 1];
+                        }
+                        returnme.addAll(this.commandHandler.onTabComplete(player, newargs));
+                    }
+                }
+            }
+        }
+        return returnme;
     }
 }

@@ -85,7 +85,7 @@ public class TerminateCommand extends BasicArmCommand {
                         } else {
                             playerRegionRelationship = PlayerRegionRelationship.OWNER;
                         }
-                        returnme.addAll(RegionManager.completeTabRegions(player, args[1], playerRegionRelationship, true));
+                        returnme.addAll(RegionManager.completeTabRegions(player, args[1], playerRegionRelationship, true,true));
                     } else if(args.length == 3 && (args[0].equalsIgnoreCase(this.rootCommand))) {
                         if("true".startsWith(args[2])) {
                             returnme.add("true");

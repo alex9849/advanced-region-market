@@ -78,7 +78,7 @@ public class TPCommand extends BasicArmCommand {
                         } else {
                             playerRegionRelationship = PlayerRegionRelationship.MEMBER_OR_OWNER;
                         }
-                        returnme.addAll(RegionManager.completeTabRegions(player, args[1], playerRegionRelationship, true));
+                        returnme.addAll(RegionManager.completeTabRegions(player, args[1], playerRegionRelationship, true,true));
                     }
                 }
             }

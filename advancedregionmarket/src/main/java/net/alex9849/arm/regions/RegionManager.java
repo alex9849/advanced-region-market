@@ -347,29 +347,32 @@ public class RegionManager {
         }
     }
 
-    public static List<String> completeTabRegions(Player player, String arg, PlayerRegionRelationship playerRegionRelationship, boolean includeSubregions) {
+    public static List<String> completeTabRegions(Player player, String arg, PlayerRegionRelationship playerRegionRelationship, boolean inculdeNormalRegions, boolean includeSubregions) {
         List<String> returnme = new ArrayList<>();
 
         if(Region.completeTabRegions) {
+
             for(Region region : RegionManager.getRegionList()) {
-                if(region.getRegion().getId().toLowerCase().startsWith(arg)) {
-                    if(playerRegionRelationship == PlayerRegionRelationship.OWNER) {
-                        if(region.getRegion().hasOwner(player.getUniqueId())) {
+                if(inculdeNormalRegions) {
+                    if(region.getRegion().getId().toLowerCase().startsWith(arg)) {
+                        if(playerRegionRelationship == PlayerRegionRelationship.OWNER) {
+                            if(region.getRegion().hasOwner(player.getUniqueId())) {
+                                returnme.add(region.getRegion().getId());
+                            }
+                        } else if (playerRegionRelationship == PlayerRegionRelationship.MEMBER) {
+                            if(region.getRegion().hasMember(player.getUniqueId())) {
+                                returnme.add(region.getRegion().getId());
+                            }
+                        } else if (playerRegionRelationship == PlayerRegionRelationship.MEMBER_OR_OWNER) {
+                            if(region.getRegion().hasMember(player.getUniqueId()) || region.getRegion().hasOwner(player.getUniqueId())) {
+                                returnme.add(region.getRegion().getId());
+                            }
+                        } else if (playerRegionRelationship == PlayerRegionRelationship.ALL) {
                             returnme.add(region.getRegion().getId());
-                        }
-                    } else if (playerRegionRelationship == PlayerRegionRelationship.MEMBER) {
-                        if(region.getRegion().hasMember(player.getUniqueId())) {
-                            returnme.add(region.getRegion().getId());
-                        }
-                    } else if (playerRegionRelationship == PlayerRegionRelationship.MEMBER_OR_OWNER) {
-                        if(region.getRegion().hasMember(player.getUniqueId()) || region.getRegion().hasOwner(player.getUniqueId())) {
-                            returnme.add(region.getRegion().getId());
-                        }
-                    } else if (playerRegionRelationship == PlayerRegionRelationship.ALL) {
-                        returnme.add(region.getRegion().getId());
-                    } else if (playerRegionRelationship == PlayerRegionRelationship.AVAILABLE) {
-                        if(!region.isSold()) {
-                            returnme.add(region.getRegion().getId());
+                        } else if (playerRegionRelationship == PlayerRegionRelationship.AVAILABLE) {
+                            if(!region.isSold()) {
+                                returnme.add(region.getRegion().getId());
+                            }
                         }
                     }
                 }

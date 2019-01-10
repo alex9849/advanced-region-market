@@ -141,7 +141,7 @@ public class OfferCommand extends BasicArmCommand {
                             List<String> players = CommandHandler.tabCompleteOnlinePlayers(args[1]);
                             if(players.size() > 0) {
                                 if(args[1].equalsIgnoreCase(players.get(0))) {
-                                    returnme.addAll(RegionManager.completeTabRegions(player, args[2], PlayerRegionRelationship.OWNER, true));
+                                    returnme.addAll(RegionManager.completeTabRegions(player, args[2], PlayerRegionRelationship.OWNER, true,true));
                                 }
                             }
                         }

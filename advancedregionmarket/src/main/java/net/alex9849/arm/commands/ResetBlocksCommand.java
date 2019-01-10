@@ -91,7 +91,7 @@ public class ResetBlocksCommand extends BasicArmCommand {
                         } else {
                             playerRegionRelationship = PlayerRegionRelationship.OWNER;
                         }
-                        returnme.addAll(RegionManager.completeTabRegions(player, args[1], playerRegionRelationship, true));
+                        returnme.addAll(RegionManager.completeTabRegions(player, args[1], playerRegionRelationship,true, true));
                     }
                 }
             }

@@ -76,7 +76,7 @@ public class AutoResetCommand extends BasicArmCommand {
                     if(args.length == 1) {
                         returnme.add(this.rootCommand);
                     } else if(args.length == 2 && args[0].equalsIgnoreCase(this.rootCommand)) {
-                        returnme.addAll(RegionManager.completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, false));
+                        returnme.addAll(RegionManager.completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true,false));
                     } else if(args.length == 3 && args[0].equalsIgnoreCase(this.rootCommand)) {
                         if("true".startsWith(args[2])) {
                             returnme.add("true");

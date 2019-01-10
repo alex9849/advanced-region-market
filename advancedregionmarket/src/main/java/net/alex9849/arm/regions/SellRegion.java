@@ -11,7 +11,6 @@ import net.alex9849.inter.WGRegion;
 import org.bukkit.*;
 import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -133,7 +132,7 @@ public class SellRegion extends Region {
             throw new InputException(player, Messages.NOT_ENOUGHT_MONEY);
         }
         AdvancedRegionMarket.getEcon().withdrawPlayer(player, this.price);
-        this.giveSubRegionOwnerMoney(this.price);
+        this.giveParentRegionOwnerMoney(this.price);
         this.setSold(player);
         this.resetBuiltBlocks();
         if(ArmSettings.isTeleportAfterSellRegionBought()){

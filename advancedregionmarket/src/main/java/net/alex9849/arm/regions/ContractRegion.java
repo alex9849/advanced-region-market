@@ -14,7 +14,6 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import java.text.SimpleDateFormat;
@@ -67,7 +66,7 @@ public class ContractRegion extends Region {
                                 this.automaticResetRegion();
                             } else {
                                 AdvancedRegionMarket.getEcon().withdrawPlayer(oplayer, this.getPrice());
-                                this.giveSubRegionOwnerMoney(this.price);
+                                this.giveParentRegionOwnerMoney(this.price);
                                 if(oplayer.isOnline()) {
                                     Player player = Bukkit.getPlayer(owners.get(0));
                                     this.extend(player);
@@ -228,7 +227,7 @@ public class ContractRegion extends Region {
             throw new InputException(player, Messages.NOT_ENOUGHT_MONEY);
         }
         AdvancedRegionMarket.getEcon().withdrawPlayer(player, price);
-        this.giveSubRegionOwnerMoney(this.price);
+        this.giveParentRegionOwnerMoney(this.price);
         this.setSold(player);
         this.resetBuiltBlocks();
         if(ArmSettings.isTeleportAfterContractRegionBought()){

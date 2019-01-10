@@ -98,7 +98,7 @@ public abstract class Region {
         }
     }
 
-    protected void giveSubRegionOwnerMoney(double amount) {
+    protected void giveParentRegionOwnerMoney(double amount) {
         if(this.isSubregion()) {
             if(this.getParentRegion() != null) {
                 if(this.getParentRegion().isSold()) {

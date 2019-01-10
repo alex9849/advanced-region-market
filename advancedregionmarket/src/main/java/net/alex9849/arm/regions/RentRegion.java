@@ -14,7 +14,6 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import java.text.SimpleDateFormat;
@@ -166,7 +165,7 @@ public class RentRegion extends Region {
             throw new InputException(player, Messages.NOT_ENOUGHT_MONEY);
         }
         AdvancedRegionMarket.getEcon().withdrawPlayer(player, price);
-        this.giveSubRegionOwnerMoney(this.price);
+        this.giveParentRegionOwnerMoney(this.price);
         this.setSold(player);
         this.resetBuiltBlocks();
         if(ArmSettings.isTeleportAfterRentRegionBought()){
@@ -466,7 +465,7 @@ public class RentRegion extends Region {
                 throw new InputException(player, Messages.NOT_ENOUGHT_MONEY);
             }
             AdvancedRegionMarket.getEcon().withdrawPlayer(player, price);
-            this.giveSubRegionOwnerMoney(this.price);
+            this.giveParentRegionOwnerMoney(this.price);
             this.payedTill = this.payedTill + this.rentExtendPerClick;
 
             RegionManager.writeRegionsToConfig();

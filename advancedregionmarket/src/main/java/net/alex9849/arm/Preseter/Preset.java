@@ -56,23 +56,9 @@ public abstract class Preset {
 
     public void executeSavedCommands(Player player, Region region) {
         for(String command : this.runCommands) {
-            String cmd = command.replace("%regionid%", region.getRegion().getId());
-            cmd = cmd.replace("%dimensions%", region.getDimensions());
+            String cmd = region.getConvertedMessage(command);
             cmd = cmd.replace("%regionkind%", region.getRegionKind().getName());
             cmd = cmd.replace("%regionkinddisplay%", region.getRegionKind().getDisplayName());
-            cmd = cmd.replace("%world%", region.getRegionworld().getName());
-            cmd = cmd.replace("%price%", region.getPrice() + "");
-
-            if(region instanceof RentRegion) {
-                RentRegion rentRegion = (RentRegion) region;
-                cmd = cmd.replace("%extendperclick%", rentRegion.getExtendPerClick());
-                cmd = cmd.replace("%maxrenttime%", rentRegion.getMaxRentTime());
-            }
-            if(region instanceof ContractRegion) {
-                ContractRegion contractRegion = (ContractRegion) region;
-                cmd = cmd.replace("%extend%", contractRegion.getExtendTimeString());
-            }
-
 
             player.performCommand(cmd);
         }

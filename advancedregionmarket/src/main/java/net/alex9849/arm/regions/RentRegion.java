@@ -42,50 +42,13 @@ public class RentRegion extends Region {
 
         if (this.sold){
 
-            LinkedList<UUID> ownerlist = new LinkedList<>(this.getRegion().getOwners());
-            String ownername;
-            if(ownerlist.size() < 1){
-                ownername = "Unknown";
-            } else {
-                OfflinePlayer owner = Bukkit.getOfflinePlayer(ownerlist.get(0));
-                ownername = owner.getName();
-            }
+            String line1 = this.getConvertedMessage(Messages.RENTED_SIGN1);
 
-            String line1 = Messages.RENTED_SIGN1.replace("%regionid%", this.getRegion().getId());
-            line1 = line1.replace("%price%", this.price + "");
-            line1 = line1.replace("%currency%", Messages.CURRENCY);
-            line1 = line1.replace("%dimensions%", this.getDimensions());
-            line1 = line1.replace("%owner%", ownername);
-            line1 = line1.replace("%extendperclick%", this.getExtendPerClick());
-            line1 = line1.replace("%maxrenttime%", this.getMaxRentTime());
-            line1 = line1.replace("%remaining%", this.calcRemainingTime());
+            String line2 = this.getConvertedMessage(Messages.RENTED_SIGN2);
 
-            String line2 = Messages.RENTED_SIGN2.replace("%regionid%", this.getRegion().getId());
-            line2 = line2.replace("%price%", this.price + "");
-            line2 = line2.replace("%currency%", Messages.CURRENCY);
-            line2 = line2.replace("%dimensions%", this.getDimensions());
-            line2 = line2.replace("%owner%", ownername);
-            line2 = line2.replace("%extendperclick%", this.getExtendPerClick());
-            line2 = line2.replace("%maxrenttime%", this.getMaxRentTime());
-            line2 = line2.replace("%remaining%", this.calcRemainingTime());
+            String line3 = this.getConvertedMessage(Messages.RENTED_SIGN3);
 
-            String line3 = Messages.RENTED_SIGN3.replace("%regionid%", this.getRegion().getId());
-            line3 = line3.replace("%price%", this.price + "");
-            line3 = line3.replace("%currency%", Messages.CURRENCY);
-            line3 = line3.replace("%dimensions%", this.getDimensions());
-            line3 = line3.replace("%owner%", ownername);
-            line3 = line3.replace("%extendperclick%", this.getExtendPerClick());
-            line3 = line3.replace("%maxrenttime%", this.getMaxRentTime());
-            line3 = line3.replace("%remaining%", this.calcRemainingTime());
-
-            String line4 = Messages.RENTED_SIGN4.replace("%regionid%", this.getRegion().getId());
-            line4 = line4.replace("%price%", this.price + "");
-            line4 = line4.replace("%currency%", Messages.CURRENCY);
-            line4 = line4.replace("%dimensions%", this.getDimensions());
-            line4 = line4.replace("%owner%", ownername);
-            line4 = line4.replace("%extendperclick%", this.getExtendPerClick());
-            line4 = line4.replace("%maxrenttime%", this.getMaxRentTime());
-            line4 = line4.replace("%remaining%", this.calcRemainingTime());
+            String line4 = this.getConvertedMessage(Messages.RENTED_SIGN4);
 
             mysign.setLine(0, line1);
             mysign.setLine(1, line2);
@@ -94,37 +57,13 @@ public class RentRegion extends Region {
             mysign.update();
 
         } else {
-            String line1 = Messages.RENT_SIGN1.replace("%regionid%", this.getRegion().getId());
-            line1 = line1.replace("%price%", this.price + "");
-            line1 = line1.replace("%currency%", Messages.CURRENCY);
-            line1 = line1.replace("%dimensions%", this.getDimensions());
-            line1 = line1.replace("%extendperclick%", this.getExtendPerClick());
-            line1 = line1.replace("%maxrenttime%", this.getMaxRentTime());
-            line1 = line1.replace("%remaining%", this.calcRemainingTime());
+            String line1 = this.getConvertedMessage(Messages.RENT_SIGN1);
 
-            String line2 = Messages.RENT_SIGN2.replace("%regionid%", this.getRegion().getId());
-            line2 = line2.replace("%price%", this.price + "");
-            line2 = line2.replace("%currency%", Messages.CURRENCY);
-            line2 = line2.replace("%dimensions%", this.getDimensions());
-            line2 = line2.replace("%extendperclick%", this.getExtendPerClick());
-            line2 = line2.replace("%maxrenttime%", this.getMaxRentTime());
-            line2 = line2.replace("%remaining%", this.calcRemainingTime());
+            String line2 = this.getConvertedMessage(Messages.RENT_SIGN2);
 
-            String line3 = Messages.RENT_SIGN3.replace("%regionid%", this.getRegion().getId());
-            line3 = line3.replace("%price%", this.price + "");
-            line3 = line3.replace("%currency%", Messages.CURRENCY);
-            line3 = line3.replace("%dimensions%", this.getDimensions());
-            line3 = line3.replace("%extendperclick%", this.getExtendPerClick());
-            line3 = line3.replace("%maxrenttime%", this.getMaxRentTime());
-            line3 = line3.replace("%remaining%", this.calcRemainingTime());
+            String line3 = this.getConvertedMessage(Messages.RENT_SIGN3);
 
-            String line4 = Messages.RENT_SIGN4.replace("%regionid%", this.getRegion().getId());
-            line4 = line4.replace("%price%", this.price + "");
-            line4 = line4.replace("%currency%", Messages.CURRENCY);
-            line4 = line4.replace("%dimensions%", this.getDimensions());
-            line4 = line4.replace("%extendperclick%", this.getExtendPerClick());
-            line4 = line4.replace("%maxrenttime%", this.getMaxRentTime());
-            line4 = line4.replace("%remaining%", this.calcRemainingTime());
+            String line4 = this.getConvertedMessage(Messages.RENT_SIGN4);
 
             mysign.setLine(0, line1);
             mysign.setLine(1, line2);
@@ -454,11 +393,7 @@ public class RentRegion extends Region {
         }
         GregorianCalendar actualtime = new GregorianCalendar();
         if (this.maxRentTime < ((this.payedTill + this.rentExtendPerClick) - actualtime.getTimeInMillis())){
-            String errormessage = Messages.RENT_EXTEND_ERROR;
-            errormessage = errormessage.replace("%remaining%", this.calcRemainingTime());
-            errormessage = errormessage.replace("%maxrenttime%", this.getMaxRentTime());
-            errormessage = errormessage.replace("%extendperclick%", this.getExtendPerClick());
-            errormessage = errormessage.replace("%price%", this.price + Messages.CURRENCY);
+            String errormessage = this.getConvertedMessage(Messages.RENT_EXTEND_ERROR);
             throw new InputException(player, errormessage);
         } else {
             if(AdvancedRegionMarket.getEcon().getBalance(player) < this.price) {
@@ -470,12 +405,7 @@ public class RentRegion extends Region {
 
             RegionManager.writeRegionsToConfig();
 
-            String message = Messages.RENT_EXTEND_MESSAGE;
-            message = message.replace("%remaining%", this.calcRemainingTime());
-            message = message.replace("%maxrenttime%", this.getMaxRentTime());
-            message = message.replace("%extendperclick%", this.getExtendPerClick());
-            message = message.replace("%price%", this.price + "");
-            message = message.replace("%currency%", Messages.CURRENCY);
+            String message = this.getConvertedMessage(Messages.RENT_EXTEND_MESSAGE);
             player.sendMessage(Messages.PREFIX + message);
 
             for(int i = 0; i < this.sellsign.size(); i++){
@@ -521,5 +451,14 @@ public class RentRegion extends Region {
 
     public static Boolean isSendExpirationWarning(){
         return RentRegion.sendExpirationWarning;
+    }
+
+    @Override
+    public String getConvertedMessage(String message) {
+        message = super.getConvertedMessage(message);
+        message = message.replace("%maxrenttime%", this.getMaxRentTime());
+        message = message.replace("%remaining%", this.calcRemainingTime());
+        message = message.replace("%extendperclick%", this.getExtendPerClick());
+        return message;
     }
 }

@@ -108,50 +108,13 @@ public class ContractRegion extends Region {
 
         if (this.sold) {
 
-            LinkedList<UUID> ownerlist = new LinkedList<>(this.getRegion().getOwners());
-            String ownername;
-            if (ownerlist.size() < 1) {
-                ownername = "Unknown";
-            } else {
-                OfflinePlayer owner = Bukkit.getOfflinePlayer(ownerlist.get(0));
-                ownername = owner.getName();
-            }
+            String line1 = this.getConvertedMessage(Messages.CONTRACT_SOLD_SIGN1);
 
-            String line1 = Messages.CONTRACT_SOLD_SIGN1.replace("%regionid%", this.getRegion().getId());
-            line1 = line1.replace("%price%", this.price + "");
-            line1 = line1.replace("%currency%", Messages.CURRENCY);
-            line1 = line1.replace("%dimensions%", this.getDimensions());
-            line1 = line1.replace("%owner%", ownername);
-            line1 = line1.replace("%extend%", this.getExtendTimeString());
-            line1 = line1.replace("%remaining%", this.calcRemainingTime());
-            line1 = line1.replace("%status%", this.getTerminationString());
+            String line2 = this.getConvertedMessage(Messages.CONTRACT_SOLD_SIGN2);
 
-            String line2 = Messages.CONTRACT_SOLD_SIGN2.replace("%regionid%", this.getRegion().getId());
-            line2 = line2.replace("%price%", this.price + "");
-            line2 = line2.replace("%currency%", Messages.CURRENCY);
-            line2 = line2.replace("%dimensions%", this.getDimensions());
-            line2 = line2.replace("%owner%", ownername);
-            line2 = line2.replace("%extend%", this.getExtendTimeString());
-            line2 = line2.replace("%remaining%", this.calcRemainingTime());
-            line2 = line2.replace("%status%", this.getTerminationString());
+            String line3 = this.getConvertedMessage(Messages.CONTRACT_SOLD_SIGN3);
 
-            String line3 = Messages.CONTRACT_SOLD_SIGN3.replace("%regionid%", this.getRegion().getId());
-            line3 = line3.replace("%price%", this.price + "");
-            line3 = line3.replace("%currency%", Messages.CURRENCY);
-            line3 = line3.replace("%dimensions%", this.getDimensions());
-            line3 = line3.replace("%owner%", ownername);
-            line3 = line3.replace("%extend%", this.getExtendTimeString());
-            line3 = line3.replace("%remaining%", this.calcRemainingTime());
-            line3 = line3.replace("%status%", this.getTerminationString());
-
-            String line4 = Messages.CONTRACT_SOLD_SIGN4.replace("%regionid%", this.getRegion().getId());
-            line4 = line4.replace("%price%", this.price + "");
-            line4 = line4.replace("%currency%", Messages.CURRENCY);
-            line4 = line4.replace("%dimensions%", this.getDimensions());
-            line4 = line4.replace("%owner%", ownername);
-            line4 = line4.replace("%extend%", this.getExtendTimeString());
-            line4 = line4.replace("%remaining%", this.calcRemainingTime());
-            line4 = line4.replace("%status%", this.getTerminationString());
+            String line4 = this.getConvertedMessage(Messages.CONTRACT_SOLD_SIGN4);
 
             mysign.setLine(0, line1);
             mysign.setLine(1, line2);
@@ -160,37 +123,13 @@ public class ContractRegion extends Region {
             mysign.update();
 
         } else {
-            String line1 = Messages.CONTRACT_SIGN1.replace("%regionid%", this.getRegion().getId());
-            line1 = line1.replace("%price%", this.price + "");
-            line1 = line1.replace("%currency%", Messages.CURRENCY);
-            line1 = line1.replace("%dimensions%", this.getDimensions());
-            line1 = line1.replace("%extend%", this.getExtendTimeString());
-            line1 = line1.replace("%remaining%", this.calcRemainingTime());
-            line1 = line1.replace("%status%", this.getTerminationString());
+            String line1 = this.getConvertedMessage(Messages.CONTRACT_SIGN1);
 
-            String line2 = Messages.CONTRACT_SIGN2.replace("%regionid%", this.getRegion().getId());
-            line2 = line2.replace("%price%", this.price + "");
-            line2 = line2.replace("%currency%", Messages.CURRENCY);
-            line2 = line2.replace("%dimensions%", this.getDimensions());
-            line2 = line2.replace("%extend%", this.getExtendTimeString());
-            line2 = line2.replace("%remaining%", this.calcRemainingTime());
-            line2 = line2.replace("%status%", this.getTerminationString());
+            String line2 = this.getConvertedMessage(Messages.CONTRACT_SIGN2);
 
-            String line3 = Messages.CONTRACT_SIGN3.replace("%regionid%", this.getRegion().getId());
-            line3 = line3.replace("%price%", this.price + "");
-            line3 = line3.replace("%currency%", Messages.CURRENCY);
-            line3 = line3.replace("%dimensions%", this.getDimensions());
-            line3 = line3.replace("%extend%", this.getExtendTimeString());
-            line3 = line3.replace("%remaining%", this.calcRemainingTime());
-            line3 = line3.replace("%status%", this.getTerminationString());
+            String line3 = this.getConvertedMessage(Messages.CONTRACT_SIGN3);
 
-            String line4 = Messages.CONTRACT_SIGN4.replace("%regionid%", this.getRegion().getId());
-            line4 = line4.replace("%price%", this.price + "");
-            line4 = line4.replace("%currency%", Messages.CURRENCY);
-            line4 = line4.replace("%dimensions%", this.getDimensions());
-            line4 = line4.replace("%extend%", this.getExtendTimeString());
-            line4 = line4.replace("%remaining%", this.calcRemainingTime());
-            line4 = line4.replace("%status%", this.getTerminationString());
+            String line4 = this.getConvertedMessage(Messages.CONTRACT_SIGN4);
 
             mysign.setLine(0, line1);
             mysign.setLine(1, line2);
@@ -394,11 +333,7 @@ public class ContractRegion extends Region {
         }
         RegionManager.writeRegionsToConfig();
         if((player != null) && ArmSettings.isSendContractRegionExtendMessage()) {
-            String sendmessage = Messages.CONTRACT_REGION_EXTENDED;
-            sendmessage = sendmessage.replace("%price%", this.price + "");
-            sendmessage = sendmessage.replace("%currency%", Messages.CURRENCY);
-            sendmessage = sendmessage.replace("%extend%", getExtendTimeString());
-            sendmessage = sendmessage.replace("%regionid%", getRegion().getId());
+            String sendmessage = this.getConvertedMessage(Messages.CONTRACT_REGION_EXTENDED);
             player.sendMessage(Messages.PREFIX + sendmessage);
         }
     }
@@ -419,10 +354,7 @@ public class ContractRegion extends Region {
         this.terminated = bool;
         RegionManager.writeRegionsToConfig();
         if(player != null) {
-            String sendmessage = Messages.CONTRACT_REGION_CHANGE_TERMINATED;
-            sendmessage = sendmessage.replace("%regionid%", this.getRegion().getId());
-            sendmessage = sendmessage.replace("%statuslong%", getTerminationStringLong());
-            sendmessage = sendmessage.replace("%status%", getTerminationStringLong());
+            String sendmessage = this.getConvertedMessage(Messages.CONTRACT_REGION_CHANGE_TERMINATED);
             player.sendMessage(Messages.PREFIX + sendmessage);
         }
     }
@@ -434,8 +366,6 @@ public class ContractRegion extends Region {
         } else {
             retMessage = Messages.CONTRACT_REGION_STATUS_ACTIVE_LONG;
         }
-        retMessage = retMessage.replace("%remaining%", this.calcRemainingTime());
-        retMessage = retMessage.replace("%regionid%", this.getRegion().getId());
         return retMessage;
     }
 
@@ -457,5 +387,15 @@ public class ContractRegion extends Region {
 
     protected boolean isTerminated() {
         return this.terminated;
+    }
+
+    @Override
+    public String getConvertedMessage(String message) {
+        message = message.replace("%status%", this.getTerminationString());
+        message = message.replace("%statuslong%", this.getTerminationStringLong());
+        message = super.getConvertedMessage(message);
+        message = message.replace("%extend%", this.getExtendTimeString());
+        message = message.replace("%remaining%", this.calcRemainingTime());
+        return message;
     }
 }

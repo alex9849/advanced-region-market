@@ -1,9 +1,7 @@
 package net.alex9849.arm.gui;
 
-import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
-import net.alex9849.arm.commands.LimitCommand;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import net.alex9849.arm.regions.*;
@@ -141,7 +139,7 @@ public class Gui implements Listener {
         for (int i = 0; i < regions.size(); i++) {
 
             String regionDisplayName = Messages.GUI_REGION_ITEM_NAME;
-            regionDisplayName = regionDisplayName.replace("%regionid%", regions.get(i).getRegion().getId());
+            regionDisplayName = regions.get(i).getConvertedMessage(regionDisplayName);
             regionDisplayName = regionDisplayName.replace("%regionkind%", regions.get(i).getRegionKind().getName());
 
             if(regions.get(i) instanceof RentRegion) {
@@ -151,11 +149,7 @@ public class Gui implements Listener {
                 meta.setDisplayName(regionDisplayName);
                 List<String> regionlore = new LinkedList<>(Messages.GUI_RENT_REGION_LORE);
                 for (int j = 0; j < regionlore.size(); j++) {
-                    regionlore.set(j, regionlore.get(j).replace("%extendperclick%", region.getExtendPerClick()));
-                    regionlore.set(j, regionlore.get(j).replace("%currency%", Messages.CURRENCY));
-                    regionlore.set(j, regionlore.get(j).replace("%price%", region.getPrice() + ""));
-                    regionlore.set(j, regionlore.get(j).replace("%remaining%", region.calcRemainingTime()));
-                    regionlore.set(j, regionlore.get(j).replace("%maxrenttime%", region.getMaxRentTime()));
+                    regionlore.set(j, region.getConvertedMessage(regionlore.get(j)));
                 }
                 meta.setLore(regionlore);
                 stack.setItemMeta(meta);
@@ -186,12 +180,7 @@ public class Gui implements Listener {
                 meta.setDisplayName(regionDisplayName);
                 List<String> regionlore = new LinkedList<>(Messages.GUI_CONTRACT_REGION_LORE);
                 for (int j = 0; j < regionlore.size(); j++) {
-                    regionlore.set(j, regionlore.get(j).replace("%extend%", region.getExtendTimeString()));
-                    regionlore.set(j, regionlore.get(j).replace("%price%", region.getPrice() + ""));
-                    regionlore.set(j, regionlore.get(j).replace("%remaining%", region.calcRemainingTime()));
-                    regionlore.set(j, regionlore.get(j).replace("%currency%", Messages.CURRENCY));
-                    regionlore.set(j, regionlore.get(j).replace("%status%", region.getTerminationString()));
-                    regionlore.set(j, regionlore.get(j).replace("%statuslong%", region.getTerminationStringLong()));
+                    regionlore.set(j, region.getConvertedMessage(regionlore.get(j)));
                 }
                 meta.setLore(regionlore);
                 stack.setItemMeta(meta);
@@ -227,7 +216,7 @@ public class Gui implements Listener {
 
     }
 
-    public static void openRegionManagerOwner(Player player, Region region) {
+    public static void openSellRegionManagerOwner(Player player, Region region) {
 
         int itemcounter = 2;
         int actitem = 1;
@@ -296,7 +285,7 @@ public class Gui implements Listener {
                     if(region.timeSinceLastReset() >= Region.getResetCooldown()){
                         Gui.openRegionResetWarning(player, region, true);
                     } else {
-                        String message = Messages.RESET_REGION_COOLDOWN_ERROR.replace("%remainingdays%", (Region.getResetCooldown() - region.timeSinceLastReset()) + "");
+                        String message = region.getConvertedMessage(Messages.RESET_REGION_COOLDOWN_ERROR);
                         throw new InputException(player, message);
                     }
                 }
@@ -312,9 +301,7 @@ public class Gui implements Listener {
             resetitemItemMeta.setDisplayName(Messages.GUI_USER_SELL_BUTTON);
             List<String> message = new LinkedList<>(Messages.GUI_USER_SELL_BUTTON_LORE);
             for (int i = 0; i < message.size(); i++) {
-                message.set(i, message.get(i).replace("%paybackmoney%", region.getPaybackMoney() + ""));
-                message.set(i, message.get(i).replace("%currency%", Messages.CURRENCY));
-
+                message.set(i, region.getConvertedMessage(message.get(i)));
             }
             resetitemItemMeta.setLore(message);
             resetItem.setItemMeta(resetitemItemMeta);
@@ -378,7 +365,7 @@ public class Gui implements Listener {
         if(player.hasPermission(Permission.MEMBER_SELLBACK)){
             itemcounter++;
         }
-        if(player.hasPermission(Permission.MEMBER_RESETREGIONBLOCKS)){
+        if(player.hasPermission(Permission.MEMBER_RESETREGIONBLOCKS) && region.isUserResettable()){
             itemcounter++;
         }
         if(player.hasPermission(Permission.MEMBER_INFO)){
@@ -422,7 +409,7 @@ public class Gui implements Listener {
         }
 
 
-        if(player.hasPermission(Permission.MEMBER_RESETREGIONBLOCKS)) {
+        if(player.hasPermission(Permission.MEMBER_RESETREGIONBLOCKS) && region.isUserResettable()) {
 
             ItemStack resetItem = new ItemStack(Gui.RESET_ITEM);
             ItemMeta resetitemItemMeta = resetItem.getItemMeta();
@@ -439,7 +426,7 @@ public class Gui implements Listener {
                     if(region.timeSinceLastReset() >= Region.getResetCooldown()){
                         Gui.openRegionResetWarning(player, region, true);
                     } else {
-                        String message = Messages.RESET_REGION_COOLDOWN_ERROR.replace("%remainingdays%", (Region.getResetCooldown() - region.timeSinceLastReset()) + "");
+                        String message = region.getConvertedMessage(Messages.RESET_REGION_COOLDOWN_ERROR);
                         throw new InputException(player, message);
                     }
                 }
@@ -455,9 +442,7 @@ public class Gui implements Listener {
             resetitemItemMeta.setDisplayName(Messages.GUI_USER_SELL_BUTTON);
             List<String> message = new LinkedList<>(Messages.GUI_USER_SELL_BUTTON_LORE);
             for (int i = 0; i < message.size(); i++) {
-                message.set(i, message.get(i).replace("%paybackmoney%", region.getPaybackMoney() + ""));
-                message.set(i, message.get(i).replace("%currency%", Messages.CURRENCY));
-
+                message.set(i, region.getConvertedMessage(message.get(i)));
             }
             resetitemItemMeta.setLore(message);
             resetItem.setItemMeta(resetitemItemMeta);
@@ -477,11 +462,7 @@ public class Gui implements Listener {
         extendItemMeta.setDisplayName(Messages.GUI_EXTEND_BUTTON);
         List<String> extendmessage = new LinkedList<>(Messages.GUI_EXTEND_BUTTON_LORE);
         for (int i = 0; i < extendmessage.size(); i++) {
-            extendmessage.set(i, extendmessage.get(i).replace("%extendperclick%", region.getExtendPerClick()));
-            extendmessage.set(i, extendmessage.get(i).replace("%price%", region.getPrice() + ""));
-            extendmessage.set(i, extendmessage.get(i).replace("%remaining%", region.calcRemainingTime()));
-            extendmessage.set(i, extendmessage.get(i).replace("%maxrenttime%", region.getMaxRentTime()));
-            extendmessage.set(i, extendmessage.get(i).replace("%currency%", Messages.CURRENCY));
+            extendmessage.set(i, region.getConvertedMessage(extendmessage.get(i)));
         }
         extendItemMeta.setLore(extendmessage);
         extendItem.setItemMeta(extendItemMeta);
@@ -542,7 +523,7 @@ public class Gui implements Listener {
         if(player.hasPermission(Permission.MEMBER_SELLBACK)){
             itemcounter++;
         }
-        if(player.hasPermission(Permission.MEMBER_RESETREGIONBLOCKS)){
+        if(player.hasPermission(Permission.MEMBER_RESETREGIONBLOCKS) && region.isUserResettable()){
             itemcounter++;
         }
         if(player.hasPermission(Permission.MEMBER_INFO)){
@@ -586,7 +567,7 @@ public class Gui implements Listener {
         }
 
 
-        if(player.hasPermission(Permission.MEMBER_RESETREGIONBLOCKS)) {
+        if(player.hasPermission(Permission.MEMBER_RESETREGIONBLOCKS) && region.isUserResettable()) {
 
             ItemStack resetItem = new ItemStack(Gui.RESET_ITEM);
             ItemMeta resetitemItemMeta = resetItem.getItemMeta();
@@ -603,7 +584,7 @@ public class Gui implements Listener {
                     if(region.timeSinceLastReset() >= Region.getResetCooldown()){
                         Gui.openRegionResetWarning(player, region, true);
                     } else {
-                        String message = Messages.RESET_REGION_COOLDOWN_ERROR.replace("%remainingdays%", (Region.getResetCooldown() - region.timeSinceLastReset()) + "");
+                        String message = region.getConvertedMessage(Messages.RESET_REGION_COOLDOWN_ERROR);
                         throw new InputException(player, message);
                     }
                 }
@@ -619,9 +600,7 @@ public class Gui implements Listener {
             resetitemItemMeta.setDisplayName(Messages.GUI_USER_SELL_BUTTON);
             List<String> message = new LinkedList<>(Messages.GUI_USER_SELL_BUTTON_LORE);
             for (int i = 0; i < message.size(); i++) {
-                message.set(i, message.get(i).replace("%paybackmoney%", region.getPaybackMoney() + ""));
-                message.set(i, message.get(i).replace("%currency%", Messages.CURRENCY));
-
+                message.set(i, region.getConvertedMessage(message.get(i)));
             }
             resetitemItemMeta.setLore(message);
             resetItem.setItemMeta(resetitemItemMeta);
@@ -640,12 +619,7 @@ public class Gui implements Listener {
         extendItemMeta.setDisplayName(Messages.GUI_CONTRACT_ITEM);
         List<String> extendmessage = new LinkedList<>(Messages.GUI_CONTRACT_ITEM_LORE);
         for (int i = 0; i < extendmessage.size(); i++) {
-            extendmessage.set(i, extendmessage.get(i).replace("%extend%", region.getExtendTimeString()));
-            extendmessage.set(i, extendmessage.get(i).replace("%price%", region.getPrice() + ""));
-            extendmessage.set(i, extendmessage.get(i).replace("%remaining%", region.calcRemainingTime()));
-            extendmessage.set(i, extendmessage.get(i).replace("%currency%", Messages.CURRENCY));
-            extendmessage.set(i, extendmessage.get(i).replace("%status%", region.getTerminationString()));
-            extendmessage.set(i, extendmessage.get(i).replace("%statuslong%", region.getTerminationStringLong()));
+            extendmessage.set(i, region.getConvertedMessage(extendmessage.get(i)));
         }
         extendItemMeta.setLore(extendmessage);
         extendItem.setItemMeta(extendItemMeta);
@@ -846,7 +820,7 @@ public class Gui implements Listener {
             infoMeta.setDisplayName(Messages.GUI_OWNER_MEMBER_INFO_ITEM);
             List<String> lore = new ArrayList<>(Messages.GUI_OWNER_MEMBER_INFO_LORE);
             for(int i = 0; i < lore.size(); i++) {
-                lore.set(i, lore.get(i).replace("%regionid%", region.getRegion().getId()));
+                lore.set(i, region.getConvertedMessage(lore.get(i)));
             }
             infoMeta.setLore(lore);
             info.setItemMeta(infoMeta);
@@ -1008,8 +982,7 @@ public class Gui implements Listener {
         GuiInventory inv = new GuiInventory(invsize, Messages.GUI_MEMBER_REGIONS_MENU_NAME);
 
         for (int i = 0; i < regions.size(); i++) {
-            String regionDisplayName = Messages.GUI_REGION_ITEM_NAME;
-            regionDisplayName = regionDisplayName.replace("%regionid%", regions.get(i).getRegion().getId());
+            String regionDisplayName = regions.get(i).getConvertedMessage(Messages.GUI_REGION_ITEM_NAME);
             regionDisplayName = regionDisplayName.replace("%regionkind%", regions.get(i).getRegionKind().getName());
 
             ItemStack stack = new ItemStack(regions.get(i).getLogo());
@@ -1260,7 +1233,7 @@ public class Gui implements Listener {
         if(region instanceof RentRegion) {
             Gui.openRentRegionManagerOwner(player, (RentRegion) region);
         } else if (region instanceof SellRegion) {
-            Gui.openRegionManagerOwner(player, region);
+            Gui.openSellRegionManagerOwner(player, region);
         } else if (region instanceof ContractRegion) {
             Gui.openContractRegionManagerOwner(player, (ContractRegion) region);
         }

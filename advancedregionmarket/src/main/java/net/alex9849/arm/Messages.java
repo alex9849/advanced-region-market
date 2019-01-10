@@ -175,7 +175,7 @@ public class Messages {
     public static String TELEPORTER_TELEPORTATION_ABORDED = "&4Teleportation aborded!";
     public static String OFFER_SENT = "&aYour offer has been sent";
     public static String OFFER_ACCEPTED_SELLER = "&a%buyer% &aaccepted your offer";
-    public static String OFFER_ACCEPTED_BUYER = "&aOffer accepted! You are now the owner of &c%region%";
+    public static String OFFER_ACCEPTED_BUYER = "&aOffer accepted! You are now the owner of &c%regionid%";
     public static String NO_OFFER_TO_ANSWER = "&4You dont have an offer to answer";
     public static String OFFER_REJECTED = "&aOffer rejected!";
     public static String OFFER_HAS_BEEN_REJECTED = "&4%seller% &4rejected your offer!";
@@ -194,7 +194,7 @@ public class Messages {
     public static String HELP_HEADLINE = "&6=====[AdvancedRegionMarket Help ]=====\n&3Page %actualpage% / %maxpage%";
     public static String PRESET_SETUP_COMMANDS = "&6Setup commands:";
     public static String PRICE_CAN_NOT_BE_NEGATIVE = "&4Price can not be negative!";
-    public static String SELLBACK_WARNING = "&4WARNING: &cThis can not be undone! Your region &6%region% &cwill be released and all blocks on it will be resetted! " +
+    public static String SELLBACK_WARNING = "&4WARNING: &cThis can not be undone! Your region &6%regionid% &cwill be released and all blocks on it will be resetted! " +
             "You and all members will loose their rights on it. You will get &6%paybackmoney% %currency% &cback";
 
 
@@ -736,7 +736,7 @@ public class Messages {
 
         config.addDefault("Messages.OfferSent", "&aYour offer has been sent");
         config.addDefault("Messages.OfferAcceptedSeller", "&a%buyer% &aaccepted your offer");
-        config.addDefault("Messages.OfferAcceptedBuyer", "&aOffer accepted! You are now the owner of &c%region%");
+        config.addDefault("Messages.OfferAcceptedBuyer", "&aOffer accepted! You are now the owner of &c%regionid%");
         config.addDefault("Messages.NoOfferToAnswer", "&4You dont have an offer to answer");
         config.addDefault("Messages.OfferRejected", "&aOffer rejected!");
         config.addDefault("Messages.OfferHasBeenRejected", "&4%seller% &4rejected your offer!");
@@ -747,10 +747,10 @@ public class Messages {
         config.addDefault("Messages.BuyerAlreadyGotAnOffer", "&4The selected buyer already got an offer that he has to answer first!");
         config.addDefault("Messages.SellerAlreadyCreatedAnOffer", "&4You have already created an offer! Please wait for an answer or cancel it first!");
         config.addDefault("Messages.SellerDoesNotLongerOwnRegion", "&4%seller% &4does not longer own this region. His offer has been cancelled");
-        config.addDefault("Messages.IncommingOffer", "&c%seller% &6offers you his region &c%region% &6in the world &c%world% &6for &c%price% %currency%&6! " +
+        config.addDefault("Messages.IncommingOffer", "&c%seller% &6offers you his region &c%regionid% &6in the world &c%world% &6for &c%price% %currency%&6! " +
                 "You can accept his offer with &c/arm offer accept &6or reject it &c/arm offer reject");
         config.addDefault("Messages.OfferTimedOut", "&4Offer timed out!");
-        config.addDefault("Messages.SellBackWarning", "&4WARNING: &cThis can not be undone! Your region &6%region% &cwill be released and all blocks on it will be resetted! " +
+        config.addDefault("Messages.SellBackWarning", "&4WARNING: &cThis can not be undone! Your region &6%regionid% &cwill be released and all blocks on it will be resetted! " +
                 "You and all members will loose their rights on it. You will get &6%paybackmoney% %currency% &cback");
 
         config.addDefault("Messages.RegionNotOwn", "&4You do not own this region!");

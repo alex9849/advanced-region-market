@@ -580,4 +580,29 @@ public abstract class Region {
     protected boolean isAutoreset() {
         return this.autoreset;
     }
+
+    private String getOwnerName() {
+        LinkedList<UUID> ownerlist = new LinkedList<>(this.getRegion().getOwners());
+        String ownername;
+        if(ownerlist.size() < 1){
+            ownername = "Unknown";
+        } else {
+            OfflinePlayer owner = Bukkit.getOfflinePlayer(ownerlist.get(0));
+            ownername = owner.getName();
+        }
+        return ownername;
+    }
+
+    public String getConvertedMessage(String message) {
+        message = message.replace("%regionid%", this.getRegion().getId());
+        message = message.replace("%region%", this.getRegion().getId());
+        message = message.replace("%price%", this.getPrice() + "");
+        message = message.replace("%dimensions%", this.getDimensions());
+        message = message.replace("%remainingdays%", (Region.getResetCooldown() - this.timeSinceLastReset()) + "");
+        message = message.replace("%paybackmoney%", this.getPaybackMoney() + "");
+        message = message.replace("%currency%", Messages.CURRENCY);
+        message = message.replace("%owner%", this.getOwnerName());
+        message = message.replace("%world%", this.getRegionworld().getName());
+        return message;
+    }
 }

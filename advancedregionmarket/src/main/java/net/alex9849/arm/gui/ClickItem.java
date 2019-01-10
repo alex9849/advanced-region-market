@@ -9,13 +9,11 @@ public class ClickItem extends ItemStack {
 
 
     public final ItemStack itemStack;
-    public final int poistion;
 
     public final List<ClickAction> clickActions = new ArrayList<>();
 
-    public ClickItem(ItemStack itemStack, int poistion) {
+    public ClickItem(ItemStack itemStack) {
         this.itemStack = itemStack;
-        this.poistion = poistion;
     }
 
     public ClickItem addClickAction(ClickAction clickAction) {

@@ -8,7 +8,7 @@ import java.util.LinkedList;
 
 public class GuiInventory implements InventoryHolder {
 
-    private final LinkedList<ClickItem> icons = new LinkedList<>();
+    private final ClickItem[] icons;
 
     private int size;
     private final String title;
@@ -16,19 +16,15 @@ public class GuiInventory implements InventoryHolder {
     public GuiInventory(int size, String title) {
         this.size = size;
         this.title = title;
+        this.icons = new ClickItem[this.size];
     }
 
-    public void addIcon(ClickItem icon) {
-        this.icons.add(icon);
+    public void addIcon(ClickItem icon, int position) {
+        this.icons[position] = icon;
     }
 
     public ClickItem getIcon(int position) {
-        for(int i = 0; i < this.icons.size(); i++){
-            if(this.icons.get(i).poistion == position){
-                return this.icons.get(i);
-            }
-        }
-        return null;
+        return this.icons[position];
     }
 
     public void setSize(int size){
@@ -40,8 +36,13 @@ public class GuiInventory implements InventoryHolder {
 
         Inventory inventory = Bukkit.createInventory(this, this.size, this.title);
 
-        for (int i = 0; i < this.icons.size(); i++) {
-            inventory.setItem(this.icons.get(i).poistion, this.icons.get(i).itemStack);
+        for (int i = 0; i < this.icons.length; i++) {
+            if(this.icons[i] == null) {
+                inventory.setItem(i, null);
+            } else {
+                inventory.setItem(i, this.icons[i].itemStack);
+            }
+
         }
 
         return inventory;

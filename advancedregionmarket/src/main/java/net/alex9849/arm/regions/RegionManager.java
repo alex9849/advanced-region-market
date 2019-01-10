@@ -580,4 +580,23 @@ public class RegionManager {
         return regionList;
     }
 
+    public static List<Region> getFreeRegions(RegionKind regionKind) {
+        List<Region> regions = new ArrayList<>();
+        for(Region region : regionList) {
+            if(region.getRegionKind() == regionKind) {
+                if(!region.isSold()) {
+                    regions.add(region);
+                }
+            }
+            for(Region subregion : region.getSubregions()) {
+                if(subregion.getRegionKind() == regionKind) {
+                    if(!subregion.isSold()) {
+                        regions.add(subregion);
+                    }
+                }
+            }
+        }
+        return regions;
+    }
+
 }

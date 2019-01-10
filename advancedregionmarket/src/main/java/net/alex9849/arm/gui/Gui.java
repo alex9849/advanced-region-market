@@ -718,9 +718,27 @@ public class Gui implements Listener {
                     List<Region> regions = RegionManager.getFreeRegions(RegionKind.DEFAULT);
                     List<ClickItem> clickItems = new ArrayList<>();
                     for(Region region : regions) {
-                       // C
+                        String regionDisplayName = Messages.GUI_REGION_ITEM_NAME;
+                        regionDisplayName = region.getConvertedMessage(regionDisplayName);
+                        regionDisplayName = regionDisplayName.replace("%regionkind%", region.getRegionKind().getName());
+                        ItemStack item = new ItemStack(region.getRegionKind().getMaterial());
+                        ItemMeta itemMeta = item.getItemMeta();
+                        itemMeta.setDisplayName(regionDisplayName);
+                        item.setItemMeta(itemMeta);
+                        ClickItem clickItem = new ClickItem(item).addClickAction(new ClickAction() {
+                            @Override
+                            public void execute(Player player) throws InputException {
+                                Teleporter.teleport(player, region);
+                            }
+                        });
+                        clickItems.add(clickItem);
                     }
-                    RegionManager.teleportToFreeRegion(RegionKind.DEFAULT, player);
+                    Gui.openInfiniteGuiList(player, clickItems, 0, new ClickAction() {
+                        @Override
+                        public void execute(Player player) throws InputException {
+                            Gui.openRegionFinder(player, withGoBack);
+                        }
+                    });
                 }
             });
             inv.addIcon(icon, 0);
@@ -811,11 +829,13 @@ public class Gui implements Listener {
 
     }
 
-    public static void openInfiniteGuiList(Player player, List<ClickItem> clickItems, int page) {
-        GuiInventory inv = new GuiInventory(54, Messages.GUI_OWN_REGIONS_MENU_NAME);
+    public static void openInfiniteGuiList(Player player, List<ClickItem> clickItems, int page, ClickAction gobackAction) {
+        GuiInventory inv = new GuiInventory(54, Messages.GUI_REGION_FINDER_MENU_NAME);
 
+        int pos = 0;
         for(int i = page; ((i < page + 45) && (i < clickItems.size())); i++) {
-            //inv.addIcon(clickItems.get(i));
+            inv.addIcon(clickItems.get(i), pos);
+            pos++;
         }
         if(page != 0) {
             int newPage = page - 45;
@@ -831,7 +851,7 @@ public class Gui implements Listener {
             ClickItem prevPageButton = new ClickItem(prevPage).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) {
-                    Gui.openInfiniteGuiList(player, clickItems, newPage);
+                    Gui.openInfiniteGuiList(player, clickItems, newPage, gobackAction);
                 }
             });
             inv.addIcon(prevPageButton, 45);
@@ -847,11 +867,22 @@ public class Gui implements Listener {
             ClickItem nextPageButton = new ClickItem(prevPage).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) {
-                    Gui.openInfiniteGuiList(player, clickItems, newPage);
+                    Gui.openInfiniteGuiList(player, clickItems, newPage, gobackAction);
                 }
             });
             inv.addIcon(nextPageButton, 53);
         }
+
+        ItemStack goBack = new ItemStack(Gui.GO_BACK_ITEM);
+        ItemMeta goBackMeta = goBack.getItemMeta();
+        goBackMeta.setDisplayName(Messages.GUI_GO_BACK);
+        goBack.setItemMeta(goBackMeta);
+
+        ClickItem gobackButton = new ClickItem(goBack).addClickAction(gobackAction);
+
+        inv.addIcon(gobackButton, 49);
+
+        inv = Gui.placeFillItems(inv);
         player.openInventory(inv.getInventory());
     }
 

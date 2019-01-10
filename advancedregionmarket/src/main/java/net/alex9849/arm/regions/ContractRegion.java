@@ -29,8 +29,8 @@ public class ContractRegion extends Region {
     private long extendTime;
     private boolean terminated;
 
-    public ContractRegion(WGRegion region, World regionworld, List<Sign> contractsign, double price, Boolean sold, Boolean autoreset, Boolean isHotel, Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, boolean isUserResettable, long extendTime, long payedTill, Boolean terminated, List<Region> subregions, boolean isTown, boolean isSubregion) {
-        super(region, regionworld, contractsign, price, sold, autoreset, isHotel, doBlockReset, regionKind, teleportLoc, lastreset, isUserResettable, subregions, isTown, isSubregion);
+    public ContractRegion(WGRegion region, World regionworld, List<Sign> contractsign, double price, Boolean sold, Boolean autoreset, Boolean isHotel, Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, boolean isUserResettable, long extendTime, long payedTill, Boolean terminated, List<Region> subregions, boolean isTown) {
+        super(region, regionworld, contractsign, price, sold, autoreset, isHotel, doBlockReset, regionKind, teleportLoc, lastreset, isUserResettable, subregions, isTown);
         this.payedTill = payedTill;
         this.extendTime = extendTime;
         this.terminated = terminated;

@@ -111,7 +111,7 @@ public class ARMListener implements Listener {
 
                 LinkedList<Sign> sellsign = new LinkedList<Sign>();
                 sellsign.add((Sign) sign.getBlock().getState());
-                SellRegion addRegion = new SellRegion(region, regionWorld, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,1, true, new ArrayList<Region>(), false, false);
+                SellRegion addRegion = new SellRegion(region, regionWorld, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,1, true, new ArrayList<Region>(), false);
                 addRegion.createSchematic();
                 net.alex9849.arm.regions.RegionManager.addRegion(addRegion);
                 sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_ADDED_TO_ARM);
@@ -211,7 +211,7 @@ public class ARMListener implements Listener {
                 sellsign.add((Sign) sign.getBlock().getState());
 
                 RentRegion addRegion = new RentRegion(region, regionWorld, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,
-                        1, true,1, maxRentTime, extendPerClick, new ArrayList<Region>(), false, false);
+                        1, true,1, maxRentTime, extendPerClick, new ArrayList<Region>(), false);
                 addRegion.createSchematic();
                 net.alex9849.arm.regions.RegionManager.addRegion(addRegion);
 
@@ -305,7 +305,7 @@ public class ARMListener implements Listener {
                 sellsign.add((Sign) sign.getBlock().getState());
 
                 ContractRegion addRegion = new ContractRegion(region, regionWorld, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,
-                        1, true, extendtime, 1, false, new ArrayList<Region>(), false, false);
+                        1, true, extendtime, 1, false, new ArrayList<Region>(), false);
                 addRegion.createSchematic();
                 net.alex9849.arm.regions.RegionManager.addRegion(addRegion);
                 sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_ADDED_TO_ARM);

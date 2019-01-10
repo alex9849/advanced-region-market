@@ -44,12 +44,12 @@ public abstract class Region {
     protected boolean isDoBlockReset;
     protected List<Region> subregions;
     protected boolean isTown;
-    protected final boolean isSubregion;
+    protected boolean isSubregion;
     protected Region parentRegion;
     protected boolean isUserResettable;
 
     public Region(WGRegion region, World regionworld, List<Sign> sellsign, double price, Boolean sold, Boolean autoreset,
-                  Boolean isHotel, Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, boolean isUserResettable, List<Region> subregions, boolean isTown, boolean isSubregion){
+                  Boolean isHotel, Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, boolean isUserResettable, List<Region> subregions, boolean isTown){
         this.region = region;
         this.sellsign = new ArrayList<Sign>(sellsign);
         this.sold = sold;
@@ -64,8 +64,12 @@ public abstract class Region {
         this.teleportLocation = teleportLoc;
         this.subregions = subregions;
         this.isTown = isTown;
-        this.isSubregion = isSubregion;
+        this.isSubregion = false;
         this.isUserResettable = isUserResettable;
+
+        for(Region subregion : subregions) {
+            subregion.setParentRegion(this);
+        }
 
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
         File builtblocksdic = new File(pluginfolder + "/schematics/" + this.regionworld + "/" + region.getId() + "--builtblocks.schematic");
@@ -115,9 +119,8 @@ public abstract class Region {
     }
 
     public void setParentRegion(Region region) {
-        if(this.isSubregion) {
-            this.parentRegion = region;
-        }
+        this.parentRegion = region;
+        this.isSubregion = true;
     }
 
     public boolean isTown() {
@@ -125,6 +128,7 @@ public abstract class Region {
     }
 
     public void addSubRegion(Region region) {
+        region.setParentRegion(this);
         this.subregions.add(region);
         RegionManager.writeRegionsToConfig();
     }

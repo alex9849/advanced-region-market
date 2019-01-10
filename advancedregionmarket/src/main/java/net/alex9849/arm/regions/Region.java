@@ -98,6 +98,22 @@ public abstract class Region {
         }
     }
 
+    protected void giveSubRegionOwnerMoney(double amount) {
+        if(this.isSubregion()) {
+            if(this.getParentRegion() != null) {
+                if(this.getParentRegion().isSold()) {
+                    List<UUID> parentRegionOwners = this.getParentRegion().getRegion().getOwners();
+                    for(UUID uuid : parentRegionOwners) {
+                        OfflinePlayer subRegionOwner = Bukkit.getOfflinePlayer(uuid);
+                        if(subRegionOwner != null) {
+                            AdvancedRegionMarket.getEcon().depositPlayer(subRegionOwner, amount);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     public boolean isUserResettable() {
         return this.isUserResettable;
     }

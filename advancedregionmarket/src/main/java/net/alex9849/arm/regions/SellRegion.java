@@ -132,8 +132,8 @@ public class SellRegion extends Region {
         if(AdvancedRegionMarket.getEcon().getBalance(player) < this.price) {
             throw new InputException(player, Messages.NOT_ENOUGHT_MONEY);
         }
-        AdvancedRegionMarket.getEcon().withdrawPlayer(player, price);
-
+        AdvancedRegionMarket.getEcon().withdrawPlayer(player, this.price);
+        this.giveSubRegionOwnerMoney(this.price);
         this.setSold(player);
         this.resetBuiltBlocks();
         if(ArmSettings.isTeleportAfterSellRegionBought()){

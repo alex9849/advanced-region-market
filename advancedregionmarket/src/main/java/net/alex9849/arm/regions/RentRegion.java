@@ -166,7 +166,7 @@ public class RentRegion extends Region {
             throw new InputException(player, Messages.NOT_ENOUGHT_MONEY);
         }
         AdvancedRegionMarket.getEcon().withdrawPlayer(player, price);
-
+        this.giveSubRegionOwnerMoney(this.price);
         this.setSold(player);
         this.resetBuiltBlocks();
         if(ArmSettings.isTeleportAfterRentRegionBought()){
@@ -466,6 +466,7 @@ public class RentRegion extends Region {
                 throw new InputException(player, Messages.NOT_ENOUGHT_MONEY);
             }
             AdvancedRegionMarket.getEcon().withdrawPlayer(player, price);
+            this.giveSubRegionOwnerMoney(this.price);
             this.payedTill = this.payedTill + this.rentExtendPerClick;
 
             RegionManager.writeRegionsToConfig();

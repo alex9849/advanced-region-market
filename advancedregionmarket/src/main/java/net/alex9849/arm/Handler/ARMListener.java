@@ -336,7 +336,8 @@ public class ARMListener implements Listener {
                 return;
             }
 
-            if(!(block.getPlayer().hasPermission(Permission.ADMIN_REMOVE_SIGN) || (block.getPlayer().hasPermission(Permission.SUBREGION_REMOVE) && region.isSubregion()))) {
+            if(!(block.getPlayer().hasPermission(Permission.ADMIN_REMOVE_SIGN) || ((block.getPlayer().hasPermission(Permission.SUBREGION_REMOVE_SOLD) ||
+                    block.getPlayer().hasPermission(Permission.SUBREGION_REMOVE_AVAILABLE)) && region.isSubregion()))) {
                 block.setCancelled(true);
                 throw new InputException(block.getPlayer(), Messages.NO_PERMISSION);
             }
@@ -350,13 +351,31 @@ public class ARMListener implements Listener {
                 return;
             }
 
-            if(region.isSubregion() && block.getPlayer().hasPermission(Permission.SUBREGION_REMOVE)) {
+            if(region.isSubregion() && (block.getPlayer().hasPermission(Permission.SUBREGION_REMOVE_AVAILABLE) || block.getPlayer().hasPermission(Permission.SUBREGION_REMOVE_SOLD))) {
                 if(region.getParentRegion() != null) {
                     if(region.getParentRegion().getRegion().hasOwner(block.getPlayer().getUniqueId())) {
-                        block.setCancelled(!region.removeSign(loc, block.getPlayer()));
-                        return;
+                        if(region.isSold()) {
+                            if(block.getPlayer().hasPermission(Permission.SUBREGION_REMOVE_SOLD)) {
+                                block.setCancelled(!region.removeSign(loc, block.getPlayer()));
+                                return;
+                            } else {
+                                //TODO
+                                block.setCancelled(true);
+                                throw new InputException(block.getPlayer(), "Region is sold");
+                            }
+                        } else {
+                            if(block.getPlayer().hasPermission(Permission.SUBREGION_REMOVE_AVAILABLE)) {
+                                block.setCancelled(!region.removeSign(loc, block.getPlayer()));
+                                return;
+                            } else {
+                                //TODO
+                                block.setCancelled(true);
+                                throw new InputException(block.getPlayer(), "You are not allowed to remove this region. Please ask an admin if you believe this is an error");
+                            }
+                        }
                     } else {
                         //TODO
+                        block.setCancelled(true);
                         throw new InputException(block.getPlayer(), "You dont own the parent region!");
                     }
                 }

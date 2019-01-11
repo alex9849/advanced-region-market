@@ -5,14 +5,11 @@ import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.regions.Region;
-import net.alex9849.inter.WGRegion;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.util.Vector;
@@ -41,12 +38,7 @@ public class Teleporter {
                     for (int y = maxY; y >= minY; y--) {
                         Location loc = new Location(world, x, y, z);
                         if(isSaveTeleport(loc)) {
-                            loc.add(0.5, 0, 0.5);
-                            int timer = 0;
-                            if(useCountdown) {
-                                timer = 20 * AdvancedRegionMarket.getARM().getConfig().getInt("Other.TeleporterTimer");
-                            }
-                            scheduleTeleport(player, loc, message, timer);
+                            teleport(player, loc, message, useCountdown);
                             return;
                         }
                     }
@@ -60,9 +52,24 @@ public class Teleporter {
         }
     }
 
+    public static void teleport(Player player, Location location, String message, boolean useCountdown) {
+        location.add(0.5, 0, 0.5);
+        int timer = 0;
+        if(useCountdown) {
+            timer = 20 * AdvancedRegionMarket.getARM().getConfig().getInt("Other.TeleporterTimer");
+        }
+        scheduleTeleport(player, location, message, timer);
+        return;
+    }
+
     public static void teleport(Player player, Region region) throws InputException {
         teleport(player, region, "", true);
     }
+
+    public static void teleport(Player player, Location location) throws InputException {
+        teleport(player, location, "", true);
+    }
+
 
     private static boolean isSaveTeleport(Location loc) {
         Location locP1 = new Location(loc.getWorld(), loc.getBlockX(), loc.getBlockY() + 1, loc.getBlockZ());

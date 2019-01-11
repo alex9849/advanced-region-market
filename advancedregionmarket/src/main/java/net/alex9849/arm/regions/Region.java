@@ -409,6 +409,16 @@ public abstract class Region {
         return this.teleportLocation;
     }
 
+    public void teleport(Player player, boolean teleportToSign) throws InputException {
+        if(teleportToSign) {
+            for(Sign sign : this.sellsign) {
+                Teleporter.teleport(player, sign.getLocation());
+            }
+        } else {
+            Teleporter.teleport(player, this);
+        }
+    }
+
     public void setNewOwner(OfflinePlayer member){
         ArrayList<UUID> owner = this.getRegion().getOwners();
         for (int i = 0; i < owner.size(); i++) {

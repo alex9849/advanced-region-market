@@ -1,5 +1,6 @@
 package net.alex9849.arm.gui;
 
+import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.InputException;
@@ -170,6 +171,10 @@ public class Gui implements Listener {
             itemcounter++;
         }
 
+        if(Permission.hasAnySubregionPermission(player) && region.isTown()){
+            itemcounter++;
+        }
+
         GuiInventory inv = new GuiInventory(9 , region.getRegion().getId());
 
         ItemStack membersitem = new ItemStack(Material.PLAYER_HEAD, 1, (short) 3);
@@ -186,6 +191,35 @@ public class Gui implements Listener {
         inv.addIcon(membersicon, getPosition(actitem, itemcounter));
 
         actitem++;
+
+        if(Permission.hasAnySubregionPermission(player) && region.isTown()){
+            //TODO make subregion Item changeable
+            ItemStack subregionitem = new ItemStack(Material.GRASS_BLOCK);
+            ItemMeta subregionitemmeta = subregionitem.getItemMeta();
+            subregionitemmeta.setDisplayName("Subregions");
+            //TODO make lore changeable
+            subregionitemmeta.setLore(new ArrayList<>());
+            subregionitem.setItemMeta(subregionitemmeta);
+            ClickItem teleportericon = new ClickItem(subregionitem).addClickAction(new ClickAction() {
+                @Override
+                public void execute(Player player) throws InputException {
+                    List<ClickItem> clickItems = new ArrayList<>();
+                    for(Region subregion : region.getSubregions()) {
+                        ItemStack subregionItem = Gui.getRegionDisplayItem(subregion, Messages.GUI_RENT_REGION_LORE, new ArrayList<>(), Messages.GUI_CONTRACT_REGION_LORE);
+                        ClickItem subregionClickItem = new ClickItem(subregionItem);
+                        clickItems.add(subregionClickItem);
+                    }
+                    Gui.openInfiniteGuiList(player, clickItems, 0, "Subregions", new ClickAction() {
+                        @Override
+                        public void execute(Player player) throws InputException {
+                            Gui.decideOwnerManager(player, region);
+                        }
+                    });
+                }
+            });
+            inv.addIcon(teleportericon, getPosition(actitem, itemcounter));
+            actitem++;
+        }
 
         if(player.hasPermission(Permission.MEMBER_TP)){
             ItemStack teleporteritem = new ItemStack(Gui.TP_ITEM);
@@ -606,6 +640,10 @@ public class Gui implements Listener {
 
     }
 
+    public static void openSubRegionManger(Player player, Region region) {
+
+    }
+
     public static void openRegionFinder(Player player, Boolean withGoBack) {
 
         int itemcounter = 0;
@@ -773,7 +811,7 @@ public class Gui implements Listener {
             ClickItem clickItem = new ClickItem(itemStack).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
-                    Teleporter.teleport(player, region);
+                    Gui.openRegionFinderTeleportLocationSeceltor(player, region);
                 }
             });
             if(region instanceof SellRegion) {
@@ -784,7 +822,7 @@ public class Gui implements Listener {
                 contractRegionClickItems.add(clickItem);
             }
         }
-        if(contractRegionClickItems.size() > 0) {
+        if(sellRegionClickItems.size() > 0) {
             ItemStack sellRegionItem = new ItemStack(Material.BRICKS);
             //TODO Change name
             ItemMeta sellRegionItemMeta = sellRegionItem.getItemMeta();
@@ -849,6 +887,45 @@ public class Gui implements Listener {
         player.openInventory(inv.getInventory());
     }
 
+    public static void openRegionFinderTeleportLocationSeceltor(Player player, Region region) throws InputException {
+        if(!ArmSettings.isAllowTeleportToBuySign()) {
+            region.teleport(player, false);
+            return;
+        }
+
+        //TODO make items and Names changeable
+        GuiInventory inv = new GuiInventory(9, "Teleport to sign or region?");
+        ItemStack signIcon = new ItemStack(Material.SIGN);
+        ItemMeta signIconMeta = signIcon.getItemMeta();
+        signIconMeta.setDisplayName("Teleport to buy sign!");
+        signIcon.setItemMeta(signIconMeta);
+        ClickItem clickSign = new ClickItem(signIcon);
+        clickSign.addClickAction(new ClickAction() {
+            @Override
+            public void execute(Player player) throws InputException {
+                region.teleport(player, true);
+                player.closeInventory();
+            }
+        });
+        inv.addIcon(clickSign, getPosition(1, 2));
+
+        ItemStack regionIcon = new ItemStack(Material.GRASS_BLOCK);
+        ItemMeta regionMeta = regionIcon.getItemMeta();
+        regionMeta.setDisplayName("Teleport to region!");
+        regionIcon.setItemMeta(regionMeta);
+        ClickItem clickRegion = new ClickItem(regionIcon);
+        clickRegion.addClickAction(new ClickAction() {
+            @Override
+            public void execute(Player player) throws InputException {
+                region.teleport(player, false);
+                player.closeInventory();
+            }
+        });
+        inv.addIcon(clickRegion, getPosition(2, 2));
+        inv = Gui.placeFillItems(inv);
+        player.openInventory(inv.getInventory());
+    }
+
     private static ItemStack getRegionDisplayItem(Region region, List<String> rentLore, List<String> sellLore, List<String> contractLore) {
         String regionDisplayName = Messages.GUI_REGION_ITEM_NAME;
         regionDisplayName = region.getConvertedMessage(regionDisplayName);
@@ -885,7 +962,7 @@ public class Gui implements Listener {
             itemsize = itemsize + 9;
         }
         invsize = itemsize;
-        if((gobackAction != null) || ((startitem + 45) < (clickItems.size() - 1)) || (startitem != 0)) {
+        if(((gobackAction != null) && (clickItems.size() >= 9)) || ((startitem + 45) < (clickItems.size() - 1)) || (startitem != 0)) {
             invsize = itemsize + 9;
         }
 
@@ -937,7 +1014,12 @@ public class Gui implements Listener {
             goBackMeta.setDisplayName(Messages.GUI_GO_BACK);
             goBack.setItemMeta(goBackMeta);
             ClickItem gobackButton = new ClickItem(goBack).addClickAction(gobackAction);
-            inv.addIcon(gobackButton, invsize - 5);
+            if(clickItems.size() >= 9) {
+                inv.addIcon(gobackButton, invsize - 5);
+            } else {
+                inv.addIcon(gobackButton, 8);
+            }
+
         }
 
         inv = Gui.placeFillItems(inv);
@@ -947,12 +1029,9 @@ public class Gui implements Listener {
     public static void openMemberList(Player player, Region region){
         ArrayList<UUID> members = region.getRegion().getMembers();
 
-        int invsize = 0;
-        while (members.size() + 1 > invsize) {
-            invsize = invsize + 9;
-        }
+        List<ClickItem> clickItems = new ArrayList<>();
 
-        GuiInventory inv = new GuiInventory(invsize, Messages.GUI_MEMBER_LIST_MENU_NAME.replaceAll("%regionid%", region.getRegion().getId()));
+        String invname =  Messages.GUI_MEMBER_LIST_MENU_NAME.replaceAll("%regionid%", region.getRegion().getId());
 
         for(int i = 0; i < members.size(); i++) {
             ItemStack membersitem = new ItemStack(Material.PLAYER_HEAD, 1, (short) 3);
@@ -969,7 +1048,7 @@ public class Gui implements Listener {
                     Gui.openMemberManager(player, region, Bukkit.getOfflinePlayer(members.get(finalI)));
                 }
             });
-            inv.addIcon(membersicon, i);
+            clickItems.add(membersicon);
         }
 
         if(members.size() == 0){
@@ -983,26 +1062,15 @@ public class Gui implements Listener {
             infoMeta.setLore(lore);
             info.setItemMeta(infoMeta);
             ClickItem infoButton = new ClickItem(info);
-            inv.addIcon(infoButton, 0);
+            clickItems.add(infoButton);
         }
 
-        ItemStack goBack = new ItemStack(Gui.GO_BACK_ITEM);
-        ItemMeta goBackMeta = goBack.getItemMeta();
-        goBackMeta.setDisplayName(Messages.GUI_GO_BACK);
-        goBack.setItemMeta(goBackMeta);
-
-        ClickItem gobackButton = new ClickItem(goBack).addClickAction(new ClickAction() {
+        Gui.openInfiniteGuiList(player, clickItems, 0, invname, new ClickAction() {
             @Override
             public void execute(Player player) {
                 Gui.decideOwnerManager(player, region);
             }
         });
-
-        inv.addIcon(gobackButton, (invsize - 1));
-
-        inv = Gui.placeFillItems(inv);
-
-        player.openInventory(inv.getInventory());
 
     }
 
@@ -1140,6 +1208,17 @@ public class Gui implements Listener {
             });
             clickItems.add(clickItem);
         }
+
+        if(regions.size() == 0){
+            ItemStack info = new ItemStack(Gui.INFO_ITEM);
+            ItemMeta infoMeta = info.getItemMeta();
+            infoMeta.setDisplayName(Messages.GUI_MEMBER_INFO_ITEM);
+            infoMeta.setLore(Messages.GUI_MEMBER_INFO_LORE);
+            info.setItemMeta(infoMeta);
+            ClickItem infoButton = new ClickItem(info);
+            clickItems.add(infoButton);
+        }
+
 
         ClickAction goBackAction = null;
 
@@ -1382,7 +1461,7 @@ public class Gui implements Listener {
     }
 
     @EventHandler
-    public void onClick(InventoryClickEvent event) throws InputException {
+    public void onClick(InventoryClickEvent event) {
         if (event.getView().getTopInventory().getHolder() instanceof GuiInventory) {
             event.setCancelled(true);
 

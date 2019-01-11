@@ -13,6 +13,8 @@ public class ArmSettings {
     private static boolean isSendContractRegionExtendMessage = false;
     private static boolean isRegionInfoParticleBorder = true;
     private static boolean useShortCountdown = false;
+
+    private static boolean isAllowTeleportToBuySign = false;
     private static String REMAINING_TIME_TIMEFORMAT = "%date%";
     private static String DATE_TIMEFORMAT = "dd.MM.yyyy hh:mm";
     private static int autoResetAfter;
@@ -21,6 +23,15 @@ public class ArmSettings {
     private static boolean enableTakeOver;
     private static Statement stmt;
     private static String sqlPrefix;
+
+    public static boolean isAllowTeleportToBuySign() {
+        return isAllowTeleportToBuySign;
+    }
+
+    //TODO include in config
+    protected static void setIsAllowTeleportToBuySign(boolean isAllowTeleportToBuySign) {
+        ArmSettings.isAllowTeleportToBuySign = isAllowTeleportToBuySign;
+    }
 
     protected static void setIsAllowSubRegionUserReset(boolean isAllowSubRegionUserReset) {
         ArmSettings.isAllowSubRegionUserReset = isAllowSubRegionUserReset;

@@ -603,11 +603,27 @@ public abstract class Region {
         return ownername;
     }
 
+    public abstract double getPricePerM2PerWeek();
+
+    public double getPricePerM2() {
+        int sizeX = (this.getRegion().getMaxPoint().getBlockX() - this.getRegion().getMinPoint().getBlockX()) + 1;
+        int sizeZ = (this.getRegion().getMaxPoint().getBlockZ() - this.getRegion().getMinPoint().getBlockZ()) + 1;
+        return this.price / (sizeX * sizeZ);
+    }
+
+    public double getRoundedPricePerM2() {
+        double pricePerM2 = this.getPricePerM2();
+        pricePerM2 = pricePerM2 * 100;
+        pricePerM2 = (int) pricePerM2;
+        return pricePerM2 / 100;
+    }
+
     public String getConvertedMessage(String message) {
         message = message.replace("%regionid%", this.getRegion().getId());
         message = message.replace("%region%", this.getRegion().getId());
         message = message.replace("%price%", this.getPrice() + "");
         message = message.replace("%dimensions%", this.getDimensions());
+        message = message.replace("%priceperm2%", this.getRoundedPricePerM2() + "");
         message = message.replace("%remainingdays%", (Region.getResetCooldown() - this.timeSinceLastReset()) + "");
         message = message.replace("%paybackmoney%", this.getPaybackMoney() + "");
         message = message.replace("%currency%", Messages.CURRENCY);

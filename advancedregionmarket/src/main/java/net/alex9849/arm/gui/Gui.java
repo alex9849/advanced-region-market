@@ -801,15 +801,28 @@ public class Gui implements Listener {
         ClickItem sellRegionList = null;
         ClickItem rentRegionList = null;
         ClickItem contractRegionList = null;
+        int itemcounter = 0;
+        int actitem = 1;
 
-
+        regions.sort(new Comparator<Region>() {
+            @Override
+            public int compare(Region o1, Region o2) {
+                if(o1.getPricePerM2PerWeek() > o2.getPricePerM2PerWeek()) {
+                    return 1;
+                }
+                if(o1.getPricePerM2PerWeek() == o2.getPricePerM2PerWeek()) {
+                    return 0;
+                }
+                return -1;
+            }
+        });
 
 
         for(Region region : regions) {
             //Todo add to config
-            List<String> newRentregionLore = new ArrayList<String>(Arrays.asList("%regionid%", "Price: %price%", "Extend per click: %extendperclick%","Max. extended time: %maxrenttime%", "Dimensions: %dimensions%", "World: %world%"));
-            List<String> newSellRegionLore = new ArrayList<String>(Arrays.asList(region.getRegion().getId(), "Price: %price%", "Dimensions: %dimensions%", "World: %world%"));
-            List<String> newContractRegionLore = new ArrayList<String>(Arrays.asList(region.getRegion().getId(), "Price: %price%", "Automatic extend time: %extend%","Dimensions: %dimensions%", "World: %world%"));
+            List<String> newRentregionLore = new ArrayList<String>(Arrays.asList("%regionid%", "Price per M2: %priceperm2%" ,"Price (per week): %priceperm2perweek%", "Extend per click: %extendperclick%","Max. extended time: %maxrenttime%", "Dimensions: %dimensions%", "World: %world%"));
+            List<String> newSellRegionLore = new ArrayList<String>(Arrays.asList(region.getRegion().getId(), "Price: %price%", "Price per M2: %price%", "Dimensions: %dimensions%", "World: %world%"));
+            List<String> newContractRegionLore = new ArrayList<String>(Arrays.asList(region.getRegion().getId(), "Price: %price%", "Price per M2 (per week): %priceperm2perweek%", "Automatic extend time: %extend%","Dimensions: %dimensions%", "World: %world%"));
 
             ItemStack itemStack = getRegionDisplayItem(region, newRentregionLore, newSellRegionLore, newContractRegionLore);
             ClickItem clickItem = new ClickItem(itemStack).addClickAction(new ClickAction() {
@@ -826,14 +839,18 @@ public class Gui implements Listener {
                 contractRegionClickItems.add(clickItem);
             }
         }
+        if(sellRegionClickItems.size() > 0) {
+            itemcounter++;
+        }
+        if(rentRegionClickItems.size() > 0) {
+            itemcounter++;
+        }
+        if(contractRegionClickItems.size() > 0) {
+            itemcounter++;
+        }
         //TODO items anordnen
         if(sellRegionClickItems.size() > 0) {
-            ItemStack sellRegionItem = new ItemStack(Material.BRICKS);
-            //TODO Change name
-            ItemMeta sellRegionItemMeta = sellRegionItem.getItemMeta();
-            sellRegionItemMeta.setDisplayName("SellRegion");
-            sellRegionItem.setItemMeta(sellRegionItemMeta);
-            ClickItem clickItem = new ClickItem(sellRegionItem);
+            ClickItem clickItem = new ClickItem(new ItemStack(Material.BRICKS), "SellRegion");
             clickItem.addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
@@ -845,15 +862,12 @@ public class Gui implements Listener {
                 return;
             }
             //TODO Make position dynamic
-            inv.addIcon(clickItem, 0);
+            inv.addIcon(clickItem, getPosition(actitem, itemcounter));
+            actitem++;
         }
         if(rentRegionClickItems.size() > 0) {
-            ItemStack sellRegionItem = new ItemStack(Material.BRICKS);
             //TODO Change name
-            ItemMeta sellRegionItemMeta = sellRegionItem.getItemMeta();
-            sellRegionItemMeta.setDisplayName("RentRegion");
-            sellRegionItem.setItemMeta(sellRegionItemMeta);
-            ClickItem clickItem = new ClickItem(sellRegionItem);
+            ClickItem clickItem = new ClickItem(new ItemStack(Material.BRICKS), "RentRegion");
             clickItem.addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
@@ -864,15 +878,12 @@ public class Gui implements Listener {
                 Gui.openInfiniteGuiList(player, rentRegionClickItems, 0, Messages.GUI_REGION_FINDER_MENU_NAME, goBackAction);
                 return;
             }
-            inv.addIcon(clickItem, 3);
+            inv.addIcon(clickItem, getPosition(actitem, itemcounter));
+            actitem++;
         }
         if(contractRegionClickItems.size() > 0) {
-            ItemStack sellRegionItem = new ItemStack(Material.BRICKS);
             //TODO Change name
-            ItemMeta sellRegionItemMeta = sellRegionItem.getItemMeta();
-            sellRegionItemMeta.setDisplayName("ContractRegion");
-            sellRegionItem.setItemMeta(sellRegionItemMeta);
-            ClickItem clickItem = new ClickItem(sellRegionItem);
+            ClickItem clickItem = new ClickItem(new ItemStack(Material.BRICKS), "ContractRegion");
             clickItem.addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
@@ -883,7 +894,8 @@ public class Gui implements Listener {
                 Gui.openInfiniteGuiList(player, contractRegionClickItems, 0, Messages.GUI_REGION_FINDER_MENU_NAME, goBackAction);
                 return;
             }
-            inv.addIcon(clickItem, 3);
+            inv.addIcon(clickItem, getPosition(actitem, itemcounter));
+            actitem++;
         }
         if((sellRegionClickItems.size() == 0) && (rentRegionClickItems.size() == 0) && (contractRegionClickItems.size() == 0)) {
             throw new InputException(player, Messages.NO_FREE_REGION_WITH_THIS_KIND);
@@ -1504,6 +1516,9 @@ public class Gui implements Listener {
     private static int getPosition(int itemNr, int maxItems){
         if(maxItems < itemNr || maxItems > 9){
             throw new IndexOutOfBoundsException("getPosition-Method cant handle more than max. 9 Items");
+        }
+        if(maxItems == 0) {
+            return 4;
         }
         if(maxItems == 1){
             return 4;

@@ -139,4 +139,9 @@ public class SellRegion extends Region {
         }
     }
 
+    @Override
+    public double getPricePerM2PerWeek() {
+        return this.getPricePerM2();
+    }
+
 }

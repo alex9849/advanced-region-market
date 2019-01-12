@@ -18,7 +18,6 @@ import org.bukkit.entity.Player;
 
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -389,6 +388,15 @@ public class ContractRegion extends Region {
         return this.terminated;
     }
 
+    public double getPricePerM2PerWeek() {
+        double pricePerM2 = this.getPricePerM2();
+        long msPerWeek = 1000 * 60 * 60 * 24 * 7;
+        double pricePerM2PerWeek = (msPerWeek / this.getExtendTime()) * pricePerM2;
+        pricePerM2PerWeek = (int) pricePerM2PerWeek * 100;
+        pricePerM2PerWeek = pricePerM2PerWeek / 100;
+        return pricePerM2PerWeek;
+    }
+
     @Override
     public String getConvertedMessage(String message) {
         message = message.replace("%status%", this.getTerminationString());
@@ -396,6 +404,7 @@ public class ContractRegion extends Region {
         message = super.getConvertedMessage(message);
         message = message.replace("%extend%", this.getExtendTimeString());
         message = message.replace("%remaining%", this.calcRemainingTime());
+        message = message.replace("%priceperm2perweek%", this.getPricePerM2PerWeek() + "");
         return message;
     }
 }

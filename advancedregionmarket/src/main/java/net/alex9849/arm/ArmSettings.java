@@ -14,7 +14,7 @@ public class ArmSettings {
     private static boolean isRegionInfoParticleBorder = true;
     private static boolean useShortCountdown = false;
 
-    private static boolean isAllowTeleportToBuySign = false;
+    private static boolean isAllowTeleportToBuySign = true;
     private static String REMAINING_TIME_TIMEFORMAT = "%date%";
     private static String DATE_TIMEFORMAT = "dd.MM.yyyy hh:mm";
     private static int autoResetAfter;

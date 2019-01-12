@@ -19,10 +19,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class Gui implements Listener {
     private static Material REGION_OWNER_ITEM = Material.ENDER_CHEST;
@@ -805,9 +802,16 @@ public class Gui implements Listener {
         ClickItem rentRegionList = null;
         ClickItem contractRegionList = null;
 
+
+
+
         for(Region region : regions) {
-            //Todo change lores
-            ItemStack itemStack = getRegionDisplayItem(region, Messages.GUI_RENT_REGION_LORE, new ArrayList<String>(), Messages.GUI_CONTRACT_REGION_LORE);
+            //Todo add to config
+            List<String> newRentregionLore = new ArrayList<String>(Arrays.asList("%regionid%", "Price: %price%", "Extend per click: %extendperclick%","Max. extended time: %maxrenttime%", "Dimensions: %dimensions%", "World: %world%"));
+            List<String> newSellRegionLore = new ArrayList<String>(Arrays.asList(region.getRegion().getId(), "Price: %price%", "Dimensions: %dimensions%", "World: %world%"));
+            List<String> newContractRegionLore = new ArrayList<String>(Arrays.asList(region.getRegion().getId(), "Price: %price%", "Automatic extend time: %extend%","Dimensions: %dimensions%", "World: %world%"));
+
+            ItemStack itemStack = getRegionDisplayItem(region, newRentregionLore, newSellRegionLore, newContractRegionLore);
             ClickItem clickItem = new ClickItem(itemStack).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
@@ -822,6 +826,7 @@ public class Gui implements Listener {
                 contractRegionClickItems.add(clickItem);
             }
         }
+        //TODO items anordnen
         if(sellRegionClickItems.size() > 0) {
             ItemStack sellRegionItem = new ItemStack(Material.BRICKS);
             //TODO Change name
@@ -962,7 +967,7 @@ public class Gui implements Listener {
             itemsize = itemsize + 9;
         }
         invsize = itemsize;
-        if(((gobackAction != null) && (clickItems.size() >= 9)) || ((startitem + 45) < (clickItems.size() - 1)) || (startitem != 0)) {
+        if(((gobackAction != null) && (clickItems.size() >= 9)) || ((startitem + 45) < (clickItems.size() - 1)) || (startitem != 0) || (itemsize == 0)) {
             invsize = itemsize + 9;
         }
 
@@ -979,12 +984,8 @@ public class Gui implements Listener {
                 newStartItem = 0;
             }
             //TODO Make item and text changeable
-            ItemStack prevPage = new ItemStack(Material.ARROW);
-            ItemMeta prevPageMeta = prevPage.getItemMeta();
-            prevPageMeta.setDisplayName("prev Page");
-            prevPage.setItemMeta(prevPageMeta);
             final int finalnewStartItem = newStartItem;
-            ClickItem prevPageButton = new ClickItem(prevPage).addClickAction(new ClickAction() {
+            ClickItem prevPageButton = new ClickItem(new ItemStack(Material.ARROW), "prev Page").addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) {
                     Gui.openInfiniteGuiList(player, clickItems, finalnewStartItem, name, gobackAction);
@@ -994,13 +995,8 @@ public class Gui implements Listener {
         }
         if((startitem + 45) < (clickItems.size() - 1)) {
             //TODO Make item and text changeable
-            ItemStack prevPage = new ItemStack(Material.ARROW);
-            ItemMeta prevPageMeta = prevPage.getItemMeta();
-            prevPageMeta.setDisplayName("next Page");
-            prevPage.setItemMeta(prevPageMeta);
             int newStartItem = startitem + 45;
-
-            ClickItem nextPageButton = new ClickItem(prevPage).addClickAction(new ClickAction() {
+            ClickItem nextPageButton = new ClickItem(new ItemStack(Material.ARROW), "next Page").addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) {
                     Gui.openInfiniteGuiList(player, clickItems, newStartItem, name, gobackAction);
@@ -1009,11 +1005,7 @@ public class Gui implements Listener {
             inv.addIcon(nextPageButton, invsize - 1);
         }
         if(gobackAction != null) {
-            ItemStack goBack = new ItemStack(Gui.GO_BACK_ITEM);
-            ItemMeta goBackMeta = goBack.getItemMeta();
-            goBackMeta.setDisplayName(Messages.GUI_GO_BACK);
-            goBack.setItemMeta(goBackMeta);
-            ClickItem gobackButton = new ClickItem(goBack).addClickAction(gobackAction);
+            ClickItem gobackButton = new ClickItem(new ItemStack(Gui.GO_BACK_ITEM), Messages.GUI_GO_BACK).addClickAction(gobackAction);
             if(clickItems.size() >= 9) {
                 inv.addIcon(gobackButton, invsize - 5);
             } else {

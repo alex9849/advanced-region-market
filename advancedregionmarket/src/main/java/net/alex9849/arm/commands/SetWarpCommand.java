@@ -47,8 +47,7 @@ public class SetWarpCommand extends BasicArmCommand {
                 throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
             }
             if(region.isSubregion()) {
-                //TODO
-                throw new InputException(sender, "Region is a subregion. Teleport-location can not be changed!");
+                throw new InputException(sender, Messages.SUB_REGION_TELEPORT_LOCATION_ERROR);
             }
             region.setTeleportLocation(player.getLocation());
 

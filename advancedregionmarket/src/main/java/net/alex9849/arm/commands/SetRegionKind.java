@@ -48,16 +48,14 @@ public class SetRegionKind extends BasicArmCommand {
                 throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
             }
             if(region.isSubregion()) {
-                //TODO
-                throw new InputException(sender, "Region is a subregion. Please change the regionkind globally for all subregions in the config.yml!");
+                throw new InputException(sender, Messages.SUB_REGION_REGIONKIND_ERROR);
             }
             RegionKind regionKind = RegionKind.getRegionKind(args[1]);
             if(regionKind == null) {
                 throw new InputException(sender, Messages.REGION_KIND_NOT_EXIST);
             }
             if(regionKind == RegionKind.SUBREGION) {
-                //TODO
-                throw new InputException(sender, "Subregion regionkind only for subregions!");
+                throw new InputException(sender, Messages.SUB_REGION_REGIONKIND_ONLY_FOR_SUB_REGIONS);
             }
             region.setKind(regionKind);
             sender.sendMessage(Messages.PREFIX + Messages.REGION_KIND_SET);

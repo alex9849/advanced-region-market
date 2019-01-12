@@ -196,6 +196,13 @@ public class Messages {
     public static String PRICE_CAN_NOT_BE_NEGATIVE = "&4Price can not be negative!";
     public static String SELLBACK_WARNING = "&4WARNING: &cThis can not be undone! Your region &6%regionid% &cwill be released and all blocks on it will be resetted! " +
             "You and all members will loose their rights on it. You will get &6%paybackmoney% %currency% &cback";
+    public static String SUB_REGION_AUTORESET_ERROR = "";
+    public static String SUB_REGION_DO_BLOCKRESET_ERROR = "";
+    public static String REGION_NOT_RESETTABLE = "";
+    public static String REGION_INFO_MULTIPLE_REGIONS = "";
+    public static String SUB_REGION_REGIONKIND_ERROR = "";
+    public static String SUB_REGION_REGIONKIND_ONLY_FOR_SUB_REGIONS = "";
+    public static String SUB_REGION_TELEPORT_LOCATION_ERROR = "";
 
 
     public static List<String> GUI_TELEPORT_TO_REGION_BUTTON_LORE = new LinkedList<>();
@@ -411,6 +418,13 @@ public class Messages {
         PRESET_SETUP_COMMANDS = config.getString("Messages.PresetSetupCommands");
         PRICE_CAN_NOT_BE_NEGATIVE = config.getString("Messages.PriceCanNotBeNegative");
         SELLBACK_WARNING = config.getString("Messages.SellBackWarning");
+        SUB_REGION_AUTORESET_ERROR = config.getString("Messages.SubregionAutoResetError");
+        SUB_REGION_DO_BLOCKRESET_ERROR = config.getString("Messages.SubregionDoBlockResetError");
+        REGION_NOT_RESETTABLE = config.getString("Messages.RegionNotResettable");
+        REGION_INFO_MULTIPLE_REGIONS = config.getString("Messages.RegionInfoMultipleRegions");
+        SUB_REGION_REGIONKIND_ERROR = config.getString("Messages.SubregionRegionkindError");
+        SUB_REGION_REGIONKIND_ONLY_FOR_SUB_REGIONS = config.getString("Messages.SubRegionRegionkindOnlyForSubregions");
+        SUB_REGION_TELEPORT_LOCATION_ERROR = config.getString("Messages.SubregionTeleportLocationError");
 
 
 
@@ -598,6 +612,13 @@ public class Messages {
         PRESET_SETUP_COMMANDS = ChatColor.translateAlternateColorCodes('&', PRESET_SETUP_COMMANDS);
         PRICE_CAN_NOT_BE_NEGATIVE = ChatColor.translateAlternateColorCodes('&', PRICE_CAN_NOT_BE_NEGATIVE);
         SELLBACK_WARNING = ChatColor.translateAlternateColorCodes('&', SELLBACK_WARNING);
+        SUB_REGION_AUTORESET_ERROR = ChatColor.translateAlternateColorCodes('&', SUB_REGION_AUTORESET_ERROR);
+        SUB_REGION_DO_BLOCKRESET_ERROR = ChatColor.translateAlternateColorCodes('&', SUB_REGION_DO_BLOCKRESET_ERROR);
+        REGION_NOT_RESETTABLE = ChatColor.translateAlternateColorCodes('&', REGION_NOT_RESETTABLE);
+        REGION_INFO_MULTIPLE_REGIONS = ChatColor.translateAlternateColorCodes('&', REGION_INFO_MULTIPLE_REGIONS);
+        SUB_REGION_REGIONKIND_ERROR = ChatColor.translateAlternateColorCodes('&', SUB_REGION_REGIONKIND_ERROR);
+        SUB_REGION_REGIONKIND_ONLY_FOR_SUB_REGIONS = ChatColor.translateAlternateColorCodes('&', SUB_REGION_REGIONKIND_ONLY_FOR_SUB_REGIONS);
+        SUB_REGION_TELEPORT_LOCATION_ERROR = ChatColor.translateAlternateColorCodes('&', SUB_REGION_TELEPORT_LOCATION_ERROR);
 
         for(int i = 0; i < GUI_TELEPORT_TO_REGION_BUTTON_LORE.size(); i++){
             GUI_TELEPORT_TO_REGION_BUTTON_LORE.set(i, ChatColor.translateAlternateColorCodes('&', GUI_TELEPORT_TO_REGION_BUTTON_LORE.get(i)));
@@ -753,8 +774,15 @@ public class Messages {
         config.addDefault("Messages.SellBackWarning", "&4WARNING: &cThis can not be undone! Your region &6%regionid% &cwill be released and all blocks on it will be resetted! " +
                 "You and all members will loose their rights on it. You will get &6%paybackmoney% %currency% &cback");
 
+        config.addDefault("Messages.SubregionAutoResetError", "&4The selected region is a subregion. You can change the autoReset setting for all subregions in the config.yml!");
+        config.addDefault("Messages.SubregionDoBlockResetError", "&4The selected region is a subregion. You can change the doBlockReset setting for all subregions in the config.yml!");
+        config.addDefault("Messages.SubregionRegionkindError", "&4The selected region is a subregion. You can edit the regionkind for all subregions in the config.yml!");
+        config.addDefault("Messages.SubRegionRegionkindOnlyForSubregions", "&4Subregion regionkind only for subregions!");
+        config.addDefault("Messages.SubregionTeleportLocationError", "&4The selected region is a subregion. Teleport location can not be changed");
+
         config.addDefault("Messages.RegionNotOwn", "&4You do not own this region!");
         config.addDefault("Messages.RegionNotSold", "&4Region not sold!");
+        config.addDefault("Messages.RegionNotResettable", "&4Region not resettable!");
         config.addDefault("Messages.RegionIsNotARentregion", "&4Region is not a rentregion!");
         config.addDefault("Messages.RegionIsNotAContractRegion", "&4Region is not a contractregion!");
         config.addDefault("Messages.RegionTeleportMessage", "&7You have been teleported to %regionid%");
@@ -792,6 +820,7 @@ public class Messages {
         config.addDefault("Messages.ContractRegionInfoRemainingTime", "&6Next extend in: ");
         config.addDefault("Messages.RegionInfoYes", "yes");
         config.addDefault("Messages.RegionInfoNo", "no");
+        config.addDefault("Messages.RegionInfoMultipleRegions", "&6There are more than one region at your position. Please select one: &4");
         config.addDefault("Messages.RentRegionExpirationWarning", "&4WARNING! This RentRegion(s) will expire soon: &c");
 
         config.addDefault("Messages.RentRegion", "RentRegion");

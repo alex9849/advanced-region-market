@@ -4,31 +4,25 @@ Messages:
   NotEnoughtMoney: '&4Vous n''avez pas assez d''argent !'
   RegionAlreadySold: '&4Région déjà vendu !'
   WorldDoesNotExist: '&4Le monde sélectionné n''éxiste pas !'
-  RegionDoesNotExist: '&4La région sélectionné n''éxiste pas dans ce monde (ou celui
-    sélectionné) !'
+  RegionDoesNotExist: '&4La région sélectionné n''éxiste pas dans ce monde (ou celui sélectionné) !'
   RegionKindNotExist: '&4Ce type n''existe pas !'
   PriceCanNotBeNegative: '&4Price can not be negative!'
   RegionKindRegionNotExist: '&4Cette région n''éxiste pas'
   CommandOnlyIngame: '&4Cette commande ne peut être éxécuté qu''en jeu !'
   RentExtendError: '&4Vous ne pouvez pas louer cette région plus longtemps que : &6%maxrenttime%'
-  RegionErrorCanNotBuildHere: '&4Vous êtes autorisé à casser seulement les blocks
-    que vous avez placer !'
+  RegionErrorCanNotBuildHere: '&4Vous êtes autorisé à casser seulement les blocks que vous avez placer !'
   NoFreeRegionWithThisKind: '&7Aucune région de ce type n''a été trouvé :('
   NoPermissionToSearchKind: '&4Vous n''êtes pas autorisé à rechercher ce type de région'
   RegionkindDoesNotExist: '&4Ce type de région sélectionné n''éxiste pas !'
-  NoPermissionsToBuyThisKindOfRegion: '&4Vous n''avez pas la permission d''acheter
-    ce type de région'
-  UserNotAMemberOrOwner: '&4Vous n''êtes pas membre ou propriétaire de cette région
-    !'
+  NoPermissionsToBuyThisKindOfRegion: '&4Vous n''avez pas la permission d''acheter ce type de région'
+  UserNotAMemberOrOwner: '&4Vous n''êtes pas membre ou propriétaire de cette région!'
   SelectedPlayerIsNotOnline: '&4The selected player is not online'
   BadSyntax: '&7Bad syntax! Please use: &8%command%'
   BadSyntaxSplitter: '&7or &8%command%'
-  RentExtendMessage: '&aRégion étendue de &6%extendpercick%&a (Pour %price% %currency%.
-    Nouveau temps restant : &6%remaining%'
+  RentExtendMessage: '&aRégion étendue de &6%extendpercick%&a (Pour %price% %currency%. Nouveau temps restant : &6%remaining%'
   Buymessage: '&aRégion acheté avec succès !'
   RegionAddedToARM: '&7Le panneau de région à été crée et à été ajouté à ARM !'
-  SignRemovedFromRegion: '&7Le panneau de région à été supprimé ! %remaining% restant
-    avant que la région soit supprimé de ARM!'
+  SignRemovedFromRegion: '&7Le panneau de région à été supprimé ! %remaining% restant avant que la région soit supprimé de ARM!'
   SignAddedToRegion: '&7Panneau région à été ajouté !'
   UseANumberAsPrice: '&4SVP définissez un prix à la ligne 4 !'
   RegionRemovedFromARM: '&7La région à été supprimé de ARM!'
@@ -38,8 +32,7 @@ Messages:
   Complete: '&aTerminé!'
   LoadingSchematic: '&7Chargement du Schematic...'
   LoadingSchematicComplete: '&7Schematic chargé !'
-  ResetRegionCooldownError: '&7Vous devez attendre&6 %remainingdays% &7days avant
-    de pouvoir réinitialiser votre région'
+  ResetRegionCooldownError: '&7Vous devez attendre&6 %remainingdays% &7days avant de pouvoir réinitialiser votre région'
   Currency: EUR
   SellSign1: '&2À vendre'
   SellSign2: '%regionid%'
@@ -61,7 +54,7 @@ Messages:
   ContractSign2: '&2available'
   ContractSign3: '%regionid%'
   ContractSign4: '%price%%currency%/%extend%'
-  ContractSoldSign1: Contrat en cours
+  ContractSoldSign1: 'Contrat en cours'
   ContractSoldSign2: '%regionid%/%owner%'
   ContractSoldSign3: '%price%%currency%/%extend%'
   ContractSoldSign4: '%remaining%'

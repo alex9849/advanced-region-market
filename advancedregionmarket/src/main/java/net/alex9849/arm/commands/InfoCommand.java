@@ -93,8 +93,7 @@ public class InfoCommand extends BasicArmCommand {
             for(Region region : regionList) {
                 regions = regions + region.getRegion().getId() + " ";
             }
-            //TODO change message
-            throw new InputException(player, "There are more than one regions available at you position: " + regions);
+            throw new InputException(player, Messages.REGION_INFO_MULTIPLE_REGIONS + regions);
         }
 
         throw new InputException(player, Messages.HAVE_TO_STAND_ON_REGION_TO_SHOW_INFO);

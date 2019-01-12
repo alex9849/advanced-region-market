@@ -47,8 +47,7 @@ public class DoBlockResetCommand extends BasicArmCommand {
         }
 
         if(region.isSubregion()) {
-            //TODO
-            throw new InputException(sender, "Region is a subregion. Please change doblockreset globally for all subregions in the config.yml!");
+            throw new InputException(sender, Messages.SUB_REGION_DO_BLOCKRESET_ERROR);
         }
 
         Boolean boolsetting = Boolean.parseBoolean(args[2]);

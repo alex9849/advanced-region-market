@@ -23,9 +23,9 @@ public class SubRegionCreator {
     private ParticleBorder particleBorder;
 
     public SubRegionCreator(Region parentRegion, Player creator) throws InputException {
-        if(!parentRegion.isTown()) {
+        if(!parentRegion.isAllowSubregions()) {
             //TODO
-            throw new InputException(creator, "This region is not a Town-Region");
+            throw new InputException(creator, "You can not create subregions for this region");
         }
         this.parentRegion = parentRegion;
         this.creator = creator;

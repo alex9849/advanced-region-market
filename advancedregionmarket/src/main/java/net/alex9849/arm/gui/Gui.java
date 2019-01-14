@@ -168,7 +168,7 @@ public class Gui implements Listener {
             itemcounter++;
         }
 
-        if(Permission.hasAnySubregionPermission(player) && region.isTown()){
+        if(Permission.hasAnySubregionPermission(player) && region.isAllowSubregions()){
             itemcounter++;
         }
 
@@ -189,7 +189,7 @@ public class Gui implements Listener {
 
         actitem++;
 
-        if(Permission.hasAnySubregionPermission(player) && region.isTown()){
+        if(Permission.hasAnySubregionPermission(player) && region.isAllowSubregions()){
             //TODO make subregion Item changeable
             ItemStack subregionitem = new ItemStack(Material.GRASS_BLOCK);
             ItemMeta subregionitemmeta = subregionitem.getItemMeta();

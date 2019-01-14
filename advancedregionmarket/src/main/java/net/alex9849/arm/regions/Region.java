@@ -43,13 +43,13 @@ public abstract class Region {
     protected Location teleportLocation;
     protected boolean isDoBlockReset;
     protected List<Region> subregions;
-    protected boolean isTown;
+    protected int allowedSubregions;
     protected boolean isSubregion;
     protected Region parentRegion;
     protected boolean isUserResettable;
 
     public Region(WGRegion region, World regionworld, List<Sign> sellsign, double price, Boolean sold, Boolean autoreset,
-                  Boolean isHotel, Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, boolean isUserResettable, List<Region> subregions, boolean isTown){
+                  Boolean isHotel, Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, boolean isUserResettable, List<Region> subregions, int allowedSubregions){
         this.region = region;
         this.sellsign = new ArrayList<Sign>(sellsign);
         this.sold = sold;
@@ -63,7 +63,7 @@ public abstract class Region {
         this.isHotel = isHotel;
         this.teleportLocation = teleportLoc;
         this.subregions = subregions;
-        this.isTown = isTown;
+        this.allowedSubregions = allowedSubregions;
         this.isSubregion = false;
         this.isUserResettable = isUserResettable;
 
@@ -139,8 +139,12 @@ public abstract class Region {
         this.isSubregion = true;
     }
 
-    public boolean isTown() {
-        return isTown;
+    public int getAllowedSubregions() {
+        return this.allowedSubregions;
+    }
+
+    public boolean isAllowSubregions() {
+        return (this.allowedSubregions > 0);
     }
 
     public void addSubRegion(Region region) {

@@ -9,9 +9,9 @@ import java.util.List;
 public class ClickItem extends ItemStack {
 
 
-    public final ItemStack itemStack;
+    private final ItemStack itemStack;
 
-    public final List<ClickAction> clickActions = new ArrayList<>();
+    private final List<ClickAction> clickActions = new ArrayList<>();
 
     public ClickItem(ItemStack itemStack) {
         this.itemStack = itemStack;
@@ -39,6 +39,10 @@ public class ClickItem extends ItemStack {
 
     public List<ClickAction> getClickActions() {
         return this.clickActions;
+    }
+
+    public ItemStack getItemStack() {
+        return this.itemStack;
     }
 
 }

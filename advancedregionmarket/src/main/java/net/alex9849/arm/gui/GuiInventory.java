@@ -4,8 +4,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 
-import java.util.LinkedList;
-
 public class GuiInventory implements InventoryHolder {
 
     private final ClickItem[] icons;
@@ -40,7 +38,7 @@ public class GuiInventory implements InventoryHolder {
             if(this.icons[i] == null) {
                 inventory.setItem(i, null);
             } else {
-                inventory.setItem(i, this.icons[i].itemStack);
+                inventory.setItem(i, this.icons[i].getItemStack());
             }
 
         }

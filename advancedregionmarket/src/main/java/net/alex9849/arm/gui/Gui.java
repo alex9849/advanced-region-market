@@ -912,11 +912,7 @@ public class Gui implements Listener {
 
         //TODO make items and Names changeable
         GuiInventory inv = new GuiInventory(9, "Teleport to sign or region?");
-        ItemStack signIcon = new ItemStack(Material.SIGN);
-        ItemMeta signIconMeta = signIcon.getItemMeta();
-        signIconMeta.setDisplayName("Teleport to buy sign!");
-        signIcon.setItemMeta(signIconMeta);
-        ClickItem clickSign = new ClickItem(signIcon);
+        ClickItem clickSign = new ClickItem(new ItemStack(Material.SIGN), "Teleport to buy sign!");
         clickSign.addClickAction(new ClickAction() {
             @Override
             public void execute(Player player) throws InputException {
@@ -926,11 +922,7 @@ public class Gui implements Listener {
         });
         inv.addIcon(clickSign, getPosition(1, 2));
 
-        ItemStack regionIcon = new ItemStack(Material.GRASS_BLOCK);
-        ItemMeta regionMeta = regionIcon.getItemMeta();
-        regionMeta.setDisplayName("Teleport to region!");
-        regionIcon.setItemMeta(regionMeta);
-        ClickItem clickRegion = new ClickItem(regionIcon);
+        ClickItem clickRegion = new ClickItem(new ItemStack(Material.GRASS_BLOCK), "Teleport to region!");
         clickRegion.addClickAction(new ClickAction() {
             @Override
             public void execute(Player player) throws InputException {
@@ -1473,7 +1465,9 @@ public class Gui implements Listener {
                 Player player = (Player) event.getWhoClicked();
 
                 ItemStack itemStack = event.getCurrentItem();
-                if (itemStack == null || itemStack.getType() == Material.AIR) return;
+                if (itemStack == null || itemStack.getType() == Material.AIR) {
+                    return;
+                }
 
                 GuiInventory customHolder = (GuiInventory) event.getView().getTopInventory().getHolder();
 
@@ -1493,13 +1487,9 @@ public class Gui implements Listener {
 
     private static GuiInventory placeFillItems(GuiInventory inv) {
         if(Gui.FILL_ITEM != Material.AIR) {
-            ItemStack fillItem = new ItemStack(Gui.FILL_ITEM);
-            ItemMeta fillItemMeta = fillItem.getItemMeta();
-            fillItemMeta.setDisplayName(" ");
-            fillItem.setItemMeta(fillItemMeta);
             for(int i = 0; i < inv.getInventory().getSize(); i++) {
                 if(inv.getIcon(i) == null) {
-                    ClickItem fillIcon = new ClickItem(fillItem).addClickAction(new ClickAction() {
+                    ClickItem fillIcon = new ClickItem(new ItemStack(Gui.FILL_ITEM), " ").addClickAction(new ClickAction() {
                         @Override
                         public void execute(Player player) {
                             return;

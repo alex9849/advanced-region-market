@@ -59,13 +59,14 @@ public class Permission {
     public static final String SUBREGION_REMOVE_AVAILABLE = "arm.subregion.remove.available";
     public static final String SUBREGION_REMOVE_SOLD = "arm.subregion.remove.sold";
     public static final String SUBREGION_CHANGE_IS_HOTEL = "arm.subregion.changeishotel";
+    public static final String SUBREGION_TP = "arm.subregion.tp";
 
     public static boolean hasAnySubregionCreatePermission(CommandSender sender) {
         return (sender.hasPermission(SUBREGION_CREATE_SELL)) || (sender.hasPermission(SUBREGION_CREATE_RENT)) || (sender.hasPermission(SUBREGION_CREATE_CONTRACT));
     }
 
     public static boolean hasAnySubregionPermission(CommandSender sender) {
-        return hasAnySubregionCreatePermission(sender) || (sender.hasPermission(SUBREGION_TOOL)) || (sender.hasPermission(SUBREGION_REMOVE_SOLD)) || (sender.hasPermission(SUBREGION_CHANGE_IS_HOTEL)) || (sender.hasPermission(SUBREGION_REMOVE_AVAILABLE));
+        return hasAnySubregionCreatePermission(sender) || (sender.hasPermission(SUBREGION_TOOL)) || (sender.hasPermission(SUBREGION_REMOVE_SOLD)) || (sender.hasPermission(SUBREGION_CHANGE_IS_HOTEL)) || (sender.hasPermission(SUBREGION_REMOVE_AVAILABLE)) || (sender.hasPermission(SUBREGION_TP));
     }
 
 

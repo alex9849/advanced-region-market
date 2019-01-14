@@ -369,13 +369,13 @@ public abstract class Region {
         sender.sendMessage(Messages.REGION_INFO_TYPE + this.getRegionKind().getDisplayName());
         sender.sendMessage(Messages.REGION_INFO_OWNER + owners);
         sender.sendMessage(Messages.REGION_INFO_MEMBERS + members);
+        sender.sendMessage(Messages.REGION_INFO_HOTEL + Messages.convertYesNo(this.isHotel));
         if(sender.hasPermission(Permission.ADMIN_INFO)){
             String autoresetmsg = Messages.REGION_INFO_AUTORESET + Messages.convertYesNo(this.autoreset);
             if((!ArmSettings.isEnableAutoReset()) && this.autoreset){
                 autoresetmsg = autoresetmsg + " (but globally disabled)";
             }
             sender.sendMessage(autoresetmsg);
-            sender.sendMessage(Messages.REGION_INFO_HOTEL + Messages.convertYesNo(this.isHotel));
             sender.sendMessage(Messages.REGION_INFO_DO_BLOCK_RESET + Messages.convertYesNo(this.isDoBlockReset));
         }
         this.displayExtraInfo(sender);

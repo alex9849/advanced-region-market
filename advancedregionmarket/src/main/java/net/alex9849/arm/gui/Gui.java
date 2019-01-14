@@ -191,27 +191,11 @@ public class Gui implements Listener {
 
         if(Permission.hasAnySubregionPermission(player) && region.isAllowSubregions()){
             //TODO make subregion Item changeable
-            ItemStack subregionitem = new ItemStack(Material.GRASS_BLOCK);
-            ItemMeta subregionitemmeta = subregionitem.getItemMeta();
-            subregionitemmeta.setDisplayName("Subregions");
             //TODO make lore changeable
-            subregionitemmeta.setLore(new ArrayList<>());
-            subregionitem.setItemMeta(subregionitemmeta);
-            ClickItem teleportericon = new ClickItem(subregionitem).addClickAction(new ClickAction() {
+            ClickItem teleportericon = new ClickItem(new ItemStack(Material.GRASS_BLOCK), "Subregions", new ArrayList<>()).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
-                    List<ClickItem> clickItems = new ArrayList<>();
-                    for(Region subregion : region.getSubregions()) {
-                        ItemStack subregionItem = Gui.getRegionDisplayItem(subregion, Messages.GUI_RENT_REGION_LORE, new ArrayList<>(), Messages.GUI_CONTRACT_REGION_LORE);
-                        ClickItem subregionClickItem = new ClickItem(subregionItem);
-                        clickItems.add(subregionClickItem);
-                    }
-                    Gui.openInfiniteGuiList(player, clickItems, 0, "Subregions", new ClickAction() {
-                        @Override
-                        public void execute(Player player) throws InputException {
-                            Gui.decideOwnerManager(player, region);
-                        }
-                    });
+                    Gui.openSubregionList(player, region);
                 }
             });
             inv.addIcon(teleportericon, getPosition(actitem, itemcounter));
@@ -319,6 +303,130 @@ public class Gui implements Listener {
         player.openInventory(inv.getInventory());
 
 
+    }
+
+    public static void openSubregionList(Player player, Region region) {
+        List<ClickItem> clickItems = new ArrayList<>();
+        for(Region subregion : region.getSubregions()) {
+            //TODO Change lore
+            //TODO make lore changeable
+            ItemStack subregionItem = Gui.getRegionDisplayItem(subregion, Messages.GUI_RENT_REGION_LORE, new ArrayList<>(), Messages.GUI_CONTRACT_REGION_LORE);
+            ClickItem subregionClickItem = new ClickItem(subregionItem).addClickAction(new ClickAction() {
+                @Override
+                public void execute(Player player) throws InputException {
+                    Gui.openSubregionManager(player, subregion, region);
+                }
+            });
+            clickItems.add(subregionClickItem);
+        }
+        //TODO make changeable
+        Gui.openInfiniteGuiList(player, clickItems, 0, "Subregions", new ClickAction() {
+            @Override
+            public void execute(Player player) throws InputException {
+                Gui.decideOwnerManager(player, region);
+            }
+        });
+    }
+
+    public static void openSubregionManager(Player player, Region region, Region parentRegion) {
+
+        GuiInventory inv = new GuiInventory(9, region.getRegion().getId());
+
+        //TODO nearly everything
+        int itemcounter = 1;
+        int actitem = 1;
+
+        if(player.hasPermission(Permission.SUBREGION_CHANGE_IS_HOTEL)) {
+            itemcounter++;
+        }
+        if(player.hasPermission(Permission.SUBREGION_TP)) {
+            itemcounter++;
+        }
+        if(player.hasPermission(Permission.MEMBER_INFO)) {
+            itemcounter++;
+        }
+        if(player.hasPermission(Permission.SUBREGION_REMOVE_AVAILABLE) || player.hasPermission(Permission.SUBREGION_REMOVE_SOLD)) {
+            itemcounter++;
+        }
+
+        if(player.hasPermission(Permission.SUBREGION_CHANGE_IS_HOTEL)) {
+            ClickItem isHotelItem = new ClickItem(new ItemStack(Material.RED_BED), "Hotel-function", new ArrayList<String>(Arrays.asList("The hotel function allows you to prevent players", "from breaking blocks they do not have placed", "Status: %hotelfunctionstatus%", "Click to enable/disable")));
+            isHotelItem= isHotelItem.addClickAction(new ClickAction() {
+                @Override
+                public void execute(Player player) throws InputException {
+                    region.setHotel(!region.isHotel());
+                }
+            });
+            inv.addIcon(isHotelItem, getPosition(actitem, itemcounter));
+            actitem++;
+        }
+
+        if(player.hasPermission(Permission.SUBREGION_TP)) {
+            ClickItem tpItem = new ClickItem(new ItemStack(Gui.TP_ITEM), Messages.GUI_TELEPORT_TO_REGION_BUTTON).addClickAction(new ClickAction() {
+                @Override
+                public void execute(Player player) throws InputException {
+                    Teleporter.teleport(player, region);
+                    player.closeInventory();
+                }
+            });
+            inv.addIcon(tpItem, getPosition(actitem, itemcounter));
+            actitem++;
+        }
+
+        if(player.hasPermission(Permission.MEMBER_INFO)) {
+            ClickItem infoItem = new ClickItem(new ItemStack(Gui.INFO_ITEM), Messages.GUI_SHOW_INFOS_BUTTON).addClickAction(new ClickAction() {
+                @Override
+                public void execute(Player player) throws InputException {
+                    region.regionInfo(player);
+                    player.closeInventory();
+                }
+            });
+            inv.addIcon(infoItem, getPosition(actitem, itemcounter));
+            actitem++;
+        }
+
+        if(player.hasPermission(Permission.SUBREGION_REMOVE_AVAILABLE) || player.hasPermission(Permission.SUBREGION_REMOVE_SOLD)) {
+            ClickItem deleteItem = new ClickItem(new ItemStack(Material.BARRIER), "Delete", new ArrayList<String>(Arrays.asList("Delete region")));
+            deleteItem = deleteItem.addClickAction(new ClickAction() {
+                @Override
+                public void execute(Player player) throws InputException {
+                    if(region.isSold() && (!player.hasPermission(Permission.SUBREGION_REMOVE_SOLD))) {
+                        throw new InputException(player, "not allowed to remove sold subregions!");
+                    }
+                    if((!region.isSold()) && (!player.hasPermission(Permission.SUBREGION_REMOVE_AVAILABLE))) {
+                        throw new InputException(player, "not allowed to remove available subregions!");
+                    }
+                    Gui.openWarning(player, "Delete region?", new ClickAction() {
+                        @Override
+                        public void execute(Player player) throws InputException {
+                            region.delete();
+                            player.closeInventory();
+                            player.sendMessage(Messages.PREFIX + "Subregion removed");
+                        }
+                    }, new ClickAction() {
+                        @Override
+                        public void execute(Player player) throws InputException {
+                            Gui.openSubregionManager(player, region, parentRegion);
+                        }
+                    });
+                }
+            });
+            inv.addIcon(deleteItem, getPosition(actitem, itemcounter));
+            actitem++;
+        }
+
+        ClickItem goBack = new ClickItem(new ItemStack(Gui.GO_BACK_ITEM), Messages.GUI_GO_BACK).addClickAction(new ClickAction() {
+            @Override
+            public void execute(Player player) throws InputException {
+                Gui.openSubregionList(player, parentRegion);
+            }
+        });
+        inv.addIcon(goBack, getPosition(actitem, itemcounter));
+        actitem++;
+
+
+        inv = placeFillItems(inv);
+        player.openInventory(inv.getInventory());
     }
 
     public static void openRentRegionManagerOwner(Player player, RentRegion region) {
@@ -634,10 +742,6 @@ public class Gui implements Listener {
         inv = Gui.placeFillItems(inv);
 
         player.openInventory(inv.getInventory());
-
-    }
-
-    public static void openSubRegionManger(Player player, Region region) {
 
     }
 
@@ -1426,6 +1530,16 @@ public class Gui implements Listener {
 
         inv = Gui.placeFillItems(inv);
 
+        player.openInventory(inv.getInventory());
+    }
+
+    public static void openWarning(Player player, String warning, ClickAction yesAction, ClickAction noAction) {
+        GuiInventory inv = new GuiInventory(9, warning);
+        ClickItem yesItem = new ClickItem(new ItemStack(Gui.WARNING_YES_ITEM), Messages.GUI_YES).addClickAction(yesAction);
+        inv.addIcon(yesItem, 0);
+        ClickItem noItem = new ClickItem(new ItemStack(Gui.WARNING_NO_ITEM), Messages.GUI_NO).addClickAction(noAction);
+        inv.addIcon(noItem, 8);
+        inv = Gui.placeFillItems(inv);
         player.openInventory(inv.getInventory());
     }
 

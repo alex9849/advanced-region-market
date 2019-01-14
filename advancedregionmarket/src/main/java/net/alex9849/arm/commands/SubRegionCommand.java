@@ -1,13 +1,12 @@
 package net.alex9849.arm.commands;
 
 import net.alex9849.arm.Handler.CommandHandler;
-import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.SubRegions.commands.CreateCommand;
 import net.alex9849.arm.SubRegions.commands.HotelCommand;
+import net.alex9849.arm.SubRegions.commands.TPCommand;
 import net.alex9849.arm.SubRegions.commands.ToolCommand;
 import net.alex9849.arm.exceptions.InputException;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -28,6 +27,7 @@ public class SubRegionCommand extends BasicArmCommand {
         commands.add(new ToolCommand());
         commands.add(new CreateCommand());
         commands.add(new HotelCommand());
+        commands.add(new TPCommand());
         this.commandHandler.addCommands(commands);
     }
 

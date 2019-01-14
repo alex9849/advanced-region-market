@@ -32,7 +32,7 @@ public class RegionManager {
         saveRegionsConf();
     }
 
-    protected static void writeRegionToYamlObject(Region region) {
+    private static void writeRegionToYamlObject(Region region) {
         regionsconf.set("Regions." + region.getRegionworld().getName() + "." + region.getRegion().getId(), null);
         regionsconf.set("Regions." + region.getRegionworld().getName() + "." + region.getRegion().getId() + ".price", region.getPrice());
         regionsconf.set("Regions." + region.getRegionworld().getName() + "." + region.getRegion().getId() + ".sold", region.isSold());
@@ -118,6 +118,16 @@ public class RegionManager {
         return true;
     }
 
+    public static void saveRegion(Region sregion) {
+        for(Region region : regionList) {
+            if((region == sregion) || region.getSubregions().contains(sregion)) {
+                writeRegionToYamlObject(region);
+                saveRegionsConf();
+                return;
+            }
+        }
+    }
+
     public static void writeRegionsToConfig() {
         regionsconf = new YamlConfiguration();
         for(Region region : regionList) {
@@ -131,6 +141,7 @@ public class RegionManager {
     }
 
     public static void loadRegionsFromConfig() {
+        List<Region> loadedRegions = new ArrayList<>();
         if(RegionManager.getRegionsConf().get("Regions") != null) {
             LinkedList<String> worlds = new LinkedList<String>(RegionManager.getRegionsConf().getConfigurationSection("Regions").getKeys(false));
             if(worlds != null) {
@@ -266,16 +277,16 @@ public class RegionManager {
                                             long rentExtendPerClick = RegionManager.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".rentExtendPerClick");
                                             Region armregion = new RentRegion(region, regionWorld, regionsigns, price, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, teleportLoc,
                                                     lastreset, true, payedtill, maxRentTime, rentExtendPerClick, subregions, true);
-                                            RegionManager.addRegion(armregion);
+                                            loadedRegions.add(armregion);
                                         } else if (regiontype.equalsIgnoreCase("sellregion")){
                                             Region armregion = new SellRegion(region, regionWorld, regionsigns, price, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, teleportLoc, lastreset, true, subregions, true);
-                                            RegionManager.addRegion(armregion);
+                                            loadedRegions.add(armregion);
                                         } else if (regiontype.equalsIgnoreCase("contractregion")) {
                                             long payedtill = RegionManager.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".payedTill");
                                             long extendTime = RegionManager.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".extendTime");
                                             Boolean terminated = RegionManager.getRegionsConf().getBoolean("Regions." + worlds.get(y) + "." + regions.get(i) + ".terminated");
                                             Region armregion = new ContractRegion(region, regionWorld, regionsigns, price, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, teleportLoc, lastreset, true,extendTime, payedtill, terminated, subregions, true);
-                                            RegionManager.addRegion(armregion);
+                                            loadedRegions.add(armregion);
                                         }
                                     }
                                 }
@@ -285,6 +296,7 @@ public class RegionManager {
                 }
             }
         }
+        regionList = loadedRegions;
     }
 
     public static void generatedefaultConfig(){

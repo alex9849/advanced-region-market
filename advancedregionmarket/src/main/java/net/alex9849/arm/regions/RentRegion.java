@@ -146,7 +146,7 @@ public class RentRegion extends Region {
 
         this.updateSigns();
 
-        RegionManager.writeRegionsToConfig();
+        RegionManager.saveRegion(this);
 
     }
 
@@ -403,7 +403,7 @@ public class RentRegion extends Region {
             this.giveParentRegionOwnerMoney(this.price);
             this.payedTill = this.payedTill + this.rentExtendPerClick;
 
-            RegionManager.writeRegionsToConfig();
+            RegionManager.saveRegion(this);
 
             String message = this.getConvertedMessage(Messages.RENT_EXTEND_MESSAGE);
             player.sendMessage(Messages.PREFIX + message);

@@ -124,7 +124,7 @@ public abstract class Region {
 
     public void setTeleportLocation(Location loc) {
         this.teleportLocation = loc;
-        RegionManager.writeRegionsToConfig();
+        RegionManager.saveRegion(this);
     }
 
     public Region getParentRegion() {
@@ -134,7 +134,7 @@ public abstract class Region {
         return null;
     }
 
-    public void setParentRegion(Region region) {
+    private void setParentRegion(Region region) {
         this.parentRegion = region;
         this.isSubregion = true;
     }
@@ -146,7 +146,7 @@ public abstract class Region {
     public void addSubRegion(Region region) {
         region.setParentRegion(this);
         this.subregions.add(region);
-        RegionManager.writeRegionsToConfig();
+        RegionManager.saveRegion(this);
     }
 
     public void delete() {
@@ -185,7 +185,7 @@ public abstract class Region {
     public void addSign(Location loc){
         Sign newsign = (Sign) loc.getBlock().getState();
         sellsign.add(newsign);
-        RegionManager.writeRegionsToConfig();
+        RegionManager.saveRegion(this);
         this.updateSignText(newsign);
         this.getRegionworld().save();
 
@@ -216,7 +216,7 @@ public abstract class Region {
                             destroyer.sendMessage(Messages.PREFIX + Messages.REGION_REMOVED_FROM_ARM);
                         }
                     }
-                    RegionManager.writeRegionsToConfig();
+                    RegionManager.saveRegion(this);
 
                     return true;
                 }
@@ -302,7 +302,7 @@ public abstract class Region {
             return false;
         }
         this.regionKind = kind;
-        RegionManager.writeRegionsToConfig();
+        RegionManager.saveRegion(this);
         return true;
     }
 
@@ -398,7 +398,7 @@ public abstract class Region {
 
     public void setAutoreset(Boolean state){
         this.autoreset = state;
-        RegionManager.writeRegionsToConfig();
+        RegionManager.saveRegion(this);
     }
 
     public Material getLogo() {
@@ -451,7 +451,7 @@ public abstract class Region {
         this.resetBlocks();
         GregorianCalendar calendar = new GregorianCalendar();
         this.lastreset = calendar.getTimeInMillis();
-        RegionManager.writeRegionsToConfig();
+        RegionManager.saveRegion(this);
         player.sendMessage(Messages.PREFIX + Messages.RESET_COMPLETE);
     }
 
@@ -543,7 +543,7 @@ public abstract class Region {
 
     public void setHotel(Boolean bool) {
         this.isHotel = bool;
-        RegionManager.writeRegionsToConfig();
+        RegionManager.saveRegion(this);
     }
 
     public void unsell(){
@@ -559,7 +559,7 @@ public abstract class Region {
         for(int i = 0; i < this.sellsign.size(); i++){
             this.updateSignText(this.sellsign.get(i));
         }
-        RegionManager.writeRegionsToConfig();
+        RegionManager.saveRegion(this);
     }
 
     public boolean isDoBlockReset() {
@@ -568,7 +568,7 @@ public abstract class Region {
 
     public void setDoBlockReset(Boolean bool) {
         this.isDoBlockReset = bool;
-        RegionManager.writeRegionsToConfig();
+        RegionManager.saveRegion(this);
     }
 
     public static void setCompleteTabRegions(Boolean bool) {

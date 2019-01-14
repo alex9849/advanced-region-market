@@ -112,7 +112,7 @@ public class SellRegion extends Region {
 
         this.updateSigns();
 
-        RegionManager.writeRegionsToConfig();
+        RegionManager.saveRegion(this);
     }
 
     @Override

@@ -115,6 +115,9 @@ public class SubRegionCreator {
                 throw new InputException(this.creator, "overlap");
             }
         }
+        if (this.getParentRegion().getSubregions().size() >= this.getParentRegion().getAllowedSubregions()) {
+            throw new InputException(this.getCreator(), "You are only allowed to create max " + this.getParentRegion().getAllowedSubregions() + " subregions");
+        }
 
         int subregionID = 1;
         boolean inUse = false;

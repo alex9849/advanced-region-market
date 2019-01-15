@@ -58,17 +58,17 @@ public class RegionManager {
             if(subregion instanceof SellRegion) {
                 regionsconf.set("Regions." + region.getRegionworld().getName() + "." + region.getRegion().getId() + ".subregions." + subregion.getRegion().getId() + ".regiontype", "sellregion");
             } else if (subregion instanceof RentRegion) {
-                RentRegion rentRegion = (RentRegion) region;
-                regionsconf.set("Regions." + rentRegion.getRegionworld().getName() + "." + rentRegion.getRegion().getId() + ".subregions." + subregion.getRegion().getId() + ".regiontype", "rentregion");
-                regionsconf.set("Regions." + rentRegion.getRegionworld().getName() + "." + rentRegion.getRegion().getId() + ".subregions." + subregion.getRegion().getId() + ".payedTill", rentRegion.getPayedTill());
-                regionsconf.set("Regions." + rentRegion.getRegionworld().getName() + "." + rentRegion.getRegion().getId() + ".subregions." + subregion.getRegion().getId() + ".maxRentTime", rentRegion.getMaxRentTime());
-                regionsconf.set("Regions." + rentRegion.getRegionworld().getName() + "." + rentRegion.getRegion().getId() + ".subregions." + subregion.getRegion().getId() + ".rentExtendPerClick", rentRegion.getRentExtendPerClick());
+                RentRegion rentRegion = (RentRegion) subregion;
+                regionsconf.set("Regions." + region.getRegionworld().getName() + "." + region.getRegion().getId() + ".subregions." + subregion.getRegion().getId() + ".regiontype", "rentregion");
+                regionsconf.set("Regions." + region.getRegionworld().getName() + "." + region.getRegion().getId() + ".subregions." + subregion.getRegion().getId() + ".payedTill", rentRegion.getPayedTill());
+                regionsconf.set("Regions." + region.getRegionworld().getName() + "." + region.getRegion().getId() + ".subregions." + subregion.getRegion().getId() + ".maxRentTime", rentRegion.getMaxRentTime());
+                regionsconf.set("Regions." + region.getRegionworld().getName() + "." + region.getRegion().getId() + ".subregions." + subregion.getRegion().getId() + ".rentExtendPerClick", rentRegion.getRentExtendPerClick());
             } else if (subregion instanceof ContractRegion) {
-                ContractRegion contractRegion = (ContractRegion) region;
-                regionsconf.set("Regions." + contractRegion.getRegionworld().getName() + "." + contractRegion.getRegion().getId() + ".subregions." + subregion.getRegion().getId() + ".regiontype", "contractregion");
-                regionsconf.set("Regions." + contractRegion.getRegionworld().getName() + "." + contractRegion.getRegion().getId() + ".subregions." + subregion.getRegion().getId() + ".payedTill", contractRegion.getPayedTill());
-                regionsconf.set("Regions." + contractRegion.getRegionworld().getName() + "." + contractRegion.getRegion().getId() + ".subregions." + subregion.getRegion().getId() + ".extendTime", contractRegion.getExtendTime());
-                regionsconf.set("Regions." + contractRegion.getRegionworld().getName() + "." + contractRegion.getRegion().getId() + ".subregions." + subregion.getRegion().getId() + ".terminated", contractRegion.isTerminated());
+                ContractRegion contractRegion = (ContractRegion) subregion;
+                regionsconf.set("Regions." + region.getRegionworld().getName() + "." + region.getRegion().getId() + ".subregions." + subregion.getRegion().getId() + ".regiontype", "contractregion");
+                regionsconf.set("Regions." + region.getRegionworld().getName() + "." + region.getRegion().getId() + ".subregions." + subregion.getRegion().getId() + ".payedTill", contractRegion.getPayedTill());
+                regionsconf.set("Regions." + region.getRegionworld().getName() + "." + region.getRegion().getId() + ".subregions." + subregion.getRegion().getId() + ".extendTime", contractRegion.getExtendTime());
+                regionsconf.set("Regions." + region.getRegionworld().getName() + "." + region.getRegion().getId() + ".subregions." + subregion.getRegion().getId() + ".terminated", contractRegion.isTerminated());
             }
         }
 
@@ -345,8 +345,11 @@ public class RegionManager {
     }
 
     public static void updateRegions(){
-        for(int i = 0; i < RegionManager.getRegionList().size(); i++) {
-            RegionManager.getRegionList().get(i).updateRegion();
+        for(Region region : regionList) {
+            region.updateRegion();
+            for(Region subregion : region.getSubregions()) {
+                subregion.updateRegion();
+            }
         }
     }
 

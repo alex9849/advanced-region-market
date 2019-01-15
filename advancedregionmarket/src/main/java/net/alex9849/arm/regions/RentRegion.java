@@ -117,7 +117,7 @@ public class RentRegion extends Region {
     public void displayExtraInfo(CommandSender sender) {
         sender.sendMessage(Messages.REGION_INFO_REMAINING_TIME + this.calcRemainingTime());
         sender.sendMessage(Messages.REGION_INFO_EXTEND_PER_CLICK + this.getExtendPerClick());
-        sender.sendMessage(Messages.REGION_INFO_MAX_RENT_TIME + this.getMaxRentTime());
+        sender.sendMessage(Messages.REGION_INFO_MAX_RENT_TIME + this.getMaxRentTimeString());
     }
 
     @Override
@@ -325,7 +325,7 @@ public class RentRegion extends Region {
         return timetoString;
     }
 
-    public String getMaxRentTime(){
+    public String getMaxRentTimeString(){
         long time = this.maxRentTime;
 
         long remainingDays = TimeUnit.DAYS.convert(time, TimeUnit.MILLISECONDS);
@@ -465,9 +465,14 @@ public class RentRegion extends Region {
     @Override
     public String getConvertedMessage(String message) {
         message = super.getConvertedMessage(message);
-        message = message.replace("%maxrenttime%", this.getMaxRentTime());
+        message = message.replace("%maxrenttime%", this.getMaxRentTimeString());
         message = message.replace("%remaining%", this.calcRemainingTime());
         message = message.replace("%extendperclick%", this.getExtendPerClick());
         return message;
     }
+
+    public long getMaxRentTime() {
+        return this.maxRentTime;
+    }
+
 }

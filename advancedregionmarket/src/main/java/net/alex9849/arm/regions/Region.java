@@ -435,8 +435,11 @@ public abstract class Region {
     public void teleport(Player player, boolean teleportToSign) throws InputException {
         if(teleportToSign) {
             for(Sign sign : this.sellsign) {
-                Teleporter.teleport(player, sign.getLocation());
+                if(Teleporter.teleport(player, sign)) {
+                    return;
+                }
             }
+            throw new InputException(player, Messages.TELEPORTER_NO_SAVE_LOCATION_FOUND);
         } else {
             Teleporter.teleport(player, this);
         }

@@ -177,7 +177,7 @@ public class ARMListener implements Listener {
 
                 if(!priceready) {
                     try{
-                        String[] priceline = sign.getLine(3).split(";", 3);
+                        String[] priceline = sign.getLine(3).split("(;|:)", 3);
                         String pricestring = priceline[0];
                         String extendPerClickString = priceline[1];
                         String maxRentTimeString = priceline[2];
@@ -273,7 +273,7 @@ public class ARMListener implements Listener {
 
                 if(!priceready) {
                     try{
-                        String[] priceline = sign.getLine(3).split(";", 2);
+                        String[] priceline = sign.getLine(3).split("(;|:)", 2);
                         String pricestring = priceline[0];
                         String extendtimeString = priceline[1];
                         extendtime = RentRegion.stringToTime(extendtimeString);

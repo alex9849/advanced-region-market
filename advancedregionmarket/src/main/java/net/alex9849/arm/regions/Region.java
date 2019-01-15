@@ -114,6 +114,11 @@ public abstract class Region {
         }
     }
 
+    public void setAllowedSubregions(int allowedSubregions) {
+        this.allowedSubregions = allowedSubregions;
+        RegionManager.saveRegion(this);
+    }
+
     public boolean isUserResettable() {
         return this.isUserResettable;
     }
@@ -345,6 +350,7 @@ public abstract class Region {
     public void regionInfo(CommandSender sender){
         String owners = "";
         String members = "";
+        String subregions = "";
         List<UUID> ownerslist = this.getRegion().getOwners();
         List<UUID> memberslist = this.getRegion().getMembers();
         for(int i = 0; i < ownerslist.size() - 1; i++){
@@ -358,6 +364,12 @@ public abstract class Region {
         }
         if(memberslist.size() != 0){
             members = members + Bukkit.getOfflinePlayer(memberslist.get(memberslist.size() - 1)).getName();
+        }
+        for (int i = 0; i < this.getSubregions().size() - 1; i++) {
+            subregions = subregions + this.getSubregions().get(i).getRegion().getId() + ", ";
+        }
+        if(this.getSubregions().size() != 0){
+            subregions = subregions + this.getSubregions().get(this.getSubregions().size() - 1).getRegion().getId();
         }
 
 
@@ -379,6 +391,13 @@ public abstract class Region {
             sender.sendMessage(Messages.REGION_INFO_DO_BLOCK_RESET + Messages.convertYesNo(this.isDoBlockReset));
         }
         this.displayExtraInfo(sender);
+        if(!this.isSubregion()) {
+            //TODO change message
+            sender.sendMessage("Allowed subregions: " + this.getAllowedSubregions());
+            sender.sendMessage("Subregions: " + subregions);
+        }
+
+
         if(sender instanceof Player) {
             Player player = (Player) sender;
             Location rpos1 = new Location(this.getRegionworld(), this.getRegion().getMinPoint().getX(), this.getRegion().getMinPoint().getY(), this.getRegion().getMinPoint().getZ());

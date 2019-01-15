@@ -137,6 +137,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         commands.add(new BuyCommand());
         commands.add(new SellBackCommand());
         commands.add(new SubRegionCommand());
+        commands.add(new SetSubregionLimit());
         AdvancedRegionMarket.commandHandler.addCommands(commands);
 
         SellPreset.loadCommands();

@@ -50,6 +50,7 @@ public class Permission {
     public static final String ADMIN_TERMINATE_CONTRACT = "arm.admin.terminatecontract";
     public static final String ADMIN_REGION_STATS = "arm.admin.regionstatus";
     public static final String ADMIN_BYPASS_TELEPORTER_COOLDOWN = "arm.admin.bypassteleportercooldown";
+    public static final String ADMIN_SET_SUBREGION_LIMIT = "arm.admin.setsubregionlimit";
 
 
     public static final String SUBREGION_TOOL = "arm.subregion.tool";

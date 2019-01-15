@@ -63,6 +63,7 @@ public class ResetBlocksCommand extends BasicArmCommand {
                 }
                 if(resregion.timeSinceLastReset() >= Region.getResetCooldown()){
                     Gui.openRegionResetWarning(player, resregion, false);
+                    return true;
                 } else {
                     String message = resregion.getConvertedMessage(Messages.RESET_REGION_COOLDOWN_ERROR);
                     throw new InputException(player, message);
@@ -70,7 +71,6 @@ public class ResetBlocksCommand extends BasicArmCommand {
             } else {
                 throw new InputException(player, Messages.REGION_NOT_OWN);
             }
-            return true;
         }
     }
 

@@ -60,6 +60,8 @@ public class Permission {
     public static final String SUBREGION_REMOVE_SOLD = "arm.subregion.remove.sold";
     public static final String SUBREGION_CHANGE_IS_HOTEL = "arm.subregion.changeishotel";
     public static final String SUBREGION_TP = "arm.subregion.tp";
+    public static final String SUBREGION_UNSELL = "arm.subregion.unsell";
+    public static final String SUBREGION_RESETREGIONBLOCKS = "arm.subregion.resetregionblocks";
 
     public static boolean hasAnySubregionCreatePermission(CommandSender sender) {
         return (sender.hasPermission(SUBREGION_CREATE_SELL)) || (sender.hasPermission(SUBREGION_CREATE_RENT)) || (sender.hasPermission(SUBREGION_CREATE_CONTRACT));

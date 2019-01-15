@@ -447,6 +447,10 @@ public class Gui implements Listener {
             itemcounter++;
         }
 
+        if(Permission.hasAnySubregionPermission(player) && region.isAllowSubregions()){
+            itemcounter++;
+        }
+
         GuiInventory inv = new GuiInventory(9 , region.getRegion().getId());
 
 
@@ -464,6 +468,19 @@ public class Gui implements Listener {
         inv.addIcon(membersicon, getPosition(actitem, itemcounter));
 
         actitem++;
+
+        if(Permission.hasAnySubregionPermission(player) && region.isAllowSubregions()){
+            //TODO make subregion Item changeable
+            //TODO make lore changeable
+            ClickItem teleportericon = new ClickItem(new ItemStack(Material.GRASS_BLOCK), "Subregions", new ArrayList<>()).addClickAction(new ClickAction() {
+                @Override
+                public void execute(Player player) throws InputException {
+                    Gui.openSubregionList(player, region);
+                }
+            });
+            inv.addIcon(teleportericon, getPosition(actitem, itemcounter));
+            actitem++;
+        }
 
         if(player.hasPermission(Permission.MEMBER_TP)) {
             ItemStack teleporteritem = new ItemStack(Gui.TP_ITEM);
@@ -605,6 +622,10 @@ public class Gui implements Listener {
             itemcounter++;
         }
 
+        if(Permission.hasAnySubregionPermission(player) && region.isAllowSubregions()){
+            itemcounter++;
+        }
+
         GuiInventory inv = new GuiInventory(9 , region.getRegion().getId());
 
 
@@ -622,6 +643,19 @@ public class Gui implements Listener {
         inv.addIcon(membersicon, getPosition(actitem, itemcounter));
 
         actitem++;
+
+        if(Permission.hasAnySubregionPermission(player) && region.isAllowSubregions()){
+            //TODO make subregion Item changeable
+            //TODO make lore changeable
+            ClickItem teleportericon = new ClickItem(new ItemStack(Material.GRASS_BLOCK), "Subregions", new ArrayList<>()).addClickAction(new ClickAction() {
+                @Override
+                public void execute(Player player) throws InputException {
+                    Gui.openSubregionList(player, region);
+                }
+            });
+            inv.addIcon(teleportericon, getPosition(actitem, itemcounter));
+            actitem++;
+        }
 
         if(player.hasPermission(Permission.MEMBER_TP)) {
             ItemStack teleporteritem = new ItemStack(Gui.TP_ITEM);

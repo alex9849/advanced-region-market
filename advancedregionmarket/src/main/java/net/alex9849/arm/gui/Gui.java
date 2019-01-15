@@ -57,12 +57,7 @@ public class Gui implements Listener {
 
 
         if(config.getBoolean("GUI.DisplayRegionOwnerButton")){
-            ItemStack myRegions = new ItemStack(Gui.REGION_OWNER_ITEM);
-            ItemMeta myRegionsMeta = myRegions.getItemMeta();
-            myRegionsMeta.setDisplayName(Messages.GUI_MY_OWN_REGIONS);
-            myRegions.setItemMeta(myRegionsMeta);
-
-            ClickItem regionMenu = new ClickItem(myRegions).addClickAction(new ClickAction() {
+            ClickItem regionMenu = new ClickItem(new ItemStack(Gui.REGION_OWNER_ITEM), Messages.GUI_MY_OWN_REGIONS).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) {
                     Gui.openRegionOwnerGui(player, true);
@@ -75,12 +70,7 @@ public class Gui implements Listener {
             }
         }
         if(config.getBoolean("GUI.DisplayRegionMemberButton")){
-            ItemStack mymRegions = new ItemStack(Gui.REGION_MEMBER_ITEM);
-            ItemMeta mymRegionsMeta = mymRegions.getItemMeta();
-            mymRegionsMeta.setDisplayName(Messages.GUI_MY_MEMBER_REGIONS);
-            mymRegions.setItemMeta(mymRegionsMeta);
-
-            ClickItem regionMemberMenu = new ClickItem(mymRegions).addClickAction(new ClickAction() {
+            ClickItem regionMemberMenu = new ClickItem(new ItemStack(Gui.REGION_MEMBER_ITEM), Messages.GUI_MY_MEMBER_REGIONS).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) {
                     Gui.openRegionMemberGui(player, true);
@@ -94,12 +84,7 @@ public class Gui implements Listener {
             }
         }
         if(config.getBoolean("GUI.DisplayRegionFinderButton")){
-            ItemStack searchRegion = new ItemStack(Gui.REGION_FINDER_ITEM);
-            ItemMeta searchRegionMeta = searchRegion.getItemMeta();
-            searchRegionMeta.setDisplayName(Messages.GUI_SEARCH_FREE_REGION);
-            searchRegion.setItemMeta(searchRegionMeta);
-
-            ClickItem regionfinder = new ClickItem(searchRegion).addClickAction(new ClickAction() {
+            ClickItem regionfinder = new ClickItem(new ItemStack(Gui.REGION_FINDER_ITEM), Messages.GUI_SEARCH_FREE_REGION).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) {
                     Gui.openRegionFinder(player, true);
@@ -203,12 +188,8 @@ public class Gui implements Listener {
         }
 
         if(player.hasPermission(Permission.MEMBER_TP)){
-            ItemStack teleporteritem = new ItemStack(Gui.TP_ITEM);
-            ItemMeta teleporteritemmeta = teleporteritem.getItemMeta();
-            teleporteritemmeta.setDisplayName(Messages.GUI_TELEPORT_TO_REGION_BUTTON);
-            teleporteritemmeta.setLore(Messages.GUI_TELEPORT_TO_REGION_BUTTON_LORE);
-            teleporteritem.setItemMeta(teleporteritemmeta);
-            ClickItem teleportericon = new ClickItem(teleporteritem).addClickAction(new ClickAction() {
+            ClickItem teleportericon = new ClickItem(new ItemStack(Gui.TP_ITEM), Messages.GUI_TELEPORT_TO_REGION_BUTTON, Messages.GUI_TELEPORT_TO_REGION_BUTTON_LORE);
+            teleportericon = teleportericon.addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
                     Teleporter.teleport(player, region);
@@ -221,16 +202,12 @@ public class Gui implements Listener {
         }
 
         if(player.hasPermission(Permission.MEMBER_RESETREGIONBLOCKS) && region.isUserResettable()) {
-            ItemStack resetItem = new ItemStack(Gui.RESET_ITEM);
-            ItemMeta resetitemItemMeta = resetItem.getItemMeta();
-            resetitemItemMeta.setDisplayName(Messages.GUI_RESET_REGION_BUTTON);
             List<String> message = new LinkedList<>(Messages.GUI_RESET_REGION_BUTTON_LORE);
             for (int i = 0; i < message.size(); i++) {
                 message.set(i, message.get(i).replace("%days%", Region.getResetCooldown() + ""));
             }
-            resetitemItemMeta.setLore(message);
-            resetItem.setItemMeta(resetitemItemMeta);
-            ClickItem reseticon = new ClickItem(resetItem).addClickAction(new ClickAction() {
+            ClickItem reseticon = new ClickItem(new ItemStack(Gui.RESET_ITEM), Messages.GUI_RESET_REGION_BUTTON, message);
+            reseticon = reseticon.addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
                     if(region.timeSinceLastReset() >= Region.getResetCooldown()){
@@ -247,16 +224,11 @@ public class Gui implements Listener {
         }
 
         if(player.hasPermission(Permission.MEMBER_SELLBACK)) {
-            ItemStack resetItem = new ItemStack(Gui.SELL_REGION_ITEM);
-            ItemMeta resetitemItemMeta = resetItem.getItemMeta();
-            resetitemItemMeta.setDisplayName(Messages.GUI_USER_SELL_BUTTON);
             List<String> message = new LinkedList<>(Messages.GUI_USER_SELL_BUTTON_LORE);
             for (int i = 0; i < message.size(); i++) {
                 message.set(i, region.getConvertedMessage(message.get(i)));
             }
-            resetitemItemMeta.setLore(message);
-            resetItem.setItemMeta(resetitemItemMeta);
-            ClickItem reseticon = new ClickItem(resetItem).addClickAction(new ClickAction() {
+            ClickItem reseticon = new ClickItem(new ItemStack(Gui.SELL_REGION_ITEM), Messages.GUI_USER_SELL_BUTTON, message).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) {
                     Gui.openSellWarning(player, region, true);
@@ -268,11 +240,7 @@ public class Gui implements Listener {
         }
 
         if(player.hasPermission(Permission.MEMBER_INFO)) {
-            ItemStack infoitem = new ItemStack(Gui.INFO_ITEM);
-            ItemMeta infoitemmeta = infoitem.getItemMeta();
-            infoitemmeta.setDisplayName(Messages.GUI_SHOW_INFOS_BUTTON);
-            infoitem.setItemMeta(infoitemmeta);
-            ClickItem infoicon = new ClickItem(infoitem).addClickAction(new ClickAction() {
+            ClickItem infoicon = new ClickItem(new ItemStack(Gui.INFO_ITEM), Messages.GUI_SHOW_INFOS_BUTTON).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) {
                     region.regionInfo(player);
@@ -284,11 +252,7 @@ public class Gui implements Listener {
             actitem++;
         }
 
-        ItemStack gobackitem = new ItemStack(Gui.GO_BACK_ITEM);
-        ItemMeta gobackitemmeta = gobackitem.getItemMeta();
-        gobackitemmeta.setDisplayName(Messages.GUI_GO_BACK);
-        gobackitem.setItemMeta(gobackitemmeta);
-        ClickItem gobackicon = new ClickItem(gobackitem).addClickAction(new ClickAction() {
+        ClickItem gobackicon = new ClickItem(new ItemStack(Gui.GO_BACK_ITEM), Messages.GUI_GO_BACK).addClickAction(new ClickAction() {
             @Override
             public void execute(Player player) {
                 Gui.openRegionOwnerGui(player, isMainPageMultipleItems());
@@ -483,12 +447,11 @@ public class Gui implements Listener {
         }
 
         if(player.hasPermission(Permission.MEMBER_TP)) {
-            ItemStack teleporteritem = new ItemStack(Gui.TP_ITEM);
-            ItemMeta teleporteritemmeta = teleporteritem.getItemMeta();
-            teleporteritemmeta.setDisplayName(Messages.GUI_TELEPORT_TO_REGION_BUTTON);
-            teleporteritemmeta.setLore(Messages.GUI_TELEPORT_TO_REGION_BUTTON_LORE);
-            teleporteritem.setItemMeta(teleporteritemmeta);
-            ClickItem teleportericon = new ClickItem(teleporteritem).addClickAction(new ClickAction() {
+            List<String> message = new LinkedList<>(Messages.GUI_TELEPORT_TO_REGION_BUTTON_LORE);
+            for (int i = 0; i < message.size(); i++) {
+                message.set(i, message.get(i).replace("%days%", Region.getResetCooldown() + ""));
+            }
+            ClickItem teleportericon = new ClickItem(new ItemStack(Gui.TP_ITEM), Messages.GUI_TELEPORT_TO_REGION_BUTTON, message).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
                     Teleporter.teleport(player, region);
@@ -502,17 +465,11 @@ public class Gui implements Listener {
 
 
         if(player.hasPermission(Permission.MEMBER_RESETREGIONBLOCKS) && region.isUserResettable()) {
-
-            ItemStack resetItem = new ItemStack(Gui.RESET_ITEM);
-            ItemMeta resetitemItemMeta = resetItem.getItemMeta();
-            resetitemItemMeta.setDisplayName(Messages.GUI_RESET_REGION_BUTTON);
             List<String> resetmessage = new LinkedList<>(Messages.GUI_RESET_REGION_BUTTON_LORE);
             for (int i = 0; i < resetmessage.size(); i++) {
                 resetmessage.set(i, resetmessage.get(i).replace("%days%", Region.getResetCooldown() + ""));
             }
-            resetitemItemMeta.setLore(resetmessage);
-            resetItem.setItemMeta(resetitemItemMeta);
-            ClickItem reseticon = new ClickItem(resetItem).addClickAction(new ClickAction() {
+            ClickItem reseticon = new ClickItem(new ItemStack(Gui.RESET_ITEM), Messages.GUI_RESET_REGION_BUTTON, resetmessage).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
                     if(region.timeSinceLastReset() >= Region.getResetCooldown()){
@@ -529,16 +486,11 @@ public class Gui implements Listener {
         }
 
         if(player.hasPermission(Permission.MEMBER_SELLBACK)) {
-            ItemStack resetItem = new ItemStack(Gui.SELL_REGION_ITEM);
-            ItemMeta resetitemItemMeta = resetItem.getItemMeta();
-            resetitemItemMeta.setDisplayName(Messages.GUI_USER_SELL_BUTTON);
             List<String> message = new LinkedList<>(Messages.GUI_USER_SELL_BUTTON_LORE);
             for (int i = 0; i < message.size(); i++) {
                 message.set(i, region.getConvertedMessage(message.get(i)));
             }
-            resetitemItemMeta.setLore(message);
-            resetItem.setItemMeta(resetitemItemMeta);
-            ClickItem reseticon = new ClickItem(resetItem).addClickAction(new ClickAction() {
+            ClickItem reseticon = new ClickItem(new ItemStack(Gui.SELL_REGION_ITEM), Messages.GUI_USER_SELL_BUTTON, message).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) {
                     Gui.openSellWarning(player, region, true);
@@ -549,16 +501,11 @@ public class Gui implements Listener {
             actitem++;
         }
 
-        ItemStack extendItem = new ItemStack(Gui.EXTEND_ITEM);
-        ItemMeta extendItemMeta = extendItem.getItemMeta();
-        extendItemMeta.setDisplayName(Messages.GUI_EXTEND_BUTTON);
         List<String> extendmessage = new LinkedList<>(Messages.GUI_EXTEND_BUTTON_LORE);
         for (int i = 0; i < extendmessage.size(); i++) {
             extendmessage.set(i, region.getConvertedMessage(extendmessage.get(i)));
         }
-        extendItemMeta.setLore(extendmessage);
-        extendItem.setItemMeta(extendItemMeta);
-        ClickItem extendicon = new ClickItem(extendItem).addClickAction(new ClickAction() {
+        ClickItem extendicon = new ClickItem(new ItemStack(Gui.EXTEND_ITEM), Messages.GUI_EXTEND_BUTTON, extendmessage).addClickAction(new ClickAction() {
             @Override
             public void execute(Player player) throws InputException {
                 region.buy(player);
@@ -570,11 +517,7 @@ public class Gui implements Listener {
         actitem++;
 
         if(player.hasPermission(Permission.MEMBER_INFO)){
-            ItemStack infoitem = new ItemStack(Gui.INFO_ITEM);
-            ItemMeta infoitemmeta = infoitem.getItemMeta();
-            infoitemmeta.setDisplayName(Messages.GUI_SHOW_INFOS_BUTTON);
-            infoitem.setItemMeta(infoitemmeta);
-            ClickItem infoicon = new ClickItem(infoitem).addClickAction(new ClickAction() {
+            ClickItem infoicon = new ClickItem(new ItemStack(Gui.INFO_ITEM), Messages.GUI_SHOW_INFOS_BUTTON).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) {
                     region.regionInfo(player);
@@ -586,11 +529,7 @@ public class Gui implements Listener {
             actitem++;
         }
 
-        ItemStack gobackitem = new ItemStack(Gui.GO_BACK_ITEM);
-        ItemMeta gobackitemmeta = gobackitem.getItemMeta();
-        gobackitemmeta.setDisplayName(Messages.GUI_GO_BACK);
-        gobackitem.setItemMeta(gobackitemmeta);
-        ClickItem gobackicon = new ClickItem(gobackitem).addClickAction(new ClickAction() {
+        ClickItem gobackicon = new ClickItem(new ItemStack(Gui.GO_BACK_ITEM), Messages.GUI_GO_BACK).addClickAction(new ClickAction() {
             @Override
             public void execute(Player player) {
                 Gui.openRegionOwnerGui(player, isMainPageMultipleItems());

@@ -43,6 +43,7 @@ public class Gui implements Listener {
     private static Material TELEPORT_TO_REGION_ITEM = Material.GRASS_BLOCK;
     private static Material NEXT_PAGE_ITEM = Material.ARROW;
     private static Material PREV_PAGE_ITEM = Material.ARROW;
+    private static Material HOTEL_SETTING_ITEM = Material.RED_BED;
 
 
     public static void openARMGui(Player player) {
@@ -182,8 +183,7 @@ public class Gui implements Listener {
         actitem++;
 
         if(Permission.hasAnySubregionPermission(player) && region.isAllowSubregions()){
-            //TODO make lore changeable
-            ClickItem teleportericon = new ClickItem(new ItemStack(Gui.SUBREGION_ITEM), "Subregions", new ArrayList<>()).addClickAction(new ClickAction() {
+            ClickItem teleportericon = new ClickItem(new ItemStack(Gui.SUBREGION_ITEM), Messages.GUI_SUBREGION_ITEM_BUTTON, new ArrayList<>()).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
                     Gui.openSubregionList(player, region);
@@ -278,9 +278,7 @@ public class Gui implements Listener {
     public static void openSubregionList(Player player, Region region) {
         List<ClickItem> clickItems = new ArrayList<>();
         for(Region subregion : region.getSubregions()) {
-            //TODO Change lore
-            //TODO make lore changeable
-            ItemStack subregionItem = Gui.getRegionDisplayItem(subregion, Messages.GUI_RENT_REGION_LORE, new ArrayList<>(), Messages.GUI_CONTRACT_REGION_LORE);
+            ItemStack subregionItem = Gui.getRegionDisplayItem(subregion, Messages.GUI_SUBREGION_REGION_INFO_RENT, Messages.GUI_SUBREGION_REGION_INFO_SELL, Messages.GUI_SUBREGION_REGION_INFO_CONTRACT);
             ClickItem subregionClickItem = new ClickItem(subregionItem).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
@@ -289,8 +287,7 @@ public class Gui implements Listener {
             });
             clickItems.add(subregionClickItem);
         }
-        //TODO make changeable
-        Gui.openInfiniteGuiList(player, clickItems, 0, "Subregions", new ClickAction() {
+        Gui.openInfiniteGuiList(player, clickItems, 0, Messages.GUI_SUBREGION_LIST_MENU_NAME, new ClickAction() {
             @Override
             public void execute(Player player) throws InputException {
                 Gui.decideOwnerManager(player, region);
@@ -319,8 +316,7 @@ public class Gui implements Listener {
         }
 
         if(player.hasPermission(Permission.SUBREGION_CHANGE_IS_HOTEL)) {
-            //TODO Hotel item and message
-            ClickItem isHotelItem = new ClickItem(new ItemStack(Material.RED_BED), "Hotel-function", new ArrayList<String>(Arrays.asList("The hotel function allows you to prevent players", "from breaking blocks they do not have placed", "Status: %hotelfunctionstatus%", "Click to enable/disable")));
+            ClickItem isHotelItem = new ClickItem(new ItemStack(Gui.HOTEL_SETTING_ITEM), Messages.GUI_SUBREGION_HOTEL_BUTTON, Messages.GUI_SUBREGION_HOTEL_BUTTON_LORE);
             isHotelItem= isHotelItem.addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
@@ -356,8 +352,7 @@ public class Gui implements Listener {
         }
 
         if(player.hasPermission(Permission.SUBREGION_DELETE_AVAILABLE) || player.hasPermission(Permission.SUBREGION_DELETE_SOLD)) {
-            //TODO delete item
-            ClickItem deleteItem = new ClickItem(new ItemStack(Gui.DELETE_ITEM), "Delete region");
+            ClickItem deleteItem = new ClickItem(new ItemStack(Gui.DELETE_ITEM), Messages.GUI_SUBREGION_DELETE_REGION_BUTTON);
             deleteItem = deleteItem.addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
@@ -441,8 +436,7 @@ public class Gui implements Listener {
         actitem++;
 
         if(Permission.hasAnySubregionPermission(player) && region.isAllowSubregions()){
-            //TODO make lore changeable
-            ClickItem teleportericon = new ClickItem(new ItemStack(Gui.SUBREGION_ITEM), "Subregions", new ArrayList<>()).addClickAction(new ClickAction() {
+            ClickItem teleportericon = new ClickItem(new ItemStack(Gui.SUBREGION_ITEM), Messages.GUI_SUBREGION_ITEM_BUTTON, new ArrayList<>()).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
                     Gui.openSubregionList(player, region);
@@ -590,8 +584,7 @@ public class Gui implements Listener {
         actitem++;
 
         if(Permission.hasAnySubregionPermission(player) && region.isAllowSubregions()){
-            //TODO make lore changeable
-            ClickItem teleportericon = new ClickItem(new ItemStack(Gui.SUBREGION_ITEM), "Subregions", new ArrayList<>()).addClickAction(new ClickAction() {
+            ClickItem teleportericon = new ClickItem(new ItemStack(Gui.SUBREGION_ITEM), Messages.GUI_SUBREGION_ITEM_BUTTON, new ArrayList<>()).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
                     Gui.openSubregionList(player, region);
@@ -875,7 +868,6 @@ public class Gui implements Listener {
     }
 
     public static void openRegionFinderSellTypeSelector(Player player, List<Region> regions, ClickAction goBackAction) throws InputException {
-        //TODO change name
         GuiInventory inv = new GuiInventory(9, Messages.GUI_REGION_FINDER_MENU_NAME);
         List<ClickItem> sellRegionClickItems = new ArrayList<>();
         List<ClickItem> rentRegionClickItems = new ArrayList<>();
@@ -901,12 +893,7 @@ public class Gui implements Listener {
 
 
         for(Region region : regions) {
-            //Todo add to config
-            List<String> newRentregionLore = new ArrayList<String>(Arrays.asList("%regionid%", "Price per M2: %priceperm2%" ,"Price (per week): %priceperm2perweek%", "Extend per click: %extendperclick%","Max. extended time: %maxrenttime%", "Dimensions: %dimensions%", "World: %world%"));
-            List<String> newSellRegionLore = new ArrayList<String>(Arrays.asList(region.getRegion().getId(), "Price: %price%", "Price per M2: %price%", "Dimensions: %dimensions%", "World: %world%"));
-            List<String> newContractRegionLore = new ArrayList<String>(Arrays.asList(region.getRegion().getId(), "Price: %price%", "Price per M2 (per week): %priceperm2perweek%", "Automatic extend time: %extend%","Dimensions: %dimensions%", "World: %world%"));
-
-            ItemStack itemStack = getRegionDisplayItem(region, newRentregionLore, newSellRegionLore, newContractRegionLore);
+            ItemStack itemStack = getRegionDisplayItem(region, Messages.GUI_REGIONFINDER_REGION_INFO_RENT, Messages.GUI_REGIONFINDER_REGION_INFO_SELL, Messages.GUI_REGIONFINDER_REGION_INFO_CONTRACT);
             ClickItem clickItem = new ClickItem(itemStack).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
@@ -931,8 +918,7 @@ public class Gui implements Listener {
             itemcounter++;
         }
         if(sellRegionClickItems.size() > 0) {
-            //TODO Change name
-            ClickItem clickItem = new ClickItem(new ItemStack(Material.BRICKS), "SellRegion");
+            ClickItem clickItem = new ClickItem(new ItemStack(Material.BRICKS), Messages.SELLREGION_NAME);
             clickItem.addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
@@ -947,8 +933,7 @@ public class Gui implements Listener {
             actitem++;
         }
         if(rentRegionClickItems.size() > 0) {
-            //TODO Change name
-            ClickItem clickItem = new ClickItem(new ItemStack(Material.BRICKS), "RentRegion");
+            ClickItem clickItem = new ClickItem(new ItemStack(Material.BRICKS), Messages.RENTREGION_NAME);
             clickItem.addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
@@ -963,8 +948,7 @@ public class Gui implements Listener {
             actitem++;
         }
         if(contractRegionClickItems.size() > 0) {
-            //TODO Change name
-            ClickItem clickItem = new ClickItem(new ItemStack(Material.BRICKS), "ContractRegion");
+            ClickItem clickItem = new ClickItem(new ItemStack(Material.BRICKS), Messages.CONTRACTREGION_NAME);
             clickItem.addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
@@ -991,9 +975,8 @@ public class Gui implements Listener {
             return;
         }
 
-        //TODO make items and Names changeable
-        GuiInventory inv = new GuiInventory(9, "Teleport to sign or region?");
-        ClickItem clickSign = new ClickItem(new ItemStack(Gui.TELEPORT_TO_SIGN_ITEM), "Teleport to buy sign!");
+        GuiInventory inv = new GuiInventory(9, Messages.GUI_TELEPORT_TO_SIGN_OR_REGION);
+        ClickItem clickSign = new ClickItem(new ItemStack(Gui.TELEPORT_TO_SIGN_ITEM), Messages.GUI_TELEPORT_TO_SIGN);
         clickSign.addClickAction(new ClickAction() {
             @Override
             public void execute(Player player) throws InputException {
@@ -1003,7 +986,7 @@ public class Gui implements Listener {
         });
         inv.addIcon(clickSign, getPosition(1, 2));
 
-        ClickItem clickRegion = new ClickItem(new ItemStack(Gui.TELEPORT_TO_REGION_ITEM), "Teleport to region!");
+        ClickItem clickRegion = new ClickItem(new ItemStack(Gui.TELEPORT_TO_REGION_ITEM), Messages.GUI_TELEPORT_TO_REGION);
         clickRegion.addClickAction(new ClickAction() {
             @Override
             public void execute(Player player) throws InputException {
@@ -1068,9 +1051,8 @@ public class Gui implements Listener {
             if(newStartItem < 0) {
                 newStartItem = 0;
             }
-            //TODO Make text changeable
             final int finalnewStartItem = newStartItem;
-            ClickItem prevPageButton = new ClickItem(new ItemStack(Gui.PREV_PAGE_ITEM), "prev Page").addClickAction(new ClickAction() {
+            ClickItem prevPageButton = new ClickItem(new ItemStack(Gui.PREV_PAGE_ITEM), Messages.GUI_PREV_PAGE).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) {
                     Gui.openInfiniteGuiList(player, clickItems, finalnewStartItem, name, gobackAction);
@@ -1079,9 +1061,8 @@ public class Gui implements Listener {
             inv.addIcon(prevPageButton, invsize - 9);
         }
         if((startitem + 45) < (clickItems.size() - 1)) {
-            //TODO Make text changeable
             int newStartItem = startitem + 45;
-            ClickItem nextPageButton = new ClickItem(new ItemStack(Gui.NEXT_PAGE_ITEM), "next Page").addClickAction(new ClickAction() {
+            ClickItem nextPageButton = new ClickItem(new ItemStack(Gui.NEXT_PAGE_ITEM), Messages.GUI_NEXT_PAGE).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) {
                     Gui.openInfiniteGuiList(player, clickItems, newStartItem, name, gobackAction);
@@ -1824,5 +1805,9 @@ public class Gui implements Listener {
 
     public static void setPrevPageItem(Material PrevPageItem) {
         PREV_PAGE_ITEM = PrevPageItem;
+    }
+
+    public static void setHotelSettingItem(Material HotelSettingItem) {
+        HOTEL_SETTING_ITEM = HotelSettingItem;
     }
 }

@@ -637,6 +637,22 @@ public abstract class Region {
         return pricePerM2 / 100;
     }
 
+    private String getHotelFunctionStringStatus() {
+        if(this.isHotel()) {
+            return Messages.ENABLED;
+        } else {
+            return Messages.DISABLED;
+        }
+    }
+
+    private String getSoldStringStatus() {
+        if(this.isSold()) {
+            return Messages.SOLD;
+        } else {
+            return Messages.AVAILABLE;
+        }
+    }
+
     public String getConvertedMessage(String message) {
         message = message.replace("%regionid%", this.getRegion().getId());
         message = message.replace("%region%", this.getRegion().getId());
@@ -649,6 +665,8 @@ public abstract class Region {
         message = message.replace("%owner%", this.getOwnerName());
         message = message.replace("%world%", this.getRegionworld().getName());
         message = message.replace("%subregionlimit%", this.getAllowedSubregions() + "");
+        message = message.replace("%hotelfunctionstatus%", this.getHotelFunctionStringStatus());
+        message = message.replace("%soldstatus%", this.getSoldStringStatus());
         return message;
     }
 }

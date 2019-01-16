@@ -208,6 +208,7 @@ GUI:
   DeleteItem: BARRIER
   NextPageItem: ARROW
   PrevPageItem: ARROW
+  HotelSettingItem: RED_BED
   DisplayRegionOwnerButton: true
   DisplayRegionMemberButton: true
   DisplayRegionFinderButton: true

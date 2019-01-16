@@ -414,6 +414,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         Gui.setTeleportToRegionItem(Material.getMaterial(pluginConf.getString("GUI.TeleportToRegionItem")));
         Gui.setNextPageItem(Material.getMaterial(pluginConf.getString("GUI.NextPageItem")));
         Gui.setPrevPageItem(Material.getMaterial(pluginConf.getString("GUI.PrevPageItem")));
+        Gui.setHotelSettingItem(Material.getMaterial(pluginConf.getString("GUI.HotelSettingItem")));
 
     }
 
@@ -818,6 +819,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
             pluginConfig.set("GUI.DeleteItem", "BARRIER");
             pluginConfig.set("GUI.NextPageItem", "ARROW");
             pluginConfig.set("GUI.PrevPageItem", "ARROW");
+            pluginConfig.set("GUI.HotelSettingItem", "RED_BED");
             pluginConfig.set("Version", 1.6);
             saveConfig();
         }

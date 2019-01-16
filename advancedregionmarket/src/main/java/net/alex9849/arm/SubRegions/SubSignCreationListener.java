@@ -73,12 +73,12 @@ public class SubSignCreationListener implements Listener {
                     maxRentTime = RentRegion.stringToTime(maxRentTimeString);
                     price = Integer.parseInt(pricestring);
                 } catch (ArrayIndexOutOfBoundsException e) {
-                    event.getPlayer().sendMessage(Messages.PREFIX + "Please write your price in line 3 in the following pattern:");
+                    event.getPlayer().sendMessage(Messages.PREFIX + "Please write your price in line 4 in the following pattern:");
                     event.getPlayer().sendMessage("<Price>;<Extend per Click (ex.: 5d)>;<Max rent Time (ex.: 10d)>");
                     return;
                 } catch (IllegalArgumentException e) {
                     event.getPlayer().sendMessage(Messages.PREFIX + "Please use d for days, h for hours, m for minutes and s for seconds");
-                    event.getPlayer().sendMessage(Messages.PREFIX + "Please write you price in line 3 in the following pattern:");
+                    event.getPlayer().sendMessage(Messages.PREFIX + "Please write you price in line 4 in the following pattern:");
                     event.getPlayer().sendMessage("<Price>;<Extend per Click (ex.: 5d)>;<Max rent Time (ex.: 10d)>");
                     return;
                 }
@@ -107,12 +107,12 @@ public class SubSignCreationListener implements Listener {
                     extendtime = RentRegion.stringToTime(extendtimeString);
                     price = Integer.parseInt(pricestring);
                 } catch (ArrayIndexOutOfBoundsException e) {
-                    event.getPlayer().sendMessage(Messages.PREFIX + "Please write your price in line 3 in the following pattern:");
+                    event.getPlayer().sendMessage(Messages.PREFIX + "Please write your price in line 4 in the following pattern:");
                     event.getPlayer().sendMessage("<Price>;<Extendtime (ex.: 5d)>");
                     return;
                 } catch (IllegalArgumentException e) {
                     event.getPlayer().sendMessage(Messages.PREFIX + "Please use d for days, h for hours, m for minutes and s for seconds");
-                    event.getPlayer().sendMessage(Messages.PREFIX + "Please write you price in line 3 in the following pattern:");
+                    event.getPlayer().sendMessage(Messages.PREFIX + "Please write you price in line 4 in the following pattern:");
                     event.getPlayer().sendMessage("<Price>;<Extendtime (ex.: 5d)>");
                     return;
                 }

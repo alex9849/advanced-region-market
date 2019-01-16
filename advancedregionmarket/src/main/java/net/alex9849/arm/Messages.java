@@ -220,6 +220,33 @@ public class Messages {
     public static String REGION_NOT_A_SUBREGION = "";
     public static String REGION_DELETED = "";
 
+    public static String SELLREGION_NAME = "Sellregion";
+    public static String CONTRACTREGION_NAME = "Contractregion";
+    public static String RENTREGION_NAME = "Rentregion";
+    public static String GUI_SUBREGION_ITEM_BUTTON = "&6Subregions";
+    public static String GUI_SUBREGION_LIST_MENU_NAME = "&1Subregions";
+    public static String GUI_SUBREGION_HOTEL_BUTTON = "&6Hotel-function";
+    public static String GUI_SUBREGION_DELETE_REGION_BUTTON = "&4Delete region";
+    public static String GUI_TELEPORT_TO_SIGN_OR_REGION = "Teleport to sign or region?";
+    public static String GUI_TELEPORT_TO_SIGN = "&6Teleport to buy sign!";
+    public static String GUI_TELEPORT_TO_REGION = "&6Teleport to region!";
+    public static String GUI_NEXT_PAGE = "&6Prev page";
+    public static String GUI_PREV_PAGE = "&6Next page";
+    public static String ENABLED = "&aenabled";
+    public static String DISABLED = "&cdisabled";
+    public static String SOLD = "&csold";
+    public static String AVAILABLE = "&aavailable";
+    public static List<String> GUI_SUBREGION_HOTEL_BUTTON_LORE = new ArrayList<String>(Arrays.asList("&6The hotel function allows you to prevent players", "&6from breaking blocks they do not have placed", "&6Status: %hotelfunctionstatus%", "&6Click to enable/disable"));
+    public static List<String> GUI_SUBREGION_REGION_INFO_SELL = new ArrayList<String>(Arrays.asList("%regionid%", "Status: %soldstatus%", "Price: %price%", "Price per M2: %price%", "Dimensions: %dimensions%"));
+    public static List<String> GUI_SUBREGION_REGION_INFO_RENT = new ArrayList<String>(Arrays.asList("%regionid%", "Status: %soldstatus%", "Price: %price%", "Price per M2: %price%", "Extend per click: %extendperclick%", "Max. extended time: %maxrenttime%", "Dimensions: %dimensions%"));
+    public static List<String> GUI_SUBREGION_REGION_INFO_CONTRACT = new ArrayList<String>(Arrays.asList("%regionid%", "Status: %soldstatus%", "Price: %price%", "Price per M2: %price%", "Automatic extend time: %extend%", "Dimensions: %dimensions%"));
+    public static List<String> GUI_REGIONFINDER_REGION_INFO_SELL = new ArrayList<String>(Arrays.asList("%regionid%", "Price: %price%", "Price per M2: %price%", "Dimensions: %dimensions%", "World: %world%"));
+    public static List<String> GUI_REGIONFINDER_REGION_INFO_RENT = new ArrayList<String>(Arrays.asList("%regionid%", "Price per M2: %priceperm2%" ,"Price (per week): %priceperm2perweek%", "Extend per click: %extendperclick%","Max. extended time: %maxrenttime%", "Dimensions: %dimensions%", "World: %world%"));
+    public static List<String> GUI_REGIONFINDER_REGION_INFO_CONTRACT = new ArrayList<String>(Arrays.asList("%regionid%", "Price: %price%", "Price per M2 (per week): %priceperm2perweek%", "Automatic extend time: %extend%","Dimensions: %dimensions%", "World: %world%"));
+    public static List<String> SELECTION_SAVED_CREATE_SIGN = new ArrayList<String>(Arrays.asList("&aYour selection has been saved! You can now create a sign to sell the region.", "&aCreate a Sell-Region:", "&6First line: &1[sub-sell]", "&6Last line: &1price", "", "&aCreate a Rent-Region:", "&6First line: &1[sub-rent]",
+            "&6Last line: &1PricePerPeriod&6;&1ExtendPerClick&6;&1MaxExtendTime", "&6example for ExtendPerClick/MaxExtendTime: 5d (5 days)", "", "&aCreate a Contract-Region:", "&6First line: &1[sub-contract]", "&6Last line: &1PricePerPeriod&6;&1ExtendTime", "&6example for ExtendTime: 12h (12 hours)"));
+
+
     public static List<String> SUBREGION_TOOL_INSTRUCTION = new ArrayList<>();
 
 

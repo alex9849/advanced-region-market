@@ -450,6 +450,11 @@ public class RentRegion extends Region {
         return pricePerM2PerWeek;
     }
 
+    @Override
+    protected String getSellType() {
+        return Messages.RENTREGION_NAME;
+    }
+
     public static void setExpirationWarningTime(long time) {
         RentRegion.expirationWarningTime = time;
     }
@@ -468,6 +473,7 @@ public class RentRegion extends Region {
         message = message.replace("%maxrenttime%", this.getMaxRentTimeString());
         message = message.replace("%remaining%", this.calcRemainingTime());
         message = message.replace("%extendperclick%", this.getExtendPerClick());
+        message = message.replace("%priceperm2perweek%", this.getPricePerM2PerWeek() + "");
         return message;
     }
 

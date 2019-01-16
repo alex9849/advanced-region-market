@@ -13,6 +13,8 @@ public class ArmSettings {
     private static boolean isSendContractRegionExtendMessage = false;
     private static boolean isRegionInfoParticleBorder = true;
     private static boolean useShortCountdown = false;
+    private static boolean deleteSubregionsOnParentRegionUnsell = false;
+    private static boolean deleteSubregionsOnParentRegionBlockReset = false;
 
     private static boolean isAllowTeleportToBuySign = true;
     private static String REMAINING_TIME_TIMEFORMAT = "%date%";
@@ -24,13 +26,17 @@ public class ArmSettings {
     private static Statement stmt;
     private static String sqlPrefix;
 
-    public static boolean isAllowTeleportToBuySign() {
-        return isAllowTeleportToBuySign;
-    }
-
     //TODO include in config
     protected static void setIsAllowTeleportToBuySign(boolean isAllowTeleportToBuySign) {
         ArmSettings.isAllowTeleportToBuySign = isAllowTeleportToBuySign;
+    }
+
+    protected static void setDeleteSubregionsOnParentRegionUnsell(boolean deleteSubregionsOnParentRegionUnsell) {
+        ArmSettings.deleteSubregionsOnParentRegionUnsell = deleteSubregionsOnParentRegionUnsell;
+    }
+
+    protected static void setDeleteSubregionsOnParentRegionBlockReset(boolean deleteSubregionsOnParentRegionBlockReset) {
+        ArmSettings.deleteSubregionsOnParentRegionBlockReset = deleteSubregionsOnParentRegionBlockReset;
     }
 
     protected static void setIsAllowSubRegionUserReset(boolean isAllowSubRegionUserReset) {
@@ -175,5 +181,17 @@ public class ArmSettings {
 
     public static String getSqlPrefix() {
         return sqlPrefix;
+    }
+
+    public static boolean isDeleteSubregionsOnParentRegionUnsell() {
+        return deleteSubregionsOnParentRegionUnsell;
+    }
+
+    public static boolean isDeleteSubregionsOnParentRegionBlockReset() {
+        return deleteSubregionsOnParentRegionBlockReset;
+    }
+
+    public static boolean isAllowTeleportToBuySign() {
+        return isAllowTeleportToBuySign;
     }
 }

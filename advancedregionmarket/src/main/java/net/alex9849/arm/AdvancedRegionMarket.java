@@ -138,6 +138,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         commands.add(new SellBackCommand());
         commands.add(new SubRegionCommand());
         commands.add(new SetSubregionLimit());
+        commands.add(new SetIsUserResettableCommand());
         AdvancedRegionMarket.commandHandler.addCommands(commands);
 
         SellPreset.loadCommands();
@@ -468,10 +469,13 @@ public class AdvancedRegionMarket extends JavaPlugin {
         ArmSettings.setRemainingTimeTimeformat(getConfig().getString("Other.RemainingTimeFormat"));
         ArmSettings.setDateTimeformat(getConfig().getString("Other.DateTimeFormat"));
         ArmSettings.setUseShortCountdown(getConfig().getBoolean("Other.ShortCountdown"));
+        ArmSettings.setIsAllowTeleportToBuySign(getConfig().getBoolean("Other.RegionInfoParticleBorder"));
 
         ArmSettings.setIsAllowSubRegionUserReset(getConfig().getBoolean("Subregions.AllowSubRegionUserReset"));
         ArmSettings.setIsSubregionBlockReset(getConfig().getBoolean("Subregions.SubregionBlockReset"));
         ArmSettings.setIsSubregionAutoReset(getConfig().getBoolean("Subregions.SubregionAutoReset"));
+        ArmSettings.setDeleteSubregionsOnParentRegionBlockReset(getConfig().getBoolean("Subregions.deleteSubregionsOnParentRegionBlockReset"));
+        ArmSettings.setDeleteSubregionsOnParentRegionUnsell(getConfig().getBoolean("Subregions.deleteSubregionsOnParentRegionUnsell"));
         try{
             RentRegion.setExpirationWarningTime(RentRegion.stringToTime(getConfig().getString("Other.RentRegionExpirationWarningTime")));
             RentRegion.setSendExpirationWarning(getConfig().getBoolean("Other.SendRentRegionExpirationWarning"));
@@ -800,6 +804,23 @@ public class AdvancedRegionMarket extends JavaPlugin {
             saveConfig();
         }
         if(version < 1.6) {
+            if(regionConf.get("Regions") != null) {
+                LinkedList<String> worlds = new LinkedList<String>(regionConf.getConfigurationSection("Regions").getKeys(false));
+                if(worlds != null) {
+                    for(int y = 0; y < worlds.size(); y++) {
+                        if(regionConf.get("Regions." + worlds.get(y)) != null) {
+                            LinkedList<String> regions = new LinkedList<String>(regionConf.getConfigurationSection("Regions." + worlds.get(y)).getKeys(false));
+                            if(regions != null) {
+                                for (int i = 0; i < regions.size(); i++) {
+                                    regionConf.set("Regions." + worlds.get(y) + "." + regions.get(i) + ".isUserResettable", true);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            RegionManager.saveRegionsConf();
+
             getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.6...");
             pluginConfig.set("SubregionRegionKind.DisplayName", "Subregion");
             pluginConfig.set("SubregionRegionKind.Item", Material.PLAYER_HEAD.toString());
@@ -812,6 +833,8 @@ public class AdvancedRegionMarket extends JavaPlugin {
             pluginConfig.set("Subregions.SubregionBlockReset", false);
             pluginConfig.set("Subregions.SubregionPaypackPercentage", 0);
             pluginConfig.set("Subregions.SubregionAutoReset", true);
+            pluginConfig.set("Subregions.deleteSubregionsOnParentRegionUnsell", false);
+            pluginConfig.set("Subregions.deleteSubregionsOnParentRegionBlockReset", false);
             pluginConfig.set("Other.RegionInfoParticleBorder", true);
             pluginConfig.set("GUI.SubRegionItem", "GRASS_BLOCK");
             pluginConfig.set("GUI.TeleportToSignItem", "SIGN");

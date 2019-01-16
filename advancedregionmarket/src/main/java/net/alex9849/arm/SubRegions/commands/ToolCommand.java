@@ -46,7 +46,7 @@ public class ToolCommand extends BasicArmCommand {
         Player player = (Player) sender;
         ItemStack subRegionTool = new ItemStack(Material.FEATHER, 1);
         ItemMeta itemMeta = subRegionTool.getItemMeta();
-        itemMeta.setDisplayName(Messages.REGION_NOT_A_SUBREGION);
+        itemMeta.setDisplayName("Subregion Tool");
         subRegionTool.setItemMeta(itemMeta);
         player.getInventory().addItem(subRegionTool);
         for(String msg : Messages.SUBREGION_TOOL_INSTRUCTION) {

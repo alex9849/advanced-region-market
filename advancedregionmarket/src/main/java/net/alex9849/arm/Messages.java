@@ -230,24 +230,24 @@ public class Messages {
     public static String GUI_TELEPORT_TO_SIGN_OR_REGION = "Teleport to sign or region?";
     public static String GUI_TELEPORT_TO_SIGN = "&6Teleport to buy sign!";
     public static String GUI_TELEPORT_TO_REGION = "&6Teleport to region!";
-    public static String GUI_NEXT_PAGE = "&6Prev page";
-    public static String GUI_PREV_PAGE = "&6Next page";
+    public static String GUI_NEXT_PAGE = "&6Next page";
+    public static String GUI_PREV_PAGE = "&Prev page";
     public static String ENABLED = "&aenabled";
     public static String DISABLED = "&cdisabled";
     public static String SOLD = "&csold";
     public static String AVAILABLE = "&aavailable";
+    public static String REGION_INFO_IS_USER_RESETTABLE = "&6IsUserResettable: ";
+    public static String SUB_REGION_IS_USER_RESETTABLE_ERROR = "&4The selected region is a subregion. You can change the isUserResettable setting for all subregions in the config.yml!";
     public static List<String> GUI_SUBREGION_HOTEL_BUTTON_LORE = new ArrayList<String>(Arrays.asList("&6The hotel function allows you to prevent players", "&6from breaking blocks they do not have placed", "&6Status: %hotelfunctionstatus%", "&6Click to enable/disable"));
-    public static List<String> GUI_SUBREGION_REGION_INFO_SELL = new ArrayList<String>(Arrays.asList("%regionid%", "Status: %soldstatus%", "Price: %price%", "Price per M2: %price%", "Dimensions: %dimensions%"));
-    public static List<String> GUI_SUBREGION_REGION_INFO_RENT = new ArrayList<String>(Arrays.asList("%regionid%", "Status: %soldstatus%", "Price: %price%", "Price per M2: %price%", "Extend per click: %extendperclick%", "Max. extended time: %maxrenttime%", "Dimensions: %dimensions%"));
-    public static List<String> GUI_SUBREGION_REGION_INFO_CONTRACT = new ArrayList<String>(Arrays.asList("%regionid%", "Status: %soldstatus%", "Price: %price%", "Price per M2: %price%", "Automatic extend time: %extend%", "Dimensions: %dimensions%"));
+    public static List<String> GUI_SUBREGION_REGION_INFO_SELL = new ArrayList<String>(Arrays.asList("%regionid%", "Selltype: %selltype%", "Status: %soldstatus%", "Price: %price%", "Price per M2: %price%", "Dimensions: %dimensions%"));
+    public static List<String> GUI_SUBREGION_REGION_INFO_RENT = new ArrayList<String>(Arrays.asList("%regionid%", "Selltype: %selltype%", "Status: %soldstatus%", "Price: %price%", "Price per M2: %price%", "Extend per click: %extendperclick%", "Max. extended time: %maxrenttime%", "Dimensions: %dimensions%"));
+    public static List<String> GUI_SUBREGION_REGION_INFO_CONTRACT = new ArrayList<String>(Arrays.asList("%regionid%", "Selltype: %selltype%", "Status: %soldstatus%", "Price: %price%", "Price per M2: %price%", "Automatic extend time: %extend%", "Dimensions: %dimensions%"));
     public static List<String> GUI_REGIONFINDER_REGION_INFO_SELL = new ArrayList<String>(Arrays.asList("%regionid%", "Price: %price%", "Price per M2: %price%", "Dimensions: %dimensions%", "World: %world%"));
     public static List<String> GUI_REGIONFINDER_REGION_INFO_RENT = new ArrayList<String>(Arrays.asList("%regionid%", "Price per M2: %priceperm2%" ,"Price (per week): %priceperm2perweek%", "Extend per click: %extendperclick%","Max. extended time: %maxrenttime%", "Dimensions: %dimensions%", "World: %world%"));
     public static List<String> GUI_REGIONFINDER_REGION_INFO_CONTRACT = new ArrayList<String>(Arrays.asList("%regionid%", "Price: %price%", "Price per M2 (per week): %priceperm2perweek%", "Automatic extend time: %extend%","Dimensions: %dimensions%", "World: %world%"));
     public static List<String> SELECTION_SAVED_CREATE_SIGN = new ArrayList<String>(Arrays.asList("&aYour selection has been saved! You can now create a sign to sell the region.", "&aCreate a Sell-Region:", "&6First line: &1[sub-sell]", "&6Last line: &1price", "", "&aCreate a Rent-Region:", "&6First line: &1[sub-rent]",
             "&6Last line: &1PricePerPeriod&6;&1ExtendPerClick&6;&1MaxExtendTime", "&6example for ExtendPerClick/MaxExtendTime: 5d (5 days)", "", "&aCreate a Contract-Region:", "&6First line: &1[sub-contract]", "&6Last line: &1PricePerPeriod&6;&1ExtendTime", "&6example for ExtendTime: 12h (12 hours)"));
-
-
-    public static List<String> SUBREGION_TOOL_INSTRUCTION = new ArrayList<>();
+    public static List<String> SUBREGION_TOOL_INSTRUCTION = new ArrayList<String>(Arrays.asList("&aYou got a tool in your inventory (feather) to select 2 points of your region that will mark the corners of your new subregion.", "&aLeft click to select pos1", "&aRight click to select pos2", "&aType \"&6/arm subregion create\" &aif you are done"));
 
 
     public static List<String> GUI_TELEPORT_TO_REGION_BUTTON_LORE = new LinkedList<>();
@@ -467,6 +467,7 @@ public class Messages {
         SELLBACK_WARNING = config.getString("Messages.SellBackWarning");
         SUB_REGION_AUTORESET_ERROR = config.getString("Messages.SubregionAutoResetError");
         SUB_REGION_DO_BLOCKRESET_ERROR = config.getString("Messages.SubregionDoBlockResetError");
+        SUB_REGION_IS_USER_RESETTABLE_ERROR = config.getString("Messages.SubregionIsUserResettableError");
         REGION_NOT_RESETTABLE = config.getString("Messages.RegionNotResettable");
         REGION_INFO_MULTIPLE_REGIONS = config.getString("Messages.RegionInfoMultipleRegions");
         SUB_REGION_REGIONKIND_ERROR = config.getString("Messages.SubregionRegionkindError");
@@ -486,7 +487,32 @@ public class Messages {
         REGION_CREATED_AND_SAVED = config.getString("Messages.RegionCreatedAndSaved");
         REGION_NOT_A_SUBREGION = config.getString("Messages.RegionNotASubregion");
         REGION_DELETED = config.getString("Messages.RegionDeleted");
-        SUBREGION_TOOL_INSTRUCTION = config.getStringList("Messages.SubRegionToolInstruction");
+        SELLREGION_NAME = config.getString("Messages.SellregionName");
+        CONTRACTREGION_NAME = config.getString("Messages.ContractregionName");
+        RENTREGION_NAME = config.getString("Messages.RentregionName");
+        GUI_SUBREGION_ITEM_BUTTON = config.getString("Messages.GUISubregionsButton");
+        GUI_SUBREGION_LIST_MENU_NAME = config.getString("Messages.GUISubregionListMenuName");
+        GUI_SUBREGION_HOTEL_BUTTON = config.getString("Messages.GUIHotelButton");
+        GUI_SUBREGION_DELETE_REGION_BUTTON = config.getString("Messages.GUIDeleteRegionButton");
+        GUI_TELEPORT_TO_SIGN_OR_REGION = config.getString("Messages.GUITeleportToSignOrRegionButton");
+        GUI_TELEPORT_TO_SIGN = config.getString("Messages.GUIRegionfinderTeleportToSignButton");
+        GUI_TELEPORT_TO_REGION = config.getString("Messages.GUIRegionfinderTeleportToRegionButton");
+        GUI_NEXT_PAGE = config.getString("Messages.GUINextPageButton");
+        GUI_PREV_PAGE = config.getString("Messages.GUIPrevPageButton");
+        ENABLED = config.getString("Messages.Enabled");
+        DISABLED = config.getString("Messages.Disabled");
+        SOLD = config.getString("Messages.Sold");
+        AVAILABLE = config.getString("Messages.Available");
+        GUI_SUBREGION_HOTEL_BUTTON_LORE = config.getStringList("Messages.GUIHotelButtonLore");
+        GUI_SUBREGION_REGION_INFO_SELL = config.getStringList("Messages.GUISubregionInfoSell");
+        GUI_SUBREGION_REGION_INFO_RENT = config.getStringList("Messages.GUISubregionInfoRent");
+        GUI_SUBREGION_REGION_INFO_CONTRACT = config.getStringList("Messages.GUISubregionInfoContract");
+        GUI_REGIONFINDER_REGION_INFO_SELL = config.getStringList("Messages.GUIRegionfinderInfoSell");
+        GUI_REGIONFINDER_REGION_INFO_RENT = config.getStringList("Messages.GUISubregionInfoRent");
+        GUI_REGIONFINDER_REGION_INFO_CONTRACT = config.getStringList("Messages.GUISubregionInfoContract");
+        SELECTION_SAVED_CREATE_SIGN = config.getStringList("Messages.SubregionCreationCreateSignInfo");
+        SUBREGION_TOOL_INSTRUCTION = config.getStringList("Messages.SubregionCreationSelectAreaInfo");
+        REGION_INFO_IS_USER_RESETTABLE = config.getString("Messages.RegionInfoIsUserResettable");
 
 
 
@@ -697,7 +723,50 @@ public class Messages {
         REGION_CREATED_AND_SAVED = ChatColor.translateAlternateColorCodes('&', REGION_CREATED_AND_SAVED);
         REGION_NOT_A_SUBREGION = ChatColor.translateAlternateColorCodes('&', REGION_NOT_A_SUBREGION);
         REGION_DELETED = ChatColor.translateAlternateColorCodes('&', REGION_DELETED);
+        SUB_REGION_IS_USER_RESETTABLE_ERROR = ChatColor.translateAlternateColorCodes('&', SUB_REGION_IS_USER_RESETTABLE_ERROR);
 
+        SELLREGION_NAME = ChatColor.translateAlternateColorCodes('&', SELLREGION_NAME);
+        CONTRACTREGION_NAME = ChatColor.translateAlternateColorCodes('&', CONTRACTREGION_NAME);
+        RENTREGION_NAME = ChatColor.translateAlternateColorCodes('&', RENTREGION_NAME);
+        GUI_SUBREGION_ITEM_BUTTON = ChatColor.translateAlternateColorCodes('&', GUI_SUBREGION_ITEM_BUTTON);
+        GUI_SUBREGION_LIST_MENU_NAME = ChatColor.translateAlternateColorCodes('&', GUI_SUBREGION_LIST_MENU_NAME);
+        GUI_SUBREGION_HOTEL_BUTTON = ChatColor.translateAlternateColorCodes('&', GUI_SUBREGION_HOTEL_BUTTON);
+        GUI_SUBREGION_DELETE_REGION_BUTTON = ChatColor.translateAlternateColorCodes('&', GUI_SUBREGION_DELETE_REGION_BUTTON);
+        GUI_TELEPORT_TO_SIGN_OR_REGION = ChatColor.translateAlternateColorCodes('&', GUI_TELEPORT_TO_SIGN_OR_REGION);
+        GUI_TELEPORT_TO_SIGN = ChatColor.translateAlternateColorCodes('&', GUI_TELEPORT_TO_SIGN);
+        GUI_TELEPORT_TO_REGION = ChatColor.translateAlternateColorCodes('&', GUI_TELEPORT_TO_REGION);
+        GUI_NEXT_PAGE = ChatColor.translateAlternateColorCodes('&', GUI_NEXT_PAGE);
+        GUI_PREV_PAGE = ChatColor.translateAlternateColorCodes('&', GUI_PREV_PAGE);
+        ENABLED = ChatColor.translateAlternateColorCodes('&', ENABLED);
+        DISABLED = ChatColor.translateAlternateColorCodes('&', DISABLED);
+        SOLD = ChatColor.translateAlternateColorCodes('&', SOLD);
+        AVAILABLE = ChatColor.translateAlternateColorCodes('&', AVAILABLE);
+        REGION_INFO_IS_USER_RESETTABLE = ChatColor.translateAlternateColorCodes('&', REGION_INFO_IS_USER_RESETTABLE);
+
+        for(int i = 0; i < GUI_SUBREGION_HOTEL_BUTTON_LORE.size(); i++){
+            GUI_SUBREGION_HOTEL_BUTTON_LORE.set(i, ChatColor.translateAlternateColorCodes('&', GUI_SUBREGION_HOTEL_BUTTON_LORE.get(i)));
+        }
+        for(int i = 0; i < GUI_SUBREGION_REGION_INFO_SELL.size(); i++){
+            GUI_SUBREGION_REGION_INFO_SELL.set(i, ChatColor.translateAlternateColorCodes('&', GUI_SUBREGION_REGION_INFO_SELL.get(i)));
+        }
+        for(int i = 0; i < GUI_SUBREGION_REGION_INFO_RENT.size(); i++){
+            GUI_SUBREGION_REGION_INFO_RENT.set(i, ChatColor.translateAlternateColorCodes('&', GUI_SUBREGION_REGION_INFO_RENT.get(i)));
+        }
+        for(int i = 0; i < GUI_SUBREGION_REGION_INFO_CONTRACT.size(); i++){
+            GUI_SUBREGION_REGION_INFO_CONTRACT.set(i, ChatColor.translateAlternateColorCodes('&', GUI_SUBREGION_REGION_INFO_CONTRACT.get(i)));
+        }
+        for(int i = 0; i < GUI_REGIONFINDER_REGION_INFO_SELL.size(); i++){
+            GUI_REGIONFINDER_REGION_INFO_SELL.set(i, ChatColor.translateAlternateColorCodes('&', GUI_REGIONFINDER_REGION_INFO_SELL.get(i)));
+        }
+        for(int i = 0; i < GUI_REGIONFINDER_REGION_INFO_RENT.size(); i++){
+            GUI_REGIONFINDER_REGION_INFO_RENT.set(i, ChatColor.translateAlternateColorCodes('&', GUI_REGIONFINDER_REGION_INFO_RENT.get(i)));
+        }
+        for(int i = 0; i < GUI_REGIONFINDER_REGION_INFO_CONTRACT.size(); i++){
+            GUI_REGIONFINDER_REGION_INFO_CONTRACT.set(i, ChatColor.translateAlternateColorCodes('&', GUI_REGIONFINDER_REGION_INFO_CONTRACT.get(i)));
+        }
+        for(int i = 0; i < SELECTION_SAVED_CREATE_SIGN.size(); i++){
+            SELECTION_SAVED_CREATE_SIGN.set(i, ChatColor.translateAlternateColorCodes('&', SELECTION_SAVED_CREATE_SIGN.get(i)));
+        }
         for(int i = 0; i < SUBREGION_TOOL_INSTRUCTION.size(); i++){
             SUBREGION_TOOL_INSTRUCTION.set(i, ChatColor.translateAlternateColorCodes('&', SUBREGION_TOOL_INSTRUCTION.get(i)));
         }
@@ -857,13 +926,14 @@ public class Messages {
 
         config.addDefault("Messages.SubregionAutoResetError", "&4The selected region is a subregion. You can change the autoReset setting for all subregions in the config.yml!");
         config.addDefault("Messages.SubregionDoBlockResetError", "&4The selected region is a subregion. You can change the doBlockReset setting for all subregions in the config.yml!");
+        config.addDefault("Messages.SubregionIsUserResettableError", "&4The selected region is a subregion. You can change the isUserResettable setting for all subregions in the config.yml!");
         config.addDefault("Messages.SubregionRegionkindError", "&4The selected region is a subregion. You can edit the regionkind for all subregions in the config.yml!");
         config.addDefault("Messages.SubRegionRegionkindOnlyForSubregions", "&4Subregion regionkind only for subregions!");
         config.addDefault("Messages.SubregionTeleportLocationError", "&4The selected region is a subregion. Teleport location can not be changed");
         config.addDefault("Messages.PosCloudNotBeSetMarkOutsideRegion", "&4Position could not be set! Position outside region");
         config.addDefault("Messages.SubRegionAlreadyAtThisPosition", "Your selection would overlap with a subregion that already has been created");
         config.addDefault("Messages.SubRegionLimitReached", "&4You are only allowed to create max &6%subregionlimit% &4subregions");
-        config.addDefault("Messages.SelectionInvalid", "&4Selection invalid! You need to select 2 positions! (Left/Right click) Type \"/arm subregion tool\" to get the selection tool");
+        config.addDefault("Messages.SelectionInvalid", "&4Selection invalid! You need to select 2 positions! (Left/Right click) Type \"&6/arm subregion tool&4\" to get the selection tool");
         config.addDefault("Messages.RegionCreatedAndSaved", "&aRegion created and saved!");
 
         config.addDefault("Messages.RegionNotOwn", "&4You do not own this region!");
@@ -896,6 +966,7 @@ public class Messages {
         config.addDefault("Messages.RegionInfoOwner", "&6Owner: ");
         config.addDefault("Messages.RegionInfoMembers", "&6Members: ");
         config.addDefault("Messages.RegionInfoDoBlockReset", "&6DoBlockReset: ");
+        config.addDefault("Messages.RegionInfoIsUserResettable", "&6IsUserResettable: ");
         config.addDefault("Messages.isHotel", "&6isHotel: ");
         config.addDefault("Messages.RegionInfoAutoreset", "&6Autoreset: ");
         config.addDefault("Messages.RegionInfoMaxRentTime", "&6Max rent time: ");
@@ -920,7 +991,6 @@ public class Messages {
         config.addDefault("Messages.SubRegionRemoveNoPermissionBecauseSold", "&4You are not allowed to remove this region. Please ask an admin if you believe this is an error");
         config.addDefault("Messages.SubRegionRemoveNoPermissionBecauseAvailable", "&4You are not allowed to remove this region, because it is sold. You may ask the owner or an admin to release it");
         config.addDefault("Messages.RegionNotASubregion", "&4Region not a subregion!");
-        config.addDefault("Messages.SubRegionToolInstruction", new ArrayList<String>(Arrays.asList("Left click to select pos1", "Right click to select pos2", "Type \"/arm subregion create\" if you are done")));
 
         config.addDefault("Messages.RentRegion", "RentRegion");
         config.addDefault("Messages.SellRegion", "SellRegion");
@@ -992,6 +1062,32 @@ public class Messages {
                 "&6%remaining%")));
         config.addDefault("Messages.GUIContractItemRegionLore", new ArrayList<String>(Arrays.asList("&aStatus: %status%", "&aIf active the next extend is in:",
                 "&6%remaining%")));
+        config.addDefault("Messages.SellregionName", "Sellregion");
+        config.addDefault("Messages.ContractregionName","Contractregion");
+        config.addDefault("Messages.RentregionName","Rentregion");
+        config.addDefault("Messages.GUISubregionsButton","&6Subregions");
+        config.addDefault("Messages.GUISubregionListMenuName","&1Subregions");
+        config.addDefault("Messages.GUIHotelButton","&6Hotel-function");
+        config.addDefault("Messages.GUIDeleteRegionButton","&4Delete region");
+        config.addDefault("Messages.GUITeleportToSignOrRegionButton","Teleport to sign or region?");
+        config.addDefault("Messages.GUIRegionfinderTeleportToRegionButton","&6Teleport to region!");
+        config.addDefault("Messages.GUIRegionfinderTeleportToSignButton","&6Teleport to buy sign!");
+        config.addDefault("Messages.GUINextPageButton","&6Next page");
+        config.addDefault("Messages.GUIPrevPageButton","&Prev page");
+        config.addDefault("Messages.Enabled","&aenabled");
+        config.addDefault("Messages.Disabled","&cdisabled");
+        config.addDefault("Messages.Sold","&csold");
+        config.addDefault("Messages.Available","&aavailable");
+        config.addDefault("Messages.GUIHotelButtonLore", new ArrayList<String>(Arrays.asList("&6The hotel function allows you to prevent players", "&6from breaking blocks they do not have placed", "&6Status: %hotelfunctionstatus%", "&6Click to enable/disable")));
+        config.addDefault("Messages.GUISubregionInfoSell", new ArrayList<String>(Arrays.asList("%regionid%", "Selltype: %selltype%", "Status: %soldstatus%", "Price: %price%", "Price per M2: %price%", "Dimensions: %dimensions%")));
+        config.addDefault("Messages.GUISubregionInfoRent", new ArrayList<String>(Arrays.asList("%regionid%", "Selltype: %selltype%", "Status: %soldstatus%", "Price: %price%", "Price per M2: %price%", "Extend per click: %extendperclick%", "Max. extended time: %maxrenttime%", "Dimensions: %dimensions%")));
+        config.addDefault("Messages.GUISubregionInfoContract", new ArrayList<String>(Arrays.asList("%regionid%", "Selltype: %selltype%", "Status: %soldstatus%", "Price: %price%", "Price per M2: %price%", "Automatic extend time: %extend%", "Dimensions: %dimensions%")));
+        config.addDefault("Messages.GUIRegionfinderInfoSell", new ArrayList<String>(Arrays.asList("%regionid%", "Price: %price%", "Price per M2: %price%", "Dimensions: %dimensions%", "World: %world%")));
+        config.addDefault("Messages.GUISubregionInfoRent", new ArrayList<String>(Arrays.asList("%regionid%", "Price per M2: %priceperm2%" ,"Price (per week): %priceperm2perweek%", "Extend per click: %extendperclick%","Max. extended time: %maxrenttime%", "Dimensions: %dimensions%", "World: %world%")));
+        config.addDefault("Messages.GUISubregionInfoContract", new ArrayList<String>(Arrays.asList("%regionid%", "Price: %price%", "Price per M2 (per week): %priceperm2perweek%", "Automatic extend time: %extend%","Dimensions: %dimensions%", "World: %world%")));
+        config.addDefault("Messages.SubregionCreationCreateSignInfo", new ArrayList<String>(Arrays.asList("&aYour selection has been saved! You can now create a sign to sell the region.", "&aCreate a Sell-Region:", "&6First line: &b[sub-sell]", "&6Last line: &bprice", "", "&aCreate a Rent-Region:", "&6First line: &b[sub-rent]",
+                "&6Last line: &bPricePerPeriod&6;&bExtendPerClick&6;&bMaxExtendTime", "&6example for ExtendPerClick/MaxExtendTime: 5d (5 days)", "", "&aCreate a Contract-Region:", "&6First line: &b[sub-contract]", "&6Last line: &bPricePerPeriod&6;&bExtendTime", "&6example for ExtendTime: 12h (12 hours)")));
+        config.addDefault("Messages.SubregionCreationSelectAreaInfo", new ArrayList<String>(Arrays.asList("&aYou got a tool in your inventory (feather) to select 2 points of your region that will mark the corners of your new subregion.", "&aLeft click to select pos1", "&aRight click to select pos2", "&aType \"&6/arm subregion create\" &aif you are done")));
 
 
         config.options().copyDefaults(true);

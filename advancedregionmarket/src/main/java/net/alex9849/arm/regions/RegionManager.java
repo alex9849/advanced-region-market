@@ -46,6 +46,8 @@ public class RegionManager {
         regionsconf.set("Regions." + region.getRegionworld().getName() + "." + region.getRegion().getId() + ".isHotel", region.isHotel);
         regionsconf.set("Regions." + region.getRegionworld().getName() + "." + region.getRegion().getId() + ".doBlockReset", region.isDoBlockReset());
         regionsconf.set("Regions." + region.getRegionworld().getName() + "." + region.getRegion().getId() + ".allowedSubregions", region.getAllowedSubregions());
+        regionsconf.set("Regions." + region.getRegionworld().getName() + "." + region.getRegion().getId() + ".isUserResettable", region.isUserResettable());
+
         for(Region subregion : region.getSubregions()) {
             regionsconf.set("Regions." + region.getRegionworld().getName() + "." + region.getRegion().getId() + ".subregions." + subregion.getRegion().getId() + ".price", subregion.getPrice());
             regionsconf.set("Regions." + region.getRegionworld().getName() + "." + region.getRegion().getId() + ".subregions." + subregion.getRegion().getId() + ".sold", subregion.isSold());
@@ -170,6 +172,7 @@ public class RegionManager {
                                     long lastreset = RegionManager.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".lastreset");
                                     String teleportLocString = RegionManager.getRegionsConf().getString("Regions." + worlds.get(y) + "." + regions.get(i) + ".teleportLoc");
                                     int allowedSubregions = RegionManager.getRegionsConf().getInt("Regions." + worlds.get(y) + "." + regions.get(i) + ".allowedSubregions");
+                                    boolean isUserResettable = RegionManager.getRegionsConf().getBoolean("Regions." + worlds.get(y) + "." + regions.get(i) + ".isUserResettable");
                                     Location teleportLoc = null;
                                     if(teleportLocString != null) {
                                         String[] teleportLocarr = teleportLocString.split(";");
@@ -284,16 +287,16 @@ public class RegionManager {
                                             long maxRentTime = RegionManager.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".maxRentTime");
                                             long rentExtendPerClick = RegionManager.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".rentExtendPerClick");
                                             Region armregion = new RentRegion(region, regionWorld, regionsigns, price, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, teleportLoc,
-                                                    lastreset, true, payedtill, maxRentTime, rentExtendPerClick, subregions, allowedSubregions);
+                                                    lastreset, isUserResettable, payedtill, maxRentTime, rentExtendPerClick, subregions, allowedSubregions);
                                             loadedRegions.add(armregion);
                                         } else if (regiontype.equalsIgnoreCase("sellregion")){
-                                            Region armregion = new SellRegion(region, regionWorld, regionsigns, price, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, teleportLoc, lastreset, true, subregions, allowedSubregions);
+                                            Region armregion = new SellRegion(region, regionWorld, regionsigns, price, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, teleportLoc, lastreset, isUserResettable, subregions, allowedSubregions);
                                             loadedRegions.add(armregion);
                                         } else if (regiontype.equalsIgnoreCase("contractregion")) {
                                             long payedtill = RegionManager.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".payedTill");
                                             long extendTime = RegionManager.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".extendTime");
                                             Boolean terminated = RegionManager.getRegionsConf().getBoolean("Regions." + worlds.get(y) + "." + regions.get(i) + ".terminated");
-                                            Region armregion = new ContractRegion(region, regionWorld, regionsigns, price, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, teleportLoc, lastreset, true,extendTime, payedtill, terminated, subregions, allowedSubregions);
+                                            Region armregion = new ContractRegion(region, regionWorld, regionsigns, price, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, teleportLoc, lastreset, isUserResettable,extendTime, payedtill, terminated, subregions, allowedSubregions);
                                             loadedRegions.add(armregion);
                                         }
                                     }

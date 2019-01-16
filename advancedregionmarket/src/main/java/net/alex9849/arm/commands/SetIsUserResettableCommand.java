@@ -14,11 +14,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class DoBlockResetCommand extends BasicArmCommand {
-
-    private final String rootCommand = "doblockreset";
-    private final String regex = "(?i)doblockreset [^;\n ]+ (false|true)";
-    private final List<String> usage = new ArrayList<>(Arrays.asList("doblockreset [REGION] [true/false]"));
+public class SetIsUserResettableCommand extends BasicArmCommand {
+    private final String rootCommand = "setisuserresettable";
+    private final String regex = "(?i)setisuserresettable [^;\n ]+ (false|true)";
+    private final List<String> usage = new ArrayList<>(Arrays.asList("setisuserresettable [REGION] [true/false]"));
 
     @Override
     public boolean matchesRegex(String command) {
@@ -41,7 +40,7 @@ public class DoBlockResetCommand extends BasicArmCommand {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Player player = (Player) sender;
-        if(!player.hasPermission(Permission.ADMIN_CHANGE_DO_BLOCK_RESET)) {
+        if(!player.hasPermission(Permission.ADMIN_SET_IS_USERRESETTABLE)) {
             throw new InputException(player, Messages.NO_PERMISSION);
         }
         Region region = RegionManager.getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
@@ -50,12 +49,11 @@ public class DoBlockResetCommand extends BasicArmCommand {
         }
 
         if(region.isSubregion()) {
-            throw new InputException(sender, Messages.SUB_REGION_DO_BLOCKRESET_ERROR);
+            throw new InputException(sender, Messages.SUB_REGION_IS_USER_RESETTABLE_ERROR);
         }
 
         Boolean boolsetting = Boolean.parseBoolean(args[2]);
-
-        region.setDoBlockReset(boolsetting);
+        region.setIsUserResettable(boolsetting);
 
         String message = "disabled";
 
@@ -63,7 +61,7 @@ public class DoBlockResetCommand extends BasicArmCommand {
             message = "enabled";
         }
 
-        sender.sendMessage(Messages.PREFIX + "DoBlockReset " + message + " for " + region.getRegion().getId() + "!");
+        sender.sendMessage(Messages.PREFIX + "isUserResettable " + message + " for " + region.getRegion().getId() + "!");
         return true;
     }
 
@@ -73,7 +71,7 @@ public class DoBlockResetCommand extends BasicArmCommand {
 
         if(args.length >= 1) {
             if (this.rootCommand.startsWith(args[0])) {
-                if(player.hasPermission(Permission.ADMIN_CHANGE_DO_BLOCK_RESET)) {
+                if(player.hasPermission(Permission.ADMIN_SET_IS_USERRESETTABLE)) {
                     if(args.length == 1) {
                         returnme.add(this.rootCommand);
                     } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {

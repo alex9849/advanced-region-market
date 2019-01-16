@@ -178,6 +178,8 @@ Subregions:
   AllowSubRegionUserReset: false
   SubregionBlockReset: false
   SubregionAutoReset: true
+  deleteSubregionsOnParentRegionUnsell: false
+  deleteSubregionsOnParentRegionBlockReset: false
 
 Reselling:
   Offers:
@@ -214,6 +216,6 @@ GUI:
   DisplayRegionFinderButton: true
 
 #Do not change this
-Version: 1.52
+Version: 1.6
 # Programmed by Alex9849
 # If you like my plugin you are free to donate me via PayPal https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2Z6VVLS5SZXJS

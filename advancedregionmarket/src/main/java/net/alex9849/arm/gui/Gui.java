@@ -316,11 +316,16 @@ public class Gui implements Listener {
         }
 
         if(player.hasPermission(Permission.SUBREGION_CHANGE_IS_HOTEL)) {
-            ClickItem isHotelItem = new ClickItem(new ItemStack(Gui.HOTEL_SETTING_ITEM), Messages.GUI_SUBREGION_HOTEL_BUTTON, Messages.GUI_SUBREGION_HOTEL_BUTTON_LORE);
+            List<String> message = new ArrayList<>();
+            for(String origmessage : Messages.GUI_SUBREGION_HOTEL_BUTTON_LORE) {
+                message.add(region.getConvertedMessage(origmessage));
+            }
+            ClickItem isHotelItem = new ClickItem(new ItemStack(Gui.HOTEL_SETTING_ITEM), Messages.GUI_SUBREGION_HOTEL_BUTTON, message);
             isHotelItem= isHotelItem.addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
                     region.setHotel(!region.isHotel());
+                    Gui.openSubregionManager(player, region, parentRegion);
                 }
             });
             inv.addIcon(isHotelItem, getPosition(actitem, itemcounter));

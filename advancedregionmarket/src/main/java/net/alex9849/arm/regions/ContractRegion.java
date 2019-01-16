@@ -398,6 +398,11 @@ public class ContractRegion extends Region {
     }
 
     @Override
+    protected String getSellType() {
+        return Messages.CONTRACTREGION_NAME;
+    }
+
+    @Override
     public String getConvertedMessage(String message) {
         message = message.replace("%status%", this.getTerminationString());
         message = message.replace("%statuslong%", this.getTerminationStringLong());

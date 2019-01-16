@@ -309,6 +309,11 @@ public abstract class Region {
         return true;
     }
 
+    public void setIsUserResettable(boolean bool) {
+        this.isUserResettable = bool;
+        RegionManager.saveRegion(this);
+    }
+
     public RegionKind getRegionKind(){
         return this.regionKind;
     }
@@ -325,6 +330,11 @@ public abstract class Region {
         this.resetBuiltBlocks();
         try {
             AdvancedRegionMarket.getWorldEditInterface().resetBlocks(this.getRegion(), this.getRegionworld(), AdvancedRegionMarket.getWorldedit().getWorldEdit());
+            if(ArmSettings.isDeleteSubregionsOnParentRegionBlockReset()) {
+                for(int i = 0; i < this.getSubregions().size();) {
+                    this.getSubregions().get(i).delete();
+                }
+            }
         } catch (IOException e) {
             Bukkit.getLogger().log(Level.INFO, "[ARM] Could load schematic for Region " + this.getRegion().getId() + "! Does it exist?");
         }
@@ -383,6 +393,7 @@ public abstract class Region {
             }
             sender.sendMessage(autoresetmsg);
             sender.sendMessage(Messages.REGION_INFO_DO_BLOCK_RESET + Messages.convertYesNo(this.isDoBlockReset));
+            sender.sendMessage(Messages.REGION_INFO_IS_USER_RESETTABLE + Messages.convertYesNo(this.isUserResettable));
         }
         this.displayExtraInfo(sender);
         if(!this.isSubregion()) {
@@ -571,8 +582,10 @@ public abstract class Region {
         this.sold = false;
         this.lastreset = 1;
 
-        for(int i = 0; i < this.getSubregions().size();) {
-            this.getSubregions().get(i).delete();
+        if(ArmSettings.isDeleteSubregionsOnParentRegionUnsell()) {
+            for(int i = 0; i < this.getSubregions().size();) {
+                this.getSubregions().get(i).delete();
+            }
         }
 
         for(int i = 0; i < this.sellsign.size(); i++){
@@ -653,6 +666,8 @@ public abstract class Region {
         }
     }
 
+    protected abstract String getSellType();
+
     public String getConvertedMessage(String message) {
         message = message.replace("%regionid%", this.getRegion().getId());
         message = message.replace("%region%", this.getRegion().getId());
@@ -667,6 +682,7 @@ public abstract class Region {
         message = message.replace("%subregionlimit%", this.getAllowedSubregions() + "");
         message = message.replace("%hotelfunctionstatus%", this.getHotelFunctionStringStatus());
         message = message.replace("%soldstatus%", this.getSoldStringStatus());
+        message = message.replace("%selltype%", this.getSellType());
         return message;
     }
 }

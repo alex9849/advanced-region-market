@@ -1,6 +1,7 @@
 package net.alex9849.arm.SubRegions;
 
 import net.alex9849.arm.AdvancedRegionMarket;
+import net.alex9849.arm.Messages;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.exceptions.LogicalException;
 import net.alex9849.arm.minifeatures.ParticleBorder;
@@ -25,8 +26,7 @@ public class SubRegionCreator {
 
     public SubRegionCreator(Region parentRegion, Player creator) throws InputException {
         if(!parentRegion.isAllowSubregions()) {
-            //TODO
-            throw new InputException(creator, "You can not create subregions for this region");
+            throw new InputException(creator, this.getParentRegion().getConvertedMessage(Messages.SUB_REGION_LIMIT_REACHED));
         }
         this.parentRegion = parentRegion;
         this.creator = creator;
@@ -70,28 +70,26 @@ public class SubRegionCreator {
     }
 
     private void checkLegalPosition(Location pos) throws InputException {
-        //TODO change message
         if(!this.parentRegion.getRegion().contains(pos.getBlockX(), pos.getBlockY(), pos.getBlockZ())) {
-            throw new InputException(this.creator, "Position could not be set (outsinde of region)");
+            throw new InputException(this.creator, Messages.POSITION_CLOUD_NOT_BE_SET_MARK_OUTSIDE_REGION);
         }
         if(!this.parentRegion.getRegionworld().getName().equals(this.creator.getLocation().getWorld().getName())) {
-            throw new InputException(this.creator, "Position could not be set (outsinde of region)");
+            throw new InputException(this.creator, Messages.POSITION_CLOUD_NOT_BE_SET_MARK_OUTSIDE_REGION);
         }
         if(!RegionManager.containsRegion(this.getParentRegion())) {
             this.remove();
-            throw new InputException(this.creator, "Position could not be set (Region not registred)");
+            throw new InputException(this.creator, Messages.REGION_NOT_REGISTRED);
         }
         for(Region subregion : this.parentRegion.getSubregions()) {
             if(subregion.getRegion().contains(pos.getBlockX(), pos.getBlockY(), pos.getBlockZ())) {
-                throw new InputException(this.creator, "Position could not be set (there already is a subregion at this position)");
+                throw new InputException(this.creator, Messages.ALREADY_SUB_REGION_AT_THIS_POSITION);
             }
         }
     }
 
     public void createWGRegion() throws InputException {
         if((this.pos1 == null) || (this.pos2 == null)) {
-            //TODO Replace me
-            throw new InputException(this.creator, "meep");
+            throw new InputException(this.creator, Messages.SELECTION_INVALID);
         }
         if(this.subSignCreationListener != null) {
             this.subSignCreationListener.unregister();
@@ -108,19 +106,19 @@ public class SubRegionCreator {
 
         if(!this.getParentRegion().getRegion().hasOwner(creator.getUniqueId())) {
             this.remove();
-            throw new InputException(this.creator, "meep");
+            throw new InputException(this.creator, Messages.PARENT_REGION_NOT_OWN);
         }
         if(!RegionManager.containsRegion(this.getParentRegion())) {
             this.remove();
-            throw new InputException(this.creator, "Position could not be set (Region not registred)");
+            throw new InputException(this.creator, Messages.REGION_NOT_REGISTRED);
         }
         for(Region region : this.getParentRegion().getSubregions()) {
             if(this.checkOverlap(region)) {
-                throw new InputException(this.creator, "overlap");
+                throw new InputException(this.creator, Messages.ALREADY_SUB_REGION_AT_THIS_POSITION);
             }
         }
         if (this.getParentRegion().getSubregions().size() >= this.getParentRegion().getAllowedSubregions()) {
-            throw new InputException(this.getCreator(), "You are only allowed to create max " + this.getParentRegion().getAllowedSubregions() + " subregions");
+            throw new InputException(this.getCreator(), this.getParentRegion().getConvertedMessage(Messages.SUB_REGION_LIMIT_REACHED));
         }
 
         int subregionID = 1;

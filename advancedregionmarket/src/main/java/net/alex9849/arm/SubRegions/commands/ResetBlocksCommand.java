@@ -47,20 +47,19 @@ public class ResetBlocksCommand extends BasicArmCommand {
         Region region = RegionManager.getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
 
         if (!region.isSubregion()) {
-            //TODO make changeable
-            throw new InputException(sender, "Region is not a subregion");
+            throw new InputException(sender, Messages.REGION_NOT_A_SUBREGION);
         }
 
         if(!region.getParentRegion().getRegion().hasOwner(player.getUniqueId())) {
-            throw new InputException(sender, "You dont own the parent region of this subregion");
+            throw new InputException(sender, Messages.PARENT_REGION_NOT_OWN);
         }
 
         if(!region.isUserResettable()) {
-            throw new InputException(sender, "Region not resettable");
+            throw new InputException(sender, Messages.REGION_NOT_RESETTABLE);
         }
 
         region.resetBlocks();
-        sender.sendMessage(Messages.PREFIX + "Complete");
+        sender.sendMessage(Messages.PREFIX + Messages.COMPLETE);
         return true;
     }
 

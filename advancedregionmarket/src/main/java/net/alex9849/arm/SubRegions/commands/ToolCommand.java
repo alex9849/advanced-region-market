@@ -45,12 +45,13 @@ public class ToolCommand extends BasicArmCommand {
         }
         Player player = (Player) sender;
         ItemStack subRegionTool = new ItemStack(Material.FEATHER, 1);
-        //TODO Change me
         ItemMeta itemMeta = subRegionTool.getItemMeta();
-        itemMeta.setDisplayName("Subregion Tool");
+        itemMeta.setDisplayName(Messages.REGION_NOT_A_SUBREGION);
         subRegionTool.setItemMeta(itemMeta);
         player.getInventory().addItem(subRegionTool);
-        //TODO Add instruction message
+        for(String msg : Messages.SUBREGION_TOOL_INSTRUCTION) {
+            player.sendMessage(msg);
+        }
         return true;
     }
 

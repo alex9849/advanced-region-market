@@ -50,18 +50,16 @@ public class HotelCommand extends BasicArmCommand {
             throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
         }
         if(!region.isSubregion()) {
-            //TODO
-            throw new InputException(player, "region not a subregion");
+            throw new InputException(player, Messages.REGION_NOT_A_SUBREGION);
         }
         if(!region.getParentRegion().getRegion().hasOwner(player.getUniqueId())) {
-            throw new InputException(player, "dont own parentregion");
+            throw new InputException(player, Messages.PARENT_REGION_NOT_OWN);
         }
         region.setHotel(Boolean.parseBoolean(args[2]));
         String state = "disabled";
         if(Boolean.parseBoolean(args[2])){
             state = "enabled";
         }
-        //TODO
         player.sendMessage(Messages.PREFIX + "isHotel " + state + " for " + region.getRegion().getId());
         return true;
     }

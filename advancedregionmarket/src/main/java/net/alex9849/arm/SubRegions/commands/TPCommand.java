@@ -48,12 +48,11 @@ public class TPCommand extends BasicArmCommand {
         Region region = RegionManager.getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
 
         if (!region.isSubregion()) {
-            //TODO make changeable
-            throw new InputException(sender, "Region is not a subregion");
+            throw new InputException(sender, Messages.REGION_NOT_A_SUBREGION);
         }
 
         if(!region.getParentRegion().getRegion().hasOwner(player.getUniqueId())) {
-            throw new InputException(sender, "You dont own the parent region of this subregion");
+            throw new InputException(sender, Messages.PARENT_REGION_NOT_OWN);
         }
 
         Teleporter.teleport(player, region);

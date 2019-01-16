@@ -386,9 +386,8 @@ public abstract class Region {
         }
         this.displayExtraInfo(sender);
         if(!this.isSubregion()) {
-            //TODO change message
-            sender.sendMessage("Allowed subregions: " + this.getAllowedSubregions());
-            sender.sendMessage("Subregions: " + subregions);
+            sender.sendMessage(Messages.REGION_INFO_ALLOWED_SUBREGIONS + this.getAllowedSubregions());
+            sender.sendMessage(Messages.REGION_INFO_SUBREGIONS + subregions);
         }
 
 
@@ -649,6 +648,7 @@ public abstract class Region {
         message = message.replace("%currency%", Messages.CURRENCY);
         message = message.replace("%owner%", this.getOwnerName());
         message = message.replace("%world%", this.getRegionworld().getName());
+        message = message.replace("%subregionlimit%", this.getAllowedSubregions() + "");
         return message;
     }
 }

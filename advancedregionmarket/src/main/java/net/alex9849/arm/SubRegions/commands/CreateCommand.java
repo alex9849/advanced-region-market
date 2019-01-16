@@ -44,10 +44,10 @@ public class CreateCommand extends BasicArmCommand {
         Player player = (Player) sender;
         SubRegionCreator selection = SubRegionCreator.getSubRegioncreator(player);
         if(selection == null) {
-            //TODO
-            throw new InputException(player, "No selection");
+            throw new InputException(player, Messages.SELECTION_INVALID);
         }
         selection.createWGRegion();
+        //TODO
         player.sendMessage("Region created you can now create a Sign");
         return true;
     }

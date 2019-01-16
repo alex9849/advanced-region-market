@@ -47,16 +47,15 @@ public class UnsellCommand extends BasicArmCommand {
         Region region = RegionManager.getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
 
         if (!region.isSubregion()) {
-            //TODO make changeable
-            throw new InputException(sender, "Region is not a subregion");
+            throw new InputException(sender, Messages.REGION_NOT_A_SUBREGION);
         }
 
         if(!region.getParentRegion().getRegion().hasOwner(player.getUniqueId())) {
-            throw new InputException(sender, "You dont own the parent region of this subregion");
+            throw new InputException(sender, Messages.PARENT_REGION_NOT_OWN);
         }
 
         region.unsell();
-        player.sendMessage(Messages.PREFIX + "Region is now available");
+        player.sendMessage(Messages.PREFIX + Messages.REGION_NOW_AVIABLE);
         return true;
     }
 

@@ -47,23 +47,22 @@ public class DeleteCommand extends BasicArmCommand {
         Region region = RegionManager.getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
 
         if (!region.isSubregion()) {
-            //TODO make changeable
-            throw new InputException(sender, "Region is not a subregion");
+            throw new InputException(sender, Messages.REGION_NOT_A_SUBREGION);
         }
 
         if(!region.getParentRegion().getRegion().hasOwner(player.getUniqueId())) {
-            throw new InputException(sender, "You dont own the parent region of this subregion");
+            throw new InputException(sender, Messages.PARENT_REGION_NOT_OWN);
         }
 
         if(region.isSold() && (!player.hasPermission(Permission.SUBREGION_DELETE_SOLD))) {
-            throw new InputException(player, "not allowed to remove sold subregions!");
+            throw new InputException(player, Messages.NOT_ALLOWED_TO_REMOVE_SUB_REGION_SOLD);
         }
         if((!region.isSold()) && (!player.hasPermission(Permission.SUBREGION_DELETE_AVAILABLE))) {
-            throw new InputException(player, "not allowed to remove available subregions!");
+            throw new InputException(player, Messages.NOT_ALLOWED_TO_REMOVE_SUB_REGION_AVAILABLE);
         }
 
         region.delete();
-        player.sendMessage(Messages.PREFIX + "Region deleted!");
+        player.sendMessage(Messages.PREFIX + Messages.REGION_DELETED);
         return true;
     }
 

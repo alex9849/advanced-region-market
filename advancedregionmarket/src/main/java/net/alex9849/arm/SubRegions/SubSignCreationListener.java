@@ -44,7 +44,7 @@ public class SubSignCreationListener implements Listener {
                 try {
                     price = Integer.parseInt(event.getLine(3));
                 } catch (IllegalArgumentException e) {
-                    //Change message
+                    //TODO Change message
                     throw new InputException(event.getPlayer(), "Use a number as price in line 4");
                 }
                 List<Sign> signList = new ArrayList<>();
@@ -55,8 +55,7 @@ public class SubSignCreationListener implements Listener {
                 this.subRegionCreator.getParentRegion().addSubRegion(sellRegion);
                 sellRegion.createSchematic();
                 this.subRegionCreator.remove();
-                //TODO change message
-                event.getPlayer().sendMessage(Messages.PREFIX + "Region created and saved");
+                event.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_CREATED_AND_SAVED);
             } else if(event.getLine(0).equalsIgnoreCase("[Sub-Rent]")) {
                 if(!event.getPlayer().hasPermission(Permission.SUBREGION_CREATE_RENT)) {
                     throw new InputException(event.getPlayer(), Messages.NO_PERMISSION);
@@ -92,8 +91,7 @@ public class SubSignCreationListener implements Listener {
                 this.subRegionCreator.getParentRegion().addSubRegion(rentRegion);
                 rentRegion.createSchematic();
                 this.subRegionCreator.remove();
-                //TODO change message
-                event.getPlayer().sendMessage(Messages.PREFIX + "Region created and saved");
+                event.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_CREATED_AND_SAVED);
             } else if(event.getLine(0).equalsIgnoreCase("[Sub-Contract]")) {
                 if(!event.getPlayer().hasPermission(Permission.SUBREGION_CREATE_CONTRACT)) {
                     throw new InputException(event.getPlayer(), Messages.NO_PERMISSION);
@@ -126,8 +124,7 @@ public class SubSignCreationListener implements Listener {
                 this.subRegionCreator.getParentRegion().addSubRegion(contractRegion);
                 contractRegion.createSchematic();
                 this.subRegionCreator.remove();
-                //TODO change message
-                event.getPlayer().sendMessage(Messages.PREFIX + "Region created and saved");
+                event.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_CREATED_AND_SAVED);
             }
         } catch (InputException e) {
             e.sendMessages();

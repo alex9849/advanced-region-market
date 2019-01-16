@@ -358,24 +358,21 @@ public class ARMListener implements Listener {
                                 block.setCancelled(!region.removeSign(loc, block.getPlayer()));
                                 return;
                             } else {
-                                //TODO
                                 block.setCancelled(true);
-                                throw new InputException(block.getPlayer(), "Region is sold");
+                                throw new InputException(block.getPlayer(), Messages.NOT_ALLOWED_TO_REMOVE_SUB_REGION_SOLD);
                             }
                         } else {
                             if(block.getPlayer().hasPermission(Permission.SUBREGION_DELETE_AVAILABLE)) {
                                 block.setCancelled(!region.removeSign(loc, block.getPlayer()));
                                 return;
                             } else {
-                                //TODO
                                 block.setCancelled(true);
-                                throw new InputException(block.getPlayer(), "You are not allowed to remove this region. Please ask an admin if you believe this is an error");
+                                throw new InputException(block.getPlayer(), Messages.NOT_ALLOWED_TO_REMOVE_SUB_REGION_AVAILABLE);
                             }
                         }
                     } else {
-                        //TODO
                         block.setCancelled(true);
-                        throw new InputException(block.getPlayer(), "You dont own the parent region!");
+                        throw new InputException(block.getPlayer(), Messages.PARENT_REGION_NOT_OWN);
                     }
                 }
             }
@@ -580,48 +577,48 @@ public class ARMListener implements Listener {
                                     if(event.getAction() == Action.RIGHT_CLICK_BLOCK) {
                                         subRegionCreator.setPos2(event.getClickedBlock().getLocation());
                                         event.setCancelled(true);
-                                        player.sendMessage("Second position set!");
+                                        player.sendMessage(Messages.SECOND_POSITION_SET);
                                     } else if(event.getAction() == Action.LEFT_CLICK_BLOCK) {
                                         subRegionCreator.setPos1(event.getClickedBlock().getLocation());
                                         event.setCancelled(true);
-                                        player.sendMessage("First position set!");
+                                        player.sendMessage(Messages.FIRST_POSITION_SET);
                                     }
                                     return;
                                 } else {
                                     Region region = net.alex9849.arm.regions.RegionManager.getRegion(wgRegion, event.getClickedBlock().getWorld());
                                     if(region == null) {
-                                        throw new InputException(player, "Region not registred");
+                                        throw new InputException(player, Messages.REGION_NOT_REGISTRED);
                                     }
                                     if(event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                                        player.sendMessage("Mark in other Region. Removing old mark");
+                                        player.sendMessage(Messages.MARK_IN_OTHER_REGION_REMOVING);
                                         subRegionCreator = new SubRegionCreator(region, player);
                                         subRegionCreator.setPos2(event.getClickedBlock().getLocation());
                                         event.setCancelled(true);
-                                        player.sendMessage("Second position set!");
+                                        player.sendMessage(Messages.SECOND_POSITION_SET);
                                     } else if(event.getAction() == Action.LEFT_CLICK_BLOCK) {
-                                        player.sendMessage("Mark in other Region. Removing old mark");
+                                        player.sendMessage(Messages.MARK_IN_OTHER_REGION_REMOVING);
                                         subRegionCreator = new SubRegionCreator(region, player);
                                         subRegionCreator.setPos1(event.getClickedBlock().getLocation());
                                         event.setCancelled(true);
-                                        player.sendMessage("First position set!");
+                                        player.sendMessage(Messages.FIRST_POSITION_SET);
                                     }
                                     return;
                                 }
                             } else {
                                 Region region = net.alex9849.arm.regions.RegionManager.getRegion(wgRegion, event.getClickedBlock().getWorld());
                                 if(region == null) {
-                                    throw new InputException(player, "Region not registred");
+                                    throw new InputException(player, Messages.REGION_NOT_REGISTRED);
                                 }
                                 if(event.getAction() == Action.RIGHT_CLICK_BLOCK) {
                                     subRegionCreator = new SubRegionCreator(region, player);
                                     subRegionCreator.setPos2(event.getClickedBlock().getLocation());
                                     event.setCancelled(true);
-                                    player.sendMessage("Second position set!");
+                                    player.sendMessage(Messages.SECOND_POSITION_SET);
                                 } else if(event.getAction() == Action.LEFT_CLICK_BLOCK) {
                                     subRegionCreator = new SubRegionCreator(region, player);
                                     subRegionCreator.setPos1(event.getClickedBlock().getLocation());
                                     event.setCancelled(true);
-                                    player.sendMessage("First position set!");
+                                    player.sendMessage(Messages.FIRST_POSITION_SET);
                                 }
                                 return;
                             }

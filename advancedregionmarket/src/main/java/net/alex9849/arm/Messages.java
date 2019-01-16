@@ -52,6 +52,8 @@ public class Messages {
     public static String REGION_INFO_EXTEND_PER_CLICK = "";
     public static String REGION_INFO_REMAINING_TIME = "";
     public static String REGION_INFO_HOTEL = "";
+    public static String REGION_INFO_ALLOWED_SUBREGIONS = "";
+    public static String REGION_INFO_SUBREGIONS = "";
     public static String GUI_MAIN_MENU_NAME = "";
     public static String GUI_GO_BACK = "";
     public static String GUI_MY_OWN_REGIONS = "";
@@ -203,6 +205,22 @@ public class Messages {
     public static String SUB_REGION_REGIONKIND_ERROR = "";
     public static String SUB_REGION_REGIONKIND_ONLY_FOR_SUB_REGIONS = "";
     public static String SUB_REGION_TELEPORT_LOCATION_ERROR = "";
+    public static String REGION_NOT_REGISTRED = "";
+    public static String FIRST_POSITION_SET = "";
+    public static String SECOND_POSITION_SET = "";
+    public static String MARK_IN_OTHER_REGION_REMOVING = "";
+    public static String PARENT_REGION_NOT_OWN = "";
+    public static String NOT_ALLOWED_TO_REMOVE_SUB_REGION_SOLD = "";
+    public static String NOT_ALLOWED_TO_REMOVE_SUB_REGION_AVAILABLE = "";
+    public static String POSITION_CLOUD_NOT_BE_SET_MARK_OUTSIDE_REGION = "";
+    public static String ALREADY_SUB_REGION_AT_THIS_POSITION = "";
+    public static String SUB_REGION_LIMIT_REACHED = "";
+    public static String SELECTION_INVALID = "";
+    public static String REGION_CREATED_AND_SAVED = "";
+    public static String REGION_NOT_A_SUBREGION = "";
+    public static String REGION_DELETED = "";
+
+    public static List<String> SUBREGION_TOOL_INSTRUCTION = new ArrayList<>();
 
 
     public static List<String> GUI_TELEPORT_TO_REGION_BUTTON_LORE = new LinkedList<>();
@@ -261,6 +279,8 @@ public class Messages {
         REGION_INFO_MEMBERS = config.getString("Messages.RegionInfoMembers");
         REGION_INFO_SOLD = config.getString("Messages.RegionInfoSold");
         REGION_INFO_AUTORESET = config.getString("Messages.RegionInfoAutoreset");
+        REGION_INFO_ALLOWED_SUBREGIONS = config.getString("Messages.RegionInfoAllowedSubregions");
+        REGION_INFO_SUBREGIONS = config.getString("Messages.RegionInfoSubregions");
         GUI_MAIN_MENU_NAME = config.getString("Messages.GUIMainMenuName");
         GUI_GO_BACK = config.getString("Messages.GUIGoBack");
         GUI_MY_OWN_REGIONS = config.getString("Messages.GUIMyOwnRegions");
@@ -425,6 +445,21 @@ public class Messages {
         SUB_REGION_REGIONKIND_ERROR = config.getString("Messages.SubregionRegionkindError");
         SUB_REGION_REGIONKIND_ONLY_FOR_SUB_REGIONS = config.getString("Messages.SubRegionRegionkindOnlyForSubregions");
         SUB_REGION_TELEPORT_LOCATION_ERROR = config.getString("Messages.SubregionTeleportLocationError");
+        REGION_NOT_REGISTRED  = config.getString("Messages.RegionNotRegistred");
+        FIRST_POSITION_SET  = config.getString("Messages.FirstPositionSet");
+        SECOND_POSITION_SET  = config.getString("Messages.SecondPositionSet");
+        MARK_IN_OTHER_REGION_REMOVING  = config.getString("Messages.MarkInOtherRegion");
+        PARENT_REGION_NOT_OWN =  config.getString("Messages.ParentRegionNotOwn");
+        NOT_ALLOWED_TO_REMOVE_SUB_REGION_SOLD  = config.getString("Messages.SubRegionRemoveNoPermissionBecauseSold");
+        NOT_ALLOWED_TO_REMOVE_SUB_REGION_AVAILABLE  = config.getString("Messages.SubRegionRemoveNoPermissionBecauseAvailable");
+        POSITION_CLOUD_NOT_BE_SET_MARK_OUTSIDE_REGION = config.getString("Messages.PosCloudNotBeSetMarkOutsideRegion");
+        ALREADY_SUB_REGION_AT_THIS_POSITION = config.getString("Messages.SubRegionAlreadyAtThisPosition");
+        SUB_REGION_LIMIT_REACHED = config.getString("Messages.SubRegionLimitReached");
+        SELECTION_INVALID = config.getString("Messages.SelectionInvalid");
+        REGION_CREATED_AND_SAVED = config.getString("Messages.RegionCreatedAndSaved");
+        REGION_NOT_A_SUBREGION = config.getString("Messages.RegionNotASubregion");
+        REGION_DELETED = config.getString("Messages.RegionDeleted");
+        SUBREGION_TOOL_INSTRUCTION = config.getStringList("Messages.SubRegionToolInstruction");
 
 
 
@@ -619,7 +654,26 @@ public class Messages {
         SUB_REGION_REGIONKIND_ERROR = ChatColor.translateAlternateColorCodes('&', SUB_REGION_REGIONKIND_ERROR);
         SUB_REGION_REGIONKIND_ONLY_FOR_SUB_REGIONS = ChatColor.translateAlternateColorCodes('&', SUB_REGION_REGIONKIND_ONLY_FOR_SUB_REGIONS);
         SUB_REGION_TELEPORT_LOCATION_ERROR = ChatColor.translateAlternateColorCodes('&', SUB_REGION_TELEPORT_LOCATION_ERROR);
+        REGION_INFO_ALLOWED_SUBREGIONS = ChatColor.translateAlternateColorCodes('&', REGION_INFO_ALLOWED_SUBREGIONS);
+        REGION_INFO_SUBREGIONS = ChatColor.translateAlternateColorCodes('&', REGION_INFO_SUBREGIONS);
+        REGION_NOT_REGISTRED  = ChatColor.translateAlternateColorCodes('&', REGION_NOT_REGISTRED);
+        FIRST_POSITION_SET  = ChatColor.translateAlternateColorCodes('&', FIRST_POSITION_SET);
+        SECOND_POSITION_SET  = ChatColor.translateAlternateColorCodes('&', SECOND_POSITION_SET);
+        MARK_IN_OTHER_REGION_REMOVING  = ChatColor.translateAlternateColorCodes('&', MARK_IN_OTHER_REGION_REMOVING);
+        PARENT_REGION_NOT_OWN =  ChatColor.translateAlternateColorCodes('&', PARENT_REGION_NOT_OWN);
+        NOT_ALLOWED_TO_REMOVE_SUB_REGION_SOLD  = ChatColor.translateAlternateColorCodes('&', NOT_ALLOWED_TO_REMOVE_SUB_REGION_SOLD);
+        NOT_ALLOWED_TO_REMOVE_SUB_REGION_AVAILABLE  = ChatColor.translateAlternateColorCodes('&', NOT_ALLOWED_TO_REMOVE_SUB_REGION_AVAILABLE);
+        POSITION_CLOUD_NOT_BE_SET_MARK_OUTSIDE_REGION = ChatColor.translateAlternateColorCodes('&', POSITION_CLOUD_NOT_BE_SET_MARK_OUTSIDE_REGION);
+        ALREADY_SUB_REGION_AT_THIS_POSITION = ChatColor.translateAlternateColorCodes('&', ALREADY_SUB_REGION_AT_THIS_POSITION);
+        SUB_REGION_LIMIT_REACHED = ChatColor.translateAlternateColorCodes('&', SUB_REGION_LIMIT_REACHED);
+        SELECTION_INVALID = ChatColor.translateAlternateColorCodes('&', SELECTION_INVALID);
+        REGION_CREATED_AND_SAVED = ChatColor.translateAlternateColorCodes('&', REGION_CREATED_AND_SAVED);
+        REGION_NOT_A_SUBREGION = ChatColor.translateAlternateColorCodes('&', REGION_NOT_A_SUBREGION);
+        REGION_DELETED = ChatColor.translateAlternateColorCodes('&', REGION_DELETED);
 
+        for(int i = 0; i < SUBREGION_TOOL_INSTRUCTION.size(); i++){
+            SUBREGION_TOOL_INSTRUCTION.set(i, ChatColor.translateAlternateColorCodes('&', SUBREGION_TOOL_INSTRUCTION.get(i)));
+        }
         for(int i = 0; i < GUI_TELEPORT_TO_REGION_BUTTON_LORE.size(); i++){
             GUI_TELEPORT_TO_REGION_BUTTON_LORE.set(i, ChatColor.translateAlternateColorCodes('&', GUI_TELEPORT_TO_REGION_BUTTON_LORE.get(i)));
         }
@@ -779,6 +833,11 @@ public class Messages {
         config.addDefault("Messages.SubregionRegionkindError", "&4The selected region is a subregion. You can edit the regionkind for all subregions in the config.yml!");
         config.addDefault("Messages.SubRegionRegionkindOnlyForSubregions", "&4Subregion regionkind only for subregions!");
         config.addDefault("Messages.SubregionTeleportLocationError", "&4The selected region is a subregion. Teleport location can not be changed");
+        config.addDefault("Messages.PosCloudNotBeSetMarkOutsideRegion", "&4Position could not be set! Position outside region");
+        config.addDefault("Messages.SubRegionAlreadyAtThisPosition", "Your selection would overlap with a subregion that already has been created");
+        config.addDefault("Messages.SubRegionLimitReached", "&4You are only allowed to create max &6%subregionlimit% &4subregions");
+        config.addDefault("Messages.SelectionInvalid", "&4Selection invalid! You need to select 2 positions! (Left/Right click) Type \"/arm subregion tool\" to get the selection tool");
+        config.addDefault("Messages.RegionCreatedAndSaved", "&aRegion created and saved!");
 
         config.addDefault("Messages.RegionNotOwn", "&4You do not own this region!");
         config.addDefault("Messages.RegionNotSold", "&4Region not sold!");
@@ -820,8 +879,21 @@ public class Messages {
         config.addDefault("Messages.ContractRegionInfoRemainingTime", "&6Next extend in: ");
         config.addDefault("Messages.RegionInfoYes", "yes");
         config.addDefault("Messages.RegionInfoNo", "no");
+        config.addDefault("Messages.RegionInfoAllowedSubregions", "&6Allowed Subregions: ");
+        config.addDefault("Messages.RegionInfoSubregions", "&6Subregions: ");
         config.addDefault("Messages.RegionInfoMultipleRegions", "&6There are more than one region at your position. Please select one: &4");
         config.addDefault("Messages.RentRegionExpirationWarning", "&4WARNING! This RentRegion(s) will expire soon: &c");
+        config.addDefault("Messages.RegionDeleted", "&aRegion deleted!");
+
+        config.addDefault("Messages.RegionNotRegistred", "&4Region not registred");
+        config.addDefault("Messages.FirstPositionSet", "&aFirst position set!");
+        config.addDefault("Messages.SecondPositionSet", "&aSecond position set!");
+        config.addDefault("Messages.MarkInOtherRegion", "&4Mark in other Region. Removing old mark");
+        config.addDefault("Messages.ParentRegionNotOwn", "&4You don not own the parent region!");
+        config.addDefault("Messages.SubRegionRemoveNoPermissionBecauseSold", "&4You are not allowed to remove this region. Please ask an admin if you believe this is an error");
+        config.addDefault("Messages.SubRegionRemoveNoPermissionBecauseAvailable", "&4You are not allowed to remove this region, because it is sold. You may ask the owner or an admin to release it");
+        config.addDefault("Messages.RegionNotASubregion", "&4Region not a subregion!");
+        config.addDefault("Messages.SubRegionToolInstruction", new ArrayList<String>(Arrays.asList("Left click to select pos1", "Right click to select pos2", "Type \"/arm subregion create\" if you are done")));
 
         config.addDefault("Messages.RentRegion", "RentRegion");
         config.addDefault("Messages.SellRegion", "SellRegion");

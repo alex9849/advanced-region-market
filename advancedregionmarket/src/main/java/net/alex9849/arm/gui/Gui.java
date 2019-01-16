@@ -37,6 +37,13 @@ public class Gui implements Listener {
     private static Material REMOVE_MEMBER_ITEM = Material.LAVA_BUCKET;
     private static Material CONTRACT_ITEM = Material.WRITABLE_BOOK;
     private static Material FILL_ITEM = Material.GRAY_STAINED_GLASS_PANE;
+    private static Material SUBREGION_ITEM = Material.GRASS_BLOCK;
+    private static Material DELETE_ITEM = Material.BARRIER;
+    private static Material TELEPORT_TO_SIGN_ITEM = Material.SIGN;
+    private static Material TELEPORT_TO_REGION_ITEM = Material.GRASS_BLOCK;
+    private static Material NEXT_PAGE_ITEM = Material.ARROW;
+    private static Material PREV_PAGE_ITEM = Material.ARROW;
+
 
     public static void openARMGui(Player player) {
         GuiInventory menu = new GuiInventory(9, Messages.GUI_MAIN_MENU_NAME);
@@ -175,9 +182,8 @@ public class Gui implements Listener {
         actitem++;
 
         if(Permission.hasAnySubregionPermission(player) && region.isAllowSubregions()){
-            //TODO make subregion Item changeable
             //TODO make lore changeable
-            ClickItem teleportericon = new ClickItem(new ItemStack(Material.GRASS_BLOCK), "Subregions", new ArrayList<>()).addClickAction(new ClickAction() {
+            ClickItem teleportericon = new ClickItem(new ItemStack(Gui.SUBREGION_ITEM), "Subregions", new ArrayList<>()).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
                     Gui.openSubregionList(player, region);
@@ -296,7 +302,6 @@ public class Gui implements Listener {
 
         GuiInventory inv = new GuiInventory(9, region.getRegion().getId());
 
-        //TODO nearly everything
         int itemcounter = 1;
         int actitem = 1;
 
@@ -314,6 +319,7 @@ public class Gui implements Listener {
         }
 
         if(player.hasPermission(Permission.SUBREGION_CHANGE_IS_HOTEL)) {
+            //TODO Hotel item and message
             ClickItem isHotelItem = new ClickItem(new ItemStack(Material.RED_BED), "Hotel-function", new ArrayList<String>(Arrays.asList("The hotel function allows you to prevent players", "from breaking blocks they do not have placed", "Status: %hotelfunctionstatus%", "Click to enable/disable")));
             isHotelItem= isHotelItem.addClickAction(new ClickAction() {
                 @Override
@@ -350,22 +356,23 @@ public class Gui implements Listener {
         }
 
         if(player.hasPermission(Permission.SUBREGION_DELETE_AVAILABLE) || player.hasPermission(Permission.SUBREGION_DELETE_SOLD)) {
-            ClickItem deleteItem = new ClickItem(new ItemStack(Material.BARRIER), "Delete", new ArrayList<String>(Arrays.asList("Delete region")));
+            //TODO delete item
+            ClickItem deleteItem = new ClickItem(new ItemStack(Gui.DELETE_ITEM), "Delete region");
             deleteItem = deleteItem.addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
                     if(region.isSold() && (!player.hasPermission(Permission.SUBREGION_DELETE_SOLD))) {
-                        throw new InputException(player, "not allowed to remove sold subregions!");
+                        throw new InputException(player, Messages.NOT_ALLOWED_TO_REMOVE_SUB_REGION_SOLD);
                     }
                     if((!region.isSold()) && (!player.hasPermission(Permission.SUBREGION_DELETE_AVAILABLE))) {
-                        throw new InputException(player, "not allowed to remove available subregions!");
+                        throw new InputException(player, Messages.NOT_ALLOWED_TO_REMOVE_SUB_REGION_AVAILABLE);
                     }
                     Gui.openWarning(player, "Delete region?", new ClickAction() {
                         @Override
                         public void execute(Player player) throws InputException {
                             region.delete();
                             player.closeInventory();
-                            player.sendMessage(Messages.PREFIX + "Subregion removed");
+                            player.sendMessage(Messages.PREFIX + Messages.REGION_DELETED);
                         }
                     }, new ClickAction() {
                         @Override
@@ -434,9 +441,8 @@ public class Gui implements Listener {
         actitem++;
 
         if(Permission.hasAnySubregionPermission(player) && region.isAllowSubregions()){
-            //TODO make subregion Item changeable
             //TODO make lore changeable
-            ClickItem teleportericon = new ClickItem(new ItemStack(Material.GRASS_BLOCK), "Subregions", new ArrayList<>()).addClickAction(new ClickAction() {
+            ClickItem teleportericon = new ClickItem(new ItemStack(Gui.SUBREGION_ITEM), "Subregions", new ArrayList<>()).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
                     Gui.openSubregionList(player, region);
@@ -584,9 +590,8 @@ public class Gui implements Listener {
         actitem++;
 
         if(Permission.hasAnySubregionPermission(player) && region.isAllowSubregions()){
-            //TODO make subregion Item changeable
             //TODO make lore changeable
-            ClickItem teleportericon = new ClickItem(new ItemStack(Material.GRASS_BLOCK), "Subregions", new ArrayList<>()).addClickAction(new ClickAction() {
+            ClickItem teleportericon = new ClickItem(new ItemStack(Gui.SUBREGION_ITEM), "Subregions", new ArrayList<>()).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
                     Gui.openSubregionList(player, region);
@@ -733,7 +738,7 @@ public class Gui implements Listener {
             itemcounter++;
         }
 
-        if(RegionKind.SUBREGION.isDisplayInGUI()){
+        if(RegionKind.SUBREGION.isDisplayInGUI() && player.hasPermission(Permission.ARM_BUYKIND + RegionKind.SUBREGION.getName())){
             itemcounter++;
         }
 
@@ -775,7 +780,7 @@ public class Gui implements Listener {
             itempos++;
         }
 
-        if(RegionKind.SUBREGION.isDisplayInGUI()){
+        if(RegionKind.SUBREGION.isDisplayInGUI() && player.hasPermission(Permission.ARM_BUYKIND + RegionKind.SUBREGION.getName())){
             String displayName = Messages.GUI_REGIONFINDER_REGIONKIND_NAME;
             displayName = displayName.replace("%regionkind%", RegionKind.SUBREGION.getName());
             Material material = RegionKind.SUBREGION.getMaterial();
@@ -925,8 +930,8 @@ public class Gui implements Listener {
         if(contractRegionClickItems.size() > 0) {
             itemcounter++;
         }
-        //TODO items anordnen
         if(sellRegionClickItems.size() > 0) {
+            //TODO Change name
             ClickItem clickItem = new ClickItem(new ItemStack(Material.BRICKS), "SellRegion");
             clickItem.addClickAction(new ClickAction() {
                 @Override
@@ -938,7 +943,6 @@ public class Gui implements Listener {
                 Gui.openInfiniteGuiList(player, sellRegionClickItems, 0, Messages.GUI_REGION_FINDER_MENU_NAME, goBackAction);
                 return;
             }
-            //TODO Make position dynamic
             inv.addIcon(clickItem, getPosition(actitem, itemcounter));
             actitem++;
         }
@@ -989,7 +993,7 @@ public class Gui implements Listener {
 
         //TODO make items and Names changeable
         GuiInventory inv = new GuiInventory(9, "Teleport to sign or region?");
-        ClickItem clickSign = new ClickItem(new ItemStack(Material.SIGN), "Teleport to buy sign!");
+        ClickItem clickSign = new ClickItem(new ItemStack(Gui.TELEPORT_TO_SIGN_ITEM), "Teleport to buy sign!");
         clickSign.addClickAction(new ClickAction() {
             @Override
             public void execute(Player player) throws InputException {
@@ -999,7 +1003,7 @@ public class Gui implements Listener {
         });
         inv.addIcon(clickSign, getPosition(1, 2));
 
-        ClickItem clickRegion = new ClickItem(new ItemStack(Material.GRASS_BLOCK), "Teleport to region!");
+        ClickItem clickRegion = new ClickItem(new ItemStack(Gui.TELEPORT_TO_REGION_ITEM), "Teleport to region!");
         clickRegion.addClickAction(new ClickAction() {
             @Override
             public void execute(Player player) throws InputException {
@@ -1064,9 +1068,9 @@ public class Gui implements Listener {
             if(newStartItem < 0) {
                 newStartItem = 0;
             }
-            //TODO Make item and text changeable
+            //TODO Make text changeable
             final int finalnewStartItem = newStartItem;
-            ClickItem prevPageButton = new ClickItem(new ItemStack(Material.ARROW), "prev Page").addClickAction(new ClickAction() {
+            ClickItem prevPageButton = new ClickItem(new ItemStack(Gui.PREV_PAGE_ITEM), "prev Page").addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) {
                     Gui.openInfiniteGuiList(player, clickItems, finalnewStartItem, name, gobackAction);
@@ -1075,9 +1079,9 @@ public class Gui implements Listener {
             inv.addIcon(prevPageButton, invsize - 9);
         }
         if((startitem + 45) < (clickItems.size() - 1)) {
-            //TODO Make item and text changeable
+            //TODO Make text changeable
             int newStartItem = startitem + 45;
-            ClickItem nextPageButton = new ClickItem(new ItemStack(Material.ARROW), "next Page").addClickAction(new ClickAction() {
+            ClickItem nextPageButton = new ClickItem(new ItemStack(Gui.NEXT_PAGE_ITEM), "next Page").addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) {
                     Gui.openInfiniteGuiList(player, clickItems, newStartItem, name, gobackAction);
@@ -1795,5 +1799,30 @@ public class Gui implements Listener {
         if(removeMemberItem != null) {
             Gui.REMOVE_MEMBER_ITEM = removeMemberItem;
         }
+    }
+
+
+    public static void setSubregionItem(Material subregionItem) {
+        SUBREGION_ITEM = subregionItem;
+    }
+
+    public static void setDeleteItem(Material deleteItem) {
+        DELETE_ITEM = deleteItem;
+    }
+
+    public static void setTeleportToSignItem(Material teleportToSignItem) {
+        TELEPORT_TO_SIGN_ITEM = teleportToSignItem;
+    }
+
+    public static void setTeleportToRegionItem(Material teleportToRegionItem) {
+        TELEPORT_TO_REGION_ITEM = teleportToRegionItem;
+    }
+
+    public static void setNextPageItem(Material NextPageItem) {
+        NEXT_PAGE_ITEM = NextPageItem;
+    }
+
+    public static void setPrevPageItem(Material PrevPageItem) {
+        PREV_PAGE_ITEM = PrevPageItem;
     }
 }

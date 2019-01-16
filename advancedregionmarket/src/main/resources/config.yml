@@ -202,6 +202,12 @@ GUI:
   RemoveMemberItem: LAVA_BUCKET
   FillItem: GRAY_STAINED_GLASS_PANE
   ContractItem: WRITABLE_BOOK
+  SubRegionItem: GRASS_BLOCK
+  TeleportToSignItem: SIGN
+  TeleportToRegionItem: GRASS_BLOCK
+  DeleteItem: BARRIER
+  NextPageItem: ARROW
+  PrevPageItem: ARROW
   DisplayRegionOwnerButton: true
   DisplayRegionMemberButton: true
   DisplayRegionFinderButton: true

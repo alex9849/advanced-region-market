@@ -408,6 +408,12 @@ public class AdvancedRegionMarket extends JavaPlugin {
         Gui.setRemoveMemberItem(Material.getMaterial(pluginConf.getString("GUI.RemoveMemberItem")));
         Gui.setFillItem(Material.getMaterial(pluginConf.getString("GUI.FillItem")));
         Gui.setContractItem(Material.getMaterial(pluginConf.getString("GUI.ContractItem")));
+        Gui.setSubregionItem(Material.getMaterial(pluginConf.getString("GUI.SubRegionItem")));
+        Gui.setDeleteItem(Material.getMaterial(pluginConf.getString("GUI.DeleteItem")));
+        Gui.setTeleportToSignItem(Material.getMaterial(pluginConf.getString("GUI.TeleportToSignItem")));
+        Gui.setTeleportToRegionItem(Material.getMaterial(pluginConf.getString("GUI.TeleportToRegionItem")));
+        Gui.setNextPageItem(Material.getMaterial(pluginConf.getString("GUI.NextPageItem")));
+        Gui.setPrevPageItem(Material.getMaterial(pluginConf.getString("GUI.PrevPageItem")));
 
     }
 
@@ -806,6 +812,12 @@ public class AdvancedRegionMarket extends JavaPlugin {
             pluginConfig.set("Subregions.SubregionPaypackPercentage", 0);
             pluginConfig.set("Subregions.SubregionAutoReset", true);
             pluginConfig.set("Other.RegionInfoParticleBorder", true);
+            pluginConfig.set("GUI.SubRegionItem", "GRASS_BLOCK");
+            pluginConfig.set("GUI.TeleportToSignItem", "SIGN");
+            pluginConfig.set("GUI.TeleportToRegionItem", "GRASS_BLOCK");
+            pluginConfig.set("GUI.DeleteItem", "BARRIER");
+            pluginConfig.set("GUI.NextPageItem", "ARROW");
+            pluginConfig.set("GUI.PrevPageItem", "ARROW");
             pluginConfig.set("Version", 1.6);
             saveConfig();
         }

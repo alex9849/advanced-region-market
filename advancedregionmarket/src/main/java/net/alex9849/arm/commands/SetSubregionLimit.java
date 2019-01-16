@@ -54,12 +54,10 @@ public class SetSubregionLimit extends BasicArmCommand {
         }
 
         if(region.isSubregion()) {
-            //TODO Change message
             throw new InputException(sender, "Subregions can not have subregions");
         }
 
         region.setAllowedSubregions(allowedSubregions);
-        //TODO Change message
         player.sendMessage(Messages.PREFIX + "Limit set to " + allowedSubregions);
         return true;
     }

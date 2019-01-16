@@ -1,7 +1,6 @@
 package net.alex9849.arm;
 
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 public class Permission {
     public static final String ADMIN_CHANGEAUTORESET = "arm.admin.changeautoreset";
@@ -57,8 +56,8 @@ public class Permission {
     public static final String SUBREGION_CREATE_SELL = "arm.subregion.create.sellregion";
     public static final String SUBREGION_CREATE_RENT = "arm.subregion.create.rentregion";
     public static final String SUBREGION_CREATE_CONTRACT = "arm.subregion.create.contractregion";
-    public static final String SUBREGION_REMOVE_AVAILABLE = "arm.subregion.remove.available";
-    public static final String SUBREGION_REMOVE_SOLD = "arm.subregion.remove.sold";
+    public static final String SUBREGION_DELETE_AVAILABLE = "arm.subregion.delete.available";
+    public static final String SUBREGION_DELETE_SOLD = "arm.subregion.delete.sold";
     public static final String SUBREGION_CHANGE_IS_HOTEL = "arm.subregion.changeishotel";
     public static final String SUBREGION_TP = "arm.subregion.tp";
     public static final String SUBREGION_UNSELL = "arm.subregion.unsell";
@@ -69,7 +68,9 @@ public class Permission {
     }
 
     public static boolean hasAnySubregionPermission(CommandSender sender) {
-        return hasAnySubregionCreatePermission(sender) || (sender.hasPermission(SUBREGION_TOOL)) || (sender.hasPermission(SUBREGION_REMOVE_SOLD)) || (sender.hasPermission(SUBREGION_CHANGE_IS_HOTEL)) || (sender.hasPermission(SUBREGION_REMOVE_AVAILABLE)) || (sender.hasPermission(SUBREGION_TP));
+        return hasAnySubregionCreatePermission(sender) || (sender.hasPermission(SUBREGION_TOOL)) || (sender.hasPermission(SUBREGION_DELETE_SOLD)) ||
+                (sender.hasPermission(SUBREGION_CHANGE_IS_HOTEL)) || (sender.hasPermission(SUBREGION_DELETE_AVAILABLE)) || (sender.hasPermission(SUBREGION_TP) ||
+                (sender.hasPermission(SUBREGION_UNSELL)) || (sender.hasPermission(SUBREGION_RESETREGIONBLOCKS)));
     }
 
 

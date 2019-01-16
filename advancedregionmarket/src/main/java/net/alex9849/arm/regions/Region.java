@@ -44,7 +44,6 @@ public abstract class Region {
     protected boolean isDoBlockReset;
     protected List<Region> subregions;
     protected int allowedSubregions;
-    protected boolean isSubregion;
     protected Region parentRegion;
     protected boolean isUserResettable;
 
@@ -64,7 +63,6 @@ public abstract class Region {
         this.teleportLocation = teleportLoc;
         this.subregions = subregions;
         this.allowedSubregions = allowedSubregions;
-        this.isSubregion = false;
         this.isUserResettable = isUserResettable;
 
         for(Region subregion : subregions) {
@@ -124,7 +122,7 @@ public abstract class Region {
     }
 
     public boolean isSubregion() {
-        return isSubregion;
+        return (this.parentRegion != null);
     }
 
     public void setTeleportLocation(Location loc) {
@@ -133,15 +131,11 @@ public abstract class Region {
     }
 
     public Region getParentRegion() {
-        if(this.isSubregion) {
-            return this.parentRegion;
-        }
-        return null;
+        return this.parentRegion;
     }
 
     private void setParentRegion(Region region) {
         this.parentRegion = region;
-        this.isSubregion = true;
     }
 
     public int getAllowedSubregions() {
@@ -217,15 +211,15 @@ public abstract class Region {
                         for(int y = 0; i < this.getSubregions().size();) {
                             this.getSubregions().get(y).delete();
                         }
-                        RegionManager.removeRegion(this);
-                        if(this.isSubregion) {
+                        if(this.isSubregion()) {
                             AdvancedRegionMarket.getWorldGuardInterface().removeFromRegionManager(this.getRegion(), this.getRegionworld(), AdvancedRegionMarket.getWorldGuard());
+                            this.getParentRegion().getSubregions().remove(this);
                         }
+                        RegionManager.removeRegion(this);
                         if(destroyer != null) {
                             destroyer.sendMessage(Messages.PREFIX + Messages.REGION_REMOVED_FROM_ARM);
                         }
                     }
-                    RegionManager.saveRegion(this);
 
                     return true;
                 }

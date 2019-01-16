@@ -309,7 +309,7 @@ public class Gui implements Listener {
         if(player.hasPermission(Permission.MEMBER_INFO)) {
             itemcounter++;
         }
-        if(player.hasPermission(Permission.SUBREGION_REMOVE_AVAILABLE) || player.hasPermission(Permission.SUBREGION_REMOVE_SOLD)) {
+        if(player.hasPermission(Permission.SUBREGION_DELETE_AVAILABLE) || player.hasPermission(Permission.SUBREGION_DELETE_SOLD)) {
             itemcounter++;
         }
 
@@ -349,15 +349,15 @@ public class Gui implements Listener {
             actitem++;
         }
 
-        if(player.hasPermission(Permission.SUBREGION_REMOVE_AVAILABLE) || player.hasPermission(Permission.SUBREGION_REMOVE_SOLD)) {
+        if(player.hasPermission(Permission.SUBREGION_DELETE_AVAILABLE) || player.hasPermission(Permission.SUBREGION_DELETE_SOLD)) {
             ClickItem deleteItem = new ClickItem(new ItemStack(Material.BARRIER), "Delete", new ArrayList<String>(Arrays.asList("Delete region")));
             deleteItem = deleteItem.addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
-                    if(region.isSold() && (!player.hasPermission(Permission.SUBREGION_REMOVE_SOLD))) {
+                    if(region.isSold() && (!player.hasPermission(Permission.SUBREGION_DELETE_SOLD))) {
                         throw new InputException(player, "not allowed to remove sold subregions!");
                     }
-                    if((!region.isSold()) && (!player.hasPermission(Permission.SUBREGION_REMOVE_AVAILABLE))) {
+                    if((!region.isSold()) && (!player.hasPermission(Permission.SUBREGION_DELETE_AVAILABLE))) {
                         throw new InputException(player, "not allowed to remove available subregions!");
                     }
                     Gui.openWarning(player, "Delete region?", new ClickAction() {

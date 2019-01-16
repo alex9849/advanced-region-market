@@ -3,6 +3,7 @@ package net.alex9849.arm.commands;
 import net.alex9849.arm.Handler.CommandHandler;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.SubRegions.commands.CreateCommand;
+import net.alex9849.arm.SubRegions.commands.DeleteCommand;
 import net.alex9849.arm.SubRegions.commands.HotelCommand;
 import net.alex9849.arm.SubRegions.commands.ResetBlocksCommand;
 import net.alex9849.arm.SubRegions.commands.TPCommand;
@@ -32,6 +33,7 @@ public class SubRegionCommand extends BasicArmCommand {
         commands.add(new TPCommand());
         commands.add(new ResetBlocksCommand());
         commands.add(new UnsellCommand());
+        commands.add(new DeleteCommand());
         this.commandHandler.addCommands(commands);
     }
 

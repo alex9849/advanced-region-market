@@ -5,6 +5,7 @@ import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.exceptions.LogicalException;
 import net.alex9849.arm.minifeatures.ParticleBorder;
 import net.alex9849.arm.regions.Region;
+import net.alex9849.arm.regions.RegionManager;
 import net.alex9849.inter.WGRegion;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -40,18 +41,7 @@ public class SubRegionCreator {
     }
 
     public void setPos1(Location pos1) throws InputException {
-        if(!this.parentRegion.getRegion().contains(pos1.getBlockX(), pos1.getBlockY(), pos1.getBlockZ())) {
-            //TODO change message
-            throw new InputException(this.creator, "Position could not be set (outsinde of region)");
-        }
-        if(!this.parentRegion.getRegionworld().getName().equals(this.creator.getLocation().getWorld().getName())) {
-            throw new InputException(this.creator, "Position could not be set (outsinde of region)");
-        }
-        for(Region subregion : this.parentRegion.getSubregions()) {
-            if(subregion.getRegion().contains(pos1.getBlockX(), pos1.getBlockY(), pos1.getBlockZ())) {
-                throw new InputException(this.creator, "Position could not be set (there already is a subregion at this position)");
-            }
-        }
+        checkLegalPosition(pos1);
         this.pos1 = pos1;
 
         if(this.pos1 != null && this.pos2 != null) {
@@ -66,17 +56,7 @@ public class SubRegionCreator {
     }
 
     public void setPos2(Location pos2) throws InputException {
-        if(!this.parentRegion.getRegion().contains(pos2.getBlockX(), pos2.getBlockY(), pos2.getBlockZ())) {
-            throw new InputException(this.creator, "Position could not be set (outsinde of region)");
-        }
-        if(!this.parentRegion.getRegionworld().getName().equals(this.creator.getLocation().getWorld().getName())) {
-            throw new InputException(this.creator, "Position could not be set (outsinde of region)");
-        }
-        for(Region subregion : this.parentRegion.getSubregions()) {
-            if(subregion.getRegion().contains(pos2.getBlockX(), pos2.getBlockY(), pos2.getBlockZ())) {
-                throw new InputException(this.creator, "Position could not be set (there already is a subregion at this position)");
-            }
-        }
+        checkLegalPosition(pos2);
         this.pos2 = pos2;
         if(this.pos1 != null && this.pos2 != null) {
             if(this.particleBorder != null) {
@@ -87,6 +67,25 @@ public class SubRegionCreator {
             this.particleBorder.createParticleBorder(20 * 30);
         }
 
+    }
+
+    private void checkLegalPosition(Location pos) throws InputException {
+        //TODO change message
+        if(!this.parentRegion.getRegion().contains(pos.getBlockX(), pos.getBlockY(), pos.getBlockZ())) {
+            throw new InputException(this.creator, "Position could not be set (outsinde of region)");
+        }
+        if(!this.parentRegion.getRegionworld().getName().equals(this.creator.getLocation().getWorld().getName())) {
+            throw new InputException(this.creator, "Position could not be set (outsinde of region)");
+        }
+        if(!RegionManager.containsRegion(this.getParentRegion())) {
+            this.remove();
+            throw new InputException(this.creator, "Position could not be set (Region not registred)");
+        }
+        for(Region subregion : this.parentRegion.getSubregions()) {
+            if(subregion.getRegion().contains(pos.getBlockX(), pos.getBlockY(), pos.getBlockZ())) {
+                throw new InputException(this.creator, "Position could not be set (there already is a subregion at this position)");
+            }
+        }
     }
 
     public void createWGRegion() throws InputException {
@@ -108,7 +107,12 @@ public class SubRegionCreator {
         }
 
         if(!this.getParentRegion().getRegion().hasOwner(creator.getUniqueId())) {
+            this.remove();
             throw new InputException(this.creator, "meep");
+        }
+        if(!RegionManager.containsRegion(this.getParentRegion())) {
+            this.remove();
+            throw new InputException(this.creator, "Position could not be set (Region not registred)");
         }
         for(Region region : this.getParentRegion().getSubregions()) {
             if(this.checkOverlap(region)) {

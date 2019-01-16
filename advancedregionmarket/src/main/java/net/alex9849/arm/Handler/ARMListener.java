@@ -1,6 +1,5 @@
 package net.alex9849.arm.Handler;
 
-import com.sk89q.worldguard.protection.managers.RegionManager;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
@@ -336,8 +335,8 @@ public class ARMListener implements Listener {
                 return;
             }
 
-            if(!(block.getPlayer().hasPermission(Permission.ADMIN_REMOVE_SIGN) || ((block.getPlayer().hasPermission(Permission.SUBREGION_REMOVE_SOLD) ||
-                    block.getPlayer().hasPermission(Permission.SUBREGION_REMOVE_AVAILABLE)) && region.isSubregion()))) {
+            if(!(block.getPlayer().hasPermission(Permission.ADMIN_REMOVE_SIGN) || ((block.getPlayer().hasPermission(Permission.SUBREGION_DELETE_SOLD) ||
+                    block.getPlayer().hasPermission(Permission.SUBREGION_DELETE_AVAILABLE)) && region.isSubregion()))) {
                 block.setCancelled(true);
                 throw new InputException(block.getPlayer(), Messages.NO_PERMISSION);
             }
@@ -351,11 +350,11 @@ public class ARMListener implements Listener {
                 return;
             }
 
-            if(region.isSubregion() && (block.getPlayer().hasPermission(Permission.SUBREGION_REMOVE_AVAILABLE) || block.getPlayer().hasPermission(Permission.SUBREGION_REMOVE_SOLD))) {
+            if(region.isSubregion() && (block.getPlayer().hasPermission(Permission.SUBREGION_DELETE_AVAILABLE) || block.getPlayer().hasPermission(Permission.SUBREGION_DELETE_SOLD))) {
                 if(region.getParentRegion() != null) {
                     if(region.getParentRegion().getRegion().hasOwner(block.getPlayer().getUniqueId())) {
                         if(region.isSold()) {
-                            if(block.getPlayer().hasPermission(Permission.SUBREGION_REMOVE_SOLD)) {
+                            if(block.getPlayer().hasPermission(Permission.SUBREGION_DELETE_SOLD)) {
                                 block.setCancelled(!region.removeSign(loc, block.getPlayer()));
                                 return;
                             } else {
@@ -364,7 +363,7 @@ public class ARMListener implements Listener {
                                 throw new InputException(block.getPlayer(), "Region is sold");
                             }
                         } else {
-                            if(block.getPlayer().hasPermission(Permission.SUBREGION_REMOVE_AVAILABLE)) {
+                            if(block.getPlayer().hasPermission(Permission.SUBREGION_DELETE_AVAILABLE)) {
                                 block.setCancelled(!region.removeSign(loc, block.getPlayer()));
                                 return;
                             } else {

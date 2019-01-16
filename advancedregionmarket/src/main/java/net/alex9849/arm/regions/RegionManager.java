@@ -118,6 +118,10 @@ public class RegionManager {
         return true;
     }
 
+    /**
+     * Saves region if it exists registred in regionmanager
+     * @param sregion
+     */
     public static void saveRegion(Region sregion) {
         for(Region region : regionList) {
             if((region == sregion) || region.getSubregions().contains(sregion)) {
@@ -612,6 +616,10 @@ public class RegionManager {
             }
         }
         return regions;
+    }
+
+    public static boolean containsRegion(Region region) {
+        return RegionManager.regionList.contains(region);
     }
 
 }

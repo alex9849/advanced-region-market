@@ -396,25 +396,14 @@ public class ARMListener implements Listener {
         if(event.isCancelled()) {
             return;
         }
+        List<Region> locRegions = net.alex9849.arm.regions.RegionManager.getRegionsByLocation(event.getBlock().getLocation());
 
-        if(AdvancedRegionMarket.getWorldGuardInterface().canBuild(event.getPlayer(), event.getBlock().getLocation(), AdvancedRegionMarket.getWorldGuard())) {
-            List<Region> playersRegions = net.alex9849.arm.regions.RegionManager.getRegionsByOwnerOrMember(event.getPlayer().getUniqueId());
-            int x = event.getBlock().getLocation().getBlockX();
-            int y = event.getBlock().getLocation().getBlockY();
-            int z = event.getBlock().getLocation().getBlockZ();
-
-            for(Region region : playersRegions) {
-                if(region.getRegion().contains(x, y, z)) {
-                    if(region.getRegionworld().getName().equals(event.getBlock().getWorld().getName())) {
-                        if(region.isHotel()) {
-                            if(region.isSold()) {
-                                region.addBuiltBlock(event.getBlock().getLocation());
-                            }
-                        }
-                    }
+        for(Region region : locRegions) {
+            if(region.isHotel()) {
+                if(region.isSold()) {
+                    region.addBuiltBlock(event.getBlock().getLocation());
                 }
             }
-
         }
     }
 
@@ -423,33 +412,7 @@ public class ARMListener implements Listener {
         if(event.isCancelled()) {
             return;
         }
-        try {
-            if(event.getPlayer().hasPermission(Permission.ADMIN_BUILDEVERYWHERE)){
-                return;
-            }
-            if(AdvancedRegionMarket.getWorldGuardInterface().canBuild(event.getPlayer(), event.getBlock().getLocation(), AdvancedRegionMarket.getWorldGuard())){
-
-                List<Region> playersRegions = net.alex9849.arm.regions.RegionManager.getRegionsByOwnerOrMember(event.getPlayer().getUniqueId());
-                int x = event.getBlock().getLocation().getBlockX();
-                int y = event.getBlock().getLocation().getBlockY();
-                int z = event.getBlock().getLocation().getBlockZ();
-
-                for(Region region : playersRegions) {
-                    if(region.getRegion().contains(x, y, z)) {
-                        if(region.getRegionworld().getName().equals(event.getBlock().getWorld().getName())) {
-                            if(region.isHotel()) {
-                                if(!region.allowBlockBreak(event.getBlock().getLocation())) {
-                                    event.setCancelled(true);
-                                    throw new InputException(event.getPlayer(), Messages.REGION_ERROR_CAN_NOT_BUILD_HERE);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        } catch (InputException inputException) {
-            inputException.sendMessages();
-        }
+        this.breakblockCheckHotel(event);
     }
 
     @EventHandler
@@ -629,4 +592,27 @@ public class ARMListener implements Listener {
         }
     }
 
+    private void breakblockCheckHotel(BlockBreakEvent event) {
+        if(event.isCancelled()) {
+            return;
+        }
+        try {
+            if(event.getPlayer().hasPermission(Permission.ADMIN_BUILDEVERYWHERE)){
+                return;
+            }
+
+                List<Region> locRegions = net.alex9849.arm.regions.RegionManager.getRegionsByLocation(event.getBlock().getLocation());
+
+                for(Region region : locRegions) {
+                    if(region.isHotel()) {
+                        if(!region.allowBlockBreak(event.getBlock().getLocation())) {
+                            event.setCancelled(true);
+                            throw new InputException(event.getPlayer(), Messages.REGION_ERROR_CAN_NOT_BUILD_HERE);
+                        }
+                    }
+                }
+        } catch (InputException inputException) {
+            inputException.sendMessages();
+        }
+    }
 }

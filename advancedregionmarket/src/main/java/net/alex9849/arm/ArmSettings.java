@@ -15,6 +15,8 @@ public class ArmSettings {
     private static boolean useShortCountdown = false;
     private static boolean deleteSubregionsOnParentRegionUnsell = false;
     private static boolean deleteSubregionsOnParentRegionBlockReset = false;
+    //TODO include in config
+    private static boolean allowParentRegionOwnersBuildOnSubregions = false;
 
     private static boolean isAllowTeleportToBuySign = true;
     private static String REMAINING_TIME_TIMEFORMAT = "%date%";
@@ -26,7 +28,7 @@ public class ArmSettings {
     private static Statement stmt;
     private static String sqlPrefix;
 
-    //TODO include in config
+
     protected static void setIsAllowTeleportToBuySign(boolean isAllowTeleportToBuySign) {
         ArmSettings.isAllowTeleportToBuySign = isAllowTeleportToBuySign;
     }
@@ -193,5 +195,9 @@ public class ArmSettings {
 
     public static boolean isAllowTeleportToBuySign() {
         return isAllowTeleportToBuySign;
+    }
+
+    public static boolean isAllowParentRegionOwnersBuildOnSubregions() {
+        return allowParentRegionOwnersBuildOnSubregions;
     }
 }

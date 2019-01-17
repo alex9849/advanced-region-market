@@ -832,7 +832,7 @@ public class Gui implements Listener {
                     });
                 }
             });
-            inv.addIcon(icon, 0);
+            inv.addIcon(icon, itempos);
             itempos++;
         }
 
@@ -856,7 +856,7 @@ public class Gui implements Listener {
                     });
                 }
             });
-            inv.addIcon(icon, 1);
+            inv.addIcon(icon, itempos);
             itempos++;
         }
 

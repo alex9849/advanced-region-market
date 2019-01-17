@@ -150,6 +150,7 @@ public class RegionManager {
 
     public static void loadRegionsFromConfig() {
         List<Region> loadedRegions = new ArrayList<>();
+        updateConfig();
         if(RegionManager.getRegionsConf().get("Regions") != null) {
             LinkedList<String> worlds = new LinkedList<String>(RegionManager.getRegionsConf().getConfigurationSection("Regions").getKeys(false));
             if(worlds != null) {
@@ -329,6 +330,69 @@ public class RegionManager {
             }
         }
     }
+
+    private static void updateConfig() {
+        if(regionsconf.get("Regions") != null) {
+            LinkedList<String> worlds = new LinkedList<String>(regionsconf.getConfigurationSection("Regions").getKeys(false));
+            if(worlds != null) {
+                for(int y = 0; y < worlds.size(); y++) {
+                    if(regionsconf.get("Regions." + worlds.get(y)) != null) {
+                        LinkedList<String> regions = new LinkedList<String>(regionsconf.getConfigurationSection("Regions." + worlds.get(y)).getKeys(false));
+                        if(regions != null) {
+                            for (int i = 0; i < regions.size(); i++) {
+                                regionsconf.addDefault("Regions." + worlds.get(y) + "." + regions.get(i) + ".price", 0);
+                                regionsconf.addDefault("Regions." + worlds.get(y) + "." + regions.get(i) + ".sold", false);
+                                regionsconf.addDefault("Regions." + worlds.get(y) + "." + regions.get(i) + ".kind", "default");
+                                regionsconf.addDefault("Regions." + worlds.get(y) + "." + regions.get(i) + ".autoreset", true);
+                                regionsconf.addDefault("Regions." + worlds.get(y) + "." + regions.get(i) + ".lastreset", 1);
+                                regionsconf.addDefault("Regions." + worlds.get(y) + "." + regions.get(i) + ".isHotel", false);
+                                regionsconf.addDefault("Regions." + worlds.get(y) + "." + regions.get(i) + ".doBlockReset", true);
+                                regionsconf.addDefault("Regions." + worlds.get(y) + "." + regions.get(i) + ".allowedSubregions", 0);
+                                regionsconf.addDefault("Regions." + worlds.get(y) + "." + regions.get(i) + ".isUserResettable", true);
+                                regionsconf.addDefault("Regions." + worlds.get(y) + "." + regions.get(i) + ".regiontype", "sellregion");
+                                if (regionsconf.getString("Regions." + worlds.get(y) + "." + regions.get(i) + ".regiontype").equalsIgnoreCase("rentregion")) {
+                                    regionsconf.addDefault("Regions." + worlds.get(y) + "." + regions.get(i) + ".payedTill", 1);
+                                    regionsconf.addDefault("Regions." + worlds.get(y) + "." + regions.get(i) + ".maxRentTime", 1);
+                                    regionsconf.addDefault("Regions." + worlds.get(y) + "." + regions.get(i) + ".rentExtendPerClick", 1);
+                                }
+                                if (regionsconf.getString("Regions." + worlds.get(y) + "." + regions.get(i) + ".regiontype").equalsIgnoreCase("contractregion")) {
+                                    regionsconf.addDefault("Regions." + worlds.get(y) + "." + regions.get(i) + ".payedTill", 1);
+                                    regionsconf.addDefault("Regions." + worlds.get(y) + "." + regions.get(i) + ".extendTime", 1);
+                                    regionsconf.addDefault("Regions." + worlds.get(y) + "." + regions.get(i) + ".terminated", false);
+                                }
+                                if(regionsconf.get("Regions." + worlds.get(y)+ "." + regions.get(i) + ".subregions") != null) {
+                                    LinkedList<String> subregions = new LinkedList<String>(regionsconf.getConfigurationSection("Regions." + worlds.get(y)+ "." + regions.get(i) + ".subregions").getKeys(false));
+                                    if(subregions != null) {
+                                        for (int j = 0; j < subregions.size(); j++) {
+                                            regionsconf.addDefault("Regions." + worlds.get(y) + "." + regions.get(i) + ".subregions." + subregions.get(j) + ".price", 0);
+                                            regionsconf.addDefault("Regions." + worlds.get(y) + "." + regions.get(i) + ".subregions." + subregions.get(j) + ".sold", false);
+                                            regionsconf.addDefault("Regions." + worlds.get(y) + "." + regions.get(i) + ".subregions." + subregions.get(j) + ".isHotel", false);
+                                            regionsconf.addDefault("Regions." + worlds.get(y) + "." + regions.get(i) + ".subregions." + subregions.get(j) + ".lastreset", 1);
+                                            regionsconf.addDefault("Regions." + worlds.get(y) + "." + regions.get(i) + ".subregions." + subregions.get(j) + ".regiontype", "sellregion");
+                                            if (regionsconf.getString("Regions." + worlds.get(y) + "." + regions.get(i) + ".subregions." + subregions.get(j) + ".regiontype").equalsIgnoreCase("contractregion")) {
+                                                regionsconf.addDefault("Regions." + worlds.get(y) + "." + regions.get(i) + ".subregions." + subregions.get(j) + ".payedTill", 0);
+                                                regionsconf.addDefault("Regions." + worlds.get(y) + "." + regions.get(i) + ".subregions." + subregions.get(j) + ".extendTime", 0);
+                                                regionsconf.addDefault("Regions." + worlds.get(y) + "." + regions.get(i) + ".subregions." + subregions.get(j) + ".terminated", false);
+                                            }
+                                            if (regionsconf.getString("Regions." + worlds.get(y) + "." + regions.get(i) + ".subregions." + subregions.get(j) + ".regiontype").equalsIgnoreCase("rentregion")) {
+                                                regionsconf.addDefault("Regions." + worlds.get(y) + "." + regions.get(i) + ".subregions." + subregions.get(j) + ".payedTill", 0);
+                                                regionsconf.addDefault("Regions." + worlds.get(y) + "." + regions.get(i) + ".subregions." + subregions.get(j) + ".maxRentTime", 0);
+                                                regionsconf.addDefault("Regions." + worlds.get(y) + "." + regions.get(i) + ".subregions." + subregions.get(j) + ".rentExtendPerClick", 0);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        regionsconf.options().copyDefaults(true);
+        saveRegionsConf();
+    }
+
+
 
     public static YamlConfiguration getRegionsConf() {
         return RegionManager.regionsconf;

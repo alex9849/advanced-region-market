@@ -805,23 +805,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
             saveConfig();
         }
         if(version < 1.6) {
-            if(regionConf.get("Regions") != null) {
-                LinkedList<String> worlds = new LinkedList<String>(regionConf.getConfigurationSection("Regions").getKeys(false));
-                if(worlds != null) {
-                    for(int y = 0; y < worlds.size(); y++) {
-                        if(regionConf.get("Regions." + worlds.get(y)) != null) {
-                            LinkedList<String> regions = new LinkedList<String>(regionConf.getConfigurationSection("Regions." + worlds.get(y)).getKeys(false));
-                            if(regions != null) {
-                                for (int i = 0; i < regions.size(); i++) {
-                                    regionConf.set("Regions." + worlds.get(y) + "." + regions.get(i) + ".isUserResettable", true);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            RegionManager.saveRegionsConf();
-
             getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.6...");
             pluginConfig.set("SubregionRegionKind.DisplayName", "Subregion");
             pluginConfig.set("SubregionRegionKind.Item", Material.PLAYER_HEAD.toString());

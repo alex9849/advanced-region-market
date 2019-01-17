@@ -167,6 +167,19 @@ public class LimitGroup {
             player.sendMessage(syntaxtotal);
         }
 
+        if(RegionKind.SUBREGION.isDisplayInLimits()) {
+            syntaxtotal = Messages.LIMIT_INFO;
+            syntaxtotal = syntaxtotal.replace("%regiontype%", RegionKind.SUBREGION.getName());
+            syntaxtotal = syntaxtotal.replace("%playerownedkind%", LimitGroup.getOwnedRegions(player, RegionKind.SUBREGION) + "");
+            limit = LimitGroup.getLimit(player, RegionKind.SUBREGION) + "";
+            if(LimitGroup.getLimit(player, RegionKind.SUBREGION) == Integer.MAX_VALUE){
+                limit = Messages.UNLIMITED;
+            }
+            syntaxtotal = syntaxtotal.replace("%limitkind%", limit);
+
+            player.sendMessage(syntaxtotal);
+        }
+
         for(int i = 0; i < RegionKind.getRegionKindList().size(); i++){
             if(player.hasPermission(Permission.ARM_BUYKIND + RegionKind.getRegionKindList().get(i).getName()) && RegionKind.getRegionKindList().get(i).isDisplayInLimits()){
                 syntaxtotal = Messages.LIMIT_INFO;

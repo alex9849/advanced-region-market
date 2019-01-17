@@ -211,6 +211,7 @@ GUI:
   NextPageItem: ARROW
   PrevPageItem: ARROW
   HotelSettingItem: RED_BED
+  UnsellItem: NAME_TAG
   DisplayRegionOwnerButton: true
   DisplayRegionMemberButton: true
   DisplayRegionFinderButton: true

@@ -44,6 +44,7 @@ public class Gui implements Listener {
     private static Material NEXT_PAGE_ITEM = Material.ARROW;
     private static Material PREV_PAGE_ITEM = Material.ARROW;
     private static Material HOTEL_SETTING_ITEM = Material.RED_BED;
+    private static Material UNSELL_ITEM = Material.NAME_TAG;
 
 
     public static void openARMGui(Player player) {
@@ -311,6 +312,12 @@ public class Gui implements Listener {
         if(player.hasPermission(Permission.MEMBER_INFO)) {
             itemcounter++;
         }
+        if(player.hasPermission(Permission.SUBREGION_RESETREGIONBLOCKS) && region.isUserResettable()) {
+            itemcounter++;
+        }
+        if(player.hasPermission(Permission.SUBREGION_UNSELL)) {
+            itemcounter++;
+        }
         if(player.hasPermission(Permission.SUBREGION_DELETE_AVAILABLE) || player.hasPermission(Permission.SUBREGION_DELETE_SOLD)) {
             itemcounter++;
         }
@@ -355,7 +362,58 @@ public class Gui implements Listener {
             inv.addIcon(infoItem, getPosition(actitem, itemcounter));
             actitem++;
         }
-
+        if(player.hasPermission(Permission.SUBREGION_RESETREGIONBLOCKS) && region.isUserResettable()) {
+            //TODO change item and message
+            List<String> sendmsg = Messages.UNSELL_REGION_BUTTON_LORE;
+            for(int i = 0; i < sendmsg.size(); i++) {
+                sendmsg.set(i, region.getConvertedMessage(sendmsg.get(i)));
+            }
+            ClickItem resetItem = new ClickItem(new ItemStack(Gui.RESET_ITEM), Messages.GUI_RESET_REGION_BUTTON, sendmsg);
+            resetItem = resetItem.addClickAction(new ClickAction() {
+                @Override
+                public void execute(Player player) throws InputException {
+                    Gui.openWarning(player, Messages.GUI_RESET_REGION_WARNING_NAME, new ClickAction() {
+                        @Override
+                        public void execute(Player player) throws InputException {
+                            region.resetBlocks();
+                            player.closeInventory();
+                            player.sendMessage(Messages.PREFIX + Messages.COMPLETE);
+                        }
+                    }, new ClickAction() {
+                        @Override
+                        public void execute(Player player) throws InputException {
+                            Gui.openSubregionManager(player, region, parentRegion);
+                        }
+                    });
+                }
+            });
+            inv.addIcon(resetItem, getPosition(actitem, itemcounter));
+            actitem++;
+        }
+        if(player.hasPermission(Permission.SUBREGION_UNSELL)) {
+            //TODO change item and message
+            ClickItem unsellItem = new ClickItem(new ItemStack(Gui.UNSELL_ITEM), Messages.UNSELL_REGION_BUTTON);
+            unsellItem = unsellItem.addClickAction(new ClickAction() {
+                @Override
+                public void execute(Player player) throws InputException {
+                    Gui.openWarning(player, Messages.UNSELL_REGION_WARNING_NAME, new ClickAction() {
+                        @Override
+                        public void execute(Player player) throws InputException {
+                            region.unsell();
+                            player.closeInventory();
+                            player.sendMessage(Messages.PREFIX + Messages.REGION_NOW_AVIABLE);
+                        }
+                    }, new ClickAction() {
+                        @Override
+                        public void execute(Player player) throws InputException {
+                            Gui.openSubregionManager(player, region, parentRegion);
+                        }
+                    });
+                }
+            });
+            inv.addIcon(unsellItem, getPosition(actitem, itemcounter));
+            actitem++;
+        }
         if(player.hasPermission(Permission.SUBREGION_DELETE_AVAILABLE) || player.hasPermission(Permission.SUBREGION_DELETE_SOLD)) {
             ClickItem deleteItem = new ClickItem(new ItemStack(Gui.DELETE_ITEM), Messages.GUI_SUBREGION_DELETE_REGION_BUTTON);
             deleteItem = deleteItem.addClickAction(new ClickAction() {
@@ -367,7 +425,7 @@ public class Gui implements Listener {
                     if((!region.isSold()) && (!player.hasPermission(Permission.SUBREGION_DELETE_AVAILABLE))) {
                         throw new InputException(player, Messages.NOT_ALLOWED_TO_REMOVE_SUB_REGION_AVAILABLE);
                     }
-                    Gui.openWarning(player, "Delete region?", new ClickAction() {
+                    Gui.openWarning(player, Messages.DELETE_REGION_WARNING_NAME, new ClickAction() {
                         @Override
                         public void execute(Player player) throws InputException {
                             region.delete();
@@ -1814,5 +1872,9 @@ public class Gui implements Listener {
 
     public static void setHotelSettingItem(Material HotelSettingItem) {
         HOTEL_SETTING_ITEM = HotelSettingItem;
+    }
+
+    public static void setUnsellItem(Material UnsellItem) {
+        UNSELL_ITEM = UnsellItem;
     }
 }

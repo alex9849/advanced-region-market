@@ -219,6 +219,10 @@ public class Messages {
     public static String REGION_CREATED_AND_SAVED = "";
     public static String REGION_NOT_A_SUBREGION = "";
     public static String REGION_DELETED = "";
+    public static String DELETE_REGION_WARNING_NAME = "&4Delete region?";
+    public static String UNSELL_REGION_BUTTON = "&4Unsell region";
+    public static List<String> UNSELL_REGION_BUTTON_LORE = new ArrayList<>(Arrays.asList("&4Click to unsell your subregion and", "&4kick the players of it"));
+    public static String UNSELL_REGION_WARNING_NAME = "&4Unsell region?";
 
     public static String SELLREGION_NAME = "Sellregion";
     public static String CONTRACTREGION_NAME = "Contractregion";
@@ -513,8 +517,10 @@ public class Messages {
         SELECTION_SAVED_CREATE_SIGN = config.getStringList("Messages.SubregionCreationCreateSignInfo");
         SUBREGION_TOOL_INSTRUCTION = config.getStringList("Messages.SubregionCreationSelectAreaInfo");
         REGION_INFO_IS_USER_RESETTABLE = config.getString("Messages.RegionInfoIsUserResettable");
-
-
+        DELETE_REGION_WARNING_NAME = config.getString("Messages.DeleteRegionWarningName");
+        UNSELL_REGION_BUTTON = config.getString("Messages.UnsellRegionButton");
+        UNSELL_REGION_BUTTON_LORE = config.getStringList("Messages.UnsellRegionButtonLore");
+        UNSELL_REGION_WARNING_NAME = config.getString("Messages.UnsellRegionWarningName");
 
         Messages.translateColorCodes();
     }
@@ -724,7 +730,6 @@ public class Messages {
         REGION_NOT_A_SUBREGION = ChatColor.translateAlternateColorCodes('&', REGION_NOT_A_SUBREGION);
         REGION_DELETED = ChatColor.translateAlternateColorCodes('&', REGION_DELETED);
         SUB_REGION_IS_USER_RESETTABLE_ERROR = ChatColor.translateAlternateColorCodes('&', SUB_REGION_IS_USER_RESETTABLE_ERROR);
-
         SELLREGION_NAME = ChatColor.translateAlternateColorCodes('&', SELLREGION_NAME);
         CONTRACTREGION_NAME = ChatColor.translateAlternateColorCodes('&', CONTRACTREGION_NAME);
         RENTREGION_NAME = ChatColor.translateAlternateColorCodes('&', RENTREGION_NAME);
@@ -742,6 +747,9 @@ public class Messages {
         SOLD = ChatColor.translateAlternateColorCodes('&', SOLD);
         AVAILABLE = ChatColor.translateAlternateColorCodes('&', AVAILABLE);
         REGION_INFO_IS_USER_RESETTABLE = ChatColor.translateAlternateColorCodes('&', REGION_INFO_IS_USER_RESETTABLE);
+        DELETE_REGION_WARNING_NAME = ChatColor.translateAlternateColorCodes('&', DELETE_REGION_WARNING_NAME);
+        UNSELL_REGION_BUTTON = ChatColor.translateAlternateColorCodes('&', UNSELL_REGION_BUTTON);
+        UNSELL_REGION_WARNING_NAME = ChatColor.translateAlternateColorCodes('&', UNSELL_REGION_WARNING_NAME);
 
         for(int i = 0; i < GUI_SUBREGION_HOTEL_BUTTON_LORE.size(); i++){
             GUI_SUBREGION_HOTEL_BUTTON_LORE.set(i, ChatColor.translateAlternateColorCodes('&', GUI_SUBREGION_HOTEL_BUTTON_LORE.get(i)));
@@ -808,6 +816,9 @@ public class Messages {
         }
         for(int i = 0; i < GUI_OWNER_MEMBER_INFO_LORE.size(); i++) {
             GUI_OWNER_MEMBER_INFO_LORE.set(i, ChatColor.translateAlternateColorCodes('&', GUI_OWNER_MEMBER_INFO_LORE.get(i)));
+        }
+        for(int i = 0; i < UNSELL_REGION_BUTTON_LORE.size(); i++) {
+            UNSELL_REGION_BUTTON_LORE.set(i, ChatColor.translateAlternateColorCodes('&', UNSELL_REGION_BUTTON_LORE.get(i)));
         }
     }
 
@@ -1078,6 +1089,10 @@ public class Messages {
         config.addDefault("Messages.Disabled","&cdisabled");
         config.addDefault("Messages.Sold","&csold");
         config.addDefault("Messages.Available","&aavailable");
+        config.addDefault("Messages.DeleteRegionWarningName", "&4&lDelete region?");
+        config.addDefault("Messages.UnsellRegionButton", "&4Unsell region");
+        config.addDefault("Messages.UnsellRegionButtonLore", new ArrayList<>(Arrays.asList("&4Click to unsell your subregion and", "&4kick the players of it")));
+        config.addDefault("Messages.UnsellRegionWarningName", "&4&lUnsell region?");
         config.addDefault("Messages.GUIHotelButtonLore", new ArrayList<String>(Arrays.asList("&6The hotel function allows you to prevent players", "&6from breaking blocks they do not have placed", "&6Status: %hotelfunctionstatus%", "&6Click to enable/disable")));
         config.addDefault("Messages.GUISubregionInfoSell", new ArrayList<String>(Arrays.asList("&6Selltype: %selltype%", "&6Status: %soldstatus%", "&6Price: %price%", "&6Price per M2: %price%", "&6Dimensions: %dimensions%")));
         config.addDefault("Messages.GUISubregionInfoRent", new ArrayList<String>(Arrays.asList("&6Selltype: %selltype%", "&6Status: %soldstatus%", "&6Price: %price%", "&6Price per M2: %price%", "&6Extend per click: %extendperclick%", "&6Max. extended time: %maxrenttime%", "&6Dimensions: %dimensions%")));

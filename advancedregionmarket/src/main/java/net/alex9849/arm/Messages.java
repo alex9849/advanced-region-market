@@ -508,8 +508,8 @@ public class Messages {
         GUI_SUBREGION_REGION_INFO_RENT = config.getStringList("Messages.GUISubregionInfoRent");
         GUI_SUBREGION_REGION_INFO_CONTRACT = config.getStringList("Messages.GUISubregionInfoContract");
         GUI_REGIONFINDER_REGION_INFO_SELL = config.getStringList("Messages.GUIRegionfinderInfoSell");
-        GUI_REGIONFINDER_REGION_INFO_RENT = config.getStringList("Messages.GUISubregionInfoRent");
-        GUI_REGIONFINDER_REGION_INFO_CONTRACT = config.getStringList("Messages.GUISubregionInfoContract");
+        GUI_REGIONFINDER_REGION_INFO_RENT = config.getStringList("Messages.GUIRegionfinderInfoRent");
+        GUI_REGIONFINDER_REGION_INFO_CONTRACT = config.getStringList("Messages.GUIRegionfinderInfoContract");
         SELECTION_SAVED_CREATE_SIGN = config.getStringList("Messages.SubregionCreationCreateSignInfo");
         SUBREGION_TOOL_INSTRUCTION = config.getStringList("Messages.SubregionCreationSelectAreaInfo");
         REGION_INFO_IS_USER_RESETTABLE = config.getString("Messages.RegionInfoIsUserResettable");
@@ -1079,12 +1079,12 @@ public class Messages {
         config.addDefault("Messages.Sold","&csold");
         config.addDefault("Messages.Available","&aavailable");
         config.addDefault("Messages.GUIHotelButtonLore", new ArrayList<String>(Arrays.asList("&6The hotel function allows you to prevent players", "&6from breaking blocks they do not have placed", "&6Status: %hotelfunctionstatus%", "&6Click to enable/disable")));
-        config.addDefault("Messages.GUISubregionInfoSell", new ArrayList<String>(Arrays.asList("%regionid%", "Selltype: %selltype%", "Status: %soldstatus%", "Price: %price%", "Price per M2: %price%", "Dimensions: %dimensions%")));
-        config.addDefault("Messages.GUISubregionInfoRent", new ArrayList<String>(Arrays.asList("%regionid%", "Selltype: %selltype%", "Status: %soldstatus%", "Price: %price%", "Price per M2: %price%", "Extend per click: %extendperclick%", "Max. extended time: %maxrenttime%", "Dimensions: %dimensions%")));
-        config.addDefault("Messages.GUISubregionInfoContract", new ArrayList<String>(Arrays.asList("%regionid%", "Selltype: %selltype%", "Status: %soldstatus%", "Price: %price%", "Price per M2: %price%", "Automatic extend time: %extend%", "Dimensions: %dimensions%")));
-        config.addDefault("Messages.GUIRegionfinderInfoSell", new ArrayList<String>(Arrays.asList("%regionid%", "Price: %price%", "Price per M2: %price%", "Dimensions: %dimensions%", "World: %world%")));
-        config.addDefault("Messages.GUISubregionInfoRent", new ArrayList<String>(Arrays.asList("%regionid%", "Price per M2: %priceperm2%" ,"Price (per week): %priceperm2perweek%", "Extend per click: %extendperclick%","Max. extended time: %maxrenttime%", "Dimensions: %dimensions%", "World: %world%")));
-        config.addDefault("Messages.GUISubregionInfoContract", new ArrayList<String>(Arrays.asList("%regionid%", "Price: %price%", "Price per M2 (per week): %priceperm2perweek%", "Automatic extend time: %extend%","Dimensions: %dimensions%", "World: %world%")));
+        config.addDefault("Messages.GUISubregionInfoSell", new ArrayList<String>(Arrays.asList("&6Selltype: %selltype%", "&6Status: %soldstatus%", "&6Price: %price%", "&6Price per M2: %price%", "&6Dimensions: %dimensions%")));
+        config.addDefault("Messages.GUISubregionInfoRent", new ArrayList<String>(Arrays.asList("&6Selltype: %selltype%", "&6Status: %soldstatus%", "&6Price: %price%", "&6Price per M2: %price%", "&6Extend per click: %extendperclick%", "&6Max. extended time: %maxrenttime%", "&6Dimensions: %dimensions%")));
+        config.addDefault("Messages.GUISubregionInfoContract", new ArrayList<String>(Arrays.asList("&6Selltype: %selltype%", "&6Status: %soldstatus%", "&6Price: %price%", "&6Price per M2: %price%", "&6Automatic extend time: %extend%", "&6Dimensions: %dimensions%")));
+        config.addDefault("Messages.GUIRegionfinderInfoSell", new ArrayList<String>(Arrays.asList("&6Price: %price%", "&6Price per M2: %price%", "&6Dimensions: %dimensions%", "&6World: %world%")));
+        config.addDefault("Messages.GUIRegionfinderInfoRent", new ArrayList<String>(Arrays.asList("&6Price per M2: %priceperm2%" ,"&6Price (per week): %priceperm2perweek%", "&6Extend per click: %extendperclick%","&6Max. extended time: %maxrenttime%", "&6Dimensions: %dimensions%", "&6World: %world%")));
+        config.addDefault("Messages.GUIRegionfinderInfoContract", new ArrayList<String>(Arrays.asList("&6Price: %price%", "&6Price per M2 (per week): %priceperm2perweek%", "&6Automatic extend time: %extend%","&6Dimensions: %dimensions%", "&6World: %world%")));
         config.addDefault("Messages.SubregionCreationCreateSignInfo", new ArrayList<String>(Arrays.asList("&aYour selection has been saved! You can now create a sign to sell the region.", "&aCreate a Sell-Region:", "&6First line: &b[sub-sell]", "&6Last line: &bprice", "", "&aCreate a Rent-Region:", "&6First line: &b[sub-rent]",
                 "&6Last line: &bPricePerPeriod&6;&bExtendPerClick&6;&bMaxExtendTime", "&6example for ExtendPerClick/MaxExtendTime: 5d (5 days)", "", "&aCreate a Contract-Region:", "&6First line: &b[sub-contract]", "&6Last line: &bPricePerPeriod&6;&bExtendTime", "&6example for ExtendTime: 12h (12 hours)")));
         config.addDefault("Messages.SubregionCreationSelectAreaInfo", new ArrayList<String>(Arrays.asList("&aYou got a tool in your inventory (feather) to select 2 points of your region that will mark the corners of your new subregion.", "&aLeft click to select pos1", "&aRight click to select pos2", "&aType \"&6/arm subregion create\" &aif you are done")));

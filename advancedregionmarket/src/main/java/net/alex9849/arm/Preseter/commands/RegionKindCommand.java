@@ -21,7 +21,7 @@ public class RegionKindCommand extends BasicArmCommand {
 
     private final String rootCommand = "regionkind";
     private final String regex_set = "(?i)regionkind [^;\n ]+";
-    private final List<String> usage = new ArrayList<>(Arrays.asList("regionkind ([REGIONKIND]/remove)"));
+    private final List<String> usage = new ArrayList<>(Arrays.asList("regionkind ([REGIONKIND])"));
     private PresetType presetType;
 
     public RegionKindCommand(PresetType presetType) {

@@ -41,6 +41,8 @@ public class RentPresetCommand extends SellPresetCommand {
         commands.add(new net.alex9849.arm.Preseter.commands.SaveCommand(PresetType.RENTPRESET));
         commands.add(new net.alex9849.arm.Preseter.commands.AddCommandCommand(PresetType.RENTPRESET));
         commands.add(new net.alex9849.arm.Preseter.commands.RemoveCommandCommand(PresetType.RENTPRESET));
+        commands.add(new net.alex9849.arm.Preseter.commands.AllowedSubregionsCommand(PresetType.RENTPRESET));
+        commands.add(new net.alex9849.arm.Preseter.commands.UserResettableCommand(PresetType.RENTPRESET));
         this.commandHandler.addCommands(commands);
     }
 

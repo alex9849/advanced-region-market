@@ -17,9 +17,11 @@ public abstract class Preset {
     protected boolean autoReset = true;
     protected boolean isHotel = false;
     protected boolean doBlockReset = true;
+    protected boolean isUserResettable = true;
+    protected int allowedSubregions = 0;
     protected List<String> setupCommands = new ArrayList<>();
 
-    public Preset(String name, boolean hasPrice, double price, RegionKind regionKind, boolean autoReset, boolean isHotel, boolean doBlockReset, List<String> setupCommands){
+    public Preset(String name, boolean hasPrice, double price, RegionKind regionKind, boolean autoReset, boolean isHotel, boolean doBlockReset, boolean isUserResettable, int allowedSubregions, List<String> setupCommands){
         this.name = name;
         this.hasPrice = hasPrice;
         this.price = price;
@@ -27,6 +29,8 @@ public abstract class Preset {
         this.autoReset = autoReset;
         this.isHotel = isHotel;
         this.doBlockReset = doBlockReset;
+        this.isUserResettable = isUserResettable;
+        this.allowedSubregions = allowedSubregions;
         this.setupCommands = setupCommands;
     }
 
@@ -36,6 +40,22 @@ public abstract class Preset {
 
     public void setName(String name){
         this.name = name;
+    }
+
+    public void setUserResettable(boolean isUserResettable) {
+        this.isUserResettable = isUserResettable;
+    }
+
+    public boolean isUserResettable() {
+        return this.isUserResettable;
+    }
+
+    public void setAllowedSubregions(int allowedSubregions) {
+        this.allowedSubregions = allowedSubregions;
+    }
+
+    public int getAllowedSubregions() {
+        return this.allowedSubregions;
     }
 
     public void addCommand(String command) {
@@ -93,6 +113,8 @@ public abstract class Preset {
         player.sendMessage(Messages.REGION_INFO_AUTORESET + this.isAutoReset());
         player.sendMessage(Messages.REGION_INFO_HOTEL + this.isHotel());
         player.sendMessage(Messages.REGION_INFO_DO_BLOCK_RESET + this.isDoBlockReset());
+        player.sendMessage(Messages.REGION_INFO_IS_USER_RESETTABLE + this.isUserResettable());
+        player.sendMessage(Messages.REGION_INFO_ALLOWED_SUBREGIONS + this.getAllowedSubregions());
         player.sendMessage(Messages.PRESET_SETUP_COMMANDS);
         for(int i = 0; i < this.setupCommands.size(); i++) {
             String message = (i + 1) +". /" + this.setupCommands.get(i);

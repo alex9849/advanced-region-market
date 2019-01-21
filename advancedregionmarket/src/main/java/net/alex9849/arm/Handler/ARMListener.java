@@ -42,6 +42,8 @@ public class ARMListener implements Listener {
             Boolean autoReset = true;
             Boolean isHotel = false;
             Boolean doBlockReset = true;
+            Boolean userResettable = true;
+            int allowedSubregions = 0;
 
             if(sign.getLine(0).equalsIgnoreCase("[ARM-Sell]")){
                 SellPreset preset = (SellPreset) ActivePresetManager.getPreset(sign.getPlayer(), PresetType.SELLPRESET);
@@ -50,6 +52,8 @@ public class ARMListener implements Listener {
                     autoReset = preset.isAutoReset();
                     isHotel = preset.isHotel();
                     doBlockReset = preset.isDoBlockReset();
+                    userResettable = preset.isUserResettable();
+                    allowedSubregions = preset.getAllowedSubregions();
                     sign.getPlayer().sendMessage(Messages.PREFIX + "Applying preset...");
                 }
 
@@ -111,7 +115,7 @@ public class ARMListener implements Listener {
 
                 LinkedList<Sign> sellsign = new LinkedList<Sign>();
                 sellsign.add((Sign) sign.getBlock().getState());
-                SellRegion addRegion = new SellRegion(region, regionWorld, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,1, true, new ArrayList<Region>(), 0);
+                SellRegion addRegion = new SellRegion(region, regionWorld, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,1, userResettable, new ArrayList<Region>(), allowedSubregions);
                 addRegion.createSchematic();
                 net.alex9849.arm.regions.RegionManager.addRegion(addRegion);
                 sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_ADDED_TO_ARM);
@@ -135,6 +139,8 @@ public class ARMListener implements Listener {
                     autoReset = preset.isAutoReset();
                     isHotel = preset.isHotel();
                     doBlockReset = preset.isDoBlockReset();
+                    userResettable = preset.isUserResettable();
+                    allowedSubregions = preset.getAllowedSubregions();
                     sign.getPlayer().sendMessage(Messages.PREFIX + "Applying preset...");
                 }
 
@@ -211,7 +217,7 @@ public class ARMListener implements Listener {
                 sellsign.add((Sign) sign.getBlock().getState());
 
                 RentRegion addRegion = new RentRegion(region, regionWorld, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,
-                        1, true,1, maxRentTime, extendPerClick, new ArrayList<Region>(), 0);
+                        1, userResettable,1, maxRentTime, extendPerClick, new ArrayList<Region>(), allowedSubregions);
                 addRegion.createSchematic();
                 net.alex9849.arm.regions.RegionManager.addRegion(addRegion);
 
@@ -234,6 +240,8 @@ public class ARMListener implements Listener {
                     autoReset = preset.isAutoReset();
                     isHotel = preset.isHotel();
                     doBlockReset = preset.isDoBlockReset();
+                    userResettable = preset.isUserResettable();
+                    allowedSubregions = preset.getAllowedSubregions();
                     sign.getPlayer().sendMessage(Messages.PREFIX + "Applying preset...");
                 }
 
@@ -305,7 +313,7 @@ public class ARMListener implements Listener {
                 sellsign.add((Sign) sign.getBlock().getState());
 
                 ContractRegion addRegion = new ContractRegion(region, regionWorld, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,
-                        1, true, extendtime, 1, false, new ArrayList<Region>(), 0);
+                        1, userResettable, extendtime, 1, false, new ArrayList<Region>(), allowedSubregions);
                 addRegion.createSchematic();
                 net.alex9849.arm.regions.RegionManager.addRegion(addRegion);
                 sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_ADDED_TO_ARM);

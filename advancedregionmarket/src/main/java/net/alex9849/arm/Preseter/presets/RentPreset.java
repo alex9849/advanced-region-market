@@ -16,8 +16,8 @@ public class RentPreset extends Preset {
     private long extendPerClick = 0;
 
     public RentPreset(String name, boolean hasPrice, double price, RegionKind regionKind, boolean autoReset, boolean isHotel, boolean doBlockReset, boolean hasMaxRentTime,
-                      long maxRentTime, boolean hasExtendPerClick, long extendPerClick, List<String> setupCommands){
-        super(name, hasPrice, price, regionKind, autoReset, isHotel, doBlockReset, setupCommands);
+                      long maxRentTime, boolean hasExtendPerClick, long extendPerClick, boolean isUserResettable, int allowedSubregions, List<String> setupCommands){
+        super(name, hasPrice, price, regionKind, autoReset, isHotel, doBlockReset, isUserResettable, allowedSubregions, setupCommands);
         this.hasMaxRentTime = hasMaxRentTime;
         this.maxRentTime = maxRentTime;
         this.hasExtendPerClick = hasExtendPerClick;
@@ -29,7 +29,7 @@ public class RentPreset extends Preset {
         for(String cmd : setupCommands) {
             newsetupCommands.add(cmd);
         }
-        return new RentPreset(this.name, this.hasPrice, this.price, this.regionKind, this.autoReset, this.isHotel, this.doBlockReset, this.hasMaxRentTime, this.maxRentTime, this.hasExtendPerClick, this.extendPerClick, newsetupCommands);
+        return new RentPreset(this.name, this.hasPrice, this.price, this.regionKind, this.autoReset, this.isHotel, this.doBlockReset, this.hasMaxRentTime, this.maxRentTime, this.hasExtendPerClick, this.extendPerClick, this.isUserResettable, this.allowedSubregions, newsetupCommands);
     }
 
     public boolean hasExtendPerClick() {

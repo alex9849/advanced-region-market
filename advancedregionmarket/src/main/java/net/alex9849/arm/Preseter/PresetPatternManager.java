@@ -11,6 +11,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 public class PresetPatternManager {
     private static List<Preset> presetList = new ArrayList<>();
@@ -122,36 +123,63 @@ public class PresetPatternManager {
                 }
             }
         }
+        presetConfig.options().copyDefaults(true);
+        savePresetPatternConf();
     }
 
     private static Preset generatePresetObject(ConfigurationSection section, String name, PresetType presetType) {
+        updateDefaults(section, presetType);
         boolean hasprice = section.getBoolean("hasPrice");
         double price = section.getDouble("price");
         String regionKindString = section.getString("regionKind");
         boolean isHotel = section.getBoolean("isHotel");
         boolean doBlockReset = section.getBoolean("doBlockReset");
         boolean autoreset = section.getBoolean("autoreset");
+        boolean isUserResettable = section.getBoolean("isUserResettable");
+        int allowedSubregions = section.getInt("allowedSubregions");
         List<String> setupcommands = section.getStringList("setupcommands");
         RegionKind regionKind = RegionKind.getRegionKind(regionKindString);
         if(regionKind == null) {
             regionKind = RegionKind.DEFAULT;
         }
         if(presetType == PresetType.SELLPRESET) {
-            return new SellPreset(name, hasprice, price, regionKind, isHotel, doBlockReset, autoreset, setupcommands);
+            return new SellPreset(name, hasprice, price, regionKind, isHotel, doBlockReset, autoreset, isUserResettable, allowedSubregions, setupcommands);
         }
         if(presetType == PresetType.RENTPRESET) {
             boolean hasMaxRentTime = section.getBoolean("hasMaxRentTime");
             long maxRentTime = section.getLong("maxRentTime");
             boolean hasExtendPerClick = section.getBoolean("hasExtendPerClick");
             long extendPerClick = section.getLong("extendPerClick");
-            return new RentPreset(name, hasprice, price, regionKind, isHotel, doBlockReset, autoreset, hasMaxRentTime, maxRentTime, hasExtendPerClick, extendPerClick, setupcommands);
+            return new RentPreset(name, hasprice, price, regionKind, isHotel, doBlockReset, autoreset, hasMaxRentTime, maxRentTime, hasExtendPerClick, extendPerClick, isUserResettable, allowedSubregions, setupcommands);
         }
         if(presetType == PresetType.CONTRACTPRESET) {
             boolean hasExtend = section.getBoolean("hasExtend");
             long extendTime = section.getLong("extendTime");
-            return new ContractPreset(name, hasprice, price, regionKind, isHotel, doBlockReset, autoreset, hasExtend, extendTime, setupcommands);
+            return new ContractPreset(name, hasprice, price, regionKind, isHotel, doBlockReset, autoreset, hasExtend, extendTime, isUserResettable, allowedSubregions, setupcommands);
         }
         return null;
+    }
+
+    private static void updateDefaults(ConfigurationSection section, PresetType presetType) {
+        section.addDefault("hasPrice", false);
+        section.addDefault("price", 0);
+        section.addDefault("regionKind", "Default");
+        section.addDefault("isHotel", false);
+        section.addDefault("doBlockReset", true);
+        section.addDefault("autoreset", true);
+        section.addDefault("isUserResettable", true);
+        section.addDefault("allowedSubregions", 0);
+        section.addDefault("setupcommands", new ArrayList<String>());
+        if(presetType == PresetType.RENTPRESET) {
+            section.addDefault("hasMaxRentTime", false);
+            section.addDefault("maxRentTime", 0);
+            section.addDefault("hasExtendPerClick", false);
+            section.addDefault("extendPerClick", 0);
+        }
+        if(presetType == PresetType.CONTRACTPRESET) {
+            section.addDefault("hasExtend", false);
+            section.addDefault("extendTime", 0);
+        }
     }
 
     public static void resetPresetPatterns() {

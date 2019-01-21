@@ -20,6 +20,7 @@ public class ActivePresetManager {
     }
 
     public static void add(PresetPlayerPair ppp) {
+        deletePreset(ppp.getPlayer(), ppp.getPreset().getPresetType());
         presetPlayerPairList.add(ppp);
     }
 

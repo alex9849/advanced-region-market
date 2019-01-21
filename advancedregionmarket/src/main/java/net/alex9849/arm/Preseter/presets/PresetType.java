@@ -1,24 +1,41 @@
 package net.alex9849.arm.Preseter.presets;
 
-import net.alex9849.arm.Preseter.ContractPreset;
-import org.bukkit.entity.Player;
+import net.alex9849.arm.regions.RegionKind;
+
+import java.util.ArrayList;
 
 public enum PresetType {
     SELLPRESET {
         public String getName() {
             return "sellpreset";
         }
+
+        public SellPreset create() {
+            return new SellPreset("default", false, 0, RegionKind.DEFAULT, true, false, true, new ArrayList<>());
+        }
+
     }, RENTPRESET {
         public String getName() {
             return "rentpreset";
         }
+
+        public RentPreset create() {
+            return new RentPreset("default", false, 0, RegionKind.DEFAULT, true, false, true, false, 0, false, 0, new ArrayList<>());
+        }
+
     }, CONTRACTPRESET {
         public String getName() {
             return "contractpreset";
         }
+
+        public ContractPreset create() {
+            return new ContractPreset("default", false, 0, RegionKind.DEFAULT, true, false, true, false, 0, new ArrayList<>());
+        }
     };
 
     public abstract String getName();
+
+    public abstract Preset create();
 
     public static PresetType getPresetType(String type) {
         if (type.equalsIgnoreCase("sellpreset")) {
@@ -31,24 +48,4 @@ public enum PresetType {
             return null;
         }
     }
-
-    /*
-    public static Preset create(PresetType presetType, Player player) {
-        if(presetType == SELLPRESET) {
-            SellPreset sellPreset = new SellPreset(player);
-            SellPreset.getList().add(sellPreset);
-            return sellPreset;
-        } else if(presetType == RENTPRESET) {
-            RentPreset rentPreset = new RentPreset(player);
-            RentPreset.getList().add(rentPreset);
-            return rentPreset;
-        } else if(presetType == CONTRACTPRESET) {
-            ContractPreset contractPreset = new ContractPreset(player);
-            ContractPreset.getList().add(contractPreset);
-            return contractPreset;
-        } else {
-            return null;
-        }
-    }
-    */
 }

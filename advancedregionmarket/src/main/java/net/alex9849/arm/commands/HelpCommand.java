@@ -52,11 +52,11 @@ public class HelpCommand extends BasicArmCommand {
         List<BasicArmCommand> commands = AdvancedRegionMarket.getCommandHandler().getCommands();
         List<String> usages = new ArrayList<>();
 
-        Collections.sort(usages);
-
         for(BasicArmCommand command : commands) {
             usages.addAll(command.getUsage());
         }
+
+        Collections.sort(usages);
 
         final int commandsPerPage = 7;
         int pages = usages.size() / commandsPerPage;

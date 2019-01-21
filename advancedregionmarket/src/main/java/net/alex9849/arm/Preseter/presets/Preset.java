@@ -151,4 +151,6 @@ public abstract class Preset {
     }
 
     public abstract PresetType getPresetType();
+
+    public abstract Preset getCopy();
 }

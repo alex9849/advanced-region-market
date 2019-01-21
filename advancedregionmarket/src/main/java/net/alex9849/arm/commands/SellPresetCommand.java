@@ -1,7 +1,10 @@
 package net.alex9849.arm.commands;
 
+import net.alex9849.arm.Handler.CommandHandler;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
+import net.alex9849.arm.Preseter.commands.*;
+import net.alex9849.arm.Preseter.presets.PresetType;
 import net.alex9849.arm.Preseter.presets.SellPreset;
 import net.alex9849.arm.exceptions.InputException;
 import org.bukkit.command.Command;
@@ -17,6 +20,27 @@ public class SellPresetCommand extends BasicArmCommand {
     private final String rootCommand = "sellpreset";
     private final String regex = "(?i)sellpreset [^;\n]+";
     private final List<String> usage = new ArrayList<>(Arrays.asList("sellpreset [SETTING]", "sellpreset help"));
+    private CommandHandler commandHandler;
+
+    public SellPresetCommand() {
+        this.commandHandler = new CommandHandler(this.usage, this.rootCommand);
+        List<BasicArmCommand> commands = new ArrayList<>();
+        commands.add(new net.alex9849.arm.Preseter.commands.AddCommandCommand(PresetType.SELLPRESET));
+        commands.add(new net.alex9849.arm.Preseter.commands.DeleteCommand(PresetType.SELLPRESET));
+        commands.add(new net.alex9849.arm.Preseter.commands.DoBlockResetCommand(PresetType.SELLPRESET));
+        commands.add(new net.alex9849.arm.Preseter.commands.HelpCommand(PresetType.SELLPRESET, this.commandHandler));
+        commands.add(new net.alex9849.arm.Preseter.commands.HotelCommand(PresetType.SELLPRESET));
+        commands.add(new net.alex9849.arm.Preseter.commands.InfoCommand(PresetType.SELLPRESET));
+        commands.add(new net.alex9849.arm.Preseter.commands.ListCommand(PresetType.SELLPRESET));
+        commands.add(new net.alex9849.arm.Preseter.commands.LoadCommand(PresetType.SELLPRESET));
+        commands.add(new net.alex9849.arm.Preseter.commands.PriceCommand(PresetType.SELLPRESET));
+        commands.add(new net.alex9849.arm.Preseter.commands.RegionKindCommand(PresetType.SELLPRESET));
+        commands.add(new net.alex9849.arm.Preseter.commands.ResetCommand(PresetType.SELLPRESET));
+        commands.add(new net.alex9849.arm.Preseter.commands.SaveCommand(PresetType.SELLPRESET));
+        commands.add(new net.alex9849.arm.Preseter.commands.AddCommandCommand(PresetType.SELLPRESET));
+        commands.add(new net.alex9849.arm.Preseter.commands.RemoveCommandCommand(PresetType.SELLPRESET));
+        this.commandHandler.addCommands(commands);
+    }
 
     @Override
     public boolean matchesRegex(String command) {
@@ -49,7 +73,7 @@ public class SellPresetCommand extends BasicArmCommand {
                 }
             }
 
-            return SellPreset.onCommand(sender, newallargs, newargs);
+            return  this.commandHandler.executeCommand(sender, cmd , commandsLabel, newargs);
         } else {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
@@ -75,7 +99,7 @@ public class SellPresetCommand extends BasicArmCommand {
             }
         }
         if(args.length >= 2 && this.rootCommand.equalsIgnoreCase(args[0])) {
-            returnme.addAll(SellPreset.onTabComplete(player, newargs));
+            returnme.addAll(this.commandHandler.onTabComplete(player, newargs));
         }
         return returnme;
     }

@@ -2,29 +2,35 @@ package net.alex9849.arm.Preseter.commands;
 
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
+import net.alex9849.arm.Preseter.ActivePresetManager;
+import net.alex9849.arm.Preseter.PresetPlayerPair;
 import net.alex9849.arm.Preseter.presets.Preset;
 import net.alex9849.arm.Preseter.presets.PresetType;
+import net.alex9849.arm.commands.BasicArmCommand;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.regions.RegionKind;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class RegionKindCommand extends BasicPresetCommand {
+public class RegionKindCommand extends BasicArmCommand {
 
     private final String rootCommand = "regionkind";
     private final String regex_set = "(?i)regionkind [^;\n ]+";
-    private final String regex_remove = "(?i)regionkind (?i)remove";
-    private final String usage = "regionkind ([REGIONKIND]/remove)";
+    private final List<String> usage = new ArrayList<>(Arrays.asList("regionkind ([REGIONKIND]/remove)"));
+    private PresetType presetType;
+
+    public RegionKindCommand(PresetType presetType) {
+        this.presetType = presetType;
+    }
 
     @Override
     public boolean matchesRegex(String command) {
-        if(command.matches(this.regex_set)) {
-            return true;
-        } else {
-            return command.matches(this.regex_remove);
-        }
+        return command.matches(this.regex_set);
     }
 
     @Override
@@ -33,44 +39,47 @@ public class RegionKindCommand extends BasicPresetCommand {
     }
 
     @Override
-    public String getUsage() {
+    public List<String> getUsage() {
         return this.usage;
     }
 
     @Override
-    public boolean runCommand(Player player, String[] args, String allargs, PresetType presetType) throws InputException {
+    public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
+        if(!(sender instanceof Player)) {
+            throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
+        }
+        Player player = (Player) sender;
+
         if(!player.hasPermission(Permission.ADMIN_PRESET_SET_REGIONKIND)) {
             throw new InputException(player, Messages.NO_PERMISSION);
         }
 
-        if(presetType == null) {
+        if(this.presetType == null) {
             return false;
         }
 
-        Preset preset = Preset.getPreset(presetType, player);
+        Preset preset = ActivePresetManager.getPreset(player, this.presetType);
 
         if(preset == null) {
-            preset = PresetType.create(presetType, player);
+            preset = this.presetType.create();
+            ActivePresetManager.add(new PresetPlayerPair(player, preset));
         }
 
-        if(allargs.matches(this.regex_set)) {
-            RegionKind regkind = RegionKind.getRegionKind(args[1]);
-            if(regkind == null) {
-                player.sendMessage(Messages.PREFIX + Messages.REGIONKIND_DOES_NOT_EXIST);
-                return true;
-            }
-            preset.setRegionKind(regkind);
-            player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
-            return true;
-        } else {
-            preset.removeRegionKind();
-            player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
+        RegionKind regkind = RegionKind.getRegionKind(args[1]);
+        if(regkind == null) {
+            player.sendMessage(Messages.PREFIX + Messages.REGIONKIND_DOES_NOT_EXIST);
             return true;
         }
+        if(regkind == RegionKind.SUBREGION) {
+            throw new InputException(player, Messages.SUB_REGION_REGIONKIND_ONLY_FOR_SUB_REGIONS);
+        }
+        preset.setRegionKind(regkind);
+        player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
+        return true;
     }
 
     @Override
-    public List<String> onTabComplete(Player player, String[] args, PresetType presetType) {
+    public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
         if(player.hasPermission(Permission.ADMIN_PRESET_SET_REGIONKIND)) {
             if(args.length >= 1) {
@@ -80,17 +89,7 @@ public class RegionKindCommand extends BasicPresetCommand {
                     }
                 }
                 if(args.length == 2 && this.rootCommand.equalsIgnoreCase(args[0])) {
-                    if("remove".startsWith(args[1])) {
-                        returnme.add("remove");
-                    }
-                    for(RegionKind regionkind : RegionKind.getRegionKindList()) {
-                        if(regionkind.getName().toLowerCase().startsWith(args[1])) {
-                            returnme.add(regionkind.getName());
-                        }
-                    }
-                    if("default".startsWith(args[1])) {
-                        returnme.add("default");
-                    }
+                    returnme.addAll(RegionKind.completeTabRegionKinds(args[1]));
                 }
             }
         }

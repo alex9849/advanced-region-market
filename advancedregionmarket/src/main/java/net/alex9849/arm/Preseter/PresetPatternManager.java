@@ -1,9 +1,6 @@
 package net.alex9849.arm.Preseter;
 
-import net.alex9849.arm.Preseter.presets.Preset;
-import net.alex9849.arm.Preseter.presets.PresetType;
-import net.alex9849.arm.Preseter.presets.RentPreset;
-import net.alex9849.arm.Preseter.presets.SellPreset;
+import net.alex9849.arm.Preseter.presets.*;
 import net.alex9849.arm.regions.RegionKind;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
@@ -19,16 +16,11 @@ public class PresetPatternManager {
     private static List<Preset> presetList = new ArrayList<>();
     private static YamlConfiguration presetConfig;
 
+
     public static Preset getPreset(String name, PresetType presetType) {
         for(Preset preset : presetList) {
             if(preset.getName().equalsIgnoreCase(name)) {
-                if(preset.getPresetType() == PresetType.SELLPRESET) {
-                    return preset;
-                }
-                if(preset.getPresetType() == PresetType.RENTPRESET) {
-                    return preset;
-                }
-                if(preset.getPresetType() == PresetType.CONTRACTPRESET) {
+                if(preset.getPresetType() == presetType) {
                     return preset;
                 }
             }
@@ -36,10 +28,30 @@ public class PresetPatternManager {
         return null;
     }
 
-    public static void add(Preset preset) {
-        presetList.add(preset);
-        writePresetPatternToYamlObject(preset);
+
+    public static List<Preset> getPresets(PresetType presetType) {
+        List<Preset> presets = new ArrayList<>();
+        for(Preset preset : presetList) {
+            if(preset.getPresetType() == presetType) {
+                presets.add(preset);
+            }
+        }
+        return presets;
+    }
+
+    public static boolean add(Preset preset, String name) {
+        for(Preset presetFromList : presetList) {
+            if(presetFromList.getName().equalsIgnoreCase(name)) {
+                return false;
+            }
+        }
+
+        Preset copyPrest = preset.getCopy();
+        copyPrest.setName(name);
+        presetList.add(copyPrest);
+        writePresetPatternToYamlObject(copyPrest);
         savePresetPatternConf();
+        return true;
     }
 
     public static void remove(Preset preset) {
@@ -58,7 +70,7 @@ public class PresetPatternManager {
     private static void writePresetPatternToYamlObject(Preset preset) {
         presetConfig.set(preset.getPresetType().getName() + "." + preset.getName() + ".hasPrice", preset.hasPrice());
         presetConfig.set(preset.getPresetType().getName() + "." + preset.getName() + ".price", preset.getPrice());
-        presetConfig.set(preset.getPresetType().getName() + "." + preset.getName() + ".regionKind", preset.getRegionKind());
+        presetConfig.set(preset.getPresetType().getName() + "." + preset.getName() + ".regionKind", preset.getRegionKind().getName());
         presetConfig.set(preset.getPresetType().getName() + "." + preset.getName() + ".isHotel", preset.isHotel());
         presetConfig.set(preset.getPresetType().getName() + "." + preset.getName() + ".doBlockReset", preset.isDoBlockReset());
         presetConfig.set(preset.getPresetType().getName() + "." + preset.getName() + ".autoreset", preset.isAutoReset());
@@ -182,31 +194,15 @@ public class PresetPatternManager {
         }
     }
 
-    /*
-    public static List<String> onTabCompleteCompleteSavedPresets(String presetname, PresetType presetType) {
+    public static List<String> onTabCompleteCompleteSavedPresets(PresetType presetType, String presetname) {
         List<String> returnme = new ArrayList<>();
-        if(presetType == PresetType.SELLPRESET) {
-            for(SellPreset preset: SellPreset.getPatterns()) {
-                if(preset.getName().toLowerCase().startsWith(presetname)) {
-                    returnme.add(preset.getName());
-                }
+
+        for(Preset preset : presetList) {
+            if((preset.getPresetType() == presetType) && (preset.getName().equalsIgnoreCase(presetname))) {
+                returnme.add(preset.getName());
             }
         }
-        if(presetType == PresetType.RENTPRESET) {
-            for(RentPreset preset: RentPreset.getPatterns()) {
-                if(preset.getName().toLowerCase().startsWith(presetname)) {
-                    returnme.add(preset.getName());
-                }
-            }
-        }
-        if(presetType == PresetType.CONTRACTPRESET) {
-            for(ContractPreset preset: ContractPreset.getPatterns()) {
-                if(preset.getName().toLowerCase().startsWith(presetname)) {
-                    returnme.add(preset.getName());
-                }
-            }
-        }
+
         return returnme;
     }
-    */
 }

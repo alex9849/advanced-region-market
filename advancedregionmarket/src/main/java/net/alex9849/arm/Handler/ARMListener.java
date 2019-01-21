@@ -5,10 +5,7 @@ import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.Preseter.*;
-import net.alex9849.arm.Preseter.presets.Preset;
-import net.alex9849.arm.Preseter.presets.PresetType;
-import net.alex9849.arm.Preseter.presets.RentPreset;
-import net.alex9849.arm.Preseter.presets.SellPreset;
+import net.alex9849.arm.Preseter.presets.*;
 import net.alex9849.arm.SubRegions.SubRegionCreator;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.regions.*;
@@ -47,7 +44,7 @@ public class ARMListener implements Listener {
             Boolean doBlockReset = true;
 
             if(sign.getLine(0).equalsIgnoreCase("[ARM-Sell]")){
-                SellPreset preset = (SellPreset) Preset.getPreset(PresetType.SELLPRESET, sign.getPlayer());
+                SellPreset preset = (SellPreset) ActivePresetManager.getPreset(sign.getPlayer(), PresetType.SELLPRESET);
                 if(preset != null) {
                     regionkind = preset.getRegionKind();
                     autoReset = preset.isAutoReset();
@@ -132,7 +129,7 @@ public class ARMListener implements Listener {
                     throw new InputException(sign.getPlayer(), Messages.NO_PERMISSION);
                 }
 
-                RentPreset preset = (RentPreset) Preset.getPreset(PresetType.RENTPRESET, sign.getPlayer());
+                RentPreset preset = (RentPreset) ActivePresetManager.getPreset(sign.getPlayer(), PresetType.RENTPRESET);
                 if(preset != null) {
                     regionkind = preset.getRegionKind();
                     autoReset = preset.isAutoReset();
@@ -231,7 +228,7 @@ public class ARMListener implements Listener {
                     throw new InputException(sign.getPlayer(), Messages.NO_PERMISSION);
                 }
 
-                ContractPreset preset = (ContractPreset) Preset.getPreset(PresetType.CONTRACTPRESET, sign.getPlayer());
+                ContractPreset preset = (ContractPreset) ActivePresetManager.getPreset(sign.getPlayer(), PresetType.CONTRACTPRESET);
                 if(preset != null) {
                     regionkind = preset.getRegionKind();
                     autoReset = preset.isAutoReset();
@@ -473,9 +470,7 @@ public class ARMListener implements Listener {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        SellPreset.removePreset(event.getPlayer());
-        RentPreset.removePreset(event.getPlayer());
-        ContractPreset.removePreset(event.getPlayer());
+        ActivePresetManager.deletePreset(event.getPlayer());
         SubRegionCreator.removeSubRegioncreator(event.getPlayer());
     }
 

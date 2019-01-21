@@ -30,6 +30,10 @@ public class CommandHandler implements TabCompleter {
         this.commands = new ArrayList<>();
     }
 
+    public String getRootcommand() {
+        return this.rootcommand;
+    }
+
     public List<BasicArmCommand> getCommands() {
         return this.commands;
     }

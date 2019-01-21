@@ -226,7 +226,7 @@ public class PresetPatternManager {
         List<String> returnme = new ArrayList<>();
 
         for(Preset preset : presetList) {
-            if((preset.getPresetType() == presetType) && (preset.getName().equalsIgnoreCase(presetname))) {
+            if((preset.getPresetType() == presetType) && (preset.getName().startsWith(presetname))) {
                 returnme.add(preset.getName());
             }
         }

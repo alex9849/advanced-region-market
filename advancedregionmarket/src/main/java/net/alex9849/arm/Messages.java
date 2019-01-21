@@ -240,7 +240,7 @@ public class Messages {
     public static String DISABLED = "&cdisabled";
     public static String SOLD = "&csold";
     public static String AVAILABLE = "&aavailable";
-    public static String REGION_INFO_IS_USER_RESETTABLE = "&6IsUserResettable: ";
+    public static String REGION_INFO_IS_USER_RESETTABLE = "&6UserResettable: ";
     public static String SUB_REGION_IS_USER_RESETTABLE_ERROR = "&4The selected region is a subregion. You can change the isUserResettable setting for all subregions in the config.yml!";
     public static List<String> GUI_SUBREGION_HOTEL_BUTTON_LORE = new ArrayList<String>(Arrays.asList("&6The hotel function allows you to prevent players", "&6from breaking blocks they do not have placed", "&6Status: %hotelfunctionstatus%", "&6Click to enable/disable"));
     public static List<String> GUI_SUBREGION_REGION_INFO_SELL = new ArrayList<String>(Arrays.asList("%regionid%", "Selltype: %selltype%", "Status: %soldstatus%", "Price: %price%", "Price per M2: %price%", "Dimensions: %dimensions%"));
@@ -977,7 +977,7 @@ public class Messages {
         config.addDefault("Messages.RegionInfoOwner", "&6Owner: ");
         config.addDefault("Messages.RegionInfoMembers", "&6Members: ");
         config.addDefault("Messages.RegionInfoDoBlockReset", "&6DoBlockReset: ");
-        config.addDefault("Messages.RegionInfoIsUserResettable", "&6IsUserResettable: ");
+        config.addDefault("Messages.RegionInfoIsUserResettable", "&6UserResettable: ");
         config.addDefault("Messages.isHotel", "&6isHotel: ");
         config.addDefault("Messages.RegionInfoAutoreset", "&6Autoreset: ");
         config.addDefault("Messages.RegionInfoMaxRentTime", "&6Max rent time: ");

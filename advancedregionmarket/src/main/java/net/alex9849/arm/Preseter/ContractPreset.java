@@ -16,47 +16,21 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class ContractPreset extends Preset {
-    private static ArrayList<BasicPresetCommand> commands = new ArrayList<>();
-    protected static ArrayList<ContractPreset> list = new ArrayList<>();
-    private static ArrayList<ContractPreset> patterns = new ArrayList<>();
     private boolean hasExtend = false;
     private long extend = 0;
 
-    public ContractPreset(Player player) {
-        super(player);
-    }
-
-    public static ArrayList<ContractPreset> getPatterns(){
-        return ContractPreset.patterns;
-    }
-
-    public static void reset(){
-        list = new ArrayList<>();
-        patterns = new ArrayList<>();
+    public ContractPreset(String name, boolean hasPrice, double price, RegionKind regionKind, boolean autoReset, boolean isHotel, boolean doBlockReset, boolean hasExtend, long extend, List<String> setupCommands){
+        super(name, hasPrice, price, regionKind, autoReset, isHotel, doBlockReset, setupCommands);
+        this.hasExtend = hasExtend;
+        this.extend = extend;
     }
 
     public ContractPreset getCopy(){
-        ContractPreset copy = new ContractPreset(null);
-        if(this.hasPrice) {
-            copy.setPrice(this.price);
+        List<String> newsetupCommands = new ArrayList<>();
+        for(String cmd : setupCommands) {
+            newsetupCommands.add(cmd);
         }
-        if(this.hasDoBlockReset) {
-            copy.setDoBlockReset(this.doBlockReset);
-        }
-        if(this.hasIsHotel) {
-            copy.setHotel(this.isHotel);
-        }
-        if(this.hasAutoReset) {
-            copy.setAutoReset(this.autoReset);
-        }
-        if(this.hasRegionKind) {
-            copy.setRegionKind(this.regionKind);
-        }
-        if(this.hasExtend) {
-            copy.setExtend(this.extend);
-        }
-        copy.addCommand(this.runCommands);
-        return copy;
+        return new ContractPreset(this.name, this.hasPrice, this.price, this.regionKind, this.autoReset, this.isHotel, this.doBlockReset, this.hasExtend, this.extend, newsetupCommands);
     }
 
     public boolean hasExtend() {
@@ -82,30 +56,7 @@ public class ContractPreset extends Preset {
         this.extend = time;
     }
 
-    public static ArrayList<ContractPreset> getList(){
-        return ContractPreset.list;
-    }
-
-    public static ContractPreset getPreset(Player player) {
-        for(int i = 0; i < getList().size(); i++) {
-            if(getList().get(i).getAssignedPlayer() == player) {
-                return getList().get(i);
-            }
-        }
-        return null;
-    }
-
-    public static boolean removePreset(Player player){
-        for(int i = 0; i < getList().size(); i++) {
-            if(getList().get(i).getAssignedPlayer() == player) {
-                getList().remove(i);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public String longToTime(long time){
+    private String longToTime(long time){
 
         long remainingDays = TimeUnit.DAYS.convert(time, TimeUnit.MILLISECONDS);
         time = time - (remainingDays * 1000 * 60 * 60 *24);
@@ -137,35 +88,16 @@ public class ContractPreset extends Preset {
     }
 
     @Override
-    public void remove() {
-        ContractPreset.removePreset(this.getAssignedPlayer());
+    public void getAdditionalInfo(Player player) {
+        player.sendMessage(Messages.REGION_INFO_AUTO_EXTEND_TIME + longToTime(this.extend));
     }
 
     @Override
-    public void getPresetInfo(Player player) {
-        String price = "not defined";
-        if(this.hasPrice()) {
-            price = this.getPrice() + "";
-        }
-        RegionKind regKind = RegionKind.DEFAULT;
-        if(this.hasRegionKind()) {
-            regKind = this.getRegionKind();
-        }
-
-        player.sendMessage(ChatColor.GOLD + "=========[ContractPreset INFO]=========");
-        player.sendMessage(Messages.REGION_INFO_PRICE + price);
-        player.sendMessage(Messages.REGION_INFO_AUTO_EXTEND_TIME + longToTime(this.extend));
-        player.sendMessage(Messages.REGION_INFO_TYPE + regKind.getName());
-        player.sendMessage(Messages.REGION_INFO_AUTORESET + this.isAutoReset());
-        player.sendMessage(Messages.REGION_INFO_HOTEL + this.isHotel());
-        player.sendMessage(Messages.REGION_INFO_DO_BLOCK_RESET + this.isDoBlockReset());
-        player.sendMessage(Messages.PRESET_SETUP_COMMANDS);
-        for(int i = 0; i < this.runCommands.size(); i++) {
-            String message = (i + 1) +". /" + this.runCommands.get(i);
-            player.sendMessage(ChatColor.GOLD + message);
-        }
+    public PresetType getPresetType() {
+        return PresetType.CONTRACTPRESET;
     }
 
+    /*
     public static void loadCommands() {
         commands.add(new AutoResetCommand());
         commands.add(new ContractPresetExtendCommand());
@@ -371,5 +303,6 @@ public class ContractPreset extends Preset {
         player.sendMessage(ChatColor.GOLD + "/arm contractpreset info");
         player.sendMessage(ChatColor.GOLD + "/arm contractpreset reset");
     }
+    */
 
 }

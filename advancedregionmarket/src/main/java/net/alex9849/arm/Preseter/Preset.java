@@ -6,6 +6,7 @@ import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.RegionKind;
 import net.alex9849.arm.regions.RentRegion;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -15,23 +16,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Preset {
-    private static YamlConfiguration config;
-    protected Player assignedPlayer;
+    protected String name = "default";
     protected boolean hasPrice = false;
     protected double price = 0;
-    protected boolean hasRegionKind = false;
     protected RegionKind regionKind = RegionKind.DEFAULT;
-    protected boolean hasAutoReset = false;
     protected boolean autoReset = true;
-    protected boolean hasIsHotel = false;
     protected boolean isHotel = false;
-    protected boolean hasDoBlockReset = false;
     protected boolean doBlockReset = true;
-    protected List<String> runCommands = new ArrayList<>();
-    protected String name = "default";
+    protected List<String> setupCommands = new ArrayList<>();
 
-    public Preset(Player player){
-        assignedPlayer = player;
+    public Preset(String name, boolean hasPrice, double price, RegionKind regionKind, boolean autoReset, boolean isHotel, boolean doBlockReset, List<String> setupCommands){
+        this.name = name;
+        this.hasPrice = hasPrice;
+        this.price = price;
+        this.regionKind = regionKind;
+        this.autoReset = autoReset;
+        this.isHotel = isHotel;
+        this.doBlockReset = doBlockReset;
+        this.setupCommands = setupCommands;
     }
 
     public String getName(){
@@ -43,19 +45,19 @@ public abstract class Preset {
     }
 
     public void addCommand(String command) {
-        this.runCommands.add(command);
+        this.setupCommands.add(command);
     }
 
     public void addCommand(List<String> command) {
-        this.runCommands.addAll(command);
+        this.setupCommands.addAll(command);
     }
 
     public List<String> getCommands() {
-        return this.runCommands;
+        return this.setupCommands;
     }
 
     public void executeSavedCommands(Player player, Region region) {
-        for(String command : this.runCommands) {
+        for(String command : this.setupCommands) {
             String cmd = region.getConvertedMessage(command);
             cmd = cmd.replace("%regionkind%", region.getRegionKind().getName());
             cmd = cmd.replace("%regionkinddisplay%", region.getRegionKind().getDisplayName());
@@ -70,42 +72,8 @@ public abstract class Preset {
             return;
         }
 
-        if(this.runCommands.size() > index) {
-            this.runCommands.remove(index);
-        }
-    }
-
-    public void setPlayer(Player player){
-        this.assignedPlayer = player;
-    }
-
-    public Player getAssignedPlayer(){
-        return this.assignedPlayer;
-    }
-
-    public static boolean assignToPlayer(PresetType presetType, Player player, String presetName) {
-        if(presetType == PresetType.SELLPRESET) {
-            return SellPreset.assignToPlayer(player, presetName);
-        } else if(presetType == PresetType.RENTPRESET) {
-            return RentPreset.assignToPlayer(player, presetName);
-        } else if(presetType == PresetType.CONTRACTPRESET) {
-            return ContractPreset.assignToPlayer(player, presetName);
-        } else {
-            return false;
-        }
-    }
-
-    public abstract boolean save(String name);
-
-    public static boolean delete(PresetType presetType, String presetName) {
-        if(presetType == PresetType.SELLPRESET) {
-            return SellPreset.removePattern(presetName);
-        } else if(presetType == PresetType.RENTPRESET) {
-            return RentPreset.removePattern(presetName);
-        } else if(presetType == PresetType.CONTRACTPRESET) {
-            return ContractPreset.removePattern(presetName);
-        } else {
-            return false;
+        if(this.setupCommands.size() > index) {
+            this.setupCommands.remove(index);
         }
     }
 
@@ -117,7 +85,28 @@ public abstract class Preset {
         this.price = price;
     }
 
-    public abstract void getPresetInfo(Player player);
+    public void getPresetInfo(Player player) {
+        String price = "not defined";
+        if(this.hasPrice()) {
+            price = this.getPrice() + "";
+        }
+        RegionKind regKind = this.getRegionKind();
+
+        player.sendMessage(ChatColor.GOLD + "=========[Preset INFO]=========");
+        player.sendMessage(Messages.REGION_INFO_PRICE + price);
+        this.getAdditionalInfo(player);
+        player.sendMessage(Messages.REGION_INFO_TYPE + regKind.getName());
+        player.sendMessage(Messages.REGION_INFO_AUTORESET + this.isAutoReset());
+        player.sendMessage(Messages.REGION_INFO_HOTEL + this.isHotel());
+        player.sendMessage(Messages.REGION_INFO_DO_BLOCK_RESET + this.isDoBlockReset());
+        player.sendMessage(Messages.PRESET_SETUP_COMMANDS);
+        for(int i = 0; i < this.setupCommands.size(); i++) {
+            String message = (i + 1) +". /" + this.setupCommands.get(i);
+            player.sendMessage(ChatColor.GOLD + message);
+        }
+    }
+
+    public abstract void getAdditionalInfo(Player player);
 
     public void removePrice(){
         this.hasPrice = false;
@@ -128,75 +117,23 @@ public abstract class Preset {
         return hasPrice;
     }
 
-    public boolean hasRegionKind() {
-        return hasRegionKind;
-    }
-
-    public boolean hasAutoReset() {
-        return hasAutoReset;
-    }
-
-    public boolean hasIsHotel() {
-        return hasIsHotel;
-    }
-
-    public boolean isHasDoBlockReset() {
-        return hasDoBlockReset;
-    }
-
     public void setRegionKind(RegionKind regionKind){
         if(regionKind == null) {
             regionKind = RegionKind.DEFAULT;
         }
-        this.hasRegionKind = true;
         this.regionKind = regionKind;
     }
 
     public void setDoBlockReset(Boolean bool){
-        this.hasDoBlockReset = true;
         this.doBlockReset = bool;
     }
 
-    public void removeDoBlockReset(){
-        this.hasDoBlockReset = false;
-        this.doBlockReset = true;
-    }
-
-    public void removeRegionKind(){
-        this.hasRegionKind = false;
-        this.regionKind = RegionKind.DEFAULT;
-    }
-
-    public static Preset getPreset(PresetType presetType, Player player) {
-        if(presetType == PresetType.SELLPRESET) {
-            return SellPreset.getPreset(player);
-        } else if(presetType == PresetType.RENTPRESET) {
-            return RentPreset.getPreset(player);
-        } else if(presetType == PresetType.CONTRACTPRESET) {
-            return ContractPreset.getPreset(player);
-        } else {
-            return null;
-        }
-    }
-
     public void setAutoReset(Boolean autoReset) {
-        this.hasAutoReset = true;
         this.autoReset = autoReset;
     }
 
-    public void removeAutoReset(){
-        this.hasAutoReset = false;
-        this.autoReset = true;
-    }
-
     public void setHotel(Boolean isHotel){
-        this.hasIsHotel = true;
         this.isHotel = isHotel;
-    }
-
-    public void removeHotel(){
-        this.hasIsHotel = false;
-        this.isHotel = false;
     }
 
     public double getPrice() {
@@ -219,71 +156,5 @@ public abstract class Preset {
         return isHotel;
     }
 
-    public abstract void remove();
-
-    public static YamlConfiguration getConfig(){
-        return Preset.config;
-    }
-
-    public static void generatedefaultConfig(){
-        Plugin plugin = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket");
-        File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-        File messagesdic = new File(pluginfolder + "/presets.yml");
-        if(!messagesdic.exists()){
-            try {
-                InputStream stream = plugin.getResource("presets.yml");
-                byte[] buffer = new byte[stream.available()];
-                stream.read(buffer);
-                OutputStream output = new FileOutputStream(messagesdic);
-                output.write(buffer);
-                output.close();
-                stream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public static void loadConfig(){
-        Messages.generatedefaultConfig();
-        File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-        File presetsconfigdic = new File(pluginfolder + "/presets.yml");
-        Preset.config = YamlConfiguration.loadConfiguration(presetsconfigdic);
-    }
-
-    public static void saveRegionsConf(YamlConfiguration conf) {
-        File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-        File regionsconfigdic = new File(pluginfolder + "/presets.yml");
-        try {
-            conf.save(regionsconfigdic);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static List<String> onTabCompleteCompleteSavedPresets(String presetname, PresetType presetType) {
-        List<String> returnme = new ArrayList<>();
-        if(presetType == PresetType.SELLPRESET) {
-            for(SellPreset preset: SellPreset.getPatterns()) {
-                if(preset.getName().toLowerCase().startsWith(presetname)) {
-                    returnme.add(preset.getName());
-                }
-            }
-        }
-        if(presetType == PresetType.RENTPRESET) {
-            for(RentPreset preset: RentPreset.getPatterns()) {
-                if(preset.getName().toLowerCase().startsWith(presetname)) {
-                    returnme.add(preset.getName());
-                }
-            }
-        }
-        if(presetType == PresetType.CONTRACTPRESET) {
-            for(ContractPreset preset: ContractPreset.getPatterns()) {
-                if(preset.getName().toLowerCase().startsWith(presetname)) {
-                    returnme.add(preset.getName());
-                }
-            }
-        }
-        return returnme;
-    }
+    public abstract PresetType getPresetType();
 }

@@ -3,10 +3,7 @@ package net.alex9849.arm;
 import net.alex9849.arm.Handler.ARMListener;
 import net.alex9849.arm.Handler.CommandHandler;
 import net.alex9849.arm.Handler.Scheduler;
-import net.alex9849.arm.Preseter.ContractPreset;
-import net.alex9849.arm.Preseter.Preset;
-import net.alex9849.arm.Preseter.RentPreset;
-import net.alex9849.arm.Preseter.SellPreset;
+import net.alex9849.arm.Preseter.*;
 import net.alex9849.arm.commands.*;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.minifeatures.AutoPrice;
@@ -141,9 +138,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
         commands.add(new SetIsUserResettableCommand());
         AdvancedRegionMarket.commandHandler.addCommands(commands);
 
-        SellPreset.loadCommands();
-        RentPreset.loadCommands();
-        ContractPreset.loadCommands();
         getCommand("arm").setTabCompleter(this.commandHandler);
         Bukkit.getLogger().log(Level.INFO, "Programmed by Alex9849");
     }
@@ -156,9 +150,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         LimitGroup.Reset();
         AutoPrice.Reset();
         RegionKind.Reset();
-        SellPreset.reset();
-        RentPreset.reset();
-        ContractPreset.reset();
+        PresetPatternManager.resetPresetPatterns();
         getServer().getServicesManager().unregisterAll(this);
         SignChangeEvent.getHandlerList().unregister(this);
         InventoryClickEvent.getHandlerList().unregister(this);
@@ -593,10 +585,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         RegionManager.generatedefaultConfig();
         RegionManager.setRegionsConf();
         Messages.generatedefaultConfig();
-        Preset.generatedefaultConfig();
-        Preset.loadConfig();
-        SellPreset.loadPresets();
-        RentPreset.loadPresets();
+        PresetPatternManager.loadPresetPatterns();
         ContractPreset.loadPresets();
         this.generatedefaultconfig();
         FileConfiguration pluginConfig = this.getConfig();

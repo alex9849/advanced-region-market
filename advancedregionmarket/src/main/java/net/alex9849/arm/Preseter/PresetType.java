@@ -3,7 +3,21 @@ package net.alex9849.arm.Preseter;
 import org.bukkit.entity.Player;
 
 public enum PresetType {
-    SELLPRESET, RENTPRESET, CONTRACTPRESET;
+    SELLPRESET {
+        public String getName() {
+            return "sellpreset";
+        }
+    }, RENTPRESET {
+        public String getName() {
+            return "rentpreset";
+        }
+    }, CONTRACTPRESET {
+        public String getName() {
+            return "contractpreset";
+        }
+    };
+
+    public abstract String getName();
 
     public static PresetType getPresetType(String type) {
         if (type.equalsIgnoreCase("sellpreset")) {

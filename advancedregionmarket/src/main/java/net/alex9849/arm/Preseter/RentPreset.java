@@ -17,53 +17,26 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class RentPreset extends Preset {
-    private static ArrayList<BasicPresetCommand> commands = new ArrayList<>();
-    protected static ArrayList<RentPreset> list = new ArrayList<>();
-    protected static ArrayList<RentPreset> patterns = new ArrayList<>();
     private boolean hasMaxRentTime = false;
     private long maxRentTime = 0;
     private boolean hasExtendPerClick = false;
     private long extendPerClick = 0;
 
-    public RentPreset(Player player) {
-        super(player);
-    }
-
-    public static ArrayList<RentPreset> getPatterns(){
-        return RentPreset.patterns;
-    }
-
-
-    public static void reset(){
-        list = new ArrayList<>();
-        patterns = new ArrayList<>();
+    public RentPreset(String name, boolean hasPrice, double price, RegionKind regionKind, boolean autoReset, boolean isHotel, boolean doBlockReset, boolean hasMaxRentTime,
+                      long maxRentTime, boolean hasExtendPerClick, long extendPerClick, List<String> setupCommands){
+        super(name, hasPrice, price, regionKind, autoReset, isHotel, doBlockReset, setupCommands);
+        this.hasMaxRentTime = hasMaxRentTime;
+        this.maxRentTime = maxRentTime;
+        this.hasExtendPerClick = hasExtendPerClick;
+        this.extendPerClick = extendPerClick;
     }
 
     public RentPreset getCopy(){
-        RentPreset copy = new RentPreset(null);
-        if(this.hasPrice) {
-            copy.setPrice(this.price);
+        List<String> newsetupCommands = new ArrayList<>();
+        for(String cmd : setupCommands) {
+            newsetupCommands.add(cmd);
         }
-        if(this.hasDoBlockReset) {
-            copy.setDoBlockReset(this.doBlockReset);
-        }
-        if(this.hasIsHotel) {
-            copy.setHotel(this.isHotel);
-        }
-        if(this.hasAutoReset) {
-            copy.setAutoReset(this.autoReset);
-        }
-        if(this.hasRegionKind) {
-            copy.setRegionKind(this.regionKind);
-        }
-        if(this.hasMaxRentTime) {
-            copy.setMaxRentTime(this.maxRentTime);
-        }
-        if(this.hasExtendPerClick) {
-            copy.setExtendPerClick(this.extendPerClick);
-        }
-        copy.addCommand(this.runCommands);
-        return copy;
+        return new RentPreset(this.name, this.hasPrice, this.price, this.regionKind, this.autoReset, this.isHotel, this.doBlockReset, this.hasMaxRentTime, this.maxRentTime, this.hasExtendPerClick, this.extendPerClick, newsetupCommands);
     }
 
     public boolean hasExtendPerClick() {
@@ -112,30 +85,7 @@ public class RentPreset extends Preset {
         this.maxRentTime = 0;
     }
 
-    public static ArrayList<RentPreset> getList(){
-        return RentPreset.list;
-    }
-
-    public static RentPreset getPreset(Player player) {
-        for(int i = 0; i < getList().size(); i++) {
-            if(getList().get(i).getAssignedPlayer() == player) {
-                return getList().get(i);
-            }
-        }
-        return null;
-    }
-
-    public static boolean removePreset(Player player){
-        for(int i = 0; i < getList().size(); i++) {
-            if(getList().get(i).getAssignedPlayer() == player) {
-                getList().remove(i);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public String longToTime(long time){
+    private String longToTime(long time){
 
         long remainingDays = TimeUnit.DAYS.convert(time, TimeUnit.MILLISECONDS);
         time = time - (remainingDays * 1000 * 60 * 60 *24);
@@ -166,32 +116,19 @@ public class RentPreset extends Preset {
         return timetoString;
     }
 
-    @Override
-    public void getPresetInfo(Player player) {
-        String price = "not defined";
-        if(this.hasPrice()) {
-            price = this.getPrice() + "";
-        }
-        RegionKind regKind = RegionKind.DEFAULT;
-        if(this.hasRegionKind()) {
-            regKind = this.getRegionKind();
-        }
 
-        player.sendMessage(ChatColor.GOLD + "=========[RentPreset INFO]=========");
-        player.sendMessage(Messages.REGION_INFO_PRICE + price);
+    @Override
+    public void getAdditionalInfo(Player player) {
         player.sendMessage(Messages.REGION_INFO_EXTEND_PER_CLICK + longToTime(this.extendPerClick));
         player.sendMessage(Messages.REGION_INFO_MAX_RENT_TIME + longToTime(this.maxRentTime));
-        player.sendMessage(Messages.REGION_INFO_TYPE + regKind.getName());
-        player.sendMessage(Messages.REGION_INFO_AUTORESET + this.isAutoReset());
-        player.sendMessage(Messages.REGION_INFO_HOTEL + this.isHotel());
-        player.sendMessage(Messages.REGION_INFO_DO_BLOCK_RESET + this.isDoBlockReset());
-        player.sendMessage(Messages.PRESET_SETUP_COMMANDS);
-        for(int i = 0; i < this.runCommands.size(); i++) {
-            String message = (i + 1) +". /" + this.runCommands.get(i);
-            player.sendMessage(ChatColor.GOLD + message);
-        }
     }
 
+    @Override
+    public PresetType getPresetType() {
+        return PresetType.RENTPRESET;
+    }
+
+    /*
     @Override
     public void remove() {
         RentPreset.removePreset(this.getAssignedPlayer());
@@ -247,75 +184,6 @@ public class RentPreset extends Preset {
         return returnme;
     }
 
-    public static boolean assignToPlayer(Player player, String name) {
-        for(int i = 0; i < patterns.size(); i++) {
-            if(patterns.get(i).getName().equalsIgnoreCase(name)) {
-                removePreset(player);
-                RentPreset preset = patterns.get(i).getCopy();
-                preset.setPlayer(player);
-                list.add(preset);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static void loadPresets(){
-        YamlConfiguration config = getConfig();
-        if(config.get("RentPresets") != null) {
-            LinkedList<String> presets = new LinkedList<String>(config.getConfigurationSection("RentPresets").getKeys(false));
-            if(presets != null) {
-                for(int i = 0; i < presets.size(); i++) {
-                    String name = presets.get(i);
-                    Boolean hasPrice = config.getBoolean("RentPresets." + presets.get(i) + ".hasPrice");
-                    Boolean hasRegionKind = config.getBoolean("RentPresets." + presets.get(i) + ".hasRegionKind");
-                    Boolean hasAutoReset = config.getBoolean("RentPresets." + presets.get(i) + ".hasAutoReset");
-                    Boolean hasIsHotel = config.getBoolean("RentPresets." + presets.get(i) + ".hasIsHotel");
-                    Boolean hasDoBlockReset = config.getBoolean("RentPresets." + presets.get(i) + ".hasDoBlockReset");
-                    Boolean hasMaxRentTime = config.getBoolean("RentPresets." + presets.get(i) + ".hasMaxRentTime");
-                    Boolean hasExtendPerClick = config.getBoolean("RentPresets." + presets.get(i) + ".hasExtendPerClick");
-                    double price = config.getDouble("RentPresets." + presets.get(i) + ".price");
-                    RegionKind regionKind = RegionKind.getRegionKind(config.getString("RentPresets." + presets.get(i) + ".regionKind"));
-                    Boolean autoReset = config.getBoolean("RentPresets." + presets.get(i) + ".autoReset");
-                    Boolean isHotel = config.getBoolean("RentPresets." + presets.get(i) + ".isHotel");
-                    Boolean doBlockReset = config.getBoolean("RentPresets." + presets.get(i) + ".doBlockReset");
-                    Long maxRentTime = config.getLong("RentPresets." + presets.get(i) + ".maxRentTime");
-                    Long extendPerClick = config.getLong("RentPresets." + presets.get(i) + ".extendPerClick");
-                    List<String> commands = config.getStringList("RentPresets." + presets.get(i) + ".commands");
-                    if(commands == null) {
-                        commands = new ArrayList<>();
-                    }
-                    RentPreset preset = new RentPreset(null);
-
-                    preset.setName(name);
-                    if(hasPrice){
-                        preset.setPrice(price);
-                    }
-                    if(hasRegionKind){
-                        preset.setRegionKind(regionKind);
-                    }
-                    if(hasAutoReset){
-                        preset.setAutoReset(autoReset);
-                    }
-                    if(hasIsHotel){
-                        preset.setHotel(isHotel);
-                    }
-                    if(hasDoBlockReset){
-                        preset.setDoBlockReset(doBlockReset);
-                    }
-                    if(hasMaxRentTime) {
-                        preset.setMaxRentTime(maxRentTime);
-                    }
-                    if(hasExtendPerClick) {
-                        preset.setExtendPerClick(extendPerClick);
-                    }
-                    preset.addCommand(commands);
-                    patterns.add(preset);
-                }
-            }
-        }
-    }
-
     public static boolean removePattern(String name) {
         for(int i = 0; i < patterns.size(); i++) {
             if(patterns.get(i).getName().equalsIgnoreCase(name)) {
@@ -347,58 +215,6 @@ public class RentPreset extends Preset {
         }
     }
 
-    @Override
-    public boolean save(String name){
-        if(patternExists(name)) {
-            return false;
-        }
-        YamlConfiguration config = getConfig();
-        config.set("RentPresets." + name + ".hasPrice", hasPrice);
-        config.set("RentPresets." + name + ".hasRegionKind", hasRegionKind);
-        config.set("RentPresets." + name + ".hasAutoReset", hasAutoReset);
-        config.set("RentPresets." + name + ".hasIsHotel", hasIsHotel);
-        config.set("RentPresets." + name + ".hasDoBlockReset", hasDoBlockReset);
-        config.set("RentPresets." + name + ".hasMaxRentTime", hasMaxRentTime);
-        config.set("RentPresets." + name + ".hasExtendPerClick", hasExtendPerClick);
-        config.set("RentPresets." + name + ".extendPerClick", extendPerClick);
-        config.set("RentPresets." + name + ".price", price);
-        config.set("RentPresets." + name + ".maxRentTime", maxRentTime);
-        config.set("RentPresets." + name + ".regionKind", regionKind.getName());
-        config.set("RentPresets." + name + ".autoReset", autoReset);
-        config.set("RentPresets." + name + ".isHotel", isHotel);
-        config.set("RentPresets." + name + ".doBlockReset", doBlockReset);
-        config.set("RentPresets." + name + ".commands", this.runCommands);
-        saveRegionsConf(config);
-
-        RentPreset preset = new RentPreset(null);
-        preset.setName(name);
-        if(hasPrice){
-            preset.setPrice(price);
-        }
-        if(hasRegionKind){
-            preset.setRegionKind(regionKind);
-        }
-        if(hasAutoReset){
-            preset.setAutoReset(autoReset);
-        }
-        if(hasIsHotel){
-            preset.setHotel(isHotel);
-        }
-        if(hasDoBlockReset){
-            preset.setDoBlockReset(doBlockReset);
-        }
-        if(hasMaxRentTime){
-            preset.setMaxRentTime(maxRentTime);
-        }
-        if(hasExtendPerClick){
-            preset.setExtendPerClick(extendPerClick);
-        }
-        preset.addCommand(this.runCommands);
-        patterns.add(preset);
-
-        return true;
-    }
-
     public static void showHelp(Player player) {
         player.sendMessage(ChatColor.GOLD + "/arm rentpreset list");
         player.sendMessage(ChatColor.GOLD + "/arm rentpreset load [NAME]");
@@ -414,5 +230,6 @@ public class RentPreset extends Preset {
         player.sendMessage(ChatColor.GOLD + "/arm rentpreset info");
         player.sendMessage(ChatColor.GOLD + "/arm rentpreset reset");
     }
+    */
 
 }

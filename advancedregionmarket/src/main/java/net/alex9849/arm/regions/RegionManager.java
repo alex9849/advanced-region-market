@@ -405,8 +405,6 @@ public class RegionManager {
         saveRegionsConf();
     }
 
-
-
     public static YamlConfiguration getRegionsConf() {
         return RegionManager.regionsconf;
     }

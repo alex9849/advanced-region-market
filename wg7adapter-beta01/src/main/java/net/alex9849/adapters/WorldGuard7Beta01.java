@@ -60,14 +60,8 @@ public class WorldGuard7Beta01 extends WorldGuardInterface {
     }
 
     @Override
-    public WGRegion createRegion(WGRegion parentRegion, World world, String regionID, Location pos1, Location pos2, WorldGuardPlugin worldGuardPlugin) {
-        WG7RegionBeta01 wg7Region = (WG7RegionBeta01) parentRegion;
+    public WGRegion createRegion(String regionID, Location pos1, Location pos2, WorldGuardPlugin worldGuardPlugin) {
         ProtectedRegion protectedRegion = new ProtectedCuboidRegion(regionID, new BlockVector(pos1.getBlockX(), pos1.getBlockY(), pos1.getBlockZ()), new BlockVector(pos2.getBlockX(), pos2.getBlockY(), pos2.getBlockZ()));
-        try {
-            protectedRegion.setParent(wg7Region.getRegion());
-        } catch (ProtectedRegion.CircularInheritanceException e) {
-            e.printStackTrace();
-        }
         WG7RegionBeta01 returnRegion = new WG7RegionBeta01(protectedRegion);
         return returnRegion;
     }

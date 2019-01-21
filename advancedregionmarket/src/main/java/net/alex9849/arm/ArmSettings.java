@@ -16,7 +16,7 @@ public class ArmSettings {
     private static boolean deleteSubregionsOnParentRegionUnsell = false;
     private static boolean deleteSubregionsOnParentRegionBlockReset = false;
     //TODO include in config
-    private static boolean allowParentRegionOwnersBuildOnSubregions = false;
+    private static boolean allowParentRegionOwnersBuildOnSubregions = true;
 
     private static boolean isAllowTeleportToBuySign = true;
     private static String REMAINING_TIME_TIMEFORMAT = "%date%";
@@ -199,5 +199,9 @@ public class ArmSettings {
 
     public static boolean isAllowParentRegionOwnersBuildOnSubregions() {
         return allowParentRegionOwnersBuildOnSubregions;
+    }
+
+    public static void setAllowParentRegionOwnersBuildOnSubregions(boolean allowParentRegionOwnersBuildOnSubregions) {
+        ArmSettings.allowParentRegionOwnersBuildOnSubregions = allowParentRegionOwnersBuildOnSubregions;
     }
 }

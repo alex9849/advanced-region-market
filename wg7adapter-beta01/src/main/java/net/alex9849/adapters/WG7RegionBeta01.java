@@ -107,4 +107,42 @@ public class WG7RegionBeta01 extends WGRegion {
     protected ProtectedRegion getRegion() {
         return this.region;
     }
+
+    @Override
+    public boolean equals(WGRegion wgRegion) {
+        WG7RegionBeta01 wg7Region = (WG7RegionBeta01) wgRegion;
+        return wg7Region.getRegion() == this.region;
+    }
+
+    @Override
+    public WGRegion getParent() {
+        if(this.getRegion().getParent() != null) {
+            return new WG7RegionBeta01(this.getRegion().getParent());
+        } else {
+            return null;
+        }
+
+    }
+
+    @Override
+    public void setParent(WGRegion wgRegion) {
+        WG7RegionBeta01 wg7Region = (WG7RegionBeta01) wgRegion;
+        this.getRegion().setPriority(wg7Region.getPriority());
+        try {
+            this.getRegion().setParent(wg7Region.getRegion());
+        } catch (ProtectedRegion.CircularInheritanceException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public int getPriority() {
+        return this.getRegion().getPriority();
+    }
+
+    @Override
+    public void setPriority(int priority) {
+        this.getRegion().clearParent();
+        this.getRegion().setPriority(priority);
+    }
 }

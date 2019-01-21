@@ -47,4 +47,14 @@ public abstract class WGRegion {
     public abstract ArrayList<UUID> getOwners();
 
     public abstract boolean contains(int x, int y, int z);
+
+    public abstract boolean equals(WGRegion wgRegion);
+
+    public abstract WGRegion getParent();
+
+    public abstract void setParent(WGRegion wgRegion);
+
+    public abstract int getPriority();
+
+    public abstract void setPriority(int priority);
 }

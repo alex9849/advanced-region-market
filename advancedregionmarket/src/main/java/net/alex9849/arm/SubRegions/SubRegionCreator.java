@@ -1,6 +1,7 @@
 package net.alex9849.arm.SubRegions;
 
 import net.alex9849.arm.AdvancedRegionMarket;
+import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.exceptions.LogicalException;
@@ -132,7 +133,12 @@ public class SubRegionCreator {
                 }
             }
         } while(inUse);
-        this.subRegion = AdvancedRegionMarket.getWorldGuardInterface().createRegion(this.parentRegion.getRegion(), this.parentRegion.getRegionworld(), this.parentRegion.getRegion().getId() + "-sub" + subregionID, this.pos1, this.pos2, AdvancedRegionMarket.getWorldGuard());
+        this.subRegion = AdvancedRegionMarket.getWorldGuardInterface().createRegion(this.parentRegion.getRegion().getId() + "-sub" + subregionID, this.pos1, this.pos2, AdvancedRegionMarket.getWorldGuard());
+        if(ArmSettings.isAllowParentRegionOwnersBuildOnSubregions()) {
+            this.subRegion.setParent(this.parentRegion.getRegion());
+        } else {
+            this.subRegion.setPriority(this.parentRegion.getRegion().getPriority() + 1);
+        }
         this.subSignCreationListener = new SubSignCreationListener(this.creator, this);
         Bukkit.getServer().getPluginManager().registerEvents(this.subSignCreationListener, AdvancedRegionMarket.getARM());
         return;

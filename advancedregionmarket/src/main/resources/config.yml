@@ -180,6 +180,7 @@ Subregions:
   SubregionAutoReset: true
   deleteSubregionsOnParentRegionUnsell: false
   deleteSubregionsOnParentRegionBlockReset: false
+  allowParentRegionOwnersBuildOnSubregions: true
 
 Reselling:
   Offers:

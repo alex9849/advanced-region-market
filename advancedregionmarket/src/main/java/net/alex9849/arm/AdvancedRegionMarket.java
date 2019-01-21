@@ -477,6 +477,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         ArmSettings.setIsSubregionAutoReset(getConfig().getBoolean("Subregions.SubregionAutoReset"));
         ArmSettings.setDeleteSubregionsOnParentRegionBlockReset(getConfig().getBoolean("Subregions.deleteSubregionsOnParentRegionBlockReset"));
         ArmSettings.setDeleteSubregionsOnParentRegionUnsell(getConfig().getBoolean("Subregions.deleteSubregionsOnParentRegionUnsell"));
+        ArmSettings.setAllowParentRegionOwnersBuildOnSubregions(getConfig().getBoolean("Subregions.allowParentRegionOwnersBuildOnSubregions"));
         try{
             RentRegion.setExpirationWarningTime(RentRegion.stringToTime(getConfig().getString("Other.RentRegionExpirationWarningTime")));
             RentRegion.setSendExpirationWarning(getConfig().getBoolean("Other.SendRentRegionExpirationWarning"));
@@ -819,6 +820,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
             pluginConfig.set("Subregions.SubregionAutoReset", true);
             pluginConfig.set("Subregions.deleteSubregionsOnParentRegionUnsell", false);
             pluginConfig.set("Subregions.deleteSubregionsOnParentRegionBlockReset", false);
+            pluginConfig.set("Subregions.allowParentRegionOwnersBuildOnSubregions", true);
             pluginConfig.set("Other.RegionInfoParticleBorder", true);
             pluginConfig.set("GUI.SubRegionItem", "GRASS_BLOCK");
             pluginConfig.set("GUI.TeleportToSignItem", "SIGN");

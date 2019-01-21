@@ -253,6 +253,19 @@ public class RegionManager {
 
                                                             }
 
+                                                            if(ArmSettings.isAllowParentRegionOwnersBuildOnSubregions()) {
+                                                                if(subWGRegion.getParent() == null) {
+                                                                    subWGRegion.setParent(region);
+                                                                } else {
+                                                                    if(!subWGRegion.getParent().equals(region)) {
+                                                                        subWGRegion.setParent(region);
+                                                                    }
+                                                                }
+                                                            } else {
+                                                                if((region.getPriority() + 1) != subWGRegion.getPriority())
+                                                                subWGRegion.setPriority(region.getPriority() + 1);
+                                                            }
+
                                                             subregionsigns.add((Sign) loc.getBlock().getState());
 
                                                             if (subregionRegiontype.equalsIgnoreCase("rentregion")){

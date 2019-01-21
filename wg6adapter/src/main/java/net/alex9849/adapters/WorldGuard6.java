@@ -46,14 +46,8 @@ public class WorldGuard6 extends WorldGuardInterface {
     }
 
     @Override
-    public WGRegion createRegion(WGRegion parentRegion, World world, String regionID, Location pos1, Location pos2, WorldGuardPlugin worldGuardPlugin) {
-        WG6Region wg6Region = (WG6Region) parentRegion;
+    public WGRegion createRegion(String regionID, Location pos1, Location pos2, WorldGuardPlugin worldGuardPlugin) {
         ProtectedRegion protectedRegion = new ProtectedCuboidRegion(regionID, new BlockVector(pos1.getBlockX(), pos1.getBlockY(), pos1.getBlockZ()), new BlockVector(pos2.getBlockX(), pos2.getBlockY(), pos2.getBlockZ()));
-        try {
-            protectedRegion.setParent(wg6Region.getRegion());
-        } catch (ProtectedRegion.CircularInheritanceException e) {
-            e.printStackTrace();
-        }
         WG6Region returnRegion = new WG6Region(protectedRegion);
         return returnRegion;
     }

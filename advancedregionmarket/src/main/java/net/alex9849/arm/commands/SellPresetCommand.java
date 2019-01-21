@@ -2,7 +2,7 @@ package net.alex9849.arm.commands;
 
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
-import net.alex9849.arm.Preseter.SellPreset;
+import net.alex9849.arm.Preseter.presets.SellPreset;
 import net.alex9849.arm.exceptions.InputException;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

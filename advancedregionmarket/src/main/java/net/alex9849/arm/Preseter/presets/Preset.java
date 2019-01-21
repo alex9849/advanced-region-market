@@ -1,17 +1,11 @@
-package net.alex9849.arm.Preseter;
+package net.alex9849.arm.Preseter.presets;
 
 import net.alex9849.arm.Messages;
-import net.alex9849.arm.regions.ContractRegion;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.RegionKind;
-import net.alex9849.arm.regions.RentRegion;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 
-import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 

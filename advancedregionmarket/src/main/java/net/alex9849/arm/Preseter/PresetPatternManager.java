@@ -1,5 +1,9 @@
 package net.alex9849.arm.Preseter;
 
+import net.alex9849.arm.Preseter.presets.Preset;
+import net.alex9849.arm.Preseter.presets.PresetType;
+import net.alex9849.arm.Preseter.presets.RentPreset;
+import net.alex9849.arm.Preseter.presets.SellPreset;
 import net.alex9849.arm.regions.RegionKind;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
@@ -52,8 +56,8 @@ public class PresetPatternManager {
     }
 
     private static void writePresetPatternToYamlObject(Preset preset) {
-        presetConfig.set(preset.getPresetType().getName() + "." + preset.getName() + ".hasPrice", preset.hasPrice);
-        presetConfig.set(preset.getPresetType().getName() + "." + preset.getName() + ".price", preset.price);
+        presetConfig.set(preset.getPresetType().getName() + "." + preset.getName() + ".hasPrice", preset.hasPrice());
+        presetConfig.set(preset.getPresetType().getName() + "." + preset.getName() + ".price", preset.getPrice());
         presetConfig.set(preset.getPresetType().getName() + "." + preset.getName() + ".regionKind", preset.getRegionKind());
         presetConfig.set(preset.getPresetType().getName() + "." + preset.getName() + ".isHotel", preset.isHotel());
         presetConfig.set(preset.getPresetType().getName() + "." + preset.getName() + ".doBlockReset", preset.isDoBlockReset());

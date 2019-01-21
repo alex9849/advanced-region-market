@@ -1,5 +1,6 @@
-package net.alex9849.arm.Preseter;
+package net.alex9849.arm.Preseter.presets;
 
+import net.alex9849.arm.Preseter.ContractPreset;
 import org.bukkit.entity.Player;
 
 public enum PresetType {
@@ -31,6 +32,7 @@ public enum PresetType {
         }
     }
 
+    /*
     public static Preset create(PresetType presetType, Player player) {
         if(presetType == SELLPRESET) {
             SellPreset sellPreset = new SellPreset(player);
@@ -48,4 +50,5 @@ public enum PresetType {
             return null;
         }
     }
+    */
 }

@@ -1,8 +1,7 @@
 package net.alex9849.arm.Preseter.commands;
 
-import net.alex9849.arm.Preseter.PresetType;
+import net.alex9849.arm.Preseter.presets.PresetType;
 import net.alex9849.arm.exceptions.InputException;
-import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
 
 import java.util.List;

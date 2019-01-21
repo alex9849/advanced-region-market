@@ -151,6 +151,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         AutoPrice.Reset();
         RegionKind.Reset();
         PresetPatternManager.resetPresetPatterns();
+        ActivePresetManager.reset();
         getServer().getServicesManager().unregisterAll(this);
         SignChangeEvent.getHandlerList().unregister(this);
         InventoryClickEvent.getHandlerList().unregister(this);
@@ -586,7 +587,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
         RegionManager.setRegionsConf();
         Messages.generatedefaultConfig();
         PresetPatternManager.loadPresetPatterns();
-        ContractPreset.loadPresets();
         this.generatedefaultconfig();
         FileConfiguration pluginConfig = this.getConfig();
         YamlConfiguration regionConf = RegionManager.getRegionsConf();

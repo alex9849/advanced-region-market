@@ -106,4 +106,8 @@ public class AutoPrice {
     public String getName() {
         return this.name;
     }
+
+    public static List<AutoPrice> getAutoPrices() {
+        return autoPrices;
+    }
 }

@@ -253,6 +253,7 @@ public class Messages {
     public static List<String> SELECTION_SAVED_CREATE_SIGN = new ArrayList<String>(Arrays.asList("&aYour selection has been saved! You can now create a sign to sell the region.", "&aCreate a Sell-Region:", "&6First line: &1[sub-sell]", "&6Last line: &1price", "", "&aCreate a Rent-Region:", "&6First line: &1[sub-rent]",
             "&6Last line: &1PricePerPeriod&6;&1ExtendPerClick&6;&1MaxExtendTime", "&6example for ExtendPerClick/MaxExtendTime: 5d (5 days)", "", "&aCreate a Contract-Region:", "&6First line: &1[sub-contract]", "&6Last line: &1PricePerPeriod&6;&1ExtendTime", "&6example for ExtendTime: 12h (12 hours)"));
     public static List<String> SUBREGION_TOOL_INSTRUCTION = new ArrayList<String>(Arrays.asList("&aYou got a tool in your inventory (feather) to select 2 points of your region that will mark the corners of your new subregion.", "&aLeft click to select pos1", "&aRight click to select pos2", "&aType \"&6/arm subregion create\" &aif you are done"));
+    public static String AUTOPRICE_LIST = "&6=========[Autoprices]=========";
 
 
     public static List<String> GUI_TELEPORT_TO_REGION_BUTTON_LORE = new LinkedList<>();
@@ -523,7 +524,7 @@ public class Messages {
         UNSELL_REGION_BUTTON = config.getString("Messages.UnsellRegionButton");
         UNSELL_REGION_BUTTON_LORE = config.getStringList("Messages.UnsellRegionButtonLore");
         UNSELL_REGION_WARNING_NAME = config.getString("Messages.UnsellRegionWarningName");
-
+        AUTOPRICE_LIST = config.getString("Messages.AutopriceList");
         Messages.translateColorCodes();
     }
 
@@ -753,6 +754,7 @@ public class Messages {
         UNSELL_REGION_BUTTON = ChatColor.translateAlternateColorCodes('&', UNSELL_REGION_BUTTON);
         UNSELL_REGION_WARNING_NAME = ChatColor.translateAlternateColorCodes('&', UNSELL_REGION_WARNING_NAME);
         REGION_INFO_AUTOPRICE = ChatColor.translateAlternateColorCodes('&', REGION_INFO_AUTOPRICE);
+        AUTOPRICE_LIST = ChatColor.translateAlternateColorCodes('&', AUTOPRICE_LIST);
 
         for(int i = 0; i < GUI_SUBREGION_HOTEL_BUTTON_LORE.size(); i++){
             GUI_SUBREGION_HOTEL_BUTTON_LORE.set(i, ChatColor.translateAlternateColorCodes('&', GUI_SUBREGION_HOTEL_BUTTON_LORE.get(i)));
@@ -968,6 +970,7 @@ public class Messages {
         config.addDefault("Messages.RegionRemoveMemberDoNotOwn", "&4You do not own this region!");
         config.addDefault("Messages.RegionBuyOutOfLimit", "&4Out of Limit! You have &7%playerownedkind%/%limitkind% &4%regionkind%-regions and &7%playerownedtotal%/%limittotal% &4Regions total!");
         config.addDefault("Messages.Unlimited", "Unlimited");
+        config.addDefault("Messages.AutopriceList", "&6=========[Autoprices]=========");
 
         config.addDefault("Messages.LimitInfoTop", "&6=========[Limit Info]=========");
         config.addDefault("Messages.LimitInfoTotal", "&6Total");

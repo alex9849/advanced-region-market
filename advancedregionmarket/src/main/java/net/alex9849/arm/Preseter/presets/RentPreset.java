@@ -3,6 +3,7 @@ package net.alex9849.arm.Preseter.presets;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.regions.RegionKind;
 import net.alex9849.arm.regions.RentRegion;
+import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -16,8 +17,8 @@ public class RentPreset extends Preset {
     private long extendPerClick = 0;
 
     public RentPreset(String name, boolean hasPrice, double price, RegionKind regionKind, boolean autoReset, boolean isHotel, boolean doBlockReset, boolean hasMaxRentTime,
-                      long maxRentTime, boolean hasExtendPerClick, long extendPerClick, boolean isUserResettable, int allowedSubregions, List<String> setupCommands){
-        super(name, hasPrice, price, regionKind, autoReset, isHotel, doBlockReset, isUserResettable, allowedSubregions, setupCommands);
+                      long maxRentTime, boolean hasExtendPerClick, long extendPerClick, boolean isUserResettable, int allowedSubregions, boolean hasAutoPrice, AutoPrice autoPrice, List<String> setupCommands){
+        super(name, hasPrice, price, regionKind, autoReset, isHotel, doBlockReset, isUserResettable, allowedSubregions, hasAutoPrice, autoPrice, setupCommands);
         this.hasMaxRentTime = hasMaxRentTime;
         this.maxRentTime = maxRentTime;
         this.hasExtendPerClick = hasExtendPerClick;
@@ -29,7 +30,7 @@ public class RentPreset extends Preset {
         for(String cmd : setupCommands) {
             newsetupCommands.add(cmd);
         }
-        return new RentPreset(this.name, this.hasPrice, this.price, this.regionKind, this.autoReset, this.isHotel, this.doBlockReset, this.hasMaxRentTime, this.maxRentTime, this.hasExtendPerClick, this.extendPerClick, this.isUserResettable, this.allowedSubregions, newsetupCommands);
+        return new RentPreset(this.name, this.hasPrice, this.price, this.regionKind, this.autoReset, this.isHotel, this.doBlockReset, this.hasMaxRentTime, this.maxRentTime, this.hasExtendPerClick, this.extendPerClick, this.isUserResettable, this.allowedSubregions, this.hasAutoPrice, this.autoPrice, newsetupCommands);
     }
 
     public boolean hasExtendPerClick() {
@@ -39,6 +40,13 @@ public class RentPreset extends Preset {
     public void removeExtendPerClick(){
         this.hasExtendPerClick = false;
         this.extendPerClick = 0;
+    }
+
+    @Override
+    public void setAutoPrice(AutoPrice autoPrice) {
+        super.setAutoPrice(autoPrice);
+        this.removeExtendPerClick();
+        this.removeMaxRentTime();
     }
 
     public long getMaxRentTime(){
@@ -57,16 +65,19 @@ public class RentPreset extends Preset {
     public void setExtendPerClick(long time) {
         this.hasExtendPerClick = true;
         this.extendPerClick = time;
+        this.removeAutoPrice();
     }
 
     public void setMaxRentTime(String string) {
         this.hasMaxRentTime = true;
         this.maxRentTime = RentRegion.stringToTime(string);
+        this.removeAutoPrice();
     }
 
     public void setMaxRentTime(Long time) {
         this.hasMaxRentTime = true;
         this.maxRentTime = time;
+        this.removeAutoPrice();
     }
 
     public boolean hasMaxRentTime() {
@@ -112,13 +123,26 @@ public class RentPreset extends Preset {
 
     @Override
     public void getAdditionalInfo(Player player) {
-        player.sendMessage(Messages.REGION_INFO_EXTEND_PER_CLICK + longToTime(this.extendPerClick));
-        player.sendMessage(Messages.REGION_INFO_MAX_RENT_TIME + longToTime(this.maxRentTime));
+        String extendtime = "not defined";
+        if(this.hasExtendPerClick()) {
+            extendtime = longToTime(this.getExtendPerClick());
+        }
+        String maxrenttime = "not defined";
+        if(this.hasMaxRentTime()) {
+            maxrenttime = longToTime(this.getMaxRentTime());
+        }
+        player.sendMessage(Messages.REGION_INFO_EXTEND_PER_CLICK + extendtime);
+        player.sendMessage(Messages.REGION_INFO_MAX_RENT_TIME + maxrenttime);
     }
 
     @Override
     public PresetType getPresetType() {
         return PresetType.RENTPRESET;
+    }
+
+    @Override
+    public boolean canPriceLineBeLetEmpty() {
+        return (this.hasPrice() && this.hasMaxRentTime() && this.hasExtendPerClick())|| this.hasAutoPrice();
     }
 
 }

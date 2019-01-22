@@ -3,6 +3,7 @@ package net.alex9849.arm.Preseter.presets;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.regions.RentRegion;
 import net.alex9849.arm.regions.RegionKind;
+import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -13,8 +14,8 @@ public class ContractPreset extends Preset {
     private boolean hasExtend = false;
     private long extend = 0;
 
-    public ContractPreset(String name, boolean hasPrice, double price, RegionKind regionKind, boolean autoReset, boolean isHotel, boolean doBlockReset, boolean hasExtend, long extend, boolean isUserResettable, int allowedSubregions, List<String> setupCommands){
-        super(name, hasPrice, price, regionKind, autoReset, isHotel, doBlockReset, isUserResettable, allowedSubregions, setupCommands);
+    public ContractPreset(String name, boolean hasPrice, double price, RegionKind regionKind, boolean autoReset, boolean isHotel, boolean doBlockReset, boolean hasExtend, long extend, boolean isUserResettable, int allowedSubregions, boolean hasAutoPrice, AutoPrice autoPrice, List<String> setupCommands){
+        super(name, hasPrice, price, regionKind, autoReset, isHotel, doBlockReset, isUserResettable, allowedSubregions, hasAutoPrice, autoPrice, setupCommands);
         this.hasExtend = hasExtend;
         this.extend = extend;
     }
@@ -24,7 +25,7 @@ public class ContractPreset extends Preset {
         for(String cmd : setupCommands) {
             newsetupCommands.add(cmd);
         }
-        return new ContractPreset(this.name, this.hasPrice, this.price, this.regionKind, this.autoReset, this.isHotel, this.doBlockReset, this.hasExtend, this.extend, this.isUserResettable, this.allowedSubregions, newsetupCommands);
+        return new ContractPreset(this.name, this.hasPrice, this.price, this.regionKind, this.autoReset, this.isHotel, this.doBlockReset, this.hasExtend, this.extend, this.isUserResettable, this.allowedSubregions, this.hasAutoPrice, this.autoPrice, newsetupCommands);
     }
 
     public boolean hasExtend() {
@@ -48,6 +49,13 @@ public class ContractPreset extends Preset {
     public void setExtend(long time) {
         this.hasExtend = true;
         this.extend = time;
+        this.removeAutoPrice();
+    }
+
+    @Override
+    public void setAutoPrice(AutoPrice autoPrice) {
+        super.setAutoPrice(autoPrice);
+        this.removeExtend();
     }
 
     private String longToTime(long time){
@@ -83,12 +91,21 @@ public class ContractPreset extends Preset {
 
     @Override
     public void getAdditionalInfo(Player player) {
-        player.sendMessage(Messages.REGION_INFO_AUTO_EXTEND_TIME + longToTime(this.extend));
+        String extendtime = "not defined";
+        if(this.hasExtend()) {
+            extendtime = longToTime(this.extend);
+        }
+        player.sendMessage(Messages.REGION_INFO_AUTO_EXTEND_TIME + extendtime);
     }
 
     @Override
     public PresetType getPresetType() {
         return PresetType.CONTRACTPRESET;
+    }
+
+    @Override
+    public boolean canPriceLineBeLetEmpty() {
+        return (this.hasPrice() && this.hasExtend()) || this.hasAutoPrice();
     }
 
 }

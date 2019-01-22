@@ -95,6 +95,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
             return;
         }
         loadOther();
+        PresetPatternManager.loadPresetPatterns();
         RegionManager.loadRegionsFromConfig();
         Region.setCompleteTabRegions(getConfig().getBoolean("Other.CompleteRegionsOnTabComplete"));
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Scheduler() , 0 ,20*getConfig().getInt("Other.SignAndResetUpdateInterval"));
@@ -581,7 +582,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         RegionManager.generatedefaultConfig();
         RegionManager.setRegionsConf();
         Messages.generatedefaultConfig();
-        PresetPatternManager.loadPresetPatterns();
+        PresetPatternManager.generatedefaultConfig();
         this.generatedefaultconfig();
         FileConfiguration pluginConfig = this.getConfig();
         YamlConfiguration regionConf = RegionManager.getRegionsConf();

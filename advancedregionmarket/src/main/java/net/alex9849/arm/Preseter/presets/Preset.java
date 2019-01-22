@@ -3,6 +3,7 @@ package net.alex9849.arm.Preseter.presets;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.RegionKind;
+import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -19,9 +20,11 @@ public abstract class Preset {
     protected boolean doBlockReset = true;
     protected boolean isUserResettable = true;
     protected int allowedSubregions = 0;
+    protected boolean hasAutoPrice = false;
+    protected AutoPrice autoPrice;
     protected List<String> setupCommands = new ArrayList<>();
 
-    public Preset(String name, boolean hasPrice, double price, RegionKind regionKind, boolean autoReset, boolean isHotel, boolean doBlockReset, boolean isUserResettable, int allowedSubregions, List<String> setupCommands){
+    public Preset(String name, boolean hasPrice, double price, RegionKind regionKind, boolean autoReset, boolean isHotel, boolean doBlockReset, boolean isUserResettable, int allowedSubregions, boolean hasAutoPrice, AutoPrice autoPrice, List<String> setupCommands){
         this.name = name;
         this.hasPrice = hasPrice;
         this.price = price;
@@ -32,6 +35,8 @@ public abstract class Preset {
         this.isUserResettable = isUserResettable;
         this.allowedSubregions = allowedSubregions;
         this.setupCommands = setupCommands;
+        this.hasAutoPrice = hasAutoPrice;
+        this.autoPrice = autoPrice;
     }
 
     public String getName(){
@@ -91,22 +96,47 @@ public abstract class Preset {
         }
     }
 
+    public void removeAutoPrice() {
+        this.hasAutoPrice = false;
+        this.autoPrice = null;
+    }
+
+    public void setAutoPrice(AutoPrice autoPrice) {
+        this.hasAutoPrice = true;
+        this.autoPrice = autoPrice;
+        this.removePrice();
+    }
+
+    public boolean hasAutoPrice() {
+        return this.hasAutoPrice;
+    }
+
+    public AutoPrice getAutoPrice() {
+        return this.autoPrice;
+    }
+
     public void setPrice(double price){
         if(price < 0){
             price = price * (-1);
         }
         this.hasPrice = true;
         this.price = price;
+        this.removeAutoPrice();
     }
 
     public void getPresetInfo(Player player) {
         String price = "not defined";
+        String autoPrice = Messages.convertYesNo(this.hasAutoPrice());
         if(this.hasPrice()) {
             price = this.getPrice() + "";
+        }
+        if(this.hasAutoPrice()) {
+            autoPrice = this.getAutoPrice().getName();
         }
         RegionKind regKind = this.getRegionKind();
 
         player.sendMessage(ChatColor.GOLD + "=========[Preset INFO]=========");
+        player.sendMessage(Messages.REGION_INFO_AUTOPRICE + autoPrice);
         player.sendMessage(Messages.REGION_INFO_PRICE + price);
         this.getAdditionalInfo(player);
         player.sendMessage(Messages.REGION_INFO_TYPE + regKind.getName());
@@ -175,4 +205,6 @@ public abstract class Preset {
     public abstract PresetType getPresetType();
 
     public abstract Preset getCopy();
+
+    public abstract boolean canPriceLineBeLetEmpty();
 }

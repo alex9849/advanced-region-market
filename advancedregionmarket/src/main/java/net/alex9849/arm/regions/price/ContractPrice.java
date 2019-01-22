@@ -7,7 +7,7 @@ public class ContractPrice extends Price {
 
     public ContractPrice(double price, long extendTime) {
         super(price);
-        if(extendTime == 0) {
+        if(extendTime < 1000) {
             this.extendTime = 1000;
         } else {
             this.extendTime = extendTime;

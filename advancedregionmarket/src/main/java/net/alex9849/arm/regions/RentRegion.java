@@ -7,6 +7,7 @@ import net.alex9849.arm.Group.LimitGroup;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
+import net.alex9849.arm.regions.price.RentPrice;
 import net.alex9849.inter.WGRegion;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -27,13 +28,13 @@ public class RentRegion extends Region {
     private static long expirationWarningTime;
     private static Boolean sendExpirationWarning;
 
-    public RentRegion(WGRegion region, World regionworld, List<Sign> rentsign, double price, Boolean sold, Boolean autoreset, Boolean allowOnlyNewBlocks,
-                      Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, boolean isUserResettable, long payedTill, long maxRentTime, long rentExtendPerClick, List<Region> subregions, int allowedSubregions) {
-        super(region, regionworld, rentsign, price, sold, autoreset, allowOnlyNewBlocks, doBlockReset, regionKind, teleportLoc, lastreset, isUserResettable, subregions, allowedSubregions);
+    public RentRegion(WGRegion region, World regionworld, List<Sign> rentsign, RentPrice rentPrice, Boolean sold, Boolean autoreset, Boolean allowOnlyNewBlocks,
+                      Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, boolean isUserResettable, long payedTill, List<Region> subregions, int allowedSubregions) {
+        super(region, regionworld, rentsign, rentPrice, sold, autoreset, allowOnlyNewBlocks, doBlockReset, regionKind, teleportLoc, lastreset, isUserResettable, subregions, allowedSubregions);
 
         this.payedTill = payedTill;
-        this.maxRentTime = maxRentTime;
-        this.rentExtendPerClick = rentExtendPerClick;
+        this.maxRentTime = rentPrice.getMaxRentTime();
+        this.rentExtendPerClick = rentPrice.getExtendTime();
         this.updateSigns();
     }
 
@@ -100,11 +101,11 @@ public class RentRegion extends Region {
             throw new InputException(player, LimitGroup.getRegionBuyOutOfLimitMessage(player, this.regionKind));
         }
 
-        if(AdvancedRegionMarket.getEcon().getBalance(player) < this.price) {
+        if(AdvancedRegionMarket.getEcon().getBalance(player) < this.getPrice()) {
             throw new InputException(player, Messages.NOT_ENOUGHT_MONEY);
         }
-        AdvancedRegionMarket.getEcon().withdrawPlayer(player, price);
-        this.giveParentRegionOwnerMoney(this.price);
+        AdvancedRegionMarket.getEcon().withdrawPlayer(player, this.getPrice());
+        this.giveParentRegionOwnerMoney(this.getPrice());
         this.setSold(player);
         this.resetBuiltBlocks();
         if(ArmSettings.isTeleportAfterRentRegionBought()){
@@ -396,11 +397,11 @@ public class RentRegion extends Region {
             String errormessage = this.getConvertedMessage(Messages.RENT_EXTEND_ERROR);
             throw new InputException(player, errormessage);
         } else {
-            if(AdvancedRegionMarket.getEcon().getBalance(player) < this.price) {
+            if(AdvancedRegionMarket.getEcon().getBalance(player) < this.getPrice()) {
                 throw new InputException(player, Messages.NOT_ENOUGHT_MONEY);
             }
-            AdvancedRegionMarket.getEcon().withdrawPlayer(player, price);
-            this.giveParentRegionOwnerMoney(this.price);
+            AdvancedRegionMarket.getEcon().withdrawPlayer(player, this.getPrice());
+            this.giveParentRegionOwnerMoney(this.getPrice());
             this.payedTill = this.payedTill + this.rentExtendPerClick;
 
             RegionManager.saveRegion(this);

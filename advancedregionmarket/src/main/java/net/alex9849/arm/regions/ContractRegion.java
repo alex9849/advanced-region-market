@@ -7,6 +7,7 @@ import net.alex9849.arm.Permission;
 import net.alex9849.arm.Group.LimitGroup;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
+import net.alex9849.arm.regions.price.ContractPrice;
 import net.alex9849.inter.WGRegion;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -27,10 +28,10 @@ public class ContractRegion extends Region {
     private long extendTime;
     private boolean terminated;
 
-    public ContractRegion(WGRegion region, World regionworld, List<Sign> contractsign, double price, Boolean sold, Boolean autoreset, Boolean isHotel, Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, boolean isUserResettable, long extendTime, long payedTill, Boolean terminated, List<Region> subregions, int allowedSubregions) {
-        super(region, regionworld, contractsign, price, sold, autoreset, isHotel, doBlockReset, regionKind, teleportLoc, lastreset, isUserResettable, subregions, allowedSubregions);
+    public ContractRegion(WGRegion region, World regionworld, List<Sign> contractsign, ContractPrice contractPrice, Boolean sold, Boolean autoreset, Boolean isHotel, Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, boolean isUserResettable, long payedTill, Boolean terminated, List<Region> subregions, int allowedSubregions) {
+        super(region, regionworld, contractsign, contractPrice, sold, autoreset, isHotel, doBlockReset, regionKind, teleportLoc, lastreset, isUserResettable, subregions, allowedSubregions);
         this.payedTill = payedTill;
-        this.extendTime = extendTime;
+        this.extendTime = contractPrice.getExtendTime();
         this.terminated = terminated;
 
         this.updateSigns();
@@ -65,7 +66,7 @@ public class ContractRegion extends Region {
                                 this.automaticResetRegion();
                             } else {
                                 AdvancedRegionMarket.getEcon().withdrawPlayer(oplayer, this.getPrice());
-                                this.giveParentRegionOwnerMoney(this.price);
+                                this.giveParentRegionOwnerMoney(this.getPrice());
                                 if(oplayer.isOnline()) {
                                     Player player = Bukkit.getPlayer(owners.get(0));
                                     this.extend(player);
@@ -161,11 +162,11 @@ public class ContractRegion extends Region {
         if(!LimitGroup.isCanBuyAnother(player, this)) {
             throw new InputException(player, LimitGroup.getRegionBuyOutOfLimitMessage(player, this.regionKind));
         }
-        if(AdvancedRegionMarket.getEcon().getBalance(player) < this.price) {
+        if(AdvancedRegionMarket.getEcon().getBalance(player) < this.getPrice()) {
             throw new InputException(player, Messages.NOT_ENOUGHT_MONEY);
         }
-        AdvancedRegionMarket.getEcon().withdrawPlayer(player, price);
-        this.giveParentRegionOwnerMoney(this.price);
+        AdvancedRegionMarket.getEcon().withdrawPlayer(player, this.getPrice());
+        this.giveParentRegionOwnerMoney(this.getPrice());
         this.setSold(player);
         this.resetBuiltBlocks();
         if(ArmSettings.isTeleportAfterContractRegionBought()){

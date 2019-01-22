@@ -7,6 +7,7 @@ import net.alex9849.arm.Permission;
 import net.alex9849.arm.Group.LimitGroup;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
+import net.alex9849.arm.regions.price.Price;
 import net.alex9849.inter.WGRegion;
 import org.bukkit.*;
 import org.bukkit.block.Sign;
@@ -18,7 +19,7 @@ import java.util.*;
 public class SellRegion extends Region {
 
 
-    public SellRegion(WGRegion region, World regionworld, List<Sign> sellsign, double price, Boolean sold, Boolean autoreset, Boolean allowOnlyNewBlocks, Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, boolean isUserResettable, List<Region> subregions, int allowedSubregions) {
+    public SellRegion(WGRegion region, World regionworld, List<Sign> sellsign, Price price, Boolean sold, Boolean autoreset, Boolean allowOnlyNewBlocks, Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, boolean isUserResettable, List<Region> subregions, int allowedSubregions) {
         super(region, regionworld, sellsign, price, sold, autoreset,allowOnlyNewBlocks, doBlockReset, regionKind, teleportLoc, lastreset, isUserResettable, subregions, allowedSubregions);
 
         this.updateSigns();
@@ -91,11 +92,11 @@ public class SellRegion extends Region {
             throw new InputException(player, LimitGroup.getRegionBuyOutOfLimitMessage(player, this.regionKind));
         }
 
-        if(AdvancedRegionMarket.getEcon().getBalance(player) < this.price) {
+        if(AdvancedRegionMarket.getEcon().getBalance(player) < this.getPrice()) {
             throw new InputException(player, Messages.NOT_ENOUGHT_MONEY);
         }
-        AdvancedRegionMarket.getEcon().withdrawPlayer(player, this.price);
-        this.giveParentRegionOwnerMoney(this.price);
+        AdvancedRegionMarket.getEcon().withdrawPlayer(player, this.getPrice());
+        this.giveParentRegionOwnerMoney(this.getPrice());
         this.setSold(player);
         this.resetBuiltBlocks();
         if(ArmSettings.isTeleportAfterSellRegionBought()){

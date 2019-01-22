@@ -8,6 +8,7 @@ import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.minifeatures.ParticleBorder;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
+import net.alex9849.arm.regions.price.Price;
 import net.alex9849.inter.WGRegion;
 import org.bukkit.*;
 import org.bukkit.Location;
@@ -30,7 +31,7 @@ public abstract class Region {
     protected World regionworld;
     protected ArrayList<Sign> sellsign;
     protected ArrayList<Location> builtblocks;
-    protected double price;
+    protected Price price;
     protected boolean sold;
     protected boolean autoreset;
     protected boolean isHotel;
@@ -43,9 +44,8 @@ public abstract class Region {
     protected int allowedSubregions;
     protected Region parentRegion;
     protected boolean isUserResettable;
-    protected AutoPrice autoPrice;
 
-    public Region(WGRegion region, World regionworld, List<Sign> sellsign, double price, Boolean sold, Boolean autoreset,
+    public Region(WGRegion region, World regionworld, List<Sign> sellsign, Price price, Boolean sold, Boolean autoreset,
                   Boolean isHotel, Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, boolean isUserResettable, List<Region> subregions, int allowedSubregions){
         this.region = region;
         this.sellsign = new ArrayList<Sign>(sellsign);
@@ -248,7 +248,7 @@ public abstract class Region {
     }
 
     public double getPrice(){
-        return this.price;
+        return this.price.getPrice(this.getRegion());
     }
 
     public boolean hasSign(Sign sign){
@@ -347,7 +347,7 @@ public abstract class Region {
         sender.sendMessage(Messages.REGION_INFO);
         sender.sendMessage(Messages.REGION_INFO_ID + this.getRegion().getId());
         sender.sendMessage(Messages.REGION_INFO_SOLD + Messages.convertYesNo(this.isSold()));
-        sender.sendMessage(Messages.REGION_INFO_PRICE + this.price + " " + Messages.CURRENCY);
+        sender.sendMessage(Messages.REGION_INFO_PRICE + this.price.getPrice(this.getRegion()) + " " + Messages.CURRENCY);
         sender.sendMessage(Messages.REGION_INFO_TYPE + this.getRegionKind().getDisplayName());
         sender.sendMessage(Messages.REGION_INFO_OWNER + owners);
         sender.sendMessage(Messages.REGION_INFO_MEMBERS + members);
@@ -606,7 +606,7 @@ public abstract class Region {
     public double getPricePerM2() {
         int sizeX = (this.getRegion().getMaxPoint().getBlockX() - this.getRegion().getMinPoint().getBlockX()) + 1;
         int sizeZ = (this.getRegion().getMaxPoint().getBlockZ() - this.getRegion().getMinPoint().getBlockZ()) + 1;
-        return this.price / (sizeX * sizeZ);
+        return this.price.getPrice(this.getRegion()) / (sizeX * sizeZ);
     }
 
     public double getRoundedPricePerM2() {

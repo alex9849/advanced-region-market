@@ -359,6 +359,13 @@ public abstract class Region {
             sender.sendMessage(autoresetmsg);
             sender.sendMessage(Messages.REGION_INFO_DO_BLOCK_RESET + Messages.convertYesNo(this.isDoBlockReset));
             sender.sendMessage(Messages.REGION_INFO_IS_USER_RESETTABLE + Messages.convertYesNo(this.isUserResettable));
+            String isAutoPriceInfo = "";
+            if(this.getPriceObject().isAutoPrice()) {
+                isAutoPriceInfo = this.getPriceObject().getAutoPrice().getName();
+            } else {
+                isAutoPriceInfo = Messages.convertYesNo(this.getPriceObject().isAutoPrice());
+            }
+            sender.sendMessage(Messages.REGION_INFO_AUTOPRICE + isAutoPriceInfo);
         }
         this.displayExtraInfo(sender);
         if(!this.isSubregion()) {

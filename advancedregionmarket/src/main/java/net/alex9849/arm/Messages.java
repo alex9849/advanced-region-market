@@ -146,6 +146,7 @@ public class Messages {
     public static String GUI_CONTRACT_ITEM = "&aManage contract";
     public static String REGION_INFO_TERMINATED = "&6Terminated: ";
     public static String REGION_INFO_AUTO_EXTEND_TIME = "&6Extend time: ";
+    public static String REGION_INFO_AUTOPRICE = "&6Autoprice: ";
     public static String REGION_INFO_NEXT_EXTEND_REMAINING_TIME = "&6Next extend in: ";
     public static String CONTRACT_REGION_CHANGE_TERMINATED = "&6The contract of &a%regionid% &6has been set to %statuslong%";
     public static String CONTRACT_REGION_STATUS_ACTIVE_LONG = "&aActive&6! Next Extension in %remaining%";
@@ -312,6 +313,7 @@ public class Messages {
         REGION_INFO_AUTORESET = config.getString("Messages.RegionInfoAutoreset");
         REGION_INFO_ALLOWED_SUBREGIONS = config.getString("Messages.RegionInfoAllowedSubregions");
         REGION_INFO_SUBREGIONS = config.getString("Messages.RegionInfoSubregions");
+        REGION_INFO_AUTOPRICE = config.getString("Messages.RegionInfoAutoprice");
         GUI_MAIN_MENU_NAME = config.getString("Messages.GUIMainMenuName");
         GUI_GO_BACK = config.getString("Messages.GUIGoBack");
         GUI_MY_OWN_REGIONS = config.getString("Messages.GUIMyOwnRegions");
@@ -750,6 +752,7 @@ public class Messages {
         DELETE_REGION_WARNING_NAME = ChatColor.translateAlternateColorCodes('&', DELETE_REGION_WARNING_NAME);
         UNSELL_REGION_BUTTON = ChatColor.translateAlternateColorCodes('&', UNSELL_REGION_BUTTON);
         UNSELL_REGION_WARNING_NAME = ChatColor.translateAlternateColorCodes('&', UNSELL_REGION_WARNING_NAME);
+        REGION_INFO_AUTOPRICE = ChatColor.translateAlternateColorCodes('&', REGION_INFO_AUTOPRICE);
 
         for(int i = 0; i < GUI_SUBREGION_HOTEL_BUTTON_LORE.size(); i++){
             GUI_SUBREGION_HOTEL_BUTTON_LORE.set(i, ChatColor.translateAlternateColorCodes('&', GUI_SUBREGION_HOTEL_BUTTON_LORE.get(i)));
@@ -978,6 +981,7 @@ public class Messages {
         config.addDefault("Messages.RegionInfoMembers", "&6Members: ");
         config.addDefault("Messages.RegionInfoDoBlockReset", "&6DoBlockReset: ");
         config.addDefault("Messages.RegionInfoIsUserResettable", "&6UserResettable: ");
+        config.addDefault("Messages.RegionInfoAutoprice", "&6Autoprice: ");
         config.addDefault("Messages.isHotel", "&6isHotel: ");
         config.addDefault("Messages.RegionInfoAutoreset", "&6Autoreset: ");
         config.addDefault("Messages.RegionInfoMaxRentTime", "&6Max rent time: ");

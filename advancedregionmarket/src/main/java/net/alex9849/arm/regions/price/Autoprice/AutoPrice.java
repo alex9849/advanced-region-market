@@ -1,6 +1,7 @@
 package net.alex9849.arm.regions.price.Autoprice;
 
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,5 +110,15 @@ public class AutoPrice {
 
     public static List<AutoPrice> getAutoPrices() {
         return autoPrices;
+    }
+
+    public static List<String> tabCompleteAutoPrice(String string) {
+        List<String> returnme = new ArrayList<>();
+        for(AutoPrice ap : autoPrices) {
+            if(ap.getName().toLowerCase().startsWith(string)) {
+                returnme.add(ap.getName());
+            }
+        }
+        return returnme;
     }
 }

@@ -603,21 +603,20 @@ public class ARMListener implements Listener {
         if(event.isCancelled()) {
             return;
         }
+        if(event.getPlayer().hasPermission(Permission.ADMIN_BUILDEVERYWHERE)){
+            return;
+        }
         try {
-            if(event.getPlayer().hasPermission(Permission.ADMIN_BUILDEVERYWHERE)){
-                return;
-            }
+            List<Region> locRegions = net.alex9849.arm.regions.RegionManager.getRegionsByLocation(event.getBlock().getLocation());
 
-                List<Region> locRegions = net.alex9849.arm.regions.RegionManager.getRegionsByLocation(event.getBlock().getLocation());
-
-                for(Region region : locRegions) {
-                    if(region.isHotel()) {
-                        if(!region.allowBlockBreak(event.getBlock().getLocation())) {
-                            event.setCancelled(true);
-                            throw new InputException(event.getPlayer(), Messages.REGION_ERROR_CAN_NOT_BUILD_HERE);
-                        }
+            for(Region region : locRegions) {
+                if(region.isHotel()) {
+                    if(!region.allowBlockBreak(event.getBlock().getLocation())) {
+                        event.setCancelled(true);
+                        throw new InputException(event.getPlayer(), Messages.REGION_ERROR_CAN_NOT_BUILD_HERE);
                     }
                 }
+            }
         } catch (InputException inputException) {
             inputException.sendMessages();
         }

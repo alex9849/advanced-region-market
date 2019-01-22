@@ -6,18 +6,16 @@ import net.alex9849.arm.Handler.Scheduler;
 import net.alex9849.arm.Preseter.*;
 import net.alex9849.arm.commands.*;
 import net.alex9849.arm.exceptions.InputException;
-import net.alex9849.arm.minifeatures.AutoPrice;
+import net.alex9849.arm.minifeatures.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.*;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import net.alex9849.arm.Group.LimitGroup;
 import net.alex9849.arm.gui.Gui;
-import net.alex9849.inter.WGRegion;
 import net.alex9849.inter.WorldEditInterface;
 import net.alex9849.inter.WorldGuardInterface;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.*;
-import org.bukkit.block.Sign;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -148,7 +146,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         AdvancedRegionMarket.worldedit = null;
         RegionManager.Reset();
         LimitGroup.Reset();
-        AutoPrice.Reset();
+        AutoPrice.reset();
         RegionKind.Reset();
         PresetPatternManager.resetPresetPatterns();
         ActivePresetManager.reset();
@@ -332,13 +330,8 @@ public class AdvancedRegionMarket extends JavaPlugin {
     }
 
     private void loadAutoPrice() {
-        if(getConfig().get("AutoPrice") != null) {
-            LinkedList<String> autoPrices = new LinkedList<>(getConfig().getConfigurationSection("AutoPrice").getKeys(false));
-            if(autoPrices != null) {
-                for(int i = 0; i < autoPrices.size(); i++){
-                    AutoPrice.getAutoPrices().add(new AutoPrice(autoPrices.get(i), getConfig().getDouble("AutoPrice." + autoPrices.get(i))));
-                }
-            }
+        if(getConfig().getConfigurationSection("AutoPrice") != null) {
+            AutoPrice.loadAutoprices(getConfig().getConfigurationSection("AutoPrice"));
         }
     }
 

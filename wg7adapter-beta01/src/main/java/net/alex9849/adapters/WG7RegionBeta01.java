@@ -145,4 +145,9 @@ public class WG7RegionBeta01 extends WGRegion {
         this.getRegion().clearParent();
         this.getRegion().setPriority(priority);
     }
+
+    @Override
+    public int getVolume() {
+        return this.region.volume();
+    }
 }

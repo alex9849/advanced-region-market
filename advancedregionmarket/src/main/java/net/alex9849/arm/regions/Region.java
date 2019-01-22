@@ -2,7 +2,7 @@ package net.alex9849.arm.regions;
 
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.ArmSettings;
-import net.alex9849.arm.minifeatures.Autoprice.AutoPrice;
+import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.InputException;
@@ -43,6 +43,7 @@ public abstract class Region {
     protected int allowedSubregions;
     protected Region parentRegion;
     protected boolean isUserResettable;
+    protected AutoPrice autoPrice;
 
     public Region(WGRegion region, World regionworld, List<Sign> sellsign, double price, Boolean sold, Boolean autoreset,
                   Boolean isHotel, Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, boolean isUserResettable, List<Region> subregions, int allowedSubregions){
@@ -263,38 +264,6 @@ public abstract class Region {
 
     public int getNumberOfSigns(){
         return this.sellsign.size();
-    }
-
-    public static double calculatePrice(WGRegion region, String regiontype){
-
-        Vector min = region.getMinPoint();
-        Vector max = region.getMaxPoint();
-        int maxX = max.getBlockX();
-        int maxZ = max.getBlockZ();
-        int minX = min.getBlockX();
-        int minY = min.getBlockY();
-        int minZ = min.getBlockZ();
-        double price = 0;
-        double priceperblock = 0;
-
-        for(int i = 0; i < AutoPrice.getAutoPrices().size(); i++){
-            if(AutoPrice.getAutoPrices().get(i).equals(regiontype)){
-                priceperblock = AutoPrice.getAutoPrices().get(i).getPricePerSquareMeter();
-            }
-        }
-
-        for(int x = minX; x <= maxX; x++){
-            for(int z = minZ; z <= maxZ; z++) {
-                if(region.contains(x, minY, z)){
-                    price = price + priceperblock;
-                }
-            }
-        }
-        if(price == 0) {
-            return Double.parseDouble(regiontype);
-        } else {
-            return price;
-        }
     }
 
     public boolean setKind(RegionKind kind){

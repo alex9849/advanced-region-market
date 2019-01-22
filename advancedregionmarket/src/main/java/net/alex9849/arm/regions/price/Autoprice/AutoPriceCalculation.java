@@ -1,4 +1,4 @@
-package net.alex9849.arm.minifeatures.Autoprice;
+package net.alex9849.arm.regions.price.Autoprice;
 
 public enum AutoPriceCalculation {
     STATIC {

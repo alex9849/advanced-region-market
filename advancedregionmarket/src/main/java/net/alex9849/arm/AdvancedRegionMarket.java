@@ -6,7 +6,7 @@ import net.alex9849.arm.Handler.Scheduler;
 import net.alex9849.arm.Preseter.*;
 import net.alex9849.arm.commands.*;
 import net.alex9849.arm.exceptions.InputException;
-import net.alex9849.arm.minifeatures.Autoprice.AutoPrice;
+import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.*;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;

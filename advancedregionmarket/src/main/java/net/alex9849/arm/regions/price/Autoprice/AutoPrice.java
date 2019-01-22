@@ -1,4 +1,4 @@
-package net.alex9849.arm.minifeatures.Autoprice;
+package net.alex9849.arm.regions.price.Autoprice;
 
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -7,19 +7,17 @@ import java.util.List;
 
 public class AutoPrice {
     private static List<AutoPrice> autoPrices = new ArrayList<>();
-    public static AutoPrice DEFAULT = new AutoPrice("default", 0, 0, 0, 0, AutoPriceCalculation.STATIC);
+    public static AutoPrice DEFAULT = new AutoPrice("default", 0, 0, 0, AutoPriceCalculation.STATIC);
     private AutoPriceCalculation autoPriceCalculation;
     private double price;
     private long extendtime;
-    private long extendperclick;
     private long maxrenttime;
     private String name;
 
-    public AutoPrice(String name, double price, long extendtime, long extendperclick, long maxrenttime, AutoPriceCalculation autoPriceCalculation){
+    public AutoPrice(String name, double price, long extendtime, long maxrenttime, AutoPriceCalculation autoPriceCalculation){
         this.price = price;
         this.name = name;
         this.extendtime = extendtime;
-        this.extendperclick = extendperclick;
         this.maxrenttime = maxrenttime;
     }
 
@@ -53,10 +51,6 @@ public class AutoPrice {
         return this.extendtime;
     }
 
-    public long getExtendperclick() {
-        return this.extendperclick;
-    }
-
     public long getMaxrenttime() {
         return this.maxrenttime;
     }
@@ -87,14 +81,13 @@ public class AutoPrice {
                 String name = autoPriceName;
                 double price = section.getDouble(autoPriceName + ".price");
                 long extendTime = section.getLong(autoPriceName + ".extendTime");
-                long extendperclick = section.getLong(autoPriceName + ".extendperclick");
                 long maxrenttime = section.getLong(autoPriceName + ".maxrenttime");
                 AutoPriceCalculation autoPriceCalculation = AutoPriceCalculation.getAutoPriceType(section.getString(autoPriceName + ".autoPriceCalculation"));
                 if(autoPriceCalculation == null) {
                     autoPriceCalculation = AutoPriceCalculation.STATIC;
                 }
 
-                AutoPrice.autoPrices.add(new AutoPrice(name, price, extendperclick, extendperclick, maxrenttime, autoPriceCalculation));
+                AutoPrice.autoPrices.add(new AutoPrice(name, price, extendTime, maxrenttime, autoPriceCalculation));
 
             }
         }
@@ -103,7 +96,6 @@ public class AutoPrice {
     private static void addDefaults(ConfigurationSection section) {
         section.addDefault("price", 0);
         section.addDefault("extendTime", 0);
-        section.addDefault("extendperclick", 0);
         section.addDefault("maxrenttime", 0);
         section.addDefault("autoPriceCalculation", "static");
     }

@@ -57,4 +57,6 @@ public abstract class WGRegion {
     public abstract int getPriority();
 
     public abstract void setPriority(int priority);
+
+    public abstract int getVolume();
 }

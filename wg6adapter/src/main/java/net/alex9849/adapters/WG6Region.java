@@ -142,6 +142,11 @@ public class WG6Region extends WGRegion {
         this.getRegion().setPriority(priority);
     }
 
+    @Override
+    public int getVolume() {
+        return this.region.volume();
+    }
+
     protected ProtectedRegion getRegion() {
         return this.region;
     }

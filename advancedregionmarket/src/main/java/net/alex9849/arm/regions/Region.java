@@ -2,7 +2,6 @@ package net.alex9849.arm.regions;
 
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.ArmSettings;
-import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.InputException;
@@ -248,7 +247,7 @@ public abstract class Region {
     }
 
     public double getPrice(){
-        return this.price.getPrice(this.getRegion());
+        return this.price.calcPrice(this.getRegion());
     }
 
     public boolean hasSign(Sign sign){
@@ -347,7 +346,7 @@ public abstract class Region {
         sender.sendMessage(Messages.REGION_INFO);
         sender.sendMessage(Messages.REGION_INFO_ID + this.getRegion().getId());
         sender.sendMessage(Messages.REGION_INFO_SOLD + Messages.convertYesNo(this.isSold()));
-        sender.sendMessage(Messages.REGION_INFO_PRICE + this.price.getPrice(this.getRegion()) + " " + Messages.CURRENCY);
+        sender.sendMessage(Messages.REGION_INFO_PRICE + this.price.calcPrice(this.getRegion()) + " " + Messages.CURRENCY);
         sender.sendMessage(Messages.REGION_INFO_TYPE + this.getRegionKind().getDisplayName());
         sender.sendMessage(Messages.REGION_INFO_OWNER + owners);
         sender.sendMessage(Messages.REGION_INFO_MEMBERS + members);
@@ -606,7 +605,7 @@ public abstract class Region {
     public double getPricePerM2() {
         int sizeX = (this.getRegion().getMaxPoint().getBlockX() - this.getRegion().getMinPoint().getBlockX()) + 1;
         int sizeZ = (this.getRegion().getMaxPoint().getBlockZ() - this.getRegion().getMinPoint().getBlockZ()) + 1;
-        return this.price.getPrice(this.getRegion()) / (sizeX * sizeZ);
+        return this.price.calcPrice(this.getRegion()) / (sizeX * sizeZ);
     }
 
     public double getRoundedPricePerM2() {
@@ -633,6 +632,10 @@ public abstract class Region {
     }
 
     protected abstract String getSellType();
+
+    public Price getPriceObject() {
+        return this.price;
+    }
 
     public String getConvertedMessage(String message) {
         message = message.replace("%regionid%", this.getRegion().getId());

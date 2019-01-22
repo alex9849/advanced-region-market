@@ -7,6 +7,7 @@ public class ContractPrice extends Price {
 
     public ContractPrice(double price, long extendTime) {
         super(price);
+        this.extendTime = extendTime;
     }
 
     public ContractPrice(AutoPrice autoPrice) {

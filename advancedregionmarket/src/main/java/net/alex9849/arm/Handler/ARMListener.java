@@ -10,6 +10,10 @@ import net.alex9849.arm.SubRegions.SubRegionCreator;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.regions.*;
 import net.alex9849.arm.gui.Gui;
+import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
+import net.alex9849.arm.regions.price.ContractPrice;
+import net.alex9849.arm.regions.price.Price;
+import net.alex9849.arm.regions.price.RentPrice;
 import net.alex9849.inter.WGRegion;
 import org.bukkit.*;
 import org.bukkit.block.Sign;
@@ -79,25 +83,31 @@ public class ARMListener implements Listener {
                     throw new InputException(sign.getPlayer(), Messages.REGION_DOES_NOT_EXIST);
                 }
                 WGRegion region = AdvancedRegionMarket.getWorldGuardInterface().getRegion(regionWorld, AdvancedRegionMarket.getWorldGuard(), regionname);
-                Double price = null;
+                Price price = null;
 
                 if(sign.getLine(3).equals("")){
                     if(preset != null){
                         if(preset.hasPrice()){
-                            price = preset.getPrice();
+                            price = new Price(preset.getPrice());
                         }
                     }
                 }
 
                 if(price == null) {
-                    try{
-                        price = Region.calculatePrice(region, sign.getLine(3));
-                    } catch (IllegalArgumentException e){
-                        throw new InputException(sign.getPlayer(), Messages.PLEASE_USE_A_NUMBER_AS_PRICE + " or an AutoPrice");
+                    AutoPrice autoPrice = AutoPrice.getAutoprice(sign.getLine(3));
+                    if(autoPrice == null) {
+                        try {
+                            price = new Price(Double.parseDouble(sign.getLine(3)));
+                        } catch (IllegalArgumentException e){
+                            throw new InputException(sign.getPlayer(), Messages.PLEASE_USE_A_NUMBER_AS_PRICE + " or an AutoPrice");
+                        }
+                    } else {
+                        price = new Price(autoPrice);
                     }
                 }
 
-                if(price < 0) {
+
+                if(price.getPrice() < 0) {
                     throw new InputException(sign.getPlayer(), ChatColor.DARK_RED + "Price must be positive!");
                 }
 
@@ -163,7 +173,7 @@ public class ARMListener implements Listener {
                 }
                 WGRegion region = AdvancedRegionMarket.getWorldGuardInterface().getRegion(regionWorld, AdvancedRegionMarket.getWorldGuard(), regionname);
 
-                double price = 0;
+                RentPrice price = new RentPrice(0, 0,0);
                 long extendPerClick = 0;
                 long maxRentTime = 0;
                 Boolean priceready = false;
@@ -171,9 +181,7 @@ public class ARMListener implements Listener {
                 if(sign.getLine(3).equals("")) {
                     if(preset != null) {
                         if(preset.hasPrice() && preset.hasExtendPerClick() && preset.hasMaxRentTime()) {
-                            price = preset.getPrice();
-                            extendPerClick = preset.getExtendPerClick();
-                            maxRentTime = preset.getMaxRentTime();
+                            price = new RentPrice(preset.getPrice(), preset.getExtendPerClick(), preset.getMaxRentTime());
                             priceready = true;
                         } else {
                             throw new InputException(sign.getPlayer(), ChatColor.RED + "Your preset needs to have an option at Price, MaxRentTime and ExtendPerClick to take affect!");
@@ -183,13 +191,18 @@ public class ARMListener implements Listener {
 
                 if(!priceready) {
                     try{
-                        String[] priceline = sign.getLine(3).split("(;|:)", 3);
-                        String pricestring = priceline[0];
-                        String extendPerClickString = priceline[1];
-                        String maxRentTimeString = priceline[2];
-                        extendPerClick = RentRegion.stringToTime(extendPerClickString);
-                        maxRentTime = RentRegion.stringToTime(maxRentTimeString);
-                        price = Integer.parseInt(pricestring);
+                        if(AutoPrice.getAutoprice(sign.getLine(3)) != null) {
+                            price = new RentPrice(AutoPrice.getAutoprice(sign.getLine(3)));
+                        } else {
+                            String[] priceline = sign.getLine(3).split("(;|:)", 3);
+                            String pricestring = priceline[0];
+                            String extendPerClickString = priceline[1];
+                            String maxRentTimeString = priceline[2];
+                            extendPerClick = RentRegion.stringToTime(extendPerClickString);
+                            maxRentTime = RentRegion.stringToTime(maxRentTimeString);
+                            double doublePrice = Double.parseDouble(pricestring);
+                            price = new RentPrice(doublePrice, extendPerClick, maxRentTime);
+                        }
                     } catch (ArrayIndexOutOfBoundsException e) {
                         sign.getPlayer().sendMessage(Messages.PREFIX + "Please write your price in line 4 in the following pattern:");
                         sign.getPlayer().sendMessage("<Price>;<Extend per Click (ex.: 5d)>;<Max rent Time (ex.: 10d)>");
@@ -217,7 +230,7 @@ public class ARMListener implements Listener {
                 sellsign.add((Sign) sign.getBlock().getState());
 
                 RentRegion addRegion = new RentRegion(region, regionWorld, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,
-                        1, userResettable,1, maxRentTime, extendPerClick, new ArrayList<Region>(), allowedSubregions);
+                        1, userResettable,1, new ArrayList<Region>(), allowedSubregions);
                 addRegion.createSchematic();
                 net.alex9849.arm.regions.RegionManager.addRegion(addRegion);
 
@@ -263,15 +276,14 @@ public class ARMListener implements Listener {
                 }
                 WGRegion region = AdvancedRegionMarket.getWorldGuardInterface().getRegion(regionWorld, AdvancedRegionMarket.getWorldGuard(), regionname);
 
-                double price = 0;
+                ContractPrice price = new ContractPrice(0, 0);
                 long extendtime = 0;
                 Boolean priceready = false;
 
                 if(sign.getLine(3).equals("")) {
                     if(preset != null) {
                         if(preset.hasPrice() && preset.hasExtend()) {
-                            price = preset.getPrice();
-                            extendtime = preset.getExtend();
+                            price = new ContractPrice(preset.getPrice(), preset.getExtend());
                             priceready = true;
                         } else {
                             throw new InputException(sign.getPlayer(), ChatColor.RED + "Your preset needs to have an option at Price and Extend to take affect!");
@@ -281,11 +293,16 @@ public class ARMListener implements Listener {
 
                 if(!priceready) {
                     try{
-                        String[] priceline = sign.getLine(3).split("(;|:)", 2);
-                        String pricestring = priceline[0];
-                        String extendtimeString = priceline[1];
-                        extendtime = RentRegion.stringToTime(extendtimeString);
-                        price = Integer.parseInt(pricestring);
+                        if(AutoPrice.getAutoprice(sign.getLine(3)) != null) {
+                            price = new ContractPrice(AutoPrice.getAutoprice(sign.getLine(3)));
+                        } else {
+                            String[] priceline = sign.getLine(3).split("(;|:)", 2);
+                            String pricestring = priceline[0];
+                            String extendtimeString = priceline[1];
+                            extendtime = RentRegion.stringToTime(extendtimeString);
+                            double doublePrice = Double.parseDouble(pricestring);
+                            price = new ContractPrice(doublePrice, extendtime);
+                        }
                     } catch (ArrayIndexOutOfBoundsException e) {
                         sign.getPlayer().sendMessage(Messages.PREFIX + "Please write your price in line 4 in the following pattern:");
                         sign.getPlayer().sendMessage("<Price>;<Extendtime (ex.: 5d)>");
@@ -313,7 +330,7 @@ public class ARMListener implements Listener {
                 sellsign.add((Sign) sign.getBlock().getState());
 
                 ContractRegion addRegion = new ContractRegion(region, regionWorld, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,
-                        1, userResettable, extendtime, 1, false, new ArrayList<Region>(), allowedSubregions);
+                        1, userResettable, 1, false, new ArrayList<Region>(), allowedSubregions);
                 addRegion.createSchematic();
                 net.alex9849.arm.regions.RegionManager.addRegion(addRegion);
                 sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_ADDED_TO_ARM);

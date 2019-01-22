@@ -443,6 +443,9 @@ public class RentRegion extends Region {
     }
 
     public double getPricePerM2PerWeek() {
+        if(this.getRentExtendPerClick() == 0) {
+            return Integer.MAX_VALUE;
+        }
         double pricePerM2 = this.getPricePerM2();
         long msPerWeek = 1000 * 60 * 60 * 24 * 7;
         double pricePerM2PerWeek = (msPerWeek / this.getRentExtendPerClick()) * pricePerM2;

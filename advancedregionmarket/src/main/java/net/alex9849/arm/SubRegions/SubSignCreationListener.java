@@ -6,6 +6,9 @@ import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.exceptions.LogicalException;
 import net.alex9849.arm.regions.*;
+import net.alex9849.arm.regions.price.ContractPrice;
+import net.alex9849.arm.regions.price.Price;
+import net.alex9849.arm.regions.price.RentPrice;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -49,7 +52,8 @@ public class SubSignCreationListener implements Listener {
                 }
                 List<Sign> signList = new ArrayList<>();
                 signList.add((Sign) event.getBlock().getState());
-                SellRegion sellRegion = new SellRegion(this.subRegionCreator.getSubRegion(), this.subRegionCreator.getParentRegion().getRegionworld(), signList, price, false, ArmSettings.isSubregionAutoReset(), false, ArmSettings.isSubregionBlockReset(), RegionKind.SUBREGION, null, 1, ArmSettings.isAllowSubRegionUserReset(), new ArrayList<Region>(), 0);
+                Price subregPrice = new Price(price);
+                SellRegion sellRegion = new SellRegion(this.subRegionCreator.getSubRegion(), this.subRegionCreator.getParentRegion().getRegionworld(), signList, subregPrice, false, ArmSettings.isSubregionAutoReset(), false, ArmSettings.isSubregionBlockReset(), RegionKind.SUBREGION, null, 1, ArmSettings.isAllowSubRegionUserReset(), new ArrayList<Region>(), 0);
                 this.subRegionCreator.saveWorldGuardRegion();
                 event.setCancelled(true);
                 this.subRegionCreator.getParentRegion().addSubRegion(sellRegion);
@@ -85,7 +89,8 @@ public class SubSignCreationListener implements Listener {
 
                 List<Sign> signList = new ArrayList<>();
                 signList.add((Sign) event.getBlock().getState());
-                RentRegion rentRegion = new RentRegion(this.subRegionCreator.getSubRegion(), this.subRegionCreator.getParentRegion().getRegionworld(), signList, price, false, ArmSettings.isSubregionAutoReset(), false, ArmSettings.isSubregionBlockReset(), RegionKind.SUBREGION, null, 1, ArmSettings.isAllowSubRegionUserReset(), 0, maxRentTime, extendPerClick, new ArrayList<Region>(), 0);
+                RentPrice rentPrice = new RentPrice(price, extendPerClick, maxRentTime);
+                RentRegion rentRegion = new RentRegion(this.subRegionCreator.getSubRegion(), this.subRegionCreator.getParentRegion().getRegionworld(), signList, rentPrice, false, ArmSettings.isSubregionAutoReset(), false, ArmSettings.isSubregionBlockReset(), RegionKind.SUBREGION, null, 1, ArmSettings.isAllowSubRegionUserReset(), 0, new ArrayList<Region>(), 0);
                 this.subRegionCreator.saveWorldGuardRegion();
                 event.setCancelled(true);
                 this.subRegionCreator.getParentRegion().addSubRegion(rentRegion);
@@ -118,7 +123,8 @@ public class SubSignCreationListener implements Listener {
                 }
                 List<Sign> signList = new ArrayList<>();
                 signList.add((Sign) event.getBlock().getState());
-                ContractRegion contractRegion = new ContractRegion(this.subRegionCreator.getSubRegion(), this.subRegionCreator.getParentRegion().getRegionworld(), signList, price, false, ArmSettings.isSubregionAutoReset(), false, ArmSettings.isSubregionBlockReset(), RegionKind.SUBREGION, null, 1, ArmSettings.isAllowSubRegionUserReset(), extendtime, 0, false, new ArrayList<Region>(), 0);
+                ContractPrice contractPrice = new ContractPrice(price, extendtime);
+                ContractRegion contractRegion = new ContractRegion(this.subRegionCreator.getSubRegion(), this.subRegionCreator.getParentRegion().getRegionworld(), signList, contractPrice, false, ArmSettings.isSubregionAutoReset(), false, ArmSettings.isSubregionBlockReset(), RegionKind.SUBREGION, null, 1, ArmSettings.isAllowSubRegionUserReset(), 0, false, new ArrayList<Region>(), 0);
                 this.subRegionCreator.saveWorldGuardRegion();
                 event.setCancelled(true);
                 this.subRegionCreator.getParentRegion().addSubRegion(contractRegion);

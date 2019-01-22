@@ -8,21 +8,32 @@ public class Price {
     protected double price;
 
     public Price(double price) {
-        this.price = price;
+        if(price < 0) {
+            this.price = (-1) * price;
+        } else {
+            this.price = price;
+        }
     }
 
     public Price(AutoPrice autoPrice) {
         this.autoPrice = autoPrice;
     }
 
-    public double getPrice(WGRegion wgRegion){
+    public double calcPrice(WGRegion wgRegion){
         if(this.isAutoPrice()) {
             int m2 = wgRegion.getVolume() / (wgRegion.getMaxPoint().getBlockY() - wgRegion.getMinPoint().getBlockY());
             return this.autoPrice.getCalculatedPrice(m2, wgRegion.getVolume());
         } else {
             return this.price;
         }
+    }
 
+    public double getPrice() {
+        if(this.isAutoPrice()) {
+            return this.autoPrice.getPrice();
+        } else {
+            return this.price;
+        }
     }
 
     public boolean isAutoPrice() {

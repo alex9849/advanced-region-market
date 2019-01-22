@@ -12,6 +12,7 @@ public class RentPrice extends ContractPrice {
 
     public RentPrice(AutoPrice autoPrice) {
         super(autoPrice);
+        this.maxRentTime = autoPrice.getMaxrenttime();
     }
 
     public long getMaxRentTime() {

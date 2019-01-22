@@ -19,15 +19,15 @@ public class AutoPrice {
         this.name = name;
         this.extendtime = extendtime;
         this.maxrenttime = maxrenttime;
+        if(autoPriceCalculation == null) {
+            this.autoPriceCalculation = AutoPriceCalculation.STATIC;
+        } else {
+            this.autoPriceCalculation = autoPriceCalculation;
+        }
     }
 
     public boolean equals(String name){
         return this.name.equalsIgnoreCase(name);
-    }
-
-    @Override
-    public String toString(){
-        return this.name;
     }
 
     public double getPrice(){
@@ -61,6 +61,9 @@ public class AutoPrice {
                 return autoPrice;
             }
         }
+        if(name.equalsIgnoreCase("default")) {
+            return AutoPrice.DEFAULT;
+        }
         return null;
     }
 
@@ -81,7 +84,7 @@ public class AutoPrice {
                 String name = autoPriceName;
                 double price = section.getDouble(autoPriceName + ".price");
                 long extendTime = section.getLong(autoPriceName + ".extendTime");
-                long maxrenttime = section.getLong(autoPriceName + ".maxrenttime");
+                long maxrenttime = section.getLong(autoPriceName + ".maxRentTime");
                 AutoPriceCalculation autoPriceCalculation = AutoPriceCalculation.getAutoPriceType(section.getString(autoPriceName + ".autoPriceCalculation"));
                 if(autoPriceCalculation == null) {
                     autoPriceCalculation = AutoPriceCalculation.STATIC;
@@ -98,5 +101,9 @@ public class AutoPrice {
         section.addDefault("extendTime", 0);
         section.addDefault("maxrenttime", 0);
         section.addDefault("autoPriceCalculation", "static");
+    }
+
+    public String getName() {
+        return this.name;
     }
 }

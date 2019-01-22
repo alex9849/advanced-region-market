@@ -66,7 +66,7 @@ public class Permission {
     public static final String SUBREGION_TP = "arm.subregion.tp";
     public static final String SUBREGION_UNSELL = "arm.subregion.unsell";
     public static final String SUBREGION_RESETREGIONBLOCKS = "arm.subregion.resetregionblocks";
-    public static final String SUBREGION_PARENT_OWENER_BUILD_ON_SUBS = "arm.subregion.parentownerbuildonsubs";
+    public static final String SUBREGION_HELP = "arm.subregion.help";
 
 
     public static boolean hasAnySubregionCreatePermission(CommandSender sender) {

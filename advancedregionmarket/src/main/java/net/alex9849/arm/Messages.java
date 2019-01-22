@@ -224,6 +224,7 @@ public class Messages {
     public static String UNSELL_REGION_BUTTON = "&4Unsell region";
     public static List<String> UNSELL_REGION_BUTTON_LORE = new ArrayList<>(Arrays.asList("&4Click to unsell your subregion and", "&4kick the players of it"));
     public static String UNSELL_REGION_WARNING_NAME = "&4Unsell region?";
+    public static String SUBREGION_HELP_HEADLINE = "&6=====[AdvancedRegionMarket Subregion Help ]=====\n&3Page %actualpage% / %maxpage%";
 
     public static String SELLREGION_NAME = "Sellregion";
     public static String CONTRACTREGION_NAME = "Contractregion";
@@ -525,6 +526,7 @@ public class Messages {
         UNSELL_REGION_BUTTON_LORE = config.getStringList("Messages.UnsellRegionButtonLore");
         UNSELL_REGION_WARNING_NAME = config.getString("Messages.UnsellRegionWarningName");
         AUTOPRICE_LIST = config.getString("Messages.AutopriceList");
+        SUBREGION_HELP_HEADLINE = config.getString("Messages.SubregionHelpHeadline");
         Messages.translateColorCodes();
     }
 
@@ -755,6 +757,7 @@ public class Messages {
         UNSELL_REGION_WARNING_NAME = ChatColor.translateAlternateColorCodes('&', UNSELL_REGION_WARNING_NAME);
         REGION_INFO_AUTOPRICE = ChatColor.translateAlternateColorCodes('&', REGION_INFO_AUTOPRICE);
         AUTOPRICE_LIST = ChatColor.translateAlternateColorCodes('&', AUTOPRICE_LIST);
+        SUBREGION_HELP_HEADLINE = ChatColor.translateAlternateColorCodes('&', SUBREGION_HELP_HEADLINE);;
 
         for(int i = 0; i < GUI_SUBREGION_HOTEL_BUTTON_LORE.size(); i++){
             GUI_SUBREGION_HOTEL_BUTTON_LORE.set(i, ChatColor.translateAlternateColorCodes('&', GUI_SUBREGION_HOTEL_BUTTON_LORE.get(i)));
@@ -971,6 +974,8 @@ public class Messages {
         config.addDefault("Messages.RegionBuyOutOfLimit", "&4Out of Limit! You have &7%playerownedkind%/%limitkind% &4%regionkind%-regions and &7%playerownedtotal%/%limittotal% &4Regions total!");
         config.addDefault("Messages.Unlimited", "Unlimited");
         config.addDefault("Messages.AutopriceList", "&6=========[Autoprices]=========");
+        config.addDefault("Messages.SubregionHelpHeadline", "&6=====[AdvancedRegionMarket Subregion Help ]=====\n&3Page %actualpage% / %maxpage%");
+
 
         config.addDefault("Messages.LimitInfoTop", "&6=========[Limit Info]=========");
         config.addDefault("Messages.LimitInfoTotal", "&6Total");

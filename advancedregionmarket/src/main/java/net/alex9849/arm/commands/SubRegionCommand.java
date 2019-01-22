@@ -1,6 +1,7 @@
 package net.alex9849.arm.commands;
 
 import net.alex9849.arm.Handler.CommandHandler;
+import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.SubRegions.commands.CreateCommand;
 import net.alex9849.arm.SubRegions.commands.DeleteCommand;
@@ -26,6 +27,7 @@ public class SubRegionCommand extends BasicArmCommand {
 
     public SubRegionCommand() {
         this.commandHandler = new CommandHandler(this.usage, this.rootCommand);
+        String[] betweencmds = {this.rootCommand};
         List<BasicArmCommand> commands = new ArrayList<>();
         commands.add(new ToolCommand());
         commands.add(new CreateCommand());
@@ -34,6 +36,7 @@ public class SubRegionCommand extends BasicArmCommand {
         commands.add(new ResetBlocksCommand());
         commands.add(new UnsellCommand());
         commands.add(new DeleteCommand());
+        commands.add(new HelpCommand(this.commandHandler, Messages.SUBREGION_HELP_HEADLINE, betweencmds, Permission.SUBREGION_HELP));
         this.commandHandler.addCommands(commands);
     }
 

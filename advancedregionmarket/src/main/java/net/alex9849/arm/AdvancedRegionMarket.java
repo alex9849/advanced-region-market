@@ -100,6 +100,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Scheduler() , 0 ,20*getConfig().getInt("Other.SignAndResetUpdateInterval"));
         AdvancedRegionMarket.commandHandler = new CommandHandler(new ArrayList<>(Arrays.asList("help")), "");
         List<BasicArmCommand> commands = new ArrayList<>();
+        String[] betweencmds = {};
         commands.add(new AddMemberCommand());
         commands.add(new AutoResetCommand());
         commands.add(new ContractPresetCommand());
@@ -108,7 +109,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         commands.add(new ExtendCommand());
         commands.add(new FindFreeRegionCommand());
         commands.add(new GuiCommand());
-        commands.add(new HelpCommand());
+        commands.add(new HelpCommand(AdvancedRegionMarket.commandHandler, Messages.HELP_HEADLINE, betweencmds, Permission.ARM_HELP));
         commands.add(new HotelCommand());
         commands.add(new InfoCommand());
         commands.add(new LimitCommand());

@@ -610,9 +610,8 @@ public abstract class Region {
     public abstract double getPricePerM2PerWeek();
 
     public double getPricePerM2() {
-        int sizeX = (this.getRegion().getMaxPoint().getBlockX() - this.getRegion().getMinPoint().getBlockX()) + 1;
-        int sizeZ = (this.getRegion().getMaxPoint().getBlockZ() - this.getRegion().getMinPoint().getBlockZ()) + 1;
-        return this.price.calcPrice(this.getRegion()) / (sizeX * sizeZ);
+        int m2 = this.getRegion().getVolume() / ((this.getRegion().getMaxPoint().getBlockY() - this.getRegion().getMinPoint().getBlockY()) + 1);
+        return this.price.calcPrice(this.getRegion()) / m2;
     }
 
     public double getRoundedPricePerM2() {

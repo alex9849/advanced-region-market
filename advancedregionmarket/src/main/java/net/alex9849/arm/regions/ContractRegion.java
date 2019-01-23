@@ -394,9 +394,9 @@ public class ContractRegion extends Region {
             return Integer.MAX_VALUE;
         }
         double pricePerM2 = this.getPricePerM2();
-        long msPerWeek = 1000 * 60 * 60 * 24 * 7;
+        double msPerWeek = 1000 * 60 * 60 * 24 * 7;
         double pricePerM2PerWeek = (msPerWeek / this.getExtendTime()) * pricePerM2;
-        pricePerM2PerWeek = (int) pricePerM2PerWeek * 100;
+        pricePerM2PerWeek = (int)(pricePerM2PerWeek * 100);
         pricePerM2PerWeek = pricePerM2PerWeek / 100;
         return pricePerM2PerWeek;
     }

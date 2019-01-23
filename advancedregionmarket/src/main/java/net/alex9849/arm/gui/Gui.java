@@ -903,8 +903,11 @@ public class Gui implements Listener {
                     LimitGroup.getLimitChat(player);
                 }
             });
-
-            inv.addIcon(gobackButton, (invsize - 2));
+            int pos = 1;
+            if(withGoBack) {
+                pos = 2;
+            }
+            inv.addIcon(gobackButton, (invsize - pos));
         }
 
 

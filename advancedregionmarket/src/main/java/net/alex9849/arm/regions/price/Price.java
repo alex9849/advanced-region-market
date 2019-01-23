@@ -21,7 +21,7 @@ public class Price {
 
     public double calcPrice(WGRegion wgRegion){
         if(this.isAutoPrice()) {
-            int m2 = wgRegion.getVolume() / (wgRegion.getMaxPoint().getBlockY() - wgRegion.getMinPoint().getBlockY());
+            int m2 = wgRegion.getVolume() / ((wgRegion.getMaxPoint().getBlockY() - wgRegion.getMinPoint().getBlockY()) + 1);
             return this.autoPrice.getCalculatedPrice(m2, wgRegion.getVolume());
         } else {
             return this.price;

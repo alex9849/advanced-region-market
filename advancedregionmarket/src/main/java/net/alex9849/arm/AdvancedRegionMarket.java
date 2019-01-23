@@ -108,7 +108,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         commands.add(new DeleteCommand());
         commands.add(new DoBlockResetCommand());
         commands.add(new ExtendCommand());
-        commands.add(new FindFreeRegionCommand());
+        commands.add(new RegionfinderCommand());
         commands.add(new GuiCommand());
         commands.add(new HelpCommand(AdvancedRegionMarket.commandHandler, Messages.HELP_HEADLINE, betweencmds, Permission.ARM_HELP));
         commands.add(new HotelCommand());

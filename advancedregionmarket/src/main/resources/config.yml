@@ -8,12 +8,38 @@
 #.AMA.   .AMMA..JMML. .JMM..JML. `'  .JMML.#
 ############################################
 
-# If you are creating a sell-region you can write this instead of the price in the last line of a
-# sell-sign and ARM will calculate the price by multiplying the square meters of the region
-# with the number standing here
+# If you are creating a region you can write this instead of the price in the last line of
+# the sign and ARM will calculate the price for the region.
+# 'static' price is exactly what stands here
+# 'per_m2' price gets multiplied with the amount of square meters of the region
+# 'per_m3' price gets multiplied with the amount of cubic meters of the region
+# If you created a region with an autoprice you can adjust the price for all
+# regions with this autoprice by changing the price here. If arm can not find an
+# autoprice for a region on startup it will use the default autoprice
 AutoPrice:
-  example1: 1
-  example2: 0.5
+  example1:
+    price: 200.0
+    # Time in milliseconds (1 second = 1000 milliseconds)
+    extendTime: 300000
+    # Time in milliseconds (1 second = 1000 milliseconds)
+    maxRentTime: 2000000
+    autoPriceCalculation: static
+  example2:
+    price: 2.0
+    extendTime: 300000
+    maxRentTime: 2000000
+    autoPriceCalculation: per_m2
+  example3:
+    price: 0.05
+    extendTime: 300000
+    maxRentTime: 2000000
+    autoPriceCalculation: per_m3
+
+DefaultAutoprice:
+  price: 2.0
+  extendTime: 300000
+  maxRentTime: 2000000
+  autoPriceCalculation: per_m2
 
 # If you activate one of these functions you have to fill in the MySQL data
 AutoResetAndTakeOver:
@@ -184,6 +210,7 @@ Subregions:
 
 Reselling:
   Offers:
+# Time in seconds
     OfferTimeOut: 30
 
 #Here you can change the Blocks that will be shown in the GUI. You can use

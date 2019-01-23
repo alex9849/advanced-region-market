@@ -97,6 +97,20 @@ public class AutoPrice {
         }
     }
 
+    public static void loadDefaultAutoPrice(ConfigurationSection section) {
+        if(section == null) {
+            return;
+        }
+        AutoPrice.DEFAULT.setPrice(section.getDouble("price"));
+        AutoPrice.DEFAULT.setExtendtime(section.getLong("extendTime"));
+        AutoPrice.DEFAULT.setMaxrenttime(section.getLong("maxRentTime"));
+        AutoPriceCalculation autoPriceCalculation = AutoPriceCalculation.getAutoPriceType(section.getString("autoPriceCalculation"));
+        if(autoPriceCalculation == null) {
+            autoPriceCalculation = AutoPriceCalculation.STATIC;
+        }
+        AutoPrice.DEFAULT.setAutoPriceCalculation(autoPriceCalculation);
+    }
+
     private static void addDefaults(ConfigurationSection section) {
         section.addDefault("price", 0);
         section.addDefault("extendTime", 0);
@@ -120,5 +134,25 @@ public class AutoPrice {
             }
         }
         return returnme;
+    }
+
+    private void setPrice(double price) {
+        this.price = price;
+    }
+
+    private void setExtendtime(long extendtime) {
+        this.extendtime = extendtime;
+    }
+
+    private void setMaxrenttime(long maxrenttime) {
+        this.maxrenttime = maxrenttime;
+    }
+
+    private void setAutoPriceCalculation(AutoPriceCalculation autoPriceCalculation) {
+        if(autoPriceCalculation == null) {
+            this.autoPriceCalculation = AutoPriceCalculation.STATIC;
+        } else {
+            this.autoPriceCalculation = autoPriceCalculation;
+        }
     }
 }

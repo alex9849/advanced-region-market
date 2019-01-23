@@ -336,6 +336,9 @@ public class AdvancedRegionMarket extends JavaPlugin {
         if(getConfig().getConfigurationSection("AutoPrice") != null) {
             AutoPrice.loadAutoprices(getConfig().getConfigurationSection("AutoPrice"));
         }
+        if(getConfig().getConfigurationSection("DefaultAutoprice") != null) {
+            AutoPrice.loadDefaultAutoPrice(getConfig().getConfigurationSection("DefaultAutoprice"));
+        }
     }
 
     private void loadRegionKind(){
@@ -793,7 +796,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         if(version < 1.6) {
             getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.6...");
             pluginConfig.set("SubregionRegionKind.DisplayName", "Subregion");
-            pluginConfig.set("SubregionRegionKind.Item", Material.PLAYER_HEAD.toString());
+            pluginConfig.set("SubregionRegionKind.Item", "PLAYER_HEAD");
             List<String> subregionRegionKindLore = new ArrayList<>();
             subregionRegionKindLore.add("very subregion");
             pluginConfig.set("SubregionRegionKind.Lore", subregionRegionKindLore);
@@ -817,6 +820,26 @@ public class AdvancedRegionMarket extends JavaPlugin {
             pluginConfig.set("GUI.PrevPageItem", "ARROW");
             pluginConfig.set("GUI.HotelSettingItem", "RED_BED");
             pluginConfig.set("GUI.UnsellItem", "NAME_TAG");
+
+            pluginConfig.set("AutoPrice", null);
+            pluginConfig.set("AutoPrice.example1.price", 200);
+            pluginConfig.set("AutoPrice.example1.extendTime", 300000);
+            pluginConfig.set("AutoPrice.example1.maxRentTime", 2000000);
+            pluginConfig.set("AutoPrice.example1.autoPriceCalculation", "static");
+            pluginConfig.set("AutoPrice.example2.price", 2);
+            pluginConfig.set("AutoPrice.example2.extendTime", 300000);
+            pluginConfig.set("AutoPrice.example2.maxRentTime", 2000000);
+            pluginConfig.set("AutoPrice.example2.autoPriceCalculation", "per_m2");
+            pluginConfig.set("AutoPrice.example3.price", 0.05);
+            pluginConfig.set("AutoPrice.example3.extendTime", 300000);
+            pluginConfig.set("AutoPrice.example3.maxRentTime", 2000000);
+            pluginConfig.set("AutoPrice.example3.autoPriceCalculation", "per_m3");
+
+            pluginConfig.set("DefaultAutoprice.price", 2.0);
+            pluginConfig.set("DefaultAutoprice.extendTime", 300000);
+            pluginConfig.set("DefaultAutoprice.maxRentTime", 2000000);
+            pluginConfig.set("DefaultAutoprice.autoPriceCalculation", "per_m2");
+
             pluginConfig.set("Version", 1.6);
             saveConfig();
         }

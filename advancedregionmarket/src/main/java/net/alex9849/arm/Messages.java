@@ -255,21 +255,23 @@ public class Messages {
             "&6Last line: &1PricePerPeriod&6;&1ExtendPerClick&6;&1MaxExtendTime", "&6example for ExtendPerClick/MaxExtendTime: 5d (5 days)", "", "&aCreate a Contract-Region:", "&6First line: &1[sub-contract]", "&6Last line: &1PricePerPeriod&6;&1ExtendTime", "&6example for ExtendTime: 12h (12 hours)"));
     public static List<String> SUBREGION_TOOL_INSTRUCTION = new ArrayList<String>(Arrays.asList("&aYou got a tool in your inventory (feather) to select 2 points of your region that will mark the corners of your new subregion.", "&aLeft click to select pos1", "&aRight click to select pos2", "&aType \"&6/arm subregion create\" &aif you are done"));
     public static String AUTOPRICE_LIST = "&6=========[Autoprices]=========";
+    public static String GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM = "&6Info";
 
 
-    public static List<String> GUI_TELEPORT_TO_REGION_BUTTON_LORE = new LinkedList<>();
-    public static List<String> GUI_MAKE_OWNER_BUTTON_LORE = new LinkedList<>();
-    public static List<String> GUI_REMOVE_MEMBER_BUTTON_LORE = new LinkedList<>();
-    public static List<String> GUI_RESET_REGION_BUTTON_LORE = new LinkedList<>();
-    public static List<String> GUI_TAKEOVER_ITEM_LORE = new LinkedList<>();
-    public static List<String> MEMBERLIST_INFO_LORE = new LinkedList<>();
-    public static List<String> GUI_EXTEND_BUTTON_LORE = new LinkedList<>();
-    public static List<String> GUI_RENT_REGION_LORE = new LinkedList<>();
-    public static List<String> GUI_USER_SELL_BUTTON_LORE = new LinkedList<>();
-    public static List<String> GUI_MEMBER_INFO_LORE = new LinkedList<>();
-    public static List<String> GUI_CONTRACT_ITEM_LORE = new LinkedList<>();
-    public static List<String> GUI_CONTRACT_REGION_LORE = new LinkedList<>();
-    public static List<String> GUI_OWNER_MEMBER_INFO_LORE = new LinkedList<>();
+    public static List<String> GUI_TELEPORT_TO_REGION_BUTTON_LORE = new ArrayList<>();
+    public static List<String> GUI_MAKE_OWNER_BUTTON_LORE = new ArrayList<>();
+    public static List<String> GUI_REMOVE_MEMBER_BUTTON_LORE = new ArrayList<>();
+    public static List<String> GUI_RESET_REGION_BUTTON_LORE = new ArrayList<>();
+    public static List<String> GUI_TAKEOVER_ITEM_LORE = new ArrayList<>();
+    public static List<String> MEMBERLIST_INFO_LORE = new ArrayList<>();
+    public static List<String> GUI_EXTEND_BUTTON_LORE = new ArrayList<>();
+    public static List<String> GUI_RENT_REGION_LORE = new ArrayList<>();
+    public static List<String> GUI_USER_SELL_BUTTON_LORE = new ArrayList<>();
+    public static List<String> GUI_MEMBER_INFO_LORE = new ArrayList<>();
+    public static List<String> GUI_CONTRACT_ITEM_LORE = new ArrayList<>();
+    public static List<String> GUI_CONTRACT_REGION_LORE = new ArrayList<>();
+    public static List<String> GUI_OWNER_MEMBER_INFO_LORE = new ArrayList<>();
+    public static List<String> GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM_LORE = new ArrayList<>();
 
 
     public static void read(){
@@ -527,6 +529,8 @@ public class Messages {
         UNSELL_REGION_WARNING_NAME = config.getString("Messages.UnsellRegionWarningName");
         AUTOPRICE_LIST = config.getString("Messages.AutopriceList");
         SUBREGION_HELP_HEADLINE = config.getString("Messages.SubregionHelpHeadline");
+        GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM_LORE = config.getStringList("Messages.GUISubregionManagerNoSubregionItemLore");
+        GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM = config.getString("Messages.GUISubregionManagerNoSubregionItem");
         Messages.translateColorCodes();
     }
 
@@ -757,8 +761,12 @@ public class Messages {
         UNSELL_REGION_WARNING_NAME = ChatColor.translateAlternateColorCodes('&', UNSELL_REGION_WARNING_NAME);
         REGION_INFO_AUTOPRICE = ChatColor.translateAlternateColorCodes('&', REGION_INFO_AUTOPRICE);
         AUTOPRICE_LIST = ChatColor.translateAlternateColorCodes('&', AUTOPRICE_LIST);
-        SUBREGION_HELP_HEADLINE = ChatColor.translateAlternateColorCodes('&', SUBREGION_HELP_HEADLINE);;
+        SUBREGION_HELP_HEADLINE = ChatColor.translateAlternateColorCodes('&', SUBREGION_HELP_HEADLINE);
+        GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM = ChatColor.translateAlternateColorCodes('&', GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM);
 
+        for(int i = 0; i < GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM_LORE.size(); i++){
+            GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM_LORE.set(i, ChatColor.translateAlternateColorCodes('&', GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM_LORE.get(i)));
+        }
         for(int i = 0; i < GUI_SUBREGION_HOTEL_BUTTON_LORE.size(); i++){
             GUI_SUBREGION_HOTEL_BUTTON_LORE.set(i, ChatColor.translateAlternateColorCodes('&', GUI_SUBREGION_HOTEL_BUTTON_LORE.get(i)));
         }
@@ -1105,6 +1113,7 @@ public class Messages {
         config.addDefault("Messages.UnsellRegionButton", "&4Unsell region");
         config.addDefault("Messages.UnsellRegionButtonLore", new ArrayList<>(Arrays.asList("&4Click to unsell your subregion and", "&4kick the players of it")));
         config.addDefault("Messages.UnsellRegionWarningName", "&4&lUnsell region?");
+        config.addDefault("Messages.GUISubregionManagerNoSubregionItem", "&6Info");
         config.addDefault("Messages.GUIHotelButtonLore", new ArrayList<String>(Arrays.asList("&6The hotel function allows you to prevent players", "&6from breaking blocks they do not have placed", "&6Status: %hotelfunctionstatus%", "&6Click to enable/disable")));
         config.addDefault("Messages.GUISubregionInfoSell", new ArrayList<String>(Arrays.asList("&6Selltype: %selltype%", "&6Status: %soldstatus%", "&6Price: %price%", "&6Price per M2: %priceperm2%", "&6Dimensions: %dimensions%")));
         config.addDefault("Messages.GUISubregionInfoRent", new ArrayList<String>(Arrays.asList("&6Selltype: %selltype%", "&6Status: %soldstatus%", "&6Price: %price%", "&6Price per M2 (per week): %priceperm2perweek%", "&6Extend per click: %extendperclick%", "&6Max. extended time: %maxrenttime%", "&6Dimensions: %dimensions%")));
@@ -1113,8 +1122,9 @@ public class Messages {
         config.addDefault("Messages.GUIRegionfinderInfoRent", new ArrayList<String>(Arrays.asList("&6Price: %price%" ,"&6Price per M2 (per week): %priceperm2perweek%", "&6Extend per click: %extendperclick%","&6Max. extended time: %maxrenttime%", "&6Dimensions: %dimensions%", "&6World: %world%")));
         config.addDefault("Messages.GUIRegionfinderInfoContract", new ArrayList<String>(Arrays.asList("&6Price: %price%", "&6Price per M2 (per week): %priceperm2perweek%", "&6Automatic extend time: %extend%","&6Dimensions: %dimensions%", "&6World: %world%")));
         config.addDefault("Messages.SubregionCreationCreateSignInfo", new ArrayList<String>(Arrays.asList("&aYour selection has been saved! You can now create a sign to sell the region.", "&aCreate a Sell-Region:", "&6First line: &b[sub-sell]", "&6Last line: &bprice", "", "&aCreate a Rent-Region:", "&6First line: &b[sub-rent]",
-                "&6Last line: &bPricePerPeriod&6;&bExtendPerClick&6;&bMaxExtendTime", "&6example for ExtendPerClick/MaxExtendTime: 5d (5 days)", "", "&aCreate a Contract-Region:", "&6First line: &b[sub-contract]", "&6Last line: &bPricePerPeriod&6;&bExtendTime", "&6example for ExtendTime: 12h (12 hours)", "&4We would strongly recommend not placing the sign within the subregion!")));
+                "&6Last line: &bPricePerPeriod&6;&bExtendPerClick&6;&bMaxExtendTime", "&6example for ExtendPerClick/MaxExtendTime: 5d (5 days)", "", "&aCreate a Contract-Region:", "&6First line: &b[sub-contract]", "&6Last line: &bPricePerPeriod&6;&bExtendTime", "&6example for ExtendTime: 12h (12 hours)", "&4We would strongly recommend to not place the sign within the subregion!")));
         config.addDefault("Messages.SubregionCreationSelectAreaInfo", new ArrayList<String>(Arrays.asList("&aYou got a tool in your inventory (feather) to select 2 points of your region that will mark the corners of your new subregion.", "&aLeft click to select pos1", "&aRight click to select pos2", "&aType \"&6/arm subregion create\" &aif you are done")));
+        config.addDefault("Messages.GUISubregionManagerNoSubregionItemLore", new ArrayList<String>(Arrays.asList("&aYou do not have any subregions on your region.", "&aYou can create a new subregion, that you",  "&acan sell to other players by typing", "&6/arm subregion tool &aand following displayed the steps")));
 
 
         config.options().copyDefaults(true);

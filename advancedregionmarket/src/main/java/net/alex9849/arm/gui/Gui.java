@@ -288,6 +288,14 @@ public class Gui implements Listener {
             });
             clickItems.add(subregionClickItem);
         }
+        if(clickItems.size() == 0) {
+            List<String> lore = new ArrayList<>();
+            for(String rawmessage : Messages.GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM_LORE) {
+                lore.add(region.getConvertedMessage(rawmessage));
+            }
+            ClickItem infoItem = new ClickItem(new ItemStack(Gui.INFO_ITEM), Messages.GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM, lore);
+            clickItems.add(infoItem);
+        }
         Gui.openInfiniteGuiList(player, clickItems, 0, Messages.GUI_SUBREGION_LIST_MENU_NAME, new ClickAction() {
             @Override
             public void execute(Player player) throws InputException {

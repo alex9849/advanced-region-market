@@ -10,6 +10,10 @@ public enum PresetType {
             return "sellpreset";
         }
 
+        public String getMajorityName() {
+            return "SellPresets";
+        }
+
         public SellPreset create() {
             return new SellPreset("default", false, 0, RegionKind.DEFAULT, true, false, true, true, 0, null, new ArrayList<>());
         }
@@ -17,6 +21,10 @@ public enum PresetType {
     }, RENTPRESET {
         public String getName() {
             return "rentpreset";
+        }
+
+        public String getMajorityName() {
+            return "RentPresets";
         }
 
         public RentPreset create() {
@@ -28,12 +36,18 @@ public enum PresetType {
             return "contractpreset";
         }
 
+        public String getMajorityName() {
+            return "ContractPresets";
+        }
+
         public ContractPreset create() {
             return new ContractPreset("default", false, 0, RegionKind.DEFAULT, true, false, true, false, 0, true, 0, null, new ArrayList<>());
         }
     };
 
     public abstract String getName();
+
+    public abstract String getMajorityName();
 
     public abstract Preset create();
 

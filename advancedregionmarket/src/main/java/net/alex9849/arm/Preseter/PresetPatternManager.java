@@ -70,29 +70,29 @@ public class PresetPatternManager {
     }
 
     private static void writePresetPatternToYamlObject(Preset preset) {
-        presetConfig.set(preset.getPresetType().getName() + "." + preset.getName() + ".hasPrice", preset.hasPrice());
-        presetConfig.set(preset.getPresetType().getName() + "." + preset.getName() + ".price", preset.getPrice());
-        presetConfig.set(preset.getPresetType().getName() + "." + preset.getName() + ".regionKind", preset.getRegionKind().getName());
-        presetConfig.set(preset.getPresetType().getName() + "." + preset.getName() + ".isHotel", preset.isHotel());
-        presetConfig.set(preset.getPresetType().getName() + "." + preset.getName() + ".doBlockReset", preset.isDoBlockReset());
-        presetConfig.set(preset.getPresetType().getName() + "." + preset.getName() + ".autoreset", preset.isAutoReset());
+        presetConfig.set(preset.getPresetType().getMajorityName() + "." + preset.getName() + ".hasPrice", preset.hasPrice());
+        presetConfig.set(preset.getPresetType().getMajorityName() + "." + preset.getName() + ".price", preset.getPrice());
+        presetConfig.set(preset.getPresetType().getMajorityName() + "." + preset.getName() + ".regionKind", preset.getRegionKind().getName());
+        presetConfig.set(preset.getPresetType().getMajorityName() + "." + preset.getName() + ".isHotel", preset.isHotel());
+        presetConfig.set(preset.getPresetType().getMajorityName() + "." + preset.getName() + ".doBlockReset", preset.isDoBlockReset());
+        presetConfig.set(preset.getPresetType().getMajorityName() + "." + preset.getName() + ".autoreset", preset.isAutoReset());
         if(preset.hasAutoPrice()) {
-            presetConfig.set(preset.getPresetType().getName() + "." + preset.getName() + ".autoPrice", preset.getAutoPrice().getName());
+            presetConfig.set(preset.getPresetType().getMajorityName() + "." + preset.getName() + ".autoPrice", preset.getAutoPrice().getName());
         } else {
-            presetConfig.set(preset.getPresetType().getName() + "." + preset.getName() + ".autoPrice", null);
+            presetConfig.set(preset.getPresetType().getMajorityName() + "." + preset.getName() + ".autoPrice", null);
         }
-        presetConfig.set(preset.getPresetType().getName() + "." + preset.getName() + ".setupcommands", preset.getCommands());
+        presetConfig.set(preset.getPresetType().getMajorityName() + "." + preset.getName() + ".setupcommands", preset.getCommands());
         if(preset.getPresetType() == PresetType.RENTPRESET) {
             RentPreset rentpreset = (RentPreset) preset;
-            presetConfig.set(preset.getPresetType().getName() + "." + preset.getName() + ".hasMaxRentTime", rentpreset.hasMaxRentTime());
-            presetConfig.set(preset.getPresetType().getName() + "." + preset.getName() + ".maxRentTime", rentpreset.getMaxRentTime());
-            presetConfig.set(preset.getPresetType().getName() + "." + preset.getName() + ".hasExtendPerClick", rentpreset.hasExtendPerClick());
-            presetConfig.set(preset.getPresetType().getName() + "." + preset.getName() + ".extendPerClick", rentpreset.getExtendPerClick());
+            presetConfig.set(preset.getPresetType().getMajorityName() + "." + preset.getName() + ".hasMaxRentTime", rentpreset.hasMaxRentTime());
+            presetConfig.set(preset.getPresetType().getMajorityName() + "." + preset.getName() + ".maxRentTime", rentpreset.getMaxRentTime());
+            presetConfig.set(preset.getPresetType().getMajorityName() + "." + preset.getName() + ".hasExtendPerClick", rentpreset.hasExtendPerClick());
+            presetConfig.set(preset.getPresetType().getMajorityName() + "." + preset.getName() + ".extendPerClick", rentpreset.getExtendPerClick());
         }
         if(preset.getPresetType() == PresetType.CONTRACTPRESET) {
             ContractPreset contractPresetpreset = (ContractPreset) preset;
-            presetConfig.set(preset.getPresetType().getName() + "." + preset.getName() + ".hasExtend", contractPresetpreset.hasExtend());
-            presetConfig.set(preset.getPresetType().getName() + "." + preset.getName() + ".extendTime", contractPresetpreset.getExtend());
+            presetConfig.set(preset.getPresetType().getMajorityName() + "." + preset.getName() + ".hasExtend", contractPresetpreset.hasExtend());
+            presetConfig.set(preset.getPresetType().getMajorityName() + "." + preset.getName() + ".extendTime", contractPresetpreset.getExtend());
         }
     }
 
@@ -100,32 +100,32 @@ public class PresetPatternManager {
         PresetPatternManager.setConfig();
         presetList = new ArrayList<>();
 
-        ConfigurationSection sellPresetsection = presetConfig.getConfigurationSection(PresetType.SELLPRESET.getName());
+        ConfigurationSection sellPresetsection = presetConfig.getConfigurationSection(PresetType.SELLPRESET.getMajorityName());
         if (sellPresetsection != null) {
-            LinkedList<String> presets = new LinkedList<String>(presetConfig.getConfigurationSection(PresetType.SELLPRESET.getName()).getKeys(false));
+            LinkedList<String> presets = new LinkedList<String>(presetConfig.getConfigurationSection(PresetType.SELLPRESET.getMajorityName()).getKeys(false));
             if(presets != null) {
                 for(String presetName : presets) {
-                    presetList.add(generatePresetObject(presetConfig.getConfigurationSection(PresetType.SELLPRESET.getName()+ "." + presetName), presetName, PresetType.SELLPRESET));
+                    presetList.add(generatePresetObject(presetConfig.getConfigurationSection(PresetType.SELLPRESET.getMajorityName()+ "." + presetName), presetName, PresetType.SELLPRESET));
                 }
             }
         }
 
-        ConfigurationSection rentPresetsection = presetConfig.getConfigurationSection(PresetType.RENTPRESET.getName());
+        ConfigurationSection rentPresetsection = presetConfig.getConfigurationSection(PresetType.RENTPRESET.getMajorityName());
         if (rentPresetsection != null) {
-            LinkedList<String> presets = new LinkedList<String>(presetConfig.getConfigurationSection(PresetType.RENTPRESET.getName()).getKeys(false));
+            LinkedList<String> presets = new LinkedList<String>(presetConfig.getConfigurationSection(PresetType.RENTPRESET.getMajorityName()).getKeys(false));
             if(presets != null) {
                 for(String presetName : presets) {
-                    presetList.add(generatePresetObject(presetConfig.getConfigurationSection(PresetType.RENTPRESET.getName()+ "." + presetName), presetName, PresetType.RENTPRESET));
+                    presetList.add(generatePresetObject(presetConfig.getConfigurationSection(PresetType.RENTPRESET.getMajorityName()+ "." + presetName), presetName, PresetType.RENTPRESET));
                 }
             }
         }
 
-        ConfigurationSection contractPresetsection = presetConfig.getConfigurationSection(PresetType.CONTRACTPRESET.getName());
+        ConfigurationSection contractPresetsection = presetConfig.getConfigurationSection(PresetType.CONTRACTPRESET.getMajorityName());
         if (contractPresetsection != null) {
-            LinkedList<String> presets = new LinkedList<String>(presetConfig.getConfigurationSection(PresetType.CONTRACTPRESET.getName()).getKeys(false));
+            LinkedList<String> presets = new LinkedList<String>(presetConfig.getConfigurationSection(PresetType.CONTRACTPRESET.getMajorityName()).getKeys(false));
             if(presets != null) {
                 for(String presetName : presets) {
-                    presetList.add(generatePresetObject(presetConfig.getConfigurationSection(PresetType.CONTRACTPRESET.getName()+ "." + presetName), presetName, PresetType.CONTRACTPRESET));
+                    presetList.add(generatePresetObject(presetConfig.getConfigurationSection(PresetType.CONTRACTPRESET.getMajorityName()+ "." + presetName), presetName, PresetType.CONTRACTPRESET));
                 }
             }
         }

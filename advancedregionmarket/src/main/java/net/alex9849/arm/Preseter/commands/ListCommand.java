@@ -56,7 +56,7 @@ public class ListCommand extends BasicArmCommand {
 
         String presets = "";
 
-        player.sendMessage(Messages.PREFIX + ChatColor.GOLD + "ContractPresets:");
+        player.sendMessage(Messages.PREFIX + ChatColor.GOLD + this.presetType.getMajorityName() + ":");
         for(int i = 0; i < patterns.size(); i++) {
             player.sendMessage(ChatColor.GOLD + " - " + patterns.get(i).getName());
         }

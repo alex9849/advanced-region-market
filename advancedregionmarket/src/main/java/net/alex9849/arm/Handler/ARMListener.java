@@ -90,6 +90,9 @@ public class ARMListener implements Listener {
                         if(preset.hasPrice()){
                             price = new Price(preset.getPrice());
                         }
+                        if(preset.hasAutoPrice()) {
+                            price = new Price(preset.getAutoPrice());
+                        }
                     }
                 }
 
@@ -183,8 +186,11 @@ public class ARMListener implements Listener {
                         if(preset.hasPrice() && preset.hasExtendPerClick() && preset.hasMaxRentTime()) {
                             price = new RentPrice(preset.getPrice(), preset.getExtendPerClick(), preset.getMaxRentTime());
                             priceready = true;
+                        } else if(preset.hasAutoPrice()) {
+                            price = new RentPrice(preset.getAutoPrice());
+                            priceready = true;
                         } else {
-                            throw new InputException(sign.getPlayer(), ChatColor.RED + "Your preset needs to have an option at Price, MaxRentTime and ExtendPerClick to take affect!");
+                            sign.getPlayer().sendMessage(ChatColor.RED + "Your preset needs to have an option at Price, MaxRentTime and ExtendPerClick or an AutoPrice to take affect!");
                         }
                     }
                 }
@@ -285,8 +291,11 @@ public class ARMListener implements Listener {
                         if(preset.hasPrice() && preset.hasExtend()) {
                             price = new ContractPrice(preset.getPrice(), preset.getExtend());
                             priceready = true;
+                        } else if (preset.hasAutoPrice()) {
+                            price = new ContractPrice(preset.getAutoPrice());
+                            priceready = true;
                         } else {
-                            throw new InputException(sign.getPlayer(), ChatColor.RED + "Your preset needs to have an option at Price and Extend to take affect!");
+                            sign.getPlayer().sendMessage(ChatColor.RED + "Your preset needs to have an option at Price and Extend or AutoPrice to take affect!");
                         }
                     }
                 }

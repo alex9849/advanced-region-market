@@ -802,9 +802,9 @@ public class AdvancedRegionMarket extends JavaPlugin {
             pluginConfig.set("SubregionRegionKind.Lore", subregionRegionKindLore);
             pluginConfig.set("SubregionRegionKind.DisplayInLimits", true);
             pluginConfig.set("SubregionRegionKind.DisplayInGUI", false);
+            pluginConfig.set("SubregionRegionKind.PaypackPercentage", 0);
             pluginConfig.set("Subregions.AllowSubRegionUserReset", false);
             pluginConfig.set("Subregions.SubregionBlockReset", false);
-            pluginConfig.set("Subregions.SubregionPaypackPercentage", 0);
             pluginConfig.set("Subregions.SubregionAutoReset", true);
             pluginConfig.set("Subregions.deleteSubregionsOnParentRegionUnsell", false);
             pluginConfig.set("Subregions.deleteSubregionsOnParentRegionBlockReset", false);

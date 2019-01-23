@@ -982,7 +982,7 @@ public class Messages {
         config.addDefault("Messages.RegionBuyOutOfLimit", "&4Out of Limit! You have &7%playerownedkind%/%limitkind% &4%regionkind%-regions and &7%playerownedtotal%/%limittotal% &4Regions total!");
         config.addDefault("Messages.Unlimited", "Unlimited");
         config.addDefault("Messages.AutopriceList", "&6=========[Autoprices]=========");
-        config.addDefault("Messages.SubregionHelpHeadline", "&6=====[AdvancedRegionMarket Subregion Help ]=====\n&3Page %actualpage% / %maxpage%");
+        config.addDefault("Messages.SubregionHelpHeadline", "&6=====[AdvancedRegionMarket Subregion Help]=====\n&3Page %actualpage% / %maxpage%");
 
 
         config.addDefault("Messages.LimitInfoTop", "&6=========[Limit Info]=========");

@@ -10,3 +10,4 @@ commands:
       description: Shows the help page of ARM
       usage: /arm help
       permission-message: You don't have <permission>
+      aliases: [regionmarket]

@@ -372,11 +372,7 @@ public class Gui implements Listener {
         }
         if(player.hasPermission(Permission.SUBREGION_RESETREGIONBLOCKS) && region.isUserResettable()) {
             //TODO change item and message
-            List<String> sendmsg = Messages.UNSELL_REGION_BUTTON_LORE;
-            for(int i = 0; i < sendmsg.size(); i++) {
-                sendmsg.set(i, region.getConvertedMessage(sendmsg.get(i)));
-            }
-            ClickItem resetItem = new ClickItem(new ItemStack(Gui.RESET_ITEM), Messages.GUI_RESET_REGION_BUTTON, sendmsg);
+            ClickItem resetItem = new ClickItem(new ItemStack(Gui.RESET_ITEM), Messages.GUI_RESET_REGION_BUTTON);
             resetItem = resetItem.addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
@@ -399,8 +395,11 @@ public class Gui implements Listener {
             actitem++;
         }
         if(player.hasPermission(Permission.SUBREGION_UNSELL)) {
-            //TODO change item and message
-            ClickItem unsellItem = new ClickItem(new ItemStack(Gui.UNSELL_ITEM), Messages.UNSELL_REGION_BUTTON);
+            List<String> sendmsg = Messages.UNSELL_REGION_BUTTON_LORE;
+            for(int i = 0; i < sendmsg.size(); i++) {
+                sendmsg.set(i, region.getConvertedMessage(sendmsg.get(i)));
+            }
+            ClickItem unsellItem = new ClickItem(new ItemStack(Gui.UNSELL_ITEM), Messages.UNSELL_REGION_BUTTON, sendmsg);
             unsellItem = unsellItem.addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {

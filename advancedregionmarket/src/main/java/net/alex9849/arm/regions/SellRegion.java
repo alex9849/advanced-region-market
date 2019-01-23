@@ -146,6 +146,11 @@ public class SellRegion extends Region {
     }
 
     @Override
+    public double getPricePerM3PerWeek() {
+        return this.getPricePerM2();
+    }
+
+    @Override
     protected String getSellType() {
         return Messages.SELLREGION_NAME;
     }

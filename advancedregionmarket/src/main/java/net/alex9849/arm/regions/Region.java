@@ -609,16 +609,24 @@ public abstract class Region {
 
     public abstract double getPricePerM2PerWeek();
 
+    public abstract double getPricePerM3PerWeek();
+
     public double getPricePerM2() {
         int m2 = this.getRegion().getVolume() / ((this.getRegion().getMaxPoint().getBlockY() - this.getRegion().getMinPoint().getBlockY()) + 1);
         return this.price.calcPrice(this.getRegion()) / m2;
     }
 
-    public double getRoundedPricePerM2() {
+    public double getPricePerM3() {
         double pricePerM2 = this.getPricePerM2();
-        pricePerM2 = pricePerM2 * 100;
-        pricePerM2 = (int) pricePerM2;
-        return pricePerM2 / 100;
+        double hight = ((this.getRegion().getMaxPoint().getBlockY() - this.getRegion().getMinPoint().getBlockY()) + 1);
+        return pricePerM2 / hight;
+    }
+
+    public double roundNumber(double number) {
+        double rounded = number;
+        rounded = rounded * 100;
+        rounded = (int) rounded;
+        return rounded / 100;
     }
 
     private String getHotelFunctionStringStatus() {
@@ -648,7 +656,8 @@ public abstract class Region {
         message = message.replace("%region%", this.getRegion().getId());
         message = message.replace("%price%", this.getPrice() + "");
         message = message.replace("%dimensions%", this.getDimensions());
-        message = message.replace("%priceperm2%", this.getRoundedPricePerM2() + "");
+        message = message.replace("%priceperm2%", this.roundNumber(this.getPricePerM2()) + "");
+        message = message.replace("%priceperm3%", this.roundNumber(this.getPricePerM3()) + "");
         message = message.replace("%remainingdays%", (Region.getResetCooldown() - this.timeSinceLastReset()) + "");
         message = message.replace("%paybackmoney%", this.getPaybackMoney() + "");
         message = message.replace("%currency%", Messages.CURRENCY);

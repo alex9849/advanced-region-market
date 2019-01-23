@@ -395,10 +395,16 @@ public class ContractRegion extends Region {
         }
         double pricePerM2 = this.getPricePerM2();
         double msPerWeek = 1000 * 60 * 60 * 24 * 7;
-        double pricePerM2PerWeek = (msPerWeek / this.getExtendTime()) * pricePerM2;
-        pricePerM2PerWeek = (int)(pricePerM2PerWeek * 100);
-        pricePerM2PerWeek = pricePerM2PerWeek / 100;
-        return pricePerM2PerWeek;
+        return  (msPerWeek / this.getExtendTime()) * pricePerM2;
+    }
+
+    public double getPricePerM3PerWeek() {
+        if(this.getExtendTime() == 0) {
+            return Integer.MAX_VALUE;
+        }
+        double pricePerM2 = this.getPricePerM3();
+        double msPerWeek = 1000 * 60 * 60 * 24 * 7;
+        return  (msPerWeek / this.getExtendTime()) * pricePerM2;
     }
 
     @Override
@@ -413,7 +419,8 @@ public class ContractRegion extends Region {
         message = super.getConvertedMessage(message);
         message = message.replace("%extend%", this.getExtendTimeString());
         message = message.replace("%remaining%", this.calcRemainingTime());
-        message = message.replace("%priceperm2perweek%", this.getPricePerM2PerWeek() + "");
+        message = message.replace("%priceperm2perweek%", this.roundNumber(this.getPricePerM2PerWeek()) + "");
+        message = message.replace("%priceperm3perweek%", this.roundNumber(this.getPricePerM3PerWeek()) + "");
         return message;
     }
 }

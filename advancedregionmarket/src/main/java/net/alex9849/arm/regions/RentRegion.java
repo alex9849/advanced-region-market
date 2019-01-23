@@ -448,11 +448,19 @@ public class RentRegion extends Region {
         }
         double pricePerM2 = this.getPricePerM2();
         double msPerWeek = 1000 * 60 * 60 * 24 * 7;
-        double pricePerM2PerWeek = (msPerWeek / this.getRentExtendPerClick()) * pricePerM2;
-        pricePerM2PerWeek = (int)(pricePerM2PerWeek * 100);
-        pricePerM2PerWeek = pricePerM2PerWeek / 100;
-        return pricePerM2PerWeek;
+        return (msPerWeek / this.getRentExtendPerClick()) * pricePerM2;
     }
+
+    public double getPricePerM3PerWeek() {
+        if(this.getRentExtendPerClick() == 0) {
+            return Integer.MAX_VALUE;
+        }
+        double pricePerM2 = this.getPricePerM3();
+        double msPerWeek = 1000 * 60 * 60 * 24 * 7;
+        return (msPerWeek / this.getRentExtendPerClick()) * pricePerM2;
+    }
+
+
 
     @Override
     protected String getSellType() {
@@ -477,7 +485,8 @@ public class RentRegion extends Region {
         message = message.replace("%maxrenttime%", this.getMaxRentTimeString());
         message = message.replace("%remaining%", this.calcRemainingTime());
         message = message.replace("%extendperclick%", this.getExtendPerClick());
-        message = message.replace("%priceperm2perweek%", this.getPricePerM2PerWeek() + "");
+        message = message.replace("%priceperm2perweek%", this.roundNumber(this.getPricePerM2PerWeek()) + "");
+        message = message.replace("%priceperm3perweek%", this.roundNumber(this.getPricePerM3PerWeek()) + "");
         return message;
     }
 

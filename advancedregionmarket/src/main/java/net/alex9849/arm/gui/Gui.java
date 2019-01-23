@@ -60,7 +60,7 @@ public class Gui implements Listener {
         if(config.getBoolean("GUI.DisplayRegionMemberButton")){
             itemcounter++;
         }
-        if(config.getBoolean("GUI.DisplayRegionFinderButton")){
+        if(config.getBoolean("GUI.DisplayRegionFinderButton") && player.hasPermission(Permission.MEMBER_REGIONFINDER)){
             itemcounter++;
         }
 
@@ -92,7 +92,7 @@ public class Gui implements Listener {
                 Gui.openRegionMemberGui(player, false);
             }
         }
-        if(config.getBoolean("GUI.DisplayRegionFinderButton")){
+        if(config.getBoolean("GUI.DisplayRegionFinderButton") && player.hasPermission(Permission.MEMBER_REGIONFINDER)){
             ClickItem regionfinder = new ClickItem(new ItemStack(Gui.REGION_FINDER_ITEM), Messages.GUI_SEARCH_FREE_REGION).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) {

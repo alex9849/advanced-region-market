@@ -14,8 +14,8 @@ public class ContractPreset extends Preset {
     private boolean hasExtend = false;
     private long extend = 0;
 
-    public ContractPreset(String name, boolean hasPrice, double price, RegionKind regionKind, boolean autoReset, boolean isHotel, boolean doBlockReset, boolean hasExtend, long extend, boolean isUserResettable, int allowedSubregions, boolean hasAutoPrice, AutoPrice autoPrice, List<String> setupCommands){
-        super(name, hasPrice, price, regionKind, autoReset, isHotel, doBlockReset, isUserResettable, allowedSubregions, hasAutoPrice, autoPrice, setupCommands);
+    public ContractPreset(String name, boolean hasPrice, double price, RegionKind regionKind, boolean autoReset, boolean isHotel, boolean doBlockReset, boolean hasExtend, long extend, boolean isUserResettable, int allowedSubregions, AutoPrice autoPrice, List<String> setupCommands){
+        super(name, hasPrice, price, regionKind, autoReset, isHotel, doBlockReset, isUserResettable, allowedSubregions, autoPrice, setupCommands);
         this.hasExtend = hasExtend;
         this.extend = extend;
     }
@@ -25,7 +25,7 @@ public class ContractPreset extends Preset {
         for(String cmd : setupCommands) {
             newsetupCommands.add(cmd);
         }
-        return new ContractPreset(this.name, this.hasPrice, this.price, this.regionKind, this.autoReset, this.isHotel, this.doBlockReset, this.hasExtend, this.extend, this.isUserResettable, this.allowedSubregions, this.hasAutoPrice, this.autoPrice, newsetupCommands);
+        return new ContractPreset(this.name, this.hasPrice, this.price, this.regionKind, this.autoReset, this.isHotel, this.doBlockReset, this.hasExtend, this.extend, this.isUserResettable, this.allowedSubregions, this.autoPrice, newsetupCommands);
     }
 
     public boolean hasExtend() {
@@ -44,6 +44,7 @@ public class ContractPreset extends Preset {
     public void setExtend(String string) {
         this.hasExtend = true;
         this.extend = RentRegion.stringToTime(string);
+        this.removeAutoPrice();
     }
 
     public void setExtend(long time) {

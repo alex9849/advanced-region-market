@@ -10,8 +10,8 @@ import java.util.List;
 
 public class SellPreset extends Preset{
 
-    public SellPreset(String name, boolean hasPrice, double price, RegionKind regionKind, boolean autoReset, boolean isHotel, boolean doBlockReset, boolean isUserResettable, int allowedSubregions, boolean hasAutoPrice, AutoPrice autoPrice, List<String> setupCommands){
-        super(name, hasPrice, price, regionKind, autoReset, isHotel, doBlockReset, isUserResettable, allowedSubregions, hasAutoPrice, autoPrice, setupCommands);
+    public SellPreset(String name, boolean hasPrice, double price, RegionKind regionKind, boolean autoReset, boolean isHotel, boolean doBlockReset, boolean isUserResettable, int allowedSubregions, AutoPrice autoPrice, List<String> setupCommands){
+        super(name, hasPrice, price, regionKind, autoReset, isHotel, doBlockReset, isUserResettable, allowedSubregions, autoPrice, setupCommands);
     }
 
     @Override
@@ -28,7 +28,7 @@ public class SellPreset extends Preset{
         for(String cmd : setupCommands) {
             newsetupCommands.add(cmd);
         }
-        return new SellPreset(this.name, this.hasPrice, this.price, this.regionKind, this.autoReset, this.isHotel, this.doBlockReset, this.isUserResettable, this.allowedSubregions, this.hasAutoPrice, this.autoPrice, newsetupCommands);
+        return new SellPreset(this.name, this.hasPrice, this.price, this.regionKind, this.autoReset, this.isHotel, this.doBlockReset, this.isUserResettable, this.allowedSubregions, this.autoPrice, newsetupCommands);
     }
 
     @Override

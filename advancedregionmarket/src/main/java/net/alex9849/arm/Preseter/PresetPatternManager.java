@@ -76,8 +76,7 @@ public class PresetPatternManager {
         presetConfig.set(preset.getPresetType().getName() + "." + preset.getName() + ".isHotel", preset.isHotel());
         presetConfig.set(preset.getPresetType().getName() + "." + preset.getName() + ".doBlockReset", preset.isDoBlockReset());
         presetConfig.set(preset.getPresetType().getName() + "." + preset.getName() + ".autoreset", preset.isAutoReset());
-        presetConfig.set(preset.getPresetType().getName() + "." + preset.getName() + ".hasAutoPrice", preset.hasAutoPrice());
-        if(preset.getAutoPrice() != null) {
+        if(preset.hasAutoPrice()) {
             presetConfig.set(preset.getPresetType().getName() + "." + preset.getName() + ".autoPrice", preset.getAutoPrice().getName());
         } else {
             presetConfig.set(preset.getPresetType().getName() + "." + preset.getName() + ".autoPrice", null);
@@ -144,7 +143,6 @@ public class PresetPatternManager {
         boolean autoreset = section.getBoolean("autoreset");
         boolean isUserResettable = section.getBoolean("isUserResettable");
         int allowedSubregions = section.getInt("allowedSubregions");
-        boolean hasAutoPrice = section.getBoolean("hasAutoPrice");
         String autoPriceString = section.getString("autoPrice");
         AutoPrice autoPrice = null;
 
@@ -154,7 +152,7 @@ public class PresetPatternManager {
             regionKind = RegionKind.DEFAULT;
         }
         if(presetType == PresetType.SELLPRESET) {
-            if(hasAutoPrice) {
+            if(autoPriceString != null) {
                 autoPrice = AutoPrice.getAutoprice(autoPriceString);
                 if(autoPrice == null) {
                     autoPrice = AutoPrice.DEFAULT;
@@ -162,14 +160,14 @@ public class PresetPatternManager {
                 hasprice = false;
                 price = 0;
             }
-            return new SellPreset(name, hasprice, price, regionKind, isHotel, doBlockReset, autoreset, isUserResettable, allowedSubregions, hasAutoPrice, autoPrice, setupcommands);
+            return new SellPreset(name, hasprice, price, regionKind, isHotel, doBlockReset, autoreset, isUserResettable, allowedSubregions, autoPrice, setupcommands);
         }
         if(presetType == PresetType.RENTPRESET) {
             boolean hasMaxRentTime = section.getBoolean("hasMaxRentTime");
             long maxRentTime = section.getLong("maxRentTime");
             boolean hasExtendPerClick = section.getBoolean("hasExtendPerClick");
             long extendPerClick = section.getLong("extendPerClick");
-            if(hasAutoPrice) {
+            if(autoPriceString != null) {
                 autoPrice = AutoPrice.getAutoprice(section.getString("autoPrice"));
                 if(autoPrice == null) {
                     autoPrice = AutoPrice.DEFAULT;
@@ -181,12 +179,12 @@ public class PresetPatternManager {
                 maxRentTime = 0;
                 extendPerClick = 0;
             }
-            return new RentPreset(name, hasprice, price, regionKind, isHotel, doBlockReset, autoreset, hasMaxRentTime, maxRentTime, hasExtendPerClick, extendPerClick, isUserResettable, allowedSubregions, hasAutoPrice, autoPrice, setupcommands);
+            return new RentPreset(name, hasprice, price, regionKind, isHotel, doBlockReset, autoreset, hasMaxRentTime, maxRentTime, hasExtendPerClick, extendPerClick, isUserResettable, allowedSubregions, autoPrice, setupcommands);
         }
         if(presetType == PresetType.CONTRACTPRESET) {
             boolean hasExtend = section.getBoolean("hasExtend");
             long extendTime = section.getLong("extendTime");
-            if(hasAutoPrice) {
+            if(autoPriceString != null) {
                 autoPrice = AutoPrice.getAutoprice(section.getString("autoPrice"));
                 if(autoPrice == null) {
                     autoPrice = AutoPrice.DEFAULT;
@@ -196,7 +194,7 @@ public class PresetPatternManager {
                 hasExtend = false;
                 extendTime = 0;
             }
-            return new ContractPreset(name, hasprice, price, regionKind, isHotel, doBlockReset, autoreset, hasExtend, extendTime, isUserResettable, allowedSubregions, hasAutoPrice, autoPrice, setupcommands);
+            return new ContractPreset(name, hasprice, price, regionKind, isHotel, doBlockReset, autoreset, hasExtend, extendTime, isUserResettable, allowedSubregions, autoPrice, setupcommands);
         }
         return null;
     }
@@ -204,7 +202,6 @@ public class PresetPatternManager {
     private static void updateDefaults(ConfigurationSection section, PresetType presetType) {
         section.addDefault("hasPrice", false);
         section.addDefault("price", 0);
-        section.addDefault("hasAutoPrice", false);
         section.addDefault("autoPrice", null);
         section.addDefault("regionKind", "Default");
         section.addDefault("isHotel", false);

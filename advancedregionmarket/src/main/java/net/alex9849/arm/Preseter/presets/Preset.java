@@ -20,11 +20,10 @@ public abstract class Preset {
     protected boolean doBlockReset = true;
     protected boolean isUserResettable = true;
     protected int allowedSubregions = 0;
-    protected boolean hasAutoPrice = false;
     protected AutoPrice autoPrice;
     protected List<String> setupCommands = new ArrayList<>();
 
-    public Preset(String name, boolean hasPrice, double price, RegionKind regionKind, boolean autoReset, boolean isHotel, boolean doBlockReset, boolean isUserResettable, int allowedSubregions, boolean hasAutoPrice, AutoPrice autoPrice, List<String> setupCommands){
+    public Preset(String name, boolean hasPrice, double price, RegionKind regionKind, boolean autoReset, boolean isHotel, boolean doBlockReset, boolean isUserResettable, int allowedSubregions, AutoPrice autoPrice, List<String> setupCommands){
         this.name = name;
         this.hasPrice = hasPrice;
         this.price = price;
@@ -35,7 +34,6 @@ public abstract class Preset {
         this.isUserResettable = isUserResettable;
         this.allowedSubregions = allowedSubregions;
         this.setupCommands = setupCommands;
-        this.hasAutoPrice = hasAutoPrice;
         this.autoPrice = autoPrice;
     }
 
@@ -97,18 +95,16 @@ public abstract class Preset {
     }
 
     public void removeAutoPrice() {
-        this.hasAutoPrice = false;
         this.autoPrice = null;
     }
 
     public void setAutoPrice(AutoPrice autoPrice) {
-        this.hasAutoPrice = true;
         this.autoPrice = autoPrice;
         this.removePrice();
     }
 
     public boolean hasAutoPrice() {
-        return this.hasAutoPrice;
+        return this.autoPrice != null;
     }
 
     public AutoPrice getAutoPrice() {

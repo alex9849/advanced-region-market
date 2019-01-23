@@ -17,8 +17,8 @@ public class RentPreset extends Preset {
     private long extendPerClick = 0;
 
     public RentPreset(String name, boolean hasPrice, double price, RegionKind regionKind, boolean autoReset, boolean isHotel, boolean doBlockReset, boolean hasMaxRentTime,
-                      long maxRentTime, boolean hasExtendPerClick, long extendPerClick, boolean isUserResettable, int allowedSubregions, boolean hasAutoPrice, AutoPrice autoPrice, List<String> setupCommands){
-        super(name, hasPrice, price, regionKind, autoReset, isHotel, doBlockReset, isUserResettable, allowedSubregions, hasAutoPrice, autoPrice, setupCommands);
+                      long maxRentTime, boolean hasExtendPerClick, long extendPerClick, boolean isUserResettable, int allowedSubregions, AutoPrice autoPrice, List<String> setupCommands){
+        super(name, hasPrice, price, regionKind, autoReset, isHotel, doBlockReset, isUserResettable, allowedSubregions, autoPrice, setupCommands);
         this.hasMaxRentTime = hasMaxRentTime;
         this.maxRentTime = maxRentTime;
         this.hasExtendPerClick = hasExtendPerClick;
@@ -30,7 +30,7 @@ public class RentPreset extends Preset {
         for(String cmd : setupCommands) {
             newsetupCommands.add(cmd);
         }
-        return new RentPreset(this.name, this.hasPrice, this.price, this.regionKind, this.autoReset, this.isHotel, this.doBlockReset, this.hasMaxRentTime, this.maxRentTime, this.hasExtendPerClick, this.extendPerClick, this.isUserResettable, this.allowedSubregions, this.hasAutoPrice, this.autoPrice, newsetupCommands);
+        return new RentPreset(this.name, this.hasPrice, this.price, this.regionKind, this.autoReset, this.isHotel, this.doBlockReset, this.hasMaxRentTime, this.maxRentTime, this.hasExtendPerClick, this.extendPerClick, this.isUserResettable, this.allowedSubregions, this.autoPrice, newsetupCommands);
     }
 
     public boolean hasExtendPerClick() {
@@ -60,6 +60,7 @@ public class RentPreset extends Preset {
     public void setExtendPerClick(String string) {
         this.hasExtendPerClick = true;
         this.extendPerClick = RentRegion.stringToTime(string);
+        this.removeAutoPrice();
     }
 
     public void setExtendPerClick(long time) {

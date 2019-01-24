@@ -858,7 +858,7 @@ public class Messages {
         config.addDefault("Messages.UserNotAMemberOrOwner", "&4You are not a member or owner of this region!");
         config.addDefault("Messages.SelectedPlayerIsNotOnline", "&4The selected player is not online");
         config.addDefault("Messages.BadSyntax", "&7Bad syntax! Please use: &8%command%");
-        config.addDefault("Messages.BadSyntaxSplitter", "&7or &8%command%");
+        config.addDefault("Messages.BadSyntaxSplitter", "\n&7or &8%command%");
 
         config.addDefault("Messages.RentExtendMessage", "&aRegion extended for &6%extendperclick%&a (For %price% %currency%. New remaining time: &6%remaining%");
         config.addDefault("Messages.Buymessage", "&aRegion successfully bought!");

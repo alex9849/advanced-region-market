@@ -5,7 +5,9 @@ import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regions.Region;
+import net.alex9849.arm.regions.RegionKind;
 import net.alex9849.arm.regions.RegionManager;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -18,11 +20,12 @@ public class HotelCommand extends BasicArmCommand {
 
     private final String rootCommand = "hotel";
     private final String regex = "(?i)hotel [^;\n ]+ (false|true)";
-    private final List<String> usage = new ArrayList<>(Arrays.asList("hotel [REGION] [true/false]"));
+    private final String regex_massaction = "(?i)hotel rk:[^;\n ]+ (false|true)";
+    private final List<String> usage = new ArrayList<>(Arrays.asList("hotel [REGION] [true/false]", "hotel rk:[REGIONKIND] [true/false]"));
 
     @Override
     public boolean matchesRegex(String command) {
-        return command.matches(this.regex);
+        return command.matches(this.regex) || command.matches(this.regex_massaction);
     }
 
     @Override
@@ -44,16 +47,37 @@ public class HotelCommand extends BasicArmCommand {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Player player = (Player) sender;
-        Region region = RegionManager.getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
-        if(region == null) {
-            throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
+
+        List<Region> regions = new ArrayList<>();
+        String selectedName;
+
+        if(allargs.matches(regex_massaction) && (RegionManager.getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName()) == null)) {
+            String[] splittedRegionKindArg = args[1].split(":", 2);
+
+            RegionKind selectedRegionkind = RegionKind.getRegionKind(splittedRegionKindArg[1]);
+            if(selectedRegionkind == null) {
+                throw new InputException(sender, Messages.REGIONKIND_DOES_NOT_EXIST);
+            }
+            regions = RegionManager.getRegionsByRegionKind(selectedRegionkind);
+            selectedName = "&6all regions with regionkind &a" + selectedRegionkind.getName();
+        } else {
+            Region selectedRegion = RegionManager.getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
+            if(selectedRegion == null){
+                throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
+            }
+
+            regions.add(selectedRegion);
+            selectedName = "&a" + selectedRegion.getRegion().getId();
         }
-        region.setHotel(Boolean.parseBoolean(args[2]));
-        String state = "disabled";
-        if(Boolean.parseBoolean(args[2])){
-            state = "enabled";
+
+        Boolean boolsetting = Boolean.parseBoolean(args[2]);
+
+        for(Region region : regions) {
+            region.setHotel(boolsetting);
         }
-        player.sendMessage(Messages.PREFIX + "isHotel " + state + " for " + region.getRegion().getId());
+        String sendmessage = Messages.PREFIX + "&6isHotel " + Messages.convertEnabledDisabled(boolsetting) + " &6for " + selectedName + "&6!";
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', sendmessage));
+
         return true;
     }
 
@@ -67,7 +91,14 @@ public class HotelCommand extends BasicArmCommand {
                     if(args.length == 1) {
                         returnme.add(this.rootCommand);
                     } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                        returnme.addAll(RegionManager.completeTabRegions(player, args[1], PlayerRegionRelationship.ALL,true, true));
+                        returnme.addAll(RegionManager.completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true,true));
+                        if("rk:".startsWith(args[1])) {
+                            returnme.add("rk:");
+                        }
+                        if (args[1].matches("rk:([^;\n]+)?")) {
+                            returnme.addAll(RegionKind.completeTabRegionKinds(args[1], "rk:"));
+                        }
+
                     } else if(args.length == 3 && (args[0].equalsIgnoreCase(this.rootCommand))) {
                         if("true".startsWith(args[2])) {
                             returnme.add("true");

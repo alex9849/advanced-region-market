@@ -16,6 +16,8 @@ import net.alex9849.inter.WorldEditInterface;
 import net.alex9849.inter.WorldGuardInterface;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.*;
+import net.alex9849.arm.Preseter.ActivePresetManager;
+import net.alex9849.arm.Preseter.PresetPatternManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -135,6 +137,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         commands.add(new SellBackCommand());
         commands.add(new SubRegionCommand());
         commands.add(new SetSubregionLimit());
+        commands.add(new SetPriceCommand());
         commands.add(new SetIsUserResettableCommand());
         commands.add(new ListAutoPricesCommand());
         AdvancedRegionMarket.commandHandler.addCommands(commands);

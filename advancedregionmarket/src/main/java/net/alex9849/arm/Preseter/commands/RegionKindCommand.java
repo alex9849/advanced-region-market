@@ -89,7 +89,7 @@ public class RegionKindCommand extends BasicArmCommand {
                     }
                 }
                 if(args.length == 2 && this.rootCommand.equalsIgnoreCase(args[0])) {
-                    returnme.addAll(RegionKind.completeTabRegionKinds(args[1]));
+                    returnme.addAll(RegionKind.completeTabRegionKinds(args[1], ""));
                 }
             }
         }

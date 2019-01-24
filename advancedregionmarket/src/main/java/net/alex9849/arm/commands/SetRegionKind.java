@@ -75,7 +75,7 @@ public class SetRegionKind extends BasicArmCommand {
                     if (args.length == 1) {
                         returnme.add(this.rootCommand);
                     } else if (args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                        returnme.addAll(RegionKind.completeTabRegionKinds(args[1]));
+                        returnme.addAll(RegionKind.completeTabRegionKinds(args[1], ""));
                     } else if (args.length == 3 && (args[0].equalsIgnoreCase(this.rootCommand))) {
                         returnme.addAll(RegionManager.completeTabRegions(player, args[2], PlayerRegionRelationship.ALL, true,false));
                     }

@@ -8,6 +8,7 @@ import net.alex9849.arm.Group.LimitGroup;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import net.alex9849.arm.regions.price.ContractPrice;
+import net.alex9849.arm.regions.price.Price;
 import net.alex9849.inter.WGRegion;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -105,6 +106,9 @@ public class ContractRegion extends Region {
 
     @Override
     protected void updateSignText(Sign mysign) {
+        if((mysign.getWorld() == null) || (!mysign.getWorld().isChunkLoaded(mysign.getLocation().getBlockX() / 16, mysign.getLocation().getBlockZ() / 16))) {
+            return;
+        }
 
         if (this.sold) {
 
@@ -408,11 +412,6 @@ public class ContractRegion extends Region {
     }
 
     @Override
-    protected String getSellType() {
-        return Messages.CONTRACTREGION_NAME;
-    }
-
-    @Override
     public String getConvertedMessage(String message) {
         message = message.replace("%status%", this.getTerminationString());
         message = message.replace("%statuslong%", this.getTerminationStringLong());
@@ -422,5 +421,19 @@ public class ContractRegion extends Region {
         message = message.replace("%priceperm2perweek%", this.roundNumber(this.getPricePerM2PerWeek()) + "");
         message = message.replace("%priceperm3perweek%", this.roundNumber(this.getPricePerM3PerWeek()) + "");
         return message;
+    }
+
+    public SellType getSellType() {
+        return SellType.CONTRACT;
+    }
+
+    @Override
+    public void setPrice(Price price) {
+        this.price = price;
+        if(price instanceof ContractPrice) {
+            this.extendTime = ((ContractPrice) price).getExtendTime();
+        }
+        this.updateSigns();
+        RegionManager.saveRegion(this);
     }
 }

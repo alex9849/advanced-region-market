@@ -11,9 +11,11 @@ public class Diagram {
     public static boolean sendRegionStats(CommandSender sender) {
         sender.sendMessage(Messages.REGION_STATS);
         sendStatsForAllSellTypes(sender);
+        sendStatsByRegionKind(sender, RegionKind.DEFAULT);
         for(RegionKind regionKind : RegionKind.getRegionKindList()) {
             sendStatsByRegionKind(sender, regionKind);
         }
+        sendStatsByRegionKind(sender, RegionKind.SUBREGION);
         return true;
     }
 
@@ -36,49 +38,30 @@ public class Diagram {
     }
 
     private static void sendStatsForAllSellTypes(CommandSender sender) {
-        int sellregions = 0;
-        int soldsellregions = 0;
-        int rentregions = 0;
-        int soldrentregions = 0;
-        int contractregions = 0;
-        int soldcontractregions = 0;
 
-        for(Region region : RegionManager.getRegions()) {
-            if(region instanceof SellRegion) {
-                sellregions++;
-                if(region.isSold()) {
-                    soldsellregions++;
-                }
-            }
-            if(region instanceof RentRegion) {
-                rentregions++;
-                if(region.isSold()) {
-                    soldrentregions++;
-                }
-            }
-            if(region instanceof ContractRegion) {
-                contractregions++;
-                if(region.isSold()) {
-                    soldcontractregions++;
-                }
+        int allRegions = 0;
+        int allSoldRegions = 0;
+
+        for(Region region : RegionManager.getAllRegions()) {
+            allRegions++;
+            if (region.isSold()) {
+                allSoldRegions++;
             }
         }
+
         String regtypesting = Messages.REGION_STATS_PATTERN;
         sender.sendMessage(regtypesting.replace("%regionkind%", Messages.LIMIT_INFO_TOTAL));
-        sender.sendMessage(generateDiagramm(soldsellregions + soldrentregions + soldcontractregions, sellregions + rentregions + contractregions));
-        sender.sendMessage(regtypesting.replace("%regionkind%", Messages.SELL_REGION));
-        sender.sendMessage(generateDiagramm(soldsellregions, sellregions));
-        sender.sendMessage(regtypesting.replace("%regionkind%", Messages.RENT_REGION));
-        sender.sendMessage(generateDiagramm(soldrentregions, rentregions));
-        sender.sendMessage(regtypesting.replace("%regionkind%", Messages.CONTRACT_REGION));
-        sender.sendMessage(generateDiagramm(soldcontractregions, contractregions));
+        sender.sendMessage(generateDiagramm(allSoldRegions, allRegions));
+        sendStatsBySellType(sender, SellType.SELL);
+        sendStatsBySellType(sender, SellType.CONTRACT);
+        sendStatsBySellType(sender, SellType.RENT);
     }
 
     private static void sendStatsByRegionKind(CommandSender sender, RegionKind regionKind) {
         int regions = 0;
         int soldregions = 0;
 
-        for(Region region : RegionManager.getRegions()) {
+        for(Region region : RegionManager.getRegionsByRegionKind(regionKind)) {
             if(region.getRegionKind() == regionKind) {
                 regions++;
                 if(region.isSold()) {
@@ -94,46 +77,16 @@ public class Diagram {
     private static void sendStatsBySellType(CommandSender sender, SellType sellType) {
         int regions = 0;
         int soldregions = 0;
-        String selltypeName = "";
 
-        if(sellType == SellType.SELL) {
-            selltypeName = Messages.SELL_REGION;
-            for(Region region : RegionManager.getRegions()) {
-                if(region instanceof SellRegion) {
-                    regions++;
-                    if(region.isSold()) {
-                        soldregions++;
-                    }
-                }
-            }
-        }
-
-        if(sellType == SellType.RENT) {
-            selltypeName = Messages.RENT_REGION;
-            for(Region region : RegionManager.getRegions()) {
-                if(region instanceof RentRegion) {
-                    regions++;
-                    if(region.isSold()) {
-                        soldregions++;
-                    }
-                }
-            }
-        }
-
-        if(sellType == SellType.CONTRACT) {
-            selltypeName = Messages.CONTRACT_REGION;
-            for(Region region : RegionManager.getRegions()) {
-                if(region instanceof ContractRegion) {
-                    regions++;
-                    if(region.isSold()) {
-                        soldregions++;
-                    }
-                }
+        for(Region region : RegionManager.getRegionsBySelltype(sellType)) {
+            regions++;
+            if (region.isSold()) {
+                soldregions++;
             }
         }
 
         String regtypesting = Messages.REGION_STATS_PATTERN;
-        sender.sendMessage(regtypesting.replace("%regionkind%", selltypeName));
+        sender.sendMessage(regtypesting.replace("%regionkind%", sellType.getName()));
         sender.sendMessage(generateDiagramm(soldregions, regions));
     }
 

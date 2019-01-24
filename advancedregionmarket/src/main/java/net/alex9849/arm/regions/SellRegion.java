@@ -37,6 +37,10 @@ public class SellRegion extends Region {
 
     @Override
     protected void updateSignText(Sign mysign){
+        if((mysign.getWorld() == null) || (!mysign.getWorld().isChunkLoaded(mysign.getLocation().getBlockX() / 16, mysign.getLocation().getBlockZ() / 16))) {
+            return;
+        }
+
         if(this.sold){
 
             String line1 = this.getConvertedMessage(Messages.SOLD_SIGN1);
@@ -145,14 +149,18 @@ public class SellRegion extends Region {
         return this.getPricePerM2();
     }
 
+    public void setPrice(Price price) {
+        this.price = price;
+        this.updateSigns();
+        RegionManager.saveRegion(this);
+    }
+
     @Override
     public double getPricePerM3PerWeek() {
         return this.getPricePerM2();
     }
 
-    @Override
-    protected String getSellType() {
-        return Messages.SELLREGION_NAME;
+    public SellType getSellType() {
+        return SellType.SELL;
     }
-
 }

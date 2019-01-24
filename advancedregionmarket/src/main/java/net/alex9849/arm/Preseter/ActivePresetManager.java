@@ -43,6 +43,6 @@ public class ActivePresetManager {
     }
 
     public static void reset() {
-        presetPlayerPairList = new ArrayList<>();
+        ActivePresetManager.presetPlayerPairList = new ArrayList<>();
     }
 }

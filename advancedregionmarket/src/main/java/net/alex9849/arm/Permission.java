@@ -55,6 +55,7 @@ public class Permission {
     public static final String ADMIN_SET_SUBREGION_LIMIT = "arm.admin.setsubregionlimit";
     public static final String ADMIN_SET_IS_USERRESETTABLE = "arm.admin.setisuserresettable";
     public static final String ADMIN_LISTAUTOPRICES = "arm.admin.listautoprices";
+    public static final String ADMIN_SET_PRICE = "arm.admin.setprice";
 
 
     public static final String SUBREGION_TOOL = "arm.subregion.tool";

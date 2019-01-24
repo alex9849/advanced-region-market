@@ -7,6 +7,8 @@ import net.alex9849.arm.Group.LimitGroup;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
+import net.alex9849.arm.regions.price.ContractPrice;
+import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.regions.price.RentPrice;
 import net.alex9849.inter.WGRegion;
 import org.bukkit.Bukkit;
@@ -40,6 +42,9 @@ public class RentRegion extends Region {
 
     @Override
     protected void updateSignText(Sign mysign){
+        if((mysign.getWorld() == null) || (!mysign.getWorld().isChunkLoaded(mysign.getLocation().getBlockX() / 16, mysign.getLocation().getBlockZ() / 16))) {
+            return;
+        }
 
         if (this.sold){
 
@@ -460,13 +465,6 @@ public class RentRegion extends Region {
         return (msPerWeek / this.getRentExtendPerClick()) * pricePerM2;
     }
 
-
-
-    @Override
-    protected String getSellType() {
-        return Messages.RENTREGION_NAME;
-    }
-
     public static void setExpirationWarningTime(long time) {
         RentRegion.expirationWarningTime = time;
     }
@@ -477,6 +475,20 @@ public class RentRegion extends Region {
 
     public static Boolean isSendExpirationWarning(){
         return RentRegion.sendExpirationWarning;
+    }
+
+    public void setPrice(Price price) {
+        this.price = price;
+
+        if(price instanceof ContractPrice) {
+            this.rentExtendPerClick = ((ContractPrice) price).getExtendTime();
+        }
+
+        if(price instanceof RentPrice) {
+            this.maxRentTime = ((RentPrice) price).getMaxRentTime();
+        }
+        this.updateSigns();
+        RegionManager.saveRegion(this);
     }
 
     @Override
@@ -494,4 +506,7 @@ public class RentRegion extends Region {
         return this.maxRentTime;
     }
 
+    public SellType getSellType() {
+        return SellType.RENT;
+    }
 }

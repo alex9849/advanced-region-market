@@ -629,14 +629,6 @@ public abstract class Region {
         return rounded / 100;
     }
 
-    private String getHotelFunctionStringStatus() {
-        if(this.isHotel()) {
-            return Messages.ENABLED;
-        } else {
-            return Messages.DISABLED;
-        }
-    }
-
     private String getSoldStringStatus() {
         if(this.isSold()) {
             return Messages.SOLD;
@@ -645,16 +637,18 @@ public abstract class Region {
         }
     }
 
-    protected abstract String getSellType();
-
     public Price getPriceObject() {
         return this.price;
     }
 
+    public abstract SellType getSellType();
+
+    public abstract void setPrice(Price price);
+
     public String getConvertedMessage(String message) {
         message = message.replace("%regionid%", this.getRegion().getId());
         message = message.replace("%region%", this.getRegion().getId());
-        message = message.replace("%price%", this.getPrice() + "");
+        message = message.replace("%price%", this.roundNumber(this.getPrice()) + "");
         message = message.replace("%dimensions%", this.getDimensions());
         message = message.replace("%priceperm2%", this.roundNumber(this.getPricePerM2()) + "");
         message = message.replace("%priceperm3%", this.roundNumber(this.getPricePerM3()) + "");
@@ -664,9 +658,9 @@ public abstract class Region {
         message = message.replace("%owner%", this.getOwnerName());
         message = message.replace("%world%", this.getRegionworld().getName());
         message = message.replace("%subregionlimit%", this.getAllowedSubregions() + "");
-        message = message.replace("%hotelfunctionstatus%", this.getHotelFunctionStringStatus());
+        message = message.replace("%hotelfunctionstatus%", Messages.convertEnabledDisabled(this.isHotel));
         message = message.replace("%soldstatus%", this.getSoldStringStatus());
-        message = message.replace("%selltype%", this.getSellType());
+        message = message.replace("%selltype%", this.getSellType().getName());
         return message;
     }
 }

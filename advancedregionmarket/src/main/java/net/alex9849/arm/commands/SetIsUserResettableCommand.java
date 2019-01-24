@@ -5,7 +5,9 @@ import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regions.Region;
+import net.alex9849.arm.regions.RegionKind;
 import net.alex9849.arm.regions.RegionManager;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -17,7 +19,8 @@ import java.util.List;
 public class SetIsUserResettableCommand extends BasicArmCommand {
     private final String rootCommand = "setisuserresettable";
     private final String regex = "(?i)setisuserresettable [^;\n ]+ (false|true)";
-    private final List<String> usage = new ArrayList<>(Arrays.asList("setisuserresettable [REGION] [true/false]"));
+    private final String regex_massaction = "(?i)setisuserresettable rk:[^;\n ]+ (false|true)";
+    private final List<String> usage = new ArrayList<>(Arrays.asList("setisuserresettable [REGION] [true/false]", "setisuserresettable rk:[REGIONKIND] [true/false]"));
 
     @Override
     public boolean matchesRegex(String command) {
@@ -43,25 +46,43 @@ public class SetIsUserResettableCommand extends BasicArmCommand {
         if(!player.hasPermission(Permission.ADMIN_SET_IS_USERRESETTABLE)) {
             throw new InputException(player, Messages.NO_PERMISSION);
         }
-        Region region = RegionManager.getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
-        if(region == null){
-            throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
-        }
 
-        if(region.isSubregion()) {
-            throw new InputException(sender, Messages.SUB_REGION_IS_USER_RESETTABLE_ERROR);
+        List<Region> regions = new ArrayList<>();
+        String selectedName;
+
+        if(allargs.matches(regex_massaction) && (RegionManager.getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName()) == null)) {
+            String[] splittedRegionKindArg = args[1].split(":", 2);
+
+            RegionKind selectedRegionkind = RegionKind.getRegionKind(splittedRegionKindArg[1]);
+            if(selectedRegionkind == null) {
+                throw new InputException(sender, Messages.REGIONKIND_DOES_NOT_EXIST);
+            }
+            if(selectedRegionkind == RegionKind.SUBREGION) {
+                throw new InputException(sender, Messages.SUB_REGION_IS_USER_RESETTABLE_ERROR);
+            }
+            regions = RegionManager.getRegionsByRegionKind(selectedRegionkind);
+            selectedName = "&6all regions with regionkind &a" + selectedRegionkind.getName();
+        } else {
+            Region selectedRegion = RegionManager.getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
+            if(selectedRegion == null){
+                throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
+            }
+
+            if(selectedRegion.isSubregion()) {
+                throw new InputException(sender, Messages.SUB_REGION_IS_USER_RESETTABLE_ERROR);
+            }
+            regions.add(selectedRegion);
+            selectedName = "&a" + selectedRegion.getRegion().getId();
         }
 
         Boolean boolsetting = Boolean.parseBoolean(args[2]);
-        region.setIsUserResettable(boolsetting);
 
-        String message = "disabled";
-
-        if(boolsetting){
-            message = "enabled";
+        for(Region region : regions) {
+            region.setIsUserResettable(boolsetting);
         }
+        String sendmessage = Messages.PREFIX + "&6isUserResettable " + Messages.convertEnabledDisabled(boolsetting) + " &6for " + selectedName + "&6!";
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', sendmessage));
 
-        sender.sendMessage(Messages.PREFIX + "isUserResettable " + message + " for " + region.getRegion().getId() + "!");
         return true;
     }
 
@@ -76,6 +97,13 @@ public class SetIsUserResettableCommand extends BasicArmCommand {
                         returnme.add(this.rootCommand);
                     } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
                         returnme.addAll(RegionManager.completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true,false));
+                        if("rk:".startsWith(args[1])) {
+                            returnme.add("rk:");
+                        }
+                        if (args[1].matches("rk:([^;\n]+)?")) {
+                            returnme.addAll(RegionKind.completeTabRegionKinds(args[1], "rk:"));
+                        }
+
                     } else if(args.length == 3 && (args[0].equalsIgnoreCase(this.rootCommand))) {
                         if("true".startsWith(args[2])) {
                             returnme.add("true");

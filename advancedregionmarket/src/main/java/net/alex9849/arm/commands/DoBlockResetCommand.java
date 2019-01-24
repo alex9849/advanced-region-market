@@ -20,8 +20,8 @@ public class DoBlockResetCommand extends BasicArmCommand {
 
     private final String rootCommand = "doblockreset";
     private final String regex = "(?i)doblockreset [^;\n ]+ (false|true)";
-    private final String regex_massaction = "(?i)doblockreset re:[^;\n ]+ (false|true)";
-    private final List<String> usage = new ArrayList<>(Arrays.asList("doblockreset [REGION] [true/false]", "doblockreset re:[REGIONKIND] [true/false]"));
+    private final String regex_massaction = "(?i)doblockreset rk:[^;\n ]+ (false|true)";
+    private final List<String> usage = new ArrayList<>(Arrays.asList("doblockreset [REGION] [true/false]", "doblockreset rk:[REGIONKIND] [true/false]"));
 
     @Override
     public boolean matchesRegex(String command) {
@@ -97,11 +97,11 @@ public class DoBlockResetCommand extends BasicArmCommand {
                         returnme.add(this.rootCommand);
                     } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
                         returnme.addAll(RegionManager.completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true,false));
-                        if("re:".startsWith(args[1])) {
-                            returnme.add("re:");
+                        if("rk:".startsWith(args[1])) {
+                            returnme.add("rk:");
                         }
-                        if (args[1].matches("re:([^;\n]+)?")) {
-                            returnme.addAll(RegionKind.completeTabRegionKinds(args[1], "re:"));
+                        if (args[1].matches("rk:([^;\n]+)?")) {
+                            returnme.addAll(RegionKind.completeTabRegionKinds(args[1], "rk:"));
                         }
 
                     } else if(args.length == 3 && (args[0].equalsIgnoreCase(this.rootCommand))) {

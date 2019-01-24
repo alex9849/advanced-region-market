@@ -22,8 +22,8 @@ public class SetSubregionLimit extends BasicArmCommand {
 
     private final String rootCommand = "setsubregionlimit";
     private final String regex = "(?i)setsubregionlimit [^;\n ]+ [0-9]+";
-    private final String regex_massaction = "(?i)setsubregionlimit re:[^;\n ]+ [0-9]+";
-    private final List<String> usage = new ArrayList<>(Arrays.asList("setsubregionlimit [REGION] [AMOUNT]", "setsubregionlimit re:[REGIONKIND] [true/false]"));
+    private final String regex_massaction = "(?i)setsubregionlimit rk:[^;\n ]+ [0-9]+";
+    private final List<String> usage = new ArrayList<>(Arrays.asList("setsubregionlimit [REGION] [AMOUNT]", "setsubregionlimit rk:[REGIONKIND] [true/false]"));
 
     @Override
     public boolean matchesRegex(String command) {
@@ -101,11 +101,11 @@ public class SetSubregionLimit extends BasicArmCommand {
                         returnme.add(this.rootCommand);
                     } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
                         returnme.addAll(RegionManager.completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true,false));
-                        if("re:".startsWith(args[1])) {
-                            returnme.add("re:");
+                        if("rk:".startsWith(args[1])) {
+                            returnme.add("rk:");
                         }
-                        if (args[1].matches("re:([^;\n]+)?")) {
-                            returnme.addAll(RegionKind.completeTabRegionKinds(args[1], "re:"));
+                        if (args[1].matches("rk:([^;\n]+)?")) {
+                            returnme.addAll(RegionKind.completeTabRegionKinds(args[1], "rk:"));
                         }
                     }
                 }

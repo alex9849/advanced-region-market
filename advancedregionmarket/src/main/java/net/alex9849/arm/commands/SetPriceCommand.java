@@ -22,13 +22,13 @@ import java.util.List;
 
 public class SetPriceCommand extends BasicArmCommand {
     private final String rootCommand = "setprice";
-    private final String regex_massaction = "(?i)setprice re:[^;\n]+";
+    private final String regex_massaction = "(?i)setprice rk:[^;\n]+";
     private final String regex_price = "(?i)setprice [^;\n ]+ [0-9]+ [0-9]+(s|m|h|d) [0-9]+(s|m|h|d)";
     private final String regex_price_autoprice = "(?i)setprice [^;\n ]+ [^;\n ]+";
-    private final String regex_price_massaction = "(?i)setprice re:[^;\n ]+ [0-9]+ [0-9]+(s|m|h|d) [0-9]+(s|m|h|d)";
-    private final String regex_price_autoprice_massaction = "(?i)setprice re:[^;\n ]+ [^;\n ]+";
+    private final String regex_price_massaction = "(?i)setprice rk:[^;\n ]+ [0-9]+ [0-9]+(s|m|h|d) [0-9]+(s|m|h|d)";
+    private final String regex_price_autoprice_massaction = "(?i)setprice rk:[^;\n ]+ [^;\n ]+";
     private final List<String> usage = new ArrayList<>(Arrays.asList("setprice [REGION] [AUTOPRICE]", "setprice [REGION] [PRICE] [EXTENDTIME] [MAXRENTTIME]"
-            , "setprice re:[REGION] [AUTOPRICE]", "setprice re:[REGION] [PRICE] [EXTENDTIME] [MAXRENTTIME]"));
+            , "setprice rk:[REGION] [AUTOPRICE]", "setprice rk:[REGION] [PRICE] [EXTENDTIME] [MAXRENTTIME]"));
 
     @Override
     public boolean matchesRegex(String command) {
@@ -110,11 +110,11 @@ public class SetPriceCommand extends BasicArmCommand {
                         returnme.add(this.rootCommand);
                     } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
                         returnme.addAll(RegionManager.completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true,true));
-                        if("re:".startsWith(args[1])) {
-                            returnme.add("re:");
+                        if("rk:".startsWith(args[1])) {
+                            returnme.add("rk:");
                         }
-                        if (args[1].matches("re:([^;\n]+)?")) {
-                            returnme.addAll(RegionKind.completeTabRegionKinds(args[1], "re:"));
+                        if (args[1].matches("rk:([^;\n]+)?")) {
+                            returnme.addAll(RegionKind.completeTabRegionKinds(args[1], "rk:"));
                         }
 
                     } else if(args.length == 3 && (args[0].equalsIgnoreCase(this.rootCommand))) {

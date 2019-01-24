@@ -48,12 +48,20 @@ public class SignLinkMode implements Listener {
 
     @EventHandler
     private void playerClick(PlayerInteractEvent event) {
+        if(event.getPlayer().getUniqueId() != this.player.getUniqueId()) {
+            return;
+        }
         try {
-            if(!(event.getAction() == Action.LEFT_CLICK_BLOCK) && !(event.getAction() == Action.RIGHT_CLICK_BLOCK)) {
+            if((!(event.getAction() == Action.LEFT_CLICK_BLOCK)) && (!(event.getAction() == Action.RIGHT_CLICK_BLOCK))) {
                 return;
             }
+            event.setCancelled(true);
             if((event.getClickedBlock().getType() == Material.SIGN) || (event.getClickedBlock().getType() == Material.WALL_SIGN)) {
-                sign = (Sign) event.getClickedBlock().getBlockData();
+                Sign sign  = (Sign) event.getClickedBlock().getState();
+                if(RegionManager.getRegion(sign) != null) {
+                    throw new InputException(event.getPlayer(), "Sign belongs to another region!");
+                }
+                this.sign = sign;
                 player.sendMessage("Sign selected!");
             } else {
                 Location clicklocation = event.getClickedBlock().getLocation();
@@ -69,6 +77,7 @@ public class SignLinkMode implements Listener {
                 }
                 this.wgRegion = regions.get(0);
                 this.world = clicklocation.getWorld();
+                this.player.sendMessage(Messages.PREFIX + "Selected region " + this.wgRegion.getId());
             }
             if((this.sign != null) && (this.wgRegion != null) && (this.world != null)) {
                 this.registerRegion();
@@ -93,6 +102,9 @@ public class SignLinkMode implements Listener {
             //TODO Change message
             throw new InputException(player, "Could not identify world! Please select the WorldGuard-Region again!");
         }
+        if(RegionManager.getRegion(sign) != null) {
+            throw new InputException(this.player, "Sign belongs to another region!");
+        }
         List<Sign> signs = new ArrayList<>();
         signs.add(this.sign);
         Region existingRegion = RegionManager.getRegion(wgRegion);
@@ -104,6 +116,7 @@ public class SignLinkMode implements Listener {
             RegionManager.addRegion(newRegion);
             this.player.sendMessage(Messages.PREFIX + Messages.REGION_ADDED_TO_ARM);
         }
+        this.sign = null;
     }
 
     public void unregister() {
@@ -112,7 +125,7 @@ public class SignLinkMode implements Listener {
         PlayerInteractEvent.getHandlerList().unregister(this);
     }
 
-    private static void reset() {
+    public static void reset() {
         SignLinkMode.signLinkModeList = new ArrayList<>();
     }
 

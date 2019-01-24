@@ -148,16 +148,6 @@ public class RegionManager {
         return true;
     }
 
-  /*  public static void saveRegion(Region sregion) {
-        for(Region region : regionList) {
-            if((region == sregion) || region.getSubregions().contains(sregion)) {
-                writeRegionToYamlObject(region);
-                saveRegionsConf();
-                return;
-            }
-        }
-    } */
-
     public static void writeRegionsToConfig(boolean all) {
         boolean anythingdone = false;
 

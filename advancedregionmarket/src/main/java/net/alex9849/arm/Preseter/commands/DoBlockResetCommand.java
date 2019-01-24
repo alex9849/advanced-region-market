@@ -2,28 +2,33 @@ package net.alex9849.arm.Preseter.commands;
 
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
-import net.alex9849.arm.Preseter.Preset;
-import net.alex9849.arm.Preseter.PresetType;
+import net.alex9849.arm.Preseter.ActivePresetManager;
+import net.alex9849.arm.Preseter.PresetPlayerPair;
+import net.alex9849.arm.Preseter.presets.Preset;
+import net.alex9849.arm.Preseter.presets.PresetType;
+import net.alex9849.arm.commands.BasicArmCommand;
 import net.alex9849.arm.exceptions.InputException;
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class DoBlockResetCommand extends BasicPresetCommand {
+public class DoBlockResetCommand extends BasicArmCommand {
     private final String rootCommand = "doblockreset";
     private final String regex_set = "(?i)doblockreset (false|true)";
-    private final String regex_remove = "(?i)doblockreset (?i)remove";
-    private final String usage = "doblockreset (true/false/remove)";
+    private final List<String> usage = new ArrayList<>(Arrays.asList("doblockreset (true/false)"));
+    private PresetType presetType;
+
+    public DoBlockResetCommand(PresetType presetType) {
+        this.presetType = presetType;
+    }
 
     @Override
     public boolean matchesRegex(String command) {
-        if(command.matches(this.regex_set)) {
-            return true;
-        } else {
-            return command.matches(this.regex_remove);
-        }
+        return command.matches(this.regex_set);
     }
 
     @Override
@@ -32,12 +37,16 @@ public class DoBlockResetCommand extends BasicPresetCommand {
     }
 
     @Override
-    public String getUsage() {
+    public List<String> getUsage() {
         return this.usage;
     }
 
     @Override
-    public boolean runCommand(Player player, String[] args, String allargs, PresetType presetType) throws InputException {
+    public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
+        if(!(sender instanceof Player)) {
+            throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
+        }
+        Player player = (Player) sender;
 
         if(!player.hasPermission(Permission.ADMIN_PRESET_SET_DOBLOCKRESET)) {
             throw new InputException(player, Messages.NO_PERMISSION);
@@ -47,25 +56,20 @@ public class DoBlockResetCommand extends BasicPresetCommand {
             return false;
         }
 
-        Preset preset = Preset.getPreset(presetType, player);
+        Preset preset = ActivePresetManager.getPreset(player, this.presetType);
 
         if(preset == null) {
-            preset = PresetType.create(presetType, player);
+            preset = this.presetType.create();
+            ActivePresetManager.add(new PresetPlayerPair(player, preset));
         }
 
-        if(allargs.matches(this.regex_set)) {
-            preset.setDoBlockReset(Boolean.parseBoolean(args[1]));
-            player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
-            return true;
-        } else {
-            preset.removeDoBlockReset();
-            player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
-            return true;
-        }
+        preset.setDoBlockReset(Boolean.parseBoolean(args[1]));
+        player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
+        return true;
     }
 
     @Override
-    public List<String> onTabComplete(Player player, String[] args, PresetType presetType) {
+    public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
         if(player.hasPermission(Permission.ADMIN_PRESET_SET_DOBLOCKRESET)) {
             if(args.length >= 1) {
@@ -75,9 +79,6 @@ public class DoBlockResetCommand extends BasicPresetCommand {
                     }
                 }
                 if(args.length == 2 && this.rootCommand.equalsIgnoreCase(args[0])) {
-                    if("remove".startsWith(args[1])) {
-                        returnme.add("remove");
-                    }
                     if("true".startsWith(args[1])) {
                         returnme.add("true");
                     }

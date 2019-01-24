@@ -1,9 +1,10 @@
 package net.alex9849.arm.commands;
 
+import net.alex9849.arm.Handler.CommandHandler;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
-import net.alex9849.arm.Preseter.RentPreset;
-import net.alex9849.arm.Preseter.SellPreset;
+import net.alex9849.arm.Preseter.presets.PresetType;
+import net.alex9849.arm.Preseter.presets.RentPreset;
 import net.alex9849.arm.exceptions.InputException;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -18,6 +19,33 @@ public class RentPresetCommand extends SellPresetCommand {
     private final String rootCommand = "rentpreset";
     private final String regex = "(?i)rentpreset [^;\n]+";
     private final List<String> usage = new ArrayList<>(Arrays.asList("rentpreset [SETTING]", "rentpreset help"));
+
+    private CommandHandler commandHandler;
+
+    public RentPresetCommand() {
+        this.commandHandler = new CommandHandler(this.usage, this.rootCommand);
+        List<BasicArmCommand> commands = new ArrayList<>();
+        commands.add(new net.alex9849.arm.Preseter.commands.AutoResetCommand(PresetType.RENTPRESET));
+        commands.add(new net.alex9849.arm.Preseter.commands.RentPresetExtendPerClickCommand(PresetType.RENTPRESET));
+        commands.add(new net.alex9849.arm.Preseter.commands.RentPresetMaxRentTimeCommand(PresetType.RENTPRESET));
+        commands.add(new net.alex9849.arm.Preseter.commands.DeleteCommand(PresetType.RENTPRESET));
+        commands.add(new net.alex9849.arm.Preseter.commands.DoBlockResetCommand(PresetType.RENTPRESET));
+        commands.add(new net.alex9849.arm.Preseter.commands.HelpCommand(PresetType.RENTPRESET, this.commandHandler));
+        commands.add(new net.alex9849.arm.Preseter.commands.HotelCommand(PresetType.RENTPRESET));
+        commands.add(new net.alex9849.arm.Preseter.commands.InfoCommand(PresetType.RENTPRESET));
+        commands.add(new net.alex9849.arm.Preseter.commands.ListCommand(PresetType.RENTPRESET));
+        commands.add(new net.alex9849.arm.Preseter.commands.LoadCommand(PresetType.RENTPRESET));
+        commands.add(new net.alex9849.arm.Preseter.commands.PriceCommand(PresetType.RENTPRESET));
+        commands.add(new net.alex9849.arm.Preseter.commands.RegionKindCommand(PresetType.RENTPRESET));
+        commands.add(new net.alex9849.arm.Preseter.commands.ResetCommand(PresetType.RENTPRESET));
+        commands.add(new net.alex9849.arm.Preseter.commands.SaveCommand(PresetType.RENTPRESET));
+        commands.add(new net.alex9849.arm.Preseter.commands.AddCommandCommand(PresetType.RENTPRESET));
+        commands.add(new net.alex9849.arm.Preseter.commands.RemoveCommandCommand(PresetType.RENTPRESET));
+        commands.add(new net.alex9849.arm.Preseter.commands.AllowedSubregionsCommand(PresetType.RENTPRESET));
+        commands.add(new net.alex9849.arm.Preseter.commands.UserResettableCommand(PresetType.RENTPRESET));
+        commands.add(new net.alex9849.arm.Preseter.commands.SetAutoPriceCommand(PresetType.RENTPRESET));
+        this.commandHandler.addCommands(commands);
+    }
 
     @Override
     public boolean matchesRegex(String command) {
@@ -50,7 +78,7 @@ public class RentPresetCommand extends SellPresetCommand {
                 }
             }
 
-            return RentPreset.onCommand(sender, newallargs, newargs);
+            return  this.commandHandler.executeCommand(sender, cmd , commandsLabel, newargs);
         } else {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
@@ -76,7 +104,7 @@ public class RentPresetCommand extends SellPresetCommand {
             }
         }
         if(args.length >= 2 && this.rootCommand.equalsIgnoreCase(args[0])) {
-            returnme.addAll(RentPreset.onTabComplete(player, newargs));
+            returnme.addAll(this.commandHandler.onTabComplete(player, newargs));
         }
         return returnme;
     }

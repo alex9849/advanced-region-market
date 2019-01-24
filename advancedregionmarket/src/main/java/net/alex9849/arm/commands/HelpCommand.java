@@ -1,5 +1,6 @@
 package net.alex9849.arm.commands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Handler.CommandHandler;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
@@ -20,6 +21,17 @@ public class HelpCommand extends BasicArmCommand {
     private final String regex_args = "(?i)help [0-9]+";
     private final String regex = "(?i)help";
     private final List<String> usage = new ArrayList<>(Arrays.asList("help", "help [page]"));
+    private CommandHandler cmdHandler;
+    private String headline;
+    private String[] betweenCmds;
+    private String permission;
+
+    public HelpCommand(CommandHandler cmdHandler, String headline, String[] betweenCmds, String permission) {
+        this.cmdHandler = cmdHandler;
+        this.headline = headline;
+        this.betweenCmds = betweenCmds;
+        this.permission = permission;
+    }
 
     @Override
     public boolean matchesRegex(String command) {
@@ -38,7 +50,7 @@ public class HelpCommand extends BasicArmCommand {
 
     @Override
     public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
-        if(!sender.hasPermission(Permission.ARM_HELP)){
+        if(!sender.hasPermission(this.permission)){
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
         int selectedpage;
@@ -48,14 +60,14 @@ public class HelpCommand extends BasicArmCommand {
             selectedpage = 1;
         }
 
-        List<BasicArmCommand> commands = CommandHandler.getLatestHandler().getCommands();
+        List<BasicArmCommand> commands = this.cmdHandler.getCommands();
         List<String> usages = new ArrayList<>();
-
-        Collections.sort(usages);
 
         for(BasicArmCommand command : commands) {
             usages.addAll(command.getUsage());
         }
+
+        Collections.sort(usages);
 
         final int commandsPerPage = 7;
         int pages = usages.size() / commandsPerPage;
@@ -74,9 +86,14 @@ public class HelpCommand extends BasicArmCommand {
             lastCommand = usages.size();
         }
 
-        sender.sendMessage(Messages.HELP_HEADLINE.replace("%actualpage%", selectedpage + "").replace("%maxpage%", pages + ""));
+        sender.sendMessage(this.headline.replace("%actualpage%", selectedpage + "").replace("%maxpage%", pages + ""));
         for(int i = firstCommand; i < lastCommand; i++) {
-            sender.sendMessage(ChatColor.GOLD + "/" + commandsLabel + " " + usages.get(i));
+            String sendmessage = ChatColor.GOLD + "/" + commandsLabel + " ";
+            for(String bcmd : betweenCmds) {
+                sendmessage = sendmessage + bcmd + " ";
+            }
+            sendmessage = sendmessage + usages.get(i);
+            sender.sendMessage(sendmessage);
         }
 
         return true;
@@ -88,7 +105,7 @@ public class HelpCommand extends BasicArmCommand {
         List<String> returnme = new ArrayList<>();
         if(args.length == 1) {
             if (this.rootCommand.startsWith(args[0])) {
-                if (player.hasPermission(Permission.ARM_HELP)) {
+                if (player.hasPermission(this.permission)) {
                     returnme.add(this.rootCommand);
                 }
             }

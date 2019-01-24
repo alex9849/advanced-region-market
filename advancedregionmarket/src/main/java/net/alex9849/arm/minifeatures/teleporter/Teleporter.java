@@ -5,14 +5,12 @@ import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.regions.Region;
-import net.alex9849.inter.WGRegion;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.command.CommandSender;
+import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.util.Vector;
@@ -23,7 +21,7 @@ public class Teleporter {
 
         if(region.getTeleportLocation() == null) {
 
-            World world = Bukkit.getWorld(region.getRegionworld());
+            World world = region.getRegionworld();
             if(world == null) {
                 return;
             }
@@ -41,12 +39,7 @@ public class Teleporter {
                     for (int y = maxY; y >= minY; y--) {
                         Location loc = new Location(world, x, y, z);
                         if(isSaveTeleport(loc)) {
-                            loc.add(0.5, 0, 0.5);
-                            int timer = 0;
-                            if(useCountdown) {
-                                timer = 20 * AdvancedRegionMarket.getARM().getConfig().getInt("Other.TeleporterTimer");
-                            }
-                            scheduleTeleport(player, loc, message, timer);
+                            teleport(player, loc, message, useCountdown);
                             return;
                         }
                     }
@@ -60,17 +53,53 @@ public class Teleporter {
         }
     }
 
+    public static void teleport(Player player, Location location, String message, boolean useCountdown) {
+        location.add(0.5, 0, 0.5);
+        int timer = 0;
+        if(useCountdown) {
+            timer = 20 * AdvancedRegionMarket.getARM().getConfig().getInt("Other.TeleporterTimer");
+        }
+        scheduleTeleport(player, location, message, timer);
+        return;
+    }
+
     public static void teleport(Player player, Region region) throws InputException {
         teleport(player, region, "", true);
+    }
+
+    public static void teleport(Player player, Location location) {
+        teleport(player, location, "", true);
+    }
+
+    public static boolean teleport(Player player, Sign sign) throws InputException {
+        for(int y = sign.getLocation().getBlockY(); ((y > 1) && (y > (sign.getLocation().getBlockY() - 10))); y--) {
+            Location newLoc = new Location(sign.getLocation().getWorld(), sign.getLocation().getBlockX(), y, sign.getLocation().getBlockZ());
+            if(isSaveTeleport(newLoc)) {
+                teleport(player, newLoc);
+                return true;
+            }
+        }
+        for(int y = sign.getLocation().getBlockY(); ((y < 255) && (y < (sign.getLocation().getBlockY() + 10))); y++) {
+            Location newLoc = new Location(sign.getLocation().getWorld(), sign.getLocation().getBlockX(), y, sign.getLocation().getBlockZ());
+            if(isSaveTeleport(newLoc)) {
+                teleport(player, newLoc);
+                return true;
+            }
+        }
+        return false;
     }
 
     private static boolean isSaveTeleport(Location loc) {
         Location locP1 = new Location(loc.getWorld(), loc.getBlockX(), loc.getBlockY() + 1, loc.getBlockZ());
         Location locM1 = new Location(loc.getWorld(), loc.getBlockX(), loc.getBlockY() - 1, loc.getBlockZ());
-        if(!(loc.getBlock().getType() == Material.AIR) || !(locP1.getBlock().getType() == Material.AIR)) {
+        if(!((locP1.getBlock().getType() == Material.AIR) || (locP1.getBlock().getType() == Material.WALL_SIGN) || (locP1.getBlock().getType() == Material.SIGN) || (loc.getBlock().getType() == Material.WALL_TORCH))) {
             return false;
         }
-        if((locM1.getBlock().getType() == Material.AIR) || (locM1.getBlock().getType() == Material.LAVA) || (locM1.getBlock().getType() == Material.MAGMA_BLOCK)) {
+        if(!((loc.getBlock().getType() == Material.AIR) || (loc.getBlock().getType() == Material.WALL_SIGN) || (loc.getBlock().getType() == Material.SIGN) || (loc.getBlock().getType() == Material.WALL_TORCH))) {
+            return false;
+        }
+        if((locM1.getBlock().getType() == Material.AIR) || (locM1.getBlock().getType() == Material.LAVA) || (locM1.getBlock().getType() == Material.MAGMA_BLOCK)
+                || (locM1.getBlock().getType() == Material.SIGN) || (locM1.getBlock().getType() == Material.WALL_SIGN) || (locM1.getBlock().getType() == Material.WALL_TORCH)) {
             return false;
         }
         return true;
@@ -110,4 +139,5 @@ public class Teleporter {
         }
 
     }
+
 }

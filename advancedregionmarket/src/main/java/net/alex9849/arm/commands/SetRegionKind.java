@@ -6,6 +6,7 @@ import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.RegionKind;
+import net.alex9849.arm.regions.RegionManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -41,17 +42,24 @@ public class SetRegionKind extends BasicArmCommand {
                 throw new InputException(sender, Messages.NO_PERMISSION);
             }
             Player player = (Player) sender;
-            for(int i = 0; i < Region.getRegionList().size(); i++){
-                if(Region.getRegionList().get(i).getRegion().getId().equalsIgnoreCase(args[2]) && Region.getRegionList().get(i).getRegionworld().equals(player.getWorld().getName())){
-                    if(Region.getRegionList().get(i).setKind(args[1])){
-                        sender.sendMessage(Messages.PREFIX + Messages.REGION_KIND_SET);
-                        return true;
-                    } else {
-                        throw new InputException(sender, Messages.REGION_KIND_NOT_EXIST);
-                    }
-                }
+            Region region = RegionManager.getRegionbyNameAndWorldCommands(args[2], player.getWorld().getName());
+
+            if(region == null) {
+                throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
             }
-            throw new InputException(sender, Messages.REGION_KIND_REGION_NOT_EXIST);
+            if(region.isSubregion()) {
+                throw new InputException(sender, Messages.SUB_REGION_REGIONKIND_ERROR);
+            }
+            RegionKind regionKind = RegionKind.getRegionKind(args[1]);
+            if(regionKind == null) {
+                throw new InputException(sender, Messages.REGION_KIND_NOT_EXIST);
+            }
+            if(regionKind == RegionKind.SUBREGION) {
+                throw new InputException(sender, Messages.SUB_REGION_REGIONKIND_ONLY_FOR_SUB_REGIONS);
+            }
+            region.setKind(regionKind);
+            sender.sendMessage(Messages.PREFIX + Messages.REGION_KIND_SET);
+            return true;
         } else {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
@@ -69,7 +77,7 @@ public class SetRegionKind extends BasicArmCommand {
                     } else if (args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
                         returnme.addAll(RegionKind.completeTabRegionKinds(args[1]));
                     } else if (args.length == 3 && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                        returnme.addAll(Region.completeTabRegions(player, args[2], PlayerRegionRelationship.ALL));
+                        returnme.addAll(RegionManager.completeTabRegions(player, args[2], PlayerRegionRelationship.ALL, true,false));
                     }
             }
         }

@@ -8,12 +8,38 @@
 #.AMA.   .AMMA..JMML. .JMM..JML. `'  .JMML.#
 ############################################
 
-# If you are creating a sell-region you can write this instead of the price in the last line of a
-# sell-sign and ARM will calculate the price by multiplying the square meters of the region
-# with the number standing here
+# If you are creating a region you can write this instead of the price in the last line of
+# the sign and ARM will calculate the price for the region.
+# 'static' price is exactly what stands here
+# 'per_m2' price gets multiplied with the amount of square meters of the region
+# 'per_m3' price gets multiplied with the amount of cubic meters of the region
+# If you created a region with an autoprice you can adjust the price for all
+# regions with this autoprice by changing the price here. If arm can not find an
+# autoprice for a region on startup it will use the default autoprice
 AutoPrice:
-  example1: 1
-  example2: 0.5
+  example1:
+    price: 200.0
+    # Time in milliseconds (1 second = 1000 milliseconds)
+    extendTime: 300000
+    # Time in milliseconds (1 second = 1000 milliseconds)
+    maxRentTime: 2000000
+    autoPriceCalculation: static
+  example2:
+    price: 2.0
+    extendTime: 300000
+    maxRentTime: 2000000
+    autoPriceCalculation: per_m2
+  example3:
+    price: 0.05
+    extendTime: 300000
+    maxRentTime: 2000000
+    autoPriceCalculation: per_m3
+
+DefaultAutoprice:
+  price: 2.0
+  extendTime: 300000
+  maxRentTime: 2000000
+  autoPriceCalculation: per_m2
 
 # If you activate one of these functions you have to fill in the MySQL data
 AutoResetAndTakeOver:
@@ -100,6 +126,16 @@ DefaultRegionKind:
   DisplayInGUI: false
   PaypackPercentage: 50
 
+# Permission: arm.buykind.subregion
+SubregionRegionKind:
+  DisplayName: Subregion
+  Item: PLAYER_HEAD
+  Lore:
+  - 'very subregion'
+  DisplayInLimits: true
+  DisplayInGUI: false
+  PaypackPercentage: 0
+
 # Limits can be assigned to players by giving them the permission arm.limit.LIMITGROUP
 # you can set limits by writing a regionkind and the limit behind it. Not existing regionkinds
 # will be ignored. If you want to limit regions without a kind use 'Default'. If you want to
@@ -162,8 +198,19 @@ Other:
   # Set this to 0 to disable the countdown. Players with the permisison arm.admin.bypassteleportercooldown won't get a countdown
   TeleporterTimer: 0
 
+  RegionInfoParticleBorder: true
+
+Subregions:
+  AllowSubRegionUserReset: false
+  SubregionBlockReset: false
+  SubregionAutoReset: true
+  deleteSubregionsOnParentRegionUnsell: false
+  deleteSubregionsOnParentRegionBlockReset: false
+  allowParentRegionOwnersBuildOnSubregions: true
+
 Reselling:
   Offers:
+# Time in seconds
     OfferTimeOut: 30
 
 #Here you can change the Blocks that will be shown in the GUI. You can use
@@ -185,11 +232,19 @@ GUI:
   RemoveMemberItem: LAVA_BUCKET
   FillItem: GRAY_STAINED_GLASS_PANE
   ContractItem: WRITABLE_BOOK
+  SubRegionItem: GRASS_BLOCK
+  TeleportToSignItem: SIGN
+  TeleportToRegionItem: GRASS_BLOCK
+  DeleteItem: BARRIER
+  NextPageItem: ARROW
+  PrevPageItem: ARROW
+  HotelSettingItem: RED_BED
+  UnsellItem: NAME_TAG
   DisplayRegionOwnerButton: true
   DisplayRegionMemberButton: true
   DisplayRegionFinderButton: true
 
 #Do not change this
-Version: 1.52
+Version: 1.6
 # Programmed by Alex9849
 # If you like my plugin you are free to donate me via PayPal https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2Z6VVLS5SZXJS

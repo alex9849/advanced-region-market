@@ -9,6 +9,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public abstract class WorldGuardInterface {
@@ -17,58 +18,13 @@ public abstract class WorldGuardInterface {
 
     public abstract WGRegion getRegion(World world, WorldGuardPlugin worldGuardPlugin, String regionID);
 
-    public abstract void addMember(UUID uuid, ProtectedRegion wgRegion);
-
-    public void addMember(OfflinePlayer player, ProtectedRegion wgRegion){
-        this.addMember(player.getUniqueId(), wgRegion);
-    }
-
-    public abstract boolean hasMember(UUID uuid, ProtectedRegion wgRegion);
-
-    public boolean hasMember(OfflinePlayer player, ProtectedRegion wgRegion){
-        return this.hasMember(player.getUniqueId(), wgRegion);
-    }
-
-    public abstract void deleteMembers(ProtectedRegion wgRegion);
-
-    public void removeMember(OfflinePlayer player, ProtectedRegion wgRegion){
-        this.removeMember(player.getUniqueId(), wgRegion);
-    }
-
-    public abstract void removeMember(UUID uuid, ProtectedRegion wgRegion);
-
-    public abstract ArrayList<UUID> getMembers(ProtectedRegion wgRegion);
-
-    public abstract void setOwner(OfflinePlayer player, ProtectedRegion wgRegion);
-
-    public boolean hasOwner(OfflinePlayer player, ProtectedRegion wgRegion){
-        return this.hasOwner(player.getUniqueId(), wgRegion);
-    }
-
-    public abstract boolean hasOwner(UUID uuid, ProtectedRegion wgRegion);
-
-    public abstract void deleteOwners(ProtectedRegion wgRegion);
-
-    public abstract void removeOwner(UUID uuid, ProtectedRegion wgRegion);
-
-    public void removeOwner(OfflinePlayer player, ProtectedRegion wgRegion){
-        this.removeOwner(player.getUniqueId(), wgRegion);
-    }
-
-    public abstract ArrayList<UUID> getOwners(ProtectedRegion wgRegion);
-
     public abstract boolean canBuild(Player player, Location location, WorldGuardPlugin worldGuardPlugin);
 
-    public abstract int getMaxX(ProtectedRegion region);
+    public abstract WGRegion createRegion(String regionID, Location pos1, Location pos2, WorldGuardPlugin worldGuardPlugin);
 
-    public abstract int getMaxY(ProtectedRegion region);
+    public abstract List<WGRegion> getApplicableRegions(World world, Location loc, WorldGuardPlugin worldGuardPlugin);
 
-    public abstract int getMaxZ(ProtectedRegion region);
+    public abstract void addToRegionManager(WGRegion region, World world, WorldGuardPlugin worldGuardPlugin);
 
-    public abstract int getMinX(ProtectedRegion region);
-
-    public abstract int getMinY(ProtectedRegion region);
-
-    public abstract int getMinZ(ProtectedRegion region);
-
+    public abstract void removeFromRegionManager(WGRegion region, World world, WorldGuardPlugin worldGuardPlugin);
 }

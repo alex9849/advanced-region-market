@@ -104,4 +104,51 @@ public class WG6Region extends WGRegion {
         return this.region.contains(x, y, z);
     }
 
+    @Override
+    public boolean equals(WGRegion wgRegion) {
+        WG6Region wg6Region = (WG6Region) wgRegion;
+        return wg6Region.getRegion() == this.region;
+    }
+
+    @Override
+    public WGRegion getParent() {
+        if(this.getRegion().getParent() != null) {
+            return new WG6Region(this.getRegion().getParent());
+        } else {
+            return null;
+        }
+
+    }
+
+    @Override
+    public void setParent(WGRegion wgRegion) {
+        WG6Region wg6Region = (WG6Region) wgRegion;
+        this.getRegion().setPriority(wg6Region.getPriority());
+        try {
+            this.getRegion().setParent(wg6Region.getRegion());
+        } catch (ProtectedRegion.CircularInheritanceException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public int getPriority() {
+        return this.getRegion().getPriority();
+    }
+
+    @Override
+    public void setPriority(int priority) {
+        this.getRegion().clearParent();
+        this.getRegion().setPriority(priority);
+    }
+
+    @Override
+    public int getVolume() {
+        return this.region.volume();
+    }
+
+    protected ProtectedRegion getRegion() {
+        return this.region;
+    }
+
 }

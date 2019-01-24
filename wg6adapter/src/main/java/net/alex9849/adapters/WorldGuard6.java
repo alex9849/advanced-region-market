@@ -1,9 +1,15 @@
 package net.alex9849.adapters;
 
+import com.sk89q.worldedit.BlockVector;
+import com.sk89q.worldedit.BlockVector2D;
+import com.sk89q.worldedit.Vector;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.domains.DefaultDomain;
 import com.sk89q.worldguard.protection.managers.RegionManager;
+import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import com.sk89q.worldguard.protection.regions.RegionType;
+import net.alex9849.inter.WGRegion;
 import net.alex9849.inter.WorldGuardInterface;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -11,6 +17,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class WorldGuard6 extends WorldGuardInterface {
@@ -34,83 +41,37 @@ public class WorldGuard6 extends WorldGuardInterface {
         return new WG6Region(region);
     }
 
-    @Override
-    public void addMember(UUID uuid, ProtectedRegion wgRegion) {
-        wgRegion.getMembers().addPlayer(uuid);
-    }
-
-    @Override
-    public boolean hasMember(UUID uuid, ProtectedRegion wgRegion) {
-        return wgRegion.getMembers().contains(uuid);
-    }
-
-    public void deleteMembers(ProtectedRegion wgRegion) {
-        DefaultDomain defaultDomain = new DefaultDomain();
-        wgRegion.setMembers(defaultDomain);
-    }
-
-    @Override
-    public void removeMember(UUID uuid, ProtectedRegion wgRegion) {
-        wgRegion.getMembers().removePlayer(uuid);
-    }
-
-    @Override
-    public ArrayList<UUID> getMembers(ProtectedRegion wgRegion) {
-        return new ArrayList<UUID>(wgRegion.getMembers().getUniqueIds());
-    }
-
-    @Override
-    public void setOwner(OfflinePlayer player, ProtectedRegion wgRegion) {
-        DefaultDomain newOwner = new DefaultDomain();
-        newOwner.addPlayer(player.getUniqueId());
-        wgRegion.setOwners(newOwner);
-    }
-
-    @Override
-    public boolean hasOwner(UUID uuid, ProtectedRegion wgRegion) {
-        return wgRegion.getOwners().contains(uuid);
-    }
-
-    public void deleteOwners(ProtectedRegion wgRegion) {
-        DefaultDomain defaultDomain = new DefaultDomain();
-        wgRegion.setOwners(defaultDomain);
-    }
-
-    @Override
-    public void removeOwner(UUID uuid, ProtectedRegion wgRegion) {
-        wgRegion.getOwners().removePlayer(uuid);
-    }
-
-    @Override
-    public ArrayList<UUID> getOwners(ProtectedRegion wgRegion) {
-        return new ArrayList<UUID>(wgRegion.getOwners().getUniqueIds());
-    }
-
     public boolean canBuild(Player player, Location location, WorldGuardPlugin worldGuardPlugin){
         return worldGuardPlugin.canBuild(player, location);
     }
 
-    public int getMaxX(ProtectedRegion region) {
-        return region.getMaximumPoint().getBlockX();
+    @Override
+    public WGRegion createRegion(String regionID, Location pos1, Location pos2, WorldGuardPlugin worldGuardPlugin) {
+        ProtectedRegion protectedRegion = new ProtectedCuboidRegion(regionID, new BlockVector(pos1.getBlockX(), pos1.getBlockY(), pos1.getBlockZ()), new BlockVector(pos2.getBlockX(), pos2.getBlockY(), pos2.getBlockZ()));
+        WG6Region returnRegion = new WG6Region(protectedRegion);
+        return returnRegion;
     }
 
-    public int getMaxY(ProtectedRegion region) {
-        return region.getMaximumPoint().getBlockY();
+    @Override
+    public List<WGRegion> getApplicableRegions(World world, Location loc, WorldGuardPlugin worldGuardPlugin) {
+        List<ProtectedRegion> protectedRegions = new ArrayList<ProtectedRegion>(worldGuardPlugin.getRegionManager(world).getApplicableRegions(loc).getRegions());
+        List<WGRegion> wg6Regions = new ArrayList<WGRegion>();
+        for(ProtectedRegion pRegion : protectedRegions) {
+            wg6Regions.add(new WG6Region(pRegion));
+        }
+        return wg6Regions;
     }
 
-    public int getMaxZ(ProtectedRegion region) {
-        return region.getMaximumPoint().getBlockZ();
+    @Override
+    public void addToRegionManager(WGRegion region, World world, WorldGuardPlugin worldGuardPlugin) {
+        WG6Region wg6Region = (WG6Region) region;
+        getRegionManager(world, worldGuardPlugin).addRegion(wg6Region.getRegion());
     }
 
-    public int getMinX(ProtectedRegion region) {
-        return region.getMinimumPoint().getBlockX();
+    @Override
+    public void removeFromRegionManager(WGRegion region, World world, WorldGuardPlugin worldGuardPlugin) {
+        WG6Region wg6Region = (WG6Region) region;
+        getRegionManager(world, worldGuardPlugin).removeRegion(wg6Region.getRegion().getId());
     }
 
-    public int getMinY(ProtectedRegion region) {
-        return region.getMinimumPoint().getBlockY();
-    }
-
-    public int getMinZ(ProtectedRegion region) {
-        return region.getMinimumPoint().getBlockZ();
-    }
 }

@@ -1,18 +1,20 @@
 package net.alex9849.arm.regions;
 
 import net.alex9849.arm.AdvancedRegionMarket;
+import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.Group.LimitGroup;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
+import net.alex9849.arm.regions.price.RentPrice;
 import net.alex9849.inter.WGRegion;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.World;
 import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import java.text.SimpleDateFormat;
@@ -26,24 +28,14 @@ public class RentRegion extends Region {
     private static long expirationWarningTime;
     private static Boolean sendExpirationWarning;
 
-    public RentRegion(WGRegion region, String regionworld, List<Sign> rentsign, double price, Boolean sold, Boolean autoreset, Boolean allowOnlyNewBlocks,
-                      Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, long payedTill, long maxRentTime, long rentExtendPerClick, Boolean newreg) {
-        super(region, regionworld, rentsign, price, sold, autoreset, allowOnlyNewBlocks, doBlockReset, regionKind, teleportLoc, lastreset, newreg);
+    public RentRegion(WGRegion region, World regionworld, List<Sign> rentsign, RentPrice rentPrice, Boolean sold, Boolean autoreset, Boolean allowOnlyNewBlocks,
+                      Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, boolean isUserResettable, long payedTill, List<Region> subregions, int allowedSubregions) {
+        super(region, regionworld, rentsign, rentPrice, sold, autoreset, allowOnlyNewBlocks, doBlockReset, regionKind, teleportLoc, lastreset, isUserResettable, subregions, allowedSubregions);
 
         this.payedTill = payedTill;
-        this.maxRentTime = maxRentTime;
-        this.rentExtendPerClick = rentExtendPerClick;
-
-        if(newreg) {
-            YamlConfiguration config = getRegionsConf();
-
-            config.set("Regions." + this.regionworld + "." + this.region.getId() + ".regiontype", "rentregion");
-            config.set("Regions." + this.regionworld + "." + this.region.getId() + ".payedTill", payedTill);
-            config.set("Regions." + this.regionworld + "." + this.region.getId() + ".maxRentTime", maxRentTime);
-            config.set("Regions." + this.regionworld + "." + this.region.getId() + ".rentExtendPerClick", rentExtendPerClick);
-            saveRegionsConf(config);
-            this.updateSignText(rentsign.get(0));
-        }
+        this.maxRentTime = rentPrice.getMaxRentTime();
+        this.rentExtendPerClick = rentPrice.getExtendTime();
+        this.updateSigns();
     }
 
     @Override
@@ -51,50 +43,13 @@ public class RentRegion extends Region {
 
         if (this.sold){
 
-            LinkedList<UUID> ownerlist = new LinkedList<>(this.getRegion().getOwners());
-            String ownername;
-            if(ownerlist.size() < 1){
-                ownername = "Unknown";
-            } else {
-                OfflinePlayer owner = Bukkit.getOfflinePlayer(ownerlist.get(0));
-                ownername = owner.getName();
-            }
+            String line1 = this.getConvertedMessage(Messages.RENTED_SIGN1);
 
-            String line1 = Messages.RENTED_SIGN1.replace("%regionid%", this.getRegion().getId());
-            line1 = line1.replace("%price%", this.price + "");
-            line1 = line1.replace("%currency%", Messages.CURRENCY);
-            line1 = line1.replace("%dimensions%", this.getDimensions());
-            line1 = line1.replace("%owner%", ownername);
-            line1 = line1.replace("%extendperclick%", this.getExtendPerClick());
-            line1 = line1.replace("%maxrenttime%", this.getMaxRentTime());
-            line1 = line1.replace("%remaining%", this.calcRemainingTime());
+            String line2 = this.getConvertedMessage(Messages.RENTED_SIGN2);
 
-            String line2 = Messages.RENTED_SIGN2.replace("%regionid%", this.getRegion().getId());
-            line2 = line2.replace("%price%", this.price + "");
-            line2 = line2.replace("%currency%", Messages.CURRENCY);
-            line2 = line2.replace("%dimensions%", this.getDimensions());
-            line2 = line2.replace("%owner%", ownername);
-            line2 = line2.replace("%extendperclick%", this.getExtendPerClick());
-            line2 = line2.replace("%maxrenttime%", this.getMaxRentTime());
-            line2 = line2.replace("%remaining%", this.calcRemainingTime());
+            String line3 = this.getConvertedMessage(Messages.RENTED_SIGN3);
 
-            String line3 = Messages.RENTED_SIGN3.replace("%regionid%", this.getRegion().getId());
-            line3 = line3.replace("%price%", this.price + "");
-            line3 = line3.replace("%currency%", Messages.CURRENCY);
-            line3 = line3.replace("%dimensions%", this.getDimensions());
-            line3 = line3.replace("%owner%", ownername);
-            line3 = line3.replace("%extendperclick%", this.getExtendPerClick());
-            line3 = line3.replace("%maxrenttime%", this.getMaxRentTime());
-            line3 = line3.replace("%remaining%", this.calcRemainingTime());
-
-            String line4 = Messages.RENTED_SIGN4.replace("%regionid%", this.getRegion().getId());
-            line4 = line4.replace("%price%", this.price + "");
-            line4 = line4.replace("%currency%", Messages.CURRENCY);
-            line4 = line4.replace("%dimensions%", this.getDimensions());
-            line4 = line4.replace("%owner%", ownername);
-            line4 = line4.replace("%extendperclick%", this.getExtendPerClick());
-            line4 = line4.replace("%maxrenttime%", this.getMaxRentTime());
-            line4 = line4.replace("%remaining%", this.calcRemainingTime());
+            String line4 = this.getConvertedMessage(Messages.RENTED_SIGN4);
 
             mysign.setLine(0, line1);
             mysign.setLine(1, line2);
@@ -103,37 +58,13 @@ public class RentRegion extends Region {
             mysign.update();
 
         } else {
-            String line1 = Messages.RENT_SIGN1.replace("%regionid%", this.getRegion().getId());
-            line1 = line1.replace("%price%", this.price + "");
-            line1 = line1.replace("%currency%", Messages.CURRENCY);
-            line1 = line1.replace("%dimensions%", this.getDimensions());
-            line1 = line1.replace("%extendperclick%", this.getExtendPerClick());
-            line1 = line1.replace("%maxrenttime%", this.getMaxRentTime());
-            line1 = line1.replace("%remaining%", this.calcRemainingTime());
+            String line1 = this.getConvertedMessage(Messages.RENT_SIGN1);
 
-            String line2 = Messages.RENT_SIGN2.replace("%regionid%", this.getRegion().getId());
-            line2 = line2.replace("%price%", this.price + "");
-            line2 = line2.replace("%currency%", Messages.CURRENCY);
-            line2 = line2.replace("%dimensions%", this.getDimensions());
-            line2 = line2.replace("%extendperclick%", this.getExtendPerClick());
-            line2 = line2.replace("%maxrenttime%", this.getMaxRentTime());
-            line2 = line2.replace("%remaining%", this.calcRemainingTime());
+            String line2 = this.getConvertedMessage(Messages.RENT_SIGN2);
 
-            String line3 = Messages.RENT_SIGN3.replace("%regionid%", this.getRegion().getId());
-            line3 = line3.replace("%price%", this.price + "");
-            line3 = line3.replace("%currency%", Messages.CURRENCY);
-            line3 = line3.replace("%dimensions%", this.getDimensions());
-            line3 = line3.replace("%extendperclick%", this.getExtendPerClick());
-            line3 = line3.replace("%maxrenttime%", this.getMaxRentTime());
-            line3 = line3.replace("%remaining%", this.calcRemainingTime());
+            String line3 = this.getConvertedMessage(Messages.RENT_SIGN3);
 
-            String line4 = Messages.RENT_SIGN4.replace("%regionid%", this.getRegion().getId());
-            line4 = line4.replace("%price%", this.price + "");
-            line4 = line4.replace("%currency%", Messages.CURRENCY);
-            line4 = line4.replace("%dimensions%", this.getDimensions());
-            line4 = line4.replace("%extendperclick%", this.getExtendPerClick());
-            line4 = line4.replace("%maxrenttime%", this.getMaxRentTime());
-            line4 = line4.replace("%remaining%", this.calcRemainingTime());
+            String line4 = this.getConvertedMessage(Messages.RENT_SIGN4);
 
             mysign.setLine(0, line1);
             mysign.setLine(1, line2);
@@ -170,13 +101,14 @@ public class RentRegion extends Region {
             throw new InputException(player, LimitGroup.getRegionBuyOutOfLimitMessage(player, this.regionKind));
         }
 
-        if(AdvancedRegionMarket.getEcon().getBalance(player) < this.price) {
+        if(AdvancedRegionMarket.getEcon().getBalance(player) < this.getPrice()) {
             throw new InputException(player, Messages.NOT_ENOUGHT_MONEY);
         }
-        AdvancedRegionMarket.getEcon().withdrawPlayer(player, price);
-
+        AdvancedRegionMarket.getEcon().withdrawPlayer(player, this.getPrice());
+        this.giveParentRegionOwnerMoney(this.getPrice());
         this.setSold(player);
-        if(AdvancedRegionMarket.isTeleportAfterRentRegionBought()){
+        this.resetBuiltBlocks();
+        if(ArmSettings.isTeleportAfterRentRegionBought()){
             Teleporter.teleport(player, this, "", AdvancedRegionMarket.getARM().getConfig().getBoolean("Other.TeleportAfterRegionBoughtCountdown"));
         }
         player.sendMessage(Messages.PREFIX + Messages.REGION_BUYMESSAGE);
@@ -186,7 +118,7 @@ public class RentRegion extends Region {
     public void displayExtraInfo(CommandSender sender) {
         sender.sendMessage(Messages.REGION_INFO_REMAINING_TIME + this.calcRemainingTime());
         sender.sendMessage(Messages.REGION_INFO_EXTEND_PER_CLICK + this.getExtendPerClick());
-        sender.sendMessage(Messages.REGION_INFO_MAX_RENT_TIME + this.getMaxRentTime());
+        sender.sendMessage(Messages.REGION_INFO_MAX_RENT_TIME + this.getMaxRentTimeString());
     }
 
     @Override
@@ -215,10 +147,7 @@ public class RentRegion extends Region {
 
         this.updateSigns();
 
-        YamlConfiguration config = getRegionsConf();
-        config.set("Regions." + this.regionworld + "." + this.region.getId() + ".sold", true);
-        config.set("Regions." + this.regionworld + "." + this.region.getId() + ".payedTill", this.payedTill);
-        saveRegionsConf(config);
+        RegionManager.saveRegion(this);
 
     }
 
@@ -274,9 +203,9 @@ public class RentRegion extends Region {
     }
 
     public String calcRemainingTime() {
-        String timetoString = AdvancedRegionMarket.getRemainingTimeTimeformat();
-        timetoString = timetoString.replace("%countdown%", this.getCountdown(AdvancedRegionMarket.isUseShortCountdown()));
-        timetoString = timetoString.replace("%date%", this.getDate(AdvancedRegionMarket.getDateTimeformat()));
+        String timetoString = ArmSettings.getRemainingTimeTimeformat();
+        timetoString = timetoString.replace("%countdown%", this.getCountdown(ArmSettings.isUseShortCountdown()));
+        timetoString = timetoString.replace("%date%", this.getDate(ArmSettings.getDateTimeformat()));
 
 
         return timetoString;
@@ -397,7 +326,7 @@ public class RentRegion extends Region {
         return timetoString;
     }
 
-    public String getMaxRentTime(){
+    public String getMaxRentTimeString(){
         long time = this.maxRentTime;
 
         long remainingDays = TimeUnit.DAYS.convert(time, TimeUnit.MILLISECONDS);
@@ -465,35 +394,26 @@ public class RentRegion extends Region {
         }
         GregorianCalendar actualtime = new GregorianCalendar();
         if (this.maxRentTime < ((this.payedTill + this.rentExtendPerClick) - actualtime.getTimeInMillis())){
-            String errormessage = Messages.RENT_EXTEND_ERROR;
-            errormessage = errormessage.replace("%remaining%", this.calcRemainingTime());
-            errormessage = errormessage.replace("%maxrenttime%", this.getMaxRentTime());
-            errormessage = errormessage.replace("%extendperclick%", this.getExtendPerClick());
-            errormessage = errormessage.replace("%price%", this.price + Messages.CURRENCY);
+            String errormessage = this.getConvertedMessage(Messages.RENT_EXTEND_ERROR);
             throw new InputException(player, errormessage);
         } else {
-            if(AdvancedRegionMarket.getEcon().getBalance(player) < this.price) {
+            if(AdvancedRegionMarket.getEcon().getBalance(player) < this.getPrice()) {
                 throw new InputException(player, Messages.NOT_ENOUGHT_MONEY);
             }
-            AdvancedRegionMarket.getEcon().withdrawPlayer(player, price);
+            AdvancedRegionMarket.getEcon().withdrawPlayer(player, this.getPrice());
+            this.giveParentRegionOwnerMoney(this.getPrice());
             this.payedTill = this.payedTill + this.rentExtendPerClick;
-            YamlConfiguration config = getRegionsConf();
-            config.set("Regions." + this.regionworld + "." + this.region.getId() + ".payedTill", this.payedTill);
-            saveRegionsConf(config);
 
-            String message = Messages.RENT_EXTEND_MESSAGE;
-            message = message.replace("%remaining%", this.calcRemainingTime());
-            message = message.replace("%maxrenttime%", this.getMaxRentTime());
-            message = message.replace("%extendperclick%", this.getExtendPerClick());
-            message = message.replace("%price%", this.price + "");
-            message = message.replace("%currency%", Messages.CURRENCY);
+            RegionManager.saveRegion(this);
+
+            String message = this.getConvertedMessage(Messages.RENT_EXTEND_MESSAGE);
             player.sendMessage(Messages.PREFIX + message);
 
             for(int i = 0; i < this.sellsign.size(); i++){
                 this.updateSignText(this.sellsign.get(i));
             }
 
-            if(AdvancedRegionMarket.isTeleportAfterRentRegionExtend()) {
+            if(ArmSettings.isTeleportAfterRentRegionExtend()) {
                 Teleporter.teleport(player, this);
             }
 
@@ -502,7 +422,7 @@ public class RentRegion extends Region {
     }
 
     public static void sendExpirationWarnings(Player player) {
-        List<Region> regions = getRegionsByOwner(player.getUniqueId());
+        List<Region> regions = RegionManager.getRegionsByOwner(player.getUniqueId());
         List<RentRegion> rentRegions = new ArrayList<>();
         for(int i = 0; i < regions.size(); i++) {
             if(regions.get(i) instanceof RentRegion) {
@@ -522,6 +442,31 @@ public class RentRegion extends Region {
         }
     }
 
+    public double getPricePerM2PerWeek() {
+        if(this.getRentExtendPerClick() == 0) {
+            return Integer.MAX_VALUE;
+        }
+        double pricePerM2 = this.getPricePerM2();
+        double msPerWeek = 1000 * 60 * 60 * 24 * 7;
+        return (msPerWeek / this.getRentExtendPerClick()) * pricePerM2;
+    }
+
+    public double getPricePerM3PerWeek() {
+        if(this.getRentExtendPerClick() == 0) {
+            return Integer.MAX_VALUE;
+        }
+        double pricePerM2 = this.getPricePerM3();
+        double msPerWeek = 1000 * 60 * 60 * 24 * 7;
+        return (msPerWeek / this.getRentExtendPerClick()) * pricePerM2;
+    }
+
+
+
+    @Override
+    protected String getSellType() {
+        return Messages.RENTREGION_NAME;
+    }
+
     public static void setExpirationWarningTime(long time) {
         RentRegion.expirationWarningTime = time;
     }
@@ -533,4 +478,20 @@ public class RentRegion extends Region {
     public static Boolean isSendExpirationWarning(){
         return RentRegion.sendExpirationWarning;
     }
+
+    @Override
+    public String getConvertedMessage(String message) {
+        message = super.getConvertedMessage(message);
+        message = message.replace("%maxrenttime%", this.getMaxRentTimeString());
+        message = message.replace("%remaining%", this.calcRemainingTime());
+        message = message.replace("%extendperclick%", this.getExtendPerClick());
+        message = message.replace("%priceperm2perweek%", this.roundNumber(this.getPricePerM2PerWeek()) + "");
+        message = message.replace("%priceperm3perweek%", this.roundNumber(this.getPricePerM3PerWeek()) + "");
+        return message;
+    }
+
+    public long getMaxRentTime() {
+        return this.maxRentTime;
+    }
+
 }

@@ -1,20 +1,19 @@
 package net.alex9849.arm.regions;
 
 import net.alex9849.arm.AdvancedRegionMarket;
-import net.alex9849.arm.minifeatures.AutoPrice;
+import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.InputException;
-import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
+import net.alex9849.arm.minifeatures.ParticleBorder;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
+import net.alex9849.arm.regions.price.Price;
 import net.alex9849.inter.WGRegion;
 import org.bukkit.*;
 import org.bukkit.Location;
 import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
 
 import java.io.*;
@@ -22,28 +21,31 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.logging.Level;
 
 public abstract class Region {
-    private static List<Region> regionList = new ArrayList<>();
-    private static boolean completeTabRegions;
+    public static boolean completeTabRegions;
 
     protected WGRegion region;
-    protected String regionworld;
+    protected World regionworld;
     protected ArrayList<Sign> sellsign;
     protected ArrayList<Location> builtblocks;
-    protected double price;
+    protected Price price;
     protected boolean sold;
     protected boolean autoreset;
     protected boolean isHotel;
     protected long lastreset;
     protected static int resetcooldown;
-    private static YamlConfiguration regionsconf;
     protected RegionKind regionKind;
     protected Location teleportLocation;
     protected boolean isDoBlockReset;
+    protected List<Region> subregions;
+    protected int allowedSubregions;
+    protected Region parentRegion;
+    protected boolean isUserResettable;
 
-    public Region(WGRegion region, String regionworld, List<Sign> sellsign, double price, Boolean sold, Boolean autoreset,
-                  Boolean isHotel, Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, Boolean writeInFile){
+    public Region(WGRegion region, World regionworld, List<Sign> sellsign, Price price, Boolean sold, Boolean autoreset,
+                  Boolean isHotel, Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, boolean isUserResettable, List<Region> subregions, int allowedSubregions){
         this.region = region;
         this.sellsign = new ArrayList<Sign>(sellsign);
         this.sold = sold;
@@ -56,6 +58,13 @@ public abstract class Region {
         this.builtblocks = new ArrayList<Location>();
         this.isHotel = isHotel;
         this.teleportLocation = teleportLoc;
+        this.subregions = subregions;
+        this.allowedSubregions = allowedSubregions;
+        this.isUserResettable = isUserResettable;
+
+        for(Region subregion : subregions) {
+            subregion.setParentRegion(this);
+        }
 
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
         File builtblocksdic = new File(pluginfolder + "/schematics/" + this.regionworld + "/" + region.getId() + "--builtblocks.schematic");
@@ -82,40 +91,62 @@ public abstract class Region {
         } else {
             this.builtblocks = new ArrayList<Location>();
         }
+    }
 
-
-
-        if(writeInFile){
-            YamlConfiguration config = getRegionsConf();
-
-            config.set("Regions." + this.regionworld + "." + this.region.getId() + ".price", price);
-            config.set("Regions." + this.regionworld + "." + this.region.getId() + ".sold", false);
-            if(regionKind == RegionKind.DEFAULT) {
-                config.set("Regions." + this.regionworld + "." + this.region.getId() + ".kind", "default");
-            } else {
-                config.set("Regions." + this.regionworld + "." + this.region.getId() + ".kind", regionKind.getName());
+    protected void giveParentRegionOwnerMoney(double amount) {
+        if(this.isSubregion()) {
+            if(this.getParentRegion() != null) {
+                if(this.getParentRegion().isSold()) {
+                    List<UUID> parentRegionOwners = this.getParentRegion().getRegion().getOwners();
+                    for(UUID uuid : parentRegionOwners) {
+                        OfflinePlayer subRegionOwner = Bukkit.getOfflinePlayer(uuid);
+                        if(subRegionOwner != null) {
+                            AdvancedRegionMarket.getEcon().depositPlayer(subRegionOwner, amount);
+                        }
+                    }
+                }
             }
-            config.set("Regions." + this.regionworld + "." + this.region.getId() + ".regiontype", "sellregion");
-            config.set("Regions." + this.regionworld + "." + this.region.getId() + ".autoreset", autoreset);
-            config.set("Regions." + this.regionworld + "." + this.region.getId() + ".lastreset", lastreset);
-            config.set("Regions." + this.regionworld + "." + this.region.getId() + ".isHotel", isHotel);
-            config.set("Regions." + this.regionworld + "." + this.region.getId() + ".doBlockReset", doBlockReset);
-            List<String> regionsigns = config.getStringList("Regions." + this.regionworld + "." + this.region.getId() + ".signs");
-            Location signloc = this.sellsign.get(0).getLocation();
-            regionsigns.add(signloc.getWorld().getName() + ";" + signloc.getX() + ";" + signloc.getY() + ";" + signloc.getZ());
-            config.set("Regions." + this.regionworld + "." + this.region.getId() + ".signs", regionsigns);
-            saveRegionsConf(config);
-            this.createSchematic();
         }
+    }
 
+    public void setAllowedSubregions(int allowedSubregions) {
+        this.allowedSubregions = allowedSubregions;
+        RegionManager.saveRegion(this);
+    }
+
+    public boolean isUserResettable() {
+        return this.isUserResettable;
+    }
+
+    public boolean isSubregion() {
+        return (this.parentRegion != null);
     }
 
     public void setTeleportLocation(Location loc) {
         this.teleportLocation = loc;
-        String locString = loc.getWorld().getName() + ";" + loc.getBlockX() + ";" + loc.getBlockY() + ";" + loc.getBlockZ() + ";" + loc.getPitch() + ";" + loc.getYaw();
-        YamlConfiguration conf = getRegionsConf();
-        conf.set("Regions." + this.regionworld + "." + this.region.getId() + ".teleportLoc", locString);
-        saveRegionsConf(conf);
+        RegionManager.saveRegion(this);
+    }
+
+    public Region getParentRegion() {
+        return this.parentRegion;
+    }
+
+    private void setParentRegion(Region region) {
+        this.parentRegion = region;
+    }
+
+    public int getAllowedSubregions() {
+        return this.allowedSubregions;
+    }
+
+    public boolean isAllowSubregions() {
+        return (this.allowedSubregions > 0);
+    }
+
+    public void addSubRegion(Region region) {
+        region.setParentRegion(this);
+        this.subregions.add(region);
+        RegionManager.saveRegion(this);
     }
 
     public void delete() {
@@ -154,13 +185,9 @@ public abstract class Region {
     public void addSign(Location loc){
         Sign newsign = (Sign) loc.getBlock().getState();
         sellsign.add(newsign);
-        YamlConfiguration config = getRegionsConf();
-        List<String> regionsigns = config.getStringList("Regions." + this.regionworld + "." + region.getId() + ".signs");
-        regionsigns.add(loc.getWorld().getName() + ";" + loc.getX() + ";" + loc.getY() + ";" + loc.getZ());
-        config.set("Regions." + this.regionworld + "." + region.getId() + ".signs", regionsigns);
-        saveRegionsConf(config);
+        RegionManager.saveRegion(this);
         this.updateSignText(newsign);
-        Bukkit.getServer().getWorld(regionworld).save();
+        this.getRegionworld().save();
 
     }
 
@@ -170,34 +197,27 @@ public abstract class Region {
 
     public boolean removeSign(Location loc, Player destroyer){
         for(int i = 0; i < this.sellsign.size(); i++){
-            if(this.sellsign.get(i).getWorld().getName().equalsIgnoreCase(loc.getWorld().getName())){
+            if(this.sellsign.get(i).getWorld().getName().equals(loc.getWorld().getName())){
                 if(this.sellsign.get(i).getLocation().distance(loc) == 0){
                     this.sellsign.remove(i);
-                    YamlConfiguration config = getRegionsConf();
-                    List<String> regionSigns = config.getStringList("Regions." + this.regionworld + "." + this.region.getId() + ".signs");
-                    for (int j = 0; j < regionSigns.size(); j++){
-                        if (regionSigns.get(j).equals(this.regionworld + ";" + loc.getX() + ";" + loc.getY() + ";" + loc.getZ())){
-                            regionSigns.remove(j);
-                            config.set("Regions." + this.regionworld + "." + this.region.getId() + ".signs", regionSigns);
-                            saveRegionsConf(config);
-                            if(destroyer != null) {
-                                String message = Messages.SIGN_REMOVED_FROM_REGION.replace("%remaining%", this.getNumberOfSigns() + "");
-                                destroyer.sendMessage(Messages.PREFIX + message);
-                            }
-                            if(regionSigns.size() == 0){
-                                for(int x = 0; x < Region.getRegionList().size(); x++) {
-                                    if(Region.getRegionList().get(x) == this){
-                                        config.set("Regions." + this.regionworld + "." + this.region.getId(), null);
-                                        saveRegionsConf(config);
-                                        if(destroyer != null) {
-                                            destroyer.sendMessage(Messages.PREFIX + Messages.REGION_REMOVED_FROM_ARM);
-                                        }
-                                        Region.getRegionList().remove(x);
-                                    }
-                                }
-                            }
+                    if(destroyer != null) {
+                        String message = Messages.SIGN_REMOVED_FROM_REGION.replace("%remaining%", this.getNumberOfSigns() + "");
+                        destroyer.sendMessage(Messages.PREFIX + message);
+                    }
+                    if(this.sellsign.size() == 0) {
+                        for(int y = 0; i < this.getSubregions().size();) {
+                            this.getSubregions().get(y).delete();
+                        }
+                        if(this.isSubregion()) {
+                            AdvancedRegionMarket.getWorldGuardInterface().removeFromRegionManager(this.getRegion(), this.getRegionworld(), AdvancedRegionMarket.getWorldGuard());
+                            this.getParentRegion().getSubregions().remove(this);
+                        }
+                        RegionManager.removeRegion(this);
+                        if(destroyer != null) {
+                            destroyer.sendMessage(Messages.PREFIX + Messages.REGION_REMOVED_FROM_ARM);
                         }
                     }
+
                     return true;
                 }
             }
@@ -222,12 +242,12 @@ public abstract class Region {
         }
     }
 
-    public String getRegionworld() {
+    public World getRegionworld() {
         return regionworld;
     }
 
     public double getPrice(){
-        return this.price;
+        return this.price.calcPrice(this.getRegion());
     }
 
     public boolean hasSign(Sign sign){
@@ -245,66 +265,18 @@ public abstract class Region {
         return this.sellsign.size();
     }
 
-    public static double calculatePrice(WGRegion region, String regiontype){
-
-        Vector min = region.getMinPoint();
-        Vector max = region.getMaxPoint();
-        int maxX = max.getBlockX();
-        int maxZ = max.getBlockZ();
-        int minX = min.getBlockX();
-        int minY = min.getBlockY();
-        int minZ = min.getBlockZ();
-        double price = 0;
-        double priceperblock = 0;
-
-        for(int i = 0; i < AutoPrice.getAutoPrices().size(); i++){
-            if(AutoPrice.getAutoPrices().get(i).equals(regiontype)){
-                priceperblock = AutoPrice.getAutoPrices().get(i).getPricePerSquareMeter();
-            }
-        }
-
-        for(int x = minX; x <= maxX; x++){
-            for(int z = minZ; z <= maxZ; z++) {
-                if(region.contains(x, minY, z)){
-                    price = price + priceperblock;
-                }
-            }
-        }
-        if(price == 0) {
-            return Double.parseDouble(regiontype);
-        } else {
-            return price;
-        }
-    }
-
-    public boolean setKind(String kind){
-        RegionKind regionkind = RegionKind.getRegionKind(kind);
-
-        if(regionkind == null) {
+    public boolean setKind(RegionKind kind){
+        if(kind == null) {
             return false;
-
-        } else if(regionkind == RegionKind.DEFAULT) {
-            YamlConfiguration config = getRegionsConf();
-            config.set("Regions." + this.regionworld + "." + this.region.getId() + ".kind", "default");
-            saveRegionsConf(config);
-            this.regionKind = RegionKind.DEFAULT;
-            return true;
-
-        } else {
-            YamlConfiguration config = getRegionsConf();
-            config.set("Regions." + this.regionworld + "." + this.region.getId() + ".kind", regionkind.getName());
-            saveRegionsConf(config);
-            this.regionKind = regionkind;
-            return true;
         }
+        this.regionKind = kind;
+        RegionManager.saveRegion(this);
+        return true;
     }
 
-    public static List<Region> getRegionList() {
-        return regionList;
-    }
-
-    public static void Reset(){
-        Region.regionList = new ArrayList<>();
+    public void setIsUserResettable(boolean bool) {
+        this.isUserResettable = bool;
+        RegionManager.saveRegion(this);
     }
 
     public RegionKind getRegionKind(){
@@ -315,48 +287,39 @@ public abstract class Region {
         return sold;
     }
 
-    public static void teleportToFreeRegion(RegionKind type, Player player) throws InputException {
-        for (int i = 0; i < Region.getRegionList().size(); i++){
-
-            if ((Region.getRegionList().get(i).isSold() == false) && (Region.getRegionList().get(i).getRegionKind() == type)){
-                WGRegion regionTP = Region.getRegionList().get(i).getRegion();
-                String message = Messages.REGION_TELEPORT_MESSAGE.replace("%regionid%", regionTP.getId());
-                Teleporter.teleport(player, Region.getRegionList().get(i), Messages.PREFIX + message, true);
-                return;
-            }
-        }
-        throw new InputException(player, Messages.NO_FREE_REGION_WITH_THIS_KIND);
-    }
-
     public void createSchematic(){
         AdvancedRegionMarket.getWorldEditInterface().createSchematic(this.getRegion(), this.getRegionworld(), AdvancedRegionMarket.getWorldedit().getWorldEdit());
     }
 
     public boolean resetBlocks(){
+        this.resetBuiltBlocks();
+        try {
+            AdvancedRegionMarket.getWorldEditInterface().resetBlocks(this.getRegion(), this.getRegionworld(), AdvancedRegionMarket.getWorldedit().getWorldEdit());
+            if(ArmSettings.isDeleteSubregionsOnParentRegionBlockReset()) {
+                for(int i = 0; i < this.getSubregions().size();) {
+                    this.getSubregions().get(i).delete();
+                }
+            }
+        } catch (IOException e) {
+            Bukkit.getLogger().log(Level.INFO, "[ARM] Could load schematic for Region " + this.getRegion().getId() + "! Does it exist?");
+        }
+
+        return true;
+    }
+
+    public void resetBuiltBlocks() {
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
         File builtblocksdic = new File(pluginfolder + "/schematics/" + this.regionworld + "/" + region.getId() + "--builtblocks.schematic");
         if(builtblocksdic.exists()){
             builtblocksdic.delete();
             this.builtblocks = new ArrayList<>();
         }
-
-        AdvancedRegionMarket.getWorldEditInterface().resetBlocks(this.getRegion(), this.getRegionworld(), AdvancedRegionMarket.getWorldedit().getWorldEdit());
-
-        return true;
-    }
-
-    public static Region searchRegionbyNameAndWorld(String name, String world){
-        for (int i = 0; i < Region.getRegionList().size(); i++) {
-            if(Region.getRegionList().get(i).getRegion().getId().equalsIgnoreCase(name) && Region.getRegionList().get(i).getRegionworld().equals(world)){
-                return Region.getRegionList().get(i);
-            }
-        }
-        return null;
     }
 
     public void regionInfo(CommandSender sender){
         String owners = "";
         String members = "";
+        String subregions = "";
         List<UUID> ownerslist = this.getRegion().getOwners();
         List<UUID> memberslist = this.getRegion().getMembers();
         for(int i = 0; i < ownerslist.size() - 1; i++){
@@ -371,69 +334,62 @@ public abstract class Region {
         if(memberslist.size() != 0){
             members = members + Bukkit.getOfflinePlayer(memberslist.get(memberslist.size() - 1)).getName();
         }
+        for (int i = 0; i < this.getSubregions().size() - 1; i++) {
+            subregions = subregions + this.getSubregions().get(i).getRegion().getId() + ", ";
+        }
+        if(this.getSubregions().size() != 0){
+            subregions = subregions + this.getSubregions().get(this.getSubregions().size() - 1).getRegion().getId();
+        }
 
 
 
         sender.sendMessage(Messages.REGION_INFO);
         sender.sendMessage(Messages.REGION_INFO_ID + this.getRegion().getId());
         sender.sendMessage(Messages.REGION_INFO_SOLD + Messages.convertYesNo(this.isSold()));
-        sender.sendMessage(Messages.REGION_INFO_PRICE + this.price + " " + Messages.CURRENCY);
+        sender.sendMessage(Messages.REGION_INFO_PRICE + this.price.calcPrice(this.getRegion()) + " " + Messages.CURRENCY);
         sender.sendMessage(Messages.REGION_INFO_TYPE + this.getRegionKind().getDisplayName());
         sender.sendMessage(Messages.REGION_INFO_OWNER + owners);
         sender.sendMessage(Messages.REGION_INFO_MEMBERS + members);
+        sender.sendMessage(Messages.REGION_INFO_HOTEL + Messages.convertYesNo(this.isHotel));
         if(sender.hasPermission(Permission.ADMIN_INFO)){
             String autoresetmsg = Messages.REGION_INFO_AUTORESET + Messages.convertYesNo(this.autoreset);
-            if((!AdvancedRegionMarket.getEnableAutoReset()) && this.autoreset){
+            if((!ArmSettings.isEnableAutoReset()) && this.autoreset){
                 autoresetmsg = autoresetmsg + " (but globally disabled)";
             }
             sender.sendMessage(autoresetmsg);
-            sender.sendMessage(Messages.REGION_INFO_HOTEL + Messages.convertYesNo(this.isHotel));
             sender.sendMessage(Messages.REGION_INFO_DO_BLOCK_RESET + Messages.convertYesNo(this.isDoBlockReset));
+            sender.sendMessage(Messages.REGION_INFO_IS_USER_RESETTABLE + Messages.convertYesNo(this.isUserResettable));
+            String isAutoPriceInfo = "";
+            if(this.getPriceObject().isAutoPrice()) {
+                isAutoPriceInfo = this.getPriceObject().getAutoPrice().getName();
+            } else {
+                isAutoPriceInfo = Messages.convertYesNo(this.getPriceObject().isAutoPrice());
+            }
+            sender.sendMessage(Messages.REGION_INFO_AUTOPRICE + isAutoPriceInfo);
         }
         this.displayExtraInfo(sender);
+        if(!this.isSubregion()) {
+            sender.sendMessage(Messages.REGION_INFO_ALLOWED_SUBREGIONS + this.getAllowedSubregions());
+            sender.sendMessage(Messages.REGION_INFO_SUBREGIONS + subregions);
+        }
+
+
+        if(sender instanceof Player) {
+            Player player = (Player) sender;
+            Location rpos1 = new Location(this.getRegionworld(), this.getRegion().getMinPoint().getX(), this.getRegion().getMinPoint().getY(), this.getRegion().getMinPoint().getZ());
+            Location rpos2 = new Location(this.getRegionworld(), this.getRegion().getMaxPoint().getX(), this.getRegion().getMaxPoint().getY(), this.getRegion().getMaxPoint().getZ());
+            new ParticleBorder(rpos1, rpos2, player).createParticleBorder(20 * 30);
+            for(Region subregion : this.getSubregions()) {
+                Location lpos1 = new Location(subregion.getRegionworld(), subregion.getRegion().getMinPoint().getX(), subregion.getRegion().getMinPoint().getY(), subregion.getRegion().getMinPoint().getZ());
+                Location lPos2 = new Location(subregion.getRegionworld(), subregion.getRegion().getMaxPoint().getX(), subregion.getRegion().getMaxPoint().getY(), subregion.getRegion().getMaxPoint().getZ());
+                new ParticleBorder(lpos1, lPos2, player).createParticleBorder(20 * 30);
+            }
+        }
     }
 
     public abstract void displayExtraInfo(CommandSender sender);
 
     public abstract void updateRegion();
-
-    public static void updateRegions(){
-        for(int i = 0; i < Region.getRegionList().size(); i++) {
-            Region.getRegionList().get(i).updateRegion();
-        }
-    }
-
-    public static List<Region> getRegionsByOwner(UUID uuid) {
-        List<Region> regions = new LinkedList<>();
-        for (int i = 0; i < Region.getRegionList().size(); i++){
-            if(Region.getRegionList().get(i).getRegion().hasOwner(uuid)){
-                regions.add(Region.getRegionList().get(i));
-            }
-        }
-        return regions;
-    }
-
-    public static boolean autoResetRegionsFromOwner(UUID uuid){
-        List<Region> regions = Region.getRegionsByOwner(uuid);
-        for(int i = 0; i < regions.size(); i++){
-            if(regions.get(i).getAutoreset()){
-                regions.get(i).unsell();
-                if(regions.get(i).isDoBlockReset()) {
-                    regions.get(i).resetBlocks();
-                }
-            }
-        }
-        return true;
-    }
-
-    public static boolean checkIfSignExists(Sign sign) {
-        for(int i = 0; i < Region.getRegionList().size(); i++){
-            if(Region.getRegionList().get(i).hasSign(sign)){
-                return true;
-            }
-        }
-        return false;
-    }
 
     public boolean getAutoreset() {
         return autoreset;
@@ -441,11 +397,7 @@ public abstract class Region {
 
     public void setAutoreset(Boolean state){
         this.autoreset = state;
-
-        YamlConfiguration config = getRegionsConf();
-        config.set("Regions." + this.regionworld + "." + this.region.getId() + ".autoreset", state);
-        saveRegionsConf(config);
-
+        RegionManager.saveRegion(this);
     }
 
     public Material getLogo() {
@@ -456,22 +408,25 @@ public abstract class Region {
         return this.teleportLocation;
     }
 
+    public void teleport(Player player, boolean teleportToSign) throws InputException {
+        if(teleportToSign) {
+            for(Sign sign : this.sellsign) {
+                if(Teleporter.teleport(player, sign)) {
+                    return;
+                }
+            }
+            throw new InputException(player, Messages.TELEPORTER_NO_SAVE_LOCATION_FOUND);
+        } else {
+            Teleporter.teleport(player, this);
+        }
+    }
+
     public void setNewOwner(OfflinePlayer member){
         ArrayList<UUID> owner = this.getRegion().getOwners();
         for (int i = 0; i < owner.size(); i++) {
             this.getRegion().addMember(owner.get(i));
         }
         this.getRegion().setOwner(member);
-    }
-
-    public static List<Region> getRegionsByMember(UUID uuid) {
-        List<Region> regions = new LinkedList<>();
-        for (int i = 0; i < Region.getRegionList().size(); i++){
-            if(Region.getRegionList().get(i).getRegion().hasMember(uuid)) {
-                regions.add(Region.getRegionList().get(i));
-            }
-        }
-        return regions;
     }
 
     public String getDimensions(){
@@ -498,9 +453,7 @@ public abstract class Region {
         this.resetBlocks();
         GregorianCalendar calendar = new GregorianCalendar();
         this.lastreset = calendar.getTimeInMillis();
-        YamlConfiguration config = getRegionsConf();
-        config.set("Regions." + this.regionworld + "." + this.region.getId() + ".lastreset", this.lastreset);
-        saveRegionsConf(config);
+        RegionManager.saveRegion(this);
         player.sendMessage(Messages.PREFIX + Messages.RESET_COMPLETE);
     }
 
@@ -516,9 +469,9 @@ public abstract class Region {
         ArrayList<UUID> ownerlist = this.getRegion().getOwners();
         if(ownerlist.size() > 0) {
             UUID owner = ownerlist.get(0);
-            if(AdvancedRegionMarket.getEnableTakeOver() ||AdvancedRegionMarket.getEnableAutoReset()) {
+            if(ArmSettings.isEnableTakeOver() ||ArmSettings.isEnableAutoReset()) {
                 try{
-                    ResultSet rs = AdvancedRegionMarket.getStmt().executeQuery("SELECT * FROM `" + AdvancedRegionMarket.getSqlPrefix() + "lastlogin` WHERE `uuid` = '" + owner.toString() + "'");
+                    ResultSet rs = ArmSettings.getStmt().executeQuery("SELECT * FROM `" + ArmSettings.getSqlPrefix() + "lastlogin` WHERE `uuid` = '" + owner.toString() + "'");
 
                     if(rs.next()){
                         Timestamp lastlogin = rs.getTimestamp("lastlogin");
@@ -526,7 +479,7 @@ public abstract class Region {
 
                         long time = lastlogin.getTime();
                         long result = calendar.getTimeInMillis() - time;
-                        int days = (int)  (AdvancedRegionMarket.getAutoResetAfter() - (result / (1000 * 60 * 60 * 24)));
+                        int days = (int)  (ArmSettings.getAutoResetAfter() - (result / (1000 * 60 * 60 * 24)));
                         return days;
                     }
 
@@ -550,12 +503,6 @@ public abstract class Region {
     public abstract void buy(Player player) throws InputException;
     public abstract void userSell(Player player);
     public abstract double getPaybackMoney();
-
-    /*
-    public static boolean allowAction(OfflinePlayer oPlayer, ) {
-
-    }
-    */
 
     public void resetRegion(){
 
@@ -598,64 +545,25 @@ public abstract class Region {
 
     public void setHotel(Boolean bool) {
         this.isHotel = bool;
-        YamlConfiguration config = getRegionsConf();
-        config.set("Regions." + this.regionworld + "." + this.getRegion().getId() + ".isHotel", bool);
-        saveRegionsConf(config);
-    }
-
-    public static void generatedefaultConfig(){
-        Plugin plugin = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket");
-        File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-        File messagesdic = new File(pluginfolder + "/regions.yml");
-        if(!messagesdic.exists()){
-            try {
-                ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-                InputStream stream = plugin.getResource("regions.yml");
-                byte[] buffer = new byte[stream.available()];
-                stream.read(buffer);
-                OutputStream output = new FileOutputStream(messagesdic);
-                output.write(buffer);
-                output.close();
-                stream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public static YamlConfiguration getRegionsConf() {
-        return Region.regionsconf;
-    }
-
-    public static void setRegionsConf(){
-        File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-        File regionsconfigdic = new File(pluginfolder + "/regions.yml");
-        Region.regionsconf = YamlConfiguration.loadConfiguration(regionsconfigdic);
-    }
-
-    public static void saveRegionsConf(YamlConfiguration conf) {
-        File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-        File regionsconfigdic = new File(pluginfolder + "/regions.yml");
-        try {
-            conf.save(regionsconfigdic);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        RegionManager.saveRegion(this);
     }
 
     public void unsell(){
-        YamlConfiguration config = getRegionsConf();
-        config.set("Regions." + this.regionworld + "." + this.getRegion().getId() + ".sold", false);
-        config.set("Regions." + this.regionworld + "." + this.getRegion().getId() + ".lastreset", 1);
-        saveRegionsConf(config);
         this.getRegion().deleteMembers();
         this.getRegion().deleteOwners();
         this.sold = false;
         this.lastreset = 1;
 
+        if(ArmSettings.isDeleteSubregionsOnParentRegionUnsell()) {
+            for(int i = 0; i < this.getSubregions().size();) {
+                this.getSubregions().get(i).delete();
+            }
+        }
+
         for(int i = 0; i < this.sellsign.size(); i++){
             this.updateSignText(this.sellsign.get(i));
         }
+        RegionManager.saveRegion(this);
     }
 
     public boolean isDoBlockReset() {
@@ -664,44 +572,101 @@ public abstract class Region {
 
     public void setDoBlockReset(Boolean bool) {
         this.isDoBlockReset = bool;
-        YamlConfiguration config = getRegionsConf();
-        config.set("Regions." + this.regionworld + "." + this.getRegion().getId() + ".doBlockReset", bool);
-        saveRegionsConf(config);
-    }
-
-    public static List<String> completeTabRegions(Player player, String arg, PlayerRegionRelationship playerRegionRelationship) {
-        List<String> returnme = new ArrayList<>();
-
-        if(Region.completeTabRegions) {
-            for(Region region : Region.getRegionList()) {
-                if(region.getRegion().getId().toLowerCase().startsWith(arg)) {
-                    if(playerRegionRelationship == PlayerRegionRelationship.OWNER) {
-                        if(region.getRegion().hasOwner(player.getUniqueId())) {
-                            returnme.add(region.getRegion().getId());
-                        }
-                    } else if (playerRegionRelationship == PlayerRegionRelationship.MEMBER) {
-                        if(region.getRegion().hasMember(player.getUniqueId())) {
-                            returnme.add(region.getRegion().getId());
-                        }
-                    } else if (playerRegionRelationship == PlayerRegionRelationship.MEMBER_OR_OWNER) {
-                        if(region.getRegion().hasMember(player.getUniqueId()) || region.getRegion().hasOwner(player.getUniqueId())) {
-                            returnme.add(region.getRegion().getId());
-                        }
-                    } else if (playerRegionRelationship == PlayerRegionRelationship.ALL) {
-                        returnme.add(region.getRegion().getId());
-                    } else if (playerRegionRelationship == PlayerRegionRelationship.AVAILABLE) {
-                        if(!region.isSold()) {
-                            returnme.add(region.getRegion().getId());
-                        }
-                    }
-                }
-            }
-        }
-
-        return returnme;
+        RegionManager.saveRegion(this);
     }
 
     public static void setCompleteTabRegions(Boolean bool) {
         Region.completeTabRegions = bool;
+    }
+
+    public List<Region> getSubregions() {
+        return subregions;
+    }
+
+    protected List<Sign> getSellSigns() {
+        return this.sellsign;
+    }
+
+    protected long getLastreset() {
+        return this.lastreset;
+    }
+
+    protected boolean isAutoreset() {
+        return this.autoreset;
+    }
+
+    private String getOwnerName() {
+        LinkedList<UUID> ownerlist = new LinkedList<>(this.getRegion().getOwners());
+        String ownername;
+        if(ownerlist.size() < 1){
+            ownername = "Unknown";
+        } else {
+            OfflinePlayer owner = Bukkit.getOfflinePlayer(ownerlist.get(0));
+            ownername = owner.getName();
+        }
+        return ownername;
+    }
+
+    public abstract double getPricePerM2PerWeek();
+
+    public abstract double getPricePerM3PerWeek();
+
+    public double getPricePerM2() {
+        int m2 = this.getRegion().getVolume() / ((this.getRegion().getMaxPoint().getBlockY() - this.getRegion().getMinPoint().getBlockY()) + 1);
+        return this.price.calcPrice(this.getRegion()) / m2;
+    }
+
+    public double getPricePerM3() {
+        double pricePerM2 = this.getPricePerM2();
+        double hight = ((this.getRegion().getMaxPoint().getBlockY() - this.getRegion().getMinPoint().getBlockY()) + 1);
+        return pricePerM2 / hight;
+    }
+
+    public double roundNumber(double number) {
+        double rounded = number;
+        rounded = rounded * 100;
+        rounded = (int) rounded;
+        return rounded / 100;
+    }
+
+    private String getHotelFunctionStringStatus() {
+        if(this.isHotel()) {
+            return Messages.ENABLED;
+        } else {
+            return Messages.DISABLED;
+        }
+    }
+
+    private String getSoldStringStatus() {
+        if(this.isSold()) {
+            return Messages.SOLD;
+        } else {
+            return Messages.AVAILABLE;
+        }
+    }
+
+    protected abstract String getSellType();
+
+    public Price getPriceObject() {
+        return this.price;
+    }
+
+    public String getConvertedMessage(String message) {
+        message = message.replace("%regionid%", this.getRegion().getId());
+        message = message.replace("%region%", this.getRegion().getId());
+        message = message.replace("%price%", this.getPrice() + "");
+        message = message.replace("%dimensions%", this.getDimensions());
+        message = message.replace("%priceperm2%", this.roundNumber(this.getPricePerM2()) + "");
+        message = message.replace("%priceperm3%", this.roundNumber(this.getPricePerM3()) + "");
+        message = message.replace("%remainingdays%", (Region.getResetCooldown() - this.timeSinceLastReset()) + "");
+        message = message.replace("%paybackmoney%", this.getPaybackMoney() + "");
+        message = message.replace("%currency%", Messages.CURRENCY);
+        message = message.replace("%owner%", this.getOwnerName());
+        message = message.replace("%world%", this.getRegionworld().getName());
+        message = message.replace("%subregionlimit%", this.getAllowedSubregions() + "");
+        message = message.replace("%hotelfunctionstatus%", this.getHotelFunctionStringStatus());
+        message = message.replace("%soldstatus%", this.getSoldStringStatus());
+        message = message.replace("%selltype%", this.getSellType());
+        return message;
     }
 }

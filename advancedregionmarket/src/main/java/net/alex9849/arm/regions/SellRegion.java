@@ -1,16 +1,17 @@
 package net.alex9849.arm.regions;
 
 import net.alex9849.arm.AdvancedRegionMarket;
+import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.Group.LimitGroup;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
+import net.alex9849.arm.regions.price.Price;
 import net.alex9849.inter.WGRegion;
 import org.bukkit.*;
 import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -18,12 +19,10 @@ import java.util.*;
 public class SellRegion extends Region {
 
 
-    public SellRegion(WGRegion region, String regionworld, List<Sign> sellsign, double price, Boolean sold, Boolean autoreset, Boolean allowOnlyNewBlocks, Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, Boolean newreg) {
-        super(region, regionworld, sellsign, price, sold, autoreset,allowOnlyNewBlocks, doBlockReset, regionKind, teleportLoc, lastreset, newreg);
+    public SellRegion(WGRegion region, World regionworld, List<Sign> sellsign, Price price, Boolean sold, Boolean autoreset, Boolean allowOnlyNewBlocks, Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, boolean isUserResettable, List<Region> subregions, int allowedSubregions) {
+        super(region, regionworld, sellsign, price, sold, autoreset,allowOnlyNewBlocks, doBlockReset, regionKind, teleportLoc, lastreset, isUserResettable, subregions, allowedSubregions);
 
-        if(newreg) {
-            this.updateSignText(sellsign.get(0));
-        }
+        this.updateSigns();
     }
 
     @Override
@@ -40,38 +39,13 @@ public class SellRegion extends Region {
     protected void updateSignText(Sign mysign){
         if(this.sold){
 
-            LinkedList<UUID> ownerlist = new LinkedList<>(this.getRegion().getOwners());
-            String ownername;
-            if(ownerlist.size() == 0){
-                ownername = "Unknown";
-            } else {
-                OfflinePlayer owner = Bukkit.getOfflinePlayer(ownerlist.get(0));
-                ownername = owner.getName();
-            }
+            String line1 = this.getConvertedMessage(Messages.SOLD_SIGN1);
 
-            String line1 = Messages.SOLD_SIGN1.replace("%regionid%", this.getRegion().getId());
-            line1 = line1.replace("%price%", this.price + "");
-            line1 = line1.replace("%currency%", Messages.CURRENCY);
-            line1 = line1.replace("%dimensions%", this.getDimensions());
-            line1 = line1.replace("%owner%", ownername);
+            String line2 = this.getConvertedMessage(Messages.SOLD_SIGN2);
 
-            String line2 = Messages.SOLD_SIGN2.replace("%regionid%", this.getRegion().getId());
-            line2 = line2.replace("%price%", this.price + "");
-            line2 = line2.replace("%currency%", Messages.CURRENCY);
-            line2 = line2.replace("%dimensions%", this.getDimensions());
-            line2 = line2.replace("%owner%", ownername);
+            String line3 = this.getConvertedMessage(Messages.SOLD_SIGN3);
 
-            String line3 = Messages.SOLD_SIGN3.replace("%regionid%", this.getRegion().getId());
-            line3 = line3.replace("%price%", this.price + "");
-            line3 = line3.replace("%currency%", Messages.CURRENCY);
-            line3 = line3.replace("%dimensions%", this.getDimensions());
-            line3 = line3.replace("%owner%", ownername);
-
-            String line4 = Messages.SOLD_SIGN4.replace("%regionid%", this.getRegion().getId());
-            line4 = line4.replace("%price%", this.price + "");
-            line4 = line4.replace("%currency%", Messages.CURRENCY);
-            line4 = line4.replace("%dimensions%", this.getDimensions());
-            line4 = line4.replace("%owner%", ownername);
+            String line4 = this.getConvertedMessage(Messages.SOLD_SIGN4);
 
             mysign.setLine(0, line1);
             mysign.setLine(1, line2);
@@ -81,25 +55,13 @@ public class SellRegion extends Region {
 
         } else {
 
-            String line1 = Messages.SELL_SIGN1.replace("%regionid%", this.getRegion().getId());
-            line1 = line1.replace("%price%", this.price + "");
-            line1 = line1.replace("%currency%", Messages.CURRENCY);
-            line1 = line1.replace("%dimensions%", this.getDimensions());
+            String line1 = this.getConvertedMessage(Messages.SELL_SIGN1);
 
-            String line2 = Messages.SELL_SIGN2.replace("%regionid%", this.getRegion().getId());
-            line2 = line2.replace("%price%", this.price + "");
-            line2 = line2.replace("%currency%", Messages.CURRENCY);
-            line2 = line2.replace("%dimensions%", this.getDimensions());
+            String line2 = this.getConvertedMessage(Messages.SELL_SIGN2);
 
-            String line3 = Messages.SELL_SIGN3.replace("%regionid%", this.getRegion().getId());
-            line3 = line3.replace("%price%", this.price + "");
-            line3 = line3.replace("%currency%", Messages.CURRENCY);
-            line3 = line3.replace("%dimensions%", this.getDimensions());
+            String line3 = this.getConvertedMessage(Messages.SELL_SIGN3);
 
-            String line4 = Messages.SELL_SIGN4.replace("%regionid%", this.getRegion().getId());
-            line4 = line4.replace("%price%", this.price + "");
-            line4 = line4.replace("%currency%", Messages.CURRENCY);
-            line4 = line4.replace("%dimensions%", this.getDimensions());
+            String line4 = this.getConvertedMessage(Messages.SELL_SIGN4);
 
             mysign.setLine(0, line1);
             mysign.setLine(1, line2);
@@ -130,13 +92,14 @@ public class SellRegion extends Region {
             throw new InputException(player, LimitGroup.getRegionBuyOutOfLimitMessage(player, this.regionKind));
         }
 
-        if(AdvancedRegionMarket.getEcon().getBalance(player) < this.price) {
+        if(AdvancedRegionMarket.getEcon().getBalance(player) < this.getPrice()) {
             throw new InputException(player, Messages.NOT_ENOUGHT_MONEY);
         }
-        AdvancedRegionMarket.getEcon().withdrawPlayer(player, price);
-
+        AdvancedRegionMarket.getEcon().withdrawPlayer(player, this.getPrice());
+        this.giveParentRegionOwnerMoney(this.getPrice());
         this.setSold(player);
-        if(AdvancedRegionMarket.isTeleportAfterSellRegionBought()){
+        this.resetBuiltBlocks();
+        if(ArmSettings.isTeleportAfterSellRegionBought()){
             Teleporter.teleport(player, this, "", AdvancedRegionMarket.getARM().getConfig().getBoolean("Other.TeleportAfterRegionBoughtCountdown"));
         }
         player.sendMessage(Messages.PREFIX + Messages.REGION_BUYMESSAGE);
@@ -150,9 +113,7 @@ public class SellRegion extends Region {
 
         this.updateSigns();
 
-        YamlConfiguration config = Region.getRegionsConf();
-        config.set("Regions." + this.regionworld + "." + this.region.getId() + ".sold", true);
-        Region.saveRegionsConf(config);
+        RegionManager.saveRegion(this);
     }
 
     @Override
@@ -177,6 +138,21 @@ public class SellRegion extends Region {
         } else {
             return 0;
         }
+    }
+
+    @Override
+    public double getPricePerM2PerWeek() {
+        return this.getPricePerM2();
+    }
+
+    @Override
+    public double getPricePerM3PerWeek() {
+        return this.getPricePerM2();
+    }
+
+    @Override
+    protected String getSellType() {
+        return Messages.SELLREGION_NAME;
     }
 
 }

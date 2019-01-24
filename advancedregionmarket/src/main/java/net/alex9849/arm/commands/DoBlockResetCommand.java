@@ -5,6 +5,7 @@ import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regions.Region;
+import net.alex9849.arm.regions.RegionManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -40,9 +41,16 @@ public class DoBlockResetCommand extends BasicArmCommand {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Player player = (Player) sender;
-        Region region = Region.searchRegionbyNameAndWorld(args[1], player.getWorld().getName());
+        if(!player.hasPermission(Permission.ADMIN_CHANGE_DO_BLOCK_RESET)) {
+            throw new InputException(player, Messages.NO_PERMISSION);
+        }
+        Region region = RegionManager.getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
         if(region == null){
             throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
+        }
+
+        if(region.isSubregion()) {
+            throw new InputException(sender, Messages.SUB_REGION_DO_BLOCKRESET_ERROR);
         }
 
         Boolean boolsetting = Boolean.parseBoolean(args[2]);
@@ -69,7 +77,7 @@ public class DoBlockResetCommand extends BasicArmCommand {
                     if(args.length == 1) {
                         returnme.add(this.rootCommand);
                     } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                        returnme.addAll(Region.completeTabRegions(player, args[1], PlayerRegionRelationship.ALL));
+                        returnme.addAll(RegionManager.completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true,false));
                     } else if(args.length == 3 && (args[0].equalsIgnoreCase(this.rootCommand))) {
                         if("true".startsWith(args[2])) {
                             returnme.add("true");

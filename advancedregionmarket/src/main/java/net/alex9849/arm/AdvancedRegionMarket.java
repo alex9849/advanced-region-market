@@ -3,23 +3,19 @@ package net.alex9849.arm;
 import net.alex9849.arm.Handler.ARMListener;
 import net.alex9849.arm.Handler.CommandHandler;
 import net.alex9849.arm.Handler.Scheduler;
-import net.alex9849.arm.Preseter.ContractPreset;
-import net.alex9849.arm.Preseter.Preset;
-import net.alex9849.arm.Preseter.RentPreset;
-import net.alex9849.arm.Preseter.SellPreset;
+import net.alex9849.arm.Preseter.*;
+import net.alex9849.arm.commands.*;
 import net.alex9849.arm.exceptions.InputException;
-import net.alex9849.arm.minifeatures.AutoPrice;
+import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.*;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import net.alex9849.arm.Group.LimitGroup;
 import net.alex9849.arm.gui.Gui;
-import net.alex9849.inter.WGRegion;
 import net.alex9849.inter.WorldEditInterface;
 import net.alex9849.inter.WorldGuardInterface;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.*;
-import org.bukkit.block.Sign;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -47,21 +43,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
     private static WorldGuardInterface worldGuardInterface;
     private static WorldEditPlugin worldedit;
     private static WorldEditInterface worldEditInterface;
-    private static boolean enableAutoReset;
-    private static boolean enableTakeOver;
-    private static Statement stmt;
-    private static String sqlPrefix;
-    private static int autoResetAfter;
-    private static int takeoverAfter;
-    private static boolean teleportAfterSellRegionBought;
-    private static boolean teleportAfterRentRegionBought;
-    private static boolean teleportAfterRentRegionExtend;
-    private static boolean teleportAfterContractRegionBought;
-    private static boolean sendContractRegionExtendMessage;
-    private static String REMAINING_TIME_TIMEFORMAT = "%date%";
-    private static String DATE_TIMEFORMAT = "dd.MM.yyyy hh:mm";
-    private static boolean useShortCountdown = false;
-    private CommandHandler commandHandler;
+    private static CommandHandler commandHandler;
 
     public void onEnable(){
 
@@ -113,29 +95,64 @@ public class AdvancedRegionMarket extends JavaPlugin {
             return;
         }
         loadOther();
-        loadRegions();
+        PresetPatternManager.loadPresetPatterns();
+        RegionManager.loadRegionsFromConfig();
         Region.setCompleteTabRegions(getConfig().getBoolean("Other.CompleteRegionsOnTabComplete"));
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Scheduler() , 0 ,20*getConfig().getInt("Other.SignAndResetUpdateInterval"));
-        this.commandHandler = new CommandHandler();
-        SellPreset.loadCommands();
-        RentPreset.loadCommands();
-        ContractPreset.loadCommands();
+        AdvancedRegionMarket.commandHandler = new CommandHandler(new ArrayList<>(Arrays.asList("help")), "");
+        List<BasicArmCommand> commands = new ArrayList<>();
+        String[] betweencmds = {};
+        commands.add(new AddMemberCommand());
+        commands.add(new AutoResetCommand());
+        commands.add(new ContractPresetCommand());
+        commands.add(new DeleteCommand());
+        commands.add(new DoBlockResetCommand());
+        commands.add(new ExtendCommand());
+        commands.add(new RegionfinderCommand());
+        commands.add(new GuiCommand());
+        commands.add(new HelpCommand(AdvancedRegionMarket.commandHandler, Messages.HELP_HEADLINE, betweencmds, Permission.ARM_HELP));
+        commands.add(new HotelCommand());
+        commands.add(new InfoCommand());
+        commands.add(new LimitCommand());
+        commands.add(new ListRegionKindsCommand());
+        commands.add(new ListRegionsCommand());
+        commands.add(new OfferCommand());
+        commands.add(new RegionstatsCommand());
+        commands.add(new ReloadCommand());
+        commands.add(new RemoveMemberCommand());
+        commands.add(new RentPresetCommand());
+        commands.add(new ResetBlocksCommand());
+        commands.add(new ResetCommand());
+        commands.add(new SellPresetCommand());
+        commands.add(new SetOwnerCommand());
+        commands.add(new SetRegionKind());
+        commands.add(new SetWarpCommand());
+        commands.add(new TerminateCommand());
+        commands.add(new TPCommand());
+        commands.add(new UnsellCommand());
+        commands.add(new UpdateSchematicCommand());
+        commands.add(new BuyCommand());
+        commands.add(new SellBackCommand());
+        commands.add(new SubRegionCommand());
+        commands.add(new SetSubregionLimit());
+        commands.add(new SetIsUserResettableCommand());
+        commands.add(new ListAutoPricesCommand());
+        AdvancedRegionMarket.commandHandler.addCommands(commands);
+
         getCommand("arm").setTabCompleter(this.commandHandler);
         Bukkit.getLogger().log(Level.INFO, "Programmed by Alex9849");
-
     }
 
     public void onDisable(){
         AdvancedRegionMarket.econ = null;
         AdvancedRegionMarket.worldguard = null;
         AdvancedRegionMarket.worldedit = null;
-        Region.Reset();
+        RegionManager.Reset();
         LimitGroup.Reset();
-        AutoPrice.Reset();
+        AutoPrice.reset();
         RegionKind.Reset();
-        SellPreset.reset();
-        RentPreset.reset();
-        ContractPreset.reset();
+        PresetPatternManager.resetPresetPatterns();
+        ActivePresetManager.reset();
         getServer().getServicesManager().unregisterAll(this);
         SignChangeEvent.getHandlerList().unregister(this);
         InventoryClickEvent.getHandlerList().unregister(this);
@@ -247,6 +264,9 @@ public class AdvancedRegionMarket extends JavaPlugin {
 
     }
 
+    public static CommandHandler getCommandHandler() {
+        return AdvancedRegionMarket.commandHandler;
+    }
 
     private boolean setupWorldEdit() {
         Plugin plugin = getServer().getPluginManager().getPlugin("WorldEdit");
@@ -299,106 +319,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
         return AdvancedRegionMarket.worldEditInterface;
     }
 
-    private void loadRegions() {
-        if(Region.getRegionsConf().get("Regions") != null) {
-            LinkedList<String> worlds = new LinkedList<String>(Region.getRegionsConf().getConfigurationSection("Regions").getKeys(false));
-            if(worlds != null) {
-                for(int y = 0; y < worlds.size(); y++) {
-                    if(Bukkit.getWorld(worlds.get(y)) != null) {
-                        if(Region.getRegionsConf().get("Regions." + worlds.get(y)) != null) {
-                            LinkedList<String> regions = new LinkedList<String>(Region.getRegionsConf().getConfigurationSection("Regions." + worlds.get(y)).getKeys(false));
-                            if(regions != null) {
-                                for(int i = 0; i < regions.size(); i++){
-                                    String regionworld = worlds.get(y);
-                                    String regionname = regions.get(i);
-                                    int price = Region.getRegionsConf().getInt("Regions." + worlds.get(y) + "." + regions.get(i) + ".price");
-                                    boolean sold = Region.getRegionsConf().getBoolean("Regions." + worlds.get(y) + "." + regions.get(i) + ".sold");
-                                    String kind = Region.getRegionsConf().getString("Regions." + worlds.get(y) + "." + regions.get(i) + ".kind");
-                                    boolean autoreset = Region.getRegionsConf().getBoolean("Regions." + worlds.get(y) + "." + regions.get(i) + ".autoreset");
-                                    String regiontype = Region.getRegionsConf().getString("Regions." + worlds.get(y) + "." + regions.get(i) + ".regiontype");
-                                    boolean allowonlynewblocks = Region.getRegionsConf().getBoolean("Regions." + worlds.get(y) + "." + regions.get(i) + ".isHotel");
-                                    boolean doBlockReset = Region.getRegionsConf().getBoolean("Regions." + worlds.get(y) + "." + regions.get(i) + ".doBlockReset");
-                                    long lastreset = Region.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".lastreset");
-                                    String teleportLocString = Region.getRegionsConf().getString("Regions." + worlds.get(y) + "." + regions.get(i) + ".teleportLoc");
-                                    Location teleportLoc = null;
-                                    if(teleportLocString != null) {
-                                        String[] teleportLocarr = teleportLocString.split(";");
-                                        World teleportLocWorld = Bukkit.getWorld(teleportLocarr[0]);
-                                        int teleportLocBlockX = Integer.parseInt(teleportLocarr[1]);
-                                        int teleportLocBlockY = Integer.parseInt(teleportLocarr[2]);
-                                        int teleportLocBlockZ = Integer.parseInt(teleportLocarr[3]);
-                                        float teleportLocPitch = Float.parseFloat(teleportLocarr[4]);
-                                        float teleportLocYaw = Float.parseFloat(teleportLocarr[5]);
-                                        teleportLoc = new Location(teleportLocWorld, teleportLocBlockX, teleportLocBlockY, teleportLocBlockZ);
-                                        teleportLoc.setYaw(teleportLocYaw);
-                                        teleportLoc.setPitch(teleportLocPitch);
-                                    }
-                                    RegionKind regionKind = RegionKind.DEFAULT;
-                                    if(kind != null){
-                                        RegionKind result = RegionKind.getRegionKind(kind);
-                                        if(result != null){
-                                            regionKind = result;
-                                        }
-                                    }
-                                    WGRegion region = AdvancedRegionMarket.getWorldGuardInterface().getRegion(Bukkit.getWorld(regionworld), AdvancedRegionMarket.worldguard, regionname);
-
-                                    if(region != null) {
-                                        List<String> regionsignsloc = Region.getRegionsConf().getStringList("Regions." + worlds.get(y) + "." + regions.get(i) + ".signs");
-                                        List<Sign> regionsigns = new ArrayList<>();
-                                        for(int j = 0; j < regionsignsloc.size(); j++) {
-                                            String[] locsplit = regionsignsloc.get(j).split(";", 4);
-                                            World world = Bukkit.getWorld(locsplit[0]);
-                                            Double x = Double.parseDouble(locsplit[1]);
-                                            Double yy = Double.parseDouble(locsplit[2]);
-                                            Double z = Double.parseDouble(locsplit[3]);
-                                            Location loc = new Location(world, x, yy, z);
-                                            Location locminone = new Location(world, x, yy - 1, z);
-
-                                            if ((loc.getBlock().getType() != Material.SIGN) && (loc.getBlock().getType() != Material.WALL_SIGN)){
-                                                if(locminone.getBlock().getType() == Material.AIR || locminone.getBlock().getType() == Material.LAVA || locminone.getBlock().getType() == Material.WATER
-                                                        || locminone.getBlock().getType() == Material.LAVA || locminone.getBlock().getType() == Material.WATER) {
-                                                    locminone.getBlock().setType(Material.STONE);
-                                                }
-                                                loc.getBlock().setType(Material.SIGN);
-
-                                            }
-
-                                            regionsigns.add((Sign) loc.getBlock().getState());
-                                        }
-                                        if (regiontype.equalsIgnoreCase("rentregion")){
-                                            long payedtill = Region.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".payedTill");
-                                            long maxRentTime = Region.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".maxRentTime");
-                                            long rentExtendPerClick = Region.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".rentExtendPerClick");
-                                            Region armregion = new RentRegion(region, regionworld, regionsigns, price, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, teleportLoc,
-                                                    lastreset, payedtill, maxRentTime, rentExtendPerClick,false);
-                                            armregion.updateSigns();
-                                            Region.getRegionList().add(armregion);
-                                        } else if (regiontype.equalsIgnoreCase("sellregion")){
-                                            Region armregion = new SellRegion(region, regionworld, regionsigns, price, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, teleportLoc, lastreset,false);
-                                            armregion.updateSigns();
-                                            Region.getRegionList().add(armregion);
-                                        } else if (regiontype.equalsIgnoreCase("contractregion")) {
-                                            long payedtill = Region.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".payedTill");
-                                            long extendTime = Region.getRegionsConf().getLong("Regions." + worlds.get(y) + "." + regions.get(i) + ".extendTime");
-                                            Boolean terminated = Region.getRegionsConf().getBoolean("Regions." + worlds.get(y) + "." + regions.get(i) + ".terminated");
-                                            Region armregion = new ContractRegion(region, regionworld, regionsigns, price, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, teleportLoc, lastreset,extendTime, payedtill, terminated, false);
-                                            armregion.updateSigns();
-                                            Region.getRegionList().add(armregion);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        for(int i = 0; i < Region.getRegionList().size(); i++) {
-            Region.getRegionList().get(i).writeSigns();
-        }
-    }
-
     public static AdvancedRegionMarket getARM() {
         Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("AdvancedRegionMarket");
         if(plugin instanceof AdvancedRegionMarket) {
@@ -408,26 +328,16 @@ public class AdvancedRegionMarket extends JavaPlugin {
         }
     }
 
-    public static boolean isUseShortCountdown() {
-        return AdvancedRegionMarket.useShortCountdown;
-    }
-
     public static Boolean isFaWeInstalled(){
         return AdvancedRegionMarket.faWeInstalled;
     }
 
-    public static Boolean isSendContractRegionExtendMessage() {
-        return AdvancedRegionMarket.sendContractRegionExtendMessage;
-    }
-
     private void loadAutoPrice() {
-        if(getConfig().get("AutoPrice") != null) {
-            LinkedList<String> autoPrices = new LinkedList<>(getConfig().getConfigurationSection("AutoPrice").getKeys(false));
-            if(autoPrices != null) {
-                for(int i = 0; i < autoPrices.size(); i++){
-                    AutoPrice.getAutoPrices().add(new AutoPrice(autoPrices.get(i), getConfig().getDouble("AutoPrice." + autoPrices.get(i))));
-                }
-            }
+        if(getConfig().getConfigurationSection("AutoPrice") != null) {
+            AutoPrice.loadAutoprices(getConfig().getConfigurationSection("AutoPrice"));
+        }
+        if(getConfig().getConfigurationSection("DefaultAutoprice") != null) {
+            AutoPrice.loadDefaultAutoPrice(getConfig().getConfigurationSection("DefaultAutoprice"));
         }
     }
 
@@ -442,6 +352,17 @@ public class AdvancedRegionMarket extends JavaPlugin {
             defaultlore.set(x, ChatColor.translateAlternateColorCodes('&', defaultlore.get(x)));
         }
         RegionKind.DEFAULT.setLore(defaultlore);
+
+        RegionKind.SUBREGION.setName(getConfig().getString("SubregionRegionKind.DisplayName"));
+        RegionKind.SUBREGION.setMaterial(Material.getMaterial(getConfig().getString("SubregionRegionKind.Item")));
+        RegionKind.SUBREGION.setDisplayInGUI(getConfig().getBoolean("SubregionRegionKind.DisplayInGUI"));
+        RegionKind.SUBREGION.setDisplayInLimits(getConfig().getBoolean("SubregionRegionKind.DisplayInLimits"));
+        RegionKind.SUBREGION.setPaybackPercentage(getConfig().getDouble("SubregionRegionKind.PaypackPercentage"));
+        List<String> subregionlore = getConfig().getStringList("SubregionRegionKind.Lore");
+        for(int x = 0; x < defaultlore.size(); x++){
+            defaultlore.set(x, ChatColor.translateAlternateColorCodes('&', defaultlore.get(x)));
+        }
+        RegionKind.SUBREGION.setLore(defaultlore);
 
         if(getConfig().get("RegionKinds") != null) {
             LinkedList<String> regionKinds = new LinkedList<String>(getConfig().getConfigurationSection("RegionKinds").getKeys(false));
@@ -480,29 +401,37 @@ public class AdvancedRegionMarket extends JavaPlugin {
         Gui.setRemoveMemberItem(Material.getMaterial(pluginConf.getString("GUI.RemoveMemberItem")));
         Gui.setFillItem(Material.getMaterial(pluginConf.getString("GUI.FillItem")));
         Gui.setContractItem(Material.getMaterial(pluginConf.getString("GUI.ContractItem")));
+        Gui.setSubregionItem(Material.getMaterial(pluginConf.getString("GUI.SubRegionItem")));
+        Gui.setDeleteItem(Material.getMaterial(pluginConf.getString("GUI.DeleteItem")));
+        Gui.setTeleportToSignItem(Material.getMaterial(pluginConf.getString("GUI.TeleportToSignItem")));
+        Gui.setTeleportToRegionItem(Material.getMaterial(pluginConf.getString("GUI.TeleportToRegionItem")));
+        Gui.setNextPageItem(Material.getMaterial(pluginConf.getString("GUI.NextPageItem")));
+        Gui.setPrevPageItem(Material.getMaterial(pluginConf.getString("GUI.PrevPageItem")));
+        Gui.setHotelSettingItem(Material.getMaterial(pluginConf.getString("GUI.HotelSettingItem")));
+        Gui.setUnsellItem(Material.getMaterial(pluginConf.getString("GUI.UnsellItem")));
 
     }
 
     private void loadAutoReset() {
-        AdvancedRegionMarket.enableAutoReset = getConfig().getBoolean("AutoResetAndTakeOver.enableAutoReset");
-        AdvancedRegionMarket.enableTakeOver = getConfig().getBoolean("AutoResetAndTakeOver.enableTakeOver");
+        ArmSettings.setEnableAutoReset(getConfig().getBoolean("AutoResetAndTakeOver.enableAutoReset"));
+        ArmSettings.setEnableTakeOver(getConfig().getBoolean("AutoResetAndTakeOver.enableTakeOver"));
     }
 
     public Boolean connectSQL(){
         Boolean success = true;
-        if(AdvancedRegionMarket.enableAutoReset || AdvancedRegionMarket.enableTakeOver) {
+        if(ArmSettings.isEnableAutoReset() || ArmSettings.isEnableTakeOver()) {
             String mysqlhost = getConfig().getString("AutoResetAndTakeOver.mysql-server");
             String mysqldatabase = getConfig().getString("AutoResetAndTakeOver.mysql-database");
             String mysqlpass = getConfig().getString("AutoResetAndTakeOver.mysql-password");
             String mysqluser = getConfig().getString("AutoResetAndTakeOver.mysql-user");
-            AdvancedRegionMarket.sqlPrefix = getConfig().getString("AutoResetAndTakeOver.mysql-prefix");
-            AdvancedRegionMarket.autoResetAfter = getConfig().getInt("AutoResetAndTakeOver.autoresetAfter");
-            AdvancedRegionMarket.takeoverAfter = getConfig().getInt("AutoResetAndTakeOver.takeoverAfter");
+            ArmSettings.setSqlPrefix(getConfig().getString("AutoResetAndTakeOver.mysql-prefix"));
+            ArmSettings.setAutoResetAfter(getConfig().getInt("AutoResetAndTakeOver.autoresetAfter"));
+            ArmSettings.setTakeoverAfter(getConfig().getInt("AutoResetAndTakeOver.takeoverAfter"));
 
             try {
                 Class.forName("com.mysql.jdbc.Driver").newInstance();
                 Connection con = DriverManager.getConnection("jdbc:mysql://" + mysqlhost + "/" + mysqldatabase, mysqluser, mysqlpass);
-                AdvancedRegionMarket.stmt = con.createStatement();
+                ArmSettings.setStmt(con.createStatement());
                 AdvancedRegionMarket.checkOrCreateMySql(mysqldatabase);
                 getLogger().log(Level.INFO, "SQL Login successful!");
             } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
@@ -523,20 +452,24 @@ public class AdvancedRegionMarket extends JavaPlugin {
         }
     }
 
-    public static boolean isTeleportAfterContractRegionBought(){
-        return AdvancedRegionMarket.teleportAfterContractRegionBought;
-    }
-
     private void loadOther(){
-        AdvancedRegionMarket.teleportAfterRentRegionBought = getConfig().getBoolean("Other.TeleportAfterRentRegionBought");
-        AdvancedRegionMarket.teleportAfterRentRegionExtend = getConfig().getBoolean("Other.TeleportAfterRentRegionExtend");
-        AdvancedRegionMarket.teleportAfterSellRegionBought = getConfig().getBoolean("Other.TeleportAfterSellRegionBought");
-        AdvancedRegionMarket.teleportAfterContractRegionBought = getConfig().getBoolean("Other.TeleportAfterContractRegionBought");
-        AdvancedRegionMarket.sendContractRegionExtendMessage = getConfig().getBoolean("Other.SendContractRegionExtendMessage");
+        ArmSettings.setIsTeleportAfterRentRegionBought(getConfig().getBoolean("Other.TeleportAfterRentRegionBought"));
+        ArmSettings.setIsTeleportAfterRentRegionExtend(getConfig().getBoolean("Other.TeleportAfterRentRegionExtend"));
+        ArmSettings.setIsTeleportAfterSellRegionBought(getConfig().getBoolean("Other.TeleportAfterSellRegionBought"));
+        ArmSettings.setIsTeleportAfterContractRegionBought(getConfig().getBoolean("Other.TeleportAfterContractRegionBought"));
+        ArmSettings.setIsSendContractRegionExtendMessage(getConfig().getBoolean("Other.SendContractRegionExtendMessage"));
         Region.setResetcooldown(getConfig().getInt("Other.userResetCooldown"));
-        AdvancedRegionMarket.REMAINING_TIME_TIMEFORMAT = getConfig().getString("Other.RemainingTimeFormat");
-        AdvancedRegionMarket.DATE_TIMEFORMAT = getConfig().getString("Other.DateTimeFormat");
-        AdvancedRegionMarket.useShortCountdown = getConfig().getBoolean("Other.ShortCountdown");
+        ArmSettings.setRemainingTimeTimeformat(getConfig().getString("Other.RemainingTimeFormat"));
+        ArmSettings.setDateTimeformat(getConfig().getString("Other.DateTimeFormat"));
+        ArmSettings.setUseShortCountdown(getConfig().getBoolean("Other.ShortCountdown"));
+        ArmSettings.setIsAllowTeleportToBuySign(getConfig().getBoolean("Other.RegionInfoParticleBorder"));
+
+        ArmSettings.setIsAllowSubRegionUserReset(getConfig().getBoolean("Subregions.AllowSubRegionUserReset"));
+        ArmSettings.setIsSubregionBlockReset(getConfig().getBoolean("Subregions.SubregionBlockReset"));
+        ArmSettings.setIsSubregionAutoReset(getConfig().getBoolean("Subregions.SubregionAutoReset"));
+        ArmSettings.setDeleteSubregionsOnParentRegionBlockReset(getConfig().getBoolean("Subregions.deleteSubregionsOnParentRegionBlockReset"));
+        ArmSettings.setDeleteSubregionsOnParentRegionUnsell(getConfig().getBoolean("Subregions.deleteSubregionsOnParentRegionUnsell"));
+        ArmSettings.setAllowParentRegionOwnersBuildOnSubregions(getConfig().getBoolean("Subregions.allowParentRegionOwnersBuildOnSubregions"));
         try{
             RentRegion.setExpirationWarningTime(RentRegion.stringToTime(getConfig().getString("Other.RentRegionExpirationWarningTime")));
             RentRegion.setSendExpirationWarning(getConfig().getBoolean("Other.SendRentRegionExpirationWarning"));
@@ -548,15 +481,15 @@ public class AdvancedRegionMarket extends JavaPlugin {
     }
 
     private static void checkOrCreateMySql(String mysqldatabase) throws SQLException {
-        ResultSet rs = AdvancedRegionMarket.stmt.executeQuery("SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'");
+        ResultSet rs = ArmSettings.getStmt().executeQuery("SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'");
         Boolean createLastlogin = true;
         while (rs.next()){
-            if(rs.getString("TABLE_NAME").equals(AdvancedRegionMarket.sqlPrefix + "lastlogin")){
+            if(rs.getString("TABLE_NAME").equals(ArmSettings.getSqlPrefix() + "lastlogin")){
                 createLastlogin = false;
             }
         }
         if(createLastlogin){
-            AdvancedRegionMarket.stmt.executeUpdate("CREATE TABLE `" + mysqldatabase + "`.`" + AdvancedRegionMarket.sqlPrefix + "lastlogin` ( `id` INT NOT NULL AUTO_INCREMENT , `uuid` VARCHAR(40) NOT NULL , `lastlogin` TIMESTAMP NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;");
+            ArmSettings.getStmt().executeUpdate("CREATE TABLE `" + mysqldatabase + "`.`" + ArmSettings.getSqlPrefix() + "lastlogin` ( `id` INT NOT NULL AUTO_INCREMENT , `uuid` VARCHAR(40) NOT NULL , `lastlogin` TIMESTAMP NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;");
         }
 
     }
@@ -575,50 +508,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
             inputException.sendMessages();
             return true;
         }
-    }
-
-    public static String getRemainingTimeTimeformat(){
-        return AdvancedRegionMarket.REMAINING_TIME_TIMEFORMAT;
-    }
-
-    public static String getDateTimeformat(){
-        return AdvancedRegionMarket.DATE_TIMEFORMAT;
-    }
-
-    public static Statement getStmt() {
-        return stmt;
-    }
-
-    public static String getSqlPrefix(){
-        return AdvancedRegionMarket.sqlPrefix;
-    }
-
-    public static boolean getEnableAutoReset(){
-        return AdvancedRegionMarket.enableAutoReset;
-    }
-
-    public static int getAutoResetAfter(){
-        return AdvancedRegionMarket.autoResetAfter;
-    }
-
-    public static boolean getEnableTakeOver(){
-        return AdvancedRegionMarket.enableTakeOver;
-    }
-
-    public static int getTakeoverAfter(){
-        return AdvancedRegionMarket.takeoverAfter;
-    }
-
-    public static boolean isTeleportAfterRentRegionBought() {
-        return teleportAfterRentRegionBought;
-    }
-
-    public static boolean isTeleportAfterSellRegionBought() {
-        return teleportAfterSellRegionBought;
-    }
-
-    public static boolean isTeleportAfterRentRegionExtend() {
-        return teleportAfterRentRegionExtend;
     }
 
     public static boolean isAllowStartup(Plugin plugin){
@@ -672,10 +561,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
         return allowStart;
     }
 
-    public ARMAPI getAPI(){
-        return new ARMAPI();
-    }
-
     public void generatedefaultconfig(){
         Plugin plugin = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket");
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
@@ -697,17 +582,13 @@ public class AdvancedRegionMarket extends JavaPlugin {
     }
 
     private void updateConfigs(){
-        Region.generatedefaultConfig();
-        Region.setRegionsConf();
+        RegionManager.generatedefaultConfig();
+        RegionManager.setRegionsConf();
         Messages.generatedefaultConfig();
-        Preset.generatedefaultConfig();
-        Preset.loadConfig();
-        SellPreset.loadPresets();
-        RentPreset.loadPresets();
-        ContractPreset.loadPresets();
+        PresetPatternManager.generatedefaultConfig();
         this.generatedefaultconfig();
         FileConfiguration pluginConfig = this.getConfig();
-        YamlConfiguration regionConf = Region.getRegionsConf();
+        YamlConfiguration regionConf = RegionManager.getRegionsConf();
         Double version = pluginConfig.getDouble("Version");
         if(version < 1.1) {
             getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.1...");
@@ -747,7 +628,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
                     }
                 }
             }
-            Region.saveRegionsConf(regionConf);
+            RegionManager.saveRegionsConf();
         }
         if(version < 1.21) {
             getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.21...");
@@ -854,7 +735,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
                     }
                 }
             }
-            Region.saveRegionsConf(regionConf);
+            RegionManager.saveRegionsConf();
         }
         if(version < 1.4) {
             getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.4...");
@@ -894,7 +775,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
             saveConfig();
         }
         if(version < 1.52) {
-            getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.6...");
+            getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.5.2...");
             double paybackPercentage = pluginConfig.getDouble("Other.paypackPercentage");
             pluginConfig.set("DefaultRegionKind.PaypackPercentage", paybackPercentage);
 
@@ -910,6 +791,56 @@ public class AdvancedRegionMarket extends JavaPlugin {
             }
 
             pluginConfig.set("Version", 1.52);
+            saveConfig();
+        }
+        if(version < 1.6) {
+            getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.6...");
+            pluginConfig.set("SubregionRegionKind.DisplayName", "Subregion");
+            pluginConfig.set("SubregionRegionKind.Item", "PLAYER_HEAD");
+            List<String> subregionRegionKindLore = new ArrayList<>();
+            subregionRegionKindLore.add("very subregion");
+            pluginConfig.set("SubregionRegionKind.Lore", subregionRegionKindLore);
+            pluginConfig.set("SubregionRegionKind.DisplayInLimits", true);
+            pluginConfig.set("SubregionRegionKind.DisplayInGUI", false);
+            pluginConfig.set("SubregionRegionKind.PaypackPercentage", 0);
+            pluginConfig.set("Subregions.AllowSubRegionUserReset", false);
+            pluginConfig.set("Subregions.SubregionBlockReset", false);
+            pluginConfig.set("Subregions.SubregionAutoReset", true);
+            pluginConfig.set("Subregions.deleteSubregionsOnParentRegionUnsell", false);
+            pluginConfig.set("Subregions.deleteSubregionsOnParentRegionBlockReset", false);
+            pluginConfig.set("Subregions.allowParentRegionOwnersBuildOnSubregions", true);
+            pluginConfig.set("Other.RegionInfoParticleBorder", true);
+            pluginConfig.set("GUI.SubRegionItem", "GRASS_BLOCK");
+            pluginConfig.set("GUI.TeleportToSignItem", "SIGN");
+            pluginConfig.set("GUI.TeleportToRegionItem", "GRASS_BLOCK");
+            pluginConfig.set("GUI.DeleteItem", "BARRIER");
+            pluginConfig.set("GUI.NextPageItem", "ARROW");
+            pluginConfig.set("GUI.PrevPageItem", "ARROW");
+            pluginConfig.set("GUI.HotelSettingItem", "RED_BED");
+            pluginConfig.set("GUI.PrevPageItem", "ARROW");
+            pluginConfig.set("GUI.HotelSettingItem", "RED_BED");
+            pluginConfig.set("GUI.UnsellItem", "NAME_TAG");
+
+            pluginConfig.set("AutoPrice", null);
+            pluginConfig.set("AutoPrice.example1.price", 200);
+            pluginConfig.set("AutoPrice.example1.extendTime", 300000);
+            pluginConfig.set("AutoPrice.example1.maxRentTime", 2000000);
+            pluginConfig.set("AutoPrice.example1.autoPriceCalculation", "static");
+            pluginConfig.set("AutoPrice.example2.price", 2);
+            pluginConfig.set("AutoPrice.example2.extendTime", 300000);
+            pluginConfig.set("AutoPrice.example2.maxRentTime", 2000000);
+            pluginConfig.set("AutoPrice.example2.autoPriceCalculation", "per_m2");
+            pluginConfig.set("AutoPrice.example3.price", 0.05);
+            pluginConfig.set("AutoPrice.example3.extendTime", 300000);
+            pluginConfig.set("AutoPrice.example3.maxRentTime", 2000000);
+            pluginConfig.set("AutoPrice.example3.autoPriceCalculation", "per_m3");
+
+            pluginConfig.set("DefaultAutoprice.price", 2.0);
+            pluginConfig.set("DefaultAutoprice.extendTime", 300000);
+            pluginConfig.set("DefaultAutoprice.maxRentTime", 2000000);
+            pluginConfig.set("DefaultAutoprice.autoPriceCalculation", "per_m2");
+
+            pluginConfig.set("Version", 1.6);
             saveConfig();
         }
     }

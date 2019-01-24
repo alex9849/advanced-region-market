@@ -7,6 +7,7 @@ import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regions.Region;
+import net.alex9849.arm.regions.RegionManager;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -43,7 +44,7 @@ public class RemoveMemberCommand extends BasicArmCommand {
         if (!(sender instanceof Player)) {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
-        Region region = Region.searchRegionbyNameAndWorld(args[1], ((Player) sender).getWorld().getName());
+        Region region = RegionManager.getRegionbyNameAndWorldCommands(args[1], ((Player) sender).getWorld().getName());
         if(region == null){
             throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
         }
@@ -86,9 +87,9 @@ public class RemoveMemberCommand extends BasicArmCommand {
                         } else {
                             playerRegionRelationship = PlayerRegionRelationship.OWNER;
                         }
-                        returnme.addAll(Region.completeTabRegions(player, args[1], playerRegionRelationship));
+                        returnme.addAll(RegionManager.completeTabRegions(player, args[1], playerRegionRelationship, true,true));
                     } else if(args.length == 3 && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                        Region region = Region.searchRegionbyNameAndWorld(args[1], player.getWorld().getName());
+                        Region region = RegionManager.getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
                         if(region != null) {
                             if(region.getRegion().hasOwner(player.getUniqueId()) || player.hasPermission(Permission.ADMIN_REMOVEMEMBER)) {
                                 returnme.addAll(CommandHandler.tabCompleteRegionMembers(args[2], region.getRegion()));

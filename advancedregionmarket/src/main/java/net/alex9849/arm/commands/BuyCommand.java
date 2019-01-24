@@ -5,6 +5,7 @@ import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regions.Region;
+import net.alex9849.arm.regions.RegionManager;
 import net.alex9849.arm.regions.RentRegion;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -42,7 +43,7 @@ public class BuyCommand extends BasicArmCommand {
                 throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
             }
             Player player = (Player) sender;
-            Region region = Region.searchRegionbyNameAndWorld(args[1], player.getWorld().getName());
+            Region region = RegionManager.getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
             if(region == null){
                 throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
             }
@@ -70,7 +71,7 @@ public class BuyCommand extends BasicArmCommand {
                     if(args.length == 1) {
                         returnme.add(this.rootCommand);
                     } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                        returnme.addAll(Region.completeTabRegions(player, args[1], PlayerRegionRelationship.AVAILABLE));
+                        returnme.addAll(RegionManager.completeTabRegions(player, args[1], PlayerRegionRelationship.AVAILABLE,true, true));
                     }
                 }
             }

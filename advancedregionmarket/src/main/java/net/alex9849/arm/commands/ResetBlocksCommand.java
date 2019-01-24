@@ -7,6 +7,7 @@ import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.gui.Gui;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regions.Region;
+import net.alex9849.arm.regions.RegionManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -46,7 +47,7 @@ public class ResetBlocksCommand extends BasicArmCommand {
             throw new InputException(player, Messages.NO_PERMISSION);
         }
 
-        Region resregion = Region.searchRegionbyNameAndWorld(args[1], (player).getPlayer().getWorld().getName());
+        Region resregion = RegionManager.getRegionbyNameAndWorldCommands(args[1], (player).getPlayer().getWorld().getName());
         if(resregion == null) {
             throw new InputException(player, Messages.REGION_DOES_NOT_EXIST);
         }
@@ -57,16 +58,19 @@ public class ResetBlocksCommand extends BasicArmCommand {
             return true;
         } else {
             if(resregion.getRegion().hasOwner(player.getUniqueId())) {
+                if(!resregion.isUserResettable()) {
+                    throw new InputException(player, Messages.REGION_NOT_RESETTABLE);
+                }
                 if(resregion.timeSinceLastReset() >= Region.getResetCooldown()){
                     Gui.openRegionResetWarning(player, resregion, false);
+                    return true;
                 } else {
-                    String message = Messages.RESET_REGION_COOLDOWN_ERROR.replace("%remainingdays%", (Region.getResetCooldown() - resregion.timeSinceLastReset()) + "");
+                    String message = resregion.getConvertedMessage(Messages.RESET_REGION_COOLDOWN_ERROR);
                     throw new InputException(player, message);
                 }
             } else {
                 throw new InputException(player, Messages.REGION_NOT_OWN);
             }
-            return true;
         }
     }
 
@@ -86,7 +90,7 @@ public class ResetBlocksCommand extends BasicArmCommand {
                         } else {
                             playerRegionRelationship = PlayerRegionRelationship.OWNER;
                         }
-                        returnme.addAll(Region.completeTabRegions(player, args[1], playerRegionRelationship));
+                        returnme.addAll(RegionManager.completeTabRegions(player, args[1], playerRegionRelationship,true, true));
                     }
                 }
             }

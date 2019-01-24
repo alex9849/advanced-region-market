@@ -2,23 +2,32 @@ package net.alex9849.arm.Preseter.commands;
 
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
-import net.alex9849.arm.Preseter.ContractPreset;
-import net.alex9849.arm.Preseter.Preset;
-import net.alex9849.arm.Preseter.PresetType;
-import net.alex9849.arm.Preseter.RentPreset;
+import net.alex9849.arm.Preseter.ActivePresetManager;
+import net.alex9849.arm.Preseter.PresetPlayerPair;
+import net.alex9849.arm.Preseter.presets.Preset;
+import net.alex9849.arm.Preseter.presets.PresetType;
+import net.alex9849.arm.Preseter.presets.RentPreset;
+import net.alex9849.arm.commands.BasicArmCommand;
 import net.alex9849.arm.exceptions.InputException;
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class RentPresetExtendPerClickCommand extends BasicPresetCommand {
+public class RentPresetExtendPerClickCommand extends BasicArmCommand {
 
     private final String rootCommand = "extendperclick";
     private final String regex_set = "(?i)extendperclick ([0-9]+(s|m|h|d))";
     private final String regex_remove = "(?i)extendperclick (?i)remove";
-    private final String usage = "extendperclick ([TIME(Example: 10h)]/remove)";
+    private final List<String> usage = new ArrayList<>(Arrays.asList("extendperclick ([TIME(Example: 10h)]/remove)"));
+    private PresetType presetType;
+
+    public RentPresetExtendPerClickCommand(PresetType presetType) {
+        this.presetType = presetType;
+    }
 
     @Override
     public boolean matchesRegex(String command) {
@@ -35,12 +44,16 @@ public class RentPresetExtendPerClickCommand extends BasicPresetCommand {
     }
 
     @Override
-    public String getUsage() {
+    public List<String> getUsage() {
         return this.usage;
     }
 
     @Override
-    public boolean runCommand(Player player, String[] args, String allargs, PresetType presetType) throws InputException {
+    public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
+        if(!(sender instanceof Player)) {
+            throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
+        }
+        Player player = (Player) sender;
 
         if(!player.hasPermission(Permission.ADMIN_PRESET_SET_EXTENDPERCLICK)) {
             throw new InputException(player, Messages.NO_PERMISSION);
@@ -50,10 +63,11 @@ public class RentPresetExtendPerClickCommand extends BasicPresetCommand {
             return false;
         }
 
-        Preset preset = Preset.getPreset(presetType, player);
+        Preset preset = ActivePresetManager.getPreset(player, this.presetType);
 
         if(preset == null) {
-            preset = PresetType.create(presetType, player);
+            preset = this.presetType.create();
+            ActivePresetManager.add(new PresetPlayerPair(player, preset));
         }
 
         if(!(preset instanceof RentPreset)) {
@@ -76,7 +90,7 @@ public class RentPresetExtendPerClickCommand extends BasicPresetCommand {
     }
 
     @Override
-    public List<String> onTabComplete(Player player, String[] args, PresetType presetType) {
+    public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
         if(player.hasPermission(Permission.ADMIN_PRESET_SET_EXTENDPERCLICK)) {
             if(args.length >= 1) {

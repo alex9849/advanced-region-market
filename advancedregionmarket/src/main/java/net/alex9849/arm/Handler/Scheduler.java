@@ -1,7 +1,9 @@
 package net.alex9849.arm.Handler;
 
 import net.alex9849.arm.AdvancedRegionMarket;
+import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.regions.Region;
+import net.alex9849.arm.regions.RegionManager;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
@@ -14,28 +16,28 @@ import java.util.logging.Level;
 public class Scheduler implements Runnable {
     @Override
     public void run() {
-        Region.updateRegions();
+        RegionManager.updateRegions();
 
-        if(AdvancedRegionMarket.getEnableAutoReset()){
+        if(ArmSettings.isEnableAutoReset()){
 
             GregorianCalendar comparedate = new GregorianCalendar();
-            comparedate.add(Calendar.DAY_OF_MONTH, (-1 * AdvancedRegionMarket.getAutoResetAfter()));
+            comparedate.add(Calendar.DAY_OF_MONTH, (-1 * ArmSettings.getAutoResetAfter()));
             Date convertdate = new Date();
             convertdate.setTime(comparedate.getTimeInMillis());
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String compareTime = sdf.format(convertdate);
 
             try {
-                ResultSet rs = AdvancedRegionMarket.getStmt().executeQuery("SELECT * FROM `" + AdvancedRegionMarket.getSqlPrefix() + "lastlogin` WHERE `lastlogin` < '" + compareTime + "'");
+                ResultSet rs = ArmSettings.getStmt().executeQuery("SELECT * FROM `" + ArmSettings.getSqlPrefix() + "lastlogin` WHERE `lastlogin` < '" + compareTime + "'");
                 if (rs.next()){
-                    Region.autoResetRegionsFromOwner(UUID.fromString(rs.getString("uuid")));
-                    List<Region> regions = Region.getRegionsByMember(UUID.fromString(rs.getString("uuid")));
+                    RegionManager.autoResetRegionsFromOwner(UUID.fromString(rs.getString("uuid")));
+                    List<Region> regions = RegionManager.getRegionsByMember(UUID.fromString(rs.getString("uuid")));
                     for (int i = 0; i < regions.size(); i++){
                         if(regions.get(i).getAutoreset()){
                             regions.get(i).getRegion().removeMember(UUID.fromString(rs.getString("uuid")));
                         }
                     }
-                    AdvancedRegionMarket.getStmt().executeUpdate("DELETE FROM `" + AdvancedRegionMarket.getSqlPrefix() + "lastlogin` WHERE `uuid` = '" + rs.getString("uuid") + "'");
+                    ArmSettings.getStmt().executeUpdate("DELETE FROM `" + ArmSettings.getSqlPrefix() + "lastlogin` WHERE `uuid` = '" + rs.getString("uuid") + "'");
                 }
             } catch (SQLException e) {
                 Bukkit.getServer().getLogger().log(Level.WARNING, "[AdvancedRegionMarket] SQL connection lost. Reconnecting...");

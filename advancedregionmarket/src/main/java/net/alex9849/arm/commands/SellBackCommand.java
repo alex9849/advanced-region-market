@@ -6,6 +6,7 @@ import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.gui.Gui;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regions.Region;
+import net.alex9849.arm.regions.RegionManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -45,7 +46,7 @@ public class SellBackCommand extends BasicArmCommand {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Player player = (Player) sender;
-        Region region = Region.searchRegionbyNameAndWorld(args[1], player.getLocation().getWorld().getName());
+        Region region = RegionManager.getRegionbyNameAndWorldCommands(args[1], player.getLocation().getWorld().getName());
         if(region == null) {
             throw new InputException(player, Messages.REGION_DOES_NOT_EXIST);
         }
@@ -55,10 +56,7 @@ public class SellBackCommand extends BasicArmCommand {
         if(!region.isSold()) {
             throw new InputException(player, Messages.REGION_NOT_SOLD);
         }
-        String confirmQuestion = Messages.SELLBACK_WARNING;
-        confirmQuestion = confirmQuestion.replace("%region%", region.getRegion().getId());
-        confirmQuestion = confirmQuestion.replace("%paybackmoney%", region.getPaybackMoney() + "");
-        confirmQuestion = confirmQuestion.replace("%currency%", Messages.CURRENCY);
+        String confirmQuestion = region.getConvertedMessage(Messages.SELLBACK_WARNING);
         player.sendMessage(Messages.PREFIX + confirmQuestion);
         Gui.openSellWarning(player, region, false);
         return true;
@@ -74,7 +72,7 @@ public class SellBackCommand extends BasicArmCommand {
                     if(args.length == 1) {
                         returnme.add(this.rootCommand);
                     } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                        returnme.addAll(Region.completeTabRegions(player, args[1], PlayerRegionRelationship.OWNER));
+                        returnme.addAll(RegionManager.completeTabRegions(player, args[1], PlayerRegionRelationship.OWNER, true,true));
                     }
                 }
             }

@@ -1,7 +1,6 @@
 package net.alex9849.arm;
 
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 public class Permission {
     public static final String ADMIN_CHANGEAUTORESET = "arm.admin.changeautoreset";
@@ -37,6 +36,7 @@ public class Permission {
     public static final String ADMIN_PRESET_SET_AUTORESET = "arm.admin.preset.setautoreset";
     public static final String ADMIN_PRESET_SET_HOTEL = "arm.admin.preset.sethotel";
     public static final String ADMIN_PRESET_SET_DOBLOCKRESET = "arm.admin.preset.setdoblockreset";
+    public static final String ADMIN_PRESET_SET_AUTOPRICE = "arm.admin.preset.setautoprice";
     public static final String ADMIN_PRESET_INFO = "arm.admin.preset.info";
     public static final String ADMIN_PRESET_RESET = "arm.admin.preset.reset";
     public static final String ADMIN_PRESET_HELP = "arm.admin.preset.help";
@@ -45,11 +45,40 @@ public class Permission {
     public static final String ADMIN_PRESET_SAVE = "arm.admin.preset.save";
     public static final String ADMIN_PRESET_LIST = "arm.admin.preset.list";
     public static final String ADMIN_PRESET_ADDCOMMAND = "arm.admin.preset.addcommand";
+    public static final String ADMIN_PRESET_USERRESETTABLE = "arm.admin.preset.userresettable";
+    public static final String ADMIN_PRESET_ALLOWEDSUBREGIONS = "arm.admin.preset.allowedsubregions";
     public static final String ADMIN_PRESET_REMOVECOMMAND = "arm.admin.preset.removecommand";
     public static final String ADMIN_PRESET_SET_EXTEND = "arm.admin.preset.setextend";
     public static final String ADMIN_TERMINATE_CONTRACT = "arm.admin.terminatecontract";
     public static final String ADMIN_REGION_STATS = "arm.admin.regionstatus";
     public static final String ADMIN_BYPASS_TELEPORTER_COOLDOWN = "arm.admin.bypassteleportercooldown";
+    public static final String ADMIN_SET_SUBREGION_LIMIT = "arm.admin.setsubregionlimit";
+    public static final String ADMIN_SET_IS_USERRESETTABLE = "arm.admin.setisuserresettable";
+    public static final String ADMIN_LISTAUTOPRICES = "arm.admin.listautoprices";
+
+
+    public static final String SUBREGION_TOOL = "arm.subregion.tool";
+    public static final String SUBREGION_CREATE_SELL = "arm.subregion.create.sellregion";
+    public static final String SUBREGION_CREATE_RENT = "arm.subregion.create.rentregion";
+    public static final String SUBREGION_CREATE_CONTRACT = "arm.subregion.create.contractregion";
+    public static final String SUBREGION_DELETE_AVAILABLE = "arm.subregion.delete.available";
+    public static final String SUBREGION_DELETE_SOLD = "arm.subregion.delete.sold";
+    public static final String SUBREGION_CHANGE_IS_HOTEL = "arm.subregion.changeishotel";
+    public static final String SUBREGION_TP = "arm.subregion.tp";
+    public static final String SUBREGION_UNSELL = "arm.subregion.unsell";
+    public static final String SUBREGION_RESETREGIONBLOCKS = "arm.subregion.resetregionblocks";
+    public static final String SUBREGION_HELP = "arm.subregion.help";
+
+
+    public static boolean hasAnySubregionCreatePermission(CommandSender sender) {
+        return (sender.hasPermission(SUBREGION_CREATE_SELL)) || (sender.hasPermission(SUBREGION_CREATE_RENT)) || (sender.hasPermission(SUBREGION_CREATE_CONTRACT));
+    }
+
+    public static boolean hasAnySubregionPermission(CommandSender sender) {
+        return hasAnySubregionCreatePermission(sender) || (sender.hasPermission(SUBREGION_TOOL)) || (sender.hasPermission(SUBREGION_DELETE_SOLD)) ||
+                (sender.hasPermission(SUBREGION_CHANGE_IS_HOTEL)) || (sender.hasPermission(SUBREGION_DELETE_AVAILABLE)) || (sender.hasPermission(SUBREGION_TP) ||
+                (sender.hasPermission(SUBREGION_UNSELL)) || (sender.hasPermission(SUBREGION_RESETREGIONBLOCKS)));
+    }
 
 
 
@@ -66,6 +95,7 @@ public class Permission {
     public static final String MEMBER_OFFER_ANSWER = "arm.member.offer.answer";
     public static final String MEMBER_PROMOTE = "arm.member.promote";
     public static final String MEMBER_BUY = "arm.member.buy";
+    public static final String MEMBER_REGIONFINDER = "arm.member.regionfinder";
 
     public static final String ARM_HELP = "arm.help";
     public static final String ARM_BUYKIND = "arm.buykind.";

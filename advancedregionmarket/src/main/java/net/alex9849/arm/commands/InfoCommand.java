@@ -7,6 +7,7 @@ import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.RegionKind;
+import net.alex9849.arm.regions.RegionManager;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -60,7 +61,7 @@ public class InfoCommand extends BasicArmCommand {
                     if(args.length == 1) {
                         returnme.add(this.rootCommand);
                     } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                        returnme.addAll(Region.completeTabRegions(player, args[1], PlayerRegionRelationship.ALL));
+                        returnme.addAll(RegionManager.completeTabRegions(player, args[1], PlayerRegionRelationship.ALL,true, true));
                     }
                 }
             }
@@ -82,12 +83,19 @@ public class InfoCommand extends BasicArmCommand {
 
         Location loc = (player).getLocation();
 
-        for(int i = 0; i < Region.getRegionList().size(); i++) {
-            if(Region.getRegionList().get(i).getRegion().contains(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()) && Region.getRegionList().get(i).getRegionworld().equals(loc.getWorld().getName())) {
-                Region.getRegionList().get(i).regionInfo(player);
-                return true;
+        List<Region> regionList = RegionManager.getRegionsByLocation(loc);
+
+        if(regionList.size() == 1) {
+            regionList.get(0).regionInfo(player);
+            return true;
+        } else if (regionList.size() > 1) {
+            String regions = "";
+            for(Region region : regionList) {
+                regions = regions + region.getRegion().getId() + " ";
             }
+            throw new InputException(player, Messages.REGION_INFO_MULTIPLE_REGIONS + regions);
         }
+
         throw new InputException(player, Messages.HAVE_TO_STAND_ON_REGION_TO_SHOW_INFO);
     }
 
@@ -102,7 +110,7 @@ public class InfoCommand extends BasicArmCommand {
             throw new InputException(player, Messages.NO_PERMISSION);
         }
 
-        Region region = Region.searchRegionbyNameAndWorld(regionname, (player).getWorld().getName());
+        Region region = RegionManager.getRegionbyNameAndWorldCommands(regionname, (player).getWorld().getName());
 
         if(region == null){
             throw new InputException(player, Messages.REGION_DOES_NOT_EXIST);

@@ -18,6 +18,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.EquipmentSlot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,12 +49,21 @@ public class SignLinkMode implements Listener {
 
     @EventHandler
     private void playerClick(PlayerInteractEvent event) {
+        //TODO make left click on sign destroy the sign
         if(event.getPlayer().getUniqueId() != this.player.getUniqueId()) {
             return;
         }
         try {
+            if(event.getHand() != EquipmentSlot.HAND) {
+                return;
+            }
             if((!(event.getAction() == Action.LEFT_CLICK_BLOCK)) && (!(event.getAction() == Action.RIGHT_CLICK_BLOCK))) {
                 return;
+            }
+            if((event.getAction() == Action.RIGHT_CLICK_BLOCK) && event.isBlockInHand()) {
+                if(event.getPlayer().getInventory().getItemInMainHand().getType() == Material.SIGN) {
+                    return;
+                }
             }
             event.setCancelled(true);
             if((event.getClickedBlock().getType() == Material.SIGN) || (event.getClickedBlock().getType() == Material.WALL_SIGN)) {

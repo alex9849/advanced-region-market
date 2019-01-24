@@ -371,7 +371,6 @@ public class Gui implements Listener {
             actitem++;
         }
         if(player.hasPermission(Permission.SUBREGION_RESETREGIONBLOCKS) && region.isUserResettable()) {
-            //TODO change item and message
             ClickItem resetItem = new ClickItem(new ItemStack(Gui.RESET_ITEM), Messages.GUI_RESET_REGION_BUTTON);
             resetItem = resetItem.addClickAction(new ClickAction() {
                 @Override

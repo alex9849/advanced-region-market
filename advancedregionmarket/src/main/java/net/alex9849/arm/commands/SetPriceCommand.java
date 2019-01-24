@@ -67,7 +67,7 @@ public class SetPriceCommand extends BasicArmCommand {
         } else {
             AutoPrice selectedAutoprice = AutoPrice.getAutoprice(args[2]);
             if(selectedAutoprice == null) {
-                throw new InputException(sender, "Autoprice does not exist!");
+                throw new InputException(sender, ChatColor.RED + "Autoprice does not exist!");
             }
             price = new RentPrice(selectedAutoprice);
         }
@@ -131,7 +131,7 @@ public class SetPriceCommand extends BasicArmCommand {
                             returnme.add(args[4] + "s");
                             returnme.add(args[4] + "m");
                             returnme.add(args[4] + "h");
-                            returnme.add(args[5] + "d");
+                            returnme.add(args[4] + "d");
                         }
                     }
                 }

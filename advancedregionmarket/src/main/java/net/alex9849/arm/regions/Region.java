@@ -648,7 +648,7 @@ public abstract class Region {
     public String getConvertedMessage(String message) {
         message = message.replace("%regionid%", this.getRegion().getId());
         message = message.replace("%region%", this.getRegion().getId());
-        message = message.replace("%price%", this.getPrice() + "");
+        message = message.replace("%price%", this.roundNumber(this.getPrice()) + "");
         message = message.replace("%dimensions%", this.getDimensions());
         message = message.replace("%priceperm2%", this.roundNumber(this.getPricePerM2()) + "");
         message = message.replace("%priceperm3%", this.roundNumber(this.getPricePerM3()) + "");

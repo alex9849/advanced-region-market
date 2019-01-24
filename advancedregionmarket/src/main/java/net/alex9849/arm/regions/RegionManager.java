@@ -132,6 +132,7 @@ public class RegionManager {
             regionsconf.set("Regions." + contractRegion.getRegionworld().getName() + "." + contractRegion.getRegion().getId() + ".payedTill", contractRegion.getPayedTill());
             regionsconf.set("Regions." + contractRegion.getRegionworld().getName() + "." + contractRegion.getRegion().getId() + ".terminated", contractRegion.isTerminated());
         }
+        region.setSaved();
     }
 
     public static boolean removeRegion(Region region) {
@@ -143,11 +144,11 @@ public class RegionManager {
                 regionList.get(i).getSubregions().remove(region);
             }
         }
-        writeRegionsToConfig();
+        writeRegionsToConfig(true);
         return true;
     }
 
-    public static void saveRegion(Region sregion) {
+  /*  public static void saveRegion(Region sregion) {
         for(Region region : regionList) {
             if((region == sregion) || region.getSubregions().contains(sregion)) {
                 writeRegionToYamlObject(region);
@@ -155,14 +156,25 @@ public class RegionManager {
                 return;
             }
         }
-    }
+    } */
 
-    public static void writeRegionsToConfig() {
-        regionsconf = new YamlConfiguration();
-        for(Region region : regionList) {
-            writeRegionToYamlObject(region);
+    public static void writeRegionsToConfig(boolean all) {
+        boolean anythingdone = false;
+
+        if(all) {
+            regionsconf = new YamlConfiguration();
         }
-        saveRegionsConf();
+
+        for(Region region : regionList) {
+            if(region.needsSave() || all) {
+                writeRegionToYamlObject(region);
+                region.setSaved();
+                anythingdone = true;
+            }
+        }
+        if(anythingdone) {
+            saveRegionsConf();
+        }
     }
 
     private static List<Region> getRegionList() {

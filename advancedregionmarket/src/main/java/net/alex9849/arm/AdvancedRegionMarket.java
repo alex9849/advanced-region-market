@@ -144,6 +144,12 @@ public class AdvancedRegionMarket extends JavaPlugin {
 
         getCommand("arm").setTabCompleter(this.commandHandler);
         Bukkit.getLogger().log(Level.INFO, "Programmed by Alex9849");
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+            @Override
+            public void run() {
+                RegionManager.writeRegionsToConfig(false);
+            }
+        }, 0, 60);
     }
 
     public void onDisable(){

@@ -42,6 +42,9 @@ public class RentRegion extends Region {
 
     @Override
     protected void updateSignText(Sign mysign){
+        if((mysign.getWorld() == null) || (!mysign.getWorld().isChunkLoaded(mysign.getLocation().getBlockX() / 16, mysign.getLocation().getBlockZ() / 16))) {
+            return;
+        }
 
         if (this.sold){
 

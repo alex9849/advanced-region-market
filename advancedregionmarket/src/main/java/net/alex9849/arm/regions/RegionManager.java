@@ -650,16 +650,14 @@ public class RegionManager {
         return null;
     }
 
-    public static Region getRegion(WGRegion wgRegion, World world) {
+    public static Region getRegion(WGRegion wgRegion) {
         for(Region region : regionList) {
-            if(region.getRegionworld().getName().equals(world.getName())) {
-                if(region.getRegion().getId().equals(wgRegion.getId())) {
-                    return region;
-                }
-                for(Region subregion : region.getSubregions()) {
-                    if(subregion.getRegion().getId().equals(wgRegion.getId())) {
-                        return subregion;
-                    }
+            if(region.getRegion().equals(wgRegion)) {
+                return region;
+            }
+            for(Region subregion : region.getSubregions()) {
+                if(subregion.getRegion().equals(wgRegion)) {
+                    return subregion;
                 }
             }
         }

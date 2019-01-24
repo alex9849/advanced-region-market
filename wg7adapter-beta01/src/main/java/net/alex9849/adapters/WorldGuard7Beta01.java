@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WorldGuard7Beta01 extends WorldGuardInterface {
+    private static List<WG7RegionBeta01> createdRegions = new ArrayList<WG7RegionBeta01>();
 
     public RegionManager getRegionManager(World world, WorldGuardPlugin worldGuardPlugin) {
         return WorldGuard.getInstance().getPlatform().getRegionContainer().get(new BukkitWorld(world));
@@ -35,7 +36,7 @@ public class WorldGuard7Beta01 extends WorldGuardInterface {
             return null;
         }
 
-        return new WG7RegionBeta01(region);
+        return getUniqueRegion(region);
     }
 
     public boolean canBuild(Player player, Location location, WorldGuardPlugin worldGuardPlugin){
@@ -62,7 +63,7 @@ public class WorldGuard7Beta01 extends WorldGuardInterface {
     @Override
     public WGRegion createRegion(String regionID, Location pos1, Location pos2, WorldGuardPlugin worldGuardPlugin) {
         ProtectedRegion protectedRegion = new ProtectedCuboidRegion(regionID, new BlockVector(pos1.getBlockX(), pos1.getBlockY(), pos1.getBlockZ()), new BlockVector(pos2.getBlockX(), pos2.getBlockY(), pos2.getBlockZ()));
-        WG7RegionBeta01 returnRegion = new WG7RegionBeta01(protectedRegion);
+        WG7RegionBeta01 returnRegion = getUniqueRegion(protectedRegion);
         return returnRegion;
     }
 
@@ -71,7 +72,7 @@ public class WorldGuard7Beta01 extends WorldGuardInterface {
         List<ProtectedRegion> protectedRegions = new ArrayList<ProtectedRegion>(this.getRegionManager(world, worldGuardPlugin).getApplicableRegions(new Vector(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ())).getRegions());
         List<WGRegion> wg7Regions = new ArrayList<WGRegion>();
         for(ProtectedRegion pRegion : protectedRegions) {
-            wg7Regions.add(new WG7RegionBeta01(pRegion));
+            wg7Regions.add(getUniqueRegion(pRegion));
         }
         return wg7Regions;
     }
@@ -86,6 +87,16 @@ public class WorldGuard7Beta01 extends WorldGuardInterface {
     public void removeFromRegionManager(WGRegion region, World world, WorldGuardPlugin worldGuardPlugin) {
         WG7RegionBeta01 wg7Region = (WG7RegionBeta01) region;
         getRegionManager(world, worldGuardPlugin).removeRegion(wg7Region.getRegion().getId());
+    }
+
+    private WG7RegionBeta01 getUniqueRegion(ProtectedRegion protectedRegion) {
+        for(WG7RegionBeta01 wgRegion : createdRegions) {
+            if(wgRegion.getRegion() == protectedRegion) {
+                return wgRegion;
+            }
+        }
+        WG7RegionBeta01 wg7Region = new WG7RegionBeta01(protectedRegion);
+        return wg7Region;
     }
 
 }

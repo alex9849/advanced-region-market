@@ -864,7 +864,7 @@ public class Messages {
         config.addDefault("Messages.Buymessage", "&aRegion successfully bought!");
         config.addDefault("Messages.RegionAddedToARM", "&7Regionsign has been created and region has been added to ARM!");
         config.addDefault("Messages.SignRemovedFromRegion", "&7Regionsign removed! %remaining% Sign(s) remaining before region gets removed from ARM!");
-        config.addDefault("Messages.SignAddedToRegion", "&7Regionsign has been added!");
+        config.addDefault("Messages.SignAddedToRegion", "&7Region already exists! The sign has been added to the region!");
         config.addDefault("Messages.UseANumberAsPrice", "&4Please use a number as a price in line 4!");
         config.addDefault("Messages.RegionRemovedFromARM", "&7The region has been removed from ARM!");
         config.addDefault("Messages.RegionKindSet", "&aRegionkind set!");

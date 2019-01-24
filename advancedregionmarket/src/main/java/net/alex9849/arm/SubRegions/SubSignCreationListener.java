@@ -4,7 +4,7 @@ import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.InputException;
-import net.alex9849.arm.exceptions.LogicalException;
+import net.alex9849.arm.exceptions.ArmInternalException;
 import net.alex9849.arm.regions.*;
 import net.alex9849.arm.regions.price.ContractPrice;
 import net.alex9849.arm.regions.price.Price;
@@ -134,7 +134,7 @@ public class SubSignCreationListener implements Listener {
             }
         } catch (InputException e) {
             e.sendMessages();
-        } catch (LogicalException e) {
+        } catch (ArmInternalException e) {
             e.sendMessage();
             e.printStackTrace();
         }

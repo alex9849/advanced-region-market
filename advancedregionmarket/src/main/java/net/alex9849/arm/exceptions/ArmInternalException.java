@@ -4,10 +4,10 @@ import org.bukkit.Bukkit;
 
 import java.util.logging.Level;
 
-public class LogicalException extends Exception {
+public class ArmInternalException extends Exception {
     String message;
 
-    public LogicalException(String message) {
+    public ArmInternalException(String message) {
         this.message = message;
     }
 

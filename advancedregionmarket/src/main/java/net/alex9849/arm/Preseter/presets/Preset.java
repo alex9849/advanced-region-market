@@ -1,10 +1,14 @@
 package net.alex9849.arm.Preseter.presets;
 
 import net.alex9849.arm.Messages;
+import net.alex9849.arm.exceptions.ArmInternalException;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.RegionKind;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
+import net.alex9849.inter.WGRegion;
 import org.bukkit.ChatColor;
+import org.bukkit.World;
+import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -203,4 +207,6 @@ public abstract class Preset {
     public abstract Preset getCopy();
 
     public abstract boolean canPriceLineBeLetEmpty();
+
+    public abstract Region generateRegion(WGRegion wgRegion, World world, List<Sign> signs);
 }

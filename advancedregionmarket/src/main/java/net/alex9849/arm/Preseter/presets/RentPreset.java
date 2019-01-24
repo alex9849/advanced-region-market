@@ -1,9 +1,17 @@
 package net.alex9849.arm.Preseter.presets;
 
 import net.alex9849.arm.Messages;
+import net.alex9849.arm.exceptions.ArmInternalException;
+import net.alex9849.arm.regions.ContractRegion;
+import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.RegionKind;
 import net.alex9849.arm.regions.RentRegion;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
+import net.alex9849.arm.regions.price.ContractPrice;
+import net.alex9849.arm.regions.price.RentPrice;
+import net.alex9849.inter.WGRegion;
+import org.bukkit.World;
+import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -144,6 +152,18 @@ public class RentPreset extends Preset {
     @Override
     public boolean canPriceLineBeLetEmpty() {
         return (this.hasPrice() && this.hasMaxRentTime() && this.hasExtendPerClick())|| this.hasAutoPrice();
+    }
+
+    @Override
+    public Region generateRegion(WGRegion wgRegion, World world, List<Sign> signs) {
+
+        RentRegion rentRegion = new RentRegion(wgRegion, world, signs, new RentPrice(AutoPrice.DEFAULT), false, this.isAutoReset(), this.isHotel(), this.isDoBlockReset(), this.getRegionKind(), null, 0, this.isUserResettable(), 1, new ArrayList<>(), this.getAllowedSubregions());
+        if(this.hasAutoPrice()) {
+            rentRegion.setPrice(new RentPrice(this.getAutoPrice()));
+        } else if (this.hasPrice() && this.hasExtendPerClick() && this.hasMaxRentTime()) {
+            rentRegion.setPrice(new RentPrice(this.getPrice(), this.getExtendPerClick(), this.getMaxRentTime()));
+        }
+        return rentRegion;
     }
 
 }

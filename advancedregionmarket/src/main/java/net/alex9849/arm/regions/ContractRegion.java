@@ -408,11 +408,6 @@ public class ContractRegion extends Region {
     }
 
     @Override
-    protected String getSellType() {
-        return Messages.CONTRACTREGION_NAME;
-    }
-
-    @Override
     public String getConvertedMessage(String message) {
         message = message.replace("%status%", this.getTerminationString());
         message = message.replace("%statuslong%", this.getTerminationStringLong());
@@ -422,5 +417,9 @@ public class ContractRegion extends Region {
         message = message.replace("%priceperm2perweek%", this.roundNumber(this.getPricePerM2PerWeek()) + "");
         message = message.replace("%priceperm3perweek%", this.roundNumber(this.getPricePerM3PerWeek()) + "");
         return message;
+    }
+
+    public SellType getSellType() {
+        return SellType.CONTRACT;
     }
 }

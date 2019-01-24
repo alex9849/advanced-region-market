@@ -740,8 +740,19 @@ public class RegionManager {
         return regions;
     }
 
-    public static List<Region> getRegions() {
-        return regionList;
+    public static List<Region> getRegionsBySelltype(SellType sellType) {
+        List<Region> regions = new ArrayList<>();
+        for(Region region : regionList) {
+            if(region.getSellType() == sellType) {
+                regions.add(region);
+                for(Region subregion : region.getSubregions()) {
+                    if(subregion.getSellType() == sellType) {
+                        regions.add(subregion);
+                    }
+                }
+            }
+        }
+        return regions;
     }
 
     public static List<Region> getFreeRegions(RegionKind regionKind) {
@@ -765,6 +776,14 @@ public class RegionManager {
 
     public static boolean containsRegion(Region region) {
         return RegionManager.regionList.contains(region);
+    }
+
+    public static List<Region> getAllRegions() {
+        List<Region> regions = new ArrayList<>();
+        for(Region region : regionList) {
+            regions.add(region);
+        }
+        return regions;
     }
 
 }

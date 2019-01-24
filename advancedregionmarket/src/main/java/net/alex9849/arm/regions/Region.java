@@ -637,11 +637,11 @@ public abstract class Region {
         }
     }
 
-    protected abstract String getSellType();
-
     public Price getPriceObject() {
         return this.price;
     }
+
+    public abstract SellType getSellType();
 
     public String getConvertedMessage(String message) {
         message = message.replace("%regionid%", this.getRegion().getId());
@@ -658,7 +658,7 @@ public abstract class Region {
         message = message.replace("%subregionlimit%", this.getAllowedSubregions() + "");
         message = message.replace("%hotelfunctionstatus%", Messages.convertEnabledDisabled(this.isHotel));
         message = message.replace("%soldstatus%", this.getSoldStringStatus());
-        message = message.replace("%selltype%", this.getSellType());
+        message = message.replace("%selltype%", this.getSellType().getName());
         return message;
     }
 }

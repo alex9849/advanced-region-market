@@ -8,6 +8,7 @@ import net.alex9849.arm.Group.LimitGroup;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import net.alex9849.arm.regions.price.ContractPrice;
+import net.alex9849.arm.regions.price.Price;
 import net.alex9849.inter.WGRegion;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -421,5 +422,15 @@ public class ContractRegion extends Region {
 
     public SellType getSellType() {
         return SellType.CONTRACT;
+    }
+
+    @Override
+    public void setPrice(Price price) {
+        this.price = price;
+        if(price instanceof ContractPrice) {
+            this.extendTime = ((ContractPrice) price).getExtendTime();
+        }
+        this.updateSigns();
+        RegionManager.saveRegion(this);
     }
 }

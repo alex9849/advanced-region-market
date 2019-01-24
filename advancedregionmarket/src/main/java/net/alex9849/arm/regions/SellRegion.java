@@ -145,6 +145,12 @@ public class SellRegion extends Region {
         return this.getPricePerM2();
     }
 
+    public void setPrice(Price price) {
+        this.price = price;
+        this.updateSigns();
+        RegionManager.saveRegion(this);
+    }
+
     @Override
     public double getPricePerM3PerWeek() {
         return this.getPricePerM2();

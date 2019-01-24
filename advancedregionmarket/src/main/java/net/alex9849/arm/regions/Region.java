@@ -643,6 +643,8 @@ public abstract class Region {
 
     public abstract SellType getSellType();
 
+    public abstract void setPrice(Price price);
+
     public String getConvertedMessage(String message) {
         message = message.replace("%regionid%", this.getRegion().getId());
         message = message.replace("%region%", this.getRegion().getId());

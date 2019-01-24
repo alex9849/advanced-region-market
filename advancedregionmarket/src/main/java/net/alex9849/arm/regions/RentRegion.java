@@ -7,6 +7,8 @@ import net.alex9849.arm.Group.LimitGroup;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
+import net.alex9849.arm.regions.price.ContractPrice;
+import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.regions.price.RentPrice;
 import net.alex9849.inter.WGRegion;
 import org.bukkit.Bukkit;
@@ -470,6 +472,20 @@ public class RentRegion extends Region {
 
     public static Boolean isSendExpirationWarning(){
         return RentRegion.sendExpirationWarning;
+    }
+
+    public void setPrice(Price price) {
+        this.price = price;
+
+        if(price instanceof ContractPrice) {
+            this.rentExtendPerClick = ((ContractPrice) price).getExtendTime();
+        }
+
+        if(price instanceof RentPrice) {
+            this.maxRentTime = ((RentPrice) price).getMaxRentTime();
+        }
+        this.updateSigns();
+        RegionManager.saveRegion(this);
     }
 
     @Override

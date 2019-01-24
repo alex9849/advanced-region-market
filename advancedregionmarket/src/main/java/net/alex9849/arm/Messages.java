@@ -1180,4 +1180,12 @@ public class Messages {
         }
     }
 
+    public static String convertEnabledDisabled(boolean bool) {
+        if(bool) {
+            return Messages.ENABLED;
+        } else {
+            return Messages.DISABLED;
+        }
+    }
+
 }

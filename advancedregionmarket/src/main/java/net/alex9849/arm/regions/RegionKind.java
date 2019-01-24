@@ -102,19 +102,19 @@ public class RegionKind {
         return this.displayName;
     }
 
-    public static List<String> completeTabRegionKinds(String arg) {
+    public static List<String> completeTabRegionKinds(String arg, String prefix) {
         List<String> returnme = new ArrayList<>();
 
         for (RegionKind regionkind : RegionKind.getRegionKindList()) {
-            if (regionkind.getName().toLowerCase().startsWith(arg)) {
-                returnme.add(regionkind.getName());
+            if ((prefix + regionkind.getName()).toLowerCase().startsWith(arg)) {
+                returnme.add(prefix + regionkind.getName());
             }
         }
-        if ("default".startsWith(arg)) {
-            returnme.add("default");
+        if ((prefix + "default").startsWith(arg)) {
+            returnme.add(prefix + "default");
         }
-        if ("subregion".startsWith(arg)) {
-            returnme.add("subregion");
+        if ((prefix + "subregion").startsWith(arg)) {
+            returnme.add(prefix + "subregion");
         }
 
         return returnme;

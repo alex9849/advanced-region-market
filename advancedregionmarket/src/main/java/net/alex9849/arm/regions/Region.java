@@ -629,14 +629,6 @@ public abstract class Region {
         return rounded / 100;
     }
 
-    private String getHotelFunctionStringStatus() {
-        if(this.isHotel()) {
-            return Messages.ENABLED;
-        } else {
-            return Messages.DISABLED;
-        }
-    }
-
     private String getSoldStringStatus() {
         if(this.isSold()) {
             return Messages.SOLD;
@@ -664,7 +656,7 @@ public abstract class Region {
         message = message.replace("%owner%", this.getOwnerName());
         message = message.replace("%world%", this.getRegionworld().getName());
         message = message.replace("%subregionlimit%", this.getAllowedSubregions() + "");
-        message = message.replace("%hotelfunctionstatus%", this.getHotelFunctionStringStatus());
+        message = message.replace("%hotelfunctionstatus%", Messages.convertEnabledDisabled(this.isHotel));
         message = message.replace("%soldstatus%", this.getSoldStringStatus());
         message = message.replace("%selltype%", this.getSellType());
         return message;

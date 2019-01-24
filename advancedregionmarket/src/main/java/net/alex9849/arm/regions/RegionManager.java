@@ -725,6 +725,21 @@ public class RegionManager {
         return regions;
     }
 
+    public static List<Region> getRegionsByRegionKind(RegionKind regionKind) {
+        List<Region> regions = new ArrayList<>();
+        for(Region region : regionList) {
+            if(region.getRegionKind() == regionKind) {
+                regions.add(region);
+                for(Region subregion : region.getSubregions()) {
+                    if(subregion.getRegionKind() == regionKind) {
+                        regions.add(subregion);
+                    }
+                }
+            }
+        }
+        return regions;
+    }
+
     public static List<Region> getRegions() {
         return regionList;
     }

@@ -59,6 +59,7 @@ public class WorldEdit7FaWe extends WorldEditInterface {
                 }
             }
         }
+
         World weWorld = new BukkitWorld(bukkitworld);
         BlockVector minPoint = new BlockVector(region.getMinPoint().getBlockX(), region.getMinPoint().getBlockY(), region.getMinPoint().getBlockZ());
         if(ClipboardFormat.SPONGE_SCHEMATIC.isFormat(file)) {

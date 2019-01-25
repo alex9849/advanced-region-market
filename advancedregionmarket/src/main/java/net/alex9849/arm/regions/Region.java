@@ -69,7 +69,7 @@ public abstract class Region {
         }
 
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-        File builtblocksdic = new File(pluginfolder + "/schematics/" + this.regionworld + "/" + region.getId() + "--builtblocks.schematic");
+        File builtblocksdic = new File(pluginfolder + "/schematics/" + this.regionworld.getName() + "/" + region.getId() + "--builtblocks.schematic");
         if(builtblocksdic.exists()){
             try {
                 FileReader filereader = new FileReader(builtblocksdic);
@@ -164,9 +164,9 @@ public abstract class Region {
         this.builtblocks.add(loc);
         try {
             File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-            File builtblocksdic = new File(pluginfolder + "/schematics/" + this.regionworld + "/" + region.getId() + "--builtblocks.schematic");
+            File builtblocksdic = new File(pluginfolder + "/schematics/" + this.regionworld.getName() + "/" + region.getId() + "--builtblocks.schematic");
             if(!builtblocksdic.exists()){
-                File builtblocksfolder = new File(pluginfolder + "/schematics/" + this.regionworld);
+                File builtblocksfolder = new File(pluginfolder + "/schematics/" + this.regionworld.getName());
                 builtblocksfolder.mkdirs();
                 builtblocksdic.createNewFile();
             }
@@ -311,7 +311,7 @@ public abstract class Region {
 
     public void resetBuiltBlocks() {
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-        File builtblocksdic = new File(pluginfolder + "/schematics/" + this.regionworld + "/" + region.getId() + "--builtblocks.schematic");
+        File builtblocksdic = new File(pluginfolder + "/schematics/" + this.regionworld.getName() + "/" + region.getId() + "--builtblocks.schematic");
         if(builtblocksdic.exists()){
             builtblocksdic.delete();
             this.builtblocks = new ArrayList<>();

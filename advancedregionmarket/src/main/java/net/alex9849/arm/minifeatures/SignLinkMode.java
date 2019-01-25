@@ -60,8 +60,13 @@ public class SignLinkMode implements Listener {
             if((!(event.getAction() == Action.LEFT_CLICK_BLOCK)) && (!(event.getAction() == Action.RIGHT_CLICK_BLOCK))) {
                 return;
             }
-            if((event.getAction() == Action.RIGHT_CLICK_BLOCK) && event.isBlockInHand()) {
+            if((event.getAction() == Action.RIGHT_CLICK_BLOCK) && event.getPlayer().getInventory().getItemInMainHand() != null) {
                 if(event.getPlayer().getInventory().getItemInMainHand().getType() == Material.SIGN) {
+                    return;
+                }
+            }
+            if((event.getAction() == Action.LEFT_CLICK_BLOCK) && event.getClickedBlock() != null) {
+                if((event.getClickedBlock().getType() == Material.SIGN) || (event.getClickedBlock().getType() == Material.WALL_SIGN)) {
                     return;
                 }
             }

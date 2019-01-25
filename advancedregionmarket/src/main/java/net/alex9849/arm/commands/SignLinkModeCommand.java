@@ -92,8 +92,8 @@ public class SignLinkModeCommand extends BasicArmCommand {
             }
             if(preset == null) {
                 String err = "&cYou dont have a preset loaded! Please load or create a preset first! " +
-                        "&cYou can create a preset by using the &6/arm sellpreset/rentpreset/contractpreset &ccommands! For more " +
-                        "&cinformation about presets click here: \n&6https://goo.gl/3upfAA (Gitlab Wiki)";
+                        "&cYou can create a preset by using the &6/arm sellpreset/rentpreset/contractpreset &ccommands!\nFor more " +
+                        "&cinformation about presets click here:\n&6https://goo.gl/3upfAA (Gitlab Wiki)";
                 throw new InputException(player, ChatColor.translateAlternateColorCodes('&', err));
             }
             if(!preset.canPriceLineBeLetEmpty()) {

@@ -257,6 +257,22 @@ public class Messages {
     public static String AUTOPRICE_LIST = "&6=========[Autoprices]=========";
     public static String GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM = "&6Info";
 
+    public static String SELLTYPE_NOT_EXIST = "&4The selected selltype does not exist!";
+    public static String SIGN_LINK_MODE_ACTIVATED = "&aSign-Link-Mode activated! Click on a sign and on a region to create a region or to add the sign to the region";
+    public static String SIGN_LINK_MODE_DEACTIVATED = "&aSign-Link-Mode deactivated!";
+    public static String SIGN_LINK_MODE_ALREADY_DEACTIVATED = "&4Sign-Link-Mode is already deactivated!";
+    public static String SIGN_LINK_MODE_PRESET_NOT_PRICEREADY = "&cThe selected preset is not price-ready! All regions you will create now will be created with the default autoprice";
+    public static String SIGN_LINK_MODE_NO_PRESET_SELECTED = "&cYou dont have a preset loaded! Please load or create a preset first! &cYou can create a preset by using the &6/arm sellpreset/rentpreset/contractpreset &ccommands!\nFor more &cinformation about presets click here:\n&6https://goo.gl/3upfAA (Gitlab Wiki)";
+    public static String SIGN_LINK_MODE_SIGN_BELONGS_TO_ANOTHER_REGION = "&4Sign belongs to another region!";
+    public static String SIGN_LINK_MODE_SIGN_SELECTED = "&aSign selected!";
+    public static String SIGN_LINK_MODE_COULD_NOT_SELECT_REGION_MULTIPLE_WG_REGIONS = "&4Could not select WorldGuard-Region! There are more then one regions available!";
+    public static String SIGN_LINK_MODE_COULD_NOT_SELECT_REGION_NO_WG_REGION = "&4Could not select WorldGuard-Region! There is no region at this position!";
+    public static String SIGN_LINK_MODE_COULD_NOT_IDENTIFY_WORLD = "&4Could not identify world! Please select the WorldGuard-Region again!";
+    public static String SIGN_LINK_MODE_NO_SIGN_SELECTED = "&4You have not selected a sign";
+    public static String SIGN_LINK_MODE_NO_WG_REGION_SELECTED = "&4You have not selected a WorldGuard-Region";
+    public static String SIGN_LINK_MODE_REGION_SELECTED = "&aSelected region: %regionid%";
+
+
 
     public static List<String> GUI_TELEPORT_TO_REGION_BUTTON_LORE = new ArrayList<>();
     public static List<String> GUI_MAKE_OWNER_BUTTON_LORE = new ArrayList<>();
@@ -531,6 +547,23 @@ public class Messages {
         SUBREGION_HELP_HEADLINE = config.getString("Messages.SubregionHelpHeadline");
         GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM_LORE = config.getStringList("Messages.GUISubregionManagerNoSubregionItemLore");
         GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM = config.getString("Messages.GUISubregionManagerNoSubregionItem");
+
+        SELLTYPE_NOT_EXIST = config.getString("Messages.SelltypeNotExist");
+        SIGN_LINK_MODE_ACTIVATED = config.getString("Messages.SignLinkModeActivated");
+        SIGN_LINK_MODE_DEACTIVATED = config.getString("Messages.SignLinkModeDeactivated");
+        SIGN_LINK_MODE_ALREADY_DEACTIVATED = config.getString("Messages.SignLinkModeAlreadyDeactivated");
+        SIGN_LINK_MODE_PRESET_NOT_PRICEREADY = config.getString("Messages.SignLinkModePresetNotPriceready");
+        SIGN_LINK_MODE_NO_PRESET_SELECTED = config.getString("Messages.SignLinkModeNoPresetSelected");
+        SIGN_LINK_MODE_SIGN_BELONGS_TO_ANOTHER_REGION = config.getString("Messages.SignLinkModeSignBelongsToAnotherRegion");
+        SIGN_LINK_MODE_SIGN_SELECTED = config.getString("Messages.SignLinkModeSignSelected");
+        SIGN_LINK_MODE_COULD_NOT_SELECT_REGION_MULTIPLE_WG_REGIONS = config.getString("Messages.SignLinkModeMultipleWgRegionsAtPosition");
+        SIGN_LINK_MODE_COULD_NOT_SELECT_REGION_NO_WG_REGION = config.getString("Messages.SignLinkModeNoWgRegionAtPosition");
+        SIGN_LINK_MODE_COULD_NOT_IDENTIFY_WORLD = config.getString("Messages.SignLinkModeCouldNotIdentifyWorld");
+        SIGN_LINK_MODE_NO_SIGN_SELECTED = config.getString("Messages.SignLinkModeNoSignSelected");
+        SIGN_LINK_MODE_NO_WG_REGION_SELECTED = config.getString("Messages.SignLinkModeNoWgRegionSelected");
+        SIGN_LINK_MODE_REGION_SELECTED = config.getString("Messages.SignLinkModeSelectedRegion");
+
+
         Messages.translateColorCodes();
     }
 
@@ -764,6 +797,21 @@ public class Messages {
         SUBREGION_HELP_HEADLINE = ChatColor.translateAlternateColorCodes('&', SUBREGION_HELP_HEADLINE);
         GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM = ChatColor.translateAlternateColorCodes('&', GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM);
 
+        SELLTYPE_NOT_EXIST = ChatColor.translateAlternateColorCodes('&', SELLTYPE_NOT_EXIST);
+        SIGN_LINK_MODE_ACTIVATED = ChatColor.translateAlternateColorCodes('&', SIGN_LINK_MODE_ACTIVATED);
+        SIGN_LINK_MODE_DEACTIVATED = ChatColor.translateAlternateColorCodes('&', SIGN_LINK_MODE_DEACTIVATED);
+        SIGN_LINK_MODE_ALREADY_DEACTIVATED = ChatColor.translateAlternateColorCodes('&', SIGN_LINK_MODE_ALREADY_DEACTIVATED);
+        SIGN_LINK_MODE_PRESET_NOT_PRICEREADY = ChatColor.translateAlternateColorCodes('&', SIGN_LINK_MODE_PRESET_NOT_PRICEREADY);
+        SIGN_LINK_MODE_NO_PRESET_SELECTED = ChatColor.translateAlternateColorCodes('&', SIGN_LINK_MODE_NO_PRESET_SELECTED);
+        SIGN_LINK_MODE_SIGN_BELONGS_TO_ANOTHER_REGION = ChatColor.translateAlternateColorCodes('&', SIGN_LINK_MODE_SIGN_BELONGS_TO_ANOTHER_REGION);
+        SIGN_LINK_MODE_SIGN_SELECTED = ChatColor.translateAlternateColorCodes('&', SIGN_LINK_MODE_SIGN_SELECTED);
+        SIGN_LINK_MODE_COULD_NOT_SELECT_REGION_MULTIPLE_WG_REGIONS = ChatColor.translateAlternateColorCodes('&', SIGN_LINK_MODE_COULD_NOT_SELECT_REGION_MULTIPLE_WG_REGIONS);
+        SIGN_LINK_MODE_COULD_NOT_SELECT_REGION_NO_WG_REGION = ChatColor.translateAlternateColorCodes('&', SIGN_LINK_MODE_COULD_NOT_SELECT_REGION_NO_WG_REGION);
+        SIGN_LINK_MODE_COULD_NOT_IDENTIFY_WORLD = ChatColor.translateAlternateColorCodes('&', SIGN_LINK_MODE_COULD_NOT_IDENTIFY_WORLD);
+        SIGN_LINK_MODE_NO_SIGN_SELECTED = ChatColor.translateAlternateColorCodes('&', SIGN_LINK_MODE_NO_SIGN_SELECTED);
+        SIGN_LINK_MODE_NO_WG_REGION_SELECTED = ChatColor.translateAlternateColorCodes('&', SIGN_LINK_MODE_NO_WG_REGION_SELECTED);
+        SIGN_LINK_MODE_REGION_SELECTED = ChatColor.translateAlternateColorCodes('&', SIGN_LINK_MODE_REGION_SELECTED);
+
         for(int i = 0; i < GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM_LORE.size(); i++){
             GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM_LORE.set(i, ChatColor.translateAlternateColorCodes('&', GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM_LORE.get(i)));
         }
@@ -864,7 +912,7 @@ public class Messages {
         config.addDefault("Messages.Buymessage", "&aRegion successfully bought!");
         config.addDefault("Messages.RegionAddedToARM", "&7Regionsign has been created and region has been added to ARM!");
         config.addDefault("Messages.SignRemovedFromRegion", "&7Regionsign removed! %remaining% Sign(s) remaining before region gets removed from ARM!");
-        config.addDefault("Messages.SignAddedToRegion", "&7Regionsign has been added!");
+        config.addDefault("Messages.SignAddedToRegion", "&7Region already exists! The sign has been added to the region!");
         config.addDefault("Messages.UseANumberAsPrice", "&4Please use a number as a price in line 4!");
         config.addDefault("Messages.RegionRemovedFromARM", "&7The region has been removed from ARM!");
         config.addDefault("Messages.RegionKindSet", "&aRegionkind set!");
@@ -1028,6 +1076,21 @@ public class Messages {
         config.addDefault("Messages.ContractRegion", "ContractRegion");
         config.addDefault("Messages.RegionStats", "&6=========[Region stats]=========");
         config.addDefault("Messages.RegionStatsPattern", "&8Used regions (%regionkind%&8):");
+
+        config.addDefault("Messages.SelltypeNotExist", "&4The selected selltype does not exist!");
+        config.addDefault("Messages.SignLinkModeActivated", "&aSign-Link-Mode activated! Click on a sign and on a region to create a region or to add the sign to the region");
+        config.addDefault("Messages.SignLinkModeDeactivated", "&aSign-Link-Mode deactivated!");
+        config.addDefault("Messages.SignLinkModeAlreadyDeactivated", "&4Sign-Link-Mode is already deactivated!");
+        config.addDefault("Messages.SignLinkModePresetNotPriceready", "&cThe selected preset is not price-ready! All regions you will create now will be created with the default autoprice");
+        config.addDefault("Messages.SignLinkModeNoPresetSelected", "&cYou dont have a preset loaded! Please load or create a preset first! &cYou can create a preset by using the &6/arm sellpreset/rentpreset/contractpreset &ccommands!\nFor more &cinformation about presets click here:\n&6https://goo.gl/3upfAA (Gitlab Wiki)");
+        config.addDefault("Messages.SignLinkModeSignBelongsToAnotherRegion", "&4Sign belongs to another region!");
+        config.addDefault("Messages.SignLinkModeSignSelected", "&aSign selected!");
+        config.addDefault("Messages.SignLinkModeMultipleWgRegionsAtPosition", "&4Could not select WorldGuard-Region! There are more then one regions available!");
+        config.addDefault("Messages.SignLinkModeNoWgRegionAtPosition", "&4Could not select WorldGuard-Region! There is no region at this position!");
+        config.addDefault("Messages.SignLinkModeCouldNotIdentifyWorld", "&4Could not identify world! Please select the WorldGuard-Region again!");
+        config.addDefault("Messages.SignLinkModeNoSignSelected", "&4You have not selected a sign");
+        config.addDefault("Messages.SignLinkModeNoWgRegionSelected", "&4You have not selected a WorldGuard-Region");
+        config.addDefault("Messages.SignLinkModeSelectedRegion", "&aSelected region: %regionid%");
 
         config.addDefault("Messages.GUIMainMenuName", "&1ARM - Menu");
         config.addDefault("Messages.GUIRegionFinderMenuName", "&1ARM - Regionfinder");

@@ -1,9 +1,14 @@
 package net.alex9849.arm.Preseter.presets;
 
 import net.alex9849.arm.Messages;
-import net.alex9849.arm.regions.RentRegion;
-import net.alex9849.arm.regions.RegionKind;
+import net.alex9849.arm.exceptions.ArmInternalException;
+import net.alex9849.arm.regions.*;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
+import net.alex9849.arm.regions.price.ContractPrice;
+import net.alex9849.arm.regions.price.Price;
+import net.alex9849.inter.WGRegion;
+import org.bukkit.World;
+import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -107,6 +112,18 @@ public class ContractPreset extends Preset {
     @Override
     public boolean canPriceLineBeLetEmpty() {
         return (this.hasPrice() && this.hasExtend()) || this.hasAutoPrice();
+    }
+
+    @Override
+    public Region generateRegion(WGRegion wgRegion, World world, List<Sign> signs) {
+
+        ContractRegion contractRegion = new ContractRegion(wgRegion, world, signs, new ContractPrice(AutoPrice.DEFAULT), false, this.isAutoReset(), this.isHotel(), this.isDoBlockReset(), this.getRegionKind(), null, 0, this.isUserResettable(), 1, true, new ArrayList<>(), this.getAllowedSubregions());
+        if(this.hasAutoPrice()) {
+            contractRegion.setPrice(new ContractPrice(this.getAutoPrice()));
+        } else if (this.hasPrice() && this.hasExtend()) {
+            contractRegion.setPrice(new ContractPrice(this.getPrice(), this.getExtend()));
+        }
+        return contractRegion;
     }
 
 }

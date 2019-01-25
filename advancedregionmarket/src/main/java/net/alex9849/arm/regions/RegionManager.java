@@ -132,6 +132,7 @@ public class RegionManager {
             regionsconf.set("Regions." + contractRegion.getRegionworld().getName() + "." + contractRegion.getRegion().getId() + ".payedTill", contractRegion.getPayedTill());
             regionsconf.set("Regions." + contractRegion.getRegionworld().getName() + "." + contractRegion.getRegion().getId() + ".terminated", contractRegion.isTerminated());
         }
+        region.setSaved();
     }
 
     public static boolean removeRegion(Region region) {
@@ -143,26 +144,27 @@ public class RegionManager {
                 regionList.get(i).getSubregions().remove(region);
             }
         }
-        writeRegionsToConfig();
+        writeRegionsToConfig(true);
         return true;
     }
 
-    public static void saveRegion(Region sregion) {
+    public static void writeRegionsToConfig(boolean all) {
+        boolean anythingdone = false;
+
+        if(all) {
+            regionsconf = new YamlConfiguration();
+        }
+
         for(Region region : regionList) {
-            if((region == sregion) || region.getSubregions().contains(sregion)) {
+            if(region.needsSave() || all) {
                 writeRegionToYamlObject(region);
-                saveRegionsConf();
-                return;
+                region.setSaved();
+                anythingdone = true;
             }
         }
-    }
-
-    public static void writeRegionsToConfig() {
-        regionsconf = new YamlConfiguration();
-        for(Region region : regionList) {
-            writeRegionToYamlObject(region);
+        if(anythingdone) {
+            saveRegionsConf();
         }
-        saveRegionsConf();
     }
 
     private static List<Region> getRegionList() {
@@ -650,16 +652,14 @@ public class RegionManager {
         return null;
     }
 
-    public static Region getRegion(WGRegion wgRegion, World world) {
+    public static Region getRegion(WGRegion wgRegion) {
         for(Region region : regionList) {
-            if(region.getRegionworld().getName().equals(world.getName())) {
-                if(region.getRegion().getId().equals(wgRegion.getId())) {
-                    return region;
-                }
-                for(Region subregion : region.getSubregions()) {
-                    if(subregion.getRegion().getId().equals(wgRegion.getId())) {
-                        return subregion;
-                    }
+            if(region.getRegion().equals(wgRegion)) {
+                return region;
+            }
+            for(Region subregion : region.getSubregions()) {
+                if(subregion.getRegion().equals(wgRegion)) {
+                    return subregion;
                 }
             }
         }

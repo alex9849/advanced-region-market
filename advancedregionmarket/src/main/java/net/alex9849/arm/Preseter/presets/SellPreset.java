@@ -1,8 +1,15 @@
 package net.alex9849.arm.Preseter.presets;
 
 import net.alex9849.arm.Preseter.commands.*;
+import net.alex9849.arm.exceptions.ArmInternalException;
+import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.RegionKind;
+import net.alex9849.arm.regions.SellRegion;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
+import net.alex9849.arm.regions.price.Price;
+import net.alex9849.inter.WGRegion;
+import org.bukkit.World;
+import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -34,6 +41,18 @@ public class SellPreset extends Preset{
     @Override
     public boolean canPriceLineBeLetEmpty() {
         return this.hasPrice() || this.hasAutoPrice();
+    }
+
+    @Override
+    public Region generateRegion(WGRegion wgRegion, World world, List<Sign> signs) {
+
+        SellRegion sellRegion = new SellRegion(wgRegion, world, signs, new Price(AutoPrice.DEFAULT), false, this.isAutoReset(), this.isHotel(), this.isDoBlockReset(), this.getRegionKind(), null, 0, this.isUserResettable(), new ArrayList<>(), this.getAllowedSubregions());
+        if(this.hasAutoPrice()) {
+            sellRegion.setPrice(new Price(this.getAutoPrice()));
+        } else if (this.hasPrice()) {
+            sellRegion.setPrice(new Price(this.getPrice()));
+        }
+        return sellRegion;
     }
 
 }

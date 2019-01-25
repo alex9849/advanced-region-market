@@ -101,7 +101,7 @@ public class ContractRegion extends Region {
 
         this.updateSigns();
 
-        RegionManager.saveRegion(this);
+        this.queueSave();
     }
 
     @Override
@@ -335,7 +335,7 @@ public class ContractRegion extends Region {
         while (this.payedTill < actualtime.getTimeInMillis()) {
             this.payedTill = this.payedTill + this.extendTime;
         }
-        RegionManager.saveRegion(this);
+        this.queueSave();
         if((player != null) && ArmSettings.isSendContractRegionExtendMessage()) {
             String sendmessage = this.getConvertedMessage(Messages.CONTRACT_REGION_EXTENDED);
             player.sendMessage(Messages.PREFIX + sendmessage);
@@ -356,7 +356,7 @@ public class ContractRegion extends Region {
 
     public void setTerminated(Boolean bool, Player player) {
         this.terminated = bool;
-        RegionManager.saveRegion(this);
+        this.queueSave();
         if(player != null) {
             String sendmessage = this.getConvertedMessage(Messages.CONTRACT_REGION_CHANGE_TERMINATED);
             player.sendMessage(Messages.PREFIX + sendmessage);
@@ -434,6 +434,6 @@ public class ContractRegion extends Region {
             this.extendTime = ((ContractPrice) price).getExtendTime();
         }
         this.updateSigns();
-        RegionManager.saveRegion(this);
+        this.queueSave();
     }
 }

@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WorldGuard7 extends WorldGuardInterface {
+    private static List<WG7Region> createdRegions = new ArrayList<WG7Region>();
 
     public RegionManager getRegionManager(World world, WorldGuardPlugin worldGuardPlugin) {
         return WorldGuard.getInstance().getPlatform().getRegionContainer().get(new BukkitWorld(world));
@@ -34,7 +35,7 @@ public class WorldGuard7 extends WorldGuardInterface {
             return null;
         }
 
-        return new WG7Region(region);
+        return getUniqueRegion(region);
     }
 
     public boolean canBuild(Player player, Location location, WorldGuardPlugin worldGuardPlugin){
@@ -61,7 +62,7 @@ public class WorldGuard7 extends WorldGuardInterface {
     @Override
     public WGRegion createRegion(String regionID, Location pos1, Location pos2, WorldGuardPlugin worldGuardPlugin) {
         ProtectedRegion protectedRegion = new ProtectedCuboidRegion(regionID, BlockVector3.at(pos1.getBlockX(), pos1.getBlockY(), pos1.getBlockZ()), BlockVector3.at(pos2.getBlockX(), pos2.getBlockY(), pos2.getBlockZ()));
-        return new WG7Region(protectedRegion);
+        return getUniqueRegion(protectedRegion);
     }
 
     @Override
@@ -69,7 +70,7 @@ public class WorldGuard7 extends WorldGuardInterface {
         List<ProtectedRegion> protectedRegions = new ArrayList<ProtectedRegion>(this.getRegionManager(world, worldGuardPlugin).getApplicableRegions(BlockVector3.at(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ())).getRegions());
         List<WGRegion> wg7Regions = new ArrayList<WGRegion>();
         for(ProtectedRegion pRegion : protectedRegions) {
-            wg7Regions.add(new WG7Region(pRegion));
+            wg7Regions.add(getUniqueRegion(pRegion));
         }
         return wg7Regions;
     }
@@ -86,5 +87,14 @@ public class WorldGuard7 extends WorldGuardInterface {
         getRegionManager(world, worldGuardPlugin).removeRegion(wg7Region.getRegion().getId());
     }
 
+    private WG7Region getUniqueRegion(ProtectedRegion protectedRegion) {
+        for(WG7Region wgRegion : createdRegions) {
+            if(wgRegion.getRegion() == protectedRegion) {
+                return wgRegion;
+            }
+        }
+        WG7Region wg7Region = new WG7Region(protectedRegion);
+        return wg7Region;
+    }
 
 }

@@ -117,7 +117,7 @@ public class SellRegion extends Region {
 
         this.updateSigns();
 
-        RegionManager.saveRegion(this);
+        this.queueSave();
     }
 
     @Override
@@ -152,7 +152,7 @@ public class SellRegion extends Region {
     public void setPrice(Price price) {
         this.price = price;
         this.updateSigns();
-        RegionManager.saveRegion(this);
+        this.queueSave();
     }
 
     @Override

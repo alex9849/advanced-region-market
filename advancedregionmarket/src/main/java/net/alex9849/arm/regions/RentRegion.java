@@ -152,7 +152,7 @@ public class RentRegion extends Region {
 
         this.updateSigns();
 
-        RegionManager.saveRegion(this);
+        this.queueSave();
 
     }
 
@@ -409,7 +409,7 @@ public class RentRegion extends Region {
             this.giveParentRegionOwnerMoney(this.getPrice());
             this.payedTill = this.payedTill + this.rentExtendPerClick;
 
-            RegionManager.saveRegion(this);
+            this.queueSave();
 
             String message = this.getConvertedMessage(Messages.RENT_EXTEND_MESSAGE);
             player.sendMessage(Messages.PREFIX + message);
@@ -488,7 +488,7 @@ public class RentRegion extends Region {
             this.maxRentTime = ((RentPrice) price).getMaxRentTime();
         }
         this.updateSigns();
-        RegionManager.saveRegion(this);
+        this.queueSave();
     }
 
     @Override

@@ -581,7 +581,7 @@ public class ARMListener implements Listener {
                                     }
                                     return;
                                 } else {
-                                    Region region = net.alex9849.arm.regions.RegionManager.getRegion(wgRegion, event.getClickedBlock().getWorld());
+                                    Region region = net.alex9849.arm.regions.RegionManager.getRegion(wgRegion);
                                     if(region == null) {
                                         throw new InputException(player, Messages.REGION_NOT_REGISTRED);
                                     }
@@ -601,7 +601,7 @@ public class ARMListener implements Listener {
                                     return;
                                 }
                             } else {
-                                Region region = net.alex9849.arm.regions.RegionManager.getRegion(wgRegion, event.getClickedBlock().getWorld());
+                                Region region = net.alex9849.arm.regions.RegionManager.getRegion(wgRegion);
                                 if(region == null) {
                                     throw new InputException(player, Messages.REGION_NOT_REGISTRED);
                                 }

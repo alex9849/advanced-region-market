@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class WorldGuard6 extends WorldGuardInterface {
+    private static List<WG6Region> createdRegions = new ArrayList<WG6Region>();
 
     @Override
     public RegionManager getRegionManager(World world, WorldGuardPlugin worldGuardPlugin) {
@@ -38,7 +39,7 @@ public class WorldGuard6 extends WorldGuardInterface {
             return null;
         }
 
-        return new WG6Region(region);
+        return getUniqueRegion(region);
     }
 
     public boolean canBuild(Player player, Location location, WorldGuardPlugin worldGuardPlugin){
@@ -48,7 +49,7 @@ public class WorldGuard6 extends WorldGuardInterface {
     @Override
     public WGRegion createRegion(String regionID, Location pos1, Location pos2, WorldGuardPlugin worldGuardPlugin) {
         ProtectedRegion protectedRegion = new ProtectedCuboidRegion(regionID, new BlockVector(pos1.getBlockX(), pos1.getBlockY(), pos1.getBlockZ()), new BlockVector(pos2.getBlockX(), pos2.getBlockY(), pos2.getBlockZ()));
-        WG6Region returnRegion = new WG6Region(protectedRegion);
+        WG6Region returnRegion = getUniqueRegion(protectedRegion);
         return returnRegion;
     }
 
@@ -57,7 +58,7 @@ public class WorldGuard6 extends WorldGuardInterface {
         List<ProtectedRegion> protectedRegions = new ArrayList<ProtectedRegion>(worldGuardPlugin.getRegionManager(world).getApplicableRegions(loc).getRegions());
         List<WGRegion> wg6Regions = new ArrayList<WGRegion>();
         for(ProtectedRegion pRegion : protectedRegions) {
-            wg6Regions.add(new WG6Region(pRegion));
+            wg6Regions.add(getUniqueRegion(pRegion));
         }
         return wg6Regions;
     }
@@ -72,6 +73,16 @@ public class WorldGuard6 extends WorldGuardInterface {
     public void removeFromRegionManager(WGRegion region, World world, WorldGuardPlugin worldGuardPlugin) {
         WG6Region wg6Region = (WG6Region) region;
         getRegionManager(world, worldGuardPlugin).removeRegion(wg6Region.getRegion().getId());
+    }
+
+    private WG6Region getUniqueRegion(ProtectedRegion protectedRegion) {
+        for(WG6Region wgRegion : createdRegions) {
+            if(wgRegion.getRegion() == protectedRegion) {
+                return wgRegion;
+            }
+        }
+        WG6Region wg6Region = new WG6Region(protectedRegion);
+        return wg6Region;
     }
 
 }

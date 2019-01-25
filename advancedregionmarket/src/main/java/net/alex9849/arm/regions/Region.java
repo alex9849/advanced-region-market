@@ -43,6 +43,7 @@ public abstract class Region {
     protected int allowedSubregions;
     protected Region parentRegion;
     protected boolean isUserResettable;
+    private boolean needsSave;
 
     public Region(WGRegion region, World regionworld, List<Sign> sellsign, Price price, Boolean sold, Boolean autoreset,
                   Boolean isHotel, Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, boolean isUserResettable, List<Region> subregions, int allowedSubregions){
@@ -61,6 +62,7 @@ public abstract class Region {
         this.subregions = subregions;
         this.allowedSubregions = allowedSubregions;
         this.isUserResettable = isUserResettable;
+        this.needsSave = false;
 
         for(Region subregion : subregions) {
             subregion.setParentRegion(this);
@@ -111,7 +113,7 @@ public abstract class Region {
 
     public void setAllowedSubregions(int allowedSubregions) {
         this.allowedSubregions = allowedSubregions;
-        RegionManager.saveRegion(this);
+        this.queueSave();
     }
 
     public boolean isUserResettable() {
@@ -124,7 +126,7 @@ public abstract class Region {
 
     public void setTeleportLocation(Location loc) {
         this.teleportLocation = loc;
-        RegionManager.saveRegion(this);
+        this.queueSave();
     }
 
     public Region getParentRegion() {
@@ -146,7 +148,7 @@ public abstract class Region {
     public void addSubRegion(Region region) {
         region.setParentRegion(this);
         this.subregions.add(region);
-        RegionManager.saveRegion(this);
+        this.queueSave();
     }
 
     public void delete() {
@@ -185,7 +187,7 @@ public abstract class Region {
     public void addSign(Location loc){
         Sign newsign = (Sign) loc.getBlock().getState();
         sellsign.add(newsign);
-        RegionManager.saveRegion(this);
+        this.queueSave();
         this.updateSignText(newsign);
         this.getRegionworld().save();
 
@@ -217,7 +219,7 @@ public abstract class Region {
                             destroyer.sendMessage(Messages.PREFIX + Messages.REGION_REMOVED_FROM_ARM);
                         }
                     }
-
+                    this.queueSave();
                     return true;
                 }
             }
@@ -270,13 +272,13 @@ public abstract class Region {
             return false;
         }
         this.regionKind = kind;
-        RegionManager.saveRegion(this);
+        this.queueSave();
         return true;
     }
 
     public void setIsUserResettable(boolean bool) {
         this.isUserResettable = bool;
-        RegionManager.saveRegion(this);
+        this.queueSave();
     }
 
     public RegionKind getRegionKind(){
@@ -397,7 +399,7 @@ public abstract class Region {
 
     public void setAutoreset(Boolean state){
         this.autoreset = state;
-        RegionManager.saveRegion(this);
+        this.queueSave();
     }
 
     public Material getLogo() {
@@ -453,7 +455,7 @@ public abstract class Region {
         this.resetBlocks();
         GregorianCalendar calendar = new GregorianCalendar();
         this.lastreset = calendar.getTimeInMillis();
-        RegionManager.saveRegion(this);
+        this.queueSave();
         player.sendMessage(Messages.PREFIX + Messages.RESET_COMPLETE);
     }
 
@@ -545,7 +547,7 @@ public abstract class Region {
 
     public void setHotel(Boolean bool) {
         this.isHotel = bool;
-        RegionManager.saveRegion(this);
+        this.queueSave();
     }
 
     public void unsell(){
@@ -563,7 +565,7 @@ public abstract class Region {
         for(int i = 0; i < this.sellsign.size(); i++){
             this.updateSignText(this.sellsign.get(i));
         }
-        RegionManager.saveRegion(this);
+        this.queueSave();
     }
 
     public boolean isDoBlockReset() {
@@ -572,7 +574,7 @@ public abstract class Region {
 
     public void setDoBlockReset(Boolean bool) {
         this.isDoBlockReset = bool;
-        RegionManager.saveRegion(this);
+        this.queueSave();
     }
 
     public static void setCompleteTabRegions(Boolean bool) {
@@ -662,5 +664,25 @@ public abstract class Region {
         message = message.replace("%soldstatus%", this.getSoldStringStatus());
         message = message.replace("%selltype%", this.getSellType().getName());
         return message;
+    }
+
+    public void queueSave() {
+        this.needsSave = true;
+    }
+
+    protected void setSaved() {
+        this.needsSave = false;
+    }
+
+    public boolean needsSave() {
+        if(this.needsSave) {
+            return true;
+        }
+        for(Region subregion : this.subregions) {
+            if(subregion.needsSave()) {
+                return true;
+            }
+        }
+        return false;
     }
 }

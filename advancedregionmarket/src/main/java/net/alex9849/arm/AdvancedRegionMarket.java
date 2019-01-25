@@ -6,6 +6,7 @@ import net.alex9849.arm.Handler.Scheduler;
 import net.alex9849.arm.Preseter.*;
 import net.alex9849.arm.commands.*;
 import net.alex9849.arm.exceptions.InputException;
+import net.alex9849.arm.minifeatures.SignLinkMode;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.*;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
@@ -140,10 +141,17 @@ public class AdvancedRegionMarket extends JavaPlugin {
         commands.add(new SetPriceCommand());
         commands.add(new SetIsUserResettableCommand());
         commands.add(new ListAutoPricesCommand());
+        commands.add(new SignLinkModeCommand());
         AdvancedRegionMarket.commandHandler.addCommands(commands);
 
         getCommand("arm").setTabCompleter(this.commandHandler);
         Bukkit.getLogger().log(Level.INFO, "Programmed by Alex9849");
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+            @Override
+            public void run() {
+                RegionManager.writeRegionsToConfig(false);
+            }
+        }, 0, 60);
     }
 
     public void onDisable(){
@@ -154,6 +162,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         LimitGroup.Reset();
         AutoPrice.reset();
         RegionKind.Reset();
+        SignLinkMode.reset();
         PresetPatternManager.resetPresetPatterns();
         ActivePresetManager.reset();
         getServer().getServicesManager().unregisterAll(this);

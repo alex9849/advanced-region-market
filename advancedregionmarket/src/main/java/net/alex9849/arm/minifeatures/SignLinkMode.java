@@ -33,8 +33,7 @@ public class SignLinkMode implements Listener {
 
     public SignLinkMode(Player player, Preset preset) throws InputException {
         if(preset == null) {
-            //TODO Change message
-            throw new InputException(player, "You have not selected a preset");
+            throw new InputException(player, Messages.SIGN_LINK_MODE_NO_PRESET_SELECTED);
         }
         this.player = player;
         this.preset = preset;
@@ -49,7 +48,6 @@ public class SignLinkMode implements Listener {
 
     @EventHandler
     private void playerClick(PlayerInteractEvent event) {
-        //TODO make left click on sign destroy the sign
         if(event.getPlayer().getUniqueId() != this.player.getUniqueId()) {
             return;
         }
@@ -74,10 +72,10 @@ public class SignLinkMode implements Listener {
             if((event.getClickedBlock().getType() == Material.SIGN) || (event.getClickedBlock().getType() == Material.WALL_SIGN)) {
                 Sign sign  = (Sign) event.getClickedBlock().getState();
                 if(RegionManager.getRegion(sign) != null) {
-                    throw new InputException(event.getPlayer(), "Sign belongs to another region!");
+                    throw new InputException(event.getPlayer(), Messages.SIGN_LINK_MODE_SIGN_BELONGS_TO_ANOTHER_REGION);
                 }
                 this.sign = sign;
-                player.sendMessage("Sign selected!");
+                player.sendMessage(Messages.SIGN_LINK_MODE_SIGN_SELECTED);
             } else {
                 Location clicklocation = event.getClickedBlock().getLocation();
                 if(clicklocation == null) {
@@ -85,14 +83,14 @@ public class SignLinkMode implements Listener {
                 }
                 List<WGRegion> regions = AdvancedRegionMarket.getWorldGuardInterface().getApplicableRegions(clicklocation.getWorld(), clicklocation, AdvancedRegionMarket.getWorldGuard());
                 if(regions.size() > 1) {
-                    throw new InputException(event.getPlayer(), "Could not select WorldGuard-Region! There are more then one regions available!");
+                    throw new InputException(event.getPlayer(), Messages.SIGN_LINK_MODE_COULD_NOT_SELECT_REGION_MULTIPLE_WG_REGIONS);
                 }
                 if(regions.size() < 1) {
-                    throw new InputException(event.getPlayer(), "Could not select WorldGuard-Region! There is no region at this position!");
+                    throw new InputException(event.getPlayer(), Messages.SIGN_LINK_MODE_COULD_NOT_SELECT_REGION_NO_WG_REGION);
                 }
                 this.wgRegion = regions.get(0);
                 this.world = clicklocation.getWorld();
-                this.player.sendMessage(Messages.PREFIX + "Selected region " + this.wgRegion.getId());
+                this.player.sendMessage(Messages.PREFIX + Messages.SIGN_LINK_MODE_REGION_SELECTED.replace("%regionid%", this.wgRegion.getId()));
             }
             if((this.sign != null) && (this.wgRegion != null) && (this.world != null)) {
                 this.registerRegion();
@@ -106,19 +104,16 @@ public class SignLinkMode implements Listener {
 
     private void registerRegion() throws InputException {
         if(this.sign == null) {
-            //TODO Change message
-            throw new InputException(player, "You have not selected any signs");
+            throw new InputException(player, Messages.SIGN_LINK_MODE_NO_SIGN_SELECTED);
         }
         if(this.wgRegion == null) {
-            //TODO Change message
-            throw new InputException(player, "You have not selected a WorldGuard-Region");
+            throw new InputException(player, Messages.SIGN_LINK_MODE_NO_WG_REGION_SELECTED);
         }
         if(this.world == null) {
-            //TODO Change message
-            throw new InputException(player, "Could not identify world! Please select the WorldGuard-Region again!");
+            throw new InputException(player, Messages.SIGN_LINK_MODE_COULD_NOT_IDENTIFY_WORLD);
         }
         if(RegionManager.getRegion(sign) != null) {
-            throw new InputException(this.player, "Sign belongs to another region!");
+            throw new InputException(this.player, Messages.SIGN_LINK_MODE_SIGN_BELONGS_TO_ANOTHER_REGION);
         }
         List<Sign> signs = new ArrayList<>();
         signs.add(this.sign);

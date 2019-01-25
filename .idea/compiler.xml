@@ -16,6 +16,7 @@
         <module name="wg6adapter" />
         <module name="wg7adapter" />
         <module name="wg7adapter-beta01" />
+        <module name="wg7faweadapter" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -24,8 +25,8 @@
       <module name="arminterfaces" target="1.8" />
       <module name="interfaces" target="1.8" />
       <module name="we5adapter" target="1.5" />
-      <module name="we5Handler" target="1.8" />
       <module name="we5handler" target="1.5" />
+      <module name="we5Handler" target="1.8" />
       <module name="we7adapterbeta01" target="1.5" />
       <module name="wg5handler" target="1.8" />
       <module name="wg7adapter-beta02" target="1.6" />

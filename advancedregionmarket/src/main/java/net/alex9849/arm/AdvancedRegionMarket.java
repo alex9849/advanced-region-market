@@ -216,9 +216,9 @@ public class AdvancedRegionMarket extends JavaPlugin {
            if((parseWorldGuardBuildNumber(worldguard) != null) && (parseWorldGuardBuildNumber(worldguard) < 1754)){
                version = "7Beta01";
            }
-
-
-
+           if(isFaWeInstalled()) {
+               version = "7FaWe";
+           }
         }
         try {
             final Class<?> wgClass = Class.forName("net.alex9849.adapters.WorldGuard" + version);
@@ -232,6 +232,45 @@ public class AdvancedRegionMarket extends JavaPlugin {
         }
 
         return worldguard != null;
+    }
+
+    private boolean setupWorldEdit() {
+        Plugin plugin = getServer().getPluginManager().getPlugin("WorldEdit");
+
+        if (plugin == null || !(plugin instanceof WorldEditPlugin)) {
+            return false;
+        }
+        AdvancedRegionMarket.worldedit = (WorldEditPlugin) plugin;
+        String version = "notSupported";
+        Boolean hasFaWeHandler = true;
+
+        if(AdvancedRegionMarket.worldedit.getDescription().getVersion().startsWith("6.")) {
+            version = "6";
+        } else {
+            version = "7";
+            if(AdvancedRegionMarket.worldedit.getDescription().getVersion().contains("beta-01") || ((parseWorldEditBuildNumber(worldedit) != null) && (parseWorldEditBuildNumber(worldedit) < 3930))){
+                version = "7Beta01";
+                hasFaWeHandler = false;
+            }
+        }
+
+        if(AdvancedRegionMarket.isFaWeInstalled() && hasFaWeHandler){
+            version = version + "FaWe";
+        }
+
+        try {
+            final Class<?> weClass = Class.forName("net.alex9849.adapters.WorldEdit" + version);
+            if(WorldEditInterface.class.isAssignableFrom(weClass)) {
+                AdvancedRegionMarket.worldEditInterface = (WorldEditInterface) weClass.newInstance();
+            }
+            Bukkit.getLogger().log(Level.INFO, "[AdvancedRegionMarket] Using WorldEdit" + version + " adapter");
+        } catch (Exception e) {
+            Bukkit.getLogger().log(Level.INFO, "[AdvancedRegionMarket] Could not setup WorldEdit! (Handler could not be loaded) Compatible WorldEdit versions: 6, 7");
+            e.printStackTrace();
+        }
+
+
+        return worldedit != null;
     }
 
     private Integer parseWorldGuardBuildNumber(WorldGuardPlugin wg) {
@@ -278,45 +317,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
 
     public static CommandHandler getCommandHandler() {
         return AdvancedRegionMarket.commandHandler;
-    }
-
-    private boolean setupWorldEdit() {
-        Plugin plugin = getServer().getPluginManager().getPlugin("WorldEdit");
-
-        if (plugin == null || !(plugin instanceof WorldEditPlugin)) {
-            return false;
-        }
-        AdvancedRegionMarket.worldedit = (WorldEditPlugin) plugin;
-        String version = "notSupported";
-        Boolean hasFaWeHandler = true;
-
-        if(AdvancedRegionMarket.worldedit.getDescription().getVersion().startsWith("6.")) {
-            version = "6";
-        } else {
-            version = "7";
-            if(AdvancedRegionMarket.worldedit.getDescription().getVersion().contains("beta-01") || ((parseWorldEditBuildNumber(worldedit) != null) && (parseWorldEditBuildNumber(worldedit) < 3930))){
-                version = "7Beta01";
-                hasFaWeHandler = false;
-            }
-        }
-
-        if(AdvancedRegionMarket.isFaWeInstalled() && hasFaWeHandler){
-            version = version + "FaWe";
-        }
-
-        try {
-            final Class<?> weClass = Class.forName("net.alex9849.adapters.WorldEdit" + version);
-            if(WorldEditInterface.class.isAssignableFrom(weClass)) {
-                AdvancedRegionMarket.worldEditInterface = (WorldEditInterface) weClass.newInstance();
-            }
-            Bukkit.getLogger().log(Level.INFO, "[AdvancedRegionMarket] Using WorldEdit" + version + " adapter");
-        } catch (Exception e) {
-            Bukkit.getLogger().log(Level.INFO, "[AdvancedRegionMarket] Could not setup WorldEdit! (Handler could not be loaded) Compatible WorldEdit versions: 6, 7");
-            e.printStackTrace();
-        }
-
-
-        return worldedit != null;
     }
 
     public static WorldGuardPlugin getWorldGuard(){

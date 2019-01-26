@@ -3,9 +3,8 @@ package net.alex9849.arm;
 import net.alex9849.arm.Handler.ARMListener;
 import net.alex9849.arm.Handler.CommandHandler;
 import net.alex9849.arm.Handler.Scheduler;
-import net.alex9849.arm.Preseter.*;
 import net.alex9849.arm.commands.*;
-import net.alex9849.arm.exceptions.InputException;
+import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.minifeatures.SignLinkMode;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.*;
@@ -517,7 +516,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         try {
             return this.commandHandler.executeCommand(sender, cmd, commandsLabel, args);
         } catch (InputException inputException) {
-            inputException.sendMessages();
+            inputException.sendMessages(Messages.PREFIX);
             return true;
         }
     }

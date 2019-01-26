@@ -6,7 +6,7 @@ import net.alex9849.arm.Preseter.ActivePresetManager;
 import net.alex9849.arm.Preseter.PresetPlayerPair;
 import net.alex9849.arm.Preseter.presets.*;
 import net.alex9849.arm.commands.BasicArmCommand;
-import net.alex9849.arm.exceptions.InputException;
+import net.alex9849.exceptions.InputException;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

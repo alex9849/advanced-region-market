@@ -1,12 +1,10 @@
 package net.alex9849.arm.commands;
 
-import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Handler.CommandHandler;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
-import net.alex9849.arm.exceptions.InputException;
+import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.regions.Region;
-import net.alex9849.arm.regions.RegionKind;
 import net.alex9849.arm.regions.RegionManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -15,10 +13,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 public class ListRegionsCommand extends BasicArmCommand {

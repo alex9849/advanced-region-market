@@ -3,7 +3,7 @@ package net.alex9849.arm.minifeatures;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Preseter.presets.Preset;
-import net.alex9849.arm.exceptions.InputException;
+import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.RegionManager;
 import net.alex9849.inter.WGRegion;
@@ -96,7 +96,7 @@ public class SignLinkMode implements Listener {
                 this.registerRegion();
             }
         } catch (InputException e) {
-            e.sendMessages();
+            e.sendMessages(Messages.PREFIX);
         }
 
 

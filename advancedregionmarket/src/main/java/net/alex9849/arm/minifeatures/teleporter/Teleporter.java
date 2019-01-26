@@ -3,7 +3,7 @@ package net.alex9849.arm.minifeatures.teleporter;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
-import net.alex9849.arm.exceptions.InputException;
+import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.regions.Region;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

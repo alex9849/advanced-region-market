@@ -7,7 +7,7 @@ import net.alex9849.arm.Permission;
 import net.alex9849.arm.Preseter.*;
 import net.alex9849.arm.Preseter.presets.*;
 import net.alex9849.arm.SubRegions.SubRegionCreator;
-import net.alex9849.arm.exceptions.InputException;
+import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.regions.*;
 import net.alex9849.arm.gui.Gui;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
@@ -351,7 +351,7 @@ public class ARMListener implements Listener {
 
             }
         } catch (InputException inputException) {
-            inputException.sendMessages();
+            inputException.sendMessages(Messages.PREFIX);
         }
     }
 
@@ -412,7 +412,7 @@ public class ARMListener implements Listener {
                 }
             }
         } catch (InputException inputException) {
-            inputException.sendMessages();
+            inputException.sendMessages(Messages.PREFIX);
         }
     }
 
@@ -422,7 +422,7 @@ public class ARMListener implements Listener {
             this.buyregion(event);
             this.setSubregionMark(event);
         } catch (InputException inputException) {
-            inputException.sendMessages();
+            inputException.sendMessages(Messages.PREFIX);
         }
     }
 
@@ -644,7 +644,7 @@ public class ARMListener implements Listener {
                 }
             }
         } catch (InputException inputException) {
-            inputException.sendMessages();
+            inputException.sendMessages(Messages.PREFIX);
         }
     }
 }

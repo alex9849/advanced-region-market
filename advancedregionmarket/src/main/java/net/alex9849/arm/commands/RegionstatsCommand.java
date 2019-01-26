@@ -2,7 +2,7 @@ package net.alex9849.arm.commands;
 
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
-import net.alex9849.arm.exceptions.InputException;
+import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.minifeatures.Diagram;
 import net.alex9849.arm.regions.RegionKind;
 import org.bukkit.command.Command;

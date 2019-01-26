@@ -1,6 +1,6 @@
 package net.alex9849.arm.commands;
 
-import net.alex9849.arm.exceptions.InputException;
+import net.alex9849.exceptions.InputException;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

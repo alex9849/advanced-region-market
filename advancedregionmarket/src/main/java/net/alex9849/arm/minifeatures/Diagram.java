@@ -1,7 +1,7 @@
 package net.alex9849.arm.minifeatures;
 
 import net.alex9849.arm.Messages;
-import net.alex9849.arm.exceptions.InputException;
+import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.regions.*;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;

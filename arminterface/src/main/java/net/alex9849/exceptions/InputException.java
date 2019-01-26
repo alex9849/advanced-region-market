@@ -1,23 +1,18 @@
-package net.alex9849.arm.exceptions;
+package net.alex9849.exceptions;
 
-import net.alex9849.arm.Messages;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class InputException extends IOException {
-    private ArrayList<CommandSender> senders = new ArrayList<>();
+    private ArrayList<CommandSender> senders = new ArrayList<CommandSender>();
     private boolean sendToLogger;
     private Logger logger;
-    private ArrayList<String> messages = new ArrayList<>();
+    private ArrayList<String> messages = new ArrayList<String>();
 
     public InputException (CommandSender sender, String message) {
         this.sendToLogger = false;
@@ -43,12 +38,12 @@ public class InputException extends IOException {
     public InputException() {
     }
 
-    public void sendMessages(){
+    public void sendMessages(String prefix){
         if(sendToLogger) {
             this.logger.log(Level.WARNING, messages.get(0));
         } else {
             for(int i = 0; i < this.senders.size(); i++) {
-                this.senders.get(i).sendMessage(Messages.PREFIX + this.messages.get(i));
+                this.senders.get(i).sendMessage(this.messages.get(i));
             }
         }
     }

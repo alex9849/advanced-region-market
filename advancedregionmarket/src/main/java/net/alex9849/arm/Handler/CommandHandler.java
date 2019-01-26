@@ -2,7 +2,7 @@ package net.alex9849.arm.Handler;
 
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.commands.*;
-import net.alex9849.arm.exceptions.InputException;
+import net.alex9849.exceptions.InputException;
 import net.alex9849.inter.WGRegion;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -12,11 +12,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
-import java.io.IOException;
-import java.lang.reflect.Modifier;
 import java.util.*;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
 
 public class CommandHandler implements TabCompleter {
 

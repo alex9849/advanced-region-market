@@ -385,7 +385,7 @@ public class Gui implements Listener {
                                 player.sendMessage(Messages.PREFIX + Messages.COMPLETE);
                             } catch (ArmInternalException e) {
                                 //TODO change message
-                                player.sendMessage(Messages.PREFIX + ChatColor.RED + "It seems like the schematic of you region has not been creeated. Please contact an admin!");
+                                player.sendMessage(Messages.PREFIX + ChatColor.RED + "It seems like the schematic of you region has not been created. Please contact an admin!");
                             }
                             player.closeInventory();
                         }

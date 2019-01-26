@@ -11,7 +11,11 @@ public class ArmInternalException extends Exception {
         this.message = message;
     }
 
-    public void sendMessage() {
+    public void logMessage() {
         Bukkit.getLogger().log(Level.ALL, "[ARM] " + message);
+    }
+
+    public String getMessage() {
+        return this.message;
     }
 }

@@ -3,6 +3,7 @@ package net.alex9849.arm.regions;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
+import net.alex9849.exceptions.ArmInternalException;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
@@ -604,7 +605,11 @@ public class RegionManager {
             if(regions.get(i).getAutoreset()){
                 regions.get(i).unsell();
                 if(regions.get(i).isDoBlockReset()) {
-                    regions.get(i).resetBlocks();
+                    try {
+                        regions.get(i).resetBlocks();
+                    } catch (ArmInternalException e) {
+                        e.logMessage();
+                    }
                 }
             }
         }

@@ -4,6 +4,7 @@ import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
+import net.alex9849.exceptions.ArmInternalException;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.minifeatures.ParticleBorder;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
@@ -293,7 +294,7 @@ public abstract class Region {
         AdvancedRegionMarket.getWorldEditInterface().createSchematic(this.getRegion(), this.getRegionworld(), AdvancedRegionMarket.getWorldedit().getWorldEdit());
     }
 
-    public boolean resetBlocks(){
+    public boolean resetBlocks() throws ArmInternalException {
         this.resetBuiltBlocks();
         try {
             AdvancedRegionMarket.getWorldEditInterface().resetBlocks(this.getRegion(), this.getRegionworld(), AdvancedRegionMarket.getWorldedit().getWorldEdit());
@@ -452,10 +453,15 @@ public abstract class Region {
     }
 
     public void userBlockReset(Player player){
-        this.resetBlocks();
-        GregorianCalendar calendar = new GregorianCalendar();
-        this.lastreset = calendar.getTimeInMillis();
-        this.queueSave();
+        try {
+            this.resetBlocks();
+            GregorianCalendar calendar = new GregorianCalendar();
+            this.lastreset = calendar.getTimeInMillis();
+            this.queueSave();
+        } catch (ArmInternalException e) {
+            //TODO change message
+            player.sendMessage(Messages.PREFIX + ChatColor.RED + "It seems like the schematic of you region has not been creeated. Please contact an admin!");
+        }
         player.sendMessage(Messages.PREFIX + Messages.RESET_COMPLETE);
     }
 
@@ -506,7 +512,7 @@ public abstract class Region {
     public abstract void userSell(Player player);
     public abstract double getPaybackMoney();
 
-    public void resetRegion(){
+    public void resetRegion() throws ArmInternalException {
 
         this.unsell();
 
@@ -522,7 +528,11 @@ public abstract class Region {
 
         this.unsell();
         if(this.isDoBlockReset()){
-            this.resetBlocks();
+            try {
+                this.resetBlocks();
+            } catch (ArmInternalException e) {
+                e.logMessage();
+            }
         }
         if(player != null) {
             player.sendMessage(Messages.PREFIX + Messages.RESET_COMPLETE);

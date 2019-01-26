@@ -2,6 +2,7 @@ package net.alex9849.arm.commands;
 
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
+import net.alex9849.exceptions.ArmInternalException;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regions.Region;
@@ -51,7 +52,11 @@ public class ResetCommand extends BasicArmCommand {
         } else {
             resregion.unsell();
 
-            resregion.resetBlocks();
+            try {
+                resregion.resetBlocks();
+            } catch (ArmInternalException e) {
+                throw new InputException(sender, "Could not find schematic file! Does it has been created?");
+            }
             sender.sendMessage(Messages.PREFIX + Messages.REGION_NOW_AVIABLE);
             return true;
         }

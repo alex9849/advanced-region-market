@@ -3,11 +3,13 @@ package net.alex9849.arm.gui;
 import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
+import net.alex9849.exceptions.ArmInternalException;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import net.alex9849.arm.regions.*;
 import net.alex9849.arm.Group.LimitGroup;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -378,9 +380,14 @@ public class Gui implements Listener {
                     Gui.openWarning(player, Messages.GUI_RESET_REGION_WARNING_NAME, new ClickAction() {
                         @Override
                         public void execute(Player player) throws InputException {
-                            region.resetBlocks();
+                            try {
+                                region.resetBlocks();
+                                player.sendMessage(Messages.PREFIX + Messages.COMPLETE);
+                            } catch (ArmInternalException e) {
+                                //TODO change message
+                                player.sendMessage(Messages.PREFIX + ChatColor.RED + "It seems like the schematic of you region has not been creeated. Please contact an admin!");
+                            }
                             player.closeInventory();
-                            player.sendMessage(Messages.PREFIX + Messages.COMPLETE);
                         }
                     }, new ClickAction() {
                         @Override

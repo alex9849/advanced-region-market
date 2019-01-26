@@ -135,7 +135,7 @@ public class SubSignCreationListener implements Listener {
         } catch (InputException e) {
             e.sendMessages(Messages.PREFIX);
         } catch (ArmInternalException e) {
-            e.sendMessage();
+            e.logMessage();
             e.printStackTrace();
         }
     }

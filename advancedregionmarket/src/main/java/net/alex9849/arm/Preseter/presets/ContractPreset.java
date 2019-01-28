@@ -4,6 +4,7 @@ import net.alex9849.arm.Messages;
 import net.alex9849.arm.regions.*;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.price.ContractPrice;
+import net.alex9849.arm.regions.price.RentPrice;
 import net.alex9849.inter.WGRegion;
 import org.bukkit.World;
 import org.bukkit.block.Sign;
@@ -46,7 +47,7 @@ public class ContractPreset extends Preset {
 
     public void setExtend(String string) {
         this.hasExtend = true;
-        this.extend = RentRegion.stringToTime(string);
+        this.extend = RentPrice.stringToTime(string);
         this.removeAutoPrice();
     }
 

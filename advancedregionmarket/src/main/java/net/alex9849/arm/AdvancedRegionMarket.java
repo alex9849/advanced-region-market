@@ -4,6 +4,7 @@ import net.alex9849.arm.Handler.ARMListener;
 import net.alex9849.arm.Handler.CommandHandler;
 import net.alex9849.arm.Handler.Scheduler;
 import net.alex9849.arm.commands.*;
+import net.alex9849.arm.regions.price.RentPrice;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.minifeatures.SignLinkMode;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
@@ -482,7 +483,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         ArmSettings.setDeleteSubregionsOnParentRegionUnsell(getConfig().getBoolean("Subregions.deleteSubregionsOnParentRegionUnsell"));
         ArmSettings.setAllowParentRegionOwnersBuildOnSubregions(getConfig().getBoolean("Subregions.allowParentRegionOwnersBuildOnSubregions"));
         try{
-            RentRegion.setExpirationWarningTime(RentRegion.stringToTime(getConfig().getString("Other.RentRegionExpirationWarningTime")));
+            RentRegion.setExpirationWarningTime(RentPrice.stringToTime(getConfig().getString("Other.RentRegionExpirationWarningTime")));
             RentRegion.setSendExpirationWarning(getConfig().getBoolean("Other.SendRentRegionExpirationWarning"));
         } catch (IllegalArgumentException | NullPointerException e) {
             Bukkit.getLogger().log(Level.INFO, "[AdvancedRegionMarket] Warning! Bad syntax of time format \"RentRegionExpirationWarningTime\" disabling it...");

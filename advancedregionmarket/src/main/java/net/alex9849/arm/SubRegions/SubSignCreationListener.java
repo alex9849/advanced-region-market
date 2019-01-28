@@ -73,8 +73,8 @@ public class SubSignCreationListener implements Listener {
                     String pricestring = priceline[0];
                     String extendPerClickString = priceline[1];
                     String maxRentTimeString = priceline[2];
-                    extendPerClick = RentRegion.stringToTime(extendPerClickString);
-                    maxRentTime = RentRegion.stringToTime(maxRentTimeString);
+                    extendPerClick = RentPrice.stringToTime(extendPerClickString);
+                    maxRentTime = RentPrice.stringToTime(maxRentTimeString);
                     price = Integer.parseInt(pricestring);
                 } catch (ArrayIndexOutOfBoundsException e) {
                     event.getPlayer().sendMessage(Messages.PREFIX + "Please write your price in line 4 in the following pattern:");
@@ -109,7 +109,7 @@ public class SubSignCreationListener implements Listener {
                     String[] priceline = event.getLine(3).split("(;|:)", 2);
                     String pricestring = priceline[0];
                     String extendtimeString = priceline[1];
-                    extendtime = RentRegion.stringToTime(extendtimeString);
+                    extendtime = RentPrice.stringToTime(extendtimeString);
                     price = Integer.parseInt(pricestring);
                 } catch (ArrayIndexOutOfBoundsException e) {
                     event.getPlayer().sendMessage(Messages.PREFIX + "Please write your price in line 4 in the following pattern:");

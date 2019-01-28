@@ -64,7 +64,7 @@ public class RentPreset extends Preset {
 
     public void setExtendPerClick(String string) {
         this.hasExtendPerClick = true;
-        this.extendPerClick = RentRegion.stringToTime(string);
+        this.extendPerClick = RentPrice.stringToTime(string);
         this.removeAutoPrice();
     }
 
@@ -76,7 +76,7 @@ public class RentPreset extends Preset {
 
     public void setMaxRentTime(String string) {
         this.hasMaxRentTime = true;
-        this.maxRentTime = RentRegion.stringToTime(string);
+        this.maxRentTime = RentPrice.stringToTime(string);
         this.removeAutoPrice();
     }
 

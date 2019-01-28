@@ -204,8 +204,8 @@ public class ARMListener implements Listener {
                             String pricestring = priceline[0];
                             String extendPerClickString = priceline[1];
                             String maxRentTimeString = priceline[2];
-                            extendPerClick = RentRegion.stringToTime(extendPerClickString);
-                            maxRentTime = RentRegion.stringToTime(maxRentTimeString);
+                            extendPerClick = RentPrice.stringToTime(extendPerClickString);
+                            maxRentTime = RentPrice.stringToTime(maxRentTimeString);
                             double doublePrice = Double.parseDouble(pricestring);
                             price = new RentPrice(doublePrice, extendPerClick, maxRentTime);
                         }
@@ -308,7 +308,7 @@ public class ARMListener implements Listener {
                             String[] priceline = sign.getLine(3).split("(;|:)", 2);
                             String pricestring = priceline[0];
                             String extendtimeString = priceline[1];
-                            extendtime = RentRegion.stringToTime(extendtimeString);
+                            extendtime = RentPrice.stringToTime(extendtimeString);
                             double doublePrice = Double.parseDouble(pricestring);
                             price = new ContractPrice(doublePrice, extendtime);
                         }

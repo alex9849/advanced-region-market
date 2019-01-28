@@ -1,5 +1,6 @@
 package net.alex9849.arm.regions.price.Autoprice;
 
+import net.alex9849.arm.regions.price.ContractPrice;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
@@ -84,8 +85,10 @@ public class AutoPrice {
                 addDefaults(section.getConfigurationSection(autoPriceName));
                 String name = autoPriceName;
                 double price = section.getDouble(autoPriceName + ".price");
-                long extendTime = section.getLong(autoPriceName + ".extendTime");
-                long maxrenttime = section.getLong(autoPriceName + ".maxRentTime");
+                String extendTimeString = section.getString(autoPriceName + ".extendTime");
+                String maxRentTimeString = section.getString(autoPriceName + ".maxRentTime");
+                long extendTime = ContractPrice.stringToTime(extendTimeString);
+                long maxrenttime = ContractPrice.stringToTime(maxRentTimeString);
                 AutoPriceCalculation autoPriceCalculation = AutoPriceCalculation.getAutoPriceType(section.getString(autoPriceName + ".autoPriceCalculation"));
                 if(autoPriceCalculation == null) {
                     autoPriceCalculation = AutoPriceCalculation.STATIC;

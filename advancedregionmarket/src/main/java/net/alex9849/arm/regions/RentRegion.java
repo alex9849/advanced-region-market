@@ -187,7 +187,7 @@ public class RentRegion extends Region {
         }
     }
 
-    public static long stringToTime(String stringtime) throws IllegalArgumentException {
+    /*public static long stringToTime(String stringtime) throws IllegalArgumentException {
         long time = 0;
         if(stringtime.matches("[\\d]+d")){
             time = Long.parseLong(stringtime.split("d")[0]);
@@ -201,11 +201,13 @@ public class RentRegion extends Region {
         } else if(stringtime.matches("[\\d]+s")){
             time = Long.parseLong(stringtime.split("s")[0]);
             time = time * 1000;
+        } else if (stringtime.matches("[\\d]+")) {
+            time = Long.parseLong(stringtime);
         } else {
             throw new IllegalArgumentException();
         }
         return time;
-    }
+    }*/
 
     public String calcRemainingTime() {
         String timetoString = ArmSettings.getRemainingTimeTimeformat();

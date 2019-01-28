@@ -60,8 +60,8 @@ public class SetPriceCommand extends BasicArmCommand {
 
         if(allargs.matches(this.regex_price) || allargs.matches(this.regex_price_massaction)) {
             int priceint = Integer.parseInt(args[2]);
-            long extend = RentRegion.stringToTime(args[3]);
-            long maxrenttime = RentRegion.stringToTime(args[4]);
+            long extend = RentPrice.stringToTime(args[3]);
+            long maxrenttime = RentPrice.stringToTime(args[4]);
             price = new RentPrice(priceint, extend, maxrenttime);
         } else {
             AutoPrice selectedAutoprice = AutoPrice.getAutoprice(args[2]);

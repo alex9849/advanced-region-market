@@ -6,6 +6,8 @@ import net.alex9849.inter.WGRegion;
 public class Price {
     protected AutoPrice autoPrice;
     protected double price;
+    protected boolean hasPriceBeenCalced;
+    protected double calcedAutoPrice;
 
     public Price(double price) {
         if(price < 0) {
@@ -13,16 +15,28 @@ public class Price {
         } else {
             this.price = price;
         }
+        this.calcedAutoPrice = 0;
+        this.autoPrice = null;
+        this.hasPriceBeenCalced = false;
     }
 
     public Price(AutoPrice autoPrice) {
         this.autoPrice = autoPrice;
+        this.calcedAutoPrice = 0;
+        this.price = 0;
+        this.hasPriceBeenCalced = false;
     }
 
     public double calcPrice(WGRegion wgRegion){
         if(this.isAutoPrice()) {
-            int m2 = wgRegion.getVolume() / ((wgRegion.getMaxPoint().getBlockY() - wgRegion.getMinPoint().getBlockY()) + 1);
-            return this.autoPrice.getCalculatedPrice(m2, wgRegion.getVolume());
+            if(this.hasPriceBeenCalced) {
+                return this.calcedAutoPrice;
+            } else {
+                int m2 = wgRegion.getVolume() / ((wgRegion.getMaxPoint().getBlockY() - wgRegion.getMinPoint().getBlockY()) + 1);
+                this.calcedAutoPrice = this.autoPrice.getCalculatedPrice(m2, wgRegion.getVolume());
+                this.hasPriceBeenCalced = true;
+                return this.calcedAutoPrice;
+            }
         } else {
             return this.price;
         }

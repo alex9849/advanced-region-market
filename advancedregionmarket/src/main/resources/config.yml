@@ -35,8 +35,8 @@ AutoPrice:
 
 DefaultAutoprice:
   price: 2.0
-  extendTime: 300000
-  maxRentTime: 2000000
+  extendTime: 1d
+  maxRentTime: 7d
   autoPriceCalculation: per_m2
 
 # If you activate one of these functions you have to fill in the MySQL data

@@ -474,7 +474,8 @@ public class AdvancedRegionMarket extends JavaPlugin {
         ArmSettings.setRemainingTimeTimeformat(getConfig().getString("Other.RemainingTimeFormat"));
         ArmSettings.setDateTimeformat(getConfig().getString("Other.DateTimeFormat"));
         ArmSettings.setUseShortCountdown(getConfig().getBoolean("Other.ShortCountdown"));
-        ArmSettings.setIsAllowTeleportToBuySign(getConfig().getBoolean("Other.RegionInfoParticleBorder"));
+        ArmSettings.setIsRegionInfoParticleBorder(getConfig().getBoolean("Other.RegionInfoParticleBorder"));
+        ArmSettings.setIsAllowTeleportToBuySign(getConfig().getBoolean("Other.AllowRegionfinderTeleportToBuySign"));
 
         ArmSettings.setIsAllowSubRegionUserReset(getConfig().getBoolean("Subregions.AllowSubRegionUserReset"));
         ArmSettings.setIsSubregionBlockReset(getConfig().getBoolean("Subregions.SubregionBlockReset"));
@@ -846,6 +847,9 @@ public class AdvancedRegionMarket extends JavaPlugin {
             pluginConfig.set("AutoPrice.example3.extendTime", "7d");
             pluginConfig.set("AutoPrice.example3.maxRentTime", "30d");
             pluginConfig.set("AutoPrice.example3.autoPriceCalculation", "per_m3");
+
+            pluginConfig.set("Other.RegionInfoParticleBorder", true);
+            pluginConfig.set("Other.AllowRegionfinderTeleportToBuySign", true);
 
             pluginConfig.set("DefaultAutoprice.price", 2.0);
             pluginConfig.set("DefaultAutoprice.extendTime", "1d");

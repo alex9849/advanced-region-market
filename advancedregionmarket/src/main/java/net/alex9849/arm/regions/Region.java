@@ -382,14 +382,14 @@ public abstract class Region {
 
 
         if(sender instanceof Player) {
-            Player player = (Player) sender;
-            Location rpos1 = new Location(this.getRegionworld(), this.getRegion().getMinPoint().getX(), this.getRegion().getMinPoint().getY(), this.getRegion().getMinPoint().getZ());
-            Location rpos2 = new Location(this.getRegionworld(), this.getRegion().getMaxPoint().getX(), this.getRegion().getMaxPoint().getY(), this.getRegion().getMaxPoint().getZ());
-            new ParticleBorder(this.getRegion().getPoints(), this.getRegion().getMinY(), this.getRegion().getMaxY(), player, this.getRegionworld()).createParticleBorder(20 * 30);
-            for(Region subregion : this.getSubregions()) {
-                Location lpos1 = new Location(subregion.getRegionworld(), subregion.getRegion().getMinPoint().getX(), subregion.getRegion().getMinPoint().getY(), subregion.getRegion().getMinPoint().getZ());
-                Location lPos2 = new Location(subregion.getRegionworld(), subregion.getRegion().getMaxPoint().getX(), subregion.getRegion().getMaxPoint().getY(), subregion.getRegion().getMaxPoint().getZ());
-                new ParticleBorder(lpos1.toVector(), lPos2.toVector(), player, subregion.getRegionworld()).createParticleBorder(20 * 30);
+            if(ArmSettings.isRegionInfoParticleBorder()) {
+                Player player = (Player) sender;
+                new ParticleBorder(this.getRegion().getPoints(), this.getRegion().getMinY(), this.getRegion().getMaxY(), player, this.getRegionworld()).createParticleBorder(20 * 30);
+                for(Region subregion : this.getSubregions()) {
+                    Location lpos1 = new Location(subregion.getRegionworld(), subregion.getRegion().getMinPoint().getX(), subregion.getRegion().getMinPoint().getY(), subregion.getRegion().getMinPoint().getZ());
+                    Location lPos2 = new Location(subregion.getRegionworld(), subregion.getRegion().getMaxPoint().getX(), subregion.getRegion().getMaxPoint().getY(), subregion.getRegion().getMaxPoint().getZ());
+                    new ParticleBorder(lpos1.toVector(), lPos2.toVector(), player, subregion.getRegionworld()).createParticleBorder(20 * 30);
+                }
             }
         }
     }

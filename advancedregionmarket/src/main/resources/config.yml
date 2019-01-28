@@ -195,8 +195,11 @@ Other:
   # Time in seconds the server should wait before teleporting someone. If the player moves while the countdown runs the teleportation will abort.
   # Set this to 0 to disable the countdown. Players with the permisison arm.admin.bypassteleportercooldown won't get a countdown
   TeleporterTimer: 0
-
+  # If you execute /arm info arm will display the region borders of the region (only for the player who executes the command)
   RegionInfoParticleBorder: true
+  # The regionfinder can teleport the player to a sign of the region or the region itself. If you set this setting to true, the player can decide if he wants to get teleported
+  # to a sign or the the region
+  AllowRegionfinderTeleportToBuySign: true
 
 Subregions:
   AllowSubRegionUserReset: false

@@ -156,9 +156,13 @@ public class Offer {
         message = message.replace("%seller%", this.seller.getDisplayName());
         message = message.replace("%buyer%", this.buyer.getDisplayName());
         message = message.replace("%region%", this.region.getRegion().getId());
+        message = message.replace("%regionid%", this.region.getRegion().getId());
         message = message.replace("%world%", this.region.getRegionworld().getName());
         message = message.replace("%price%", this.price + "");
         message = message.replace("%currency%", Messages.CURRENCY);
+        if(this.region != null) {
+            message = this.region.getConvertedMessage(message);
+        }
         return message;
     }
 }

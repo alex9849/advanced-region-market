@@ -12,7 +12,7 @@ import com.sk89q.worldedit.function.operation.ForwardExtentCopy;
 import com.sk89q.worldedit.function.operation.Operations;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.world.registry.WorldData;
-import net.alex9849.exceptions.ArmInternalException;
+import net.alex9849.exceptions.SchematicNotFoundException;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.inter.WorldEditInterface;
 import org.bukkit.Bukkit;
@@ -20,7 +20,6 @@ import org.bukkit.World;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class WorldEdit6FaWe extends WorldEditInterface {
@@ -49,12 +48,12 @@ public class WorldEdit6FaWe extends WorldEditInterface {
         }
     }
 
-    public void resetBlocks(WGRegion region, World bukkitworld, WorldEdit we) throws IOException, ArmInternalException {
+    public void resetBlocks(WGRegion region, World bukkitworld, WorldEdit we) throws IOException {
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
         File file = new File(pluginfolder + "/schematics/" + bukkitworld.getName() + "/" + region.getId() + ".schematic");
 
         if(file == null) {
-            throw new ArmInternalException("Could not find schematic file! Does it has been created?");
+            throw new SchematicNotFoundException(region);
         }
 
         com.sk89q.worldedit.world.World world = new BukkitWorld(bukkitworld);

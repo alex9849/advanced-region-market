@@ -181,7 +181,16 @@ public class ContractRegion extends Region {
     }
 
     @Override
-    public void userSell(Player player) {
+    public void userSell(Player player){
+        List<UUID> defdomain = this.getRegion().getOwners();
+        double amount = this.getPaybackMoney();
+
+        if(amount > 0){
+            for(int i = 0; i < defdomain.size(); i++) {
+                AdvancedRegionMarket.getEcon().depositPlayer(Bukkit.getOfflinePlayer(defdomain.get(i)), amount);
+            }
+        }
+
         this.automaticResetRegion(player);
     }
 

@@ -3,11 +3,12 @@ package net.alex9849.arm.SubRegions.commands;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.commands.BasicArmCommand;
-import net.alex9849.exceptions.ArmInternalException;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.RegionManager;
+import net.alex9849.exceptions.SchematicNotFoundException;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -15,6 +16,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
 
 public class ResetBlocksCommand extends BasicArmCommand {
     private final String rootCommand = "resetblocks";
@@ -62,8 +64,9 @@ public class ResetBlocksCommand extends BasicArmCommand {
         try {
             region.resetBlocks();
             sender.sendMessage(Messages.PREFIX + Messages.COMPLETE);
-        } catch (ArmInternalException e) {
-            throw new InputException(player, "Could not find schematic file! Does it has been created?");
+        } catch (SchematicNotFoundException e) {
+            player.sendMessage(Messages.PREFIX + Messages.SCHEMATIC_NOT_FOUND_ERROR_USER.replace("%regionid%", e.getRegion().getId()));
+            Bukkit.getLogger().log(Level.WARNING, "Could not find schematic file for region " + region.getRegion().getId() + "in world " + region.getRegionworld().getName());
         }
         return true;
     }

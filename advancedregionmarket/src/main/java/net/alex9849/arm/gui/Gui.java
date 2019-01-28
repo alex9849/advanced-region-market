@@ -3,11 +3,11 @@ package net.alex9849.arm.gui;
 import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
-import net.alex9849.exceptions.ArmInternalException;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import net.alex9849.arm.regions.*;
 import net.alex9849.arm.Group.LimitGroup;
+import net.alex9849.exceptions.SchematicNotFoundException;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -22,6 +22,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.*;
+import java.util.logging.Level;
 
 public class Gui implements Listener {
     private static Material REGION_OWNER_ITEM = Material.ENDER_CHEST;
@@ -383,9 +384,10 @@ public class Gui implements Listener {
                             try {
                                 region.resetBlocks();
                                 player.sendMessage(Messages.PREFIX + Messages.COMPLETE);
-                            } catch (ArmInternalException e) {
+                            } catch (SchematicNotFoundException e) {
                                 //TODO change message
-                                player.sendMessage(Messages.PREFIX + ChatColor.RED + "It seems like the schematic of you region has not been created. Please contact an admin!");
+                                player.sendMessage(Messages.PREFIX + Messages.SCHEMATIC_NOT_FOUND_ERROR_USER.replace("%regionid%", e.getRegion().getId()));
+                                Bukkit.getLogger().log(Level.WARNING, "Could not find schematic file for region " + region.getRegion().getId() + "in world " + region.getRegionworld().getName());
                             }
                             player.closeInventory();
                         }

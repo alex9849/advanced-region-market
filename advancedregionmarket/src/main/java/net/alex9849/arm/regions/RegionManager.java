@@ -3,7 +3,6 @@ package net.alex9849.arm.regions;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
-import net.alex9849.exceptions.ArmInternalException;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
@@ -11,6 +10,7 @@ import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.price.ContractPrice;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.regions.price.RentPrice;
+import net.alex9849.exceptions.SchematicNotFoundException;
 import net.alex9849.inter.WGRegion;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Level;
 
 public class RegionManager {
     private static YamlConfiguration regionsconf;
@@ -607,8 +608,8 @@ public class RegionManager {
                 if(regions.get(i).isDoBlockReset()) {
                     try {
                         regions.get(i).resetBlocks();
-                    } catch (ArmInternalException e) {
-                        e.logMessage();
+                    } catch (SchematicNotFoundException e) {
+                        Bukkit.getLogger().log(Level.WARNING, "Could not find schematic file for region " + regions.get(i).getRegion().getId() + "in world " + regions.get(i).getRegionworld().getName());
                     }
                 }
             }

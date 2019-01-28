@@ -271,6 +271,8 @@ public class Messages {
     public static String SIGN_LINK_MODE_NO_SIGN_SELECTED = "&4You have not selected a sign";
     public static String SIGN_LINK_MODE_NO_WG_REGION_SELECTED = "&4You have not selected a WorldGuard-Region";
     public static String SIGN_LINK_MODE_REGION_SELECTED = "&aSelected region: %regionid%";
+    public static String SCHEMATIC_NOT_FOUND_ERROR_USER = "&4It seems like the schematic of your region %regionid% has not been created. Please contact an admin!";
+    public static String SCHEMATIC_NOT_FOUND_ERROR_ADMIN = "&4Could not find schematic for %regionid%";
 
 
 
@@ -547,6 +549,8 @@ public class Messages {
         SUBREGION_HELP_HEADLINE = config.getString("Messages.SubregionHelpHeadline");
         GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM_LORE = config.getStringList("Messages.GUISubregionManagerNoSubregionItemLore");
         GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM = config.getString("Messages.GUISubregionManagerNoSubregionItem");
+        SCHEMATIC_NOT_FOUND_ERROR_USER = config.getString("Messages.SchematicNotFoundErrorUser");
+        SCHEMATIC_NOT_FOUND_ERROR_ADMIN = config.getString("Messages.SchematicNotFoundErrorAdmin");
 
         SELLTYPE_NOT_EXIST = config.getString("Messages.SelltypeNotExist");
         SIGN_LINK_MODE_ACTIVATED = config.getString("Messages.SignLinkModeActivated");
@@ -796,6 +800,8 @@ public class Messages {
         AUTOPRICE_LIST = ChatColor.translateAlternateColorCodes('&', AUTOPRICE_LIST);
         SUBREGION_HELP_HEADLINE = ChatColor.translateAlternateColorCodes('&', SUBREGION_HELP_HEADLINE);
         GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM = ChatColor.translateAlternateColorCodes('&', GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM);
+        SCHEMATIC_NOT_FOUND_ERROR_USER = ChatColor.translateAlternateColorCodes('&', SCHEMATIC_NOT_FOUND_ERROR_USER);
+        SCHEMATIC_NOT_FOUND_ERROR_ADMIN = ChatColor.translateAlternateColorCodes('&', SCHEMATIC_NOT_FOUND_ERROR_ADMIN);
 
         SELLTYPE_NOT_EXIST = ChatColor.translateAlternateColorCodes('&', SELLTYPE_NOT_EXIST);
         SIGN_LINK_MODE_ACTIVATED = ChatColor.translateAlternateColorCodes('&', SIGN_LINK_MODE_ACTIVATED);
@@ -907,6 +913,8 @@ public class Messages {
         config.addDefault("Messages.SelectedPlayerIsNotOnline", "&4The selected player is not online");
         config.addDefault("Messages.BadSyntax", "&7Bad syntax! Please use: &8%command%");
         config.addDefault("Messages.BadSyntaxSplitter", "\n&7or &8%command%");
+        config.addDefault("Messages.SchematicNotFoundErrorUser", "&4It seems like the schematic of your region %regionid% has not been created. Please contact an admin!");
+        config.addDefault("Messages.SchematicNotFoundErrorAdmin", "&4Could not find schematic for %regionid%");
 
         config.addDefault("Messages.RentExtendMessage", "&aRegion extended for &6%extendperclick%&a (For %price% %currency%. New remaining time: &6%remaining%");
         config.addDefault("Messages.Buymessage", "&aRegion successfully bought!");

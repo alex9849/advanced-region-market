@@ -50,7 +50,7 @@ public class SubRegionCreator {
                 this.particleBorder.removeBorder();
                 this.particleBorder = null;
             }
-            this.particleBorder = new ParticleBorder(this.pos1, this.pos2, this.creator);
+            this.particleBorder = new ParticleBorder(this.pos1.toVector(), this.pos2.toVector(), this.creator, this.parentRegion.getRegionworld());
             this.particleBorder.createParticleBorder(20 * 30);
         }
 
@@ -64,7 +64,7 @@ public class SubRegionCreator {
                 this.particleBorder.removeBorder();
                 this.particleBorder = null;
             }
-            this.particleBorder = new ParticleBorder(this.pos1, this.pos2, this.creator);
+            this.particleBorder = new ParticleBorder(this.pos1.toVector(), this.pos2.toVector(), this.creator, this.parentRegion.getRegionworld());
             this.particleBorder.createParticleBorder(20 * 30);
         }
 

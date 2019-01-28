@@ -4,6 +4,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public abstract class WGRegion {
@@ -59,4 +60,6 @@ public abstract class WGRegion {
     public abstract void setPriority(int priority);
 
     public abstract int getVolume();
+
+    public abstract List<Vector> getPoints();
 }

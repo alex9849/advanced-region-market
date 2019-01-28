@@ -1,6 +1,7 @@
 package net.alex9849.adapters;
 
 import com.sk89q.worldedit.BlockVector;
+import com.sk89q.worldedit.BlockVector2D;
 import com.sk89q.worldguard.domains.DefaultDomain;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import net.alex9849.inter.WGRegion;
@@ -8,6 +9,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class WG6Region extends WGRegion {
@@ -149,6 +151,18 @@ public class WG6Region extends WGRegion {
 
     protected ProtectedRegion getRegion() {
         return this.region;
+    }
+
+    @Override
+    public List<Vector> getPoints() {
+        List<Vector> points = new ArrayList<Vector>();
+        List<BlockVector2D> points2D = this.region.getPoints();
+        int minY = this.region.getMinimumPoint().getBlockY();
+
+        for(BlockVector2D vector2D : points2D) {
+            points.add(new Vector(vector2D.getBlockX(), minY, vector2D.getBlockZ()));
+        }
+        return points;
     }
 
 }

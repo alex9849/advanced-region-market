@@ -1086,7 +1086,7 @@ public class Messages {
         config.addDefault("Messages.RegionStatsPattern", "&8Used regions (%regionkind%&8):");
 
         config.addDefault("Messages.SelltypeNotExist", "&4The selected selltype does not exist!");
-        config.addDefault("Messages.SignLinkModeActivated", "&aSign-Link-Mode activated! Click on a sign and on a region to create a region or to add the sign to the region");
+        config.addDefault("Messages.SignLinkModeActivated", "&aSign-Link-Mode activated! Click into a region and afterwards click on a sign. ARM will automatically create a regions with the settings of your preset");
         config.addDefault("Messages.SignLinkModeDeactivated", "&aSign-Link-Mode deactivated!");
         config.addDefault("Messages.SignLinkModeAlreadyDeactivated", "&4Sign-Link-Mode is already deactivated!");
         config.addDefault("Messages.SignLinkModePresetNotPriceready", "&cThe selected preset is not price-ready! All regions you will create now will be created with the default autoprice");

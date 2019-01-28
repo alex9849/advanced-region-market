@@ -385,7 +385,6 @@ public class Gui implements Listener {
                                 region.resetBlocks();
                                 player.sendMessage(Messages.PREFIX + Messages.COMPLETE);
                             } catch (SchematicNotFoundException e) {
-                                //TODO change message
                                 player.sendMessage(Messages.PREFIX + Messages.SCHEMATIC_NOT_FOUND_ERROR_USER.replace("%regionid%", e.getRegion().getId()));
                                 Bukkit.getLogger().log(Level.WARNING, "Could not find schematic file for region " + region.getRegion().getId() + "in world " + region.getRegionworld().getName());
                             }

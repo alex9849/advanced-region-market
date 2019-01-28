@@ -19,20 +19,18 @@
 AutoPrice:
   example1:
     price: 200.0
-    # Time in milliseconds (1 second = 1000 milliseconds)
-    extendTime: 300000
-    # Time in milliseconds (1 second = 1000 milliseconds)
-    maxRentTime: 2000000
+    extendTime: 2d
+    maxRentTime: 7d
     autoPriceCalculation: static
   example2:
     price: 2.0
-    extendTime: 300000
-    maxRentTime: 2000000
+    extendTime: 12h
+    maxRentTime: 2d
     autoPriceCalculation: per_m2
   example3:
     price: 0.05
-    extendTime: 300000
-    maxRentTime: 2000000
+    extendTime: 7d
+    maxRentTime: 30d
     autoPriceCalculation: per_m3
 
 DefaultAutoprice:

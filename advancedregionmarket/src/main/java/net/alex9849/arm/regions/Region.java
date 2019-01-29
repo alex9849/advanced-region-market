@@ -14,7 +14,10 @@ import org.bukkit.*;
 import org.bukkit.Location;
 import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.util.BoundingBox;
 import org.bukkit.util.Vector;
 
 import java.io.*;
@@ -698,5 +701,24 @@ public abstract class Region {
             }
         }
         return false;
+    }
+
+    public List<Entity> getInsideEntities(boolean includePlayers) {
+        List<Entity> entities;
+        Vector minPoint = this.getRegion().getMinPoint();
+        Vector maxPoint = this.getRegion().getMaxPoint();
+
+        entities = new ArrayList<>(this.getRegionworld().getNearbyEntities(new BoundingBox(minPoint.getX(), minPoint.getY(), minPoint.getZ(), maxPoint.getX(), maxPoint.getY(), maxPoint.getZ())));
+
+        for(int i = 0; i < entities.size(); i++) {
+            Location entityLoc = entities.get(i).getLocation();
+            boolean removeBecausePlayer = entities.get(i).getType() == EntityType.PLAYER;
+            removeBecausePlayer = removeBecausePlayer && (!includePlayers);
+            if((!this.getRegion().contains(entityLoc.getBlockX(), entityLoc.getBlockY(), entityLoc.getBlockZ())) || removeBecausePlayer) {
+                entities.remove(i);
+                i--;
+            }
+        }
+        return entities;
     }
 }

@@ -4,6 +4,8 @@ import net.alex9849.arm.Handler.ARMListener;
 import net.alex9849.arm.Handler.CommandHandler;
 import net.alex9849.arm.Handler.Scheduler;
 import net.alex9849.arm.commands.*;
+import net.alex9849.arm.entitylimit.EntityLimitGroup;
+import net.alex9849.arm.entitylimit.EntityLimitGroupManager;
 import net.alex9849.arm.regions.price.RentPrice;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.minifeatures.SignLinkMode;
@@ -99,6 +101,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         }
         loadOther();
         PresetPatternManager.loadPresetPatterns();
+        EntityLimitGroupManager.loadEntityLimits();
         RegionManager.loadRegionsFromConfig();
         Region.setCompleteTabRegions(getConfig().getBoolean("Other.CompleteRegionsOnTabComplete"));
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Scheduler() , 0 ,20*getConfig().getInt("Other.SignAndResetUpdateInterval"));
@@ -599,6 +602,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         RegionManager.setRegionsConf();
         Messages.generatedefaultConfig();
         PresetPatternManager.generatedefaultConfig();
+        EntityLimitGroupManager.generatedefaultConfig();
         this.generatedefaultconfig();
         FileConfiguration pluginConfig = this.getConfig();
         YamlConfiguration regionConf = RegionManager.getRegionsConf();

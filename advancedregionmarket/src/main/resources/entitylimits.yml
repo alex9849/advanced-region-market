@@ -1,0 +1,4 @@
+EntityLimits:
+  small:
+    total: -1
+    CHICKEN: 10

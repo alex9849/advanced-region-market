@@ -4,6 +4,7 @@ import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
+import net.alex9849.arm.entitylimit.EntityLimitGroup;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.minifeatures.ParticleBorder;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
@@ -47,10 +48,11 @@ public abstract class Region {
     protected int allowedSubregions;
     protected Region parentRegion;
     protected boolean isUserResettable;
+    protected EntityLimitGroup entityLimitGroup;
     private boolean needsSave;
 
     public Region(WGRegion region, World regionworld, List<Sign> sellsign, Price price, Boolean sold, Boolean autoreset,
-                  Boolean isHotel, Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, boolean isUserResettable, List<Region> subregions, int allowedSubregions){
+                  Boolean isHotel, Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, boolean isUserResettable, List<Region> subregions, int allowedSubregions, EntityLimitGroup entityLimitGroup){
         this.region = region;
         this.sellsign = new ArrayList<Sign>(sellsign);
         this.sold = sold;
@@ -67,6 +69,7 @@ public abstract class Region {
         this.allowedSubregions = allowedSubregions;
         this.isUserResettable = isUserResettable;
         this.needsSave = false;
+        this.entityLimitGroup = entityLimitGroup;
 
         for(Region subregion : subregions) {
             subregion.setParentRegion(this);
@@ -186,6 +189,10 @@ public abstract class Region {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public EntityLimitGroup getEntityLimitGroup() {
+        return this.entityLimitGroup;
     }
 
     public void addSign(Location loc){

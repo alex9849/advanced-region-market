@@ -9,6 +9,7 @@ import org.bukkit.plugin.Plugin;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 public class EntityLimitGroupManager {
     private static List<EntityLimitGroup> entityLimitGroups = new ArrayList<>();
@@ -19,6 +20,9 @@ public class EntityLimitGroupManager {
             if(entityLimitGroup.getName().equalsIgnoreCase(name)) {
                 return entityLimitGroup;
             }
+        }
+        if(EntityLimitGroup.DEFAULT.getName().equalsIgnoreCase(name)) {
+            return EntityLimitGroup.DEFAULT;
         }
         return null;
     }
@@ -47,11 +51,16 @@ public class EntityLimitGroupManager {
         for(String entityName : entityNames) {
             if(entityName.equalsIgnoreCase("total")) {
                 totalMax = section.getInt(entityName);
-            }
-            EntityType entityType = EntityType.valueOf(entityName);
-            if(entityType != null) {
-                int maxLimit = section.getInt(entityName);
-                entityLimits.add(new EntityLimit(entityType, maxLimit));
+            } else {
+                try {
+                    EntityType entityType = EntityType.valueOf(entityName);
+                    if(entityType != null) {
+                        int maxLimit = section.getInt(entityName);
+                        entityLimits.add(new EntityLimit(entityType, maxLimit));
+                    }
+                } catch (IllegalArgumentException e) {
+                    Bukkit.getLogger().log(Level.WARNING, "[AdvancedRegionMarket] Could not find EntityType " + entityName + " for EntityLimitGroup " + name + "! Ignoring it");
+                }
             }
         }
         if(totalMax == -1) {

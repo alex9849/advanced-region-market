@@ -7,6 +7,7 @@ import net.alex9849.arm.Permission;
 import net.alex9849.arm.Preseter.*;
 import net.alex9849.arm.Preseter.presets.*;
 import net.alex9849.arm.SubRegions.SubRegionCreator;
+import net.alex9849.arm.entitylimit.EntityLimitGroup;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.regions.*;
 import net.alex9849.arm.gui.Gui;
@@ -47,6 +48,7 @@ public class ARMListener implements Listener {
             Boolean isHotel = false;
             Boolean doBlockReset = true;
             Boolean userResettable = true;
+            EntityLimitGroup entityLimitGroup = EntityLimitGroup.DEFAULT;
             int allowedSubregions = 0;
 
             if(sign.getLine(0).equalsIgnoreCase("[ARM-Sell]")){
@@ -58,6 +60,7 @@ public class ARMListener implements Listener {
                     doBlockReset = preset.isDoBlockReset();
                     userResettable = preset.isUserResettable();
                     allowedSubregions = preset.getAllowedSubregions();
+                    entityLimitGroup = preset.getEntityLimitGroup();
                     sign.getPlayer().sendMessage(Messages.PREFIX + "Applying preset...");
                 }
 
@@ -128,7 +131,7 @@ public class ARMListener implements Listener {
 
                 LinkedList<Sign> sellsign = new LinkedList<Sign>();
                 sellsign.add((Sign) sign.getBlock().getState());
-                SellRegion addRegion = new SellRegion(region, regionWorld, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,1, userResettable, new ArrayList<Region>(), allowedSubregions);
+                SellRegion addRegion = new SellRegion(region, regionWorld, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,1, userResettable, new ArrayList<Region>(), allowedSubregions, entityLimitGroup);
                 addRegion.createSchematic();
                 net.alex9849.arm.regions.RegionManager.addRegion(addRegion);
                 sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_ADDED_TO_ARM);
@@ -153,6 +156,7 @@ public class ARMListener implements Listener {
                     isHotel = preset.isHotel();
                     doBlockReset = preset.isDoBlockReset();
                     userResettable = preset.isUserResettable();
+                    entityLimitGroup = preset.getEntityLimitGroup();
                     allowedSubregions = preset.getAllowedSubregions();
                     sign.getPlayer().sendMessage(Messages.PREFIX + "Applying preset...");
                 }
@@ -236,7 +240,7 @@ public class ARMListener implements Listener {
                 sellsign.add((Sign) sign.getBlock().getState());
 
                 RentRegion addRegion = new RentRegion(region, regionWorld, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,
-                        1, userResettable,1, new ArrayList<Region>(), allowedSubregions);
+                        1, userResettable,1, new ArrayList<Region>(), allowedSubregions, entityLimitGroup);
                 addRegion.createSchematic();
                 net.alex9849.arm.regions.RegionManager.addRegion(addRegion);
 
@@ -260,6 +264,7 @@ public class ARMListener implements Listener {
                     isHotel = preset.isHotel();
                     doBlockReset = preset.isDoBlockReset();
                     userResettable = preset.isUserResettable();
+                    entityLimitGroup = preset.getEntityLimitGroup();
                     allowedSubregions = preset.getAllowedSubregions();
                     sign.getPlayer().sendMessage(Messages.PREFIX + "Applying preset...");
                 }
@@ -339,7 +344,7 @@ public class ARMListener implements Listener {
                 sellsign.add((Sign) sign.getBlock().getState());
 
                 ContractRegion addRegion = new ContractRegion(region, regionWorld, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,
-                        1, userResettable, 1, false, new ArrayList<Region>(), allowedSubregions);
+                        1, userResettable, 1, false, new ArrayList<Region>(), allowedSubregions, entityLimitGroup);
                 addRegion.createSchematic();
                 net.alex9849.arm.regions.RegionManager.addRegion(addRegion);
                 sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_ADDED_TO_ARM);

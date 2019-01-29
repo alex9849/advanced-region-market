@@ -1,6 +1,7 @@
 package net.alex9849.arm.Preseter.presets;
 
 import net.alex9849.arm.Messages;
+import net.alex9849.arm.entitylimit.EntityLimitGroup;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.RegionKind;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
@@ -24,9 +25,10 @@ public abstract class Preset {
     protected boolean isUserResettable = true;
     protected int allowedSubregions = 0;
     protected AutoPrice autoPrice;
+    protected EntityLimitGroup entityLimitGroup;
     protected List<String> setupCommands = new ArrayList<>();
 
-    public Preset(String name, boolean hasPrice, double price, RegionKind regionKind, boolean autoReset, boolean isHotel, boolean doBlockReset, boolean isUserResettable, int allowedSubregions, AutoPrice autoPrice, List<String> setupCommands){
+    public Preset(String name, boolean hasPrice, double price, RegionKind regionKind, boolean autoReset, boolean isHotel, boolean doBlockReset, boolean isUserResettable, int allowedSubregions, AutoPrice autoPrice, EntityLimitGroup entityLimitGroup, List<String> setupCommands){
         this.name = name;
         this.hasPrice = hasPrice;
         this.price = price;
@@ -38,6 +40,7 @@ public abstract class Preset {
         this.allowedSubregions = allowedSubregions;
         this.setupCommands = setupCommands;
         this.autoPrice = autoPrice;
+        this.entityLimitGroup = entityLimitGroup;
     }
 
     public String getName(){
@@ -167,6 +170,14 @@ public abstract class Preset {
             regionKind = RegionKind.DEFAULT;
         }
         this.regionKind = regionKind;
+    }
+
+    public EntityLimitGroup getEntityLimitGroup() {
+        return this.entityLimitGroup;
+    }
+
+    public void setEntityLimitGroup(EntityLimitGroup entityLimitGroup) {
+        this.entityLimitGroup = entityLimitGroup;
     }
 
     public void setDoBlockReset(Boolean bool){

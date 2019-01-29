@@ -1,6 +1,8 @@
 package net.alex9849.arm.Preseter;
 
 import net.alex9849.arm.Preseter.presets.*;
+import net.alex9849.arm.entitylimit.EntityLimitGroup;
+import net.alex9849.arm.entitylimit.EntityLimitGroupManager;
 import net.alex9849.arm.regions.RegionKind;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import org.bukkit.Bukkit;
@@ -75,6 +77,7 @@ public class PresetPatternManager {
         presetConfig.set(preset.getPresetType().getMajorityName() + "." + preset.getName() + ".regionKind", preset.getRegionKind().getName());
         presetConfig.set(preset.getPresetType().getMajorityName() + "." + preset.getName() + ".isHotel", preset.isHotel());
         presetConfig.set(preset.getPresetType().getMajorityName() + "." + preset.getName() + ".doBlockReset", preset.isDoBlockReset());
+        presetConfig.set(preset.getPresetType().getMajorityName() + "." + preset.getName() + ".entityLimitGroup", preset.getEntityLimitGroup().getName());
         presetConfig.set(preset.getPresetType().getMajorityName() + "." + preset.getName() + ".autoreset", preset.isAutoReset());
         if(preset.hasAutoPrice()) {
             presetConfig.set(preset.getPresetType().getMajorityName() + "." + preset.getName() + ".autoPrice", preset.getAutoPrice().getName());
@@ -140,6 +143,7 @@ public class PresetPatternManager {
         String regionKindString = section.getString("regionKind");
         boolean isHotel = section.getBoolean("isHotel");
         boolean doBlockReset = section.getBoolean("doBlockReset");
+        String entityLimitGroupString = section.getString("entityLimitGroup");
         boolean autoreset = section.getBoolean("autoreset");
         boolean isUserResettable = section.getBoolean("isUserResettable");
         int allowedSubregions = section.getInt("allowedSubregions");
@@ -151,6 +155,10 @@ public class PresetPatternManager {
         if(regionKind == null) {
             regionKind = RegionKind.DEFAULT;
         }
+        EntityLimitGroup entityLimitGroup = EntityLimitGroupManager.getEntityLimitGroup(entityLimitGroupString);
+        if(entityLimitGroup == null) {
+            entityLimitGroup = EntityLimitGroup.DEFAULT;
+        }
         if(presetType == PresetType.SELLPRESET) {
             if(autoPriceString != null) {
                 autoPrice = AutoPrice.getAutoprice(autoPriceString);
@@ -160,7 +168,7 @@ public class PresetPatternManager {
                 hasprice = false;
                 price = 0;
             }
-            return new SellPreset(name, hasprice, price, regionKind, isHotel, doBlockReset, autoreset, isUserResettable, allowedSubregions, autoPrice, setupcommands);
+            return new SellPreset(name, hasprice, price, regionKind, isHotel, doBlockReset, autoreset, isUserResettable, allowedSubregions, autoPrice, entityLimitGroup, setupcommands);
         }
         if(presetType == PresetType.RENTPRESET) {
             boolean hasMaxRentTime = section.getBoolean("hasMaxRentTime");
@@ -179,7 +187,7 @@ public class PresetPatternManager {
                 maxRentTime = 0;
                 extendPerClick = 0;
             }
-            return new RentPreset(name, hasprice, price, regionKind, isHotel, doBlockReset, autoreset, hasMaxRentTime, maxRentTime, hasExtendPerClick, extendPerClick, isUserResettable, allowedSubregions, autoPrice, setupcommands);
+            return new RentPreset(name, hasprice, price, regionKind, isHotel, doBlockReset, autoreset, hasMaxRentTime, maxRentTime, hasExtendPerClick, extendPerClick, isUserResettable, allowedSubregions, autoPrice, entityLimitGroup, setupcommands);
         }
         if(presetType == PresetType.CONTRACTPRESET) {
             boolean hasExtend = section.getBoolean("hasExtend");
@@ -194,7 +202,7 @@ public class PresetPatternManager {
                 hasExtend = false;
                 extendTime = 0;
             }
-            return new ContractPreset(name, hasprice, price, regionKind, isHotel, doBlockReset, autoreset, hasExtend, extendTime, isUserResettable, allowedSubregions, autoPrice, setupcommands);
+            return new ContractPreset(name, hasprice, price, regionKind, isHotel, doBlockReset, autoreset, hasExtend, extendTime, isUserResettable, allowedSubregions, autoPrice, entityLimitGroup, setupcommands);
         }
         return null;
     }
@@ -206,6 +214,7 @@ public class PresetPatternManager {
         section.addDefault("regionKind", "Default");
         section.addDefault("isHotel", false);
         section.addDefault("doBlockReset", true);
+        section.addDefault("entityLimitGroup", "default");
         section.addDefault("autoreset", true);
         section.addDefault("isUserResettable", true);
         section.addDefault("allowedSubregions", 0);

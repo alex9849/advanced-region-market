@@ -23,6 +23,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
+import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -465,6 +466,19 @@ public class ARMListener implements Listener {
         }
     }
 
+    @EventHandler
+    public void checkAllowEntitySpawn(EntitySpawnEvent event) {
+        if(event.isCancelled()) {
+            return;
+        }
+        List<Region> regions = RegionManager.getRegionsByLocation(event.getLocation());
+
+        for(Region region : regions) {
+            if(region.getEntityLimitGroup().isLimitReached(region, event.getEntityType())) {
+                event.setCancelled(true);
+            }
+        }
+    }
 
     @EventHandler
     public void setLastLoginAndOpenOvertake(PlayerJoinEvent event) {

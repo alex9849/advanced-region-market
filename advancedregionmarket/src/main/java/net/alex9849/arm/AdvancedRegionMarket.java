@@ -26,6 +26,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.block.*;
+import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -178,6 +179,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         PlayerJoinEvent.getHandlerList().unregister(this);
         PlayerQuitEvent.getHandlerList().unregister(this);
         BlockExplodeEvent.getHandlerList().unregister(this);
+        EntitySpawnEvent.getHandlerList().unregister(this);
         getServer().getScheduler().cancelTasks(this);
     }
 

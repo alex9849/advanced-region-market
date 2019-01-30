@@ -11,6 +11,7 @@ public class EntityLimitGroup {
     private List<EntityLimit> entityLimits;
     private String name;
     private int totalLimit;
+    private boolean needsSave = false;
     public static EntityLimitGroup DEFAULT = new EntityLimitGroup(new ArrayList<>(), Integer.MAX_VALUE,"Default");
     public static EntityLimitGroup SUBREGION = new EntityLimitGroup(new ArrayList<>(), Integer.MAX_VALUE,"Subregion");
 
@@ -19,6 +20,7 @@ public class EntityLimitGroup {
         this.entityLimits = entityLimits;
         this.name = name;
         this.totalLimit = totalLimit;
+        this.needsSave = false;
     }
 
     public boolean isLimitReached(Region region, EntityType entityType) {
@@ -57,4 +59,23 @@ public class EntityLimitGroup {
         return this.name;
     }
 
+    public List<EntityLimit> getEntityLimits() {
+        return this.entityLimits;
+    }
+
+    public int getTotalLimit() {
+        return this.totalLimit;
+    }
+
+    public boolean needsSave() {
+        return this.needsSave;
+    }
+
+    public void queueSave() {
+        this.needsSave = true;
+    }
+
+    protected void setSaved() {
+        this.needsSave = false;
+    }
 }

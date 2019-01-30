@@ -44,6 +44,23 @@ public class EntityLimitGroupManager {
         }
     }
 
+    public static void saveEntityLimits() {
+        for(EntityLimitGroup entityLimitGroup : entityLimitGroups) {
+            if(entityLimitGroup.needsSave()) {
+                saveEntityLimit(entityLimitGroup);
+                entityLimitGroup.setSaved();
+            }
+        }
+    }
+
+    private static void saveEntityLimit(EntityLimitGroup entityLimitGroup) {
+        entityLimitConf.set("EntityLimits." + entityLimitGroup.getName(), null);
+        entityLimitConf.set("EntityLimits." + entityLimitGroup.getName() + ".total", entityLimitGroup.getTotalLimit());
+        for(EntityLimit entityLimit : entityLimitGroup.getEntityLimits()) {
+            entityLimitConf.set("EntityLimits." + entityLimitGroup.getName() + entityLimit.getEntityType(), entityLimit.getAmount());
+        }
+    }
+
     private static EntityLimitGroup parseEntityLimitGroup(ConfigurationSection section, String name) {
         List<String> entityNames = new ArrayList<>(section.getKeys(false));
         List<EntityLimit> entityLimits = new ArrayList<>();

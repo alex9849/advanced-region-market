@@ -18,7 +18,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.bukkit.util.BoundingBox;
 import org.bukkit.util.Vector;
 
 import java.io.*;
@@ -715,7 +714,16 @@ public abstract class Region {
         Vector minPoint = this.getRegion().getMinPoint();
         Vector maxPoint = this.getRegion().getMaxPoint();
 
-        entities = new ArrayList<>(this.getRegionworld().getNearbyEntities(new BoundingBox(minPoint.getX(), minPoint.getY(), minPoint.getZ(), maxPoint.getX(), maxPoint.getY(), maxPoint.getZ())));
+        double minX = (minPoint.getX() + maxPoint.getX()) / 2;
+        double minY = (minPoint.getY() + maxPoint.getY()) / 2;
+        double minZ = (minPoint.getZ() + maxPoint.getZ()) / 2;
+        Location midLocation = new Location(this.getRegionworld(), minX, minY, minZ);
+
+        double xAxis = (maxPoint.getX() - minPoint.getX()) / 2;
+        double yAxis = (maxPoint.getY() - minPoint.getY()) / 2;
+        double zAxis = (maxPoint.getZ() - minPoint.getZ()) / 2;
+
+        entities = new ArrayList<>(this.getRegionworld().getNearbyEntities(midLocation, xAxis, yAxis, zAxis));
 
         for(int i = 0; i < entities.size(); i++) {
             Location entityLoc = entities.get(i).getLocation();

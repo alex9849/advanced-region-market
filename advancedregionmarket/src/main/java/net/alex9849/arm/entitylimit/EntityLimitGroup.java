@@ -33,7 +33,7 @@ public class EntityLimitGroup {
             }
         }
 
-        if(this.totalLimit >= matchingEntities) {
+        if(this.totalLimit <= regionEntities.size()) {
             return true;
         }
 

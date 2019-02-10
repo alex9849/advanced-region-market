@@ -828,7 +828,7 @@ public class Gui implements Listener {
         int itempos = 0;
         if(RegionKind.DEFAULT.isDisplayInGUI()) {
             String displayName = Messages.GUI_REGIONFINDER_REGIONKIND_NAME;
-            displayName = displayName.replace("%regionkind%", RegionKind.DEFAULT.getName());
+            displayName = displayName.replace("%regionkind%", RegionKind.DEFAULT.getDisplayName());
             Material material = RegionKind.DEFAULT.getMaterial();
             ItemStack stack = new ItemStack(material);
             ItemMeta meta = stack.getItemMeta();
@@ -852,7 +852,7 @@ public class Gui implements Listener {
 
         if(RegionKind.SUBREGION.isDisplayInGUI() && player.hasPermission(Permission.ARM_BUYKIND + RegionKind.SUBREGION.getName())){
             String displayName = Messages.GUI_REGIONFINDER_REGIONKIND_NAME;
-            displayName = displayName.replace("%regionkind%", RegionKind.SUBREGION.getName());
+            displayName = displayName.replace("%regionkind%", RegionKind.SUBREGION.getDisplayName());
             Material material = RegionKind.SUBREGION.getMaterial();
             ItemStack stack = new ItemStack(material);
             ItemMeta meta = stack.getItemMeta();
@@ -1082,7 +1082,7 @@ public class Gui implements Listener {
     private static ItemStack getRegionDisplayItem(Region region, List<String> rentLore, List<String> sellLore, List<String> contractLore) {
         String regionDisplayName = Messages.GUI_REGION_ITEM_NAME;
         regionDisplayName = region.getConvertedMessage(regionDisplayName);
-        regionDisplayName = regionDisplayName.replace("%regionkind%", region.getRegionKind().getName());
+        regionDisplayName = regionDisplayName.replace("%regionkind%", region.getRegionKind().getDisplayName());
 
         ItemStack stack = new ItemStack(region.getRegionKind().getMaterial());
         ItemMeta meta = stack.getItemMeta();

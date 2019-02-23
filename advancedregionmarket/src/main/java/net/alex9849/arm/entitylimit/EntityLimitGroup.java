@@ -16,7 +16,7 @@ public class EntityLimitGroup {
     public static EntityLimitGroup SUBREGION = new EntityLimitGroup(new ArrayList<>(), Integer.MAX_VALUE,"Subregion");
 
 
-    protected EntityLimitGroup(List<EntityLimit> entityLimits, int totalLimit, String name) {
+    public EntityLimitGroup(List<EntityLimit> entityLimits, int totalLimit, String name) {
         this.entityLimits = entityLimits;
         this.name = name;
         this.totalLimit = totalLimit;

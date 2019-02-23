@@ -45,11 +45,16 @@ public class EntityLimitGroupManager {
     }
 
     public static void saveEntityLimits() {
+        boolean writeToCfg = false;
         for(EntityLimitGroup entityLimitGroup : entityLimitGroups) {
             if(entityLimitGroup.needsSave()) {
                 saveEntityLimit(entityLimitGroup);
                 entityLimitGroup.setSaved();
+                writeToCfg = true;
             }
+        }
+        if(writeToCfg) {
+            saveEntityLimitsConf();
         }
     }
 
@@ -59,6 +64,18 @@ public class EntityLimitGroupManager {
         for(EntityLimit entityLimit : entityLimitGroup.getEntityLimits()) {
             entityLimitConf.set("EntityLimits." + entityLimitGroup.getName() + entityLimit.getEntityType(), entityLimit.getAmount());
         }
+    }
+
+    public static void add(EntityLimitGroup entityLimitGroup) {
+        entityLimitGroups.add(entityLimitGroup);
+        saveEntityLimit(entityLimitGroup);
+        saveEntityLimitsConf();
+    }
+
+    public static void remove(EntityLimitGroup entityLimitGroup) {
+        entityLimitGroups.remove(entityLimitGroup);
+        entityLimitConf.set("EntityLimits." + entityLimitGroup.getName(), null);
+        saveEntityLimits();
     }
 
     private static EntityLimitGroup parseEntityLimitGroup(ConfigurationSection section, String name) {

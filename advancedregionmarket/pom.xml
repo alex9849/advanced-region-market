@@ -107,7 +107,8 @@
             <groupId>net.milkbowl.vault</groupId>
             <artifactId>VaultAPI</artifactId>
             <version>1.5</version>
-            <scope>provided</scope>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/../lib/plugins/Vault/Vault.jar</systemPath>
         </dependency>
         <!--FaWe API-->
         <dependency>

@@ -38,10 +38,10 @@
                 <enabled>true</enabled> <!-- snapshots enabled: we declare a SNAPSHOT repository because we need to download a SNAPSHOT dependency -->
             </snapshots>
         </repository>
-        <repository>
+       <!-- <repository>
             <id>vault-repo</id>
             <url>http://nexus.hc.to/content/repositories/pub_releases</url>
-        </repository>
+        </repository>  -->
         <!-- FAWE repository -->
         <repository>
             <id>fawe-repo</id>

@@ -146,6 +146,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         commands.add(new SetIsUserResettableCommand());
         commands.add(new ListAutoPricesCommand());
         commands.add(new SignLinkModeCommand());
+        commands.add(new EntityLimitCommand());
         AdvancedRegionMarket.commandHandler.addCommands(commands);
 
         getCommand("arm").setTabCompleter(this.commandHandler);
@@ -169,6 +170,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         SignLinkMode.reset();
         PresetPatternManager.resetPresetPatterns();
         ActivePresetManager.reset();
+        EntityLimitGroupManager.reset();
         getServer().getServicesManager().unregisterAll(this);
         SignChangeEvent.getHandlerList().unregister(this);
         InventoryClickEvent.getHandlerList().unregister(this);

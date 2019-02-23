@@ -75,7 +75,7 @@ public class EntityLimitGroupManager {
     public static void remove(EntityLimitGroup entityLimitGroup) {
         entityLimitGroups.remove(entityLimitGroup);
         entityLimitConf.set("EntityLimits." + entityLimitGroup.getName(), null);
-        saveEntityLimits();
+        saveEntityLimitsConf();
     }
 
     private static EntityLimitGroup parseEntityLimitGroup(ConfigurationSection section, String name) {
@@ -145,6 +145,7 @@ public class EntityLimitGroupManager {
         }
         entityLimitConf.options().copyDefaults(true);
         saveEntityLimitsConf();
+        entityLimitConf.options().copyDefaults(false);
     }
 
     private static void saveEntityLimitsConf() {

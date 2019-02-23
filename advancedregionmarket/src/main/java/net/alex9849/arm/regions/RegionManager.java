@@ -464,6 +464,7 @@ public class RegionManager {
         }
         regionsconf.options().copyDefaults(true);
         saveRegionsConf();
+        regionsconf.options().copyDefaults(false);
     }
 
     public static YamlConfiguration getRegionsConf() {

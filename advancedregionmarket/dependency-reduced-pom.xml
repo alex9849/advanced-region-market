@@ -160,16 +160,17 @@
       </exclusions>
     </dependency>
     <dependency>
-      <groupId>net.milkbowl.vault</groupId>
-      <artifactId>VaultAPI</artifactId>
-      <version>1.5</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
       <groupId>com.boydti</groupId>
       <artifactId>fawe-api</artifactId>
       <version>latest</version>
       <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>net.milkbowl.vault</groupId>
+      <artifactId>VaultAPI</artifactId>
+      <version>1.5</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/../lib/plugins/Vault/Vault.jar</systemPath>
     </dependency>
   </dependencies>
   <properties>

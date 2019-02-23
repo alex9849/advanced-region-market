@@ -50,6 +50,6 @@ public class DeleteCommand extends BasicArmCommand {
 
     @Override
     public List<String> onTabComplete(Player player, String[] args) {
-        return null;
+        return new ArrayList<>();
     }
 }

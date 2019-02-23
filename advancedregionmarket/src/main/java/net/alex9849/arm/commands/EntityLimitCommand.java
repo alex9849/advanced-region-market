@@ -3,10 +3,9 @@ package net.alex9849.arm.commands;
 import net.alex9849.arm.Handler.CommandHandler;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
-import net.alex9849.arm.entitylimit.commands.AddLimitCommand;
-import net.alex9849.arm.entitylimit.commands.CreateCommand;
+import net.alex9849.arm.entitylimit.commands.*;
 import net.alex9849.arm.entitylimit.commands.DeleteCommand;
-import net.alex9849.arm.entitylimit.commands.RemoveLimit;
+import net.alex9849.arm.entitylimit.commands.InfoCommand;
 import net.alex9849.exceptions.InputException;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -30,6 +29,8 @@ public class EntityLimitCommand extends BasicArmCommand {
         commands.add(new DeleteCommand());
         commands.add(new RemoveLimit());
         commands.add(new AddLimitCommand());
+        commands.add(new InfoCommand());
+        commands.add(new ListCommand());
         //TODO
         commands.add(new HelpCommand(this.commandHandler, "EntityLimit help", betweencmds, Permission.SUBREGION_HELP));
         this.commandHandler.addCommands(commands);

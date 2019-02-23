@@ -14,10 +14,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class InfoCommand extends BasicArmCommand {
-    private final String rootCommand = "info";
-    private final String regex = "(?i)info [^;\n ]+";
-    private final List<String> usage = new ArrayList<>(Arrays.asList("info [GROUPNAME]"));
+public class ListCommand extends BasicArmCommand {
+    private final String rootCommand = "list";
+    private final String regex = "(?i)list";
+    private final List<String> usage = new ArrayList<>(Arrays.asList("list"));
 
     @Override
     public boolean matchesRegex(String command) {
@@ -39,23 +39,10 @@ public class InfoCommand extends BasicArmCommand {
         if (!(sender instanceof Player)) {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
-        EntityLimitGroup entityLimitGroup = EntityLimitGroupManager.getEntityLimitGroup(args[1]);
         //TODO
-        if(entityLimitGroup == null) {
-            throw new InputException(sender, "Group does not exist!");
-        }
-
-        String total = Messages.UNLIMITED;
-        if(entityLimitGroup.getTotalLimit() != Integer.MAX_VALUE) {
-            total = "" + entityLimitGroup.getTotalLimit();
-        }
-        //TODO
-        sender.sendMessage("======Entitylimitgroup Info======");
-        sender.sendMessage("Groupname: " + entityLimitGroup.getName());
-        sender.sendMessage("Limits:");
-        sender.sendMessage("TOTAL: " + total);
-        for(EntityLimit entityLimit : entityLimitGroup.getEntityLimits()) {
-            sender.sendMessage(entityLimit.getEntityType() + ": " + entityLimit.getAmount());
+        sender.sendMessage("EntityLimitGroups:");
+        for(EntityLimitGroup entityLimitGroup : EntityLimitGroupManager.getEntityLimitGroups()) {
+            sender.sendMessage("- " + entityLimitGroup.getName());
         }
         return true;
     }

@@ -161,4 +161,8 @@ public class EntityLimitGroupManager {
             e.printStackTrace();
         }
     }
+
+    public static List<EntityLimitGroup> getEntityLimitGroups() {
+        return entityLimitGroups;
+    }
 }

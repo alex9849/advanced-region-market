@@ -65,6 +65,7 @@ public class AddLimitCommand extends BasicArmCommand {
                 }
             }
             entityLimitGroup.getEntityLimits().add(new EntityLimit(entityType, Integer.parseInt(args[3])));
+            entityLimitGroup.queueSave();
             sender.sendMessage(Messages.PREFIX + "Entitylimit has been set!");
         }
         return true;

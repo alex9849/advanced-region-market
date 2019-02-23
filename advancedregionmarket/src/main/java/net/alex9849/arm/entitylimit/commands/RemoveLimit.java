@@ -48,6 +48,7 @@ public class RemoveLimit extends BasicArmCommand {
         if(args[2].equalsIgnoreCase("total")) {
             entityLimitGroup.setTotalLimit(Integer.MAX_VALUE);
             sender.sendMessage(Messages.PREFIX + "Entitylimit has been removed!");
+            return true;
         } else {
             EntityType entityType = null;
             try {

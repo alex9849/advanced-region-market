@@ -60,9 +60,13 @@ public class EntityLimitGroupManager {
 
     private static void saveEntityLimit(EntityLimitGroup entityLimitGroup) {
         entityLimitConf.set("EntityLimits." + entityLimitGroup.getName(), null);
-        entityLimitConf.set("EntityLimits." + entityLimitGroup.getName() + ".total", entityLimitGroup.getTotalLimit());
+        int totallimit = entityLimitGroup.getTotalLimit();
+        if(totallimit == Integer.MAX_VALUE) {
+            totallimit = -1;
+        }
+        entityLimitConf.set("EntityLimits." + entityLimitGroup.getName() + ".total", totallimit);
         for(EntityLimit entityLimit : entityLimitGroup.getEntityLimits()) {
-            entityLimitConf.set("EntityLimits." + entityLimitGroup.getName() + entityLimit.getEntityType(), entityLimit.getAmount());
+            entityLimitConf.set("EntityLimits." + entityLimitGroup.getName() + "." + entityLimit.getEntityType(), entityLimit.getAmount());
         }
     }
 

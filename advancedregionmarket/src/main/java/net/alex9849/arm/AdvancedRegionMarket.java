@@ -155,6 +155,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
             @Override
             public void run() {
                 RegionManager.writeRegionsToConfig(false);
+                EntityLimitGroupManager.saveEntityLimits();
             }
         }, 0, 60);
     }

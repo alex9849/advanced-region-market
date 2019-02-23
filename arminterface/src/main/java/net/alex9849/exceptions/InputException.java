@@ -1,5 +1,6 @@
 package net.alex9849.exceptions;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 import java.io.IOException;
@@ -43,7 +44,7 @@ public class InputException extends IOException {
             this.logger.log(Level.WARNING, messages.get(0));
         } else {
             for(int i = 0; i < this.senders.size(); i++) {
-                this.senders.get(i).sendMessage(this.messages.get(i));
+                this.senders.get(i).sendMessage(prefix + this.messages.get(i));
             }
         }
     }

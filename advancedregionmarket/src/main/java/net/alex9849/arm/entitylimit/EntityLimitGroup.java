@@ -78,4 +78,9 @@ public class EntityLimitGroup {
     protected void setSaved() {
         this.needsSave = false;
     }
+
+    public void setTotalLimit(int limit) {
+        this.totalLimit = limit;
+        this.queueSave();
+    }
 }

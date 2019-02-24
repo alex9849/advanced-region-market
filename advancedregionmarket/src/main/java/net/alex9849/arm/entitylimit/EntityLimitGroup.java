@@ -1,9 +1,11 @@
 package net.alex9849.arm.entitylimit;
 
+import net.alex9849.arm.Messages;
 import net.alex9849.arm.regions.Region;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 
+import javax.print.attribute.standard.Media;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -96,5 +98,13 @@ public class EntityLimitGroup {
     public void setTotalLimit(int limit) {
         this.totalLimit = limit;
         this.queueSave();
+    }
+
+    public static String intToLimitString(int number) {
+        if(number == Integer.MAX_VALUE) {
+            return Messages.UNLIMITED;
+        } else {
+            return number + "";
+        }
     }
 }

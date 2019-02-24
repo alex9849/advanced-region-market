@@ -164,6 +164,9 @@ public class Gui implements Listener {
         if(player.hasPermission(Permission.MEMBER_RESETREGIONBLOCKS) && region.isUserResettable()){
             itemcounter++;
         }
+        if(player.hasPermission(Permission.MEMBER_ENTITYLIMIT_INFO)){
+            itemcounter++;
+        }
         if(player.hasPermission(Permission.MEMBER_INFO)){
             itemcounter++;
         }
@@ -248,6 +251,18 @@ public class Gui implements Listener {
                 }
             });
             inv.addIcon(reseticon, getPosition(actitem, itemcounter));
+
+            actitem++;
+        }
+
+        if(player.hasPermission(Permission.MEMBER_ENTITYLIMIT_INFO)) {
+            ClickItem infoicon = new ClickItem(getEntityLintGroupItem(region)).addClickAction(new ClickAction() {
+                @Override
+                public void execute(Player player) {
+                    openSellRegionManagerOwner(player, region);
+                }
+            });
+            inv.addIcon(infoicon, getPosition(actitem, itemcounter));
 
             actitem++;
         }
@@ -489,6 +504,9 @@ public class Gui implements Listener {
         if(player.hasPermission(Permission.MEMBER_RESETREGIONBLOCKS) && region.isUserResettable()){
             itemcounter++;
         }
+        if(player.hasPermission(Permission.MEMBER_ENTITYLIMIT_INFO)){
+            itemcounter++;
+        }
         if(player.hasPermission(Permission.MEMBER_INFO)){
             itemcounter++;
         }
@@ -596,6 +614,18 @@ public class Gui implements Listener {
 
         actitem++;
 
+        if(player.hasPermission(Permission.MEMBER_ENTITYLIMIT_INFO)) {
+            ClickItem infoicon = new ClickItem(getEntityLintGroupItem(region)).addClickAction(new ClickAction() {
+                @Override
+                public void execute(Player player) {
+                    openRentRegionManagerOwner(player, region);
+                }
+            });
+            inv.addIcon(infoicon, getPosition(actitem, itemcounter));
+
+            actitem++;
+        }
+
         if(player.hasPermission(Permission.MEMBER_INFO)){
             ClickItem infoicon = new ClickItem(new ItemStack(Gui.INFO_ITEM), Messages.GUI_SHOW_INFOS_BUTTON).addClickAction(new ClickAction() {
                 @Override
@@ -635,6 +665,9 @@ public class Gui implements Listener {
             itemcounter++;
         }
         if(player.hasPermission(Permission.MEMBER_RESETREGIONBLOCKS) && region.isUserResettable()){
+            itemcounter++;
+        }
+        if(player.hasPermission(Permission.MEMBER_ENTITYLIMIT_INFO)){
             itemcounter++;
         }
         if(player.hasPermission(Permission.MEMBER_INFO)){
@@ -759,6 +792,18 @@ public class Gui implements Listener {
         inv.addIcon(extendicon, getPosition(actitem, itemcounter));
 
         actitem++;
+
+        if(player.hasPermission(Permission.MEMBER_ENTITYLIMIT_INFO)) {
+            ClickItem infoicon = new ClickItem(getEntityLintGroupItem(region)).addClickAction(new ClickAction() {
+                @Override
+                public void execute(Player player) {
+                    openContractRegionManagerOwner(player, region);
+                }
+            });
+            inv.addIcon(infoicon, getPosition(actitem, itemcounter));
+
+            actitem++;
+        }
 
         if(player.hasPermission(Permission.MEMBER_INFO)){
             ItemStack infoitem = new ItemStack(Gui.INFO_ITEM);
@@ -1901,16 +1946,18 @@ public class Gui implements Listener {
     public static ItemStack getEntityLintGroupItem(Region region) {
         ItemStack itemStack = new ItemStack(Material.CHICKEN_SPAWN_EGG);
         ItemMeta itemMeta = itemStack.getItemMeta();
+        //TODO
         itemMeta.setDisplayName("EntityLimits");
 
         List<Entity> entities = region.getFilteredInsideEntities(false, true, true, false, false, true);
         List<String> lore = new ArrayList<>();
-        lore.add("Total: (" + entities.size() + "/" + region.getEntityLimitGroup().getTotalLimit() + ")");
+        lore.add("Total: (" + entities.size() + "/" + EntityLimitGroup.intToLimitString(region.getEntityLimitGroup().getTotalLimit()) + ")");
         for(EntityLimit entityLimit : region.getEntityLimitGroup().getEntityLimits()) {
-            lore.add(entityLimit.getEntityType().name() + ": (" + EntityLimitGroup.filterEntitys(entities, entityLimit.getEntityType()) + "/" + entityLimit.getAmount() + ")");
+            lore.add(entityLimit.getEntityType().name() + ": (" + EntityLimitGroup.filterEntitys(entities, entityLimit.getEntityType()).size() + "/" + EntityLimitGroup.intToLimitString(entityLimit.getAmount()) + ")");
         }
 
         itemMeta.setLore(lore);
+        itemStack.setItemMeta(itemMeta);
 
         return itemStack;
     }

@@ -33,13 +33,9 @@ public class EntityLimitGroup {
 
         int maxEntitiesWithThisType = this.getLimit(entityType);
 
-        int matchingEntities = 0;
         List<Entity> regionEntities = region.getFilteredInsideEntities(false, true, true, false, false, true);
-        for(Entity entity : regionEntities) {
-            if(entity.getType() == entityType) {
-                matchingEntities++;
-            }
-        }
+
+        int matchingEntities = EntityLimitGroup.filterEntitys(regionEntities, entityType).size();
 
         if(this.totalLimit <= regionEntities.size()) {
             return true;
@@ -59,6 +55,18 @@ public class EntityLimitGroup {
             }
         }
         return Integer.MAX_VALUE;
+    }
+
+    public static List<Entity> filterEntitys(List<Entity> inputlist, EntityType entityType) {
+        List<Entity> result = new ArrayList<>();
+
+        for(Entity entity : inputlist) {
+            if(entity.getType() == entityType) {
+                result.add(entity);
+            }
+        }
+
+        return result;
     }
 
     public String getName() {

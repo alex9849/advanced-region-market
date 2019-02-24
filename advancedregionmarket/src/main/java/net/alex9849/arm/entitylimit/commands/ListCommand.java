@@ -39,6 +39,9 @@ public class ListCommand extends BasicArmCommand {
         if (!(sender instanceof Player)) {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
+        if (!sender.hasPermission(Permission.ADMIN_ENTITYLIMIT_LIST)) {
+            throw new InputException(sender, Messages.NO_PERMISSION);
+        }
         //TODO
         sender.sendMessage("EntityLimitGroups:");
         for(EntityLimitGroup entityLimitGroup : EntityLimitGroupManager.getEntityLimitGroups()) {

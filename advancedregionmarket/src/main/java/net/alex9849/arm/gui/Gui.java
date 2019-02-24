@@ -3,6 +3,8 @@ package net.alex9849.arm.gui;
 import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
+import net.alex9849.arm.entitylimit.EntityLimit;
+import net.alex9849.arm.entitylimit.EntityLimitGroup;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import net.alex9849.arm.regions.*;
@@ -13,6 +15,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -1893,5 +1896,22 @@ public class Gui implements Listener {
 
     public static void setUnsellItem(Material UnsellItem) {
         UNSELL_ITEM = UnsellItem;
+    }
+
+    public static ItemStack getEntityLintGroupItem(Region region) {
+        ItemStack itemStack = new ItemStack(Material.CHICKEN_SPAWN_EGG);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.setDisplayName("EntityLimits");
+
+        List<Entity> entities = region.getFilteredInsideEntities(false, true, true, false, false, true);
+        List<String> lore = new ArrayList<>();
+        lore.add("Total: (" + entities.size() + "/" + region.getEntityLimitGroup().getTotalLimit() + ")");
+        for(EntityLimit entityLimit : region.getEntityLimitGroup().getEntityLimits()) {
+            lore.add(entityLimit.getEntityType().name() + ": (" + EntityLimitGroup.filterEntitys(entities, entityLimit.getEntityType()) + "/" + entityLimit.getAmount() + ")");
+        }
+
+        itemMeta.setLore(lore);
+
+        return itemStack;
     }
 }

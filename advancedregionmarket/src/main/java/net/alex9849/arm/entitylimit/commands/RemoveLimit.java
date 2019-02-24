@@ -41,6 +41,9 @@ public class RemoveLimit extends BasicArmCommand {
         if (!(sender instanceof Player)) {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
+        if (!sender.hasPermission(Permission.ADMIN_ENTITYLIMIT_REMOVE_LIMIT)) {
+            throw new InputException(sender, Messages.NO_PERMISSION);
+        }
         //TODO
         EntityLimitGroup entityLimitGroup = EntityLimitGroupManager.getEntityLimitGroup(args[1]);
         if(entityLimitGroup == null) {

@@ -103,6 +103,9 @@ public class RemoveLimit extends BasicArmCommand {
                             returnme.add(entityLimit.getEntityType().toString());
                         }
                     }
+                    if("total".startsWith(args[2])) {
+                        returnme.add("total");
+                    }
                 }
             }
         }

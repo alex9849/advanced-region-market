@@ -72,7 +72,6 @@ public class DeleteCommand extends BasicArmCommand {
             } else if((args.length == 2) && (args[0].equalsIgnoreCase(this.rootCommand))) {
                 if (this.rootCommand.startsWith(args[0])) {
                     returnme.addAll(EntityLimitGroupManager.tabCompleteEntityLimitGroups(args[1]));
-
                 }
             }
         }

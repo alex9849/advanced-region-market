@@ -9,6 +9,7 @@ import net.alex9849.arm.entitylimit.EntityLimitGroupManager;
 import net.alex9849.exceptions.InputException;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
@@ -94,6 +95,9 @@ public class AddLimitCommand extends BasicArmCommand {
                     if(entityType.toString().toLowerCase().startsWith(args[2])) {
                         returnme.add(entityType.toString());
                     }
+                }
+                if("total".startsWith(args[2])) {
+                    returnme.add("total");
                 }
             }
         }

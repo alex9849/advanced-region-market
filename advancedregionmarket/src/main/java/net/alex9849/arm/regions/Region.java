@@ -4,6 +4,7 @@ import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
+import net.alex9849.arm.entitylimit.EntityLimit;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.minifeatures.ParticleBorder;
@@ -15,9 +16,7 @@ import org.bukkit.*;
 import org.bukkit.Location;
 import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.util.Vector;
 
 import java.io.*;
@@ -716,6 +715,7 @@ public abstract class Region {
 
     public List<Entity> getInsideEntities(boolean includePlayers) {
         List<Entity> entities;
+        List<Entity> result = new ArrayList<>();
         Vector minPoint = this.getRegion().getMinPoint();
         Vector maxPoint = this.getRegion().getMaxPoint();
 
@@ -732,13 +732,59 @@ public abstract class Region {
 
         for(int i = 0; i < entities.size(); i++) {
             Location entityLoc = entities.get(i).getLocation();
-            boolean removeBecausePlayer = entities.get(i).getType() == EntityType.PLAYER;
-            removeBecausePlayer = removeBecausePlayer && (!includePlayers);
-            if((!this.getRegion().contains(entityLoc.getBlockX(), entityLoc.getBlockY(), entityLoc.getBlockZ())) || removeBecausePlayer) {
-                entities.remove(i);
-                i--;
+            boolean insideRegion = false;
+            boolean add = true;
+
+            if(this.getRegion().contains(entityLoc.getBlockX(), entityLoc.getBlockY(), entityLoc.getBlockZ())) {
+                insideRegion = true;
+            }
+
+            if((entities.get(i).getType() == EntityType.PLAYER) && !includePlayers) {
+                add = false;
+            }
+
+            if(insideRegion && add) {
+                result.add(entities.get(i));
+            }
+
+        }
+        return result;
+    }
+
+
+    public List<Entity> getFilteredInsideEntities(boolean includePlayers, boolean includeLivingEntity, boolean includeVehicles, boolean includeProjectiles, boolean includeAreaEffectCloud, boolean includeItemFrames) {
+
+        List<Entity> insideEntitys = this.getInsideEntities(includePlayers);
+        List<Entity> result = new ArrayList<>();
+
+        for(Entity selectedEntity : insideEntitys) {
+            boolean add = false;
+
+            if((selectedEntity instanceof LivingEntity) && includeLivingEntity && (selectedEntity.getType() != EntityType.PLAYER)) {
+                add = true;
+            }
+
+            if((selectedEntity instanceof Vehicle) && includeVehicles) {
+                add = true;
+            }
+
+            if((selectedEntity instanceof Projectile) && includeProjectiles) {
+                add = true;
+            }
+
+            if((selectedEntity instanceof AreaEffectCloud) && includeAreaEffectCloud) {
+                add = true;
+            }
+
+            if((selectedEntity instanceof ItemFrame) && includeItemFrames) {
+                add = true;
+            }
+
+            if(add) {
+                result.add(selectedEntity);
             }
         }
-        return entities;
+
+        return result;
     }
 }

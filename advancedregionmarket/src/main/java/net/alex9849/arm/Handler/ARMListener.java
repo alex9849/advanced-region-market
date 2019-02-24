@@ -18,6 +18,7 @@ import net.alex9849.arm.regions.price.RentPrice;
 import net.alex9849.inter.WGRegion;
 import org.bukkit.*;
 import org.bukkit.block.Sign;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -27,6 +28,7 @@ import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.vehicle.VehicleCreateEvent;
 import org.bukkit.plugin.Plugin;
 
 import java.sql.ResultSet;
@@ -471,10 +473,28 @@ public class ARMListener implements Listener {
         if(event.isCancelled()) {
             return;
         }
+        if(event.getEntityType() == EntityType.PLAYER) {
+            return;
+        }
+
         List<Region> regions = RegionManager.getRegionsByLocation(event.getLocation());
 
         for(Region region : regions) {
             if(region.getEntityLimitGroup().isLimitReached(region, event.getEntityType())) {
+                event.setCancelled(true);
+            }
+        }
+    }
+
+    @EventHandler
+    public void vehicleSpawnEvent(VehicleCreateEvent event) {
+        if(event.isCancelled()) {
+            return;
+        }
+        List<Region> regions = RegionManager.getRegionsByLocation(event.getVehicle().getLocation());
+
+        for(Region region : regions) {
+            if(region.getEntityLimitGroup().isLimitReached(region, event.getVehicle().getType())) {
                 event.setCancelled(true);
             }
         }

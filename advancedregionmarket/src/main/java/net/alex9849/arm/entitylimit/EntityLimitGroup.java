@@ -17,6 +17,12 @@ public class EntityLimitGroup {
 
 
     public EntityLimitGroup(List<EntityLimit> entityLimits, int totalLimit, String name) {
+        if(totalLimit == -1) {
+            totalLimit = Integer.MAX_VALUE;
+        }
+        if(totalLimit < 0) {
+            totalLimit = totalLimit * (-1);
+        }
         this.entityLimits = entityLimits;
         this.name = name;
         this.totalLimit = totalLimit;
@@ -28,7 +34,7 @@ public class EntityLimitGroup {
         int maxEntitiesWithThisType = this.getLimit(entityType);
 
         int matchingEntities = 0;
-        List<Entity> regionEntities = region.getInsideEntities(false);
+        List<Entity> regionEntities = region.getFilteredInsideEntities(false, true, true, false, false, true);
         for(Entity entity : regionEntities) {
             if(entity.getType() == entityType) {
                 matchingEntities++;

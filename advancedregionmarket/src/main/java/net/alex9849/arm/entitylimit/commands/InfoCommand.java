@@ -40,7 +40,7 @@ public class InfoCommand extends BasicArmCommand {
         if (!(sender instanceof Player)) {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
-        if (!sender.hasPermission(Permission.ADMIN_ENTITYLIMIT_INFO)) {
+        if (!sender.hasPermission(Permission.MEMBER_ENTITYLIMIT_INFO)) {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
         EntityLimitGroup entityLimitGroup = EntityLimitGroupManager.getEntityLimitGroup(args[1]);
@@ -67,7 +67,7 @@ public class InfoCommand extends BasicArmCommand {
     @Override
     public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
-        if (!player.hasPermission(Permission.ADMIN_ENTITYLIMIT_INFO)) {
+        if (!player.hasPermission(Permission.MEMBER_ENTITYLIMIT_INFO)) {
             return returnme;
         }
 

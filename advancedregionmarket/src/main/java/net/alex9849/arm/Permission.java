@@ -63,7 +63,6 @@ public class Permission {
     public static final String ADMIN_ENTITYLIMIT_ADD_LIMIT = "arm.admin.entitylimit.addlimit";
     public static final String ADMIN_ENTITYLIMIT_REMOVE_LIMIT = "arm.admin.entitylimit.removelimit";
     public static final String ADMIN_ENTITYLIMIT_LIST = "arm.admin.entitylimit.list";
-    public static final String ADMIN_ENTITYLIMIT_INFO = "arm.admin.entitylimit.info";
     public static final String ADMIN_SET_ENTITYLIMIT = "arm.admin.setentitylimit";
 
 
@@ -106,6 +105,7 @@ public class Permission {
     public static final String MEMBER_PROMOTE = "arm.member.promote";
     public static final String MEMBER_BUY = "arm.member.buy";
     public static final String MEMBER_REGIONFINDER = "arm.member.regionfinder";
+    public static final String MEMBER_ENTITYLIMIT_INFO = "arm.member.entitylimit.info";
 
     public static final String ARM_HELP = "arm.help";
     public static final String ARM_BUYKIND = "arm.buykind.";

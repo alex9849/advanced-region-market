@@ -1,7 +1,9 @@
 package net.alex9849.arm.entitylimit.commands;
 
 import net.alex9849.arm.Messages;
+import net.alex9849.arm.Permission;
 import net.alex9849.arm.commands.BasicArmCommand;
+import net.alex9849.arm.entitylimit.EntityLimit;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
 import net.alex9849.arm.entitylimit.EntityLimitGroupManager;
 import net.alex9849.exceptions.InputException;
@@ -75,6 +77,35 @@ public class RemoveLimit extends BasicArmCommand {
 
     @Override
     public List<String> onTabComplete(Player player, String[] args) {
-        return new ArrayList<>();
+        List<String> returnme = new ArrayList<>();
+        if (!player.hasPermission(Permission.ADMIN_ENTITYLIMIT_REMOVE_LIMIT)) {
+            return returnme;
+        }
+
+        if(args.length >= 1) {
+            if(args.length == 1) {
+                if (this.rootCommand.startsWith(args[0])) {
+                    returnme.add(this.rootCommand);
+                }
+            } else if((args.length == 2) && (args[0].equalsIgnoreCase(this.rootCommand))) {
+                if (this.rootCommand.startsWith(args[0])) {
+                    returnme.addAll(EntityLimitGroupManager.tabCompleteEntityLimitGroups(args[1]));
+
+                }
+            } else if((args.length == 3) && (args[0].equalsIgnoreCase(this.rootCommand))) {
+                if (this.rootCommand.startsWith(args[0])) {
+                    EntityLimitGroup entityLimitGroup = EntityLimitGroupManager.getEntityLimitGroup(args[1]);
+                    if(entityLimitGroup == null) {
+                        return returnme;
+                    }
+                    for(EntityLimit entityLimit : entityLimitGroup.getEntityLimits()) {
+                        if(entityLimit.getEntityType().toString().toLowerCase().startsWith(args[2])) {
+                            returnme.add(entityLimit.getEntityType().toString());
+                        }
+                    }
+                }
+            }
+        }
+        return returnme;
     }
 }

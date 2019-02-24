@@ -1,6 +1,7 @@
 package net.alex9849.arm.entitylimit.commands;
 
 import net.alex9849.arm.Messages;
+import net.alex9849.arm.Permission;
 import net.alex9849.arm.commands.BasicArmCommand;
 import net.alex9849.arm.entitylimit.EntityLimit;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
@@ -73,6 +74,29 @@ public class AddLimitCommand extends BasicArmCommand {
 
     @Override
     public List<String> onTabComplete(Player player, String[] args) {
-        return new ArrayList<>();
+        List<String> returnme = new ArrayList<>();
+        if (!player.hasPermission(Permission.ADMIN_ENTITYLIMIT_ADD_LIMIT)) {
+            return returnme;
+        }
+
+        if(args.length >= 1) {
+            if(args.length == 1) {
+                if (this.rootCommand.startsWith(args[0])) {
+                    returnme.add(this.rootCommand);
+                }
+            } else if((args.length == 2) && (args[0].equalsIgnoreCase(this.rootCommand))) {
+                if (this.rootCommand.startsWith(args[0])) {
+                    returnme.addAll(EntityLimitGroupManager.tabCompleteEntityLimitGroups(args[1]));
+
+                }
+            } else if((args.length == 3) && (args[0].equalsIgnoreCase(this.rootCommand))) {
+                for(EntityType entityType : EntityType.values()) {
+                    if(entityType.toString().toLowerCase().startsWith(args[2])) {
+                        returnme.add(entityType.toString());
+                    }
+                }
+            }
+        }
+        return returnme;
     }
 }

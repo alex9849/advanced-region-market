@@ -1,6 +1,7 @@
 package net.alex9849.arm.entitylimit.commands;
 
 import net.alex9849.arm.Messages;
+import net.alex9849.arm.Permission;
 import net.alex9849.arm.commands.BasicArmCommand;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
 import net.alex9849.arm.entitylimit.EntityLimitGroupManager;
@@ -39,10 +40,18 @@ public class DeleteCommand extends BasicArmCommand {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         //TODO
-        if(EntityLimitGroupManager.getEntityLimitGroup(args[1]) == null) {
+        EntityLimitGroup entityLimitGroup = EntityLimitGroupManager.getEntityLimitGroup(args[1]);
+        if(entityLimitGroup == null) {
             throw new InputException(sender, "Group does not exists!");
         }
-        EntityLimitGroupManager.remove(EntityLimitGroupManager.getEntityLimitGroup(args[1]));
+        if(entityLimitGroup == EntityLimitGroup.DEFAULT) {
+            throw new InputException(sender, "You can not remove a system-EntityLimitGroup!");
+        }
+        if(entityLimitGroup == EntityLimitGroup.SUBREGION) {
+            throw new InputException(sender, "You can not remove a system-EntityLimitGroup!");
+        }
+
+        EntityLimitGroupManager.remove(entityLimitGroup);
         //TODO
         sender.sendMessage(Messages.PREFIX + "Entitylimitgroup has been deleted");
         return true;
@@ -50,6 +59,23 @@ public class DeleteCommand extends BasicArmCommand {
 
     @Override
     public List<String> onTabComplete(Player player, String[] args) {
-        return new ArrayList<>();
+        List<String> returnme = new ArrayList<>();
+        if (!player.hasPermission(Permission.ADMIN_ENTITYLIMIT_DELETE)) {
+            return returnme;
+        }
+
+        if(args.length >= 1) {
+            if(args.length == 1) {
+                if (this.rootCommand.startsWith(args[0])) {
+                    returnme.add(this.rootCommand);
+                }
+            } else if((args.length == 2) && (args[0].equalsIgnoreCase(this.rootCommand))) {
+                if (this.rootCommand.startsWith(args[0])) {
+                    returnme.addAll(EntityLimitGroupManager.tabCompleteEntityLimitGroups(args[1]));
+
+                }
+            }
+        }
+        return returnme;
     }
 }

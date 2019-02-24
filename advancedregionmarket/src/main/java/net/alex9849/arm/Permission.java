@@ -59,6 +59,12 @@ public class Permission {
     public static final String ADMIN_SIGN_LINK_MODE = "arm.admin.signlinkmode";
 
     public static final String ADMIN_ENTITYLIMIT_CREATE = "arm.admin.entitylimit.create";
+    public static final String ADMIN_ENTITYLIMIT_DELETE = "arm.admin.entitylimit.delete";
+    public static final String ADMIN_ENTITYLIMIT_ADD_LIMIT = "arm.admin.entitylimit.addlimit";
+    public static final String ADMIN_ENTITYLIMIT_REMOVE_LIMIT = "arm.admin.entitylimit.removelimit";
+    public static final String ADMIN_ENTITYLIMIT_LIST = "arm.admin.entitylimit.list";
+    public static final String ADMIN_ENTITYLIMIT_INFO = "arm.admin.entitylimit.info";
+    public static final String ADMIN_SET_ENTITYLIMIT = "arm.admin.setentitylimit";
 
 
     public static final String SUBREGION_TOOL = "arm.subregion.tool";

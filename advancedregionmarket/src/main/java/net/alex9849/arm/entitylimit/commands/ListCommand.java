@@ -1,8 +1,8 @@
 package net.alex9849.arm.entitylimit.commands;
 
 import net.alex9849.arm.Messages;
+import net.alex9849.arm.Permission;
 import net.alex9849.arm.commands.BasicArmCommand;
-import net.alex9849.arm.entitylimit.EntityLimit;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
 import net.alex9849.arm.entitylimit.EntityLimitGroupManager;
 import net.alex9849.exceptions.InputException;
@@ -49,6 +49,15 @@ public class ListCommand extends BasicArmCommand {
 
     @Override
     public List<String> onTabComplete(Player player, String[] args) {
-        return new ArrayList<>();
+        List<String> returnme = new ArrayList<>();
+
+        if(args.length == 1) {
+            if (this.rootCommand.startsWith(args[0])) {
+                if (player.hasPermission(Permission.ADMIN_ENTITYLIMIT_LIST)) {
+                    returnme.add(this.rootCommand);
+                }
+            }
+        }
+        return returnme;
     }
 }

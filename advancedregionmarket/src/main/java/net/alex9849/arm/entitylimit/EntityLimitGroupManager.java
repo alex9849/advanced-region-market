@@ -21,9 +21,14 @@ public class EntityLimitGroupManager {
                 return entityLimitGroup;
             }
         }
-        if(EntityLimitGroup.DEFAULT.getName().equalsIgnoreCase(name)) {
+        if(EntityLimitGroup.DEFAULT.getName().equalsIgnoreCase(name) || "default".equalsIgnoreCase(name)) {
             return EntityLimitGroup.DEFAULT;
         }
+
+        if(EntityLimitGroup.SUBREGION.getName().equalsIgnoreCase(name) || "subregion".equalsIgnoreCase(name)) {
+            return EntityLimitGroup.SUBREGION;
+        }
+
         return null;
     }
 
@@ -46,33 +51,45 @@ public class EntityLimitGroupManager {
 
     public static void saveEntityLimits() {
         boolean writeToCfg = false;
+
         for(EntityLimitGroup entityLimitGroup : entityLimitGroups) {
             if(entityLimitGroup.needsSave()) {
-                saveEntityLimit(entityLimitGroup);
+                saveEntityLimit("EntityLimits." + entityLimitGroup.getName(), entityLimitGroup);
                 entityLimitGroup.setSaved();
                 writeToCfg = true;
             }
         }
+        if(EntityLimitGroup.DEFAULT.needsSave()) {
+            saveEntityLimit("DefaultEntityLimit", EntityLimitGroup.DEFAULT);
+            EntityLimitGroup.DEFAULT.setSaved();
+            writeToCfg = true;
+        }
+        if(EntityLimitGroup.SUBREGION.needsSave()) {
+            saveEntityLimit("SubregionEntityLimit", EntityLimitGroup.SUBREGION);
+            EntityLimitGroup.DEFAULT.setSaved();
+            writeToCfg = true;
+        }
+
         if(writeToCfg) {
             saveEntityLimitsConf();
         }
     }
 
-    private static void saveEntityLimit(EntityLimitGroup entityLimitGroup) {
-        entityLimitConf.set("EntityLimits." + entityLimitGroup.getName(), null);
+    private static void saveEntityLimit(String path, EntityLimitGroup entityLimitGroup) {
+        entityLimitConf.set(path, null);
         int totallimit = entityLimitGroup.getTotalLimit();
         if(totallimit == Integer.MAX_VALUE) {
             totallimit = -1;
         }
-        entityLimitConf.set("EntityLimits." + entityLimitGroup.getName() + ".total", totallimit);
+        entityLimitConf.set(path + ".total", totallimit);
         for(EntityLimit entityLimit : entityLimitGroup.getEntityLimits()) {
-            entityLimitConf.set("EntityLimits." + entityLimitGroup.getName() + "." + entityLimit.getEntityType(), entityLimit.getAmount());
+            entityLimitConf.set(path + "." + entityLimit.getEntityType(), entityLimit.getAmount());
         }
     }
 
     public static void add(EntityLimitGroup entityLimitGroup) {
         entityLimitGroups.add(entityLimitGroup);
-        saveEntityLimit(entityLimitGroup);
+        saveEntityLimit("EntityLimits." + entityLimitGroup.getName() , entityLimitGroup);
         saveEntityLimitsConf();
     }
 
@@ -164,5 +181,25 @@ public class EntityLimitGroupManager {
 
     public static List<EntityLimitGroup> getEntityLimitGroups() {
         return entityLimitGroups;
+    }
+
+    public static List<String> tabCompleteEntityLimitGroups(String name) {
+        List<String> returnme = new ArrayList<>();
+
+        for(EntityLimitGroup entityLimitGroup : entityLimitGroups) {
+            if(entityLimitGroup.getName().startsWith(name)) {
+                returnme.add(entityLimitGroup.getName());
+            }
+        }
+
+        if("default".startsWith(name)) {
+            returnme.add("Default");
+        }
+
+        if("subregion".startsWith(name)) {
+            returnme.add("Subregion");
+        }
+
+        return returnme;
     }
 }

@@ -1,6 +1,7 @@
 package net.alex9849.arm.entitylimit.commands;
 
 import net.alex9849.arm.Messages;
+import net.alex9849.arm.Permission;
 import net.alex9849.arm.commands.BasicArmCommand;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
 import net.alex9849.arm.entitylimit.EntityLimitGroupManager;
@@ -51,6 +52,15 @@ public class CreateCommand extends BasicArmCommand {
 
     @Override
     public List<String> onTabComplete(Player player, String[] args) {
-        return new ArrayList<>();
+        List<String> returnme = new ArrayList<>();
+
+        if(args.length == 1) {
+            if (this.rootCommand.startsWith(args[0])) {
+                if (player.hasPermission(Permission.ADMIN_ENTITYLIMIT_DELETE)) {
+                    returnme.add(this.rootCommand);
+                }
+            }
+        }
+        return returnme;
     }
 }

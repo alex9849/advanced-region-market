@@ -194,6 +194,11 @@ public abstract class Region {
         return this.entityLimitGroup;
     }
 
+    public void setEntityLimitGroup(EntityLimitGroup entityLimitGroup) {
+        this.entityLimitGroup = entityLimitGroup;
+        this.queueSave();
+    }
+
     public void addSign(Location loc){
         Sign newsign = (Sign) loc.getBlock().getState();
         sellsign.add(newsign);

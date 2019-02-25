@@ -620,6 +620,7 @@ public class Gui implements Listener {
                 @Override
                 public void execute(Player player) {
                     openRentRegionManagerOwner(player, region);
+                    net.alex9849.arm.entitylimit.commands.InfoCommand.sendInfoToPlayer(player, region.getEntityLimitGroup());
                 }
             });
             inv.addIcon(infoicon, getPosition(actitem, itemcounter));
@@ -799,6 +800,7 @@ public class Gui implements Listener {
                 @Override
                 public void execute(Player player) {
                     openContractRegionManagerOwner(player, region);
+                    net.alex9849.arm.entitylimit.commands.InfoCommand.sendInfoToPlayer(player, region.getEntityLimitGroup());
                 }
             });
             inv.addIcon(infoicon, getPosition(actitem, itemcounter));
@@ -1969,6 +1971,7 @@ public class Gui implements Listener {
         for(int i = 0; i < lore.size(); i++) {
             lore.set(i, region.getConvertedMessage(lore.get(i)));
             if(lore.get(i).contains("%entityinfopattern%")) {
+                lore.remove(i);
                 lore.addAll(i, limitlist);
             }
         }

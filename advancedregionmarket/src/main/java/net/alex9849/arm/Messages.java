@@ -297,7 +297,7 @@ public class Messages {
     public static String SUB_REGION_ENTITYLIMITGROUP_ERROR = "&4Could not change EntiyLimitGroup for the region &6%regionid%&4! Region is a Subregion!";
     public static String GUI_ENTITYLIMIT_ITEM_BUTTON = "&6EntityLimits";
     public static List<String> GUI_ENTITYLIMIT_ITEM_LORE = new ArrayList<String>(Arrays.asList("&6Click to display the entity-limits", "&6for this region in chat", "%entityinfopattern%"));
-    public static String GUI_ENTITYLIMIT_ITEM_INFO_PATTERN = "\n&6%entitytype%: &a(&r%actualentitys%&a/&r%maxentitys%&a)";
+    public static String GUI_ENTITYLIMIT_ITEM_INFO_PATTERN = "&6%entitytype%: &a(&r%actualentitys%&a/&r%maxentitys%&a)";
 
 
 

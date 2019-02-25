@@ -1,12 +1,10 @@
 package net.alex9849.arm.entitylimit.commands;
 
-import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.commands.BasicArmCommand;
 import net.alex9849.arm.entitylimit.EntityLimit;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
-import net.alex9849.arm.entitylimit.EntityLimitGroupManager;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.RegionManager;
@@ -60,11 +58,18 @@ public class CheckCommand extends BasicArmCommand {
         }
         List<Entity> entities = region.getFilteredInsideEntities(false, true, true, false, false, true, true);
 
-        //TODO
-        player.sendMessage(region.getConvertedMessage("===[EntityLimitCheck for %regionid%]==="));
-        player.sendMessage("Total: (" + entities.size() + "/" + EntityLimitGroup.intToLimitString(region.getEntityLimitGroup().getTotalLimit()) + ")");
+        player.sendMessage(region.getConvertedMessage(Messages.ENTITYLIMIT_CHECK_HEADLINE));
+        String totalstatus = Messages.ENTITYLIMIT_CHECK_PATTERN;
+        totalstatus = totalstatus.replace("%entitytype%", Messages.ENTITYLIMIT_TOTAL);
+        totalstatus = totalstatus.replace("%actualentitys%", entities.size() + "");
+        totalstatus = totalstatus.replace("%maxentitys%", EntityLimitGroup.intToLimitString(region.getEntityLimitGroup().getTotalLimit()));
+        player.sendMessage(totalstatus);
         for(EntityLimit entityLimit : region.getEntityLimitGroup().getEntityLimits()) {
-            player.sendMessage(entityLimit.getEntityType().name() + ": (" + EntityLimitGroup.filterEntitys(entities, entityLimit.getEntityType()).size() + "/" + EntityLimitGroup.intToLimitString(entityLimit.getAmount()) + ")");
+            String entitystatus = Messages.ENTITYLIMIT_CHECK_PATTERN;
+            entitystatus = entitystatus.replace("%entitytype%", Messages.ENTITYLIMIT_TOTAL);
+            entitystatus = entitystatus.replace("%actualentitys%", EntityLimitGroup.filterEntitys(entities, entityLimit.getEntityType()).size() + "");
+            entitystatus = entitystatus.replace("%maxentitys%", EntityLimitGroup.intToLimitString(entityLimit.getAmount()));
+            player.sendMessage(entitystatus);
         }
         return true;
     }

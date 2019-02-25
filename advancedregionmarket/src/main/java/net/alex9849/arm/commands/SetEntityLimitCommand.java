@@ -61,7 +61,7 @@ public class SetEntityLimitCommand extends BasicArmCommand {
                 throw new InputException(sender, Messages.REGIONKIND_DOES_NOT_EXIST);
             }
             regions = RegionManager.getRegionsByRegionKind(selectedRegionkind);
-            selectedName = "&6all regions with regionkind &a" + selectedRegionkind.getName();
+            selectedName = Messages.MASSACTION_SPLITTER.replace("%regionkind%", selectedRegionkind.getName());
         } else {
             Region selectedRegion = RegionManager.getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
             if(selectedRegion == null){
@@ -75,17 +75,17 @@ public class SetEntityLimitCommand extends BasicArmCommand {
         EntityLimitGroup entityLimitGroup = EntityLimitGroupManager.getEntityLimitGroup(args[2]);
 
         if(entityLimitGroup == null) {
-            throw new InputException(player, "Entitylimitgroup does not exist!");
+            throw new InputException(player, Messages.ENTITYLIMITGROUP_DOES_NOT_EXIST);
         }
 
         if(entityLimitGroup == EntityLimitGroup.SUBREGION) {
-            throw new InputException(player, "Subregion-EntityLimitGroup only is only for subregions!");
+            throw new InputException(player, Messages.ENTITYLIMITGROUP_SUBREGION_GROUP_ONLY_FOR_SUBREGIONS);
         }
 
         for(Region region : regions) {
             region.setEntityLimitGroup(entityLimitGroup);
             if(region.isSubregion()) {
-                throw new InputException(sender, "Could not change EntityLimitGroup for the region " + region.getRegion().getId() + "! Region is a Subregion!");
+                throw new InputException(sender, region.getConvertedMessage(Messages.SUB_REGION_ENTITYLIMITGROUP_ERROR));
             }
         }
         String sendmessage = Messages.PREFIX + "&6Set entityLimitGroup &a" + entityLimitGroup.getName() + " &6for " + selectedName + "&6!";

@@ -42,8 +42,7 @@ public class ListCommand extends BasicArmCommand {
         if (!sender.hasPermission(Permission.ADMIN_ENTITYLIMIT_LIST)) {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
-        //TODO
-        sender.sendMessage("EntityLimitGroups:");
+        sender.sendMessage(Messages.ENTITYLIMITGROUP_LIST_HEADLINE);
         for(EntityLimitGroup entityLimitGroup : EntityLimitGroupManager.getEntityLimitGroups()) {
             sender.sendMessage("- " + entityLimitGroup.getName());
         }

@@ -274,6 +274,31 @@ public class Messages {
     public static String SCHEMATIC_NOT_FOUND_ERROR_USER = "&4It seems like the schematic of your region %regionid% has not been created. Please contact an admin!";
     public static String SCHEMATIC_NOT_FOUND_ERROR_ADMIN = "&4Could not find schematic for %regionid%";
 
+    public static String ENTITYLIMIT_HELP_HEADLINE = "&6=====[AdvancedRegionMarket EntityLimit Help ]=====\n&3Page %actualpage% / %maxpage%";
+    public static String ENTITYLIMITGROUP_DOES_NOT_EXIST = "&4EntityLimitGroup does not exist!";
+    public static String ENTITYLIMIT_SET = "&aEntityLimit has been set!";
+    public static String ENTITYLIMIT_REMOVED = "&aEntityLimit has been removed!";
+    public static String ENTITYTYPE_DOES_NOT_EXIST = "&4The entitytype &6%entitytype% &4 does not exist!";
+    public static String ENTITYLIMITGROUP_DOES_NOT_CONTAIN_ENTITYLIMIT = "&4The selected EntityLimitGroup does not contain the selected EntityType";
+    public static String ENTITYLIMIT_TOTAL = "Total";
+    public static String ENTITYLIMIT_CHECK_HEADLINE = "===[EntityLimitCheck for %regionid%]===";
+    public static String ENTITYLIMIT_CHECK_PATTERN = "&6%entitytype%: &a(&r%actualentitys%&a/&r%maxentitys%&a)";
+    public static String ENTITYLIMITGROUP_ALREADY_EXISTS = "&4Group already exists!";
+    public static String ENTITYLIMITGROUP_CREATED = "&aEntitylimitgroup has been created!";
+    public static String ENTITYLIMITGROUP_CAN_NOT_REMOVE_SYSTEM = "&4You can not remove a system-EntityLimitGroup!";
+    public static String ENTITYLIMITGROUP_DELETED = "&aEntitylimitgroup has been deleted!";
+    public static String ENTITYLIMITGROUP_INFO_HEADLINE = "&6======[Entitylimitgroup Info]======";
+    public static String ENTITYLIMITGROUP_INFO_GROUPNAME = "&6Groupname: ";
+    public static String ENTITYLIMITGROUP_INFO_PATTERN = "&6%entitytype%: &r%maxentitys%";
+    public static String ENTITYLIMITGROUP_LIST_HEADLINE = "&6EntityLimitGroups:";
+    public static String REGION_INFO_ENTITYLIMITGROUP = "&6EntityLimitGroup: ";
+    public static String ENTITYLIMITGROUP_SUBREGION_GROUP_ONLY_FOR_SUBREGIONS = "&4SubregionEntityLimitGroup only for subregions";
+    public static String MASSACTION_SPLITTER = "&6all regions with regionkind &a%regionkind%";
+    public static String SUB_REGION_ENTITYLIMITGROUP_ERROR = "&4Could not change EntiyLimitGroup for the region &6%regionid%&4! Region is a Subregion!";
+    public static String GUI_ENTITYLIMIT_ITEM_BUTTON = "&6EntityLimits";
+    public static List<String> GUI_ENTITYLIMIT_ITEM_LORE = new ArrayList<String>(Arrays.asList("&6Click to display the entity-limits", "&6for this region in chat", "%entityinfopattern%"));
+    public static String GUI_ENTITYLIMIT_ITEM_INFO_PATTERN = "\n&6%entitytype%: &a(&r%actualentitys%&a/&r%maxentitys%&a)";
+
 
 
     public static List<String> GUI_TELEPORT_TO_REGION_BUTTON_LORE = new ArrayList<>();

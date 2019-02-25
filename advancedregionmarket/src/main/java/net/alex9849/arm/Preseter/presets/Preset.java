@@ -149,8 +149,7 @@ public abstract class Preset {
         player.sendMessage(Messages.REGION_INFO_PRICE + price);
         this.getAdditionalInfo(player);
         player.sendMessage(Messages.REGION_INFO_TYPE + regKind.getName());
-        //TODO
-        player.sendMessage("EntityLimitGroup: " + entityLimitGroup.getName());
+        player.sendMessage(Messages.REGION_INFO_ENTITYLIMITGROUP + entityLimitGroup.getName());
         player.sendMessage(Messages.REGION_INFO_AUTORESET + this.isAutoReset());
         player.sendMessage(Messages.REGION_INFO_HOTEL + this.isHotel());
         player.sendMessage(Messages.REGION_INFO_DO_BLOCK_RESET + this.isDoBlockReset());

@@ -260,6 +260,7 @@ public class Gui implements Listener {
                 @Override
                 public void execute(Player player) {
                     openSellRegionManagerOwner(player, region);
+                    net.alex9849.arm.entitylimit.commands.InfoCommand.sendInfoToPlayer(player, region.getEntityLimitGroup());
                 }
             });
             inv.addIcon(infoicon, getPosition(actitem, itemcounter));
@@ -1946,19 +1947,34 @@ public class Gui implements Listener {
     public static ItemStack getEntityLintGroupItem(Region region) {
         ItemStack itemStack = new ItemStack(Material.CHICKEN_SPAWN_EGG);
         ItemMeta itemMeta = itemStack.getItemMeta();
-        //TODO
-        itemMeta.setDisplayName("EntityLimits");
+        itemMeta.setDisplayName(Messages.GUI_ENTITYLIMIT_ITEM_BUTTON);
 
         List<Entity> entities = region.getFilteredInsideEntities(false, true, true, false, false, true, true);
-        List<String> lore = new ArrayList<>();
-        lore.add("Total: (" + entities.size() + "/" + EntityLimitGroup.intToLimitString(region.getEntityLimitGroup().getTotalLimit()) + ")");
+        List<String> lore = Messages.GUI_ENTITYLIMIT_ITEM_LORE;
+        List<String> limitlist = new ArrayList<>();
+        String totallimit = Messages.GUI_ENTITYLIMIT_ITEM_INFO_PATTERN;
+        totallimit = totallimit.replace("%entitytype%", Messages.ENTITYLIMIT_TOTAL);
+        totallimit = totallimit.replace("%actualentitys%", entities.size() + "");
+        totallimit = totallimit.replace("%maxentitys%", EntityLimitGroup.intToLimitString(region.getEntityLimitGroup().getTotalLimit()));
+        limitlist.add(totallimit);
+
         for(EntityLimit entityLimit : region.getEntityLimitGroup().getEntityLimits()) {
-            lore.add(entityLimit.getEntityType().name() + ": (" + EntityLimitGroup.filterEntitys(entities, entityLimit.getEntityType()).size() + "/" + EntityLimitGroup.intToLimitString(entityLimit.getAmount()) + ")");
+            String entitylimitstring = Messages.GUI_ENTITYLIMIT_ITEM_INFO_PATTERN;
+            entitylimitstring = entitylimitstring.replace("%entitytype%", entityLimit.getEntityType().name());
+            entitylimitstring = entitylimitstring.replace("%actualentitys%", EntityLimitGroup.filterEntitys(entities, entityLimit.getEntityType()).size() + "");
+            entitylimitstring = entitylimitstring.replace("%maxentitys%", EntityLimitGroup.intToLimitString(entityLimit.getAmount()));
+            limitlist.add(entitylimitstring);
+        }
+
+        for(int i = 0; i < lore.size(); i++) {
+            lore.set(i, region.getConvertedMessage(lore.get(i)));
+            if(lore.get(i).contains("%entityinfopattern%")) {
+                lore.addAll(i, limitlist);
+            }
         }
 
         itemMeta.setLore(lore);
         itemStack.setItemMeta(itemMeta);
-
         return itemStack;
     }
 }

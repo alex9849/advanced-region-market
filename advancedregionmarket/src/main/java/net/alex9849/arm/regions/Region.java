@@ -368,8 +368,7 @@ public abstract class Region {
         sender.sendMessage(Messages.REGION_INFO_SOLD + Messages.convertYesNo(this.isSold()));
         sender.sendMessage(Messages.REGION_INFO_PRICE + this.price.calcPrice(this.getRegion()) + " " + Messages.CURRENCY);
         sender.sendMessage(Messages.REGION_INFO_TYPE + this.getRegionKind().getDisplayName());
-        //TODO
-        sender.sendMessage("EntityLimitGroup: " + this.getEntityLimitGroup().getName());
+        sender.sendMessage(Messages.REGION_INFO_ENTITYLIMITGROUP + this.getEntityLimitGroup().getName());
         sender.sendMessage(Messages.REGION_INFO_OWNER + owners);
         sender.sendMessage(Messages.REGION_INFO_MEMBERS + members);
         sender.sendMessage(Messages.REGION_INFO_HOTEL + Messages.convertYesNo(this.isHotel));

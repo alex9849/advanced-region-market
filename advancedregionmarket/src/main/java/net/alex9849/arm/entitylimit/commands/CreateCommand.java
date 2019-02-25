@@ -43,13 +43,11 @@ public class CreateCommand extends BasicArmCommand {
         if(!sender.hasPermission(Permission.ADMIN_ENTITYLIMIT_CREATE)) {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
-        //TODO
         if(EntityLimitGroupManager.getEntityLimitGroup(args[1]) != null) {
-            throw new InputException(sender, "Group already exists!");
+            throw new InputException(sender, Messages.ENTITYLIMITGROUP_ALREADY_EXISTS);
         }
         EntityLimitGroupManager.add(new EntityLimitGroup(new ArrayList<>(), -1, args[1]));
-        //TODO
-        sender.sendMessage(Messages.PREFIX + "Entitylimitgroup has been created");
+        sender.sendMessage(Messages.PREFIX + Messages.ENTITYLIMITGROUP_CREATED);
         return true;
     }
 

@@ -68,12 +68,11 @@ public class EntityLimitCommand extends BasicArmCommand {
 
         EntityLimitGroup entityLimitGroup = EntityLimitGroupManager.getEntityLimitGroup(args[1]);
         if(entityLimitGroup == null) {
-            //TODO
-            player.sendMessage(Messages.PREFIX + "EntityLimitGroup does not exist");
+            player.sendMessage(Messages.PREFIX + Messages.ENTITYLIMITGROUP_DOES_NOT_EXIST);
             return true;
         }
         if(entityLimitGroup == EntityLimitGroup.SUBREGION) {
-            throw new InputException(player, "SubregionEntityLimitGroup only for subregions");
+            throw new InputException(player, Messages.ENTITYLIMITGROUP_SUBREGION_GROUP_ONLY_FOR_SUBREGIONS);
         }
 
         preset.setEntityLimitGroup(entityLimitGroup);

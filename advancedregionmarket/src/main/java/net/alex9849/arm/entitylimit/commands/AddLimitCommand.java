@@ -9,7 +9,6 @@ import net.alex9849.arm.entitylimit.EntityLimitGroupManager;
 import net.alex9849.exceptions.InputException;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
@@ -45,21 +44,20 @@ public class AddLimitCommand extends BasicArmCommand {
         if (!sender.hasPermission(Permission.ADMIN_ENTITYLIMIT_ADD_LIMIT)) {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
-        //TODO
         EntityLimitGroup entityLimitGroup = EntityLimitGroupManager.getEntityLimitGroup(args[1]);
         if(entityLimitGroup == null) {
-            throw new InputException(sender, "Group does not exists!");
+            throw new InputException(sender, Messages.ENTITYLIMITGROUP_DOES_NOT_EXIST);
         }
 
         if(args[2].equalsIgnoreCase("total")) {
             entityLimitGroup.setTotalLimit(Integer.parseInt(args[3]));
-            sender.sendMessage(Messages.PREFIX + "Entitylimit has been set!");
+            sender.sendMessage(Messages.PREFIX + Messages.ENTITYLIMIT_SET);
         } else {
             EntityType entityType = null;
             try {
                 entityType = EntityType.valueOf(args[2]);
             } catch (IllegalArgumentException e) {
-                throw new InputException(sender, "The entitytype " + args[2] + " does not exist!");
+                throw new InputException(sender, Messages.ENTITYTYPE_DOES_NOT_EXIST.replace("%entitytype%", args[2]));
             }
 
 
@@ -71,7 +69,7 @@ public class AddLimitCommand extends BasicArmCommand {
             }
             entityLimitGroup.getEntityLimits().add(new EntityLimit(entityType, Integer.parseInt(args[3])));
             entityLimitGroup.queueSave();
-            sender.sendMessage(Messages.PREFIX + "Entitylimit has been set!");
+            sender.sendMessage(Messages.PREFIX + Messages.ENTITYLIMIT_SET);
         }
         return true;
     }

@@ -42,21 +42,19 @@ public class DeleteCommand extends BasicArmCommand {
         if (!sender.hasPermission(Permission.ADMIN_ENTITYLIMIT_DELETE)) {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
-        //TODO
         EntityLimitGroup entityLimitGroup = EntityLimitGroupManager.getEntityLimitGroup(args[1]);
         if(entityLimitGroup == null) {
-            throw new InputException(sender, "Group does not exists!");
+            throw new InputException(sender, Messages.ENTITYLIMITGROUP_DOES_NOT_EXIST);
         }
         if(entityLimitGroup == EntityLimitGroup.DEFAULT) {
-            throw new InputException(sender, "You can not remove a system-EntityLimitGroup!");
+            throw new InputException(sender, Messages.ENTITYLIMITGROUP_CAN_NOT_REMOVE_SYSTEM);
         }
         if(entityLimitGroup == EntityLimitGroup.SUBREGION) {
-            throw new InputException(sender, "You can not remove a system-EntityLimitGroup!");
+            throw new InputException(sender, Messages.ENTITYLIMITGROUP_CAN_NOT_REMOVE_SYSTEM);
         }
 
         EntityLimitGroupManager.remove(entityLimitGroup);
-        //TODO
-        sender.sendMessage(Messages.PREFIX + "Entitylimitgroup has been deleted");
+        sender.sendMessage(Messages.PREFIX + Messages.ENTITYLIMITGROUP_DELETED);
         return true;
     }
 

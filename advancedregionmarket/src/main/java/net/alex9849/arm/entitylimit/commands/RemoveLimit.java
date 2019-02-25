@@ -44,22 +44,21 @@ public class RemoveLimit extends BasicArmCommand {
         if (!sender.hasPermission(Permission.ADMIN_ENTITYLIMIT_REMOVE_LIMIT)) {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
-        //TODO
         EntityLimitGroup entityLimitGroup = EntityLimitGroupManager.getEntityLimitGroup(args[1]);
         if(entityLimitGroup == null) {
-            throw new InputException(sender, "Group does not exists!");
+            throw new InputException(sender, Messages.ENTITYLIMITGROUP_DOES_NOT_EXIST);
         }
 
         if(args[2].equalsIgnoreCase("total")) {
             entityLimitGroup.setTotalLimit(Integer.MAX_VALUE);
-            sender.sendMessage(Messages.PREFIX + "Entitylimit has been removed!");
+            sender.sendMessage(Messages.PREFIX + Messages.ENTITYLIMIT_REMOVED);
             return true;
         } else {
             EntityType entityType = null;
             try {
                 entityType = EntityType.valueOf(args[2]);
             } catch (IllegalArgumentException e) {
-                throw new InputException(sender, "The entitytype " + args[2] + " does not exist!");
+                throw new InputException(sender, Messages.ENTITYTYPE_DOES_NOT_EXIST.replace("%entitytype%", args[2]));
             }
 
 
@@ -67,15 +66,13 @@ public class RemoveLimit extends BasicArmCommand {
                 if(entityLimitGroup.getEntityLimits().get(i).getEntityType() == entityType) {
                     entityLimitGroup.getEntityLimits().remove(i);
                     entityLimitGroup.queueSave();
-                    //TODO
-                    sender.sendMessage(Messages.PREFIX + "Entitylimit has been removed!");
+                    sender.sendMessage(Messages.PREFIX + Messages.ENTITYLIMIT_REMOVED);
                     return true;
                 }
             }
         }
 
-        //TODO
-        throw new InputException(sender, "The selected entitylimitgroup does not contain the selected entitytype");
+        throw new InputException(sender, Messages.ENTITYLIMITGROUP_DOES_NOT_CONTAIN_ENTITYLIMIT);
     }
 
     @Override

@@ -40,27 +40,16 @@ public class InfoCommand extends BasicArmCommand {
         if (!(sender instanceof Player)) {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
+        Player player = (Player) sender;
         if (!sender.hasPermission(Permission.MEMBER_ENTITYLIMIT_INFO)) {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
         EntityLimitGroup entityLimitGroup = EntityLimitGroupManager.getEntityLimitGroup(args[1]);
-        //TODO
         if(entityLimitGroup == null) {
-            throw new InputException(sender, "Group does not exist!");
+            throw new InputException(sender, Messages.ENTITYLIMITGROUP_DOES_NOT_EXIST);
         }
 
-        String total = Messages.UNLIMITED;
-        if(entityLimitGroup.getTotalLimit() != Integer.MAX_VALUE) {
-            total = "" + entityLimitGroup.getTotalLimit();
-        }
-        //TODO
-        sender.sendMessage("======Entitylimitgroup Info======");
-        sender.sendMessage("Groupname: " + entityLimitGroup.getName());
-        sender.sendMessage("Limits:");
-        sender.sendMessage("TOTAL: " + total);
-        for(EntityLimit entityLimit : entityLimitGroup.getEntityLimits()) {
-            sender.sendMessage(entityLimit.getEntityType() + ": " + entityLimit.getAmount());
-        }
+        sendInfoToPlayer(player, entityLimitGroup);
         return true;
     }
 
@@ -84,5 +73,24 @@ public class InfoCommand extends BasicArmCommand {
             }
         }
         return returnme;
+    }
+
+    public static void sendInfoToPlayer(Player player, EntityLimitGroup entityLimitGroup) {
+        String total = Messages.UNLIMITED;
+        if(entityLimitGroup.getTotalLimit() != Integer.MAX_VALUE) {
+            total = "" + entityLimitGroup.getTotalLimit();
+        }
+        player.sendMessage(Messages.ENTITYLIMITGROUP_INFO_HEADLINE);
+        player.sendMessage(Messages.ENTITYLIMITGROUP_INFO_GROUPNAME + entityLimitGroup.getName());
+        String totalinfo = Messages.ENTITYLIMITGROUP_INFO_PATTERN;
+        totalinfo = totalinfo.replace("%entitytype%", Messages.ENTITYLIMIT_TOTAL);
+        totalinfo = totalinfo.replace("%maxentitys%", total);
+        player.sendMessage(totalinfo);
+        for(EntityLimit entityLimit : entityLimitGroup.getEntityLimits()) {
+            String entityinfo = Messages.ENTITYLIMITGROUP_INFO_PATTERN;
+            entityinfo = entityinfo.replace("%entitytype%", entityLimit.getEntityType().name());
+            entityinfo = entityinfo.replace("%maxentitys%", entityLimit.getAmount() + "");
+            player.sendMessage(entityinfo);
+        }
     }
 }

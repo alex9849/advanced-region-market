@@ -1953,24 +1953,24 @@ public class Gui implements Listener {
         List<Entity> entities = region.getFilteredInsideEntities(false, true, true, false, false, true, true);
         List<String> lore = Messages.GUI_ENTITYLIMIT_ITEM_LORE;
         List<String> limitlist = new ArrayList<>();
-        String totallimit = Messages.GUI_ENTITYLIMIT_ITEM_INFO_PATTERN;
-        totallimit = totallimit.replace("%entitytype%", Messages.ENTITYLIMIT_TOTAL);
-        totallimit = totallimit.replace("%actualentitys%", entities.size() + "");
-        totallimit = totallimit.replace("%softlimitentitys%", EntityLimitGroup.intToLimitString(region.getEntityLimitGroup().getSoftLimit()));
-        totallimit = totallimit.replace("%hardlimitentitys%", EntityLimitGroup.intToLimitString(region.getEntityLimitGroup().getHardLimit()));
-        totallimit = totallimit.replace("%priceperextraentity%", region.getEntityLimitGroup().getPricePerExtraEntity() + "");
-        totallimit = totallimit.replace("%currency%", Messages.CURRENCY);
-        limitlist.add(totallimit);
+
+        String totalstatus = region.getEntityLimitGroup().getConvertedMessage(Messages.GUI_ENTITYLIMIT_ITEM_INFO_PATTERN, new ArrayList<>());
+        if(region.getEntityLimitGroup().getSoftLimit() < region.getEntityLimitGroup().getHardLimit()) {
+            totalstatus = totalstatus.replace("%entityextensioninfo%", region.getEntityLimitGroup().getConvertedMessage(Messages.GUI_ENTITYLIMIT_ITEM_INFO_EXTENSION_INFO, new ArrayList<>()));
+        } else {
+            totalstatus = totalstatus.replace("%entityextensioninfo%", "");
+        }
+
+        limitlist.add(totalstatus);
 
         for(EntityLimit entityLimit : region.getEntityLimitGroup().getEntityLimits()) {
-            String entitylimitstring = Messages.GUI_ENTITYLIMIT_ITEM_INFO_PATTERN;
-            entitylimitstring = entitylimitstring.replace("%entitytype%", entityLimit.getEntityType().name());
-            entitylimitstring = entitylimitstring.replace("%actualentitys%", EntityLimitGroup.filterEntitys(entities, entityLimit.getEntityType()).size() + "");
-            entitylimitstring = entitylimitstring.replace("%softlimitentitys%", EntityLimitGroup.intToLimitString(entityLimit.getSoftLimit()));
-            entitylimitstring = entitylimitstring.replace("%hardlimitentitys%", EntityLimitGroup.intToLimitString(entityLimit.getHardLimit()));
-            entitylimitstring = entitylimitstring.replace("%priceperextraentity%", entityLimit.getPricePerExtraEntity() + "");
-            entitylimitstring = entitylimitstring.replace("%currency%", Messages.CURRENCY);
-            limitlist.add(entitylimitstring);
+            String entitystatus = entityLimit.getConvertedMessage(Messages.GUI_ENTITYLIMIT_ITEM_INFO_PATTERN, new ArrayList<>());
+            if(entityLimit.getSoftLimit() < entityLimit.getHardLimit()) {
+                entitystatus = entitystatus.replace("%entityextensioninfo%", entityLimit.getConvertedMessage(Messages.GUI_ENTITYLIMIT_ITEM_INFO_EXTENSION_INFO, new ArrayList<>()));
+            } else {
+                entitystatus = entitystatus.replace("%entityextensioninfo%", "");
+            }
+            limitlist.add(entitystatus);
         }
 
         for(int i = 0; i < lore.size(); i++) {

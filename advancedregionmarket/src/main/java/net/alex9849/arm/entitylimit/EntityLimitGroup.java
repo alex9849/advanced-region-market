@@ -32,6 +32,9 @@ public class EntityLimitGroup {
         if(hardTotal < 0) {
             hardTotal = hardTotal * (-1);
         }
+        if(hardTotal < softTotal) {
+            hardTotal = softTotal;
+        }
         if(pricePerExtraEntity < 0) {
             pricePerExtraEntity = 0;
         }

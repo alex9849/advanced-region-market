@@ -19,6 +19,9 @@ public class EntityLimit {
         if(hardlimit < 0) {
             hardlimit = hardlimit * (-1);
         }
+        if(hardlimit < softlimit) {
+            hardlimit = softlimit;
+        }
         if(pricePerExtraEntity < 0) {
             pricePerExtraEntity = 0;
         }

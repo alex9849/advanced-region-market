@@ -214,7 +214,7 @@ public class PresetPatternManager {
         section.addDefault("regionKind", "Default");
         section.addDefault("isHotel", false);
         section.addDefault("doBlockReset", true);
-        section.addDefault("entityLimitGroup", "default");
+        section.addDefault("entityLimitGroup", "Default");
         section.addDefault("autoreset", true);
         section.addDefault("isUserResettable", true);
         section.addDefault("allowedSubregions", 0);

@@ -37,6 +37,7 @@ public class Permission {
     public static final String ADMIN_PRESET_SET_HOTEL = "arm.admin.preset.sethotel";
     public static final String ADMIN_PRESET_SET_DOBLOCKRESET = "arm.admin.preset.setdoblockreset";
     public static final String ADMIN_PRESET_SET_AUTOPRICE = "arm.admin.preset.setautoprice";
+    public static final String ADMIN_PRESET_SET_ENTITYLIMIT = "arm.admin.set.entitylimit";
     public static final String ADMIN_PRESET_INFO = "arm.admin.preset.info";
     public static final String ADMIN_PRESET_RESET = "arm.admin.preset.reset";
     public static final String ADMIN_PRESET_HELP = "arm.admin.preset.help";

@@ -592,6 +592,32 @@ public class Messages {
         SIGN_LINK_MODE_NO_WG_REGION_SELECTED = config.getString("Messages.SignLinkModeNoWgRegionSelected");
         SIGN_LINK_MODE_REGION_SELECTED = config.getString("Messages.SignLinkModeSelectedRegion");
 
+        ENTITYLIMIT_HELP_HEADLINE = config.getString("Messages.EntityLimitHelpHeadline");
+        ENTITYLIMITGROUP_DOES_NOT_EXIST = config.getString("Messages.EntityLimitGroupNotExist");
+        ENTITYLIMIT_SET = config.getString("Messages.EntityLimitSet");
+        ENTITYLIMIT_REMOVED = config.getString("Messages.EntityLimitRemoved");
+        ENTITYTYPE_DOES_NOT_EXIST = config.getString("Messages.EntityTypeDoesNotExist");
+        ENTITYLIMITGROUP_DOES_NOT_CONTAIN_ENTITYLIMIT = config.getString("Messages.EntityLimitGroupNotContainEntityLimit");
+        ENTITYLIMIT_TOTAL = config.getString("Messages.EntityLimitTotal");
+        ENTITYLIMIT_CHECK_HEADLINE = config.getString("Messages.EntityLimitCheckHeadline");
+        ENTITYLIMIT_CHECK_PATTERN = config.getString("Messages.EntityLimitCheckPattern");
+        ENTITYLIMITGROUP_ALREADY_EXISTS = config.getString("Messages.EntityLimitGroupAlreadyExists");
+        ENTITYLIMITGROUP_CREATED = config.getString("Messages.EntityLimitGroupCreated");
+        ENTITYLIMITGROUP_CAN_NOT_REMOVE_SYSTEM = config.getString("Messages.EntityLimitGroupCanNotRemoveSystem");
+        ENTITYLIMITGROUP_DELETED = config.getString("Messages.EntityLimitGroupDeleted");
+        ENTITYLIMITGROUP_INFO_HEADLINE = config.getString("Messages.EntityLimitGroupInfoHeadline");
+        ENTITYLIMITGROUP_INFO_GROUPNAME = config.getString("Messages.EntityLimitGroupInfoGroupname");
+        ENTITYLIMITGROUP_INFO_PATTERN = config.getString("Messages.EntityLimitGroupInfoPattern");
+        ENTITYLIMITGROUP_LIST_HEADLINE = config.getString("Messages.EntityLimitGroupListHeadline");
+        REGION_INFO_ENTITYLIMITGROUP = config.getString("Messages.RegionInfoEntityLimit");
+        ENTITYLIMITGROUP_SUBREGION_GROUP_ONLY_FOR_SUBREGIONS = config.getString("Messages.SubregionEntityLimitOnlyForSubregions");
+        //TODO set MassactionSplitter for all Massactions
+        MASSACTION_SPLITTER = config.getString("Messages.MassactionSplitter");
+        SUB_REGION_ENTITYLIMITGROUP_ERROR = config.getString("Messages.SubregionEntityLimitError");
+        GUI_ENTITYLIMIT_ITEM_BUTTON = config.getString("Messages.GUIEntityLimitItemButton");
+        GUI_ENTITYLIMIT_ITEM_LORE = config.getStringList("Messages.GUIEntityLimitItemLore");
+        GUI_ENTITYLIMIT_ITEM_INFO_PATTERN = config.getString("Messages.GUIEntityLimitInfoPattern");
+
 
         Messages.translateColorCodes();
     }
@@ -842,6 +868,35 @@ public class Messages {
         SIGN_LINK_MODE_NO_SIGN_SELECTED = ChatColor.translateAlternateColorCodes('&', SIGN_LINK_MODE_NO_SIGN_SELECTED);
         SIGN_LINK_MODE_NO_WG_REGION_SELECTED = ChatColor.translateAlternateColorCodes('&', SIGN_LINK_MODE_NO_WG_REGION_SELECTED);
         SIGN_LINK_MODE_REGION_SELECTED = ChatColor.translateAlternateColorCodes('&', SIGN_LINK_MODE_REGION_SELECTED);
+
+        ENTITYLIMIT_HELP_HEADLINE = ChatColor.translateAlternateColorCodes('&', ENTITYLIMIT_HELP_HEADLINE);
+        ENTITYLIMITGROUP_DOES_NOT_EXIST = ChatColor.translateAlternateColorCodes('&', ENTITYLIMITGROUP_DOES_NOT_EXIST);
+        ENTITYLIMIT_SET = ChatColor.translateAlternateColorCodes('&', ENTITYLIMIT_SET);
+        ENTITYLIMIT_REMOVED = ChatColor.translateAlternateColorCodes('&', ENTITYLIMIT_REMOVED);
+        ENTITYTYPE_DOES_NOT_EXIST = ChatColor.translateAlternateColorCodes('&', ENTITYTYPE_DOES_NOT_EXIST);
+        ENTITYLIMITGROUP_DOES_NOT_CONTAIN_ENTITYLIMIT = ChatColor.translateAlternateColorCodes('&', ENTITYLIMITGROUP_DOES_NOT_CONTAIN_ENTITYLIMIT);
+        ENTITYLIMIT_TOTAL = ChatColor.translateAlternateColorCodes('&', ENTITYLIMIT_TOTAL);
+        ENTITYLIMIT_CHECK_HEADLINE = ChatColor.translateAlternateColorCodes('&', ENTITYLIMIT_CHECK_HEADLINE);
+        ENTITYLIMIT_CHECK_PATTERN = ChatColor.translateAlternateColorCodes('&', ENTITYLIMIT_CHECK_PATTERN);
+        ENTITYLIMITGROUP_ALREADY_EXISTS = ChatColor.translateAlternateColorCodes('&', ENTITYLIMITGROUP_ALREADY_EXISTS);
+        ENTITYLIMITGROUP_CREATED = ChatColor.translateAlternateColorCodes('&', ENTITYLIMITGROUP_CREATED);
+        ENTITYLIMITGROUP_CAN_NOT_REMOVE_SYSTEM = ChatColor.translateAlternateColorCodes('&', ENTITYLIMITGROUP_CAN_NOT_REMOVE_SYSTEM);
+        ENTITYLIMITGROUP_DELETED = ChatColor.translateAlternateColorCodes('&', ENTITYLIMITGROUP_DELETED);
+        ENTITYLIMITGROUP_INFO_HEADLINE = ChatColor.translateAlternateColorCodes('&', ENTITYLIMITGROUP_INFO_HEADLINE);
+        ENTITYLIMITGROUP_INFO_GROUPNAME = ChatColor.translateAlternateColorCodes('&', ENTITYLIMITGROUP_INFO_GROUPNAME);
+        ENTITYLIMITGROUP_INFO_PATTERN = ChatColor.translateAlternateColorCodes('&', ENTITYLIMITGROUP_INFO_PATTERN);
+        ENTITYLIMITGROUP_LIST_HEADLINE = ChatColor.translateAlternateColorCodes('&', ENTITYLIMITGROUP_LIST_HEADLINE);
+        REGION_INFO_ENTITYLIMITGROUP = ChatColor.translateAlternateColorCodes('&', REGION_INFO_ENTITYLIMITGROUP);
+        ENTITYLIMITGROUP_SUBREGION_GROUP_ONLY_FOR_SUBREGIONS = ChatColor.translateAlternateColorCodes('&', ENTITYLIMITGROUP_SUBREGION_GROUP_ONLY_FOR_SUBREGIONS);
+        MASSACTION_SPLITTER = ChatColor.translateAlternateColorCodes('&', MASSACTION_SPLITTER);
+        SUB_REGION_ENTITYLIMITGROUP_ERROR = ChatColor.translateAlternateColorCodes('&', SUB_REGION_ENTITYLIMITGROUP_ERROR);
+        GUI_ENTITYLIMIT_ITEM_BUTTON = ChatColor.translateAlternateColorCodes('&', GUI_ENTITYLIMIT_ITEM_BUTTON);
+        GUI_ENTITYLIMIT_ITEM_INFO_PATTERN = ChatColor.translateAlternateColorCodes('&', GUI_ENTITYLIMIT_ITEM_INFO_PATTERN);
+
+
+        for(int i = 0; i < GUI_ENTITYLIMIT_ITEM_LORE.size(); i++){
+            GUI_ENTITYLIMIT_ITEM_LORE.set(i, ChatColor.translateAlternateColorCodes('&', GUI_ENTITYLIMIT_ITEM_LORE.get(i)));
+        }
 
         for(int i = 0; i < GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM_LORE.size(); i++){
             GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM_LORE.set(i, ChatColor.translateAlternateColorCodes('&', GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM_LORE.get(i)));
@@ -1222,6 +1277,30 @@ public class Messages {
         config.addDefault("Messages.SubregionCreationSelectAreaInfo", new ArrayList<String>(Arrays.asList("&aYou got a tool in your inventory (feather) to select 2 points of your region that will mark the corners of your new subregion.", "&aLeft click to select pos1", "&aRight click to select pos2", "&aType \"&6/arm subregion create\" &aif you are done")));
         config.addDefault("Messages.GUISubregionManagerNoSubregionItemLore", new ArrayList<String>(Arrays.asList("&aYou do not have any subregions on your region.", "&aYou can create a new subregion, that you",  "&acan sell to other players by typing", "&6/arm subregion tool &aand following displayed the steps")));
 
+        config.addDefault("Messages.EntityLimitHelpHeadline", "&6=====[AdvancedRegionMarket EntityLimit Help ]=====\n&3Page %actualpage% / %maxpage%");
+        config.addDefault("Messages.EntityLimitGroupNotExist", "&4EntityLimitGroup does not exist!");
+        config.addDefault("Messages.EntityLimitSet", "&aEntityLimit has been set!");
+        config.addDefault("Messages.EntityLimitRemoved", "&aEntityLimit has been removed!");
+        config.addDefault("Messages.EntityTypeDoesNotExist", "&4The entitytype &6%entitytype% &4 does not exist!");
+        config.addDefault("Messages.EntityLimitGroupNotContainEntityLimit", "&4The selected EntityLimitGroup does not contain the selected EntityType");
+        config.addDefault("Messages.EntityLimitTotal", "Total");
+        config.addDefault("Messages.EntityLimitCheckHeadline", "===[EntityLimitCheck for %regionid%]===");
+        config.addDefault("Messages.EntityLimitCheckPattern", "&6%entitytype%: &a(&r%actualentitys%&a/&r%maxentitys%&a)");
+        config.addDefault("Messages.EntityLimitGroupAlreadyExists", "&4Group already exists!");
+        config.addDefault("Messages.EntityLimitGroupCreated", "&aEntitylimitgroup has been created!");
+        config.addDefault("Messages.EntityLimitGroupCanNotRemoveSystem", "&4You can not remove a system-EntityLimitGroup!");
+        config.addDefault("Messages.EntityLimitGroupDeleted", "&aEntitylimitgroup has been deleted!");
+        config.addDefault("Messages.EntityLimitGroupInfoHeadline", "&6======[Entitylimitgroup Info]======");
+        config.addDefault("Messages.EntityLimitGroupInfoGroupname", "&6Groupname: ");
+        config.addDefault("Messages.EntityLimitGroupInfoPattern", "&6%entitytype%: &r%maxentitys%");
+        config.addDefault("Messages.EntityLimitGroupListHeadline", "&6EntityLimitGroups:");
+        config.addDefault("Messages.RegionInfoEntityLimit", "&6EntityLimitGroup: ");
+        config.addDefault("Messages.SubregionEntityLimitOnlyForSubregions", "&4SubregionEntityLimitGroup only for subregions");
+        config.addDefault("Messages.MassactionSplitter", "&6all regions with regionkind &a%regionkind%");
+        config.addDefault("Messages.SubregionEntityLimitError", "&4Could not change EntiyLimitGroup for the region &6%regionid%&4! Region is a Subregion!");
+        config.addDefault("Messages.GUIEntityLimitItemButton", "&6EntityLimits");
+        config.addDefault("Messages.GUIEntityLimitItemLore", new ArrayList<String>(Arrays.asList("&6Click to display the entity-limits", "&6for this region in chat", "%entityinfopattern%")));
+        config.addDefault("Messages.GUIEntityLimitInfoPattern", "&6%entitytype%: &a(&r%actualentitys%&a/&r%maxentitys%&a)");
 
         config.options().copyDefaults(true);
         saveConfig();

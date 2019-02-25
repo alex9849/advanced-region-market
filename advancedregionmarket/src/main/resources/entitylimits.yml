@@ -1,4 +1,11 @@
 EntityLimits:
-  small:
+  examplelimit1:
     total: -1
     CHICKEN: 10
+  examplelimit2:
+    total: 10
+    COW: 5
+  examplelimit3:
+    total: 20
+    CHICKEN: 10
+    BAT: 0

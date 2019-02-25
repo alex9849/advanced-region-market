@@ -47,6 +47,12 @@ public class EntityLimitGroupManager {
                 entityLimitGroups.add(parseEntityLimitGroup(limitSection, limitname));
             }
         }
+
+        ConfigurationSection entityLimitDEFAULTSection = entityLimitConf.getConfigurationSection("DefaultEntityLimit");
+        EntityLimitGroup.setDEFAULT(parseEntityLimitGroup(entityLimitDEFAULTSection, entityLimitDEFAULTSection.getString("name")));
+
+        ConfigurationSection entityLimitSUBREGIONSection = entityLimitConf.getConfigurationSection("DefaultEntityLimit");
+        EntityLimitGroup.setSUBREGION(parseEntityLimitGroup(entityLimitSUBREGIONSection, entityLimitSUBREGIONSection.getString("name")));
     }
 
     public static void saveEntityLimits() {
@@ -164,6 +170,11 @@ public class EntityLimitGroupManager {
         for(String limitName : limts) {
             entityLimitConf.addDefault("EntityLimits." + limitName + ".total", -1);
         }
+        entityLimitConf.addDefault("DefaultEntityLimit.total", -1);
+        entityLimitConf.addDefault("DefaultEntityLimit.name", "DefaultLimit");
+        entityLimitConf.addDefault("SubregionEntityLimit.total", -1);
+        entityLimitConf.addDefault("SubregionEntityLimit.name", "SubregionLimit");
+
         entityLimitConf.options().copyDefaults(true);
         saveEntityLimitsConf();
         entityLimitConf.options().copyDefaults(false);

@@ -726,9 +726,13 @@ public abstract class Region {
         double minZ = (minPoint.getZ() + maxPoint.getZ()) / 2;
         Location midLocation = new Location(this.getRegionworld(), minX, minY, minZ);
 
-        double xAxis = (maxPoint.getX() - minPoint.getX()) / 2;
-        double yAxis = (maxPoint.getY() - minPoint.getY()) / 2;
-        double zAxis = (maxPoint.getZ() - minPoint.getZ()) / 2;
+        double xAxis = (maxPoint.getX() + 1 - minPoint.getX()) / 2d;
+        double yAxis = (maxPoint.getY() + 1 - minPoint.getY()) / 2d;
+        double zAxis = (maxPoint.getZ() + 1 - minPoint.getZ()) / 2d;
+
+        xAxis += 1;
+        yAxis += 1;
+        zAxis += 1;
 
         entities = new ArrayList<>(this.getRegionworld().getNearbyEntities(midLocation, xAxis, yAxis, zAxis));
 
@@ -754,7 +758,7 @@ public abstract class Region {
     }
 
 
-    public List<Entity> getFilteredInsideEntities(boolean includePlayers, boolean includeLivingEntity, boolean includeVehicles, boolean includeProjectiles, boolean includeAreaEffectCloud, boolean includeItemFrames) {
+    public List<Entity> getFilteredInsideEntities(boolean includePlayers, boolean includeLivingEntity, boolean includeVehicles, boolean includeProjectiles, boolean includeAreaEffectCloud, boolean includeItemFrames, boolean includePaintings) {
 
         List<Entity> insideEntitys = this.getInsideEntities(includePlayers);
         List<Entity> result = new ArrayList<>();
@@ -779,6 +783,10 @@ public abstract class Region {
             }
 
             if((selectedEntity instanceof ItemFrame) && includeItemFrames) {
+                add = true;
+            }
+
+            if((selectedEntity instanceof Painting) && includePaintings) {
                 add = true;
             }
 

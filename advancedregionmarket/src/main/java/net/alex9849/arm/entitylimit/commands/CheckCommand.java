@@ -58,7 +58,7 @@ public class CheckCommand extends BasicArmCommand {
         if(!region.getRegion().hasMember(player.getUniqueId()) && !region.getRegion().hasOwner(player.getUniqueId()) && !player.hasPermission(Permission.ADMIN_ENTITYLIMIT_CHECK)) {
             throw new InputException(player, Messages.NOT_A_MEMBER_OR_OWNER);
         }
-        List<Entity> entities = region.getFilteredInsideEntities(false, true, true, false, false, true);
+        List<Entity> entities = region.getFilteredInsideEntities(false, true, true, false, false, true, true);
 
         //TODO
         player.sendMessage(region.getConvertedMessage("===[EntityLimitCheck for %regionid%]==="));

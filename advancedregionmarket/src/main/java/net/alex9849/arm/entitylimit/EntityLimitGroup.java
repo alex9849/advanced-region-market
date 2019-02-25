@@ -35,7 +35,7 @@ public class EntityLimitGroup {
 
         int maxEntitiesWithThisType = this.getLimit(entityType);
 
-        List<Entity> regionEntities = region.getFilteredInsideEntities(false, true, true, false, false, true);
+        List<Entity> regionEntities = region.getFilteredInsideEntities(false, true, true, false, false, true, true);
 
         int matchingEntities = EntityLimitGroup.filterEntitys(regionEntities, entityType).size();
 
@@ -106,5 +106,13 @@ public class EntityLimitGroup {
         } else {
             return number + "";
         }
+    }
+
+    protected static void setDEFAULT(EntityLimitGroup entityLimitGroup) {
+        EntityLimitGroup.DEFAULT = entityLimitGroup;
+    }
+
+    protected static void setSUBREGION(EntityLimitGroup entityLimitGroup) {
+        EntityLimitGroup.SUBREGION = entityLimitGroup;
     }
 }

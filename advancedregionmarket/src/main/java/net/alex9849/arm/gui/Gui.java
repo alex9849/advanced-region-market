@@ -1949,7 +1949,7 @@ public class Gui implements Listener {
         //TODO
         itemMeta.setDisplayName("EntityLimits");
 
-        List<Entity> entities = region.getFilteredInsideEntities(false, true, true, false, false, true);
+        List<Entity> entities = region.getFilteredInsideEntities(false, true, true, false, false, true, true);
         List<String> lore = new ArrayList<>();
         lore.add("Total: (" + entities.size() + "/" + EntityLimitGroup.intToLimitString(region.getEntityLimitGroup().getTotalLimit()) + ")");
         for(EntityLimit entityLimit : region.getEntityLimitGroup().getEntityLimits()) {

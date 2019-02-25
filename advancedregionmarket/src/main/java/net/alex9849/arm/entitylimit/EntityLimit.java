@@ -1,6 +1,10 @@
 package net.alex9849.arm.entitylimit;
 
+import net.alex9849.arm.Messages;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+
+import java.util.List;
 
 public class EntityLimit {
     private EntityType entityType;
@@ -32,11 +36,21 @@ public class EntityLimit {
         return this.softlimit;
     }
 
-    public int getHardlimit() {
+    public int getHardLimit() {
         return this.hardlimit;
     }
 
     public int getPricePerExtraEntity() {
         return this.pricePerExtraEntity;
+    }
+
+    public String getConvertedMessage(String message, List<Entity> entities) {
+        message = message.replace("%entitytype%", this.getEntityType().name());
+        message = message.replace("%actualentitys%", EntityLimitGroup.filterEntitys(entities, this.getEntityType()).size() + "");
+        message = message.replace("%softlimitentitys%", EntityLimitGroup.intToLimitString(this.getSoftLimit()));
+        message = message.replace("%hardlimitentitys%", EntityLimitGroup.intToLimitString(this.getHardLimit()));
+        message = message.replace("%priceperextraentity%", this.getPricePerExtraEntity() + "");
+        message = message.replace("%currency%", Messages.CURRENCY);
+        return message;
     }
 }

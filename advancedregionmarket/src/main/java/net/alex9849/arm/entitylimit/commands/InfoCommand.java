@@ -83,13 +83,15 @@ public class InfoCommand extends BasicArmCommand {
         totalinfo = totalinfo.replace("%softlimitentitys%", EntityLimitGroup.intToLimitString(entityLimitGroup.getSoftLimit()));
         totalinfo = totalinfo.replace("%hardlimitentitys%", EntityLimitGroup.intToLimitString(entityLimitGroup.getHardLimit()));
         totalinfo = totalinfo.replace("%priceperextraentity%", entityLimitGroup.getPricePerExtraEntity() + "");
+        totalinfo = totalinfo.replace("%currency%", Messages.CURRENCY);
         player.sendMessage(totalinfo);
         for(EntityLimit entityLimit : entityLimitGroup.getEntityLimits()) {
             String entityinfo = Messages.ENTITYLIMITGROUP_INFO_PATTERN;
             entityinfo = entityinfo.replace("%entitytype%", entityLimit.getEntityType().name());
             entityinfo = entityinfo.replace("%softlimitentitys%", EntityLimitGroup.intToLimitString(entityLimit.getSoftLimit()));
-            entityinfo = entityinfo.replace("%hardlimitentitys%", EntityLimitGroup.intToLimitString(entityLimit.getHardlimit()));
+            entityinfo = entityinfo.replace("%hardlimitentitys%", EntityLimitGroup.intToLimitString(entityLimit.getHardLimit()));
             entityinfo = entityinfo.replace("%priceperextraentity%", entityLimit.getPricePerExtraEntity() + "");
+            entityinfo = entityinfo.replace("%currency%", Messages.CURRENCY);
             player.sendMessage(entityinfo);
         }
     }

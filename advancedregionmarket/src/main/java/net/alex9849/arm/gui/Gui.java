@@ -1959,6 +1959,7 @@ public class Gui implements Listener {
         totallimit = totallimit.replace("%softlimitentitys%", EntityLimitGroup.intToLimitString(region.getEntityLimitGroup().getSoftLimit()));
         totallimit = totallimit.replace("%hardlimitentitys%", EntityLimitGroup.intToLimitString(region.getEntityLimitGroup().getHardLimit()));
         totallimit = totallimit.replace("%priceperextraentity%", region.getEntityLimitGroup().getPricePerExtraEntity() + "");
+        totallimit = totallimit.replace("%currency%", Messages.CURRENCY);
         limitlist.add(totallimit);
 
         for(EntityLimit entityLimit : region.getEntityLimitGroup().getEntityLimits()) {
@@ -1966,8 +1967,9 @@ public class Gui implements Listener {
             entitylimitstring = entitylimitstring.replace("%entitytype%", entityLimit.getEntityType().name());
             entitylimitstring = entitylimitstring.replace("%actualentitys%", EntityLimitGroup.filterEntitys(entities, entityLimit.getEntityType()).size() + "");
             entitylimitstring = entitylimitstring.replace("%softlimitentitys%", EntityLimitGroup.intToLimitString(entityLimit.getSoftLimit()));
-            entitylimitstring = entitylimitstring.replace("%hardlimitentitys%", EntityLimitGroup.intToLimitString(entityLimit.getHardlimit()));
+            entitylimitstring = entitylimitstring.replace("%hardlimitentitys%", EntityLimitGroup.intToLimitString(entityLimit.getHardLimit()));
             entitylimitstring = entitylimitstring.replace("%priceperextraentity%", entityLimit.getPricePerExtraEntity() + "");
+            entitylimitstring = entitylimitstring.replace("%currency%", Messages.CURRENCY);
             limitlist.add(entitylimitstring);
         }
 

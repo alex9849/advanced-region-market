@@ -97,8 +97,16 @@ public class EntityLimitGroupManager {
         for(int i = 0; i < entityLimitGroup.getEntityLimits().size(); i++) {
             EntityLimit entityLimit = entityLimitGroup.getEntityLimits().get(i);
             entityLimitConf.set(path + "." + i + ".entityType", entityLimit.getEntityType().name());
-            entityLimitConf.set(path + "." + i + ".softLimit", entityLimit.getSoftLimit());
-            entityLimitConf.set(path + "." + i + ".hardLimit", entityLimit.getHardlimit());
+            int softLimitEntity = entityLimit.getSoftLimit();
+            if(softLimitEntity == Integer.MAX_VALUE) {
+                softLimitEntity = -1;
+            }
+            int hardLimitEntity = entityLimit.getHardLimit();
+            if(hardLimitEntity == Integer.MAX_VALUE) {
+                hardLimitEntity = -1;
+            }
+            entityLimitConf.set(path + "." + i + ".softLimit", softLimitEntity);
+            entityLimitConf.set(path + "." + i + ".hardLimit", hardLimitEntity);
             entityLimitConf.set(path + "." + i + ".pricePerExtraEntity", entityLimit.getPricePerExtraEntity());
         }
     }

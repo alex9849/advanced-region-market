@@ -145,4 +145,14 @@ public class EntityLimitGroup {
     protected static void setSUBREGION(EntityLimitGroup entityLimitGroup) {
         EntityLimitGroup.SUBREGION = entityLimitGroup;
     }
+
+    public String getConvertedMessage(String message, List<Entity> entities) {
+        message = message.replace("%entitytype%", Messages.ENTITYLIMIT_TOTAL);
+        message = message.replace("%actualentitys%", entities.size() + "");
+        message = message.replace("%softlimitentitys%", EntityLimitGroup.intToLimitString(this.getSoftLimit()));
+        message = message.replace("%hardlimitentitys%", EntityLimitGroup.intToLimitString(this.getHardLimit()));
+        message = message.replace("%priceperextraentity%", this.getPricePerExtraEntity() + "");
+        message = message.replace("%currency%", Messages.CURRENCY);
+        return message;
+    }
 }

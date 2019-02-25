@@ -4,7 +4,6 @@ import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.commands.BasicArmCommand;
 import net.alex9849.arm.entitylimit.EntityLimit;
-import net.alex9849.arm.entitylimit.EntityLimitGroup;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.RegionManager;
@@ -59,16 +58,21 @@ public class CheckCommand extends BasicArmCommand {
         List<Entity> entities = region.getFilteredInsideEntities(false, true, true, false, false, true, true);
 
         player.sendMessage(region.getConvertedMessage(Messages.ENTITYLIMIT_CHECK_HEADLINE));
-        String totalstatus = Messages.ENTITYLIMIT_CHECK_PATTERN;
-        totalstatus = totalstatus.replace("%entitytype%", Messages.ENTITYLIMIT_TOTAL);
-        totalstatus = totalstatus.replace("%actualentitys%", entities.size() + "");
-        totalstatus = totalstatus.replace("%softlimitentitys%", EntityLimitGroup.intToLimitString(region.getEntityLimitGroup().getSoftLimit()));
+        String totalstatus = region.getEntityLimitGroup().getConvertedMessage(Messages.ENTITYLIMIT_CHECK_PATTERN, entities);
+
+        if(region.getEntityLimitGroup().getSoftLimit() < region.getEntityLimitGroup().getHardLimit()) {
+            totalstatus = totalstatus.replace("%entityextensioninfo%", region.getEntityLimitGroup().getConvertedMessage(Messages.ENTITYLIMIT_CHECK_EXTENSION_INFO, entities));
+        } else {
+            totalstatus = totalstatus.replace("%entityextensioninfo%", "");
+        }
         player.sendMessage(totalstatus);
         for(EntityLimit entityLimit : region.getEntityLimitGroup().getEntityLimits()) {
-            String entitystatus = Messages.ENTITYLIMIT_CHECK_PATTERN;
-            entitystatus = entitystatus.replace("%entitytype%", entityLimit.getEntityType().name());
-            entitystatus = entitystatus.replace("%actualentitys%", EntityLimitGroup.filterEntitys(entities, entityLimit.getEntityType()).size() + "");
-            entitystatus = entitystatus.replace("%softlimitentitys%", EntityLimitGroup.intToLimitString(entityLimit.getSoftLimit()));
+            String entitystatus = entityLimit.getConvertedMessage(Messages.ENTITYLIMIT_CHECK_PATTERN, entities);
+            if(entityLimit.getSoftLimit() < entityLimit.getHardLimit()) {
+                entitystatus = entitystatus.replace("%entityextensioninfo%", entityLimit.getConvertedMessage(Messages.ENTITYLIMIT_CHECK_EXTENSION_INFO, entities));
+            } else {
+                entitystatus = entitystatus.replace("%entityextensioninfo%", "");
+            }
             player.sendMessage(entitystatus);
         }
         return true;

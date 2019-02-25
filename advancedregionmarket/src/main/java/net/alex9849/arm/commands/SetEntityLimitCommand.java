@@ -84,6 +84,9 @@ public class SetEntityLimitCommand extends BasicArmCommand {
 
         for(Region region : regions) {
             region.setEntityLimitGroup(entityLimitGroup);
+            if(region.isSubregion()) {
+                throw new InputException(sender, "Could not change EntityLimitGroup for the region " + region.getRegion().getId() + "! Region is a Subregion!");
+            }
         }
         String sendmessage = Messages.PREFIX + "&6Set entityLimitGroup &a" + entityLimitGroup.getName() + " &6for " + selectedName + "&6!";
         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', sendmessage));

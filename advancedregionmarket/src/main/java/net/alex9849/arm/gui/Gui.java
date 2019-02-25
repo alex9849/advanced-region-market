@@ -1956,14 +1956,14 @@ public class Gui implements Listener {
         String totallimit = Messages.GUI_ENTITYLIMIT_ITEM_INFO_PATTERN;
         totallimit = totallimit.replace("%entitytype%", Messages.ENTITYLIMIT_TOTAL);
         totallimit = totallimit.replace("%actualentitys%", entities.size() + "");
-        totallimit = totallimit.replace("%maxentitys%", EntityLimitGroup.intToLimitString(region.getEntityLimitGroup().getTotalLimit()));
+        totallimit = totallimit.replace("%softlimitentitys%", EntityLimitGroup.intToLimitString(region.getEntityLimitGroup().getTotalLimit()));
         limitlist.add(totallimit);
 
         for(EntityLimit entityLimit : region.getEntityLimitGroup().getEntityLimits()) {
             String entitylimitstring = Messages.GUI_ENTITYLIMIT_ITEM_INFO_PATTERN;
             entitylimitstring = entitylimitstring.replace("%entitytype%", entityLimit.getEntityType().name());
             entitylimitstring = entitylimitstring.replace("%actualentitys%", EntityLimitGroup.filterEntitys(entities, entityLimit.getEntityType()).size() + "");
-            entitylimitstring = entitylimitstring.replace("%maxentitys%", EntityLimitGroup.intToLimitString(entityLimit.getSoftLimit()));
+            entitylimitstring = entitylimitstring.replace("%softlimitentitys%", EntityLimitGroup.intToLimitString(entityLimit.getSoftLimit()));
             limitlist.add(entitylimitstring);
         }
 

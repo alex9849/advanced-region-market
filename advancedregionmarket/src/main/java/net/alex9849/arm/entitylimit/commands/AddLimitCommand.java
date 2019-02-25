@@ -18,8 +18,8 @@ import java.util.List;
 
 public class AddLimitCommand extends BasicArmCommand {
     private final String rootCommand = "addlimit";
-    private final String regex = "(?i)addlimit [^;\n ]+ [^;\n ]+ [0-9]+";
-    private final List<String> usage = new ArrayList<>(Arrays.asList("addlimit [GROUPNAME] [ENTITYTYPE] [LIMIT]"));
+    private final String regex = "(?i)addlimit [^;\n ]+ [^;\n ]+ [0-9]+ [0-9]+ [0-9]+";
+    private final List<String> usage = new ArrayList<>(Arrays.asList("addlimit [GROUPNAME] [ENTITYTYPE] [SOFTLIMIT] [HARDLIMIT] [PRICE PER EXTRA-ENTITY]"));
 
     @Override
     public boolean matchesRegex(String command) {
@@ -67,7 +67,7 @@ public class AddLimitCommand extends BasicArmCommand {
                     entityLimitGroup.queueSave();
                 }
             }
-            entityLimitGroup.getEntityLimits().add(new EntityLimit(entityType, Integer.parseInt(args[3])));
+            entityLimitGroup.getEntityLimits().add(new EntityLimit(entityType, Integer.parseInt(args[3]), Integer.parseInt(args[4]), Integer.parseInt(args[5])));
             entityLimitGroup.queueSave();
             sender.sendMessage(Messages.PREFIX + Messages.ENTITYLIMIT_SET);
         }

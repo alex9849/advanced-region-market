@@ -88,8 +88,10 @@ public class EntityLimitGroupManager {
             totallimit = -1;
         }
         entityLimitConf.set(path + ".total", totallimit);
-        for(EntityLimit entityLimit : entityLimitGroup.getEntityLimits()) {
-            entityLimitConf.set(path + "." + entityLimit.getEntityType(), entityLimit.getSoftLimit());
+        for(int i = 0; i < entityLimitGroup.getEntityLimits().size(); i++) {
+            EntityLimit entityLimit = entityLimitGroup.getEntityLimits().get(i);
+            entityLimitConf.set(path + "." + i + ".entityType", entityLimit.getEntityType().name());
+            entityLimitConf.set(path + "." + i + ".softLimit", entityLimit.getSoftLimit());
         }
     }
 
@@ -106,21 +108,22 @@ public class EntityLimitGroupManager {
     }
 
     private static EntityLimitGroup parseEntityLimitGroup(ConfigurationSection section, String name) {
-        List<String> entityNames = new ArrayList<>(section.getKeys(false));
+        List<String> entityNumbers = new ArrayList<>(section.getKeys(false));
         List<EntityLimit> entityLimits = new ArrayList<>();
-        int totalMax = Integer.MAX_VALUE;
-        for(String entityName : entityNames) {
-            if(entityName.equalsIgnoreCase("total")) {
-                totalMax = section.getInt(entityName);
-            } else {
+        int totalMax = section.getInt("totalsoft");
+        for(String entityNumber : entityNumbers) {
+            if(!entityNumber.equalsIgnoreCase("totalsoft")) {
+                String entityTypeName = section.getString(entityNumber + "." + "entityType");
                 try {
-                    EntityType entityType = EntityType.valueOf(entityName);
+                    EntityType entityType = EntityType.valueOf(entityTypeName);
                     if(entityType != null) {
-                        int maxLimit = section.getInt(entityName);
-                        entityLimits.add(new EntityLimit(entityType, maxLimit));
+                        int softLimit = section.getInt(entityNumber + "." + "softLimit");
+                        int hardLimit = section.getInt(entityNumber + "." + "hardLimit");
+                        int pricePerExtraEntity = section.getInt(entityNumber + "." + "pricePerExtraEntity");
+                        entityLimits.add(new EntityLimit(entityType, softLimit, hardLimit, pricePerExtraEntity));
                     }
                 } catch (IllegalArgumentException e) {
-                    Bukkit.getLogger().log(Level.WARNING, "[AdvancedRegionMarket] Could not find EntityType " + entityName + " for EntityLimitGroup " + name + "! Ignoring it");
+                    Bukkit.getLogger().log(Level.WARNING, "[AdvancedRegionMarket] Could not find EntityType " + entityTypeName + " for EntityLimitGroup " + name + "! Ignoring it");
                 }
             }
         }
@@ -165,13 +168,24 @@ public class EntityLimitGroupManager {
         if(entityLimitConf.get("EntityLimits") == null) {
             return;
         }
-        List<String> limts = new ArrayList<>(entityLimitConf.getConfigurationSection("EntityLimits").getKeys(false));
+        List<String> groups = new ArrayList<>(entityLimitConf.getConfigurationSection("EntityLimits").getKeys(false));
+        ConfigurationSection entityLimitsSection = entityLimitConf.getConfigurationSection("EntityLimits");
 
-        for(String limitName : limts) {
-            entityLimitConf.addDefault("EntityLimits." + limitName + ".total", -1);
+        for(String limitName : groups) {
+            entityLimitConf.addDefault("EntityLimits." + limitName + ".totalsoft", -1);
+            if(entityLimitsSection.get(limitName) != null) {
+                List<String> limts = new ArrayList<>(entityLimitsSection.getConfigurationSection(limitName).getKeys(false));
+                for(String limit : limts) {
+                    entityLimitConf.addDefault("EntityLimits." + limitName + "." + limit + ".entityType", EntityType.ARMOR_STAND.name());
+                    entityLimitConf.addDefault("EntityLimits." + limitName + "." + limit + ".softLimit", 1);
+                    entityLimitConf.addDefault("EntityLimits." + limitName + "." + limit + ".hardLimit", 1);
+                    entityLimitConf.addDefault("EntityLimits." + limitName + "." + limit + ".pricePerExtraEntity", 1);
+                }
+            }
+
         }
-        entityLimitConf.addDefault("DefaultEntityLimit.total", -1);
-        entityLimitConf.addDefault("SubregionEntityLimit.total", -1);
+        entityLimitConf.addDefault("DefaultEntityLimit.totalsoft", -1);
+        entityLimitConf.addDefault("SubregionEntityLimit.totalsoft", -1);
 
         entityLimitConf.options().copyDefaults(true);
         saveEntityLimitsConf();

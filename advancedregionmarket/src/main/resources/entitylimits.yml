@@ -1,11 +1,19 @@
 EntityLimits:
   examplelimit1:
     total: -1
-    CHICKEN: 10
+    1:
+      entityType: CHICKEN
+      softLimit: 10
   examplelimit2:
     total: 10
-    COW: 5
+    1:
+      entityType: COW
+      softLimit: 5
   examplelimit3:
     total: 20
-    CHICKEN: 10
-    BAT: 0
+    1:
+      entityType: CHICKEN
+      softLimit: 10
+    2:
+      entityType: BAT
+      softLimit: 0

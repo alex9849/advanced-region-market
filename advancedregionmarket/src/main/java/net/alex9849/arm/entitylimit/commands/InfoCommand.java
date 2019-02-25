@@ -84,12 +84,12 @@ public class InfoCommand extends BasicArmCommand {
         player.sendMessage(Messages.ENTITYLIMITGROUP_INFO_GROUPNAME + entityLimitGroup.getName());
         String totalinfo = Messages.ENTITYLIMITGROUP_INFO_PATTERN;
         totalinfo = totalinfo.replace("%entitytype%", Messages.ENTITYLIMIT_TOTAL);
-        totalinfo = totalinfo.replace("%maxentitys%", total);
+        totalinfo = totalinfo.replace("%softlimitentitys%", total);
         player.sendMessage(totalinfo);
         for(EntityLimit entityLimit : entityLimitGroup.getEntityLimits()) {
             String entityinfo = Messages.ENTITYLIMITGROUP_INFO_PATTERN;
             entityinfo = entityinfo.replace("%entitytype%", entityLimit.getEntityType().name());
-            entityinfo = entityinfo.replace("%maxentitys%", entityLimit.getSoftLimit() + "");
+            entityinfo = entityinfo.replace("%softlimitentitys%", entityLimit.getSoftLimit() + "");
             player.sendMessage(entityinfo);
         }
     }

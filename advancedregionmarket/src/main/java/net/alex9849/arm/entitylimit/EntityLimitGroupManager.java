@@ -89,7 +89,7 @@ public class EntityLimitGroupManager {
         }
         entityLimitConf.set(path + ".total", totallimit);
         for(EntityLimit entityLimit : entityLimitGroup.getEntityLimits()) {
-            entityLimitConf.set(path + "." + entityLimit.getEntityType(), entityLimit.getAmount());
+            entityLimitConf.set(path + "." + entityLimit.getEntityType(), entityLimit.getSoftLimit());
         }
     }
 

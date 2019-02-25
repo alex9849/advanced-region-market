@@ -5,7 +5,6 @@ import net.alex9849.arm.regions.Region;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 
-import javax.print.attribute.standard.Media;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,7 +52,7 @@ public class EntityLimitGroup {
     private int getLimit(EntityType entityType) {
         for(EntityLimit entityLimit : this.entityLimits) {
             if(entityLimit.getEntityType() == entityType) {
-                return entityLimit.getAmount();
+                return entityLimit.getSoftLimit();
             }
         }
         return Integer.MAX_VALUE;

@@ -4,21 +4,21 @@ import org.bukkit.entity.EntityType;
 
 public class EntityLimit {
     private EntityType entityType;
-    private int amount;
+    private int softlimit;
 
-    public EntityLimit(EntityType entityType, int amount) {
-        if(amount < 0) {
-            amount = amount * (-1);
+    public EntityLimit(EntityType entityType, int softlimit) {
+        if(softlimit < 0) {
+            softlimit = softlimit * (-1);
         }
         this.entityType = entityType;
-        this.amount = amount;
+        this.softlimit = softlimit;
     }
 
     public EntityType getEntityType() {
         return this.entityType;
     }
 
-    public int getAmount() {
-        return this.amount;
+    public int getSoftLimit() {
+        return this.softlimit;
     }
 }

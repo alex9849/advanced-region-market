@@ -11,7 +11,6 @@ import net.alex9849.arm.regions.*;
 import net.alex9849.arm.Group.LimitGroup;
 import net.alex9849.exceptions.SchematicNotFoundException;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -1964,7 +1963,7 @@ public class Gui implements Listener {
             String entitylimitstring = Messages.GUI_ENTITYLIMIT_ITEM_INFO_PATTERN;
             entitylimitstring = entitylimitstring.replace("%entitytype%", entityLimit.getEntityType().name());
             entitylimitstring = entitylimitstring.replace("%actualentitys%", EntityLimitGroup.filterEntitys(entities, entityLimit.getEntityType()).size() + "");
-            entitylimitstring = entitylimitstring.replace("%maxentitys%", EntityLimitGroup.intToLimitString(entityLimit.getAmount()));
+            entitylimitstring = entitylimitstring.replace("%maxentitys%", EntityLimitGroup.intToLimitString(entityLimit.getSoftLimit()));
             limitlist.add(entitylimitstring);
         }
 

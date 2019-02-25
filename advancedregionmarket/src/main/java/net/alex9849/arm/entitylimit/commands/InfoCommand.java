@@ -76,20 +76,20 @@ public class InfoCommand extends BasicArmCommand {
     }
 
     public static void sendInfoToPlayer(Player player, EntityLimitGroup entityLimitGroup) {
-        String total = Messages.UNLIMITED;
-        if(entityLimitGroup.getTotalLimit() != Integer.MAX_VALUE) {
-            total = "" + entityLimitGroup.getTotalLimit();
-        }
         player.sendMessage(Messages.ENTITYLIMITGROUP_INFO_HEADLINE);
         player.sendMessage(Messages.ENTITYLIMITGROUP_INFO_GROUPNAME + entityLimitGroup.getName());
         String totalinfo = Messages.ENTITYLIMITGROUP_INFO_PATTERN;
         totalinfo = totalinfo.replace("%entitytype%", Messages.ENTITYLIMIT_TOTAL);
-        totalinfo = totalinfo.replace("%softlimitentitys%", total);
+        totalinfo = totalinfo.replace("%softlimitentitys%", EntityLimitGroup.intToLimitString(entityLimitGroup.getSoftLimit()));
+        totalinfo = totalinfo.replace("%hardlimitentitys%", EntityLimitGroup.intToLimitString(entityLimitGroup.getHardLimit()));
+        totalinfo = totalinfo.replace("%priceperextraentity%", entityLimitGroup.getPricePerExtraEntity() + "");
         player.sendMessage(totalinfo);
         for(EntityLimit entityLimit : entityLimitGroup.getEntityLimits()) {
             String entityinfo = Messages.ENTITYLIMITGROUP_INFO_PATTERN;
             entityinfo = entityinfo.replace("%entitytype%", entityLimit.getEntityType().name());
-            entityinfo = entityinfo.replace("%softlimitentitys%", entityLimit.getSoftLimit() + "");
+            entityinfo = entityinfo.replace("%softlimitentitys%", EntityLimitGroup.intToLimitString(entityLimit.getSoftLimit()));
+            entityinfo = entityinfo.replace("%hardlimitentitys%", EntityLimitGroup.intToLimitString(entityLimit.getHardlimit()));
+            entityinfo = entityinfo.replace("%priceperextraentity%", entityLimit.getPricePerExtraEntity() + "");
             player.sendMessage(entityinfo);
         }
     }

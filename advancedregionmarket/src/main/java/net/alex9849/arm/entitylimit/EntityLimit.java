@@ -16,7 +16,7 @@ public class EntityLimit {
             hardlimit = hardlimit * (-1);
         }
         if(pricePerExtraEntity < 0) {
-            pricePerExtraEntity = pricePerExtraEntity * (-1);
+            pricePerExtraEntity = 0;
         }
         this.entityType = entityType;
         this.softlimit = softlimit;

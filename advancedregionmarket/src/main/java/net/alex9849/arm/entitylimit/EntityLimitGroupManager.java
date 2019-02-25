@@ -83,15 +83,23 @@ public class EntityLimitGroupManager {
 
     private static void saveEntityLimit(String path, EntityLimitGroup entityLimitGroup) {
         entityLimitConf.set(path, null);
-        int totallimit = entityLimitGroup.getTotalLimit();
-        if(totallimit == Integer.MAX_VALUE) {
-            totallimit = -1;
+        int softLimit = entityLimitGroup.getSoftLimit();
+        if(softLimit == Integer.MAX_VALUE) {
+            softLimit = -1;
         }
-        entityLimitConf.set(path + ".total", totallimit);
+        int hardLimit = entityLimitGroup.getHardLimit();
+        if(hardLimit == Integer.MAX_VALUE) {
+            hardLimit = -1;
+        }
+        entityLimitConf.set(path + ".softtotal", softLimit);
+        entityLimitConf.set(path + ".hardtotal", hardLimit);
+        entityLimitConf.set(path + ".pricePerExtraEntity", entityLimitGroup.getPricePerExtraEntity());
         for(int i = 0; i < entityLimitGroup.getEntityLimits().size(); i++) {
             EntityLimit entityLimit = entityLimitGroup.getEntityLimits().get(i);
             entityLimitConf.set(path + "." + i + ".entityType", entityLimit.getEntityType().name());
             entityLimitConf.set(path + "." + i + ".softLimit", entityLimit.getSoftLimit());
+            entityLimitConf.set(path + "." + i + ".hardLimit", entityLimit.getHardlimit());
+            entityLimitConf.set(path + "." + i + ".pricePerExtraEntity", entityLimit.getPricePerExtraEntity());
         }
     }
 
@@ -110,9 +118,12 @@ public class EntityLimitGroupManager {
     private static EntityLimitGroup parseEntityLimitGroup(ConfigurationSection section, String name) {
         List<String> entityNumbers = new ArrayList<>(section.getKeys(false));
         List<EntityLimit> entityLimits = new ArrayList<>();
-        int totalMax = section.getInt("totalsoft");
+        int softtotal = section.getInt("softtotal");
+        int hardtotal = section.getInt("hardtotal");
+        int pricePerExtraEntityTotal = section.getInt("pricePerExtraEntity");
         for(String entityNumber : entityNumbers) {
-            if(!entityNumber.equalsIgnoreCase("totalsoft")) {
+            if(!(entityNumber.equalsIgnoreCase("softtotal") || entityNumber.equalsIgnoreCase("hardtotal") ||
+                    entityNumber.equalsIgnoreCase("pricePerExtraEntity"))) {
                 String entityTypeName = section.getString(entityNumber + "." + "entityType");
                 try {
                     EntityType entityType = EntityType.valueOf(entityTypeName);
@@ -127,10 +138,16 @@ public class EntityLimitGroupManager {
                 }
             }
         }
-        if(totalMax == -1) {
-            totalMax = Integer.MAX_VALUE;
+        if(softtotal == -1) {
+            softtotal = Integer.MAX_VALUE;
         }
-        return new EntityLimitGroup(entityLimits, totalMax, name);
+        if(hardtotal == -1) {
+            hardtotal = Integer.MAX_VALUE;
+        }
+        if(pricePerExtraEntityTotal < 0) {
+            pricePerExtraEntityTotal = 0;
+        }
+        return new EntityLimitGroup(entityLimits, softtotal, hardtotal, pricePerExtraEntityTotal, name);
     }
 
     public static void reset() {
@@ -172,7 +189,9 @@ public class EntityLimitGroupManager {
         ConfigurationSection entityLimitsSection = entityLimitConf.getConfigurationSection("EntityLimits");
 
         for(String limitName : groups) {
-            entityLimitConf.addDefault("EntityLimits." + limitName + ".totalsoft", -1);
+            entityLimitConf.addDefault("EntityLimits." + limitName + ".softtotal", -1);
+            entityLimitConf.addDefault("EntityLimits." + limitName + ".hardtotal", -1);
+            entityLimitConf.addDefault("EntityLimits." + limitName + ".pricePerExtraEntity", 0);
             if(entityLimitsSection.get(limitName) != null) {
                 List<String> limts = new ArrayList<>(entityLimitsSection.getConfigurationSection(limitName).getKeys(false));
                 for(String limit : limts) {
@@ -184,8 +203,10 @@ public class EntityLimitGroupManager {
             }
 
         }
-        entityLimitConf.addDefault("DefaultEntityLimit.totalsoft", -1);
-        entityLimitConf.addDefault("SubregionEntityLimit.totalsoft", -1);
+        entityLimitConf.addDefault("DefaultEntityLimit.softtotal", -1);
+        entityLimitConf.addDefault("DefaultEntityLimit.hardtotal", -1);
+        entityLimitConf.addDefault("SubregionEntityLimit.softtotal", -1);
+        entityLimitConf.addDefault("SubregionEntityLimit.hardtotal", -1);
 
         entityLimitConf.options().copyDefaults(true);
         saveEntityLimitsConf();

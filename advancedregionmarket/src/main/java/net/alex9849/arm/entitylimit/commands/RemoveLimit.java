@@ -50,7 +50,7 @@ public class RemoveLimit extends BasicArmCommand {
         }
 
         if(args[2].equalsIgnoreCase("total")) {
-            entityLimitGroup.setTotalLimit(Integer.MAX_VALUE);
+            entityLimitGroup.setSoftLimit(Integer.MAX_VALUE);
             sender.sendMessage(Messages.PREFIX + Messages.ENTITYLIMIT_REMOVED);
             return true;
         } else {

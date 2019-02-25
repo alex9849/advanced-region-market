@@ -1,19 +1,33 @@
 EntityLimits:
   examplelimit1:
-    total: -1
+    softtotal: -1
+    hardtotal: -1
+    pricePerExtraEntity: 0
     1:
       entityType: CHICKEN
       softLimit: 10
+      hardLimit: 10
+      pricePerExtraEntity: 0
   examplelimit2:
-    total: 10
+    softtotal: 10
+    hardtotal: -1
+    pricePerExtraEntity: 10
     1:
       entityType: COW
       softLimit: 5
+      hardLimit: 10
+      pricePerExtraEntity: 10
   examplelimit3:
-    total: 20
+    softtotal: 20
+    hardtotal: -1
+    pricePerExtraEntity: 0
     1:
       entityType: CHICKEN
       softLimit: 10
+      hardLimit: 10
+      pricePerExtraEntity: 0
     2:
       entityType: BAT
       softLimit: 0
+      hardLimit: 5
+      pricePerExtraEntity: 2

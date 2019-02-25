@@ -62,7 +62,7 @@ public class CheckCommand extends BasicArmCommand {
         String totalstatus = Messages.ENTITYLIMIT_CHECK_PATTERN;
         totalstatus = totalstatus.replace("%entitytype%", Messages.ENTITYLIMIT_TOTAL);
         totalstatus = totalstatus.replace("%actualentitys%", entities.size() + "");
-        totalstatus = totalstatus.replace("%softlimitentitys%", EntityLimitGroup.intToLimitString(region.getEntityLimitGroup().getTotalLimit()));
+        totalstatus = totalstatus.replace("%softlimitentitys%", EntityLimitGroup.intToLimitString(region.getEntityLimitGroup().getSoftLimit()));
         player.sendMessage(totalstatus);
         for(EntityLimit entityLimit : region.getEntityLimitGroup().getEntityLimits()) {
             String entitystatus = Messages.ENTITYLIMIT_CHECK_PATTERN;

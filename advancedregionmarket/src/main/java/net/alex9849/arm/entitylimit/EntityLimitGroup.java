@@ -11,22 +11,35 @@ import java.util.List;
 public class EntityLimitGroup {
     private List<EntityLimit> entityLimits;
     private String name;
-    private int totalLimit;
+    private int softTotal;
+    private int hardTotal;
+    private int pricePerExtraEntity;
     private boolean needsSave = false;
-    public static EntityLimitGroup DEFAULT = new EntityLimitGroup(new ArrayList<>(), Integer.MAX_VALUE,"Default");
-    public static EntityLimitGroup SUBREGION = new EntityLimitGroup(new ArrayList<>(), Integer.MAX_VALUE,"Subregion");
+    public static EntityLimitGroup DEFAULT = new EntityLimitGroup(new ArrayList<>(), Integer.MAX_VALUE, Integer.MAX_VALUE, 0, "Default");
+    public static EntityLimitGroup SUBREGION = new EntityLimitGroup(new ArrayList<>(), Integer.MAX_VALUE, Integer.MAX_VALUE, 0,"Subregion");
 
 
-    public EntityLimitGroup(List<EntityLimit> entityLimits, int totalLimit, String name) {
-        if(totalLimit == -1) {
-            totalLimit = Integer.MAX_VALUE;
+    public EntityLimitGroup(List<EntityLimit> entityLimits, int softTotal, int hardTotal, int pricePerExtraEntity, String name) {
+        if(softTotal == -1) {
+            softTotal = Integer.MAX_VALUE;
         }
-        if(totalLimit < 0) {
-            totalLimit = totalLimit * (-1);
+        if(softTotal < 0) {
+            softTotal = softTotal * (-1);
+        }
+        if(hardTotal == -1) {
+            hardTotal = Integer.MAX_VALUE;
+        }
+        if(hardTotal < 0) {
+            hardTotal = hardTotal * (-1);
+        }
+        if(pricePerExtraEntity < 0) {
+            pricePerExtraEntity = 0;
         }
         this.entityLimits = entityLimits;
         this.name = name;
-        this.totalLimit = totalLimit;
+        this.softTotal = softTotal;
+        this.hardTotal = hardTotal;
+        this.pricePerExtraEntity = pricePerExtraEntity;
         this.needsSave = false;
     }
 
@@ -38,7 +51,7 @@ public class EntityLimitGroup {
 
         int matchingEntities = EntityLimitGroup.filterEntitys(regionEntities, entityType).size();
 
-        if(this.totalLimit <= regionEntities.size()) {
+        if(this.softTotal <= regionEntities.size()) {
             return true;
         }
 
@@ -78,8 +91,16 @@ public class EntityLimitGroup {
         return this.entityLimits;
     }
 
-    public int getTotalLimit() {
-        return this.totalLimit;
+    public int getSoftLimit() {
+        return this.softTotal;
+    }
+
+    public int getHardLimit() {
+        return this.hardTotal;
+    }
+
+    public int getPricePerExtraEntity() {
+        return this.pricePerExtraEntity;
     }
 
     public boolean needsSave() {
@@ -94,8 +115,18 @@ public class EntityLimitGroup {
         this.needsSave = false;
     }
 
-    public void setTotalLimit(int limit) {
-        this.totalLimit = limit;
+    public void setSoftLimit(int limit) {
+        this.softTotal = limit;
+        this.queueSave();
+    }
+
+    public void setHardLimit(int limit) {
+        this.hardTotal = limit;
+        this.queueSave();
+    }
+
+    public void setPricePerExtraEntity(int limit) {
+        this.pricePerExtraEntity = limit;
         this.queueSave();
     }
 

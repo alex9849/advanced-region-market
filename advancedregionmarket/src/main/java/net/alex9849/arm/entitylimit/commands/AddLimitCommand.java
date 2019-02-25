@@ -18,7 +18,7 @@ import java.util.List;
 
 public class AddLimitCommand extends BasicArmCommand {
     private final String rootCommand = "addlimit";
-    private final String regex = "(?i)addlimit [^;\n ]+ [^;\n ]+ [0-9]+ [0-9]+ [0-9]+";
+    private final String regex = "(?i)addlimit [^;\n ]+ [^;\n ]+ [0-9]+ ([0-9]+|(?i)unlimited) [0-9]+";
     private final List<String> usage = new ArrayList<>(Arrays.asList("addlimit [GROUPNAME] [ENTITYTYPE] [SOFTLIMIT] [HARDLIMIT] [PRICE PER EXTRA-ENTITY]"));
 
     @Override
@@ -49,8 +49,28 @@ public class AddLimitCommand extends BasicArmCommand {
             throw new InputException(sender, Messages.ENTITYLIMITGROUP_DOES_NOT_EXIST);
         }
 
+        int softLimit = Integer.parseInt(args[3]);
+        int hardLimit;
+        int pricePerExtraEntity = Integer.parseInt(args[5]);
+
+        if(args[4].equalsIgnoreCase("unlimited")) {
+            hardLimit = Integer.MAX_VALUE;
+        } else {
+            hardLimit = Integer.parseInt(args[4]);
+        }
+
+        if(hardLimit == -1) {
+            hardLimit = Integer.MAX_VALUE;
+        }
+        if(softLimit == -1) {
+            softLimit = Integer.MAX_VALUE;
+        }
+
+
         if(args[2].equalsIgnoreCase("total")) {
-            entityLimitGroup.setTotalLimit(Integer.parseInt(args[3]));
+            entityLimitGroup.setSoftLimit(softLimit);
+            entityLimitGroup.setHardLimit(hardLimit);
+            entityLimitGroup.setPricePerExtraEntity(pricePerExtraEntity);
             sender.sendMessage(Messages.PREFIX + Messages.ENTITYLIMIT_SET);
         } else {
             EntityType entityType = null;
@@ -67,7 +87,7 @@ public class AddLimitCommand extends BasicArmCommand {
                     entityLimitGroup.queueSave();
                 }
             }
-            entityLimitGroup.getEntityLimits().add(new EntityLimit(entityType, Integer.parseInt(args[3]), Integer.parseInt(args[4]), Integer.parseInt(args[5])));
+            entityLimitGroup.getEntityLimits().add(new EntityLimit(entityType, softLimit, hardLimit, pricePerExtraEntity));
             entityLimitGroup.queueSave();
             sender.sendMessage(Messages.PREFIX + Messages.ENTITYLIMIT_SET);
         }
@@ -99,6 +119,10 @@ public class AddLimitCommand extends BasicArmCommand {
                 }
                 if("total".startsWith(args[2])) {
                     returnme.add("total");
+                }
+            } else if((args.length == 5) && (args[0].equalsIgnoreCase(this.rootCommand))) {
+                if("unlimited".startsWith(args[4])) {
+                    returnme.add("unlimited");
                 }
             }
         }

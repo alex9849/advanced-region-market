@@ -14,6 +14,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -156,7 +157,7 @@ public class RentPreset extends Preset {
     @Override
     public Region generateRegion(WGRegion wgRegion, World world, CommandSender sender, List<Sign> signs) {
 
-        RentRegion rentRegion = new RentRegion(wgRegion, world, signs, new RentPrice(AutoPrice.DEFAULT), false, this.isAutoReset(), this.isHotel(), this.isDoBlockReset(), this.getRegionKind(), null, 0, this.isUserResettable(), 1, new ArrayList<>(), this.getAllowedSubregions(), this.entityLimitGroup);
+        RentRegion rentRegion = new RentRegion(wgRegion, world, signs, new RentPrice(AutoPrice.DEFAULT), false, this.isAutoReset(), this.isHotel(), this.isDoBlockReset(), this.getRegionKind(), null, 0, this.isUserResettable(), 1, new ArrayList<>(), this.getAllowedSubregions(), this.entityLimitGroup, new HashMap<>());
         if(this.hasAutoPrice()) {
             rentRegion.setPrice(new RentPrice(this.getAutoPrice()));
         } else if (this.hasPrice() && this.hasExtendPerClick() && this.hasMaxRentTime()) {

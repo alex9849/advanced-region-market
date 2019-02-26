@@ -13,6 +13,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -118,7 +119,7 @@ public class ContractPreset extends Preset {
     @Override
     public Region generateRegion(WGRegion wgRegion, World world, CommandSender sender, List<Sign> signs) {
 
-        ContractRegion contractRegion = new ContractRegion(wgRegion, world, signs, new ContractPrice(AutoPrice.DEFAULT), false, this.isAutoReset(), this.isHotel(), this.isDoBlockReset(), this.getRegionKind(), null, 0, this.isUserResettable(), 1, true, new ArrayList<>(), this.getAllowedSubregions(), this.entityLimitGroup);
+        ContractRegion contractRegion = new ContractRegion(wgRegion, world, signs, new ContractPrice(AutoPrice.DEFAULT), false, this.isAutoReset(), this.isHotel(), this.isDoBlockReset(), this.getRegionKind(), null, 0, this.isUserResettable(), 1, true, new ArrayList<>(), this.getAllowedSubregions(), this.entityLimitGroup, new HashMap<>());
         if(this.hasAutoPrice()) {
             contractRegion.setPrice(new ContractPrice(this.getAutoPrice()));
         } else if (this.hasPrice() && this.hasExtend()) {

@@ -48,9 +48,12 @@ public abstract class Region {
     protected boolean isUserResettable;
     protected EntityLimitGroup entityLimitGroup;
     private boolean needsSave;
+    private HashMap<EntityType, Integer> extraEntitys;
 
     public Region(WGRegion region, World regionworld, List<Sign> sellsign, Price price, Boolean sold, Boolean autoreset,
-                  Boolean isHotel, Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, boolean isUserResettable, List<Region> subregions, int allowedSubregions, EntityLimitGroup entityLimitGroup){
+                  Boolean isHotel, Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset,
+                  boolean isUserResettable, List<Region> subregions, int allowedSubregions, EntityLimitGroup entityLimitGroup,
+                  HashMap<EntityType, Integer> extraEntitys){
         this.region = region;
         this.sellsign = new ArrayList<Sign>(sellsign);
         this.sold = sold;
@@ -68,6 +71,7 @@ public abstract class Region {
         this.isUserResettable = isUserResettable;
         this.needsSave = false;
         this.entityLimitGroup = entityLimitGroup;
+        this.extraEntitys = extraEntitys;
 
         for(Region subregion : subregions) {
             subregion.setParentRegion(this);
@@ -756,7 +760,6 @@ public abstract class Region {
         return result;
     }
 
-
     public List<Entity> getFilteredInsideEntities(boolean includePlayers, boolean includeLivingEntity, boolean includeVehicles, boolean includeProjectiles, boolean includeAreaEffectCloud, boolean includeItemFrames, boolean includePaintings) {
 
         List<Entity> insideEntitys = this.getInsideEntities(includePlayers);
@@ -795,5 +798,40 @@ public abstract class Region {
         }
 
         return result;
+    }
+
+    public void addExtraEntitys(EntityType entityType, int amount) {
+        Integer oldamount = this.extraEntitys.get(entityType);
+        if(oldamount == null) {
+            this.extraEntitys.put(entityType, amount);
+        } else {
+            this.extraEntitys.remove(entityType);
+            this.extraEntitys.put(entityType, oldamount + amount);
+        }
+        this.queueSave();
+    }
+
+    public int getExtraEntityAmount(EntityType entityType) {
+        Integer amount = this.extraEntitys.get(entityType);
+        if(amount == null) {
+            return 0;
+        } else {
+            return amount;
+        }
+    }
+
+    public void removeExtraEntitys(EntityType entityType, int amount) {
+        Integer oldamount = this.extraEntitys.get(entityType);
+        if(oldamount != null) {
+            this.extraEntitys.remove(entityType);
+            if((oldamount - amount) > 0) {
+                this.extraEntitys.put(entityType, oldamount - amount);
+            }
+        }
+        this.queueSave();
+    }
+
+    protected HashMap<EntityType, Integer> getExtraEntitys() {
+        return this.extraEntitys;
     }
 }

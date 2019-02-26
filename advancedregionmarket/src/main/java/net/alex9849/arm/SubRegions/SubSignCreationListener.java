@@ -17,6 +17,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class SubSignCreationListener implements Listener {
@@ -54,7 +55,7 @@ public class SubSignCreationListener implements Listener {
                 List<Sign> signList = new ArrayList<>();
                 signList.add((Sign) event.getBlock().getState());
                 Price subregPrice = new Price(price);
-                SellRegion sellRegion = new SellRegion(this.subRegionCreator.getSubRegion(), this.subRegionCreator.getParentRegion().getRegionworld(), signList, subregPrice, false, ArmSettings.isSubregionAutoReset(), false, ArmSettings.isSubregionBlockReset(), RegionKind.SUBREGION, null, 1, ArmSettings.isAllowSubRegionUserReset(), new ArrayList<Region>(), 0, EntityLimitGroup.SUBREGION);
+                SellRegion sellRegion = new SellRegion(this.subRegionCreator.getSubRegion(), this.subRegionCreator.getParentRegion().getRegionworld(), signList, subregPrice, false, ArmSettings.isSubregionAutoReset(), false, ArmSettings.isSubregionBlockReset(), RegionKind.SUBREGION, null, 1, ArmSettings.isAllowSubRegionUserReset(), new ArrayList<Region>(), 0, EntityLimitGroup.SUBREGION, new HashMap<>());
                 this.subRegionCreator.saveWorldGuardRegion();
                 event.setCancelled(true);
                 this.subRegionCreator.getParentRegion().addSubRegion(sellRegion);
@@ -91,7 +92,7 @@ public class SubSignCreationListener implements Listener {
                 List<Sign> signList = new ArrayList<>();
                 signList.add((Sign) event.getBlock().getState());
                 RentPrice rentPrice = new RentPrice(price, extendPerClick, maxRentTime);
-                RentRegion rentRegion = new RentRegion(this.subRegionCreator.getSubRegion(), this.subRegionCreator.getParentRegion().getRegionworld(), signList, rentPrice, false, ArmSettings.isSubregionAutoReset(), false, ArmSettings.isSubregionBlockReset(), RegionKind.SUBREGION, null, 1, ArmSettings.isAllowSubRegionUserReset(), 0, new ArrayList<Region>(), 0, EntityLimitGroup.SUBREGION);
+                RentRegion rentRegion = new RentRegion(this.subRegionCreator.getSubRegion(), this.subRegionCreator.getParentRegion().getRegionworld(), signList, rentPrice, false, ArmSettings.isSubregionAutoReset(), false, ArmSettings.isSubregionBlockReset(), RegionKind.SUBREGION, null, 1, ArmSettings.isAllowSubRegionUserReset(), 0, new ArrayList<Region>(), 0, EntityLimitGroup.SUBREGION, new HashMap<>());
                 this.subRegionCreator.saveWorldGuardRegion();
                 event.setCancelled(true);
                 this.subRegionCreator.getParentRegion().addSubRegion(rentRegion);
@@ -125,7 +126,7 @@ public class SubSignCreationListener implements Listener {
                 List<Sign> signList = new ArrayList<>();
                 signList.add((Sign) event.getBlock().getState());
                 ContractPrice contractPrice = new ContractPrice(price, extendtime);
-                ContractRegion contractRegion = new ContractRegion(this.subRegionCreator.getSubRegion(), this.subRegionCreator.getParentRegion().getRegionworld(), signList, contractPrice, false, ArmSettings.isSubregionAutoReset(), false, ArmSettings.isSubregionBlockReset(), RegionKind.SUBREGION, null, 1, ArmSettings.isAllowSubRegionUserReset(), 0, false, new ArrayList<Region>(), 0, EntityLimitGroup.SUBREGION);
+                ContractRegion contractRegion = new ContractRegion(this.subRegionCreator.getSubRegion(), this.subRegionCreator.getParentRegion().getRegionworld(), signList, contractPrice, false, ArmSettings.isSubregionAutoReset(), false, ArmSettings.isSubregionBlockReset(), RegionKind.SUBREGION, null, 1, ArmSettings.isAllowSubRegionUserReset(), 0, false, new ArrayList<Region>(), 0, EntityLimitGroup.SUBREGION, new HashMap<>());
                 this.subRegionCreator.saveWorldGuardRegion();
                 event.setCancelled(true);
                 this.subRegionCreator.getParentRegion().addSubRegion(contractRegion);

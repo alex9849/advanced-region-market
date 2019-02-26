@@ -594,6 +594,8 @@ public abstract class Region {
             }
         }
 
+        this.extraEntitys.clear();
+
         for(int i = 0; i < this.sellsign.size(); i++){
             this.updateSignText(this.sellsign.get(i));
         }

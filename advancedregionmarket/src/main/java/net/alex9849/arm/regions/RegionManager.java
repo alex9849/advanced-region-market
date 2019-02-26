@@ -54,6 +54,7 @@ public class RegionManager {
         regionsconf.set("Regions." + region.getRegionworld().getName() + "." + region.getRegion().getId() + ".doBlockReset", region.isDoBlockReset());
         regionsconf.set("Regions." + region.getRegionworld().getName() + "." + region.getRegion().getId() + ".allowedSubregions", region.getAllowedSubregions());
         regionsconf.set("Regions." + region.getRegionworld().getName() + "." + region.getRegion().getId() + ".isUserResettable", region.isUserResettable());
+        regionsconf.set("Regions." + region.getRegionworld().getName() + "." + region.getRegion().getId() + ".boughtExtraTotalEntitys", region.getExtraTotalEntitys());
         List<String> boughtExtraEntitysStringList = new ArrayList<>();
         for(Map.Entry<EntityType, Integer> entry : region.getExtraEntitys().entrySet()) {
             boughtExtraEntitysStringList.add(entry.getKey().name() + ": " + entry.getValue());
@@ -223,6 +224,7 @@ public class RegionManager {
         long lastreset = regionSection.getLong("lastreset");
         String teleportLocString = regionSection.getString("teleportLoc");
         int allowedSubregions = regionSection.getInt("allowedSubregions");
+        int boughtExtraTotalEntitys = regionSection.getInt("boughtExtraTotalEntitys");
         List<String> boughtExtraEntitys = regionSection.getStringList("boughtExtraEntitys");
         boolean isUserResettable = regionSection.getBoolean("isUserResettable");
         Location teleportLoc = parseTpLocation(teleportLocString);
@@ -267,7 +269,7 @@ public class RegionManager {
             }
             long payedtill = regionSection.getLong("payedTill");
             return new RentRegion(wgRegion, regionWorld, regionsigns, rentPrice, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, teleportLoc,
-                    lastreset, isUserResettable, payedtill, subregions, allowedSubregions, entityLimitGroup, extraEntitysMap);
+                    lastreset, isUserResettable, payedtill, subregions, allowedSubregions, entityLimitGroup, extraEntitysMap, boughtExtraTotalEntitys);
 
 
         }  else if (regiontype.equalsIgnoreCase("contractregion")) {
@@ -286,7 +288,8 @@ public class RegionManager {
             }
             long payedtill = regionSection.getLong("payedTill");
             Boolean terminated = regionSection.getBoolean("terminated");
-            return new ContractRegion(wgRegion, regionWorld, regionsigns, contractPrice, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, teleportLoc, lastreset, isUserResettable, payedtill, terminated, subregions, allowedSubregions, entityLimitGroup, extraEntitysMap);
+            return new ContractRegion(wgRegion, regionWorld, regionsigns, contractPrice, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, teleportLoc,
+                    lastreset, isUserResettable, payedtill, terminated, subregions, allowedSubregions, entityLimitGroup, extraEntitysMap, boughtExtraTotalEntitys);
         } else {
             Price sellPrice;
             if (autoPriceString != null) {
@@ -299,7 +302,8 @@ public class RegionManager {
                 double price = regionSection.getDouble("price");
                 sellPrice = new Price(price);
             }
-            return new SellRegion(wgRegion, regionWorld, regionsigns, sellPrice, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, teleportLoc, lastreset, isUserResettable, subregions, allowedSubregions, entityLimitGroup, extraEntitysMap);
+            return new SellRegion(wgRegion, regionWorld, regionsigns, sellPrice, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, teleportLoc, lastreset,
+                    isUserResettable, subregions, allowedSubregions, entityLimitGroup, extraEntitysMap, boughtExtraTotalEntitys);
 
         }
     }
@@ -331,18 +335,20 @@ public class RegionManager {
             long subregrentExtendPerClick = section.getLong("rentExtendPerClick");
             RentPrice subPrice = new RentPrice(subregPrice, subregrentExtendPerClick, subregmaxRentTime);
             return new RentRegion(subregion, regionWorld, subregionsigns, subPrice, subregIsSold, ArmSettings.isSubregionAutoReset(), subregIsHotel, ArmSettings.isSubregionBlockReset(), RegionKind.SUBREGION, null,
-                    sublastreset, ArmSettings.isAllowSubRegionUserReset(), subregpayedtill, new ArrayList<Region>(), 0, EntityLimitGroup.SUBREGION, new HashMap<>());
+                    sublastreset, ArmSettings.isAllowSubRegionUserReset(), subregpayedtill, new ArrayList<Region>(), 0, EntityLimitGroup.SUBREGION, new HashMap<>(), 0);
 
         }  else if (subregionRegiontype.equalsIgnoreCase("contractregion")) {
             long subregpayedtill = section.getLong("payedTill");
             long subregextendTime = section.getLong("extendTime");
             Boolean subregterminated = section.getBoolean("terminated");
             ContractPrice subPrice = new ContractPrice(subregPrice, subregextendTime);
-            return new ContractRegion(subregion, regionWorld, subregionsigns, subPrice, subregIsSold, ArmSettings.isSubregionAutoReset(), subregIsHotel, ArmSettings.isSubregionBlockReset(), RegionKind.SUBREGION, null, sublastreset, ArmSettings.isAllowSubRegionUserReset(), subregpayedtill, subregterminated, new ArrayList<Region>(), 0, EntityLimitGroup.SUBREGION, new HashMap<>());
+            return new ContractRegion(subregion, regionWorld, subregionsigns, subPrice, subregIsSold, ArmSettings.isSubregionAutoReset(), subregIsHotel, ArmSettings.isSubregionBlockReset(), RegionKind.SUBREGION, null,
+                    sublastreset, ArmSettings.isAllowSubRegionUserReset(), subregpayedtill, subregterminated, new ArrayList<Region>(), 0, EntityLimitGroup.SUBREGION, new HashMap<>(), 0);
 
         } else {
             Price subPrice = new Price(subregPrice);
-            return new SellRegion(subregion, regionWorld, subregionsigns, subPrice, subregIsSold, ArmSettings.isSubregionAutoReset(), subregIsHotel, ArmSettings.isSubregionBlockReset(), RegionKind.SUBREGION, null, sublastreset, ArmSettings.isAllowSubRegionUserReset(), new ArrayList<Region>(), 0, EntityLimitGroup.SUBREGION, new HashMap<>());
+            return new SellRegion(subregion, regionWorld, subregionsigns, subPrice, subregIsSold, ArmSettings.isSubregionAutoReset(), subregIsHotel, ArmSettings.isSubregionBlockReset(), RegionKind.SUBREGION, null,
+                    sublastreset, ArmSettings.isAllowSubRegionUserReset(), new ArrayList<Region>(), 0, EntityLimitGroup.SUBREGION, new HashMap<>(), 0);
         }
     }
 
@@ -445,6 +451,7 @@ public class RegionManager {
                                 regionsconf.addDefault("Regions." + worlds.get(y) + "." + regions.get(i) + ".doBlockReset", true);
                                 regionsconf.addDefault("Regions." + worlds.get(y) + "." + regions.get(i) + ".allowedSubregions", 0);
                                 regionsconf.addDefault("Regions." + worlds.get(y) + "." + regions.get(i) + ".isUserResettable", true);
+                                regionsconf.addDefault("Regions." + worlds.get(y) + "." + regions.get(i) + ".boughtExtraTotalEntitys", 0);
                                 regionsconf.addDefault("Regions." + worlds.get(y) + "." + regions.get(i) + ".boughtExtraEntitys", new ArrayList<String>());
                                 regionsconf.addDefault("Regions." + worlds.get(y) + "." + regions.get(i) + ".regiontype", "sellregion");
                                 if (regionsconf.getString("Regions." + worlds.get(y) + "." + regions.get(i) + ".regiontype").equalsIgnoreCase("rentregion")) {

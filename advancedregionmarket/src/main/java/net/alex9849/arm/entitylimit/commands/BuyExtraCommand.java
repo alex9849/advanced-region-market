@@ -59,32 +59,40 @@ public class BuyExtraCommand extends BasicArmCommand {
             }
         }
 
-        EntityType entityType;
+        if(args[2].equalsIgnoreCase("total")) {
 
-        try {
-            entityType = EntityType.valueOf(args[2]);
-        } catch (IllegalArgumentException e) {
-            throw new InputException(player, Messages.ENTITYTYPE_DOES_NOT_EXIST);
+            if((region.getEntityLimitGroup().getHardLimit() <= region.getEntityLimitGroup().getSoftLimit(region.getExtraTotalEntitys())) && !player.hasPermission(Permission.ADMIN_ENTITYLIMIT_BUY_EXTRA)) {
+                throw new InputException(player, "Can not buy another entity-expansion! Hardlimit has been reached!");
+            }
+            if(AdvancedRegionMarket.getEcon().getBalance(player) < region.getEntityLimitGroup().getPricePerExtraEntity()) {
+                throw new InputException(player, Messages.NOT_ENOUGHT_MONEY);
+            }
+            AdvancedRegionMarket.getEcon().withdrawPlayer(player, region.getEntityLimitGroup().getPricePerExtraEntity());
+            region.setExtraTotalEntitys(region.getExtraTotalEntitys() + 1);
+            player.sendMessage(Messages.PREFIX + "You have sucessfully expanded you entitylimit to " + region.getEntityLimitGroup().getSoftLimit(region.getExtraTotalEntitys()) + " entities!");
+
+        } else {
+
+            EntityType entityType;
+            try {
+                entityType = EntityType.valueOf(args[2]);
+            } catch (IllegalArgumentException e) {
+                throw new InputException(player, Messages.ENTITYTYPE_DOES_NOT_EXIST);
+            }
+            if(!region.getEntityLimitGroup().containsLimit(entityType)) {
+                //TODO
+                throw new InputException(player, "EntityLimit for the selected entity and region is already unlimited!");
+            }
+            if((region.getEntityLimitGroup().getHardLimit(entityType) <= region.getEntityLimitGroup().getSoftLimit(entityType, region.getExtraEntityAmount(entityType))) && !player.hasPermission(Permission.ADMIN_ENTITYLIMIT_BUY_EXTRA)) {
+                throw new InputException(player, "Can not buy another entity-expansion! Hardlimit has been reached!");
+            }
+            if(AdvancedRegionMarket.getEcon().getBalance(player) < region.getEntityLimitGroup().getPricePerExtraEntity(entityType)) {
+                throw new InputException(player, Messages.NOT_ENOUGHT_MONEY);
+            }
+            AdvancedRegionMarket.getEcon().withdrawPlayer(player, region.getEntityLimitGroup().getPricePerExtraEntity(entityType));
+            region.setExtraEntityAmount(entityType, region.getExtraEntityAmount(entityType) + 1);
+            player.sendMessage(Messages.PREFIX + "You have sucessfully expanded you entitylimit to " + region.getEntityLimitGroup().getSoftLimit(entityType, region.getExtraEntityAmount(entityType)) + " entities!");
         }
-
-        if(!region.getEntityLimitGroup().containsLimit(entityType)) {
-            //TODO
-            throw new InputException(player, "EntityLimit for the selected entity and region is already unlimited!");
-        }
-
-        if((region.getEntityLimitGroup().getHardLimit(entityType) <= region.getEntityLimitGroup().getSoftLimit(entityType, region.getExtraEntityAmount(entityType))) && !player.hasPermission(Permission.ADMIN_ENTITYLIMIT_BUY_EXTRA)) {
-            throw new InputException(player, "Can not buy another entity-expansion! Hardlimit has been reached!");
-        }
-
-        if(AdvancedRegionMarket.getEcon().getBalance(player) < region.getEntityLimitGroup().getPricePerExtraEntity(entityType)) {
-            throw new InputException(player, Messages.NOT_ENOUGHT_MONEY);
-        }
-
-        AdvancedRegionMarket.getEcon().withdrawPlayer(player, region.getEntityLimitGroup().getPricePerExtraEntity(entityType));
-
-        region.setExtraEntityAmount(entityType, region.getExtraEntityAmount(entityType) + 1);
-
-        player.sendMessage(Messages.PREFIX + "You have sucessfully expanded you entitylimit to " + region.getEntityLimitGroup().getSoftLimit(entityType, region.getExtraEntityAmount(entityType)) + " entities!");
 
         return true;
     }
@@ -111,11 +119,16 @@ public class BuyExtraCommand extends BasicArmCommand {
                     if(entityType.toString().toLowerCase().startsWith(args[2])) {
                         Region region = RegionManager.getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
                         if(region != null) {
-                            region.getEntityLimitGroup().containsLimit(entityType);
+                            if(region.getEntityLimitGroup().containsLimit(entityType)) {
+                                returnme.add(entityType.toString());
+                            }
                         } else {
                             returnme.add(entityType.toString());
                         }
                     }
+                }
+                if("total".startsWith(args[2])) {
+                    returnme.add("total");
                 }
             }
         }

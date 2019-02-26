@@ -49,11 +49,12 @@ public abstract class Region {
     protected EntityLimitGroup entityLimitGroup;
     private boolean needsSave;
     private HashMap<EntityType, Integer> extraEntitys;
+    private int extraTotalEntitys;
 
     public Region(WGRegion region, World regionworld, List<Sign> sellsign, Price price, Boolean sold, Boolean autoreset,
                   Boolean isHotel, Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset,
                   boolean isUserResettable, List<Region> subregions, int allowedSubregions, EntityLimitGroup entityLimitGroup,
-                  HashMap<EntityType, Integer> extraEntitys){
+                  HashMap<EntityType, Integer> extraEntitys, int boughtExtraTotalEntitys){
         this.region = region;
         this.sellsign = new ArrayList<Sign>(sellsign);
         this.sold = sold;
@@ -72,6 +73,7 @@ public abstract class Region {
         this.needsSave = false;
         this.entityLimitGroup = entityLimitGroup;
         this.extraEntitys = extraEntitys;
+        this.extraTotalEntitys = boughtExtraTotalEntitys;
 
         for(Region subregion : subregions) {
             subregion.setParentRegion(this);
@@ -595,6 +597,7 @@ public abstract class Region {
         }
 
         this.extraEntitys.clear();
+        this.extraTotalEntitys = 0;
 
         for(int i = 0; i < this.sellsign.size(); i++){
             this.updateSignText(this.sellsign.get(i));
@@ -809,6 +812,20 @@ public abstract class Region {
         } else {
             return amount;
         }
+    }
+
+    public int getExtraTotalEntitys() {
+        return this.extraTotalEntitys;
+    }
+
+    public void setExtraTotalEntitys(int extraTotalEntitys) {
+        if(extraTotalEntitys < 0) {
+            this.extraTotalEntitys = 0;
+        } else {
+            this.extraTotalEntitys = extraTotalEntitys;
+        }
+
+        this.queueSave();
     }
 
     public void setExtraEntityAmount(EntityType entityType, int amount) {

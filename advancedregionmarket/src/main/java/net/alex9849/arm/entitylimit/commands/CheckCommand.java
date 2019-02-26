@@ -58,10 +58,10 @@ public class CheckCommand extends BasicArmCommand {
         List<Entity> entities = region.getFilteredInsideEntities(false, true, true, false, false, true, true);
 
         player.sendMessage(region.getConvertedMessage(Messages.ENTITYLIMIT_CHECK_HEADLINE));
-        String totalstatus = region.getEntityLimitGroup().getConvertedMessage(Messages.ENTITYLIMIT_CHECK_PATTERN, entities);
+        String totalstatus = region.getEntityLimitGroup().getConvertedMessage(Messages.ENTITYLIMIT_CHECK_PATTERN, entities, region.getExtraTotalEntitys());
 
-        if(region.getEntityLimitGroup().getSoftLimit() < region.getEntityLimitGroup().getHardLimit()) {
-            totalstatus = totalstatus.replace("%entityextensioninfo%", region.getEntityLimitGroup().getConvertedMessage(Messages.ENTITYLIMIT_CHECK_EXTENSION_INFO, entities));
+        if(region.getEntityLimitGroup().getSoftLimit(region.getExtraTotalEntitys()) < region.getEntityLimitGroup().getHardLimit()) {
+            totalstatus = totalstatus.replace("%entityextensioninfo%", region.getEntityLimitGroup().getConvertedMessage(Messages.ENTITYLIMIT_CHECK_EXTENSION_INFO, entities, region.getExtraTotalEntitys()));
         } else {
             totalstatus = totalstatus.replace("%entityextensioninfo%", "");
         }

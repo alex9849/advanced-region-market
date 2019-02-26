@@ -94,8 +94,12 @@ public class EntityLimitGroup {
         return this.entityLimits;
     }
 
-    public int getSoftLimit() {
-        return this.softTotal;
+    public int getSoftLimit(int expansion) {
+        if((this.softTotal + expansion) >= 0) {
+            return this.softTotal + expansion;
+        } else {
+            return Integer.MAX_VALUE;
+        }
     }
 
     public int getSoftLimit(EntityType entityType, int expansion) {
@@ -176,10 +180,10 @@ public class EntityLimitGroup {
         EntityLimitGroup.SUBREGION = entityLimitGroup;
     }
 
-    public String getConvertedMessage(String message, List<Entity> entities) {
+    public String getConvertedMessage(String message, List<Entity> entities, int entityExpansion) {
         message = message.replace("%entitytype%", Messages.ENTITYLIMIT_TOTAL);
         message = message.replace("%actualentities%", entities.size() + "");
-        message = message.replace("%softlimitentities%", EntityLimitGroup.intToLimitString(this.getSoftLimit()));
+        message = message.replace("%softlimitentities%", EntityLimitGroup.intToLimitString(this.getSoftLimit(entityExpansion)));
         message = message.replace("%hardlimitentities%", EntityLimitGroup.intToLimitString(this.getHardLimit()));
         message = message.replace("%priceperextraentity%", this.getPricePerExtraEntity() + "");
         message = message.replace("%currency%", Messages.CURRENCY);

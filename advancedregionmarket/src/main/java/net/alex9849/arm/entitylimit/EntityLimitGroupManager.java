@@ -83,7 +83,7 @@ public class EntityLimitGroupManager {
 
     private static void saveEntityLimit(String path, EntityLimitGroup entityLimitGroup) {
         entityLimitConf.set(path, null);
-        int softLimit = entityLimitGroup.getSoftLimit();
+        int softLimit = entityLimitGroup.getSoftLimit(0);
         if(softLimit == Integer.MAX_VALUE) {
             softLimit = -1;
         }

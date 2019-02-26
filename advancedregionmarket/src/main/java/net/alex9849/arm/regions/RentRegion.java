@@ -33,8 +33,11 @@ public class RentRegion extends Region {
     private static Boolean sendExpirationWarning;
 
     public RentRegion(WGRegion region, World regionworld, List<Sign> rentsign, RentPrice rentPrice, Boolean sold, Boolean autoreset, Boolean allowOnlyNewBlocks,
-                      Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, boolean isUserResettable, long payedTill, List<Region> subregions, int allowedSubregions, EntityLimitGroup entityLimitGroup, HashMap<EntityType, Integer> extraEntitys) {
-        super(region, regionworld, rentsign, rentPrice, sold, autoreset, allowOnlyNewBlocks, doBlockReset, regionKind, teleportLoc, lastreset, isUserResettable, subregions, allowedSubregions, entityLimitGroup, extraEntitys);
+                      Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, boolean isUserResettable, long payedTill,
+                      List<Region> subregions, int allowedSubregions, EntityLimitGroup entityLimitGroup, HashMap<EntityType, Integer> extraEntitys,
+                      int boughtExtraTotalEntitys) {
+        super(region, regionworld, rentsign, rentPrice, sold, autoreset, allowOnlyNewBlocks, doBlockReset, regionKind, teleportLoc, lastreset, isUserResettable,
+                subregions, allowedSubregions, entityLimitGroup, extraEntitys, boughtExtraTotalEntitys);
 
         this.payedTill = payedTill;
         this.maxRentTime = rentPrice.getMaxRentTime();

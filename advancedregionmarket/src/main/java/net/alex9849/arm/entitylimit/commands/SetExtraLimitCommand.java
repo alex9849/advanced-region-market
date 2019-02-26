@@ -52,25 +52,30 @@ public class SetExtraLimitCommand extends BasicArmCommand {
             throw new InputException(player, Messages.REGION_DOES_NOT_EXIST);
         }
 
-        EntityType entityType;
-
-        try {
-            entityType = EntityType.valueOf(args[2]);
-        } catch (IllegalArgumentException e) {
-            throw new InputException(player, Messages.ENTITYTYPE_DOES_NOT_EXIST);
-        }
-
-        if(!region.getEntityLimitGroup().containsLimit(entityType)) {
-            //TODO
-            throw new InputException(player, "EntityLimit for the selected entity and region is already unlimited!");
-        }
         int amount = Integer.parseInt(args[3]);
 
         if(amount < 0) {
             amount = 0;
         }
 
-        region.setExtraEntityAmount(entityType, amount);
+        if(args[2].equalsIgnoreCase("total")) {
+            region.setExtraTotalEntitys(amount);
+        } else {
+            EntityType entityType;
+
+            try {
+                entityType = EntityType.valueOf(args[2]);
+            } catch (IllegalArgumentException e) {
+                throw new InputException(player, Messages.ENTITYTYPE_DOES_NOT_EXIST);
+            }
+
+            if(!region.getEntityLimitGroup().containsLimit(entityType)) {
+                //TODO
+                throw new InputException(player, "EntityLimit for the selected entity and region is already unlimited!");
+            }
+            region.setExtraEntityAmount(entityType, amount);
+        }
+
 
         player.sendMessage(Messages.PREFIX + "Extra-Entities have been set!");
 
@@ -99,6 +104,9 @@ public class SetExtraLimitCommand extends BasicArmCommand {
                     if(entityType.toString().toLowerCase().startsWith(args[2])) {
                         returnme.add(entityType.toString());
                     }
+                }
+                if("total".startsWith(args[2])) {
+                    returnme.add("total");
                 }
             }
         }

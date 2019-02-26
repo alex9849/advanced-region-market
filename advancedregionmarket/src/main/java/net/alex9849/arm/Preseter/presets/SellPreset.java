@@ -47,7 +47,7 @@ public class SellPreset extends Preset{
     @Override
     public Region generateRegion(WGRegion wgRegion, World world, CommandSender sender, List<Sign> signs) {
 
-        SellRegion sellRegion = new SellRegion(wgRegion, world, signs, new Price(AutoPrice.DEFAULT), false, this.isAutoReset(), this.isHotel(), this.isDoBlockReset(), this.getRegionKind(), null, 0, this.isUserResettable(), new ArrayList<>(), this.getAllowedSubregions(), this.entityLimitGroup, new HashMap<>());
+        SellRegion sellRegion = new SellRegion(wgRegion, world, signs, new Price(AutoPrice.DEFAULT), false, this.isAutoReset(), this.isHotel(), this.isDoBlockReset(), this.getRegionKind(), null, 0, this.isUserResettable(), new ArrayList<>(), this.getAllowedSubregions(), this.entityLimitGroup, new HashMap<>(), 0);
         if(this.hasAutoPrice()) {
             sellRegion.setPrice(new Price(this.getAutoPrice()));
         } else if (this.hasPrice()) {

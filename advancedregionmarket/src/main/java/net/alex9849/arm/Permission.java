@@ -66,6 +66,7 @@ public class Permission {
     public static final String ADMIN_ENTITYLIMIT_LIST = "arm.admin.entitylimit.list";
     public static final String ADMIN_SET_ENTITYLIMIT = "arm.admin.setentitylimit";
     public static final String ADMIN_ENTITYLIMIT_CHECK = "arm.admin.entitylimit.check";
+    public static final String ADMIN_ENTITYLIMIT_SET_EXTRA = "arm.admin.entitylimit.setextra";
 
 
     public static final String SUBREGION_TOOL = "arm.subregion.tool";

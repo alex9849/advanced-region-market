@@ -802,17 +802,6 @@ public abstract class Region {
         return result;
     }
 
-    public void addExtraEntitys(EntityType entityType, int amount) {
-        Integer oldamount = this.extraEntitys.get(entityType);
-        if(oldamount == null) {
-            this.extraEntitys.put(entityType, amount);
-        } else {
-            this.extraEntitys.remove(entityType);
-            this.extraEntitys.put(entityType, oldamount + amount);
-        }
-        this.queueSave();
-    }
-
     public int getExtraEntityAmount(EntityType entityType) {
         Integer amount = this.extraEntitys.get(entityType);
         if(amount == null) {
@@ -822,13 +811,10 @@ public abstract class Region {
         }
     }
 
-    public void removeExtraEntitys(EntityType entityType, int amount) {
-        Integer oldamount = this.extraEntitys.get(entityType);
-        if(oldamount != null) {
-            this.extraEntitys.remove(entityType);
-            if((oldamount - amount) > 0) {
-                this.extraEntitys.put(entityType, oldamount - amount);
-            }
+    public void setExtraEntityAmount(EntityType entityType, int amount) {
+        this.extraEntitys.remove(entityType);
+        if(amount > 0) {
+            this.extraEntitys.put(entityType, amount);
         }
         this.queueSave();
     }

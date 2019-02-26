@@ -158,4 +158,13 @@ public class EntityLimitGroup {
         message = message.replace("%currency%", Messages.CURRENCY);
         return message;
     }
+
+    public boolean containsLimit(EntityType entityType) {
+        for(EntityLimit entityLimit : entityLimits) {
+            if(entityLimit.getEntityType() == entityType) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

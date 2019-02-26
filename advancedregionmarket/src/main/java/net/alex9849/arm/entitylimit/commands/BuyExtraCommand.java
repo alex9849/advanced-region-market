@@ -4,7 +4,6 @@ import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.commands.BasicArmCommand;
-import net.alex9849.arm.entitylimit.EntityLimitGroupManager;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.RegionManager;
@@ -110,7 +109,12 @@ public class BuyExtraCommand extends BasicArmCommand {
             } else if((args.length == 3) && (args[0].equalsIgnoreCase(this.rootCommand))) {
                 for(EntityType entityType : EntityType.values()) {
                     if(entityType.toString().toLowerCase().startsWith(args[2])) {
-                        returnme.add(entityType.toString());
+                        Region region = RegionManager.getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
+                        if(region != null) {
+                            region.getEntityLimitGroup().containsLimit(entityType);
+                        } else {
+                            returnme.add(entityType.toString());
+                        }
                     }
                 }
             }

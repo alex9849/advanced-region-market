@@ -98,12 +98,39 @@ public class EntityLimitGroup {
         return this.softTotal;
     }
 
+    public int getSoftLimit(EntityType entityType, int expansion) {
+        for(EntityLimit entityLimit : entityLimits) {
+            if(entityLimit.getEntityType() == entityType) {
+                return entityLimit.getSoftLimit(expansion);
+            }
+        }
+        return Integer.MAX_VALUE;
+    }
+
     public int getHardLimit() {
         return this.hardTotal;
     }
 
+    public int getHardLimit(EntityType entityType) {
+        for(EntityLimit entityLimit : entityLimits) {
+            if(entityLimit.getEntityType() == entityType) {
+                return entityLimit.getHardLimit();
+            }
+        }
+        return Integer.MAX_VALUE;
+    }
+
     public int getPricePerExtraEntity() {
         return this.pricePerExtraEntity;
+    }
+
+    public int getPricePerExtraEntity(EntityType entityType) {
+        for(EntityLimit entityLimit : entityLimits) {
+            if(entityLimit.getEntityType() == entityType) {
+                return entityLimit.getPricePerExtraEntity();
+            }
+        }
+        return 0;
     }
 
     public boolean needsSave() {

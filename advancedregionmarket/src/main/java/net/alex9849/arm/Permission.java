@@ -67,6 +67,7 @@ public class Permission {
     public static final String ADMIN_SET_ENTITYLIMIT = "arm.admin.setentitylimit";
     public static final String ADMIN_ENTITYLIMIT_CHECK = "arm.admin.entitylimit.check";
     public static final String ADMIN_ENTITYLIMIT_SET_EXTRA = "arm.admin.entitylimit.setextra";
+    public static final String ADMIN_ENTITYLIMIT_BUY_EXTRA = "arm.admin.entitylimit.buyextra";
 
 
     public static final String SUBREGION_TOOL = "arm.subregion.tool";
@@ -110,6 +111,7 @@ public class Permission {
     public static final String MEMBER_REGIONFINDER = "arm.member.regionfinder";
     public static final String MEMBER_ENTITYLIMIT_INFO = "arm.member.entitylimit.info";
     public static final String MEMBER_ENTITYLIMIT_CHECK = "arm.member.entitylimit.check";
+    public static final String MEMBER_ENTITYLIMIT_BUY_EXTRA = "arm.member.entitylimit.buyextra";
 
     public static final String ARM_HELP = "arm.help";
     public static final String ARM_BUYKIND = "arm.buykind.";
@@ -121,5 +123,12 @@ public class Permission {
 
     public static boolean hasAnyBuyPermission(CommandSender sender) {
         return (sender.hasPermission(MEMBER_BUY) || sender.hasPermission(OLD_BUY_CONTRACTREGION) || sender.hasPermission(OLD_BUY_RENTREGION) || sender.hasPermission(OLD_BUY_SELLREGION));
+    }
+
+    public static boolean hasAnyEntityLimitPermission(CommandSender sender) {
+        return sender.hasPermission(MEMBER_ENTITYLIMIT_BUY_EXTRA) || sender.hasPermission(MEMBER_ENTITYLIMIT_CHECK) || sender.hasPermission(MEMBER_ENTITYLIMIT_INFO)
+                || sender.hasPermission(ADMIN_ENTITYLIMIT_BUY_EXTRA) || sender.hasPermission(ADMIN_ENTITYLIMIT_CHECK) || sender.hasPermission(ADMIN_ENTITYLIMIT_REMOVE_LIMIT)
+                || sender.hasPermission(ADMIN_ENTITYLIMIT_LIST) || sender.hasPermission(ADMIN_ENTITYLIMIT_DELETE) || sender.hasPermission(ADMIN_ENTITYLIMIT_CREATE)
+                || sender.hasPermission(ADMIN_ENTITYLIMIT_ADD_LIMIT);
     }
 }

@@ -33,6 +33,7 @@ public class EntityLimitCommand extends BasicArmCommand {
         commands.add(new ListCommand());
         commands.add(new CheckCommand());
         commands.add(new SetExtraLimitCommand());
+        commands.add(new BuyExtraCommand());
         commands.add(new HelpCommand(this.commandHandler, Messages.ENTITYLIMIT_HELP_HEADLINE, betweencmds, Permission.SUBREGION_HELP));
         this.commandHandler.addCommands(commands);
     }
@@ -75,7 +76,7 @@ public class EntityLimitCommand extends BasicArmCommand {
         List<String> returnme = new ArrayList<>();
         if(args.length >= 1) {
             if(this.rootCommand.startsWith(args[0])) {
-                if(Permission.hasAnySubregionPermission(player)) {
+                if(Permission.hasAnyEntityLimitPermission(player)) {
                     if(args.length == 1) {
                         if(this.rootCommand.startsWith(args[0])) {
                             returnme.add(this.rootCommand);

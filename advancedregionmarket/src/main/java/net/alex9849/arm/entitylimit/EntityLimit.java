@@ -52,12 +52,13 @@ public class EntityLimit {
     }
 
     public String getConvertedMessage(String message, List<Entity> entities, int entityExpansion) {
-        message = message.replace("%entitytype%", this.getEntityType().name());
-        message = message.replace("%actualentities%", EntityLimitGroup.filterEntitys(entities, this.getEntityType()).size() + "");
-        message = message.replace("%softlimitentities%", EntityLimitGroup.intToLimitString(this.getSoftLimit(entityExpansion)));
-        message = message.replace("%hardlimitentities%", EntityLimitGroup.intToLimitString(this.getHardLimit()));
-        message = message.replace("%priceperextraentity%", this.getPricePerExtraEntity() + "");
-        message = message.replace("%currency%", Messages.CURRENCY);
-        return message;
+        String result = message;
+        result = result.replace("%entitytype%", this.getEntityType().name());
+        result = result.replace("%actualentities%", EntityLimitGroup.filterEntitys(entities, this.getEntityType()).size() + "");
+        result = result.replace("%softlimitentities%", EntityLimitGroup.intToLimitString(this.getSoftLimit(entityExpansion)));
+        result = result.replace("%hardlimitentities%", EntityLimitGroup.intToLimitString(this.getHardLimit()));
+        result = result.replace("%priceperextraentity%", this.getPricePerExtraEntity() + "");
+        result = result.replace("%currency%", Messages.CURRENCY);
+        return result;
     }
 }

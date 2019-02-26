@@ -181,13 +181,14 @@ public class EntityLimitGroup {
     }
 
     public String getConvertedMessage(String message, List<Entity> entities, int entityExpansion) {
-        message = message.replace("%entitytype%", Messages.ENTITYLIMIT_TOTAL);
-        message = message.replace("%actualentities%", entities.size() + "");
-        message = message.replace("%softlimitentities%", EntityLimitGroup.intToLimitString(this.getSoftLimit(entityExpansion)));
-        message = message.replace("%hardlimitentities%", EntityLimitGroup.intToLimitString(this.getHardLimit()));
-        message = message.replace("%priceperextraentity%", this.getPricePerExtraEntity() + "");
-        message = message.replace("%currency%", Messages.CURRENCY);
-        return message;
+        String result = message;
+        result = result.replace("%entitytype%", Messages.ENTITYLIMIT_TOTAL);
+        result = result.replace("%actualentities%", entities.size() + "");
+        result = result.replace("%softlimitentities%", EntityLimitGroup.intToLimitString(this.getSoftLimit(entityExpansion)));
+        result = result.replace("%hardlimitentities%", EntityLimitGroup.intToLimitString(this.getHardLimit()));
+        result = result.replace("%priceperextraentity%", this.getPricePerExtraEntity() + "");
+        result = result.replace("%currency%", Messages.CURRENCY);
+        return result;
     }
 
     public boolean containsLimit(EntityType entityType) {

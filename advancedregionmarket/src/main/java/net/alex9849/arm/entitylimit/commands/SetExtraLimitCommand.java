@@ -52,6 +52,10 @@ public class SetExtraLimitCommand extends BasicArmCommand {
             throw new InputException(player, Messages.REGION_DOES_NOT_EXIST);
         }
 
+        if(region.isSubregion()) {
+            throw new InputException(player, Messages.ENTITYLIMITGROUP_EXTRA_ENTITIES_SET_SUBREGION_ERROR);
+        }
+
         int amount = Integer.parseInt(args[3]);
 
         if(amount < 0) {
@@ -66,18 +70,17 @@ public class SetExtraLimitCommand extends BasicArmCommand {
             try {
                 entityType = EntityType.valueOf(args[2]);
             } catch (IllegalArgumentException e) {
-                throw new InputException(player, Messages.ENTITYTYPE_DOES_NOT_EXIST);
+                throw new InputException(player, Messages.ENTITYTYPE_DOES_NOT_EXIST.replace("%entitytype%", args[2]));
             }
 
             if(!region.getEntityLimitGroup().containsLimit(entityType)) {
-                //TODO
-                throw new InputException(player, "EntityLimit for the selected entity and region is already unlimited!");
+                throw new InputException(player, Messages.ENTITYLIMITGROUP_ENTITYLIMIT_ALREADY_UNLIMITED);
             }
             region.setExtraEntityAmount(entityType, amount);
         }
 
 
-        player.sendMessage(Messages.PREFIX + "Extra-Entities have been set!");
+        player.sendMessage(Messages.PREFIX + Messages.ENTITYLIMITGROUP_EXTRA_ENTITIES_SET);
 
         return true;
     }

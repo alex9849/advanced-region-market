@@ -9,7 +9,6 @@ import org.bukkit.plugin.Plugin;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 public class Messages {
@@ -301,6 +300,13 @@ public class Messages {
     public static List<String> GUI_ENTITYLIMIT_ITEM_LORE = new ArrayList<String>(Arrays.asList("&6Click to display the entity-limits", "&6for this region in chat", "%entityinfopattern%"));
     public static String GUI_ENTITYLIMIT_ITEM_INFO_PATTERN = "&6%entitytype%: &a(&r%actualentities%&a/&r%softlimitentities%&a  %entityextensioninfo%)";
     public static String GUI_ENTITYLIMIT_ITEM_INFO_EXTENSION_INFO = "\n&6&o--> Limit extendable up to &r%hardlimitentities% &6entities for &r%priceperextraentity% %currency%&6/entity";
+    public static String ENTITYLIMITGROUP_ENTITYLIMIT_ALREADY_UNLIMITED = "&4EntityLimit for the selected entity and region is already unlimited!";
+    public static String ENTITYLIMITGROUP_EXTRA_ENTITIES_SET = "&aExtra-Entities have been set!";
+    public static String ENTITYLIMITGROUP_EXTRA_ENTITIES_EXPAND_SUCCESS = "&aYou have sucessfully expanded the entitylimit to &6%softlimitentities% &aentities!";
+    public static String ENTITYLIMITGROUP_EXTRA_ENTITIES_HARDLIMIT_REACHED = "&4Can not buy another entity-expansion! Hardlimit has been reached!";
+    public static String ENTITYLIMITGROUP_EXTRA_ENTITIES_SET_SUBREGION_ERROR = "&4Can not change entitylimit! Region is a Subregion";
+    public static String ENTITYLIMITGROUP_EXTRA_ENTITIES_BUY_SUBREGION_ERROR = "&4Can not expand entitylimit! Region is a Subregion";
+
 
     public static List<String> GUI_TELEPORT_TO_REGION_BUTTON_LORE = new ArrayList<>();
     public static List<String> GUI_MAKE_OWNER_BUTTON_LORE = new ArrayList<>();
@@ -612,16 +618,20 @@ public class Messages {
         ENTITYLIMITGROUP_LIST_HEADLINE = config.getString("Messages.EntityLimitGroupListHeadline");
         REGION_INFO_ENTITYLIMITGROUP = config.getString("Messages.RegionInfoEntityLimit");
         ENTITYLIMITGROUP_SUBREGION_GROUP_ONLY_FOR_SUBREGIONS = config.getString("Messages.SubregionEntityLimitOnlyForSubregions");
-        //TODO set MassactionSplitter for all Massactions
         MASSACTION_SPLITTER = config.getString("Messages.MassactionSplitter");
         SUB_REGION_ENTITYLIMITGROUP_ERROR = config.getString("Messages.SubregionEntityLimitError");
         GUI_ENTITYLIMIT_ITEM_BUTTON = config.getString("Messages.GUIEntityLimitItemButton");
         GUI_ENTITYLIMIT_ITEM_LORE = config.getStringList("Messages.GUIEntityLimitItemLore");
         GUI_ENTITYLIMIT_ITEM_INFO_PATTERN = config.getString("Messages.GUIEntityLimitInfoPattern");
-
         ENTITYLIMIT_CHECK_EXTENSION_INFO = config.getString("Messages.EntityLimitCheckExtensionInfo");
         GUI_ENTITYLIMIT_ITEM_INFO_EXTENSION_INFO = config.getString("Messages.GUIEntityLimitInfoExtensionInfo");
         ENTITYLIMITGROUP_INFO_EXTENSION_INFO = config.getString("Messages.EntityLimitInfoExtensionInfo");
+        ENTITYLIMITGROUP_ENTITYLIMIT_ALREADY_UNLIMITED = config.getString("Messages.EntityLimitGroupEntityLimitAlreadyUnlimited");
+        ENTITYLIMITGROUP_EXTRA_ENTITIES_SET = config.getString("Messages.EntityLimitGroupExtraEntitiesSet");
+        ENTITYLIMITGROUP_EXTRA_ENTITIES_EXPAND_SUCCESS = config.getString("Messages.EntityLimitGroupExtraEntitiesExpandSuccess");
+        ENTITYLIMITGROUP_EXTRA_ENTITIES_HARDLIMIT_REACHED = config.getString("Messages.EntityLimitGroupExtraEntitiesHardlimitReached");
+        ENTITYLIMITGROUP_EXTRA_ENTITIES_SET_SUBREGION_ERROR = config.getString("Messages.EntityLimitGroupExtraEntitiesSetSubregionError");
+        ENTITYLIMITGROUP_EXTRA_ENTITIES_BUY_SUBREGION_ERROR = config.getString("Messages.EntityLimitGroupExtraEntitiesBuySubregionError");
 
         Messages.translateColorCodes();
     }
@@ -899,6 +909,12 @@ public class Messages {
         ENTITYLIMIT_CHECK_EXTENSION_INFO = ChatColor.translateAlternateColorCodes('&', ENTITYLIMIT_CHECK_EXTENSION_INFO);
         GUI_ENTITYLIMIT_ITEM_INFO_EXTENSION_INFO = ChatColor.translateAlternateColorCodes('&', GUI_ENTITYLIMIT_ITEM_INFO_EXTENSION_INFO);
         ENTITYLIMITGROUP_INFO_EXTENSION_INFO = ChatColor.translateAlternateColorCodes('&', ENTITYLIMITGROUP_INFO_EXTENSION_INFO);
+        ENTITYLIMITGROUP_ENTITYLIMIT_ALREADY_UNLIMITED = ChatColor.translateAlternateColorCodes('&', ENTITYLIMITGROUP_ENTITYLIMIT_ALREADY_UNLIMITED);
+        ENTITYLIMITGROUP_EXTRA_ENTITIES_SET = ChatColor.translateAlternateColorCodes('&', ENTITYLIMITGROUP_EXTRA_ENTITIES_SET);
+        ENTITYLIMITGROUP_EXTRA_ENTITIES_EXPAND_SUCCESS = ChatColor.translateAlternateColorCodes('&', ENTITYLIMITGROUP_EXTRA_ENTITIES_EXPAND_SUCCESS);
+        ENTITYLIMITGROUP_EXTRA_ENTITIES_HARDLIMIT_REACHED = ChatColor.translateAlternateColorCodes('&', ENTITYLIMITGROUP_EXTRA_ENTITIES_HARDLIMIT_REACHED);
+        ENTITYLIMITGROUP_EXTRA_ENTITIES_SET_SUBREGION_ERROR = ChatColor.translateAlternateColorCodes('&', ENTITYLIMITGROUP_EXTRA_ENTITIES_SET_SUBREGION_ERROR);
+        ENTITYLIMITGROUP_EXTRA_ENTITIES_BUY_SUBREGION_ERROR = ChatColor.translateAlternateColorCodes('&', ENTITYLIMITGROUP_EXTRA_ENTITIES_BUY_SUBREGION_ERROR);
 
 
         for(int i = 0; i < GUI_ENTITYLIMIT_ITEM_LORE.size(); i++){
@@ -1288,7 +1304,7 @@ public class Messages {
         config.addDefault("Messages.EntityLimitGroupNotExist", "&4EntityLimitGroup does not exist!");
         config.addDefault("Messages.EntityLimitSet", "&aEntityLimit has been set!");
         config.addDefault("Messages.EntityLimitRemoved", "&aEntityLimit has been removed!");
-        config.addDefault("Messages.EntityTypeDoesNotExist", "&4The entitytype &6%entitytype% &4 does not exist!");
+        config.addDefault("Messages.EntityTypeDoesNotExist", "&4The entitytype &6%entitytype% &4does not exist!");
         config.addDefault("Messages.EntityLimitGroupNotContainEntityLimit", "&4The selected EntityLimitGroup does not contain the selected EntityType");
         config.addDefault("Messages.EntityLimitTotal", "Total");
         config.addDefault("Messages.EntityLimitCheckHeadline", "&6===[EntityLimitCheck for %regionid%]===");
@@ -1312,7 +1328,12 @@ public class Messages {
         config.addDefault("Messages.GUIEntityLimitInfoExtensionInfo", "&6&oMax. &r%hardlimitentities% &6for &r%priceperextraentity% %currency%&6/entity");
         config.addDefault("Messages.EntityLimitInfoExtensionInfo", "\n&6&o--> Limit extendable up to &r%hardlimitentities% &6entities for &r%priceperextraentity% %currency%&6/entity");
 
-
+        config.addDefault("Messages.EntityLimitGroupEntityLimitAlreadyUnlimited", "&4EntityLimit for the selected entity and region is already unlimited!");
+        config.addDefault("Messages.EntityLimitGroupExtraEntitiesSet", "&aExtra-Entities have been set!");
+        config.addDefault("Messages.EntityLimitGroupExtraEntitiesExpandSuccess", "&aYou have sucessfully expanded the entitylimit to &6%softlimitentities% &aentities!");
+        config.addDefault("Messages.EntityLimitGroupExtraEntitiesHardlimitReached", "&4Can not buy another entity-expansion! Hardlimit has been reached!");
+        config.addDefault("Messages.EntityLimitGroupExtraEntitiesSetSubregionError", "&4Can not change entitylimit! Region is a Subregion");
+        config.addDefault("Messages.EntityLimitGroupExtraEntitiesBuySubregionError", "&4Can not expand entitylimit! Region is a Subregion");
 
         config.options().copyDefaults(true);
         saveConfig();

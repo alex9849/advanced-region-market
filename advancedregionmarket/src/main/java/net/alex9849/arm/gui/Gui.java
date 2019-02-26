@@ -4,7 +4,6 @@ import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.entitylimit.EntityLimit;
-import net.alex9849.arm.entitylimit.EntityLimitGroup;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import net.alex9849.arm.regions.*;
@@ -217,7 +216,7 @@ public class Gui implements Listener {
         }
 
         if(player.hasPermission(Permission.MEMBER_RESETREGIONBLOCKS) && region.isUserResettable()) {
-            List<String> message = new LinkedList<>(Messages.GUI_RESET_REGION_BUTTON_LORE);
+            List<String> message = new ArrayList<>(Messages.GUI_RESET_REGION_BUTTON_LORE);
             for (int i = 0; i < message.size(); i++) {
                 message.set(i, message.get(i).replace("%days%", Region.getResetCooldown() + ""));
             }
@@ -239,7 +238,7 @@ public class Gui implements Listener {
         }
 
         if(player.hasPermission(Permission.MEMBER_SELLBACK)) {
-            List<String> message = new LinkedList<>(Messages.GUI_USER_SELL_BUTTON_LORE);
+            List<String> message = new ArrayList<>(Messages.GUI_USER_SELL_BUTTON_LORE);
             for (int i = 0; i < message.size(); i++) {
                 message.set(i, region.getConvertedMessage(message.get(i)));
             }
@@ -255,7 +254,7 @@ public class Gui implements Listener {
         }
 
         if(player.hasPermission(Permission.MEMBER_ENTITYLIMIT_INFO)) {
-            ClickItem infoicon = new ClickItem(getEntityLintGroupItem(region)).addClickAction(new ClickAction() {
+            ClickItem infoicon = new ClickItem(getEntityLimtGroupItem(region)).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) {
                     openSellRegionManagerOwner(player, region);
@@ -310,10 +309,7 @@ public class Gui implements Listener {
             clickItems.add(subregionClickItem);
         }
         if(clickItems.size() == 0) {
-            List<String> lore = new ArrayList<>();
-            for(String rawmessage : Messages.GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM_LORE) {
-                lore.add(region.getConvertedMessage(rawmessage));
-            }
+            List<String> lore = new ArrayList<>(Messages.GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM_LORE);
             ClickItem infoItem = new ClickItem(new ItemStack(Gui.INFO_ITEM), Messages.GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM, lore);
             clickItems.add(infoItem);
         }
@@ -352,10 +348,7 @@ public class Gui implements Listener {
         }
 
         if(player.hasPermission(Permission.SUBREGION_CHANGE_IS_HOTEL)) {
-            List<String> message = new ArrayList<>();
-            for(String origmessage : Messages.GUI_SUBREGION_HOTEL_BUTTON_LORE) {
-                message.add(region.getConvertedMessage(origmessage));
-            }
+            List<String> message = new ArrayList<>(Messages.GUI_SUBREGION_HOTEL_BUTTON_LORE);
             ClickItem isHotelItem = new ClickItem(new ItemStack(Gui.HOTEL_SETTING_ITEM), Messages.GUI_SUBREGION_HOTEL_BUTTON, message);
             isHotelItem= isHotelItem.addClickAction(new ClickAction() {
                 @Override
@@ -420,7 +413,7 @@ public class Gui implements Listener {
             actitem++;
         }
         if(player.hasPermission(Permission.SUBREGION_UNSELL)) {
-            List<String> sendmsg = Messages.UNSELL_REGION_BUTTON_LORE;
+            List<String> sendmsg = new ArrayList<>(Messages.UNSELL_REGION_BUTTON_LORE);
             for(int i = 0; i < sendmsg.size(); i++) {
                 sendmsg.set(i, region.getConvertedMessage(sendmsg.get(i)));
             }
@@ -545,7 +538,7 @@ public class Gui implements Listener {
         }
 
         if(player.hasPermission(Permission.MEMBER_TP)) {
-            List<String> message = new LinkedList<>(Messages.GUI_TELEPORT_TO_REGION_BUTTON_LORE);
+            List<String> message = new ArrayList<>(Messages.GUI_TELEPORT_TO_REGION_BUTTON_LORE);
             for (int i = 0; i < message.size(); i++) {
                 message.set(i, message.get(i).replace("%days%", Region.getResetCooldown() + ""));
             }
@@ -563,7 +556,7 @@ public class Gui implements Listener {
 
 
         if(player.hasPermission(Permission.MEMBER_RESETREGIONBLOCKS) && region.isUserResettable()) {
-            List<String> resetmessage = new LinkedList<>(Messages.GUI_RESET_REGION_BUTTON_LORE);
+            List<String> resetmessage = new ArrayList<>(Messages.GUI_RESET_REGION_BUTTON_LORE);
             for (int i = 0; i < resetmessage.size(); i++) {
                 resetmessage.set(i, resetmessage.get(i).replace("%days%", Region.getResetCooldown() + ""));
             }
@@ -584,7 +577,7 @@ public class Gui implements Listener {
         }
 
         if(player.hasPermission(Permission.MEMBER_SELLBACK)) {
-            List<String> message = new LinkedList<>(Messages.GUI_USER_SELL_BUTTON_LORE);
+            List<String> message = new ArrayList<>(Messages.GUI_USER_SELL_BUTTON_LORE);
             for (int i = 0; i < message.size(); i++) {
                 message.set(i, region.getConvertedMessage(message.get(i)));
             }
@@ -599,7 +592,7 @@ public class Gui implements Listener {
             actitem++;
         }
 
-        List<String> extendmessage = new LinkedList<>(Messages.GUI_EXTEND_BUTTON_LORE);
+        List<String> extendmessage = new ArrayList<>(Messages.GUI_EXTEND_BUTTON_LORE);
         for (int i = 0; i < extendmessage.size(); i++) {
             extendmessage.set(i, region.getConvertedMessage(extendmessage.get(i)));
         }
@@ -615,7 +608,7 @@ public class Gui implements Listener {
         actitem++;
 
         if(player.hasPermission(Permission.MEMBER_ENTITYLIMIT_INFO)) {
-            ClickItem infoicon = new ClickItem(getEntityLintGroupItem(region)).addClickAction(new ClickAction() {
+            ClickItem infoicon = new ClickItem(getEntityLimtGroupItem(region)).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) {
                     openRentRegionManagerOwner(player, region);
@@ -712,7 +705,11 @@ public class Gui implements Listener {
             ItemStack teleporteritem = new ItemStack(Gui.TP_ITEM);
             ItemMeta teleporteritemmeta = teleporteritem.getItemMeta();
             teleporteritemmeta.setDisplayName(Messages.GUI_TELEPORT_TO_REGION_BUTTON);
-            teleporteritemmeta.setLore(Messages.GUI_TELEPORT_TO_REGION_BUTTON_LORE);
+            List<String> lore = new ArrayList<>(Messages.GUI_TELEPORT_TO_REGION_BUTTON_LORE);
+            for(String lorestring : lore) {
+                lorestring = region.getConvertedMessage(lorestring);
+            }
+            teleporteritemmeta.setLore(lore);
             teleporteritem.setItemMeta(teleporteritemmeta);
             ClickItem teleportericon = new ClickItem(teleporteritem).addClickAction(new ClickAction() {
                 @Override
@@ -732,9 +729,10 @@ public class Gui implements Listener {
             ItemStack resetItem = new ItemStack(Gui.RESET_ITEM);
             ItemMeta resetitemItemMeta = resetItem.getItemMeta();
             resetitemItemMeta.setDisplayName(Messages.GUI_RESET_REGION_BUTTON);
-            List<String> resetmessage = new LinkedList<>(Messages.GUI_RESET_REGION_BUTTON_LORE);
+            List<String> resetmessage = new ArrayList<>(Messages.GUI_RESET_REGION_BUTTON_LORE);
             for (int i = 0; i < resetmessage.size(); i++) {
                 resetmessage.set(i, resetmessage.get(i).replace("%days%", Region.getResetCooldown() + ""));
+                resetmessage.set(i, region.getConvertedMessage(resetmessage.get(i)));
             }
             resetitemItemMeta.setLore(resetmessage);
             resetItem.setItemMeta(resetitemItemMeta);
@@ -758,7 +756,7 @@ public class Gui implements Listener {
             ItemStack resetItem = new ItemStack(Gui.SELL_REGION_ITEM);
             ItemMeta resetitemItemMeta = resetItem.getItemMeta();
             resetitemItemMeta.setDisplayName(Messages.GUI_USER_SELL_BUTTON);
-            List<String> message = new LinkedList<>(Messages.GUI_USER_SELL_BUTTON_LORE);
+            List<String> message = new ArrayList<>(Messages.GUI_USER_SELL_BUTTON_LORE);
             for (int i = 0; i < message.size(); i++) {
                 message.set(i, region.getConvertedMessage(message.get(i)));
             }
@@ -777,7 +775,7 @@ public class Gui implements Listener {
         ItemStack extendItem = new ItemStack(Gui.CONTRACT_ITEM);
         ItemMeta extendItemMeta = extendItem.getItemMeta();
         extendItemMeta.setDisplayName(Messages.GUI_CONTRACT_ITEM);
-        List<String> extendmessage = new LinkedList<>(Messages.GUI_CONTRACT_ITEM_LORE);
+        List<String> extendmessage = new ArrayList<>(Messages.GUI_CONTRACT_ITEM_LORE);
         for (int i = 0; i < extendmessage.size(); i++) {
             extendmessage.set(i, region.getConvertedMessage(extendmessage.get(i)));
         }
@@ -795,7 +793,7 @@ public class Gui implements Listener {
         actitem++;
 
         if(player.hasPermission(Permission.MEMBER_ENTITYLIMIT_INFO)) {
-            ClickItem infoicon = new ClickItem(getEntityLintGroupItem(region)).addClickAction(new ClickAction() {
+            ClickItem infoicon = new ClickItem(getEntityLimtGroupItem(region)).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) {
                     openContractRegionManagerOwner(player, region);
@@ -1279,7 +1277,11 @@ public class Gui implements Listener {
             ItemStack makeOwnerItem = new ItemStack(Gui.PROMOTE_MEMBER_TO_OWNER_ITEM);
             ItemMeta makeOwnerItemMeta = makeOwnerItem.getItemMeta();
             makeOwnerItemMeta.setDisplayName(Messages.GUI_MAKE_OWNER_BUTTON);
-            makeOwnerItemMeta.setLore(Messages.GUI_MAKE_OWNER_BUTTON_LORE);
+            List<String> lore = new ArrayList<>(Messages.GUI_MAKE_OWNER_BUTTON_LORE);
+            for(String lorestring : lore) {
+                lorestring = region.getConvertedMessage(lorestring);
+            }
+            makeOwnerItemMeta.setLore(lore);
             makeOwnerItem.setItemMeta(makeOwnerItemMeta);
 
             ClickItem makeOwnerMenu = new ClickItem(makeOwnerItem).addClickAction(new ClickAction() {
@@ -1296,7 +1298,11 @@ public class Gui implements Listener {
             ItemStack removeItem = new ItemStack(Gui.REMOVE_MEMBER_ITEM);
             ItemMeta removeItemMeta = removeItem.getItemMeta();
             removeItemMeta.setDisplayName(Messages.GUI_REMOVE_MEMBER_BUTTON);
-            removeItemMeta.setLore(Messages.GUI_REMOVE_MEMBER_BUTTON_LORE);
+            List<String> lore = new ArrayList<>(Messages.GUI_REMOVE_MEMBER_BUTTON_LORE);
+            for(String lorestring : lore) {
+                lorestring = region.getConvertedMessage(lorestring);
+            }
+            removeItemMeta.setLore(lore);
             removeItem.setItemMeta(removeItemMeta);
 
             ClickItem removeMenu = new ClickItem(removeItem).addClickAction(new ClickAction() {
@@ -1440,7 +1446,11 @@ public class Gui implements Listener {
             ItemStack teleporteritem = new ItemStack(Gui.TP_ITEM);
             ItemMeta teleporteritemmeta = teleporteritem.getItemMeta();
             teleporteritemmeta.setDisplayName(Messages.GUI_TELEPORT_TO_REGION_BUTTON);
-            teleporteritemmeta.setLore(Messages.GUI_TELEPORT_TO_REGION_BUTTON_LORE);
+            List<String> lore = new ArrayList<>(Messages.GUI_TELEPORT_TO_REGION_BUTTON_LORE);
+            for(String lorestring : lore) {
+                lorestring = region.getConvertedMessage(lorestring);
+            }
+            teleporteritemmeta.setLore(lore);
             teleporteritem.setItemMeta(teleporteritemmeta);
             ClickItem teleportericon = new ClickItem(teleporteritem).addClickAction(new ClickAction() {
                 @Override
@@ -1504,6 +1514,7 @@ public class Gui implements Listener {
             List<String> message = new LinkedList<>(Messages.GUI_TAKEOVER_ITEM_LORE);
             for (int j = 0; j < message.size(); j++) {
                 message.set(j, message.get(j).replace("%days%", oldRegions.get(i).getRemainingDaysTillReset() + ""));
+                message.set(j, oldRegions.get(i).getConvertedMessage(message.get(j)));
             }
             meta.setLore(message);
             stack.setItemMeta(meta);
@@ -1945,13 +1956,13 @@ public class Gui implements Listener {
         UNSELL_ITEM = UnsellItem;
     }
 
-    public static ItemStack getEntityLintGroupItem(Region region) {
+    public static ItemStack getEntityLimtGroupItem(Region region) {
         ItemStack itemStack = new ItemStack(Material.CHICKEN_SPAWN_EGG);
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.setDisplayName(Messages.GUI_ENTITYLIMIT_ITEM_BUTTON);
 
         List<Entity> entities = region.getFilteredInsideEntities(false, true, true, false, false, true, true);
-        List<String> lore = Messages.GUI_ENTITYLIMIT_ITEM_LORE;
+        List<String> lore = new ArrayList<>(Messages.GUI_ENTITYLIMIT_ITEM_LORE);
         List<String> limitlist = new ArrayList<>();
 
         String totalstatus = region.getEntityLimitGroup().getConvertedMessage(Messages.GUI_ENTITYLIMIT_ITEM_INFO_PATTERN, new ArrayList<>(), region.getExtraTotalEntitys());

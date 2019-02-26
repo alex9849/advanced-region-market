@@ -659,6 +659,7 @@ public class ARMListener implements Listener {
                             }
                         }
                     }
+                    throw new InputException(event.getPlayer(), Messages.REGION_NOT_OWN);
                 }
             }
         }

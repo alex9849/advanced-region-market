@@ -61,7 +61,7 @@ public class SetIsUserResettableCommand extends BasicArmCommand {
                 throw new InputException(sender, Messages.SUB_REGION_IS_USER_RESETTABLE_ERROR);
             }
             regions = RegionManager.getRegionsByRegionKind(selectedRegionkind);
-            selectedName = "&6all regions with regionkind &a" + selectedRegionkind.getName();
+            selectedName = Messages.MASSACTION_SPLITTER.replace("%regionkind%", selectedRegionkind.getName());
         } else {
             Region selectedRegion = RegionManager.getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
             if(selectedRegion == null){

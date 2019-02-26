@@ -10,6 +10,7 @@ import net.alex9849.arm.regions.RegionManager;
 import net.alex9849.exceptions.InputException;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
@@ -59,17 +60,24 @@ public class BuyExtraCommand extends BasicArmCommand {
             }
         }
 
+        if(region.isSubregion()) {
+            throw new InputException(player, Messages.ENTITYLIMITGROUP_EXTRA_ENTITIES_BUY_SUBREGION_ERROR);
+        }
+
+        List<Entity> entities = region.getFilteredInsideEntities(false, true, true, false,
+                false, true, true);
+
         if(args[2].equalsIgnoreCase("total")) {
 
             if((region.getEntityLimitGroup().getHardLimit() <= region.getEntityLimitGroup().getSoftLimit(region.getExtraTotalEntitys())) && !player.hasPermission(Permission.ADMIN_ENTITYLIMIT_BUY_EXTRA)) {
-                throw new InputException(player, "Can not buy another entity-expansion! Hardlimit has been reached!");
+                throw new InputException(player, region.getEntityLimitGroup().getConvertedMessage(Messages.ENTITYLIMITGROUP_EXTRA_ENTITIES_HARDLIMIT_REACHED, entities, region.getExtraTotalEntitys()));
             }
             if(AdvancedRegionMarket.getEcon().getBalance(player) < region.getEntityLimitGroup().getPricePerExtraEntity()) {
                 throw new InputException(player, Messages.NOT_ENOUGHT_MONEY);
             }
             AdvancedRegionMarket.getEcon().withdrawPlayer(player, region.getEntityLimitGroup().getPricePerExtraEntity());
             region.setExtraTotalEntitys(region.getExtraTotalEntitys() + 1);
-            player.sendMessage(Messages.PREFIX + "You have sucessfully expanded you entitylimit to " + region.getEntityLimitGroup().getSoftLimit(region.getExtraTotalEntitys()) + " entities!");
+            player.sendMessage(Messages.PREFIX + region.getEntityLimitGroup().getConvertedMessage(Messages.ENTITYLIMITGROUP_EXTRA_ENTITIES_EXPAND_SUCCESS, entities, region.getExtraTotalEntitys()));
 
         } else {
 
@@ -77,21 +85,20 @@ public class BuyExtraCommand extends BasicArmCommand {
             try {
                 entityType = EntityType.valueOf(args[2]);
             } catch (IllegalArgumentException e) {
-                throw new InputException(player, Messages.ENTITYTYPE_DOES_NOT_EXIST);
+                throw new InputException(player, Messages.ENTITYTYPE_DOES_NOT_EXIST.replace("%entitytype%", args[2]));
             }
             if(!region.getEntityLimitGroup().containsLimit(entityType)) {
-                //TODO
-                throw new InputException(player, "EntityLimit for the selected entity and region is already unlimited!");
+                throw new InputException(player, region.getEntityLimitGroup().getConvertedMessage(Messages.ENTITYLIMITGROUP_ENTITYLIMIT_ALREADY_UNLIMITED, entities, region.getExtraTotalEntitys()));
             }
             if((region.getEntityLimitGroup().getHardLimit(entityType) <= region.getEntityLimitGroup().getSoftLimit(entityType, region.getExtraEntityAmount(entityType))) && !player.hasPermission(Permission.ADMIN_ENTITYLIMIT_BUY_EXTRA)) {
-                throw new InputException(player, "Can not buy another entity-expansion! Hardlimit has been reached!");
+                throw new InputException(player, region.getEntityLimitGroup().getConvertedMessage(Messages.ENTITYLIMITGROUP_EXTRA_ENTITIES_HARDLIMIT_REACHED, entities, region.getExtraTotalEntitys()));
             }
             if(AdvancedRegionMarket.getEcon().getBalance(player) < region.getEntityLimitGroup().getPricePerExtraEntity(entityType)) {
                 throw new InputException(player, Messages.NOT_ENOUGHT_MONEY);
             }
             AdvancedRegionMarket.getEcon().withdrawPlayer(player, region.getEntityLimitGroup().getPricePerExtraEntity(entityType));
             region.setExtraEntityAmount(entityType, region.getExtraEntityAmount(entityType) + 1);
-            player.sendMessage(Messages.PREFIX + "You have sucessfully expanded you entitylimit to " + region.getEntityLimitGroup().getSoftLimit(entityType, region.getExtraEntityAmount(entityType)) + " entities!");
+            player.sendMessage(Messages.PREFIX + region.getEntityLimitGroup().getConvertedMessage(Messages.ENTITYLIMITGROUP_EXTRA_ENTITIES_EXPAND_SUCCESS, entities, region.getExtraTotalEntitys()));
         }
 
         return true;

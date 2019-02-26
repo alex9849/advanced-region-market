@@ -35,8 +35,12 @@ public class EntityLimit {
         return this.entityType;
     }
 
-    public int getSoftLimit() {
-        return this.softlimit;
+    public int getSoftLimit(int expansion) {
+        if((this.softlimit + expansion) >= 0) {
+            return this.softlimit + expansion;
+        } else {
+            return Integer.MAX_VALUE;
+        }
     }
 
     public int getHardLimit() {
@@ -47,11 +51,11 @@ public class EntityLimit {
         return this.pricePerExtraEntity;
     }
 
-    public String getConvertedMessage(String message, List<Entity> entities) {
+    public String getConvertedMessage(String message, List<Entity> entities, int entityExpansion) {
         message = message.replace("%entitytype%", this.getEntityType().name());
-        message = message.replace("%actualentitys%", EntityLimitGroup.filterEntitys(entities, this.getEntityType()).size() + "");
-        message = message.replace("%softlimitentitys%", EntityLimitGroup.intToLimitString(this.getSoftLimit()));
-        message = message.replace("%hardlimitentitys%", EntityLimitGroup.intToLimitString(this.getHardLimit()));
+        message = message.replace("%actualentities%", EntityLimitGroup.filterEntitys(entities, this.getEntityType()).size() + "");
+        message = message.replace("%softlimitentities%", EntityLimitGroup.intToLimitString(this.getSoftLimit(entityExpansion)));
+        message = message.replace("%hardlimitentities%", EntityLimitGroup.intToLimitString(this.getHardLimit()));
         message = message.replace("%priceperextraentity%", this.getPricePerExtraEntity() + "");
         message = message.replace("%currency%", Messages.CURRENCY);
         return message;

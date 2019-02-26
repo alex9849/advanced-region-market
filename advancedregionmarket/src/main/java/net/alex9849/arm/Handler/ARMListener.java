@@ -480,7 +480,7 @@ public class ARMListener implements Listener {
         List<Region> regions = RegionManager.getRegionsByLocation(event.getLocation());
 
         for(Region region : regions) {
-            if(region.getEntityLimitGroup().isLimitReached(region, event.getEntityType())) {
+            if(region.getEntityLimitGroup().isLimitReached(region, event.getEntityType(), region.getExtraEntityAmount(event.getEntityType()))) {
                 event.setCancelled(true);
             }
         }
@@ -494,7 +494,7 @@ public class ARMListener implements Listener {
         List<Region> regions = RegionManager.getRegionsByLocation(event.getVehicle().getLocation());
 
         for(Region region : regions) {
-            if(region.getEntityLimitGroup().isLimitReached(region, event.getVehicle().getType())) {
+            if(region.getEntityLimitGroup().isLimitReached(region, event.getVehicle().getType(), region.getExtraEntityAmount(event.getVehicle().getType()))) {
                 event.setCancelled(true);
             }
         }

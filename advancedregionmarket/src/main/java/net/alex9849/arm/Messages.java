@@ -282,16 +282,16 @@ public class Messages {
     public static String ENTITYLIMITGROUP_DOES_NOT_CONTAIN_ENTITYLIMIT = "&4The selected EntityLimitGroup does not contain the selected EntityType";
     public static String ENTITYLIMIT_TOTAL = "Total";
     public static String ENTITYLIMIT_CHECK_HEADLINE = "===[EntityLimitCheck for %regionid%]===";
-    public static String ENTITYLIMIT_CHECK_PATTERN = "&6%entitytype%: &a(&r%actualentitys%&a/&r%softlimitentitys%&a) %entityextensioninfo%";
-    public static String ENTITYLIMIT_CHECK_EXTENSION_INFO = "\n&6&o--> Limit extendable up to &r%hardlimitentitys% &6entitys for &r%priceperextraentity% %currency%&6/entity";
+    public static String ENTITYLIMIT_CHECK_PATTERN = "&6%entitytype%: &a(&r%actualentities%&a/&r%softlimitentities%&a) %entityextensioninfo%";
+    public static String ENTITYLIMIT_CHECK_EXTENSION_INFO = "\n&6&o--> Limit extendable up to &r%hardlimitentities% &6entities for &r%priceperextraentity% %currency%&6/entity";
     public static String ENTITYLIMITGROUP_ALREADY_EXISTS = "&4Group already exists!";
     public static String ENTITYLIMITGROUP_CREATED = "&aEntitylimitgroup has been created!";
     public static String ENTITYLIMITGROUP_CAN_NOT_REMOVE_SYSTEM = "&4You can not remove a system-EntityLimitGroup!";
     public static String ENTITYLIMITGROUP_DELETED = "&aEntitylimitgroup has been deleted!";
     public static String ENTITYLIMITGROUP_INFO_HEADLINE = "&6======[Entitylimitgroup Info]======";
     public static String ENTITYLIMITGROUP_INFO_GROUPNAME = "&6Groupname: ";
-    public static String ENTITYLIMITGROUP_INFO_PATTERN = "&6%entitytype%: &r%softlimitentitys% %entityextensioninfo%";
-    public static String ENTITYLIMITGROUP_INFO_EXTENSION_INFO = "\n&6&o--> Limit extendable up to &r%hardlimitentitys% &6entitys for &r%priceperextraentity% %currency%&6/entity";
+    public static String ENTITYLIMITGROUP_INFO_PATTERN = "&6%entitytype%: &r%softlimitentities% %entityextensioninfo%";
+    public static String ENTITYLIMITGROUP_INFO_EXTENSION_INFO = "\n&6&o--> Limit extendable up to &r%hardlimitentities% &6entities for &r%priceperextraentity% %currency%&6/entity";
     public static String ENTITYLIMITGROUP_LIST_HEADLINE = "&6EntityLimitGroups:";
     public static String REGION_INFO_ENTITYLIMITGROUP = "&6EntityLimitGroup: ";
     public static String ENTITYLIMITGROUP_SUBREGION_GROUP_ONLY_FOR_SUBREGIONS = "&4SubregionEntityLimitGroup only for subregions";
@@ -299,8 +299,8 @@ public class Messages {
     public static String SUB_REGION_ENTITYLIMITGROUP_ERROR = "&4Could not change EntiyLimitGroup for the region &6%regionid%&4! Region is a Subregion!";
     public static String GUI_ENTITYLIMIT_ITEM_BUTTON = "&6EntityLimits";
     public static List<String> GUI_ENTITYLIMIT_ITEM_LORE = new ArrayList<String>(Arrays.asList("&6Click to display the entity-limits", "&6for this region in chat", "%entityinfopattern%"));
-    public static String GUI_ENTITYLIMIT_ITEM_INFO_PATTERN = "&6%entitytype%: &a(&r%actualentitys%&a/&r%softlimitentitys%&a  %entityextensioninfo%)";
-    public static String GUI_ENTITYLIMIT_ITEM_INFO_EXTENSION_INFO = "\n&6&o--> Limit extendable up to &r%hardlimitentitys% &6entitys for &r%priceperextraentity% %currency%&6/entity";
+    public static String GUI_ENTITYLIMIT_ITEM_INFO_PATTERN = "&6%entitytype%: &a(&r%actualentities%&a/&r%softlimitentities%&a  %entityextensioninfo%)";
+    public static String GUI_ENTITYLIMIT_ITEM_INFO_EXTENSION_INFO = "\n&6&o--> Limit extendable up to &r%hardlimitentities% &6entities for &r%priceperextraentity% %currency%&6/entity";
 
     public static List<String> GUI_TELEPORT_TO_REGION_BUTTON_LORE = new ArrayList<>();
     public static List<String> GUI_MAKE_OWNER_BUTTON_LORE = new ArrayList<>();
@@ -1292,14 +1292,14 @@ public class Messages {
         config.addDefault("Messages.EntityLimitGroupNotContainEntityLimit", "&4The selected EntityLimitGroup does not contain the selected EntityType");
         config.addDefault("Messages.EntityLimitTotal", "Total");
         config.addDefault("Messages.EntityLimitCheckHeadline", "&6===[EntityLimitCheck for %regionid%]===");
-        config.addDefault("Messages.EntityLimitCheckPattern", "&6%entitytype%: &a(&r%actualentitys%&a/&r%softlimitentitys%&a) %entityextensioninfo%");
+        config.addDefault("Messages.EntityLimitCheckPattern", "&6%entitytype%: &a(&r%actualentities%&a/&r%softlimitentities%&a) %entityextensioninfo%");
         config.addDefault("Messages.EntityLimitGroupAlreadyExists", "&4Group already exists!");
         config.addDefault("Messages.EntityLimitGroupCreated", "&aEntitylimitgroup has been created!");
         config.addDefault("Messages.EntityLimitGroupCanNotRemoveSystem", "&4You can not remove a system-EntityLimitGroup!");
         config.addDefault("Messages.EntityLimitGroupDeleted", "&aEntitylimitgroup has been deleted!");
         config.addDefault("Messages.EntityLimitGroupInfoHeadline", "&6======[Entitylimitgroup Info]======");
         config.addDefault("Messages.EntityLimitGroupInfoGroupname", "&6Groupname: ");
-        config.addDefault("Messages.EntityLimitGroupInfoPattern", "&6%entitytype%: &r%softlimitentitys% %entityextensioninfo%");
+        config.addDefault("Messages.EntityLimitGroupInfoPattern", "&6%entitytype%: &r%softlimitentities% %entityextensioninfo%");
         config.addDefault("Messages.EntityLimitGroupListHeadline", "&6EntityLimitGroups:");
         config.addDefault("Messages.RegionInfoEntityLimit", "&6EntityLimitGroup: ");
         config.addDefault("Messages.SubregionEntityLimitOnlyForSubregions", "&4SubregionEntityLimitGroup only for subregions");
@@ -1307,10 +1307,10 @@ public class Messages {
         config.addDefault("Messages.SubregionEntityLimitError", "&4Could not change EntiyLimitGroup for the region &6%regionid%&4! Region is a Subregion!");
         config.addDefault("Messages.GUIEntityLimitItemButton", "&6EntityLimits");
         config.addDefault("Messages.GUIEntityLimitItemLore", new ArrayList<String>(Arrays.asList("&6Click to display the entity-limits", "&6for this region in chat", "%entityinfopattern%")));
-        config.addDefault("Messages.GUIEntityLimitInfoPattern", "&6%entitytype%: &a(&r%actualentitys%&a/&r%softlimitentitys%&a) %entityextensioninfo%");
-        config.addDefault("Messages.EntityLimitCheckExtensionInfo", "\n&6&o--> Limit extendable up to &r%hardlimitentitys% &6entitys for &r%priceperextraentity% %currency%&6/entity");
-        config.addDefault("Messages.GUIEntityLimitInfoExtensionInfo", "&6&oMax. &r%hardlimitentitys% &6for &r%priceperextraentity% %currency%&6/entity");
-        config.addDefault("Messages.EntityLimitInfoExtensionInfo", "\n&6&o--> Limit extendable up to &r%hardlimitentitys% &6entitys for &r%priceperextraentity% %currency%&6/entity");
+        config.addDefault("Messages.GUIEntityLimitInfoPattern", "&6%entitytype%: &a(&r%actualentities%&a/&r%softlimitentities%&a) %entityextensioninfo%");
+        config.addDefault("Messages.EntityLimitCheckExtensionInfo", "\n&6&o--> Limit extendable up to &r%hardlimitentities% &6entities for &r%priceperextraentity% %currency%&6/entity");
+        config.addDefault("Messages.GUIEntityLimitInfoExtensionInfo", "&6&oMax. &r%hardlimitentities% &6for &r%priceperextraentity% %currency%&6/entity");
+        config.addDefault("Messages.EntityLimitInfoExtensionInfo", "\n&6&o--> Limit extendable up to &r%hardlimitentities% &6entities for &r%priceperextraentity% %currency%&6/entity");
 
 
 

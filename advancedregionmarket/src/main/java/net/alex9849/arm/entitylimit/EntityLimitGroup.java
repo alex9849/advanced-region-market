@@ -46,9 +46,9 @@ public class EntityLimitGroup {
         this.needsSave = false;
     }
 
-    public boolean isLimitReached(Region region, EntityType entityType) {
+    public boolean isLimitReached(Region region, EntityType entityType, int entityExpansion) {
 
-        int maxEntitiesWithThisType = this.getLimit(entityType);
+        int maxEntitiesWithThisType = this.getLimit(entityType, entityExpansion);
 
         List<Entity> regionEntities = region.getFilteredInsideEntities(false, true, true, false, false, true, true);
 
@@ -65,10 +65,10 @@ public class EntityLimitGroup {
         return maxEntitiesWithThisType <= matchingEntities;
     }
 
-    private int getLimit(EntityType entityType) {
+    private int getLimit(EntityType entityType, int entityExpansion) {
         for(EntityLimit entityLimit : this.entityLimits) {
             if(entityLimit.getEntityType() == entityType) {
-                return entityLimit.getSoftLimit();
+                return entityLimit.getSoftLimit(entityExpansion);
             }
         }
         return Integer.MAX_VALUE;
@@ -151,9 +151,9 @@ public class EntityLimitGroup {
 
     public String getConvertedMessage(String message, List<Entity> entities) {
         message = message.replace("%entitytype%", Messages.ENTITYLIMIT_TOTAL);
-        message = message.replace("%actualentitys%", entities.size() + "");
-        message = message.replace("%softlimitentitys%", EntityLimitGroup.intToLimitString(this.getSoftLimit()));
-        message = message.replace("%hardlimitentitys%", EntityLimitGroup.intToLimitString(this.getHardLimit()));
+        message = message.replace("%actualentities%", entities.size() + "");
+        message = message.replace("%softlimitentities%", EntityLimitGroup.intToLimitString(this.getSoftLimit()));
+        message = message.replace("%hardlimitentities%", EntityLimitGroup.intToLimitString(this.getHardLimit()));
         message = message.replace("%priceperextraentity%", this.getPricePerExtraEntity() + "");
         message = message.replace("%currency%", Messages.CURRENCY);
         return message;

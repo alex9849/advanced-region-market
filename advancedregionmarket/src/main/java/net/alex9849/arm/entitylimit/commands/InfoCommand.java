@@ -87,9 +87,9 @@ public class InfoCommand extends BasicArmCommand {
         player.sendMessage(totalstatus);
 
         for(EntityLimit entityLimit : entityLimitGroup.getEntityLimits()) {
-            String entitystatus = entityLimit.getConvertedMessage(Messages.ENTITYLIMITGROUP_INFO_PATTERN, new ArrayList<>());
-            if(entityLimit.getSoftLimit() < entityLimit.getHardLimit()) {
-                entitystatus = entitystatus.replace("%entityextensioninfo%", entityLimit.getConvertedMessage(Messages.ENTITYLIMITGROUP_INFO_EXTENSION_INFO, new ArrayList<>()));
+            String entitystatus = entityLimit.getConvertedMessage(Messages.ENTITYLIMITGROUP_INFO_PATTERN, new ArrayList<>(), 0);
+            if(entityLimit.getSoftLimit(0) < entityLimit.getHardLimit()) {
+                entitystatus = entitystatus.replace("%entityextensioninfo%", entityLimit.getConvertedMessage(Messages.ENTITYLIMITGROUP_INFO_EXTENSION_INFO, new ArrayList<>(), 0));
             } else {
                 entitystatus = entitystatus.replace("%entityextensioninfo%", "");
             }

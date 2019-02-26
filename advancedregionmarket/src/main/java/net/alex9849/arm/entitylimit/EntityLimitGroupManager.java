@@ -97,7 +97,7 @@ public class EntityLimitGroupManager {
         for(int i = 0; i < entityLimitGroup.getEntityLimits().size(); i++) {
             EntityLimit entityLimit = entityLimitGroup.getEntityLimits().get(i);
             entityLimitConf.set(path + "." + i + ".entityType", entityLimit.getEntityType().name());
-            int softLimitEntity = entityLimit.getSoftLimit();
+            int softLimitEntity = entityLimit.getSoftLimit(0);
             if(softLimitEntity == Integer.MAX_VALUE) {
                 softLimitEntity = -1;
             }

@@ -1964,9 +1964,9 @@ public class Gui implements Listener {
         limitlist.add(totalstatus);
 
         for(EntityLimit entityLimit : region.getEntityLimitGroup().getEntityLimits()) {
-            String entitystatus = entityLimit.getConvertedMessage(Messages.GUI_ENTITYLIMIT_ITEM_INFO_PATTERN, new ArrayList<>());
-            if(entityLimit.getSoftLimit() < entityLimit.getHardLimit()) {
-                entitystatus = entitystatus.replace("%entityextensioninfo%", entityLimit.getConvertedMessage(Messages.GUI_ENTITYLIMIT_ITEM_INFO_EXTENSION_INFO, new ArrayList<>()));
+            String entitystatus = entityLimit.getConvertedMessage(Messages.GUI_ENTITYLIMIT_ITEM_INFO_PATTERN, new ArrayList<>(), region.getExtraEntityAmount(entityLimit.getEntityType()));
+            if(entityLimit.getSoftLimit(region.getExtraEntityAmount(entityLimit.getEntityType())) < entityLimit.getHardLimit()) {
+                entitystatus = entitystatus.replace("%entityextensioninfo%", entityLimit.getConvertedMessage(Messages.GUI_ENTITYLIMIT_ITEM_INFO_EXTENSION_INFO, new ArrayList<>(), region.getExtraEntityAmount(entityLimit.getEntityType())));
             } else {
                 entitystatus = entitystatus.replace("%entityextensioninfo%", "");
             }

@@ -47,6 +47,10 @@
             <id>fawe-repo</id>
             <url>http://ci.athion.net/job/FastAsyncWorldEdit/ws/mvn/</url>
         </repository>
+        <repository>
+            <id>bungeecord-repo</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </repository>
     </repositories>
 
 </project>

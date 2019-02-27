@@ -172,26 +172,35 @@ public abstract class Region {
     }
 
     public void addBuiltBlock(Location loc) {
-        this.builtblocks.add(loc);
-        try {
-            File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-            File builtblocksdic = new File(pluginfolder + "/schematics/" + this.regionworld.getName() + "/" + region.getId() + "--builtblocks.schematic");
-            if(!builtblocksdic.exists()){
-                File builtblocksfolder = new File(pluginfolder + "/schematics/" + this.regionworld.getName());
-                builtblocksfolder.mkdirs();
-                builtblocksdic.createNewFile();
+        boolean contains = false;
+        for(Location bbloc : this.builtblocks) {
+            if((bbloc.getBlockX() == loc.getBlockX()) && (bbloc.getBlockY() == loc.getBlockY()) && (bbloc.getBlockZ() == loc.getBlockZ())) {
+                contains = true;
+                break;
             }
+        }
+        if(!contains) {
+            this.builtblocks.add(loc);
+            try {
+                File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
+                File builtblocksdic = new File(pluginfolder + "/schematics/" + this.regionworld.getName() + "/" + region.getId() + "--builtblocks.schematic");
+                if(!builtblocksdic.exists()){
+                    File builtblocksfolder = new File(pluginfolder + "/schematics/" + this.regionworld.getName());
+                    builtblocksfolder.mkdirs();
+                    builtblocksdic.createNewFile();
+                }
 
-            FileWriter fileWriter = new FileWriter(builtblocksdic, true);
-            BufferedWriter writer = new BufferedWriter(fileWriter);
-            loc.getBlock().getType();
-            writer.write(loc.getWorld().getName() + ";" + loc.getBlockX() + ";" + loc.getBlockY() + ";" + loc.getBlockZ());
-            writer.newLine();
-            writer.close();
-            fileWriter.close();
+                FileWriter fileWriter = new FileWriter(builtblocksdic, true);
+                BufferedWriter writer = new BufferedWriter(fileWriter);
+                loc.getBlock().getType();
+                writer.write(loc.getWorld().getName() + ";" + loc.getBlockX() + ";" + loc.getBlockY() + ";" + loc.getBlockZ());
+                writer.newLine();
+                writer.close();
+                fileWriter.close();
 
-        } catch (IOException e) {
-            e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

@@ -44,7 +44,7 @@ public class BuyExtraCommand extends BasicArmCommand {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Player player = (Player) sender;
-        if (!sender.hasPermission(Permission.MEMBER_ENTITYLIMIT_BUY_EXTRA) && !sender.hasPermission(Permission.ADMIN_ENTITYLIMIT_BUY_EXTRA)) {
+        if (!sender.hasPermission(Permission.MEMBER_ENTITYLIMIT_BUY_EXTRA)) {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
 
@@ -54,10 +54,8 @@ public class BuyExtraCommand extends BasicArmCommand {
             throw new InputException(player, Messages.REGION_DOES_NOT_EXIST);
         }
 
-        if(!player.hasPermission(Permission.ADMIN_ENTITYLIMIT_BUY_EXTRA)) {
-            if(!region.getRegion().hasOwner(player.getUniqueId())) {
-                throw new InputException(player, Messages.REGION_NOT_OWN);
-            }
+        if(!region.getRegion().hasOwner(player.getUniqueId())) {
+            throw new InputException(player, Messages.REGION_NOT_OWN);
         }
 
         if(region.isSubregion()) {
@@ -69,7 +67,7 @@ public class BuyExtraCommand extends BasicArmCommand {
 
         if(args[2].equalsIgnoreCase("total")) {
 
-            if((region.getEntityLimitGroup().getHardLimit() <= region.getEntityLimitGroup().getSoftLimit(region.getExtraTotalEntitys())) && !player.hasPermission(Permission.ADMIN_ENTITYLIMIT_BUY_EXTRA)) {
+            if(region.getEntityLimitGroup().getHardLimit() <= region.getEntityLimitGroup().getSoftLimit(region.getExtraTotalEntitys())) {
                 throw new InputException(player, region.getEntityLimitGroup().getConvertedMessage(Messages.ENTITYLIMITGROUP_EXTRA_ENTITIES_HARDLIMIT_REACHED, entities, region.getExtraTotalEntitys()));
             }
             if(AdvancedRegionMarket.getEcon().getBalance(player) < region.getEntityLimitGroup().getPricePerExtraEntity()) {
@@ -90,7 +88,7 @@ public class BuyExtraCommand extends BasicArmCommand {
             if(!region.getEntityLimitGroup().containsLimit(entityType)) {
                 throw new InputException(player, region.getEntityLimitGroup().getConvertedMessage(Messages.ENTITYLIMITGROUP_ENTITYLIMIT_ALREADY_UNLIMITED, entities, region.getExtraTotalEntitys()));
             }
-            if((region.getEntityLimitGroup().getHardLimit(entityType) <= region.getEntityLimitGroup().getSoftLimit(entityType, region.getExtraEntityAmount(entityType))) && !player.hasPermission(Permission.ADMIN_ENTITYLIMIT_BUY_EXTRA)) {
+            if(region.getEntityLimitGroup().getHardLimit(entityType) <= region.getEntityLimitGroup().getSoftLimit(entityType, region.getExtraEntityAmount(entityType))) {
                 throw new InputException(player, region.getEntityLimitGroup().getConvertedMessage(Messages.ENTITYLIMITGROUP_EXTRA_ENTITIES_HARDLIMIT_REACHED, entities, region.getExtraTotalEntitys()));
             }
             if(AdvancedRegionMarket.getEcon().getBalance(player) < region.getEntityLimitGroup().getPricePerExtraEntity(entityType)) {

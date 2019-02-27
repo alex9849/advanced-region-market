@@ -67,7 +67,6 @@ public class Permission {
     public static final String ADMIN_SET_ENTITYLIMIT = "arm.admin.setentitylimit";
     public static final String ADMIN_ENTITYLIMIT_CHECK = "arm.admin.entitylimit.check";
     public static final String ADMIN_ENTITYLIMIT_SET_EXTRA = "arm.admin.entitylimit.setextra";
-    public static final String ADMIN_ENTITYLIMIT_BUY_EXTRA = "arm.admin.entitylimit.buyextra";
 
 
     public static final String SUBREGION_TOOL = "arm.subregion.tool";
@@ -127,7 +126,7 @@ public class Permission {
 
     public static boolean hasAnyEntityLimitPermission(CommandSender sender) {
         return sender.hasPermission(MEMBER_ENTITYLIMIT_BUY_EXTRA) || sender.hasPermission(MEMBER_ENTITYLIMIT_CHECK) || sender.hasPermission(MEMBER_ENTITYLIMIT_INFO)
-                || sender.hasPermission(ADMIN_ENTITYLIMIT_BUY_EXTRA) || sender.hasPermission(ADMIN_ENTITYLIMIT_CHECK) || sender.hasPermission(ADMIN_ENTITYLIMIT_REMOVE_LIMIT)
+                || sender.hasPermission(ADMIN_ENTITYLIMIT_CHECK) || sender.hasPermission(ADMIN_ENTITYLIMIT_REMOVE_LIMIT)
                 || sender.hasPermission(ADMIN_ENTITYLIMIT_LIST) || sender.hasPermission(ADMIN_ENTITYLIMIT_DELETE) || sender.hasPermission(ADMIN_ENTITYLIMIT_CREATE)
                 || sender.hasPermission(ADMIN_ENTITYLIMIT_ADD_LIMIT);
     }

@@ -709,6 +709,7 @@ public abstract class Region {
         message = message.replace("%hotelfunctionstatus%", Messages.convertEnabledDisabled(this.isHotel));
         message = message.replace("%soldstatus%", this.getSoldStringStatus());
         message = message.replace("%selltype%", this.getSellType().getName());
+        message = this.getRegionKind().getConvertedMessage(message);
         return message;
     }
 

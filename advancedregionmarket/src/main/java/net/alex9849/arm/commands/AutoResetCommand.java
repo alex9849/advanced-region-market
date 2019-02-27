@@ -62,7 +62,7 @@ public class AutoResetCommand extends BasicArmCommand {
                 throw new InputException(sender, Messages.SUB_REGION_AUTORESET_ERROR);
             }
             regions = RegionManager.getRegionsByRegionKind(selectedRegionkind);
-            selectedName = Messages.MASSACTION_SPLITTER.replace("%regionkind%", selectedRegionkind.getName());
+            selectedName = selectedRegionkind.getConvertedMessage(Messages.MASSACTION_SPLITTER);
         } else {
             Region selectedRegion = RegionManager.getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
             if(selectedRegion == null){

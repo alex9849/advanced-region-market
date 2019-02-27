@@ -1,5 +1,6 @@
 package net.alex9849.arm.regions;
 
+import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import org.bukkit.Material;
 
@@ -150,5 +151,12 @@ public class RegionKind {
 
     public double getPaybackPercentage() {
         return paybackPercentage;
+    }
+
+    public String getConvertedMessage(String message) {
+        message = message.replace("%regionkinddisplay%", this.getDisplayName());
+        message = message.replace("%regionkind%", this.getName());
+        message = message.replace("%currency%", Messages.CURRENCY);
+        return message;
     }
 }

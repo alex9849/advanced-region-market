@@ -85,8 +85,6 @@ public abstract class Preset {
     public void executeSavedCommands(CommandSender sender, Region region) {
         for(String command : this.setupCommands) {
             String cmd = region.getConvertedMessage(command);
-            cmd = cmd.replace("%regionkind%", region.getRegionKind().getName());
-            cmd = cmd.replace("%regionkinddisplay%", region.getRegionKind().getDisplayName());
 
             if(sender instanceof Player) {
                 ((Player) sender).performCommand(cmd);

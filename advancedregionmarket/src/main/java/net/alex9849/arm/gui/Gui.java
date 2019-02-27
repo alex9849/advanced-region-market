@@ -876,7 +876,7 @@ public class Gui implements Listener {
         int itempos = 0;
         if(RegionKind.DEFAULT.isDisplayInGUI()) {
             String displayName = Messages.GUI_REGIONFINDER_REGIONKIND_NAME;
-            displayName = displayName.replace("%regionkind%", RegionKind.DEFAULT.getDisplayName());
+            displayName = RegionKind.DEFAULT.getConvertedMessage(displayName);
             Material material = RegionKind.DEFAULT.getMaterial();
             ItemStack stack = new ItemStack(material);
             ItemMeta meta = stack.getItemMeta();
@@ -900,7 +900,7 @@ public class Gui implements Listener {
 
         if(RegionKind.SUBREGION.isDisplayInGUI() && player.hasPermission(Permission.ARM_BUYKIND + RegionKind.SUBREGION.getName())){
             String displayName = Messages.GUI_REGIONFINDER_REGIONKIND_NAME;
-            displayName = displayName.replace("%regionkind%", RegionKind.SUBREGION.getDisplayName());
+            displayName = RegionKind.SUBREGION.getConvertedMessage(displayName);
             Material material = RegionKind.SUBREGION.getMaterial();
             ItemStack stack = new ItemStack(material);
             ItemMeta meta = stack.getItemMeta();
@@ -926,7 +926,7 @@ public class Gui implements Listener {
         for(int i = 0; i < RegionKind.getRegionKindList().size(); i++) {
             if(RegionKind.getRegionKindList().get(i).isDisplayInGUI()) {
                 String displayName = Messages.GUI_REGIONFINDER_REGIONKIND_NAME;
-                displayName = displayName.replace("%regionkind%", RegionKind.getRegionKindList().get(i).getDisplayName());
+                displayName = RegionKind.getRegionKindList().get(i).getConvertedMessage(displayName);
                 Material material = RegionKind.getRegionKindList().get(i).getMaterial();
                 if(player.hasPermission(Permission.ARM_BUYKIND + RegionKind.getRegionKindList().get(i).getName())){
                     ItemStack stack = new ItemStack(material);
@@ -1130,7 +1130,7 @@ public class Gui implements Listener {
     private static ItemStack getRegionDisplayItem(Region region, List<String> rentLore, List<String> sellLore, List<String> contractLore) {
         String regionDisplayName = Messages.GUI_REGION_ITEM_NAME;
         regionDisplayName = region.getConvertedMessage(regionDisplayName);
-        regionDisplayName = regionDisplayName.replace("%regionkind%", region.getRegionKind().getDisplayName());
+        regionDisplayName = region.getRegionKind().getConvertedMessage(regionDisplayName);
 
         ItemStack stack = new ItemStack(region.getRegionKind().getMaterial());
         ItemMeta meta = stack.getItemMeta();

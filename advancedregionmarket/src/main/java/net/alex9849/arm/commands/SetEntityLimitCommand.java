@@ -61,7 +61,7 @@ public class SetEntityLimitCommand extends BasicArmCommand {
                 throw new InputException(sender, Messages.REGIONKIND_DOES_NOT_EXIST);
             }
             regions = RegionManager.getRegionsByRegionKind(selectedRegionkind);
-            selectedName = Messages.MASSACTION_SPLITTER.replace("%regionkind%", selectedRegionkind.getName());
+            selectedName = selectedRegionkind.getConvertedMessage(Messages.MASSACTION_SPLITTER);
         } else {
             Region selectedRegion = RegionManager.getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
             if(selectedRegion == null){

@@ -93,7 +93,7 @@ public class SellRegion extends Region {
         }
         if (this.regionKind != RegionKind.DEFAULT){
             if(!player.hasPermission(Permission.ARM_BUYKIND + this.regionKind.getName())){
-                throw new InputException(player, Messages.NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION);
+                throw new InputException(player, this.getRegionKind().getConvertedMessage(Messages.NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION));
             }
         }
 

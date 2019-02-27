@@ -1011,7 +1011,7 @@ public class Messages {
         config.addDefault("Messages.NoFreeRegionWithThisKind", "&7No free region with this type found :(");
         config.addDefault("Messages.NoPermissionToSearchKind", "&4You are not allowed to search regions of this kind");
         config.addDefault("Messages.RegionkindDoesNotExist", "&4The selected regionkind does not exist!");
-        config.addDefault("Messages.NoPermissionsToBuyThisKindOfRegion", "&4You do not have permission to buy this kind of region");
+        config.addDefault("Messages.NoPermissionsToBuyThisKindOfRegion", "&4You do not have permission to buy this kind of region (You need the permission &6arm.buykind.%regionkind%&4)");
         config.addDefault("Messages.UserNotAMemberOrOwner", "&4You are not a member or owner of this region!");
         config.addDefault("Messages.SelectedPlayerIsNotOnline", "&4The selected player is not online");
         config.addDefault("Messages.BadSyntax", "&7Bad syntax! Please use: &8%command%");
@@ -1208,7 +1208,7 @@ public class Messages {
         config.addDefault("Messages.GUIRegionFinderRegionKindName", "%regionkind%");
         config.addDefault("Messages.GUIMemberListMenuName", "&1ARM - Members of %regionid%");
         config.addDefault("Messages.GUIOwnRegionsMenuName", "&1ARM - My regions (Owner)");
-        config.addDefault("Messages.GUIRegionItemName", "%regionid% (%regionkind%)");
+        config.addDefault("Messages.GUIRegionItemName", "%regionid% (%regionkinddisplay%)");
         config.addDefault("Messages.GUIMakeOwnerWarningName", "&4&lAre you shure?");
         config.addDefault("Messages.GUIMemberRegionsMenuName", "&1ARM - My regions (Member)");
         config.addDefault("Messages.GUIResetRegionWarningName", "&4&lReset your region?");

@@ -1,6 +1,7 @@
 package net.alex9849.arm.Preseter.presets;
 
 import net.alex9849.arm.Messages;
+import net.alex9849.arm.entitylimit.EntityLimitGroup;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.RegionKind;
 import net.alex9849.arm.regions.RentRegion;
@@ -9,9 +10,11 @@ import net.alex9849.arm.regions.price.RentPrice;
 import net.alex9849.inter.WGRegion;
 import org.bukkit.World;
 import org.bukkit.block.Sign;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -22,8 +25,8 @@ public class RentPreset extends Preset {
     private long extendPerClick = 0;
 
     public RentPreset(String name, boolean hasPrice, double price, RegionKind regionKind, boolean autoReset, boolean isHotel, boolean doBlockReset, boolean hasMaxRentTime,
-                      long maxRentTime, boolean hasExtendPerClick, long extendPerClick, boolean isUserResettable, int allowedSubregions, AutoPrice autoPrice, List<String> setupCommands){
-        super(name, hasPrice, price, regionKind, autoReset, isHotel, doBlockReset, isUserResettable, allowedSubregions, autoPrice, setupCommands);
+                      long maxRentTime, boolean hasExtendPerClick, long extendPerClick, boolean isUserResettable, int allowedSubregions, AutoPrice autoPrice, EntityLimitGroup entityLimitGroup, List<String> setupCommands){
+        super(name, hasPrice, price, regionKind, autoReset, isHotel, doBlockReset, isUserResettable, allowedSubregions, autoPrice, entityLimitGroup, setupCommands);
         this.hasMaxRentTime = hasMaxRentTime;
         this.maxRentTime = maxRentTime;
         this.hasExtendPerClick = hasExtendPerClick;
@@ -35,7 +38,7 @@ public class RentPreset extends Preset {
         for(String cmd : setupCommands) {
             newsetupCommands.add(cmd);
         }
-        return new RentPreset(this.name, this.hasPrice, this.price, this.regionKind, this.autoReset, this.isHotel, this.doBlockReset, this.hasMaxRentTime, this.maxRentTime, this.hasExtendPerClick, this.extendPerClick, this.isUserResettable, this.allowedSubregions, this.autoPrice, newsetupCommands);
+        return new RentPreset(this.name, this.hasPrice, this.price, this.regionKind, this.autoReset, this.isHotel, this.doBlockReset, this.hasMaxRentTime, this.maxRentTime, this.hasExtendPerClick, this.extendPerClick, this.isUserResettable, this.allowedSubregions, this.autoPrice, this.entityLimitGroup, newsetupCommands);
     }
 
     public boolean hasExtendPerClick() {
@@ -152,14 +155,15 @@ public class RentPreset extends Preset {
     }
 
     @Override
-    public Region generateRegion(WGRegion wgRegion, World world, List<Sign> signs) {
+    public Region generateRegion(WGRegion wgRegion, World world, CommandSender sender, List<Sign> signs) {
 
-        RentRegion rentRegion = new RentRegion(wgRegion, world, signs, new RentPrice(AutoPrice.DEFAULT), false, this.isAutoReset(), this.isHotel(), this.isDoBlockReset(), this.getRegionKind(), null, 0, this.isUserResettable(), 1, new ArrayList<>(), this.getAllowedSubregions());
+        RentRegion rentRegion = new RentRegion(wgRegion, world, signs, new RentPrice(AutoPrice.DEFAULT), false, this.isAutoReset(), this.isHotel(), this.isDoBlockReset(), this.getRegionKind(), null, 0, this.isUserResettable(), 1, new ArrayList<>(), this.getAllowedSubregions(), this.entityLimitGroup, new HashMap<>(), 0);
         if(this.hasAutoPrice()) {
             rentRegion.setPrice(new RentPrice(this.getAutoPrice()));
         } else if (this.hasPrice() && this.hasExtendPerClick() && this.hasMaxRentTime()) {
             rentRegion.setPrice(new RentPrice(this.getPrice(), this.getExtendPerClick(), this.getMaxRentTime()));
         }
+        this.executeSavedCommands(sender, rentRegion);
         return rentRegion;
     }
 

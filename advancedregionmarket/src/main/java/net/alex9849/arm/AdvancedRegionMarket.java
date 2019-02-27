@@ -4,6 +4,8 @@ import net.alex9849.arm.Handler.ARMListener;
 import net.alex9849.arm.Handler.CommandHandler;
 import net.alex9849.arm.Handler.Scheduler;
 import net.alex9849.arm.commands.*;
+import net.alex9849.arm.entitylimit.EntityLimitGroup;
+import net.alex9849.arm.entitylimit.EntityLimitGroupManager;
 import net.alex9849.arm.regions.price.RentPrice;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.minifeatures.SignLinkMode;
@@ -24,10 +26,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.block.*;
+import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.vehicle.VehicleCreateEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -98,6 +102,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
             return;
         }
         loadOther();
+        EntityLimitGroupManager.loadEntityLimits();
         PresetPatternManager.loadPresetPatterns();
         RegionManager.loadRegionsFromConfig();
         Region.setCompleteTabRegions(getConfig().getBoolean("Other.CompleteRegionsOnTabComplete"));
@@ -142,6 +147,8 @@ public class AdvancedRegionMarket extends JavaPlugin {
         commands.add(new SetIsUserResettableCommand());
         commands.add(new ListAutoPricesCommand());
         commands.add(new SignLinkModeCommand());
+        commands.add(new EntityLimitCommand());
+        commands.add(new SetEntityLimitCommand());
         AdvancedRegionMarket.commandHandler.addCommands(commands);
 
         getCommand("arm").setTabCompleter(this.commandHandler);
@@ -150,6 +157,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
             @Override
             public void run() {
                 RegionManager.writeRegionsToConfig(false);
+                EntityLimitGroupManager.saveEntityLimits();
             }
         }, 0, 60);
     }
@@ -165,6 +173,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         SignLinkMode.reset();
         PresetPatternManager.resetPresetPatterns();
         ActivePresetManager.reset();
+        EntityLimitGroupManager.reset();
         getServer().getServicesManager().unregisterAll(this);
         SignChangeEvent.getHandlerList().unregister(this);
         InventoryClickEvent.getHandlerList().unregister(this);
@@ -175,6 +184,8 @@ public class AdvancedRegionMarket extends JavaPlugin {
         PlayerJoinEvent.getHandlerList().unregister(this);
         PlayerQuitEvent.getHandlerList().unregister(this);
         BlockExplodeEvent.getHandlerList().unregister(this);
+        EntitySpawnEvent.getHandlerList().unregister(this);
+        VehicleCreateEvent.getHandlerList().unregister(this);
         getServer().getScheduler().cancelTasks(this);
     }
 
@@ -599,6 +610,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         RegionManager.setRegionsConf();
         Messages.generatedefaultConfig();
         PresetPatternManager.generatedefaultConfig();
+        EntityLimitGroupManager.generatedefaultConfig();
         this.generatedefaultconfig();
         FileConfiguration pluginConfig = this.getConfig();
         YamlConfiguration regionConf = RegionManager.getRegionsConf();

@@ -4,6 +4,8 @@ import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
+import net.alex9849.arm.entitylimit.EntityLimit;
+import net.alex9849.arm.entitylimit.EntityLimitGroup;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.minifeatures.ParticleBorder;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
@@ -14,7 +16,7 @@ import org.bukkit.*;
 import org.bukkit.Location;
 import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.util.Vector;
 
 import java.io.*;
@@ -44,10 +46,15 @@ public abstract class Region {
     protected int allowedSubregions;
     protected Region parentRegion;
     protected boolean isUserResettable;
+    protected EntityLimitGroup entityLimitGroup;
     private boolean needsSave;
+    private HashMap<EntityType, Integer> extraEntitys;
+    private int extraTotalEntitys;
 
     public Region(WGRegion region, World regionworld, List<Sign> sellsign, Price price, Boolean sold, Boolean autoreset,
-                  Boolean isHotel, Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, boolean isUserResettable, List<Region> subregions, int allowedSubregions){
+                  Boolean isHotel, Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset,
+                  boolean isUserResettable, List<Region> subregions, int allowedSubregions, EntityLimitGroup entityLimitGroup,
+                  HashMap<EntityType, Integer> extraEntitys, int boughtExtraTotalEntitys){
         this.region = region;
         this.sellsign = new ArrayList<Sign>(sellsign);
         this.sold = sold;
@@ -64,6 +71,9 @@ public abstract class Region {
         this.allowedSubregions = allowedSubregions;
         this.isUserResettable = isUserResettable;
         this.needsSave = false;
+        this.entityLimitGroup = entityLimitGroup;
+        this.extraEntitys = extraEntitys;
+        this.extraTotalEntitys = boughtExtraTotalEntitys;
 
         for(Region subregion : subregions) {
             subregion.setParentRegion(this);
@@ -183,6 +193,15 @@ public abstract class Region {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public EntityLimitGroup getEntityLimitGroup() {
+        return this.entityLimitGroup;
+    }
+
+    public void setEntityLimitGroup(EntityLimitGroup entityLimitGroup) {
+        this.entityLimitGroup = entityLimitGroup;
+        this.queueSave();
     }
 
     public void addSign(Location loc){
@@ -355,6 +374,7 @@ public abstract class Region {
         sender.sendMessage(Messages.REGION_INFO_SOLD + Messages.convertYesNo(this.isSold()));
         sender.sendMessage(Messages.REGION_INFO_PRICE + this.price.calcPrice(this.getRegion()) + " " + Messages.CURRENCY);
         sender.sendMessage(Messages.REGION_INFO_TYPE + this.getRegionKind().getDisplayName());
+        sender.sendMessage(Messages.REGION_INFO_ENTITYLIMITGROUP + this.getEntityLimitGroup().getName());
         sender.sendMessage(Messages.REGION_INFO_OWNER + owners);
         sender.sendMessage(Messages.REGION_INFO_MEMBERS + members);
         sender.sendMessage(Messages.REGION_INFO_HOTEL + Messages.convertYesNo(this.isHotel));
@@ -576,6 +596,9 @@ public abstract class Region {
             }
         }
 
+        this.extraEntitys.clear();
+        this.extraTotalEntitys = 0;
+
         for(int i = 0; i < this.sellsign.size(); i++){
             this.updateSignText(this.sellsign.get(i));
         }
@@ -698,5 +721,122 @@ public abstract class Region {
             }
         }
         return false;
+    }
+
+    public List<Entity> getInsideEntities(boolean includePlayers) {
+        List<Entity> entities;
+        List<Entity> result = new ArrayList<>();
+        Vector minPoint = this.getRegion().getMinPoint();
+        Vector maxPoint = this.getRegion().getMaxPoint();
+
+        double minX = (minPoint.getX() + maxPoint.getX()) / 2;
+        double minY = (minPoint.getY() + maxPoint.getY()) / 2;
+        double minZ = (minPoint.getZ() + maxPoint.getZ()) / 2;
+        Location midLocation = new Location(this.getRegionworld(), minX, minY, minZ);
+
+        double xAxis = (maxPoint.getX() + 1 - minPoint.getX()) / 2d;
+        double yAxis = (maxPoint.getY() + 1 - minPoint.getY()) / 2d;
+        double zAxis = (maxPoint.getZ() + 1 - minPoint.getZ()) / 2d;
+
+        xAxis += 1;
+        yAxis += 1;
+        zAxis += 1;
+
+        entities = new ArrayList<>(this.getRegionworld().getNearbyEntities(midLocation, xAxis, yAxis, zAxis));
+
+        for(int i = 0; i < entities.size(); i++) {
+            Location entityLoc = entities.get(i).getLocation();
+            boolean insideRegion = false;
+            boolean add = true;
+
+            if(this.getRegion().contains(entityLoc.getBlockX(), entityLoc.getBlockY(), entityLoc.getBlockZ())) {
+                insideRegion = true;
+            }
+
+            if((entities.get(i).getType() == EntityType.PLAYER) && !includePlayers) {
+                add = false;
+            }
+
+            if(insideRegion && add) {
+                result.add(entities.get(i));
+            }
+
+        }
+        return result;
+    }
+
+    public List<Entity> getFilteredInsideEntities(boolean includePlayers, boolean includeLivingEntity, boolean includeVehicles, boolean includeProjectiles, boolean includeAreaEffectCloud, boolean includeItemFrames, boolean includePaintings) {
+
+        List<Entity> insideEntitys = this.getInsideEntities(includePlayers);
+        List<Entity> result = new ArrayList<>();
+
+        for(Entity selectedEntity : insideEntitys) {
+            boolean add = false;
+
+            if((selectedEntity instanceof LivingEntity) && includeLivingEntity && (selectedEntity.getType() != EntityType.PLAYER)) {
+                add = true;
+            }
+
+            if((selectedEntity instanceof Vehicle) && includeVehicles) {
+                add = true;
+            }
+
+            if((selectedEntity instanceof Projectile) && includeProjectiles) {
+                add = true;
+            }
+
+            if((selectedEntity instanceof AreaEffectCloud) && includeAreaEffectCloud) {
+                add = true;
+            }
+
+            if((selectedEntity instanceof ItemFrame) && includeItemFrames) {
+                add = true;
+            }
+
+            if((selectedEntity instanceof Painting) && includePaintings) {
+                add = true;
+            }
+
+            if(add) {
+                result.add(selectedEntity);
+            }
+        }
+
+        return result;
+    }
+
+    public int getExtraEntityAmount(EntityType entityType) {
+        Integer amount = this.extraEntitys.get(entityType);
+        if(amount == null) {
+            return 0;
+        } else {
+            return amount;
+        }
+    }
+
+    public int getExtraTotalEntitys() {
+        return this.extraTotalEntitys;
+    }
+
+    public void setExtraTotalEntitys(int extraTotalEntitys) {
+        if(extraTotalEntitys < 0) {
+            this.extraTotalEntitys = 0;
+        } else {
+            this.extraTotalEntitys = extraTotalEntitys;
+        }
+
+        this.queueSave();
+    }
+
+    public void setExtraEntityAmount(EntityType entityType, int amount) {
+        this.extraEntitys.remove(entityType);
+        if(amount > 0) {
+            this.extraEntitys.put(entityType, amount);
+        }
+        this.queueSave();
+    }
+
+    protected HashMap<EntityType, Integer> getExtraEntitys() {
+        return this.extraEntitys;
     }
 }

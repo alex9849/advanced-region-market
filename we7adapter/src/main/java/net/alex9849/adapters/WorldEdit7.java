@@ -48,6 +48,7 @@ public class WorldEdit7 extends WorldEditInterface {
         BlockArrayClipboard clip = new BlockArrayClipboard(reg);
         clip.setOrigin(minPoint);
         ForwardExtentCopy copy = new ForwardExtentCopy(editSession, new CuboidRegion(world, minPoint, maxPoint), clip, minPoint);
+        copy.setCopyingEntities(true);
         try {
             Operations.completeLegacy(copy);
         } catch(MaxChangedBlocksException e) {
@@ -100,8 +101,6 @@ public class WorldEdit7 extends WorldEditInterface {
             Extent source = clipboard;
             Extent destination = WorldEdit.getInstance().getEditSessionFactory().getEditSession(world, Integer.MAX_VALUE);
             ForwardExtentCopy copy = new ForwardExtentCopy(source, clipboard.getRegion(), clipboard.getOrigin(), destination, minPoint);
-            copy.setCopyingEntities(false);
-            copy.setRemovingEntities(false);
 
             Operations.completeLegacy(copy);
             ((EditSession) destination).flushSession();

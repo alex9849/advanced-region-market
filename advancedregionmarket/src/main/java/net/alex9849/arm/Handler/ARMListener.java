@@ -7,6 +7,7 @@ import net.alex9849.arm.Permission;
 import net.alex9849.arm.Preseter.*;
 import net.alex9849.arm.Preseter.presets.*;
 import net.alex9849.arm.SubRegions.SubRegionCreator;
+import net.alex9849.arm.entitylimit.EntityLimitGroup;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.regions.*;
 import net.alex9849.arm.gui.Gui;
@@ -17,14 +18,17 @@ import net.alex9849.arm.regions.price.RentPrice;
 import net.alex9849.inter.WGRegion;
 import org.bukkit.*;
 import org.bukkit.block.Sign;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
+import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.vehicle.VehicleCreateEvent;
 import org.bukkit.plugin.Plugin;
 
 import java.sql.ResultSet;
@@ -47,6 +51,7 @@ public class ARMListener implements Listener {
             Boolean isHotel = false;
             Boolean doBlockReset = true;
             Boolean userResettable = true;
+            EntityLimitGroup entityLimitGroup = EntityLimitGroup.DEFAULT;
             int allowedSubregions = 0;
 
             if(sign.getLine(0).equalsIgnoreCase("[ARM-Sell]")){
@@ -58,6 +63,7 @@ public class ARMListener implements Listener {
                     doBlockReset = preset.isDoBlockReset();
                     userResettable = preset.isUserResettable();
                     allowedSubregions = preset.getAllowedSubregions();
+                    entityLimitGroup = preset.getEntityLimitGroup();
                     sign.getPlayer().sendMessage(Messages.PREFIX + "Applying preset...");
                 }
 
@@ -128,7 +134,7 @@ public class ARMListener implements Listener {
 
                 LinkedList<Sign> sellsign = new LinkedList<Sign>();
                 sellsign.add((Sign) sign.getBlock().getState());
-                SellRegion addRegion = new SellRegion(region, regionWorld, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,1, userResettable, new ArrayList<Region>(), allowedSubregions);
+                SellRegion addRegion = new SellRegion(region, regionWorld, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,1, userResettable, new ArrayList<Region>(), allowedSubregions, entityLimitGroup, new HashMap<>(), 0);
                 addRegion.createSchematic();
                 net.alex9849.arm.regions.RegionManager.addRegion(addRegion);
                 sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_ADDED_TO_ARM);
@@ -153,6 +159,7 @@ public class ARMListener implements Listener {
                     isHotel = preset.isHotel();
                     doBlockReset = preset.isDoBlockReset();
                     userResettable = preset.isUserResettable();
+                    entityLimitGroup = preset.getEntityLimitGroup();
                     allowedSubregions = preset.getAllowedSubregions();
                     sign.getPlayer().sendMessage(Messages.PREFIX + "Applying preset...");
                 }
@@ -236,7 +243,7 @@ public class ARMListener implements Listener {
                 sellsign.add((Sign) sign.getBlock().getState());
 
                 RentRegion addRegion = new RentRegion(region, regionWorld, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,
-                        1, userResettable,1, new ArrayList<Region>(), allowedSubregions);
+                        1, userResettable,1, new ArrayList<Region>(), allowedSubregions, entityLimitGroup, new HashMap<>(), 0);
                 addRegion.createSchematic();
                 net.alex9849.arm.regions.RegionManager.addRegion(addRegion);
 
@@ -260,6 +267,7 @@ public class ARMListener implements Listener {
                     isHotel = preset.isHotel();
                     doBlockReset = preset.isDoBlockReset();
                     userResettable = preset.isUserResettable();
+                    entityLimitGroup = preset.getEntityLimitGroup();
                     allowedSubregions = preset.getAllowedSubregions();
                     sign.getPlayer().sendMessage(Messages.PREFIX + "Applying preset...");
                 }
@@ -339,7 +347,7 @@ public class ARMListener implements Listener {
                 sellsign.add((Sign) sign.getBlock().getState());
 
                 ContractRegion addRegion = new ContractRegion(region, regionWorld, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,
-                        1, userResettable, 1, false, new ArrayList<Region>(), allowedSubregions);
+                        1, userResettable, 1, false, new ArrayList<Region>(), allowedSubregions, entityLimitGroup, new HashMap<>(), 0);
                 addRegion.createSchematic();
                 net.alex9849.arm.regions.RegionManager.addRegion(addRegion);
                 sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_ADDED_TO_ARM);
@@ -460,6 +468,37 @@ public class ARMListener implements Listener {
         }
     }
 
+    @EventHandler
+    public void checkAllowEntitySpawn(EntitySpawnEvent event) {
+        if(event.isCancelled()) {
+            return;
+        }
+        if(event.getEntityType() == EntityType.PLAYER) {
+            return;
+        }
+
+        List<Region> regions = RegionManager.getRegionsByLocation(event.getLocation());
+
+        for(Region region : regions) {
+            if(region.getEntityLimitGroup().isLimitReached(region, event.getEntityType(), region.getExtraEntityAmount(event.getEntityType()))) {
+                event.setCancelled(true);
+            }
+        }
+    }
+
+    @EventHandler
+    public void vehicleSpawnEvent(VehicleCreateEvent event) {
+        if(event.isCancelled()) {
+            return;
+        }
+        List<Region> regions = RegionManager.getRegionsByLocation(event.getVehicle().getLocation());
+
+        for(Region region : regions) {
+            if(region.getEntityLimitGroup().isLimitReached(region, event.getVehicle().getType(), region.getExtraEntityAmount(event.getVehicle().getType()))) {
+                event.setCancelled(true);
+            }
+        }
+    }
 
     @EventHandler
     public void setLastLoginAndOpenOvertake(PlayerJoinEvent event) {
@@ -620,6 +659,7 @@ public class ARMListener implements Listener {
                             }
                         }
                     }
+                    throw new InputException(event.getPlayer(), Messages.REGION_NOT_OWN);
                 }
             }
         }

@@ -1,13 +1,17 @@
 package net.alex9849.arm.Preseter.presets;
 
 import net.alex9849.arm.Messages;
+import net.alex9849.arm.entitylimit.EntityLimitGroup;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.RegionKind;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.inter.WGRegion;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.block.Sign;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -24,9 +28,10 @@ public abstract class Preset {
     protected boolean isUserResettable = true;
     protected int allowedSubregions = 0;
     protected AutoPrice autoPrice;
+    protected EntityLimitGroup entityLimitGroup;
     protected List<String> setupCommands = new ArrayList<>();
 
-    public Preset(String name, boolean hasPrice, double price, RegionKind regionKind, boolean autoReset, boolean isHotel, boolean doBlockReset, boolean isUserResettable, int allowedSubregions, AutoPrice autoPrice, List<String> setupCommands){
+    public Preset(String name, boolean hasPrice, double price, RegionKind regionKind, boolean autoReset, boolean isHotel, boolean doBlockReset, boolean isUserResettable, int allowedSubregions, AutoPrice autoPrice, EntityLimitGroup entityLimitGroup, List<String> setupCommands){
         this.name = name;
         this.hasPrice = hasPrice;
         this.price = price;
@@ -38,6 +43,7 @@ public abstract class Preset {
         this.allowedSubregions = allowedSubregions;
         this.setupCommands = setupCommands;
         this.autoPrice = autoPrice;
+        this.entityLimitGroup = entityLimitGroup;
     }
 
     public String getName(){
@@ -76,13 +82,17 @@ public abstract class Preset {
         return this.setupCommands;
     }
 
-    public void executeSavedCommands(Player player, Region region) {
+    public void executeSavedCommands(CommandSender sender, Region region) {
         for(String command : this.setupCommands) {
             String cmd = region.getConvertedMessage(command);
             cmd = cmd.replace("%regionkind%", region.getRegionKind().getName());
             cmd = cmd.replace("%regionkinddisplay%", region.getRegionKind().getDisplayName());
 
-            player.performCommand(cmd);
+            if(sender instanceof Player) {
+                ((Player) sender).performCommand(cmd);
+            } else {
+                Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), cmd);
+            }
         }
     }
 
@@ -139,6 +149,7 @@ public abstract class Preset {
         player.sendMessage(Messages.REGION_INFO_PRICE + price);
         this.getAdditionalInfo(player);
         player.sendMessage(Messages.REGION_INFO_TYPE + regKind.getName());
+        player.sendMessage(Messages.REGION_INFO_ENTITYLIMITGROUP + entityLimitGroup.getName());
         player.sendMessage(Messages.REGION_INFO_AUTORESET + this.isAutoReset());
         player.sendMessage(Messages.REGION_INFO_HOTEL + this.isHotel());
         player.sendMessage(Messages.REGION_INFO_DO_BLOCK_RESET + this.isDoBlockReset());
@@ -167,6 +178,14 @@ public abstract class Preset {
             regionKind = RegionKind.DEFAULT;
         }
         this.regionKind = regionKind;
+    }
+
+    public EntityLimitGroup getEntityLimitGroup() {
+        return this.entityLimitGroup;
+    }
+
+    public void setEntityLimitGroup(EntityLimitGroup entityLimitGroup) {
+        this.entityLimitGroup = entityLimitGroup;
     }
 
     public void setDoBlockReset(Boolean bool){
@@ -207,5 +226,5 @@ public abstract class Preset {
 
     public abstract boolean canPriceLineBeLetEmpty();
 
-    public abstract Region generateRegion(WGRegion wgRegion, World world, List<Sign> signs);
+    public abstract Region generateRegion(WGRegion wgRegion, World world, CommandSender sender, List<Sign> signs);
 }

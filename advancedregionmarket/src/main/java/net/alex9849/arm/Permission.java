@@ -37,6 +37,7 @@ public class Permission {
     public static final String ADMIN_PRESET_SET_HOTEL = "arm.admin.preset.sethotel";
     public static final String ADMIN_PRESET_SET_DOBLOCKRESET = "arm.admin.preset.setdoblockreset";
     public static final String ADMIN_PRESET_SET_AUTOPRICE = "arm.admin.preset.setautoprice";
+    public static final String ADMIN_PRESET_SET_ENTITYLIMIT = "arm.admin.set.entitylimit";
     public static final String ADMIN_PRESET_INFO = "arm.admin.preset.info";
     public static final String ADMIN_PRESET_RESET = "arm.admin.preset.reset";
     public static final String ADMIN_PRESET_HELP = "arm.admin.preset.help";
@@ -57,6 +58,16 @@ public class Permission {
     public static final String ADMIN_LISTAUTOPRICES = "arm.admin.listautoprices";
     public static final String ADMIN_SET_PRICE = "arm.admin.setprice";
     public static final String ADMIN_SIGN_LINK_MODE = "arm.admin.signlinkmode";
+
+    public static final String ADMIN_ENTITYLIMIT_CREATE = "arm.admin.entitylimit.create";
+    public static final String ADMIN_ENTITYLIMIT_DELETE = "arm.admin.entitylimit.delete";
+    public static final String ADMIN_ENTITYLIMIT_ADD_LIMIT = "arm.admin.entitylimit.addlimit";
+    public static final String ADMIN_ENTITYLIMIT_REMOVE_LIMIT = "arm.admin.entitylimit.removelimit";
+    public static final String ADMIN_ENTITYLIMIT_LIST = "arm.admin.entitylimit.list";
+    public static final String ADMIN_SET_ENTITYLIMIT = "arm.admin.setentitylimit";
+    public static final String ADMIN_ENTITYLIMIT_CHECK = "arm.admin.entitylimit.check";
+    public static final String ADMIN_ENTITYLIMIT_SET_EXTRA = "arm.admin.entitylimit.setextra";
+    public static final String ADMIN_ENTITYLIMIT_BUY_EXTRA = "arm.admin.entitylimit.buyextra";
 
 
     public static final String SUBREGION_TOOL = "arm.subregion.tool";
@@ -98,6 +109,9 @@ public class Permission {
     public static final String MEMBER_PROMOTE = "arm.member.promote";
     public static final String MEMBER_BUY = "arm.member.buy";
     public static final String MEMBER_REGIONFINDER = "arm.member.regionfinder";
+    public static final String MEMBER_ENTITYLIMIT_INFO = "arm.member.entitylimit.info";
+    public static final String MEMBER_ENTITYLIMIT_CHECK = "arm.member.entitylimit.check";
+    public static final String MEMBER_ENTITYLIMIT_BUY_EXTRA = "arm.member.entitylimit.buyextra";
 
     public static final String ARM_HELP = "arm.help";
     public static final String ARM_BUYKIND = "arm.buykind.";
@@ -109,5 +123,12 @@ public class Permission {
 
     public static boolean hasAnyBuyPermission(CommandSender sender) {
         return (sender.hasPermission(MEMBER_BUY) || sender.hasPermission(OLD_BUY_CONTRACTREGION) || sender.hasPermission(OLD_BUY_RENTREGION) || sender.hasPermission(OLD_BUY_SELLREGION));
+    }
+
+    public static boolean hasAnyEntityLimitPermission(CommandSender sender) {
+        return sender.hasPermission(MEMBER_ENTITYLIMIT_BUY_EXTRA) || sender.hasPermission(MEMBER_ENTITYLIMIT_CHECK) || sender.hasPermission(MEMBER_ENTITYLIMIT_INFO)
+                || sender.hasPermission(ADMIN_ENTITYLIMIT_BUY_EXTRA) || sender.hasPermission(ADMIN_ENTITYLIMIT_CHECK) || sender.hasPermission(ADMIN_ENTITYLIMIT_REMOVE_LIMIT)
+                || sender.hasPermission(ADMIN_ENTITYLIMIT_LIST) || sender.hasPermission(ADMIN_ENTITYLIMIT_DELETE) || sender.hasPermission(ADMIN_ENTITYLIMIT_CREATE)
+                || sender.hasPermission(ADMIN_ENTITYLIMIT_ADD_LIMIT);
     }
 }

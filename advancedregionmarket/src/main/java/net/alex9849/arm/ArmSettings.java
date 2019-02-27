@@ -15,7 +15,6 @@ public class ArmSettings {
     private static boolean useShortCountdown = false;
     private static boolean deleteSubregionsOnParentRegionUnsell = false;
     private static boolean deleteSubregionsOnParentRegionBlockReset = false;
-    //TODO include in config
     private static boolean allowParentRegionOwnersBuildOnSubregions = true;
 
     private static boolean isAllowTeleportToBuySign = true;

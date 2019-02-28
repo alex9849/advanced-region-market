@@ -1330,7 +1330,7 @@ public class Messages {
 
         config.addDefault("Messages.EntityLimitGroupEntityLimitAlreadyUnlimited", "&4EntityLimit for the selected entity and region is already unlimited!");
         config.addDefault("Messages.EntityLimitGroupExtraEntitiesSet", "&aExtra-Entities have been set!");
-        config.addDefault("Messages.EntityLimitGroupExtraEntitiesExpandSuccess", "&aYou have sucessfully expanded the entitylimit to &6%softlimitentities% &aentities!");
+        config.addDefault("Messages.EntityLimitGroupExtraEntitiesExpandSuccess", "&aYou have sucessfully expanded the entitylimit to &6%softlimitentities% &aentities! (For &6%priceperextraentity%%currency%&a)");
         config.addDefault("Messages.EntityLimitGroupExtraEntitiesHardlimitReached", "&4Can not buy another entity-expansion! Hardlimit has been reached!");
         config.addDefault("Messages.EntityLimitGroupExtraEntitiesSetSubregionError", "&4Can not change entitylimit! Region is a Subregion");
         config.addDefault("Messages.EntityLimitGroupExtraEntitiesBuySubregionError", "&4Can not expand entitylimit! Region is a Subregion");

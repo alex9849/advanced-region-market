@@ -199,4 +199,13 @@ public class EntityLimitGroup {
         }
         return false;
     }
+
+    public EntityLimit getEntityLimit(EntityType entityType) {
+        for(EntityLimit entityLimit : this.entityLimits) {
+            if(entityLimit.getEntityType() == entityType) {
+                return entityLimit;
+            }
+        }
+        return null;
+    }
 }

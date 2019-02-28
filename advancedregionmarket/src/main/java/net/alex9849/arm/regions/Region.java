@@ -324,7 +324,7 @@ public abstract class Region {
 
     public boolean resetBlocks() throws SchematicNotFoundException {
         try {
-            if(ArmSettings.isRemoveEntitiesOnRegionReset()) {
+            if(ArmSettings.isRemoveEntitiesOnRegionBlockReset()) {
                 this.killEntitys();
             }
             AdvancedRegionMarket.getWorldEditInterface().resetBlocks(this.getRegion(), this.getRegionworld(), AdvancedRegionMarket.getWorldedit().getWorldEdit());

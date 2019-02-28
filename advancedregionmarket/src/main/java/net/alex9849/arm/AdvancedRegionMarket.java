@@ -487,7 +487,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         ArmSettings.setUseShortCountdown(getConfig().getBoolean("Other.ShortCountdown"));
         ArmSettings.setIsRegionInfoParticleBorder(getConfig().getBoolean("Other.RegionInfoParticleBorder"));
         ArmSettings.setIsAllowTeleportToBuySign(getConfig().getBoolean("Other.AllowRegionfinderTeleportToBuySign"));
-        ArmSettings.setRemoveEntitiesOnRegionReset(getConfig().getBoolean("Other.RemoveEntitiesOnRegionReset"));
+        ArmSettings.setRemoveEntitiesOnRegionBlockReset(getConfig().getBoolean("Other.RemoveEntitiesOnRegionBlockReset"));
 
         ArmSettings.setIsAllowSubRegionUserReset(getConfig().getBoolean("Subregions.AllowSubRegionUserReset"));
         ArmSettings.setIsSubregionBlockReset(getConfig().getBoolean("Subregions.SubregionBlockReset"));
@@ -874,7 +874,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         }
         if(version < 1.7) {
             getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.7...");
-            pluginConfig.set("Other.RemoveEntitiesOnRegionReset", true);
+            pluginConfig.set("Other.RemoveEntitiesOnRegionBlockReset", true);
             pluginConfig.set("Version", 1.7);
             saveConfig();
         }

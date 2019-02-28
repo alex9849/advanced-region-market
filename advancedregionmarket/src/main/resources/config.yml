@@ -201,7 +201,7 @@ Other:
   # to a sign or the the region
   AllowRegionfinderTeleportToBuySign: true
   # If true all entities will be removed if the region gets resetted
-  RemoveEntitiesOnRegionReset: true
+  RemoveEntitiesOnRegionBlockReset: true
 
 Subregions:
   AllowSubRegionUserReset: false

@@ -200,6 +200,8 @@ Other:
   # The regionfinder can teleport the player to a sign of the region or the region itself. If you set this setting to true, the player can decide if he wants to get teleported
   # to a sign or the the region
   AllowRegionfinderTeleportToBuySign: true
+  # If true all entities will be removed if the region gets resetted
+  RemoveEntitiesOnRegionReset: true
 
 Subregions:
   AllowSubRegionUserReset: false

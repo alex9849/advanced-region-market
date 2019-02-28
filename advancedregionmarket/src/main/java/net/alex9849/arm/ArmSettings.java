@@ -16,6 +16,7 @@ public class ArmSettings {
     private static boolean deleteSubregionsOnParentRegionUnsell = false;
     private static boolean deleteSubregionsOnParentRegionBlockReset = false;
     private static boolean allowParentRegionOwnersBuildOnSubregions = true;
+    private static boolean removeEntitiesOnRegionReset = true;
 
     private static boolean isAllowTeleportToBuySign = true;
 
@@ -28,6 +29,9 @@ public class ArmSettings {
     private static Statement stmt;
     private static String sqlPrefix;
 
+    protected static void setRemoveEntitiesOnRegionReset(boolean removeEntitiesOnRegionReset) {
+        ArmSettings.removeEntitiesOnRegionReset = removeEntitiesOnRegionReset;
+    }
 
     protected static void setIsAllowTeleportToBuySign(boolean isAllowTeleportToBuySign) {
         ArmSettings.isAllowTeleportToBuySign = isAllowTeleportToBuySign;
@@ -203,5 +207,9 @@ public class ArmSettings {
 
     public static void setAllowParentRegionOwnersBuildOnSubregions(boolean allowParentRegionOwnersBuildOnSubregions) {
         ArmSettings.allowParentRegionOwnersBuildOnSubregions = allowParentRegionOwnersBuildOnSubregions;
+    }
+
+    public static boolean isRemoveEntitiesOnRegionReset() {
+        return ArmSettings.removeEntitiesOnRegionReset;
     }
 }

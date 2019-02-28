@@ -487,6 +487,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         ArmSettings.setUseShortCountdown(getConfig().getBoolean("Other.ShortCountdown"));
         ArmSettings.setIsRegionInfoParticleBorder(getConfig().getBoolean("Other.RegionInfoParticleBorder"));
         ArmSettings.setIsAllowTeleportToBuySign(getConfig().getBoolean("Other.AllowRegionfinderTeleportToBuySign"));
+        ArmSettings.setRemoveEntitiesOnRegionReset(getConfig().getBoolean("Other.RemoveEntitiesOnRegionReset"));
 
         ArmSettings.setIsAllowSubRegionUserReset(getConfig().getBoolean("Subregions.AllowSubRegionUserReset"));
         ArmSettings.setIsSubregionBlockReset(getConfig().getBoolean("Subregions.SubregionBlockReset"));
@@ -869,6 +870,12 @@ public class AdvancedRegionMarket extends JavaPlugin {
             pluginConfig.set("DefaultAutoprice.autoPriceCalculation", "per_m2");
 
             pluginConfig.set("Version", 1.6);
+            saveConfig();
+        }
+        if(version < 1.7) {
+            getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.7...");
+            pluginConfig.set("Other.RemoveEntitiesOnRegionReset", true);
+            pluginConfig.set("Version", 1.7);
             saveConfig();
         }
     }

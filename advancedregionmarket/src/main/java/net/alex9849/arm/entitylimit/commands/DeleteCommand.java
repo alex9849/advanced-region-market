@@ -5,6 +5,8 @@ import net.alex9849.arm.Permission;
 import net.alex9849.arm.commands.BasicArmCommand;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
 import net.alex9849.arm.entitylimit.EntityLimitGroupManager;
+import net.alex9849.arm.regions.Region;
+import net.alex9849.arm.regions.RegionManager;
 import net.alex9849.exceptions.InputException;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -54,6 +56,11 @@ public class DeleteCommand extends BasicArmCommand {
         }
 
         EntityLimitGroupManager.remove(entityLimitGroup);
+
+        for(Region region : RegionManager.getAllRegions()) {
+            region.setEntityLimitGroup(EntityLimitGroup.DEFAULT);
+        }
+
         sender.sendMessage(Messages.PREFIX + Messages.ENTITYLIMITGROUP_DELETED);
         return true;
     }

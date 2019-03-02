@@ -55,7 +55,7 @@ public class BuyExtraCommand extends BasicArmCommand {
             throw new InputException(player, Messages.REGION_DOES_NOT_EXIST);
         }
 
-        if(!region.getRegion().hasOwner(player.getUniqueId())) {
+        if(!(region.getRegion().hasOwner(player.getUniqueId()) || region.getRegion().hasMember(player.getUniqueId()))) {
             throw new InputException(player, Messages.REGION_NOT_OWN);
         }
 

@@ -162,7 +162,7 @@ public class Gui implements Listener {
         if(player.hasPermission(Permission.MEMBER_RESETREGIONBLOCKS) && region.isUserResettable()){
             itemcounter++;
         }
-        if(player.hasPermission(Permission.MEMBER_ENTITYLIMIT_INFO)){
+        if(player.hasPermission(Permission.MEMBER_ENTITYLIMIT_CHECK)){
             itemcounter++;
         }
         if(player.hasPermission(Permission.MEMBER_INFO)){
@@ -253,7 +253,7 @@ public class Gui implements Listener {
             actitem++;
         }
 
-        if(player.hasPermission(Permission.MEMBER_ENTITYLIMIT_INFO)) {
+        if(player.hasPermission(Permission.MEMBER_ENTITYLIMIT_CHECK)) {
             ClickItem infoicon = new ClickItem(getEntityLimtGroupItem(region)).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) {
@@ -497,7 +497,7 @@ public class Gui implements Listener {
         if(player.hasPermission(Permission.MEMBER_RESETREGIONBLOCKS) && region.isUserResettable()){
             itemcounter++;
         }
-        if(player.hasPermission(Permission.MEMBER_ENTITYLIMIT_INFO)){
+        if(player.hasPermission(Permission.MEMBER_ENTITYLIMIT_CHECK)){
             itemcounter++;
         }
         if(player.hasPermission(Permission.MEMBER_INFO)){
@@ -607,7 +607,7 @@ public class Gui implements Listener {
 
         actitem++;
 
-        if(player.hasPermission(Permission.MEMBER_ENTITYLIMIT_INFO)) {
+        if(player.hasPermission(Permission.MEMBER_ENTITYLIMIT_CHECK)) {
             ClickItem infoicon = new ClickItem(getEntityLimtGroupItem(region)).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) {
@@ -661,7 +661,7 @@ public class Gui implements Listener {
         if(player.hasPermission(Permission.MEMBER_RESETREGIONBLOCKS) && region.isUserResettable()){
             itemcounter++;
         }
-        if(player.hasPermission(Permission.MEMBER_ENTITYLIMIT_INFO)){
+        if(player.hasPermission(Permission.MEMBER_ENTITYLIMIT_CHECK)){
             itemcounter++;
         }
         if(player.hasPermission(Permission.MEMBER_INFO)){
@@ -792,7 +792,7 @@ public class Gui implements Listener {
 
         actitem++;
 
-        if(player.hasPermission(Permission.MEMBER_ENTITYLIMIT_INFO)) {
+        if(player.hasPermission(Permission.MEMBER_ENTITYLIMIT_CHECK)) {
             ClickItem infoicon = new ClickItem(getEntityLimtGroupItem(region)).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) {
@@ -1439,6 +1439,9 @@ public class Gui implements Listener {
         if(player.hasPermission(Permission.MEMBER_INFO)){
             itemcounter++;
         }
+        if(player.hasPermission(Permission.MEMBER_ENTITYLIMIT_CHECK)) {
+            itemcounter++;
+        }
 
         GuiInventory inv = new GuiInventory(9 , region.getRegion().getId());
 
@@ -1460,6 +1463,19 @@ public class Gui implements Listener {
                 }
             });
             inv.addIcon(teleportericon, getPosition(actitem, itemcounter));
+
+            actitem++;
+        }
+
+        if(player.hasPermission(Permission.MEMBER_ENTITYLIMIT_CHECK)) {
+            ClickItem infoicon = new ClickItem(getEntityLimtGroupItem(region)).addClickAction(new ClickAction() {
+                @Override
+                public void execute(Player player) {
+                    openRegionManagerMember(player, region);
+                    net.alex9849.arm.entitylimit.commands.InfoCommand.sendInfoToPlayer(player, region.getEntityLimitGroup());
+                }
+            });
+            inv.addIcon(infoicon, getPosition(actitem, itemcounter));
 
             actitem++;
         }

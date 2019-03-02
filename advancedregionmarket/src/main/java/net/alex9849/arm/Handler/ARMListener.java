@@ -429,6 +429,8 @@ public class ARMListener implements Listener {
         try {
             this.buyregion(event);
             this.setSubregionMark(event);
+            this.sellback(event);
+            this.infoClick(event);
         } catch (InputException inputException) {
             inputException.sendMessages(Messages.PREFIX);
         }
@@ -581,16 +583,70 @@ public class ARMListener implements Listener {
     }
 
     private void buyregion(PlayerInteractEvent event) throws InputException {
-        if(event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-            if (event.getClickedBlock().getType() == Material.SIGN || event.getClickedBlock().getType() == Material.WALL_SIGN) {
-                Sign sign = (Sign) event.getClickedBlock().getState();
+        if(event.getAction() != Action.RIGHT_CLICK_BLOCK) {
+            return;
+        }
+        if(event.getPlayer().isSneaking()) {
+            return;
+        }
+        if (event.getClickedBlock().getType() == Material.SIGN || event.getClickedBlock().getType() == Material.WALL_SIGN) {
+            Sign sign = (Sign) event.getClickedBlock().getState();
 
-                Region region = net.alex9849.arm.regions.RegionManager.getRegion(sign);
-                if(region == null) {
-                    return;
-                }
-                region.buy(event.getPlayer());
+            Region region = net.alex9849.arm.regions.RegionManager.getRegion(sign);
+            if(region == null) {
+                return;
             }
+            region.buy(event.getPlayer());
+        }
+    }
+
+    private void sellback(PlayerInteractEvent event) throws InputException {
+        if(event.getAction() != Action.RIGHT_CLICK_BLOCK) {
+            return;
+        }
+        if(!event.getPlayer().isSneaking()) {
+            return;
+        }
+        if (event.getClickedBlock().getType() == Material.SIGN || event.getClickedBlock().getType() == Material.WALL_SIGN) {
+            Sign sign = (Sign) event.getClickedBlock().getState();
+
+            Region region = net.alex9849.arm.regions.RegionManager.getRegion(sign);
+            if(region == null) {
+                return;
+            }
+
+            if(!event.getPlayer().hasPermission(Permission.MEMBER_SELLBACK)) {
+                return;
+            }
+
+            if(!region.getRegion().hasOwner(event.getPlayer().getUniqueId())) {
+                throw new InputException(event.getPlayer(), Messages.REGION_NOT_OWN);
+            }
+
+            String confirmQuestion = region.getConvertedMessage(Messages.SELLBACK_WARNING);
+            event.getPlayer().sendMessage(Messages.PREFIX + confirmQuestion);
+            Gui.openSellWarning(event.getPlayer(), region, null);
+        }
+    }
+
+    private void infoClick(PlayerInteractEvent event) throws InputException {
+        if(event.getAction() != Action.LEFT_CLICK_BLOCK) {
+            return;
+        }
+
+        if (event.getClickedBlock().getType() == Material.SIGN || event.getClickedBlock().getType() == Material.WALL_SIGN) {
+            Sign sign = (Sign) event.getClickedBlock().getState();
+
+            Region region = net.alex9849.arm.regions.RegionManager.getRegion(sign);
+            if(region == null) {
+                return;
+            }
+
+            if(!event.getPlayer().hasPermission(Permission.MEMBER_INFO)) {
+                return;
+            }
+
+            region.regionInfo(event.getPlayer());
         }
     }
 

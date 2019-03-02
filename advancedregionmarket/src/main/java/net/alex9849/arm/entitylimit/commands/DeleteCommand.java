@@ -58,7 +58,9 @@ public class DeleteCommand extends BasicArmCommand {
         EntityLimitGroupManager.remove(entityLimitGroup);
 
         for(Region region : RegionManager.getAllRegions()) {
-            region.setEntityLimitGroup(EntityLimitGroup.DEFAULT);
+            if(region.getEntityLimitGroup() == entityLimitGroup) {
+                region.setEntityLimitGroup(EntityLimitGroup.DEFAULT);
+            }
         }
 
         sender.sendMessage(Messages.PREFIX + Messages.ENTITYLIMITGROUP_DELETED);

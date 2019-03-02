@@ -1322,7 +1322,7 @@ public class Messages {
         config.addDefault("Messages.MassactionSplitter", "&6all regions with regionkind &a%regionkind%");
         config.addDefault("Messages.SubregionEntityLimitError", "&4Could not change EntiyLimitGroup for the region &6%regionid%&4! Region is a Subregion!");
         config.addDefault("Messages.GUIEntityLimitItemButton", "&6EntityLimits");
-        config.addDefault("Messages.GUIEntityLimitItemLore", new ArrayList<String>(Arrays.asList("&6Click to display the entity-limits", "&6for this region in chat", "%entityinfopattern%", "", "You can buy expand you entity-limit with:", "&6/arm entitylimit buyextra %regionid% [ENTITYTYPE/total]")));
+        config.addDefault("Messages.GUIEntityLimitItemLore", new ArrayList<String>(Arrays.asList("&6Click to display the entity-limits", "&6for this region in chat", "%entityinfopattern%", "", "You can expand your entity-limit with:", "&6/arm entitylimit buyextra %regionid% [ENTITYTYPE/total]")));
         config.addDefault("Messages.GUIEntityLimitInfoPattern", "&6%entitytype%: &a(&r%actualentities%&a/&r%softlimitentities%&a) %entityextensioninfo%");
         config.addDefault("Messages.EntityLimitCheckExtensionInfo", "\n&6&o--> Limit extendable up to &r%hardlimitentities% &6entities for &r%priceperextraentity% %currency%&6/entity");
         config.addDefault("Messages.GUIEntityLimitInfoExtensionInfo", "&6&oMax. &r%hardlimitentities% &6for &r%priceperextraentity% %currency%&6/entity");

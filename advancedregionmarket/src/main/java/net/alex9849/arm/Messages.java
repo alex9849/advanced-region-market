@@ -196,7 +196,7 @@ public class Messages {
     public static String HELP_HEADLINE = "&6=====[AdvancedRegionMarket Help ]=====\n&3Page %actualpage% / %maxpage%";
     public static String PRESET_SETUP_COMMANDS = "&6Setup commands:";
     public static String PRICE_CAN_NOT_BE_NEGATIVE = "&4Price can not be negative!";
-    public static String SELLBACK_WARNING = "&4WARNING: &cThis can not be undone! Your region &6%regionid% &cwill be released and all blocks on it will be resetted! " +
+    public static String SELLBACK_WARNING = "&4Sell region back to the server: \n&4WARNING: &cThis can not be undone! Your region &6%regionid% &cwill be released and all blocks on it will be resetted! " +
             "You and all members will loose their rights on it. You will get &6%paybackmoney% %currency% &cback";
     public static String SUB_REGION_AUTORESET_ERROR = "";
     public static String SUB_REGION_DO_BLOCKRESET_ERROR = "";
@@ -1107,7 +1107,7 @@ public class Messages {
         config.addDefault("Messages.IncommingOffer", "&c%seller% &6offers you his region &c%regionid% &6in the world &c%world% &6for &c%price% %currency%&6! " +
                 "You can accept his offer with &c/arm offer accept &6or reject it &c/arm offer reject");
         config.addDefault("Messages.OfferTimedOut", "&4Offer timed out!");
-        config.addDefault("Messages.SellBackWarning", "&4WARNING: &cThis can not be undone! Your region &6%regionid% &cwill be released and all blocks on it will be resetted! " +
+        config.addDefault("Messages.SellBackWarning", "&4Sell region back to the server: \n&4WARNING: &cThis can not be undone! Your region &6%regionid% &cwill be released and all blocks on it will be resetted! " +
                 "You and all members will loose their rights on it. You will get &6%paybackmoney% %currency% &cback");
 
         config.addDefault("Messages.SubregionAutoResetError", "&4The selected region is a subregion. You can change the autoReset setting for all subregions in the config.yml!");

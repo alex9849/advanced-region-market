@@ -1,43 +1,35 @@
-package net.alex9849.arm.Handler;
+package net.alex9849.arm.Handler.listener;
 
 import net.alex9849.arm.AdvancedRegionMarket;
-import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
-import net.alex9849.arm.Preseter.*;
-import net.alex9849.arm.Preseter.presets.*;
-import net.alex9849.arm.SubRegions.SubRegionCreator;
+import net.alex9849.arm.Preseter.ActivePresetManager;
+import net.alex9849.arm.Preseter.presets.ContractPreset;
+import net.alex9849.arm.Preseter.presets.PresetType;
+import net.alex9849.arm.Preseter.presets.RentPreset;
+import net.alex9849.arm.Preseter.presets.SellPreset;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
-import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.regions.*;
-import net.alex9849.arm.gui.Gui;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.price.ContractPrice;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.regions.price.RentPrice;
+import net.alex9849.exceptions.InputException;
 import net.alex9849.inter.WGRegion;
 import org.bukkit.*;
 import org.bukkit.block.Sign;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.*;
-import org.bukkit.event.entity.EntitySpawnEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.vehicle.VehicleCreateEvent;
-import org.bukkit.plugin.Plugin;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPhysicsEvent;
+import org.bukkit.event.block.SignChangeEvent;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 
-public class ARMListener implements Listener {
-
+public class SignModifyListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void addSign(SignChangeEvent sign) {
@@ -425,42 +417,6 @@ public class ARMListener implements Listener {
     }
 
     @EventHandler
-    public void interactEvent(PlayerInteractEvent event){
-        try {
-            this.buyregion(event);
-            this.setSubregionMark(event);
-            this.sellback(event);
-            this.infoClick(event);
-        } catch (InputException inputException) {
-            inputException.sendMessages(Messages.PREFIX);
-        }
-    }
-
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void addBuiltBlock(BlockPlaceEvent event){
-        if(event.isCancelled()) {
-            return;
-        }
-        List<Region> locRegions = net.alex9849.arm.regions.RegionManager.getRegionsByLocation(event.getBlock().getLocation());
-
-        for(Region region : locRegions) {
-            if(region.isHotel()) {
-                if(region.isSold()) {
-                    region.addBuiltBlock(event.getBlock().getLocation());
-                }
-            }
-        }
-    }
-
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void breakBlock(BlockBreakEvent event) {
-        if(event.isCancelled()) {
-            return;
-        }
-        this.breakblockCheckHotel(event);
-    }
-
-    @EventHandler
     public void protectSignPhysics(BlockPhysicsEvent sign) {
         if (sign.getBlock().getType() == Material.SIGN || sign.getBlock().getType() == Material.WALL_SIGN){
             if(net.alex9849.arm.regions.RegionManager.getRegion((Sign) sign.getBlock().getState()) != null){
@@ -470,277 +426,4 @@ public class ARMListener implements Listener {
         }
     }
 
-    @EventHandler
-    public void checkAllowEntitySpawn(EntitySpawnEvent event) {
-        if(event.isCancelled()) {
-            return;
-        }
-        if(event.getEntityType() == EntityType.PLAYER) {
-            return;
-        }
-
-        List<Region> regions = RegionManager.getRegionsByLocation(event.getLocation());
-
-        for(Region region : regions) {
-            if(region.getEntityLimitGroup().isLimitReached(region, event.getEntityType(), region.getExtraEntityAmount(event.getEntityType()))) {
-                event.setCancelled(true);
-            }
-        }
-    }
-
-    @EventHandler
-    public void vehicleSpawnEvent(VehicleCreateEvent event) {
-        if(event.isCancelled()) {
-            return;
-        }
-        List<Region> regions = RegionManager.getRegionsByLocation(event.getVehicle().getLocation());
-
-        for(Region region : regions) {
-            if(region.getEntityLimitGroup().isLimitReached(region, event.getVehicle().getType(), region.getExtraEntityAmount(event.getVehicle().getType()))) {
-                event.setCancelled(true);
-            }
-        }
-    }
-
-    @EventHandler
-    public void setLastLoginAndOpenOvertake(PlayerJoinEvent event) {
-        if(ArmSettings.isEnableAutoReset() || ArmSettings.isEnableTakeOver()){
-            try{
-                ResultSet rs = ArmSettings.getStmt().executeQuery("SELECT * FROM `" + ArmSettings.getSqlPrefix() + "lastlogin` WHERE `uuid` = '" + event.getPlayer().getUniqueId().toString() + "'");
-
-                if(rs.next()){
-                    ArmSettings.getStmt().executeUpdate("UPDATE `" + ArmSettings.getSqlPrefix() + "lastlogin` SET `lastlogin` = CURRENT_TIMESTAMP WHERE `uuid` = '" + event.getPlayer().getUniqueId().toString() + "'");
-                } else {
-                    ArmSettings.getStmt().executeUpdate("INSERT INTO `" + ArmSettings.getSqlPrefix() + "lastlogin` (`uuid`, `lastlogin`) VALUES ('" + event.getPlayer().getUniqueId().toString() + "', CURRENT_TIMESTAMP)");
-                }
-
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if(ArmSettings.isEnableTakeOver()){
-            Plugin plugin = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket");
-            Player player = event.getPlayer();
-            Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-                @Override
-                public void run() {
-                    ARMListener.doOvertakeCheck(player);
-                }
-            }, 40L);
-        }
-
-        if(RentRegion.isSendExpirationWarning()) {
-            Plugin plugin = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket");
-            Player player = event.getPlayer();
-            Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-                @Override
-                public void run() {
-                    RentRegion.sendExpirationWarnings(player);
-                }
-            }, 40L);
-        }
-
-    }
-
-    @EventHandler
-    public void onPlayerQuit(PlayerQuitEvent event) {
-        ActivePresetManager.deletePreset(event.getPlayer());
-        SubRegionCreator.removeSubRegioncreator(event.getPlayer());
-    }
-
-    public static void doOvertakeCheck(Player player) {
-        GregorianCalendar comparedate = new GregorianCalendar();
-        comparedate.add(Calendar.DAY_OF_MONTH, (-1 * ArmSettings.getTakeoverAfter()));
-        Date convertdate = new Date();
-        convertdate.setTime(comparedate.getTimeInMillis());
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String compareTime = sdf.format(convertdate);
-
-
-        try {
-            ResultSet rs = ArmSettings.getStmt().executeQuery("SELECT * FROM `" + ArmSettings.getSqlPrefix() + "lastlogin` WHERE `lastlogin` < '" + compareTime + "'");
-
-            List<Region> overtake = new LinkedList<>();
-            while (rs.next()){
-                List<Region> regions = net.alex9849.arm.regions.RegionManager.getRegionsByOwner(UUID.fromString(rs.getString("uuid")));
-
-                for(int i = 0; i < regions.size(); i++){
-                    if(regions.get(i).getAutoreset()){
-                        if(regions.get(i).getRegion().hasMember(player.getUniqueId())){
-                            overtake.add(regions.get(i));
-                        }
-                    }
-                }
-            }
-            if(overtake.size() != 0){
-                Gui.openOvertakeGUI(player, overtake);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void buyregion(PlayerInteractEvent event) throws InputException {
-        if(event.getAction() != Action.RIGHT_CLICK_BLOCK) {
-            return;
-        }
-        if(event.getPlayer().isSneaking()) {
-            return;
-        }
-        if (event.getClickedBlock().getType() == Material.SIGN || event.getClickedBlock().getType() == Material.WALL_SIGN) {
-            Sign sign = (Sign) event.getClickedBlock().getState();
-
-            Region region = net.alex9849.arm.regions.RegionManager.getRegion(sign);
-            if(region == null) {
-                return;
-            }
-            region.buy(event.getPlayer());
-        }
-    }
-
-    private void sellback(PlayerInteractEvent event) throws InputException {
-        if(event.getAction() != Action.RIGHT_CLICK_BLOCK) {
-            return;
-        }
-        if(!event.getPlayer().isSneaking()) {
-            return;
-        }
-        if (event.getClickedBlock().getType() == Material.SIGN || event.getClickedBlock().getType() == Material.WALL_SIGN) {
-            Sign sign = (Sign) event.getClickedBlock().getState();
-
-            Region region = net.alex9849.arm.regions.RegionManager.getRegion(sign);
-            if(region == null) {
-                return;
-            }
-
-            if(!event.getPlayer().hasPermission(Permission.MEMBER_SELLBACK)) {
-                return;
-            }
-
-            if(!region.getRegion().hasOwner(event.getPlayer().getUniqueId())) {
-                throw new InputException(event.getPlayer(), Messages.REGION_NOT_OWN);
-            }
-
-            String confirmQuestion = region.getConvertedMessage(Messages.SELLBACK_WARNING);
-            event.getPlayer().sendMessage(Messages.PREFIX + confirmQuestion);
-            Gui.openSellWarning(event.getPlayer(), region, null);
-        }
-    }
-
-    private void infoClick(PlayerInteractEvent event) throws InputException {
-        if(event.getAction() != Action.LEFT_CLICK_BLOCK) {
-            return;
-        }
-
-        if (event.getClickedBlock().getType() == Material.SIGN || event.getClickedBlock().getType() == Material.WALL_SIGN) {
-            Sign sign = (Sign) event.getClickedBlock().getState();
-
-            Region region = net.alex9849.arm.regions.RegionManager.getRegion(sign);
-            if(region == null) {
-                return;
-            }
-
-            if(!event.getPlayer().hasPermission(Permission.MEMBER_INFO)) {
-                return;
-            }
-
-            region.regionInfo(event.getPlayer());
-        }
-    }
-
-    private void setSubregionMark(PlayerInteractEvent event) throws InputException {
-        Player player = event.getPlayer();
-        if(Permission.hasAnySubregionCreatePermission(player)) {
-            if(event.getItem() == null) {
-                return;
-            }
-            //TODO change me --> see ToolCommand
-            if((event.getItem().getType() == Material.FEATHER) && ((event.getAction() == Action.RIGHT_CLICK_BLOCK) || (event.getAction() == Action.LEFT_CLICK_BLOCK))) {
-                if(event.getItem().getItemMeta().getDisplayName().equals("Subregion Tool")) {
-                    List<WGRegion> applicableRegion = AdvancedRegionMarket.getWorldGuardInterface().getApplicableRegions(event.getClickedBlock().getWorld(), event.getClickedBlock().getLocation(), AdvancedRegionMarket.getWorldGuard());
-                    for(WGRegion wgRegion : applicableRegion) {
-                        if(wgRegion.hasOwner(player.getUniqueId())) {
-                            SubRegionCreator subRegionCreator = SubRegionCreator.getSubRegioncreator(player);
-                            if(subRegionCreator != null) {
-                                if((subRegionCreator.getParentRegion().getRegion().getId().equals(wgRegion.getId())) && (subRegionCreator.getParentRegion().getRegionworld().getName().equals(event.getClickedBlock().getWorld().getName()))) {
-                                    if(event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                                        subRegionCreator.setPos2(event.getClickedBlock().getLocation());
-                                        event.setCancelled(true);
-                                        player.sendMessage(Messages.SECOND_POSITION_SET);
-                                    } else if(event.getAction() == Action.LEFT_CLICK_BLOCK) {
-                                        subRegionCreator.setPos1(event.getClickedBlock().getLocation());
-                                        event.setCancelled(true);
-                                        player.sendMessage(Messages.FIRST_POSITION_SET);
-                                    }
-                                    return;
-                                } else {
-                                    Region region = net.alex9849.arm.regions.RegionManager.getRegion(wgRegion);
-                                    if(region == null) {
-                                        throw new InputException(player, Messages.REGION_NOT_REGISTRED);
-                                    }
-                                    if(event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                                        player.sendMessage(Messages.MARK_IN_OTHER_REGION_REMOVING);
-                                        subRegionCreator = new SubRegionCreator(region, player);
-                                        subRegionCreator.setPos2(event.getClickedBlock().getLocation());
-                                        event.setCancelled(true);
-                                        player.sendMessage(Messages.SECOND_POSITION_SET);
-                                    } else if(event.getAction() == Action.LEFT_CLICK_BLOCK) {
-                                        player.sendMessage(Messages.MARK_IN_OTHER_REGION_REMOVING);
-                                        subRegionCreator = new SubRegionCreator(region, player);
-                                        subRegionCreator.setPos1(event.getClickedBlock().getLocation());
-                                        event.setCancelled(true);
-                                        player.sendMessage(Messages.FIRST_POSITION_SET);
-                                    }
-                                    return;
-                                }
-                            } else {
-                                Region region = net.alex9849.arm.regions.RegionManager.getRegion(wgRegion);
-                                if(region == null) {
-                                    throw new InputException(player, Messages.REGION_NOT_REGISTRED);
-                                }
-                                if(event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                                    subRegionCreator = new SubRegionCreator(region, player);
-                                    subRegionCreator.setPos2(event.getClickedBlock().getLocation());
-                                    event.setCancelled(true);
-                                    player.sendMessage(Messages.SECOND_POSITION_SET);
-                                } else if(event.getAction() == Action.LEFT_CLICK_BLOCK) {
-                                    subRegionCreator = new SubRegionCreator(region, player);
-                                    subRegionCreator.setPos1(event.getClickedBlock().getLocation());
-                                    event.setCancelled(true);
-                                    player.sendMessage(Messages.FIRST_POSITION_SET);
-                                }
-                                return;
-                            }
-                        }
-                    }
-                    throw new InputException(event.getPlayer(), Messages.REGION_NOT_OWN);
-                }
-            }
-        }
-    }
-
-    private void breakblockCheckHotel(BlockBreakEvent event) {
-        if(event.isCancelled()) {
-            return;
-        }
-        if(event.getPlayer().hasPermission(Permission.ADMIN_BUILDEVERYWHERE)){
-            return;
-        }
-        try {
-            List<Region> locRegions = net.alex9849.arm.regions.RegionManager.getRegionsByLocation(event.getBlock().getLocation());
-
-            for(Region region : locRegions) {
-                if(region.isHotel()) {
-                    if(!region.allowBlockBreak(event.getBlock().getLocation())) {
-                        event.setCancelled(true);
-                        throw new InputException(event.getPlayer(), Messages.REGION_ERROR_CAN_NOT_BUILD_HERE);
-                    }
-                }
-            }
-        } catch (InputException inputException) {
-            inputException.sendMessages(Messages.PREFIX);
-        }
-    }
 }

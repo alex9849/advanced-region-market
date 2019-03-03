@@ -18,6 +18,11 @@ public class ArmSettings {
     private static boolean allowParentRegionOwnersBuildOnSubregions = true;
     private static boolean removeEntitiesOnRegionBlockReset = true;
 
+    private static String signRightClickSneakCommand = "buyaction";
+    private static String signRightClickNotSneakCommand = "buyaction";
+    private static String signLeftClickSneakCommand = "buyaction";
+    private static String signLeftClickNotSneakCommand = "buyaction";
+
     private static boolean isAllowTeleportToBuySign = true;
 
     private static String REMAINING_TIME_TIMEFORMAT = "%date%";
@@ -87,6 +92,22 @@ public class ArmSettings {
 
     protected static void setRemainingTimeTimeformat(String remainingTimeTimeformat) {
         REMAINING_TIME_TIMEFORMAT = remainingTimeTimeformat;
+    }
+
+    protected static void setSignRightClickSneakCommand(String signRightClickSneakCommand) {
+        ArmSettings.signRightClickSneakCommand = signRightClickSneakCommand;
+    }
+
+    protected static void setSignRightClickNotSneakCommand(String signRightClickNotSneakCommand) {
+        ArmSettings.signRightClickNotSneakCommand = signRightClickNotSneakCommand;
+    }
+
+    protected static void setSignLeftClickSneakCommand(String signLeftClickSneakCommand) {
+        ArmSettings.signLeftClickSneakCommand = signLeftClickSneakCommand;
+    }
+
+    protected static void setSignLeftClickNotSneakCommand(String signLeftClickNotSneakCommand) {
+        ArmSettings.signLeftClickNotSneakCommand = signLeftClickNotSneakCommand;
     }
 
     protected static void setDateTimeformat(String dateTimeformat) {
@@ -212,4 +233,21 @@ public class ArmSettings {
     public static boolean isRemoveEntitiesOnRegionBlockReset() {
         return ArmSettings.removeEntitiesOnRegionBlockReset;
     }
+
+    public static String getSignRightClickSneakCommand() {
+        return signRightClickSneakCommand;
+    }
+
+    public static String getSignRightClickNotSneakCommand() {
+        return signRightClickNotSneakCommand;
+    }
+
+    public static String getSignLeftClickSneakCommand() {
+        return signLeftClickSneakCommand;
+    }
+
+    public static String getSignLeftClickNotSneakCommand() {
+        return signLeftClickNotSneakCommand;
+    }
+
 }

@@ -203,6 +203,14 @@ Other:
   # If true all entities will be removed if the region gets resetted
   RemoveEntitiesOnRegionBlockReset: true
 
+  #These commands will be executed by the player if the clicks on a sign. "buyaction" means the buyaction of the region will be executed (For example extending the region
+  #or teminating the contract) you can use all region-variables in your commands.
+SignClickActions:
+  RightClickNotSneakCmd: "buyaction"
+  RightClickSneakCmd: "arm sellback %regionid%"
+  LeftClickNotSneakCmd: "arm info %regionid%"
+  LeftClickSneakCmd: "arm info %regionid%"
+
 Subregions:
   AllowSubRegionUserReset: false
   SubregionBlockReset: false

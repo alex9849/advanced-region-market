@@ -1,8 +1,8 @@
 package net.alex9849.arm;
 
-import net.alex9849.arm.Handler.ARMListener;
 import net.alex9849.arm.Handler.CommandHandler;
 import net.alex9849.arm.Handler.Scheduler;
+import net.alex9849.arm.Handler.listener.*;
 import net.alex9849.arm.commands.*;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
 import net.alex9849.arm.entitylimit.EntityLimitGroupManager;
@@ -86,8 +86,18 @@ public class AdvancedRegionMarket extends JavaPlugin {
         this.updateConfigs();
 
         Messages.read();
-        ARMListener listener = new ARMListener();
-        getServer().getPluginManager().registerEvents(listener, this);
+        BlockModifyListener blockModifyListener = new BlockModifyListener();
+        getServer().getPluginManager().registerEvents(blockModifyListener, this);
+        EntitySpawnListener entitySpawnListener = new EntitySpawnListener();
+        getServer().getPluginManager().registerEvents(entitySpawnListener, this);
+        PlayerJoinQuitEvent playerJoinQuitEvent = new PlayerJoinQuitEvent();
+        getServer().getPluginManager().registerEvents(playerJoinQuitEvent, this);
+        SignClickListener signClickListener = new SignClickListener();
+        getServer().getPluginManager().registerEvents(signClickListener, this);
+        SignModifyListener signModifyListener = new SignModifyListener();
+        getServer().getPluginManager().registerEvents(signModifyListener, this);
+        SubregionMarkerListener subregionMarkerListener = new SubregionMarkerListener();
+        getServer().getPluginManager().registerEvents(subregionMarkerListener, this);
         Gui guilistener = new Gui();
         getServer().getPluginManager().registerEvents(guilistener, this);
         loadAutoPrice();
@@ -495,6 +505,12 @@ public class AdvancedRegionMarket extends JavaPlugin {
         ArmSettings.setDeleteSubregionsOnParentRegionBlockReset(getConfig().getBoolean("Subregions.deleteSubregionsOnParentRegionBlockReset"));
         ArmSettings.setDeleteSubregionsOnParentRegionUnsell(getConfig().getBoolean("Subregions.deleteSubregionsOnParentRegionUnsell"));
         ArmSettings.setAllowParentRegionOwnersBuildOnSubregions(getConfig().getBoolean("Subregions.allowParentRegionOwnersBuildOnSubregions"));
+        ArmSettings.setSignRightClickSneakCommand(getConfig().getString("SignClickActions.RightClickSneakCmd"));
+        ArmSettings.setSignRightClickNotSneakCommand(getConfig().getString("SignClickActions.RightClickNotSneakCmd"));
+        ArmSettings.setSignLeftClickSneakCommand(getConfig().getString("SignClickActions.LeftClickSneakCmd"));
+        ArmSettings.setSignLeftClickNotSneakCommand(getConfig().getString("SignClickActions.LeftClickNotSneakCmd"));
+
+
         try{
             RentRegion.setExpirationWarningTime(RentPrice.stringToTime(getConfig().getString("Other.RentRegionExpirationWarningTime")));
             RentRegion.setSendExpirationWarning(getConfig().getBoolean("Other.SendRentRegionExpirationWarning"));
@@ -876,6 +892,15 @@ public class AdvancedRegionMarket extends JavaPlugin {
             getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.7...");
             pluginConfig.set("Other.RemoveEntitiesOnRegionBlockReset", true);
             pluginConfig.set("Version", 1.7);
+            saveConfig();
+        }
+        if(version < 1.72) {
+            getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.7.2...");
+            pluginConfig.set("SignClickActions.RightClickNotSneakCmd", "buyaction");
+            pluginConfig.set("SignClickActions.RightClickSneakCmd", "arm sellback %regionid%");
+            pluginConfig.set("SignClickActions.LeftClickNotSneakCmd", "arm info %regionid%");
+            pluginConfig.set("SignClickActions.LeftClickSneakCmd", "arm info %regionid%");
+            pluginConfig.set("Version", 1.72);
             saveConfig();
         }
     }

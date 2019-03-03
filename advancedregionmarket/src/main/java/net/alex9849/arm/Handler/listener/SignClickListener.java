@@ -18,6 +18,10 @@ public class SignClickListener implements Listener {
     public void interactEvent(PlayerInteractEvent event){
         try {
 
+            if((event.getAction() != Action.LEFT_CLICK_BLOCK) && (event.getAction() != Action.RIGHT_CLICK_BLOCK)) {
+                return;
+            }
+
             if (!(event.getClickedBlock().getType() == Material.SIGN) && !(event.getClickedBlock().getType() == Material.WALL_SIGN)) {
                 return;
             }

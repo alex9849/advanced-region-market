@@ -159,7 +159,7 @@ Messages:
     &3Стр. %actualpage% / %maxpage%
   LimitInfoTop: '&6=========[Ограничения]========='
   LimitInfoTotal: '&6Всего'
-  LimitInfo: '&6%regiontype%:&e %playerownedkind%/%limitkind%'
+  LimitInfo: '&6%regionkind%:&e %playerownedkind%/%limitkind%'
   RegionInfo: '&6==========[Информация]=========='
   RegionInfoID: '&6ID:&e '
   RegionInfoSold: '&6Продано:&e '

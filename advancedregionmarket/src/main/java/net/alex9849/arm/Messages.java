@@ -1146,7 +1146,7 @@ public class Messages {
 
         config.addDefault("Messages.LimitInfoTop", "&6=========[Limit Info]=========");
         config.addDefault("Messages.LimitInfoTotal", "&6Total");
-        config.addDefault("Messages.LimitInfo", "&6%regiontype%: %playerownedkind%/%limitkind%");
+        config.addDefault("Messages.LimitInfo", "&6%regionkind%: %playerownedkind%/%limitkind%");
         config.addDefault("Messages.RegionInfo", "&6=========[Region info]=========");
         config.addDefault("Messages.RegionInfoID", "&6ID: ");
         config.addDefault("Messages.RegionInfoSold", "&6Sold: ");

@@ -306,6 +306,7 @@ public class Messages {
     public static String ENTITYLIMITGROUP_EXTRA_ENTITIES_HARDLIMIT_REACHED = "&4Can not buy another entity-expansion! Hardlimit has been reached!";
     public static String ENTITYLIMITGROUP_EXTRA_ENTITIES_SET_SUBREGION_ERROR = "&4Can not change entitylimit! Region is a Subregion";
     public static String ENTITYLIMITGROUP_EXTRA_ENTITIES_BUY_SUBREGION_ERROR = "&4Can not expand entitylimit! Region is a Subregion";
+    public static String ARM_BASIC_COMMAND_MESSAGE = "&6AdvancedRegionMarket v%pluginversion% by Alex9849\n&6Download: &3https://bit.ly/2CfO3An\n&6Get a list with all commands with &3/arm help";
 
 
     public static List<String> GUI_TELEPORT_TO_REGION_BUTTON_LORE = new ArrayList<>();
@@ -632,6 +633,7 @@ public class Messages {
         ENTITYLIMITGROUP_EXTRA_ENTITIES_HARDLIMIT_REACHED = config.getString("Messages.EntityLimitGroupExtraEntitiesHardlimitReached");
         ENTITYLIMITGROUP_EXTRA_ENTITIES_SET_SUBREGION_ERROR = config.getString("Messages.EntityLimitGroupExtraEntitiesSetSubregionError");
         ENTITYLIMITGROUP_EXTRA_ENTITIES_BUY_SUBREGION_ERROR = config.getString("Messages.EntityLimitGroupExtraEntitiesBuySubregionError");
+        ARM_BASIC_COMMAND_MESSAGE = config.getString("Messages.ArmBasicCommandMessage");
 
         Messages.translateColorCodes();
     }
@@ -915,6 +917,7 @@ public class Messages {
         ENTITYLIMITGROUP_EXTRA_ENTITIES_HARDLIMIT_REACHED = ChatColor.translateAlternateColorCodes('&', ENTITYLIMITGROUP_EXTRA_ENTITIES_HARDLIMIT_REACHED);
         ENTITYLIMITGROUP_EXTRA_ENTITIES_SET_SUBREGION_ERROR = ChatColor.translateAlternateColorCodes('&', ENTITYLIMITGROUP_EXTRA_ENTITIES_SET_SUBREGION_ERROR);
         ENTITYLIMITGROUP_EXTRA_ENTITIES_BUY_SUBREGION_ERROR = ChatColor.translateAlternateColorCodes('&', ENTITYLIMITGROUP_EXTRA_ENTITIES_BUY_SUBREGION_ERROR);
+        ARM_BASIC_COMMAND_MESSAGE = ChatColor.translateAlternateColorCodes('&', ARM_BASIC_COMMAND_MESSAGE);
 
 
         for(int i = 0; i < GUI_ENTITYLIMIT_ITEM_LORE.size(); i++){
@@ -997,6 +1000,7 @@ public class Messages {
 
     private static void updateDefauts() {
         config.addDefault("Messages.Prefix", "&b[ARM]&r");
+        config.addDefault("Messages.ArmBasicCommandMessage", "&6AdvancedRegionMarket v%pluginversion% by Alex9849\n&6Download: &3https://bit.ly/2CfO3An\n&6Get a list with all commands with &3/arm help");
         config.addDefault("Messages.NoPermission", "&4You do not have permission!");
         config.addDefault("Messages.NotEnoughtMoney", "&4You do not have enough money!");
         config.addDefault("Messages.RegionAlreadySold", "&4Region already Sold!");

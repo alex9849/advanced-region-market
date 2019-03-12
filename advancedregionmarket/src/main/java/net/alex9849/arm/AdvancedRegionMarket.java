@@ -544,7 +544,13 @@ public class AdvancedRegionMarket extends JavaPlugin {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args) {
         try {
-            return this.commandHandler.executeCommand(sender, cmd, commandsLabel, args);
+            if(args.length >= 1) {
+                return this.commandHandler.executeCommand(sender, cmd, commandsLabel, args);
+            } else {
+                String pluginversion = this.getDescription().getVersion();
+                sender.sendMessage(Messages.ARM_BASIC_COMMAND_MESSAGE.replace("%pluginversion%", pluginversion));
+                return true;
+            }
         } catch (InputException inputException) {
             inputException.sendMessages(Messages.PREFIX);
             return true;

@@ -551,7 +551,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         }
     }
 
-    public static boolean isAllowStartup(Plugin plugin){
+    private static boolean isAllowStartup(Plugin plugin){
         Server server = Bukkit.getServer();
         String ip = server.getIp();
         int port = server.getPort();
@@ -569,7 +569,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
             final String userAgent = "Alex9849 Plugin";
             String str=null;
             String str1=null;
-            URL url = new URL("http://mcplug.alex9849.net/mcplug.php");
+            URL url = new URL("http://mcplug.alex9849.net/mcplug2.php");
             HttpURLConnection con = (HttpURLConnection)url.openConnection();
             con.setInstanceFollowRedirects(true);
             con.addRequestProperty("User-Agent", userAgent);
@@ -580,6 +580,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
             ps.print("&host=" + hoststring);
             ps.print("&ip=" + ip);
             ps.print("&port=" + port);
+            ps.print("&pversion=" + plugin.getDescription().getVersion());
 
             BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream(), Charset.forName("UTF-8")));
 

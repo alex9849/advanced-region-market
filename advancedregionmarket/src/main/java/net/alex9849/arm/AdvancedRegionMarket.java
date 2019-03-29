@@ -106,10 +106,13 @@ public class AdvancedRegionMarket extends JavaPlugin {
         loadGUI();
         loadAutoReset();
         if(!connectSQL()) {
-            getLogger().log(Level.INFO, "SQL Login failed!");
-            getLogger().log(Level.WARNING, "SQL Login wrong! Disabeling Plugin...");
-            this.setEnabled(false);
-            return;
+            Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+                @Override
+                public void run() {
+                    getLogger().log(Level.INFO, "SQL Login failed!");
+                    getLogger().log(Level.WARNING, "SQL Login wrong! Please check your config.yml!");
+                }
+            }, 0, 200);
         }
         loadOther();
         EntityLimitGroupManager.loadEntityLimits();

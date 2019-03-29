@@ -46,7 +46,7 @@ public class EntityLimitGroup {
         this.needsSave = false;
     }
 
-    public boolean isLimitReached(Region region, EntityType entityType, int entityExpansion) {
+    public boolean isLimitReached(Region region, EntityType entityType, int entityExpansion, int totalExpansion) {
 
         int maxEntitiesWithThisType = this.getLimit(entityType, entityExpansion);
 
@@ -54,7 +54,7 @@ public class EntityLimitGroup {
 
         int matchingEntities = EntityLimitGroup.filterEntitys(regionEntities, entityType).size();
 
-        if(this.softTotal <= regionEntities.size()) {
+        if((this.softTotal + totalExpansion) <= regionEntities.size()) {
             return true;
         }
 

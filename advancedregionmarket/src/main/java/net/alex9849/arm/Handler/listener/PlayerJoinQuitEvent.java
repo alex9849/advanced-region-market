@@ -1,5 +1,6 @@
 package net.alex9849.arm.Handler.listener;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Preseter.ActivePresetManager;
 import net.alex9849.arm.SubRegions.SubRegionCreator;
@@ -18,6 +19,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.logging.Level;
 
 public class PlayerJoinQuitEvent implements Listener {
 
@@ -34,7 +36,9 @@ public class PlayerJoinQuitEvent implements Listener {
                 }
 
             } catch (SQLException e) {
-                e.printStackTrace();
+                AdvancedRegionMarket.reconnectSQL();
+            } catch (NullPointerException e) {
+                AdvancedRegionMarket.reconnectSQL();
             }
         }
 
@@ -97,7 +101,9 @@ public class PlayerJoinQuitEvent implements Listener {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            AdvancedRegionMarket.reconnectSQL();
+        } catch (NullPointerException e) {
+            AdvancedRegionMarket.reconnectSQL();
         }
     }
 

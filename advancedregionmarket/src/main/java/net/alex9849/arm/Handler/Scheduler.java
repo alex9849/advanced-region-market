@@ -40,15 +40,9 @@ public class Scheduler implements Runnable {
                     ArmSettings.getStmt().executeUpdate("DELETE FROM `" + ArmSettings.getSqlPrefix() + "lastlogin` WHERE `uuid` = '" + rs.getString("uuid") + "'");
                 }
             } catch (SQLException e) {
-                Bukkit.getServer().getLogger().log(Level.WARNING, "[AdvancedRegionMarket] SQL connection lost. Reconnecting...");
-                AdvancedRegionMarket arm = AdvancedRegionMarket.getARM();
-                if(arm != null) {
-                    if(!arm.connectSQL()) {
-                        Bukkit.getLogger().log(Level.INFO, "SQL Login failed!");
-                    }
-                } else {
-                    e.printStackTrace();
-                }
+                AdvancedRegionMarket.reconnectSQL();
+            } catch (NullPointerException e) {
+                AdvancedRegionMarket.reconnectSQL();
             }
         }
     }

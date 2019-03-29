@@ -453,6 +453,16 @@ public class AdvancedRegionMarket extends JavaPlugin {
         ArmSettings.setEnableTakeOver(getConfig().getBoolean("AutoResetAndTakeOver.enableTakeOver"));
     }
 
+    public static void reconnectSQL() {
+        Bukkit.getServer().getLogger().log(Level.WARNING, "[AdvancedRegionMarket] SQL connection lost. Reconnecting...");
+        AdvancedRegionMarket arm = AdvancedRegionMarket.getARM();
+        if(arm != null) {
+            if(!arm.connectSQL()) {
+                Bukkit.getLogger().log(Level.INFO, "SQL Login failed!");
+            }
+        }
+    }
+
     public Boolean connectSQL(){
         Boolean success = true;
         if(ArmSettings.isEnableAutoReset() || ArmSettings.isEnableTakeOver()) {

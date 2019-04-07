@@ -40,6 +40,16 @@ public abstract class YmlFileManager<ManagedObject extends Saveable> {
         }
     }
 
+    public void remove(ManagedObject managedObject) {
+        if(this.objectList.remove(managedObject)) {
+            for(ManagedObject saveObject : this.objectList) {
+                saveObject(saveObject, this.yamlConfiguration);
+                saveObject.setSaved();
+            }
+            this.saveFile();
+        }
+    }
+
     private void saveFile() {
         try {
             this.yamlConfiguration.save(this.savepath);

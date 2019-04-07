@@ -9,7 +9,6 @@ import net.alex9849.arm.Preseter.presets.PresetType;
 import net.alex9849.arm.commands.BasicArmCommand;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
 import net.alex9849.arm.entitylimit.EntityLimitGroupManager;
-import net.alex9849.arm.regions.RegionKind;
 import net.alex9849.exceptions.InputException;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

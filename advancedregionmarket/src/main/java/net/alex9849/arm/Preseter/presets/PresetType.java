@@ -1,7 +1,7 @@
 package net.alex9849.arm.Preseter.presets;
 
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
-import net.alex9849.arm.regions.RegionKind;
+import net.alex9849.arm.regions.regionkind.RegionKind;
 
 import java.util.ArrayList;
 

@@ -6,7 +6,7 @@ import net.alex9849.arm.entitylimit.EntityLimitGroup;
 import net.alex9849.arm.entitylimit.EntityLimitGroupManager;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regions.Region;
-import net.alex9849.arm.regions.RegionKind;
+import net.alex9849.arm.regions.regionkind.RegionKind;
 import net.alex9849.arm.regions.RegionManager;
 import net.alex9849.exceptions.InputException;
 import org.bukkit.ChatColor;

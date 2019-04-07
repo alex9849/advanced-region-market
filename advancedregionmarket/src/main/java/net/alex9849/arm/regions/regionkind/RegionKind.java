@@ -1,4 +1,4 @@
-package net.alex9849.arm.regions;
+package net.alex9849.arm.regions.regionkind;
 
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;

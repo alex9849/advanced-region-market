@@ -3,7 +3,7 @@ package net.alex9849.arm.Preseter.presets;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
 import net.alex9849.arm.regions.Region;
-import net.alex9849.arm.regions.RegionKind;
+import net.alex9849.arm.regions.regionkind.RegionKind;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.inter.WGRegion;
 import org.bukkit.Bukkit;
@@ -11,7 +11,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;

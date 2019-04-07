@@ -3,7 +3,7 @@ package net.alex9849.arm.Group;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.regions.Region;
-import net.alex9849.arm.regions.RegionKind;
+import net.alex9849.arm.regions.regionkind.RegionKind;
 import net.alex9849.arm.regions.RegionManager;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;

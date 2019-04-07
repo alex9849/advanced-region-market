@@ -436,11 +436,11 @@ public class RegionManager {
 
     private static void updateConfig() {
         if(regionsconf.get("Regions") != null) {
-            LinkedList<String> worlds = new LinkedList<String>(regionsconf.getConfigurationSection("Regions").getKeys(false));
+            List<String> worlds = new ArrayList<String>(regionsconf.getConfigurationSection("Regions").getKeys(false));
             if(worlds != null) {
                 for(int y = 0; y < worlds.size(); y++) {
                     if(regionsconf.get("Regions." + worlds.get(y)) != null) {
-                        LinkedList<String> regions = new LinkedList<String>(regionsconf.getConfigurationSection("Regions." + worlds.get(y)).getKeys(false));
+                        List<String> regions = new ArrayList<String>(regionsconf.getConfigurationSection("Regions." + worlds.get(y)).getKeys(false));
                         if(regions != null) {
                             for (int i = 0; i < regions.size(); i++) {
                                 regionsconf.addDefault("Regions." + worlds.get(y) + "." + regions.get(i) + ".sold", false);

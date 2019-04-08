@@ -681,13 +681,6 @@ public abstract class Region {
         return pricePerM2 / hight;
     }
 
-    public double roundNumber(double number) {
-        double rounded = number;
-        rounded = rounded * 100;
-        rounded = (int) rounded;
-        return rounded / 100;
-    }
-
     private String getSoldStringStatus() {
         if(this.isSold()) {
             return Messages.SOLD;
@@ -707,10 +700,10 @@ public abstract class Region {
     public String getConvertedMessage(String message) {
         message = message.replace("%regionid%", this.getRegion().getId());
         message = message.replace("%region%", this.getRegion().getId());
-        message = message.replace("%price%", this.roundNumber(this.getPrice()) + "");
+        message = message.replace("%price%", Price.roundPrice(this.getPrice()) + "");
         message = message.replace("%dimensions%", this.getDimensions());
-        message = message.replace("%priceperm2%", this.roundNumber(this.getPricePerM2()) + "");
-        message = message.replace("%priceperm3%", this.roundNumber(this.getPricePerM3()) + "");
+        message = message.replace("%priceperm2%", Price.roundPrice(this.getPricePerM2()) + "");
+        message = message.replace("%priceperm3%", Price.roundPrice(this.getPricePerM3()) + "");
         message = message.replace("%remainingdays%", (Region.getResetCooldown() - this.timeSinceLastReset()) + "");
         message = message.replace("%paybackmoney%", this.getPaybackMoney() + "");
         message = message.replace("%currency%", Messages.CURRENCY);

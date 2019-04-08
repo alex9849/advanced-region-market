@@ -13,7 +13,7 @@ public abstract class YmlFileManager<ManagedObject extends Saveable> {
     private File savepath;
 
 
-    public YmlFileManager(File savepath, InputStream resourceStream, Plugin plugin) {
+    public YmlFileManager(File savepath, InputStream resourceStream) {
         this.objectList = new ArrayList<>();
         this.savepath = savepath;
         if(!this.savepath.exists()) {

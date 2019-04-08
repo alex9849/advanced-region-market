@@ -2,14 +2,18 @@ package net.alex9849.arm.regions.regionkind;
 
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
+import net.alex9849.arm.util.Saveable;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RegionKind {
+public class RegionKind implements Saveable {
     private String name;
     private Material material;
     public static RegionKind DEFAULT = new RegionKind("Default", Material.RED_BED, new ArrayList<String>(), "Default", true, true, 50);
@@ -20,6 +24,7 @@ public class RegionKind {
     private boolean displayInGUI;
     private boolean displayInLimits;
     private double paybackPercentage;
+    public boolean needsSave;
 
     public RegionKind(String name, Material material, List<String> lore, String displayName, boolean displayInGUI, boolean displayInLimits, double paybackPercentage){
         this.name = name;
@@ -29,6 +34,7 @@ public class RegionKind {
         this.displayInGUI = displayInGUI;
         this.displayInLimits = displayInLimits;
         this.paybackPercentage = paybackPercentage;
+        this.needsSave = false;
     }
 
     public void setMaterial(Material mat) {
@@ -51,74 +57,34 @@ public class RegionKind {
         return this.material;
     }
 
+    //TODO Add static methods to RegionKindManager
+
     public static List<RegionKind> getRegionKindList() {
         return list;
-    }
-
-    public static boolean kindExists(String kind){
-        for (int i = 0; i < list.size(); i++){
-            if(list.get(i).getName().equals(kind)){
-                return true;
-            }
-        }
-        if(kind.equalsIgnoreCase("default")) {
-            return true;
-        }
-        if(kind.equalsIgnoreCase(DEFAULT.getDisplayName())){
-            return true;
-        }
-        if(kind.equalsIgnoreCase("subregion")) {
-            return true;
-        }
-        if(kind.equalsIgnoreCase(SUBREGION.getDisplayName())){
-            return true;
-        }
-        return false;
     }
 
     public static void Reset(){
         list = new ArrayList<>();
     }
 
-    public static RegionKind getRegionKind(String name){
-        for(int i = 0; i < list.size(); i++){
-            if(list.get(i).getName().equalsIgnoreCase(name)){
-                return list.get(i);
-            }
+    public List<String> getLore(){
+        List<String> newLore = new ArrayList<>();
+        for(String msg : this.lore) {
+            newLore.add(ChatColor.translateAlternateColorCodes('&', msg));
         }
-        if(name.equalsIgnoreCase("default") || name.equalsIgnoreCase(RegionKind.DEFAULT.getDisplayName())){
-            return RegionKind.DEFAULT;
-        }
-        if(name.equalsIgnoreCase("subregion") || name.equalsIgnoreCase(RegionKind.SUBREGION.getDisplayName())){
-            return RegionKind.SUBREGION;
-        }
-        return null;
+        return newLore;
     }
 
-    public List<String> getLore(){
+    public List<String> getRawLore() {
         return this.lore;
     }
 
-    public String getDisplayName() {
+    public String getRawDisplayName() {
         return this.displayName;
     }
 
-    public static List<String> completeTabRegionKinds(String arg, String prefix) {
-        List<String> returnme = new ArrayList<>();
-
-        for (RegionKind regionkind : RegionKind.getRegionKindList()) {
-            if ((prefix + regionkind.getName()).toLowerCase().startsWith(arg)) {
-                returnme.add(prefix + regionkind.getName());
-            }
-        }
-        if ((prefix + "default").startsWith(arg)) {
-            returnme.add(prefix + "default");
-        }
-        if ((prefix + "subregion").startsWith(arg)) {
-            returnme.add(prefix + "subregion");
-        }
-
-        return returnme;
+    public String getDisplayName() {
+        return ChatColor.translateAlternateColorCodes('&', this.displayName);
     }
 
     public static boolean hasPermission(CommandSender sender, RegionKind regionKind) {
@@ -158,5 +124,46 @@ public class RegionKind {
         message = message.replace("%regionkind%", this.getName());
         message = message.replace("%currency%", Messages.CURRENCY);
         return message;
+    }
+
+    @Override
+    public ConfigurationSection toConfigureationSection() {
+        ConfigurationSection confSection = new YamlConfiguration();
+        confSection.set("item", this.getMaterial());
+        confSection.set("displayName", this.getRawDisplayName());
+        confSection.set("displayInLimits", this.isDisplayInLimits());
+        confSection.set("displayInGUI", this.isDisplayInGUI());
+        confSection.set("paypackPercentage", this.getPaybackPercentage());
+        confSection.set("lore", this.getRawLore());
+        return confSection;
+    }
+
+    public static RegionKind parse(ConfigurationSection confSection, String id) {
+        Material material = Material.getMaterial(confSection.getString("item"));
+        if(material == null) {
+            material = Material.RED_BED;
+        }
+        String displayName = confSection.getString("displayName");
+        boolean displayInLimits = confSection.getBoolean("displayInLimits");
+        boolean displayInGUI = confSection.getBoolean("displayInGUI");
+        double paybackPercentage = confSection.getDouble("paypackPercentage");
+        List<String> lore = new ArrayList<>(confSection.getStringList("lore"));
+
+        return new RegionKind(id, material, lore, displayName, displayInGUI, displayInLimits, paybackPercentage);
+    }
+
+    @Override
+    public void queueSave() {
+        this.needsSave = true;
+    }
+
+    @Override
+    public void setSaved() {
+        this.needsSave = false;
+    }
+
+    @Override
+    public boolean needSave() {
+        return this.needsSave;
     }
 }

@@ -101,7 +101,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         Gui guilistener = new Gui();
         getServer().getPluginManager().registerEvents(guilistener, this);
         loadAutoPrice();
-        loadRegionKind();
+        //TODO Add Regionkind loader
         loadGroups();
         loadGUI();
         loadAutoReset();
@@ -374,49 +374,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
         }
         if(getConfig().getConfigurationSection("DefaultAutoprice") != null) {
             AutoPrice.loadDefaultAutoPrice(getConfig().getConfigurationSection("DefaultAutoprice"));
-        }
-    }
-
-    private void loadRegionKind(){
-        RegionKind.DEFAULT.setName(getConfig().getString("DefaultRegionKind.DisplayName"));
-        RegionKind.DEFAULT.setMaterial(Material.getMaterial(getConfig().getString("DefaultRegionKind.Item")));
-        RegionKind.DEFAULT.setDisplayInGUI(getConfig().getBoolean("DefaultRegionKind.DisplayInGUI"));
-        RegionKind.DEFAULT.setDisplayInLimits(getConfig().getBoolean("DefaultRegionKind.DisplayInLimits"));
-        RegionKind.DEFAULT.setPaybackPercentage(getConfig().getDouble("DefaultRegionKind.PaypackPercentage"));
-        List<String> defaultlore = getConfig().getStringList("DefaultRegionKind.Lore");
-        for(int x = 0; x < defaultlore.size(); x++){
-            defaultlore.set(x, ChatColor.translateAlternateColorCodes('&', defaultlore.get(x)));
-        }
-        RegionKind.DEFAULT.setLore(defaultlore);
-
-        RegionKind.SUBREGION.setName(getConfig().getString("SubregionRegionKind.DisplayName"));
-        RegionKind.SUBREGION.setMaterial(Material.getMaterial(getConfig().getString("SubregionRegionKind.Item")));
-        RegionKind.SUBREGION.setDisplayInGUI(getConfig().getBoolean("SubregionRegionKind.DisplayInGUI"));
-        RegionKind.SUBREGION.setDisplayInLimits(getConfig().getBoolean("SubregionRegionKind.DisplayInLimits"));
-        RegionKind.SUBREGION.setPaybackPercentage(getConfig().getDouble("SubregionRegionKind.PaypackPercentage"));
-        List<String> subregionlore = getConfig().getStringList("SubregionRegionKind.Lore");
-        for(int x = 0; x < defaultlore.size(); x++){
-            defaultlore.set(x, ChatColor.translateAlternateColorCodes('&', defaultlore.get(x)));
-        }
-        RegionKind.SUBREGION.setLore(defaultlore);
-
-        if(getConfig().get("RegionKinds") != null) {
-            LinkedList<String> regionKinds = new LinkedList<String>(getConfig().getConfigurationSection("RegionKinds").getKeys(false));
-            if(regionKinds != null) {
-                for(int i = 0; i < regionKinds.size(); i++){
-                    Material mat = Material.getMaterial(getConfig().getString("RegionKinds." + regionKinds.get(i) + ".item"));
-                    String displayName = getConfig().getString("RegionKinds." + regionKinds.get(i) + ".displayName");
-                    boolean displayInGUI = getConfig().getBoolean("RegionKinds." + regionKinds.get(i) + ".displayInGUI");
-                    boolean displayInLimits = getConfig().getBoolean("RegionKinds." + regionKinds.get(i) + ".displayInLimits");
-                    double paybackPercentage = getConfig().getDouble("RegionKinds." + regionKinds.get(i) + ".paypackPercentage");
-                    List<String> lore = getConfig().getStringList("RegionKinds." + regionKinds.get(i) + ".lore");
-                    for(int x = 0; x < lore.size(); x++){
-                        lore.set(x, ChatColor.translateAlternateColorCodes('&', lore.get(x)));
-                    }
-                    displayName = ChatColor.translateAlternateColorCodes('&', displayName);
-                    RegionKind.getRegionKindList().add(new RegionKind(regionKinds.get(i), mat, lore, displayName, displayInGUI, displayInLimits, paybackPercentage));
-                }
-            }
         }
     }
 

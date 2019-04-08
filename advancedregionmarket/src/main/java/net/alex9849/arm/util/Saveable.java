@@ -6,8 +6,6 @@ public interface Saveable {
 
     public ConfigurationSection toConfigureationSection();
 
-    public Saveable parse();
-
     public void queueSave();
 
     public void setSaved();

@@ -1,0 +1,72 @@
+# A region can have a regionkind. If it has, members can find it by searching for a free region with a specific kind
+# via command or GUI. You have to select a MATERIAL that will be shown as icon for the region and regionkind in the GUI
+# You can also describe your regionkind by writing the information in the lore.
+# If you don't want to write a lore just write "- ''"
+# (List of all Materials: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html)
+# To search and buy a region with a regionkind the user needs to have the permission 'arm.buyregion.REGIONKIND'
+# (for example 'arm.buykind.examplekind1')
+RegionKinds:
+  starter:
+    item: WOODEN_SHOVEL
+    displayName: 'Starter-Region'
+    displayInLimits: true
+    displayInGUI: true
+    # If players have the permission 'arm.member.sellregion' they can sell their region
+    # back to the server (who resets it) via GUI.
+    # You can define the percentage they will get back here. If they don't have the permission the button will
+    # be removed from the GUI.
+    paypackPercentage: 100
+    lore:
+      - 'A region for everyone'
+  small:
+    item: STONE_SHOVEL
+    displayName: 'Small-Region'
+    displayInLimits: true
+    displayInGUI: true
+    paypackPercentage: 50
+    lore:
+      - 'A bit larger and good for small'
+      - 'groups'
+  medium:
+    item: IRON_SHOVEL
+    displayName: 'Medium-Region'
+    displayInLimits: true
+    displayInGUI: true
+    paypackPercentage: 40
+    lore:
+      - 'A mid-sized region'
+  large:
+    item: DIAMOND_SHOVEL
+    displayName: 'Large-Region'
+    displayInLimits: true
+    displayInGUI: true
+    paypackPercentage: 30
+    lore:
+      - 'A really large region'
+  shop:
+    item: EMERALD
+    displayName: 'Shop-Region'
+    displayInLimits: true
+    displayInGUI: true
+    paypackPercentage: 80
+    lore:
+      - 'A shop where you can sell your stuff'
+
+DefaultRegionKind:
+  DisplayName: Default
+  Item: RED_BED
+  Lore:
+    - 'very default'
+  DisplayInLimits: true
+  DisplayInGUI: false
+  PaypackPercentage: 50
+
+# Permission: arm.buykind.subregion
+SubregionRegionKind:
+  DisplayName: Subregion
+  Item: PLAYER_HEAD
+  Lore:
+    - 'very subregion'
+  DisplayInLimits: true
+  DisplayInGUI: false
+  PaypackPercentage: 0

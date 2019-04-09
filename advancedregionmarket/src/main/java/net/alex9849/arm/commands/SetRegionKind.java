@@ -1,5 +1,6 @@
 package net.alex9849.arm.commands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.exceptions.InputException;
@@ -50,7 +51,7 @@ public class SetRegionKind extends BasicArmCommand {
             if(region.isSubregion()) {
                 throw new InputException(sender, Messages.SUB_REGION_REGIONKIND_ERROR);
             }
-            RegionKind regionKind = RegionKind.getRegionKind(args[1]);
+            RegionKind regionKind = AdvancedRegionMarket.getRegionKindManager().getRegionKind(args[1]);
             if(regionKind == null) {
                 throw new InputException(sender, Messages.REGION_KIND_NOT_EXIST);
             }
@@ -75,7 +76,7 @@ public class SetRegionKind extends BasicArmCommand {
                     if (args.length == 1) {
                         returnme.add(this.rootCommand);
                     } else if (args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                        returnme.addAll(RegionKind.completeTabRegionKinds(args[1], ""));
+                        returnme.addAll(AdvancedRegionMarket.getRegionKindManager().completeTabRegionKinds(args[1], ""));
                     } else if (args.length == 3 && (args[0].equalsIgnoreCase(this.rootCommand))) {
                         returnme.addAll(RegionManager.completeTabRegions(player, args[2], PlayerRegionRelationship.ALL, true,false));
                     }

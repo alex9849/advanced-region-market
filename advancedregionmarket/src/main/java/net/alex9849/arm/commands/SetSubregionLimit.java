@@ -1,7 +1,9 @@
 package net.alex9849.arm.commands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
+import net.alex9849.arm.regions.regionkind.RegionKindManager;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regions.Region;
@@ -54,7 +56,7 @@ public class SetSubregionLimit extends BasicArmCommand {
         if(allargs.matches(regex_massaction) && (RegionManager.getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName()) == null)) {
             String[] splittedRegionKindArg = args[1].split(":", 2);
 
-            RegionKind selectedRegionkind = RegionKind.getRegionKind(splittedRegionKindArg[1]);
+            RegionKind selectedRegionkind = AdvancedRegionMarket.getRegionKindManager().getRegionKind(splittedRegionKindArg[1]);
             if(selectedRegionkind == null) {
                 throw new InputException(sender, Messages.REGIONKIND_DOES_NOT_EXIST);
             }
@@ -103,7 +105,7 @@ public class SetSubregionLimit extends BasicArmCommand {
                             returnme.add("rk:");
                         }
                         if (args[1].matches("rk:([^;\n]+)?")) {
-                            returnme.addAll(RegionKind.completeTabRegionKinds(args[1], "rk:"));
+                            returnme.addAll(AdvancedRegionMarket.getRegionKindManager().completeTabRegionKinds(args[1], "rk:"));
                         }
                     }
                 }

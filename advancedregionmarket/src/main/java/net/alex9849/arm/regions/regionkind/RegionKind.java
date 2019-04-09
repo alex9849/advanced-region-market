@@ -57,12 +57,6 @@ public class RegionKind implements Saveable {
         return this.material;
     }
 
-    //TODO Add static methods to RegionKindManager
-
-    public static List<RegionKind> getRegionKindList() {
-        return list;
-    }
-
     public static void Reset(){
         list = new ArrayList<>();
     }

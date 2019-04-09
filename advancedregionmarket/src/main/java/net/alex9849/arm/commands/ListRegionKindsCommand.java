@@ -1,5 +1,6 @@
 package net.alex9849.arm.commands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.exceptions.InputException;
@@ -41,8 +42,8 @@ public class ListRegionKindsCommand extends BasicArmCommand {
 
         sender.sendMessage(Messages.REGIONKINDS);
         sender.sendMessage("- " + "default");
-        for (int i = 0; i < RegionKind.getRegionKindList().size(); i++){
-            sender.sendMessage("- " + RegionKind.getRegionKindList().get(i).getName());
+        for (RegionKind regionKind : AdvancedRegionMarket.getRegionKindManager().getObjectListCopy()){
+            sender.sendMessage("- " + regionKind.getName());
         }
         return true;
     }

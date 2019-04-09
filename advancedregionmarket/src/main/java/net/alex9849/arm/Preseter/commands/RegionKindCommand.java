@@ -1,5 +1,6 @@
 package net.alex9849.arm.Preseter.commands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.Preseter.ActivePresetManager;
@@ -65,7 +66,7 @@ public class RegionKindCommand extends BasicArmCommand {
             ActivePresetManager.add(new PresetPlayerPair(player, preset));
         }
 
-        RegionKind regkind = RegionKind.getRegionKind(args[1]);
+        RegionKind regkind = AdvancedRegionMarket.getRegionKindManager().getRegionKind(args[1]);
         if(regkind == null) {
             player.sendMessage(Messages.PREFIX + Messages.REGIONKIND_DOES_NOT_EXIST);
             return true;
@@ -89,7 +90,7 @@ public class RegionKindCommand extends BasicArmCommand {
                     }
                 }
                 if(args.length == 2 && this.rootCommand.equalsIgnoreCase(args[0])) {
-                    returnme.addAll(RegionKind.completeTabRegionKinds(args[1], ""));
+                    returnme.addAll(AdvancedRegionMarket.getRegionKindManager().completeTabRegionKinds(args[1], ""));
                 }
             }
         }

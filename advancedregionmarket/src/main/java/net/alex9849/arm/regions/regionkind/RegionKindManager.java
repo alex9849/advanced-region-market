@@ -56,16 +56,12 @@ public class RegionKindManager extends YamlFileManager<RegionKind> {
         yamlConfiguration.set("RegionKinds." + regionKind.getName(), regionKind.toConfigureationSection());
     }
 
-    public static List<String> completeTabRegionKinds(String arg, String prefix, RegionKindManager rkManager) {
+    public List<String> completeTabRegionKinds(String arg, String prefix) {
         List<String> returnme = new ArrayList<>();
 
-        if(rkManager == null) {
-            return returnme;
-        }
+        List<RegionKind> regionKinds = this.getObjectListCopy();
 
-        List<RegionKind> regionKinds = rkManager.getObjectListCopy();
-
-        for (RegionKind regionkind : RegionKind.getRegionKindList()) {
+        for (RegionKind regionkind : regionKinds) {
             if ((prefix + regionkind.getName()).toLowerCase().startsWith(arg)) {
                 returnme.add(prefix + regionkind.getName());
             }
@@ -80,14 +76,12 @@ public class RegionKindManager extends YamlFileManager<RegionKind> {
         return returnme;
     }
 
-    public static boolean kindExists(String kind, RegionKindManager rkManager){
+    public boolean kindExists(String kind){
 
-        if(rkManager != null) {
-            List<RegionKind> regionKinds = rkManager.getObjectListCopy();
-            for(RegionKind regionKind : regionKinds) {
-                if(regionKind.getName().equalsIgnoreCase(kind)){
-                    return true;
-                }
+        List<RegionKind> regionKinds = this.getObjectListCopy();
+        for(RegionKind regionKind : regionKinds) {
+            if(regionKind.getName().equalsIgnoreCase(kind)){
+                return true;
             }
         }
 
@@ -106,14 +100,12 @@ public class RegionKindManager extends YamlFileManager<RegionKind> {
         return false;
     }
 
-    public static RegionKind getRegionKind(String name, RegionKindManager rkManager){
+    public RegionKind getRegionKind(String name){
 
-        if(rkManager != null) {
-            List<RegionKind> regionKinds = rkManager.getObjectListCopy();
-            for(RegionKind regionKind : regionKinds) {
-                if(regionKind.getName().equalsIgnoreCase(name)){
-                    return regionKind;
-                }
+        List<RegionKind> regionKinds = this.getObjectListCopy();
+        for(RegionKind regionKind : regionKinds) {
+            if(regionKind.getName().equalsIgnoreCase(name)){
+                return regionKind;
             }
         }
 

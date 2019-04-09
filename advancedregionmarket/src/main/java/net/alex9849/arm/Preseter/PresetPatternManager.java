@@ -1,5 +1,6 @@
 package net.alex9849.arm.Preseter;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Preseter.presets.*;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
 import net.alex9849.arm.entitylimit.EntityLimitGroupManager;
@@ -150,7 +151,7 @@ public class PresetPatternManager {
         AutoPrice autoPrice = null;
 
         List<String> setupcommands = section.getStringList("setupcommands");
-        RegionKind regionKind = RegionKind.getRegionKind(regionKindString);
+        RegionKind regionKind = AdvancedRegionMarket.getRegionKindManager().getRegionKind(regionKindString);
         if(regionKind == null) {
             regionKind = RegionKind.DEFAULT;
         }

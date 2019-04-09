@@ -6,6 +6,7 @@ import net.alex9849.arm.Messages;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
 import net.alex9849.arm.entitylimit.EntityLimitGroupManager;
 import net.alex9849.arm.regions.regionkind.RegionKind;
+import net.alex9849.arm.regions.regionkind.RegionKindManager;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
@@ -229,7 +230,7 @@ public class RegionManager {
         List<String> boughtExtraEntitys = regionSection.getStringList("boughtExtraEntitys");
         boolean isUserResettable = regionSection.getBoolean("isUserResettable");
         Location teleportLoc = parseTpLocation(teleportLocString);
-        RegionKind regionKind = RegionKind.getRegionKind(kind);
+        RegionKind regionKind = AdvancedRegionMarket.getRegionKindManager().getRegionKind(kind);
         if(regionKind == null) {
             regionKind = RegionKind.DEFAULT;
         }

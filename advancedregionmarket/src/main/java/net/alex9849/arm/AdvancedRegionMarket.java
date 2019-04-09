@@ -7,6 +7,7 @@ import net.alex9849.arm.commands.*;
 import net.alex9849.arm.entitylimit.EntityLimitGroupManager;
 import net.alex9849.arm.regions.price.RentPrice;
 import net.alex9849.arm.regions.regionkind.RegionKind;
+import net.alex9849.arm.regions.regionkind.RegionKindManager;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.minifeatures.SignLinkMode;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
@@ -51,6 +52,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
     private static WorldEditPlugin worldedit;
     private static WorldEditInterface worldEditInterface;
     private static CommandHandler commandHandler;
+    private static RegionKindManager regionKindManager;
 
     public void onEnable(){
 
@@ -103,6 +105,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         loadAutoPrice();
         //TODO Add Regionkind loader
         loadGroups();
+        AdvancedRegionMarket.regionKindManager = new RegionKindManager(new File(this.getDataFolder() + "/regionkinds.yml"), getResource("regionkinds.yml"));
         loadGUI();
         loadAutoReset();
         if(!connectSQL()) {
@@ -200,6 +203,10 @@ public class AdvancedRegionMarket extends JavaPlugin {
         EntitySpawnEvent.getHandlerList().unregister(this);
         VehicleCreateEvent.getHandlerList().unregister(this);
         getServer().getScheduler().cancelTasks(this);
+    }
+
+    public static RegionKindManager getRegionKindManager() {
+        return AdvancedRegionMarket.regionKindManager;
     }
 
     private boolean setupEconomy() {

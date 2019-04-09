@@ -1,5 +1,6 @@
 package net.alex9849.arm.minifeatures;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.regions.regionkind.RegionKind;
 import net.alex9849.exceptions.InputException;
@@ -13,7 +14,7 @@ public class Diagram {
         sender.sendMessage(Messages.REGION_STATS);
         sendStatsForAllSellTypes(sender);
         sendStatsByRegionKind(sender, RegionKind.DEFAULT);
-        for(RegionKind regionKind : RegionKind.getRegionKindList()) {
+        for(RegionKind regionKind : AdvancedRegionMarket.getRegionKindManager().getObjectListCopy()) {
             sendStatsByRegionKind(sender, regionKind);
         }
         sendStatsByRegionKind(sender, RegionKind.SUBREGION);
@@ -22,7 +23,7 @@ public class Diagram {
 
     public static boolean sendRegionStats(CommandSender sender, String regiontype) throws InputException {
         SellType sellType = SellType.getSelltype(regiontype);
-        RegionKind regionKind = RegionKind.getRegionKind(regiontype);
+        RegionKind regionKind = AdvancedRegionMarket.getRegionKindManager().getRegionKind(regiontype);
 
         if(sellType == null && regionKind == null) {
             throw new InputException(sender, Messages.REGIONKIND_DOES_NOT_EXIST);

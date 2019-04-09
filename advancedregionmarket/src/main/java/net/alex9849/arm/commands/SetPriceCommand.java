@@ -1,5 +1,6 @@
 package net.alex9849.arm.commands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.exceptions.InputException;
@@ -72,7 +73,7 @@ public class SetPriceCommand extends BasicArmCommand {
 
         if(allargs.matches(this.regex_massaction)) {
             String[] splittedRegionKindArg = args[1].split(":", 2);
-            RegionKind selectedRegionkind = RegionKind.getRegionKind(splittedRegionKindArg[1]);
+            RegionKind selectedRegionkind = AdvancedRegionMarket.getRegionKindManager().getRegionKind(splittedRegionKindArg[1]);
             if(selectedRegionkind == null) {
                 throw new InputException(sender, Messages.REGIONKIND_DOES_NOT_EXIST);
             }
@@ -112,7 +113,7 @@ public class SetPriceCommand extends BasicArmCommand {
                             returnme.add("rk:");
                         }
                         if (args[1].matches("rk:([^;\n]+)?")) {
-                            returnme.addAll(RegionKind.completeTabRegionKinds(args[1], "rk:"));
+                            returnme.addAll(AdvancedRegionMarket.getRegionKindManager().completeTabRegionKinds(args[1], "rk:"));
                         }
 
                     } else if(args.length == 3 && (args[0].equalsIgnoreCase(this.rootCommand))) {

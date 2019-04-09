@@ -1,5 +1,6 @@
 package net.alex9849.arm.gui;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
@@ -861,7 +862,7 @@ public class Gui implements Listener {
             itemcounter++;
         }
 
-        for(RegionKind regionKind : RegionKind.getRegionKindList()) {
+        for(RegionKind regionKind : AdvancedRegionMarket.getRegionKindManager().getObjectListCopy()) {
             if(regionKind.isDisplayInGUI()) {
                 itemcounter++;
             }
@@ -924,22 +925,21 @@ public class Gui implements Listener {
         }
 
 
-        for(int i = 0; i < RegionKind.getRegionKindList().size(); i++) {
-            if(RegionKind.getRegionKindList().get(i).isDisplayInGUI()) {
+        for(RegionKind regionKind : AdvancedRegionMarket.getRegionKindManager().getObjectListCopy()) {
+            if(regionKind.isDisplayInGUI()) {
                 String displayName = Messages.GUI_REGIONFINDER_REGIONKIND_NAME;
-                displayName = RegionKind.getRegionKindList().get(i).getConvertedMessage(displayName);
-                Material material = RegionKind.getRegionKindList().get(i).getMaterial();
-                if(player.hasPermission(Permission.ARM_BUYKIND + RegionKind.getRegionKindList().get(i).getName())){
+                displayName = regionKind.getConvertedMessage(displayName);
+                Material material = regionKind.getMaterial();
+                if(player.hasPermission(Permission.ARM_BUYKIND + regionKind.getName())){
                     ItemStack stack = new ItemStack(material);
                     ItemMeta meta = stack.getItemMeta();
                     meta.setDisplayName(displayName);
-                    meta.setLore(RegionKind.getRegionKindList().get(i).getLore());
+                    meta.setLore(regionKind.getLore());
                     stack.setItemMeta(meta);
-                    int finalI = i;
                     ClickItem icon = new ClickItem(stack).addClickAction(new ClickAction() {
                         @Override
                         public void execute(Player player) throws InputException {
-                            Gui.openRegionFinderSellTypeSelector(player, RegionManager.getFreeRegions(RegionKind.getRegionKindList().get(finalI)), new ClickAction() {
+                            Gui.openRegionFinderSellTypeSelector(player, RegionManager.getFreeRegions(regionKind), new ClickAction() {
                                 @Override
                                 public void execute(Player player) throws InputException {
                                     Gui.openRegionFinder(player, withGoBack);

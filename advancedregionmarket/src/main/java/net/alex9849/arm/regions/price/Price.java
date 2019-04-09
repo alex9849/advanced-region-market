@@ -7,7 +7,6 @@ import java.text.DecimalFormat;
 import java.util.Locale;
 
 public class Price {
-    private static DecimalFormat decimalformat = new DecimalFormat("###.###.###.##0,00");
     protected AutoPrice autoPrice;
     protected double price;
     protected boolean hasPriceBeenCalced;
@@ -29,11 +28,6 @@ public class Price {
         this.calcedAutoPrice = 0;
         this.price = 0;
         this.hasPriceBeenCalced = false;
-    }
-
-    //TODO Add to configuration
-    public static void setDecimalformat(DecimalFormat df) {
-        Price.decimalformat = df;
     }
 
     public double calcPrice(WGRegion wgRegion){
@@ -68,7 +62,7 @@ public class Price {
     }
 
     public String getFormatedPrice() {
-        return Price.decimalformat.format(this.getPrice());
+        return this.getPrice() + "";
     }
 
     public static double roundPrice(double price) {

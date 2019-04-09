@@ -51,22 +51,3 @@ RegionKinds:
     paypackPercentage: 80
     lore:
       - 'A shop where you can sell your stuff'
-
-DefaultRegionKind:
-  DisplayName: Default
-  Item: RED_BED
-  Lore:
-    - 'very default'
-  DisplayInLimits: true
-  DisplayInGUI: false
-  PaypackPercentage: 50
-
-# Permission: arm.buykind.subregion
-SubregionRegionKind:
-  DisplayName: Subregion
-  Item: PLAYER_HEAD
-  Lore:
-    - 'very subregion'
-  DisplayInLimits: true
-  DisplayInGUI: false
-  PaypackPercentage: 0

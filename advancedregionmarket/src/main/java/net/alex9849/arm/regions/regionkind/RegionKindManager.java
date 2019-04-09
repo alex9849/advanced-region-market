@@ -1,8 +1,10 @@
 package net.alex9849.arm.regions.regionkind;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.util.YamlFileManager;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
@@ -20,20 +22,22 @@ public class RegionKindManager extends YamlFileManager<RegionKind> {
     public List<RegionKind> loadSavedObjects(YamlConfiguration yamlConfiguration) {
         List<RegionKind> regionKindList = new ArrayList<>();
 
-        RegionKind.DEFAULT.setName(yamlConfiguration.getString("DefaultRegionKind.DisplayName"));
-        RegionKind.DEFAULT.setMaterial(Material.getMaterial(yamlConfiguration.getString("DefaultRegionKind.Item")));
-        RegionKind.DEFAULT.setDisplayInGUI(yamlConfiguration.getBoolean("DefaultRegionKind.DisplayInGUI"));
-        RegionKind.DEFAULT.setDisplayInLimits(yamlConfiguration.getBoolean("DefaultRegionKind.DisplayInLimits"));
-        RegionKind.DEFAULT.setPaybackPercentage(yamlConfiguration.getDouble("DefaultRegionKind.PaypackPercentage"));
-        List<String> defaultlore = yamlConfiguration.getStringList("DefaultRegionKind.Lore");
+        FileConfiguration defaultConf = AdvancedRegionMarket.getARM().getConfig();
+
+        RegionKind.DEFAULT.setName(defaultConf.getString("DefaultRegionKind.DisplayName"));
+        RegionKind.DEFAULT.setMaterial(Material.getMaterial(defaultConf.getString("DefaultRegionKind.Item")));
+        RegionKind.DEFAULT.setDisplayInGUI(defaultConf.getBoolean("DefaultRegionKind.DisplayInGUI"));
+        RegionKind.DEFAULT.setDisplayInLimits(defaultConf.getBoolean("DefaultRegionKind.DisplayInLimits"));
+        RegionKind.DEFAULT.setPaybackPercentage(defaultConf.getDouble("DefaultRegionKind.PaypackPercentage"));
+        List<String> defaultlore = defaultConf.getStringList("DefaultRegionKind.Lore");
         RegionKind.DEFAULT.setLore(defaultlore);
 
-        RegionKind.SUBREGION.setName(yamlConfiguration.getString("SubregionRegionKind.DisplayName"));
-        RegionKind.SUBREGION.setMaterial(Material.getMaterial(yamlConfiguration.getString("SubregionRegionKind.Item")));
-        RegionKind.SUBREGION.setDisplayInGUI(yamlConfiguration.getBoolean("SubregionRegionKind.DisplayInGUI"));
-        RegionKind.SUBREGION.setDisplayInLimits(yamlConfiguration.getBoolean("SubregionRegionKind.DisplayInLimits"));
-        RegionKind.SUBREGION.setPaybackPercentage(yamlConfiguration.getDouble("SubregionRegionKind.PaypackPercentage"));
-        List<String> subregionlore = yamlConfiguration.getStringList("SubregionRegionKind.Lore");
+        RegionKind.SUBREGION.setName(defaultConf.getString("SubregionRegionKind.DisplayName"));
+        RegionKind.SUBREGION.setMaterial(Material.getMaterial(defaultConf.getString("SubregionRegionKind.Item")));
+        RegionKind.SUBREGION.setDisplayInGUI(defaultConf.getBoolean("SubregionRegionKind.DisplayInGUI"));
+        RegionKind.SUBREGION.setDisplayInLimits(defaultConf.getBoolean("SubregionRegionKind.DisplayInLimits"));
+        RegionKind.SUBREGION.setPaybackPercentage(defaultConf.getDouble("SubregionRegionKind.PaypackPercentage"));
+        List<String> subregionlore = defaultConf.getStringList("SubregionRegionKind.Lore");
         RegionKind.SUBREGION.setLore(subregionlore);
 
         if(yamlConfiguration.get("RegionKinds") != null) {

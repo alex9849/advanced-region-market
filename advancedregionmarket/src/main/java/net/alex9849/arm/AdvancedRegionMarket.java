@@ -102,10 +102,10 @@ public class AdvancedRegionMarket extends JavaPlugin {
         getServer().getPluginManager().registerEvents(subregionMarkerListener, this);
         Gui guilistener = new Gui();
         getServer().getPluginManager().registerEvents(guilistener, this);
+        AdvancedRegionMarket.regionKindManager = new RegionKindManager(new File(this.getDataFolder() + "/regionkinds.yml"), getResource("regionkinds.yml"));
         loadAutoPrice();
         //TODO Add Regionkind loader
         loadGroups();
-        AdvancedRegionMarket.regionKindManager = new RegionKindManager(new File(this.getDataFolder() + "/regionkinds.yml"), getResource("regionkinds.yml"));
         loadGUI();
         loadAutoReset();
         if(!connectSQL()) {

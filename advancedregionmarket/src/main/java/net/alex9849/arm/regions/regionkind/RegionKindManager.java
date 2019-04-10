@@ -60,6 +60,16 @@ public class RegionKindManager extends YamlFileManager<RegionKind> {
         yamlConfiguration.set("RegionKinds." + regionKind.getName(), regionKind.toConfigureationSection());
     }
 
+    @Override
+    public void removeObjectFromYamlObject(RegionKind regionKind, YamlConfiguration yamlConfiguration) {
+        yamlConfiguration.set("RegionKinds." + regionKind.getName(), null);
+    }
+
+    @Override
+    public void addStaticSettings(YamlConfiguration yamlConfiguration) {
+
+    }
+
     public List<String> completeTabRegionKinds(String arg, String prefix) {
         List<String> returnme = new ArrayList<>();
 

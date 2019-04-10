@@ -10,11 +10,13 @@ public abstract class YamlFileManager<ManagedObject extends Saveable> {
     private List<ManagedObject> objectList;
     private YamlConfiguration yamlConfiguration;
     private File savepath;
+    private boolean completeSaveQueuned;
 
 
     public YamlFileManager(File savepath, InputStream resourceStream) {
         this.objectList = new ArrayList<>();
         this.savepath = savepath;
+        this.completeSaveQueuned = false;
         if(!this.savepath.exists()) {
             try {
                 byte[] buffer = new byte[resourceStream.available()];
@@ -35,13 +37,13 @@ public abstract class YamlFileManager<ManagedObject extends Saveable> {
         if(!this.objectList.contains(managedObject)) {
             this.objectList.add(managedObject);
             managedObject.queueSave();
-            updateFile(false);
+            updateFile();
         }
     }
 
     public void remove(ManagedObject managedObject) {
         if(this.objectList.remove(managedObject)) {
-            updateFile(true);
+            removeObjectFromYamlObject(managedObject, this.yamlConfiguration);
         }
     }
 
@@ -53,33 +55,41 @@ public abstract class YamlFileManager<ManagedObject extends Saveable> {
         }
     }
 
-    public abstract List<ManagedObject> loadSavedObjects(YamlConfiguration yamlConfiguration);
-
-    /**
-     *
-     * @param deleteDeleted if true deleted Objects will be deleted from the file
-     */
-    public void updateFile(boolean deleteDeleted) {
+    public void updateFile() {
         boolean savedSomething = false;
 
-        if(deleteDeleted) {
+        if(this.completeSaveQueuned) {
             this.yamlConfiguration = new YamlConfiguration();
+            this.addStaticSettings(this.yamlConfiguration);
+            savedSomething = true;
         }
 
         for(ManagedObject managedObject : this.objectList) {
-            if(managedObject.needSave() || deleteDeleted) {
+            if(managedObject.needSave() || this.completeSaveQueuned) {
                 saveObjectToYamlObject(managedObject, this.yamlConfiguration);
                 managedObject.setSaved();
                 savedSomething = true;
             }
         }
 
+        this.completeSaveQueuned = false;
+
         if(savedSomething) {
             saveFile();
         }
     }
 
+    public abstract List<ManagedObject> loadSavedObjects(YamlConfiguration yamlConfiguration);
+
     public abstract void saveObjectToYamlObject(ManagedObject object, YamlConfiguration yamlConfiguration);
+
+    public abstract void removeObjectFromYamlObject(ManagedObject object, YamlConfiguration yamlConfiguration);
+
+    public abstract void addStaticSettings(YamlConfiguration yamlConfiguration);
+
+    public void queueSaveCompleteSave() {
+        this.completeSaveQueuned = true;
+    }
 
     public List<ManagedObject> getObjectListCopy() {
         return new ArrayList<>(this.objectList);

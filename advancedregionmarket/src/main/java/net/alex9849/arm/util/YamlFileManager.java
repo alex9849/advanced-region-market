@@ -13,22 +13,10 @@ public abstract class YamlFileManager<ManagedObject extends Saveable> {
     private boolean completeSaveQueuned;
 
 
-    public YamlFileManager(File savepath, InputStream resourceStream) {
+    public YamlFileManager(File savepath) {
         this.objectList = new ArrayList<>();
         this.savepath = savepath;
         this.completeSaveQueuned = false;
-        if(!this.savepath.exists()) {
-            try {
-                byte[] buffer = new byte[resourceStream.available()];
-                resourceStream.read(buffer);
-                OutputStream output = new FileOutputStream(savepath);
-                output.write(buffer);
-                output.close();
-                resourceStream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
         this.yamlConfiguration = YamlConfiguration.loadConfiguration(this.savepath);
         this.objectList.addAll(loadSavedObjects(this.yamlConfiguration));
     }
@@ -92,5 +80,21 @@ public abstract class YamlFileManager<ManagedObject extends Saveable> {
 
     public List<ManagedObject> getObjectListCopy() {
         return new ArrayList<>(this.objectList);
+    }
+
+    public static void writeResourceToDisc(File savepath, InputStream resourceStream) {
+        try {
+            if(savepath.exists()) {
+                savepath.delete();
+            }
+            byte[] buffer = new byte[resourceStream.available()];
+            resourceStream.read(buffer);
+            OutputStream output = new FileOutputStream(savepath);
+            output.write(buffer);
+            output.close();
+            resourceStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

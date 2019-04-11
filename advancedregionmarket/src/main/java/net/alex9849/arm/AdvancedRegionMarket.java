@@ -104,8 +104,8 @@ public class AdvancedRegionMarket extends JavaPlugin {
         Gui guilistener = new Gui();
         getServer().getPluginManager().registerEvents(guilistener, this);
 
-        AdvancedRegionMarket.regionKindManager = new RegionKindManager(new File(this.getDataFolder() + "/regionkinds.yml"), getResource("regionkinds.yml"));
-        AdvancedRegionMarket.entityLimitGroupManager = new EntityLimitGroupManager(new File(this.getDataFolder() + "/entitylimits.yml"), getResource("entitylimits.yml"));
+        AdvancedRegionMarket.regionKindManager = new RegionKindManager(new File(this.getDataFolder() + "/regionkinds.yml"));
+        AdvancedRegionMarket.entityLimitGroupManager = new EntityLimitGroupManager(new File(this.getDataFolder() + "/entitylimits.yml"));
 
         loadAutoPrice();
         loadGroups();
@@ -613,6 +613,8 @@ public class AdvancedRegionMarket extends JavaPlugin {
     }
 
     private void updateConfigs(){
+        EntityLimitGroupManager.writeResourceToDisc(new File(this.getDataFolder() + "/entitylimits.yml"), getResource("entitylimits.yml"));
+        RegionKindManager.writeResourceToDisc(new File(this.getDataFolder() + "/regionkinds.yml"), getResource("regionkinds.yml"));
         RegionManager.generatedefaultConfig();
         RegionManager.setRegionsConf();
         Messages.generatedefaultConfig();
@@ -890,6 +892,11 @@ public class AdvancedRegionMarket extends JavaPlugin {
             pluginConfig.set("SignClickActions.LeftClickNotSneakCmd", "arm info %regionid%");
             pluginConfig.set("SignClickActions.LeftClickSneakCmd", "arm info %regionid%");
             pluginConfig.set("Version", 1.72);
+            saveConfig();
+        }
+        if(version < 1.75) {
+            getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.7.5...");
+            pluginConfig.set("Version", 1.75);
             saveConfig();
         }
     }

@@ -14,19 +14,25 @@ import java.util.logging.Level;
 
 public class EntityLimitGroupManager extends YamlFileManager<EntityLimitGroup> {
 
-    public EntityLimitGroupManager(File savepath, InputStream resourceStream) {
-        super(savepath, resourceStream);
+    public EntityLimitGroupManager(File savepath) {
+        super(savepath);
     }
 
     @Override
     public List<EntityLimitGroup> loadSavedObjects(YamlConfiguration yamlConfiguration) {
         ArrayList<EntityLimitGroup> entityLimitGroups = new ArrayList<>();
 
-        ConfigurationSection entityLimitDEFAULTSection = yamlConfiguration.getConfigurationSection("DefaultEntityLimit");
-        EntityLimitGroup.setDEFAULT(parseEntityLimitGroup(entityLimitDEFAULTSection, "default"));
+        if(yamlConfiguration.get("DefaultEntityLimit") != null) {
+            ConfigurationSection entityLimitDEFAULTSection = yamlConfiguration.getConfigurationSection("DefaultEntityLimit");
+            updateDefaults(entityLimitDEFAULTSection);
+            EntityLimitGroup.setDEFAULT(parseEntityLimitGroup(entityLimitDEFAULTSection, "default"));
+        }
 
-        ConfigurationSection entityLimitSUBREGIONSection = yamlConfiguration.getConfigurationSection("SubregionEntityLimit");
-        EntityLimitGroup.setSUBREGION(parseEntityLimitGroup(entityLimitSUBREGIONSection, "subregion"));
+        if(yamlConfiguration.get("SubregionEntityLimit") != null) {
+            ConfigurationSection entityLimitSUBREGIONSection = yamlConfiguration.getConfigurationSection("SubregionEntityLimit");
+            updateDefaults(entityLimitSUBREGIONSection);
+            EntityLimitGroup.setSUBREGION(parseEntityLimitGroup(entityLimitSUBREGIONSection, "subregion"));
+        }
 
         if(yamlConfiguration.get("EntityLimits") == null) {
             return  entityLimitGroups;
@@ -37,6 +43,7 @@ public class EntityLimitGroupManager extends YamlFileManager<EntityLimitGroup> {
         for(String limitname : limitnames) {
             if(entityLimitsSection.get(limitname) != null) {
                 ConfigurationSection limitSection = entityLimitsSection.getConfigurationSection(limitname);
+                updateDefaults(limitSection);
                 entityLimitGroups.add(parseEntityLimitGroup(limitSection, limitname));
             }
         }
@@ -127,41 +134,19 @@ public class EntityLimitGroupManager extends YamlFileManager<EntityLimitGroup> {
         return null;
     }
 
-    //Todo maybe needed later
-    /*
-    private static void updateConfig() {
-        if(entityLimitConf.get("EntityLimits") == null) {
-            return;
-        }
-        List<String> groups = new ArrayList<>(entityLimitConf.getConfigurationSection("EntityLimits").getKeys(false));
-        ConfigurationSection entityLimitsSection = entityLimitConf.getConfigurationSection("EntityLimits");
+    private static void updateDefaults(ConfigurationSection section) {
+        section.addDefault("softtotal", -1);
+        section.addDefault("hardtotal", -1);
+        section.addDefault("pricePerExtraEntity", 0);
 
-        for(String limitName : groups) {
-            entityLimitConf.addDefault("EntityLimits." + limitName + ".softtotal", -1);
-            entityLimitConf.addDefault("EntityLimits." + limitName + ".hardtotal", -1);
-            entityLimitConf.addDefault("EntityLimits." + limitName + ".pricePerExtraEntity", 0);
-            if(entityLimitsSection.get(limitName) != null) {
-                List<String> limts = new ArrayList<>(entityLimitsSection.getConfigurationSection(limitName).getKeys(false));
-                for(String limit : limts) {
-                    entityLimitConf.addDefault("EntityLimits." + limitName + "." + limit + ".entityType", EntityType.ARMOR_STAND.name());
-                    entityLimitConf.addDefault("EntityLimits." + limitName + "." + limit + ".softLimit", 1);
-                    entityLimitConf.addDefault("EntityLimits." + limitName + "." + limit + ".hardLimit", 1);
-                    entityLimitConf.addDefault("EntityLimits." + limitName + "." + limit + ".pricePerExtraEntity", 1);
-                }
+        List<String> entityNumbers = new ArrayList<>(section.getKeys(false));
+        for(String entityNumber : entityNumbers) {
+            if(!(entityNumber.equalsIgnoreCase("softtotal") || entityNumber.equalsIgnoreCase("hardtotal") || entityNumber.equalsIgnoreCase("pricePerExtraEntity"))) {
+                section.addDefault(entityNumber + ".entityType", EntityType.ARMOR_STAND.name());
+                section.addDefault(entityNumber + ".softLimit", 1);
+                section.addDefault(entityNumber + ".hardLimit", 1);
+                section.addDefault(entityNumber + ".pricePerExtraEntity", 1);
             }
-
         }
-        entityLimitConf.addDefault("DefaultEntityLimit.softtotal", -1);
-        entityLimitConf.addDefault("DefaultEntityLimit.hardtotal", -1);
-        entityLimitConf.addDefault("SubregionEntityLimit.softtotal", -1);
-        entityLimitConf.addDefault("SubregionEntityLimit.hardtotal", -1);
-
-        entityLimitConf.options().copyDefaults(true);
-        saveEntityLimitsConf();
-        entityLimitConf.options().copyDefaults(false);
     }
-    */
-
-
-
 }

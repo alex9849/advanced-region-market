@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.EntityType;
 
 import java.io.File;
 import java.io.InputStream;
@@ -14,42 +15,49 @@ import java.util.List;
 
 public class RegionKindManager extends YamlFileManager<RegionKind> {
 
-    public RegionKindManager(File savepath, InputStream resourceStream) {
-        super(savepath, resourceStream);
+    public RegionKindManager(File savepath) {
+        super(savepath);
     }
 
     @Override
     public List<RegionKind> loadSavedObjects(YamlConfiguration yamlConfiguration) {
         List<RegionKind> regionKindList = new ArrayList<>();
 
-        ConfigurationSection defaultRkConfig = yamlConfiguration.getConfigurationSection("DefaultRegionKind");
-        RegionKind defaultRk = RegionKind.parse(defaultRkConfig, "Default");
+        if(yamlConfiguration.get("DefaultRegionKind") != null) {
+            ConfigurationSection defaultRkConfig = yamlConfiguration.getConfigurationSection("DefaultRegionKind");
+            updateDefaults(defaultRkConfig);
+            RegionKind defaultRk = RegionKind.parse(defaultRkConfig, "Default");
+            RegionKind.DEFAULT.setName(defaultRk.getRawDisplayName());
+            RegionKind.DEFAULT.setMaterial(defaultRk.getMaterial());
+            RegionKind.DEFAULT.setDisplayInGUI(defaultRk.isDisplayInGUI());
+            RegionKind.DEFAULT.setDisplayInLimits(defaultRk.isDisplayInLimits());
+            RegionKind.DEFAULT.setPaybackPercentage(defaultRk.getPaybackPercentage());
+            RegionKind.DEFAULT.setLore(defaultRk.getRawLore());
+        }
 
-        RegionKind.DEFAULT.setName(defaultRk.getRawDisplayName());
-        RegionKind.DEFAULT.setMaterial(defaultRk.getMaterial());
-        RegionKind.DEFAULT.setDisplayInGUI(defaultRk.isDisplayInGUI());
-        RegionKind.DEFAULT.setDisplayInLimits(defaultRk.isDisplayInLimits());
-        RegionKind.DEFAULT.setPaybackPercentage(defaultRk.getPaybackPercentage());
-        RegionKind.DEFAULT.setLore(defaultRk.getRawLore());
-
-        ConfigurationSection subregionRkConfig = yamlConfiguration.getConfigurationSection("DefaultRegionKind");
-        RegionKind subregionRk = RegionKind.parse(subregionRkConfig, "Subregion");
-
-        RegionKind.SUBREGION.setName(subregionRk.getRawDisplayName());
-        RegionKind.SUBREGION.setMaterial(subregionRk.getMaterial());
-        RegionKind.SUBREGION.setDisplayInGUI(subregionRk.isDisplayInGUI());
-        RegionKind.SUBREGION.setDisplayInLimits(subregionRk.isDisplayInLimits());
-        RegionKind.SUBREGION.setPaybackPercentage(subregionRk.getPaybackPercentage());
-        RegionKind.SUBREGION.setLore(subregionRk.getRawLore());
+        if(yamlConfiguration.get("SubregionRegionKind") != null) {
+            ConfigurationSection subregionRkConfig = yamlConfiguration.getConfigurationSection("SubregionRegionKind");
+            updateDefaults(subregionRkConfig);
+            RegionKind subregionRk = RegionKind.parse(subregionRkConfig, "Subregion");
+            RegionKind.SUBREGION.setName(subregionRk.getRawDisplayName());
+            RegionKind.SUBREGION.setMaterial(subregionRk.getMaterial());
+            RegionKind.SUBREGION.setDisplayInGUI(subregionRk.isDisplayInGUI());
+            RegionKind.SUBREGION.setDisplayInLimits(subregionRk.isDisplayInLimits());
+            RegionKind.SUBREGION.setPaybackPercentage(subregionRk.getPaybackPercentage());
+            RegionKind.SUBREGION.setLore(subregionRk.getRawLore());
+        }
 
         if(yamlConfiguration.get("RegionKinds") != null) {
             ConfigurationSection regionKindsSection = yamlConfiguration.getConfigurationSection("RegionKinds");
             List<String> regionKinds = new ArrayList<>(regionKindsSection.getKeys(false));
             if(regionKinds != null) {
                 for(String regionKindID : regionKinds) {
-                    ConfigurationSection rkConfSection = regionKindsSection.getConfigurationSection(regionKindID);
-                    if(rkConfSection != null) {
-                        regionKindList.add(RegionKind.parse(rkConfSection, regionKindID));
+                    if(regionKindsSection.get(regionKindID) != null) {
+                        ConfigurationSection rkConfSection = regionKindsSection.getConfigurationSection(regionKindID);
+                        if(rkConfSection != null) {
+                            updateDefaults(rkConfSection);
+                            regionKindList.add(RegionKind.parse(rkConfSection, regionKindID));
+                        }
                     }
                 }
             }
@@ -128,5 +136,14 @@ public class RegionKindManager extends YamlFileManager<RegionKind> {
             return RegionKind.SUBREGION;
         }
         return null;
+    }
+
+    private void updateDefaults(ConfigurationSection section) {
+        section.addDefault("item", "RED_BED");
+        section.addDefault("displayName", "Default Displayname");
+        section.addDefault("displayInLimits", true);
+        section.addDefault("displayInGUI", true);
+        section.addDefault("paypackPercentage", 0d);
+        section.addDefault("lore", new ArrayList<String>());
     }
 }

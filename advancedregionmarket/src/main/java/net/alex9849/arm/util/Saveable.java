@@ -10,5 +10,5 @@ public interface Saveable {
 
     public void setSaved();
 
-    public boolean needSave();
+    public boolean needsSave();
 }

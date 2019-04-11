@@ -1,44 +1,37 @@
 package net.alex9849.arm.entitylimit;
 
+import net.alex9849.arm.util.YamlFileManager;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
-import org.bukkit.plugin.Plugin;
 
-import java.io.*;
+import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
-public class EntityLimitGroupManager {
-    private static List<EntityLimitGroup> entityLimitGroups = new ArrayList<>();
-    private static YamlConfiguration entityLimitConf;
+public class EntityLimitGroupManager extends YamlFileManager<EntityLimitGroup> {
 
-    public static EntityLimitGroup getEntityLimitGroup(String name) {
-        for(EntityLimitGroup entityLimitGroup : entityLimitGroups) {
-            if(entityLimitGroup.getName().equalsIgnoreCase(name)) {
-                return entityLimitGroup;
-            }
-        }
-        if(EntityLimitGroup.DEFAULT.getName().equalsIgnoreCase(name) || "default".equalsIgnoreCase(name)) {
-            return EntityLimitGroup.DEFAULT;
-        }
-
-        if(EntityLimitGroup.SUBREGION.getName().equalsIgnoreCase(name) || "subregion".equalsIgnoreCase(name)) {
-            return EntityLimitGroup.SUBREGION;
-        }
-
-        return null;
+    public EntityLimitGroupManager(File savepath, InputStream resourceStream) {
+        super(savepath, resourceStream);
     }
 
-    public static void loadEntityLimits() {
-        setFileConf();
-        updateConfig();
-        if(entityLimitConf.get("EntityLimits") == null) {
-            return;
+    @Override
+    public List<EntityLimitGroup> loadSavedObjects(YamlConfiguration yamlConfiguration) {
+        ArrayList<EntityLimitGroup> entityLimitGroups = new ArrayList<>();
+
+        ConfigurationSection entityLimitDEFAULTSection = yamlConfiguration.getConfigurationSection("DefaultEntityLimit");
+        EntityLimitGroup.setDEFAULT(parseEntityLimitGroup(entityLimitDEFAULTSection, "default"));
+
+        ConfigurationSection entityLimitSUBREGIONSection = yamlConfiguration.getConfigurationSection("SubregionEntityLimit");
+        EntityLimitGroup.setSUBREGION(parseEntityLimitGroup(entityLimitSUBREGIONSection, "subregion"));
+
+        if(yamlConfiguration.get("EntityLimits") == null) {
+            return  entityLimitGroups;
         }
-        ConfigurationSection entityLimitsSection = entityLimitConf.getConfigurationSection("EntityLimits");
+        ConfigurationSection entityLimitsSection = yamlConfiguration.getConfigurationSection("EntityLimits");
         List<String> limitnames = new ArrayList<>(entityLimitsSection.getKeys(false));
 
         for(String limitname : limitnames) {
@@ -47,83 +40,21 @@ public class EntityLimitGroupManager {
                 entityLimitGroups.add(parseEntityLimitGroup(limitSection, limitname));
             }
         }
-
-        ConfigurationSection entityLimitDEFAULTSection = entityLimitConf.getConfigurationSection("DefaultEntityLimit");
-        EntityLimitGroup.setDEFAULT(parseEntityLimitGroup(entityLimitDEFAULTSection, "default"));
-
-        ConfigurationSection entityLimitSUBREGIONSection = entityLimitConf.getConfigurationSection("DefaultEntityLimit");
-        EntityLimitGroup.setSUBREGION(parseEntityLimitGroup(entityLimitSUBREGIONSection, "subregion"));
+        return entityLimitGroups;
     }
 
-    public static void saveEntityLimits() {
-        boolean writeToCfg = false;
-
-        for(EntityLimitGroup entityLimitGroup : entityLimitGroups) {
-            if(entityLimitGroup.needsSave()) {
-                saveEntityLimit("EntityLimits." + entityLimitGroup.getName(), entityLimitGroup);
-                entityLimitGroup.setSaved();
-                writeToCfg = true;
-            }
-        }
-        if(EntityLimitGroup.DEFAULT.needsSave()) {
-            saveEntityLimit("DefaultEntityLimit", EntityLimitGroup.DEFAULT);
-            EntityLimitGroup.DEFAULT.setSaved();
-            writeToCfg = true;
-        }
-        if(EntityLimitGroup.SUBREGION.needsSave()) {
-            saveEntityLimit("SubregionEntityLimit", EntityLimitGroup.SUBREGION);
-            EntityLimitGroup.DEFAULT.setSaved();
-            writeToCfg = true;
-        }
-
-        if(writeToCfg) {
-            saveEntityLimitsConf();
-        }
+    @Override
+    public void saveObjectToYamlObject(EntityLimitGroup entityLimitGroup, YamlConfiguration yamlConfiguration) {
+        yamlConfiguration.set("EntityLimits." + entityLimitGroup.getName(), entityLimitGroup.toConfigureationSection());
     }
 
-    private static void saveEntityLimit(String path, EntityLimitGroup entityLimitGroup) {
-        entityLimitConf.set(path, null);
-        int softLimit = entityLimitGroup.getSoftLimit(0);
-        if(softLimit == Integer.MAX_VALUE) {
-            softLimit = -1;
-        }
-        int hardLimit = entityLimitGroup.getHardLimit();
-        if(hardLimit == Integer.MAX_VALUE) {
-            hardLimit = -1;
-        }
-        entityLimitConf.set(path + ".softtotal", softLimit);
-        entityLimitConf.set(path + ".hardtotal", hardLimit);
-        entityLimitConf.set(path + ".pricePerExtraEntity", entityLimitGroup.getPricePerExtraEntity());
-        for(int i = 0; i < entityLimitGroup.getEntityLimits().size(); i++) {
-            EntityLimit entityLimit = entityLimitGroup.getEntityLimits().get(i);
-            entityLimitConf.set(path + "." + i + ".entityType", entityLimit.getEntityType().name());
-            int softLimitEntity = entityLimit.getSoftLimit(0);
-            if(softLimitEntity == Integer.MAX_VALUE) {
-                softLimitEntity = -1;
-            }
-            int hardLimitEntity = entityLimit.getHardLimit();
-            if(hardLimitEntity == Integer.MAX_VALUE) {
-                hardLimitEntity = -1;
-            }
-            entityLimitConf.set(path + "." + i + ".softLimit", softLimitEntity);
-            entityLimitConf.set(path + "." + i + ".hardLimit", hardLimitEntity);
-            entityLimitConf.set(path + "." + i + ".pricePerExtraEntity", entityLimit.getPricePerExtraEntity());
-        }
+    @Override
+    public void writeStaticSettings(YamlConfiguration yamlConfiguration) {
+        yamlConfiguration.set("DefaultEntityLimit", EntityLimitGroup.DEFAULT.toConfigureationSection());
+        yamlConfiguration.set("SubregionEntityLimit", EntityLimitGroup.SUBREGION.toConfigureationSection());
     }
 
-    public static void add(EntityLimitGroup entityLimitGroup) {
-        entityLimitGroups.add(entityLimitGroup);
-        saveEntityLimit("EntityLimits." + entityLimitGroup.getName() , entityLimitGroup);
-        saveEntityLimitsConf();
-    }
-
-    public static void remove(EntityLimitGroup entityLimitGroup) {
-        entityLimitGroups.remove(entityLimitGroup);
-        entityLimitConf.set("EntityLimits." + entityLimitGroup.getName(), null);
-        saveEntityLimitsConf();
-    }
-
-    private static EntityLimitGroup parseEntityLimitGroup(ConfigurationSection section, String name) {
+    private static EntityLimitGroup parseEntityLimitGroup(ConfigurationSection section, String id) {
         List<String> entityNumbers = new ArrayList<>(section.getKeys(false));
         List<EntityLimit> entityLimits = new ArrayList<>();
         int softtotal = section.getInt("softtotal");
@@ -142,7 +73,7 @@ public class EntityLimitGroupManager {
                         entityLimits.add(new EntityLimit(entityType, softLimit, hardLimit, pricePerExtraEntity));
                     }
                 } catch (IllegalArgumentException e) {
-                    Bukkit.getLogger().log(Level.WARNING, "[AdvancedRegionMarket] Could not find EntityType " + entityTypeName + " for EntityLimitGroup " + name + "! Ignoring it");
+                    Bukkit.getLogger().log(Level.WARNING, "[AdvancedRegionMarket] Could not find EntityType " + entityTypeName + " for EntityLimitGroup " + id + "! Ignoring it");
                 }
             }
         }
@@ -155,40 +86,49 @@ public class EntityLimitGroupManager {
         if(pricePerExtraEntityTotal < 0) {
             pricePerExtraEntityTotal = 0;
         }
-        return new EntityLimitGroup(entityLimits, softtotal, hardtotal, pricePerExtraEntityTotal, name);
+
+        return new EntityLimitGroup(entityLimits, softtotal, hardtotal, pricePerExtraEntityTotal, id);
     }
 
-    public static void reset() {
-        entityLimitGroups = new ArrayList<>();
-    }
+    public List<String> tabCompleteEntityLimitGroups(String name) {
+        List<String> returnme = new ArrayList<>();
 
-    public static void generatedefaultConfig(){
-        Plugin plugin = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket");
-        File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-        File filedic = new File(pluginfolder + "/entitylimits.yml");
-        if(!filedic.exists()){
-            try {
-                ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-                InputStream stream = plugin.getResource("entitylimits.yml");
-                byte[] buffer = new byte[stream.available()];
-                stream.read(buffer);
-                OutputStream output = new FileOutputStream(filedic);
-                output.write(buffer);
-                output.close();
-                stream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+        for(EntityLimitGroup entityLimitGroup : this.getObjectListCopy()) {
+            if(entityLimitGroup.getName().startsWith(name)) {
+                returnme.add(entityLimitGroup.getName());
             }
         }
+
+        if("default".startsWith(name)) {
+            returnme.add("Default");
+        }
+
+        if("subregion".startsWith(name)) {
+            returnme.add("Subregion");
+        }
+
+        return returnme;
     }
 
-    private static void setFileConf(){
-        generatedefaultConfig();
-        File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-        File regionsconfigdic = new File(pluginfolder + "/entitylimits.yml");
-        EntityLimitGroupManager.entityLimitConf = YamlConfiguration.loadConfiguration(regionsconfigdic);
+    public EntityLimitGroup getEntityLimitGroup(String name) {
+        for(EntityLimitGroup entityLimitGroup : this.getObjectListCopy()) {
+            if(entityLimitGroup.getName().equalsIgnoreCase(name)) {
+                return entityLimitGroup;
+            }
+        }
+        if(EntityLimitGroup.DEFAULT.getName().equalsIgnoreCase(name) || "default".equalsIgnoreCase(name)) {
+            return EntityLimitGroup.DEFAULT;
+        }
+
+        if(EntityLimitGroup.SUBREGION.getName().equalsIgnoreCase(name) || "subregion".equalsIgnoreCase(name)) {
+            return EntityLimitGroup.SUBREGION;
+        }
+
+        return null;
     }
 
+    //Todo maybe needed later
+    /*
     private static void updateConfig() {
         if(entityLimitConf.get("EntityLimits") == null) {
             return;
@@ -220,38 +160,8 @@ public class EntityLimitGroupManager {
         saveEntityLimitsConf();
         entityLimitConf.options().copyDefaults(false);
     }
+    */
 
-    private static void saveEntityLimitsConf() {
-        File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-        File regionsconfigdic = new File(pluginfolder + "/entitylimits.yml");
-        try {
-            entityLimitConf.save(regionsconfigdic);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
-    public static List<EntityLimitGroup> getEntityLimitGroups() {
-        return entityLimitGroups;
-    }
 
-    public static List<String> tabCompleteEntityLimitGroups(String name) {
-        List<String> returnme = new ArrayList<>();
-
-        for(EntityLimitGroup entityLimitGroup : entityLimitGroups) {
-            if(entityLimitGroup.getName().startsWith(name)) {
-                returnme.add(entityLimitGroup.getName());
-            }
-        }
-
-        if("default".startsWith(name)) {
-            returnme.add("Default");
-        }
-
-        if("subregion".startsWith(name)) {
-            returnme.add("Subregion");
-        }
-
-        return returnme;
-    }
 }

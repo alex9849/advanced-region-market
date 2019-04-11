@@ -155,7 +155,7 @@ public class PresetPatternManager {
         if(regionKind == null) {
             regionKind = RegionKind.DEFAULT;
         }
-        EntityLimitGroup entityLimitGroup = EntityLimitGroupManager.getEntityLimitGroup(entityLimitGroupString);
+        EntityLimitGroup entityLimitGroup = AdvancedRegionMarket.getEntityLimitGroupManager().getEntityLimitGroup(entityLimitGroupString);
         if(entityLimitGroup == null) {
             entityLimitGroup = EntityLimitGroup.DEFAULT;
         }

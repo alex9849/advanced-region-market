@@ -1,11 +1,11 @@
 package net.alex9849.arm.entitylimit.commands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.commands.BasicArmCommand;
 import net.alex9849.arm.entitylimit.EntityLimit;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
-import net.alex9849.arm.entitylimit.EntityLimitGroupManager;
 import net.alex9849.exceptions.InputException;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -44,7 +44,7 @@ public class InfoCommand extends BasicArmCommand {
         if (!sender.hasPermission(Permission.MEMBER_ENTITYLIMIT_INFO)) {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
-        EntityLimitGroup entityLimitGroup = EntityLimitGroupManager.getEntityLimitGroup(args[1]);
+        EntityLimitGroup entityLimitGroup = AdvancedRegionMarket.getEntityLimitGroupManager().getEntityLimitGroup(args[1]);
         if(entityLimitGroup == null) {
             throw new InputException(sender, Messages.ENTITYLIMITGROUP_DOES_NOT_EXIST);
         }
@@ -67,7 +67,7 @@ public class InfoCommand extends BasicArmCommand {
                 }
             } else if((args.length == 2) && (args[0].equalsIgnoreCase(this.rootCommand))) {
                 if (this.rootCommand.startsWith(args[0])) {
-                    returnme.addAll(EntityLimitGroupManager.tabCompleteEntityLimitGroups(args[1]));
+                    returnme.addAll(AdvancedRegionMarket.getEntityLimitGroupManager().tabCompleteEntityLimitGroups(args[1]));
 
                 }
             }

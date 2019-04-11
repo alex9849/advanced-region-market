@@ -4,9 +4,7 @@ import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
-import net.alex9849.arm.entitylimit.EntityLimitGroupManager;
 import net.alex9849.arm.regions.regionkind.RegionKind;
-import net.alex9849.arm.regions.regionkind.RegionKindManager;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
@@ -234,7 +232,7 @@ public class RegionManager {
         if(regionKind == null) {
             regionKind = RegionKind.DEFAULT;
         }
-        EntityLimitGroup entityLimitGroup = EntityLimitGroupManager.getEntityLimitGroup(entityLimitGroupString);
+        EntityLimitGroup entityLimitGroup = AdvancedRegionMarket.getEntityLimitGroupManager().getEntityLimitGroup(entityLimitGroupString);
         if(entityLimitGroup == null) {
             entityLimitGroup = EntityLimitGroup.DEFAULT;
         }

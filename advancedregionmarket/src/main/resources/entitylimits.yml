@@ -31,3 +31,10 @@ EntityLimits:
       softLimit: 0
       hardLimit: 5
       pricePerExtraEntity: 2
+SubregionEntityLimit:
+  hardtotal: -1
+  softtotal: -1
+DefaultEntityLimit:
+  softtotal: 10
+  hardtotal: -1
+  pricePerExtraEntity: 0

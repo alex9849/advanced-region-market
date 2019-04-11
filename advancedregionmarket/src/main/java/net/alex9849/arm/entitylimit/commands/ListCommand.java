@@ -1,10 +1,10 @@
 package net.alex9849.arm.entitylimit.commands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.commands.BasicArmCommand;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
-import net.alex9849.arm.entitylimit.EntityLimitGroupManager;
 import net.alex9849.exceptions.InputException;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -43,7 +43,7 @@ public class ListCommand extends BasicArmCommand {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
         sender.sendMessage(Messages.ENTITYLIMITGROUP_LIST_HEADLINE);
-        for(EntityLimitGroup entityLimitGroup : EntityLimitGroupManager.getEntityLimitGroups()) {
+        for(EntityLimitGroup entityLimitGroup : AdvancedRegionMarket.getEntityLimitGroupManager().getObjectListCopy()) {
             sender.sendMessage("- " + entityLimitGroup.getName());
         }
         return true;

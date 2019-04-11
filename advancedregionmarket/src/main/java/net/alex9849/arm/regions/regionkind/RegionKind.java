@@ -157,7 +157,7 @@ public class RegionKind implements Saveable {
     }
 
     @Override
-    public boolean needSave() {
+    public boolean needsSave() {
         return this.needsSave;
     }
 }

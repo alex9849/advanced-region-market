@@ -1,10 +1,10 @@
 package net.alex9849.arm.entitylimit.commands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.commands.BasicArmCommand;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
-import net.alex9849.arm.entitylimit.EntityLimitGroupManager;
 import net.alex9849.exceptions.InputException;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -43,10 +43,10 @@ public class CreateCommand extends BasicArmCommand {
         if(!sender.hasPermission(Permission.ADMIN_ENTITYLIMIT_CREATE)) {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
-        if(EntityLimitGroupManager.getEntityLimitGroup(args[1]) != null) {
+        if(AdvancedRegionMarket.getEntityLimitGroupManager().getEntityLimitGroup(args[1]) != null) {
             throw new InputException(sender, Messages.ENTITYLIMITGROUP_ALREADY_EXISTS);
         }
-        EntityLimitGroupManager.add(new EntityLimitGroup(new ArrayList<>(), -1, -1, 0, args[1]));
+        AdvancedRegionMarket.getEntityLimitGroupManager().add(new EntityLimitGroup(new ArrayList<>(), -1, -1, 0, args[1]));
         sender.sendMessage(Messages.PREFIX + Messages.ENTITYLIMITGROUP_CREATED);
         return true;
     }

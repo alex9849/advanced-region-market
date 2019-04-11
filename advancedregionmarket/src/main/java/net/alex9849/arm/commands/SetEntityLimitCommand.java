@@ -4,7 +4,6 @@ import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
-import net.alex9849.arm.entitylimit.EntityLimitGroupManager;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.regionkind.RegionKind;
@@ -73,7 +72,7 @@ public class SetEntityLimitCommand extends BasicArmCommand {
             selectedName = "&a" + selectedRegion.getRegion().getId();
         }
 
-        EntityLimitGroup entityLimitGroup = EntityLimitGroupManager.getEntityLimitGroup(args[2]);
+        EntityLimitGroup entityLimitGroup = AdvancedRegionMarket.getEntityLimitGroupManager().getEntityLimitGroup(args[2]);
 
         if(entityLimitGroup == null) {
             throw new InputException(player, Messages.ENTITYLIMITGROUP_DOES_NOT_EXIST);
@@ -114,7 +113,7 @@ public class SetEntityLimitCommand extends BasicArmCommand {
                         }
 
                     } else if(args.length == 3 && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                        returnme.addAll(EntityLimitGroupManager.tabCompleteEntityLimitGroups(args[2]));
+                        returnme.addAll(AdvancedRegionMarket.getEntityLimitGroupManager().tabCompleteEntityLimitGroups(args[2]));
                     }
                 }
             }

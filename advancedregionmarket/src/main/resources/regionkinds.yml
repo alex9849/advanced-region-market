@@ -51,3 +51,26 @@ RegionKinds:
     paypackPercentage: 80
     lore:
       - 'A shop where you can sell your stuff'
+
+# The DefaultRegionKind is the default RegionKind for all regions that have no regionkind
+# You can create new RegionKinds in the regionkinds.yml. Assign them to regions to seperate them into
+# groups
+DefaultRegionKind:
+  displayName: Default
+  item: RED_BED
+  lore:
+    - 'very default'
+  displayInLimits: true
+  displayInGUI: false
+  paypackPercentage: 50
+
+# RegionKind for subregions
+# Permission: arm.buykind.subregion
+SubregionRegionKind:
+  displayName: Subregion
+  item: PLAYER_HEAD
+  lore:
+    - 'very subregion'
+  displayInLimits: true
+  displayInGUI: false
+  paypackPercentage: 0

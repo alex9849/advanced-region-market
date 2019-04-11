@@ -60,30 +60,6 @@ AutoResetAndTakeOver:
   mysql-user: 'user'
   mysql-prefix: 'arm_'
 
-
-# The DefaultRegionKind is the default RegionKind for all regions that have no regionkind
-# You can create new RegionKinds in the regionkinds.yml. Assign them to regions to seperate them into
-# groups
-DefaultRegionKind:
-  DisplayName: Default
-  Item: RED_BED
-  Lore:
-    - 'very default'
-  DisplayInLimits: true
-  DisplayInGUI: false
-  PaypackPercentage: 50
-
-# RegionKind for subregions
-# Permission: arm.buykind.subregion
-SubregionRegionKind:
-  DisplayName: Subregion
-  Item: PLAYER_HEAD
-  Lore:
-    - 'very subregion'
-  DisplayInLimits: true
-  DisplayInGUI: false
-  PaypackPercentage: 0
-
 # Limits can be assigned to players by giving them the permission arm.limit.LIMITGROUP
 # you can set limits by writing a regionkind and the limit behind it. Not existing regionkinds
 # will be ignored. If you want to limit regions without a kind use 'Default'. If you want to

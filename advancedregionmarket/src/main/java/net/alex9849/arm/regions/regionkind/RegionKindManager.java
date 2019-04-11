@@ -22,23 +22,25 @@ public class RegionKindManager extends YamlFileManager<RegionKind> {
     public List<RegionKind> loadSavedObjects(YamlConfiguration yamlConfiguration) {
         List<RegionKind> regionKindList = new ArrayList<>();
 
-        FileConfiguration defaultConf = AdvancedRegionMarket.getARM().getConfig();
+        ConfigurationSection defaultRkConfig = yamlConfiguration.getConfigurationSection("DefaultRegionKind");
+        RegionKind defaultRk = RegionKind.parse(defaultRkConfig, "Default");
 
-        RegionKind.DEFAULT.setName(defaultConf.getString("DefaultRegionKind.DisplayName"));
-        RegionKind.DEFAULT.setMaterial(Material.getMaterial(defaultConf.getString("DefaultRegionKind.Item")));
-        RegionKind.DEFAULT.setDisplayInGUI(defaultConf.getBoolean("DefaultRegionKind.DisplayInGUI"));
-        RegionKind.DEFAULT.setDisplayInLimits(defaultConf.getBoolean("DefaultRegionKind.DisplayInLimits"));
-        RegionKind.DEFAULT.setPaybackPercentage(defaultConf.getDouble("DefaultRegionKind.PaypackPercentage"));
-        List<String> defaultlore = defaultConf.getStringList("DefaultRegionKind.Lore");
-        RegionKind.DEFAULT.setLore(defaultlore);
+        RegionKind.DEFAULT.setName(defaultRk.getRawDisplayName());
+        RegionKind.DEFAULT.setMaterial(defaultRk.getMaterial());
+        RegionKind.DEFAULT.setDisplayInGUI(defaultRk.isDisplayInGUI());
+        RegionKind.DEFAULT.setDisplayInLimits(defaultRk.isDisplayInLimits());
+        RegionKind.DEFAULT.setPaybackPercentage(defaultRk.getPaybackPercentage());
+        RegionKind.DEFAULT.setLore(defaultRk.getRawLore());
 
-        RegionKind.SUBREGION.setName(defaultConf.getString("SubregionRegionKind.DisplayName"));
-        RegionKind.SUBREGION.setMaterial(Material.getMaterial(defaultConf.getString("SubregionRegionKind.Item")));
-        RegionKind.SUBREGION.setDisplayInGUI(defaultConf.getBoolean("SubregionRegionKind.DisplayInGUI"));
-        RegionKind.SUBREGION.setDisplayInLimits(defaultConf.getBoolean("SubregionRegionKind.DisplayInLimits"));
-        RegionKind.SUBREGION.setPaybackPercentage(defaultConf.getDouble("SubregionRegionKind.PaypackPercentage"));
-        List<String> subregionlore = defaultConf.getStringList("SubregionRegionKind.Lore");
-        RegionKind.SUBREGION.setLore(subregionlore);
+        ConfigurationSection subregionRkConfig = yamlConfiguration.getConfigurationSection("DefaultRegionKind");
+        RegionKind subregionRk = RegionKind.parse(subregionRkConfig, "Subregion");
+
+        RegionKind.SUBREGION.setName(subregionRk.getRawDisplayName());
+        RegionKind.SUBREGION.setMaterial(subregionRk.getMaterial());
+        RegionKind.SUBREGION.setDisplayInGUI(subregionRk.isDisplayInGUI());
+        RegionKind.SUBREGION.setDisplayInLimits(subregionRk.isDisplayInLimits());
+        RegionKind.SUBREGION.setPaybackPercentage(subregionRk.getPaybackPercentage());
+        RegionKind.SUBREGION.setLore(subregionRk.getRawLore());
 
         if(yamlConfiguration.get("RegionKinds") != null) {
             ConfigurationSection regionKindsSection = yamlConfiguration.getConfigurationSection("RegionKinds");
@@ -61,13 +63,9 @@ public class RegionKindManager extends YamlFileManager<RegionKind> {
     }
 
     @Override
-    public void removeObjectFromYamlObject(RegionKind regionKind, YamlConfiguration yamlConfiguration) {
-        yamlConfiguration.set("RegionKinds." + regionKind.getName(), null);
-    }
-
-    @Override
-    public void addStaticSettings(YamlConfiguration yamlConfiguration) {
-
+    public void writeStaticSettings(YamlConfiguration yamlConfiguration) {
+        yamlConfiguration.set("DefaultRegionKind", RegionKind.DEFAULT.toConfigureationSection());
+        yamlConfiguration.set("SubregionRegionKind", RegionKind.SUBREGION.toConfigureationSection());
     }
 
     public List<String> completeTabRegionKinds(String arg, String prefix) {

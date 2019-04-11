@@ -1,5 +1,6 @@
 package net.alex9849.arm.Preseter.commands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.Preseter.ActivePresetManager;
@@ -8,7 +9,6 @@ import net.alex9849.arm.Preseter.presets.Preset;
 import net.alex9849.arm.Preseter.presets.PresetType;
 import net.alex9849.arm.commands.BasicArmCommand;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
-import net.alex9849.arm.entitylimit.EntityLimitGroupManager;
 import net.alex9849.exceptions.InputException;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -65,7 +65,7 @@ public class EntityLimitCommand extends BasicArmCommand {
             ActivePresetManager.add(new PresetPlayerPair(player, preset));
         }
 
-        EntityLimitGroup entityLimitGroup = EntityLimitGroupManager.getEntityLimitGroup(args[1]);
+        EntityLimitGroup entityLimitGroup = AdvancedRegionMarket.getEntityLimitGroupManager().getEntityLimitGroup(args[1]);
         if(entityLimitGroup == null) {
             player.sendMessage(Messages.PREFIX + Messages.ENTITYLIMITGROUP_DOES_NOT_EXIST);
             return true;
@@ -90,7 +90,7 @@ public class EntityLimitCommand extends BasicArmCommand {
                     }
                 }
                 if(args.length == 2 && this.rootCommand.equalsIgnoreCase(args[0])) {
-                    returnme.addAll(EntityLimitGroupManager.tabCompleteEntityLimitGroups(args[1]));
+                    returnme.addAll(AdvancedRegionMarket.getEntityLimitGroupManager().tabCompleteEntityLimitGroups(args[1]));
                 }
             }
         }

@@ -43,7 +43,8 @@ public abstract class YamlFileManager<ManagedObject extends Saveable> {
 
     public void remove(ManagedObject managedObject) {
         if(this.objectList.remove(managedObject)) {
-            removeObjectFromYamlObject(managedObject, this.yamlConfiguration);
+            this.queueSaveCompleteSave();
+            this.updateFile();
         }
     }
 
@@ -60,12 +61,12 @@ public abstract class YamlFileManager<ManagedObject extends Saveable> {
 
         if(this.completeSaveQueuned) {
             this.yamlConfiguration = new YamlConfiguration();
-            this.addStaticSettings(this.yamlConfiguration);
+            this.writeStaticSettings(this.yamlConfiguration);
             savedSomething = true;
         }
 
         for(ManagedObject managedObject : this.objectList) {
-            if(managedObject.needSave() || this.completeSaveQueuned) {
+            if(managedObject.needsSave() || this.completeSaveQueuned) {
                 saveObjectToYamlObject(managedObject, this.yamlConfiguration);
                 managedObject.setSaved();
                 savedSomething = true;
@@ -83,9 +84,7 @@ public abstract class YamlFileManager<ManagedObject extends Saveable> {
 
     public abstract void saveObjectToYamlObject(ManagedObject object, YamlConfiguration yamlConfiguration);
 
-    public abstract void removeObjectFromYamlObject(ManagedObject object, YamlConfiguration yamlConfiguration);
-
-    public abstract void addStaticSettings(YamlConfiguration yamlConfiguration);
+    public abstract void writeStaticSettings(YamlConfiguration yamlConfiguration);
 
     public void queueSaveCompleteSave() {
         this.completeSaveQueuned = true;

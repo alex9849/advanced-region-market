@@ -168,6 +168,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         commands.add(new SignLinkModeCommand());
         commands.add(new EntityLimitCommand());
         commands.add(new SetEntityLimitCommand());
+        commands.add(new RegionKindCommand());
         AdvancedRegionMarket.commandHandler.addCommands(commands);
 
         getCommand("arm").setTabCompleter(this.commandHandler);

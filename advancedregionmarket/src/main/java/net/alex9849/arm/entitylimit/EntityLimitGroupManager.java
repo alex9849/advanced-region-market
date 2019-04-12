@@ -21,6 +21,7 @@ public class EntityLimitGroupManager extends YamlFileManager<EntityLimitGroup> {
     @Override
     public List<EntityLimitGroup> loadSavedObjects(YamlConfiguration yamlConfiguration) {
         ArrayList<EntityLimitGroup> entityLimitGroups = new ArrayList<>();
+        yamlConfiguration.options().copyDefaults(true);
 
         if(yamlConfiguration.get("DefaultEntityLimit") != null) {
             ConfigurationSection entityLimitDEFAULTSection = yamlConfiguration.getConfigurationSection("DefaultEntityLimit");
@@ -47,6 +48,10 @@ public class EntityLimitGroupManager extends YamlFileManager<EntityLimitGroup> {
                 entityLimitGroups.add(parseEntityLimitGroup(limitSection, limitname));
             }
         }
+
+        this.saveFile();
+        yamlConfiguration.options().copyDefaults(false);
+
         return entityLimitGroups;
     }
 
@@ -75,7 +80,13 @@ public class EntityLimitGroupManager extends YamlFileManager<EntityLimitGroup> {
                     EntityType entityType = EntityType.valueOf(entityTypeName);
                     if(entityType != null) {
                         int softLimit = section.getInt(entityNumber + "." + "softLimit");
+                        if(softLimit == -1) {
+                            softLimit = Integer.MAX_VALUE;
+                        }
                         int hardLimit = section.getInt(entityNumber + "." + "hardLimit");
+                        if(hardLimit == -1) {
+                            hardLimit = Integer.MAX_VALUE;
+                        }
                         int pricePerExtraEntity = section.getInt(entityNumber + "." + "pricePerExtraEntity");
                         entityLimits.add(new EntityLimit(entityType, softLimit, hardLimit, pricePerExtraEntity));
                     }

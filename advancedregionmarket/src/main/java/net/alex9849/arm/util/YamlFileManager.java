@@ -36,7 +36,7 @@ public abstract class YamlFileManager<ManagedObject extends Saveable> {
         }
     }
 
-    private void saveFile() {
+    public void saveFile() {
         try {
             this.yamlConfiguration.save(this.savepath);
         } catch (IOException e) {

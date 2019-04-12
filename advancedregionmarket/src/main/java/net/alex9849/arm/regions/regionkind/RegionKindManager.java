@@ -23,6 +23,8 @@ public class RegionKindManager extends YamlFileManager<RegionKind> {
     public List<RegionKind> loadSavedObjects(YamlConfiguration yamlConfiguration) {
         List<RegionKind> regionKindList = new ArrayList<>();
 
+        yamlConfiguration.options().copyDefaults(true);
+
         if(yamlConfiguration.get("DefaultRegionKind") != null) {
             ConfigurationSection defaultRkConfig = yamlConfiguration.getConfigurationSection("DefaultRegionKind");
             updateDefaults(defaultRkConfig);
@@ -62,6 +64,8 @@ public class RegionKindManager extends YamlFileManager<RegionKind> {
                 }
             }
         }
+        this.saveFile();
+        yamlConfiguration.options().copyDefaults(false);
         return regionKindList;
     }
 

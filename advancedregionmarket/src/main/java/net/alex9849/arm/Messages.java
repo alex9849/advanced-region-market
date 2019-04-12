@@ -308,6 +308,12 @@ public class Messages {
     public static String ENTITYLIMITGROUP_EXTRA_ENTITIES_BUY_SUBREGION_ERROR = "&4Can not expand entitylimit! Region is a Subregion";
     public static String ARM_BASIC_COMMAND_MESSAGE = "&6AdvancedRegionMarket v%pluginversion% by Alex9849\n&6Download: &3https://bit.ly/2CfO3An\n&6Get a list with all commands with &3/arm help";
 
+    //TODO ADD TO CONFIG
+    public static String REGIONKIND_CREATED = "&aRegionKind created!";
+    public static String REGIONKIND_ALREADY_EXISTS = "&4RegionKind already exists!";
+    public static String REGIONKIND_DELETED = "&aRegionKind deleted!";
+    public static String REGIONKIND_CAN_NOT_REMOVE_SYSTEM = "&4You can not remove a system-RegionKind!";
+
 
     public static List<String> GUI_TELEPORT_TO_REGION_BUTTON_LORE = new ArrayList<>();
     public static List<String> GUI_MAKE_OWNER_BUTTON_LORE = new ArrayList<>();

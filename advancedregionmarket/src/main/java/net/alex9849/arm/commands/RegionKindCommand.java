@@ -2,6 +2,7 @@ package net.alex9849.arm.commands;
 
 import net.alex9849.arm.Handler.CommandHandler;
 import net.alex9849.arm.Permission;
+import net.alex9849.arm.regionkind.commands.CreateCommand;
 import net.alex9849.exceptions.InputException;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -21,7 +22,7 @@ public class RegionKindCommand extends BasicArmCommand {
         this.commandHandler = new CommandHandler(this.usage, this.rootCommand);
         String[] betweencmds = {this.rootCommand};
         List<BasicArmCommand> commands = new ArrayList<>();
-
+        commands.add(new CreateCommand());
         this.commandHandler.addCommands(commands);
     }
 
@@ -63,7 +64,7 @@ public class RegionKindCommand extends BasicArmCommand {
         List<String> returnme = new ArrayList<>();
         if(args.length >= 1) {
             if(this.rootCommand.startsWith(args[0])) {
-                if(Permission.hasAnyEntityLimitPermission(player)) {
+                if(Permission.hasAnyRegionKindPermission(player)) {
                     if(args.length == 1) {
                         if(this.rootCommand.startsWith(args[0])) {
                             returnme.add(this.rootCommand);

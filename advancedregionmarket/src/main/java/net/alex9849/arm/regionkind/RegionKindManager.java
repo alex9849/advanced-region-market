@@ -1,5 +1,6 @@
 package net.alex9849.arm.regionkind;
 
+import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.util.YamlFileManager;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -144,5 +145,17 @@ public class RegionKindManager extends YamlFileManager<RegionKind> {
         section.addDefault("displayInGUI", true);
         section.addDefault("paypackPercentage", 0d);
         section.addDefault("lore", new ArrayList<String>());
+    }
+
+    public List<String> tabCompleteRegionKind(String arg) {
+        List<RegionKind> regionKinds = this.getObjectListCopy();
+        List<String> returnme = new ArrayList<>();
+
+        for(RegionKind regionKind : regionKinds) {
+            if(regionKind.getName().equalsIgnoreCase(arg)) {
+                returnme.add(regionKind.getName());
+            }
+        }
+        return returnme;
     }
 }

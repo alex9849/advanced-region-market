@@ -81,6 +81,13 @@ public class Permission {
     public static final String SUBREGION_RESETREGIONBLOCKS = "arm.subregion.resetregionblocks";
     public static final String SUBREGION_HELP = "arm.subregion.help";
 
+    public static final String REGIONKIND_CREATE = "arm.admin.regionkind.create";
+    public static final String REGIONKIND_DELETE = "arm.admin.regionkind.delete";
+
+
+    public static boolean hasAnyRegionKindPermission(CommandSender sender) {
+        return (sender.hasPermission(REGIONKIND_CREATE));
+    }
 
     public static boolean hasAnySubregionCreatePermission(CommandSender sender) {
         return (sender.hasPermission(SUBREGION_CREATE_SELL)) || (sender.hasPermission(SUBREGION_CREATE_RENT)) || (sender.hasPermission(SUBREGION_CREATE_CONTRACT));

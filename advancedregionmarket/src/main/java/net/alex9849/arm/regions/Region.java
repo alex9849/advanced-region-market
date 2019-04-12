@@ -850,6 +850,11 @@ public abstract class Region {
         this.queueSave();
     }
 
+    public void setRegionKind(RegionKind regionKind) {
+        this.regionKind = regionKind;
+        this.queueSave();
+    }
+
     protected HashMap<EntityType, Integer> getExtraEntitys() {
         return this.extraEntitys;
     }

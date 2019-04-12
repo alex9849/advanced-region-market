@@ -947,6 +947,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         ConfigurationSection oldRegionKinds = pluginConfig.getConfigurationSection("RegionKinds");
 
         regionKindsConf.set("RegionKinds", oldRegionKinds);
+        pluginConfig.set("RegionKinds", null);
 
         regionKindsConf.set("DefaultRegionKind.displayName", pluginConfig.getString("DefaultRegionKind.DisplayName"));
         regionKindsConf.set("DefaultRegionKind.item", pluginConfig.getString("DefaultRegionKind.Item"));
@@ -954,6 +955,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         regionKindsConf.set("DefaultRegionKind.displayInLimits", pluginConfig.getBoolean("DefaultRegionKind.DisplayInLimits"));
         regionKindsConf.set("DefaultRegionKind.displayInGUI", pluginConfig.getBoolean("DefaultRegionKind.DisplayInGUI"));
         regionKindsConf.set("DefaultRegionKind.paypackPercentage", pluginConfig.getDouble("DefaultRegionKind.PaypackPercentage"));
+        pluginConfig.set("DefaultRegionKind", null);
 
         regionKindsConf.set("SubregionRegionKind.displayName", pluginConfig.getString("SubregionRegionKind.DisplayName"));
         regionKindsConf.set("SubregionRegionKind.item", pluginConfig.getString("SubregionRegionKind.Item"));
@@ -961,6 +963,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         regionKindsConf.set("SubregionRegionKind.displayInLimits", pluginConfig.getBoolean("SubregionRegionKind.DisplayInLimits"));
         regionKindsConf.set("SubregionRegionKind.displayInGUI", pluginConfig.getBoolean("SubregionRegionKind.DisplayInGUI"));
         regionKindsConf.set("SubregionRegionKind.paypackPercentage", pluginConfig.getDouble("SubregionRegionKind.PaypackPercentage"));
+        pluginConfig.set("SubregionRegionKind", null);
 
         pluginConfig.set("Version", 1.75);
 

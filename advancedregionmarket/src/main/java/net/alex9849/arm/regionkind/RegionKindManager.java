@@ -76,21 +76,21 @@ public class RegionKindManager extends YamlFileManager<RegionKind> {
         yamlConfiguration.set("SubregionRegionKind", RegionKind.SUBREGION.toConfigureationSection());
     }
 
-    public List<String> completeTabRegionKinds(String arg, String prefix) {
+    public List<String> completeTabRegionKinds(String arg, String returnPrefix) {
         List<String> returnme = new ArrayList<>();
 
         List<RegionKind> regionKinds = this.getObjectListCopy();
 
         for (RegionKind regionkind : regionKinds) {
-            if ((prefix + regionkind.getName()).toLowerCase().startsWith(arg)) {
-                returnme.add(prefix + regionkind.getName());
+            if ((returnPrefix + regionkind.getName()).toLowerCase().startsWith(arg)) {
+                returnme.add(returnPrefix + regionkind.getName());
             }
         }
-        if ((prefix + "default").startsWith(arg)) {
-            returnme.add(prefix + "default");
+        if ((returnPrefix + "default").startsWith(arg)) {
+            returnme.add(returnPrefix + "default");
         }
-        if ((prefix + "subregion").startsWith(arg)) {
-            returnme.add(prefix + "subregion");
+        if ((returnPrefix + "subregion").startsWith(arg)) {
+            returnme.add(returnPrefix + "subregion");
         }
 
         return returnme;

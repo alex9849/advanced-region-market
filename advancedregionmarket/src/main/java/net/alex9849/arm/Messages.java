@@ -314,6 +314,7 @@ public class Messages {
     public static String REGIONKIND_DELETED = "&aRegionKind deleted!";
     public static String REGIONKIND_CAN_NOT_REMOVE_SYSTEM = "&4You can not remove a system-RegionKind!";
     public static String REGIONKIND_LIST_HEADLINE = "&6Regionkinds:";
+    public static String REGIONKIND_MODIFIED = "&aRegionKind modified!";
 
 
     public static List<String> GUI_TELEPORT_TO_REGION_BUTTON_LORE = new ArrayList<>();

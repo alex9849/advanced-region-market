@@ -5,6 +5,7 @@ import net.alex9849.arm.Permission;
 import net.alex9849.arm.regionkind.commands.CreateCommand;
 import net.alex9849.arm.regionkind.commands.DeleteCommand;
 import net.alex9849.arm.regionkind.commands.ListCommand;
+import net.alex9849.arm.regionkind.commands.SetDisplayInGuiCommand;
 import net.alex9849.exceptions.InputException;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -27,6 +28,7 @@ public class RegionKindCommand extends BasicArmCommand {
         commands.add(new CreateCommand());
         commands.add(new DeleteCommand());
         commands.add(new ListCommand());
+        commands.add(new SetDisplayInGuiCommand());
         this.commandHandler.addCommands(commands);
     }
 

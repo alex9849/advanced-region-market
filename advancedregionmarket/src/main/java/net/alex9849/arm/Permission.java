@@ -13,6 +13,7 @@ public class Permission {
     public static final String ADMIN_CHANGE_IS_HOTEL = "arm.admin.changeishotel";
     public static final String ADMIN_CHANGE_DO_BLOCK_RESET = "arm.admin.changedoblockreset";
     public static final String ADMIN_SETREGIONKIND = "arm.admin.setregionkind";
+    //TODO delete from wiki and from here
     public static final String ADMIN_LISTREGIONKINDS = "arm.admin.listregionkinds";
     public static final String ADMIN_RESETREGION = "arm.admin.resetregion";
     public static final String ADMIN_RESETREGIONBLOCKS= "arm.admin.resetregionblocks";
@@ -83,6 +84,7 @@ public class Permission {
 
     public static final String REGIONKIND_CREATE = "arm.admin.regionkind.create";
     public static final String REGIONKIND_DELETE = "arm.admin.regionkind.delete";
+    public static final String REGIONKIND_LIST = "arm.admin.regionkind.list";
 
 
     public static boolean hasAnyRegionKindPermission(CommandSender sender) {

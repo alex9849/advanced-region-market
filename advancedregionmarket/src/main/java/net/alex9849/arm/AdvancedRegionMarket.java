@@ -24,6 +24,7 @@ import net.alex9849.arm.Preseter.ActivePresetManager;
 import net.alex9849.arm.Preseter.PresetPatternManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.block.*;
@@ -621,283 +622,349 @@ public class AdvancedRegionMarket extends JavaPlugin {
         PresetPatternManager.generatedefaultConfig();
         this.generatedefaultconfig();
         FileConfiguration pluginConfig = this.getConfig();
-        YamlConfiguration regionConf = RegionManager.getRegionsConf();
         Double version = pluginConfig.getDouble("Version");
-        if(version < 1.1) {
-            getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.1...");
-            pluginConfig.set("GUI.RegionOwnerItem", Material.ENDER_CHEST.toString());
-            pluginConfig.set("GUI.RegionMemberItem", Material.CHEST.toString());
-            pluginConfig.set("GUI.RegionFinderItem", Material.COMPASS.toString());
-            pluginConfig.set("GUI.GoBackItem", "WOOD_DOOR");
-            pluginConfig.set("GUI.WarningYesItem", "MELON_BLOCK");
-            pluginConfig.set("GUI.WarningNoItem", Material.REDSTONE_BLOCK.toString());
-            pluginConfig.set("GUI.TPItem", Material.ENDER_PEARL.toString());
-            pluginConfig.set("GUI.SellRegionItem", Material.DIAMOND.toString());
-            pluginConfig.set("GUI.ResetItem", Material.TNT.toString());
-            pluginConfig.set("GUI.ExtendItem", "WATCH");
-            pluginConfig.set("GUI.InfoItem", Material.BOOK.toString());
-            pluginConfig.set("GUI.PromoteMemberToOwnerItem", Material.LADDER.toString());
-            pluginConfig.set("GUI.RemoveMemberItem", Material.LAVA_BUCKET.toString());
-            pluginConfig.set("Version", 1.1);
-            saveConfig();
+        try {
+            if(version < 1.1) {
+                getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.1...");
+                updateTo1p1(pluginConfig);
+            }
+            if(version < 1.2) {
+                getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.2...");
+                getLogger().log(Level.WARNING, "Warning!: ARM uses a new schematic format now! You have to update all region schematics with");
+                getLogger().log(Level.WARNING, "/arm updateschematic [REGION] or go back to ARM version 1.1");
+                updateTo1p2(pluginConfig);
+            }
+            if(version < 1.21) {
+                getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.21...");
+                updateTo1p3(pluginConfig);
+            }
+            if(version < 1.3) {
+                getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.3...");
+                updateTo1p3(pluginConfig);
+            }
+            if(version < 1.4) {
+                getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.4...");
+                updateTo1p4(pluginConfig);
+            }
+            if(version < 1.41) {
+                getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.4.1...");
+                pluginConfig.set("Version", 1.41);
+                saveConfig();
+            }
+            if(version < 1.44) {
+                getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.4.4...");
+                updateTo1p44(pluginConfig);
+            }
+            if(version < 1.5) {
+                getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.5...");
+                pluginConfig.set("Version", 1.5);
+                pluginConfig.set("Reselling.Offers.OfferTimeOut", 30);
+                saveConfig();
+            }
+            if(version < 1.52) {
+                getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.5.2...");
+                updateTo1p52(pluginConfig);
+            }
+            if(version < 1.6) {
+                getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.6...");
+                updateTo1p6(pluginConfig);
+            }
+            if(version < 1.7) {
+                getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.7...");
+                pluginConfig.set("Other.RemoveEntitiesOnRegionBlockReset", true);
+                pluginConfig.set("Version", 1.7);
+                saveConfig();
+            }
+            if(version < 1.72) {
+                getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.7.2...");
+                pluginConfig.set("SignClickActions.RightClickNotSneakCmd", "buyaction");
+                pluginConfig.set("SignClickActions.RightClickSneakCmd", "arm sellback %regionid%");
+                pluginConfig.set("SignClickActions.LeftClickNotSneakCmd", "arm info %regionid%");
+                pluginConfig.set("SignClickActions.LeftClickSneakCmd", "arm info %regionid%");
+                pluginConfig.set("Version", 1.72);
+                saveConfig();
+            }
+            if(version < 1.75) {
+                getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.7.5...");
+                updateTo1p75(pluginConfig);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        version = pluginConfig.getDouble("Version");
-        if(version < 1.2) {
-            getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.2...");
-            getLogger().log(Level.WARNING, "Warning!: ARM uses a new schematic format now! You have to update all region schematics with");
-            getLogger().log(Level.WARNING, "/arm updateschematic [REGION] or go back to ARM version 1.1");
-            pluginConfig.set("Version", 1.2);
-            saveConfig();
+    }
 
+    private void updateTo1p1(FileConfiguration pluginConfig) {
+        pluginConfig.set("GUI.RegionOwnerItem", Material.ENDER_CHEST.toString());
+        pluginConfig.set("GUI.RegionMemberItem", Material.CHEST.toString());
+        pluginConfig.set("GUI.RegionFinderItem", Material.COMPASS.toString());
+        pluginConfig.set("GUI.GoBackItem", "WOOD_DOOR");
+        pluginConfig.set("GUI.WarningYesItem", "MELON_BLOCK");
+        pluginConfig.set("GUI.WarningNoItem", Material.REDSTONE_BLOCK.toString());
+        pluginConfig.set("GUI.TPItem", Material.ENDER_PEARL.toString());
+        pluginConfig.set("GUI.SellRegionItem", Material.DIAMOND.toString());
+        pluginConfig.set("GUI.ResetItem", Material.TNT.toString());
+        pluginConfig.set("GUI.ExtendItem", "WATCH");
+        pluginConfig.set("GUI.InfoItem", Material.BOOK.toString());
+        pluginConfig.set("GUI.PromoteMemberToOwnerItem", Material.LADDER.toString());
+        pluginConfig.set("GUI.RemoveMemberItem", Material.LAVA_BUCKET.toString());
+        pluginConfig.set("Version", 1.1);
+        saveConfig();
+    }
 
-            LinkedList<String> worlds = new LinkedList<String>(regionConf.getConfigurationSection("Regions").getKeys(false));
+    private void updateTo1p2(FileConfiguration pluginConfig) throws IOException {
+        pluginConfig.set("Version", 1.2);
+        saveConfig();
+
+        File regionConfDic = new File(this.getDataFolder() + "/regions.yml");
+        YamlConfiguration regionConf = YamlConfiguration.loadConfiguration(regionConfDic);
+
+        ArrayList<String> worlds = new ArrayList<String>(regionConf.getConfigurationSection("Regions").getKeys(false));
+        if(worlds != null) {
+            for(int y = 0; y < worlds.size(); y++) {
+                ArrayList<String> regions = new ArrayList<String>(regionConf.getConfigurationSection("Regions." + worlds.get(y)).getKeys(false));
+                if(regions != null) {
+                    for (int i = 0; i < regions.size(); i++) {
+                        regionConf.set("Regions." + worlds.get(y) + "." + regions.get(i) + ".doBlockReset", true);
+                    }
+                }
+            }
+        }
+        regionConf.save(regionConfDic);
+    }
+
+    private void updateTo1p21(FileConfiguration pluginConfig) {
+        Material mat = null;
+        mat = Material.getMaterial(pluginConfig.getString("GUI.RegionOwnerItem"), true);
+        if(mat != null) {
+            pluginConfig.set("GUI.RegionOwnerItem", mat.toString());
+        }
+        mat = Material.getMaterial(pluginConfig.getString("GUI.RegionMemberItem"), true);
+        if(mat != null) {
+            pluginConfig.set("GUI.RegionMemberItem", mat.toString());
+        }
+        mat = Material.getMaterial(pluginConfig.getString("GUI.RegionFinderItem"), true);
+        if(mat != null) {
+            pluginConfig.set("GUI.RegionFinderItem", mat.toString());
+        }
+        mat = Material.getMaterial(pluginConfig.getString("GUI.GoBackItem"), true);
+        if(mat != null) {
+            pluginConfig.set("GUI.GoBackItem", mat.toString());
+        }
+        mat = Material.getMaterial(pluginConfig.getString("GUI.WarningYesItem"), true);
+        if(mat != null) {
+            pluginConfig.set("GUI.WarningYesItem", mat.toString());
+        }
+        mat = Material.getMaterial(pluginConfig.getString("GUI.WarningNoItem"), true);
+        if(mat != null) {
+            pluginConfig.set("GUI.WarningNoItem", mat.toString());
+        }
+        mat = Material.getMaterial(pluginConfig.getString("GUI.SellRegionItem"), true);
+        if(mat != null) {
+            pluginConfig.set("GUI.SellRegionItem", mat.toString());
+        }
+        mat = Material.getMaterial(pluginConfig.getString("GUI.ResetItem"), true);
+        if(mat != null) {
+            pluginConfig.set("GUI.ResetItem", mat.toString());
+        }
+        mat = Material.getMaterial(pluginConfig.getString("GUI.ExtendItem"), true);
+        if(mat != null) {
+            pluginConfig.set("GUI.ExtendItem", mat.toString());
+        }
+        mat = Material.getMaterial(pluginConfig.getString("GUI.InfoItem"), true);
+        if(mat != null) {
+            pluginConfig.set("GUI.InfoItem", mat.toString());
+        }
+        mat = Material.getMaterial(pluginConfig.getString("GUI.PromoteMemberToOwnerItem"), true);
+        if(mat != null) {
+            pluginConfig.set("GUI.PromoteMemberToOwnerItem", mat.toString());
+        }
+        mat = Material.getMaterial(pluginConfig.getString("GUI.RemoveMemberItem"), true);
+        if(mat != null) {
+            pluginConfig.set("GUI.RemoveMemberItem", mat.toString());
+        }
+
+        LinkedList<String> regionKinds = new LinkedList<String>(pluginConfig.getConfigurationSection("RegionKinds").getKeys(false));
+        if(regionKinds != null) {
+            for(int i = 0; i < regionKinds.size(); i++){
+                mat = Material.getMaterial(pluginConfig.getString("RegionKinds." + regionKinds.get(i) + ".item"), true);
+                if(mat != null) {
+                    pluginConfig.set("RegionKinds." + regionKinds.get(i) + ".item", mat.toString());
+                }
+            }
+        }
+        pluginConfig.set("Version", 1.21);
+        saveConfig();
+    }
+
+    private void updateTo1p3(FileConfiguration pluginConfig) throws IOException {
+
+        File regionConfDic = new File(this.getDataFolder() + "/regions.yml");
+        YamlConfiguration regionConf = YamlConfiguration.loadConfiguration(regionConfDic);
+
+        pluginConfig.set("DefaultRegionKind.DisplayName", "Default");
+        pluginConfig.set("DefaultRegionKind.Item", Material.RED_BED.toString());
+        List<String> defaultLore = new ArrayList<>();
+        defaultLore.add("very default");
+        pluginConfig.set("DefaultRegionKind.Lore", defaultLore);
+        pluginConfig.set("DefaultRegionKind.DisplayInLimits", true);
+        pluginConfig.set("DefaultRegionKind.DisplayInGUI", false);
+        pluginConfig.set("Other.SendRentRegionExpirationWarning", true);
+        pluginConfig.set("Other.RentRegionExpirationWarningTime", "2d");
+        pluginConfig.set("Other.TeleportAfterContractRegionBought", true);
+        pluginConfig.set("Other.SendContractRegionExtendMessage", true);
+        pluginConfig.set("Other.SignAndResetUpdateInterval", 10);
+        pluginConfig.set("Other.RemainingTimeFormat", "%countdown%");
+        pluginConfig.set("Other.DateTimeFormat", "dd.MM.yyyy hh:mm");
+        pluginConfig.set("Other.ShortCountdown", false);
+        pluginConfig.set("Version", 1.3);
+        saveConfig();
+
+        if(regionConf.get("Regions") != null) {
+            List<String> worlds = new ArrayList<>(regionConf.getConfigurationSection("Regions").getKeys(false));
             if(worlds != null) {
                 for(int y = 0; y < worlds.size(); y++) {
-                    LinkedList<String> regions = new LinkedList<String>(regionConf.getConfigurationSection("Regions." + worlds.get(y)).getKeys(false));
-                    if(regions != null) {
-                        for (int i = 0; i < regions.size(); i++) {
-                            regionConf.set("Regions." + worlds.get(y) + "." + regions.get(i) + ".doBlockReset", true);
-                        }
-                    }
-                }
-            }
-            RegionManager.saveRegionsConf();
-        }
-        if(version < 1.21) {
-            getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.21...");
-            Material mat = null;
-            mat = Material.getMaterial(pluginConfig.getString("GUI.RegionOwnerItem"), true);
-            if(mat != null) {
-                pluginConfig.set("GUI.RegionOwnerItem", mat.toString());
-            }
-            mat = Material.getMaterial(pluginConfig.getString("GUI.RegionMemberItem"), true);
-            if(mat != null) {
-                pluginConfig.set("GUI.RegionMemberItem", mat.toString());
-            }
-            mat = Material.getMaterial(pluginConfig.getString("GUI.RegionFinderItem"), true);
-            if(mat != null) {
-                pluginConfig.set("GUI.RegionFinderItem", mat.toString());
-            }
-            mat = Material.getMaterial(pluginConfig.getString("GUI.GoBackItem"), true);
-            if(mat != null) {
-                pluginConfig.set("GUI.GoBackItem", mat.toString());
-            }
-            mat = Material.getMaterial(pluginConfig.getString("GUI.WarningYesItem"), true);
-            if(mat != null) {
-                pluginConfig.set("GUI.WarningYesItem", mat.toString());
-            }
-            mat = Material.getMaterial(pluginConfig.getString("GUI.WarningNoItem"), true);
-            if(mat != null) {
-                pluginConfig.set("GUI.WarningNoItem", mat.toString());
-            }
-            mat = Material.getMaterial(pluginConfig.getString("GUI.SellRegionItem"), true);
-            if(mat != null) {
-                pluginConfig.set("GUI.SellRegionItem", mat.toString());
-            }
-            mat = Material.getMaterial(pluginConfig.getString("GUI.ResetItem"), true);
-            if(mat != null) {
-                pluginConfig.set("GUI.ResetItem", mat.toString());
-            }
-            mat = Material.getMaterial(pluginConfig.getString("GUI.ExtendItem"), true);
-            if(mat != null) {
-                pluginConfig.set("GUI.ExtendItem", mat.toString());
-            }
-            mat = Material.getMaterial(pluginConfig.getString("GUI.InfoItem"), true);
-            if(mat != null) {
-                pluginConfig.set("GUI.InfoItem", mat.toString());
-            }
-            mat = Material.getMaterial(pluginConfig.getString("GUI.PromoteMemberToOwnerItem"), true);
-            if(mat != null) {
-                pluginConfig.set("GUI.PromoteMemberToOwnerItem", mat.toString());
-            }
-            mat = Material.getMaterial(pluginConfig.getString("GUI.RemoveMemberItem"), true);
-            if(mat != null) {
-                pluginConfig.set("GUI.RemoveMemberItem", mat.toString());
-            }
-
-            LinkedList<String> regionKinds = new LinkedList<String>(pluginConfig.getConfigurationSection("RegionKinds").getKeys(false));
-            if(regionKinds != null) {
-                for(int i = 0; i < regionKinds.size(); i++){
-                    mat = Material.getMaterial(pluginConfig.getString("RegionKinds." + regionKinds.get(i) + ".item"), true);
-                    if(mat != null) {
-                        pluginConfig.set("RegionKinds." + regionKinds.get(i) + ".item", mat.toString());
-                    }
-                }
-            }
-            pluginConfig.set("Version", 1.21);
-            saveConfig();
-        }
-        if(version < 1.3) {
-            getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.3...");
-            pluginConfig.set("DefaultRegionKind.DisplayName", "Default");
-            pluginConfig.set("DefaultRegionKind.Item", Material.RED_BED.toString());
-            List<String> defaultLore = new ArrayList<>();
-            defaultLore.add("very default");
-            pluginConfig.set("DefaultRegionKind.Lore", defaultLore);
-            pluginConfig.set("DefaultRegionKind.DisplayInLimits", true);
-            pluginConfig.set("DefaultRegionKind.DisplayInGUI", false);
-            pluginConfig.set("Other.SendRentRegionExpirationWarning", true);
-            pluginConfig.set("Other.RentRegionExpirationWarningTime", "2d");
-            pluginConfig.set("Other.TeleportAfterContractRegionBought", true);
-            pluginConfig.set("Other.SendContractRegionExtendMessage", true);
-            pluginConfig.set("Other.SignAndResetUpdateInterval", 10);
-            pluginConfig.set("Other.RemainingTimeFormat", "%countdown%");
-            pluginConfig.set("Other.DateTimeFormat", "dd.MM.yyyy hh:mm");
-            pluginConfig.set("Other.ShortCountdown", false);
-            pluginConfig.set("Version", 1.3);
-            saveConfig();
-
-            if(regionConf.get("Regions") != null) {
-                LinkedList<String> worlds = new LinkedList<String>(regionConf.getConfigurationSection("Regions").getKeys(false));
-                if(worlds != null) {
-                    for(int y = 0; y < worlds.size(); y++) {
-                        if(regionConf.get("Regions." + worlds.get(y)) != null) {
-                            LinkedList<String> regions = new LinkedList<String>(regionConf.getConfigurationSection("Regions." + worlds.get(y)).getKeys(false));
-                            if(regions != null) {
-                                for (int i = 0; i < regions.size(); i++) {
-                                    if(regionConf.getBoolean("Regions." + worlds.get(y) + "." + regions.get(i) + ".rentregion")) {
-                                        regionConf.set("Regions." + worlds.get(y) + "." + regions.get(i) + ".regiontype", "rentregion");
-                                    } else {
-                                        regionConf.set("Regions." + worlds.get(y) + "." + regions.get(i) + ".regiontype", "sellregion");
-                                    }
-                                    regionConf.set("Regions." + worlds.get(y) + "." + regions.get(i) + ".rentregion", null);
-                                    regionConf.set("Regions." + worlds.get(y) + "." + regions.get(i) + ".world", null);
+                    if(regionConf.get("Regions." + worlds.get(y)) != null) {
+                        LinkedList<String> regions = new LinkedList<String>(regionConf.getConfigurationSection("Regions." + worlds.get(y)).getKeys(false));
+                        if(regions != null) {
+                            for (int i = 0; i < regions.size(); i++) {
+                                if(regionConf.getBoolean("Regions." + worlds.get(y) + "." + regions.get(i) + ".rentregion")) {
+                                    regionConf.set("Regions." + worlds.get(y) + "." + regions.get(i) + ".regiontype", "rentregion");
+                                } else {
+                                    regionConf.set("Regions." + worlds.get(y) + "." + regions.get(i) + ".regiontype", "sellregion");
                                 }
+                                regionConf.set("Regions." + worlds.get(y) + "." + regions.get(i) + ".rentregion", null);
+                                regionConf.set("Regions." + worlds.get(y) + "." + regions.get(i) + ".world", null);
                             }
                         }
                     }
                 }
             }
-            RegionManager.saveRegionsConf();
         }
-        if(version < 1.4) {
-            getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.4...");
-            pluginConfig.set("GUI.FillItem", "GRAY_STAINED_GLASS_PANE");
-            pluginConfig.set("GUI.ContractItem", "WRITABLE_BOOK");
-            pluginConfig.set("GUI.DisplayRegionOwnerButton", true);
-            pluginConfig.set("GUI.DisplayRegionMemberButton", true);
-            pluginConfig.set("GUI.DisplayRegionFinderButton", true);
-            pluginConfig.set("Other.CompleteRegionsOnTabComplete", false);
-            pluginConfig.set("Version", 1.4);
-            if(pluginConfig.get("RegionKinds") != null) {
-                LinkedList<String> regionkinds = new LinkedList<String>(pluginConfig.getConfigurationSection("RegionKinds").getKeys(false));
-                if(regionkinds != null) {
-                    for(int y = 0; y < regionkinds.size(); y++) {
-                        pluginConfig.set("RegionKinds." + regionkinds.get(y) + ".displayName", regionkinds.get(y));
-                    }
+        regionConf.save(regionConfDic);
+    }
+
+    private void updateTo1p4(FileConfiguration pluginConfig) {
+        pluginConfig.set("GUI.FillItem", "GRAY_STAINED_GLASS_PANE");
+        pluginConfig.set("GUI.ContractItem", "WRITABLE_BOOK");
+        pluginConfig.set("GUI.DisplayRegionOwnerButton", true);
+        pluginConfig.set("GUI.DisplayRegionMemberButton", true);
+        pluginConfig.set("GUI.DisplayRegionFinderButton", true);
+        pluginConfig.set("Other.CompleteRegionsOnTabComplete", false);
+        pluginConfig.set("Version", 1.4);
+        if(pluginConfig.get("RegionKinds") != null) {
+            LinkedList<String> regionkinds = new LinkedList<String>(pluginConfig.getConfigurationSection("RegionKinds").getKeys(false));
+            if(regionkinds != null) {
+                for(int y = 0; y < regionkinds.size(); y++) {
+                    pluginConfig.set("RegionKinds." + regionkinds.get(y) + ".displayName", regionkinds.get(y));
                 }
             }
-            saveConfig();
         }
-        if(version < 1.41) {
-            getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.4.1...");
-            pluginConfig.set("Version", 1.41);
-            saveConfig();
-        }
-        if(version < 1.44) {
-            getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.4.4...");
-            pluginConfig.set("Other.TeleporterTimer", 0);
-            pluginConfig.set("Other.TeleportAfterRegionBoughtCountdown", false);
-            pluginConfig.set("Version", 1.44);
-            saveConfig();
-        }
-        if(version < 1.5) {
-            getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.5...");
-            pluginConfig.set("Version", 1.5);
-            pluginConfig.set("Reselling.Offers.OfferTimeOut", 30);
-            saveConfig();
-        }
-        if(version < 1.52) {
-            getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.5.2...");
-            double paybackPercentage = pluginConfig.getDouble("Other.paypackPercentage");
-            pluginConfig.set("DefaultRegionKind.PaypackPercentage", paybackPercentage);
+        saveConfig();
+    }
 
-            if(pluginConfig.get("RegionKinds") != null) {
-                LinkedList<String> regionkinds = new LinkedList<String>(pluginConfig.getConfigurationSection("RegionKinds").getKeys(false));
-                if(regionkinds != null) {
-                    for(int y = 0; y < regionkinds.size(); y++) {
-                        pluginConfig.set("RegionKinds." + regionkinds.get(y) + ".paypackPercentage", paybackPercentage);
-                        pluginConfig.set("RegionKinds." + regionkinds.get(y) + ".displayInLimits", true);
-                        pluginConfig.set("RegionKinds." + regionkinds.get(y) + ".displayInGUI", true);
-                    }
+    private void updateTo1p44(FileConfiguration pluginConfig) {
+        pluginConfig.set("Other.TeleporterTimer", 0);
+        pluginConfig.set("Other.TeleportAfterRegionBoughtCountdown", false);
+        pluginConfig.set("Version", 1.44);
+        saveConfig();
+    }
+
+    private void updateTo1p52(FileConfiguration pluginConfig) {
+        double paybackPercentage = pluginConfig.getDouble("Other.paypackPercentage");
+        pluginConfig.set("DefaultRegionKind.PaypackPercentage", paybackPercentage);
+
+        if(pluginConfig.get("RegionKinds") != null) {
+            LinkedList<String> regionkinds = new LinkedList<String>(pluginConfig.getConfigurationSection("RegionKinds").getKeys(false));
+            if(regionkinds != null) {
+                for(int y = 0; y < regionkinds.size(); y++) {
+                    pluginConfig.set("RegionKinds." + regionkinds.get(y) + ".paypackPercentage", paybackPercentage);
+                    pluginConfig.set("RegionKinds." + regionkinds.get(y) + ".displayInLimits", true);
+                    pluginConfig.set("RegionKinds." + regionkinds.get(y) + ".displayInGUI", true);
                 }
             }
-
-            pluginConfig.set("Version", 1.52);
-            saveConfig();
         }
-        if(version < 1.6) {
-            getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.6...");
-            pluginConfig.set("SubregionRegionKind.DisplayName", "Subregion");
-            pluginConfig.set("SubregionRegionKind.Item", "PLAYER_HEAD");
-            List<String> subregionRegionKindLore = new ArrayList<>();
-            subregionRegionKindLore.add("very subregion");
-            pluginConfig.set("SubregionRegionKind.Lore", subregionRegionKindLore);
-            pluginConfig.set("SubregionRegionKind.DisplayInLimits", true);
-            pluginConfig.set("SubregionRegionKind.DisplayInGUI", false);
-            pluginConfig.set("SubregionRegionKind.PaypackPercentage", 0);
-            pluginConfig.set("Subregions.AllowSubRegionUserReset", false);
-            pluginConfig.set("Subregions.SubregionBlockReset", false);
-            pluginConfig.set("Subregions.SubregionAutoReset", true);
-            pluginConfig.set("Subregions.deleteSubregionsOnParentRegionUnsell", false);
-            pluginConfig.set("Subregions.deleteSubregionsOnParentRegionBlockReset", false);
-            pluginConfig.set("Subregions.allowParentRegionOwnersBuildOnSubregions", true);
-            pluginConfig.set("Other.RegionInfoParticleBorder", true);
-            pluginConfig.set("GUI.SubRegionItem", "GRASS_BLOCK");
-            pluginConfig.set("GUI.TeleportToSignItem", "SIGN");
-            pluginConfig.set("GUI.TeleportToRegionItem", "GRASS_BLOCK");
-            pluginConfig.set("GUI.DeleteItem", "BARRIER");
-            pluginConfig.set("GUI.NextPageItem", "ARROW");
-            pluginConfig.set("GUI.PrevPageItem", "ARROW");
-            pluginConfig.set("GUI.HotelSettingItem", "RED_BED");
-            pluginConfig.set("GUI.PrevPageItem", "ARROW");
-            pluginConfig.set("GUI.HotelSettingItem", "RED_BED");
-            pluginConfig.set("GUI.UnsellItem", "NAME_TAG");
 
-            pluginConfig.set("AutoPrice", null);
-            pluginConfig.set("AutoPrice.example1.price", 200);
-            pluginConfig.set("AutoPrice.example1.extendTime", "5d");
-            pluginConfig.set("AutoPrice.example1.maxRentTime", "60d");
-            pluginConfig.set("AutoPrice.example1.autoPriceCalculation", "static");
-            pluginConfig.set("AutoPrice.example2.price", 2);
-            pluginConfig.set("AutoPrice.example2.extendTime", "12h");
-            pluginConfig.set("AutoPrice.example2.maxRentTime", "7d");
-            pluginConfig.set("AutoPrice.example2.autoPriceCalculation", "per_m2");
-            pluginConfig.set("AutoPrice.example3.price", 0.05);
-            pluginConfig.set("AutoPrice.example3.extendTime", "7d");
-            pluginConfig.set("AutoPrice.example3.maxRentTime", "30d");
-            pluginConfig.set("AutoPrice.example3.autoPriceCalculation", "per_m3");
+        pluginConfig.set("Version", 1.52);
+        saveConfig();
+    }
 
-            pluginConfig.set("Other.RegionInfoParticleBorder", true);
-            pluginConfig.set("Other.AllowRegionfinderTeleportToBuySign", true);
+    private void updateTo1p6(FileConfiguration pluginConfig) {
+        pluginConfig.set("SubregionRegionKind.DisplayName", "Subregion");
+        pluginConfig.set("SubregionRegionKind.Item", "PLAYER_HEAD");
+        List<String> subregionRegionKindLore = new ArrayList<>();
+        subregionRegionKindLore.add("very subregion");
+        pluginConfig.set("SubregionRegionKind.Lore", subregionRegionKindLore);
+        pluginConfig.set("SubregionRegionKind.DisplayInLimits", true);
+        pluginConfig.set("SubregionRegionKind.DisplayInGUI", false);
+        pluginConfig.set("SubregionRegionKind.PaypackPercentage", 0);
+        pluginConfig.set("Subregions.AllowSubRegionUserReset", false);
+        pluginConfig.set("Subregions.SubregionBlockReset", false);
+        pluginConfig.set("Subregions.SubregionAutoReset", true);
+        pluginConfig.set("Subregions.deleteSubregionsOnParentRegionUnsell", false);
+        pluginConfig.set("Subregions.deleteSubregionsOnParentRegionBlockReset", false);
+        pluginConfig.set("Subregions.allowParentRegionOwnersBuildOnSubregions", true);
+        pluginConfig.set("Other.RegionInfoParticleBorder", true);
+        pluginConfig.set("GUI.SubRegionItem", "GRASS_BLOCK");
+        pluginConfig.set("GUI.TeleportToSignItem", "SIGN");
+        pluginConfig.set("GUI.TeleportToRegionItem", "GRASS_BLOCK");
+        pluginConfig.set("GUI.DeleteItem", "BARRIER");
+        pluginConfig.set("GUI.NextPageItem", "ARROW");
+        pluginConfig.set("GUI.PrevPageItem", "ARROW");
+        pluginConfig.set("GUI.HotelSettingItem", "RED_BED");
+        pluginConfig.set("GUI.PrevPageItem", "ARROW");
+        pluginConfig.set("GUI.HotelSettingItem", "RED_BED");
+        pluginConfig.set("GUI.UnsellItem", "NAME_TAG");
 
-            pluginConfig.set("DefaultAutoprice.price", 2.0);
-            pluginConfig.set("DefaultAutoprice.extendTime", "1d");
-            pluginConfig.set("DefaultAutoprice.maxRentTime", "7d");
-            pluginConfig.set("DefaultAutoprice.autoPriceCalculation", "per_m2");
+        pluginConfig.set("AutoPrice", null);
+        pluginConfig.set("AutoPrice.example1.price", 200);
+        pluginConfig.set("AutoPrice.example1.extendTime", "5d");
+        pluginConfig.set("AutoPrice.example1.maxRentTime", "60d");
+        pluginConfig.set("AutoPrice.example1.autoPriceCalculation", "static");
+        pluginConfig.set("AutoPrice.example2.price", 2);
+        pluginConfig.set("AutoPrice.example2.extendTime", "12h");
+        pluginConfig.set("AutoPrice.example2.maxRentTime", "7d");
+        pluginConfig.set("AutoPrice.example2.autoPriceCalculation", "per_m2");
+        pluginConfig.set("AutoPrice.example3.price", 0.05);
+        pluginConfig.set("AutoPrice.example3.extendTime", "7d");
+        pluginConfig.set("AutoPrice.example3.maxRentTime", "30d");
+        pluginConfig.set("AutoPrice.example3.autoPriceCalculation", "per_m3");
 
-            pluginConfig.set("Version", 1.6);
-            saveConfig();
-        }
-        if(version < 1.7) {
-            getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.7...");
-            pluginConfig.set("Other.RemoveEntitiesOnRegionBlockReset", true);
-            pluginConfig.set("Version", 1.7);
-            saveConfig();
-        }
-        if(version < 1.72) {
-            getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.7.2...");
-            pluginConfig.set("SignClickActions.RightClickNotSneakCmd", "buyaction");
-            pluginConfig.set("SignClickActions.RightClickSneakCmd", "arm sellback %regionid%");
-            pluginConfig.set("SignClickActions.LeftClickNotSneakCmd", "arm info %regionid%");
-            pluginConfig.set("SignClickActions.LeftClickSneakCmd", "arm info %regionid%");
-            pluginConfig.set("Version", 1.72);
-            saveConfig();
-        }
-        if(version < 1.75) {
-            getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.7.5...");
-            pluginConfig.set("Version", 1.75);
-            saveConfig();
-        }
+        pluginConfig.set("Other.RegionInfoParticleBorder", true);
+        pluginConfig.set("Other.AllowRegionfinderTeleportToBuySign", true);
+
+        pluginConfig.set("DefaultAutoprice.price", 2.0);
+        pluginConfig.set("DefaultAutoprice.extendTime", "1d");
+        pluginConfig.set("DefaultAutoprice.maxRentTime", "7d");
+        pluginConfig.set("DefaultAutoprice.autoPriceCalculation", "per_m2");
+
+        pluginConfig.set("Version", 1.6);
+        saveConfig();
+    }
+
+    private void updateTo1p75(FileConfiguration pluginConfig) throws IOException {
+        File regionKindsConfDic = new File(this.getDataFolder() + "/regionkinds.yml");
+        YamlConfiguration regionKindsConf = YamlConfiguration.loadConfiguration(regionKindsConfDic);
+        ConfigurationSection oldRegionKinds = pluginConfig.getConfigurationSection("RegionKinds");
+
+        regionKindsConf.set("RegionKinds", oldRegionKinds);
+
+        regionKindsConf.set("DefaultRegionKind.displayName", pluginConfig.getString("DefaultRegionKind.DisplayName"));
+        regionKindsConf.set("DefaultRegionKind.item", pluginConfig.getString("DefaultRegionKind.Item"));
+        regionKindsConf.set("DefaultRegionKind.lore", pluginConfig.getStringList("DefaultRegionKind.Lore"));
+        regionKindsConf.set("DefaultRegionKind.displayInLimits", pluginConfig.getBoolean("DefaultRegionKind.DisplayInLimits"));
+        regionKindsConf.set("DefaultRegionKind.displayInGUI", pluginConfig.getBoolean("DefaultRegionKind.DisplayInGUI"));
+        regionKindsConf.set("DefaultRegionKind.paypackPercentage", pluginConfig.getDouble("DefaultRegionKind.PaypackPercentage"));
+
+        regionKindsConf.set("SubregionRegionKind.displayName", pluginConfig.getString("SubregionRegionKind.DisplayName"));
+        regionKindsConf.set("SubregionRegionKind.item", pluginConfig.getString("SubregionRegionKind.Item"));
+        regionKindsConf.set("SubregionRegionKind.lore", pluginConfig.getStringList("SubregionRegionKind.Lore"));
+        regionKindsConf.set("SubregionRegionKind.displayInLimits", pluginConfig.getBoolean("SubregionRegionKind.DisplayInLimits"));
+        regionKindsConf.set("SubregionRegionKind.displayInGUI", pluginConfig.getBoolean("SubregionRegionKind.DisplayInGUI"));
+        regionKindsConf.set("SubregionRegionKind.paypackPercentage", pluginConfig.getDouble("SubregionRegionKind.PaypackPercentage"));
+
+        pluginConfig.set("Version", 1.75);
+
+        regionKindsConf.save(regionKindsConfDic);
+        saveConfig();
     }
 }

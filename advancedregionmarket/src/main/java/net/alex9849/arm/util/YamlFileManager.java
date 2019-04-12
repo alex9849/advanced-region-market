@@ -83,10 +83,10 @@ public abstract class YamlFileManager<ManagedObject extends Saveable> {
     }
 
     public static void writeResourceToDisc(File savepath, InputStream resourceStream) {
+        if(savepath.exists()) {
+            return;
+        }
         try {
-            if(savepath.exists()) {
-                savepath.delete();
-            }
             byte[] buffer = new byte[resourceStream.available()];
             resourceStream.read(buffer);
             OutputStream output = new FileOutputStream(savepath);

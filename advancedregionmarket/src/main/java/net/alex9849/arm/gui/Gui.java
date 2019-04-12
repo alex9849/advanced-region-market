@@ -858,7 +858,7 @@ public class Gui implements Listener {
             itemcounter++;
         }
 
-        if(RegionKind.SUBREGION.isDisplayInGUI() && player.hasPermission(Permission.ARM_BUYKIND + RegionKind.SUBREGION.getName())){
+        if(RegionKind.SUBREGION.isDisplayInGUI() && RegionKind.hasPermission(player, RegionKind.SUBREGION)){
             itemcounter++;
         }
 
@@ -900,7 +900,7 @@ public class Gui implements Listener {
             itempos++;
         }
 
-        if(RegionKind.SUBREGION.isDisplayInGUI() && player.hasPermission(Permission.ARM_BUYKIND + RegionKind.SUBREGION.getName())){
+        if(RegionKind.SUBREGION.isDisplayInGUI() && RegionKind.hasPermission(player, RegionKind.SUBREGION)){
             String displayName = Messages.GUI_REGIONFINDER_REGIONKIND_NAME;
             displayName = RegionKind.SUBREGION.getConvertedMessage(displayName);
             Material material = RegionKind.SUBREGION.getMaterial();
@@ -930,7 +930,7 @@ public class Gui implements Listener {
                 String displayName = Messages.GUI_REGIONFINDER_REGIONKIND_NAME;
                 displayName = regionKind.getConvertedMessage(displayName);
                 Material material = regionKind.getMaterial();
-                if(player.hasPermission(Permission.ARM_BUYKIND + regionKind.getName())){
+                if(RegionKind.hasPermission(player, regionKind)){
                     ItemStack stack = new ItemStack(material);
                     ItemMeta meta = stack.getItemMeta();
                     meta.setDisplayName(displayName);

@@ -4,6 +4,7 @@ import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Group.LimitGroup;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
+import net.alex9849.arm.regions.regionkind.RegionKind;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.regions.Region;
 import net.milkbowl.vault.economy.Economy;
@@ -41,7 +42,7 @@ public class Offer {
             throw new InputException(senders, messages);
         }
 
-        if(!buyer.hasPermission(Permission.ARM_BUYKIND + this.region.getRegionKind().getName())) {
+        if(!RegionKind.hasPermission(buyer, this.region.getRegionKind())) {
             this.reject();
             List<CommandSender> senders = new ArrayList<>(Arrays.asList(buyer, seller));
             List<String> messages = new ArrayList<>(Arrays.asList(Messages.NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION, this.getConvertedMessage(Messages.OFFER_HAS_BEEN_REJECTED)));

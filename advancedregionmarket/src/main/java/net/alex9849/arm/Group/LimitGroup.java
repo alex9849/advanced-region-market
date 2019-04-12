@@ -180,7 +180,7 @@ public class LimitGroup {
         }
 
         for(RegionKind regionKind : AdvancedRegionMarket.getRegionKindManager().getObjectListCopy()){
-            if(player.hasPermission(Permission.ARM_BUYKIND + regionKind.getName()) && regionKind.isDisplayInLimits()){
+            if(RegionKind.hasPermission(player, regionKind) && regionKind.isDisplayInLimits()){
 
                 syntaxtotal = Messages.LIMIT_INFO;
                 syntaxtotal = regionKind.getConvertedMessage(syntaxtotal);

@@ -493,6 +493,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         ArmSettings.setSignRightClickNotSneakCommand(getConfig().getString("SignClickActions.RightClickNotSneakCmd"));
         ArmSettings.setSignLeftClickSneakCommand(getConfig().getString("SignClickActions.LeftClickSneakCmd"));
         ArmSettings.setSignLeftClickNotSneakCommand(getConfig().getString("SignClickActions.LeftClickNotSneakCmd"));
+        ArmSettings.setActivateRegionKindPermissions(getConfig().getBoolean("RegionKinds.activateRegionKindPermissions"));
 
 
         try{
@@ -964,6 +965,8 @@ public class AdvancedRegionMarket extends JavaPlugin {
         regionKindsConf.set("SubregionRegionKind.displayInGUI", pluginConfig.getBoolean("SubregionRegionKind.DisplayInGUI"));
         regionKindsConf.set("SubregionRegionKind.paypackPercentage", pluginConfig.getDouble("SubregionRegionKind.PaypackPercentage"));
         pluginConfig.set("SubregionRegionKind", null);
+
+        pluginConfig.set("RegionKinds.activateRegionKindPermissions", true);
 
         pluginConfig.set("Version", 1.75);
 

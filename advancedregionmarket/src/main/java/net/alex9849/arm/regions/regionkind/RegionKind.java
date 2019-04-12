@@ -1,5 +1,6 @@
 package net.alex9849.arm.regions.regionkind;
 
+import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.util.Saveable;
@@ -82,6 +83,9 @@ public class RegionKind implements Saveable {
     }
 
     public static boolean hasPermission(CommandSender sender, RegionKind regionKind) {
+        if(!ArmSettings.isActivateRegionKindPermissions()) {
+            return true;
+        }
         if(regionKind == RegionKind.DEFAULT) {
             return true;
         } else {

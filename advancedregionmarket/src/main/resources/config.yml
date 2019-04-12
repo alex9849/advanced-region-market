@@ -94,6 +94,11 @@ Limits:
     large: 2
     shop: 2
 
+RegionKinds:
+  # If true players need the permission 'arm.buykind.REGIONKIND_INTERNAL_NAME' to see the regionkind in the regionfinder
+  # and to be able to buy them. Replace REGIONKIND_INTERNAL_NAME with the internal name of the regionkind
+  activateRegionKindPermissions: false
+
 Other:
   # If users have the permission 'arm.resetregionblocks' they can reset their own regions. The number
   # behind is the cooldown when they can reset their region again (in days).

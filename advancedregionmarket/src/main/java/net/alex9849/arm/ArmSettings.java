@@ -17,6 +17,7 @@ public class ArmSettings {
     private static boolean deleteSubregionsOnParentRegionBlockReset = false;
     private static boolean allowParentRegionOwnersBuildOnSubregions = true;
     private static boolean removeEntitiesOnRegionBlockReset = true;
+    private static boolean activateRegionKindPermissions = false;
 
     private static String signRightClickSneakCommand = "buyaction";
     private static String signRightClickNotSneakCommand = "buyaction";
@@ -33,6 +34,14 @@ public class ArmSettings {
     private static boolean enableTakeOver;
     private static Statement stmt;
     private static String sqlPrefix;
+
+    public static boolean isActivateRegionKindPermissions() {
+        return ArmSettings.activateRegionKindPermissions;
+    }
+
+    public static void setActivateRegionKindPermissions(boolean activateRegionKindPermissions) {
+        ArmSettings.activateRegionKindPermissions = activateRegionKindPermissions;
+    }
 
     protected static void setRemoveEntitiesOnRegionBlockReset(boolean removeEntitiesOnRegionReset) {
         ArmSettings.removeEntitiesOnRegionBlockReset = removeEntitiesOnRegionReset;

@@ -32,7 +32,7 @@
             <artifactId>worldedit-bukkit</artifactId>
             <scope>system</scope>
             <version>any</version>
-            <systemPath>${project.basedir}/../lib/plugins/worldedit/worldedit-bukkit-7.0.0-beta-01.jar</systemPath>
+            <systemPath>${project.basedir}/../lib/plugins/FaWe/FaWe7.jar</systemPath>
         </dependency>
         <!--Worldguard API-->
         <dependency>

@@ -254,9 +254,11 @@ public class AdvancedRegionMarket extends JavaPlugin {
            if((parseWorldGuardBuildNumber(worldguard) != null) && (parseWorldGuardBuildNumber(worldguard) < 1754)){
                version = "7Beta01";
            }
+           /*
            if(isFaWeInstalled()) {
                version = "7FaWe";
            }
+           */
         }
         try {
             final Class<?> wgClass = Class.forName("net.alex9849.adapters.WorldGuard" + version);
@@ -286,10 +288,11 @@ public class AdvancedRegionMarket extends JavaPlugin {
             version = "6";
         } else {
             version = "7";
+            hasFaWeHandler = false;
             if(AdvancedRegionMarket.worldedit.getDescription().getVersion().contains("beta-01") || ((parseWorldEditBuildNumber(worldedit) != null) && (parseWorldEditBuildNumber(worldedit) < 3930))){
                 version = "7Beta01";
-                hasFaWeHandler = false;
             }
+
         }
 
         if(AdvancedRegionMarket.isFaWeInstalled() && hasFaWeHandler){

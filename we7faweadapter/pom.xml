@@ -40,7 +40,7 @@
             <artifactId>worldguard</artifactId>
             <scope>system</scope>
             <version>any</version>
-            <systemPath>${project.basedir}/../lib/plugins/FaWe/WorldGaurd7FaWe.jar</systemPath>
+            <systemPath>${project.basedir}/../lib/plugins/worldguard/worldguard-7.0.0-beta-02.jar</systemPath>
         </dependency>
         <!--FaWe API-->
         <dependency>

@@ -617,7 +617,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
         EntityLimitGroupManager.writeResourceToDisc(new File(this.getDataFolder() + "/entitylimits.yml"), getResource("entitylimits.yml"));
         RegionKindManager.writeResourceToDisc(new File(this.getDataFolder() + "/regionkinds.yml"), getResource("regionkinds.yml"));
         RegionManager.generatedefaultConfig();
-        RegionManager.setRegionsConf();
         Messages.generatedefaultConfig();
         PresetPatternManager.generatedefaultConfig();
         this.generatedefaultconfig();
@@ -688,6 +687,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
                 getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.7.5...");
                 updateTo1p75(pluginConfig);
             }
+            RegionManager.setRegionsConf();
         } catch (IOException e) {
             e.printStackTrace();
         }

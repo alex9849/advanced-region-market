@@ -1,15 +1,10 @@
-package net.alex9849.arm.regions.regionkind;
+package net.alex9849.arm.regionkind;
 
-import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.util.YamlFileManager;
-import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.EntityType;
 
 import java.io.File;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 

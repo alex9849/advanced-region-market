@@ -1,4 +1,4 @@
-package net.alex9849.arm.regions.regionkind;
+package net.alex9849.arm.regionkind;
 
 import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;

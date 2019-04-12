@@ -1,6 +1,6 @@
 package net.alex9849.arm.Group;
 
-import net.alex9849.arm.regions.regionkind.RegionKind;
+import net.alex9849.arm.regionkind.RegionKind;
 
 public class RegionKindLimit {
     private RegionKind regionKind;

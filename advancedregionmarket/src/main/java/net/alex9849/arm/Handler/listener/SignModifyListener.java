@@ -14,7 +14,7 @@ import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.price.ContractPrice;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.regions.price.RentPrice;
-import net.alex9849.arm.regions.regionkind.RegionKind;
+import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.inter.WGRegion;
 import org.bukkit.*;

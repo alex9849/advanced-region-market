@@ -6,7 +6,7 @@ import net.alex9849.arm.regions.*;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.price.ContractPrice;
 import net.alex9849.arm.regions.price.RentPrice;
-import net.alex9849.arm.regions.regionkind.RegionKind;
+import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.inter.WGRegion;
 import org.bukkit.World;
 import org.bukkit.block.Sign;

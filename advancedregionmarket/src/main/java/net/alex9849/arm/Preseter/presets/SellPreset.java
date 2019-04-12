@@ -2,7 +2,7 @@ package net.alex9849.arm.Preseter.presets;
 
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
 import net.alex9849.arm.regions.Region;
-import net.alex9849.arm.regions.regionkind.RegionKind;
+import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.SellRegion;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.price.Price;

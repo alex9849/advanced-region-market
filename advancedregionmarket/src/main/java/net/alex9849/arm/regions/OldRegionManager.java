@@ -30,6 +30,7 @@ import java.util.*;
 import java.util.logging.Level;
 
 public class OldRegionManager {
+    /*
     private static YamlConfiguration regionsconf;
     private static List<Region> regionList = new ArrayList<>();
 
@@ -831,5 +832,5 @@ public class OldRegionManager {
         }
         return regions;
     }
-
+*/
 }

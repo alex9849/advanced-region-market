@@ -19,7 +19,6 @@ public class RegionKind implements Saveable {
     private Material material;
     public static RegionKind DEFAULT = new RegionKind("Default", Material.RED_BED, new ArrayList<String>(), "Default", true, true, 50);
     public static RegionKind SUBREGION = new RegionKind("Subregion", Material.RED_BED, new ArrayList<String>(), "Subregion", false, false, 0);
-    private static List<RegionKind> list = new ArrayList<>();
     private List<String> lore;
     private String displayName;
     private boolean displayInGUI;
@@ -54,10 +53,6 @@ public class RegionKind implements Saveable {
 
     public Material getMaterial(){
         return this.material;
-    }
-
-    public static void Reset(){
-        list = new ArrayList<>();
     }
 
     public List<String> getLore(){

@@ -2,13 +2,17 @@ package net.alex9849.arm.regions;
 
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.ArmSettings;
+import net.alex9849.arm.Messages;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
+import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.price.ContractPrice;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.regions.price.RentPrice;
 import net.alex9849.arm.util.YamlFileManager;
+import net.alex9849.exceptions.InputException;
+import net.alex9849.exceptions.SchematicNotFoundException;
 import net.alex9849.inter.WGRegion;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -18,11 +22,13 @@ import org.bukkit.block.Sign;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 import java.util.logging.Level;
 
 public class RegionManager extends YamlFileManager<Region> {
@@ -331,5 +337,250 @@ public class RegionManager extends YamlFileManager<Region> {
     @Override
     public void writeStaticSettings(YamlConfiguration yamlConfiguration) {
 
+    }
+
+    public List<Region> getRegionsByMember(UUID uuid) {
+        List<Region> returnme = new ArrayList<>();
+        List<Region> regions = this.getObjectListCopy();
+        for (Region region : regions){
+            for(Region subregion : region.getSubregions()) {
+                if(subregion.getRegion().hasMember(uuid)){
+                    returnme.add(subregion);
+                }
+            }
+            if(region.getRegion().hasMember(uuid)) {
+                returnme.add(region);
+            }
+        }
+        return returnme;
+    }
+
+    public List<Region> getRegionsByOwner(UUID uuid) {
+        List<Region> returnme = new ArrayList<>();
+        List<Region> regions = this.getObjectListCopy();
+        for (Region region : regions){
+            for(Region subregion : region.getSubregions()) {
+                if(subregion.getRegion().hasOwner(uuid)){
+                    returnme.add(subregion);
+                }
+            }
+            if(region.getRegion().hasOwner(uuid)) {
+                returnme.add(region);
+            }
+        }
+        return returnme;
+    }
+
+    public List<Region> getRegionsByOwnerOrMember(UUID uuid) {
+        List<Region> returnme = new ArrayList<>();
+        List<Region> regions = this.getObjectListCopy();
+        for (Region region : regions){
+            for(Region subregion : region.getSubregions()) {
+                if(subregion.getRegion().hasOwner(uuid) || subregion.getRegion().hasMember(uuid)){
+                    returnme.add(subregion);
+                }
+            }
+            if(region.getRegion().hasOwner(uuid) || region.getRegion().hasMember(uuid)) {
+                returnme.add(region);
+            }
+        }
+        return returnme;
+    }
+
+    public boolean autoResetRegionsFromOwner(UUID uuid){
+        List<Region> regions = this.getRegionsByOwner(uuid);
+        for(Region region : regions){
+            if(region.getAutoreset()){
+                region.unsell();
+                if(region.isDoBlockReset()) {
+                    try {
+                        region.resetBlocks();
+                    } catch (SchematicNotFoundException e) {
+                        Bukkit.getLogger().log(Level.WARNING, "Could not find schematic file for region " + region.getRegion().getId() + "in world " + region.getRegionworld().getName());
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    public void teleportToFreeRegion(RegionKind type, Player player) throws InputException {
+        List<Region> regions = this.getObjectListCopy();
+        for (Region region : regions){
+
+            if ((region.isSold() == false) && (region.getRegionKind() == type)){
+                WGRegion regionTP = region.getRegion();
+                String message = region.getConvertedMessage(Messages.REGION_TELEPORT_MESSAGE);
+                Teleporter.teleport(player, region, Messages.PREFIX + message, true);
+                return;
+            }
+        }
+        throw new InputException(player, Messages.NO_FREE_REGION_WITH_THIS_KIND);
+    }
+
+    public boolean checkIfSignExists(Sign sign) {
+        List<Region> regions = this.getObjectListCopy();
+        for(Region region : regions){
+            if(region.hasSign(sign)){
+                return true;
+            }
+            for(Region subregion : region.getSubregions()) {
+                if(subregion.hasSign(sign)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public Region getRegion(Sign sign) {
+        List<Region> regions = this.getObjectListCopy();
+        for(Region region : regions) {
+            if(region.hasSign(sign)) {
+                return region;
+            }
+            for(Region subregion : region.getSubregions()) {
+                if(subregion.hasSign(sign)) {
+                    return subregion;
+                }
+            }
+        }
+        return null;
+    }
+
+    public Region getRegion(WGRegion wgRegion) {
+        List<Region> regions = this.getObjectListCopy();
+        for(Region region : regions) {
+            if(region.getRegion().equals(wgRegion)) {
+                return region;
+            }
+            for(Region subregion : region.getSubregions()) {
+                if(subregion.getRegion().equals(wgRegion)) {
+                    return subregion;
+                }
+            }
+        }
+        return null;
+    }
+
+    public Region searchRegionbyNameAndWorld(String name, String world){
+        List<Region> regions = this.getObjectListCopy();
+        for(Region region : regions) {
+            if(region.getRegionworld().getName().equalsIgnoreCase(world)) {
+                if(region.getRegion().getId().equalsIgnoreCase(name)) {
+                    return region;
+                }
+                for(Region subregion : region.getSubregions()) {
+                    if(subregion.getRegion().getId().equalsIgnoreCase(name)) {
+                        return subregion;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    public Region getRegionbyNameAndWorldCommands(String name, String world) {
+        List<Region> regions = this.getObjectListCopy();
+        Region mayReturn = null;
+        for(Region region : regions) {
+            if(region.getRegionworld().getName().equalsIgnoreCase(world)) {
+                if(region.getRegion().getId().equalsIgnoreCase(name)) {
+                    return region;
+                }
+                for(Region subregion : region.getSubregions()) {
+                    if(subregion.getRegion().getId().equalsIgnoreCase(name)) {
+                        return subregion;
+                    }
+                }
+            } else {
+                if(region.getRegion().getId().equalsIgnoreCase(name)) {
+                    mayReturn = region;
+                }
+                for(Region subregion : region.getSubregions()) {
+                    if(subregion.getRegion().getId().equalsIgnoreCase(name)) {
+                        mayReturn = subregion;
+                    }
+                }
+            }
+        }
+        return mayReturn;
+    }
+
+    public List<Region> getRegionsByLocation(Location location) {
+        List<Region> regionList = this.getObjectListCopy();
+        List<Region> regions = new ArrayList<>();
+
+        for(Region region : regionList) {
+            if(region.getRegion().contains(location.getBlockX(), location.getBlockY(), location.getBlockZ())) {
+                if(region.getRegionworld().getName().equals(location.getWorld().getName())) {
+                    regions.add(region);
+                }
+                for(Region subregion : region.getSubregions()) {
+                    if(subregion.getRegion().contains(location.getBlockX(), location.getBlockY(), location.getBlockZ())) {
+                        regions.add(subregion);
+                    }
+                }
+            }
+        }
+        return regions;
+    }
+
+    public List<Region> getRegionsByRegionKind(RegionKind regionKind) {
+        List<Region> regions = new ArrayList<>();
+        List<Region> regionList = this.getObjectListCopy();
+
+        for(Region region : regionList) {
+            if(region.getRegionKind() == regionKind) {
+                regions.add(region);
+                for(Region subregion : region.getSubregions()) {
+                    if(subregion.getRegionKind() == regionKind) {
+                        regions.add(subregion);
+                    }
+                }
+            }
+        }
+        return regions;
+    }
+
+    public List<Region> getRegionsBySelltype(SellType sellType) {
+        List<Region> regionList = this.getObjectListCopy();
+        List<Region> regions = new ArrayList<>();
+        for(Region region : regionList) {
+            if(region.getSellType() == sellType) {
+                regions.add(region);
+                for(Region subregion : region.getSubregions()) {
+                    if(subregion.getSellType() == sellType) {
+                        regions.add(subregion);
+                    }
+                }
+            }
+        }
+        return regions;
+    }
+
+    public  List<Region> getFreeRegions(RegionKind regionKind) {
+        List<Region> regions = new ArrayList<>();
+        List<Region> regionList = this.getObjectListCopy();
+
+        for(Region region : regionList) {
+            if(region.getRegionKind() == regionKind) {
+                if(!region.isSold()) {
+                    regions.add(region);
+                }
+            }
+            for(Region subregion : region.getSubregions()) {
+                if(subregion.getRegionKind() == regionKind) {
+                    if(!subregion.isSold()) {
+                        regions.add(subregion);
+                    }
+                }
+            }
+        }
+        return regions;
+    }
+
+    public boolean containsRegion(Region region) {
+        return this.getObjectListCopy().contains(region);
     }
 }

@@ -55,6 +55,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
     private static CommandHandler commandHandler;
     private static RegionKindManager regionKindManager;
     private static EntityLimitGroupManager entityLimitGroupManager;
+    private static RegionManager regionManager;
 
     public void onEnable(){
 
@@ -107,6 +108,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
 
         AdvancedRegionMarket.regionKindManager = new RegionKindManager(new File(this.getDataFolder() + "/regionkinds.yml"));
         AdvancedRegionMarket.entityLimitGroupManager = new EntityLimitGroupManager(new File(this.getDataFolder() + "/entitylimits.yml"));
+        AdvancedRegionMarket.regionManager = new RegionManager(new File(this.getDataFolder() + "/regions.yml"));
 
         loadAutoPrice();
         loadGroups();
@@ -123,7 +125,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
         }
         loadOther();
         PresetPatternManager.loadPresetPatterns();
-        OldRegionManager.loadRegionsFromConfig();
         Region.setCompleteTabRegions(getConfig().getBoolean("Other.CompleteRegionsOnTabComplete"));
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Scheduler() , 0 ,20*getConfig().getInt("Other.SignAndResetUpdateInterval"));
         AdvancedRegionMarket.commandHandler = new CommandHandler(new ArrayList<>(Arrays.asList("help")), "");
@@ -175,7 +176,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
             @Override
             public void run() {
-                OldRegionManager.writeRegionsToConfig(false);
+                AdvancedRegionMarket.getRegionManager().updateFile();
                 AdvancedRegionMarket.getEntityLimitGroupManager().updateFile();
                 AdvancedRegionMarket.getRegionKindManager().updateFile();
             }
@@ -186,10 +187,8 @@ public class AdvancedRegionMarket extends JavaPlugin {
         AdvancedRegionMarket.econ = null;
         AdvancedRegionMarket.worldguard = null;
         AdvancedRegionMarket.worldedit = null;
-        OldRegionManager.Reset();
         LimitGroup.Reset();
         AutoPrice.reset();
-        RegionKind.Reset();
         SignLinkMode.reset();
         PresetPatternManager.resetPresetPatterns();
         ActivePresetManager.reset();
@@ -214,6 +213,10 @@ public class AdvancedRegionMarket extends JavaPlugin {
 
     public static EntityLimitGroupManager getEntityLimitGroupManager() {
         return AdvancedRegionMarket.entityLimitGroupManager;
+    }
+
+    public static RegionManager getRegionManager() {
+        return AdvancedRegionMarket.regionManager;
     }
 
     private boolean setupEconomy() {
@@ -620,7 +623,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
     private void updateConfigs(){
         EntityLimitGroupManager.writeResourceToDisc(new File(this.getDataFolder() + "/entitylimits.yml"), getResource("entitylimits.yml"));
         RegionKindManager.writeResourceToDisc(new File(this.getDataFolder() + "/regionkinds.yml"), getResource("regionkinds.yml"));
-        OldRegionManager.generatedefaultConfig();
+        RegionManager.writeResourceToDisc(new File(this.getDataFolder() + "/regions.yml"), getResource("regions.yml"));
         Messages.generatedefaultConfig();
         PresetPatternManager.generatedefaultConfig();
         this.generatedefaultconfig();
@@ -691,7 +694,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
                 getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.7.5...");
                 updateTo1p75(pluginConfig);
             }
-            OldRegionManager.setRegionsConf();
         } catch (IOException e) {
             e.printStackTrace();
         }

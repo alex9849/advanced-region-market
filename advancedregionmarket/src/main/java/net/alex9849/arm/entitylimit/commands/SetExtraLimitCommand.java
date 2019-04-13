@@ -1,11 +1,11 @@
 package net.alex9849.arm.entitylimit.commands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.commands.BasicArmCommand;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regions.Region;
-import net.alex9849.arm.regions.OldRegionManager;
 import net.alex9849.exceptions.InputException;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -46,7 +46,7 @@ public class SetExtraLimitCommand extends BasicArmCommand {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
 
-        Region region = OldRegionManager.getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
+        Region region = AdvancedRegionMarket.getRegionManager().getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
 
         if(region == null) {
             throw new InputException(player, Messages.REGION_DOES_NOT_EXIST);
@@ -99,7 +99,7 @@ public class SetExtraLimitCommand extends BasicArmCommand {
                 }
             } else if((args.length == 2) && (args[0].equalsIgnoreCase(this.rootCommand))) {
                 if (this.rootCommand.startsWith(args[0])) {
-                    returnme.addAll(OldRegionManager.completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true, false));
+                    returnme.addAll(AdvancedRegionMarket.getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true, false));
 
                 }
             } else if((args.length == 3) && (args[0].equalsIgnoreCase(this.rootCommand))) {

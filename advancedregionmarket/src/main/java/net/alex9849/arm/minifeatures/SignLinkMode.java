@@ -5,7 +5,6 @@ import net.alex9849.arm.Messages;
 import net.alex9849.arm.Preseter.presets.Preset;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.regions.Region;
-import net.alex9849.arm.regions.OldRegionManager;
 import net.alex9849.inter.WGRegion;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -71,7 +70,7 @@ public class SignLinkMode implements Listener {
             event.setCancelled(true);
             if((event.getClickedBlock().getType() == Material.SIGN) || (event.getClickedBlock().getType() == Material.WALL_SIGN)) {
                 Sign sign  = (Sign) event.getClickedBlock().getState();
-                if(OldRegionManager.getRegion(sign) != null) {
+                if(AdvancedRegionMarket.getRegionManager().getRegion(sign) != null) {
                     throw new InputException(event.getPlayer(), Messages.SIGN_LINK_MODE_SIGN_BELONGS_TO_ANOTHER_REGION);
                 }
                 this.sign = sign;
@@ -112,18 +111,18 @@ public class SignLinkMode implements Listener {
         if(this.world == null) {
             throw new InputException(player, Messages.SIGN_LINK_MODE_COULD_NOT_IDENTIFY_WORLD);
         }
-        if(OldRegionManager.getRegion(sign) != null) {
+        if(AdvancedRegionMarket.getRegionManager().getRegion(sign) != null) {
             throw new InputException(this.player, Messages.SIGN_LINK_MODE_SIGN_BELONGS_TO_ANOTHER_REGION);
         }
         List<Sign> signs = new ArrayList<>();
         signs.add(this.sign);
-        Region existingRegion = OldRegionManager.getRegion(wgRegion);
+        Region existingRegion = AdvancedRegionMarket.getRegionManager().getRegion(wgRegion);
         if(existingRegion != null) {
             existingRegion.addSign(this.sign.getLocation());
             this.player.sendMessage(Messages.PREFIX + Messages.SIGN_ADDED_TO_REGION);
         } else {
             Region newRegion = this.preset.generateRegion(this.wgRegion, this.world, this.player, signs);
-            OldRegionManager.addRegion(newRegion);
+            AdvancedRegionMarket.getRegionManager().add(newRegion);
             this.player.sendMessage(Messages.PREFIX + Messages.REGION_ADDED_TO_ARM);
         }
         this.sign = null;

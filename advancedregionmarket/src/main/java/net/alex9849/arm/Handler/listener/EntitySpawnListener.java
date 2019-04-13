@@ -1,7 +1,7 @@
 package net.alex9849.arm.Handler.listener;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.regions.Region;
-import net.alex9849.arm.regions.OldRegionManager;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -21,7 +21,7 @@ public class EntitySpawnListener implements Listener {
             return;
         }
 
-        List<Region> regions = OldRegionManager.getRegionsByLocation(event.getLocation());
+        List<Region> regions = AdvancedRegionMarket.getRegionManager().getRegionsByLocation(event.getLocation());
 
         for(Region region : regions) {
             if(region.getEntityLimitGroup().isLimitReached(region, event.getEntityType(), region.getExtraEntityAmount(event.getEntityType()), region.getExtraTotalEntitys())) {
@@ -35,7 +35,7 @@ public class EntitySpawnListener implements Listener {
         if(event.isCancelled()) {
             return;
         }
-        List<Region> regions = OldRegionManager.getRegionsByLocation(event.getVehicle().getLocation());
+        List<Region> regions = AdvancedRegionMarket.getRegionManager().getRegionsByLocation(event.getVehicle().getLocation());
 
         for(Region region : regions) {
             if(region.getEntityLimitGroup().isLimitReached(region, event.getVehicle().getType(), region.getExtraEntityAmount(event.getVehicle().getType()), region.getExtraTotalEntitys())) {

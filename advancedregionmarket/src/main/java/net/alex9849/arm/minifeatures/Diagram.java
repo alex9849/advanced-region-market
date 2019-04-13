@@ -44,7 +44,7 @@ public class Diagram {
         int allRegions = 0;
         int allSoldRegions = 0;
 
-        for(Region region : OldRegionManager.getAllRegions()) {
+        for(Region region : AdvancedRegionMarket.getRegionManager().getObjectListCopy()) {
             allRegions++;
             if (region.isSold()) {
                 allSoldRegions++;
@@ -64,7 +64,7 @@ public class Diagram {
         int regions = 0;
         int soldregions = 0;
 
-        for(Region region : OldRegionManager.getRegionsByRegionKind(regionKind)) {
+        for(Region region : AdvancedRegionMarket.getRegionManager().getRegionsByRegionKind(regionKind)) {
             if(region.getRegionKind() == regionKind) {
                 regions++;
                 if(region.isSold()) {
@@ -80,7 +80,7 @@ public class Diagram {
         int regions = 0;
         int soldregions = 0;
 
-        for(Region region : OldRegionManager.getRegionsBySelltype(sellType)) {
+        for(Region region : AdvancedRegionMarket.getRegionManager().getRegionsBySelltype(sellType)) {
             regions++;
             if (region.isSold()) {
                 soldregions++;

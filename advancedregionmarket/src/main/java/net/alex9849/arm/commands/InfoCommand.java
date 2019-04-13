@@ -1,11 +1,11 @@
 package net.alex9849.arm.commands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regions.Region;
-import net.alex9849.arm.regions.OldRegionManager;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -59,7 +59,7 @@ public class InfoCommand extends BasicArmCommand {
                     if(args.length == 1) {
                         returnme.add(this.rootCommand);
                     } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                        returnme.addAll(OldRegionManager.completeTabRegions(player, args[1], PlayerRegionRelationship.ALL,true, true));
+                        returnme.addAll(AdvancedRegionMarket.getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.ALL,true, true));
                     }
                 }
             }
@@ -81,7 +81,7 @@ public class InfoCommand extends BasicArmCommand {
 
         Location loc = (player).getLocation();
 
-        List<Region> regionList = OldRegionManager.getRegionsByLocation(loc);
+        List<Region> regionList = AdvancedRegionMarket.getRegionManager().getRegionsByLocation(loc);
 
         if(regionList.size() == 1) {
             regionList.get(0).regionInfo(player);
@@ -108,7 +108,7 @@ public class InfoCommand extends BasicArmCommand {
             throw new InputException(player, Messages.NO_PERMISSION);
         }
 
-        Region region = OldRegionManager.getRegionbyNameAndWorldCommands(regionname, (player).getWorld().getName());
+        Region region = AdvancedRegionMarket.getRegionManager().getRegionbyNameAndWorldCommands(regionname, (player).getWorld().getName());
 
         if(region == null){
             throw new InputException(player, Messages.REGION_DOES_NOT_EXIST);

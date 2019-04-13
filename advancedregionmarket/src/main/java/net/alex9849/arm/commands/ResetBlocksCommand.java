@@ -1,12 +1,12 @@
 package net.alex9849.arm.commands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.gui.Gui;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regions.Region;
-import net.alex9849.arm.regions.OldRegionManager;
 import net.alex9849.exceptions.SchematicNotFoundException;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -49,7 +49,7 @@ public class ResetBlocksCommand extends BasicArmCommand {
             throw new InputException(player, Messages.NO_PERMISSION);
         }
 
-        Region resregion = OldRegionManager.getRegionbyNameAndWorldCommands(args[1], (player).getPlayer().getWorld().getName());
+        Region resregion = AdvancedRegionMarket.getRegionManager().getRegionbyNameAndWorldCommands(args[1], (player).getPlayer().getWorld().getName());
         if(resregion == null) {
             throw new InputException(player, Messages.REGION_DOES_NOT_EXIST);
         }
@@ -97,7 +97,7 @@ public class ResetBlocksCommand extends BasicArmCommand {
                         } else {
                             playerRegionRelationship = PlayerRegionRelationship.OWNER;
                         }
-                        returnme.addAll(OldRegionManager.completeTabRegions(player, args[1], playerRegionRelationship,true, true));
+                        returnme.addAll(AdvancedRegionMarket.getRegionManager().completeTabRegions(player, args[1], playerRegionRelationship,true, true));
                     }
                 }
             }

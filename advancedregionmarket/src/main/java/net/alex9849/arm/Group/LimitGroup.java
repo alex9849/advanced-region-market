@@ -5,7 +5,6 @@ import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regionkind.RegionKind;
-import net.alex9849.arm.regions.OldRegionManager;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -125,7 +124,7 @@ public class LimitGroup {
     }
 
     public static int getOwnedRegions(Player player, RegionKind regionkind){
-        List<Region> regions = OldRegionManager.getRegionsByOwner(player.getUniqueId());
+        List<Region> regions = AdvancedRegionMarket.getRegionManager().getRegionsByOwner(player.getUniqueId());
         int ownedregionswiththistype = 0;
         for(int i = 0; i < regions.size(); i++) {
             if(regionkind == regions.get(i).getRegionKind()){
@@ -136,7 +135,7 @@ public class LimitGroup {
     }
 
     public static int getOwnedRegions(Player player){
-        return OldRegionManager.getRegionsByOwner(player.getUniqueId()).size();
+        return AdvancedRegionMarket.getRegionManager().getRegionsByOwner(player.getUniqueId()).size();
     }
 
     public static void getLimitChat(Player player) {

@@ -3,7 +3,6 @@ package net.alex9849.arm.Handler;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.regions.Region;
-import net.alex9849.arm.regions.OldRegionManager;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,7 +12,7 @@ import java.util.*;
 public class Scheduler implements Runnable {
     @Override
     public void run() {
-        OldRegionManager.updateRegions();
+        AdvancedRegionMarket.getRegionManager().updateRegions();
 
         if(ArmSettings.isEnableAutoReset()){
 
@@ -27,8 +26,8 @@ public class Scheduler implements Runnable {
             try {
                 ResultSet rs = ArmSettings.getStmt().executeQuery("SELECT * FROM `" + ArmSettings.getSqlPrefix() + "lastlogin` WHERE `lastlogin` < '" + compareTime + "'");
                 if (rs.next()){
-                    OldRegionManager.autoResetRegionsFromOwner(UUID.fromString(rs.getString("uuid")));
-                    List<Region> regions = OldRegionManager.getRegionsByMember(UUID.fromString(rs.getString("uuid")));
+                    AdvancedRegionMarket.getRegionManager().autoResetRegionsFromOwner(UUID.fromString(rs.getString("uuid")));
+                    List<Region> regions = AdvancedRegionMarket.getRegionManager().getRegionsByMember(UUID.fromString(rs.getString("uuid")));
                     for (int i = 0; i < regions.size(); i++){
                         if(regions.get(i).getAutoreset()){
                             regions.get(i).getRegion().removeMember(UUID.fromString(rs.getString("uuid")));

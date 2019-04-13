@@ -1,12 +1,12 @@
 package net.alex9849.arm.commands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import net.alex9849.arm.regions.Region;
-import net.alex9849.arm.regions.OldRegionManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -45,7 +45,7 @@ public class TPCommand extends BasicArmCommand {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Player player = (Player) sender;
-        Region region = OldRegionManager.getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
+        Region region = AdvancedRegionMarket.getRegionManager().getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
 
         if (region == null) {
             throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
@@ -77,7 +77,7 @@ public class TPCommand extends BasicArmCommand {
                         } else {
                             playerRegionRelationship = PlayerRegionRelationship.MEMBER_OR_OWNER;
                         }
-                        returnme.addAll(OldRegionManager.completeTabRegions(player, args[1], playerRegionRelationship, true,true));
+                        returnme.addAll(AdvancedRegionMarket.getRegionManager().completeTabRegions(player, args[1], playerRegionRelationship, true,true));
                     }
                 }
             }

@@ -1,12 +1,12 @@
 package net.alex9849.arm.commands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Handler.CommandHandler;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regions.Region;
-import net.alex9849.arm.regions.OldRegionManager;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -48,7 +48,7 @@ public class SetOwnerCommand extends BasicArmCommand {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Player playersender = (Player) sender;
-        Region region = OldRegionManager.getRegionbyNameAndWorldCommands(args[1], playersender.getWorld().getName());
+        Region region = AdvancedRegionMarket.getRegionManager().getRegionbyNameAndWorldCommands(args[1], playersender.getWorld().getName());
         if (region == null) {
             throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
         }
@@ -79,7 +79,7 @@ public class SetOwnerCommand extends BasicArmCommand {
                         } else {
                             playerRegionRelationship = PlayerRegionRelationship.OWNER;
                         }
-                        returnme.addAll(OldRegionManager.completeTabRegions(player, args[1], playerRegionRelationship, true,true));
+                        returnme.addAll(AdvancedRegionMarket.getRegionManager().completeTabRegions(player, args[1], playerRegionRelationship, true,true));
                     } else if(args.length == 3 && (args[0].equalsIgnoreCase(this.rootCommand))) {
                         returnme.addAll(CommandHandler.tabCompleteOnlinePlayers(args[2]));
                     }

@@ -1,8 +1,8 @@
 package net.alex9849.arm.Handler.listener;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
-import net.alex9849.arm.regions.OldRegionManager;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.exceptions.InputException;
 import org.bukkit.event.EventHandler;
@@ -20,7 +20,7 @@ public class BlockModifyListener implements Listener {
         if(event.isCancelled()) {
             return;
         }
-        List<Region> locRegions = OldRegionManager.getRegionsByLocation(event.getBlock().getLocation());
+        List<Region> locRegions = AdvancedRegionMarket.getRegionManager().getRegionsByLocation(event.getBlock().getLocation());
 
         for(Region region : locRegions) {
             if(region.isHotel()) {
@@ -47,7 +47,7 @@ public class BlockModifyListener implements Listener {
             return;
         }
         try {
-            List<Region> locRegions = OldRegionManager.getRegionsByLocation(event.getBlock().getLocation());
+            List<Region> locRegions = AdvancedRegionMarket.getRegionManager().getRegionsByLocation(event.getBlock().getLocation());
 
             for(Region region : locRegions) {
                 if(region.isHotel()) {

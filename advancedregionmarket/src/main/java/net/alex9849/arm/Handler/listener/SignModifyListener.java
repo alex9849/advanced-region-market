@@ -113,7 +113,7 @@ public class SignModifyListener implements Listener {
                     throw new InputException(sign.getPlayer(), ChatColor.DARK_RED + "Price must be positive!");
                 }
 
-                Region searchregion = OldRegionManager.searchRegionbyNameAndWorld(regionname, worldname);
+                Region searchregion = AdvancedRegionMarket.getRegionManager().searchRegionbyNameAndWorld(regionname, worldname);
                 if(searchregion != null) {
                     if(!(searchregion instanceof SellRegion)) {
                         throw new InputException(sign.getPlayer(), "Region already registered as a non-sellregion");
@@ -129,7 +129,7 @@ public class SignModifyListener implements Listener {
                 sellsign.add((Sign) sign.getBlock().getState());
                 SellRegion addRegion = new SellRegion(region, regionWorld, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,1, userResettable, new ArrayList<Region>(), allowedSubregions, entityLimitGroup, new HashMap<>(), 0);
                 addRegion.createSchematic();
-                OldRegionManager.addRegion(addRegion);
+                AdvancedRegionMarket.getRegionManager().add(addRegion);
                 sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_ADDED_TO_ARM);
                 sign.setCancelled(true);
 
@@ -221,7 +221,7 @@ public class SignModifyListener implements Listener {
                     }
                 }
 
-                Region searchregion = OldRegionManager.searchRegionbyNameAndWorld(regionname, worldname);
+                Region searchregion = AdvancedRegionMarket.getRegionManager().searchRegionbyNameAndWorld(regionname, worldname);
                 if(searchregion != null) {
                     if(!(searchregion instanceof RentRegion)) {
                         throw new InputException(sign.getPlayer(), "Region already registered as a non-rentregion");
@@ -238,7 +238,7 @@ public class SignModifyListener implements Listener {
                 RentRegion addRegion = new RentRegion(region, regionWorld, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,
                         1, userResettable,1, new ArrayList<Region>(), allowedSubregions, entityLimitGroup, new HashMap<>(), 0);
                 addRegion.createSchematic();
-                OldRegionManager.addRegion(addRegion);
+                AdvancedRegionMarket.getRegionManager().add(addRegion);
 
                 sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_ADDED_TO_ARM);
                 sign.setCancelled(true);
@@ -326,7 +326,7 @@ public class SignModifyListener implements Listener {
                 }
 
 
-                Region searchregion = OldRegionManager.searchRegionbyNameAndWorld(regionname, worldname);
+                Region searchregion = AdvancedRegionMarket.getRegionManager().searchRegionbyNameAndWorld(regionname, worldname);
                 if(searchregion != null) {
                     if(!(searchregion instanceof ContractRegion)) {
                         throw new InputException(sign.getPlayer(), "Region already registered as a non-contractregion");
@@ -342,7 +342,7 @@ public class SignModifyListener implements Listener {
                 ContractRegion addRegion = new ContractRegion(region, regionWorld, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,
                         1, userResettable, 1, false, new ArrayList<Region>(), allowedSubregions, entityLimitGroup, new HashMap<>(), 0);
                 addRegion.createSchematic();
-                OldRegionManager.addRegion(addRegion);
+                AdvancedRegionMarket.getRegionManager().add(addRegion);
                 sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_ADDED_TO_ARM);
                 sign.setCancelled(true);
 
@@ -366,7 +366,7 @@ public class SignModifyListener implements Listener {
             if ((block.getBlock().getType() != Material.SIGN) && (block.getBlock().getType() != Material.WALL_SIGN)) {
                 return;
             }
-            Region region = OldRegionManager.getRegion((Sign) block.getBlock().getState());
+            Region region = AdvancedRegionMarket.getRegionManager().getRegion((Sign) block.getBlock().getState());
             if(region == null){
                 return;
             }
@@ -420,7 +420,7 @@ public class SignModifyListener implements Listener {
     @EventHandler
     public void protectSignPhysics(BlockPhysicsEvent sign) {
         if (sign.getBlock().getType() == Material.SIGN || sign.getBlock().getType() == Material.WALL_SIGN){
-            if(OldRegionManager.getRegion((Sign) sign.getBlock().getState()) != null){
+            if(AdvancedRegionMarket.getRegionManager().getRegion((Sign) sign.getBlock().getState()) != null){
                 sign.setCancelled(true);
                 return;
             }

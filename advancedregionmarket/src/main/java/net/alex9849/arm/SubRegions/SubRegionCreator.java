@@ -7,7 +7,6 @@ import net.alex9849.exceptions.ArmInternalException;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.minifeatures.ParticleBorder;
 import net.alex9849.arm.regions.Region;
-import net.alex9849.arm.regions.OldRegionManager;
 import net.alex9849.inter.WGRegion;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -77,7 +76,7 @@ public class SubRegionCreator {
         if(!this.parentRegion.getRegionworld().getName().equals(this.creator.getLocation().getWorld().getName())) {
             throw new InputException(this.creator, Messages.POSITION_CLOUD_NOT_BE_SET_MARK_OUTSIDE_REGION);
         }
-        if(!OldRegionManager.containsRegion(this.getParentRegion())) {
+        if(!AdvancedRegionMarket.getRegionManager().containsRegion(this.getParentRegion())) {
             this.remove();
             throw new InputException(this.creator, Messages.REGION_NOT_REGISTRED);
         }
@@ -109,7 +108,7 @@ public class SubRegionCreator {
             this.remove();
             throw new InputException(this.creator, Messages.PARENT_REGION_NOT_OWN);
         }
-        if(!OldRegionManager.containsRegion(this.getParentRegion())) {
+        if(!AdvancedRegionMarket.getRegionManager().containsRegion(this.getParentRegion())) {
             this.remove();
             throw new InputException(this.creator, Messages.REGION_NOT_REGISTRED);
         }

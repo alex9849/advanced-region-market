@@ -24,25 +24,13 @@ public class RegionKindManager extends YamlFileManager<RegionKind> {
         if(yamlConfiguration.get("DefaultRegionKind") != null) {
             ConfigurationSection defaultRkConfig = yamlConfiguration.getConfigurationSection("DefaultRegionKind");
             updateDefaults(defaultRkConfig);
-            RegionKind defaultRk = RegionKind.parse(defaultRkConfig, "Default");
-            RegionKind.DEFAULT.setName(defaultRk.getRawDisplayName());
-            RegionKind.DEFAULT.setMaterial(defaultRk.getMaterial());
-            RegionKind.DEFAULT.setDisplayInGUI(defaultRk.isDisplayInGUI());
-            RegionKind.DEFAULT.setDisplayInLimits(defaultRk.isDisplayInLimits());
-            RegionKind.DEFAULT.setPaybackPercentage(defaultRk.getPaybackPercentage());
-            RegionKind.DEFAULT.setLore(defaultRk.getRawLore());
+            RegionKind.DEFAULT = RegionKind.parse(defaultRkConfig, "Default");
         }
 
         if(yamlConfiguration.get("SubregionRegionKind") != null) {
             ConfigurationSection subregionRkConfig = yamlConfiguration.getConfigurationSection("SubregionRegionKind");
             updateDefaults(subregionRkConfig);
-            RegionKind subregionRk = RegionKind.parse(subregionRkConfig, "Subregion");
-            RegionKind.SUBREGION.setName(subregionRk.getRawDisplayName());
-            RegionKind.SUBREGION.setMaterial(subregionRk.getMaterial());
-            RegionKind.SUBREGION.setDisplayInGUI(subregionRk.isDisplayInGUI());
-            RegionKind.SUBREGION.setDisplayInLimits(subregionRk.isDisplayInLimits());
-            RegionKind.SUBREGION.setPaybackPercentage(subregionRk.getPaybackPercentage());
-            RegionKind.SUBREGION.setLore(subregionRk.getRawLore());
+            RegionKind.SUBREGION = RegionKind.parse(subregionRkConfig, "Subregion");
         }
 
         if(yamlConfiguration.get("RegionKinds") != null) {

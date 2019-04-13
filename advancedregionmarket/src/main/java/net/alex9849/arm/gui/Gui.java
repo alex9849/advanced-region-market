@@ -351,6 +351,9 @@ public class Gui implements Listener {
 
         if(player.hasPermission(Permission.SUBREGION_CHANGE_IS_HOTEL)) {
             List<String> message = new ArrayList<>(Messages.GUI_SUBREGION_HOTEL_BUTTON_LORE);
+            for(int j = 0; j < message.size(); j++) {
+                message.set(j, region.getConvertedMessage(message.get(j)));
+            }
             ClickItem isHotelItem = new ClickItem(new ItemStack(Gui.HOTEL_SETTING_ITEM), Messages.GUI_SUBREGION_HOTEL_BUTTON, message);
             isHotelItem= isHotelItem.addClickAction(new ClickAction() {
                 @Override

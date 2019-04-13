@@ -50,6 +50,10 @@ public abstract class YamlFileManager<ManagedObject extends Saveable> {
 
         if(this.completeSaveQueuned) {
             this.yamlConfiguration = new YamlConfiguration();
+            savedSomething = true;
+        }
+
+        if(this.completeSaveQueuned || this.staticSaveQuenued()) {
             this.writeStaticSettings(this.yamlConfiguration);
             savedSomething = true;
         }
@@ -70,6 +74,8 @@ public abstract class YamlFileManager<ManagedObject extends Saveable> {
     }
 
     public abstract List<ManagedObject> loadSavedObjects(YamlConfiguration yamlConfiguration);
+
+    public abstract boolean staticSaveQuenued();
 
     public abstract void saveObjectToYamlObject(ManagedObject object, YamlConfiguration yamlConfiguration);
 

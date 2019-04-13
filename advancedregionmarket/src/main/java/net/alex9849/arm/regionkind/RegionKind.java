@@ -24,7 +24,7 @@ public class RegionKind implements Saveable {
     private boolean displayInGUI;
     private boolean displayInLimits;
     private double paybackPercentage;
-    public boolean needsSave;
+    private boolean needsSave;
 
     public RegionKind(String name, Material material, List<String> lore, String displayName, boolean displayInGUI, boolean displayInLimits, double paybackPercentage){
         this.name = name;

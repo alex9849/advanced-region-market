@@ -59,6 +59,11 @@ public class EntityLimitGroupManager extends YamlFileManager<EntityLimitGroup> {
     }
 
     @Override
+    public boolean staticSaveQuenued() {
+        return EntityLimitGroup.DEFAULT.needsSave() || EntityLimitGroup.SUBREGION.needsSave();
+    }
+
+    @Override
     public void saveObjectToYamlObject(EntityLimitGroup entityLimitGroup, YamlConfiguration yamlConfiguration) {
         yamlConfiguration.set("EntityLimits." + entityLimitGroup.getName(), entityLimitGroup.toConfigureationSection());
     }
@@ -66,7 +71,9 @@ public class EntityLimitGroupManager extends YamlFileManager<EntityLimitGroup> {
     @Override
     public void writeStaticSettings(YamlConfiguration yamlConfiguration) {
         yamlConfiguration.set("DefaultEntityLimit", EntityLimitGroup.DEFAULT.toConfigureationSection());
+        EntityLimitGroup.DEFAULT.setSaved();
         yamlConfiguration.set("SubregionEntityLimit", EntityLimitGroup.SUBREGION.toConfigureationSection());
+        EntityLimitGroup.SUBREGION.setSaved();
     }
 
     private static EntityLimitGroup parseEntityLimitGroup(ConfigurationSection section, String id) {

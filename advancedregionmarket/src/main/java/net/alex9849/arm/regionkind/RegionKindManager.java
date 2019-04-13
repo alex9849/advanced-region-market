@@ -59,6 +59,11 @@ public class RegionKindManager extends YamlFileManager<RegionKind> {
     }
 
     @Override
+    public boolean staticSaveQuenued() {
+        return RegionKind.DEFAULT.needsSave() || RegionKind.SUBREGION.needsSave();
+    }
+
+    @Override
     public void saveObjectToYamlObject(RegionKind regionKind, YamlConfiguration yamlConfiguration) {
         yamlConfiguration.set("RegionKinds." + regionKind.getName(), regionKind.toConfigureationSection());
     }
@@ -66,7 +71,9 @@ public class RegionKindManager extends YamlFileManager<RegionKind> {
     @Override
     public void writeStaticSettings(YamlConfiguration yamlConfiguration) {
         yamlConfiguration.set("DefaultRegionKind", RegionKind.DEFAULT.toConfigureationSection());
+        RegionKind.DEFAULT.setSaved();
         yamlConfiguration.set("SubregionRegionKind", RegionKind.SUBREGION.toConfigureationSection());
+        RegionKind.SUBREGION.setSaved();
     }
 
     public List<String> completeTabRegionKinds(String arg, String returnPrefix) {

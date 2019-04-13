@@ -81,6 +81,11 @@ public class RegionManager extends YamlFileManager<Region> {
         return loadedRegions;
     }
 
+    @Override
+    public boolean staticSaveQuenued() {
+        return false;
+    }
+
     private static Region parseRegion(ConfigurationSection regionSection, World regionWorld, WGRegion wgRegion) {
         boolean sold = regionSection.getBoolean("sold");
         String kind = regionSection.getString("kind");

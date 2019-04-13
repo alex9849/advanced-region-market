@@ -5,6 +5,7 @@ import net.alex9849.arm.Handler.Scheduler;
 import net.alex9849.arm.Handler.listener.*;
 import net.alex9849.arm.commands.*;
 import net.alex9849.arm.entitylimit.EntityLimitGroupManager;
+import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.regions.price.RentPrice;
 import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regionkind.RegionKindManager;
@@ -39,9 +40,13 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.*;
+import java.math.RoundingMode;
 import java.net.*;
 import java.nio.charset.Charset;
 import java.sql.*;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.util.*;
 import java.util.logging.Level;
 
@@ -388,6 +393,21 @@ public class AdvancedRegionMarket extends JavaPlugin {
     }
 
     private void loadAutoPrice() {
+        Locale locale;
+        String languageTag = getConfig().getString("PriceFormatting.locale");
+        try {
+            locale = Locale.forLanguageTag(languageTag);
+        } catch (NullPointerException e) {
+            locale = Locale.getDefault();
+            Bukkit.getLogger().log(Level.WARNING, "Could not find language-Tag " + languageTag + "! Using " + locale + " now!");
+        }
+        NumberFormat priceFormatter = NumberFormat.getInstance(locale);
+        priceFormatter.setMinimumFractionDigits(getConfig().getInt("PriceFormatting.minimumFractionDigits"));
+        priceFormatter.setMaximumFractionDigits(getConfig().getInt("PriceFormatting.maximumFractionDigits"));
+        priceFormatter.setMinimumIntegerDigits(getConfig().getInt("PriceFormatting.minimumIntegerDigits"));
+        priceFormatter.setGroupingUsed(true);
+        Price.setPriceFormater(priceFormatter);
+
         if(getConfig().getConfigurationSection("AutoPrice") != null) {
             AutoPrice.loadAutoprices(getConfig().getConfigurationSection("AutoPrice"));
         }
@@ -971,6 +991,10 @@ public class AdvancedRegionMarket extends JavaPlugin {
         pluginConfig.set("SubregionRegionKind", null);
 
         pluginConfig.set("RegionKinds.activateRegionKindPermissions", true);
+        pluginConfig.set("PriceFormatting.locale", "US");
+        pluginConfig.set("PriceFormatting.minimumFractionDigits", 2);
+        pluginConfig.set("PriceFormatting.maximumFractionDigits", 2);
+        pluginConfig.set("PriceFormatting.minimumIntegerDigits", 1);
 
         pluginConfig.set("Version", 1.75);
 

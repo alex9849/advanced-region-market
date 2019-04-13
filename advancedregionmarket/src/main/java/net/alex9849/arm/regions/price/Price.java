@@ -3,14 +3,14 @@ package net.alex9849.arm.regions.price;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.inter.WGRegion;
 
-import java.text.DecimalFormat;
-import java.util.Locale;
+import java.text.NumberFormat;
 
 public class Price {
     protected AutoPrice autoPrice;
     protected double price;
     protected boolean hasPriceBeenCalced;
     protected double calcedAutoPrice;
+    private static NumberFormat priceFormater;
 
     public Price(double price) {
         if(price < 0) {
@@ -61,13 +61,12 @@ public class Price {
         return this.autoPrice;
     }
 
+    public static void setPriceFormater(NumberFormat formater) {
+        Price.priceFormater = formater;
+    }
+
     public static String formatPrice(double price) {
-        float epsilon = 0.004f; // 4 tenths of a cent
-        if (Math.abs(Math.round(price) - price) < epsilon) {
-            return String.format("%1.0f", price); // sdb
-        } else {
-            return String.format("%1.2f", price); // dj_segfault
-        }
+        return Price.priceFormater.format(price);
     }
 
     /*

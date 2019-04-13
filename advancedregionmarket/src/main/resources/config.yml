@@ -99,6 +99,18 @@ RegionKinds:
   # and to be able to buy them. Replace REGIONKIND_INTERNAL_NAME with the internal name of the regionkind
   activateRegionKindPermissions: false
 
+PriceFormatting:
+  # Describes how prices will be formatted. For example:
+  # US would format the price like this: 123,456.78
+  # DE would format the price like this: 123.456,78
+  locale: US
+  # Minumum amount of numbers after the ","
+  minimumFractionDigits: 2
+  # Maximum amount of numbers after the ","
+  maximumFractionDigits: 2
+  # Minimum amount of numbers before the ","
+  minimumIntegerDigits: 1
+
 Other:
   # If users have the permission 'arm.resetregionblocks' they can reset their own regions. The number
   # behind is the cooldown when they can reset their region again (in days).

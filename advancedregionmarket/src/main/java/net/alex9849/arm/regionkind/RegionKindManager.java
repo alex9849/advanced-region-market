@@ -8,6 +8,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class RegionKindManager extends YamlFileManager<RegionKind> {
@@ -146,7 +147,7 @@ public class RegionKindManager extends YamlFileManager<RegionKind> {
         fileupdated |= this.addDefault(section, "displayInLimits", true);
         fileupdated |= this.addDefault(section, "displayInGUI", true);
         fileupdated |= this.addDefault(section, "paypackPercentage", 0d);
-        fileupdated |= this.addDefault(section, "lore", new ArrayList<String>());
+        fileupdated |= this.addDefault(section, "lore", new ArrayList<String>(Arrays.asList("Default lore")));
         return fileupdated;
     }
 

@@ -1,5 +1,6 @@
 package net.alex9849.arm.util;
 
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.*;
@@ -96,5 +97,13 @@ public abstract class YamlFileManager<ManagedObject extends Saveable> {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean addDefault(ConfigurationSection section, String path, Object obj) {
+        if(section.get(path) == null) {
+            section.addDefault(path, obj);
+            return true;
+        }
+        return false;
     }
 }

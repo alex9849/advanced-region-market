@@ -2,6 +2,7 @@ package net.alex9849.arm.regionkind;
 
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.util.YamlFileManager;
+import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -18,18 +19,19 @@ public class RegionKindManager extends YamlFileManager<RegionKind> {
     @Override
     public List<RegionKind> loadSavedObjects(YamlConfiguration yamlConfiguration) {
         List<RegionKind> regionKindList = new ArrayList<>();
+        boolean fileupdated = false;
 
         yamlConfiguration.options().copyDefaults(true);
 
         if(yamlConfiguration.get("DefaultRegionKind") != null) {
             ConfigurationSection defaultRkConfig = yamlConfiguration.getConfigurationSection("DefaultRegionKind");
-            updateDefaults(defaultRkConfig);
+            fileupdated |= updateDefaults(defaultRkConfig);
             RegionKind.DEFAULT = RegionKind.parse(defaultRkConfig, "Default");
         }
 
         if(yamlConfiguration.get("SubregionRegionKind") != null) {
             ConfigurationSection subregionRkConfig = yamlConfiguration.getConfigurationSection("SubregionRegionKind");
-            updateDefaults(subregionRkConfig);
+            fileupdated |= updateDefaults(subregionRkConfig);
             RegionKind.SUBREGION = RegionKind.parse(subregionRkConfig, "Subregion");
         }
 
@@ -41,14 +43,17 @@ public class RegionKindManager extends YamlFileManager<RegionKind> {
                     if(regionKindsSection.get(regionKindID) != null) {
                         ConfigurationSection rkConfSection = regionKindsSection.getConfigurationSection(regionKindID);
                         if(rkConfSection != null) {
-                            updateDefaults(rkConfSection);
+                            fileupdated |=  updateDefaults(rkConfSection);
                             regionKindList.add(RegionKind.parse(rkConfSection, regionKindID));
                         }
                     }
                 }
             }
         }
-        this.saveFile();
+
+        if(fileupdated) {
+            this.saveFile();
+        }
         yamlConfiguration.options().copyDefaults(false);
         return regionKindList;
     }
@@ -126,13 +131,16 @@ public class RegionKindManager extends YamlFileManager<RegionKind> {
         return null;
     }
 
-    private void updateDefaults(ConfigurationSection section) {
-        section.addDefault("item", "RED_BED");
-        section.addDefault("displayName", "Default Displayname");
-        section.addDefault("displayInLimits", true);
-        section.addDefault("displayInGUI", true);
-        section.addDefault("paypackPercentage", 0d);
-        section.addDefault("lore", new ArrayList<String>());
+    private boolean updateDefaults(ConfigurationSection section) {
+        boolean fileupdated = false;
+        fileupdated |= this.addDefault(section, "item", Material.RED_BED.toString());
+        fileupdated |= this.addDefault(section, "displayName", "Default Displayname");
+        fileupdated |= this.addDefault(section, "displayName", "Default Displayname");
+        fileupdated |= this.addDefault(section, "displayInLimits", true);
+        fileupdated |= this.addDefault(section, "displayInGUI", true);
+        fileupdated |= this.addDefault(section, "paypackPercentage", 0d);
+        fileupdated |= this.addDefault(section, "lore", new ArrayList<String>());
+        return fileupdated;
     }
 
     public List<String> tabCompleteRegionKind(String arg) {

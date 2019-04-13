@@ -53,6 +53,7 @@ public abstract class Region implements Saveable {
     private boolean needsSave;
     private HashMap<EntityType, Integer> extraEntitys;
     private int extraTotalEntitys;
+    Integer m2Amount;
 
     public Region(WGRegion region, World regionworld, List<Sign> sellsign, Price price, Boolean sold, Boolean autoreset,
                   Boolean isHotel, Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset,
@@ -676,7 +677,7 @@ public abstract class Region implements Saveable {
     public abstract double getPricePerM3PerWeek();
 
     public double getPricePerM2() {
-        int m2 = this.getRegion().getVolume() / ((this.getRegion().getMaxPoint().getBlockY() - this.getRegion().getMinPoint().getBlockY()) + 1);
+        double m2 = this.getM2Amount();
         return this.price.calcPrice(this.getRegion()) / m2;
     }
 
@@ -831,6 +832,14 @@ public abstract class Region implements Saveable {
         } else {
             return amount;
         }
+    }
+
+    protected int getM2Amount() {
+        if(this.m2Amount == null) {
+            int hight = ((this.getRegion().getMaxPoint().getBlockY() - this.getRegion().getMinPoint().getBlockY()) + 1);
+            this.m2Amount = this.getRegion().getVolume() / hight;
+        }
+        return this.m2Amount;
     }
 
     public int getExtraTotalEntitys() {

@@ -6,6 +6,7 @@ import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
 import net.alex9849.arm.regionkind.RegionKind;
+import net.alex9849.arm.util.Saveable;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.minifeatures.ParticleBorder;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
@@ -16,6 +17,8 @@ import org.bukkit.*;
 import org.bukkit.Location;
 import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.*;
 import org.bukkit.util.Vector;
 
@@ -26,7 +29,7 @@ import java.sql.Timestamp;
 import java.util.*;
 import java.util.logging.Level;
 
-public abstract class Region {
+public abstract class Region implements Saveable {
     public static boolean completeTabRegions;
 
     protected WGRegion region;
@@ -242,8 +245,10 @@ public abstract class Region {
                         if(this.isSubregion()) {
                             AdvancedRegionMarket.getWorldGuardInterface().removeFromRegionManager(this.getRegion(), this.getRegionworld(), AdvancedRegionMarket.getWorldGuard());
                             this.getParentRegion().getSubregions().remove(this);
+                            this.getParentRegion().queueSave();
+                        } else {
+                            RegionManager.removeRegion(this);
                         }
-                        RegionManager.removeRegion(this);
                         if(destroyer != null) {
                             destroyer.sendMessage(Messages.PREFIX + Messages.REGION_REMOVED_FROM_ARM);
                         }
@@ -721,7 +726,7 @@ public abstract class Region {
         this.needsSave = true;
     }
 
-    protected void setSaved() {
+    public void setSaved() {
         this.needsSave = false;
     }
 
@@ -858,4 +863,53 @@ public abstract class Region {
     protected HashMap<EntityType, Integer> getExtraEntitys() {
         return this.extraEntitys;
     }
+
+    public ConfigurationSection toConfigureationSection() {
+        YamlConfiguration yamlConfiguration = new YamlConfiguration();
+        yamlConfiguration.set("sold", this.isSold());
+        yamlConfiguration.set("isHotel", this.isHotel());
+        yamlConfiguration.set("lastreset", this.getLastreset());
+        yamlConfiguration.set("regiontype", this.getSellType().getName());
+        if(this.getPriceObject().isAutoPrice()) {
+            yamlConfiguration.set("autoprice", this.getPriceObject().getAutoPrice().getName());
+            yamlConfiguration.set("price", null);
+        } else {
+            yamlConfiguration.set("price", this.getPrice());
+        }
+        List<String> signs = new ArrayList<>();
+        for(Sign sign : this.getSellSigns()) {
+            Location signloc = sign.getLocation();
+            signs.add(signloc.getWorld().getName() + ";" + signloc.getX() + ";" + signloc.getY() + ";" + signloc.getZ());
+        }
+        yamlConfiguration.set("signs", signs);
+
+        if(!this.isSubregion()) {
+            yamlConfiguration.set("kind", this.getRegionKind().getName());
+            yamlConfiguration.set("autoreset", this.isAutoreset());
+            yamlConfiguration.set("entityLimitGroup", this.getEntityLimitGroup().getName());
+            yamlConfiguration.set("doBlockReset", this.isDoBlockReset());
+            yamlConfiguration.set("allowedSubregions", this.getAllowedSubregions());
+            yamlConfiguration.set("isUserResettable", this.isUserResettable());
+            yamlConfiguration.set("boughtExtraTotalEntitys", this.getExtraTotalEntitys());
+            List<String> boughtExtraEntitysStringList = new ArrayList<>();
+            for(Map.Entry<EntityType, Integer> entry : this.getExtraEntitys().entrySet()) {
+                boughtExtraEntitysStringList.add(entry.getKey().name() + ": " + entry.getValue());
+            }
+            yamlConfiguration.set("boughtExtraEntitys", boughtExtraEntitysStringList);
+            if(this.getTeleportLocation() != null) {
+                String teleportloc = this.getTeleportLocation().getWorld().getName() + ";" + this.getTeleportLocation().getBlockX() + ";" +
+                        this.getTeleportLocation().getBlockY() + ";" + this.getTeleportLocation().getBlockZ() + ";" +
+                        this.getTeleportLocation().getPitch() + ";" + this.getTeleportLocation().getYaw();
+                yamlConfiguration.set("teleportLoc", teleportloc);
+            } else {
+                yamlConfiguration.set("teleportLoc", null);
+            }
+            for(Region subregion : this.getSubregions()) {
+                yamlConfiguration.set("subregions." + subregion.getRegion().getId(), subregion.toConfigureationSection());
+            }
+        }
+        return yamlConfiguration;
+    }
+
+
 }

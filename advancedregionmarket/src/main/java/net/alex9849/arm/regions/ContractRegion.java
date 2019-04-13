@@ -18,6 +18,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
@@ -450,5 +451,17 @@ public class ContractRegion extends Region {
         }
         this.updateSigns();
         this.queueSave();
+    }
+
+    public ConfigurationSection toConfigureationSection() {
+        ConfigurationSection yamlConfiguration = super.toConfigureationSection();
+        if(this.getPriceObject().isAutoPrice()) {
+            yamlConfiguration.set("extendTime", null);
+        } else {
+            yamlConfiguration.set("extendTime", this.getExtendTime());
+        }
+        yamlConfiguration.set("payedTill", this.getPayedTill());
+        yamlConfiguration.set("terminated", this.isTerminated());
+        return yamlConfiguration;
     }
 }

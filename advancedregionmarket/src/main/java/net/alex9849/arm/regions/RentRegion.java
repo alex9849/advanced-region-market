@@ -19,6 +19,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
@@ -494,5 +495,18 @@ public class RentRegion extends Region {
 
     public SellType getSellType() {
         return SellType.RENT;
+    }
+
+    public ConfigurationSection toConfigureationSection() {
+        ConfigurationSection yamlConfiguration = super.toConfigureationSection();
+        yamlConfiguration.set("payedTill", this.getPayedTill());
+        if(this.getPriceObject().isAutoPrice()) {
+            yamlConfiguration.set("maxRentTime", null);
+            yamlConfiguration.set("rentExtendPerClick", null);
+        } else {
+            yamlConfiguration.set("maxRentTime", this.getMaxRentTime());
+            yamlConfiguration.set("rentExtendPerClick", this.getRentExtendPerClick());
+        }
+        return yamlConfiguration;
     }
 }

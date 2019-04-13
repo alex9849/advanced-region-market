@@ -318,12 +318,12 @@ public class Messages {
     public static String MATERIAL_NOT_FOUND = "&4Material not found!";
     public static String REGIONKIND_LORE_LINE_NOT_EXIST = "&aThe selected lore-line does not exist!";
     public static String REGIONKIND_INFO_HEADLINE = "&6=========[Regionkind info]=========";
-    public static String REGIONKIND_INFO_INTERNAL_NAME = "&6Internal name: ";
-    public static String REGIONKIND_INFO_DISPLAY_NAME = "&6Displayname: ";
-    public static String REGIONKIND_INFO_MATERIAL = "&6Material: ";
-    public static String REGIONKIND_INFO_DISPLAY_IN_GUI = "&6DisplayInGui: ";
-    public static String REGIONKIND_INFO_DISPLAY_IN_LIMITS = "&6DisplayInLimits: ";
-    public static String REGIONKIND_INFO_PAYBACKPERCENTAGE = "&6PaybackPercentage";
+    public static String REGIONKIND_INFO_INTERNAL_NAME = "&6Internal name: %regionkind%";
+    public static String REGIONKIND_INFO_DISPLAY_NAME = "&6Displayname: %regionkinddisplay%";
+    public static String REGIONKIND_INFO_MATERIAL = "&6Material: %regionkinditem%";
+    public static String REGIONKIND_INFO_DISPLAY_IN_GUI = "&6DisplayInGui: %regionkinddisplayingui%";
+    public static String REGIONKIND_INFO_DISPLAY_IN_LIMITS = "&6DisplayInLimits: %regionkinddisplayinlimits%";
+    public static String REGIONKIND_INFO_PAYBACKPERCENTAGE = "&6PaybackPercentage: %paypackpercentage%";
     public static String REGIONKIND_INFO_LORE = "&6Lore:";
 
 
@@ -938,6 +938,23 @@ public class Messages {
         ENTITYLIMITGROUP_EXTRA_ENTITIES_SET_SUBREGION_ERROR = ChatColor.translateAlternateColorCodes('&', ENTITYLIMITGROUP_EXTRA_ENTITIES_SET_SUBREGION_ERROR);
         ENTITYLIMITGROUP_EXTRA_ENTITIES_BUY_SUBREGION_ERROR = ChatColor.translateAlternateColorCodes('&', ENTITYLIMITGROUP_EXTRA_ENTITIES_BUY_SUBREGION_ERROR);
         ARM_BASIC_COMMAND_MESSAGE = ChatColor.translateAlternateColorCodes('&', ARM_BASIC_COMMAND_MESSAGE);
+
+        REGIONKIND_CREATED = ChatColor.translateAlternateColorCodes('&', REGIONKIND_CREATED);
+        REGIONKIND_ALREADY_EXISTS = ChatColor.translateAlternateColorCodes('&', REGIONKIND_ALREADY_EXISTS);
+        REGIONKIND_DELETED = ChatColor.translateAlternateColorCodes('&', REGIONKIND_DELETED);
+        REGIONKIND_CAN_NOT_REMOVE_SYSTEM = ChatColor.translateAlternateColorCodes('&', REGIONKIND_CAN_NOT_REMOVE_SYSTEM);
+        REGIONKIND_LIST_HEADLINE = ChatColor.translateAlternateColorCodes('&', REGIONKIND_LIST_HEADLINE);
+        REGIONKIND_MODIFIED = ChatColor.translateAlternateColorCodes('&', REGIONKIND_MODIFIED);
+        MATERIAL_NOT_FOUND = ChatColor.translateAlternateColorCodes('&', MATERIAL_NOT_FOUND);
+        REGIONKIND_LORE_LINE_NOT_EXIST = ChatColor.translateAlternateColorCodes('&', REGIONKIND_LORE_LINE_NOT_EXIST);
+        REGIONKIND_INFO_HEADLINE = ChatColor.translateAlternateColorCodes('&', REGIONKIND_INFO_HEADLINE);
+        REGIONKIND_INFO_INTERNAL_NAME = ChatColor.translateAlternateColorCodes('&', REGIONKIND_INFO_INTERNAL_NAME);
+        REGIONKIND_INFO_DISPLAY_NAME = ChatColor.translateAlternateColorCodes('&', REGIONKIND_INFO_DISPLAY_NAME);
+        REGIONKIND_INFO_MATERIAL = ChatColor.translateAlternateColorCodes('&', REGIONKIND_INFO_MATERIAL);
+        REGIONKIND_INFO_DISPLAY_IN_GUI = ChatColor.translateAlternateColorCodes('&', REGIONKIND_INFO_DISPLAY_IN_GUI);
+        REGIONKIND_INFO_DISPLAY_IN_LIMITS = ChatColor.translateAlternateColorCodes('&', REGIONKIND_INFO_DISPLAY_IN_LIMITS);
+        REGIONKIND_INFO_PAYBACKPERCENTAGE = ChatColor.translateAlternateColorCodes('&', REGIONKIND_INFO_PAYBACKPERCENTAGE);
+        REGIONKIND_INFO_LORE = ChatColor.translateAlternateColorCodes('&', REGIONKIND_INFO_LORE);
 
 
         for(int i = 0; i < GUI_ENTITYLIMIT_ITEM_LORE.size(); i++){

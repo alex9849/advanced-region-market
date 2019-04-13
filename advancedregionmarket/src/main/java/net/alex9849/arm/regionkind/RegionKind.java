@@ -127,6 +127,10 @@ public class RegionKind implements Saveable {
         message = message.replace("%regionkinddisplay%", this.getDisplayName());
         message = message.replace("%regionkind%", this.getName());
         message = message.replace("%currency%", Messages.CURRENCY);
+        message = message.replace("%paypackpercentage%", this.getPaybackPercentage() + "");
+        message = message.replace("%regionkinditem%", this.getMaterial().toString());
+        message = message.replace("%regionkinddisplayinlimits%", Messages.convertYesNo(this.isDisplayInLimits()));
+        message = message.replace("%regionkinddisplayingui%", Messages.convertYesNo(this.isDisplayInGUI()));
         return message;
     }
 

@@ -6,6 +6,7 @@ import net.alex9849.arm.Permission;
 import net.alex9849.arm.commands.BasicArmCommand;
 import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.exceptions.InputException;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -49,13 +50,13 @@ public class InfoCommand extends BasicArmCommand {
 
         List<String> lore = regionKind.getLore();
 
-        sender.sendMessage(Messages.REGIONKIND_INFO_HEADLINE);
-        sender.sendMessage(Messages.REGIONKIND_INFO_INTERNAL_NAME + regionKind.getName());
-        sender.sendMessage(Messages.REGIONKIND_INFO_DISPLAY_NAME + regionKind.getDisplayName());
-        sender.sendMessage(Messages.REGIONKIND_INFO_MATERIAL + regionKind.getMaterial());
-        sender.sendMessage(Messages.REGIONKIND_INFO_DISPLAY_IN_GUI + regionKind.isDisplayInGUI());
-        sender.sendMessage(Messages.REGIONKIND_INFO_DISPLAY_IN_LIMITS + regionKind.isDisplayInLimits());
-        sender.sendMessage(Messages.REGIONKIND_INFO_PAYBACKPERCENTAGE + regionKind.getPaybackPercentage());
+        sender.sendMessage(regionKind.getConvertedMessage(Messages.REGIONKIND_INFO_HEADLINE));
+        sender.sendMessage(regionKind.getConvertedMessage(Messages.REGIONKIND_INFO_INTERNAL_NAME));
+        sender.sendMessage(regionKind.getConvertedMessage(Messages.REGIONKIND_INFO_DISPLAY_NAME));
+        sender.sendMessage(regionKind.getConvertedMessage(Messages.REGIONKIND_INFO_MATERIAL));
+        sender.sendMessage(regionKind.getConvertedMessage(Messages.REGIONKIND_INFO_DISPLAY_IN_GUI));
+        sender.sendMessage(regionKind.getConvertedMessage(Messages.REGIONKIND_INFO_DISPLAY_IN_LIMITS));
+        sender.sendMessage(regionKind.getConvertedMessage(Messages.REGIONKIND_INFO_PAYBACKPERCENTAGE));
         sender.sendMessage(Messages.REGIONKIND_INFO_LORE);
 
         for(int i = 0; i < lore.size(); i++) {

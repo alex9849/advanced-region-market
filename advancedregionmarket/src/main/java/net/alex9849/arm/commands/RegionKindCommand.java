@@ -2,10 +2,9 @@ package net.alex9849.arm.commands;
 
 import net.alex9849.arm.Handler.CommandHandler;
 import net.alex9849.arm.Permission;
-import net.alex9849.arm.regionkind.commands.CreateCommand;
+import net.alex9849.arm.regionkind.commands.*;
 import net.alex9849.arm.regionkind.commands.DeleteCommand;
-import net.alex9849.arm.regionkind.commands.ListCommand;
-import net.alex9849.arm.regionkind.commands.SetDisplayInGuiCommand;
+import net.alex9849.arm.regionkind.commands.InfoCommand;
 import net.alex9849.exceptions.InputException;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -29,6 +28,13 @@ public class RegionKindCommand extends BasicArmCommand {
         commands.add(new DeleteCommand());
         commands.add(new ListCommand());
         commands.add(new SetDisplayInGuiCommand());
+        commands.add(new SetDisplayInLimitsCommand());
+        commands.add(new SetItemCommand());
+        commands.add(new AddLoreLineCommand());
+        commands.add(new InfoCommand());
+        commands.add(new RemoveLoreLineCommand());
+        commands.add(new SetDisplayNameCommand());
+        commands.add(new SetPaybackPercentage());
         this.commandHandler.addCommands(commands);
     }
 

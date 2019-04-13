@@ -86,6 +86,13 @@ public class Permission {
     public static final String REGIONKIND_DELETE = "arm.admin.regionkind.delete";
     public static final String REGIONKIND_LIST = "arm.admin.regionkind.list";
     public static final String REGIONKIND_SET_DISPLAY_IN_GUI = "arm.admin.regionkind.setdisplayingui";
+    public static final String REGIONKIND_SET_DISPLAY_IN_LIMITS = "arm.admin.regionkind.setdisplayinlimits";
+    public static final String REGIONKIND_SET_ITEM = "arm.admin.regionkind.setitem";
+    public static final String REGIONKIND_SET_PAYBACKPERCENTAGE = "arm.admin.regionkind.setpaybackpercentage";
+    public static final String REGIONKIND_SET_DISPLAYNAME = "arm.admin.regionkind.setdisplayname";
+    public static final String REGIONKIND_REMOVE_LORE_LINE = "arm.admin.regionkind.removeloreline";
+    public static final String REGIONKIND_ADD_LORE_LINE = "arm.admin.regionkind.addloreline";
+    public static final String REGIONKIND_INFO = "arm.admin.regionkind.info";
 
 
     public static boolean hasAnyRegionKindPermission(CommandSender sender) {

@@ -315,6 +315,18 @@ public class Messages {
     public static String REGIONKIND_CAN_NOT_REMOVE_SYSTEM = "&4You can not remove a system-RegionKind!";
     public static String REGIONKIND_LIST_HEADLINE = "&6Regionkinds:";
     public static String REGIONKIND_MODIFIED = "&aRegionKind modified!";
+    public static String MATERIAL_NOT_FOUND = "&4Material not found!";
+    public static String REGIONKIND_LORE_LINE_NOT_EXIST = "&aThe selected lore-line does not exist!";
+    public static String REGIONKIND_INFO_HEADLINE = "&6=========[Regionkind info]=========";
+    public static String REGIONKIND_INFO_INTERNAL_NAME = "&6Internal name: ";
+    public static String REGIONKIND_INFO_DISPLAY_NAME = "&6Displayname: ";
+    public static String REGIONKIND_INFO_MATERIAL = "&6Material: ";
+    public static String REGIONKIND_INFO_DISPLAY_IN_GUI = "&6DisplayInGui: ";
+    public static String REGIONKIND_INFO_DISPLAY_IN_LIMITS = "&6DisplayInLimits: ";
+    public static String REGIONKIND_INFO_PAYBACKPERCENTAGE = "&6PaybackPercentage";
+    public static String REGIONKIND_INFO_LORE = "&6Lore:";
+
+
 
 
     public static List<String> GUI_TELEPORT_TO_REGION_BUTTON_LORE = new ArrayList<>();

@@ -40,14 +40,12 @@ public class RegionKind implements Saveable {
 
     public void setMaterial(Material mat) {
         this.material = mat;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+        this.queueSave();
     }
 
     public void setLore(List<String> lore) {
         this.lore = lore;
+        this.queueSave();
     }
 
     public String getName(){
@@ -95,14 +93,27 @@ public class RegionKind implements Saveable {
 
     public void setPaybackPercentage(double paybackPercentage) {
         this.paybackPercentage = paybackPercentage;
+        this.queueSave();
     }
 
     public void setDisplayInGUI(boolean displayInGUI) {
         this.displayInGUI = displayInGUI;
+        this.queueSave();
     }
 
     public void setDisplayInLimits(boolean displayInLimits) {
         this.displayInLimits = displayInLimits;
+        this.queueSave();
+    }
+
+    public void setItem(Material material) {
+        this.material = material;
+        this.queueSave();
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+        this.queueSave();
     }
 
     public boolean isDisplayInGUI() {

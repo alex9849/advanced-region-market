@@ -7,7 +7,7 @@ import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regionkind.RegionKind;
-import net.alex9849.arm.regions.RegionManager;
+import net.alex9849.arm.regions.OldRegionManager;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -51,7 +51,7 @@ public class DoBlockResetCommand extends BasicArmCommand {
         List<Region> regions = new ArrayList<>();
         String selectedName;
 
-        if(allargs.matches(regex_massaction) && (RegionManager.getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName()) == null)) {
+        if(allargs.matches(regex_massaction) && (OldRegionManager.getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName()) == null)) {
             String[] splittedRegionKindArg = args[1].split(":", 2);
 
             RegionKind selectedRegionkind = AdvancedRegionMarket.getRegionKindManager().getRegionKind(splittedRegionKindArg[1]);
@@ -61,10 +61,10 @@ public class DoBlockResetCommand extends BasicArmCommand {
             if(selectedRegionkind == RegionKind.SUBREGION) {
                 throw new InputException(sender, Messages.SUB_REGION_DO_BLOCKRESET_ERROR);
             }
-            regions = RegionManager.getRegionsByRegionKind(selectedRegionkind);
+            regions = OldRegionManager.getRegionsByRegionKind(selectedRegionkind);
             selectedName = selectedRegionkind.getConvertedMessage(Messages.MASSACTION_SPLITTER);
         } else {
-            Region selectedRegion = RegionManager.getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
+            Region selectedRegion = OldRegionManager.getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
             if(selectedRegion == null){
                 throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
             }
@@ -97,7 +97,7 @@ public class DoBlockResetCommand extends BasicArmCommand {
                     if(args.length == 1) {
                         returnme.add(this.rootCommand);
                     } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                        returnme.addAll(RegionManager.completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true,false));
+                        returnme.addAll(OldRegionManager.completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true,false));
                         if("rk:".startsWith(args[1])) {
                             returnme.add("rk:");
                         }

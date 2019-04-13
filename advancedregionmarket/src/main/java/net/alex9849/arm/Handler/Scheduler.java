@@ -3,20 +3,17 @@ package net.alex9849.arm.Handler;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.regions.Region;
-import net.alex9849.arm.regions.RegionManager;
-import org.bukkit.Bukkit;
-import org.bukkit.plugin.Plugin;
+import net.alex9849.arm.regions.OldRegionManager;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.logging.Level;
 
 public class Scheduler implements Runnable {
     @Override
     public void run() {
-        RegionManager.updateRegions();
+        OldRegionManager.updateRegions();
 
         if(ArmSettings.isEnableAutoReset()){
 
@@ -30,8 +27,8 @@ public class Scheduler implements Runnable {
             try {
                 ResultSet rs = ArmSettings.getStmt().executeQuery("SELECT * FROM `" + ArmSettings.getSqlPrefix() + "lastlogin` WHERE `lastlogin` < '" + compareTime + "'");
                 if (rs.next()){
-                    RegionManager.autoResetRegionsFromOwner(UUID.fromString(rs.getString("uuid")));
-                    List<Region> regions = RegionManager.getRegionsByMember(UUID.fromString(rs.getString("uuid")));
+                    OldRegionManager.autoResetRegionsFromOwner(UUID.fromString(rs.getString("uuid")));
+                    List<Region> regions = OldRegionManager.getRegionsByMember(UUID.fromString(rs.getString("uuid")));
                     for (int i = 0; i < regions.size(); i++){
                         if(regions.get(i).getAutoreset()){
                             regions.get(i).getRegion().removeMember(UUID.fromString(rs.getString("uuid")));

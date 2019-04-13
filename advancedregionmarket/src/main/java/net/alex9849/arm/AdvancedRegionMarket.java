@@ -123,7 +123,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         }
         loadOther();
         PresetPatternManager.loadPresetPatterns();
-        RegionManager.loadRegionsFromConfig();
+        OldRegionManager.loadRegionsFromConfig();
         Region.setCompleteTabRegions(getConfig().getBoolean("Other.CompleteRegionsOnTabComplete"));
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Scheduler() , 0 ,20*getConfig().getInt("Other.SignAndResetUpdateInterval"));
         AdvancedRegionMarket.commandHandler = new CommandHandler(new ArrayList<>(Arrays.asList("help")), "");
@@ -175,7 +175,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
             @Override
             public void run() {
-                RegionManager.writeRegionsToConfig(false);
+                OldRegionManager.writeRegionsToConfig(false);
                 AdvancedRegionMarket.getEntityLimitGroupManager().updateFile();
                 AdvancedRegionMarket.getRegionKindManager().updateFile();
             }
@@ -186,7 +186,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         AdvancedRegionMarket.econ = null;
         AdvancedRegionMarket.worldguard = null;
         AdvancedRegionMarket.worldedit = null;
-        RegionManager.Reset();
+        OldRegionManager.Reset();
         LimitGroup.Reset();
         AutoPrice.reset();
         RegionKind.Reset();
@@ -620,7 +620,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
     private void updateConfigs(){
         EntityLimitGroupManager.writeResourceToDisc(new File(this.getDataFolder() + "/entitylimits.yml"), getResource("entitylimits.yml"));
         RegionKindManager.writeResourceToDisc(new File(this.getDataFolder() + "/regionkinds.yml"), getResource("regionkinds.yml"));
-        RegionManager.generatedefaultConfig();
+        OldRegionManager.generatedefaultConfig();
         Messages.generatedefaultConfig();
         PresetPatternManager.generatedefaultConfig();
         this.generatedefaultconfig();
@@ -691,7 +691,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
                 getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.7.5...");
                 updateTo1p75(pluginConfig);
             }
-            RegionManager.setRegionsConf();
+            OldRegionManager.setRegionsConf();
         } catch (IOException e) {
             e.printStackTrace();
         }

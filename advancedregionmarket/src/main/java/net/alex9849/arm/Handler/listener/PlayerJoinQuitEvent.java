@@ -5,6 +5,7 @@ import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Preseter.ActivePresetManager;
 import net.alex9849.arm.SubRegions.SubRegionCreator;
 import net.alex9849.arm.gui.Gui;
+import net.alex9849.arm.regions.OldRegionManager;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.RentRegion;
 import org.bukkit.Bukkit;
@@ -19,7 +20,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.logging.Level;
 
 public class PlayerJoinQuitEvent implements Listener {
 
@@ -86,7 +86,7 @@ public class PlayerJoinQuitEvent implements Listener {
 
             List<Region> overtake = new LinkedList<>();
             while (rs.next()){
-                List<Region> regions = net.alex9849.arm.regions.RegionManager.getRegionsByOwner(UUID.fromString(rs.getString("uuid")));
+                List<Region> regions = OldRegionManager.getRegionsByOwner(UUID.fromString(rs.getString("uuid")));
 
                 for(int i = 0; i < regions.size(); i++){
                     if(regions.get(i).getAutoreset()){

@@ -4,6 +4,7 @@ import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.SubRegions.SubRegionCreator;
+import net.alex9849.arm.regions.OldRegionManager;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.inter.WGRegion;
@@ -53,7 +54,7 @@ public class SubregionMarkerListener implements Listener {
                                     }
                                     return;
                                 } else {
-                                    Region region = net.alex9849.arm.regions.RegionManager.getRegion(wgRegion);
+                                    Region region = OldRegionManager.getRegion(wgRegion);
                                     if(region == null) {
                                         throw new InputException(player, Messages.REGION_NOT_REGISTRED);
                                     }
@@ -73,7 +74,7 @@ public class SubregionMarkerListener implements Listener {
                                     return;
                                 }
                             } else {
-                                Region region = net.alex9849.arm.regions.RegionManager.getRegion(wgRegion);
+                                Region region = OldRegionManager.getRegion(wgRegion);
                                 if(region == null) {
                                     throw new InputException(player, Messages.REGION_NOT_REGISTRED);
                                 }

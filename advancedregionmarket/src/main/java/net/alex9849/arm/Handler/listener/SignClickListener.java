@@ -2,6 +2,7 @@ package net.alex9849.arm.Handler.listener;
 
 import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
+import net.alex9849.arm.regions.OldRegionManager;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.exceptions.InputException;
 import org.bukkit.Material;
@@ -28,7 +29,7 @@ public class SignClickListener implements Listener {
 
             Sign sign = (Sign) event.getClickedBlock().getState();
 
-            Region region = net.alex9849.arm.regions.RegionManager.getRegion(sign);
+            Region region = OldRegionManager.getRegion(sign);
             if(region == null) {
                 return;
             }

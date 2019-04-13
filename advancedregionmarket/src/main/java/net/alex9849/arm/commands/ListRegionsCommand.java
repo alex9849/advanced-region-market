@@ -5,7 +5,7 @@ import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.regions.Region;
-import net.alex9849.arm.regions.RegionManager;
+import net.alex9849.arm.regions.OldRegionManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -82,8 +82,8 @@ public class ListRegionsCommand extends BasicArmCommand {
             if(oplayer == null){
                 throw new InputException(sender, "Player does not exist!");
             }
-            List<Region> regionsOwner = RegionManager.getRegionsByOwner(oplayer.getUniqueId());
-            List<Region> regionsMember = RegionManager.getRegionsByMember(oplayer.getUniqueId());
+            List<Region> regionsOwner = OldRegionManager.getRegionsByOwner(oplayer.getUniqueId());
+            List<Region> regionsMember = OldRegionManager.getRegionsByMember(oplayer.getUniqueId());
             List<String> selectedRegionsOwner = new ArrayList<>();
             List<String> selectedRegionsMember = new ArrayList<>();
 

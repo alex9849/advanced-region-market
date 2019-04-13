@@ -414,7 +414,7 @@ public class RentRegion extends Region {
     }
 
     public static void sendExpirationWarnings(Player player) {
-        List<Region> regions = RegionManager.getRegionsByOwner(player.getUniqueId());
+        List<Region> regions = OldRegionManager.getRegionsByOwner(player.getUniqueId());
         List<RentRegion> rentRegions = new ArrayList<>();
         for(int i = 0; i < regions.size(); i++) {
             if(regions.get(i) instanceof RentRegion) {

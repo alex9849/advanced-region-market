@@ -121,7 +121,7 @@ public class Gui implements Listener {
     }
 
     public static void openRegionOwnerGui(Player player, Boolean withGoBack) {
-        List<Region> regions = RegionManager.getRegionsByOwner(player.getUniqueId());
+        List<Region> regions = OldRegionManager.getRegionsByOwner(player.getUniqueId());
         List<ClickItem> clickItems = new ArrayList<>();
 
         for (int i = 0; i < regions.size(); i++) {
@@ -888,7 +888,7 @@ public class Gui implements Listener {
             ClickItem icon = new ClickItem(stack).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
-                    Gui.openRegionFinderSellTypeSelector(player, RegionManager.getFreeRegions(RegionKind.DEFAULT), new ClickAction() {
+                    Gui.openRegionFinderSellTypeSelector(player, OldRegionManager.getFreeRegions(RegionKind.DEFAULT), new ClickAction() {
                         @Override
                         public void execute(Player player) throws InputException {
                             Gui.openRegionFinder(player, withGoBack);
@@ -912,7 +912,7 @@ public class Gui implements Listener {
             ClickItem icon = new ClickItem(stack).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
-                    Gui.openRegionFinderSellTypeSelector(player, RegionManager.getFreeRegions(RegionKind.SUBREGION), new ClickAction() {
+                    Gui.openRegionFinderSellTypeSelector(player, OldRegionManager.getFreeRegions(RegionKind.SUBREGION), new ClickAction() {
                         @Override
                         public void execute(Player player) throws InputException {
                             Gui.openRegionFinder(player, withGoBack);
@@ -939,7 +939,7 @@ public class Gui implements Listener {
                     ClickItem icon = new ClickItem(stack).addClickAction(new ClickAction() {
                         @Override
                         public void execute(Player player) throws InputException {
-                            Gui.openRegionFinderSellTypeSelector(player, RegionManager.getFreeRegions(regionKind), new ClickAction() {
+                            Gui.openRegionFinderSellTypeSelector(player, OldRegionManager.getFreeRegions(regionKind), new ClickAction() {
                                 @Override
                                 public void execute(Player player) throws InputException {
                                     Gui.openRegionFinder(player, withGoBack);
@@ -1389,7 +1389,7 @@ public class Gui implements Listener {
     }
 
     public static void openRegionMemberGui(Player player, Boolean withGoBack) {
-        List<Region> regions = RegionManager.getRegionsByMember(player.getUniqueId());
+        List<Region> regions = OldRegionManager.getRegionsByMember(player.getUniqueId());
         List<ClickItem> clickItems = new ArrayList<>();
 
         for (int i = 0; i < regions.size(); i++) {

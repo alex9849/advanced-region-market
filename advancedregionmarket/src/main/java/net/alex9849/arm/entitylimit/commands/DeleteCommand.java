@@ -6,7 +6,7 @@ import net.alex9849.arm.Permission;
 import net.alex9849.arm.commands.BasicArmCommand;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
 import net.alex9849.arm.regions.Region;
-import net.alex9849.arm.regions.RegionManager;
+import net.alex9849.arm.regions.OldRegionManager;
 import net.alex9849.exceptions.InputException;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -57,7 +57,7 @@ public class DeleteCommand extends BasicArmCommand {
 
         AdvancedRegionMarket.getEntityLimitGroupManager().remove(entityLimitGroup);
 
-        for(Region region : RegionManager.getAllRegions()) {
+        for(Region region : OldRegionManager.getAllRegions()) {
             if(region.getEntityLimitGroup() == entityLimitGroup) {
                 region.setEntityLimitGroup(EntityLimitGroup.DEFAULT);
             }

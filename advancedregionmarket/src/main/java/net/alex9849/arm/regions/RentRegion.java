@@ -484,8 +484,8 @@ public class RentRegion extends Region {
         message = message.replace("%maxrenttime%", this.getMaxRentTimeString());
         message = message.replace("%remaining%", this.calcRemainingTime());
         message = message.replace("%extendperclick%", this.getExtendPerClick());
-        message = message.replace("%priceperm2perweek%", Price.roundPrice(this.getPricePerM2PerWeek()) + "");
-        message = message.replace("%priceperm3perweek%", Price.roundPrice(this.getPricePerM3PerWeek()) + "");
+        message = message.replace("%priceperm2perweek%", Price.formatPrice(this.getPricePerM2PerWeek()));
+        message = message.replace("%priceperm3perweek%", Price.formatPrice(this.getPricePerM3PerWeek()));
         return message;
     }
 

@@ -705,12 +705,12 @@ public abstract class Region implements Saveable {
     public String getConvertedMessage(String message) {
         message = message.replace("%regionid%", this.getRegion().getId());
         message = message.replace("%region%", this.getRegion().getId());
-        message = message.replace("%price%", Price.roundPrice(this.getPrice()) + "");
+        message = message.replace("%price%", Price.formatPrice(this.getPrice()) + "");
         message = message.replace("%dimensions%", this.getDimensions());
-        message = message.replace("%priceperm2%", Price.roundPrice(this.getPricePerM2()) + "");
-        message = message.replace("%priceperm3%", Price.roundPrice(this.getPricePerM3()) + "");
+        message = message.replace("%priceperm2%", Price.formatPrice(this.getPricePerM2()) + "");
+        message = message.replace("%priceperm3%", Price.formatPrice(this.getPricePerM3()) + "");
         message = message.replace("%remainingdays%", (Region.getResetCooldown() - this.timeSinceLastReset()) + "");
-        message = message.replace("%paybackmoney%", this.getPaybackMoney() + "");
+        message = message.replace("%paybackmoney%", Price.formatPrice(this.getPaybackMoney()));
         message = message.replace("%currency%", Messages.CURRENCY);
         message = message.replace("%owner%", this.getOwnerName());
         message = message.replace("%world%", this.getRegionworld().getName());

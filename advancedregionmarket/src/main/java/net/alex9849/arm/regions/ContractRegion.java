@@ -434,8 +434,8 @@ public class ContractRegion extends Region {
         message = super.getConvertedMessage(message);
         message = message.replace("%extend%", this.getExtendTimeString());
         message = message.replace("%remaining%", this.calcRemainingTime());
-        message = message.replace("%priceperm2perweek%", Price.roundPrice(this.getPricePerM2PerWeek()) + "");
-        message = message.replace("%priceperm3perweek%", Price.roundPrice(this.getPricePerM3PerWeek()) + "");
+        message = message.replace("%priceperm2perweek%", Price.formatPrice(this.getPricePerM2PerWeek()));
+        message = message.replace("%priceperm3perweek%", Price.formatPrice(this.getPricePerM3PerWeek()));
         return message;
     }
 

@@ -61,14 +61,21 @@ public class Price {
         return this.autoPrice;
     }
 
-    public String getFormatedPrice() {
-        return this.getPrice() + "";
+    public static String formatPrice(double price) {
+        float epsilon = 0.004f; // 4 tenths of a cent
+        if (Math.abs(Math.round(price) - price) < epsilon) {
+            return String.format("%1.0f", price); // sdb
+        } else {
+            return String.format("%1.2f", price); // dj_segfault
+        }
     }
 
+    /*
     public static double roundPrice(double price) {
         double rounded = price;
         rounded = rounded * 100;
         rounded = (int) rounded;
         return rounded / 100;
     }
+    */
 }

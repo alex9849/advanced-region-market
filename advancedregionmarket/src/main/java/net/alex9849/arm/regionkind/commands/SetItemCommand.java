@@ -18,7 +18,7 @@ import java.util.List;
 public class SetItemCommand extends BasicArmCommand {
     private final String rootCommand = "setitem";
     private final String regex = "(?i)setitem [^;\n ]+ [^;\n ]+";
-    private final List<String> usage = new ArrayList<>(Arrays.asList("setdisplayinlimits [REGIONKIND] [ITEM]"));
+    private final List<String> usage = new ArrayList<>(Arrays.asList("setitem [REGIONKIND] [ITEM]"));
 
     @Override
     public boolean matchesRegex(String command) {

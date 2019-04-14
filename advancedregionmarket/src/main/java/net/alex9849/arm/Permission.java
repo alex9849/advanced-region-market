@@ -21,7 +21,6 @@ public class Permission {
     public static final String ADMIN_INFO = "arm.admin.info";
     public static final String ADMIN_ADDMEMBER = "arm.admin.addmember";
     public static final String ADMIN_REMOVEMEMBER = "arm.admin.removemember";
-    public static final String ADMIN_LISTREGIONS = "arm.admin.listregions";
     public static final String ADMIN_TP = "arm.admin.tp";
     public static final String ADMIN_SETOWNER = "arm.admin.setowner";
     public static final String ADMIN_LIMIT_BYPASS = "arm.admin.bypasslimit";

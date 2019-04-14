@@ -146,7 +146,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
         commands.add(new HotelCommand());
         commands.add(new InfoCommand());
         commands.add(new LimitCommand());
-        commands.add(new ListRegionsCommand());
         commands.add(new OfferCommand());
         commands.add(new RegionstatsCommand());
         commands.add(new ReloadCommand());

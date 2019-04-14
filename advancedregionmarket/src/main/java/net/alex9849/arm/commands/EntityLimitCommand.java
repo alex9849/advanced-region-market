@@ -34,7 +34,7 @@ public class EntityLimitCommand extends BasicArmCommand {
         commands.add(new CheckCommand());
         commands.add(new SetExtraLimitCommand());
         commands.add(new BuyExtraCommand());
-        commands.add(new HelpCommand(this.commandHandler, Messages.ENTITYLIMIT_HELP_HEADLINE, betweencmds, Permission.SUBREGION_HELP));
+        commands.add(new HelpCommand(this.commandHandler, Messages.ENTITYLIMIT_HELP_HEADLINE, betweencmds, Permission.ADMIN_ENTITYLIMIT_HELP));
         this.commandHandler.addCommands(commands);
     }
 

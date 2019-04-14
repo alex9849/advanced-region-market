@@ -68,6 +68,7 @@ public class Permission {
     public static final String ADMIN_SET_ENTITYLIMIT = "arm.admin.setentitylimit";
     public static final String ADMIN_ENTITYLIMIT_CHECK = "arm.admin.entitylimit.check";
     public static final String ADMIN_ENTITYLIMIT_SET_EXTRA = "arm.admin.entitylimit.setextra";
+    public static final String ADMIN_ENTITYLIMIT_HELP = "arm.admin.entitylimit.help";
 
 
     public static final String SUBREGION_TOOL = "arm.subregion.tool";
@@ -93,10 +94,16 @@ public class Permission {
     public static final String REGIONKIND_REMOVE_LORE_LINE = "arm.admin.regionkind.removeloreline";
     public static final String REGIONKIND_ADD_LORE_LINE = "arm.admin.regionkind.addloreline";
     public static final String REGIONKIND_INFO = "arm.admin.regionkind.info";
+    public static final String REGIONKIND_HELP = "arm.admin.regionkind.help";
 
 
     public static boolean hasAnyRegionKindPermission(CommandSender sender) {
-        return (sender.hasPermission(REGIONKIND_CREATE));
+        return (sender.hasPermission(REGIONKIND_CREATE))|| (sender.hasPermission(REGIONKIND_DELETE)) || (sender.hasPermission(REGIONKIND_LIST))
+                || (sender.hasPermission(REGIONKIND_SET_DISPLAY_IN_GUI)) || (sender.hasPermission(REGIONKIND_SET_DISPLAY_IN_LIMITS))
+                || (sender.hasPermission(REGIONKIND_SET_ITEM)) || (sender.hasPermission(REGIONKIND_SET_PAYBACKPERCENTAGE))
+                || (sender.hasPermission(REGIONKIND_SET_DISPLAYNAME)) || (sender.hasPermission(REGIONKIND_REMOVE_LORE_LINE))
+                || (sender.hasPermission(REGIONKIND_ADD_LORE_LINE)) || (sender.hasPermission(REGIONKIND_INFO))
+                || (sender.hasPermission(REGIONKIND_HELP));
     }
 
     public static boolean hasAnySubregionCreatePermission(CommandSender sender) {
@@ -145,6 +152,6 @@ public class Permission {
         return sender.hasPermission(MEMBER_ENTITYLIMIT_BUY_EXTRA) || sender.hasPermission(MEMBER_ENTITYLIMIT_CHECK) || sender.hasPermission(MEMBER_ENTITYLIMIT_INFO)
                 || sender.hasPermission(ADMIN_ENTITYLIMIT_CHECK) || sender.hasPermission(ADMIN_ENTITYLIMIT_REMOVE_LIMIT)
                 || sender.hasPermission(ADMIN_ENTITYLIMIT_LIST) || sender.hasPermission(ADMIN_ENTITYLIMIT_DELETE) || sender.hasPermission(ADMIN_ENTITYLIMIT_CREATE)
-                || sender.hasPermission(ADMIN_ENTITYLIMIT_ADD_LIMIT);
+                || sender.hasPermission(ADMIN_ENTITYLIMIT_ADD_LIMIT) || sender.hasPermission(ADMIN_ENTITYLIMIT_HELP);
     }
 }

@@ -325,6 +325,7 @@ public class Messages {
     public static String REGIONKIND_INFO_DISPLAY_IN_LIMITS = "&6DisplayInLimits: %regionkinddisplayinlimits%";
     public static String REGIONKIND_INFO_PAYBACKPERCENTAGE = "&6PaybackPercentage: %paypackpercentage%";
     public static String REGIONKIND_INFO_LORE = "&6Lore:";
+    public static String REGIONKIND_HELP_HEADLINE = "&6=====[AdvancedRegionMarket RegionKind Help ]=====\n&3Page %actualpage% / %maxpage%";
 
 
 
@@ -955,6 +956,7 @@ public class Messages {
         REGIONKIND_INFO_DISPLAY_IN_LIMITS = ChatColor.translateAlternateColorCodes('&', REGIONKIND_INFO_DISPLAY_IN_LIMITS);
         REGIONKIND_INFO_PAYBACKPERCENTAGE = ChatColor.translateAlternateColorCodes('&', REGIONKIND_INFO_PAYBACKPERCENTAGE);
         REGIONKIND_INFO_LORE = ChatColor.translateAlternateColorCodes('&', REGIONKIND_INFO_LORE);
+        REGIONKIND_HELP_HEADLINE = ChatColor.translateAlternateColorCodes('&', REGIONKIND_HELP_HEADLINE);
 
 
         for(int i = 0; i < GUI_ENTITYLIMIT_ITEM_LORE.size(); i++){

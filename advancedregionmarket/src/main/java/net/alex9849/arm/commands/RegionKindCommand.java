@@ -1,6 +1,7 @@
 package net.alex9849.arm.commands;
 
 import net.alex9849.arm.Handler.CommandHandler;
+import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.regionkind.commands.*;
 import net.alex9849.arm.regionkind.commands.DeleteCommand;
@@ -35,6 +36,7 @@ public class RegionKindCommand extends BasicArmCommand {
         commands.add(new RemoveLoreLineCommand());
         commands.add(new SetDisplayNameCommand());
         commands.add(new SetPaybackPercentage());
+        commands.add(new HelpCommand(this.commandHandler, Messages.REGIONKIND_HELP_HEADLINE, betweencmds, Permission.REGIONKIND_HELP));
         this.commandHandler.addCommands(commands);
     }
 

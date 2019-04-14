@@ -308,7 +308,6 @@ public class Messages {
     public static String ENTITYLIMITGROUP_EXTRA_ENTITIES_BUY_SUBREGION_ERROR = "&4Can not expand entitylimit! Region is a Subregion";
     public static String ARM_BASIC_COMMAND_MESSAGE = "&6AdvancedRegionMarket v%pluginversion% by Alex9849\n&6Download: &3https://bit.ly/2CfO3An\n&6Get a list with all commands with &3/arm help";
 
-    //TODO ADD TO CONFIG
     public static String REGIONKIND_CREATED = "&aRegionKind created!";
     public static String REGIONKIND_ALREADY_EXISTS = "&4RegionKind already exists!";
     public static String REGIONKIND_DELETED = "&aRegionKind deleted!";
@@ -655,6 +654,24 @@ public class Messages {
         ENTITYLIMITGROUP_EXTRA_ENTITIES_SET_SUBREGION_ERROR = config.getString("Messages.EntityLimitGroupExtraEntitiesSetSubregionError");
         ENTITYLIMITGROUP_EXTRA_ENTITIES_BUY_SUBREGION_ERROR = config.getString("Messages.EntityLimitGroupExtraEntitiesBuySubregionError");
         ARM_BASIC_COMMAND_MESSAGE = config.getString("Messages.ArmBasicCommandMessage");
+
+        REGIONKIND_CREATED = config.getString("Messages.RegionKindCreated");
+        REGIONKIND_ALREADY_EXISTS = config.getString("Messages.RegionKindAlreadyExists");
+        REGIONKIND_DELETED = config.getString("Messages.RegionKindDeleted");
+        REGIONKIND_CAN_NOT_REMOVE_SYSTEM = config.getString("Messages.RegionKindCanNotRemoveSystem");
+        REGIONKIND_LIST_HEADLINE = config.getString("Messages.RegionKindListHeadline");
+        REGIONKIND_MODIFIED = config.getString("Messages.RegionKindModified");
+        MATERIAL_NOT_FOUND = config.getString("Messages.MaterialNotFound");
+        REGIONKIND_LORE_LINE_NOT_EXIST = config.getString("Messages.RegionKindLoreLineNotExist");
+        REGIONKIND_INFO_HEADLINE = config.getString("Messages.RegionKindInfoHeadline");
+        REGIONKIND_INFO_INTERNAL_NAME = config.getString("Messages.RegionKindInfoInternalName");
+        REGIONKIND_INFO_DISPLAY_NAME = config.getString("Messages.RegionKindInfoDisplayName");
+        REGIONKIND_INFO_MATERIAL = config.getString("Messages.RegionKindInfoMaterial");
+        REGIONKIND_INFO_DISPLAY_IN_GUI = config.getString("Messages.RegionKindInfoDisplayInGui");
+        REGIONKIND_INFO_DISPLAY_IN_LIMITS = config.getString("Messages.RegionKindInfoDisplayInLimits");
+        REGIONKIND_INFO_PAYBACKPERCENTAGE = config.getString("Messages.RegionKindInfoPaybackPercentage");
+        REGIONKIND_INFO_LORE = config.getString("Messages.RegionKindInfoLore");
+        REGIONKIND_HELP_HEADLINE = config.getString("Messages.RegionKindHelpHeadline");
 
         Messages.translateColorCodes();
     }
@@ -1377,6 +1394,26 @@ public class Messages {
         config.addDefault("Messages.EntityLimitGroupExtraEntitiesHardlimitReached", "&4Can not buy another entity-expansion! Hardlimit has been reached!");
         config.addDefault("Messages.EntityLimitGroupExtraEntitiesSetSubregionError", "&4Can not change entitylimit! Region is a Subregion");
         config.addDefault("Messages.EntityLimitGroupExtraEntitiesBuySubregionError", "&4Can not expand entitylimit! Region is a Subregion");
+
+
+
+        config.addDefault("Messages.RegionKindCreated", "&aRegionKind created!");
+        config.addDefault("Messages.RegionKindAlreadyExists", "&4RegionKind already exists!");
+        config.addDefault("Messages.RegionKindDeleted", "&aRegionKind deleted!");
+        config.addDefault("Messages.RegionKindCanNotRemoveSystem", "&4You can not remove a system-RegionKind!");
+        config.addDefault("Messages.RegionKindListHeadline", "&6Regionkinds:");
+        config.addDefault("Messages.RegionKindModified", "&aRegionKind modified!");
+        config.addDefault("Messages.MaterialNotFound", "&4Material not found!");
+        config.addDefault("Messages.RegionKindLoreLineNotExist", "&aThe selected lore-line does not exist!");
+        config.addDefault("Messages.RegionKindInfoHeadline", "&6=========[Regionkind info]=========");
+        config.addDefault("Messages.RegionKindInfoInternalName", "&6Internal name: %regionkind%");
+        config.addDefault("Messages.RegionKindInfoDisplayName", "&6Displayname: %regionkinddisplay%");
+        config.addDefault("Messages.RegionKindInfoMaterial", "&6Material: %regionkinditem%");
+        config.addDefault("Messages.RegionKindInfoDisplayInGui", "&6DisplayInGui: %regionkinddisplayingui%");
+        config.addDefault("Messages.RegionKindInfoDisplayInLimits", "&6DisplayInLimits: %regionkinddisplayinlimits%");
+        config.addDefault("Messages.RegionKindInfoPaybackPercentage", "&6PaybackPercentage: %paypackpercentage%");
+        config.addDefault("Messages.RegionKindInfoLore", "&6Lore:");
+        config.addDefault("Messages.RegionKindHelpHeadline", "&6=====[AdvancedRegionMarket RegionKind Help ]=====\n&3Page %actualpage% / %maxpage%");
 
         config.options().copyDefaults(true);
         saveConfig();

@@ -1265,7 +1265,7 @@ public class Messages {
 
         config.addDefault("Messages.GUIMainMenuName", "&1ARM - Menu");
         config.addDefault("Messages.GUIRegionFinderMenuName", "&1ARM - Regionfinder");
-        config.addDefault("Messages.GUIRegionFinderRegionKindName", "&a&l%regionkind%");
+        config.addDefault("Messages.GUIRegionFinderRegionKindName", "&a&l%regionkinddisplay%");
         config.addDefault("Messages.GUIMemberListMenuName", "&1ARM - Members of %regionid%");
         config.addDefault("Messages.GUIOwnRegionsMenuName", "&1ARM - My regions (Owner)");
         config.addDefault("Messages.GUIRegionItemName", "%regionid% (%regionkinddisplay%)");

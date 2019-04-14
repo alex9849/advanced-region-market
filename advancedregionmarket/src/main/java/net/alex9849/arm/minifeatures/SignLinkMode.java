@@ -122,6 +122,7 @@ public class SignLinkMode implements Listener {
             this.player.sendMessage(Messages.PREFIX + Messages.SIGN_ADDED_TO_REGION);
         } else {
             Region newRegion = this.preset.generateRegion(this.wgRegion, this.world, this.player, signs);
+            newRegion.createSchematic();
             AdvancedRegionMarket.getRegionManager().add(newRegion);
             this.player.sendMessage(Messages.PREFIX + Messages.REGION_ADDED_TO_ARM);
         }

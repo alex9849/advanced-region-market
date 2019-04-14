@@ -57,19 +57,6 @@ public class SetPriceCommand extends BasicArmCommand {
         RentPrice price;
         String selectedName;
 
-        if(allargs.matches(this.regex_price) || allargs.matches(this.regex_price_massaction)) {
-            int priceint = Integer.parseInt(args[2]);
-            long extend = RentPrice.stringToTime(args[3]);
-            long maxrenttime = RentPrice.stringToTime(args[4]);
-            price = new RentPrice(priceint, extend, maxrenttime);
-        } else {
-            AutoPrice selectedAutoprice = AutoPrice.getAutoprice(args[2]);
-            if(selectedAutoprice == null) {
-                throw new InputException(sender, ChatColor.RED + "Autoprice does not exist!");
-            }
-            price = new RentPrice(selectedAutoprice);
-        }
-
         if(allargs.matches(this.regex_massaction)) {
             String[] splittedRegionKindArg = args[1].split(":", 2);
             RegionKind selectedRegionkind = AdvancedRegionMarket.getRegionKindManager().getRegionKind(splittedRegionKindArg[1]);
@@ -87,8 +74,24 @@ public class SetPriceCommand extends BasicArmCommand {
             selectedName = "&a" + selectedRegion.getRegion().getId();
         }
 
-        for(Region region : selectedregions) {
-            region.setPrice(price);
+        if(allargs.matches(this.regex_price) || allargs.matches(this.regex_price_massaction)) {
+            int priceint = Integer.parseInt(args[2]);
+            long extend = RentPrice.stringToTime(args[3]);
+            long maxrenttime = RentPrice.stringToTime(args[4]);
+
+            for(Region region : selectedregions) {
+                price = new RentPrice(priceint, extend, maxrenttime);
+                region.setPrice(price);
+            }
+        } else {
+            AutoPrice selectedAutoprice = AutoPrice.getAutoprice(args[2]);
+            if(selectedAutoprice == null) {
+                throw new InputException(sender, ChatColor.RED + "Autoprice does not exist!");
+            }
+            for(Region region : selectedregions) {
+                price = new RentPrice(selectedAutoprice);
+                region.setPrice(price);
+            }
         }
 
         String sendmessage = Messages.PREFIX + "&6Price has been set for " + selectedName + "&6!";

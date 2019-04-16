@@ -2,15 +2,15 @@ package net.alex9849.arm.regions;
 
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.ArmSettings;
+import net.alex9849.arm.Group.LimitGroup;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
-import net.alex9849.arm.Group.LimitGroup;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
-import net.alex9849.arm.regionkind.RegionKind;
-import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
+import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.price.ContractPrice;
 import net.alex9849.arm.regions.price.Price;
+import net.alex9849.exceptions.InputException;
 import net.alex9849.inter.WGRegion;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -198,6 +198,7 @@ public class ContractRegion extends Region {
             }
         }
 
+        this.payedTill = 0;
         this.automaticResetRegion(player);
     }
 

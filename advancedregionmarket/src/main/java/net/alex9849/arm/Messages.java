@@ -253,6 +253,7 @@ public class Messages {
     public static List<String> SELECTION_SAVED_CREATE_SIGN = new ArrayList<String>(Arrays.asList("&aYour selection has been saved! You can now create a sign to sell the region.", "&aCreate a Sell-Region:", "&6First line: &1[sub-sell]", "&6Last line: &1price", "", "&aCreate a Rent-Region:", "&6First line: &1[sub-rent]",
             "&6Last line: &1PricePerPeriod&6;&1ExtendPerClick&6;&1MaxExtendTime", "&6example for ExtendPerClick/MaxExtendTime: 5d (5 days)", "", "&aCreate a Contract-Region:", "&6First line: &1[sub-contract]", "&6Last line: &1PricePerPeriod&6;&1ExtendTime", "&6example for ExtendTime: 12h (12 hours)"));
     public static List<String> SUBREGION_TOOL_INSTRUCTION = new ArrayList<String>(Arrays.asList("&aYou got a tool in your inventory (feather) to select 2 points of your region that will mark the corners of your new subregion.", "&aLeft click to select pos1", "&aRight click to select pos2", "&aType \"&6/arm subregion create\" &aif you are done"));
+    public static String SUBREGION_TOOL_ALREADY_OWNED = "&4You already own a Subregion Tool. Please use this instead of a new one!";
     public static String AUTOPRICE_LIST = "&6=========[Autoprices]=========";
     public static String GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM = "&6Info";
 
@@ -593,6 +594,7 @@ public class Messages {
         GUI_REGIONFINDER_REGION_INFO_CONTRACT = config.getStringList("Messages.GUIRegionfinderInfoContract");
         SELECTION_SAVED_CREATE_SIGN = config.getStringList("Messages.SubregionCreationCreateSignInfo");
         SUBREGION_TOOL_INSTRUCTION = config.getStringList("Messages.SubregionCreationSelectAreaInfo");
+        SUBREGION_TOOL_ALREADY_OWNED = config.getString("Messages.SubregionToolAlreadyOwned");
         REGION_INFO_IS_USER_RESETTABLE = config.getString("Messages.RegionInfoIsUserResettable");
         DELETE_REGION_WARNING_NAME = config.getString("Messages.DeleteRegionWarningName");
         UNSELL_REGION_BUTTON = config.getString("Messages.UnsellRegionButton");
@@ -904,6 +906,7 @@ public class Messages {
         REGION_INFO_AUTOPRICE = ChatColor.translateAlternateColorCodes('&', REGION_INFO_AUTOPRICE);
         AUTOPRICE_LIST = ChatColor.translateAlternateColorCodes('&', AUTOPRICE_LIST);
         SUBREGION_HELP_HEADLINE = ChatColor.translateAlternateColorCodes('&', SUBREGION_HELP_HEADLINE);
+        SUBREGION_TOOL_ALREADY_OWNED = ChatColor.translateAlternateColorCodes('&', SUBREGION_TOOL_ALREADY_OWNED);
         GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM = ChatColor.translateAlternateColorCodes('&', GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM);
         SCHEMATIC_NOT_FOUND_ERROR_USER = ChatColor.translateAlternateColorCodes('&', SCHEMATIC_NOT_FOUND_ERROR_USER);
         SCHEMATIC_NOT_FOUND_ERROR_ADMIN = ChatColor.translateAlternateColorCodes('&', SCHEMATIC_NOT_FOUND_ERROR_ADMIN);
@@ -1358,6 +1361,7 @@ public class Messages {
         config.addDefault("Messages.SubregionCreationCreateSignInfo", new ArrayList<String>(Arrays.asList("&aYour selection has been saved! You can now create a sign to sell the region.", "&aCreate a Sell-Region:", "&6First line: &b[sub-sell]", "&6Last line: &bprice", "", "&aCreate a Rent-Region:", "&6First line: &b[sub-rent]",
                 "&6Last line: &bPricePerPeriod&6;&bExtendPerClick&6;&bMaxExtendTime", "&6example for ExtendPerClick/MaxExtendTime: 5d (5 days)", "", "&aCreate a Contract-Region:", "&6First line: &b[sub-contract]", "&6Last line: &bPricePerPeriod&6;&bExtendTime", "&6example for ExtendTime: 12h (12 hours)", "&4We would strongly recommend to not place the sign within the subregion!")));
         config.addDefault("Messages.SubregionCreationSelectAreaInfo", new ArrayList<String>(Arrays.asList("&aYou got a tool in your inventory (feather) to select 2 points of your region that will mark the corners of your new subregion.", "&aLeft click to select pos1", "&aRight click to select pos2", "&aType \"&6/arm subregion create\" &aif you are done")));
+        config.addDefault("Messages.SubregionToolAlreadyOwned", "&4You already own a Subregion Tool. Please use that instead of a new one!");
         config.addDefault("Messages.GUISubregionManagerNoSubregionItemLore", new ArrayList<String>(Arrays.asList("&aYou do not have any subregions on your region.", "&aYou can create a new subregion, that you",  "&acan sell to other players by typing", "&6/arm subregion tool &aand following displayed the steps")));
 
         config.addDefault("Messages.EntityLimitHelpHeadline", "&6=====[AdvancedRegionMarket EntityLimit Help ]=====\n&3Page %actualpage% / %maxpage%");

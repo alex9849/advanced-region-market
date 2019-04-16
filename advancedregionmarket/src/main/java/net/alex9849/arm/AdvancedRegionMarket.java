@@ -271,9 +271,9 @@ public class AdvancedRegionMarket extends JavaPlugin {
             if(WorldGuardInterface.class.isAssignableFrom(wgClass)) {
                 AdvancedRegionMarket.worldGuardInterface = (WorldGuardInterface) wgClass.newInstance();
             }
-            Bukkit.getLogger().log(Level.INFO, "[AdvancedRegionMarket] Using WorldGuard" + version + " adapter");
+            Bukkit.getLogger().log(Level.INFO, "Using WorldGuard" + version + " adapter");
         } catch (Exception e) {
-            Bukkit.getLogger().log(Level.INFO, "[AdvancedRegionMarket] Could not setup WorldGuard! (Handler could not be loaded) Compatible WorldGuard versions: 6, 7");
+            Bukkit.getLogger().log(Level.INFO, "Could not setup WorldGuard! (Handler could not be loaded) Compatible WorldGuard versions: 6, 7");
             e.printStackTrace();
         }
 
@@ -310,9 +310,9 @@ public class AdvancedRegionMarket extends JavaPlugin {
             if(WorldEditInterface.class.isAssignableFrom(weClass)) {
                 AdvancedRegionMarket.worldEditInterface = (WorldEditInterface) weClass.newInstance();
             }
-            Bukkit.getLogger().log(Level.INFO, "[AdvancedRegionMarket] Using WorldEdit" + version + " adapter");
+            Bukkit.getLogger().log(Level.INFO, "Using WorldEdit" + version + " adapter");
         } catch (Exception e) {
-            Bukkit.getLogger().log(Level.INFO, "[AdvancedRegionMarket] Could not setup WorldEdit! (Handler could not be loaded) Compatible WorldEdit versions: 6, 7");
+            Bukkit.getLogger().log(Level.INFO, "Could not setup WorldEdit! (Handler could not be loaded) Compatible WorldEdit versions: 6, 7");
             e.printStackTrace();
         }
 
@@ -449,7 +449,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
     }
 
     public static void reconnectSQL() {
-        Bukkit.getServer().getLogger().log(Level.WARNING, "[AdvancedRegionMarket] SQL connection lost. Reconnecting...");
+        Bukkit.getServer().getLogger().log(Level.WARNING, "SQL connection lost. Reconnecting...");
         AdvancedRegionMarket arm = AdvancedRegionMarket.getARM();
         if(arm != null) {
             if(!arm.connectSQL()) {
@@ -524,7 +524,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
             RentRegion.setExpirationWarningTime(RentPrice.stringToTime(getConfig().getString("Other.RentRegionExpirationWarningTime")));
             RentRegion.setSendExpirationWarning(getConfig().getBoolean("Other.SendRentRegionExpirationWarning"));
         } catch (IllegalArgumentException | NullPointerException e) {
-            Bukkit.getLogger().log(Level.INFO, "[AdvancedRegionMarket] Warning! Bad syntax of time format \"RentRegionExpirationWarningTime\" disabling it...");
+            Bukkit.getLogger().log(Level.INFO, "Warning! Bad syntax of time format \"RentRegionExpirationWarningTime\" disabling it...");
             RentRegion.setExpirationWarningTime(0);
             RentRegion.setSendExpirationWarning(false);
         }

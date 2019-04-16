@@ -262,7 +262,7 @@ public class RegionManager extends YamlFileManager<Region> {
                     EntityType entityType = EntityType.valueOf(extraparts[0]);
                     boughtExtraEntitys.put(entityType, extraAmount);
                 } catch (IllegalArgumentException e) {
-                    Bukkit.getServer().getLogger().log(Level.INFO, "[ARM] Could not parse EntitysType " + extraparts[0] + " at boughtExtraEntitys. Ignoring it...");
+                    Bukkit.getServer().getLogger().log(Level.INFO, "Could not parse EntitysType " + extraparts[0] + " at boughtExtraEntitys. Ignoring it...");
                 }
 
             }

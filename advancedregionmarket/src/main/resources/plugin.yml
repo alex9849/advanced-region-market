@@ -3,8 +3,11 @@ version: 1.7.5
 main: net.alex9849.arm.AdvancedRegionMarket
 depend: [WorldGuard, WorldEdit, Vault]
 softdepend: [Multiverse-Core, FastAsyncWorldEdit]
-author: alex9849
+authors:
+   - alex9849
+   - Rindula
 api-version: 1.13
+prefix: AdvancedRegionMarket
 commands:
    arm:
       description: Shows the help page of ARM

@@ -101,7 +101,7 @@ public class EntityLimitGroupManager extends YamlFileManager<EntityLimitGroup> {
                         entityLimits.add(new EntityLimit(entityType, softLimit, hardLimit, pricePerExtraEntity));
                     }
                 } catch (IllegalArgumentException e) {
-                    Bukkit.getLogger().log(Level.WARNING, "[AdvancedRegionMarket] Could not find EntityType " + entityTypeName + " for EntityLimitGroup " + id + "! Ignoring it");
+                    Bukkit.getLogger().log(Level.WARNING, "Could not find EntityType " + entityTypeName + " for EntityLimitGroup " + id + "! Ignoring it");
                 }
             }
         }

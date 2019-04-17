@@ -7,12 +7,17 @@ variables:
 cache:
   paths:
     - .m2/repository/
-    - target/
 
 build:
   stage: build
   script:
-    - mvn compile
+    - mvn package
+    - cp ./advancedregionmarket/target/advancedregionmarket.jar ./advancedregionmarket.jar
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - ./lib/*
+      - ./advancedregionmarket.jar
 
 test:
   stage: test

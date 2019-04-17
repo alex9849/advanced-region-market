@@ -174,7 +174,8 @@ public class RentRegion extends Region {
             }
         }
 
-        this.payedTill = 0;
+        GregorianCalendar actualtime = new GregorianCalendar();
+        this.payedTill = actualtime.getTimeInMillis();
         this.automaticResetRegion(player);
     }
 

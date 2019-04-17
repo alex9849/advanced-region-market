@@ -197,8 +197,8 @@ public class ContractRegion extends Region {
                 AdvancedRegionMarket.getEcon().depositPlayer(Bukkit.getOfflinePlayer(defdomain.get(i)), amount);
             }
         }
-
-        this.payedTill = 0;
+        GregorianCalendar actualtime = new GregorianCalendar();
+        this.payedTill = actualtime.getTimeInMillis();
         this.automaticResetRegion(player);
     }
 

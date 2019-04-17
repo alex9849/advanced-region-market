@@ -174,8 +174,6 @@ public class RentRegion extends Region {
             }
         }
 
-        GregorianCalendar actualtime = new GregorianCalendar();
-        this.payedTill = actualtime.getTimeInMillis();
         this.automaticResetRegion(player);
     }
 
@@ -206,8 +204,13 @@ public class RentRegion extends Region {
     }
 
     private String getDate(String regex) {
+        GregorianCalendar actualtime = new GregorianCalendar();
         GregorianCalendar payedTill = new GregorianCalendar();
         payedTill.setTimeInMillis(this.payedTill);
+
+        if ((payedTill.getTimeInMillis() - actualtime.getTimeInMillis()) < 0) {
+            return Messages.REGION_INFO_EXPIRED;
+        }
 
         SimpleDateFormat sdf = new SimpleDateFormat(regex);
 
@@ -238,7 +241,7 @@ public class RentRegion extends Region {
         }
 
         if(remainingMilliSeconds < 0){
-            return "0" + sec;
+            return Messages.REGION_INFO_EXPIRED;
         }
 
         long remainingDays = TimeUnit.DAYS.convert(remainingMilliSeconds, TimeUnit.MILLISECONDS);

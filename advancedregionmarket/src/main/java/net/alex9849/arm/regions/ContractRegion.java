@@ -197,8 +197,7 @@ public class ContractRegion extends Region {
                 AdvancedRegionMarket.getEcon().depositPlayer(Bukkit.getOfflinePlayer(defdomain.get(i)), amount);
             }
         }
-        GregorianCalendar actualtime = new GregorianCalendar();
-        this.payedTill = actualtime.getTimeInMillis();
+
         this.automaticResetRegion(player);
     }
 
@@ -261,7 +260,7 @@ public class ContractRegion extends Region {
         }
 
         if(remainingMilliSeconds < 0){
-            return "0" + sec;
+            return Messages.REGION_INFO_EXPIRED;
         }
 
         long remainingDays = TimeUnit.DAYS.convert(remainingMilliSeconds, TimeUnit.MILLISECONDS);
@@ -452,6 +451,9 @@ public class ContractRegion extends Region {
         }
         this.updateSigns();
         this.queueSave();
+    }
+    public void setPayedTill(long payedTill) {
+        this.payedTill = payedTill;
     }
 
     public ConfigurationSection toConfigureationSection() {

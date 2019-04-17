@@ -5,16 +5,15 @@ import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
-import net.alex9849.arm.regionkind.RegionKind;
-import net.alex9849.arm.util.Saveable;
-import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.minifeatures.ParticleBorder;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
+import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.price.Price;
+import net.alex9849.arm.util.Saveable;
+import net.alex9849.exceptions.InputException;
 import net.alex9849.exceptions.SchematicNotFoundException;
 import net.alex9849.inter.WGRegion;
 import org.bukkit.*;
-import org.bukkit.Location;
 import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
@@ -624,6 +623,20 @@ public abstract class Region implements Saveable {
 
         this.extraEntitys.clear();
         this.extraTotalEntitys = 0;
+
+        if (this instanceof ContractRegion) {
+            ContractRegion cr = (ContractRegion) this;
+            GregorianCalendar actualtime = new GregorianCalendar();
+            if(cr.getPayedTill() > actualtime.getTimeInMillis()){
+                cr.setPayedTill(actualtime.getTimeInMillis());
+            }
+        } else if (this instanceof RentRegion) {
+            RentRegion rr = (RentRegion) this;
+            GregorianCalendar actualtime = new GregorianCalendar();
+            if(rr.getPayedTill() > actualtime.getTimeInMillis()){
+                rr.setPayedTill(actualtime.getTimeInMillis());
+            }
+        }
 
         for(int i = 0; i < this.sellsign.size(); i++){
             this.updateSignText(this.sellsign.get(i));

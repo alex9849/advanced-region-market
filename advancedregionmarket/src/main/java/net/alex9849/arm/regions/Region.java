@@ -624,20 +624,6 @@ public abstract class Region implements Saveable {
         this.extraEntitys.clear();
         this.extraTotalEntitys = 0;
 
-        if (this instanceof ContractRegion) {
-            ContractRegion cr = (ContractRegion) this;
-            GregorianCalendar actualtime = new GregorianCalendar();
-            if(cr.getPayedTill() > actualtime.getTimeInMillis()){
-                cr.setPayedTill(actualtime.getTimeInMillis());
-            }
-        } else if (this instanceof RentRegion) {
-            RentRegion rr = (RentRegion) this;
-            GregorianCalendar actualtime = new GregorianCalendar();
-            if(rr.getPayedTill() > actualtime.getTimeInMillis()){
-                rr.setPayedTill(actualtime.getTimeInMillis());
-            }
-        }
-
         for(int i = 0; i < this.sellsign.size(); i++){
             this.updateSignText(this.sellsign.get(i));
         }

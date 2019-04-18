@@ -76,7 +76,9 @@ public class ContractRegion extends Region {
                                 this.automaticResetRegion();
                             } else {
                                 AdvancedRegionMarket.getEcon().withdrawPlayer(oplayer, this.getPrice());
-                                this.giveParentRegionOwnerMoney(this.getPrice());
+                                if(this.isSubregion()) {
+                                    this.giveParentRegionOwnerMoney(this.getPrice());
+                                }
                                 if(oplayer.isOnline()) {
                                     Player player = Bukkit.getPlayer(owners.get(0));
                                     this.extend(player);
@@ -110,6 +112,16 @@ public class ContractRegion extends Region {
 
         this.updateSigns();
 
+        this.queueSave();
+    }
+
+    @Override
+    public void unsell() {
+        super.unsell();
+        GregorianCalendar actualtime = new GregorianCalendar();
+        if(this.getPayedTill() > actualtime.getTimeInMillis()){
+            this.setPayedTill(actualtime.getTimeInMillis());
+        }
         this.queueSave();
     }
 
@@ -177,7 +189,9 @@ public class ContractRegion extends Region {
             throw new InputException(player, Messages.NOT_ENOUGHT_MONEY);
         }
         AdvancedRegionMarket.getEcon().withdrawPlayer(player, this.getPrice());
-        this.giveParentRegionOwnerMoney(this.getPrice());
+        if(this.isSubregion()) {
+            this.giveParentRegionOwnerMoney(this.getPrice());
+        }
         this.setSold(player);
         this.resetBuiltBlocks();
         if(ArmSettings.isTeleportAfterContractRegionBought()){

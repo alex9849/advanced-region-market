@@ -87,6 +87,16 @@ public class RentRegion extends Region {
     }
 
     @Override
+    public void unsell() {
+        super.unsell();
+        GregorianCalendar actualtime = new GregorianCalendar();
+        if(this.getPayedTill() > actualtime.getTimeInMillis()){
+            this.setPayedTill(actualtime.getTimeInMillis());
+        }
+        this.queueSave();
+    }
+
+    @Override
     public void buy(Player player) throws InputException {
 
         if(!Permission.hasAnyBuyPermission(player)) {

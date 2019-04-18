@@ -26,7 +26,7 @@ public class SubRegionCreator {
 
     public SubRegionCreator(Region parentRegion, Player creator) throws InputException {
         if(!parentRegion.isAllowSubregions()) {
-            throw new InputException(creator, this.getParentRegion().getConvertedMessage(Messages.SUB_REGION_LIMIT_REACHED));
+            throw new InputException(creator, parentRegion.getConvertedMessage(Messages.SUB_REGION_LIMIT_REACHED));
         }
         this.parentRegion = parentRegion;
         this.creator = creator;

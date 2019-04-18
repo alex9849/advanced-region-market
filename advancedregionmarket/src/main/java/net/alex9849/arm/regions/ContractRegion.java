@@ -2,15 +2,15 @@ package net.alex9849.arm.regions;
 
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.ArmSettings;
+import net.alex9849.arm.Group.LimitGroup;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
-import net.alex9849.arm.Group.LimitGroup;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
-import net.alex9849.arm.regionkind.RegionKind;
-import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
+import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.price.ContractPrice;
 import net.alex9849.arm.regions.price.Price;
+import net.alex9849.exceptions.InputException;
 import net.alex9849.inter.WGRegion;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -76,7 +76,9 @@ public class ContractRegion extends Region {
                                 this.automaticResetRegion();
                             } else {
                                 AdvancedRegionMarket.getEcon().withdrawPlayer(oplayer, this.getPrice());
-                                this.giveParentRegionOwnerMoney(this.getPrice());
+                                if(this.isSubregion()) {
+                                    this.giveParentRegionOwnerMoney(this.getPrice());
+                                }
                                 if(oplayer.isOnline()) {
                                     Player player = Bukkit.getPlayer(owners.get(0));
                                     this.extend(player);
@@ -110,6 +112,16 @@ public class ContractRegion extends Region {
 
         this.updateSigns();
 
+        this.queueSave();
+    }
+
+    @Override
+    public void unsell() {
+        super.unsell();
+        GregorianCalendar actualtime = new GregorianCalendar();
+        if(this.getPayedTill() > actualtime.getTimeInMillis()){
+            this.setPayedTill(actualtime.getTimeInMillis());
+        }
         this.queueSave();
     }
 
@@ -177,7 +189,9 @@ public class ContractRegion extends Region {
             throw new InputException(player, Messages.NOT_ENOUGHT_MONEY);
         }
         AdvancedRegionMarket.getEcon().withdrawPlayer(player, this.getPrice());
-        this.giveParentRegionOwnerMoney(this.getPrice());
+        if(this.isSubregion()) {
+            this.giveParentRegionOwnerMoney(this.getPrice());
+        }
         this.setSold(player);
         this.resetBuiltBlocks();
         if(ArmSettings.isTeleportAfterContractRegionBought()){
@@ -260,7 +274,7 @@ public class ContractRegion extends Region {
         }
 
         if(remainingMilliSeconds < 0){
-            return "0" + sec;
+            return Messages.REGION_INFO_EXPIRED;
         }
 
         long remainingDays = TimeUnit.DAYS.convert(remainingMilliSeconds, TimeUnit.MILLISECONDS);
@@ -451,6 +465,9 @@ public class ContractRegion extends Region {
         }
         this.updateSigns();
         this.queueSave();
+    }
+    public void setPayedTill(long payedTill) {
+        this.payedTill = payedTill;
     }
 
     public ConfigurationSection toConfigureationSection() {

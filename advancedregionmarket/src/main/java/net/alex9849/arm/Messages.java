@@ -53,6 +53,7 @@ public class Messages {
     public static String REGION_INFO_HOTEL = "";
     public static String REGION_INFO_ALLOWED_SUBREGIONS = "";
     public static String REGION_INFO_SUBREGIONS = "";
+    public static String REGION_INFO_EXPIRED = "&6Expired";
     public static String GUI_MAIN_MENU_NAME = "";
     public static String GUI_GO_BACK = "";
     public static String GUI_MY_OWN_REGIONS = "";
@@ -389,6 +390,7 @@ public class Messages {
         REGION_INFO_AUTORESET = config.getString("Messages.RegionInfoAutoreset");
         REGION_INFO_ALLOWED_SUBREGIONS = config.getString("Messages.RegionInfoAllowedSubregions");
         REGION_INFO_SUBREGIONS = config.getString("Messages.RegionInfoSubregions");
+        REGION_INFO_EXPIRED = config.getString("Messages.RegionInfoExpired");
         REGION_INFO_AUTOPRICE = config.getString("Messages.RegionInfoAutoprice");
         GUI_MAIN_MENU_NAME = config.getString("Messages.GUIMainMenuName");
         GUI_GO_BACK = config.getString("Messages.GUIGoBack");
@@ -868,6 +870,7 @@ public class Messages {
         SUB_REGION_TELEPORT_LOCATION_ERROR = ChatColor.translateAlternateColorCodes('&', SUB_REGION_TELEPORT_LOCATION_ERROR);
         REGION_INFO_ALLOWED_SUBREGIONS = ChatColor.translateAlternateColorCodes('&', REGION_INFO_ALLOWED_SUBREGIONS);
         REGION_INFO_SUBREGIONS = ChatColor.translateAlternateColorCodes('&', REGION_INFO_SUBREGIONS);
+        REGION_INFO_EXPIRED = ChatColor.translateAlternateColorCodes('&', REGION_INFO_EXPIRED);
         REGION_NOT_REGISTRED  = ChatColor.translateAlternateColorCodes('&', REGION_NOT_REGISTRED);
         FIRST_POSITION_SET  = ChatColor.translateAlternateColorCodes('&', FIRST_POSITION_SET);
         SECOND_POSITION_SET  = ChatColor.translateAlternateColorCodes('&', SECOND_POSITION_SET);
@@ -1232,6 +1235,7 @@ public class Messages {
         config.addDefault("Messages.RegionInfoNo", "no");
         config.addDefault("Messages.RegionInfoAllowedSubregions", "&6Allowed Subregions: ");
         config.addDefault("Messages.RegionInfoSubregions", "&6Subregions: ");
+        config.addDefault("Messages.RegionInfoExpired", "&6Expired");
         config.addDefault("Messages.RegionInfoMultipleRegions", "&6There are more than one region at your position. Please select one: &4");
         config.addDefault("Messages.RentRegionExpirationWarning", "&4WARNING! This RentRegion(s) will expire soon: &c");
         config.addDefault("Messages.RegionDeleted", "&aRegion deleted!");

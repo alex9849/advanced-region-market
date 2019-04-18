@@ -2,16 +2,16 @@ package net.alex9849.arm.regions;
 
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.ArmSettings;
-import net.alex9849.arm.Permission;
 import net.alex9849.arm.Group.LimitGroup;
 import net.alex9849.arm.Messages;
+import net.alex9849.arm.Permission;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
-import net.alex9849.arm.regionkind.RegionKind;
-import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
+import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.price.ContractPrice;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.regions.price.RentPrice;
+import net.alex9849.exceptions.InputException;
 import net.alex9849.inter.WGRegion;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -84,6 +84,16 @@ public class RentRegion extends Region {
             mysign.setLine(3, line4);
             mysign.update();
         }
+    }
+
+    @Override
+    public void unsell() {
+        super.unsell();
+        GregorianCalendar actualtime = new GregorianCalendar();
+        if(this.getPayedTill() > actualtime.getTimeInMillis()){
+            this.setPayedTill(actualtime.getTimeInMillis());
+        }
+        this.queueSave();
     }
 
     @Override
@@ -204,8 +214,13 @@ public class RentRegion extends Region {
     }
 
     private String getDate(String regex) {
+        GregorianCalendar actualtime = new GregorianCalendar();
         GregorianCalendar payedTill = new GregorianCalendar();
         payedTill.setTimeInMillis(this.payedTill);
+
+        if ((payedTill.getTimeInMillis() - actualtime.getTimeInMillis()) < 0) {
+            return Messages.REGION_INFO_EXPIRED;
+        }
 
         SimpleDateFormat sdf = new SimpleDateFormat(regex);
 
@@ -236,7 +251,7 @@ public class RentRegion extends Region {
         }
 
         if(remainingMilliSeconds < 0){
-            return "0" + sec;
+            return Messages.REGION_INFO_EXPIRED;
         }
 
         long remainingDays = TimeUnit.DAYS.convert(remainingMilliSeconds, TimeUnit.MILLISECONDS);

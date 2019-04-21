@@ -1184,7 +1184,7 @@ public class Messages {
         config.addDefault("Messages.SubregionTeleportLocationError", "&4The selected region is a subregion. Teleport location can not be changed");
         config.addDefault("Messages.PosCloudNotBeSetMarkOutsideRegion", "&4Position could not be set! Position outside region");
         config.addDefault("Messages.SubRegionAlreadyAtThisPosition", "Your selection would overlap with a subregion that already has been created");
-        config.addDefault("Messages.SubRegionLimitReached", "&4You are only allowed to create max &6%subregionlimit% &4subregions");
+        config.addDefault("Messages.SubRegionLimitReached", "&4Subregion limit reached! You are not allowed to create more than &6%subregionlimit% &4subregions");
         config.addDefault("Messages.SelectionInvalid", "&4Selection invalid! You need to select 2 positions! (Left/Right click) Type \"&6/arm subregion tool&4\" to get the selection tool");
         config.addDefault("Messages.RegionCreatedAndSaved", "&aRegion created and saved!");
 

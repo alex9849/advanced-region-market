@@ -1,8 +1,8 @@
 package net.alex9849.arm.presets.commands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
-import net.alex9849.arm.presets.OldPresetPatternManager;
 import net.alex9849.arm.presets.presets.Preset;
 import net.alex9849.arm.presets.presets.PresetType;
 import net.alex9849.arm.commands.BasicArmCommand;
@@ -52,13 +52,13 @@ public class DeleteCommand extends BasicArmCommand {
             throw new InputException(player, Messages.NO_PERMISSION);
         }
 
-        Preset toDeletePreset = OldPresetPatternManager.getPreset(args[1], this.presetType);
+        Preset toDeletePreset = AdvancedRegionMarket.getPresetPatternManager().getPreset(args[1], this.presetType);
 
         if(toDeletePreset == null) {
             throw new InputException(player, Messages.PRESET_NOT_FOUND);
         }
 
-        OldPresetPatternManager.remove(toDeletePreset);
+        AdvancedRegionMarket.getPresetPatternManager().remove(toDeletePreset);
         player.sendMessage(Messages.PREFIX + Messages.PRESET_DELETED);
 
         return true;
@@ -75,7 +75,7 @@ public class DeleteCommand extends BasicArmCommand {
                     }
                 }
                 if(args.length == 2 && this.rootCommand.equalsIgnoreCase(args[0])) {
-                    returnme.addAll(OldPresetPatternManager.onTabCompleteCompleteSavedPresets(this.presetType, args[1]));
+                    returnme.addAll(AdvancedRegionMarket.getPresetPatternManager().onTabCompleteCompleteSavedPresets(this.presetType, args[1]));
                 }
             }
         }

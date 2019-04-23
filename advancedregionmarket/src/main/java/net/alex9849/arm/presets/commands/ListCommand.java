@@ -1,8 +1,8 @@
 package net.alex9849.arm.presets.commands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
-import net.alex9849.arm.presets.OldPresetPatternManager;
 import net.alex9849.arm.presets.presets.*;
 import net.alex9849.arm.commands.BasicArmCommand;
 import net.alex9849.exceptions.InputException;
@@ -52,7 +52,7 @@ public class ListCommand extends BasicArmCommand {
             throw new InputException(player, Messages.NO_PERMISSION);
         }
 
-        List<Preset> patterns = OldPresetPatternManager.getPresets(this.presetType);
+        List<Preset> patterns = AdvancedRegionMarket.getPresetPatternManager().getPresets(this.presetType);
 
         String presets = "";
 

@@ -4,7 +4,6 @@ import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.presets.ActivePresetManager;
-import net.alex9849.arm.presets.OldPresetPatternManager;
 import net.alex9849.arm.presets.presets.Preset;
 import net.alex9849.arm.presets.presets.PresetType;
 import net.alex9849.arm.commands.BasicArmCommand;
@@ -67,8 +66,9 @@ public class SaveCommand extends BasicArmCommand {
 
         AdvancedRegionMarket.getPresetPatternManager().getPreset(name, this.presetType);
         if(AdvancedRegionMarket.getPresetPatternManager().getPreset(name, this.presetType) == null) {
-            preset.setName(name);
-            AdvancedRegionMarket.getPresetPatternManager().add(preset);
+            Preset savePreset = preset.getCopy();
+            savePreset.setName(name);
+            AdvancedRegionMarket.getPresetPatternManager().add(savePreset);
             player.sendMessage(Messages.PRESET_SAVED);
             return true;
         } else {

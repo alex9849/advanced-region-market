@@ -22,7 +22,6 @@ import net.alex9849.inter.WorldGuardInterface;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.*;
 import net.alex9849.arm.presets.ActivePresetManager;
-import net.alex9849.arm.presets.OldPresetPatternManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
@@ -129,7 +128,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
             }, 0, 200);
         }
         loadOther();
-        OldPresetPatternManager.loadPresetPatterns();
         AdvancedRegionMarket.presetPatternManager = new PresetPatternManager(new File(this.getDataFolder() + "/presets.yml"));
         Region.setCompleteTabRegions(getConfig().getBoolean("Other.CompleteRegionsOnTabComplete"));
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Scheduler() , 0 ,20*getConfig().getInt("Other.SignAndResetUpdateInterval"));
@@ -195,7 +193,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
         LimitGroup.Reset();
         AutoPrice.reset();
         SignLinkMode.reset();
-        OldPresetPatternManager.resetPresetPatterns();
         ActivePresetManager.reset();
         getServer().getServicesManager().unregisterAll(this);
         SignChangeEvent.getHandlerList().unregister(this);
@@ -649,8 +646,8 @@ public class AdvancedRegionMarket extends JavaPlugin {
         EntityLimitGroupManager.writeResourceToDisc(new File(this.getDataFolder() + "/entitylimits.yml"), getResource("entitylimits.yml"));
         RegionKindManager.writeResourceToDisc(new File(this.getDataFolder() + "/regionkinds.yml"), getResource("regionkinds.yml"));
         RegionManager.writeResourceToDisc(new File(this.getDataFolder() + "/regions.yml"), getResource("regions.yml"));
+        PresetPatternManager.writeResourceToDisc(new File(this.getDataFolder() + "/presets.yml"), getResource("presets.yml"));
         Messages.generatedefaultConfig();
-        OldPresetPatternManager.generatedefaultConfig();
         this.generatedefaultconfig();
         FileConfiguration pluginConfig = this.getConfig();
         Double version = pluginConfig.getDouble("Version");

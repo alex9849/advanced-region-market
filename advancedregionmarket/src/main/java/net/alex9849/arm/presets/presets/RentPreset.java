@@ -11,6 +11,7 @@ import net.alex9849.inter.WGRegion;
 import org.bukkit.World;
 import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -165,6 +166,16 @@ public class RentPreset extends Preset {
         }
         this.executeSavedCommands(sender, rentRegion);
         return rentRegion;
+    }
+
+    @Override
+    public ConfigurationSection toConfigureationSection() {
+        ConfigurationSection section = super.toConfigureationSection();
+        section.set("hasMaxRentTime", this.hasMaxRentTime());
+        section.set("maxRentTime", this.getMaxRentTime());
+        section.set("hasExtendPerClick", this.hasExtendPerClick());
+        section.set("extendPerClick", this.getExtendPerClick());
+        return section;
     }
 
 }

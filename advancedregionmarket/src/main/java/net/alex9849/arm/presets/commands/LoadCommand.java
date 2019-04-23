@@ -3,7 +3,7 @@ package net.alex9849.arm.presets.commands;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.presets.ActivePresetManager;
-import net.alex9849.arm.presets.PresetPatternManager;
+import net.alex9849.arm.presets.OldPresetPatternManager;
 import net.alex9849.arm.presets.PresetPlayerPair;
 import net.alex9849.arm.presets.presets.Preset;
 import net.alex9849.arm.presets.presets.PresetType;
@@ -54,7 +54,7 @@ public class LoadCommand extends BasicArmCommand {
             throw new InputException(player, Messages.NO_PERMISSION);
         }
 
-        Preset toAssign = PresetPatternManager.getPreset(args[1], this.presetType);
+        Preset toAssign = OldPresetPatternManager.getPreset(args[1], this.presetType);
 
         if(toAssign == null) {
             throw new InputException(player, Messages.PRESET_NOT_FOUND);
@@ -78,7 +78,7 @@ public class LoadCommand extends BasicArmCommand {
                     }
                 }
                 if(args.length == 2 && args[0].equalsIgnoreCase(this.rootCommand)) {
-                    returnme.addAll(PresetPatternManager.onTabCompleteCompleteSavedPresets(this.presetType, args[1]));
+                    returnme.addAll(OldPresetPatternManager.onTabCompleteCompleteSavedPresets(this.presetType, args[1]));
                 }
             }
         }

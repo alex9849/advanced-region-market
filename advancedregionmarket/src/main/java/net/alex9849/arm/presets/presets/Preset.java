@@ -5,18 +5,21 @@ import net.alex9849.arm.entitylimit.EntityLimitGroup;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
+import net.alex9849.arm.util.Saveable;
 import net.alex9849.inter.WGRegion;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Preset {
+public abstract class Preset implements Saveable {
     protected String name = "default";
     protected boolean hasPrice = false;
     protected double price = 0;
@@ -29,6 +32,7 @@ public abstract class Preset {
     protected AutoPrice autoPrice;
     protected EntityLimitGroup entityLimitGroup;
     protected List<String> setupCommands = new ArrayList<>();
+    private boolean needsSave = false;
 
     public Preset(String name, boolean hasPrice, double price, RegionKind regionKind, boolean autoReset, boolean isHotel, boolean doBlockReset, boolean isUserResettable, int allowedSubregions, AutoPrice autoPrice, EntityLimitGroup entityLimitGroup, List<String> setupCommands){
         this.name = name;
@@ -43,6 +47,7 @@ public abstract class Preset {
         this.setupCommands = setupCommands;
         this.autoPrice = autoPrice;
         this.entityLimitGroup = entityLimitGroup;
+        this.needsSave = false;
     }
 
     public String getName(){
@@ -224,4 +229,38 @@ public abstract class Preset {
     public abstract boolean canPriceLineBeLetEmpty();
 
     public abstract Region generateRegion(WGRegion wgRegion, World world, CommandSender sender, List<Sign> signs);
+
+    @Override
+    public ConfigurationSection toConfigureationSection() {
+        ConfigurationSection section = new YamlConfiguration();
+        section.set("hasPrice", this.hasPrice());
+        section.set("price", this.getPrice());
+        section.set("regionKind", this.getRegionKind().getName());
+        section.set("isHotel", this.isHotel());
+        section.set("doBlockReset", this.isDoBlockReset());
+        section.set("entityLimitGroup", this.getEntityLimitGroup().getName());
+        section.set("autoreset", this.isAutoReset());
+        if(this.hasAutoPrice()) {
+            section.set("autoPrice", this.getAutoPrice().getName());
+        } else {
+            section.set("autoPrice", null);
+        }
+        section.set("setupcommands", this.getCommands());
+        return section;
+    }
+
+    @Override
+    public void queueSave() {
+        this.needsSave = true;
+    }
+
+    @Override
+    public void setSaved() {
+        this.needsSave = false;
+    }
+
+    @Override
+    public boolean needsSave() {
+        return this.needsSave;
+    }
 }

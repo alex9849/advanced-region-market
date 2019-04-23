@@ -5,6 +5,7 @@ import net.alex9849.arm.handler.Scheduler;
 import net.alex9849.arm.handler.listener.*;
 import net.alex9849.arm.commands.*;
 import net.alex9849.arm.entitylimit.EntityLimitGroupManager;
+import net.alex9849.arm.presets.PresetPatternManager;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.regions.price.RentPrice;
 import net.alex9849.arm.regionkind.RegionKindManager;
@@ -21,7 +22,7 @@ import net.alex9849.inter.WorldGuardInterface;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.*;
 import net.alex9849.arm.presets.ActivePresetManager;
-import net.alex9849.arm.presets.PresetPatternManager;
+import net.alex9849.arm.presets.OldPresetPatternManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
@@ -59,6 +60,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
     private static RegionKindManager regionKindManager;
     private static EntityLimitGroupManager entityLimitGroupManager;
     private static RegionManager regionManager;
+    private static PresetPatternManager presetPatternManager;
 
     public void onEnable(){
 
@@ -127,7 +129,8 @@ public class AdvancedRegionMarket extends JavaPlugin {
             }, 0, 200);
         }
         loadOther();
-        PresetPatternManager.loadPresetPatterns();
+        OldPresetPatternManager.loadPresetPatterns();
+        AdvancedRegionMarket.presetPatternManager = new PresetPatternManager(new File(this.getDataFolder() + "/presets.yml"));
         Region.setCompleteTabRegions(getConfig().getBoolean("Other.CompleteRegionsOnTabComplete"));
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Scheduler() , 0 ,20*getConfig().getInt("Other.SignAndResetUpdateInterval"));
         AdvancedRegionMarket.commandHandler = new CommandHandler(new ArrayList<>(Arrays.asList("help")), "");
@@ -192,7 +195,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         LimitGroup.Reset();
         AutoPrice.reset();
         SignLinkMode.reset();
-        PresetPatternManager.resetPresetPatterns();
+        OldPresetPatternManager.resetPresetPatterns();
         ActivePresetManager.reset();
         getServer().getServicesManager().unregisterAll(this);
         SignChangeEvent.getHandlerList().unregister(this);
@@ -208,6 +211,10 @@ public class AdvancedRegionMarket extends JavaPlugin {
         VehicleCreateEvent.getHandlerList().unregister(this);
         getServer().getScheduler().cancelTasks(this);
         HandlerList.unregisterAll(this);
+    }
+
+    public static PresetPatternManager getPresetPatternManager() {
+        return AdvancedRegionMarket.presetPatternManager;
     }
 
     public static RegionKindManager getRegionKindManager() {
@@ -643,7 +650,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         RegionKindManager.writeResourceToDisc(new File(this.getDataFolder() + "/regionkinds.yml"), getResource("regionkinds.yml"));
         RegionManager.writeResourceToDisc(new File(this.getDataFolder() + "/regions.yml"), getResource("regions.yml"));
         Messages.generatedefaultConfig();
-        PresetPatternManager.generatedefaultConfig();
+        OldPresetPatternManager.generatedefaultConfig();
         this.generatedefaultconfig();
         FileConfiguration pluginConfig = this.getConfig();
         Double version = pluginConfig.getDouble("Version");

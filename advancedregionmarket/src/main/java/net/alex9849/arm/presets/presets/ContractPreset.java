@@ -11,6 +11,7 @@ import net.alex9849.inter.WGRegion;
 import org.bukkit.World;
 import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -129,6 +130,14 @@ public class ContractPreset extends Preset {
         this.executeSavedCommands(sender, contractRegion);
 
         return contractRegion;
+    }
+
+    @Override
+    public ConfigurationSection toConfigureationSection() {
+        ConfigurationSection section = super.toConfigureationSection();
+        section.set("hasExtend", this.hasExtend());
+        section.set("extendTime", this.getExtend());
+        return section;
     }
 
 }

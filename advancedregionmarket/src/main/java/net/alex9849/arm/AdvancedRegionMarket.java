@@ -28,6 +28,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.block.*;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -208,6 +209,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         EntitySpawnEvent.getHandlerList().unregister(this);
         VehicleCreateEvent.getHandlerList().unregister(this);
         getServer().getScheduler().cancelTasks(this);
+        HandlerList.unregisterAll(this);
     }
 
     public static RegionKindManager getRegionKindManager() {

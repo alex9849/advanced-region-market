@@ -5,6 +5,10 @@ import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
+import net.alex9849.arm.events.RegionEvent;
+import net.alex9849.arm.events.ResetBlocksEvent;
+import net.alex9849.arm.events.UnsellRegionEvent;
+import net.alex9849.arm.events.UpdateRegionEvent;
 import net.alex9849.arm.minifeatures.ParticleBorder;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import net.alex9849.arm.regionkind.RegionKind;
@@ -327,7 +331,14 @@ public abstract class Region implements Saveable {
         AdvancedRegionMarket.getWorldEditInterface().createSchematic(this.getRegion(), this.getRegionworld(), AdvancedRegionMarket.getWorldedit().getWorldEdit());
     }
 
-    public boolean resetBlocks() throws SchematicNotFoundException {
+    public void resetBlocks() throws SchematicNotFoundException {
+
+        ResetBlocksEvent resetBlocksEvent = new ResetBlocksEvent(this);
+        Bukkit.getServer().getPluginManager().callEvent(resetBlocksEvent);
+        if(resetBlocksEvent.isCancelled()) {
+            return;
+        }
+
         try {
             if(ArmSettings.isRemoveEntitiesOnRegionBlockReset()) {
                 this.killEntitys();
@@ -348,7 +359,7 @@ public abstract class Region implements Saveable {
             }
         }
 
-        return true;
+        return;
     }
 
     public void killEntitys() {
@@ -562,9 +573,13 @@ public abstract class Region implements Saveable {
     public abstract double getPaybackMoney();
 
     public void resetRegion() throws SchematicNotFoundException {
+        UnsellRegionEvent unsellRegionEvent = new UnsellRegionEvent(this);
+        Bukkit.getServer().getPluginManager().callEvent(unsellRegionEvent);
+        if(unsellRegionEvent.isCancelled()) {
+            return;
+        }
 
         this.unsell();
-
         this.resetBlocks();
         return;
     }
@@ -574,6 +589,11 @@ public abstract class Region implements Saveable {
     }
 
     public void automaticResetRegion(Player player){
+        UnsellRegionEvent unsellRegionEvent = new UnsellRegionEvent(this);
+        Bukkit.getServer().getPluginManager().callEvent(unsellRegionEvent);
+        if(unsellRegionEvent.isCancelled()) {
+            return;
+        }
 
         this.unsell();
         if(this.isDoBlockReset()){
@@ -723,7 +743,11 @@ public abstract class Region implements Saveable {
     }
 
     public void queueSave() {
-        this.needsSave = true;
+        UpdateRegionEvent updateRegionEvent = new UpdateRegionEvent(this);
+        Bukkit.getServer().getPluginManager().callEvent(updateRegionEvent);
+        if(!updateRegionEvent.isCancelled()) {
+            this.needsSave = true;
+        }
     }
 
     public void setSaved() {

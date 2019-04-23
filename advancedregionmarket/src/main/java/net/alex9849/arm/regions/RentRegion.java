@@ -6,6 +6,8 @@ import net.alex9849.arm.Group.LimitGroup;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
+import net.alex9849.arm.events.BuyRegionEvent;
+import net.alex9849.arm.events.ExtendRegionEvent;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.price.ContractPrice;
@@ -113,19 +115,18 @@ public class RentRegion extends Region {
             return;
         }
 
-        if (this.regionKind != RegionKind.DEFAULT){
-            if(!RegionKind.hasPermission(player, regionKind)){
-                throw new InputException(player, this.getConvertedMessage(Messages.NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION));
-            }
-        }
-
         if(!LimitGroup.isCanBuyAnother(player, this)){
             throw new InputException(player, LimitGroup.getRegionBuyOutOfLimitMessage(player, this.regionKind));
         }
-
         if(AdvancedRegionMarket.getEcon().getBalance(player) < this.getPrice()) {
             throw new InputException(player, Messages.NOT_ENOUGHT_MONEY);
         }
+        BuyRegionEvent buyRegionEvent = new BuyRegionEvent(this, player);
+        Bukkit.getServer().getPluginManager().callEvent(buyRegionEvent);
+        if(buyRegionEvent.isCancelled()) {
+            return;
+        }
+
         AdvancedRegionMarket.getEcon().withdrawPlayer(player, this.getPrice());
         this.giveParentRegionOwnerMoney(this.getPrice());
         this.setSold(player);
@@ -403,29 +404,32 @@ public class RentRegion extends Region {
         if (this.maxRentTime < ((this.payedTill + this.rentExtendPerClick) - actualtime.getTimeInMillis())){
             String errormessage = this.getConvertedMessage(Messages.RENT_EXTEND_ERROR);
             throw new InputException(player, errormessage);
-        } else {
-            if(AdvancedRegionMarket.getEcon().getBalance(player) < this.getPrice()) {
-                throw new InputException(player, Messages.NOT_ENOUGHT_MONEY);
-            }
-            AdvancedRegionMarket.getEcon().withdrawPlayer(player, this.getPrice());
-            this.giveParentRegionOwnerMoney(this.getPrice());
-            this.payedTill = this.payedTill + this.rentExtendPerClick;
-
-            this.queueSave();
-
-            String message = this.getConvertedMessage(Messages.RENT_EXTEND_MESSAGE);
-            player.sendMessage(Messages.PREFIX + message);
-
-            for(int i = 0; i < this.sellsign.size(); i++){
-                this.updateSignText(this.sellsign.get(i));
-            }
-
-            if(ArmSettings.isTeleportAfterRentRegionExtend()) {
-                Teleporter.teleport(player, this);
-            }
-
+        }
+        ExtendRegionEvent extendRegionEvent = new ExtendRegionEvent(this);
+        Bukkit.getServer().getPluginManager().callEvent(extendRegionEvent);
+        if(extendRegionEvent.isCancelled()) {
             return;
         }
+
+        if(AdvancedRegionMarket.getEcon().getBalance(player) < this.getPrice()) {
+            throw new InputException(player, Messages.NOT_ENOUGHT_MONEY);
+        }
+        AdvancedRegionMarket.getEcon().withdrawPlayer(player, this.getPrice());
+        this.giveParentRegionOwnerMoney(this.getPrice());
+        this.payedTill = this.payedTill + this.rentExtendPerClick;
+
+        this.queueSave();
+
+        String message = this.getConvertedMessage(Messages.RENT_EXTEND_MESSAGE);
+        player.sendMessage(Messages.PREFIX + message);
+
+        this.updateSigns();
+
+        if(ArmSettings.isTeleportAfterRentRegionExtend()) {
+            Teleporter.teleport(player, this);
+        }
+
+        return;
     }
 
     public static void sendExpirationWarnings(Player player) {

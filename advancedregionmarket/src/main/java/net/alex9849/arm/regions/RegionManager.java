@@ -491,7 +491,7 @@ public class RegionManager extends YamlFileManager<Region> {
         return null;
     }
 
-    public Region searchRegionbyNameAndWorld(String name, String world){
+    public Region getRegionbyNameAndWorld(String name, String world){
         List<Region> regions = this.getObjectListCopy();
         for(Region region : regions) {
             if(region.getRegionworld().getName().equalsIgnoreCase(world)) {

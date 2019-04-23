@@ -113,7 +113,7 @@ public class SignModifyListener implements Listener {
                     throw new InputException(sign.getPlayer(), ChatColor.DARK_RED + "Price must be positive!");
                 }
 
-                Region searchregion = AdvancedRegionMarket.getRegionManager().searchRegionbyNameAndWorld(regionname, worldname);
+                Region searchregion = AdvancedRegionMarket.getRegionManager().getRegionbyNameAndWorld(regionname, worldname);
                 if(searchregion != null) {
                     if(!(searchregion instanceof SellRegion)) {
                         throw new InputException(sign.getPlayer(), "Region already registered as a non-sellregion");
@@ -221,7 +221,7 @@ public class SignModifyListener implements Listener {
                     }
                 }
 
-                Region searchregion = AdvancedRegionMarket.getRegionManager().searchRegionbyNameAndWorld(regionname, worldname);
+                Region searchregion = AdvancedRegionMarket.getRegionManager().getRegionbyNameAndWorld(regionname, worldname);
                 if(searchregion != null) {
                     if(!(searchregion instanceof RentRegion)) {
                         throw new InputException(sign.getPlayer(), "Region already registered as a non-rentregion");
@@ -326,7 +326,7 @@ public class SignModifyListener implements Listener {
                 }
 
 
-                Region searchregion = AdvancedRegionMarket.getRegionManager().searchRegionbyNameAndWorld(regionname, worldname);
+                Region searchregion = AdvancedRegionMarket.getRegionManager().getRegionbyNameAndWorld(regionname, worldname);
                 if(searchregion != null) {
                     if(!(searchregion instanceof ContractRegion)) {
                         throw new InputException(sign.getPlayer(), "Region already registered as a non-contractregion");

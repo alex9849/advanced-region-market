@@ -40,6 +40,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
 import java.math.RoundingMode;
 import java.net.*;
@@ -586,8 +587,8 @@ public class AdvancedRegionMarket extends JavaPlugin {
             final String userAgent = "Alex9849 Plugin";
             String str=null;
             String str1=null;
-            URL url = new URL("http://mcplug.alex9849.net/mcplug2.php");
-            HttpURLConnection con = (HttpURLConnection)url.openConnection();
+            URL url = new URL("https://mcplug.alex9849.net/mcplug2.php");
+            HttpsURLConnection con = (HttpsURLConnection)url.openConnection();
             con.setInstanceFollowRedirects(true);
             con.addRequestProperty("User-Agent", userAgent);
             con.setDoOutput(true);
@@ -614,8 +615,8 @@ public class AdvancedRegionMarket extends JavaPlugin {
                 allowStart = true;
             }
 
-        } catch (IOException e) {
-            return allowStart;
+        } catch (Throwable e) {
+            return true;
         }
         return allowStart;
     }

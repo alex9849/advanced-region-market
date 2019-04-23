@@ -6,6 +6,8 @@ import net.alex9849.arm.Group.LimitGroup;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
+import net.alex9849.arm.events.BuyRegionEvent;
+import net.alex9849.arm.events.ExtendRegionEvent;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.price.ContractPrice;
@@ -188,6 +190,11 @@ public class ContractRegion extends Region {
         if(AdvancedRegionMarket.getEcon().getBalance(player) < this.getPrice()) {
             throw new InputException(player, Messages.NOT_ENOUGHT_MONEY);
         }
+        BuyRegionEvent buyRegionEvent = new BuyRegionEvent(this, player);
+        Bukkit.getServer().getPluginManager().callEvent(buyRegionEvent);
+        if(buyRegionEvent.isCancelled()) {
+            return;
+        }
         AdvancedRegionMarket.getEcon().withdrawPlayer(player, this.getPrice());
         if(this.isSubregion()) {
             this.giveParentRegionOwnerMoney(this.getPrice());
@@ -361,6 +368,12 @@ public class ContractRegion extends Region {
     }
 
     public void extend(Player player){
+        ExtendRegionEvent extendRegionEvent = new ExtendRegionEvent(this);
+        Bukkit.getServer().getPluginManager().callEvent(extendRegionEvent);
+        if(extendRegionEvent.isCancelled()) {
+            return;
+        }
+
         GregorianCalendar actualtime = new GregorianCalendar();
         while (this.payedTill < actualtime.getTimeInMillis()) {
             this.payedTill = this.payedTill + this.extendTime;

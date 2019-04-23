@@ -6,6 +6,7 @@ import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.Group.LimitGroup;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
+import net.alex9849.arm.events.BuyRegionEvent;
 import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
@@ -105,6 +106,12 @@ public class SellRegion extends Region {
         if(AdvancedRegionMarket.getEcon().getBalance(player) < this.getPrice()) {
             throw new InputException(player, Messages.NOT_ENOUGHT_MONEY);
         }
+        BuyRegionEvent buyRegionEvent = new BuyRegionEvent(this, player);
+        Bukkit.getServer().getPluginManager().callEvent(buyRegionEvent);
+        if(buyRegionEvent.isCancelled()) {
+            return;
+        }
+
         AdvancedRegionMarket.getEcon().withdrawPlayer(player, this.getPrice());
         this.giveParentRegionOwnerMoney(this.getPrice());
         this.setSold(player);

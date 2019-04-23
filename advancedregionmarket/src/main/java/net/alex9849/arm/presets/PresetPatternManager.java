@@ -144,7 +144,6 @@ public class PresetPatternManager extends YamlFileManager<Preset> {
         boolean updatedSomething = false;
         updatedSomething |= this.addDefault(section, "hasPrice", false);
         updatedSomething |= this.addDefault(section, "price", 0);
-        updatedSomething |= this.addDefault(section, "autoPrice", null);
         updatedSomething |= this.addDefault(section, "regionKind", "Default");
         updatedSomething |= this.addDefault(section, "isHotel", false);
         updatedSomething |= this.addDefault(section, "doBlockReset", true);

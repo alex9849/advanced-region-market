@@ -235,6 +235,8 @@ public abstract class Preset implements Saveable {
         ConfigurationSection section = new YamlConfiguration();
         section.set("hasPrice", this.hasPrice());
         section.set("price", this.getPrice());
+        section.set("isUserResettable", this.isUserResettable());
+        section.set("allowedSubregions", this.getAllowedSubregions());
         section.set("regionKind", this.getRegionKind().getName());
         section.set("isHotel", this.isHotel());
         section.set("doBlockReset", this.isDoBlockReset());

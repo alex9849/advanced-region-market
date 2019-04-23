@@ -6,6 +6,7 @@ import net.alex9849.arm.regions.RentRegion;
 import net.alex9849.arm.regions.SellRegion;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,9 +16,9 @@ import java.util.logging.Level;
 
 public class BStatsAnalytics {
 
-    public void register() {
+    public void register(Plugin plugin) {
         try {
-            Metrics metrics = new Metrics(AdvancedRegionMarket.getARM());
+            Metrics metrics = new Metrics(plugin);
 
             metrics.addCustomChart(new Metrics.SingleLineChart("total_regions", new Callable<Integer>() {
                 @Override

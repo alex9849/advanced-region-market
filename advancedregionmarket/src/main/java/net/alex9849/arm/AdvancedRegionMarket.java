@@ -74,7 +74,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
 
         //Enable bStats
         BStatsAnalytics bStatsAnalytics = new BStatsAnalytics();
-        bStatsAnalytics.register();
+        bStatsAnalytics.register(this);
 
         AdvancedRegionMarket.faWeInstalled = setupFaWe();
 

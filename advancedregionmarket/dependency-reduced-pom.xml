@@ -52,6 +52,14 @@
             <configuration />
           </execution>
         </executions>
+        <configuration>
+          <relocations>
+            <relocation>
+              <pattern>org.bstats</pattern>
+              <shadedPattern>net.alex9849.arm</shadedPattern>
+            </relocation>
+          </relocations>
+        </configuration>
       </plugin>
     </plugins>
   </build>

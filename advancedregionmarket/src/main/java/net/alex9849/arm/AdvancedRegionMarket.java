@@ -187,6 +187,10 @@ public class AdvancedRegionMarket extends JavaPlugin {
     }
 
     public void onDisable(){
+        AdvancedRegionMarket.getPresetPatternManager().updateFile();
+        AdvancedRegionMarket.getRegionManager().updateFile();
+        AdvancedRegionMarket.getRegionKindManager().updateFile();
+        AdvancedRegionMarket.getEntityLimitGroupManager().updateFile();
         AdvancedRegionMarket.econ = null;
         AdvancedRegionMarket.worldguard = null;
         AdvancedRegionMarket.worldedit = null;

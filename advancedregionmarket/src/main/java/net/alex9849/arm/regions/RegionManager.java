@@ -4,6 +4,8 @@ import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
+import net.alex9849.arm.events.AddRegionEvent;
+import net.alex9849.arm.events.RemoveRegionEvent;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import net.alex9849.arm.regionkind.RegionKind;
@@ -36,6 +38,26 @@ public class RegionManager extends YamlFileManager<Region> {
 
     public RegionManager(File savepath) {
         super(savepath);
+    }
+
+    @Override
+    public void add(Region region) {
+        AddRegionEvent addRegionEvent = new AddRegionEvent(region);
+        Bukkit.getServer().getPluginManager().callEvent(addRegionEvent);
+        if(addRegionEvent.isCancelled()) {
+            return;
+        }
+        super.add(region);
+    }
+
+    @Override
+    public void remove(Region region) {
+        RemoveRegionEvent removeRegionEvent = new RemoveRegionEvent(region);
+        Bukkit.getServer().getPluginManager().callEvent(removeRegionEvent);
+        if(removeRegionEvent.isCancelled()) {
+            return;
+        }
+        super.remove(region);
     }
 
     @Override

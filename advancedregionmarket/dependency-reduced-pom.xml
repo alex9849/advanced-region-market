@@ -56,7 +56,7 @@
           <relocations>
             <relocation>
               <pattern>org.bstats</pattern>
-              <shadedPattern>net.alex9849.arm</shadedPattern>
+              <shadedPattern>net.alex9849.arm.bstats</shadedPattern>
             </relocation>
           </relocations>
         </configuration>

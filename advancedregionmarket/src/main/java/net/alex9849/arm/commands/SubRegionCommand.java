@@ -1,15 +1,15 @@
 package net.alex9849.arm.commands;
 
-import net.alex9849.arm.Handler.CommandHandler;
+import net.alex9849.arm.handler.CommandHandler;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
-import net.alex9849.arm.SubRegions.commands.CreateCommand;
-import net.alex9849.arm.SubRegions.commands.DeleteCommand;
-import net.alex9849.arm.SubRegions.commands.HotelCommand;
-import net.alex9849.arm.SubRegions.commands.ResetBlocksCommand;
-import net.alex9849.arm.SubRegions.commands.TPCommand;
-import net.alex9849.arm.SubRegions.commands.ToolCommand;
-import net.alex9849.arm.SubRegions.commands.UnsellCommand;
+import net.alex9849.arm.subregions.commands.CreateCommand;
+import net.alex9849.arm.subregions.commands.DeleteCommand;
+import net.alex9849.arm.subregions.commands.HotelCommand;
+import net.alex9849.arm.subregions.commands.ResetBlocksCommand;
+import net.alex9849.arm.subregions.commands.TPCommand;
+import net.alex9849.arm.subregions.commands.ToolCommand;
+import net.alex9849.arm.subregions.commands.UnsellCommand;
 import net.alex9849.exceptions.InputException;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

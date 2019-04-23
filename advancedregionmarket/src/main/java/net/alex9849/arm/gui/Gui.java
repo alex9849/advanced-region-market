@@ -9,7 +9,7 @@ import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import net.alex9849.arm.regions.*;
-import net.alex9849.arm.Group.LimitGroup;
+import net.alex9849.arm.limitgroups.LimitGroup;
 import net.alex9849.exceptions.SchematicNotFoundException;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

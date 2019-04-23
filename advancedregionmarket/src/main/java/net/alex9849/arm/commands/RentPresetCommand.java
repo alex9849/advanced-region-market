@@ -1,9 +1,9 @@
 package net.alex9849.arm.commands;
 
-import net.alex9849.arm.Handler.CommandHandler;
+import net.alex9849.arm.handler.CommandHandler;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
-import net.alex9849.arm.Preseter.presets.PresetType;
+import net.alex9849.arm.presets.presets.PresetType;
 import net.alex9849.exceptions.InputException;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -24,26 +24,26 @@ public class RentPresetCommand extends SellPresetCommand {
     public RentPresetCommand() {
         this.commandHandler = new CommandHandler(this.usage, this.rootCommand);
         List<BasicArmCommand> commands = new ArrayList<>();
-        commands.add(new net.alex9849.arm.Preseter.commands.AutoResetCommand(PresetType.RENTPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.RentPresetExtendPerClickCommand(PresetType.RENTPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.RentPresetMaxRentTimeCommand(PresetType.RENTPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.DeleteCommand(PresetType.RENTPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.DoBlockResetCommand(PresetType.RENTPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.HelpCommand(PresetType.RENTPRESET, this.commandHandler));
-        commands.add(new net.alex9849.arm.Preseter.commands.HotelCommand(PresetType.RENTPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.InfoCommand(PresetType.RENTPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.ListCommand(PresetType.RENTPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.LoadCommand(PresetType.RENTPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.PriceCommand(PresetType.RENTPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.RegionKindCommand(PresetType.RENTPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.ResetCommand(PresetType.RENTPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.SaveCommand(PresetType.RENTPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.AddCommandCommand(PresetType.RENTPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.RemoveCommandCommand(PresetType.RENTPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.AllowedSubregionsCommand(PresetType.RENTPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.UserResettableCommand(PresetType.RENTPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.SetAutoPriceCommand(PresetType.RENTPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.EntityLimitCommand(PresetType.RENTPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.AutoResetCommand(PresetType.RENTPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.RentPresetExtendPerClickCommand(PresetType.RENTPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.RentPresetMaxRentTimeCommand(PresetType.RENTPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.DeleteCommand(PresetType.RENTPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.DoBlockResetCommand(PresetType.RENTPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.HelpCommand(PresetType.RENTPRESET, this.commandHandler));
+        commands.add(new net.alex9849.arm.presets.commands.HotelCommand(PresetType.RENTPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.InfoCommand(PresetType.RENTPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.ListCommand(PresetType.RENTPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.LoadCommand(PresetType.RENTPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.PriceCommand(PresetType.RENTPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.RegionKindCommand(PresetType.RENTPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.ResetCommand(PresetType.RENTPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.SaveCommand(PresetType.RENTPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.AddCommandCommand(PresetType.RENTPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.RemoveCommandCommand(PresetType.RENTPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.AllowedSubregionsCommand(PresetType.RENTPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.UserResettableCommand(PresetType.RENTPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.SetAutoPriceCommand(PresetType.RENTPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.EntityLimitCommand(PresetType.RENTPRESET));
         this.commandHandler.addCommands(commands);
     }
 

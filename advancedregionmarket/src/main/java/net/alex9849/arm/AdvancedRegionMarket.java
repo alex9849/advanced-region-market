@@ -1,13 +1,12 @@
 package net.alex9849.arm;
 
-import net.alex9849.arm.Handler.CommandHandler;
-import net.alex9849.arm.Handler.Scheduler;
-import net.alex9849.arm.Handler.listener.*;
+import net.alex9849.arm.handler.CommandHandler;
+import net.alex9849.arm.handler.Scheduler;
+import net.alex9849.arm.handler.listener.*;
 import net.alex9849.arm.commands.*;
 import net.alex9849.arm.entitylimit.EntityLimitGroupManager;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.regions.price.RentPrice;
-import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regionkind.RegionKindManager;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.minifeatures.SignLinkMode;
@@ -15,14 +14,14 @@ import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.*;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
-import net.alex9849.arm.Group.LimitGroup;
+import net.alex9849.arm.limitgroups.LimitGroup;
 import net.alex9849.arm.gui.Gui;
 import net.alex9849.inter.WorldEditInterface;
 import net.alex9849.inter.WorldGuardInterface;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.*;
-import net.alex9849.arm.Preseter.ActivePresetManager;
-import net.alex9849.arm.Preseter.PresetPatternManager;
+import net.alex9849.arm.presets.ActivePresetManager;
+import net.alex9849.arm.presets.PresetPatternManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
@@ -42,12 +41,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
-import java.math.RoundingMode;
 import java.net.*;
 import java.nio.charset.Charset;
 import java.sql.*;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.util.*;
 import java.util.logging.Level;
@@ -277,7 +273,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
             }
             Bukkit.getLogger().log(Level.INFO, "Using WorldGuard" + version + " adapter");
         } catch (Exception e) {
-            Bukkit.getLogger().log(Level.INFO, "Could not setup WorldGuard! (Handler could not be loaded) Compatible WorldGuard versions: 6, 7");
+            Bukkit.getLogger().log(Level.INFO, "Could not setup WorldGuard! (handler could not be loaded) Compatible WorldGuard versions: 6, 7");
             e.printStackTrace();
         }
 
@@ -316,7 +312,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
             }
             Bukkit.getLogger().log(Level.INFO, "Using WorldEdit" + version + " adapter");
         } catch (Exception e) {
-            Bukkit.getLogger().log(Level.INFO, "Could not setup WorldEdit! (Handler could not be loaded) Compatible WorldEdit versions: 6, 7");
+            Bukkit.getLogger().log(Level.INFO, "Could not setup WorldEdit! (handler could not be loaded) Compatible WorldEdit versions: 6, 7");
             e.printStackTrace();
         }
 

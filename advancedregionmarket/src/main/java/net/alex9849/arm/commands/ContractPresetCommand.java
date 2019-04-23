@@ -1,9 +1,9 @@
 package net.alex9849.arm.commands;
 
-import net.alex9849.arm.Handler.CommandHandler;
+import net.alex9849.arm.handler.CommandHandler;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
-import net.alex9849.arm.Preseter.presets.PresetType;
+import net.alex9849.arm.presets.presets.PresetType;
 import net.alex9849.exceptions.InputException;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -23,25 +23,25 @@ public class ContractPresetCommand extends SellPresetCommand {
     public ContractPresetCommand() {
         this.commandHandler = new CommandHandler(this.usage, this.rootCommand);
         List<BasicArmCommand> commands = new ArrayList<>();
-        commands.add(new net.alex9849.arm.Preseter.commands.AutoResetCommand(PresetType.CONTRACTPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.ContractPresetExtendCommand(PresetType.CONTRACTPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.DeleteCommand(PresetType.CONTRACTPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.DoBlockResetCommand(PresetType.CONTRACTPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.HelpCommand(PresetType.CONTRACTPRESET, this.commandHandler));
-        commands.add(new net.alex9849.arm.Preseter.commands.HotelCommand(PresetType.CONTRACTPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.InfoCommand(PresetType.CONTRACTPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.ListCommand(PresetType.CONTRACTPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.LoadCommand(PresetType.CONTRACTPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.PriceCommand(PresetType.CONTRACTPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.RegionKindCommand(PresetType.CONTRACTPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.ResetCommand(PresetType.CONTRACTPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.SaveCommand(PresetType.CONTRACTPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.AddCommandCommand(PresetType.CONTRACTPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.RemoveCommandCommand(PresetType.CONTRACTPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.AllowedSubregionsCommand(PresetType.CONTRACTPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.UserResettableCommand(PresetType.CONTRACTPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.SetAutoPriceCommand(PresetType.CONTRACTPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.EntityLimitCommand(PresetType.CONTRACTPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.AutoResetCommand(PresetType.CONTRACTPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.ContractPresetExtendCommand(PresetType.CONTRACTPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.DeleteCommand(PresetType.CONTRACTPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.DoBlockResetCommand(PresetType.CONTRACTPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.HelpCommand(PresetType.CONTRACTPRESET, this.commandHandler));
+        commands.add(new net.alex9849.arm.presets.commands.HotelCommand(PresetType.CONTRACTPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.InfoCommand(PresetType.CONTRACTPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.ListCommand(PresetType.CONTRACTPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.LoadCommand(PresetType.CONTRACTPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.PriceCommand(PresetType.CONTRACTPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.RegionKindCommand(PresetType.CONTRACTPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.ResetCommand(PresetType.CONTRACTPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.SaveCommand(PresetType.CONTRACTPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.AddCommandCommand(PresetType.CONTRACTPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.RemoveCommandCommand(PresetType.CONTRACTPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.AllowedSubregionsCommand(PresetType.CONTRACTPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.UserResettableCommand(PresetType.CONTRACTPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.SetAutoPriceCommand(PresetType.CONTRACTPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.EntityLimitCommand(PresetType.CONTRACTPRESET));
         this.commandHandler.addCommands(commands);
     }
 

@@ -2,7 +2,7 @@ package net.alex9849.arm.minifeatures;
 
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
-import net.alex9849.arm.Preseter.presets.Preset;
+import net.alex9849.arm.presets.presets.Preset;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.inter.WGRegion;

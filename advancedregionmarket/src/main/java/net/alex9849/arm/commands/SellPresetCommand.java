@@ -1,9 +1,9 @@
 package net.alex9849.arm.commands;
 
-import net.alex9849.arm.Handler.CommandHandler;
+import net.alex9849.arm.handler.CommandHandler;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
-import net.alex9849.arm.Preseter.presets.PresetType;
+import net.alex9849.arm.presets.presets.PresetType;
 import net.alex9849.exceptions.InputException;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -23,24 +23,24 @@ public class SellPresetCommand extends BasicArmCommand {
     public SellPresetCommand() {
         this.commandHandler = new CommandHandler(this.usage, this.rootCommand);
         List<BasicArmCommand> commands = new ArrayList<>();
-        commands.add(new net.alex9849.arm.Preseter.commands.AddCommandCommand(PresetType.SELLPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.DeleteCommand(PresetType.SELLPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.DoBlockResetCommand(PresetType.SELLPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.HelpCommand(PresetType.SELLPRESET, this.commandHandler));
-        commands.add(new net.alex9849.arm.Preseter.commands.HotelCommand(PresetType.SELLPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.InfoCommand(PresetType.SELLPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.ListCommand(PresetType.SELLPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.LoadCommand(PresetType.SELLPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.PriceCommand(PresetType.SELLPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.RegionKindCommand(PresetType.SELLPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.ResetCommand(PresetType.SELLPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.SaveCommand(PresetType.SELLPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.AddCommandCommand(PresetType.SELLPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.RemoveCommandCommand(PresetType.SELLPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.AllowedSubregionsCommand(PresetType.SELLPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.UserResettableCommand(PresetType.SELLPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.SetAutoPriceCommand(PresetType.SELLPRESET));
-        commands.add(new net.alex9849.arm.Preseter.commands.EntityLimitCommand(PresetType.SELLPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.AddCommandCommand(PresetType.SELLPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.DeleteCommand(PresetType.SELLPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.DoBlockResetCommand(PresetType.SELLPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.HelpCommand(PresetType.SELLPRESET, this.commandHandler));
+        commands.add(new net.alex9849.arm.presets.commands.HotelCommand(PresetType.SELLPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.InfoCommand(PresetType.SELLPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.ListCommand(PresetType.SELLPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.LoadCommand(PresetType.SELLPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.PriceCommand(PresetType.SELLPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.RegionKindCommand(PresetType.SELLPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.ResetCommand(PresetType.SELLPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.SaveCommand(PresetType.SELLPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.AddCommandCommand(PresetType.SELLPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.RemoveCommandCommand(PresetType.SELLPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.AllowedSubregionsCommand(PresetType.SELLPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.UserResettableCommand(PresetType.SELLPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.SetAutoPriceCommand(PresetType.SELLPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.EntityLimitCommand(PresetType.SELLPRESET));
         this.commandHandler.addCommands(commands);
     }
 

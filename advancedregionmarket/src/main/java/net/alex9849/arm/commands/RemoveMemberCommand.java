@@ -1,7 +1,7 @@
 package net.alex9849.arm.commands;
 
 import net.alex9849.arm.AdvancedRegionMarket;
-import net.alex9849.arm.Handler.CommandHandler;
+import net.alex9849.arm.handler.CommandHandler;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.exceptions.InputException;

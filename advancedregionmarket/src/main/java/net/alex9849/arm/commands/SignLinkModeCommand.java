@@ -2,9 +2,9 @@ package net.alex9849.arm.commands;
 
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
-import net.alex9849.arm.Preseter.ActivePresetManager;
-import net.alex9849.arm.Preseter.presets.Preset;
-import net.alex9849.arm.Preseter.presets.PresetType;
+import net.alex9849.arm.presets.ActivePresetManager;
+import net.alex9849.arm.presets.presets.Preset;
+import net.alex9849.arm.presets.presets.PresetType;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.minifeatures.SignLinkMode;
 import net.alex9849.arm.regions.SellType;

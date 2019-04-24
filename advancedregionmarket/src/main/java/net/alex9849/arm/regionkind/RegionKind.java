@@ -147,7 +147,7 @@ public class RegionKind implements Saveable {
     }
 
     public static RegionKind parse(ConfigurationSection confSection, String id) {
-        Material material = Material.getMaterial(confSection.getString("item"));
+        Material material = Material.matchMaterial(confSection.getString("item"));
         if(material == null) {
             material = Material.RED_BED;
         }

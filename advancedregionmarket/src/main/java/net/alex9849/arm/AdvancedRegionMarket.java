@@ -425,29 +425,29 @@ public class AdvancedRegionMarket extends JavaPlugin {
 
     private void loadGUI(){
         FileConfiguration pluginConf = getConfig();
-        Gui.setRegionOwnerItem(Material.getMaterial(pluginConf.getString("GUI.RegionOwnerItem")));
-        Gui.setRegionMemberItem(Material.getMaterial(pluginConf.getString("GUI.RegionMemberItem")));
-        Gui.setRegionFinderItem(Material.getMaterial(pluginConf.getString("GUI.RegionFinderItem")));
-        Gui.setGoBackItem(Material.getMaterial(pluginConf.getString("GUI.GoBackItem")));
-        Gui.setWarningYesItem(Material.getMaterial(pluginConf.getString("GUI.WarningYesItem")));
-        Gui.setWarningNoItem(Material.getMaterial(pluginConf.getString("GUI.WarningNoItem")));
-        Gui.setTpItem(Material.getMaterial(pluginConf.getString("GUI.TPItem")));
-        Gui.setSellRegionItem(Material.getMaterial(pluginConf.getString("GUI.SellRegionItem")));
-        Gui.setResetItem(Material.getMaterial(pluginConf.getString("GUI.ResetItem")));
-        Gui.setExtendItem(Material.getMaterial(pluginConf.getString("GUI.ExtendItem")));
-        Gui.setInfoItem(Material.getMaterial(pluginConf.getString("GUI.InfoItem")));
-        Gui.setPromoteMemberToOwnerItem(Material.getMaterial(pluginConf.getString("GUI.PromoteMemberToOwnerItem")));
-        Gui.setRemoveMemberItem(Material.getMaterial(pluginConf.getString("GUI.RemoveMemberItem")));
-        Gui.setFillItem(Material.getMaterial(pluginConf.getString("GUI.FillItem")));
-        Gui.setContractItem(Material.getMaterial(pluginConf.getString("GUI.ContractItem")));
-        Gui.setSubregionItem(Material.getMaterial(pluginConf.getString("GUI.SubRegionItem")));
-        Gui.setDeleteItem(Material.getMaterial(pluginConf.getString("GUI.DeleteItem")));
-        Gui.setTeleportToSignItem(Material.getMaterial(pluginConf.getString("GUI.TeleportToSignItem")));
-        Gui.setTeleportToRegionItem(Material.getMaterial(pluginConf.getString("GUI.TeleportToRegionItem")));
-        Gui.setNextPageItem(Material.getMaterial(pluginConf.getString("GUI.NextPageItem")));
-        Gui.setPrevPageItem(Material.getMaterial(pluginConf.getString("GUI.PrevPageItem")));
-        Gui.setHotelSettingItem(Material.getMaterial(pluginConf.getString("GUI.HotelSettingItem")));
-        Gui.setUnsellItem(Material.getMaterial(pluginConf.getString("GUI.UnsellItem")));
+        Gui.setRegionOwnerItem(Material.matchMaterial(pluginConf.getString("GUI.RegionOwnerItem")));
+        Gui.setRegionMemberItem(Material.matchMaterial(pluginConf.getString("GUI.RegionMemberItem")));
+        Gui.setRegionFinderItem(Material.matchMaterial(pluginConf.getString("GUI.RegionFinderItem")));
+        Gui.setGoBackItem(Material.matchMaterial(pluginConf.getString("GUI.GoBackItem")));
+        Gui.setWarningYesItem(Material.matchMaterial(pluginConf.getString("GUI.WarningYesItem")));
+        Gui.setWarningNoItem(Material.matchMaterial(pluginConf.getString("GUI.WarningNoItem")));
+        Gui.setTpItem(Material.matchMaterial(pluginConf.getString("GUI.TPItem")));
+        Gui.setSellRegionItem(Material.matchMaterial(pluginConf.getString("GUI.SellRegionItem")));
+        Gui.setResetItem(Material.matchMaterial(pluginConf.getString("GUI.ResetItem")));
+        Gui.setExtendItem(Material.matchMaterial(pluginConf.getString("GUI.ExtendItem")));
+        Gui.setInfoItem(Material.matchMaterial(pluginConf.getString("GUI.InfoItem")));
+        Gui.setPromoteMemberToOwnerItem(Material.matchMaterial(pluginConf.getString("GUI.PromoteMemberToOwnerItem")));
+        Gui.setRemoveMemberItem(Material.matchMaterial(pluginConf.getString("GUI.RemoveMemberItem")));
+        Gui.setFillItem(Material.matchMaterial(pluginConf.getString("GUI.FillItem")));
+        Gui.setContractItem(Material.matchMaterial(pluginConf.getString("GUI.ContractItem")));
+        Gui.setSubregionItem(Material.matchMaterial(pluginConf.getString("GUI.SubRegionItem")));
+        Gui.setDeleteItem(Material.matchMaterial(pluginConf.getString("GUI.DeleteItem")));
+        Gui.setTeleportToSignItem(Material.matchMaterial(pluginConf.getString("GUI.TeleportToSignItem")));
+        Gui.setTeleportToRegionItem(Material.matchMaterial(pluginConf.getString("GUI.TeleportToRegionItem")));
+        Gui.setNextPageItem(Material.matchMaterial(pluginConf.getString("GUI.NextPageItem")));
+        Gui.setPrevPageItem(Material.matchMaterial(pluginConf.getString("GUI.PrevPageItem")));
+        Gui.setHotelSettingItem(Material.matchMaterial(pluginConf.getString("GUI.HotelSettingItem")));
+        Gui.setUnsellItem(Material.matchMaterial(pluginConf.getString("GUI.UnsellItem")));
 
     }
 
@@ -766,51 +766,51 @@ public class AdvancedRegionMarket extends JavaPlugin {
 
     private void updateTo1p21(FileConfiguration pluginConfig) {
         Material mat = null;
-        mat = Material.getMaterial(pluginConfig.getString("GUI.RegionOwnerItem"), true);
+        mat = Material.matchMaterial(pluginConfig.getString("GUI.RegionOwnerItem"), true);
         if(mat != null) {
             pluginConfig.set("GUI.RegionOwnerItem", mat.toString());
         }
-        mat = Material.getMaterial(pluginConfig.getString("GUI.RegionMemberItem"), true);
+        mat = Material.matchMaterial(pluginConfig.getString("GUI.RegionMemberItem"), true);
         if(mat != null) {
             pluginConfig.set("GUI.RegionMemberItem", mat.toString());
         }
-        mat = Material.getMaterial(pluginConfig.getString("GUI.RegionFinderItem"), true);
+        mat = Material.matchMaterial(pluginConfig.getString("GUI.RegionFinderItem"), true);
         if(mat != null) {
             pluginConfig.set("GUI.RegionFinderItem", mat.toString());
         }
-        mat = Material.getMaterial(pluginConfig.getString("GUI.GoBackItem"), true);
+        mat = Material.matchMaterial(pluginConfig.getString("GUI.GoBackItem"), true);
         if(mat != null) {
             pluginConfig.set("GUI.GoBackItem", mat.toString());
         }
-        mat = Material.getMaterial(pluginConfig.getString("GUI.WarningYesItem"), true);
+        mat = Material.matchMaterial(pluginConfig.getString("GUI.WarningYesItem"), true);
         if(mat != null) {
             pluginConfig.set("GUI.WarningYesItem", mat.toString());
         }
-        mat = Material.getMaterial(pluginConfig.getString("GUI.WarningNoItem"), true);
+        mat = Material.matchMaterial(pluginConfig.getString("GUI.WarningNoItem"), true);
         if(mat != null) {
             pluginConfig.set("GUI.WarningNoItem", mat.toString());
         }
-        mat = Material.getMaterial(pluginConfig.getString("GUI.SellRegionItem"), true);
+        mat = Material.matchMaterial(pluginConfig.getString("GUI.SellRegionItem"), true);
         if(mat != null) {
             pluginConfig.set("GUI.SellRegionItem", mat.toString());
         }
-        mat = Material.getMaterial(pluginConfig.getString("GUI.ResetItem"), true);
+        mat = Material.matchMaterial(pluginConfig.getString("GUI.ResetItem"), true);
         if(mat != null) {
             pluginConfig.set("GUI.ResetItem", mat.toString());
         }
-        mat = Material.getMaterial(pluginConfig.getString("GUI.ExtendItem"), true);
+        mat = Material.matchMaterial(pluginConfig.getString("GUI.ExtendItem"), true);
         if(mat != null) {
             pluginConfig.set("GUI.ExtendItem", mat.toString());
         }
-        mat = Material.getMaterial(pluginConfig.getString("GUI.InfoItem"), true);
+        mat = Material.matchMaterial(pluginConfig.getString("GUI.InfoItem"), true);
         if(mat != null) {
             pluginConfig.set("GUI.InfoItem", mat.toString());
         }
-        mat = Material.getMaterial(pluginConfig.getString("GUI.PromoteMemberToOwnerItem"), true);
+        mat = Material.matchMaterial(pluginConfig.getString("GUI.PromoteMemberToOwnerItem"), true);
         if(mat != null) {
             pluginConfig.set("GUI.PromoteMemberToOwnerItem", mat.toString());
         }
-        mat = Material.getMaterial(pluginConfig.getString("GUI.RemoveMemberItem"), true);
+        mat = Material.matchMaterial(pluginConfig.getString("GUI.RemoveMemberItem"), true);
         if(mat != null) {
             pluginConfig.set("GUI.RemoveMemberItem", mat.toString());
         }
@@ -818,7 +818,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         LinkedList<String> regionKinds = new LinkedList<String>(pluginConfig.getConfigurationSection("RegionKinds").getKeys(false));
         if(regionKinds != null) {
             for(int i = 0; i < regionKinds.size(); i++){
-                mat = Material.getMaterial(pluginConfig.getString("RegionKinds." + regionKinds.get(i) + ".item"), true);
+                mat = Material.matchMaterial(pluginConfig.getString("RegionKinds." + regionKinds.get(i) + ".item"), true);
                 if(mat != null) {
                     pluginConfig.set("RegionKinds." + regionKinds.get(i) + ".item", mat.toString());
                 }

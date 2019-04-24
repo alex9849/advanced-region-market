@@ -48,7 +48,7 @@ public class SetItemCommand extends BasicArmCommand {
             throw new InputException(sender, Messages.REGIONKIND_DOES_NOT_EXIST);
         }
 
-        Material material = Material.getMaterial(args[2]);
+        Material material = Material.matchMaterial(args[2]);
 
         if(material == null) {
             throw new InputException(sender, Messages.MATERIAL_NOT_FOUND);

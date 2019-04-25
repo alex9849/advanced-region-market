@@ -29,29 +29,29 @@ import java.util.*;
 import java.util.logging.Level;
 
 public class Gui implements Listener {
-    private static Material REGION_OWNER_ITEM = MaterialFinder.getMaterial("ENDER_CHEST");
-    private static Material REGION_MEMBER_ITEM = MaterialFinder.getMaterial("CHEST");
-    private static Material REGION_FINDER_ITEM = MaterialFinder.getMaterial("COMPASS");
-    private static Material GO_BACK_ITEM = MaterialFinder.getMaterial("OAK_DOOR");
-    private static Material WARNING_YES_ITEM = MaterialFinder.getMaterial("MELON");
-    private static Material WARNING_NO_ITEM = MaterialFinder.getMaterial("REDSTONE_BLOCK");
-    private static Material TP_ITEM = MaterialFinder.getMaterial("ENDER_PEARL");
-    private static Material SELL_REGION_ITEM = MaterialFinder.getMaterial("DIAMOND");
-    private static Material RESET_ITEM = MaterialFinder.getMaterial("TNT");
-    private static Material EXTEND_ITEM = MaterialFinder.getMaterial("CLOCK");
-    private static Material INFO_ITEM = MaterialFinder.getMaterial("BOOK");
-    private static Material PROMOTE_MEMBER_TO_OWNER_ITEM = MaterialFinder.getMaterial("LADDER");
-    private static Material REMOVE_MEMBER_ITEM = MaterialFinder.getMaterial("LAVA_BUCKET");
-    private static Material CONTRACT_ITEM = MaterialFinder.getMaterial("WRITABLE_BOOK");
-    private static Material FILL_ITEM = MaterialFinder.getMaterial("GRAY_STAINED_GLASS_PANE");
-    private static Material SUBREGION_ITEM = MaterialFinder.getMaterial("GRASS_BLOCK");
-    private static Material DELETE_ITEM = MaterialFinder.getMaterial("BARRIER");
-    private static Material TELEPORT_TO_SIGN_ITEM = MaterialFinder.getSign();
-    private static Material TELEPORT_TO_REGION_ITEM = MaterialFinder.getMaterial("GRASS_BLOCK");
-    private static Material NEXT_PAGE_ITEM = MaterialFinder.getMaterial("ARROW");
-    private static Material PREV_PAGE_ITEM = MaterialFinder.getMaterial("ARROW");
-    private static Material HOTEL_SETTING_ITEM = MaterialFinder.getMaterial("RED_BED");
-    private static Material UNSELL_ITEM = MaterialFinder.getMaterial("NAME_TAG");
+    private static Material REGION_OWNER_ITEM = MaterialFinder.getGuiRegionOwnerItem();
+    private static Material REGION_MEMBER_ITEM = MaterialFinder.getGuiRegionMemberItem();
+    private static Material REGION_FINDER_ITEM = MaterialFinder.getGuiRegionFinderItem();
+    private static Material GO_BACK_ITEM = MaterialFinder.getGuiGoBackItem();
+    private static Material WARNING_YES_ITEM = MaterialFinder.getGuiWarningYesItem();
+    private static Material WARNING_NO_ITEM = MaterialFinder.getGuiWarningNoItem();
+    private static Material TP_ITEM = MaterialFinder.getGuiTpItem();
+    private static Material SELL_REGION_ITEM = MaterialFinder.getGuiSellRegionItem();
+    private static Material RESET_ITEM = MaterialFinder.getGuiResetItem();
+    private static Material EXTEND_ITEM = MaterialFinder.getGuiExtendItem();
+    private static Material INFO_ITEM = MaterialFinder.getGuiInfoItem();
+    private static Material PROMOTE_MEMBER_TO_OWNER_ITEM = MaterialFinder.getGuiPromoteMemberToOwnerItem();
+    private static Material REMOVE_MEMBER_ITEM = MaterialFinder.getGuiRemoveMemberItem();
+    private static Material CONTRACT_ITEM = MaterialFinder.getGuiContractItem();
+    private static Material FILL_ITEM = MaterialFinder.getGuiFillItem();
+    private static Material SUBREGION_ITEM = MaterialFinder.getGuiSubregionItem();
+    private static Material DELETE_ITEM = MaterialFinder.getGuiDeleteItem();
+    private static Material TELEPORT_TO_SIGN_ITEM = MaterialFinder.getGuiTeleportToSignItem();
+    private static Material TELEPORT_TO_REGION_ITEM = MaterialFinder.getGuiTeleportToRegionItem();
+    private static Material NEXT_PAGE_ITEM = MaterialFinder.getGuiNextPageItem();
+    private static Material PREV_PAGE_ITEM = MaterialFinder.getGuiPrevPageItem();
+    private static Material HOTEL_SETTING_ITEM = MaterialFinder.getGuiHotelSettingItem();
+    private static Material UNSELL_ITEM = MaterialFinder.getGuiUnsellItem();
 
 
     public static void openARMGui(Player player) {
@@ -178,7 +178,7 @@ public class Gui implements Listener {
 
         GuiInventory inv = new GuiInventory(9 , region.getRegion().getId());
 
-        ItemStack membersitem = new ItemStack(Material.PLAYER_HEAD, 1, (short) 3);
+        ItemStack membersitem = new ItemStack(MaterialFinder.getPlayerHead(), 1, (short) 3);
         SkullMeta membersitemmeta = (SkullMeta) membersitem.getItemMeta();
         membersitemmeta.setOwner(player.getDisplayName());
         membersitemmeta.setDisplayName(Messages.GUI_MEMBERS_BUTTON);
@@ -517,7 +517,7 @@ public class Gui implements Listener {
         GuiInventory inv = new GuiInventory(9 , region.getRegion().getId());
 
 
-        ItemStack membersitem = new ItemStack(Material.PLAYER_HEAD, 1, (short) 3);
+        ItemStack membersitem = new ItemStack(MaterialFinder.getPlayerHead(), 1, (short) 3);
         SkullMeta membersitemmeta = (SkullMeta) membersitem.getItemMeta();
         membersitemmeta.setOwner(player.getDisplayName());
         membersitemmeta.setDisplayName(Messages.GUI_MEMBERS_BUTTON);
@@ -681,7 +681,7 @@ public class Gui implements Listener {
         GuiInventory inv = new GuiInventory(9 , region.getRegion().getId());
 
 
-        ItemStack membersitem = new ItemStack(Material.PLAYER_HEAD, 1, (short) 3);
+        ItemStack membersitem = new ItemStack(MaterialFinder.getPlayerHead(), 1, (short) 3);
         SkullMeta membersitemmeta = (SkullMeta) membersitem.getItemMeta();
         membersitemmeta.setOwner(player.getDisplayName());
         membersitemmeta.setDisplayName(Messages.GUI_MEMBERS_BUTTON);
@@ -1051,7 +1051,7 @@ public class Gui implements Listener {
             itemcounter++;
         }
         if(sellRegionClickItems.size() > 0) {
-            ClickItem clickItem = new ClickItem(new ItemStack(Material.BRICKS), Messages.SELLREGION_NAME);
+            ClickItem clickItem = new ClickItem(new ItemStack(MaterialFinder.getBRICKS()), Messages.SELLREGION_NAME);
             clickItem.addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
@@ -1066,7 +1066,7 @@ public class Gui implements Listener {
             actitem++;
         }
         if(rentRegionClickItems.size() > 0) {
-            ClickItem clickItem = new ClickItem(new ItemStack(Material.BRICKS), Messages.RENTREGION_NAME);
+            ClickItem clickItem = new ClickItem(new ItemStack(MaterialFinder.getBRICKS()), Messages.RENTREGION_NAME);
             clickItem.addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
@@ -1081,7 +1081,7 @@ public class Gui implements Listener {
             actitem++;
         }
         if(contractRegionClickItems.size() > 0) {
-            ClickItem clickItem = new ClickItem(new ItemStack(Material.BRICKS), Messages.CONTRACTREGION_NAME);
+            ClickItem clickItem = new ClickItem(new ItemStack(MaterialFinder.getBRICKS()), Messages.CONTRACTREGION_NAME);
             clickItem.addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
@@ -1225,7 +1225,7 @@ public class Gui implements Listener {
         String invname =  Messages.GUI_MEMBER_LIST_MENU_NAME.replaceAll("%regionid%", region.getRegion().getId());
 
         for(int i = 0; i < members.size(); i++) {
-            ItemStack membersitem = new ItemStack(Material.PLAYER_HEAD, 1, (short) 3);
+            ItemStack membersitem = new ItemStack(MaterialFinder.getPlayerHead(), 1, (short) 3);
             SkullMeta membersitemmeta = (SkullMeta) membersitem.getItemMeta();
             if(Bukkit.getOfflinePlayer(members.get(i)).getName() != null) {
                 membersitemmeta.setOwner(Bukkit.getOfflinePlayer(members.get(i)).getName());
@@ -1978,7 +1978,7 @@ public class Gui implements Listener {
     }
 
     public static ItemStack getEntityLimtGroupItem(Region region) {
-        ItemStack itemStack = new ItemStack(Material.CHICKEN_SPAWN_EGG);
+        ItemStack itemStack = new ItemStack(MaterialFinder.getChickenSpawnEgg());
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.setDisplayName(Messages.GUI_ENTITYLIMIT_ITEM_BUTTON);
 

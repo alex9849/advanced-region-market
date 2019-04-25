@@ -35,6 +35,8 @@ public class MaterialFinder {
     private static Material GUI_HOTEL_SETTING_ITEM;
     private static Material GUI_UNSELL_ITEM;
     private static Material PLAYER_HEAD;
+    private static Material CHICKEN_SPAWN_EGG;
+    private static Material BRICKS;
 
     static {
         MaterialFinder.signMaterials = new ArrayList<>();
@@ -72,6 +74,8 @@ public class MaterialFinder {
             MaterialFinder.GUI_PREV_PAGE_ITEM = MaterialFinder.getMaterial("ARROW");
             MaterialFinder.GUI_HOTEL_SETTING_ITEM = MaterialFinder.getMaterial("BED");
             MaterialFinder.GUI_UNSELL_ITEM = MaterialFinder.getMaterial("NAME_TAG");
+            MaterialFinder.CHICKEN_SPAWN_EGG = MaterialFinder.getMaterial("EGG");
+            MaterialFinder.BRICKS = MaterialFinder.getMaterial("BRICK");
 
         } else if(serverVersion.equalsIgnoreCase("1.13") || serverVersion.contains("1.13")) {
             MaterialFinder.defaultSign = MaterialFinder.getMaterial("SIGN");
@@ -100,6 +104,8 @@ public class MaterialFinder {
             MaterialFinder.GUI_HOTEL_SETTING_ITEM = MaterialFinder.getMaterial("RED_BED");
             MaterialFinder.GUI_UNSELL_ITEM = MaterialFinder.getMaterial("NAME_TAG");
             MaterialFinder.PLAYER_HEAD = MaterialFinder.getMaterial("PLAYER_HEAD");
+            MaterialFinder.CHICKEN_SPAWN_EGG = MaterialFinder.getMaterial("CHICKEN_SPAWN_EGG");
+            MaterialFinder.BRICKS = MaterialFinder.getMaterial("BRICKS");
         } else {
             MaterialFinder.defaultSign =  MaterialFinder.getMaterial("OAK_SIGN");
             MaterialFinder.wallSign = MaterialFinder.getMaterial("OAK_WALL_SIGN");
@@ -126,6 +132,8 @@ public class MaterialFinder {
             MaterialFinder.GUI_PREV_PAGE_ITEM = MaterialFinder.getMaterial("ARROW");
             MaterialFinder.GUI_HOTEL_SETTING_ITEM = MaterialFinder.getMaterial("RED_BED");
             MaterialFinder.GUI_UNSELL_ITEM = MaterialFinder.getMaterial("NAME_TAG");
+            MaterialFinder.CHICKEN_SPAWN_EGG = MaterialFinder.getMaterial("CHICKEN_SPAWN_EGG");
+            MaterialFinder.BRICKS = MaterialFinder.getMaterial("BRICKS");
         }
     }
 
@@ -149,7 +157,6 @@ public class MaterialFinder {
         return MaterialFinder.defaultSign;
     }
 
-
     private static Material getMaterial(String name, boolean legacyName) {
         if (legacyName) {
             if (!name.startsWith("LEGACY_")) {
@@ -159,6 +166,110 @@ public class MaterialFinder {
         } else {
             return Material.matchMaterial(name);
         }
+    }
+
+    public static Material getGuiRegionOwnerItem() {
+        return GUI_REGION_OWNER_ITEM;
+    }
+
+    public static Material getGuiRegionMemberItem() {
+        return GUI_REGION_MEMBER_ITEM;
+    }
+
+    public static Material getGuiRegionFinderItem() {
+        return GUI_REGION_FINDER_ITEM;
+    }
+
+    public static Material getGuiGoBackItem() {
+        return GUI_GO_BACK_ITEM;
+    }
+
+    public static Material getGuiWarningYesItem() {
+        return GUI_WARNING_YES_ITEM;
+    }
+
+    public static Material getGuiWarningNoItem() {
+        return GUI_WARNING_NO_ITEM;
+    }
+
+    public static Material getGuiTpItem() {
+        return GUI_TP_ITEM;
+    }
+
+    public static Material getGuiSellRegionItem() {
+        return GUI_SELL_REGION_ITEM;
+    }
+
+    public static Material getGuiResetItem() {
+        return GUI_RESET_ITEM;
+    }
+
+    public static Material getGuiExtendItem() {
+        return GUI_EXTEND_ITEM;
+    }
+
+    public static Material getGuiInfoItem() {
+        return GUI_INFO_ITEM;
+    }
+
+    public static Material getGuiPromoteMemberToOwnerItem() {
+        return GUI_PROMOTE_MEMBER_TO_OWNER_ITEM;
+    }
+
+    public static Material getGuiRemoveMemberItem() {
+        return GUI_REMOVE_MEMBER_ITEM;
+    }
+
+    public static Material getGuiContractItem() {
+        return GUI_CONTRACT_ITEM;
+    }
+
+    public static Material getGuiFillItem() {
+        return GUI_FILL_ITEM;
+    }
+
+    public static Material getGuiSubregionItem() {
+        return GUI_SUBREGION_ITEM;
+    }
+
+    public static Material getGuiDeleteItem() {
+        return GUI_DELETE_ITEM;
+    }
+
+    public static Material getGuiTeleportToSignItem() {
+        return GUI_TELEPORT_TO_SIGN_ITEM;
+    }
+
+    public static Material getGuiTeleportToRegionItem() {
+        return GUI_TELEPORT_TO_REGION_ITEM;
+    }
+
+    public static Material getGuiNextPageItem() {
+        return GUI_NEXT_PAGE_ITEM;
+    }
+
+    public static Material getGuiPrevPageItem() {
+        return GUI_PREV_PAGE_ITEM;
+    }
+
+    public static Material getGuiHotelSettingItem() {
+        return GUI_HOTEL_SETTING_ITEM;
+    }
+
+    public static Material getGuiUnsellItem() {
+        return GUI_UNSELL_ITEM;
+    }
+
+    public static Material getPlayerHead() {
+        return PLAYER_HEAD;
+    }
+
+    public static Material getChickenSpawnEgg() {
+        return CHICKEN_SPAWN_EGG;
+    }
+
+    public static Material getBRICKS() {
+        return BRICKS;
     }
 
 }

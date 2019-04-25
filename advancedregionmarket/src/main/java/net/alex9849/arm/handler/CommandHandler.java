@@ -2,6 +2,7 @@ package net.alex9849.arm.handler;
 
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.commands.*;
+import net.alex9849.exceptions.CmdSyntaxException;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.inter.WGRegion;
 import org.bukkit.Bukkit;
@@ -38,7 +39,7 @@ public class CommandHandler implements TabCompleter {
         this.commands.addAll(commands);
     }
 
-    public boolean executeCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args) throws InputException {
+    public boolean executeCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args) throws InputException, CmdSyntaxException {
         String allargs = "";
 
         for (int i = 0; i < args.length; i++) {
@@ -50,40 +51,34 @@ public class CommandHandler implements TabCompleter {
         }
 
         if(cmd.getName().equalsIgnoreCase("arm") && (args.length >= 1)) {
-            for(int i = 0; i < this.commands.size(); i++) {
-                if(this.commands.get(i).getRootCommand().equalsIgnoreCase(args[0])) {
-                    if(this.commands.get(i).matchesRegex(allargs)) {
-                        return this.commands.get(i).runCommand(sender, cmd, commandsLabel, args, allargs);
-                    } else {
-                        List<String> syntax = this.commands.get(i).getUsage();
-                        if(syntax.size() >= 1) {
-                            String message = Messages.BAD_SYNTAX;
+            for(BasicArmCommand command : this.commands) {
+                if(command.getRootCommand().equalsIgnoreCase(args[0])) {
+                    if(command.matchesRegex(allargs)) {
 
-                            String rootcommand = "";
-                            if(!this.rootcommand.equals("")) {
-                                rootcommand = this.rootcommand + " ";
+                        try {
+                            return command.runCommand(sender, cmd, commandsLabel, args, allargs);
+                        } catch (CmdSyntaxException syntaxException) {
+                            List<String> syntax = syntaxException.getSyntax();
+                            for(int i = 0; i < syntax.size(); i++) {
+                                syntax.set(i, this.rootcommand + syntax.get(i));
                             }
-
-                            message = message.replace("%command%", "/" + commandsLabel + " " + rootcommand + syntax.get(0));
-
-                            for(int x = 1; x < syntax.size(); x++) {
-                                message = message + " " + Messages.BAD_SYNTAX_SPLITTER.replace("%command%", "/" + commandsLabel + " " + rootcommand + syntax.get(x));
-                            }
-                            throw new InputException(sender, ChatColor.DARK_GRAY + message);
+                            throw new CmdSyntaxException(syntax);
                         }
-                        return true;
+
+                    } else {
+                        List<String> syntax = new ArrayList<>(command.getUsage());
+
+                        for(int i = 0; i < syntax.size(); i++) {
+                            syntax.set(i, this.rootcommand + " " + syntax.get(i));
+                        }
+                        throw new CmdSyntaxException(syntax);
                     }
                 }
             }
         }
         if(this.usage.size() >= 1) {
-            String message = Messages.BAD_SYNTAX;
-
-            message = message.replace("%command%", "/" + commandsLabel + " " + this.usage.get(0));
-            for(int x = 1; x < this.usage.size(); x++) {
-                message = message + " " + Messages.BAD_SYNTAX_SPLITTER.replace("%command%", "/" + commandsLabel + " " + this.usage.get(x));
-            }
-            throw new InputException(sender, ChatColor.DARK_GRAY + message);
+            List<String> syntax = new ArrayList<>(this.usage);
+            throw new CmdSyntaxException(syntax);
         }
         return false;
     }

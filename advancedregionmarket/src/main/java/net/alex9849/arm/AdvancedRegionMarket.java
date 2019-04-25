@@ -18,6 +18,7 @@ import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import net.alex9849.arm.limitgroups.LimitGroup;
 import net.alex9849.arm.gui.Gui;
+import net.alex9849.exceptions.CmdSyntaxException;
 import net.alex9849.inter.WorldEditInterface;
 import net.alex9849.inter.WorldGuardInterface;
 import net.milkbowl.vault.economy.Economy;
@@ -571,6 +572,19 @@ public class AdvancedRegionMarket extends JavaPlugin {
             }
         } catch (InputException inputException) {
             inputException.sendMessages(Messages.PREFIX);
+            return true;
+        } catch (CmdSyntaxException cmdSyntaxException) {
+            List<String> syntax = cmdSyntaxException.getSyntax();
+            if(syntax.size() >= 1) {
+                String message = Messages.BAD_SYNTAX;
+
+                message = message.replace("%command%", "/" + commandsLabel + " " + syntax.get(0));
+
+                for(int x = 1; x < syntax.size(); x++) {
+                    message = message + " " + Messages.BAD_SYNTAX_SPLITTER.replace("%command%", "/" + commandsLabel + " " + syntax.get(x));
+                }
+                sender.sendMessage(Messages.PREFIX + message);
+            }
             return true;
         }
     }

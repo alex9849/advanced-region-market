@@ -4,6 +4,7 @@ import net.alex9849.arm.handler.CommandHandler;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.presets.presets.PresetType;
+import net.alex9849.exceptions.CmdSyntaxException;
 import net.alex9849.exceptions.InputException;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -63,7 +64,7 @@ public class RentPresetCommand extends SellPresetCommand {
     }
 
     @Override
-    public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
+    public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException, CmdSyntaxException {
         if (sender.hasPermission(Permission.ADMIN_PRESET)) {
 
             String newallargs = "";

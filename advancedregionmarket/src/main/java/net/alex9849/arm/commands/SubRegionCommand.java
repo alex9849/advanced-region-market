@@ -10,6 +10,7 @@ import net.alex9849.arm.subregions.commands.ResetBlocksCommand;
 import net.alex9849.arm.subregions.commands.TPCommand;
 import net.alex9849.arm.subregions.commands.ToolCommand;
 import net.alex9849.arm.subregions.commands.UnsellCommand;
+import net.alex9849.exceptions.CmdSyntaxException;
 import net.alex9849.exceptions.InputException;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -56,7 +57,7 @@ public class SubRegionCommand extends BasicArmCommand {
     }
 
     @Override
-    public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
+    public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException, CmdSyntaxException {
 
         String newallargs = "";
         String[] newargs = new String[args.length - 1];

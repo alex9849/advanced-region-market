@@ -6,6 +6,7 @@ import net.alex9849.arm.Permission;
 import net.alex9849.arm.entitylimit.commands.*;
 import net.alex9849.arm.entitylimit.commands.DeleteCommand;
 import net.alex9849.arm.entitylimit.commands.InfoCommand;
+import net.alex9849.exceptions.CmdSyntaxException;
 import net.alex9849.exceptions.InputException;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -54,7 +55,7 @@ public class EntityLimitCommand extends BasicArmCommand {
     }
 
     @Override
-    public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
+    public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException, CmdSyntaxException {
 
         String newallargs = "";
         String[] newargs = new String[args.length - 1];

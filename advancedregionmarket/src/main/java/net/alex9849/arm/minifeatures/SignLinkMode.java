@@ -3,6 +3,7 @@ package net.alex9849.arm.minifeatures;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.presets.presets.Preset;
+import net.alex9849.arm.util.MaterialFinder;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.inter.WGRegion;
@@ -58,17 +59,17 @@ public class SignLinkMode implements Listener {
                 return;
             }
             if((event.getAction() == Action.RIGHT_CLICK_BLOCK) && event.getPlayer().getInventory().getItemInMainHand() != null) {
-                if(event.getPlayer().getInventory().getItemInMainHand().getType() == Material.SIGN) {
+                if(MaterialFinder.getSignMaterials().contains(event.getPlayer().getInventory().getItemInMainHand().getType())) {
                     return;
                 }
             }
             if((event.getAction() == Action.LEFT_CLICK_BLOCK) && event.getClickedBlock() != null) {
-                if((event.getClickedBlock().getType() == Material.SIGN) || (event.getClickedBlock().getType() == Material.WALL_SIGN)) {
+                if((MaterialFinder.getSignMaterials().contains(event.getClickedBlock().getType()))) {
                     return;
                 }
             }
             event.setCancelled(true);
-            if((event.getClickedBlock().getType() == Material.SIGN) || (event.getClickedBlock().getType() == Material.WALL_SIGN)) {
+            if(MaterialFinder.getSignMaterials().contains(event.getClickedBlock().getType())) {
                 Sign sign  = (Sign) event.getClickedBlock().getState();
                 if(AdvancedRegionMarket.getRegionManager().getRegion(sign) != null) {
                     throw new InputException(event.getPlayer(), Messages.SIGN_LINK_MODE_SIGN_BELONGS_TO_ANOTHER_REGION);

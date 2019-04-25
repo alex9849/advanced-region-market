@@ -4,6 +4,7 @@ import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.regions.Region;
+import net.alex9849.arm.util.MaterialFinder;
 import net.alex9849.exceptions.InputException;
 import org.bukkit.Material;
 import org.bukkit.block.Sign;
@@ -23,7 +24,7 @@ public class SignClickListener implements Listener {
                 return;
             }
 
-            if (!(event.getClickedBlock().getType() == Material.SIGN) && !(event.getClickedBlock().getType() == Material.WALL_SIGN)) {
+            if (!MaterialFinder.getSignMaterials().contains(event.getClickedBlock().getType())) {
                 return;
             }
 

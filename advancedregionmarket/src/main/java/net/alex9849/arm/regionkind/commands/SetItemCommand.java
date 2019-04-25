@@ -5,6 +5,7 @@ import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.commands.BasicArmCommand;
 import net.alex9849.arm.regionkind.RegionKind;
+import net.alex9849.arm.util.MaterialFinder;
 import net.alex9849.exceptions.InputException;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -48,7 +49,7 @@ public class SetItemCommand extends BasicArmCommand {
             throw new InputException(sender, Messages.REGIONKIND_DOES_NOT_EXIST);
         }
 
-        Material material = Material.matchMaterial(args[2]);
+        Material material = MaterialFinder.getMaterial(args[2]);
 
         if(material == null) {
             throw new InputException(sender, Messages.MATERIAL_NOT_FOUND);

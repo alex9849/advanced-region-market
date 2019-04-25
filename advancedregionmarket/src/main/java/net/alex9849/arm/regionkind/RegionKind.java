@@ -3,6 +3,7 @@ package net.alex9849.arm.regionkind;
 import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
+import net.alex9849.arm.util.MaterialFinder;
 import net.alex9849.arm.util.Saveable;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -147,7 +148,7 @@ public class RegionKind implements Saveable {
     }
 
     public static RegionKind parse(ConfigurationSection confSection, String id) {
-        Material material = Material.matchMaterial(confSection.getString("item"));
+        Material material = MaterialFinder.getMaterial(confSection.getString("item"));
         if(material == null) {
             material = Material.RED_BED;
         }

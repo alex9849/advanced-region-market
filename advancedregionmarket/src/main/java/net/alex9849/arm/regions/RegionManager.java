@@ -13,6 +13,7 @@ import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.price.ContractPrice;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.regions.price.RentPrice;
+import net.alex9849.arm.util.MaterialFinder;
 import net.alex9849.arm.util.YamlFileManager;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.exceptions.SchematicNotFoundException;
@@ -260,13 +261,12 @@ public class RegionManager extends YamlFileManager<Region> {
             Location loc = new Location(world, x, yy, z);
             Location locminone = new Location(world, x, yy - 1, z);
 
-            if ((loc.getBlock().getType() != Material.SIGN) && (loc.getBlock().getType() != Material.WALL_SIGN)){
+            if (!MaterialFinder.getSignMaterials().contains(loc.getBlock().getType())){
                 if(locminone.getBlock().getType() == Material.AIR || locminone.getBlock().getType() == Material.LAVA || locminone.getBlock().getType() == Material.WATER
                         || locminone.getBlock().getType() == Material.LAVA || locminone.getBlock().getType() == Material.WATER) {
                     locminone.getBlock().setType(Material.STONE);
                 }
-                loc.getBlock().setType(Material.SIGN);
-
+                loc.getBlock().setType(MaterialFinder.getSign());
             }
 
             regionsigns.add((Sign) loc.getBlock().getState());

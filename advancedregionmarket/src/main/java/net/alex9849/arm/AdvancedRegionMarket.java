@@ -9,6 +9,7 @@ import net.alex9849.arm.presets.PresetPatternManager;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.regions.price.RentPrice;
 import net.alex9849.arm.regionkind.RegionKindManager;
+import net.alex9849.arm.util.MaterialFinder;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.minifeatures.SignLinkMode;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
@@ -425,29 +426,29 @@ public class AdvancedRegionMarket extends JavaPlugin {
 
     private void loadGUI(){
         FileConfiguration pluginConf = getConfig();
-        Gui.setRegionOwnerItem(Material.matchMaterial(pluginConf.getString("GUI.RegionOwnerItem")));
-        Gui.setRegionMemberItem(Material.matchMaterial(pluginConf.getString("GUI.RegionMemberItem")));
-        Gui.setRegionFinderItem(Material.matchMaterial(pluginConf.getString("GUI.RegionFinderItem")));
-        Gui.setGoBackItem(Material.matchMaterial(pluginConf.getString("GUI.GoBackItem")));
-        Gui.setWarningYesItem(Material.matchMaterial(pluginConf.getString("GUI.WarningYesItem")));
-        Gui.setWarningNoItem(Material.matchMaterial(pluginConf.getString("GUI.WarningNoItem")));
-        Gui.setTpItem(Material.matchMaterial(pluginConf.getString("GUI.TPItem")));
-        Gui.setSellRegionItem(Material.matchMaterial(pluginConf.getString("GUI.SellRegionItem")));
-        Gui.setResetItem(Material.matchMaterial(pluginConf.getString("GUI.ResetItem")));
-        Gui.setExtendItem(Material.matchMaterial(pluginConf.getString("GUI.ExtendItem")));
-        Gui.setInfoItem(Material.matchMaterial(pluginConf.getString("GUI.InfoItem")));
-        Gui.setPromoteMemberToOwnerItem(Material.matchMaterial(pluginConf.getString("GUI.PromoteMemberToOwnerItem")));
-        Gui.setRemoveMemberItem(Material.matchMaterial(pluginConf.getString("GUI.RemoveMemberItem")));
-        Gui.setFillItem(Material.matchMaterial(pluginConf.getString("GUI.FillItem")));
-        Gui.setContractItem(Material.matchMaterial(pluginConf.getString("GUI.ContractItem")));
-        Gui.setSubregionItem(Material.matchMaterial(pluginConf.getString("GUI.SubRegionItem")));
-        Gui.setDeleteItem(Material.matchMaterial(pluginConf.getString("GUI.DeleteItem")));
-        Gui.setTeleportToSignItem(Material.matchMaterial(pluginConf.getString("GUI.TeleportToSignItem")));
-        Gui.setTeleportToRegionItem(Material.matchMaterial(pluginConf.getString("GUI.TeleportToRegionItem")));
-        Gui.setNextPageItem(Material.matchMaterial(pluginConf.getString("GUI.NextPageItem")));
-        Gui.setPrevPageItem(Material.matchMaterial(pluginConf.getString("GUI.PrevPageItem")));
-        Gui.setHotelSettingItem(Material.matchMaterial(pluginConf.getString("GUI.HotelSettingItem")));
-        Gui.setUnsellItem(Material.matchMaterial(pluginConf.getString("GUI.UnsellItem")));
+        Gui.setRegionOwnerItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.RegionOwnerItem")));
+        Gui.setRegionMemberItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.RegionMemberItem")));
+        Gui.setRegionFinderItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.RegionFinderItem")));
+        Gui.setGoBackItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.GoBackItem")));
+        Gui.setWarningYesItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.WarningYesItem")));
+        Gui.setWarningNoItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.WarningNoItem")));
+        Gui.setTpItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.TPItem")));
+        Gui.setSellRegionItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.SellRegionItem")));
+        Gui.setResetItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.ResetItem")));
+        Gui.setExtendItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.ExtendItem")));
+        Gui.setInfoItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.InfoItem")));
+        Gui.setPromoteMemberToOwnerItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.PromoteMemberToOwnerItem")));
+        Gui.setRemoveMemberItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.RemoveMemberItem")));
+        Gui.setFillItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.FillItem")));
+        Gui.setContractItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.ContractItem")));
+        Gui.setSubregionItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.SubRegionItem")));
+        Gui.setDeleteItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.DeleteItem")));
+        Gui.setTeleportToSignItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.TeleportToSignItem")));
+        Gui.setTeleportToRegionItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.TeleportToRegionItem")));
+        Gui.setNextPageItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.NextPageItem")));
+        Gui.setPrevPageItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.PrevPageItem")));
+        Gui.setHotelSettingItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.HotelSettingItem")));
+        Gui.setUnsellItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.UnsellItem")));
 
     }
 

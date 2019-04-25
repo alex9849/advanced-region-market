@@ -3,6 +3,7 @@ package net.alex9849.arm.minifeatures.teleporter;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
+import net.alex9849.arm.util.MaterialFinder;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.regions.Region;
 import org.bukkit.Bukkit;
@@ -92,14 +93,14 @@ public class Teleporter {
     private static boolean isSaveTeleport(Location loc) {
         Location locP1 = new Location(loc.getWorld(), loc.getBlockX(), loc.getBlockY() + 1, loc.getBlockZ());
         Location locM1 = new Location(loc.getWorld(), loc.getBlockX(), loc.getBlockY() - 1, loc.getBlockZ());
-        if(!((locP1.getBlock().getType() == Material.AIR) || (locP1.getBlock().getType() == Material.WALL_SIGN) || (locP1.getBlock().getType() == Material.SIGN) || (loc.getBlock().getType() == Material.WALL_TORCH))) {
+        if(!((locP1.getBlock().getType() == Material.AIR) || MaterialFinder.getSignMaterials().contains(locP1.getBlock().getType()) || (loc.getBlock().getType() == Material.WALL_TORCH))) {
             return false;
         }
-        if(!((loc.getBlock().getType() == Material.AIR) || (loc.getBlock().getType() == Material.WALL_SIGN) || (loc.getBlock().getType() == Material.SIGN) || (loc.getBlock().getType() == Material.WALL_TORCH))) {
+        if(!((loc.getBlock().getType() == Material.AIR) || MaterialFinder.getSignMaterials().contains(loc.getBlock().getType()) || (loc.getBlock().getType() == Material.WALL_TORCH))) {
             return false;
         }
         if((locM1.getBlock().getType() == Material.AIR) || (locM1.getBlock().getType() == Material.LAVA) || (locM1.getBlock().getType() == Material.MAGMA_BLOCK)
-                || (locM1.getBlock().getType() == Material.SIGN) || (locM1.getBlock().getType() == Material.WALL_SIGN) || (locM1.getBlock().getType() == Material.WALL_TORCH)) {
+                || MaterialFinder.getSignMaterials().contains(locM1.getBlock().getType()) || (locM1.getBlock().getType() == Material.WALL_TORCH)) {
             return false;
         }
         return true;

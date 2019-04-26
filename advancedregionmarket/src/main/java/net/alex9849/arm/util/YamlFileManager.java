@@ -105,7 +105,7 @@ public abstract class YamlFileManager<ManagedObject extends Saveable> {
         }
     }
 
-    public boolean addDefault(ConfigurationSection section, String path, Object obj) {
+    public static boolean addDefault(ConfigurationSection section, String path, Object obj) {
         if(section.get(path) == null) {
             section.addDefault(path, obj);
             return true;

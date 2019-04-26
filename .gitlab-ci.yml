@@ -16,7 +16,6 @@ build:newestVersion:
   artifacts:
     expire_in: 1 week
     paths:
-      - ./lib/*
       - ./advancedregionmarket.jar
 
 build:1.13:

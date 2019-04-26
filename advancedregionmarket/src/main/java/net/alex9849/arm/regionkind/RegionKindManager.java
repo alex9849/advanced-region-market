@@ -141,7 +141,7 @@ public class RegionKindManager extends YamlFileManager<RegionKind> {
 
     private boolean updateDefaults(ConfigurationSection section) {
         boolean fileupdated = false;
-        fileupdated |= this.addDefault(section, "item", Material.RED_BED.toString());
+        fileupdated |= this.addDefault(section, "item", "RED_BED");
         fileupdated |= this.addDefault(section, "displayName", "Default Displayname");
         fileupdated |= this.addDefault(section, "displayName", "Default Displayname");
         fileupdated |= this.addDefault(section, "displayInLimits", true);

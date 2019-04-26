@@ -37,6 +37,9 @@ public class MaterialFinder {
     private static Material PLAYER_HEAD;
     private static Material CHICKEN_SPAWN_EGG;
     private static Material BRICKS;
+    private static Material RED_BED;
+    private static Material WALL_TORCH;
+    private static Material MAGMA_BLOCK;
 
     static {
         MaterialFinder.signMaterials = new ArrayList<>();
@@ -76,6 +79,9 @@ public class MaterialFinder {
             MaterialFinder.GUI_UNSELL_ITEM = MaterialFinder.getMaterial("NAME_TAG");
             MaterialFinder.CHICKEN_SPAWN_EGG = MaterialFinder.getMaterial("EGG");
             MaterialFinder.BRICKS = MaterialFinder.getMaterial("BRICK");
+            MaterialFinder.RED_BED = MaterialFinder.getMaterial("BED");
+            MaterialFinder.WALL_TORCH = MaterialFinder.getMaterial("TORCH");
+            MaterialFinder.MAGMA_BLOCK = MaterialFinder.getMaterial("LAVA");
 
         } else if(serverVersion.equalsIgnoreCase("1.13") || serverVersion.contains("1.13")) {
             MaterialFinder.defaultSign = MaterialFinder.getMaterial("SIGN");
@@ -106,6 +112,9 @@ public class MaterialFinder {
             MaterialFinder.PLAYER_HEAD = MaterialFinder.getMaterial("PLAYER_HEAD");
             MaterialFinder.CHICKEN_SPAWN_EGG = MaterialFinder.getMaterial("CHICKEN_SPAWN_EGG");
             MaterialFinder.BRICKS = MaterialFinder.getMaterial("BRICKS");
+            MaterialFinder.RED_BED = MaterialFinder.getMaterial("RED_BED");
+            MaterialFinder.WALL_TORCH = MaterialFinder.getMaterial("WALL_TORCH");
+            MaterialFinder.MAGMA_BLOCK = MaterialFinder.getMaterial("MAGMA_BLOCK");
         } else {
             MaterialFinder.defaultSign =  MaterialFinder.getMaterial("OAK_SIGN");
             MaterialFinder.wallSign = MaterialFinder.getMaterial("OAK_WALL_SIGN");
@@ -134,6 +143,9 @@ public class MaterialFinder {
             MaterialFinder.GUI_UNSELL_ITEM = MaterialFinder.getMaterial("NAME_TAG");
             MaterialFinder.CHICKEN_SPAWN_EGG = MaterialFinder.getMaterial("CHICKEN_SPAWN_EGG");
             MaterialFinder.BRICKS = MaterialFinder.getMaterial("BRICKS");
+            MaterialFinder.RED_BED = MaterialFinder.getMaterial("RED_BED");
+            MaterialFinder.WALL_TORCH = MaterialFinder.getMaterial("WALL_TORCH");
+            MaterialFinder.MAGMA_BLOCK = MaterialFinder.getMaterial("MAGMA_BLOCK");
         }
     }
 
@@ -272,4 +284,15 @@ public class MaterialFinder {
         return BRICKS;
     }
 
+    public static Material getRedBed() {
+        return RED_BED;
+    }
+
+    public static Material getWallTorch() {
+        return WALL_TORCH;
+    }
+
+    public static Material getMagmaBlock() {
+        return MAGMA_BLOCK;
+    }
 }

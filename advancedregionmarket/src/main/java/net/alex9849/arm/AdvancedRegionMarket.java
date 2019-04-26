@@ -780,65 +780,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
     }
 
     private void updateTo1p21(FileConfiguration pluginConfig) {
-        Material mat = null;
-        mat = Material.matchMaterial(pluginConfig.getString("GUI.RegionOwnerItem"), true);
-        if(mat != null) {
-            pluginConfig.set("GUI.RegionOwnerItem", mat.toString());
-        }
-        mat = Material.matchMaterial(pluginConfig.getString("GUI.RegionMemberItem"), true);
-        if(mat != null) {
-            pluginConfig.set("GUI.RegionMemberItem", mat.toString());
-        }
-        mat = Material.matchMaterial(pluginConfig.getString("GUI.RegionFinderItem"), true);
-        if(mat != null) {
-            pluginConfig.set("GUI.RegionFinderItem", mat.toString());
-        }
-        mat = Material.matchMaterial(pluginConfig.getString("GUI.GoBackItem"), true);
-        if(mat != null) {
-            pluginConfig.set("GUI.GoBackItem", mat.toString());
-        }
-        mat = Material.matchMaterial(pluginConfig.getString("GUI.WarningYesItem"), true);
-        if(mat != null) {
-            pluginConfig.set("GUI.WarningYesItem", mat.toString());
-        }
-        mat = Material.matchMaterial(pluginConfig.getString("GUI.WarningNoItem"), true);
-        if(mat != null) {
-            pluginConfig.set("GUI.WarningNoItem", mat.toString());
-        }
-        mat = Material.matchMaterial(pluginConfig.getString("GUI.SellRegionItem"), true);
-        if(mat != null) {
-            pluginConfig.set("GUI.SellRegionItem", mat.toString());
-        }
-        mat = Material.matchMaterial(pluginConfig.getString("GUI.ResetItem"), true);
-        if(mat != null) {
-            pluginConfig.set("GUI.ResetItem", mat.toString());
-        }
-        mat = Material.matchMaterial(pluginConfig.getString("GUI.ExtendItem"), true);
-        if(mat != null) {
-            pluginConfig.set("GUI.ExtendItem", mat.toString());
-        }
-        mat = Material.matchMaterial(pluginConfig.getString("GUI.InfoItem"), true);
-        if(mat != null) {
-            pluginConfig.set("GUI.InfoItem", mat.toString());
-        }
-        mat = Material.matchMaterial(pluginConfig.getString("GUI.PromoteMemberToOwnerItem"), true);
-        if(mat != null) {
-            pluginConfig.set("GUI.PromoteMemberToOwnerItem", mat.toString());
-        }
-        mat = Material.matchMaterial(pluginConfig.getString("GUI.RemoveMemberItem"), true);
-        if(mat != null) {
-            pluginConfig.set("GUI.RemoveMemberItem", mat.toString());
-        }
-
-        LinkedList<String> regionKinds = new LinkedList<String>(pluginConfig.getConfigurationSection("RegionKinds").getKeys(false));
-        if(regionKinds != null) {
-            for(int i = 0; i < regionKinds.size(); i++){
-                mat = Material.matchMaterial(pluginConfig.getString("RegionKinds." + regionKinds.get(i) + ".item"), true);
-                if(mat != null) {
-                    pluginConfig.set("RegionKinds." + regionKinds.get(i) + ".item", mat.toString());
-                }
-            }
-        }
         pluginConfig.set("Version", 1.21);
         saveConfig();
     }
@@ -849,7 +790,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         YamlConfiguration regionConf = YamlConfiguration.loadConfiguration(regionConfDic);
 
         pluginConfig.set("DefaultRegionKind.DisplayName", "Default");
-        pluginConfig.set("DefaultRegionKind.Item", Material.RED_BED.toString());
+        pluginConfig.set("DefaultRegionKind.Item", "RED_BED");
         List<String> defaultLore = new ArrayList<>();
         defaultLore.add("very default");
         pluginConfig.set("DefaultRegionKind.Lore", defaultLore);

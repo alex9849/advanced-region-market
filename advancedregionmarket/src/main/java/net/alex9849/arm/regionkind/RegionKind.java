@@ -18,8 +18,8 @@ import java.util.List;
 public class RegionKind implements Saveable {
     private String name;
     private Material material;
-    public static RegionKind DEFAULT = new RegionKind("Default", Material.RED_BED, new ArrayList<String>(), "Default", true, true, 50);
-    public static RegionKind SUBREGION = new RegionKind("Subregion", Material.RED_BED, new ArrayList<String>(), "Subregion", false, false, 0);
+    public static RegionKind DEFAULT = new RegionKind("Default", MaterialFinder.getRedBed(), new ArrayList<String>(), "Default", true, true, 50);
+    public static RegionKind SUBREGION = new RegionKind("Subregion", MaterialFinder.getRedBed(), new ArrayList<String>(), "Subregion", false, false, 0);
     private List<String> lore;
     private String displayName;
     private boolean displayInGUI;
@@ -150,7 +150,7 @@ public class RegionKind implements Saveable {
     public static RegionKind parse(ConfigurationSection confSection, String id) {
         Material material = MaterialFinder.getMaterial(confSection.getString("item"));
         if(material == null) {
-            material = Material.RED_BED;
+            material = MaterialFinder.getRedBed();
         }
         String displayName = confSection.getString("displayName");
         boolean displayInLimits = confSection.getBoolean("displayInLimits");

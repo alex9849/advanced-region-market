@@ -8,7 +8,7 @@ cache:
   paths:
     - .m2/repository/
 
-build:
+build:newestVersion:
   stage: build
   script:
     - mvn package
@@ -18,6 +18,24 @@ build:
     paths:
       - ./lib/*
       - ./advancedregionmarket.jar
+
+build:1.13:
+  stage: build
+  script:
+    - sed 's/1.14-pre5-SNAPSHOT/1.13.2-R0.1-SNAPSHOT/g' ./advancedregionmarket/pom.xml > ./advancedregionmarket/temponaryPom.xml
+    - cp ./advancedregionmarket/temponaryPom.xml ./advancedregionmarket/pom.xml
+    - rm ./advancedregionmarket/temponaryPom.xml
+    - mvn package
+    - cp ./advancedregionmarket/target/advancedregionmarket.jar ./advancedregionmarket.jar
+
+build:1.12:
+  stage: build
+  script:
+    - sed 's/1.14-pre5-SNAPSHOT/1.12.2-R0.1-SNAPSHOT/g' ./advancedregionmarket/pom.xml > ./advancedregionmarket/temponaryPom.xml
+    - cp ./advancedregionmarket/temponaryPom.xml ./advancedregionmarket/pom.xml
+    - rm ./advancedregionmarket/temponaryPom.xml
+    - mvn package
+    - cp ./advancedregionmarket/target/advancedregionmarket.jar ./advancedregionmarket.jar
 
 test:
   stage: test

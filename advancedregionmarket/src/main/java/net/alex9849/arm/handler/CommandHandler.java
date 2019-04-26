@@ -97,9 +97,7 @@ public class CommandHandler implements TabCompleter {
         }
 
         if(command.getName().equalsIgnoreCase("arm")) {
-            for(int i = 0; i < this.commands.size(); i++) {
-                returnme.addAll(this.onTabComplete(player, args));
-            }
+            returnme.addAll(this.onTabComplete(player, args));
         }
 
         return returnme;

@@ -274,7 +274,8 @@ public abstract class Region implements Saveable {
             Location loc = new Location(this.sellsign.get(i).getLocation().getWorld(), this.sellsign.get(i).getLocation().getBlockX(), this.sellsign.get(i).getLocation().getBlockY(), this.sellsign.get(i).getLocation().getBlockZ());
             if (loc.getBlock().getType() != this.sellsign.get(i).getType()) {
                 loc.getBlock().setType(this.sellsign.get(i).getType());
-                loc.getBlock().setBlockData(this.sellsign.get(i).getBlockData());
+                org.bukkit.material.Sign locSign = (org.bukkit.material.Sign) loc.getBlock().getState();
+                locSign.setFacingDirection(((org.bukkit.material.Sign) this.sellsign.get(i).getBlock().getState()).getFacing());
                 this.sellsign.set(i, (Sign) loc.getBlock().getState());
             }
 

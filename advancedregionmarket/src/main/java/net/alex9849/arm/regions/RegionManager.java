@@ -22,6 +22,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -253,23 +254,41 @@ public class RegionManager extends YamlFileManager<Region> {
         List<String> regionsignsloc = section.getStringList("signs");
         List<Sign> regionsigns = new ArrayList<>();
         for(int j = 0; j < regionsignsloc.size(); j++) {
-            String[] locsplit = regionsignsloc.get(j).split(";", 4);
+            String[] locsplit = regionsignsloc.get(j).split(";", 6);
             World world = Bukkit.getWorld(locsplit[0]);
-            Double x = Double.parseDouble(locsplit[1]);
-            Double yy = Double.parseDouble(locsplit[2]);
-            Double z = Double.parseDouble(locsplit[3]);
-            Location loc = new Location(world, x, yy, z);
-            Location locminone = new Location(world, x, yy - 1, z);
 
-            if (!MaterialFinder.getSignMaterials().contains(loc.getBlock().getType())){
-                if(locminone.getBlock().getType() == Material.AIR || locminone.getBlock().getType() == Material.LAVA || locminone.getBlock().getType() == Material.WATER
-                        || locminone.getBlock().getType() == Material.LAVA || locminone.getBlock().getType() == Material.WATER) {
-                    locminone.getBlock().setType(Material.STONE);
+            if(world != null) {
+                Double x = Double.parseDouble(locsplit[1]);
+                Double yy = Double.parseDouble(locsplit[2]);
+                Double z = Double.parseDouble(locsplit[3]);
+                Location loc = new Location(world, x, yy, z);
+                Location locminone = new Location(world, x, yy - 1, z);
+                BlockFace blockFace;
+                try {
+                    blockFace = BlockFace.valueOf(locsplit[4]);
+                } catch (IllegalArgumentException e) {
+                    blockFace = BlockFace.NORTH;
                 }
-                loc.getBlock().setType(MaterialFinder.getSign());
-            }
+                boolean isWallSign = false;
+                if(locsplit[5].equalsIgnoreCase("WALL")) {
+                    isWallSign = true;
+                }
 
-            regionsigns.add((Sign) loc.getBlock().getState());
+                if (!MaterialFinder.getSignMaterials().contains(loc.getBlock().getType())){
+                    if(locminone.getBlock().getType() == Material.AIR || locminone.getBlock().getType() == Material.LAVA || locminone.getBlock().getType() == Material.WATER
+                            || locminone.getBlock().getType() == Material.LAVA || locminone.getBlock().getType() == Material.WATER) {
+                        locminone.getBlock().setType(Material.STONE);
+                    }
+                    if(isWallSign) {
+                        loc.getBlock().setType(MaterialFinder.getWallSign());
+                    } else {
+                        loc.getBlock().setType(MaterialFinder.getSign());
+                    }
+                    ((org.bukkit.material.Sign) loc.getBlock().getState()).setFacingDirection(blockFace);
+                }
+
+                regionsigns.add((Sign) loc.getBlock().getState());
+            }
         }
         return regionsigns;
     }

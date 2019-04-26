@@ -18,6 +18,7 @@ import net.alex9849.exceptions.InputException;
 import net.alex9849.exceptions.SchematicNotFoundException;
 import net.alex9849.inter.WGRegion;
 import org.bukkit.*;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
@@ -912,7 +913,16 @@ public abstract class Region implements Saveable {
         List<String> signs = new ArrayList<>();
         for(Sign sign : this.getSellSigns()) {
             Location signloc = sign.getLocation();
-            signs.add(signloc.getWorld().getName() + ";" + signloc.getX() + ";" + signloc.getY() + ";" + signloc.getZ());
+            org.bukkit.material.Sign bukkitSign = (org.bukkit.material.Sign) sign.getBlock().getState();
+            BlockFace blockFace = bukkitSign.getFacing();
+            String wallsignIndicator = "";
+            if(bukkitSign.isWallSign()) {
+                wallsignIndicator = "WALL";
+            } else {
+                wallsignIndicator = "GROUND";
+            }
+
+            signs.add(signloc.getWorld().getName() + ";" + signloc.getX() + ";" + signloc.getY() + ";" + signloc.getZ() + ";" + blockFace + ";" + wallsignIndicator);
         }
         yamlConfiguration.set("signs", signs);
 

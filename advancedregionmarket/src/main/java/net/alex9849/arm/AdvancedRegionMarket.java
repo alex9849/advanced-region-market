@@ -24,6 +24,7 @@ import net.alex9849.inter.WorldGuardInterface;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.*;
 import net.alex9849.arm.presets.ActivePresetManager;
+import org.bukkit.block.BlockFace;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
@@ -735,6 +736,10 @@ public class AdvancedRegionMarket extends JavaPlugin {
                 getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.7.5...");
                 updateTo1p75(pluginConfig);
             }
+            if(version < 1.8) {
+                getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.8...");
+                updateTo1p8(pluginConfig);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -963,5 +968,50 @@ public class AdvancedRegionMarket extends JavaPlugin {
 
         regionKindsConf.save(regionKindsConfDic);
         saveConfig();
+    }
+
+    private void updateTo1p8(FileConfiguration pluginConfig) throws IOException {
+        File regionConfDic = new File(this.getDataFolder() + "/regions.yml");
+        YamlConfiguration regionConf = YamlConfiguration.loadConfiguration(regionConfDic);
+
+        if(regionConf.get("Regions") != null) {
+            ConfigurationSection mainSection = regionConf.getConfigurationSection("Regions");
+            List<String> worlds = new ArrayList<String>(mainSection.getKeys(false));
+            if(worlds != null) {
+                for(String worldString : worlds) {
+                    if(mainSection.get(worldString) != null) {
+                        ConfigurationSection worldSection = mainSection.getConfigurationSection(worldString);
+                        List<String> regions = new ArrayList<String>(worldSection.getKeys(false));
+                        if(regions != null) {
+                            for(String regionname : regions){
+                                ConfigurationSection regionSection = worldSection.getConfigurationSection(regionname);
+                                //SIGNS
+                                List<String> regionsignsloc = regionSection.getStringList("signs");
+                                for(int i = 0; i < regionsignsloc.size(); i++) {
+                                    regionsignsloc.set(i, regionsignsloc.get(i) + ";NORTH");
+                                }
+
+                                List<Region> subregions = new ArrayList<>();
+                                if (regionSection.getConfigurationSection("subregions") != null) {
+                                    ConfigurationSection subregionsection = regionSection.getConfigurationSection("subregions");
+                                    List<String> subregionIDS = new ArrayList<>((subregionsection).getKeys(false));
+                                    if (subregionIDS != null) {
+                                        for (String subregionName : subregionIDS) {
+                                            List<String> subregionsignsloc = regionSection.getStringList("signs");
+                                            for(int i = 0; i < subregionsignsloc.size(); i++) {
+                                                subregionsignsloc.set(i, subregionsignsloc.get(i) + ";NORTH;GROUND");
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        regionConf.save(this.getDataFolder() + "/regions.yml");
+
+        pluginConfig.set("Version", 1.8);
     }
 }

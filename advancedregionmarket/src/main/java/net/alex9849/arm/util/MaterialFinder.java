@@ -77,6 +77,7 @@ public class MaterialFinder {
             MaterialFinder.GUI_PREV_PAGE_ITEM = MaterialFinder.getMaterial("ARROW");
             MaterialFinder.GUI_HOTEL_SETTING_ITEM = MaterialFinder.getMaterial("BED");
             MaterialFinder.GUI_UNSELL_ITEM = MaterialFinder.getMaterial("NAME_TAG");
+            MaterialFinder.PLAYER_HEAD = MaterialFinder.getMaterial("SKULL_ITEM");
             MaterialFinder.CHICKEN_SPAWN_EGG = MaterialFinder.getMaterial("EGG");
             MaterialFinder.BRICKS = MaterialFinder.getMaterial("BRICK");
             MaterialFinder.RED_BED = MaterialFinder.getMaterial("BED");
@@ -141,6 +142,7 @@ public class MaterialFinder {
             MaterialFinder.GUI_PREV_PAGE_ITEM = MaterialFinder.getMaterial("ARROW");
             MaterialFinder.GUI_HOTEL_SETTING_ITEM = MaterialFinder.getMaterial("RED_BED");
             MaterialFinder.GUI_UNSELL_ITEM = MaterialFinder.getMaterial("NAME_TAG");
+            MaterialFinder.PLAYER_HEAD = MaterialFinder.getMaterial("PLAYER_HEAD");
             MaterialFinder.CHICKEN_SPAWN_EGG = MaterialFinder.getMaterial("CHICKEN_SPAWN_EGG");
             MaterialFinder.BRICKS = MaterialFinder.getMaterial("BRICKS");
             MaterialFinder.RED_BED = MaterialFinder.getMaterial("RED_BED");

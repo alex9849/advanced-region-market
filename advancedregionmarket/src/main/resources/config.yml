@@ -187,7 +187,7 @@ GUI:
   FillItem: GRAY_STAINED_GLASS_PANE
   ContractItem: WRITABLE_BOOK
   SubRegionItem: GRASS_BLOCK
-  TeleportToSignItem: SIGN
+  TeleportToSignItem: OAK_SIGN
   TeleportToRegionItem: GRASS_BLOCK
   DeleteItem: BARRIER
   NextPageItem: ARROW

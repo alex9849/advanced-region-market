@@ -267,7 +267,7 @@ public class RegionManager extends YamlFileManager<Region> {
                 try {
                     blockFace = BlockFace.valueOf(locsplit[4]);
                 } catch (IllegalArgumentException e) {
-                    blockFace = BlockFace.NORTH;
+                    blockFace = BlockFace.EAST;
                 }
                 boolean isWallSign = false;
                 if(locsplit[5].equalsIgnoreCase("WALL")) {
@@ -275,21 +275,25 @@ public class RegionManager extends YamlFileManager<Region> {
                 }
 
                 if (!MaterialFinder.getSignMaterials().contains(loc.getBlock().getType())){
-                    if(locminone.getBlock().getType() == Material.AIR || locminone.getBlock().getType() == Material.LAVA || locminone.getBlock().getType() == Material.WATER
-                            || locminone.getBlock().getType() == Material.LAVA || locminone.getBlock().getType() == Material.WATER) {
-                        locminone.getBlock().setType(Material.STONE);
+                    if(!isWallSign){
+                        if(locminone.getBlock().getType() == Material.AIR || locminone.getBlock().getType() == Material.LAVA || locminone.getBlock().getType() == Material.WATER
+                                || locminone.getBlock().getType() == Material.LAVA || locminone.getBlock().getType() == Material.WATER) {
+                            locminone.getBlock().setType(Material.STONE);
+                        }
                     }
+
                     if(isWallSign) {
                         loc.getBlock().setType(MaterialFinder.getWallSign(), false);
                     } else {
                         loc.getBlock().setType(MaterialFinder.getSign(), false);
                     }
-                    loc.getBlock().getState().update(false, false);
+                    Sign signBlock = (Sign) loc.getBlock().getState();
                     //TODO Sign should rotate
-                    org.bukkit.material.Sign bukkitSign = ((org.bukkit.material.Sign) loc.getBlock().getState().getData());
+                    org.bukkit.material.Sign bukkitSign = ((org.bukkit.material.Sign) signBlock.getBlock().getState().getData());
                     bukkitSign.setFacingDirection(blockFace);
-                    loc.getBlock().getState().setData(bukkitSign);
+                    signBlock.setData(bukkitSign);
                     loc.getBlock().getState().update(false, false);
+                    signBlock.update(false, false);
                 }
 
                 regionsigns.add((Sign) loc.getBlock().getState());

@@ -275,8 +275,8 @@ public abstract class Region implements Saveable {
             Location loc = new Location(this.sellsign.get(i).getLocation().getWorld(), this.sellsign.get(i).getLocation().getBlockX(), this.sellsign.get(i).getLocation().getBlockY(), this.sellsign.get(i).getLocation().getBlockZ());
             if (loc.getBlock().getType() != this.sellsign.get(i).getType()) {
                 loc.getBlock().setType(this.sellsign.get(i).getType());
-                org.bukkit.material.Sign locSign = (org.bukkit.material.Sign) loc.getBlock().getState();
-                locSign.setFacingDirection(((org.bukkit.material.Sign) this.sellsign.get(i).getBlock().getState()).getFacing());
+                org.bukkit.material.Sign locSign = (org.bukkit.material.Sign) loc.getBlock().getState().getData();
+                locSign.setFacingDirection(((org.bukkit.material.Sign) this.sellsign.get(i).getBlock().getState().getData()).getFacing());
                 this.sellsign.set(i, (Sign) loc.getBlock().getState());
             }
 
@@ -913,8 +913,8 @@ public abstract class Region implements Saveable {
         List<String> signs = new ArrayList<>();
         for(Sign sign : this.getSellSigns()) {
             Location signloc = sign.getLocation();
-            org.bukkit.material.Sign bukkitSign = (org.bukkit.material.Sign) sign.getBlock().getState();
-            BlockFace blockFace = bukkitSign.getFacing();
+            org.bukkit.material.Sign bukkitSign = (org.bukkit.material.Sign) sign.getBlock().getState().getData();
+            String blockFace = bukkitSign.getFacing().name();
             String wallsignIndicator = "";
             if(bukkitSign.isWallSign()) {
                 wallsignIndicator = "WALL";

@@ -280,11 +280,16 @@ public class RegionManager extends YamlFileManager<Region> {
                         locminone.getBlock().setType(Material.STONE);
                     }
                     if(isWallSign) {
-                        loc.getBlock().setType(MaterialFinder.getWallSign());
+                        loc.getBlock().setType(MaterialFinder.getWallSign(), false);
                     } else {
-                        loc.getBlock().setType(MaterialFinder.getSign());
+                        loc.getBlock().setType(MaterialFinder.getSign(), false);
                     }
-                    ((org.bukkit.material.Sign) loc.getBlock().getState()).setFacingDirection(blockFace);
+                    loc.getBlock().getState().update(false, false);
+                    //TODO Sign should rotate
+                    org.bukkit.material.Sign bukkitSign = ((org.bukkit.material.Sign) loc.getBlock().getState().getData());
+                    bukkitSign.setFacingDirection(blockFace);
+                    loc.getBlock().getState().setData(bukkitSign);
+                    loc.getBlock().getState().update(false, false);
                 }
 
                 regionsigns.add((Sign) loc.getBlock().getState());

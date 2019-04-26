@@ -988,8 +988,9 @@ public class AdvancedRegionMarket extends JavaPlugin {
                                 //SIGNS
                                 List<String> regionsignsloc = regionSection.getStringList("signs");
                                 for(int i = 0; i < regionsignsloc.size(); i++) {
-                                    regionsignsloc.set(i, regionsignsloc.get(i) + ";NORTH");
+                                    regionsignsloc.set(i, regionsignsloc.get(i) + ";NORTH;GROUND");
                                 }
+                                regionSection.set("signs", regionsignsloc);
 
                                 List<Region> subregions = new ArrayList<>();
                                 if (regionSection.getConfigurationSection("subregions") != null) {
@@ -997,10 +998,11 @@ public class AdvancedRegionMarket extends JavaPlugin {
                                     List<String> subregionIDS = new ArrayList<>((subregionsection).getKeys(false));
                                     if (subregionIDS != null) {
                                         for (String subregionName : subregionIDS) {
-                                            List<String> subregionsignsloc = regionSection.getStringList("signs");
+                                            List<String> subregionsignsloc = subregionsection.getStringList("signs");
                                             for(int i = 0; i < subregionsignsloc.size(); i++) {
                                                 subregionsignsloc.set(i, subregionsignsloc.get(i) + ";NORTH;GROUND");
                                             }
+                                            subregionsection.set("signs", subregionsignsloc);
                                         }
                                     }
                                 }
@@ -1013,5 +1015,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
         regionConf.save(this.getDataFolder() + "/regions.yml");
 
         pluginConfig.set("Version", 1.8);
+        saveConfig();
     }
 }

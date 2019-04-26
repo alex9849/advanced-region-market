@@ -1,11 +1,10 @@
 name: AdvancedRegionMarket
-version: 1.7.5
+version: 1.8
 main: net.alex9849.arm.AdvancedRegionMarket
 depend: [WorldGuard, WorldEdit, Vault]
 softdepend: [Multiverse-Core, FastAsyncWorldEdit]
 authors:
    - alex9849
-   - Rindula
 api-version: 1.13
 prefix: AdvancedRegionMarket
 commands:

@@ -69,7 +69,7 @@ public class RentRegion extends Region {
             mysign.setLine(1, line2);
             mysign.setLine(2, line3);
             mysign.setLine(3, line4);
-            mysign.update();
+            mysign.update(false, false);
 
         } else {
             String line1 = this.getConvertedMessage(Messages.RENT_SIGN1);
@@ -84,7 +84,7 @@ public class RentRegion extends Region {
             mysign.setLine(1, line2);
             mysign.setLine(2, line3);
             mysign.setLine(3, line4);
-            mysign.update();
+            mysign.update(false, false);
         }
     }
 

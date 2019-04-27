@@ -120,6 +120,7 @@ public class SignLinkMode implements Listener {
         Region existingRegion = AdvancedRegionMarket.getRegionManager().getRegion(wgRegion);
         if(existingRegion != null) {
             existingRegion.addSign(this.sign.getLocation());
+            existingRegion.queueSave();
             this.player.sendMessage(Messages.PREFIX + Messages.SIGN_ADDED_TO_REGION);
         } else {
             Region newRegion = this.preset.generateRegion(this.wgRegion, this.world, this.player, signs);

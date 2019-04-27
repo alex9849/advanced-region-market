@@ -120,6 +120,7 @@ public class SignModifyListener implements Listener {
                         throw new InputException(sign.getPlayer(), "Region already registered as a non-sellregion");
                     }
                     searchregion.addSign(sign.getBlock().getLocation());
+                    searchregion.queueSave();
                     sign.setCancelled(true);
                     sign.getPlayer().sendMessage(Messages.PREFIX + Messages.SIGN_ADDED_TO_REGION);
                     return;
@@ -228,6 +229,7 @@ public class SignModifyListener implements Listener {
                         throw new InputException(sign.getPlayer(), "Region already registered as a non-rentregion");
                     }
                     searchregion.addSign(sign.getBlock().getLocation());
+                    searchregion.queueSave();
                     sign.setCancelled(true);
                     sign.getPlayer().sendMessage(Messages.PREFIX + Messages.SIGN_ADDED_TO_REGION);
                     return;
@@ -333,6 +335,7 @@ public class SignModifyListener implements Listener {
                         throw new InputException(sign.getPlayer(), "Region already registered as a non-contractregion");
                     }
                     searchregion.addSign(sign.getBlock().getLocation());
+                    searchregion.queueSave();
                     sign.setCancelled(true);
                     sign.getPlayer().sendMessage(Messages.PREFIX + Messages.SIGN_ADDED_TO_REGION);
                     return;

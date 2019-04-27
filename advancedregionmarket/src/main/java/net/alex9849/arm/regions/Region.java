@@ -913,16 +913,14 @@ public abstract class Region implements Saveable {
         List<String> signs = new ArrayList<>();
         for(Sign sign : this.getSellSigns()) {
             Location signloc = sign.getLocation();
-            org.bukkit.material.Sign bukkitSign = (org.bukkit.material.Sign) sign.getBlock().getState().getData();
-            String blockFace = bukkitSign.getFacing().name();
             String wallsignIndicator = "";
-            if(bukkitSign.isWallSign()) {
+            if(sign.getType().toString().contains("WALL_SIGN")) {
                 wallsignIndicator = "WALL";
             } else {
                 wallsignIndicator = "GROUND";
             }
 
-            signs.add(signloc.getWorld().getName() + ";" + signloc.getX() + ";" + signloc.getY() + ";" + signloc.getZ() + ";" + blockFace + ";" + wallsignIndicator);
+            signs.add(signloc.getWorld().getName() + ";" + signloc.getX() + ";" + signloc.getY() + ";" + signloc.getZ() + ";" + wallsignIndicator);
         }
         yamlConfiguration.set("signs", signs);
 

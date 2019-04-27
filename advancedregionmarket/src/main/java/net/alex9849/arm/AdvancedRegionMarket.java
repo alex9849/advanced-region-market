@@ -988,7 +988,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
                                 //SIGNS
                                 List<String> regionsignsloc = regionSection.getStringList("signs");
                                 for(int i = 0; i < regionsignsloc.size(); i++) {
-                                    regionsignsloc.set(i, regionsignsloc.get(i) + ";NORTH;GROUND");
+                                    regionsignsloc.set(i, regionsignsloc.get(i) + ";GROUND");
                                 }
                                 regionSection.set("signs", regionsignsloc);
 
@@ -1000,7 +1000,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
                                         for (String subregionName : subregionIDS) {
                                             List<String> subregionsignsloc = subregionsection.getStringList("signs");
                                             for(int i = 0; i < subregionsignsloc.size(); i++) {
-                                                subregionsignsloc.set(i, subregionsignsloc.get(i) + ";NORTH;GROUND");
+                                                subregionsignsloc.set(i, subregionsignsloc.get(i) + ";GROUND");
                                             }
                                             subregionsection.set("signs", subregionsignsloc);
                                         }

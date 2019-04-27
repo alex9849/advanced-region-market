@@ -993,7 +993,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
                                 //SIGNS
                                 List<String> regionsignsloc = regionSection.getStringList("signs");
                                 for(int i = 0; i < regionsignsloc.size(); i++) {
-                                    regionsignsloc.set(i, regionsignsloc.get(i) + ";GROUND");
+                                    regionsignsloc.set(i, regionsignsloc.get(i) + ";NORTH;GROUND");
                                 }
                                 regionSection.set("signs", regionsignsloc);
 
@@ -1005,7 +1005,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
                                         for (String subregionName : subregionIDS) {
                                             List<String> subregionsignsloc = subregionsection.getStringList("signs");
                                             for(int i = 0; i < subregionsignsloc.size(); i++) {
-                                                subregionsignsloc.set(i, subregionsignsloc.get(i) + ";GROUND");
+                                                subregionsignsloc.set(i, subregionsignsloc.get(i) + ";NORTH;GROUND");
                                             }
                                             subregionsection.set("signs", subregionsignsloc);
                                         }
@@ -1042,25 +1042,25 @@ public class AdvancedRegionMarket extends JavaPlugin {
                                 List<String> regionsignsloc = regionSection.getStringList("signs");
                                 for(int i = 0; i < regionsignsloc.size(); i++) {
                                     String signString = regionsignsloc.get(i);
-                                    signString = signString.replace("NORTH", "");
-                                    signString = signString.replace("EAST", "");
-                                    signString = signString.replace("SOUTH", "");
-                                    signString = signString.replace("WEST", "");
-                                    signString = signString.replace("UP", "");
-                                    signString = signString.replace("DOWN", "");
-                                    signString = signString.replace("NORTH_EAST", "");
-                                    signString = signString.replace("NORTH_WEST", "");
-                                    signString = signString.replace("SOUTH_EAST", "");
-                                    signString = signString.replace("SOUTH_WEST", "");
-                                    signString = signString.replace("WEST_NORTH_WEST", "");
-                                    signString = signString.replace("NORTH_NORTH_WEST", "");
-                                    signString = signString.replace("NORTH_NORTH_EAST", "");
-                                    signString = signString.replace("EAST_NORTH_EAST", "");
-                                    signString = signString.replace("EAST_SOUTH_EAST", "");
-                                    signString = signString.replace("SOUTH_SOUTH_EAST", "");
-                                    signString = signString.replace("SOUTH_SOUTH_WEST", "");
-                                    signString = signString.replace("WEST_SOUTH_WEST", "");
-                                    signString = signString.replace("SELF", "");
+                                    signString = signString.replace(";NORTH", "");
+                                    signString = signString.replace(";EAST", "");
+                                    signString = signString.replace(";SOUTH", "");
+                                    signString = signString.replace(";WEST", "");
+                                    signString = signString.replace(";UP", "");
+                                    signString = signString.replace(";DOWN", "");
+                                    signString = signString.replace(";NORTH_EAST", "");
+                                    signString = signString.replace(";NORTH_WEST", "");
+                                    signString = signString.replace(";SOUTH_EAST", "");
+                                    signString = signString.replace(";SOUTH_WEST", "");
+                                    signString = signString.replace(";WEST_NORTH_WEST", "");
+                                    signString = signString.replace(";NORTH_NORTH_WEST", "");
+                                    signString = signString.replace(";NORTH_NORTH_EAST", "");
+                                    signString = signString.replace(";EAST_NORTH_EAST", "");
+                                    signString = signString.replace(";EAST_SOUTH_EAST", "");
+                                    signString = signString.replace(";SOUTH_SOUTH_EAST", "");
+                                    signString = signString.replace(";SOUTH_SOUTH_WEST", "");
+                                    signString = signString.replace(";WEST_SOUTH_WEST", "");
+                                    signString = signString.replace(";SELF", "");
                                     regionsignsloc.set(i, signString);
                                 }
                                 regionSection.set("signs", regionsignsloc);

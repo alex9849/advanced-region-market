@@ -442,7 +442,7 @@ public abstract class Region implements Saveable {
         if(sender instanceof Player) {
             if(ArmSettings.isRegionInfoParticleBorder()) {
                 Player player = (Player) sender;
-                new ParticleBorder(this.getRegion().getPoints(), this.getRegion().getMinY(), this.getRegion().getMaxY(), player, this.getRegionworld()).createParticleBorder(20 * 30);
+                new ParticleBorder(this.getRegion().getPoints(), this.getRegion().getMinPoint().getBlockY(), this.getRegion().getMaxPoint().getBlockY(), player, this.getRegionworld()).createParticleBorder(20 * 30);
                 for(Region subregion : this.getSubregions()) {
                     Location lpos1 = new Location(subregion.getRegionworld(), subregion.getRegion().getMinPoint().getX(), subregion.getRegion().getMinPoint().getY(), subregion.getRegion().getMinPoint().getZ());
                     Location lPos2 = new Location(subregion.getRegionworld(), subregion.getRegion().getMaxPoint().getX(), subregion.getRegion().getMaxPoint().getY(), subregion.getRegion().getMaxPoint().getZ());

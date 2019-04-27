@@ -20,30 +20,6 @@ public class WG7Region extends WGRegion {
         this.region = region;
     }
 
-    public int getMaxX() {
-        return this.region.getMaximumPoint().getBlockX();
-    }
-
-    public int getMaxY() {
-        return this.region.getMaximumPoint().getBlockY();
-    }
-
-    public int getMaxZ() {
-        return this.region.getMaximumPoint().getBlockZ();
-    }
-
-    public int getMinX() {
-        return this.region.getMinimumPoint().getBlockX();
-    }
-
-    public int getMinY() {
-        return this.region.getMinimumPoint().getBlockY();
-    }
-
-    public int getMinZ() {
-        return this.region.getMinimumPoint().getBlockZ();
-    }
-
     public Vector getMaxPoint()  {
         BlockVector3 wgVector = this.region.getMaximumPoint();
         return new Vector(wgVector.getBlockX(), wgVector.getBlockY(), wgVector.getBlockZ());

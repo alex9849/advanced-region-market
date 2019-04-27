@@ -21,6 +21,10 @@ public class EntitySpawnListener implements Listener {
             return;
         }
 
+        if(AdvancedRegionMarket.getRegionManager() == null) {
+            return;
+        }
+
         List<Region> regions = AdvancedRegionMarket.getRegionManager().getRegionsByLocation(event.getLocation());
 
         for(Region region : regions) {
@@ -35,6 +39,11 @@ public class EntitySpawnListener implements Listener {
         if(event.isCancelled()) {
             return;
         }
+
+        if(AdvancedRegionMarket.getRegionManager() == null) {
+            return;
+        }
+
         List<Region> regions = AdvancedRegionMarket.getRegionManager().getRegionsByLocation(event.getVehicle().getLocation());
 
         for(Region region : regions) {

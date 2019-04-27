@@ -20,6 +20,11 @@ public class BlockModifyListener implements Listener {
         if(event.isCancelled()) {
             return;
         }
+
+        if(AdvancedRegionMarket.getRegionManager() == null) {
+            return;
+        }
+
         List<Region> locRegions = AdvancedRegionMarket.getRegionManager().getRegionsByLocation(event.getBlock().getLocation());
 
         for(Region region : locRegions) {
@@ -46,6 +51,11 @@ public class BlockModifyListener implements Listener {
         if(event.getPlayer().hasPermission(Permission.ADMIN_BUILDEVERYWHERE)){
             return;
         }
+
+        if(AdvancedRegionMarket.getRegionManager() == null) {
+            return;
+        }
+
         try {
             List<Region> locRegions = AdvancedRegionMarket.getRegionManager().getRegionsByLocation(event.getBlock().getLocation());
 

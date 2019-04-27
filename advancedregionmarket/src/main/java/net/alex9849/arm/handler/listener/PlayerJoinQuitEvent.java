@@ -79,6 +79,9 @@ public class PlayerJoinQuitEvent implements Listener {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String compareTime = sdf.format(convertdate);
 
+        if(AdvancedRegionMarket.getRegionManager() == null) {
+            return;
+        }
 
         try {
             ResultSet rs = ArmSettings.getStmt().executeQuery("SELECT * FROM `" + ArmSettings.getSqlPrefix() + "lastlogin` WHERE `lastlogin` < '" + compareTime + "'");

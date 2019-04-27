@@ -33,6 +33,11 @@ public class SubregionMarkerListener implements Listener {
             if(event.getItem() == null) {
                 return;
             }
+
+            if(AdvancedRegionMarket.getRegionManager() == null) {
+                return;
+            }
+
             //TODO change me --> see ToolCommand
             if((event.getItem().getType() == Material.FEATHER) && ((event.getAction() == Action.RIGHT_CLICK_BLOCK) || (event.getAction() == Action.LEFT_CLICK_BLOCK))) {
                 if(event.getItem().getItemMeta().getDisplayName().equals("Subregion Tool")) {

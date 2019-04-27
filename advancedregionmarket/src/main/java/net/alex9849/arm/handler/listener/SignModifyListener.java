@@ -39,6 +39,10 @@ public class SignModifyListener implements Listener {
             return;
         }
 
+        if(AdvancedRegionMarket.getRegionManager() == null) {
+            return;
+        }
+
         try {
             RegionKind regionkind = RegionKind.DEFAULT;
             Boolean autoReset = true;

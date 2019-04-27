@@ -52,7 +52,7 @@ public class MaterialFinder {
         String serverVersion = Bukkit.getServer().getVersion();
 
         if(serverVersion.equalsIgnoreCase("1.12") || serverVersion.contains("1.12")) {
-            MaterialFinder.defaultSign = MaterialFinder.getMaterial("SIGN");
+            MaterialFinder.defaultSign = MaterialFinder.getMaterial("SIGN_POST");
             MaterialFinder.wallSign = MaterialFinder.getMaterial("WALL_SIGN");
             MaterialFinder.GUI_REGION_OWNER_ITEM = MaterialFinder.getMaterial("ENDER_CHEST");
             MaterialFinder.GUI_REGION_MEMBER_ITEM = MaterialFinder.getMaterial("CHEST");

@@ -740,6 +740,11 @@ public class AdvancedRegionMarket extends JavaPlugin {
                 getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.8...");
                 updateTo1p8(pluginConfig);
             }
+
+            if(version < 1.81) {
+                getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.8.1..");
+                updateTo1p81(pluginConfig);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -1015,6 +1020,94 @@ public class AdvancedRegionMarket extends JavaPlugin {
         regionConf.save(this.getDataFolder() + "/regions.yml");
 
         pluginConfig.set("Version", 1.8);
+        saveConfig();
+    }
+
+    private void updateTo1p81(FileConfiguration pluginConfig) throws IOException {
+        File regionConfDic = new File(this.getDataFolder() + "/regions.yml");
+        YamlConfiguration regionConf = YamlConfiguration.loadConfiguration(regionConfDic);
+
+        if(regionConf.get("Regions") != null) {
+            ConfigurationSection mainSection = regionConf.getConfigurationSection("Regions");
+            List<String> worlds = new ArrayList<String>(mainSection.getKeys(false));
+            if(worlds != null) {
+                for(String worldString : worlds) {
+                    if(mainSection.get(worldString) != null) {
+                        ConfigurationSection worldSection = mainSection.getConfigurationSection(worldString);
+                        List<String> regions = new ArrayList<String>(worldSection.getKeys(false));
+                        if(regions != null) {
+                            for(String regionname : regions){
+                                ConfigurationSection regionSection = worldSection.getConfigurationSection(regionname);
+                                //SIGNS
+                                List<String> regionsignsloc = regionSection.getStringList("signs");
+                                for(int i = 0; i < regionsignsloc.size(); i++) {
+                                    String signString = regionsignsloc.get(i);
+                                    signString = signString.replace("NORTH", "");
+                                    signString = signString.replace("EAST", "");
+                                    signString = signString.replace("SOUTH", "");
+                                    signString = signString.replace("WEST", "");
+                                    signString = signString.replace("UP", "");
+                                    signString = signString.replace("DOWN", "");
+                                    signString = signString.replace("NORTH_EAST", "");
+                                    signString = signString.replace("NORTH_WEST", "");
+                                    signString = signString.replace("SOUTH_EAST", "");
+                                    signString = signString.replace("SOUTH_WEST", "");
+                                    signString = signString.replace("WEST_NORTH_WEST", "");
+                                    signString = signString.replace("NORTH_NORTH_WEST", "");
+                                    signString = signString.replace("NORTH_NORTH_EAST", "");
+                                    signString = signString.replace("EAST_NORTH_EAST", "");
+                                    signString = signString.replace("EAST_SOUTH_EAST", "");
+                                    signString = signString.replace("SOUTH_SOUTH_EAST", "");
+                                    signString = signString.replace("SOUTH_SOUTH_WEST", "");
+                                    signString = signString.replace("WEST_SOUTH_WEST", "");
+                                    signString = signString.replace("SELF", "");
+                                    regionsignsloc.set(i, signString);
+                                }
+                                regionSection.set("signs", regionsignsloc);
+
+                                List<Region> subregions = new ArrayList<>();
+                                if (regionSection.getConfigurationSection("subregions") != null) {
+                                    ConfigurationSection subregionsection = regionSection.getConfigurationSection("subregions");
+                                    List<String> subregionIDS = new ArrayList<>((subregionsection).getKeys(false));
+                                    if (subregionIDS != null) {
+                                        for (String subregionName : subregionIDS) {
+                                            List<String> subregionsignsloc = subregionsection.getStringList("signs");
+                                            for(int i = 0; i < subregionsignsloc.size(); i++) {
+                                                String signString = subregionsignsloc.get(i);
+                                                signString = signString.replace(";NORTH", "");
+                                                signString = signString.replace(";EAST", "");
+                                                signString = signString.replace(";SOUTH", "");
+                                                signString = signString.replace(";WEST", "");
+                                                signString = signString.replace(";UP", "");
+                                                signString = signString.replace(";DOWN", "");
+                                                signString = signString.replace(";NORTH_EAST", "");
+                                                signString = signString.replace(";NORTH_WEST", "");
+                                                signString = signString.replace(";SOUTH_EAST", "");
+                                                signString = signString.replace(";SOUTH_WEST", "");
+                                                signString = signString.replace(";WEST_NORTH_WEST", "");
+                                                signString = signString.replace(";NORTH_NORTH_WEST", "");
+                                                signString = signString.replace(";NORTH_NORTH_EAST", "");
+                                                signString = signString.replace(";EAST_NORTH_EAST", "");
+                                                signString = signString.replace(";EAST_SOUTH_EAST", "");
+                                                signString = signString.replace(";SOUTH_SOUTH_EAST", "");
+                                                signString = signString.replace(";SOUTH_SOUTH_WEST", "");
+                                                signString = signString.replace(";WEST_SOUTH_WEST", "");
+                                                signString = signString.replace(";SELF", "");
+                                                subregionsignsloc.set(i, signString);
+                                            }
+                                            subregionsection.set("signs", subregionsignsloc);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        regionConf.save(this.getDataFolder() + "/regions.yml");
+
+        pluginConfig.set("Version", 1.81);
         saveConfig();
     }
 }

@@ -1855,125 +1855,164 @@ public class Gui implements Listener {
     }
 
     public static void setRegionOwnerItem(Material regionOwnerItem){
-        if(regionOwnerItem != null) {
-            Gui.REGION_OWNER_ITEM = regionOwnerItem;
+        if(regionOwnerItem == null) {
+            return;
         }
+        REGION_OWNER_ITEM = regionOwnerItem;
     }
 
     public static void setRegionMemberItem(Material regionMemberItem) {
-        if(regionMemberItem != null) {
-            Gui.REGION_MEMBER_ITEM = regionMemberItem;
+        if(regionMemberItem == null) {
+            return;
         }
+        REGION_MEMBER_ITEM = regionMemberItem;
     }
 
     public static void setRegionFinderItem(Material regionFinderItem) {
-        if(regionFinderItem != null) {
-            Gui.REGION_FINDER_ITEM = regionFinderItem;
+        if(regionFinderItem == null) {
+            return;
         }
+        REGION_FINDER_ITEM = regionFinderItem;
     }
 
     public static void setFillItem(Material fillItem) {
-        if(fillItem != null) {
-            Gui.FILL_ITEM = fillItem;
+        if(fillItem == null) {
+            return;
         }
+        FILL_ITEM = fillItem;
     }
 
     public static void setContractItem(Material contractItem) {
-        if(contractItem != null) {
-            Gui.CONTRACT_ITEM = contractItem;
+        if(contractItem == null) {
+            return;
         }
+        CONTRACT_ITEM = contractItem;
     }
 
     public static void setGoBackItem(Material goBackItem) {
-        if(goBackItem != null) {
-            Gui.GO_BACK_ITEM = goBackItem;
+        if(goBackItem == null) {
+            return;
         }
+        GO_BACK_ITEM = goBackItem;
     }
 
     public static void setWarningYesItem(Material warningYesItem) {
-        if(warningYesItem != null) {
-            Gui.WARNING_YES_ITEM = warningYesItem;
+        if(warningYesItem == null) {
+            return;
         }
+        WARNING_YES_ITEM = warningYesItem;
     }
 
     public static void setWarningNoItem(Material warningNoItem) {
-        if(warningNoItem != null) {
-            Gui.WARNING_NO_ITEM = warningNoItem;
+        if(warningNoItem == null) {
+            return;
         }
+        Gui.WARNING_NO_ITEM = warningNoItem;
     }
 
     public static void setTpItem(Material tpItem) {
-        if(tpItem != null) {
-            Gui.TP_ITEM = tpItem;
+        if(tpItem == null) {
+            return;
         }
+        TP_ITEM = tpItem;
     }
 
     public static void setSellRegionItem(Material sellRegionItem) {
-        if(sellRegionItem != null) {
-            Gui.SELL_REGION_ITEM = sellRegionItem;
+        if(sellRegionItem == null) {
+            return;
         }
+        SELL_REGION_ITEM = sellRegionItem;
     }
 
     public static void setResetItem(Material resetRegion) {
-        if(resetRegion != null) {
-            Gui.RESET_ITEM = resetRegion;
+        if(resetRegion == null) {
+            return;
         }
+        RESET_ITEM = resetRegion;
     }
 
     public static void setExtendItem(Material extendItem) {
-        if(extendItem != null) {
-            Gui.EXTEND_ITEM = extendItem;
+        if(extendItem == null) {
+            return;
         }
+        EXTEND_ITEM = extendItem;
     }
 
     public static void setInfoItem(Material infoItem) {
-        if(infoItem != null) {
-            Gui.INFO_ITEM = infoItem;
+        if(infoItem == null) {
+            return;
         }
+        INFO_ITEM = infoItem;
     }
 
     public static void setPromoteMemberToOwnerItem(Material promoteMemberToOwnerItem) {
-        if(promoteMemberToOwnerItem != null) {
-            Gui.PROMOTE_MEMBER_TO_OWNER_ITEM = promoteMemberToOwnerItem;
+        if(promoteMemberToOwnerItem == null) {
+            return;
         }
+        PROMOTE_MEMBER_TO_OWNER_ITEM = promoteMemberToOwnerItem;
     }
 
     public static void setRemoveMemberItem(Material removeMemberItem) {
-        if(removeMemberItem != null) {
-            Gui.REMOVE_MEMBER_ITEM = removeMemberItem;
+        if(removeMemberItem == null) {
+            return;
         }
+        REMOVE_MEMBER_ITEM = removeMemberItem;
     }
 
 
     public static void setSubregionItem(Material subregionItem) {
+        if(subregionItem == null) {
+            return;
+        }
         SUBREGION_ITEM = subregionItem;
     }
 
     public static void setDeleteItem(Material deleteItem) {
+        if(deleteItem == null) {
+            return;
+        }
         DELETE_ITEM = deleteItem;
     }
 
     public static void setTeleportToSignItem(Material teleportToSignItem) {
+        if(teleportToSignItem == null) {
+            return;
+        }
         TELEPORT_TO_SIGN_ITEM = teleportToSignItem;
     }
 
     public static void setTeleportToRegionItem(Material teleportToRegionItem) {
+        if(teleportToRegionItem == null) {
+            return;
+        }
         TELEPORT_TO_REGION_ITEM = teleportToRegionItem;
     }
 
     public static void setNextPageItem(Material NextPageItem) {
+        if(NextPageItem == null) {
+            return;
+        }
         NEXT_PAGE_ITEM = NextPageItem;
     }
 
     public static void setPrevPageItem(Material PrevPageItem) {
+        if(PrevPageItem == null) {
+            return;
+        }
         PREV_PAGE_ITEM = PrevPageItem;
     }
 
     public static void setHotelSettingItem(Material HotelSettingItem) {
+        if(HotelSettingItem == null) {
+            return;
+        }
         HOTEL_SETTING_ITEM = HotelSettingItem;
     }
 
     public static void setUnsellItem(Material UnsellItem) {
+        if(UnsellItem == null) {
+            return;
+        }
         UNSELL_ITEM = UnsellItem;
     }
 

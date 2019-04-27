@@ -19,6 +19,7 @@ import net.alex9849.exceptions.SchematicNotFoundException;
 import net.alex9849.inter.WGRegion;
 import org.bukkit.*;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
@@ -275,10 +276,10 @@ public abstract class Region implements Saveable {
             Location loc = new Location(this.sellsign.get(i).getLocation().getWorld(), this.sellsign.get(i).getLocation().getBlockX(), this.sellsign.get(i).getLocation().getBlockY(), this.sellsign.get(i).getLocation().getBlockZ());
             if (loc.getBlock().getType() != this.sellsign.get(i).getType()) {
                 loc.getBlock().setType(this.sellsign.get(i).getType());
-                loc.getBlock().setBlockData(this.sellsign.get(i).getBlockData(), false);
-                this.sellsign.set(i, (Sign) loc.getBlock().getState());
+                Sign locSign = (Sign) loc.getBlock().getState();
+                locSign.setData(this.sellsign.get(i).getData());
+                this.sellsign.set(i, locSign);
             }
-
             this.updateSignText(this.sellsign.get(i));
         }
     }

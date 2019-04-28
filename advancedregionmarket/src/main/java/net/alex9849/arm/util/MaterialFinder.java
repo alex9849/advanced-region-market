@@ -58,7 +58,7 @@ public class MaterialFinder {
             MaterialFinder.GUI_REGION_MEMBER_ITEM = MaterialFinder.getMaterial("CHEST");
             MaterialFinder.GUI_REGION_FINDER_ITEM = MaterialFinder.getMaterial("COMPASS");
             MaterialFinder.GUI_GO_BACK_ITEM = MaterialFinder.getMaterial("WOOD_DOOR");
-            MaterialFinder.GUI_WARNING_YES_ITEM = MaterialFinder.getMaterial("MELON");
+            MaterialFinder.GUI_WARNING_YES_ITEM = MaterialFinder.getMaterial("MELON_BLOCK");
             MaterialFinder.GUI_WARNING_NO_ITEM = MaterialFinder.getMaterial("REDSTONE_BLOCK");
             MaterialFinder.GUI_TP_ITEM = MaterialFinder.getMaterial("ENDER_PEARL");
             MaterialFinder.GUI_SELL_REGION_ITEM = MaterialFinder.getMaterial("DIAMOND");

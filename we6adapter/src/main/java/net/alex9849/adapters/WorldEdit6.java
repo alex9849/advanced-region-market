@@ -85,6 +85,7 @@ public class WorldEdit6 extends WorldEditInterface {
             copy.setRemovingEntities(false);
 
             Operations.completeLegacy(copy);
+            ((EditSession) destination).flushQueue();
         } catch (WorldEditException e) {
             e.printStackTrace();
         }

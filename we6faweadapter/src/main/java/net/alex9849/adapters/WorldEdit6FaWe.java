@@ -2,6 +2,7 @@ package net.alex9849.adapters;
 
 import com.boydti.fawe.object.schematic.Schematic;
 import com.sk89q.worldedit.BlockVector;
+import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.WorldEditException;
 import com.sk89q.worldedit.bukkit.BukkitWorld;
@@ -68,6 +69,8 @@ public class WorldEdit6FaWe extends WorldEditInterface {
             copy.setRemovingEntities(false);
 
             Operations.completeLegacy(copy);
+
+            ((EditSession) destination).flushQueue();
 
         } catch (WorldEditException e) {
             e.printStackTrace();

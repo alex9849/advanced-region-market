@@ -40,7 +40,7 @@ public abstract class Region implements Saveable {
     protected WGRegion region;
     protected World regionworld;
     protected ArrayList<Sign> sellsign;
-    protected ArrayList<Location> builtblocks;
+    protected HashSet<Integer> builtblocks;
     protected Price price;
     protected boolean sold;
     protected boolean autoreset;
@@ -73,7 +73,7 @@ public abstract class Region implements Saveable {
         this.autoreset = autoreset;
         this.isDoBlockReset = doBlockReset;
         this.lastreset = lastreset;
-        this.builtblocks = new ArrayList<Location>();
+        this.builtblocks = new HashSet<>();
         this.isHotel = isHotel;
         this.teleportLocation = teleportLoc;
         this.subregions = subregions;
@@ -101,7 +101,7 @@ public abstract class Region implements Saveable {
                     int y = Integer.parseInt(lines[2]);
                     int z = Integer.parseInt(lines[3]);
                     Location loc = new Location(Bukkit.getWorld(lines[0]), x, y, z);
-                    builtblocks.add(loc);
+                    builtblocks.add(loc.hashCode());
                 }
                 reader.close();
                 filereader.close();
@@ -111,7 +111,7 @@ public abstract class Region implements Saveable {
                 e.printStackTrace();
             }
         } else {
-            this.builtblocks = new ArrayList<Location>();
+            this.builtblocks = new HashSet<>();
         }
     }
 
@@ -181,15 +181,7 @@ public abstract class Region implements Saveable {
     }
 
     public void addBuiltBlock(Location loc) {
-        boolean contains = false;
-        for(Location bbloc : this.builtblocks) {
-            if((bbloc.getBlockX() == loc.getBlockX()) && (bbloc.getBlockY() == loc.getBlockY()) && (bbloc.getBlockZ() == loc.getBlockZ())) {
-                contains = true;
-                break;
-            }
-        }
-        if(!contains) {
-            this.builtblocks.add(loc);
+        if(this.builtblocks.add(loc.hashCode())) {
             try {
                 File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
                 File builtblocksdic = new File(pluginfolder + "/schematics/" + this.regionworld.getName() + "/" + region.getId() + "--builtblocks.schematic");
@@ -376,7 +368,7 @@ public abstract class Region implements Saveable {
         File builtblocksdic = new File(pluginfolder + "/schematics/" + this.regionworld.getName() + "/" + region.getId() + "--builtblocks.schematic");
         if(builtblocksdic.exists()){
             builtblocksdic.delete();
-            this.builtblocks = new ArrayList<>();
+            this.builtblocks = new HashSet<>();
         }
     }
 
@@ -616,12 +608,7 @@ public abstract class Region implements Saveable {
 
     public boolean allowBlockBreak(Location breakloc) {
         if(this.isHotel) {
-            for (int i = 0; i < this.builtblocks.size(); i++) {
-                if (this.builtblocks.get(i).distance(breakloc) < 1) {
-                    return true;
-                }
-            }
-            return false;
+            return this.builtblocks.contains(breakloc.hashCode());
         }
         return true;
     }

@@ -50,6 +50,10 @@
             <id>bungeecord-repo</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </repository>
+        <repository>
+            <id>maven-central</id>
+            <url>http://central.maven.org/maven2</url>
+        </repository>
     </repositories>
 
 </project>

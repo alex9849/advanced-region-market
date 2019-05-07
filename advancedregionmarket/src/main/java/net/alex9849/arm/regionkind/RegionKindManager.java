@@ -1,8 +1,6 @@
 package net.alex9849.arm.regionkind;
 
-import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.util.YamlFileManager;
-import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -66,14 +64,14 @@ public class RegionKindManager extends YamlFileManager<RegionKind> {
 
     @Override
     public void saveObjectToYamlObject(RegionKind regionKind, YamlConfiguration yamlConfiguration) {
-        yamlConfiguration.set("RegionKinds." + regionKind.getName(), regionKind.toConfigureationSection());
+        yamlConfiguration.set("RegionKinds." + regionKind.getName(), regionKind.toConfigurationSection());
     }
 
     @Override
     public void writeStaticSettings(YamlConfiguration yamlConfiguration) {
-        yamlConfiguration.set("DefaultRegionKind", RegionKind.DEFAULT.toConfigureationSection());
+        yamlConfiguration.set("DefaultRegionKind", RegionKind.DEFAULT.toConfigurationSection());
         RegionKind.DEFAULT.setSaved();
-        yamlConfiguration.set("SubregionRegionKind", RegionKind.SUBREGION.toConfigureationSection());
+        yamlConfiguration.set("SubregionRegionKind", RegionKind.SUBREGION.toConfigurationSection());
         RegionKind.SUBREGION.setSaved();
     }
 

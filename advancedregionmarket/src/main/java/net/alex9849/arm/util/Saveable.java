@@ -4,7 +4,7 @@ import org.bukkit.configuration.ConfigurationSection;
 
 public interface Saveable {
 
-    public ConfigurationSection toConfigureationSection();
+    public ConfigurationSection toConfigurationSection();
 
     public void queueSave();
 

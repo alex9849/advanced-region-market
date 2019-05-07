@@ -374,7 +374,7 @@ public class RegionManager extends YamlFileManager<Region> {
 
     @Override
     public void saveObjectToYamlObject(Region region, YamlConfiguration yamlConfiguration) {
-        yamlConfiguration.set("Regions." + region.getRegionworld().getName() + "." + region.getRegion().getId(), region.toConfigureationSection());
+        yamlConfiguration.set("Regions." + region.getRegionworld().getName() + "." + region.getRegion().getId(), region.toConfigurationSection());
     }
 
     @Override

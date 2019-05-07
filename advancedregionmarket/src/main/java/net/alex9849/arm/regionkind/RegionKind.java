@@ -136,7 +136,7 @@ public class RegionKind implements Saveable {
     }
 
     @Override
-    public ConfigurationSection toConfigureationSection() {
+    public ConfigurationSection toConfigurationSection() {
         ConfigurationSection confSection = new YamlConfiguration();
         confSection.set("item", this.getMaterial().toString());
         confSection.set("displayName", this.getRawDisplayName());

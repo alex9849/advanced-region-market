@@ -7,7 +7,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
 
 import java.io.File;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -65,14 +64,14 @@ public class EntityLimitGroupManager extends YamlFileManager<EntityLimitGroup> {
 
     @Override
     public void saveObjectToYamlObject(EntityLimitGroup entityLimitGroup, YamlConfiguration yamlConfiguration) {
-        yamlConfiguration.set("EntityLimits." + entityLimitGroup.getName(), entityLimitGroup.toConfigureationSection());
+        yamlConfiguration.set("EntityLimits." + entityLimitGroup.getName(), entityLimitGroup.toConfigurationSection());
     }
 
     @Override
     public void writeStaticSettings(YamlConfiguration yamlConfiguration) {
-        yamlConfiguration.set("DefaultEntityLimit", EntityLimitGroup.DEFAULT.toConfigureationSection());
+        yamlConfiguration.set("DefaultEntityLimit", EntityLimitGroup.DEFAULT.toConfigurationSection());
         EntityLimitGroup.DEFAULT.setSaved();
-        yamlConfiguration.set("SubregionEntityLimit", EntityLimitGroup.SUBREGION.toConfigureationSection());
+        yamlConfiguration.set("SubregionEntityLimit", EntityLimitGroup.SUBREGION.toConfigurationSection());
         EntityLimitGroup.SUBREGION.setSaved();
     }
 

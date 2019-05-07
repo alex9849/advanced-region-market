@@ -5,7 +5,6 @@ import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
-import net.alex9849.arm.events.RegionEvent;
 import net.alex9849.arm.events.ResetBlocksEvent;
 import net.alex9849.arm.events.UnsellRegionEvent;
 import net.alex9849.arm.events.UpdateRegionEvent;
@@ -18,8 +17,6 @@ import net.alex9849.exceptions.InputException;
 import net.alex9849.exceptions.SchematicNotFoundException;
 import net.alex9849.inter.WGRegion;
 import org.bukkit.*;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
@@ -889,7 +886,7 @@ public abstract class Region implements Saveable {
         return this.extraEntitys;
     }
 
-    public ConfigurationSection toConfigureationSection() {
+    public ConfigurationSection toConfigurationSection() {
         YamlConfiguration yamlConfiguration = new YamlConfiguration();
         yamlConfiguration.set("sold", this.isSold());
         yamlConfiguration.set("isHotel", this.isHotel());
@@ -937,7 +934,7 @@ public abstract class Region implements Saveable {
                 yamlConfiguration.set("teleportLoc", null);
             }
             for(Region subregion : this.getSubregions()) {
-                yamlConfiguration.set("subregions." + subregion.getRegion().getId(), subregion.toConfigureationSection());
+                yamlConfiguration.set("subregions." + subregion.getRegion().getId(), subregion.toConfigurationSection());
             }
         }
         return yamlConfiguration;

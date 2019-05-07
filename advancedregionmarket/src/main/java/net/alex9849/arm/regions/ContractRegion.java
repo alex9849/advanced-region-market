@@ -483,8 +483,8 @@ public class ContractRegion extends Region {
         this.payedTill = payedTill;
     }
 
-    public ConfigurationSection toConfigureationSection() {
-        ConfigurationSection yamlConfiguration = super.toConfigureationSection();
+    public ConfigurationSection toConfigurationSection() {
+        ConfigurationSection yamlConfiguration = super.toConfigurationSection();
         if(this.getPriceObject().isAutoPrice()) {
             yamlConfiguration.set("extendTime", null);
         } else {

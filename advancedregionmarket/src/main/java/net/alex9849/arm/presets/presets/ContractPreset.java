@@ -133,8 +133,8 @@ public class ContractPreset extends Preset {
     }
 
     @Override
-    public ConfigurationSection toConfigureationSection() {
-        ConfigurationSection section = super.toConfigureationSection();
+    public ConfigurationSection toConfigurationSection() {
+        ConfigurationSection section = super.toConfigurationSection();
         section.set("hasExtend", this.hasExtend());
         section.set("extendTime", this.getExtend());
         return section;

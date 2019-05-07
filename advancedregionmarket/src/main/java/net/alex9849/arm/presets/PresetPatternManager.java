@@ -173,11 +173,11 @@ public class PresetPatternManager extends YamlFileManager<Preset> {
     @Override
     public void saveObjectToYamlObject(Preset preset, YamlConfiguration yamlConfiguration) {
         if(preset instanceof SellPreset) {
-            yamlConfiguration.set(PresetType.SELLPRESET.getName() + "." + preset.getName(), preset.toConfigureationSection());
+            yamlConfiguration.set(PresetType.SELLPRESET.getName() + "." + preset.getName(), preset.toConfigurationSection());
         } else if (preset instanceof RentPreset) {
-            yamlConfiguration.set(PresetType.RENTPRESET.getName() + "." + preset.getName(), preset.toConfigureationSection());
+            yamlConfiguration.set(PresetType.RENTPRESET.getName() + "." + preset.getName(), preset.toConfigurationSection());
         } else if (preset instanceof ContractPreset) {
-            yamlConfiguration.set(PresetType.CONTRACTPRESET.getName() + "." + preset.getName(), preset.toConfigureationSection());
+            yamlConfiguration.set(PresetType.CONTRACTPRESET.getName() + "." + preset.getName(), preset.toConfigurationSection());
         }
     }
 

@@ -215,7 +215,7 @@ public class EntityLimitGroup implements Saveable {
     }
 
     @Override
-    public ConfigurationSection toConfigureationSection() {
+    public ConfigurationSection toConfigurationSection() {
         YamlConfiguration confSection = new YamlConfiguration();
         int softLimit = this.getSoftLimit(0);
         if(softLimit == Integer.MAX_VALUE) {

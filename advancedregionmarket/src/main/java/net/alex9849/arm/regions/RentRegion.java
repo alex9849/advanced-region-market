@@ -516,8 +516,8 @@ public class RentRegion extends Region {
         return SellType.RENT;
     }
 
-    public ConfigurationSection toConfigureationSection() {
-        ConfigurationSection yamlConfiguration = super.toConfigureationSection();
+    public ConfigurationSection toConfigurationSection() {
+        ConfigurationSection yamlConfiguration = super.toConfigurationSection();
         yamlConfiguration.set("payedTill", this.getPayedTill());
         if(this.getPriceObject().isAutoPrice()) {
             yamlConfiguration.set("maxRentTime", null);

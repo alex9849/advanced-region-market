@@ -231,7 +231,7 @@ public abstract class Preset implements Saveable {
     public abstract Region generateRegion(WGRegion wgRegion, World world, CommandSender sender, List<Sign> signs);
 
     @Override
-    public ConfigurationSection toConfigureationSection() {
+    public ConfigurationSection toConfigurationSection() {
         ConfigurationSection section = new YamlConfiguration();
         section.set("hasPrice", this.hasPrice());
         section.set("price", this.getPrice());

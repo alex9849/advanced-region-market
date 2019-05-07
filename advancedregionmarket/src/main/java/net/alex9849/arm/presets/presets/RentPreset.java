@@ -169,8 +169,8 @@ public class RentPreset extends Preset {
     }
 
     @Override
-    public ConfigurationSection toConfigureationSection() {
-        ConfigurationSection section = super.toConfigureationSection();
+    public ConfigurationSection toConfigurationSection() {
+        ConfigurationSection section = super.toConfigurationSection();
         section.set("hasMaxRentTime", this.hasMaxRentTime());
         section.set("maxRentTime", this.getMaxRentTime());
         section.set("hasExtendPerClick", this.hasExtendPerClick());

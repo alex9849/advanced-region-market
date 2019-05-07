@@ -2,7 +2,7 @@ name: AdvancedRegionMarket
 version: 1.8.1
 main: net.alex9849.arm.AdvancedRegionMarket
 depend: [WorldGuard, WorldEdit, Vault]
-softdepend: [Multiverse-Core, FastAsyncWorldEdit]
+softdepend: [MultiWorld, Multiverse-Core, FastAsyncWorldEdit]
 authors:
    - alex9849
 api-version: 1.13

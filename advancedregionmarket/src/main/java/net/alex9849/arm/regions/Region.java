@@ -669,13 +669,17 @@ public abstract class Region implements Saveable {
     }
 
     private String getOwnerName() {
-        LinkedList<UUID> ownerlist = new LinkedList<>(this.getRegion().getOwners());
+        List<UUID> ownerlist = new ArrayList<>(this.getRegion().getOwners());
         String ownername;
         if(ownerlist.size() < 1){
             ownername = "Unknown";
         } else {
             OfflinePlayer owner = Bukkit.getOfflinePlayer(ownerlist.get(0));
             ownername = owner.getName();
+
+            if(ownername == null) {
+                ownername = "Unknown";
+            }
         }
         return ownername;
     }

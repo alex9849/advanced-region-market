@@ -129,10 +129,6 @@ public class ContractRegion extends Region {
 
     @Override
     protected void updateSignText(Sign mysign) {
-        if((mysign.getWorld() == null) || (!mysign.getWorld().isChunkLoaded(mysign.getLocation().getBlockX() / 16, mysign.getLocation().getBlockZ() / 16))) {
-            return;
-        }
-
         if (this.sold) {
 
             String line1 = this.getConvertedMessage(Messages.CONTRACT_SOLD_SIGN1);

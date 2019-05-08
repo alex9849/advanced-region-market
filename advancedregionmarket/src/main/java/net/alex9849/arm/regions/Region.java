@@ -263,13 +263,16 @@ public abstract class Region implements Saveable {
     public void updateSigns() {
         for (int i = 0; i < this.sellsign.size(); i++) {
             Location loc = new Location(this.sellsign.get(i).getLocation().getWorld(), this.sellsign.get(i).getLocation().getBlockX(), this.sellsign.get(i).getLocation().getBlockY(), this.sellsign.get(i).getLocation().getBlockZ());
-            if (loc.getBlock().getType() != this.sellsign.get(i).getType()) {
-                loc.getBlock().setType(this.sellsign.get(i).getType());
-                Sign locSign = (Sign) loc.getBlock().getState();
-                locSign.setData(this.sellsign.get(i).getData());
-                this.sellsign.set(i, locSign);
+            if((loc.getWorld() != null) && (loc.getWorld().isChunkLoaded(loc.getBlockX() / 16, loc.getBlockZ() / 16))) {
+
+                if(loc.getBlock().getType() != this.sellsign.get(i).getType()) {
+                    loc.getBlock().setType(this.sellsign.get(i).getType());
+                    Sign locSign = (Sign) loc.getBlock().getState();
+                    locSign.setData(this.sellsign.get(i).getData());
+                    this.sellsign.set(i, locSign);
+                }
+                this.updateSignText(this.sellsign.get(i));
             }
-            this.updateSignText(this.sellsign.get(i));
         }
     }
 

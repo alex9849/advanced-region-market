@@ -119,7 +119,9 @@ public class AdvancedRegionMarket extends JavaPlugin {
         loadAutoPrice();
         loadGroups();
         loadGUI();
+        getLogger().log(Level.INFO, "Loading regions and checking if signs are in place! This can take some time...");
         AdvancedRegionMarket.regionManager = new RegionManager(new File(this.getDataFolder() + "/regions.yml"));
+        getLogger().log(Level.INFO, "Regions loaded!");
         loadAutoReset();
         if(!connectSQL()) {
             Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {

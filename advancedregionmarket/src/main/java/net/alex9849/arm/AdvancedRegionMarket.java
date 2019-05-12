@@ -93,6 +93,8 @@ public class AdvancedRegionMarket extends JavaPlugin {
             getLogger().log(Level.INFO, "Please install Vault and a economy Plugin!");
         }
 
+        setupSignDataFactory();
+
         File schematicdic = new File(getDataFolder() + "/schematics");
         if(!schematicdic.exists()){
             schematicdic.mkdirs();
@@ -225,9 +227,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
     }
 
     public static SignDataFactory getSignDataFactory() {
-        if(signDataFactory == null) {
-            AdvancedRegionMarket.setupSignDataFactory();
-        }
         return AdvancedRegionMarket.signDataFactory;
     }
 
@@ -236,10 +235,13 @@ public class AdvancedRegionMarket extends JavaPlugin {
         String serverVersion = Bukkit.getServer().getVersion();
         if(serverVersion.equalsIgnoreCase("1.12") || serverVersion.contains("1.12")) {
             classVersion = "112";
+            Bukkit.getLogger().log(Level.INFO, "Using MC 1.12 sign adapter");
         } else if(serverVersion.equalsIgnoreCase("1.13") || serverVersion.contains("1.13")) {
             classVersion = "113";
+            Bukkit.getLogger().log(Level.INFO, "Using MC 1.13 sign adapter");
         } else {
             classVersion = "114";
+            Bukkit.getLogger().log(Level.INFO, "Using MC 1.14 sign adapter");
         }
 
         try {

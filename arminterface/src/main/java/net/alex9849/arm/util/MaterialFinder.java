@@ -42,7 +42,7 @@ public class MaterialFinder {
     private static Material MAGMA_BLOCK;
 
     static {
-        MaterialFinder.signMaterials = new ArrayList<>();
+        MaterialFinder.signMaterials = new ArrayList<Material>();
         for(Material mat : Material.values()) {
             if(mat.toString().contains("SIGN")) {
                 MaterialFinder.signMaterials.add(mat);

@@ -1,5 +1,6 @@
 package net.alex9849.signs;
 
+import net.alex9849.arm.util.MaterialFinder;
 import org.bukkit.Location;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
@@ -21,9 +22,16 @@ public abstract class SignData {
 
     public abstract void placeSign();
 
-    public abstract Sign getSign();
+    public Sign getSign() {
+        if(!this.isPlaced()) {
+            return null;
+        }
+        return (Sign) this.getSignLoc().getBlock().getState();
+    }
 
-    public abstract boolean isPlaced();
+    public boolean isPlaced() {
+        return MaterialFinder.getSignMaterials().contains(this.signLoc.getBlock().getType());
+    }
 
     public void writeLines(String[] lines) {
         Sign sign = this.getSign();

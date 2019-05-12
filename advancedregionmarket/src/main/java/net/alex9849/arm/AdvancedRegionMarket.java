@@ -21,6 +21,9 @@ import net.alex9849.arm.gui.Gui;
 import net.alex9849.exceptions.CmdSyntaxException;
 import net.alex9849.inter.WorldEditInterface;
 import net.alex9849.inter.WorldGuardInterface;
+import net.alex9849.signs.SignDataFactory;
+import net.alex9849.signs.SignDataFactory112;
+import net.alex9849.signs.SignDataFactory113;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.*;
 import net.alex9849.arm.presets.ActivePresetManager;
@@ -63,6 +66,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
     private static EntityLimitGroupManager entityLimitGroupManager;
     private static RegionManager regionManager;
     private static PresetPatternManager presetPatternManager;
+    private static SignDataFactory signDataFactory;
 
     public void onEnable(){
 
@@ -221,6 +225,35 @@ public class AdvancedRegionMarket extends JavaPlugin {
 
     public static PresetPatternManager getPresetPatternManager() {
         return AdvancedRegionMarket.presetPatternManager;
+    }
+
+    public static SignDataFactory getSignDataFactory() {
+        if(signDataFactory == null) {
+            AdvancedRegionMarket.setupSignDataFactory();
+        }
+        return AdvancedRegionMarket.signDataFactory;
+    }
+
+    private static void setupSignDataFactory() {
+        String classVersion = "";
+        String serverVersion = Bukkit.getServer().getVersion();
+        if(serverVersion.equalsIgnoreCase("1.12") || serverVersion.contains("1.12")) {
+            classVersion = "112";
+        } else if(serverVersion.equalsIgnoreCase("1.13") || serverVersion.contains("1.13")) {
+            classVersion = "113";
+        } else {
+            classVersion = "114";
+        }
+
+        try {
+            Class<?> signDataFactoryClass = Class.forName("net.alex9849.signs.SignDataFactory" + classVersion);
+            if(SignDataFactory.class.isAssignableFrom(signDataFactoryClass)) {
+                AdvancedRegionMarket.signDataFactory = (SignDataFactory) signDataFactoryClass.newInstance();
+            }
+        } catch (Exception e) {
+            Bukkit.getLogger().log(Level.WARNING, "Could not setup SignDataFactory! (Is your server compatible? Compatible versions: 1.12, 1.13, 1.14)");
+        }
+
     }
 
     public static RegionKindManager getRegionKindManager() {

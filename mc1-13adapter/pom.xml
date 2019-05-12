@@ -13,6 +13,11 @@
     <packaging>jar</packaging>
     <version>1.0</version>
 
+    <properties>
+        <maven.compiler.source>6</maven.compiler.source>
+        <maven.compiler.target>1.6</maven.compiler.target>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>net.alex9849</groupId>

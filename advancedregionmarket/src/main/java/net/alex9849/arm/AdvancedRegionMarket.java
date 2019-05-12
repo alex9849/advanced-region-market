@@ -778,6 +778,10 @@ public class AdvancedRegionMarket extends JavaPlugin {
                 getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.8.1..");
                 updateTo1p81(pluginConfig);
             }
+            if(version < 1.81) {
+                getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.8.3..");
+                updateTo1p83(pluginConfig);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -1141,6 +1145,54 @@ public class AdvancedRegionMarket extends JavaPlugin {
         regionConf.save(this.getDataFolder() + "/regions.yml");
 
         pluginConfig.set("Version", 1.81);
+        saveConfig();
+    }
+
+    private void updateTo1p83(FileConfiguration pluginConfig) throws IOException {
+        File regionConfDic = new File(this.getDataFolder() + "/regions.yml");
+        YamlConfiguration regionConf = YamlConfiguration.loadConfiguration(regionConfDic);
+
+        if(regionConf.get("Regions") != null) {
+            ConfigurationSection mainSection = regionConf.getConfigurationSection("Regions");
+            List<String> worlds = new ArrayList<String>(mainSection.getKeys(false));
+            if(worlds != null) {
+                for(String worldString : worlds) {
+                    if(mainSection.get(worldString) != null) {
+                        ConfigurationSection worldSection = mainSection.getConfigurationSection(worldString);
+                        List<String> regions = new ArrayList<String>(worldSection.getKeys(false));
+                        if(regions != null) {
+                            for(String regionname : regions){
+                                ConfigurationSection regionSection = worldSection.getConfigurationSection(regionname);
+                                //SIGNS
+                                List<String> regionsignsloc = regionSection.getStringList("signs");
+                                for(int i = 0; i < regionsignsloc.size(); i++) {
+                                    regionsignsloc.set(i, regionsignsloc.get(i) + ";NORTH");
+                                }
+                                regionSection.set("signs", regionsignsloc);
+
+                                List<Region> subregions = new ArrayList<>();
+                                if (regionSection.getConfigurationSection("subregions") != null) {
+                                    ConfigurationSection subregionsection = regionSection.getConfigurationSection("subregions");
+                                    List<String> subregionIDS = new ArrayList<>((subregionsection).getKeys(false));
+                                    if (subregionIDS != null) {
+                                        for (String subregionName : subregionIDS) {
+                                            List<String> subregionsignsloc = subregionsection.getStringList("signs");
+                                            for(int i = 0; i < subregionsignsloc.size(); i++) {
+                                                subregionsignsloc.set(i, subregionsignsloc.get(i) + ";NORTH");
+                                            }
+                                            subregionsection.set("signs", subregionsignsloc);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        regionConf.save(this.getDataFolder() + "/regions.yml");
+
+        pluginConfig.set("Version", 1.83);
         saveConfig();
     }
 }

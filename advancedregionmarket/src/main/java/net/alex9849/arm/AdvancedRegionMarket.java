@@ -22,8 +22,6 @@ import net.alex9849.exceptions.CmdSyntaxException;
 import net.alex9849.inter.WorldEditInterface;
 import net.alex9849.inter.WorldGuardInterface;
 import net.alex9849.signs.SignDataFactory;
-import net.alex9849.signs.SignDataFactory112;
-import net.alex9849.signs.SignDataFactory113;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.*;
 import net.alex9849.arm.presets.ActivePresetManager;

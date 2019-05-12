@@ -8,6 +8,7 @@ import net.alex9849.arm.regions.price.ContractPrice;
 import net.alex9849.arm.regions.price.RentPrice;
 import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.inter.WGRegion;
+import net.alex9849.signs.SignData;
 import org.bukkit.World;
 import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
@@ -119,7 +120,7 @@ public class ContractPreset extends Preset {
     }
 
     @Override
-    public Region generateRegion(WGRegion wgRegion, World world, CommandSender sender, List<Sign> signs) {
+    public Region generateRegion(WGRegion wgRegion, World world, CommandSender sender, List<SignData> signs) {
 
         ContractRegion contractRegion = new ContractRegion(wgRegion, world, signs, new ContractPrice(AutoPrice.DEFAULT), false, this.isAutoReset(), this.isHotel(), this.isDoBlockReset(), this.getRegionKind(), null, 0, this.isUserResettable(), 1, true, new ArrayList<>(), this.getAllowedSubregions(), this.entityLimitGroup, new HashMap<>(), 0);
         if(this.hasAutoPrice()) {

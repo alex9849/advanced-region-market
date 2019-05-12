@@ -7,6 +7,7 @@ import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.util.Saveable;
 import net.alex9849.inter.WGRegion;
+import net.alex9849.signs.SignData;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
@@ -228,7 +229,7 @@ public abstract class Preset implements Saveable {
 
     public abstract boolean canPriceLineBeLetEmpty();
 
-    public abstract Region generateRegion(WGRegion wgRegion, World world, CommandSender sender, List<Sign> signs);
+    public abstract Region generateRegion(WGRegion wgRegion, World world, CommandSender sender, List<SignData> signs);
 
     @Override
     public ConfigurationSection toConfigurationSection() {

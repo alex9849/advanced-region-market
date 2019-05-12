@@ -28,4 +28,9 @@ public class SignDataFactory113 extends SignDataFactory {
 
         return new SignData113(loc, signAttachment, blockFace);
     }
+
+    @Override
+    public SignData generateSignData(Location loc, SignAttachment signAttachment, BlockFace blockFace) {
+        return new SignData113(loc, signAttachment, blockFace);
+    }
 }

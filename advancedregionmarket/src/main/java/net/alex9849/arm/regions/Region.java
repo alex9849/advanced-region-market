@@ -16,6 +16,8 @@ import net.alex9849.arm.util.Saveable;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.exceptions.SchematicNotFoundException;
 import net.alex9849.inter.WGRegion;
+import net.alex9849.signs.SignData;
+import net.alex9849.signs.SignDataFactory;
 import org.bukkit.*;
 import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
@@ -36,7 +38,7 @@ public abstract class Region implements Saveable {
 
     protected WGRegion region;
     protected World regionworld;
-    protected ArrayList<Sign> sellsign;
+    protected ArrayList<SignData> sellsign;
     protected HashSet<Integer> builtblocks;
     protected Price price;
     protected boolean sold;
@@ -57,12 +59,12 @@ public abstract class Region implements Saveable {
     private int extraTotalEntitys;
     Integer m2Amount;
 
-    public Region(WGRegion region, World regionworld, List<Sign> sellsign, Price price, Boolean sold, Boolean autoreset,
+    public Region(WGRegion region, World regionworld, List<SignData> sellsign, Price price, Boolean sold, Boolean autoreset,
                   Boolean isHotel, Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset,
                   boolean isUserResettable, List<Region> subregions, int allowedSubregions, EntityLimitGroup entityLimitGroup,
                   HashMap<EntityType, Integer> extraEntitys, int boughtExtraTotalEntitys){
         this.region = region;
-        this.sellsign = new ArrayList<Sign>(sellsign);
+        this.sellsign = new ArrayList<SignData>(sellsign);
         this.sold = sold;
         this.price = price;
         this.regionworld = regionworld;
@@ -211,11 +213,14 @@ public abstract class Region implements Saveable {
         this.queueSave();
     }
 
-    public void addSign(Location loc){
-        Sign newsign = (Sign) loc.getBlock().getState();
-        sellsign.add(newsign);
+    public void addSign(SignData signData){
+        if(signData == null) {
+            return;
+        }
+
+        sellsign.add(signData);
         this.queueSave();
-        this.updateSignText(newsign);
+        this.updateSignText(signData);
         this.getRegionworld().save();
 
     }
@@ -226,7 +231,7 @@ public abstract class Region implements Saveable {
 
     public boolean removeSign(Location loc, Player destroyer){
         for(int i = 0; i < this.sellsign.size(); i++){
-            if(this.sellsign.get(i).getWorld().getName().equals(loc.getWorld().getName())){
+            if(this.sellsign.get(i).getLocation().getWorld().getName().equals(loc.getWorld().getName())){
                 if(this.sellsign.get(i).getLocation().distance(loc) == 0){
                     this.sellsign.remove(i);
                     if(destroyer != null) {
@@ -261,17 +266,13 @@ public abstract class Region implements Saveable {
     }
 
     public void updateSigns() {
-        for (int i = 0; i < this.sellsign.size(); i++) {
-            Location loc = new Location(this.sellsign.get(i).getLocation().getWorld(), this.sellsign.get(i).getLocation().getBlockX(), this.sellsign.get(i).getLocation().getBlockY(), this.sellsign.get(i).getLocation().getBlockZ());
-            if((loc.getWorld() != null) && (loc.getWorld().isChunkLoaded(loc.getBlockX() / 16, loc.getBlockZ() / 16))) {
 
-                if(loc.getBlock().getType() != this.sellsign.get(i).getType()) {
-                    loc.getBlock().setType(this.sellsign.get(i).getType());
-                    Sign locSign = (Sign) loc.getBlock().getState();
-                    locSign.setData(this.sellsign.get(i).getData());
-                    this.sellsign.set(i, locSign);
+        for(SignData signData : this.sellsign) {
+            if(signData.isChunkLoaded()) {
+                if (!signData.isPlaced()) {
+                    signData.placeSign();
                 }
-                this.updateSignText(this.sellsign.get(i));
+                this.updateSignText(signData);
             }
         }
     }
@@ -286,7 +287,7 @@ public abstract class Region implements Saveable {
 
     public boolean hasSign(Sign sign){
         for(int i = 0; i < this.sellsign.size(); i++){
-            if(this.sellsign.get(i).getWorld().getName().equalsIgnoreCase(sign.getWorld().getName())){
+            if(this.sellsign.get(i).getLocation().getWorld().getName().equalsIgnoreCase(sign.getWorld().getName())){
                 if(this.sellsign.get(i).getLocation().distance(sign.getLocation()) == 0){
                     return true;
                 }
@@ -467,8 +468,8 @@ public abstract class Region implements Saveable {
 
     public void teleport(Player player, boolean teleportToSign) throws InputException {
         if(teleportToSign) {
-            for(Sign sign : this.sellsign) {
-                if(Teleporter.teleport(player, sign)) {
+            for(SignData signData : this.sellsign) {
+                if(Teleporter.teleport(player, signData)) {
                     return;
                 }
             }
@@ -555,13 +556,13 @@ public abstract class Region implements Saveable {
     }
 
     public void writeSigns(){
-        for (int i = 0; i < this.sellsign.size(); i++) {
-            this.updateSignText(this.sellsign.get(i));
+        for (SignData signData : this.sellsign) {
+            this.updateSignText(signData);
         }
     }
 
     public abstract void setSold(OfflinePlayer player);
-    protected abstract void updateSignText(Sign mysign);
+    protected abstract void updateSignText(SignData signData);
     public abstract void buy(Player player) throws InputException;
     public abstract void userSell(Player player);
     public abstract double getPaybackMoney();
@@ -633,8 +634,8 @@ public abstract class Region implements Saveable {
         this.extraEntitys.clear();
         this.extraTotalEntitys = 0;
 
-        for(int i = 0; i < this.sellsign.size(); i++){
-            this.updateSignText(this.sellsign.get(i));
+        for(SignData signData : this.sellsign){
+            this.updateSignText(signData);
         }
         this.queueSave();
     }
@@ -656,7 +657,7 @@ public abstract class Region implements Saveable {
         return subregions;
     }
 
-    protected List<Sign> getSellSigns() {
+    protected List<SignData> getSellSigns() {
         return this.sellsign;
     }
 
@@ -902,10 +903,10 @@ public abstract class Region implements Saveable {
             yamlConfiguration.set("price", this.getPrice());
         }
         List<String> signs = new ArrayList<>();
-        for(Sign sign : this.getSellSigns()) {
-            Location signloc = sign.getLocation();
+        for(SignData signData : this.getSellSigns()) {
+            Location signloc = signData.getLocation();
             String wallsignIndicator = "";
-            if(sign.getType().toString().contains("WALL_SIGN")) {
+            if(signData.isWallSign()) {
                 wallsignIndicator = "WALL";
             } else {
                 wallsignIndicator = "GROUND";

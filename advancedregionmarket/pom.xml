@@ -8,7 +8,7 @@
         <version>1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
     <version>1.0</version>
 
     <artifactId>advancedregionmarket</artifactId>
@@ -185,6 +185,19 @@
         </dependency>
         <dependency>
             <groupId>net.alex9849</groupId>
+            <artifactId>we6faweadapter</artifactId>
+            <version>1.0</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.bstats</groupId>
+            <artifactId>bstats-bukkit</artifactId>
+            <version>1.4</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.alex9849</groupId>
             <artifactId>mc1-12adapter</artifactId>
             <version>1.0</version>
             <type>jar</type>
@@ -199,23 +212,11 @@
         </dependency>
         <dependency>
             <groupId>net.alex9849</groupId>
-            <artifactId>we6faweadapter</artifactId>
+            <artifactId>mc1-14adapter</artifactId>
             <version>1.0</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
-        <dependency>
-            <groupId>org.bstats</groupId>
-            <artifactId>bstats-bukkit</artifactId>
-            <version>1.4</version>
-            <scope>compile</scope>
-        </dependency>
-      <!--  <dependency>
-            <groupId>org.xerial</groupId>
-            <artifactId>sqlite-jdbc</artifactId>
-            <version>3.23.1</version>
-            <scope>compile</scope>
-        </dependency> -->
     </dependencies>
 
 </project>

@@ -13,7 +13,7 @@ public class SignData112 extends SignData {
     @Override
     public void placeSign() {
         Material signMaterial;
-        Location signLoc = this.getSignLoc();
+        Location signLoc = this.getLocation();
 
         if(this.isWallSign()) {
             signMaterial = MaterialFinder.getWallSign();

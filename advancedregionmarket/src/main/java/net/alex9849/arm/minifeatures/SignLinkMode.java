@@ -7,6 +7,7 @@ import net.alex9849.arm.util.MaterialFinder;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.inter.WGRegion;
+import net.alex9849.signs.SignData;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -115,11 +116,15 @@ public class SignLinkMode implements Listener {
         if(AdvancedRegionMarket.getRegionManager().getRegion(sign) != null) {
             throw new InputException(this.player, Messages.SIGN_LINK_MODE_SIGN_BELONGS_TO_ANOTHER_REGION);
         }
-        List<Sign> signs = new ArrayList<>();
-        signs.add(this.sign);
+        List<SignData> signs = new ArrayList<>();
+        SignData signData = AdvancedRegionMarket.getSignDataFactory().generateSignData(this.sign.getLocation());
+        if(signData == null) {
+            throw new InputException(this.player, "Could not import sign!");
+        }
+        signs.add(signData);
         Region existingRegion = AdvancedRegionMarket.getRegionManager().getRegion(wgRegion);
         if(existingRegion != null) {
-            existingRegion.addSign(this.sign.getLocation());
+            existingRegion.addSign(signData);
             existingRegion.queueSave();
             this.player.sendMessage(Messages.PREFIX + Messages.SIGN_ADDED_TO_REGION);
         } else {

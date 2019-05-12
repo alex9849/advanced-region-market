@@ -26,7 +26,7 @@ public abstract class SignData {
         if(!this.isPlaced()) {
             return null;
         }
-        return (Sign) this.getSignLoc().getBlock().getState();
+        return (Sign) this.getLocation().getBlock().getState();
     }
 
     public boolean isPlaced() {
@@ -47,7 +47,7 @@ public abstract class SignData {
         sign.update(false, false);
     }
 
-    public Location getSignLoc() {
+    public Location getLocation() {
         return this.signLoc;
     }
 

@@ -1,5 +1,6 @@
 package net.alex9849.arm.subregions;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
@@ -11,6 +12,7 @@ import net.alex9849.arm.regions.*;
 import net.alex9849.arm.regions.price.ContractPrice;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.regions.price.RentPrice;
+import net.alex9849.signs.SignData;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -53,8 +55,12 @@ public class SubSignCreationListener implements Listener {
                     //TODO Change message
                     throw new InputException(event.getPlayer(), "Use a number as price in line 4");
                 }
-                List<Sign> signList = new ArrayList<>();
-                signList.add((Sign) event.getBlock().getState());
+                List<SignData> signList = new ArrayList<>();
+                SignData signData = AdvancedRegionMarket.getSignDataFactory().generateSignData(event.getBlock().getLocation());
+                if(signData == null) {
+                    throw new InputException(event.getPlayer(), "Could not import sign!");
+                }
+                signList.add(signData);
                 Price subregPrice = new Price(price);
                 SellRegion sellRegion = new SellRegion(this.subRegionCreator.getSubRegion(), this.subRegionCreator.getParentRegion().getRegionworld(), signList, subregPrice, false, ArmSettings.isSubregionAutoReset(), false, ArmSettings.isSubregionBlockReset(), RegionKind.SUBREGION, null, 1, ArmSettings.isAllowSubRegionUserReset(), new ArrayList<Region>(), 0, EntityLimitGroup.SUBREGION, new HashMap<>(), 0);
                 this.subRegionCreator.saveWorldGuardRegion();
@@ -90,8 +96,12 @@ public class SubSignCreationListener implements Listener {
                     return;
                 }
 
-                List<Sign> signList = new ArrayList<>();
-                signList.add((Sign) event.getBlock().getState());
+                List<SignData> signList = new ArrayList<>();
+                SignData signData = AdvancedRegionMarket.getSignDataFactory().generateSignData(event.getBlock().getLocation());
+                if(signData == null) {
+                    throw new InputException(event.getPlayer(), "Could not import sign!");
+                }
+                signList.add(signData);
                 RentPrice rentPrice = new RentPrice(price, extendPerClick, maxRentTime);
                 RentRegion rentRegion = new RentRegion(this.subRegionCreator.getSubRegion(), this.subRegionCreator.getParentRegion().getRegionworld(), signList, rentPrice, false, ArmSettings.isSubregionAutoReset(), false, ArmSettings.isSubregionBlockReset(), RegionKind.SUBREGION, null, 1, ArmSettings.isAllowSubRegionUserReset(), 0, new ArrayList<Region>(), 0, EntityLimitGroup.SUBREGION, new HashMap<>(), 0);
                 this.subRegionCreator.saveWorldGuardRegion();
@@ -124,8 +134,12 @@ public class SubSignCreationListener implements Listener {
                     event.getPlayer().sendMessage("<Price>;<Extendtime (ex.: 5d)>");
                     return;
                 }
-                List<Sign> signList = new ArrayList<>();
-                signList.add((Sign) event.getBlock().getState());
+                List<SignData> signList = new ArrayList<>();
+                SignData signData = AdvancedRegionMarket.getSignDataFactory().generateSignData(event.getBlock().getLocation());
+                if(signData == null) {
+                    throw new InputException(event.getPlayer(), "Could not import sign!");
+                }
+                signList.add(signData);
                 ContractPrice contractPrice = new ContractPrice(price, extendtime);
                 ContractRegion contractRegion = new ContractRegion(this.subRegionCreator.getSubRegion(), this.subRegionCreator.getParentRegion().getRegionworld(), signList, contractPrice, false, ArmSettings.isSubregionAutoReset(), false, ArmSettings.isSubregionBlockReset(), RegionKind.SUBREGION, null, 1, ArmSettings.isAllowSubRegionUserReset(), 0, false, new ArrayList<Region>(), 0, EntityLimitGroup.SUBREGION, new HashMap<>(), 0);
                 this.subRegionCreator.saveWorldGuardRegion();

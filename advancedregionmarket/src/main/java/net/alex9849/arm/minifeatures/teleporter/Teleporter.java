@@ -6,6 +6,7 @@ import net.alex9849.arm.Permission;
 import net.alex9849.arm.util.MaterialFinder;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.regions.Region;
+import net.alex9849.signs.SignData;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -72,7 +73,7 @@ public class Teleporter {
         teleport(player, location, "", true);
     }
 
-    public static boolean teleport(Player player, Sign sign) throws InputException {
+    public static boolean teleport(Player player, SignData sign) throws InputException {
         for(int y = sign.getLocation().getBlockY(); ((y > 1) && (y > (sign.getLocation().getBlockY() - 10))); y--) {
             Location newLoc = new Location(sign.getLocation().getWorld(), sign.getLocation().getBlockX(), y, sign.getLocation().getBlockZ());
             if(isSaveTeleport(newLoc)) {

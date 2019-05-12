@@ -2,6 +2,7 @@ package net.alex9849.signs;
 
 import net.alex9849.arm.util.MaterialFinder;
 import org.bukkit.Location;
+import org.bukkit.block.BlockFace;
 import org.bukkit.material.Sign;
 
 public class SignDataFactory112 extends SignDataFactory {
@@ -21,5 +22,10 @@ public class SignDataFactory112 extends SignDataFactory {
         }
 
         return new SignData112(loc, signAttachment, sign.getFacing());
+    }
+
+    @Override
+    public SignData generateSignData(Location loc, SignAttachment signAttachment, BlockFace blockFace) {
+        return new SignData112(loc, signAttachment, blockFace);
     }
 }

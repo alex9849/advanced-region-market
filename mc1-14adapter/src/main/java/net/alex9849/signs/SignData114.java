@@ -15,7 +15,7 @@ public class SignData114 extends SignData {
 
     public void placeSign() {
         Material signMaterial;
-        Location signLoc = this.getSignLoc();
+        Location signLoc = this.getLocation();
 
         if(this.isWallSign()) {
             signMaterial = MaterialFinder.getWallSign();

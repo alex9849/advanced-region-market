@@ -15,6 +15,7 @@ import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.regions.price.RentPrice;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.inter.WGRegion;
+import net.alex9849.signs.SignData;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -36,7 +37,7 @@ public class RentRegion extends Region {
     private static long expirationWarningTime;
     private static Boolean sendExpirationWarning;
 
-    public RentRegion(WGRegion region, World regionworld, List<Sign> rentsign, RentPrice rentPrice, Boolean sold, Boolean autoreset, Boolean allowOnlyNewBlocks,
+    public RentRegion(WGRegion region, World regionworld, List<SignData> rentsign, RentPrice rentPrice, Boolean sold, Boolean autoreset, Boolean allowOnlyNewBlocks,
                       Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, boolean isUserResettable, long payedTill,
                       List<Region> subregions, int allowedSubregions, EntityLimitGroup entityLimitGroup, HashMap<EntityType, Integer> extraEntitys,
                       int boughtExtraTotalEntitys) {
@@ -50,37 +51,22 @@ public class RentRegion extends Region {
     }
 
     @Override
-    protected void updateSignText(Sign mysign){
-        if (this.sold){
+    protected void updateSignText(SignData signData){
 
-            String line1 = this.getConvertedMessage(Messages.RENTED_SIGN1);
-
-            String line2 = this.getConvertedMessage(Messages.RENTED_SIGN2);
-
-            String line3 = this.getConvertedMessage(Messages.RENTED_SIGN3);
-
-            String line4 = this.getConvertedMessage(Messages.RENTED_SIGN4);
-
-            mysign.setLine(0, line1);
-            mysign.setLine(1, line2);
-            mysign.setLine(2, line3);
-            mysign.setLine(3, line4);
-            mysign.update(false, false);
-
+        if(this.sold){
+            String[] lines = new String[4];
+            lines[0] = this.getConvertedMessage(Messages.RENTED_SIGN1);
+            lines[1] = this.getConvertedMessage(Messages.RENTED_SIGN2);
+            lines[2] = this.getConvertedMessage(Messages.RENTED_SIGN3);
+            lines[3] = this.getConvertedMessage(Messages.RENTED_SIGN4);
+            signData.writeLines(lines);
         } else {
-            String line1 = this.getConvertedMessage(Messages.RENT_SIGN1);
-
-            String line2 = this.getConvertedMessage(Messages.RENT_SIGN2);
-
-            String line3 = this.getConvertedMessage(Messages.RENT_SIGN3);
-
-            String line4 = this.getConvertedMessage(Messages.RENT_SIGN4);
-
-            mysign.setLine(0, line1);
-            mysign.setLine(1, line2);
-            mysign.setLine(2, line3);
-            mysign.setLine(3, line4);
-            mysign.update(false, false);
+            String[] lines = new String[4];
+            lines[0] = this.getConvertedMessage(Messages.RENT_SIGN1);
+            lines[1] = this.getConvertedMessage(Messages.RENT_SIGN2);
+            lines[2] = this.getConvertedMessage(Messages.RENT_SIGN3);
+            lines[3] = this.getConvertedMessage(Messages.RENT_SIGN4);
+            signData.writeLines(lines);
         }
     }
 

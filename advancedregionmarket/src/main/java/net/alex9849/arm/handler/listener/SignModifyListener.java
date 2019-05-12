@@ -18,6 +18,7 @@ import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.util.MaterialFinder;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.inter.WGRegion;
+import net.alex9849.signs.SignData;
 import org.bukkit.*;
 import org.bukkit.block.Sign;
 import org.bukkit.event.EventHandler;
@@ -30,6 +31,7 @@ import org.bukkit.event.block.SignChangeEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 
 public class SignModifyListener implements Listener {
 
@@ -118,21 +120,25 @@ public class SignModifyListener implements Listener {
                     throw new InputException(sign.getPlayer(), ChatColor.DARK_RED + "Price must be positive!");
                 }
 
+                SignData signData = AdvancedRegionMarket.getSignDataFactory().generateSignData(sign.getBlock().getLocation());
+                if(signData == null) {
+                    throw new InputException(sign.getPlayer(), "Could not import sign!");
+                }
+
                 Region searchregion = AdvancedRegionMarket.getRegionManager().getRegionByNameAndWorld(regionname, worldname);
                 if(searchregion != null) {
                     if(!(searchregion instanceof SellRegion)) {
                         throw new InputException(sign.getPlayer(), "Region already registered as a non-sellregion");
                     }
-                    searchregion.addSign(sign.getBlock().getLocation());
+                    searchregion.addSign(signData);
                     searchregion.queueSave();
                     sign.setCancelled(true);
                     sign.getPlayer().sendMessage(Messages.PREFIX + Messages.SIGN_ADDED_TO_REGION);
                     return;
                 }
 
-
-                LinkedList<Sign> sellsign = new LinkedList<Sign>();
-                sellsign.add((Sign) sign.getBlock().getState());
+                List<SignData> sellsign = new ArrayList<>();
+                sellsign.add(signData);
                 SellRegion addRegion = new SellRegion(region, regionWorld, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,1, userResettable, new ArrayList<Region>(), allowedSubregions, entityLimitGroup, new HashMap<>(), 0);
                 addRegion.createSchematic();
                 AdvancedRegionMarket.getRegionManager().add(addRegion);
@@ -227,20 +233,25 @@ public class SignModifyListener implements Listener {
                     }
                 }
 
+                SignData signData = AdvancedRegionMarket.getSignDataFactory().generateSignData(sign.getBlock().getLocation());
+                if(signData == null) {
+                    throw new InputException(sign.getPlayer(), "Could not import sign!");
+                }
+
                 Region searchregion = AdvancedRegionMarket.getRegionManager().getRegionByNameAndWorld(regionname, worldname);
                 if(searchregion != null) {
                     if(!(searchregion instanceof RentRegion)) {
                         throw new InputException(sign.getPlayer(), "Region already registered as a non-rentregion");
                     }
-                    searchregion.addSign(sign.getBlock().getLocation());
+                    searchregion.addSign(signData);
                     searchregion.queueSave();
                     sign.setCancelled(true);
                     sign.getPlayer().sendMessage(Messages.PREFIX + Messages.SIGN_ADDED_TO_REGION);
                     return;
                 }
 
-                LinkedList<Sign> sellsign = new LinkedList<Sign>();
-                sellsign.add((Sign) sign.getBlock().getState());
+                List<SignData> sellsign = new ArrayList<>();
+                sellsign.add(signData);
 
                 RentRegion addRegion = new RentRegion(region, regionWorld, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,
                         1, userResettable,1, new ArrayList<Region>(), allowedSubregions, entityLimitGroup, new HashMap<>(), 0);
@@ -332,20 +343,24 @@ public class SignModifyListener implements Listener {
                     }
                 }
 
+                SignData signData = AdvancedRegionMarket.getSignDataFactory().generateSignData(sign.getBlock().getLocation());
+                if(signData == null) {
+                    throw new InputException(sign.getPlayer(), "Could not import sign!");
+                }
 
                 Region searchregion = AdvancedRegionMarket.getRegionManager().getRegionByNameAndWorld(regionname, worldname);
                 if(searchregion != null) {
                     if(!(searchregion instanceof ContractRegion)) {
                         throw new InputException(sign.getPlayer(), "Region already registered as a non-contractregion");
                     }
-                    searchregion.addSign(sign.getBlock().getLocation());
+                    searchregion.addSign(signData);
                     searchregion.queueSave();
                     sign.setCancelled(true);
                     sign.getPlayer().sendMessage(Messages.PREFIX + Messages.SIGN_ADDED_TO_REGION);
                     return;
                 }
-                LinkedList<Sign> sellsign = new LinkedList<Sign>();
-                sellsign.add((Sign) sign.getBlock().getState());
+                List<SignData> sellsign = new ArrayList<>();
+                sellsign.add(signData);
 
                 ContractRegion addRegion = new ContractRegion(region, regionWorld, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,
                         1, userResettable, 1, false, new ArrayList<Region>(), allowedSubregions, entityLimitGroup, new HashMap<>(), 0);

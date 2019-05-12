@@ -12,6 +12,7 @@ import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.inter.WGRegion;
+import net.alex9849.signs.SignData;
 import org.bukkit.*;
 import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
@@ -23,7 +24,7 @@ import java.util.*;
 public class SellRegion extends Region {
 
 
-    public SellRegion(WGRegion region, World regionworld, List<Sign> sellsign, Price price, Boolean sold, Boolean autoreset, Boolean allowOnlyNewBlocks,
+    public SellRegion(WGRegion region, World regionworld, List<SignData> sellsign, Price price, Boolean sold, Boolean autoreset, Boolean allowOnlyNewBlocks,
                       Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, boolean isUserResettable, List<Region> subregions,
                       int allowedSubregions, EntityLimitGroup entityLimitGroup, HashMap<EntityType, Integer> extraEntitys, int boughtExtraTotalEntitys) {
         super(region, regionworld, sellsign, price, sold, autoreset,allowOnlyNewBlocks, doBlockReset, regionKind, teleportLoc, lastreset, isUserResettable,
@@ -43,39 +44,21 @@ public class SellRegion extends Region {
     }
 
     @Override
-    protected void updateSignText(Sign mysign){
+    protected void updateSignText(SignData signData){
         if(this.sold){
-
-            String line1 = this.getConvertedMessage(Messages.SOLD_SIGN1);
-
-            String line2 = this.getConvertedMessage(Messages.SOLD_SIGN2);
-
-            String line3 = this.getConvertedMessage(Messages.SOLD_SIGN3);
-
-            String line4 = this.getConvertedMessage(Messages.SOLD_SIGN4);
-
-            mysign.setLine(0, line1);
-            mysign.setLine(1, line2);
-            mysign.setLine(2, line3);
-            mysign.setLine(3, line4);
-            mysign.update(false, false);
-
+            String[] lines = new String[4];
+            lines[0] = this.getConvertedMessage(Messages.SOLD_SIGN1);
+            lines[1] = this.getConvertedMessage(Messages.SOLD_SIGN2);
+            lines[2] = this.getConvertedMessage(Messages.SOLD_SIGN3);
+            lines[3] = this.getConvertedMessage(Messages.SOLD_SIGN4);
+            signData.writeLines(lines);
         } else {
-
-            String line1 = this.getConvertedMessage(Messages.SELL_SIGN1);
-
-            String line2 = this.getConvertedMessage(Messages.SELL_SIGN2);
-
-            String line3 = this.getConvertedMessage(Messages.SELL_SIGN3);
-
-            String line4 = this.getConvertedMessage(Messages.SELL_SIGN4);
-
-            mysign.setLine(0, line1);
-            mysign.setLine(1, line2);
-            mysign.setLine(2, line3);
-            mysign.setLine(3, line4);
-            mysign.update(false, false);
-
+            String[] lines = new String[4];
+            lines[0] = this.getConvertedMessage(Messages.SELL_SIGN1);
+            lines[1] = this.getConvertedMessage(Messages.SELL_SIGN2);
+            lines[2] = this.getConvertedMessage(Messages.SELL_SIGN3);
+            lines[3] = this.getConvertedMessage(Messages.SELL_SIGN4);
+            signData.writeLines(lines);
         }
 
     }

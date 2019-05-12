@@ -14,6 +14,7 @@ import net.alex9849.arm.regions.price.ContractPrice;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.inter.WGRegion;
+import net.alex9849.signs.SignData;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -36,7 +37,7 @@ public class ContractRegion extends Region {
     private long extendTime;
     private boolean terminated;
 
-    public ContractRegion(WGRegion region, World regionworld, List<Sign> contractsign, ContractPrice contractPrice, Boolean sold, Boolean autoreset,
+    public ContractRegion(WGRegion region, World regionworld, List<SignData> contractsign, ContractPrice contractPrice, Boolean sold, Boolean autoreset,
                           Boolean isHotel, Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset, boolean isUserResettable,
                           long payedTill, Boolean terminated, List<Region> subregions, int allowedSubregions, EntityLimitGroup entityLimitGroup,
                           HashMap<EntityType, Integer> extraEntitys, int boughtExtraTotalEntitys) {
@@ -128,37 +129,21 @@ public class ContractRegion extends Region {
     }
 
     @Override
-    protected void updateSignText(Sign mysign) {
-        if (this.sold) {
-
-            String line1 = this.getConvertedMessage(Messages.CONTRACT_SOLD_SIGN1);
-
-            String line2 = this.getConvertedMessage(Messages.CONTRACT_SOLD_SIGN2);
-
-            String line3 = this.getConvertedMessage(Messages.CONTRACT_SOLD_SIGN3);
-
-            String line4 = this.getConvertedMessage(Messages.CONTRACT_SOLD_SIGN4);
-
-            mysign.setLine(0, line1);
-            mysign.setLine(1, line2);
-            mysign.setLine(2, line3);
-            mysign.setLine(3, line4);
-            mysign.update(false, false);
-
+    protected void updateSignText(SignData signData) {
+        if(this.sold){
+            String[] lines = new String[4];
+            lines[0] = this.getConvertedMessage(Messages.CONTRACT_SOLD_SIGN1);
+            lines[1] = this.getConvertedMessage(Messages.CONTRACT_SOLD_SIGN2);
+            lines[2] = this.getConvertedMessage(Messages.CONTRACT_SOLD_SIGN3);
+            lines[3] = this.getConvertedMessage(Messages.CONTRACT_SOLD_SIGN4);
+            signData.writeLines(lines);
         } else {
-            String line1 = this.getConvertedMessage(Messages.CONTRACT_SIGN1);
-
-            String line2 = this.getConvertedMessage(Messages.CONTRACT_SIGN2);
-
-            String line3 = this.getConvertedMessage(Messages.CONTRACT_SIGN3);
-
-            String line4 = this.getConvertedMessage(Messages.CONTRACT_SIGN4);
-
-            mysign.setLine(0, line1);
-            mysign.setLine(1, line2);
-            mysign.setLine(2, line3);
-            mysign.setLine(3, line4);
-            mysign.update(false, false);
+            String[] lines = new String[4];
+            lines[0] = this.getConvertedMessage(Messages.CONTRACT_SIGN1);
+            lines[1] = this.getConvertedMessage(Messages.CONTRACT_SIGN2);
+            lines[2] = this.getConvertedMessage(Messages.CONTRACT_SIGN3);
+            lines[3] = this.getConvertedMessage(Messages.CONTRACT_SIGN4);
+            signData.writeLines(lines);
         }
     }
 

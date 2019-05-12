@@ -18,10 +18,14 @@ import net.alex9849.arm.util.YamlFileManager;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.exceptions.SchematicNotFoundException;
 import net.alex9849.inter.WGRegion;
+import net.alex9849.signs.SignAttachment;
+import net.alex9849.signs.SignData;
+import net.alex9849.signs.SignDataFactory;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -134,7 +138,7 @@ public class RegionManager extends YamlFileManager<Region> {
             entityLimitGroup = EntityLimitGroup.DEFAULT;
         }
         HashMap<EntityType, Integer> extraEntitysMap = parseBoughtExtraEntitys(boughtExtraEntitys);
-        List<Sign> regionsigns = parseRegionsSigns(regionSection);
+        List<SignData> regionsigns = parseRegionsSigns(regionSection);
 
         List<Region> subregions = new ArrayList<>();
         if (regionSection.getConfigurationSection("subregions") != null) {
@@ -211,7 +215,7 @@ public class RegionManager extends YamlFileManager<Region> {
         boolean subregIsHotel = section.getBoolean("isHotel");
         String subregionRegiontype = section.getString("regiontype");
         long sublastreset = section.getLong("lastreset");
-        List<Sign> subregionsigns = parseRegionsSigns(section);
+        List<SignData> subregionsigns = parseRegionsSigns(section);
 
         if (ArmSettings.isAllowParentRegionOwnersBuildOnSubregions()) {
             if (subregion.getParent() == null) {
@@ -249,9 +253,9 @@ public class RegionManager extends YamlFileManager<Region> {
         }
     }
 
-    private static List<Sign> parseRegionsSigns(ConfigurationSection section) {
+    private static List<SignData> parseRegionsSigns(ConfigurationSection section) {
         List<String> regionsignsloc = section.getStringList("signs");
-        List<Sign> regionsigns = new ArrayList<>();
+        List<SignData> regionsigns = new ArrayList<>();
         for(int j = 0; j < regionsignsloc.size(); j++) {
             String[] locsplit = regionsignsloc.get(j).split(";");
             World world = Bukkit.getWorld(locsplit[0]);
@@ -261,13 +265,24 @@ public class RegionManager extends YamlFileManager<Region> {
                 Double yy = Double.parseDouble(locsplit[2]);
                 Double z = Double.parseDouble(locsplit[3]);
                 Location loc = new Location(world, x, yy, z);
-                Location locminone = new Location(world, x, yy - 1, z);
+                //Location locminone = new Location(world, x, yy - 1, z);
 
-                boolean isWallSign = false;
+                //boolean isWallSign = false;
+
+                SignAttachment signAttachment = SignAttachment.GROUND_SIGN;
                 if(locsplit[4].equalsIgnoreCase("WALL")) {
-                    isWallSign = true;
+                    signAttachment = SignAttachment.WALL_SIGN;
                 }
 
+                BlockFace facing;
+
+                try {
+                    facing = BlockFace.valueOf(locsplit[5]);
+                } catch (IllegalArgumentException e) {
+                    facing = BlockFace.NORTH;
+                }
+
+                /*
                 if (!MaterialFinder.getSignMaterials().contains(loc.getBlock().getType())){
                     if(!isWallSign){
                         if(locminone.getBlock().getType() == Material.AIR || locminone.getBlock().getType() == Material.LAVA || locminone.getBlock().getType() == Material.WATER
@@ -282,8 +297,12 @@ public class RegionManager extends YamlFileManager<Region> {
                         loc.getBlock().setType(MaterialFinder.getSign(), false);
                     }
                 }
+                */
 
-                regionsigns.add((Sign) loc.getBlock().getState());
+                SignDataFactory signDataFactory = AdvancedRegionMarket.getSignDataFactory();
+                SignData signData = signDataFactory.generateSignData(loc, signAttachment, facing);
+
+                regionsigns.add(signData);
             }
         }
         return regionsigns;

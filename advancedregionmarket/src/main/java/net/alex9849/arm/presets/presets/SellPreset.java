@@ -7,6 +7,7 @@ import net.alex9849.arm.regions.SellRegion;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.inter.WGRegion;
+import net.alex9849.signs.SignData;
 import org.bukkit.World;
 import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
@@ -45,7 +46,7 @@ public class SellPreset extends Preset{
     }
 
     @Override
-    public Region generateRegion(WGRegion wgRegion, World world, CommandSender sender, List<Sign> signs) {
+    public Region generateRegion(WGRegion wgRegion, World world, CommandSender sender, List<SignData> signs) {
 
         SellRegion sellRegion = new SellRegion(wgRegion, world, signs, new Price(AutoPrice.DEFAULT), false, this.isAutoReset(), this.isHotel(), this.isDoBlockReset(), this.getRegionKind(), null, 0, this.isUserResettable(), new ArrayList<>(), this.getAllowedSubregions(), this.entityLimitGroup, new HashMap<>(), 0);
         if(this.hasAutoPrice()) {

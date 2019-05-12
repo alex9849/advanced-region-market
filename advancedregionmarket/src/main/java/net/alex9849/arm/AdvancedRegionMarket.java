@@ -778,7 +778,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
                 getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.8.1..");
                 updateTo1p81(pluginConfig);
             }
-            if(version < 1.81) {
+            if(version < 1.83) {
                 getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.8.3..");
                 updateTo1p83(pluginConfig);
             }

@@ -20,6 +20,8 @@
         <module>wg7adapter-beta01</module>
         <module>we7adapter-beta01</module>
         <module>mc1-12adapter</module>
+        <module>mc1-13adapter</module>
+        <module>mc1-14adapter</module>
     </modules>
 
 

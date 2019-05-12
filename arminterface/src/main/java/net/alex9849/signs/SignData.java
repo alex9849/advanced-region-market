@@ -41,9 +41,9 @@ public abstract class SignData {
         }
 
         sign.setLine(0, lines[0]);
-        sign.setLine(2, lines[1]);
-        sign.setLine(3, lines[2]);
-        sign.setLine(4, lines[3]);
+        sign.setLine(1, lines[1]);
+        sign.setLine(2, lines[2]);
+        sign.setLine(3, lines[3]);
         sign.update(false, false);
     }
 
@@ -57,6 +57,18 @@ public abstract class SignData {
 
     public BlockFace getBlockFace() {
         return this.blockFace;
+    }
+
+    public String toString() {
+        String wallsignIndicator;
+        if(this.isWallSign()) {
+            wallsignIndicator = "WALL";
+        } else {
+            wallsignIndicator = "GROUND";
+        }
+
+        return this.signLoc.getWorld().getName() + ";" + this.signLoc.getX() + ";" + this.signLoc.getY() + ";"
+                + this.signLoc.getZ() + ";" + wallsignIndicator + ";" + this.getBlockFace();
     }
 }
 

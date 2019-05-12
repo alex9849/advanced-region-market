@@ -24,6 +24,7 @@ public class SignData112 extends SignData {
         signLoc.getBlock().setType(signMaterial, false);
         org.bukkit.material.Sign sign = (org.bukkit.material.Sign) signLoc.getBlock().getState().getData();
         sign.setFacingDirection(this.getBlockFace());
+        signLoc.getBlock().getState().setData(sign);
         signLoc.getBlock().getState().update(false, false);
     }
 }

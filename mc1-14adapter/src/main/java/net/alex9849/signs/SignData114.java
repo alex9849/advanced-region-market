@@ -22,11 +22,13 @@ public class SignData114 extends SignData {
             signLoc.getBlock().setType(signMaterial, false);
             WallSign wallSign = (WallSign) signLoc.getBlock().getBlockData();
             wallSign.setFacing(this.getBlockFace());
+            signLoc.getBlock().setBlockData(wallSign, false);
         } else {
             signMaterial = MaterialFinder.getSign();
             signLoc.getBlock().setType(signMaterial, false);
             Sign sign = (Sign) signLoc.getBlock().getBlockData();
             sign.setRotation(this.getBlockFace());
+            signLoc.getBlock().setBlockData(sign, false);
         }
 
         signLoc.getBlock().getState().update(false, false);

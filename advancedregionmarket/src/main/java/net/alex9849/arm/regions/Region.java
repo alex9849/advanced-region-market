@@ -904,15 +904,7 @@ public abstract class Region implements Saveable {
         }
         List<String> signs = new ArrayList<>();
         for(SignData signData : this.getSellSigns()) {
-            Location signloc = signData.getLocation();
-            String wallsignIndicator = "";
-            if(signData.isWallSign()) {
-                wallsignIndicator = "WALL";
-            } else {
-                wallsignIndicator = "GROUND";
-            }
-
-            signs.add(signloc.getWorld().getName() + ";" + signloc.getX() + ";" + signloc.getY() + ";" + signloc.getZ() + ";" + wallsignIndicator);
+            signs.add(signData.toString());
         }
         yamlConfiguration.set("signs", signs);
 

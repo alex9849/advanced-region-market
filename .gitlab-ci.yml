@@ -21,7 +21,7 @@ build:newestVersion:
 build:1.13:
   stage: build
   script:
-    - sed 's/1.14-pre5-SNAPSHOT/1.13.2-R0.1-SNAPSHOT/g' ./advancedregionmarket/pom.xml > ./advancedregionmarket/temponaryPom.xml
+    - sed 's/1.14-R0.1-SNAPSHOT/1.13.2-R0.1-SNAPSHOT/g' ./advancedregionmarket/pom.xml > ./advancedregionmarket/temponaryPom.xml
     - cp ./advancedregionmarket/temponaryPom.xml ./advancedregionmarket/pom.xml
     - rm ./advancedregionmarket/temponaryPom.xml
     - mvn package
@@ -30,7 +30,7 @@ build:1.13:
 build:1.12:
   stage: build
   script:
-    - sed 's/1.14-pre5-SNAPSHOT/1.12.2-R0.1-SNAPSHOT/g' ./advancedregionmarket/pom.xml > ./advancedregionmarket/temponaryPom.xml
+    - sed 's/1.14-R0.1-SNAPSHOT/1.12.2-R0.1-SNAPSHOT/g' ./advancedregionmarket/pom.xml > ./advancedregionmarket/temponaryPom.xml
     - cp ./advancedregionmarket/temponaryPom.xml ./advancedregionmarket/pom.xml
     - rm ./advancedregionmarket/temponaryPom.xml
     - mvn package

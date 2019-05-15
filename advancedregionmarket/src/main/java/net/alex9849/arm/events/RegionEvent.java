@@ -6,7 +6,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 public class RegionEvent extends Event implements Cancellable {
-    private static HandlerList handlerList = new HandlerList();
+    private static final HandlerList handlerList = new HandlerList();
     private Region region;
     private boolean isCancelled;
 
@@ -30,5 +30,9 @@ public class RegionEvent extends Event implements Cancellable {
 
     public boolean isCancelled() {
         return this.isCancelled;
+    }
+
+    public static HandlerList getHandlerList() {
+        return handlerList;
     }
 }

@@ -382,6 +382,11 @@ public class RentRegion extends Region {
                 throw new InputException(player, Messages.REGION_NOT_OWN);
             }
         }
+
+        if(!LimitGroup.isInLimit(player, this)) {
+            throw new InputException(player, LimitGroup.getRegionBuyOutOfLimitMessage(player, this.getRegionKind()));
+        }
+
         GregorianCalendar actualtime = new GregorianCalendar();
         if (this.maxRentTime < ((this.payedTill + this.rentExtendPerClick) - actualtime.getTimeInMillis())){
             String errormessage = this.getConvertedMessage(Messages.RENT_EXTEND_ERROR);

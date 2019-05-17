@@ -366,12 +366,20 @@ public class ContractRegion extends Region {
         }
     }
 
-    public void changeTerminated(){
+    public void changeTerminated() throws InputException {
         this.changeTerminated(null);
     }
 
-    public void changeTerminated(Player player) {
-        this.setTerminated(!this.terminated, player);
+    public void changeTerminated(Player player) throws InputException {
+        if(this.isTerminated()) {
+            if(LimitGroup.isInLimit(player, this)) {
+                throw new InputException(player, LimitGroup.getRegionBuyOutOfLimitMessage(player, this.getRegionKind()));
+            } else {
+                this.setTerminated(false, player);
+            }
+        } else {
+            this.setTerminated(true, player);
+        }
     }
 
     public void setTerminated(Boolean bool) {

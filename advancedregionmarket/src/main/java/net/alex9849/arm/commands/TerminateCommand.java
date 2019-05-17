@@ -3,6 +3,7 @@ package net.alex9849.arm.commands;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
+import net.alex9849.arm.limitgroups.LimitGroup;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regions.ContractRegion;
@@ -61,7 +62,14 @@ public class TerminateCommand extends BasicArmCommand {
             }
 
             ContractRegion contractRegion = (ContractRegion) region;
-            contractRegion.setTerminated(Boolean.parseBoolean(args[2]), player);
+
+            boolean termination = Boolean.parseBoolean(args[2]);
+
+            if(!termination && !LimitGroup.isInLimit(player, contractRegion)) {
+                throw new InputException(player, LimitGroup.getRegionBuyOutOfLimitMessage(player, contractRegion.getRegionKind()));
+            }
+
+            contractRegion.setTerminated(termination, player);
             return true;
         } else {
             throw new InputException(sender, Messages.NO_PERMISSION);

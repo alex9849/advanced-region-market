@@ -789,7 +789,7 @@ public class Gui implements Listener {
         extendItem.setItemMeta(extendItemMeta);
         ClickItem extendicon = new ClickItem(extendItem).addClickAction(new ClickAction() {
             @Override
-            public void execute(Player player) {
+            public void execute(Player player) throws InputException {
                 region.changeTerminated(player);
                 Gui.decideOwnerManager(player, region);
             }

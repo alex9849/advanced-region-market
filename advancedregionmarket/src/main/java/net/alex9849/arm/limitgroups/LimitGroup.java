@@ -74,7 +74,21 @@ public class LimitGroup {
         } else {
             return false;
         }
+    }
 
+    public static boolean isInLimit(Player player, Region region) {
+        if(player.hasPermission(Permission.ADMIN_LIMIT_BYPASS)) {
+            return true;
+        }
+
+        int ownedregions = getOwnedRegions(player);
+        int ownedregionswiththistype = getOwnedRegions(player, region.getRegionKind());
+
+        if(ownedregions <= getLimit(player) && ownedregionswiththistype <= getLimit(player, region.getRegionKind())){
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public static int getLimit(Player player, RegionKind regionkind){

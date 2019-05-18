@@ -1102,7 +1102,7 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.LoadingSchematicComplete", "&7Schematic loaded!");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.ResetRegionCooldownError", "&7You have to wait&6 %remainingdays% &7days till you can reset your region again");
 
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.Currency", "EUR");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.Currency", "$");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.SellSign1", "&2For Sale");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.SellSign2", "%regionid%");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.SellSign3", "%price%%currency%");

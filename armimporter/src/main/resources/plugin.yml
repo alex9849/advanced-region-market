@@ -1,0 +1,13 @@
+name: ARMImporter
+version: 1.0.0
+main: net.aex9849.armImporter.ARMImporter
+depend: [AdvancedRegionMarket, AreaShop]
+authors:
+  - alex9849
+api-version: 1.13
+prefix: ARMImporter
+commands:
+  armimport:
+    description: Shows the help page of ARMImporter
+    usage: /armimport help
+    permission-message: You don't have permission

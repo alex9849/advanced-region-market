@@ -22,6 +22,7 @@
         <module>mc1-12adapter</module>
         <module>mc1-13adapter</module>
         <module>mc1-14adapter</module>
+        <module>armimporter</module>
     </modules>
 
 

@@ -1203,7 +1203,7 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionKinds", "&6Regionkinds:");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.ResetRegionResetingBlocks", "&7Resetting blocks...");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionNowAviable", "&aRegion is now available!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.NoRegionAtPlayersPosition", "&7Could not find region at your position!");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.NoRegionAtPlayersPosition", "&7Could not find a region at your position!");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionAddMemberNotOnline", "&4The selected player is not online!");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionAddMemberAdded", "&aMember has been added!");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionAddMemberDoNotOwn", "&4You do not own this region!");

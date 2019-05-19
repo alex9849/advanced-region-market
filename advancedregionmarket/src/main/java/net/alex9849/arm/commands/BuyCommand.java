@@ -17,12 +17,13 @@ import java.util.List;
 public class BuyCommand extends BasicArmCommand {
 
     private final String rootCommand = "buy";
-    private final String regex = "(?i)buy [^;\n ]+";
-    private final List<String> usage = new ArrayList<>(Arrays.asList("buy [REGION]"));
+    private final String regex = "(?i)buy";
+    private final String regex_with_args = "(?i)buy [^;\n ]+";
+    private final List<String> usage = new ArrayList<>(Arrays.asList("buy [REGION]", "buy"));
 
     @Override
     public boolean matchesRegex(String command) {
-        return command.matches(this.regex);
+        return command.matches(this.regex) || command.matches(this.regex_with_args);
     }
 
     @Override
@@ -42,7 +43,25 @@ public class BuyCommand extends BasicArmCommand {
                 throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
             }
             Player player = (Player) sender;
-            Region region = AdvancedRegionMarket.getRegionManager().getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
+            Region region;
+
+            if(allargs.matches(this.regex_with_args)) {
+                region = AdvancedRegionMarket.getRegionManager().getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
+            } else {
+                List<Region> posRegions = AdvancedRegionMarket.getRegionManager().getRegionsByLocation(player.getLocation());
+                if(posRegions.size() == 0) {
+                    throw new InputException(player, Messages.NO_REGION_AT_PLAYERS_POSITION);
+                }
+                if(posRegions.size() > 1) {
+                    String regions = "";
+                    for(Region sRegion : posRegions) {
+                        regions = regions + sRegion.getRegion().getId() + " ";
+                    }
+                    throw new InputException(player, Messages.REGION_SELECTED_MULTIPLE_REGIONS + regions);
+                }
+                region = posRegions.get(0);
+            }
+
             if(region == null){
                 throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
             }

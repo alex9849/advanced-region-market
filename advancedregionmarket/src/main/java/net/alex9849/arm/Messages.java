@@ -80,7 +80,7 @@ public class Messages {
     public static String REGIONKIND_DOES_NOT_EXIST = "";
     public static String RESET_REGION_RESETING_BLOCKS = "";
     public static String REGION_NOW_AVIABLE = "";
-    public static String HAVE_TO_STAND_ON_REGION_TO_SHOW_INFO = "";
+    public static String NO_REGION_AT_PLAYERS_POSITION = "";
     public static String REGION_ADD_MEMBER_NOT_ONLINE = "";
     public static String REGION_ADD_MEMBER_DO_NOT_OWN = "";
     public static String REGION_ADD_MEMBER_ADDED = "";
@@ -203,7 +203,7 @@ public class Messages {
     public static String SUB_REGION_AUTORESET_ERROR = "";
     public static String SUB_REGION_DO_BLOCKRESET_ERROR = "";
     public static String REGION_NOT_RESETTABLE = "";
-    public static String REGION_INFO_MULTIPLE_REGIONS = "";
+    public static String REGION_SELECTED_MULTIPLE_REGIONS = "";
     public static String SUB_REGION_REGIONKIND_ERROR = "";
     public static String SUB_REGION_REGIONKIND_ONLY_FOR_SUB_REGIONS = "";
     public static String SUB_REGION_TELEPORT_LOCATION_ERROR = "";
@@ -420,7 +420,7 @@ public class Messages {
         REGIONKIND_DOES_NOT_EXIST = config.getString("Messages.RegionkindDoesNotExist");
         RESET_REGION_RESETING_BLOCKS = config.getString("Messages.ResetRegionResetingBlocks");
         REGION_NOW_AVIABLE = config.getString("Messages.RegionNowAviable");
-        HAVE_TO_STAND_ON_REGION_TO_SHOW_INFO = config.getString("Messages.HaveToStandOnRegionToShowInfo");
+        NO_REGION_AT_PLAYERS_POSITION = config.getString("Messages.NoRegionAtPlayersPosition");
         REGION_ADD_MEMBER_NOT_ONLINE = config.getString("Messages.RegionAddMemberNotOnline");
         REGION_ADD_MEMBER_DO_NOT_OWN = config.getString("Messages.RegionAddMemberDoNotOwn");
         REGION_ADD_MEMBER_ADDED = config.getString("Messages.RegionAddMemberAdded");
@@ -556,7 +556,7 @@ public class Messages {
         SUB_REGION_DO_BLOCKRESET_ERROR = config.getString("Messages.SubregionDoBlockResetError");
         SUB_REGION_IS_USER_RESETTABLE_ERROR = config.getString("Messages.SubregionIsUserResettableError");
         REGION_NOT_RESETTABLE = config.getString("Messages.RegionNotResettable");
-        REGION_INFO_MULTIPLE_REGIONS = config.getString("Messages.RegionInfoMultipleRegions");
+        REGION_SELECTED_MULTIPLE_REGIONS = config.getString("Messages.RegionSelectedMultipleRegions");
         SUB_REGION_REGIONKIND_ERROR = config.getString("Messages.SubregionRegionkindError");
         SUB_REGION_REGIONKIND_ONLY_FOR_SUB_REGIONS = config.getString("Messages.SubRegionRegionkindOnlyForSubregions");
         SUB_REGION_TELEPORT_LOCATION_ERROR = config.getString("Messages.SubregionTeleportLocationError");
@@ -743,7 +743,7 @@ public class Messages {
         REGIONKIND_DOES_NOT_EXIST = ChatColor.translateAlternateColorCodes('&', REGIONKIND_DOES_NOT_EXIST);
         RESET_REGION_RESETING_BLOCKS = ChatColor.translateAlternateColorCodes('&', RESET_REGION_RESETING_BLOCKS);
         REGION_NOW_AVIABLE = ChatColor.translateAlternateColorCodes('&', REGION_NOW_AVIABLE);
-        HAVE_TO_STAND_ON_REGION_TO_SHOW_INFO = ChatColor.translateAlternateColorCodes('&', HAVE_TO_STAND_ON_REGION_TO_SHOW_INFO);
+        NO_REGION_AT_PLAYERS_POSITION = ChatColor.translateAlternateColorCodes('&', NO_REGION_AT_PLAYERS_POSITION);
         REGION_ADD_MEMBER_NOT_ONLINE = ChatColor.translateAlternateColorCodes('&', REGION_ADD_MEMBER_NOT_ONLINE);
         REGION_ADD_MEMBER_DO_NOT_OWN = ChatColor.translateAlternateColorCodes('&', REGION_ADD_MEMBER_DO_NOT_OWN);
         REGION_ADD_MEMBER_ADDED = ChatColor.translateAlternateColorCodes('&', REGION_ADD_MEMBER_ADDED);
@@ -868,7 +868,7 @@ public class Messages {
         SUB_REGION_AUTORESET_ERROR = ChatColor.translateAlternateColorCodes('&', SUB_REGION_AUTORESET_ERROR);
         SUB_REGION_DO_BLOCKRESET_ERROR = ChatColor.translateAlternateColorCodes('&', SUB_REGION_DO_BLOCKRESET_ERROR);
         REGION_NOT_RESETTABLE = ChatColor.translateAlternateColorCodes('&', REGION_NOT_RESETTABLE);
-        REGION_INFO_MULTIPLE_REGIONS = ChatColor.translateAlternateColorCodes('&', REGION_INFO_MULTIPLE_REGIONS);
+        REGION_SELECTED_MULTIPLE_REGIONS = ChatColor.translateAlternateColorCodes('&', REGION_SELECTED_MULTIPLE_REGIONS);
         SUB_REGION_REGIONKIND_ERROR = ChatColor.translateAlternateColorCodes('&', SUB_REGION_REGIONKIND_ERROR);
         SUB_REGION_REGIONKIND_ONLY_FOR_SUB_REGIONS = ChatColor.translateAlternateColorCodes('&', SUB_REGION_REGIONKIND_ONLY_FOR_SUB_REGIONS);
         SUB_REGION_TELEPORT_LOCATION_ERROR = ChatColor.translateAlternateColorCodes('&', SUB_REGION_TELEPORT_LOCATION_ERROR);
@@ -1203,7 +1203,7 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionKinds", "&6Regionkinds:");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.ResetRegionResetingBlocks", "&7Resetting blocks...");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionNowAviable", "&aRegion is now available!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.HaveToStandOnRegionToShowInfo", "&7You have to stand on the region to show its info");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.NoRegionAtPlayersPosition", "&7Could not find region at your position!");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionAddMemberNotOnline", "&4The selected player is not online!");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionAddMemberAdded", "&aMember has been added!");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionAddMemberDoNotOwn", "&4You do not own this region!");
@@ -1242,7 +1242,7 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionInfoAllowedSubregions", "&6Allowed Subregions: ");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionInfoSubregions", "&6Subregions: ");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionInfoExpired", "&6Expired");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionInfoMultipleRegions", "&6There are more than one region at your position. Please select one: &4");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionSelectedMultipleRegions", "&6There are more than one region at your position. Please select one: &4");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RentRegionExpirationWarning", "&4WARNING! This RentRegion(s) will expire soon: &c");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionDeleted", "&aRegion deleted!");
 

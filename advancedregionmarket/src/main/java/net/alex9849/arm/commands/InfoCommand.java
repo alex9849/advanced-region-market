@@ -91,10 +91,10 @@ public class InfoCommand extends BasicArmCommand {
             for(Region region : regionList) {
                 regions = regions + region.getRegion().getId() + " ";
             }
-            throw new InputException(player, Messages.REGION_INFO_MULTIPLE_REGIONS + regions);
+            throw new InputException(player, Messages.REGION_SELECTED_MULTIPLE_REGIONS + regions);
         }
 
-        throw new InputException(player, Messages.HAVE_TO_STAND_ON_REGION_TO_SHOW_INFO);
+        throw new InputException(player, Messages.NO_REGION_AT_PLAYERS_POSITION);
     }
 
     private boolean regionInfoCommand(CommandSender sender, String regionname) throws InputException {

@@ -328,6 +328,8 @@ public class Messages {
     public static String REGIONKIND_INFO_PAYBACKPERCENTAGE = "&6PaybackPercentage: %paypackpercentage%";
     public static String REGIONKIND_INFO_LORE = "&6Lore:";
     public static String REGIONKIND_HELP_HEADLINE = "&6=====[AdvancedRegionMarket RegionKind Help ]=====\n&3Page %actualpage% / %maxpage%";
+    public static String PLAYER_NOT_FOUND = "&4Could not find selected player!";
+
 
 
 
@@ -677,6 +679,7 @@ public class Messages {
         REGIONKIND_INFO_PAYBACKPERCENTAGE = config.getString("Messages.RegionKindInfoPaybackPercentage");
         REGIONKIND_INFO_LORE = config.getString("Messages.RegionKindInfoLore");
         REGIONKIND_HELP_HEADLINE = config.getString("Messages.RegionKindHelpHeadline");
+        PLAYER_NOT_FOUND = config.getString("Messages.PlayerNotFound");
 
         Messages.translateColorCodes();
     }
@@ -981,6 +984,7 @@ public class Messages {
         REGIONKIND_INFO_PAYBACKPERCENTAGE = ChatColor.translateAlternateColorCodes('&', REGIONKIND_INFO_PAYBACKPERCENTAGE);
         REGIONKIND_INFO_LORE = ChatColor.translateAlternateColorCodes('&', REGIONKIND_INFO_LORE);
         REGIONKIND_HELP_HEADLINE = ChatColor.translateAlternateColorCodes('&', REGIONKIND_HELP_HEADLINE);
+        PLAYER_NOT_FOUND = ChatColor.translateAlternateColorCodes('&', PLAYER_NOT_FOUND);
 
 
         for(int i = 0; i < GUI_ENTITYLIMIT_ITEM_LORE.size(); i++){
@@ -1424,6 +1428,7 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionKindInfoPaybackPercentage", "&6PaybackPercentage: %paypackpercentage%");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionKindInfoLore", "&6Lore:");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionKindHelpHeadline", "&6=====[AdvancedRegionMarket RegionKind Help ]=====\n&3Page %actualpage% / %maxpage%");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.PlayerNotFound", "&4Could not find selected player!");
 
         if(fileUpdated) {
             config.options().copyDefaults(true);

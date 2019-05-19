@@ -166,6 +166,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         commands.add(new SetRegionKind());
         commands.add(new SetWarpCommand());
         commands.add(new TerminateCommand());
+        commands.add(new ListRegionsCommand());
         commands.add(new TPCommand());
         commands.add(new UnsellCommand());
         commands.add(new UpdateSchematicCommand());

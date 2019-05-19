@@ -25,7 +25,6 @@ import net.alex9849.signs.SignDataFactory;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.*;
 import net.alex9849.arm.presets.ActivePresetManager;
-import org.bukkit.block.BlockFace;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
@@ -167,6 +166,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         commands.add(new SetWarpCommand());
         commands.add(new TerminateCommand());
         commands.add(new ListRegionsCommand());
+        commands.add(new TpToFreeRegion());
         commands.add(new TPCommand());
         commands.add(new UnsellCommand());
         commands.add(new UpdateSchematicCommand());

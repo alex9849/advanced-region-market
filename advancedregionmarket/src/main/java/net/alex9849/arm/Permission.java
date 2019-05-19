@@ -129,6 +129,7 @@ public class Permission {
     public static final String MEMBER_OFFER_ANSWER = "arm.member.offer.answer";
     public static final String MEMBER_PROMOTE = "arm.member.promote";
     public static final String MEMBER_BUY = "arm.member.buy";
+    public static final String MEMBER_TP_TO_FREE_REGION = "arm.member.tptofreeregion";
     public static final String MEMBER_REGIONFINDER = "arm.member.regionfinder";
     public static final String MEMBER_ENTITYLIMIT_INFO = "arm.member.entitylimit.info";
     public static final String MEMBER_ENTITYLIMIT_CHECK = "arm.member.entitylimit.check";

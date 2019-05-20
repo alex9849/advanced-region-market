@@ -40,12 +40,12 @@ public class AreaShopImporter {
             if(existingArmKind != null) {
                 if(overwriteExisting) {
                     AdvancedRegionMarket.getRegionKindManager().remove(existingArmKind);
-                    AdvancedRegionMarket.getRegionKindManager().add(armRegionKind);
+                    AdvancedRegionMarket.getRegionKindManager().add(armRegionKind, true);
                 } else {
                     Bukkit.getLogger().info("Skipped regionkind " + regionKindName + "! A regionkind with this name already exists!");
                 }
             } else {
-                AdvancedRegionMarket.getRegionKindManager().add(armRegionKind);
+                AdvancedRegionMarket.getRegionKindManager().add(armRegionKind, true);
             }
         }
     }
@@ -132,13 +132,13 @@ public class AreaShopImporter {
                     if(armExistingRegion != null) {
                         if(overwriteExisting) {
                             AdvancedRegionMarket.getRegionManager().remove(armExistingRegion);
-                            AdvancedRegionMarket.getRegionManager().add(armRegion);
+                            AdvancedRegionMarket.getRegionManager().add(armRegion, true);
                             scheamticImporter.scheduleSchematic(armRegion, getSchematicPath(asRegion));
                         } else {
                             Bukkit.getLogger().info("Skipped regionkind " + armRegion.getRegion().getId() + "! A regionkind with this name already exists!");
                         }
                     } else {
-                        AdvancedRegionMarket.getRegionManager().add(armRegion);
+                        AdvancedRegionMarket.getRegionManager().add(armRegion, true);
                         scheamticImporter.scheduleSchematic(armRegion, getSchematicPath(asRegion));
                     }
 

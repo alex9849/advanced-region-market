@@ -171,7 +171,11 @@ public class AreaShopImporter {
         // Restore the region if needed
         if(restore != null && !restore.equalsIgnoreCase("")) {
             restore = Message.fromString(restore).replacements(asRegion).getSingle();
-            return new File(AreaShop.getInstance().getFileManager().getSchematicFolder() + "/" + restore + ".schem");
+            File schemFile = new File(AreaShop.getInstance().getFileManager().getSchematicFolder() + "/" + restore + ".schem");
+            if(!schemFile.exists()) {
+                schemFile = new File(AreaShop.getInstance().getFileManager().getSchematicFolder() + "/" + restore + ".schematic");
+            }
+            return schemFile;
         }
         return null;
 

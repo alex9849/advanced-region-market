@@ -47,12 +47,17 @@ public class RegionManager extends YamlFileManager<Region> {
 
     @Override
     public void add(Region region) {
+        this.add(region, false);
+    }
+
+    @Override
+    public void add(Region region, boolean unsafe) {
         AddRegionEvent addRegionEvent = new AddRegionEvent(region);
         Bukkit.getServer().getPluginManager().callEvent(addRegionEvent);
         if(addRegionEvent.isCancelled()) {
             return;
         }
-        super.add(region);
+        super.add(region, unsafe);
     }
 
     @Override

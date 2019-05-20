@@ -22,12 +22,18 @@ public abstract class YamlFileManager<ManagedObject extends Saveable> {
         this.objectList.addAll(loadSavedObjects(this.yamlConfiguration));
     }
 
-    public void add(ManagedObject managedObject) {
+    public void add(ManagedObject managedObject, boolean unsafe) {
         if(!this.objectList.contains(managedObject)) {
             this.objectList.add(managedObject);
             managedObject.queueSave();
-            updateFile();
+            if(!unsafe) {
+                updateFile();
+            }
         }
+    }
+
+    public void add(ManagedObject managedObject) {
+        this.add(managedObject, false);
     }
 
     public void remove(ManagedObject managedObject) {

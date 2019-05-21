@@ -69,8 +69,7 @@ public class TpToFreeRegion extends BasicArmCommand {
                     if(args.length == 1) {
                         returnme.add(this.rootCommand);
                     } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                        //TODO Nur regionkinds mit permission
-                        returnme.addAll(AdvancedRegionMarket.getRegionKindManager().tabCompleteRegionKind(args[1]));
+                        returnme.addAll(AdvancedRegionMarket.getRegionKindManager().completeTabRegionKinds(args[1], "", player));
                     }
                 }
             }

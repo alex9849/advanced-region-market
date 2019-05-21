@@ -3,6 +3,7 @@ package net.alex9849.arm.regionkind;
 import net.alex9849.arm.util.YamlFileManager;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -76,20 +77,30 @@ public class RegionKindManager extends YamlFileManager<RegionKind> {
     }
 
     public List<String> completeTabRegionKinds(String arg, String returnPrefix) {
+        return completeTabRegionKinds(arg, returnPrefix, null);
+    }
+
+    public List<String> completeTabRegionKinds(String arg, String returnPrefix, Player player) {
         List<String> returnme = new ArrayList<>();
 
         List<RegionKind> regionKinds = this.getObjectListCopy();
 
         for (RegionKind regionkind : regionKinds) {
-            if ((returnPrefix + regionkind.getName()).toLowerCase().startsWith(arg)) {
-                returnme.add(returnPrefix + regionkind.getName());
+            if(player == null || RegionKind.hasPermission(player, regionkind)) {
+                if ((returnPrefix + regionkind.getName()).toLowerCase().startsWith(arg)) {
+                    returnme.add(returnPrefix + regionkind.getName());
+                }
             }
         }
         if ((returnPrefix + "default").startsWith(arg)) {
-            returnme.add(returnPrefix + "default");
+            if(player == null || RegionKind.hasPermission(player, RegionKind.DEFAULT)) {
+                returnme.add(returnPrefix + "default");
+            }
         }
         if ((returnPrefix + "subregion").startsWith(arg)) {
-            returnme.add(returnPrefix + "subregion");
+            if(player == null || RegionKind.hasPermission(player, RegionKind.SUBREGION)) {
+                returnme.add(returnPrefix + "subregion");
+            }
         }
 
         return returnme;
@@ -149,15 +160,4 @@ public class RegionKindManager extends YamlFileManager<RegionKind> {
         return fileupdated;
     }
 
-    public List<String> tabCompleteRegionKind(String arg) {
-        List<RegionKind> regionKinds = this.getObjectListCopy();
-        List<String> returnme = new ArrayList<>();
-
-        for(RegionKind regionKind : regionKinds) {
-            if(regionKind.getName().equalsIgnoreCase(arg)) {
-                returnme.add(regionKind.getName());
-            }
-        }
-        return returnme;
-    }
 }

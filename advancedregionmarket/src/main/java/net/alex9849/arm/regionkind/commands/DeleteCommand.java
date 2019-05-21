@@ -79,7 +79,7 @@ public class DeleteCommand extends BasicArmCommand {
                     returnme.add(this.rootCommand);
                 }
             } else if((args.length == 2) && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                returnme.addAll(AdvancedRegionMarket.getRegionKindManager().tabCompleteRegionKind(args[1]));
+                returnme.addAll(AdvancedRegionMarket.getRegionKindManager().completeTabRegionKinds(args[1], ""));
             }
         }
         return returnme;

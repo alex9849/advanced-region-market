@@ -1,6 +1,6 @@
 name: ArmQuickShopBridge
 version: 1.8.3
-main: net.alex9849.arm.AdvancedRegionMarket
+main: net.alex9849.armquickshopbridge.ArmQuickShopBridge
 depend: [AdvancedRegionMarket, QuickShop]
 authors:
   - alex9849

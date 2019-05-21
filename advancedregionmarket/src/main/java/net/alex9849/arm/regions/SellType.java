@@ -37,11 +37,11 @@ public enum SellType {
     public abstract String getInternalName();
 
     public static SellType getSelltype(String string) {
-        if (string.equalsIgnoreCase("sellregion")) {
+        if (string.equalsIgnoreCase(SellType.SELL.getInternalName())) {
             return SellType.SELL;
-        } else if (string.equalsIgnoreCase("rentregion")) {
+        } else if (string.equalsIgnoreCase(SellType.RENT.getInternalName())) {
             return SellType.RENT;
-        } else if (string.equalsIgnoreCase("contractregion")) {
+        } else if (string.equalsIgnoreCase(SellType.CONTRACT.getInternalName())) {
             return SellType.CONTRACT;
         }
         return null;

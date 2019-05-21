@@ -105,14 +105,14 @@ public class SignLinkModeCommand extends BasicArmCommand {
                         returnme.add(this.rootCommand);
                     }
                     if(args.length == 2) {
-                        if(SellType.SELL.getName().toLowerCase().startsWith(args[1]) && player.hasPermission(Permission.ADMIN_CREATE_SELL)) {
-                            returnme.add(SellType.SELL.getName());
+                        if(SellType.SELL.getInternalName().toLowerCase().startsWith(args[1]) && player.hasPermission(Permission.ADMIN_CREATE_SELL)) {
+                            returnme.add(SellType.SELL.getInternalName());
                         }
-                        if(SellType.RENT.getName().toLowerCase().startsWith(args[1]) && player.hasPermission(Permission.ADMIN_CREATE_RENT)) {
-                            returnme.add(SellType.RENT.getName());
+                        if(SellType.RENT.getInternalName().toLowerCase().startsWith(args[1]) && player.hasPermission(Permission.ADMIN_CREATE_RENT)) {
+                            returnme.add(SellType.RENT.getInternalName());
                         }
-                        if(SellType.CONTRACT.getName().toLowerCase().startsWith(args[1]) && player.hasPermission(Permission.ADMIN_CREATE_CONTRACT)) {
-                            returnme.add(SellType.CONTRACT.getName());
+                        if(SellType.CONTRACT.getInternalName().toLowerCase().startsWith(args[1]) && player.hasPermission(Permission.ADMIN_CREATE_CONTRACT)) {
+                            returnme.add(SellType.CONTRACT.getInternalName());
                         }
                         if("disable".startsWith(args[1])) {
                             returnme.add("disable");

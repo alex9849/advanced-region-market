@@ -726,5 +726,26 @@ public class RegionManager extends YamlFileManager<Region> {
         }
     }
 
+    public Region getRegionAtPositionOrNameCommand(Player player, String regionName) throws InputException {
+        Region selectedRegion;
+        if(regionName == null || regionName.equalsIgnoreCase("")) {
+            selectedRegion = this.getRegionbyNameAndWorldCommands(regionName, player.getWorld().getName());
+        } else {
+            List<Region> selectedRegions = this.getRegionsByLocation(player.getLocation());
+            if(selectedRegions.size() == 0) {
+                throw new InputException(player, Messages.NO_REGION_AT_PLAYERS_POSITION);
+            }
+            if(selectedRegions.size() > 1) {
+                String regions = "";
+                for(Region sRegion : selectedRegions) {
+                    regions = regions + sRegion.getRegion().getId() + " ";
+                }
+                throw new InputException(player, Messages.REGION_SELECTED_MULTIPLE_REGIONS + regions);
+            }
+            selectedRegion = selectedRegions.get(0);
+        }
+        return selectedRegion;
+    }
+
 
 }

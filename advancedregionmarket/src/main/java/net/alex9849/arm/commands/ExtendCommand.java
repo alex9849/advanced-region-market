@@ -47,20 +47,9 @@ public class ExtendCommand extends BasicArmCommand {
             Region region;
 
             if(allargs.matches(this.regex_with_args)) {
-                region = AdvancedRegionMarket.getRegionManager().getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
+                region = AdvancedRegionMarket.getRegionManager().getRegionAtPositionOrNameCommand(player, args[1]);
             } else {
-                List<Region> posRegions = AdvancedRegionMarket.getRegionManager().getRegionsByLocation(player.getLocation());
-                if(posRegions.size() == 0) {
-                    throw new InputException(player, Messages.NO_REGION_AT_PLAYERS_POSITION);
-                }
-                if(posRegions.size() > 1) {
-                    String regions = "";
-                    for(Region sRegion : posRegions) {
-                        regions = regions + sRegion.getRegion().getId() + " ";
-                    }
-                    throw new InputException(player, Messages.REGION_SELECTED_MULTIPLE_REGIONS + regions);
-                }
-                region = posRegions.get(0);
+                region = AdvancedRegionMarket.getRegionManager().getRegionAtPositionOrNameCommand(player, null);
             }
 
             if(region == null){

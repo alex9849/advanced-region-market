@@ -1,5 +1,5 @@
 name: ArmQuickShopBridge
-version: 1.8.3
+version: 1.0
 main: net.alex9849.armquickshopbridge.ArmQuickShopBridge
 depend: [AdvancedRegionMarket, QuickShop]
 authors:

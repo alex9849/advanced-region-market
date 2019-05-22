@@ -122,19 +122,4 @@ public class CommandHandler implements TabCompleter {
         return returnme;
     }
 
-    public static List<String> tabCompleteRegionMembers(String args, WGRegion region) {
-        List<String> returnme = new ArrayList<>();
-
-        List<UUID> uuidList = region.getMembers();
-        for(UUID uuids: uuidList) {
-            OfflinePlayer oplayer = Bukkit.getOfflinePlayer(uuids);
-            if(oplayer != null) {
-                if (oplayer.getName().toLowerCase().startsWith(args)) {
-                    returnme.add(oplayer.getName());
-                }
-            }
-        }
-        return  returnme;
-    }
-
 }

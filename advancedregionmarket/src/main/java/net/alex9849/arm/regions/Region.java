@@ -936,5 +936,19 @@ public abstract class Region implements Saveable {
         return yamlConfiguration;
     }
 
+    public List<String> tabCompleteRegionMembers(String args) {
+        List<String> returnme = new ArrayList<>();
+
+        List<UUID> uuidList = this.getRegion().getMembers();
+        for(UUID uuids: uuidList) {
+            OfflinePlayer oplayer = Bukkit.getOfflinePlayer(uuids);
+            if(oplayer != null) {
+                if (oplayer.getName().toLowerCase().startsWith(args)) {
+                    returnme.add(oplayer.getName());
+                }
+            }
+        }
+        return  returnme;
+    }
 
 }

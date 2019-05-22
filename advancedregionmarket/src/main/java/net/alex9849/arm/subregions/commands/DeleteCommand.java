@@ -46,6 +46,10 @@ public class DeleteCommand extends BasicArmCommand {
         Player player = (Player) sender;
         Region region = AdvancedRegionMarket.getRegionManager().getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
 
+        if(region == null) {
+            throw new InputException(player, Messages.REGION_DOES_NOT_EXIST);
+        }
+
         if (!region.isSubregion()) {
             throw new InputException(sender, Messages.REGION_NOT_A_SUBREGION);
         }

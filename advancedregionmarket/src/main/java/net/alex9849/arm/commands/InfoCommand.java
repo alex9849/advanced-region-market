@@ -43,6 +43,10 @@ public class InfoCommand extends BasicArmCommand {
         }
         Player player = (Player) sender;
 
+        if(!player.hasPermission(Permission.MEMBER_INFO) && !player.hasPermission(Permission.ADMIN_INFO)) {
+            throw new InputException(player, Messages.NO_PERMISSION);
+        }
+
         Region selectedRegion;
         if (allargs.matches(this.regex)) {
             selectedRegion = AdvancedRegionMarket.getRegionManager().getRegionAtPositionOrNameCommand(player, "");

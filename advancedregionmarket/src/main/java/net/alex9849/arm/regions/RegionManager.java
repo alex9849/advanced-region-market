@@ -726,10 +726,20 @@ public class RegionManager extends YamlFileManager<Region> {
         }
     }
 
+    /**
+     * Selectes a region by using the players position or the regionID (regionName)
+     * @param player the player
+     * @param regionName The Name of the region. Use null or "" if you want to use the players position instead
+     * @return A region (is never null)
+     * @throws InputException If there are more then 1 or 0 regions at the players position or if the region with the ID regionName does not exist
+     */
     public Region getRegionAtPositionOrNameCommand(Player player, String regionName) throws InputException {
         Region selectedRegion;
         if(regionName == null || regionName.equalsIgnoreCase("")) {
             selectedRegion = this.getRegionbyNameAndWorldCommands(regionName, player.getWorld().getName());
+            if(selectedRegion == null) {
+                throw new InputException(player, Messages.REGION_DOES_NOT_EXIST);
+            }
         } else {
             List<Region> selectedRegions = this.getRegionsByLocation(player.getLocation());
             if(selectedRegions.size() == 0) {

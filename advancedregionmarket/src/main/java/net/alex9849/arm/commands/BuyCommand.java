@@ -42,6 +42,7 @@ public class BuyCommand extends BasicArmCommand {
             if(!(sender instanceof Player)) {
                 throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
             }
+
             Player player = (Player) sender;
             Region region;
 
@@ -49,10 +50,6 @@ public class BuyCommand extends BasicArmCommand {
                 region = AdvancedRegionMarket.getRegionManager().getRegionAtPositionOrNameCommand(player, args[1]);
             } else {
                 region = AdvancedRegionMarket.getRegionManager().getRegionAtPositionOrNameCommand(player, null);
-            }
-
-            if(region == null){
-                throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
             }
 
             if(!region.isSold()) {

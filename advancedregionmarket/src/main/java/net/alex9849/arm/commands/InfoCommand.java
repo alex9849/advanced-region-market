@@ -23,11 +23,7 @@ public class InfoCommand extends BasicArmCommand {
 
     @Override
     public boolean matchesRegex(String command) {
-        if(command.matches(this.regex)){
-            return true;
-        } else {
-            return command.matches(this.regex_with_args);
-        }
+        return command.matches(this.regex) || command.matches(this.regex_with_args);
     }
 
     @Override
@@ -42,11 +38,19 @@ public class InfoCommand extends BasicArmCommand {
 
     @Override
     public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
-        if (allargs.matches(this.regex)) {
-            return regionInfoCommand(sender);
-        } else {
-            return regionInfoCommand(sender, args[1]);
+        if(!(sender instanceof Player)) {
+            throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
+        Player player = (Player) sender;
+
+        Region selectedRegion;
+        if (allargs.matches(this.regex)) {
+            selectedRegion = AdvancedRegionMarket.getRegionManager().getRegionAtPositionOrNameCommand(player, "");
+        } else {
+            selectedRegion = AdvancedRegionMarket.getRegionManager().getRegionAtPositionOrNameCommand(player, args[1]);
+        }
+        selectedRegion.regionInfo(player);
+        return true;
     }
 
     @Override
@@ -66,55 +70,5 @@ public class InfoCommand extends BasicArmCommand {
         }
 
         return returnme;
-    }
-
-    private boolean regionInfoCommand(CommandSender sender) throws InputException {
-        if (!(sender instanceof Player)) {
-            throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
-        }
-
-        Player player = (Player) sender;
-
-        if(!player.hasPermission(Permission.MEMBER_INFO) && !player.hasPermission(Permission.ADMIN_INFO)) {
-            throw new InputException(player, Messages.NO_PERMISSION);
-        }
-
-        Location loc = (player).getLocation();
-
-        List<Region> regionList = AdvancedRegionMarket.getRegionManager().getRegionsByLocation(loc);
-
-        if(regionList.size() == 1) {
-            regionList.get(0).regionInfo(player);
-            return true;
-        } else if (regionList.size() > 1) {
-            String regions = "";
-            for(Region region : regionList) {
-                regions = regions + region.getRegion().getId() + " ";
-            }
-            throw new InputException(player, Messages.REGION_SELECTED_MULTIPLE_REGIONS + regions);
-        }
-
-        throw new InputException(player, Messages.NO_REGION_AT_PLAYERS_POSITION);
-    }
-
-    private boolean regionInfoCommand(CommandSender sender, String regionname) throws InputException {
-        if (!(sender instanceof Player)) {
-            throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
-        }
-
-        Player player = (Player) sender;
-
-        if(!player.hasPermission(Permission.MEMBER_INFO) && !player.hasPermission(Permission.ADMIN_INFO)) {
-            throw new InputException(player, Messages.NO_PERMISSION);
-        }
-
-        Region region = AdvancedRegionMarket.getRegionManager().getRegionbyNameAndWorldCommands(regionname, (player).getWorld().getName());
-
-        if(region == null){
-            throw new InputException(player, Messages.REGION_DOES_NOT_EXIST);
-        }
-
-        region.regionInfo(player);
-        return true;
     }
 }

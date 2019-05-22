@@ -52,10 +52,6 @@ public class ExtendCommand extends BasicArmCommand {
                 region = AdvancedRegionMarket.getRegionManager().getRegionAtPositionOrNameCommand(player, null);
             }
 
-            if(region == null){
-                throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
-            }
-
             if(!(region instanceof RentRegion)) {
                 throw new InputException(sender, Messages.REGION_IS_NOT_A_RENTREGION);
             }

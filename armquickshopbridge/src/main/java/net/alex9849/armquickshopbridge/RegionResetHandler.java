@@ -32,11 +32,17 @@ public class RegionResetHandler implements Listener {
         HashMap<Location, Shop> shopMap = new HashMap<Location, Shop>();
 
         for(Chunk chunk : chuckLocations) {
-            shopMap.putAll(QuickShop.instance.getShopManager().getShops(chunk));
+            HashMap<Location, Shop> shopsInChunk = QuickShop.instance.getShopManager().getShops(chunk);
+            if(shopsInChunk != null) {
+                shopMap.putAll(shopsInChunk);
+            }
         }
         for(Location shopLocation : shopMap.keySet()) {
             if(event.getRegion().getRegion().contains(shopLocation.getBlockX(), shopLocation.getBlockY(), shopLocation.getBlockZ())) {
-                shopMap.get(shopLocation).delete(false);
+                Shop shop = shopMap.get(shopLocation);
+                if(shop != null) {
+                    shop.delete(false);
+                }
             }
         }
     }

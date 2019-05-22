@@ -19,12 +19,13 @@ import java.util.List;
 public class AddMemberCommand extends BasicArmCommand {
 
     private final String rootCommand = "addmember";
-    private final String regex = "(?i)addmember [^;\n ]+ [^;\n ]+";
-    private final List<String> usage = new ArrayList<>(Arrays.asList("addmember [REGION] [NEWMEMBER]"));
+    private final String regex_with_args = "(?i)addmember [^;\n ]+ [^;\n ]+";
+    private final String regex = "(?i)addmember [^;\n ]+";
+    private final List<String> usage = new ArrayList<>(Arrays.asList("addmember [REGION] [NEWMEMBER]", "addmember [NEWMEMBER]"));
 
     @Override
     public boolean matchesRegex(String command) {
-        return command.matches(this.regex);
+        return command.matches(this.regex) || command.matches(this.regex_with_args);
     }
 
     @Override
@@ -42,25 +43,33 @@ public class AddMemberCommand extends BasicArmCommand {
         if (!(sender instanceof Player)) {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
-        Region region = AdvancedRegionMarket.getRegionManager().getRegionbyNameAndWorldCommands(args[1], ((Player) sender).getWorld().getName());
-        if(region == null){
-            throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
+        Player player = (Player) sender;
+
+        Region region;
+        Player addPlayer;
+
+        if(allargs.matches(this.regex)) {
+            region = AdvancedRegionMarket.getRegionManager().getRegionAtPositionOrNameCommand(player, "");
+            addPlayer = Bukkit.getPlayer(args[1]);
+        } else {
+            region = AdvancedRegionMarket.getRegionManager().getRegionAtPositionOrNameCommand(player, args[1]);
+            addPlayer = Bukkit.getPlayer(args[2]);
         }
 
-        Player playermember = Bukkit.getPlayer(args[2]);
-        if(playermember == null) {
-            throw new InputException(sender, Messages.REGION_ADD_MEMBER_NOT_ONLINE);
+        if(addPlayer == null) {
+            throw new InputException(player, Messages.REGION_ADD_MEMBER_NOT_ONLINE);
         }
-        if(region.getRegion().hasOwner(((Player) sender).getUniqueId()) && sender.hasPermission(Permission.MEMBER_ADDMEMBER)) {
-            region.getRegion().addMember(playermember.getUniqueId());
-            sender.sendMessage(Messages.PREFIX + Messages.REGION_ADD_MEMBER_ADDED);
-        } else if (sender.hasPermission(Permission.ADMIN_ADDMEMBER)){
-            region.getRegion().addMember(playermember.getUniqueId());
-            sender.sendMessage(Messages.PREFIX + Messages.REGION_ADD_MEMBER_ADDED);
-        } else if (!(sender.hasPermission(Permission.MEMBER_ADDMEMBER))){
-            throw new InputException(sender, Messages.NO_PERMISSION);
+
+        if(region.getRegion().hasOwner(player.getUniqueId()) && player.hasPermission(Permission.MEMBER_ADDMEMBER)) {
+            region.getRegion().addMember(addPlayer.getUniqueId());
+            player.sendMessage(Messages.PREFIX + Messages.REGION_ADD_MEMBER_ADDED);
+        } else if (player.hasPermission(Permission.ADMIN_ADDMEMBER)){
+            region.getRegion().addMember(addPlayer.getUniqueId());
+            player.sendMessage(Messages.PREFIX + Messages.REGION_ADD_MEMBER_ADDED);
+        } else if (!(player.hasPermission(Permission.MEMBER_ADDMEMBER))){
+            throw new InputException(player, Messages.NO_PERMISSION);
         } else {
-            throw new InputException(sender, Messages.REGION_ADD_MEMBER_DO_NOT_OWN);
+            throw new InputException(player, Messages.REGION_ADD_MEMBER_DO_NOT_OWN);
         }
 
         return true;
@@ -83,6 +92,7 @@ public class AddMemberCommand extends BasicArmCommand {
                             playerRegionRelationship = PlayerRegionRelationship.OWNER;
                         }
                         returnme.addAll(AdvancedRegionMarket.getRegionManager().completeTabRegions(player, args[1], playerRegionRelationship,true, true));
+                        returnme.addAll(CommandHandler.tabCompleteOnlinePlayers(args[1]));
                     } else if(args.length == 3 && args[0].equalsIgnoreCase(this.rootCommand)) {
                         returnme.addAll(CommandHandler.tabCompleteOnlinePlayers(args[2]));
                     }

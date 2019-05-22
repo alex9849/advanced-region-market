@@ -18,12 +18,13 @@ import java.util.List;
 
 public class TerminateCommand extends BasicArmCommand {
     private final String rootCommand = "terminate";
-    private final String regex = "(?i)terminate [^;\n ]+ (false|true)";
-    private final List<String> usage = new ArrayList<>(Arrays.asList("terminate [REGION] [true/false]"));
+    private final String regex_with_args = "(?i)terminate [^;\n ]+ (false|true)";
+    private final String regex = "(?i)terminate (false|true)";
+    private final List<String> usage = new ArrayList<>(Arrays.asList("terminate [REGION] [true/false]", "terminate [true/false]"));
 
     @Override
     public boolean matchesRegex(String command) {
-        return command.matches(this.regex);
+        return command.matches(this.regex) || command.matches(this.regex_with_args);
     }
 
     @Override
@@ -43,10 +44,17 @@ public class TerminateCommand extends BasicArmCommand {
                 throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
             }
             Player player = (Player) sender;
-            Region region = AdvancedRegionMarket.getRegionManager().getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
-            if(region == null){
-                throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
+            Region region;
+            boolean termination;
+
+            if(allargs.matches(regex)) {
+                region = AdvancedRegionMarket.getRegionManager().getRegionAtPositionOrNameCommand(player, "");
+                termination = Boolean.parseBoolean(args[1]);
+            } else {
+                region = AdvancedRegionMarket.getRegionManager().getRegionAtPositionOrNameCommand(player, args[1]);
+                termination = Boolean.parseBoolean(args[2]);
             }
+
             if(!(region instanceof ContractRegion)) {
                 throw new InputException(sender, Messages.REGION_IS_NOT_A_CONTRACT_REGION);
             }
@@ -62,8 +70,6 @@ public class TerminateCommand extends BasicArmCommand {
             }
 
             ContractRegion contractRegion = (ContractRegion) region;
-
-            boolean termination = Boolean.parseBoolean(args[2]);
 
             if(!termination && !LimitGroup.isInLimit(player, contractRegion)) {
                 throw new InputException(player, LimitGroup.getRegionBuyOutOfLimitMessage(player, contractRegion.getRegionKind()));
@@ -93,6 +99,12 @@ public class TerminateCommand extends BasicArmCommand {
                             playerRegionRelationship = PlayerRegionRelationship.OWNER;
                         }
                         returnme.addAll(AdvancedRegionMarket.getRegionManager().completeTabRegions(player, args[1], playerRegionRelationship, true,true));
+                        if("true".startsWith(args[1])) {
+                            returnme.add("true");
+                        }
+                        if("false".startsWith(args[1])) {
+                            returnme.add("false");
+                        }
                     } else if(args.length == 3 && (args[0].equalsIgnoreCase(this.rootCommand))) {
                         if("true".startsWith(args[2])) {
                             returnme.add("true");

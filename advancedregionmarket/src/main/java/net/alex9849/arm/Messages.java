@@ -267,7 +267,7 @@ public class Messages {
     public static String SIGN_LINK_MODE_NO_PRESET_SELECTED = "&cYou dont have a preset loaded! Please load or create a preset first! &cYou can create a preset by using the &6/arm sellpreset/rentpreset/contractpreset &ccommands!\nFor more &cinformation about presets click here:\n&6https://goo.gl/3upfAA (Gitlab Wiki)";
     public static String SIGN_LINK_MODE_SIGN_BELONGS_TO_ANOTHER_REGION = "&4Sign belongs to another region!";
     public static String SIGN_LINK_MODE_SIGN_SELECTED = "&aSign selected!";
-    public static String SIGN_LINK_MODE_COULD_NOT_SELECT_REGION_MULTIPLE_WG_REGIONS = "&4Could not select WorldGuard-Region! There are more then one regions available!";
+    public static String SIGN_LINK_MODE_COULD_NOT_SELECT_REGION_MULTIPLE_WG_REGIONS = "&4Could not select WorldGuard-Region! There is more then one region available!";
     public static String SIGN_LINK_MODE_COULD_NOT_SELECT_REGION_NO_WG_REGION = "&4Could not select WorldGuard-Region! There is no region at this position!";
     public static String SIGN_LINK_MODE_COULD_NOT_IDENTIFY_WORLD = "&4Could not identify world! Please select the WorldGuard-Region again!";
     public static String SIGN_LINK_MODE_NO_SIGN_SELECTED = "&4You have not selected a sign";
@@ -1242,7 +1242,7 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionInfoAllowedSubregions", "&6Allowed Subregions: ");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionInfoSubregions", "&6Subregions: ");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionInfoExpired", "&6Expired");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionSelectedMultipleRegions", "&6There are more than one region at your position. Please select one: &4");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionSelectedMultipleRegions", "&6There is more than one region at your position. Please select one: &4");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RentRegionExpirationWarning", "&4WARNING! This RentRegion(s) will expire soon: &c");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionDeleted", "&aRegion deleted!");
 
@@ -1269,7 +1269,7 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.SignLinkModeNoPresetSelected", "&cYou dont have a preset loaded! Please load or create a preset first! &cYou can create a preset by using the &6/arm sellpreset/rentpreset/contractpreset &ccommands!\nFor more &cinformation about presets click here:\n&6https://goo.gl/3upfAA (Gitlab Wiki)");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.SignLinkModeSignBelongsToAnotherRegion", "&4Sign belongs to another region!");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.SignLinkModeSignSelected", "&aSign selected!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SignLinkModeMultipleWgRegionsAtPosition", "&4Could not select WorldGuard-Region! There are more then one regions available!");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SignLinkModeMultipleWgRegionsAtPosition", "&4Could not select WorldGuard-Region! There is more then one region available!");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.SignLinkModeNoWgRegionAtPosition", "&4Could not select WorldGuard-Region! There is no region at this position!");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.SignLinkModeCouldNotIdentifyWorld", "&4Could not identify world! Please select the WorldGuard-Region again!");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.SignLinkModeNoSignSelected", "&4You have not selected a sign");

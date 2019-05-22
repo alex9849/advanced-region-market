@@ -736,11 +736,6 @@ public class RegionManager extends YamlFileManager<Region> {
     public Region getRegionAtPositionOrNameCommand(Player player, String regionName) throws InputException {
         Region selectedRegion;
         if(regionName == null || regionName.equalsIgnoreCase("")) {
-            selectedRegion = this.getRegionbyNameAndWorldCommands(regionName, player.getWorld().getName());
-            if(selectedRegion == null) {
-                throw new InputException(player, Messages.REGION_DOES_NOT_EXIST);
-            }
-        } else {
             List<Region> selectedRegions = this.getRegionsByLocation(player.getLocation());
             if(selectedRegions.size() == 0) {
                 throw new InputException(player, Messages.NO_REGION_AT_PLAYERS_POSITION);
@@ -753,6 +748,11 @@ public class RegionManager extends YamlFileManager<Region> {
                 throw new InputException(player, Messages.REGION_SELECTED_MULTIPLE_REGIONS + regions);
             }
             selectedRegion = selectedRegions.get(0);
+        } else {
+            selectedRegion = this.getRegionbyNameAndWorldCommands(regionName, player.getWorld().getName());
+            if(selectedRegion == null) {
+                throw new InputException(player, Messages.REGION_DOES_NOT_EXIST);
+            }
         }
         return selectedRegion;
     }

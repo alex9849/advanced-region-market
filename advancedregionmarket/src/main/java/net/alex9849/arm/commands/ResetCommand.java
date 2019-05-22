@@ -20,12 +20,13 @@ import java.util.logging.Level;
 public class ResetCommand extends BasicArmCommand {
 
     private final String rootCommand = "reset";
-    private final String regex = "(?i)reset [^;\n ]+";
-    private final List<String> usage = new ArrayList<>(Arrays.asList("reset [REGION]"));
+    private final String regex_with_args = "(?i)reset [^;\n ]+";
+    private final String regex = "(?i)reset";
+    private final List<String> usage = new ArrayList<>(Arrays.asList("reset [REGION]", "reset"));
 
     @Override
     public boolean matchesRegex(String command) {
-        return command.matches(this.regex);
+        return command.matches(this.regex) || command.matches(this.regex_with_args);
     }
 
     @Override
@@ -43,26 +44,32 @@ public class ResetCommand extends BasicArmCommand {
         if (!(sender instanceof Player)) {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
+        Player player = (Player) sender;
 
         if(!sender.hasPermission(Permission.ADMIN_RESETREGION)){
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
 
-        Region resregion = AdvancedRegionMarket.getRegionManager().getRegionbyNameAndWorldCommands(args[1], ((Player) sender).getPlayer().getWorld().getName());
+        Region resregion;
+        if(allargs.matches(this.regex)) {
+            resregion = AdvancedRegionMarket.getRegionManager().getRegionAtPositionOrNameCommand(player, "");
+        } else {
+            resregion = AdvancedRegionMarket.getRegionManager().getRegionAtPositionOrNameCommand(player, args[1]);
+        }
+
         if(resregion == null) {
             throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
-        } else {
-            resregion.unsell();
-
-            try {
-                resregion.resetBlocks();
-            } catch (SchematicNotFoundException e) {
-                sender.sendMessage(Messages.PREFIX + Messages.SCHEMATIC_NOT_FOUND_ERROR_ADMIN.replace("%regionid%", e.getRegion().getId()));
-                Bukkit.getLogger().log(Level.WARNING, "Could not find schematic file for region " + resregion.getRegion().getId() + "in world " + resregion.getRegionworld().getName());
-            }
-            sender.sendMessage(Messages.PREFIX + Messages.REGION_NOW_AVIABLE);
-            return true;
         }
+        resregion.unsell();
+
+        try {
+            resregion.resetBlocks();
+        } catch (SchematicNotFoundException e) {
+            sender.sendMessage(Messages.PREFIX + Messages.SCHEMATIC_NOT_FOUND_ERROR_ADMIN.replace("%regionid%", e.getRegion().getId()));
+            Bukkit.getLogger().log(Level.WARNING, "Could not find schematic file for region " + resregion.getRegion().getId() + "in world " + resregion.getRegionworld().getName());
+        }
+        sender.sendMessage(Messages.PREFIX + Messages.REGION_NOW_AVIABLE);
+        return true;
     }
 
     @Override

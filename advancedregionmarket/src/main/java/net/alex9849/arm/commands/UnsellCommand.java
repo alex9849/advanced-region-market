@@ -16,12 +16,13 @@ import java.util.List;
 
 public class UnsellCommand extends BasicArmCommand {
     private final String rootCommand = "unsell";
-    private final String regex = "(?i)unsell [^;\n ]+";
-    private final List<String> usage = new ArrayList<>(Arrays.asList("unsell [REGION]"));
+    private final String regex_with_args = "(?i)unsell [^;\n ]+";
+    private final String regex = "(?i)unsell";
+    private final List<String> usage = new ArrayList<>(Arrays.asList("unsell [REGION]", "unsell"));
 
     @Override
     public boolean matchesRegex(String command) {
-        return command.matches(this.regex);
+        return command.matches(this.regex) || command.matches(this.regex_with_args);
     }
 
     @Override
@@ -41,9 +42,12 @@ public class UnsellCommand extends BasicArmCommand {
                 throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
             }
             Player player = (Player) sender;
-            Region region = AdvancedRegionMarket.getRegionManager().getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
-            if(region == null){
-                throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
+
+            Region region;
+            if(allargs.matches(this.regex)) {
+                region = AdvancedRegionMarket.getRegionManager().getRegionAtPositionOrNameCommand(player, "");
+            } else {
+                region = AdvancedRegionMarket.getRegionManager().getRegionAtPositionOrNameCommand(player, args[1]);
             }
 
             region.unsell();

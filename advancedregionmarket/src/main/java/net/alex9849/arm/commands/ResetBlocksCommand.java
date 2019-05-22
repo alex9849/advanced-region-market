@@ -20,12 +20,13 @@ import java.util.logging.Level;
 
 public class ResetBlocksCommand extends BasicArmCommand {
     private final String rootCommand = "resetblocks";
-    private final String regex = "(?i)resetblocks [^;\n ]+";
-    private final List<String> usage = new ArrayList<>(Arrays.asList("resetblocks [REGION]"));
+    private final String regex_with_args = "(?i)resetblocks [^;\n ]+";
+    private final String regex = "(?i)resetblocks";
+    private final List<String> usage = new ArrayList<>(Arrays.asList("resetblocks [REGION]", "resetblocks"));
 
     @Override
     public boolean matchesRegex(String command) {
-        return command.matches(this.regex);
+        return command.matches(this.regex) || command.matches(this.regex_with_args);
     }
 
     @Override
@@ -49,9 +50,11 @@ public class ResetBlocksCommand extends BasicArmCommand {
             throw new InputException(player, Messages.NO_PERMISSION);
         }
 
-        Region resregion = AdvancedRegionMarket.getRegionManager().getRegionbyNameAndWorldCommands(args[1], (player).getPlayer().getWorld().getName());
-        if(resregion == null) {
-            throw new InputException(player, Messages.REGION_DOES_NOT_EXIST);
+        Region resregion;
+        if(allargs.matches(this.regex)) {
+            resregion = AdvancedRegionMarket.getRegionManager().getRegionAtPositionOrNameCommand(player, "");
+        } else {
+            resregion = AdvancedRegionMarket.getRegionManager().getRegionAtPositionOrNameCommand(player, args[1]);
         }
 
         if(player.hasPermission(Permission.ADMIN_RESETREGIONBLOCKS)) {

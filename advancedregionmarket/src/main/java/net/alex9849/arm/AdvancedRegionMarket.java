@@ -598,6 +598,9 @@ public class AdvancedRegionMarket extends JavaPlugin {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args) {
+        if (!cmd.getName().equalsIgnoreCase("arm")) {
+            return true;
+        }
         try {
             if(args.length >= 1) {
                 return this.commandHandler.executeCommand(sender, cmd, commandsLabel, args);

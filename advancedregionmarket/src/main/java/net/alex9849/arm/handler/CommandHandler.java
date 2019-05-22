@@ -50,7 +50,7 @@ public class CommandHandler implements TabCompleter {
             }
         }
 
-        if(cmd.getName().equalsIgnoreCase("arm") && (args.length >= 1)) {
+        if(args.length >= 1) {
             for(BasicArmCommand command : this.commands) {
                 if(command.getRootCommand().equalsIgnoreCase(args[0])) {
                     if(command.matchesRegex(allargs)) {
@@ -59,8 +59,11 @@ public class CommandHandler implements TabCompleter {
                             return command.runCommand(sender, cmd, commandsLabel, args, allargs);
                         } catch (CmdSyntaxException syntaxException) {
                             List<String> syntax = syntaxException.getSyntax();
-                            for(int i = 0; i < syntax.size(); i++) {
-                                syntax.set(i, this.rootcommand + syntax.get(i));
+
+                            if(!this.rootcommand.equalsIgnoreCase("")) {
+                                for(int i = 0; i < syntax.size(); i++) {
+                                    syntax.set(i, this.rootcommand + " " + syntax.get(i));
+                                }
                             }
                             throw new CmdSyntaxException(syntax);
                         }
@@ -68,8 +71,10 @@ public class CommandHandler implements TabCompleter {
                     } else {
                         List<String> syntax = new ArrayList<>(command.getUsage());
 
-                        for(int i = 0; i < syntax.size(); i++) {
-                            syntax.set(i, this.rootcommand + " " + syntax.get(i));
+                        if(!this.rootcommand.equalsIgnoreCase("")) {
+                            for(int i = 0; i < syntax.size(); i++) {
+                                syntax.set(i, this.rootcommand + " " + syntax.get(i));
+                            }
                         }
                         throw new CmdSyntaxException(syntax);
                     }

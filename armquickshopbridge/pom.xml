@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>armquickshopadapter</artifactId>
+    <artifactId>armquickshopbridge</artifactId>
 
     <properties>
         <maven.compiler.source>6</maven.compiler.source>

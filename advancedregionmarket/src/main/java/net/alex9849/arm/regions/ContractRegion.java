@@ -372,7 +372,7 @@ public class ContractRegion extends Region {
 
     public void changeTerminated(Player player) throws InputException {
         if(this.isTerminated()) {
-            if(LimitGroup.isInLimit(player, this)) {
+            if(!LimitGroup.isInLimit(player, this)) {
                 throw new InputException(player, LimitGroup.getRegionBuyOutOfLimitMessage(player, this.getRegionKind()));
             } else {
                 this.setTerminated(false, player);

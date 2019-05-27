@@ -105,7 +105,10 @@ public class WorldEdit7 extends WorldEditInterface {
             Operations.completeLegacy(copy);
             ((EditSession) destination).flushSession();
             closer.close();
-        } catch (WorldEditException e) {
+        } catch (SchematicNotFoundException e) {
+            throw e;
+        } catch (Exception e) {
+            Bukkit.getLogger().info("Could not load schematic " + file.getAbsolutePath() + " please check your WorldEdit version or regenerate the schematic file!");
             e.printStackTrace();
         }
     }

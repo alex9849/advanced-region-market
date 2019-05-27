@@ -51,7 +51,17 @@ public class WorldEdit6FaWe extends WorldEditInterface {
 
     public void resetBlocks(WGRegion region, World bukkitworld, WorldEdit we) throws IOException {
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-        File file = new File(pluginfolder + "/schematics/" + bukkitworld.getName() + "/" + region.getId() + ".schematic");
+        File rawschematicdic = new File(pluginfolder + "/schematics/" + bukkitworld.getName() + "/" + region.getId());
+
+        File file = null;
+
+        for (ClipboardFormat format : ClipboardFormat.values()) {
+            for (String extension : format.getAliases()) {
+                if (new File(rawschematicdic.getAbsolutePath() + "." + extension).exists()) {
+                    file = new File(rawschematicdic.getAbsolutePath() + "." + extension);
+                }
+            }
+        }
 
         if(file == null) {
             throw new SchematicNotFoundException(region);
@@ -62,7 +72,7 @@ public class WorldEdit6FaWe extends WorldEditInterface {
         BlockVector minPoint = new BlockVector(region.getMinPoint().getBlockX(), region.getMinPoint().getBlockY(), region.getMinPoint().getBlockZ());
         Clipboard clipboard;
         try {
-            clipboard = ClipboardFormat.SCHEMATIC.getReader(new FileInputStream(file)).read(worldData);
+            clipboard = ClipboardFormat.findByFile(file).getReader(new FileInputStream(file)).read(worldData);
             Extent source = clipboard;
             Extent destination = WorldEdit.getInstance().getEditSessionFactory().getEditSession(world, Integer.MAX_VALUE);
             ForwardExtentCopy copy = new ForwardExtentCopy(source, clipboard.getRegion(), clipboard.getOrigin(), destination, minPoint);
@@ -72,7 +82,10 @@ public class WorldEdit6FaWe extends WorldEditInterface {
 
             ((EditSession) destination).flushQueue();
 
-        } catch (WorldEditException e) {
+        } catch (SchematicNotFoundException e) {
+            throw e;
+        } catch (Exception e) {
+            Bukkit.getLogger().info("Could not load schematic " + file.getAbsolutePath() + " please check your WorldEdit version or regenerate the schematic file!");
             e.printStackTrace();
         }
     }

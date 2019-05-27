@@ -175,6 +175,9 @@ public class AreaShopImporter {
             if(!schemFile.exists()) {
                 schemFile = new File(AreaShop.getInstance().getFileManager().getSchematicFolder() + "/" + restore + ".schematic");
             }
+            if(!schemFile.exists()) {
+                return null;
+            }
             return schemFile;
         }
         return null;

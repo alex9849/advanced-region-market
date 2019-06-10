@@ -64,6 +64,11 @@ public class TpToFreeRegion extends BasicArmCommand {
         List<String> returnme = new ArrayList<>();
 
         if(args.length >= 1) {
+
+            if(!player.hasPermission(Permission.MEMBER_TP_TO_FREE_REGION)) {
+                return returnme;
+            }
+
             if (this.rootCommand.startsWith(args[0])) {
                 if (Permission.hasAnyBuyPermission(player)) {
                     if(args.length == 1) {

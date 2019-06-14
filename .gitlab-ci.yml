@@ -14,13 +14,11 @@ build:newestVersion:
     - mvn package
     - cp ./advancedregionmarket/target/advancedregionmarket.jar ./advancedregionmarket.jar
     - cp ./armimporter/target/armimporter.jar ./armimporter.jar
-    - cp ./armquickshopbridge/target/armquickshopbridge.jar ./armquickshopbridge.jar
   artifacts:
     expire_in: 1 week
     paths:
       - ./advancedregionmarket.jar
       - ./armimporter.jar
-      - ./armquickshopbridge.jar
 
 build:1.13:
   stage: build

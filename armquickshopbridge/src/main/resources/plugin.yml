@@ -1,9 +1,0 @@
-name: ArmQuickShopBridge
-version: 1.0
-main: net.alex9849.armquickshopbridge.ArmQuickShopBridge
-depend: [AdvancedRegionMarket, QuickShop]
-authors:
-  - alex9849
-api-version: 1.13
-prefix: ArmQuickShopBridge
-commands: {}

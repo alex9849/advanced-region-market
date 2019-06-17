@@ -28,6 +28,10 @@
 
     <repositories>
         <repository>
+            <id>gitlab-maven</id>
+            <url>https://gitlab.com/api/v4/projects/${env.CI_PROJECT_ID}/packages/maven</url>
+        </repository>
+        <repository>
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
@@ -59,5 +63,16 @@
             <url>http://central.maven.org/maven2</url>
         </repository>
     </repositories>
+
+ <distributionManagement>
+   <repository>
+     <id>gitlab-maven</id>
+     <url>https://gitlab.com/api/v4/projects/${env.CI_PROJECT_ID}/packages/maven</url>
+   </repository>
+   <snapshotRepository>
+     <id>gitlab-maven</id>
+     <url>https://gitlab.com/api/v4/projects/${env.CI_PROJECT_ID}/packages/maven</url>
+   </snapshotRepository>
+ </distributionManagement>
 
 </project>

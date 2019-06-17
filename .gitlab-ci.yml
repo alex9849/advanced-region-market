@@ -11,7 +11,7 @@ cache:
 build:newestVersion:
   stage: build
   script:
-    - mvn $MAVEN_CLI_OPTS package
+    - mvn package
     - cp ./advancedregionmarket/target/advancedregionmarket.jar ./advancedregionmarket.jar
     - cp ./armimporter/target/armimporter.jar ./armimporter.jar
   artifacts:
@@ -26,7 +26,7 @@ build:1.13:
     - sed 's/1.14-R0.1-SNAPSHOT/1.13.2-R0.1-SNAPSHOT/g' ./advancedregionmarket/pom.xml > ./advancedregionmarket/temponaryPom.xml
     - cp ./advancedregionmarket/temponaryPom.xml ./advancedregionmarket/pom.xml
     - rm ./advancedregionmarket/temponaryPom.xml
-    - mvn $MAVEN_CLI_OPTS package
+    - mvn package
     - cp ./advancedregionmarket/target/advancedregionmarket.jar ./advancedregionmarket.jar
 
 build:1.12:
@@ -35,16 +35,16 @@ build:1.12:
     - sed 's/1.14-R0.1-SNAPSHOT/1.12.2-R0.1-SNAPSHOT/g' ./advancedregionmarket/pom.xml > ./advancedregionmarket/temponaryPom.xml
     - cp ./advancedregionmarket/temponaryPom.xml ./advancedregionmarket/pom.xml
     - rm ./advancedregionmarket/temponaryPom.xml
-    - mvn $MAVEN_CLI_OPTS package
+    - mvn package
     - cp ./advancedregionmarket/target/advancedregionmarket.jar ./advancedregionmarket.jar
 
 test:
   stage: test
   script:
-    - mvn $MAVEN_CLI_OPTS test
+    - mvn test
 deploy:
   stage: deploy
   only:
     - tags
   script:
-    - mvn $MAVEN_CLI_OPTS deploy
+    - mvn deploy -s ci_settings.xml

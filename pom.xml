@@ -28,10 +28,6 @@
 
     <repositories>
         <repository>
-            <id>gitlab-maven</id>
-            <url>https://gitlab.com/api/v4/projects/${env.CI_PROJECT_ID}/packages/maven</url>
-        </repository>
-        <repository>
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
@@ -61,6 +57,10 @@
         <repository>
             <id>maven-central</id>
             <url>http://central.maven.org/maven2</url>
+        </repository>
+        <repository>
+            <id>advanced-region-market</id>
+            <url>https://gitlab.com/api/v4/projects/10068588/packages/maven/</url>
         </repository>
     </repositories>
 

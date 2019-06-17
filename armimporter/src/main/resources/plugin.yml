@@ -1,5 +1,5 @@
 name: ARMImporter
-version: 1.0.1
+version: ${project.version}
 main: net.aex9849.armImporter.ARMImporter
 depend: [AdvancedRegionMarket, AreaShop]
 authors:

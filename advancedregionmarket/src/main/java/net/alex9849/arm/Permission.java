@@ -108,6 +108,11 @@ public class Permission {
         return (sender.hasPermission(SUBREGION_CREATE_SELL)) || (sender.hasPermission(SUBREGION_CREATE_RENT)) || (sender.hasPermission(SUBREGION_CREATE_CONTRACT));
     }
 
+    public static boolean hasAnyRegionBackupPermission(CommandSender sender) {
+        //TODO Finalize
+        return true;
+    }
+
     public static boolean hasAnySubregionPermission(CommandSender sender) {
         return hasAnySubregionCreatePermission(sender) || (sender.hasPermission(SUBREGION_TOOL)) || (sender.hasPermission(SUBREGION_DELETE_SOLD)) ||
                 (sender.hasPermission(SUBREGION_CHANGE_IS_HOTEL)) || (sender.hasPermission(SUBREGION_DELETE_AVAILABLE)) || (sender.hasPermission(SUBREGION_TP) ||

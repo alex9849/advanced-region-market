@@ -5,6 +5,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public abstract class YamlFileManager<ManagedObject extends Saveable> {
@@ -92,7 +93,40 @@ public abstract class YamlFileManager<ManagedObject extends Saveable> {
     }
 
     public List<ManagedObject> getObjectListCopy() {
-        return new ArrayList<>(this.objectList);
+        if(this.objectList.size() < 400) {
+            return new ArrayList<>(this.objectList);
+        }
+
+        Saveable[] objCopy = new Saveable[this.objectList.size()];
+
+        Thread[] threads = new Thread[8];
+
+        for(int threadNr = 0; threadNr < threads.length; threadNr++) {
+            int startPoint = (this.objectList.size() / threads.length) * threadNr;
+            int endpoint;
+
+            if(threadNr + 1 >= threads.length) {
+                endpoint = this.objectList.size();
+            } else {
+                endpoint = (this.objectList.size() / threads.length) * (threadNr + 1);
+            }
+
+            threads[threadNr] = new Thread(() -> {
+                for(int index = startPoint; index < endpoint; index++) {
+                    objCopy[index] = this.objectList.get(index);
+                }
+            });
+            threads[threadNr].start();
+        }
+
+        for(Thread thread : threads) {
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        return new ArrayList<ManagedObject>(Arrays.asList((ManagedObject[])objCopy));
     }
 
     public static void writeResourceToDisc(File savepath, InputStream resourceStream) {

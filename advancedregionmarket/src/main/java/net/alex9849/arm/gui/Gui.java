@@ -1193,7 +1193,7 @@ public class Gui implements Listener {
             });
             inv.addIcon(prevPageButton, invsize - 9);
         }
-        if((startitem + 45) < (clickItems.size() - 1)) {
+        if((startitem + 45) < clickItems.size()) {
             int newStartItem = startitem + 45;
             ClickItem nextPageButton = new ClickItem(new ItemStack(Gui.NEXT_PAGE_ITEM), Messages.GUI_NEXT_PAGE).addClickAction(new ClickAction() {
                 @Override

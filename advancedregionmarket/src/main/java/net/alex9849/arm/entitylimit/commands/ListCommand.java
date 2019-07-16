@@ -43,7 +43,7 @@ public class ListCommand extends BasicArmCommand {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
         sender.sendMessage(Messages.ENTITYLIMITGROUP_LIST_HEADLINE);
-        for(EntityLimitGroup entityLimitGroup : AdvancedRegionMarket.getEntityLimitGroupManager().getObjectListCopy()) {
+        for(EntityLimitGroup entityLimitGroup : AdvancedRegionMarket.getEntityLimitGroupManager()) {
             sender.sendMessage("- " + entityLimitGroup.getName());
         }
         return true;

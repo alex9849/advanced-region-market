@@ -192,7 +192,7 @@ public class LimitGroup {
             player.sendMessage(syntaxtotal);
         }
 
-        for(RegionKind regionKind : AdvancedRegionMarket.getRegionKindManager().getObjectListCopy()){
+        for(RegionKind regionKind : AdvancedRegionMarket.getRegionKindManager()){
             if(RegionKind.hasPermission(player, regionKind) && regionKind.isDisplayInLimits()){
 
                 syntaxtotal = Messages.LIMIT_INFO;

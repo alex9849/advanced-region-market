@@ -56,7 +56,7 @@ public class DeleteCommand extends BasicArmCommand {
 
         AdvancedRegionMarket.getEntityLimitGroupManager().remove(entityLimitGroup);
 
-        for(Region region : AdvancedRegionMarket.getRegionManager().getObjectListCopy()) {
+        for(Region region : AdvancedRegionMarket.getRegionManager()) {
             if(region.getEntityLimitGroup() == entityLimitGroup) {
                 region.setEntityLimitGroup(EntityLimitGroup.DEFAULT);
             }

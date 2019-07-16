@@ -188,9 +188,8 @@ public class PresetPatternManager extends YamlFileManager<Preset> {
 
     public List<String> onTabCompleteCompleteSavedPresets(PresetType presetType, String presetname) {
         List<String> returnme = new ArrayList<>();
-        List<Preset> presetList = this.getObjectListCopy();
 
-        for(Preset preset : presetList) {
+        for(Preset preset : this) {
             if((preset.getPresetType() == presetType) && (preset.getName().startsWith(presetname))) {
                 returnme.add(preset.getName());
             }
@@ -200,8 +199,7 @@ public class PresetPatternManager extends YamlFileManager<Preset> {
     }
 
     public Preset getPreset(String name, PresetType presetType) {
-        List<Preset> presetList = this.getObjectListCopy();
-        for(Preset preset : presetList) {
+        for(Preset preset : this) {
             if(preset.getName().equalsIgnoreCase(name)) {
                 if(preset.getPresetType() == presetType) {
                     return preset;
@@ -214,8 +212,7 @@ public class PresetPatternManager extends YamlFileManager<Preset> {
 
     public List<Preset> getPresets(PresetType presetType) {
         List<Preset> presets = new ArrayList<>();
-        List<Preset> presetList = this.getObjectListCopy();
-        for(Preset preset : presetList) {
+        for(Preset preset : this) {
             if(preset.getPresetType() == presetType) {
                 presets.add(preset);
             }

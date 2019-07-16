@@ -14,7 +14,7 @@ public class Diagram {
         sender.sendMessage(Messages.REGION_STATS);
         sendStatsForAllSellTypes(sender);
         sendStatsByRegionKind(sender, RegionKind.DEFAULT);
-        for(RegionKind regionKind : AdvancedRegionMarket.getRegionKindManager().getObjectListCopy()) {
+        for(RegionKind regionKind : AdvancedRegionMarket.getRegionKindManager()) {
             sendStatsByRegionKind(sender, regionKind);
         }
         sendStatsByRegionKind(sender, RegionKind.SUBREGION);
@@ -44,7 +44,7 @@ public class Diagram {
         int allRegions = 0;
         int allSoldRegions = 0;
 
-        for(Region region : AdvancedRegionMarket.getRegionManager().getObjectListCopy()) {
+        for(Region region : AdvancedRegionMarket.getRegionManager()) {
             allRegions++;
             if (region.isSold()) {
                 allSoldRegions++;

@@ -56,7 +56,7 @@ public class DeleteCommand extends BasicArmCommand {
 
         AdvancedRegionMarket.getRegionKindManager().remove(regionKind);
 
-        for(Region region : AdvancedRegionMarket.getRegionManager().getObjectListCopy()) {
+        for(Region region : AdvancedRegionMarket.getRegionManager()) {
             if(region.getRegionKind() == regionKind) {
                 region.setRegionKind(RegionKind.DEFAULT);
             }

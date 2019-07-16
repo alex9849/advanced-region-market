@@ -866,7 +866,7 @@ public class Gui implements Listener {
             itemcounter++;
         }
 
-        for(RegionKind regionKind : AdvancedRegionMarket.getRegionKindManager().getObjectListCopy()) {
+        for(RegionKind regionKind : AdvancedRegionMarket.getRegionKindManager()) {
             if(regionKind.isDisplayInGUI()) {
                 itemcounter++;
             }
@@ -929,7 +929,7 @@ public class Gui implements Listener {
         }
 
 
-        for(RegionKind regionKind : AdvancedRegionMarket.getRegionKindManager().getObjectListCopy()) {
+        for(RegionKind regionKind : AdvancedRegionMarket.getRegionKindManager()) {
             if(regionKind.isDisplayInGUI()) {
                 String displayName = Messages.GUI_REGIONFINDER_REGIONKIND_NAME;
                 displayName = regionKind.getConvertedMessage(displayName);

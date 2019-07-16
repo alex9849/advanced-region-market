@@ -83,9 +83,7 @@ public class RegionKindManager extends YamlFileManager<RegionKind> {
     public List<String> completeTabRegionKinds(String arg, String returnPrefix, Player player) {
         List<String> returnme = new ArrayList<>();
 
-        List<RegionKind> regionKinds = this.getObjectListCopy();
-
-        for (RegionKind regionkind : regionKinds) {
+        for (RegionKind regionkind : this) {
             if(player == null || RegionKind.hasPermission(player, regionkind)) {
                 if ((returnPrefix + regionkind.getName()).toLowerCase().startsWith(arg)) {
                     returnme.add(returnPrefix + regionkind.getName());
@@ -108,8 +106,7 @@ public class RegionKindManager extends YamlFileManager<RegionKind> {
 
     public boolean kindExists(String kind){
 
-        List<RegionKind> regionKinds = this.getObjectListCopy();
-        for(RegionKind regionKind : regionKinds) {
+        for(RegionKind regionKind : this) {
             if(regionKind.getName().equalsIgnoreCase(kind)){
                 return true;
             }
@@ -132,8 +129,7 @@ public class RegionKindManager extends YamlFileManager<RegionKind> {
 
     public RegionKind getRegionKind(String name){
 
-        List<RegionKind> regionKinds = this.getObjectListCopy();
-        for(RegionKind regionKind : regionKinds) {
+        for(RegionKind regionKind : this) {
             if(regionKind.getName().equalsIgnoreCase(name)){
                 return regionKind;
             }

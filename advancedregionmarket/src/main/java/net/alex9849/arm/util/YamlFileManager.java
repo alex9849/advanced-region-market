@@ -4,11 +4,12 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
-public abstract class YamlFileManager<ManagedObject extends Saveable> {
+public abstract class YamlFileManager<ManagedObject extends Saveable> implements Collection<ManagedObject> {
     private List<ManagedObject> objectList;
     private YamlConfiguration yamlConfiguration;
     private File savepath;
@@ -23,25 +24,110 @@ public abstract class YamlFileManager<ManagedObject extends Saveable> {
         this.objectList.addAll(loadSavedObjects(this.yamlConfiguration));
     }
 
-    public void add(ManagedObject managedObject, boolean unsafe) {
+    public boolean add(ManagedObject managedObject, boolean unsafe) {
+        boolean result = false;
         if(!this.objectList.contains(managedObject)) {
-            this.objectList.add(managedObject);
+            result = this.objectList.add(managedObject);
             managedObject.queueSave();
             if(!unsafe) {
-                updateFile();
+                this.updateFile();
             }
         }
+        return result;
     }
 
-    public void add(ManagedObject managedObject) {
-        this.add(managedObject, false);
+    public boolean add(ManagedObject managedObject) {
+        return this.add(managedObject, false);
     }
 
-    public void remove(ManagedObject managedObject) {
+    @Override
+    public boolean remove(Object managedObject) {
         if(this.objectList.remove(managedObject)) {
-            this.queueSaveCompleteSave();
+            this.queueCompleteSave();
+            this.updateFile();
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean containsAll(Collection<?> c) {
+        return this.objectList.containsAll(c);
+    }
+
+    @Override
+    public boolean addAll(Collection<? extends ManagedObject> c) {
+        boolean changed = false;
+        for(ManagedObject obj:c) {
+            changed |= this.add(obj);
+        }
+        return changed;
+    }
+
+    @Override
+    public boolean removeAll(Collection<?> c) {
+        boolean anythingRemoved = false;
+
+        for(Object obj : c) {
+            if(this.objectList.remove(obj)) {
+                anythingRemoved = true;
+            }
+        }
+
+        if(anythingRemoved) {
+            this.queueCompleteSave();
             this.updateFile();
         }
+
+        return anythingRemoved;
+    }
+
+    @Override
+    public boolean removeIf(Predicate<? super ManagedObject> filter) {
+        boolean anythingRemoved = false;
+        for(int i = 0; i < this.size(); i++) {
+            if(filter.test(this.get(i))) {
+                this.objectList.remove(i);
+                anythingRemoved = true;
+                i--;
+            }
+        }
+        if(anythingRemoved) {
+            this.queueCompleteSave();
+            this.updateFile();
+        }
+        return anythingRemoved;
+    }
+
+    @Override
+    public boolean retainAll(Collection<?> c) {
+        boolean result = this.objectList.retainAll(c);
+        this.queueCompleteSave();
+        this.updateFile();
+        return result;
+    }
+
+    @Override
+    public void clear() {
+        this.objectList.clear();
+        this.yamlConfiguration = new YamlConfiguration();
+        this.queueCompleteSave();
+        this.updateFile();
+    }
+
+    @Override
+    public Spliterator<ManagedObject> spliterator() {
+        return this.objectList.spliterator();
+    }
+
+    @Override
+    public Stream<ManagedObject> stream() {
+        return this.objectList.stream();
+    }
+
+    @Override
+    public Stream<ManagedObject> parallelStream() {
+        return this.objectList.parallelStream();
     }
 
     public void saveFile() {
@@ -88,45 +174,47 @@ public abstract class YamlFileManager<ManagedObject extends Saveable> {
 
     public abstract void writeStaticSettings(YamlConfiguration yamlConfiguration);
 
-    public void queueSaveCompleteSave() {
+    public void queueCompleteSave() {
         this.completeSaveQueuned = true;
     }
 
-    public List<ManagedObject> getObjectListCopy() {
-        if(this.objectList.size() < 400) {
-            return new ArrayList<>(this.objectList);
-        }
+    public ManagedObject get(int index) {
+        return this.objectList.get(index);
 
-        Saveable[] objCopy = new Saveable[this.objectList.size()];
+    }
 
-        Thread[] threads = new Thread[8];
+    public int size() {
+        return this.objectList.size();
+    }
 
-        for(int threadNr = 0; threadNr < threads.length; threadNr++) {
-            int startPoint = (this.objectList.size() / threads.length) * threadNr;
-            int endpoint;
+    @Override
+    public boolean isEmpty() {
+        return this.objectList.isEmpty();
+    }
 
-            if(threadNr + 1 >= threads.length) {
-                endpoint = this.objectList.size();
-            } else {
-                endpoint = (this.objectList.size() / threads.length) * (threadNr + 1);
-            }
+    @Override
+    public boolean contains(Object o) {
+        return this.objectList.contains(o);
+    }
 
-            threads[threadNr] = new Thread(() -> {
-                for(int index = startPoint; index < endpoint; index++) {
-                    objCopy[index] = this.objectList.get(index);
-                }
-            });
-            threads[threadNr].start();
-        }
+    @Override
+    public Iterator<ManagedObject> iterator() {
+        return this.objectList.iterator();
+    }
 
-        for(Thread thread : threads) {
-            try {
-                thread.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        return new ArrayList<ManagedObject>(Arrays.asList((ManagedObject[])objCopy));
+    @Override
+    public void forEach(Consumer<? super ManagedObject> action) {
+        this.objectList.forEach(action);
+    }
+
+    @Override
+    public Object[] toArray() {
+        return this.objectList.toArray();
+    }
+
+    @Override
+    public <T> T[] toArray(T[] a) {
+        return this.objectList.toArray(a);
     }
 
     public static void writeResourceToDisc(File savepath, InputStream resourceStream) {
@@ -152,4 +240,8 @@ public abstract class YamlFileManager<ManagedObject extends Saveable> {
         }
         return false;
     }
+
+
+
+
 }

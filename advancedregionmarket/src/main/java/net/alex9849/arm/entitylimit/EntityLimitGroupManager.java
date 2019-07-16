@@ -120,7 +120,7 @@ public class EntityLimitGroupManager extends YamlFileManager<EntityLimitGroup> {
     public List<String> tabCompleteEntityLimitGroups(String name) {
         List<String> returnme = new ArrayList<>();
 
-        for(EntityLimitGroup entityLimitGroup : this.getObjectListCopy()) {
+        for(EntityLimitGroup entityLimitGroup : this) {
             if(entityLimitGroup.getName().startsWith(name)) {
                 returnme.add(entityLimitGroup.getName());
             }
@@ -138,7 +138,7 @@ public class EntityLimitGroupManager extends YamlFileManager<EntityLimitGroup> {
     }
 
     public EntityLimitGroup getEntityLimitGroup(String name) {
-        for(EntityLimitGroup entityLimitGroup : this.getObjectListCopy()) {
+        for(EntityLimitGroup entityLimitGroup : this) {
             if(entityLimitGroup.getName().equalsIgnoreCase(name)) {
                 return entityLimitGroup;
             }

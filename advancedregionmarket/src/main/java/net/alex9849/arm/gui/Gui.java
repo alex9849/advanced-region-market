@@ -1430,7 +1430,7 @@ public class Gui implements Listener {
             };
         }
 
-        Gui.openInfiniteGuiList(player, clickItems, 0, Messages.GUI_OWN_REGIONS_MENU_NAME, goBackAction);
+        Gui.openInfiniteGuiList(player, clickItems, 0, Messages.GUI_MEMBER_REGIONS_MENU_NAME, goBackAction);
     }
 
     public static void openRegionManagerMember(Player player, Region region) {

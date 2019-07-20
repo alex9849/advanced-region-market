@@ -373,42 +373,25 @@ public abstract class Region implements Saveable {
         }
     }
 
-    public void regionInfo(CommandSender sender){
-        String owners = "";
-        String members = "";
-        String subregions = "";
-        List<UUID> ownerslist = this.getRegion().getOwners();
-        List<UUID> memberslist = this.getRegion().getMembers();
-        for(int i = 0; i < ownerslist.size() - 1; i++){
-            owners = owners + Bukkit.getOfflinePlayer(ownerslist.get(i)).getName() + ", ";
+    public void regionInfo(CommandSender sender) {
+        if(sender instanceof Player) {
+            if(ArmSettings.isRegionInfoParticleBorder()) {
+                Player player = (Player) sender;
+                new ParticleBorder(this.getRegion().getPoints(), this.getRegion().getMinPoint().getBlockY(), this.getRegion().getMaxPoint().getBlockY(), player, this.getRegionworld()).createParticleBorder(20 * 30);
+                for(Region subregion : this.getSubregions()) {
+                    Location lpos1 = new Location(subregion.getRegionworld(), subregion.getRegion().getMinPoint().getX(), subregion.getRegion().getMinPoint().getY(), subregion.getRegion().getMinPoint().getZ());
+                    Location lPos2 = new Location(subregion.getRegionworld(), subregion.getRegion().getMaxPoint().getX(), subregion.getRegion().getMaxPoint().getY(), subregion.getRegion().getMaxPoint().getZ());
+                    new ParticleBorder(lpos1.toVector(), lPos2.toVector(), player, subregion.getRegionworld()).createParticleBorder(20 * 30);
+                }
+            }
         }
-        if(ownerslist.size() != 0){
-            owners = owners + Bukkit.getOfflinePlayer(ownerslist.get(ownerslist.size() - 1)).getName();
-        }
-        for(int i = 0; i < memberslist.size() - 1; i++){
-            members = members + Bukkit.getOfflinePlayer(memberslist.get(i)).getName() + ", ";
-        }
-        if(memberslist.size() != 0){
-            members = members + Bukkit.getOfflinePlayer(memberslist.get(memberslist.size() - 1)).getName();
-        }
-        for (int i = 0; i < this.getSubregions().size() - 1; i++) {
-            subregions = subregions + this.getSubregions().get(i).getRegion().getId() + ", ";
-        }
-        if(this.getSubregions().size() != 0){
-            subregions = subregions + this.getSubregions().get(this.getSubregions().size() - 1).getRegion().getId();
-        }
+    } /*{
 
+        if(sender.hasPermission(Permission.ADMIN_INFO)) {
 
+        } else {
 
-        sender.sendMessage(Messages.REGION_INFO);
-        sender.sendMessage(Messages.REGION_INFO_ID + this.getRegion().getId());
-        sender.sendMessage(Messages.REGION_INFO_SOLD + Messages.convertYesNo(this.isSold()));
-        sender.sendMessage(Messages.REGION_INFO_PRICE + this.price.calcPrice(this.getRegion()) + " " + Messages.CURRENCY);
-        sender.sendMessage(Messages.REGION_INFO_TYPE + this.getRegionKind().getDisplayName());
-        sender.sendMessage(Messages.REGION_INFO_ENTITYLIMITGROUP + this.getEntityLimitGroup().getName());
-        sender.sendMessage(Messages.REGION_INFO_OWNER + owners);
-        sender.sendMessage(Messages.REGION_INFO_MEMBERS + members);
-        sender.sendMessage(Messages.REGION_INFO_HOTEL + Messages.convertYesNo(this.isHotel));
+        }
         if(sender.hasPermission(Permission.ADMIN_INFO)){
             String autoresetmsg = Messages.REGION_INFO_AUTORESET + Messages.convertYesNo(this.autoreset);
             if((!ArmSettings.isEnableAutoReset()) && this.autoreset){
@@ -443,9 +426,7 @@ public abstract class Region implements Saveable {
                 }
             }
         }
-    }
-
-    public abstract void displayExtraInfo(CommandSender sender);
+    } */
 
     public abstract void updateRegion();
 
@@ -717,22 +698,73 @@ public abstract class Region implements Saveable {
     public abstract void setPrice(Price price);
 
     public String getConvertedMessage(String message) {
-        message = message.replace("%regionid%", this.getRegion().getId());
-        message = message.replace("%region%", this.getRegion().getId());
-        message = message.replace("%price%", Price.formatPrice(this.getPrice()) + "");
-        message = message.replace("%dimensions%", this.getDimensions());
-        message = message.replace("%priceperm2%", Price.formatPrice(this.getPricePerM2()) + "");
-        message = message.replace("%priceperm3%", Price.formatPrice(this.getPricePerM3()) + "");
-        message = message.replace("%remainingdays%", (Region.getResetCooldown() - this.timeSinceLastReset()) + "");
-        message = message.replace("%paybackmoney%", Price.formatPrice(this.getPaybackMoney()));
-        message = message.replace("%currency%", Messages.CURRENCY);
-        message = message.replace("%owner%", this.getOwnerName());
-        message = message.replace("%world%", this.getRegionworld().getName());
-        message = message.replace("%subregionlimit%", this.getAllowedSubregions() + "");
-        message = message.replace("%hotelfunctionstatus%", Messages.convertEnabledDisabled(this.isHotel));
-        message = message.replace("%soldstatus%", this.getSoldStringStatus());
-        message = message.replace("%selltype%", this.getSellType().getName());
+        if(message.contains("%regionid%")) message = message.replace("%regionid%", this.getRegion().getId());
+        if(message.contains("%region%")) message = message.replace("%region%", this.getRegion().getId());
+        if(message.contains("%price%")) message = message.replace("%price%", Price.formatPrice(this.getPrice()) + "");
+        if(message.contains("%dimensions%")) message = message.replace("%dimensions%", this.getDimensions());
+        if(message.contains("%priceperm2%")) message = message.replace("%priceperm2%", Price.formatPrice(this.getPricePerM2()) + "");
+        if(message.contains("%priceperm3%")) message = message.replace("%priceperm3%", Price.formatPrice(this.getPricePerM3()) + "");
+        if(message.contains("%remainingdays%")) message = message.replace("%remainingdays%", (Region.getResetCooldown() - this.timeSinceLastReset()) + "");
+        if(message.contains("%paybackmoney%")) message = message.replace("%paybackmoney%", Price.formatPrice(this.getPaybackMoney()));
+        if(message.contains("%currency%")) message = message.replace("%currency%", Messages.CURRENCY);
+        if(message.contains("%world%")) message = message.replace("%world%", this.getRegionworld().getName());
+        if(message.contains("%subregionlimit%")) message = message.replace("%subregionlimit%", this.getAllowedSubregions() + "");
+        if(message.contains("%hotelfunctionstatus%")) message = message.replace("%hotelfunctionstatus%", Messages.convertEnabledDisabled(this.isHotel));
+        if(message.contains("%soldstatus%")) message = message.replace("%soldstatus%", this.getSoldStringStatus());
+        if(message.contains("%selltype%")) message = message.replace("%selltype%", this.getSellType().getName());
+        if(message.contains("%ishotel%")) message = message.replace("%ishotel%", Messages.convertYesNo(this.isHotel()));
+        if(message.contains("%isuserresettable%")) message = message.replace("%isuserresettable%", Messages.convertYesNo(this.isUserResettable()));
+        if(message.contains("%isdoblockreset%")) message = message.replace("%isdoblockreset%", Messages.convertYesNo(this.isDoBlockReset()));
+        if(message.contains("%autoprice%")) {
+            String autopriceInfo = "";
+            if(this.getPriceObject().isAutoPrice()) {
+                autopriceInfo = this.getPriceObject().getAutoPrice().getName();
+            } else {
+                autopriceInfo = Messages.convertYesNo(this.getPriceObject().isAutoPrice());
+            }
+            message = message.replace("%autoprice%", autopriceInfo);
+        }
+        if(message.contains("%isautoreset%")) {
+            String autoresetInfo = Messages.convertYesNo(this.isAutoreset());
+            if(this.isAutoreset() && !ArmSettings.isEnableAutoReset()) {
+                autoresetInfo += " (but globally disabled)";
+            }
+            message = message.replace("%isautoreset%", autoresetInfo);
+        }
+        if(message.contains("%subregions%")) {
+            String subregions = "";
+            for (int i = 0; i < this.getSubregions().size() - 1; i++) {
+                subregions = subregions + this.getSubregions().get(i).getRegion().getId() + ", ";
+            }
+            if(this.getSubregions().size() != 0){
+                subregions = subregions + this.getSubregions().get(this.getSubregions().size() - 1).getRegion().getId();
+            }
+            message = message.replace("%subregions%", subregions);
+        }
+        if(message.contains("%owner%")) {
+            String ownersInfo = "";
+            List<UUID> ownerslist = this.getRegion().getOwners();
+            for(int i = 0; i < ownerslist.size() - 1; i++){
+                ownersInfo = ownersInfo + Bukkit.getOfflinePlayer(ownerslist.get(i)).getName() + ", ";
+            }
+            if(ownerslist.size() != 0){
+                ownersInfo = ownersInfo + Bukkit.getOfflinePlayer(ownerslist.get(ownerslist.size() - 1)).getName();
+            }
+            message = message.replace("%owner%", ownersInfo);
+        }
+        if(message.contains("%members%")) {
+            String membersInfo = "";
+            List<UUID> memberslist = this.getRegion().getMembers();
+            for(int i = 0; i < memberslist.size() - 1; i++){
+                membersInfo = membersInfo + Bukkit.getOfflinePlayer(memberslist.get(i)).getName() + ", ";
+            }
+            if(memberslist.size() != 0){
+                membersInfo = membersInfo + Bukkit.getOfflinePlayer(memberslist.get(memberslist.size() - 1)).getName();
+            }
+            message = message.replace("%members%", membersInfo);
+        }
         message = this.getRegionKind().getConvertedMessage(message);
+        message = this.getEntityLimitGroup().getConvertedMessage(message);
         return message;
     }
 

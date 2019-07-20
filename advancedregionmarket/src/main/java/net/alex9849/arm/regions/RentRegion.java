@@ -120,10 +120,23 @@ public class RentRegion extends Region {
     }
 
     @Override
-    public void displayExtraInfo(CommandSender sender) {
-        sender.sendMessage(Messages.REGION_INFO_REMAINING_TIME + this.calcRemainingTime());
-        sender.sendMessage(Messages.REGION_INFO_EXTEND_PER_CLICK + this.getExtendPerClick());
-        sender.sendMessage(Messages.REGION_INFO_MAX_RENT_TIME + this.getMaxRentTimeString());
+    public void regionInfo(CommandSender sender) {
+        super.regionInfo(sender);
+        List<String> msg;
+
+        if(sender.hasPermission(Permission.ADMIN_INFO)) {
+            msg = Messages.REGION_INFO_RENTREGION_ADMIN;
+        } else {
+            msg = Messages.REGION_INFO_RENTREGION;
+        }
+
+        if(this.isSubregion()) {
+            msg = Messages.REGION_INFO_RENTREGION_SUBREGION;
+        }
+
+        for(String s : msg) {
+            sender.sendMessage(this.getConvertedMessage(s));
+        }
     }
 
     @Override

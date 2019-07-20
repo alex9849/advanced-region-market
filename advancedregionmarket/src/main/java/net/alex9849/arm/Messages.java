@@ -329,8 +329,54 @@ public class Messages {
     public static String REGIONKIND_HELP_HEADLINE = "&6=====[AdvancedRegionMarket RegionKind Help ]=====\n&3Page %actualpage% / %maxpage%";
     public static String PLAYER_NOT_FOUND = "&4Could not find selected player!";
 
-
-
+    public static List<String> REGION_INFO_SELLREGION = new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
+            "&6ID: %regionid%", "&6Sold: %issold%", "&6Price: %price%", "&6Type: %selltype%" + "&6Regionkind: %regionkinddisplay%",
+            "&6EntityLimitGroup: %entitylimitgroup%", "&6Owner: %owner%", "&6Members: %members%", "&6isHotel: %ishotel%",
+            "&6Allowed Subregions: %subregionlimit%", "&6Subregions: %subregions%"));
+    public static List<String> REGION_INFO_RENTREGION = new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
+            "&6ID: %regionid%", "&6Sold: %issold%", "&6Price: %price%", "&6Type: %selltype%" + "&6Regionkind: %regionkinddisplay%",
+            "&6EntityLimitGroup: %entitylimitgroup%", "&6Owner: %owner%", "&6Members: %members%", "&6isHotel: %ishotel%",
+            "&6Allowed Subregions: %subregionlimit%", "&6Subregions: %subregions%", "&6Remaining time: %remaining%",
+            "&6Extend per click: %extendperclick%", "&6Max rent time: %maxrenttime%"));
+    public static List<String> REGION_INFO_CONTRACTREGION = new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
+            "&6ID: %regionid%", "&6Sold: %issold%", "&6Price: %price%", "&6Type: %selltype%" + "&6Regionkind: %regionkinddisplay%",
+            "&6EntityLimitGroup: %entitylimitgroup%", "&6Owner: %owner%", "&6Members: %members%", "&6isHotel: %ishotel%",
+            "&6Allowed Subregions: %subregionlimit%", "&6Subregions: %subregions%", "&6Terminated: %isterminated%",
+            "&6Extend Time: %extend%", "&6Next extend in: %remaining%"));
+    public static List<String> REGION_INFO_SELLREGION_ADMIN = new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
+            "&6ID: %regionid%", "&6Sold: %issold%", "&6Price: %price%", "&6Type: %selltype%" + "&6Regionkind: %regionkinddisplay%",
+            "&6EntityLimitGroup: %entitylimitgroup%", "&6Owner: %owner%", "&6Members: %members%", "&6isHotel: %ishotel%",
+            "&6Autoreset: %isautoreset%", "&6UserResettable: %isuserresettable%" , "&6DoBlockReset: %isdoblockreset%", "&6Autoprice: %autoprice%",
+            "&6Allowed Subregions: %subregionlimit%", "&6Subregions: %subregions%"));
+    public static List<String> REGION_INFO_RENTREGION_ADMIN = new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
+            "&6ID: %regionid%", "&6Sold: %issold%", "&6Price: %price%", "&6Type: %selltype%" + "&6Regionkind: %regionkinddisplay%",
+            "&6EntityLimitGroup: %entitylimitgroup%", "&6Owner: %owner%", "&6Members: %members%", "&6isHotel: %ishotel%",
+            "&6Autoreset: %isautoreset%", "&6UserResettable: %isuserresettable%" , "&6DoBlockReset: %isdoblockreset%" , "&6Autoprice: %autoprice%",
+            "&6Allowed Subregions: %subregionlimit%", "&6Subregions: %subregions%", "&6Remaining time: %remaining%",
+            "&6Extend per click: %extendperclick%", "&6Max rent time: %maxrenttime%"));
+    public static List<String> REGION_INFO_CONTRACTREGION_ADMIN = new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
+            "&6ID: %regionid%", "&6Sold: %issold%", "&6Price: %price%", "&6Type: %selltype%" + "&6Regionkind: %regionkinddisplay%",
+            "&6EntityLimitGroup: %entitylimitgroup%", "&6Owner: %owner%", "&6Members: %members%", "&6isHotel: %ishotel%",
+            "&6Autoreset: %isautoreset%", "&6UserResettable: %isuserresettable%" , "&6DoBlockReset: %isdoblockreset%" , "&6Autoprice: %autoprice%",
+            "&6Allowed Subregions: %subregionlimit%", "&6Subregions: %subregions%", "&6Terminated: %isterminated%",
+            "&6Extend Time: %extend%", "&6Next extend in: %remaining%"));
+    public static List<String> REGION_INFO_SELLREGION_SUBREGION = new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
+            "&6ID: %regionid%", "&6Sold: %issold%", "&6Price: %price%", "&6Type: %selltype%" + "&6Regionkind: %regionkinddisplay%",
+            "&6EntityLimitGroup: %entitylimitgroup%", "&6Owner: %owner%", "&6Members: %members%", "&6isHotel: %ishotel%",
+            "&6Autoreset: %isautoreset%", "&6UserResettable: %isuserresettable%" , "&6DoBlockReset: %isdoblockreset%" , "&6Autoprice: %autoprice%",
+            "&6Allowed Subregions: %subregionlimit%", "&6Subregions: %subregions%"));
+    public static List<String> REGION_INFO_RENTREGION_SUBREGION = new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
+            "&6ID: %regionid%", "&6Sold: %issold%", "&6Price: %price%", "&6Type: %selltype%" + "&6Regionkind: %regionkinddisplay%",
+            "&6EntityLimitGroup: %entitylimitgroup%", "&6Owner: %owner%", "&6Members: %members%", "&6isHotel: %ishotel%",
+            "&6Autoreset: %isautoreset%", "&6UserResettable: %isuserresettable%" , "&6DoBlockReset: %isdoblockreset%" , "&6Autoprice: %autoprice%",
+            "&6Allowed Subregions: %subregionlimit%", "&6Subregions: %subregions%", "&6Remaining time: %remaining%",
+            "&6Extend per click: %extendperclick%", "&6Max rent time: %maxrenttime%"));
+    public static List<String> REGION_INFO_CONTRACTREGION_SUBREGION = new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
+            "&6ID: %regionid%", "&6Sold: %issold%", "&6Price: %price%", "&6Type: %selltype%" + "&6Regionkind: %regionkinddisplay%",
+            "&6EntityLimitGroup: %entitylimitgroup%", "&6Owner: %owner%", "&6Members: %members%", "&6isHotel: %ishotel%",
+            "&6Autoreset: %isautoreset%", "&6UserResettable: %isuserresettable%" , "&6DoBlockReset: %isdoblockreset%" , "&6Autoprice: %autoprice%",
+            "&6Allowed Subregions: %subregionlimit%", "&6Subregions: %subregions%", "&6Terminated: %isterminated%",
+            "&6Extend Time: %extend%", "&6Next extend in: %remaining%"));
 
 
     public static List<String> GUI_TELEPORT_TO_REGION_BUTTON_LORE = new ArrayList<>();
@@ -678,6 +724,16 @@ public class Messages {
         REGIONKIND_HELP_HEADLINE = config.getString("Messages.RegionKindHelpHeadline");
         PLAYER_NOT_FOUND = config.getString("Messages.PlayerNotFound");
 
+        REGION_INFO_SELLREGION = config.getStringList("Messages.RegionInfoSellregionUser");
+        REGION_INFO_RENTREGION = config.getStringList("Messages.RegionInfoRentregionUser");
+        REGION_INFO_CONTRACTREGION = config.getStringList("Messages.RegionInfoContractregionUser");
+        REGION_INFO_SELLREGION_ADMIN = config.getStringList("Messages.RegionInfoSellregionAdmin");
+        REGION_INFO_RENTREGION_ADMIN = config.getStringList("Messages.RegionInfoRentregionAdmin");
+        REGION_INFO_CONTRACTREGION_ADMIN = config.getStringList("Messages.RegionInfoContractregionAdmin");
+        REGION_INFO_SELLREGION_SUBREGION = config.getStringList("Messages.RegionInfoSellregionSubregion");
+        REGION_INFO_RENTREGION_SUBREGION = config.getStringList("Messages.RegionInfoRentregionSubregion");
+        REGION_INFO_CONTRACTREGION_SUBREGION = config.getStringList("Messages.RegionInfoContractregionSubregion");
+
         Messages.translateColorCodes();
     }
 
@@ -982,6 +1038,33 @@ public class Messages {
         REGIONKIND_HELP_HEADLINE = ChatColor.translateAlternateColorCodes('&', REGIONKIND_HELP_HEADLINE);
         PLAYER_NOT_FOUND = ChatColor.translateAlternateColorCodes('&', PLAYER_NOT_FOUND);
 
+        for(int i = 0; i < REGION_INFO_SELLREGION.size(); i++){
+            REGION_INFO_SELLREGION.set(i, ChatColor.translateAlternateColorCodes('&', REGION_INFO_SELLREGION.get(i)));
+        }
+        for(int i = 0; i < REGION_INFO_RENTREGION.size(); i++){
+            REGION_INFO_RENTREGION.set(i, ChatColor.translateAlternateColorCodes('&', REGION_INFO_RENTREGION.get(i)));
+        }
+        for(int i = 0; i < REGION_INFO_CONTRACTREGION.size(); i++){
+            REGION_INFO_CONTRACTREGION.set(i, ChatColor.translateAlternateColorCodes('&', REGION_INFO_CONTRACTREGION.get(i)));
+        }
+        for(int i = 0; i < REGION_INFO_SELLREGION_ADMIN.size(); i++){
+            REGION_INFO_SELLREGION_ADMIN.set(i, ChatColor.translateAlternateColorCodes('&', REGION_INFO_SELLREGION_ADMIN.get(i)));
+        }
+        for(int i = 0; i < REGION_INFO_RENTREGION_ADMIN.size(); i++){
+            REGION_INFO_RENTREGION_ADMIN.set(i, ChatColor.translateAlternateColorCodes('&', REGION_INFO_RENTREGION_ADMIN.get(i)));
+        }
+        for(int i = 0; i < REGION_INFO_CONTRACTREGION_ADMIN.size(); i++){
+            REGION_INFO_CONTRACTREGION_ADMIN.set(i, ChatColor.translateAlternateColorCodes('&', REGION_INFO_CONTRACTREGION_ADMIN.get(i)));
+        }
+        for(int i = 0; i < REGION_INFO_SELLREGION_SUBREGION.size(); i++){
+            REGION_INFO_SELLREGION_SUBREGION.set(i, ChatColor.translateAlternateColorCodes('&', REGION_INFO_SELLREGION_SUBREGION.get(i)));
+        }
+        for(int i = 0; i < REGION_INFO_RENTREGION_SUBREGION.size(); i++){
+            REGION_INFO_RENTREGION_SUBREGION.set(i, ChatColor.translateAlternateColorCodes('&', REGION_INFO_RENTREGION_SUBREGION.get(i)));
+        }
+        for(int i = 0; i < REGION_INFO_CONTRACTREGION_SUBREGION.size(); i++){
+            REGION_INFO_CONTRACTREGION_SUBREGION.set(i, ChatColor.translateAlternateColorCodes('&', REGION_INFO_CONTRACTREGION_SUBREGION.get(i)));
+        }
 
         for(int i = 0; i < GUI_ENTITYLIMIT_ITEM_LORE.size(); i++){
             GUI_ENTITYLIMIT_ITEM_LORE.set(i, ChatColor.translateAlternateColorCodes('&', GUI_ENTITYLIMIT_ITEM_LORE.get(i)));
@@ -1123,7 +1206,6 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.ContractSoldSign3", "%price%%currency%/%extend%");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.ContractSoldSign4", "%remaining%");
 
-
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.Seconds", "s");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.Minutes", "m");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.Hours", "h");
@@ -1205,7 +1287,6 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.Unlimited", "Unlimited");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.AutopriceList", "&6=========[Autoprices]=========");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.SubregionHelpHeadline", "&6=====[AdvancedRegionMarket Subregion Help]=====\n&3Page %actualpage% / %maxpage%");
-
 
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.LimitInfoTop", "&6=========[Limit Info]=========");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.LimitInfoTotal", "&6Total");
@@ -1400,8 +1481,6 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.EntityLimitGroupExtraEntitiesSetSubregionError", "&4Can not change entitylimit! Region is a Subregion");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.EntityLimitGroupExtraEntitiesBuySubregionError", "&4Can not expand entitylimit! Region is a Subregion");
 
-
-
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionKindCreated", "&aRegionKind created!");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionKindAlreadyExists", "&4RegionKind already exists!");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionKindDeleted", "&aRegionKind deleted!");
@@ -1420,6 +1499,55 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionKindInfoLore", "&6Lore:");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionKindHelpHeadline", "&6=====[AdvancedRegionMarket RegionKind Help ]=====\n&3Page %actualpage% / %maxpage%");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.PlayerNotFound", "&4Could not find selected player!");
+
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoSellregionAdmin", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
+                "&6ID: %regionid%", "&6Sold: %issold%", "&6Price: %price%", "&6Type: %selltype%" + "&6Regionkind: %regionkinddisplay%",
+                "&6EntityLimitGroup: %entitylimitgroup%", "&6Owner: %owner%", "&6Members: %members%", "&6isHotel: %ishotel%",
+                "&6Autoreset: %isautoreset%", "&6UserResettable: %isuserresettable%" , "&6DoBlockReset: %isdoblockreset%", "&6Autoprice: %autoprice%",
+                "&6Allowed Subregions: %subregionlimit%", "&6Subregions: %subregions%")));
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoRentregionAdmin", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
+                "&6ID: %regionid%", "&6Sold: %issold%", "&6Price: %price%", "&6Type: %selltype%" + "&6Regionkind: %regionkinddisplay%",
+                "&6EntityLimitGroup: %entitylimitgroup%", "&6Owner: %owner%", "&6Members: %members%", "&6isHotel: %ishotel%",
+                "&6Autoreset: %isautoreset%", "&6UserResettable: %isuserresettable%" , "&6DoBlockReset: %isdoblockreset%" , "&6Autoprice: %autoprice%",
+                "&6Allowed Subregions: %subregionlimit%", "&6Subregions: %subregions%", "&6Remaining time: %remaining%",
+                "&6Extend per click: %extendperclick%", "&6Max rent time: %maxrenttime%")));
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoContractregionAdmin", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
+                "&6ID: %regionid%", "&6Sold: %issold%", "&6Price: %price%", "&6Type: %selltype%" + "&6Regionkind: %regionkinddisplay%",
+                "&6EntityLimitGroup: %entitylimitgroup%", "&6Owner: %owner%", "&6Members: %members%", "&6isHotel: %ishotel%",
+                "&6Autoreset: %isautoreset%", "&6UserResettable: %isuserresettable%" , "&6DoBlockReset: %isdoblockreset%" , "&6Autoprice: %autoprice%",
+                "&6Allowed Subregions: %subregionlimit%", "&6Subregions: %subregions%", "&6Terminated: %isterminated%",
+                "&6Extend Time: %extend%", "&6Next extend in: %remaining%")));
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoSellregionUser", Arrays.asList("&6=========[Region Info]=========",
+                "&6ID: %regionid%", "&6Sold: %issold%", "&6Price: %price%", "&6Type: %selltype%" + "&6Regionkind: %regionkinddisplay%",
+                "&6EntityLimitGroup: %entitylimitgroup%", "&6Owner: %owner%", "&6Members: %members%", "&6isHotel: %ishotel%",
+                "&6Allowed Subregions: %subregionlimit%", "&6Subregions: %subregions%"));
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoRentregionUser", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
+                "&6ID: %regionid%", "&6Sold: %issold%", "&6Price: %price%", "&6Type: %selltype%" + "&6Regionkind: %regionkinddisplay%",
+                "&6EntityLimitGroup: %entitylimitgroup%", "&6Owner: %owner%", "&6Members: %members%", "&6isHotel: %ishotel%",
+                "&6Allowed Subregions: %subregionlimit%", "&6Subregions: %subregions%", "&6Remaining time: %remaining%",
+                "&6Extend per click: %extendperclick%", "&6Max rent time: %maxrenttime%")));
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoContractregionUser", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
+                "&6ID: %regionid%", "&6Sold: %issold%", "&6Price: %price%", "&6Type: %selltype%" + "&6Regionkind: %regionkinddisplay%",
+                "&6EntityLimitGroup: %entitylimitgroup%", "&6Owner: %owner%", "&6Members: %members%", "&6isHotel: %ishotel%",
+                "&6Allowed Subregions: %subregionlimit%", "&6Subregions: %subregions%", "&6Terminated: %isterminated%",
+                "&6Extend Time: %extend%", "&6Next extend in: %remaining%")));
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoSellregionSubregion", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
+                "&6ID: %regionid%", "&6Sold: %issold%", "&6Price: %price%", "&6Type: %selltype%" + "&6Regionkind: %regionkinddisplay%",
+                "&6EntityLimitGroup: %entitylimitgroup%", "&6Owner: %owner%", "&6Members: %members%", "&6isHotel: %ishotel%",
+                "&6Autoreset: %isautoreset%", "&6UserResettable: %isuserresettable%" , "&6DoBlockReset: %isdoblockreset%" , "&6Autoprice: %autoprice%",
+                "&6Allowed Subregions: %subregionlimit%", "&6Subregions: %subregions%")));
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoRentregionSubregion", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
+                "&6ID: %regionid%", "&6Sold: %issold%", "&6Price: %price%", "&6Type: %selltype%" + "&6Regionkind: %regionkinddisplay%",
+                "&6EntityLimitGroup: %entitylimitgroup%", "&6Owner: %owner%", "&6Members: %members%", "&6isHotel: %ishotel%",
+                "&6Autoreset: %isautoreset%", "&6UserResettable: %isuserresettable%" , "&6DoBlockReset: %isdoblockreset%" , "&6Autoprice: %autoprice%",
+                "&6Allowed Subregions: %subregionlimit%", "&6Subregions: %subregions%", "&6Remaining time: %remaining%",
+                "&6Extend per click: %extendperclick%", "&6Max rent time: %maxrenttime%")));
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoContractregionSubregion", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
+                "&6ID: %regionid%", "&6Sold: %issold%", "&6Price: %price%", "&6Type: %selltype%" + "&6Regionkind: %regionkinddisplay%",
+                "&6EntityLimitGroup: %entitylimitgroup%", "&6Owner: %owner%", "&6Members: %members%", "&6isHotel: %ishotel%",
+                "&6Autoreset: %isautoreset%", "&6UserResettable: %isuserresettable%" , "&6DoBlockReset: %isdoblockreset%" , "&6Autoprice: %autoprice%",
+                "&6Allowed Subregions: %subregionlimit%", "&6Subregions: %subregions%", "&6Terminated: %isterminated%",
+                "&6Extend Time: %extend%", "&6Next extend in: %remaining%")));
 
         if(fileUpdated) {
             config.options().copyDefaults(true);

@@ -187,12 +187,9 @@ public class EntityLimitGroup implements Saveable {
 
     public String getConvertedMessage(String message, List<Entity> entities, int entityExpansion) {
         String result = message;
-        result = result.replace("%entitytype%", Messages.ENTITYLIMIT_TOTAL);
-        result = result.replace("%actualentities%", entities.size() + "");
         result = result.replace("%softlimitentities%", EntityLimitGroup.intToLimitString(this.getSoftLimit(entityExpansion)));
-        result = result.replace("%hardlimitentities%", EntityLimitGroup.intToLimitString(this.getHardLimit()));
-        result = result.replace("%priceperextraentity%", this.getPricePerExtraEntity() + "");
-        result = result.replace("%currency%", Messages.CURRENCY);
+        result = result.replace("%actualentities%", entities.size() + "");
+        result = getConvertedMessage(result);
         return result;
     }
 
@@ -244,5 +241,14 @@ public class EntityLimitGroup implements Saveable {
             confSection.set(i + ".pricePerExtraEntity", entityLimit.getPricePerExtraEntity());
         }
         return confSection;
+    }
+
+    public String getConvertedMessage(String message) {
+        message = message.replace("%entitylimitgroup%", this.getName());
+        message = message.replace("%priceperextraentity%", this.getPricePerExtraEntity() + "");
+        message = message.replace("%currency%", Messages.CURRENCY);
+        message = message.replace("%entitytype%", Messages.ENTITYLIMIT_TOTAL);
+        message = message.replace("%hardlimitentities%", EntityLimitGroup.intToLimitString(this.getHardLimit()));
+        return message;
     }
 }

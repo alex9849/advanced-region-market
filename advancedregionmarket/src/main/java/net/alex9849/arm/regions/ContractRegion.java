@@ -51,10 +51,23 @@ public class ContractRegion extends Region {
     }
 
     @Override
-    public void displayExtraInfo(CommandSender sender) {
-        sender.sendMessage(Messages.REGION_INFO_TERMINATED + Messages.convertYesNo(this.terminated));
-        sender.sendMessage(Messages.REGION_INFO_AUTO_EXTEND_TIME + this.getExtendTimeString());
-        sender.sendMessage(Messages.REGION_INFO_NEXT_EXTEND_REMAINING_TIME + this.calcRemainingTime());
+    public void regionInfo(CommandSender sender) {
+        super.regionInfo(sender);
+        List<String> msg;
+
+        if(sender.hasPermission(Permission.ADMIN_INFO)) {
+            msg = Messages.REGION_INFO_CONTRACTREGION_ADMIN;
+        } else {
+            msg = Messages.REGION_INFO_CONTRACTREGION;
+        }
+
+        if(this.isSubregion()) {
+            msg = Messages.REGION_INFO_CONTRACTREGION_SUBREGION;
+        }
+
+        for(String s : msg) {
+            sender.sendMessage(this.getConvertedMessage(s));
+        }
     }
 
     @Override
@@ -450,6 +463,7 @@ public class ContractRegion extends Region {
         message = super.getConvertedMessage(message);
         message = message.replace("%extend%", this.getExtendTimeString());
         message = message.replace("%remaining%", this.calcRemainingTime());
+        message = message.replace("%isterminated%", Messages.convertYesNo(this.isTerminated()));
         message = message.replace("%priceperm2perweek%", Price.formatPrice(this.getPricePerM2PerWeek()));
         message = message.replace("%priceperm3perweek%", Price.formatPrice(this.getPricePerM3PerWeek()));
         return message;

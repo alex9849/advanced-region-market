@@ -34,11 +34,6 @@ public class SellRegion extends Region {
     }
 
     @Override
-    public void displayExtraInfo(CommandSender sender) {
-        return;
-    }
-
-    @Override
     public void updateRegion() {
         this.updateSigns();
     }
@@ -110,6 +105,26 @@ public class SellRegion extends Region {
         this.updateSigns();
 
         this.queueSave();
+    }
+
+    @Override
+    public void regionInfo(CommandSender sender) {
+        super.regionInfo(sender);
+        List<String> msg;
+
+        if(sender.hasPermission(Permission.ADMIN_INFO)) {
+            msg = Messages.REGION_INFO_SELLREGION_ADMIN;
+        } else {
+            msg = Messages.REGION_INFO_SELLREGION;
+        }
+
+        if(this.isSubregion()) {
+            msg = Messages.REGION_INFO_SELLREGION_SUBREGION;
+        }
+
+        for(String s : msg) {
+            sender.sendMessage(this.getConvertedMessage(s));
+        }
     }
 
     @Override

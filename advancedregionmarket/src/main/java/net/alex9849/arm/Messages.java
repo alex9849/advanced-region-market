@@ -66,11 +66,8 @@ public class Messages {
     public static String GUI_NO = "";
     public static String REGION_TELEPORT_MESSAGE = "";
     public static String NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION = "";
-    public static String REGIONKINDS = "";
     public static String NO_FREE_REGION_WITH_THIS_KIND = "";
-    public static String NO_PERMISSION_TO_SEARCH_THIS_KIND = "";
     public static String REGIONKIND_DOES_NOT_EXIST = "";
-    public static String RESET_REGION_RESETING_BLOCKS = "";
     public static String REGION_NOW_AVIABLE = "";
     public static String NO_REGION_AT_PLAYERS_POSITION = "";
     public static String REGION_ADD_MEMBER_NOT_ONLINE = "";
@@ -86,7 +83,6 @@ public class Messages {
     public static String GUI_TAKEOVER_MENU_NAME = "";
     public static String REGION_TRANSFER_COMPLETE_MESSAGE = "";
     public static String GUI_CLOSE = "";
-    public static String MEMBERLIST_INFO = "";
     public static String RENT_SIGN1 = "";
     public static String RENT_SIGN2 = "";
     public static String RENT_SIGN3 = "";
@@ -99,9 +95,6 @@ public class Messages {
     public static String RENT_EXTEND_ERROR = "";
     public static String GUI_EXTEND_BUTTON = "";
     public static String COMPLETE = "";
-    public static String RESET_IN_PERCENT = "";
-    public static String LOADING_SCHEMATIC = "";
-    public static String LOADING_SCHEMATIC_COMPLETE = "";
     public static String REGION_BUY_OUT_OF_LIMIT = "";
     public static String REGION_ERROR_CAN_NOT_BUILD_HERE = "";
     public static String UNLIMITED = "";
@@ -137,10 +130,8 @@ public class Messages {
     public static String CONTRACT_SOLD_SIGN4 = "%remaining%";
     public static String CONTRACT_REGION_EXTENDED = "&aYour contract region %regionid% has been extended for %extend%. (For %price%%currency%.) ";
     public static String GUI_CONTRACT_ITEM = "&aManage contract";
-    public static String REGION_INFO_TERMINATED = "&6Terminated: ";
     public static String REGION_INFO_AUTO_EXTEND_TIME = "&6Extend time: ";
     public static String REGION_INFO_AUTOPRICE = "&6Autoprice: ";
-    public static String REGION_INFO_NEXT_EXTEND_REMAINING_TIME = "&6Next extend in: ";
     public static String CONTRACT_REGION_CHANGE_TERMINATED = "&6The contract of &a%regionid% &6has been set to %statuslong%";
     public static String CONTRACT_REGION_STATUS_ACTIVE_LONG = "&aActive&6! Next Extension in %remaining%";
     public static String CONTRACT_REGION_STATUS_ACTIVE = "&aActive";
@@ -443,11 +434,8 @@ public class Messages {
         GUI_NO = config.getString("Messages.GUIWarningNo");
         REGION_TELEPORT_MESSAGE = config.getString("Messages.RegionTeleportMessage");
         NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION = config.getString("Messages.NoPermissionsToBuyThisKindOfRegion");
-        REGIONKINDS = config.getString("Messages.RegionKinds");
         NO_FREE_REGION_WITH_THIS_KIND = config.getString("Messages.NoFreeRegionWithThisKind");
-        NO_PERMISSION_TO_SEARCH_THIS_KIND = config.getString("Messages.NoPermissionToSearchKind");
         REGIONKIND_DOES_NOT_EXIST = config.getString("Messages.RegionkindDoesNotExist");
-        RESET_REGION_RESETING_BLOCKS = config.getString("Messages.ResetRegionResetingBlocks");
         REGION_NOW_AVIABLE = config.getString("Messages.RegionNowAviable");
         NO_REGION_AT_PLAYERS_POSITION = config.getString("Messages.NoRegionAtPlayersPosition");
         REGION_ADD_MEMBER_NOT_ONLINE = config.getString("Messages.RegionAddMemberNotOnline");
@@ -459,10 +447,7 @@ public class Messages {
         GUI_RESET_REGION_BUTTON = config.getString("Messages.GUIResetRegionButton");
         GUI_RESET_REGION_WARNING_NAME = config.getString("Messages.GUIResetRegionWarningName");
         RESET_COMPLETE = config.getString("Messages.ResetComplete");
-        RESET_IN_PERCENT = config.getString("Messages.ResetPerCentComplete");
         COMPLETE = config.getString("Messages.Complete");
-        LOADING_SCHEMATIC = config.getString("Messages.LoadingSchematic");
-        LOADING_SCHEMATIC_COMPLETE = config.getString("Messages.LoadingSchematicComplete");
         RESET_REGION_COOLDOWN_ERROR = config.getString("Messages.ResetRegionCooldownError");
         GUI_TAKEOVER_MENU_NAME = config.getString("Messages.GUIRegionTakeOverMenuName");
         REGION_TRANSFER_COMPLETE_MESSAGE = config.getString("Messages.RegionTransferCompleteMessage");
@@ -527,9 +512,7 @@ public class Messages {
         CONTRACT_SOLD_SIGN4 = config.getString("Messages.ContractSoldSign4");
         CONTRACT_REGION_EXTENDED = config.getString("Messages.ContractRegionExtended");
         GUI_CONTRACT_ITEM = config.getString("Messages.GUIContractItem");
-        REGION_INFO_TERMINATED = config.getString("Messages.RegionInfoTerminated");
         REGION_INFO_AUTO_EXTEND_TIME = config.getString("Messages.RegionInfoAutoExtendTime");
-        REGION_INFO_NEXT_EXTEND_REMAINING_TIME = config.getString("Messages.ContractRegionInfoRemainingTime");
         CONTRACT_REGION_CHANGE_TERMINATED = config.getString("Messages.ContractRegionChangeTerminated");
         CONTRACT_REGION_STATUS_ACTIVE_LONG = config.getString("Messages.ContractRegionStatusActiveLong");
         CONTRACT_REGION_STATUS_ACTIVE = config.getString("Messages.ContractRegionStatusActive");
@@ -769,11 +752,8 @@ public class Messages {
         SIGN_REMOVED_FROM_REGION = ChatColor.translateAlternateColorCodes('&', SIGN_REMOVED_FROM_REGION);
         REGION_TELEPORT_MESSAGE = ChatColor.translateAlternateColorCodes('&', REGION_TELEPORT_MESSAGE);
         NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION = ChatColor.translateAlternateColorCodes('&', NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION);
-        REGIONKINDS = ChatColor.translateAlternateColorCodes('&', REGIONKINDS);
         NO_FREE_REGION_WITH_THIS_KIND = ChatColor.translateAlternateColorCodes('&', NO_FREE_REGION_WITH_THIS_KIND);
-        NO_PERMISSION_TO_SEARCH_THIS_KIND = ChatColor.translateAlternateColorCodes('&', NO_PERMISSION_TO_SEARCH_THIS_KIND);
         REGIONKIND_DOES_NOT_EXIST = ChatColor.translateAlternateColorCodes('&', REGIONKIND_DOES_NOT_EXIST);
-        RESET_REGION_RESETING_BLOCKS = ChatColor.translateAlternateColorCodes('&', RESET_REGION_RESETING_BLOCKS);
         REGION_NOW_AVIABLE = ChatColor.translateAlternateColorCodes('&', REGION_NOW_AVIABLE);
         NO_REGION_AT_PLAYERS_POSITION = ChatColor.translateAlternateColorCodes('&', NO_REGION_AT_PLAYERS_POSITION);
         REGION_ADD_MEMBER_NOT_ONLINE = ChatColor.translateAlternateColorCodes('&', REGION_ADD_MEMBER_NOT_ONLINE);
@@ -789,7 +769,6 @@ public class Messages {
         GUI_TAKEOVER_MENU_NAME = ChatColor.translateAlternateColorCodes('&', GUI_TAKEOVER_MENU_NAME);
         REGION_TRANSFER_COMPLETE_MESSAGE = ChatColor.translateAlternateColorCodes('&', REGION_TRANSFER_COMPLETE_MESSAGE);
         GUI_CLOSE = ChatColor.translateAlternateColorCodes('&', GUI_CLOSE);
-        MEMBERLIST_INFO = ChatColor.translateAlternateColorCodes('&', MEMBERLIST_INFO);
         RENT_SIGN1 = ChatColor.translateAlternateColorCodes('&', RENT_SIGN1);
         RENT_SIGN2 = ChatColor.translateAlternateColorCodes('&', RENT_SIGN2);
         RENT_SIGN3 = ChatColor.translateAlternateColorCodes('&', RENT_SIGN3);
@@ -806,9 +785,6 @@ public class Messages {
         REGION_INFO_HOTEL = ChatColor.translateAlternateColorCodes('&', REGION_INFO_HOTEL);
         REGION_ERROR_CAN_NOT_BUILD_HERE = ChatColor.translateAlternateColorCodes('&', REGION_ERROR_CAN_NOT_BUILD_HERE);
         COMPLETE = ChatColor.translateAlternateColorCodes('&', COMPLETE);
-        RESET_IN_PERCENT = ChatColor.translateAlternateColorCodes('&', RESET_IN_PERCENT);
-        LOADING_SCHEMATIC_COMPLETE = ChatColor.translateAlternateColorCodes('&', LOADING_SCHEMATIC_COMPLETE);
-        LOADING_SCHEMATIC = ChatColor.translateAlternateColorCodes('&', LOADING_SCHEMATIC);
         REGION_BUY_OUT_OF_LIMIT = ChatColor.translateAlternateColorCodes('&', REGION_BUY_OUT_OF_LIMIT);
         UNLIMITED = ChatColor.translateAlternateColorCodes('&', UNLIMITED);
         GUI_USER_SELL_BUTTON = ChatColor.translateAlternateColorCodes('&', GUI_USER_SELL_BUTTON);
@@ -843,9 +819,7 @@ public class Messages {
         CONTRACT_SOLD_SIGN4 = ChatColor.translateAlternateColorCodes('&', CONTRACT_SOLD_SIGN4);
         CONTRACT_REGION_EXTENDED = ChatColor.translateAlternateColorCodes('&', CONTRACT_REGION_EXTENDED);
         GUI_CONTRACT_ITEM = ChatColor.translateAlternateColorCodes('&', GUI_CONTRACT_ITEM);
-        REGION_INFO_TERMINATED = ChatColor.translateAlternateColorCodes('&', REGION_INFO_TERMINATED);
         REGION_INFO_AUTO_EXTEND_TIME = ChatColor.translateAlternateColorCodes('&', REGION_INFO_AUTO_EXTEND_TIME);
-        REGION_INFO_NEXT_EXTEND_REMAINING_TIME = ChatColor.translateAlternateColorCodes('&', REGION_INFO_NEXT_EXTEND_REMAINING_TIME);
         CONTRACT_REGION_CHANGE_TERMINATED = ChatColor.translateAlternateColorCodes('&', CONTRACT_REGION_CHANGE_TERMINATED);
         CONTRACT_REGION_STATUS_ACTIVE_LONG = ChatColor.translateAlternateColorCodes('&', CONTRACT_REGION_STATUS_ACTIVE_LONG);
         CONTRACT_REGION_STATUS_ACTIVE = ChatColor.translateAlternateColorCodes('&', CONTRACT_REGION_STATUS_ACTIVE);
@@ -1134,7 +1108,6 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RentExtendError", "&4You can not rent this region for more than &6%maxrenttime% &4at once");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionErrorCanNotBuildHere", "&4You only allowed to break blocks you placed here!");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.NoFreeRegionWithThisKind", "&7No free region with this type found :(");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.NoPermissionToSearchKind", "&4You are not allowed to search regions of this kind");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionkindDoesNotExist", "&4The selected regionkind does not exist!");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.NoPermissionsToBuyThisKindOfRegion", "&4You do not have permission to buy this kind of region (You need the permission &6arm.buykind.%regionkind%&4)");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.UserNotAMemberOrOwner", "&4You are not a member or owner of this region!");
@@ -1153,10 +1126,7 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionRemovedFromARM", "&7The region has been removed from ARM!");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionKindSet", "&aRegionkind set!");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.ResetComplete", "&aReset complete!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.ResetPerCentComplete", "&7%percent% complete...");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.Complete", "&aComplete!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.LoadingSchematic", "&7Loading Schematic...");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.LoadingSchematicComplete", "&7Schematic loaded!");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.ResetRegionCooldownError", "&7You have to wait&6 %remainingdays% &7days till you can reset your region again");
 
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.Currency", "$");
@@ -1252,8 +1222,6 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionIsNotARentregion", "&4Region is not a rentregion!");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionIsNotAContractRegion", "&4Region is not a contractregion!");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionTeleportMessage", "&7You have been teleported to %regionid%");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionKinds", "&6Regionkinds:");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.ResetRegionResetingBlocks", "&7Resetting blocks...");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionNowAviable", "&aRegion is now available!");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.NoRegionAtPlayersPosition", "&7Could not find a region at your position!");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionAddMemberNotOnline", "&4The selected player is not online!");
@@ -1279,9 +1247,7 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionInfoAutoreset", "&6Autoreset: ");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionInfoMaxRentTime", "&6Max rent time: ");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionInfoExtendPerClick", "&6Extend per click: ");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionInfoTerminated", "&6Terminated: ");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionInfoAutoExtendTime", "&6Extend time: ");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.ContractRegionInfoRemainingTime", "&6Next extend in: ");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionInfoYes", "yes");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionInfoNo", "no");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionInfoAllowedSubregions", "&6Allowed Subregions: ");

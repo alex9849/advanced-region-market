@@ -711,6 +711,7 @@ public abstract class Region implements Saveable {
         if(message.contains("%subregionlimit%")) message = message.replace("%subregionlimit%", this.getAllowedSubregions() + "");
         if(message.contains("%hotelfunctionstatus%")) message = message.replace("%hotelfunctionstatus%", Messages.convertEnabledDisabled(this.isHotel));
         if(message.contains("%soldstatus%")) message = message.replace("%soldstatus%", this.getSoldStringStatus());
+        if(message.contains("%issold%")) message = message.replace("%issold%", Messages.convertYesNo(this.isSold()));
         if(message.contains("%selltype%")) message = message.replace("%selltype%", this.getSellType().getName());
         if(message.contains("%ishotel%")) message = message.replace("%ishotel%", Messages.convertYesNo(this.isHotel()));
         if(message.contains("%isuserresettable%")) message = message.replace("%isuserresettable%", Messages.convertYesNo(this.isUserResettable()));

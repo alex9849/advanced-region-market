@@ -1,5 +1,6 @@
 FlagGroups:
   testflaggroup:
+    priority: 10
     available:
       build:
         setting: allow g:members

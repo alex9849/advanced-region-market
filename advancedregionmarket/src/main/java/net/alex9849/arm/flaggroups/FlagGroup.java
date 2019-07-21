@@ -45,7 +45,7 @@ public class FlagGroup implements Saveable {
             flagMapAvailable = parseFlags(availableSection);
         }
 
-        return new FlagGroup(name, 0, flagMapSold, flagMapAvailable);
+        return new FlagGroup(name, configurationSection.getInt("priority"), flagMapSold, flagMapAvailable);
     }
 
     private static Map<Flag, Tuple<String, Boolean>> parseFlags(ConfigurationSection yamlConfiguration) {

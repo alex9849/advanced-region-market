@@ -8,7 +8,6 @@ import net.alex9849.arm.util.Saveable;
 import net.alex9849.arm.util.Tuple;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,13 +15,13 @@ import java.util.Set;
 
 public class FlagGroup implements Saveable {
     private boolean needsSave;
-    private Map<Flag<?>, Tuple<String, Boolean>> flagMapSold;
-    private Map<Flag<?>, Tuple<String, Boolean>> flagMapAvailable;
+    private Map<Flag, Tuple<String, Boolean>> flagMapSold;
+    private Map<Flag, Tuple<String, Boolean>> flagMapAvailable;
     private int priority;
     private String name;
 
 
-    public FlagGroup(String name, int priority, Map<Flag<?>, Tuple<String, Boolean>> flagsSold, Map<Flag<?>, Tuple<String, Boolean>> flagsAvailable) {
+    public FlagGroup(String name, int priority, Map<Flag, Tuple<String, Boolean>> flagsSold, Map<Flag, Tuple<String, Boolean>> flagsAvailable) {
         this.needsSave = false;
         this.name = name;
         this.priority = priority;
@@ -32,9 +31,9 @@ public class FlagGroup implements Saveable {
         this.flagMapAvailable.putAll(flagsAvailable);
     }
 
-    public static FlagGroup parse(ConfigurationSection configurationSection, String name) {
-        Map<Flag<?>, Tuple<String, Boolean>> flagMapSold = new HashMap<>();
-        Map<Flag<?>, Tuple<String, Boolean>> flagMapAvailable = new HashMap<>();
+    static FlagGroup parse(ConfigurationSection configurationSection, String name) {
+        Map<Flag, Tuple<String, Boolean>> flagMapSold = new HashMap<>();
+        Map<Flag, Tuple<String, Boolean>> flagMapAvailable = new HashMap<>();
 
         ConfigurationSection soldSection = configurationSection.getConfigurationSection("sold");
         if(soldSection != null) {
@@ -49,12 +48,11 @@ public class FlagGroup implements Saveable {
         return new FlagGroup(name, 0, flagMapSold, flagMapAvailable);
     }
 
-    private static Map<Flag<?>, Tuple<String, Boolean>> parseFlags(ConfigurationSection yamlConfiguration) {
-        Map<Flag<?>, Tuple<String, Boolean>> flagMap = new HashMap<>();
+    private static Map<Flag, Tuple<String, Boolean>> parseFlags(ConfigurationSection yamlConfiguration) {
+        Map<Flag, Tuple<String, Boolean>> flagMap = new HashMap<>();
 
         Set<String> flagNames = yamlConfiguration.getKeys(false);
-        if(flagNames != null) {
-            for(String flagName : flagNames) {
+        for(String flagName : flagNames) {
                 String settings = yamlConfiguration.getString(flagName + ".setting");
                 boolean editable = yamlConfiguration.getBoolean(flagName + ".editable");
 
@@ -66,7 +64,6 @@ public class FlagGroup implements Saveable {
                 }
                 flagMap.put(flag, new Tuple<>(settings, editable));
             }
-        }
         return flagMap;
     }
 
@@ -78,14 +75,13 @@ public class FlagGroup implements Saveable {
         }
     }
 
-    private void applyFlagMapToRegion(Map<Flag<?>, Tuple<String, Boolean>> flagMap, Region region) {
+    private void applyFlagMapToRegion(Map<Flag, Tuple<String, Boolean>> flagMap, Region region) {
         for(Flag rgFlag : flagMap.keySet()) {
             try {
                 Object flagsetting = AdvancedRegionMarket.getWorldGuardInterface().parseFlagInput(rgFlag, region.getConvertedMessage(flagMap.get(rgFlag).getValue1()));
                 region.getRegion().setFlag(rgFlag, flagsetting);
             } catch (InvalidFlagFormat invalidFlagFormat) {
                 Bukkit.getLogger().info("Could not parse flag-settings for flag " + rgFlag.getName() + "! Please check your flaggroups.yml");
-                continue;
             }
         }
     }

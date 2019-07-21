@@ -5,6 +5,10 @@ import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
+import com.sk89q.worldguard.protection.flags.Flag;
+import com.sk89q.worldguard.protection.flags.FlagContext;
+import com.sk89q.worldguard.protection.flags.Flags;
+import com.sk89q.worldguard.protection.flags.InvalidFlagFormat;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
@@ -39,15 +43,6 @@ public class WorldGuard7 extends WorldGuardInterface {
     }
 
     public boolean canBuild(Player player, Location location, WorldGuardPlugin worldGuardPlugin){
-
-        /*
-        RegionQuery query = WorldGuard.getInstance().getPlatform().getRegionContainer().createQuery();
-        com.sk89q.worldedit.util.Location loc = BukkitAdapter.adapt(location);
-
-
-        return query.testState(loc, WorldGuardPlugin.inst().wrapPlayer(player), Flags.BUILD);
-        */
-
         ApplicableRegionSet regSet = WorldGuard.getInstance().getPlatform().getRegionContainer().get(new BukkitWorld(location.getWorld())).getApplicableRegions(BlockVector3.at(location.getX(), location.getY(), location.getZ()));
         ArrayList<ProtectedRegion> regList = new ArrayList(regSet.getRegions());
         for(int i = 0; i < regList.size(); i++) {
@@ -95,6 +90,14 @@ public class WorldGuard7 extends WorldGuardInterface {
         }
         WG7Region wg7Region = new WG7Region(protectedRegion);
         return wg7Region;
+    }
+
+    public Flag<?> fuzzyMatchFlag(String id) {
+        return Flags.fuzzyMatchFlag(WorldGuard.getInstance().getFlagRegistry(), id);
+    }
+
+    public <V> V parseFlagInput(Flag<V> flag , String input) throws InvalidFlagFormat {
+        return flag.parseInput(FlagContext.create().setInput(input).build());
     }
 
 }

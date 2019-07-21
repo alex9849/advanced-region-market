@@ -1,0 +1,10 @@
+FlagGroups:
+  testflaggroup:
+    available:
+      build:
+        setting: allow g:members
+        editable: false
+    sold:
+      build:
+        setting: allow g:members
+        editable: false

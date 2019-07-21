@@ -2,14 +2,21 @@ package net.alex9849.adapters;
 
 import com.sk89q.worldedit.math.BlockVector2;
 import com.sk89q.worldedit.math.BlockVector3;
+import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.domains.DefaultDomain;
+import com.sk89q.worldguard.protection.flags.Flag;
+import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
+import com.sk89q.worldguard.protection.flags.registry.SimpleFlagRegistry;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import com.sun.istack.internal.NotNull;
+import com.sun.istack.internal.Nullable;
 import net.alex9849.inter.WGRegion;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class WG7Region extends WGRegion {
@@ -139,5 +146,20 @@ public class WG7Region extends WGRegion {
             points.add(new Vector(vector2D.getBlockX(), minY, vector2D.getBlockZ()));
         }
         return points;
+    }
+
+    public <T extends Flag<V>, V> void setFlag(@NotNull Flag<V> flag,@Nullable V value) {
+        this.region.setFlag(flag, value);
+    }
+
+
+
+    public void deleteFlags(Flag<?>... flags){
+        if(flags == null) {
+            return;
+        }
+        for(Flag<?> flag : flags) {
+            this.region.setFlag(flag, null);
+        }
     }
 }

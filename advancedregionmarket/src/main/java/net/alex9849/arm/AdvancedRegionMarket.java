@@ -1,5 +1,6 @@
 package net.alex9849.arm;
 
+import net.alex9849.arm.flaggroups.FlagGroupManager;
 import net.alex9849.arm.handler.CommandHandler;
 import net.alex9849.arm.handler.Scheduler;
 import net.alex9849.arm.handler.listener.*;
@@ -64,6 +65,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
     private static RegionManager regionManager;
     private static PresetPatternManager presetPatternManager;
     private static SignDataFactory signDataFactory;
+    private static FlagGroupManager flagGroupManager;
 
     public void onEnable(){
 
@@ -124,6 +126,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         loadGUI();
         AdvancedRegionMarket.regionManager = new RegionManager(new File(this.getDataFolder() + "/regions.yml"));
         getLogger().log(Level.INFO, "Regions loaded!");
+        AdvancedRegionMarket.flagGroupManager = new FlagGroupManager(new File(this.getDataFolder() + "/flaggroups.yml"));
         loadAutoReset();
         if(!connectSQL()) {
             Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
@@ -134,6 +137,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
                 }
             }, 0, 200);
         }
+
         loadOther();
         AdvancedRegionMarket.presetPatternManager = new PresetPatternManager(new File(this.getDataFolder() + "/presets.yml"));
         Region.setCompleteTabRegions(getConfig().getBoolean("Other.CompleteRegionsOnTabComplete"));
@@ -705,6 +709,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         RegionKindManager.writeResourceToDisc(new File(this.getDataFolder() + "/regionkinds.yml"), getResource("regionkinds.yml"));
         RegionManager.writeResourceToDisc(new File(this.getDataFolder() + "/regions.yml"), getResource("regions.yml"));
         PresetPatternManager.writeResourceToDisc(new File(this.getDataFolder() + "/presets.yml"), getResource("presets.yml"));
+        FlagGroupManager.writeResourceToDisc(new File(this.getDataFolder() + "/flaggroups.yml"), getResource("flaggroups.yml"));
         Messages.generatedefaultConfig();
         this.generatedefaultconfig();
         FileConfiguration pluginConfig = this.getConfig();

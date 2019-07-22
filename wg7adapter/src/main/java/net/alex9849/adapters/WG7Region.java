@@ -152,9 +152,7 @@ public class WG7Region extends WGRegion {
         this.region.setFlag(flag, value);
     }
 
-
-
-    public void deleteFlags(Flag<?>... flags){
+    public void deleteFlags(Flag... flags){
         if(flags == null) {
             return;
         }

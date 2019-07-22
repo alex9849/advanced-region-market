@@ -56,5 +56,5 @@ public abstract class WGRegion {
 
     public abstract  <T extends Flag<V>, V> void setFlag(@NotNull Flag<V> flag, @Nullable V value);
 
-    public abstract void deleteFlags(Flag<?>... flags);
+    public abstract void deleteFlags(Flag... flags);
 }

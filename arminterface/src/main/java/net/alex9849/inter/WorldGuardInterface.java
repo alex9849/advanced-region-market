@@ -32,5 +32,5 @@ public abstract class WorldGuardInterface {
 
     public abstract <V> V parseFlagInput(Flag<V> flag , String input) throws InvalidFlagFormat;
 
-    public abstract Flag<?> fuzzyMatchFlag(String id);
+    public abstract Flag fuzzyMatchFlag(String id);
 }

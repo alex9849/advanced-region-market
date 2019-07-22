@@ -5,6 +5,9 @@ import com.sk89q.worldedit.BlockVector2D;
 import com.sk89q.worldedit.Vector;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.domains.DefaultDomain;
+import com.sk89q.worldguard.protection.flags.DefaultFlag;
+import com.sk89q.worldguard.protection.flags.Flag;
+import com.sk89q.worldguard.protection.flags.InvalidFlagFormat;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
@@ -81,8 +84,15 @@ public class WorldGuard6 extends WorldGuardInterface {
                 return wgRegion;
             }
         }
-        WG6Region wg6Region = new WG6Region(protectedRegion);
-        return wg6Region;
+        return new WG6Region(protectedRegion);
+    }
+
+    public Flag fuzzyMatchFlag(String id) {
+        return DefaultFlag.fuzzyMatchFlag(id);
+    }
+
+    public <V> V parseFlagInput(Flag<V> flag , String input) throws InvalidFlagFormat {
+        return flag.parseInput(WorldGuardPlugin.inst(), null, input);
     }
 
 }

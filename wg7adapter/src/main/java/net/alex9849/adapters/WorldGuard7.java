@@ -88,11 +88,10 @@ public class WorldGuard7 extends WorldGuardInterface {
                 return wgRegion;
             }
         }
-        WG7Region wg7Region = new WG7Region(protectedRegion);
-        return wg7Region;
+        return new WG7Region(protectedRegion);
     }
 
-    public Flag<?> fuzzyMatchFlag(String id) {
+    public Flag fuzzyMatchFlag(String id) {
         return Flags.fuzzyMatchFlag(WorldGuard.getInstance().getFlagRegistry(), id);
     }
 

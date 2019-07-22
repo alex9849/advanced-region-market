@@ -3,7 +3,10 @@ package net.alex9849.adapters;
 import com.sk89q.worldedit.BlockVector;
 import com.sk89q.worldedit.BlockVector2D;
 import com.sk89q.worldguard.domains.DefaultDomain;
+import com.sk89q.worldguard.protection.flags.Flag;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import com.sun.istack.internal.NotNull;
+import com.sun.istack.internal.Nullable;
 import net.alex9849.inter.WGRegion;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.util.Vector;
@@ -139,5 +142,18 @@ public class WG7RegionBeta01 extends WGRegion {
             points.add(new Vector(vector2D.getBlockX(), minY, vector2D.getBlockZ()));
         }
         return points;
+    }
+
+    public <T extends Flag<V>, V> void setFlag(@NotNull Flag<V> flag, @Nullable V value) {
+        this.region.setFlag(flag, value);
+    }
+
+    public void deleteFlags(Flag... flags){
+        if(flags == null) {
+            return;
+        }
+        for(Flag<?> flag : flags) {
+            this.region.setFlag(flag, null);
+        }
     }
 }

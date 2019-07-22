@@ -2,14 +2,9 @@ package net.alex9849.adapters;
 
 import com.sk89q.worldedit.math.BlockVector2;
 import com.sk89q.worldedit.math.BlockVector3;
-import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.domains.DefaultDomain;
 import com.sk89q.worldguard.protection.flags.Flag;
-import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
-import com.sk89q.worldguard.protection.flags.registry.SimpleFlagRegistry;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
-import com.sun.istack.internal.NotNull;
-import com.sun.istack.internal.Nullable;
 import net.alex9849.inter.WGRegion;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.util.Vector;
@@ -148,7 +143,7 @@ public class WG7Region extends WGRegion {
         return points;
     }
 
-    public <T extends Flag<V>, V> void setFlag(@NotNull Flag<V> flag,@Nullable V value) {
+    public <T extends Flag<V>, V> void setFlag(Flag<V> flag, V value) {
         this.region.setFlag(flag, value);
     }
 

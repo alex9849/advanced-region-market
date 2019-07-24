@@ -1,27 +1,19 @@
 package net.alex9849.adapters;
 
 import com.sk89q.worldedit.BlockVector;
-import com.sk89q.worldedit.BlockVector2D;
-import com.sk89q.worldedit.Vector;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
-import com.sk89q.worldguard.domains.DefaultDomain;
-import com.sk89q.worldguard.protection.flags.DefaultFlag;
-import com.sk89q.worldguard.protection.flags.Flag;
-import com.sk89q.worldguard.protection.flags.InvalidFlagFormat;
+import com.sk89q.worldguard.protection.flags.*;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
-import com.sk89q.worldguard.protection.regions.RegionType;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.inter.WorldGuardInterface;
 import org.bukkit.Location;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class WorldGuard6 extends WorldGuardInterface {
     private static List<WG6Region> createdRegions = new ArrayList<WG6Region>();
@@ -92,6 +84,11 @@ public class WorldGuard6 extends WorldGuardInterface {
     }
 
     public <V> V parseFlagInput(Flag<V> flag , String input) throws InvalidFlagFormat {
+        return flag.parseInput(WorldGuardPlugin.inst(), null, input);
+    }
+
+    @Override
+    public RegionGroup parseFlagInput(RegionGroupFlag flag, String input) throws InvalidFlagFormat {
         return flag.parseInput(WorldGuardPlugin.inst(), null, input);
     }
 

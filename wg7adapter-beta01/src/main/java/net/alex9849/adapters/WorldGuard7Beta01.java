@@ -6,10 +6,7 @@ import com.sk89q.worldedit.bukkit.BukkitWorld;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
-import com.sk89q.worldguard.protection.flags.Flag;
-import com.sk89q.worldguard.protection.flags.FlagContext;
-import com.sk89q.worldguard.protection.flags.Flags;
-import com.sk89q.worldguard.protection.flags.InvalidFlagFormat;
+import com.sk89q.worldguard.protection.flags.*;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
@@ -100,6 +97,11 @@ public class WorldGuard7Beta01 extends WorldGuardInterface {
     }
 
     public <V> V parseFlagInput(Flag<V> flag , String input) throws InvalidFlagFormat {
+        return flag.parseInput(FlagContext.create().setInput(input).build());
+    }
+
+    @Override
+    public RegionGroup parseFlagInput(RegionGroupFlag flag, String input) throws InvalidFlagFormat {
         return flag.parseInput(FlagContext.create().setInput(input).build());
     }
 

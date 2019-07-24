@@ -86,10 +86,10 @@ public abstract class Region implements Saveable {
         this.extraEntitys = extraEntitys;
         this.extraTotalEntitys = boughtExtraTotalEntitys;
 
+        this.applyFlagGroup(FlagGroup.ResetMode.NON_EDITABLE);
         for(Region subregion : subregions) {
             subregion.setParentRegion(this);
         }
-        this.applyFlagGroup(FlagGroup.ResetMode.NON_EDITABLE);
 
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
         File builtblocksdic = new File(pluginfolder + "/schematics/" + this.regionworld.getName() + "/" + region.getId() + "--builtblocks.schematic");
@@ -393,48 +393,7 @@ public abstract class Region implements Saveable {
                 }
             }
         }
-    } /*{
-
-        if(sender.hasPermission(Permission.ADMIN_INFO)) {
-
-        } else {
-
-        }
-        if(sender.hasPermission(Permission.ADMIN_INFO)){
-            String autoresetmsg = Messages.REGION_INFO_AUTORESET + Messages.convertYesNo(this.autoreset);
-            if((!ArmSettings.isEnableAutoReset()) && this.autoreset){
-                autoresetmsg = autoresetmsg + " (but globally disabled)";
-            }
-            sender.sendMessage(autoresetmsg);
-            sender.sendMessage(Messages.REGION_INFO_DO_BLOCK_RESET + Messages.convertYesNo(this.isDoBlockReset));
-            sender.sendMessage(Messages.REGION_INFO_IS_USER_RESETTABLE + Messages.convertYesNo(this.isUserResettable));
-            String isAutoPriceInfo = "";
-            if(this.getPriceObject().isAutoPrice()) {
-                isAutoPriceInfo = this.getPriceObject().getAutoPrice().getName();
-            } else {
-                isAutoPriceInfo = Messages.convertYesNo(this.getPriceObject().isAutoPrice());
-            }
-            sender.sendMessage(Messages.REGION_INFO_AUTOPRICE + isAutoPriceInfo);
-        }
-        this.displayExtraInfo(sender);
-        if(!this.isSubregion()) {
-            sender.sendMessage(Messages.REGION_INFO_ALLOWED_SUBREGIONS + this.getAllowedSubregions());
-            sender.sendMessage(Messages.REGION_INFO_SUBREGIONS + subregions);
-        }
-
-
-        if(sender instanceof Player) {
-            if(ArmSettings.isRegionInfoParticleBorder()) {
-                Player player = (Player) sender;
-                new ParticleBorder(this.getRegion().getPoints(), this.getRegion().getMinPoint().getBlockY(), this.getRegion().getMaxPoint().getBlockY(), player, this.getRegionworld()).createParticleBorder(20 * 30);
-                for(Region subregion : this.getSubregions()) {
-                    Location lpos1 = new Location(subregion.getRegionworld(), subregion.getRegion().getMinPoint().getX(), subregion.getRegion().getMinPoint().getY(), subregion.getRegion().getMinPoint().getZ());
-                    Location lPos2 = new Location(subregion.getRegionworld(), subregion.getRegion().getMaxPoint().getX(), subregion.getRegion().getMaxPoint().getY(), subregion.getRegion().getMaxPoint().getZ());
-                    new ParticleBorder(lpos1.toVector(), lPos2.toVector(), player, subregion.getRegionworld()).createParticleBorder(20 * 30);
-                }
-            }
-        }
-    } */
+    }
 
     public abstract void updateRegion();
 
@@ -622,10 +581,8 @@ public abstract class Region implements Saveable {
 
         this.extraEntitys.clear();
         this.extraTotalEntitys = 0;
-
-        for(SignData signData : this.sellsign){
-            this.updateSignText(signData);
-        }
+        this.updateSigns();
+        this.flagGroup.applyToRegion(this, FlagGroup.ResetMode.COMPLETE);
         this.queueSave();
     }
 
@@ -774,6 +731,7 @@ public abstract class Region implements Saveable {
         }
         message = this.getRegionKind().getConvertedMessage(message);
         message = this.getEntityLimitGroup().getConvertedMessage(message);
+        message = this.flagGroup.getConvertedMessage(message);
         return message;
     }
 

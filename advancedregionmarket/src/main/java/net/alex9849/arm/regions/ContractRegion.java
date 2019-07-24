@@ -126,9 +126,8 @@ public class ContractRegion extends Region {
         this.terminated = false;
         this.getRegion().deleteMembers();
         this.getRegion().setOwner(player);
-
         this.updateSigns();
-
+        this.flagGroup.applyToRegion(this, FlagGroup.ResetMode.NON_EDITABLE);
         this.queueSave();
     }
 

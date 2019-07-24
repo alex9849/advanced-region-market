@@ -2,6 +2,8 @@ package net.alex9849.arm.flaggroups;
 
 import com.sk89q.worldguard.protection.flags.Flag;
 import com.sk89q.worldguard.protection.flags.InvalidFlagFormat;
+import com.sk89q.worldguard.protection.flags.RegionGroup;
+import com.sk89q.worldguard.protection.flags.RegionGroupFlag;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.util.Saveable;
@@ -79,16 +81,65 @@ public class FlagGroup implements Saveable {
 
     private void applyFlagMapToRegion(Map<Flag, Tuple<String, Boolean>> flagMap, Region region, ResetMode resetMode) {
         for(Flag rgFlag : flagMap.keySet()) {
-            try {
-                Tuple<String, Boolean> flagSettings = flagMap.get(rgFlag);
-                if(resetMode == ResetMode.NON_EDITABLE && flagSettings.getValue2()) {
-                    continue;
-                }
-                Object wgFlagSettings = AdvancedRegionMarket.getWorldGuardInterface().parseFlagInput(rgFlag, region.getConvertedMessage(flagSettings.getValue1()));
-                region.getRegion().setFlag(rgFlag, wgFlagSettings);
-            } catch (InvalidFlagFormat invalidFlagFormat) {
-                Bukkit.getLogger().info("Could not parse flag-settings for flag " + rgFlag.getName() + "! Please check your flaggroups.yml");
+            Tuple<String, Boolean> flagSettingsTupel = flagMap.get(rgFlag);
+            if(resetMode == ResetMode.NON_EDITABLE && flagSettingsTupel.getValue2()) {
+                continue;
             }
+
+            if(flagSettingsTupel.getValue1() == null || flagSettingsTupel.getValue1().isEmpty()
+                    || flagSettingsTupel.getValue1().equalsIgnoreCase("remove")) {
+                region.getRegion().deleteFlags(rgFlag);
+            } else {
+                RegionGroupFlag groupFlag = rgFlag.getRegionGroupFlag();
+                String flagSettings = null;
+                RegionGroup groupFlagSettings = null;
+
+                if(groupFlag == null) {
+                    flagSettings = flagSettingsTupel.getValue1();
+                } else {
+                    for(String part : flagSettingsTupel.getValue1().split(" ")) {
+                        if(part.startsWith("g:")) {
+                            if(part.length() > 2) {
+                                try {
+                                    groupFlagSettings = AdvancedRegionMarket.getWorldGuardInterface().parseFlagInput(groupFlag, part.substring(2));
+                                } catch (InvalidFlagFormat iff) {
+                                    Bukkit.getLogger().info("Could not parse groupflag-settings for groupflag " + groupFlag.getName() + "! Flag will be ignored! Please check your flaggroups.yml");
+                                    continue;
+                                }
+                            }
+                        } else {
+                            if(flagSettings == null) {
+                                flagSettings = part;
+                            } else {
+                                flagSettings += " " + part;
+                            }
+                        }
+                    }
+                }
+
+                if(flagSettings != null) {
+                    try {
+                        Object wgFlagSettings = AdvancedRegionMarket.getWorldGuardInterface().parseFlagInput(rgFlag, region.getConvertedMessage(flagSettings));
+                        region.getRegion().setFlag(rgFlag, wgFlagSettings);
+                    } catch (InvalidFlagFormat invalidFlagFormat) {
+                        Bukkit.getLogger().info("Could not parse flag-settings for flag " + rgFlag.getName() + "! Flag will be ignored! Please check your flaggroups.yml");
+                        continue;
+                    }
+                }
+                if(groupFlagSettings != null) {
+                    if(groupFlagSettings == groupFlag.getDefault()) {
+                        region.getRegion().deleteFlags(groupFlag);
+                    } else {
+                        region.getRegion().setFlag(groupFlag, groupFlagSettings);
+                    }
+                }
+
+
+
+            }
+        }
+        if(!region.isSubregion()) {
+            region.getRegion().setPriority(this.priority);
         }
     }
 
@@ -118,5 +169,9 @@ public class FlagGroup implements Saveable {
 
     public String getName() {
         return this.name;
+    }
+
+    public String getConvertedMessage(String message) {
+        return message.replace("%flaggroup%", this.name);
     }
 }

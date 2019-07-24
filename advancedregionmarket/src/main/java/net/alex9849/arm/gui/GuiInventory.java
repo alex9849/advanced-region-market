@@ -25,10 +25,6 @@ public class GuiInventory implements InventoryHolder {
         return this.icons[position];
     }
 
-    public void setSize(int size){
-        this.size = size;
-    }
-
     @Override
     public Inventory getInventory() {
 

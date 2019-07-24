@@ -531,6 +531,10 @@ public abstract class Region implements Saveable {
         this.automaticResetRegion(null);
     }
 
+    public FlagGroup getFlagGroup() {
+        return this.flagGroup;
+    }
+
     public void automaticResetRegion(Player player){
         UnsellRegionEvent unsellRegionEvent = new UnsellRegionEvent(this);
         Bukkit.getServer().getPluginManager().callEvent(unsellRegionEvent);

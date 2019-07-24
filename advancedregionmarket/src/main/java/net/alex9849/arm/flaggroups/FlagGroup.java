@@ -153,6 +153,10 @@ public class FlagGroup implements Saveable {
         this.needsSave = true;
     }
 
+    public Map<Flag, Tuple<String, Boolean>> getFlagMapSold() {
+        return flagMapSold;
+    }
+
     @Override
     public void setSaved() {
         this.needsSave = false;

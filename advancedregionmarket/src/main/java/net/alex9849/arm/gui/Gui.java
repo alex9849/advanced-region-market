@@ -1,5 +1,6 @@
 package net.alex9849.arm.gui;
 
+import com.sk89q.worldedit.util.Direction;
 import com.sk89q.worldguard.protection.flags.*;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.ArmSettings;
@@ -7,6 +8,7 @@ import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.entitylimit.EntityLimit;
 import net.alex9849.arm.flaggroups.FlagGroup;
+import net.alex9849.arm.gui.chathandler.GuiChatInputListener;
 import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.util.MaterialFinder;
 import net.alex9849.arm.util.Tuple;
@@ -400,12 +402,17 @@ public class Gui implements Listener {
 
             ClickItem[] flagStateButtons = getFlagSettingItem(rgFlag, region);
 
-            if(flagStateButtons.length < 0) {
+            if(flagStateButtons.length > 0) {
                 guiInventory.addIcon(flagStateButtons[0], invIndex + 1);
             }
-            if(flagStateButtons.length < 1) {
+            if(flagStateButtons.length > 1) {
                 guiInventory.addIcon(flagStateButtons[1], invIndex + 2);
             }
+
+            /*
+            ClickItem deleteButton = new ClickItem(new ItemStack(Material.GRASS_BLOCK), "Delete flag").addClickAction((pl -> {
+                region.getRegion().deleteFlags(rgFlag);
+            })); */
 
             ClickItem allButton = new ClickItem(new ItemStack(Material.GRASS_BLOCK), "Set for all").addClickAction(new GroupFlagSetter("all"));
             guiInventory.addIcon(allButton, invIndex + 3);
@@ -1821,17 +1828,21 @@ public class Gui implements Listener {
     }
 
     public static ClickItem[] getFlagSettingItem(Flag flag, Region region) {
-        class GroupFlagSetter implements ClickAction {
+        class FlagSetter implements ClickAction {
             String input;
 
-            GroupFlagSetter(String input) {
+            FlagSetter(String input) {
                 this.input = input;
+            }
+
+            public void setInput(String s) {
+                this.input = s;
             }
 
             @Override
             public void execute(Player player) throws InputException {
                 try {
-                    Object flagSetting = AdvancedRegionMarket.getWorldGuardInterface().parseFlagInput(flag, this.input);
+                    Object flagSetting = AdvancedRegionMarket.getWorldGuardInterface().parseFlagInput(flag, region.getConvertedMessage(this.input));
                     if(flag.getDefault() == flagSetting) {
                         region.getRegion().deleteFlags(flag);
                     } else {
@@ -1839,8 +1850,7 @@ public class Gui implements Listener {
                     }
                 } catch (InvalidFlagFormat invalidFlagFormat) {
                     //Todo
-                    player.sendMessage("Could not modify flag " + flag.getName() + "!");
-                    Bukkit.getLogger().info("Could not modify flag " + flag.getName() + " via player flageditor!");
+                    throw new InputException(player, "Could not parse given input for flag " + flag.getName());
                 }
             }
         }
@@ -1850,23 +1860,69 @@ public class Gui implements Listener {
         if(flag instanceof StateFlag) {
             clickItems = new ClickItem[2];
             //TODO change names (add to messages.yml)
-            clickItems[0] = new ClickItem(new ItemStack(Material.GRASS_BLOCK), "Allow").addClickAction(new GroupFlagSetter("allow"));
-            clickItems[1] = new ClickItem(new ItemStack(Material.GRASS_BLOCK), "Deny").addClickAction(new GroupFlagSetter("deny"));
+            clickItems[0] = new ClickItem(new ItemStack(Material.GRASS_BLOCK), "Allow").addClickAction(new FlagSetter("allow"));
+            clickItems[1] = new ClickItem(new ItemStack(Material.GRASS_BLOCK), "Deny").addClickAction(new FlagSetter("deny"));
+
         } else if(flag instanceof BooleanFlag) {
             clickItems = new ClickItem[2];
             //TODO change names (add to messages.yml)
-            clickItems[0] = new ClickItem(new ItemStack(Material.GRASS_BLOCK), "True").addClickAction(new GroupFlagSetter("true"));
-            clickItems[1] = new ClickItem(new ItemStack(Material.GRASS_BLOCK), "False").addClickAction(new GroupFlagSetter("false"));
-        } else if (flag instanceof StringFlag) {
-            //TODO implement me!
+            clickItems[0] = new ClickItem(new ItemStack(Material.GRASS_BLOCK), "True").addClickAction(new FlagSetter("true"));
+            clickItems[1] = new ClickItem(new ItemStack(Material.GRASS_BLOCK), "False").addClickAction(new FlagSetter("false"));
+
+        }
+        else if (flag instanceof StringFlag) {
             clickItems = new ClickItem[1];
-        } else if (flag instanceof IntegerFlag) {
-            //TODO implement me!
+            final FlagSetter flagSetter = new FlagSetter("");
+            clickItems[0] = new ClickItem(new ItemStack(Material.GRASS_BLOCK), "Set message").addClickAction((new ClickAction() {
+                @Override
+                public void execute(Player player) throws InputException {
+
+                    player.closeInventory();
+                    player.sendMessage("Please write down a message:");
+                    GuiChatInputListener gcil = new GuiChatInputListener(player, (s) -> {
+                        flagSetter.setInput(s);
+                        flagSetter.execute(player);
+                    });
+                    Bukkit.getPluginManager().registerEvents(gcil, AdvancedRegionMarket.getARM());
+
+                }
+            }));
+        }
+        else if (flag instanceof IntegerFlag) {
+
             clickItems = new ClickItem[1];
-        } else if (flag instanceof DoubleFlag) {
-            //TODO implement me!
+            final FlagSetter flagSetter = new FlagSetter("");
+            clickItems[0] = new ClickItem(new ItemStack(Material.GRASS_BLOCK), "Write Number").addClickAction((new ClickAction() {
+            @Override
+            public void execute(Player player) throws InputException {
+                player.closeInventory();
+                player.sendMessage("Please write down a number that does not have decimals:");
+                GuiChatInputListener gcil = new GuiChatInputListener(player, (s) -> {
+                    flagSetter.setInput(s);
+                    flagSetter.execute(player);
+                });
+                Bukkit.getPluginManager().registerEvents(gcil, AdvancedRegionMarket.getARM());
+            }
+        }));
+        }
+        else if (flag instanceof DoubleFlag) {
+
             clickItems = new ClickItem[1];
-        } else {
+            final FlagSetter flagSetter = new FlagSetter("");
+            clickItems[0] = new ClickItem(new ItemStack(Material.GRASS_BLOCK), "Write Number").addClickAction((new ClickAction() {
+                @Override
+                public void execute(Player player) throws InputException {
+                    player.closeInventory();
+                    player.sendMessage("Please write down a number:");
+                    GuiChatInputListener gcil = new GuiChatInputListener(player, (s) -> {
+                        flagSetter.setInput(s);
+                        flagSetter.execute(player);
+                    });
+                    Bukkit.getPluginManager().registerEvents(gcil, AdvancedRegionMarket.getARM());
+                }
+            }));
+        }
+        else {
             return new ClickItem[0];
         }
         return clickItems;

@@ -1,9 +1,6 @@
 package net.alex9849.arm.gui;
 
-import com.sk89q.worldguard.protection.flags.Flag;
-import com.sk89q.worldguard.protection.flags.InvalidFlagFormat;
-import com.sk89q.worldguard.protection.flags.RegionGroup;
-import com.sk89q.worldguard.protection.flags.RegionGroupFlag;
+import com.sk89q.worldguard.protection.flags.*;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
@@ -401,27 +398,14 @@ public class Gui implements Listener {
             ClickItem flagItem = new ClickItem(new ItemStack(Material.GRASS_BLOCK), rgFlag.getName());
             guiInventory.addIcon(flagItem, invIndex);
 
-            ClickItem allowButton = new ClickItem(new ItemStack(Material.GRASS_BLOCK), "Allow").addClickAction((pl) -> {
-                try {
-                    region.getRegion().setFlag(rgFlag, AdvancedRegionMarket.getWorldGuardInterface().parseFlagInput(rgFlag, "allow"));
-                } catch (InvalidFlagFormat invalidFlagFormat) {
-                    //Todo
-                    pl.sendMessage("Could not modify flag " + rgFlag + "!");
-                    Bukkit.getLogger().info("Could not modify flag " + rgFlag + " via player flageditor!");
-                }
-            });
-            guiInventory.addIcon(allowButton, invIndex + 1);
+            ClickItem[] flagStateButtons = getFlagSettingItem(rgFlag, region);
 
-            ClickItem denyButton = new ClickItem(new ItemStack(Material.GRASS_BLOCK), "Deny").addClickAction((pl) -> {
-                try {
-                    region.getRegion().setFlag(rgFlag, AdvancedRegionMarket.getWorldGuardInterface().parseFlagInput(rgFlag, "deny"));
-                } catch (InvalidFlagFormat invalidFlagFormat) {
-                    //Todo
-                    pl.sendMessage("Could not modify flag " + rgFlag + "!");
-                    Bukkit.getLogger().info("Could not modify flag " + rgFlag + " via player flageditor!");
-                }
-            });
-            guiInventory.addIcon(denyButton, invIndex + 2);
+            if(flagStateButtons.length < 0) {
+                guiInventory.addIcon(flagStateButtons[0], invIndex + 1);
+            }
+            if(flagStateButtons.length < 1) {
+                guiInventory.addIcon(flagStateButtons[1], invIndex + 2);
+            }
 
             ClickItem allButton = new ClickItem(new ItemStack(Material.GRASS_BLOCK), "Set for all").addClickAction(new GroupFlagSetter("all"));
             guiInventory.addIcon(allButton, invIndex + 3);
@@ -1834,5 +1818,57 @@ public class Gui implements Listener {
         itemMeta.setLore(lore);
         itemStack.setItemMeta(itemMeta);
         return itemStack;
+    }
+
+    public static ClickItem[] getFlagSettingItem(Flag flag, Region region) {
+        class GroupFlagSetter implements ClickAction {
+            String input;
+
+            GroupFlagSetter(String input) {
+                this.input = input;
+            }
+
+            @Override
+            public void execute(Player player) throws InputException {
+                try {
+                    Object flagSetting = AdvancedRegionMarket.getWorldGuardInterface().parseFlagInput(flag, this.input);
+                    if(flag.getDefault() == flagSetting) {
+                        region.getRegion().deleteFlags(flag);
+                    } else {
+                        region.getRegion().setFlag(flag, flagSetting);
+                    }
+                } catch (InvalidFlagFormat invalidFlagFormat) {
+                    //Todo
+                    player.sendMessage("Could not modify flag " + flag.getName() + "!");
+                    Bukkit.getLogger().info("Could not modify flag " + flag.getName() + " via player flageditor!");
+                }
+            }
+        }
+
+
+        ClickItem[] clickItems;
+        if(flag instanceof StateFlag) {
+            clickItems = new ClickItem[2];
+            //TODO change names (add to messages.yml)
+            clickItems[0] = new ClickItem(new ItemStack(Material.GRASS_BLOCK), "Allow").addClickAction(new GroupFlagSetter("allow"));
+            clickItems[1] = new ClickItem(new ItemStack(Material.GRASS_BLOCK), "Deny").addClickAction(new GroupFlagSetter("deny"));
+        } else if(flag instanceof BooleanFlag) {
+            clickItems = new ClickItem[2];
+            //TODO change names (add to messages.yml)
+            clickItems[0] = new ClickItem(new ItemStack(Material.GRASS_BLOCK), "True").addClickAction(new GroupFlagSetter("true"));
+            clickItems[1] = new ClickItem(new ItemStack(Material.GRASS_BLOCK), "False").addClickAction(new GroupFlagSetter("false"));
+        } else if (flag instanceof StringFlag) {
+            //TODO implement me!
+            clickItems = new ClickItem[1];
+        } else if (flag instanceof IntegerFlag) {
+            //TODO implement me!
+            clickItems = new ClickItem[1];
+        } else if (flag instanceof DoubleFlag) {
+            //TODO implement me!
+            clickItems = new ClickItem[1];
+        } else {
+            return new ClickItem[0];
+        }
+        return clickItems;
     }
 }

@@ -1,11 +1,84 @@
 FlagGroups:
-  testflaggroup:
-    priority: 10
-    available:
-      build:
-        setting: allow g:members
-        editable: false
-    sold:
-      build:
-        setting: allow g:members
-        editable: false
+  testflaggroup: {}
+
+DefaultFlagGroup:
+  priority: 10
+  available:
+    interact:
+      setting: 'deny g:non_members'
+      editable: false
+    use:
+      setting: 'allow g:all'
+      editable: false
+    build:
+      setting: 'deny g:non_members'
+      editable: false
+    block-break:
+      setting: 'deny g:non_members'
+      editable: false
+    block-place:
+      setting: 'deny g:non_members'
+      editable: false
+    chest-access:
+      setting: 'deny g:non_members'
+      editable: false
+  sold:
+    interact:
+      setting: 'deny g:non_members'
+      editable: false
+    use:
+      setting: 'deny g:non_members'
+      editable: false
+    build:
+      setting: 'deny g:non_members'
+      editable: false
+    block-break:
+      setting: 'deny g:non_members'
+      editable: false
+    block-place:
+      setting: 'deny g:non_members'
+      editable: false
+    chest-access:
+      setting: 'deny g:non_members'
+      editable: false
+
+SubregionFlagGroup:
+  priority: 0
+  available:
+    interact:
+      setting: 'deny g:non_members'
+      editable: false
+    use:
+      setting: 'allow'
+      editable: false
+    build:
+      setting: 'deny g:non_members'
+      editable: false
+    block-break:
+      setting: 'deny g:non_members'
+      editable: false
+    block-place:
+      setting: 'deny g:non_members'
+      editable: false
+    chest-access:
+      setting: 'deny g:non_members'
+      editable: false
+  sold:
+    interact:
+      setting: 'deny g:non_members'
+      editable: false
+    use:
+      setting: 'deny g:non_members'
+      editable: false
+    build:
+      setting: 'deny g:non_members'
+      editable: false
+    block-break:
+      setting: 'deny g:non_members'
+      editable: false
+    block-place:
+      setting: 'deny g:non_members'
+      editable: false
+    chest-access:
+      setting: 'deny g:non_members'
+      editable: false

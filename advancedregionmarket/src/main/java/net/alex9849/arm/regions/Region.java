@@ -8,6 +8,7 @@ import net.alex9849.arm.entitylimit.EntityLimitGroup;
 import net.alex9849.arm.events.ResetBlocksEvent;
 import net.alex9849.arm.events.UnsellRegionEvent;
 import net.alex9849.arm.events.UpdateRegionEvent;
+import net.alex9849.arm.flaggroups.FlagGroup;
 import net.alex9849.arm.minifeatures.ParticleBorder;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import net.alex9849.arm.regionkind.RegionKind;
@@ -53,6 +54,7 @@ public abstract class Region implements Saveable {
     protected int allowedSubregions;
     protected Region parentRegion;
     protected boolean isUserResettable;
+    protected FlagGroup flagGroup;
     protected EntityLimitGroup entityLimitGroup;
     private boolean needsSave;
     private HashMap<EntityType, Integer> extraEntitys;
@@ -60,7 +62,7 @@ public abstract class Region implements Saveable {
     Integer m2Amount;
 
     public Region(WGRegion region, World regionworld, List<SignData> sellsign, Price price, Boolean sold, Boolean autoreset,
-                  Boolean isHotel, Boolean doBlockReset, RegionKind regionKind, Location teleportLoc, long lastreset,
+                  Boolean isHotel, Boolean doBlockReset, RegionKind regionKind, FlagGroup flagGroup, Location teleportLoc, long lastreset,
                   boolean isUserResettable, List<Region> subregions, int allowedSubregions, EntityLimitGroup entityLimitGroup,
                   HashMap<EntityType, Integer> extraEntitys, int boughtExtraTotalEntitys){
         this.region = region;
@@ -69,6 +71,7 @@ public abstract class Region implements Saveable {
         this.price = price;
         this.regionworld = regionworld;
         this.regionKind = regionKind;
+        this.flagGroup = flagGroup;
         this.autoreset = autoreset;
         this.isDoBlockReset = doBlockReset;
         this.lastreset = lastreset;
@@ -86,6 +89,7 @@ public abstract class Region implements Saveable {
         for(Region subregion : subregions) {
             subregion.setParentRegion(this);
         }
+        this.applyFlagGroup(FlagGroup.ResetMode.NON_EDITABLE);
 
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
         File builtblocksdic = new File(pluginfolder + "/schematics/" + this.regionworld.getName() + "/" + region.getId() + "--builtblocks.schematic");
@@ -263,6 +267,10 @@ public abstract class Region implements Saveable {
 
     public WGRegion getRegion() {
         return region;
+    }
+
+    public void applyFlagGroup(FlagGroup.ResetMode resetMode) {
+        this.flagGroup.applyToRegion(this, resetMode);
     }
 
     public void updateSigns() {
@@ -943,6 +951,7 @@ public abstract class Region implements Saveable {
 
         if(!this.isSubregion()) {
             yamlConfiguration.set("kind", this.getRegionKind().getName());
+            yamlConfiguration.set("flagGroup", this.flagGroup.getName());
             yamlConfiguration.set("autoreset", this.isAutoreset());
             yamlConfiguration.set("entityLimitGroup", this.getEntityLimitGroup().getName());
             yamlConfiguration.set("doBlockReset", this.isDoBlockReset());

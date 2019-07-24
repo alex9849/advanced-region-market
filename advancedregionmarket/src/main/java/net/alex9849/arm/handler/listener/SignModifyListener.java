@@ -3,6 +3,7 @@ package net.alex9849.arm.handler.listener;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
+import net.alex9849.arm.flaggroups.FlagGroup;
 import net.alex9849.arm.presets.ActivePresetManager;
 import net.alex9849.arm.presets.presets.ContractPreset;
 import net.alex9849.arm.presets.presets.PresetType;
@@ -47,6 +48,7 @@ public class SignModifyListener implements Listener {
 
         try {
             RegionKind regionkind = RegionKind.DEFAULT;
+            FlagGroup flagGroup = FlagGroup.DEFAULT;
             Boolean autoReset = true;
             Boolean isHotel = false;
             Boolean doBlockReset = true;
@@ -58,6 +60,7 @@ public class SignModifyListener implements Listener {
                 SellPreset preset = (SellPreset) ActivePresetManager.getPreset(sign.getPlayer(), PresetType.SELLPRESET);
                 if(preset != null) {
                     regionkind = preset.getRegionKind();
+                    flagGroup = preset.getFlagGroup();
                     autoReset = preset.isAutoReset();
                     isHotel = preset.isHotel();
                     doBlockReset = preset.isDoBlockReset();
@@ -139,7 +142,7 @@ public class SignModifyListener implements Listener {
 
                 List<SignData> sellsign = new ArrayList<>();
                 sellsign.add(signData);
-                SellRegion addRegion = new SellRegion(region, regionWorld, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,1, userResettable, new ArrayList<Region>(), allowedSubregions, entityLimitGroup, new HashMap<>(), 0);
+                SellRegion addRegion = new SellRegion(region, regionWorld, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, flagGroup,null,1, userResettable, new ArrayList<Region>(), allowedSubregions, entityLimitGroup, new HashMap<>(), 0);
                 addRegion.createSchematic();
                 AdvancedRegionMarket.getRegionManager().add(addRegion);
                 sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_ADDED_TO_ARM);
@@ -162,6 +165,7 @@ public class SignModifyListener implements Listener {
                     regionkind = preset.getRegionKind();
                     autoReset = preset.isAutoReset();
                     isHotel = preset.isHotel();
+                    flagGroup = preset.getFlagGroup();
                     doBlockReset = preset.isDoBlockReset();
                     userResettable = preset.isUserResettable();
                     entityLimitGroup = preset.getEntityLimitGroup();
@@ -253,7 +257,7 @@ public class SignModifyListener implements Listener {
                 List<SignData> sellsign = new ArrayList<>();
                 sellsign.add(signData);
 
-                RentRegion addRegion = new RentRegion(region, regionWorld, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,
+                RentRegion addRegion = new RentRegion(region, regionWorld, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, flagGroup,null,
                         1, userResettable,1, new ArrayList<Region>(), allowedSubregions, entityLimitGroup, new HashMap<>(), 0);
                 addRegion.createSchematic();
                 AdvancedRegionMarket.getRegionManager().add(addRegion);
@@ -278,6 +282,7 @@ public class SignModifyListener implements Listener {
                     isHotel = preset.isHotel();
                     doBlockReset = preset.isDoBlockReset();
                     userResettable = preset.isUserResettable();
+                    flagGroup = preset.getFlagGroup();
                     entityLimitGroup = preset.getEntityLimitGroup();
                     allowedSubregions = preset.getAllowedSubregions();
                     sign.getPlayer().sendMessage(Messages.PREFIX + "Applying preset...");
@@ -362,7 +367,7 @@ public class SignModifyListener implements Listener {
                 List<SignData> sellsign = new ArrayList<>();
                 sellsign.add(signData);
 
-                ContractRegion addRegion = new ContractRegion(region, regionWorld, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, null,
+                ContractRegion addRegion = new ContractRegion(region, regionWorld, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, flagGroup,null,
                         1, userResettable, 1, false, new ArrayList<Region>(), allowedSubregions, entityLimitGroup, new HashMap<>(), 0);
                 addRegion.createSchematic();
                 AdvancedRegionMarket.getRegionManager().add(addRegion);

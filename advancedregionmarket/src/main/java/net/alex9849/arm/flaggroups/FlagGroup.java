@@ -14,6 +14,8 @@ import java.util.Map;
 import java.util.Set;
 
 public class FlagGroup implements Saveable {
+    public static FlagGroup DEFAULT = new FlagGroup("Default", 10, new HashMap<>(), new HashMap<>());
+    public static FlagGroup SUBREGION = new FlagGroup("Subregion", 10, new HashMap<>(), new HashMap<>());
     private boolean needsSave;
     private Map<Flag, Tuple<String, Boolean>> flagMapSold;
     private Map<Flag, Tuple<String, Boolean>> flagMapAvailable;
@@ -67,19 +69,23 @@ public class FlagGroup implements Saveable {
         return flagMap;
     }
 
-    public void applyToRegion(Region region) {
+    public void applyToRegion(Region region, ResetMode resetMode) {
         if(region.isSold()) {
-            this.applyFlagMapToRegion(this.flagMapSold, region);
+            this.applyFlagMapToRegion(this.flagMapSold, region, resetMode);
         } else {
-            this.applyFlagMapToRegion(this.flagMapAvailable, region);
+            this.applyFlagMapToRegion(this.flagMapAvailable, region, resetMode);
         }
     }
 
-    private void applyFlagMapToRegion(Map<Flag, Tuple<String, Boolean>> flagMap, Region region) {
+    private void applyFlagMapToRegion(Map<Flag, Tuple<String, Boolean>> flagMap, Region region, ResetMode resetMode) {
         for(Flag rgFlag : flagMap.keySet()) {
             try {
-                Object flagsetting = AdvancedRegionMarket.getWorldGuardInterface().parseFlagInput(rgFlag, region.getConvertedMessage(flagMap.get(rgFlag).getValue1()));
-                region.getRegion().setFlag(rgFlag, flagsetting);
+                Tuple<String, Boolean> flagSettings = flagMap.get(rgFlag);
+                if(resetMode == ResetMode.NON_EDITABLE && flagSettings.getValue2()) {
+                    continue;
+                }
+                Object wgFlagSettings = AdvancedRegionMarket.getWorldGuardInterface().parseFlagInput(rgFlag, region.getConvertedMessage(flagSettings.getValue1()));
+                region.getRegion().setFlag(rgFlag, wgFlagSettings);
             } catch (InvalidFlagFormat invalidFlagFormat) {
                 Bukkit.getLogger().info("Could not parse flag-settings for flag " + rgFlag.getName() + "! Please check your flaggroups.yml");
             }
@@ -104,5 +110,13 @@ public class FlagGroup implements Saveable {
     @Override
     public boolean needsSave() {
         return this.needsSave;
+    }
+
+    public enum ResetMode {
+        COMPLETE, NON_EDITABLE
+    }
+
+    public String getName() {
+        return this.name;
     }
 }

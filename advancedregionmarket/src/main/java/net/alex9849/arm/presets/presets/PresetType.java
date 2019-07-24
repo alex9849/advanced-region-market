@@ -1,6 +1,7 @@
 package net.alex9849.arm.presets.presets;
 
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
+import net.alex9849.arm.flaggroups.FlagGroup;
 import net.alex9849.arm.regionkind.RegionKind;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ public enum PresetType {
         }
 
         public SellPreset create() {
-            return new SellPreset("default", false, 0, RegionKind.DEFAULT, true, false, true, true, 0, null, EntityLimitGroup.DEFAULT, new ArrayList<>());
+            return new SellPreset("default", false, 0, RegionKind.DEFAULT, FlagGroup.DEFAULT, true, false, true, true, 0, null, EntityLimitGroup.DEFAULT, new ArrayList<>());
         }
 
     }, RENTPRESET {
@@ -29,7 +30,7 @@ public enum PresetType {
         }
 
         public RentPreset create() {
-            return new RentPreset("default", false, 0, RegionKind.DEFAULT, true, false, true, false, 0, false, 0, true, 0, null, EntityLimitGroup.DEFAULT, new ArrayList<>());
+            return new RentPreset("default", false, 0, RegionKind.DEFAULT, FlagGroup.DEFAULT, true, false, true, false, 0, false, 0, true, 0, null, EntityLimitGroup.DEFAULT, new ArrayList<>());
         }
 
     }, CONTRACTPRESET {
@@ -42,7 +43,7 @@ public enum PresetType {
         }
 
         public ContractPreset create() {
-            return new ContractPreset("default", false, 0, RegionKind.DEFAULT, true, false, true, false, 0, true, 0, null, EntityLimitGroup.DEFAULT, new ArrayList<>());
+            return new ContractPreset("default", false, 0, RegionKind.DEFAULT, FlagGroup.DEFAULT, true, false, true, false, 0, true, 0, null, EntityLimitGroup.DEFAULT, new ArrayList<>());
         }
     };
 

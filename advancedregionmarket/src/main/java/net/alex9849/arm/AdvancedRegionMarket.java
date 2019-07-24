@@ -124,9 +124,9 @@ public class AdvancedRegionMarket extends JavaPlugin {
         loadAutoPrice();
         loadGroups();
         loadGUI();
+        AdvancedRegionMarket.flagGroupManager = new FlagGroupManager(new File(this.getDataFolder() + "/flaggroups.yml"));
         AdvancedRegionMarket.regionManager = new RegionManager(new File(this.getDataFolder() + "/regions.yml"));
         getLogger().log(Level.INFO, "Regions loaded!");
-        AdvancedRegionMarket.flagGroupManager = new FlagGroupManager(new File(this.getDataFolder() + "/flaggroups.yml"));
         loadAutoReset();
         if(!connectSQL()) {
             Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
@@ -225,6 +225,10 @@ public class AdvancedRegionMarket extends JavaPlugin {
         VehicleCreateEvent.getHandlerList().unregister(this);
         getServer().getScheduler().cancelTasks(this);
         HandlerList.unregisterAll(this);
+    }
+
+    public static FlagGroupManager getFlagGroupManager() {
+        return AdvancedRegionMarket.flagGroupManager;
     }
 
     public static PresetPatternManager getPresetPatternManager() {

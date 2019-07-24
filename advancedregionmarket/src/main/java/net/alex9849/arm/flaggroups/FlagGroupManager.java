@@ -17,6 +17,15 @@ public class FlagGroupManager extends YamlFileManager<FlagGroup> {
 
     @Override
     public List loadSavedObjects(YamlConfiguration yamlConfiguration) {
+        if(yamlConfiguration.get("DefaultFlagGroup") != null) {
+            ConfigurationSection defaultRkConfig = yamlConfiguration.getConfigurationSection("DefaultFlagGroup");
+            FlagGroup.DEFAULT = FlagGroup.parse(defaultRkConfig, "Default");
+        }
+        if(yamlConfiguration.get("SubregionFlagGroup") != null) {
+            ConfigurationSection subregionRkConfig = yamlConfiguration.getConfigurationSection("SubregionFlagGroup");
+            FlagGroup.SUBREGION = FlagGroup.parse(subregionRkConfig, "SubRegion");
+        }
+
         List<FlagGroup> flagGroupList = new ArrayList<>();
         ConfigurationSection flagGroupsSection = yamlConfiguration.getConfigurationSection("FlagGroups");
         if(flagGroupsSection == null) {
@@ -49,5 +58,20 @@ public class FlagGroupManager extends YamlFileManager<FlagGroup> {
     @Override
     public void writeStaticSettings(YamlConfiguration yamlConfiguration) {
 
+    }
+
+    public FlagGroup getFlagGroup(String id) {
+        if("default".equalsIgnoreCase(id)) {
+            return FlagGroup.DEFAULT;
+        }
+        if("subregion".equalsIgnoreCase(id)) {
+            return FlagGroup.SUBREGION;
+        }
+        for(FlagGroup flagGroup : this) {
+            if(flagGroup.getName().equalsIgnoreCase(id)) {
+                return flagGroup;
+            }
+        }
+        return null;
     }
 }

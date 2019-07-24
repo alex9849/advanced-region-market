@@ -2,6 +2,7 @@ package net.alex9849.arm.presets;
 
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
+import net.alex9849.arm.flaggroups.FlagGroup;
 import net.alex9849.arm.presets.presets.*;
 import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
@@ -74,6 +75,7 @@ public class PresetPatternManager extends YamlFileManager<Preset> {
         boolean hasprice = section.getBoolean("hasPrice");
         double price = section.getDouble("price");
         String regionKindString = section.getString("regionKind");
+        String flagGroupString = section.getString("flagGroup");
         boolean isHotel = section.getBoolean("isHotel");
         boolean doBlockReset = section.getBoolean("doBlockReset");
         String entityLimitGroupString = section.getString("entityLimitGroup");
@@ -88,6 +90,11 @@ public class PresetPatternManager extends YamlFileManager<Preset> {
         if(regionKind == null) {
             regionKind = RegionKind.DEFAULT;
         }
+        FlagGroup flagGroup = AdvancedRegionMarket.getFlagGroupManager().getFlagGroup(flagGroupString);
+        if(flagGroup == null) {
+            flagGroup = FlagGroup.DEFAULT;
+        }
+
         EntityLimitGroup entityLimitGroup = AdvancedRegionMarket.getEntityLimitGroupManager().getEntityLimitGroup(entityLimitGroupString);
         if(entityLimitGroup == null) {
             entityLimitGroup = EntityLimitGroup.DEFAULT;
@@ -101,7 +108,7 @@ public class PresetPatternManager extends YamlFileManager<Preset> {
                 hasprice = false;
                 price = 0;
             }
-            return new SellPreset(name, hasprice, price, regionKind, isHotel, doBlockReset, autoreset, isUserResettable, allowedSubregions, autoPrice, entityLimitGroup, setupcommands);
+            return new SellPreset(name, hasprice, price, regionKind, flagGroup, isHotel, doBlockReset, autoreset, isUserResettable, allowedSubregions, autoPrice, entityLimitGroup, setupcommands);
         }
         if(presetType == PresetType.RENTPRESET) {
             boolean hasMaxRentTime = section.getBoolean("hasMaxRentTime");
@@ -120,7 +127,7 @@ public class PresetPatternManager extends YamlFileManager<Preset> {
                 maxRentTime = 0;
                 extendPerClick = 0;
             }
-            return new RentPreset(name, hasprice, price, regionKind, isHotel, doBlockReset, autoreset, hasMaxRentTime, maxRentTime, hasExtendPerClick, extendPerClick, isUserResettable, allowedSubregions, autoPrice, entityLimitGroup, setupcommands);
+            return new RentPreset(name, hasprice, price, regionKind, flagGroup, isHotel, doBlockReset, autoreset, hasMaxRentTime, maxRentTime, hasExtendPerClick, extendPerClick, isUserResettable, allowedSubregions, autoPrice, entityLimitGroup, setupcommands);
         }
         if(presetType == PresetType.CONTRACTPRESET) {
             boolean hasExtend = section.getBoolean("hasExtend");
@@ -135,7 +142,7 @@ public class PresetPatternManager extends YamlFileManager<Preset> {
                 hasExtend = false;
                 extendTime = 0;
             }
-            return new ContractPreset(name, hasprice, price, regionKind, isHotel, doBlockReset, autoreset, hasExtend, extendTime, isUserResettable, allowedSubregions, autoPrice, entityLimitGroup, setupcommands);
+            return new ContractPreset(name, hasprice, price, regionKind, flagGroup, isHotel, doBlockReset, autoreset, hasExtend, extendTime, isUserResettable, allowedSubregions, autoPrice, entityLimitGroup, setupcommands);
         }
         return null;
     }
@@ -149,6 +156,7 @@ public class PresetPatternManager extends YamlFileManager<Preset> {
         updatedSomething |= this.addDefault(section, "doBlockReset", true);
         updatedSomething |= this.addDefault(section, "entityLimitGroup", "Default");
         updatedSomething |= this.addDefault(section, "autoreset", true);
+        updatedSomething |= this.addDefault(section, "flagGroup", "Default");
         updatedSomething |= this.addDefault(section, "isUserResettable", true);
         updatedSomething |= this.addDefault(section, "allowedSubregions", 0);
         updatedSomething |= this.addDefault(section, "setupcommands", new ArrayList<String>());

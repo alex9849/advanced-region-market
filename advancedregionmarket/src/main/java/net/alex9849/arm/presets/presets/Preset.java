@@ -2,6 +2,7 @@ package net.alex9849.arm.presets.presets;
 
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
+import net.alex9849.arm.flaggroups.FlagGroup;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
@@ -30,12 +31,13 @@ public abstract class Preset implements Saveable {
     protected boolean doBlockReset = true;
     protected boolean isUserResettable = true;
     protected int allowedSubregions = 0;
+    protected FlagGroup flagGroup = FlagGroup.DEFAULT;
     protected AutoPrice autoPrice;
     protected EntityLimitGroup entityLimitGroup;
     protected List<String> setupCommands = new ArrayList<>();
     private boolean needsSave = false;
 
-    public Preset(String name, boolean hasPrice, double price, RegionKind regionKind, boolean autoReset, boolean isHotel, boolean doBlockReset, boolean isUserResettable, int allowedSubregions, AutoPrice autoPrice, EntityLimitGroup entityLimitGroup, List<String> setupCommands){
+    public Preset(String name, boolean hasPrice, double price, RegionKind regionKind, FlagGroup flagGroup, boolean autoReset, boolean isHotel, boolean doBlockReset, boolean isUserResettable, int allowedSubregions, AutoPrice autoPrice, EntityLimitGroup entityLimitGroup, List<String> setupCommands){
         this.name = name;
         this.hasPrice = hasPrice;
         this.price = price;
@@ -47,12 +49,21 @@ public abstract class Preset implements Saveable {
         this.allowedSubregions = allowedSubregions;
         this.setupCommands = setupCommands;
         this.autoPrice = autoPrice;
+        this.flagGroup = flagGroup;
         this.entityLimitGroup = entityLimitGroup;
         this.needsSave = false;
     }
 
     public String getName(){
         return this.name;
+    }
+
+    public FlagGroup getFlagGroup() {
+        return this.flagGroup;
+    }
+
+    public void setFlagGroup(FlagGroup flagGroup) {
+        this.flagGroup = flagGroup;
     }
 
     public void setName(String name){
@@ -158,6 +169,8 @@ public abstract class Preset implements Saveable {
         player.sendMessage(Messages.REGION_INFO_DO_BLOCK_RESET + this.isDoBlockReset());
         player.sendMessage(Messages.REGION_INFO_IS_USER_RESETTABLE + this.isUserResettable());
         player.sendMessage(Messages.REGION_INFO_ALLOWED_SUBREGIONS + this.getAllowedSubregions());
+        //TODO FlagGroup in Messages and Command
+        player.sendMessage("FlagGroup: " + this.flagGroup.getName());
         player.sendMessage(Messages.PRESET_SETUP_COMMANDS);
         for(int i = 0; i < this.setupCommands.size(); i++) {
             String message = (i + 1) +". /" + this.setupCommands.get(i);
@@ -241,6 +254,7 @@ public abstract class Preset implements Saveable {
         section.set("regionKind", this.getRegionKind().getName());
         section.set("isHotel", this.isHotel());
         section.set("doBlockReset", this.isDoBlockReset());
+        section.set("flagGroup", this.flagGroup.getName());
         section.set("entityLimitGroup", this.getEntityLimitGroup().getName());
         section.set("autoreset", this.isAutoReset());
         if(this.hasAutoPrice()) {

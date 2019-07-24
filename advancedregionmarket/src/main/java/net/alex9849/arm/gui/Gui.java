@@ -5,6 +5,7 @@ import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.entitylimit.EntityLimit;
+import net.alex9849.arm.presets.presets.ContractPreset;
 import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.util.MaterialFinder;
 import net.alex9849.exceptions.InputException;
@@ -131,7 +132,7 @@ public class Gui implements Listener {
             ClickItem clickItem = new ClickItem(regionItem).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
-                    Gui.decideOwnerManager(player, regions.get(finalI));
+                    Gui.openRegionOwnerManager(player, regions.get(finalI));
                 }
             });
             clickItems.add(clickItem);
@@ -151,8 +152,7 @@ public class Gui implements Listener {
         Gui.openInfiniteGuiList(player, clickItems, 0, Messages.GUI_OWN_REGIONS_MENU_NAME, goBackAction);
     }
 
-    public static void openSellRegionManagerOwner(Player player, Region region) {
-
+    public static void openRegionOwnerManager(Player player, Region region) {
         int itemcounter = 2;
         int actitem = 1;
 
@@ -171,10 +171,18 @@ public class Gui implements Listener {
         if(player.hasPermission(Permission.MEMBER_INFO)){
             itemcounter++;
         }
-
         if(Permission.hasAnySubregionPermission(player) && region.isAllowSubregions()){
             itemcounter++;
         }
+        if(region instanceof RentRegion) {
+            //Extend button
+            itemcounter++;
+        }
+        if(region instanceof ContractRegion) {
+            //Terminate Button
+            itemcounter++;
+        }
+
 
         GuiInventory inv = new GuiInventory(9 , region.getRegion().getId());
 
@@ -256,11 +264,44 @@ public class Gui implements Listener {
             actitem++;
         }
 
+        if(region instanceof RentRegion) {
+            List<String> extendmessage = new ArrayList<>(Messages.GUI_EXTEND_BUTTON_LORE);
+            for (int i = 0; i < extendmessage.size(); i++) {
+                extendmessage.set(i, region.getConvertedMessage(extendmessage.get(i)));
+            }
+            ClickItem extendicon = new ClickItem(new ItemStack(Gui.EXTEND_ITEM), Messages.GUI_EXTEND_BUTTON, extendmessage).addClickAction(new ClickAction() {
+                @Override
+                public void execute(Player player) throws InputException {
+                    region.buy(player);
+                    Gui.openRegionOwnerManager(player, region);
+                }
+            });
+            inv.addIcon(extendicon, getPosition(actitem, itemcounter));
+            actitem++;
+        }
+
+        if(region instanceof ContractRegion) {
+            ContractRegion cregion = (ContractRegion) region;
+            List<String> extendmessage = new ArrayList<>(Messages.GUI_CONTRACT_ITEM_LORE);
+            for (int i = 0; i < extendmessage.size(); i++) {
+                extendmessage.set(i, region.getConvertedMessage(extendmessage.get(i)));
+            }
+            ClickItem extendicon = new ClickItem(new ItemStack(Gui.CONTRACT_ITEM), Messages.GUI_CONTRACT_ITEM, extendmessage).addClickAction(new ClickAction() {
+                @Override
+                public void execute(Player player) throws InputException {
+                    cregion.changeTerminated(player);
+                    Gui.openRegionOwnerManager(player, region);
+                }
+            });
+            inv.addIcon(extendicon, getPosition(actitem, itemcounter));
+            actitem++;
+        }
+
         if(player.hasPermission(Permission.MEMBER_ENTITYLIMIT_CHECK)) {
             ClickItem infoicon = new ClickItem(getEntityLimtGroupItem(region)).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) {
-                    openSellRegionManagerOwner(player, region);
+                    openRegionOwnerManager(player, region);
                     net.alex9849.arm.entitylimit.commands.InfoCommand.sendInfoToPlayer(player, region.getEntityLimitGroup());
                 }
             });
@@ -295,8 +336,6 @@ public class Gui implements Listener {
         inv = Gui.placeFillItems(inv);
 
         player.openInventory(inv.getInventory());
-
-
     }
 
     public static void openSubregionList(Player player, Region region) {
@@ -319,7 +358,7 @@ public class Gui implements Listener {
         Gui.openInfiniteGuiList(player, clickItems, 0, Messages.GUI_SUBREGION_LIST_MENU_NAME, new ClickAction() {
             @Override
             public void execute(Player player) throws InputException {
-                Gui.decideOwnerManager(player, region);
+                Gui.openRegionOwnerManager(player, region);
             }
         });
     }
@@ -487,364 +526,6 @@ public class Gui implements Listener {
 
         inv = placeFillItems(inv);
         player.openInventory(inv.getInventory());
-    }
-
-    public static void openRentRegionManagerOwner(Player player, RentRegion region) {
-
-        int itemcounter = 3;
-        int actitem = 1;
-
-        if(player.hasPermission(Permission.MEMBER_TP)){
-            itemcounter++;
-        }
-        if(player.hasPermission(Permission.MEMBER_SELLBACK)){
-            itemcounter++;
-        }
-        if(player.hasPermission(Permission.MEMBER_RESETREGIONBLOCKS) && region.isUserResettable()){
-            itemcounter++;
-        }
-        if(player.hasPermission(Permission.MEMBER_ENTITYLIMIT_CHECK)){
-            itemcounter++;
-        }
-        if(player.hasPermission(Permission.MEMBER_INFO)){
-            itemcounter++;
-        }
-
-        if(Permission.hasAnySubregionPermission(player) && region.isAllowSubregions()){
-            itemcounter++;
-        }
-
-        GuiInventory inv = new GuiInventory(9 , region.getRegion().getId());
-
-
-        ItemStack membersitem = new ItemStack(MaterialFinder.getPlayerHead(), 1, (short) 3);
-        SkullMeta membersitemmeta = (SkullMeta) membersitem.getItemMeta();
-        membersitemmeta.setOwner(player.getDisplayName());
-        membersitemmeta.setDisplayName(Messages.GUI_MEMBERS_BUTTON);
-        membersitem.setItemMeta(membersitemmeta);
-        ClickItem membersicon = new ClickItem(membersitem).addClickAction(new ClickAction() {
-            @Override
-            public void execute(Player player) {
-                Gui.openMemberList(player, region);
-            }
-        });
-        inv.addIcon(membersicon, getPosition(actitem, itemcounter));
-
-        actitem++;
-
-        if(Permission.hasAnySubregionPermission(player) && region.isAllowSubregions()){
-            ClickItem teleportericon = new ClickItem(new ItemStack(Gui.SUBREGION_ITEM), Messages.GUI_SUBREGION_ITEM_BUTTON, new ArrayList<>()).addClickAction(new ClickAction() {
-                @Override
-                public void execute(Player player) throws InputException {
-                    Gui.openSubregionList(player, region);
-                }
-            });
-            inv.addIcon(teleportericon, getPosition(actitem, itemcounter));
-            actitem++;
-        }
-
-        if(player.hasPermission(Permission.MEMBER_TP)) {
-            List<String> message = new ArrayList<>(Messages.GUI_TELEPORT_TO_REGION_BUTTON_LORE);
-            for (int i = 0; i < message.size(); i++) {
-                message.set(i, message.get(i).replace("%days%", Region.getResetCooldown() + ""));
-            }
-            ClickItem teleportericon = new ClickItem(new ItemStack(Gui.TP_ITEM), Messages.GUI_TELEPORT_TO_REGION_BUTTON, message).addClickAction(new ClickAction() {
-                @Override
-                public void execute(Player player) throws InputException {
-                    Teleporter.teleport(player, region);
-                    player.closeInventory();
-                }
-            });
-            inv.addIcon(teleportericon, getPosition(actitem, itemcounter));
-
-            actitem++;
-        }
-
-
-        if(player.hasPermission(Permission.MEMBER_RESETREGIONBLOCKS) && region.isUserResettable()) {
-            List<String> resetmessage = new ArrayList<>(Messages.GUI_RESET_REGION_BUTTON_LORE);
-            for (int i = 0; i < resetmessage.size(); i++) {
-                resetmessage.set(i, resetmessage.get(i).replace("%days%", Region.getResetCooldown() + ""));
-            }
-            ClickItem reseticon = new ClickItem(new ItemStack(Gui.RESET_ITEM), Messages.GUI_RESET_REGION_BUTTON, resetmessage).addClickAction(new ClickAction() {
-                @Override
-                public void execute(Player player) throws InputException {
-                    if(region.timeSinceLastReset() >= Region.getResetCooldown()){
-                        Gui.openRegionResetWarning(player, region, true);
-                    } else {
-                        String message = region.getConvertedMessage(Messages.RESET_REGION_COOLDOWN_ERROR);
-                        throw new InputException(player, message);
-                    }
-                }
-            });
-            inv.addIcon(reseticon, getPosition(actitem, itemcounter));
-
-            actitem++;
-        }
-
-        if(player.hasPermission(Permission.MEMBER_SELLBACK)) {
-            List<String> message = new ArrayList<>(Messages.GUI_USER_SELL_BUTTON_LORE);
-            for (int i = 0; i < message.size(); i++) {
-                message.set(i, region.getConvertedMessage(message.get(i)));
-            }
-            ClickItem reseticon = new ClickItem(new ItemStack(Gui.SELL_REGION_ITEM), Messages.GUI_USER_SELL_BUTTON, message).addClickAction(new ClickAction() {
-                @Override
-                public void execute(Player player) {
-                    Gui.openSellWarning(player, region, true);
-                }
-            });
-            inv.addIcon(reseticon, getPosition(actitem, itemcounter));
-
-            actitem++;
-        }
-
-        List<String> extendmessage = new ArrayList<>(Messages.GUI_EXTEND_BUTTON_LORE);
-        for (int i = 0; i < extendmessage.size(); i++) {
-            extendmessage.set(i, region.getConvertedMessage(extendmessage.get(i)));
-        }
-        ClickItem extendicon = new ClickItem(new ItemStack(Gui.EXTEND_ITEM), Messages.GUI_EXTEND_BUTTON, extendmessage).addClickAction(new ClickAction() {
-            @Override
-            public void execute(Player player) throws InputException {
-                region.buy(player);
-                Gui.decideOwnerManager(player, region);
-            }
-        });
-        inv.addIcon(extendicon, getPosition(actitem, itemcounter));
-
-        actitem++;
-
-        if(player.hasPermission(Permission.MEMBER_ENTITYLIMIT_CHECK)) {
-            ClickItem infoicon = new ClickItem(getEntityLimtGroupItem(region)).addClickAction(new ClickAction() {
-                @Override
-                public void execute(Player player) {
-                    openRentRegionManagerOwner(player, region);
-                    net.alex9849.arm.entitylimit.commands.InfoCommand.sendInfoToPlayer(player, region.getEntityLimitGroup());
-                }
-            });
-            inv.addIcon(infoicon, getPosition(actitem, itemcounter));
-
-            actitem++;
-        }
-
-        if(player.hasPermission(Permission.MEMBER_INFO)){
-            ClickItem infoicon = new ClickItem(new ItemStack(Gui.INFO_ITEM), Messages.GUI_SHOW_INFOS_BUTTON).addClickAction(new ClickAction() {
-                @Override
-                public void execute(Player player) {
-                    region.regionInfo(player);
-                    player.closeInventory();
-                }
-            });
-            inv.addIcon(infoicon, getPosition(actitem, itemcounter));
-
-            actitem++;
-        }
-
-        ClickItem gobackicon = new ClickItem(new ItemStack(Gui.GO_BACK_ITEM), Messages.GUI_GO_BACK).addClickAction(new ClickAction() {
-            @Override
-            public void execute(Player player) {
-                Gui.openRegionOwnerGui(player, isMainPageMultipleItems());
-            }
-        });
-        inv.addIcon(gobackicon, getPosition(actitem, itemcounter));
-        actitem++;
-
-        inv = Gui.placeFillItems(inv);
-
-        player.openInventory(inv.getInventory());
-    }
-
-    public static void openContractRegionManagerOwner(Player player, ContractRegion region) {
-
-        int itemcounter = 3;
-        int actitem = 1;
-
-        if(player.hasPermission(Permission.MEMBER_TP)){
-            itemcounter++;
-        }
-        if(player.hasPermission(Permission.MEMBER_SELLBACK)){
-            itemcounter++;
-        }
-        if(player.hasPermission(Permission.MEMBER_RESETREGIONBLOCKS) && region.isUserResettable()){
-            itemcounter++;
-        }
-        if(player.hasPermission(Permission.MEMBER_ENTITYLIMIT_CHECK)){
-            itemcounter++;
-        }
-        if(player.hasPermission(Permission.MEMBER_INFO)){
-            itemcounter++;
-        }
-
-        if(Permission.hasAnySubregionPermission(player) && region.isAllowSubregions()){
-            itemcounter++;
-        }
-
-        GuiInventory inv = new GuiInventory(9 , region.getRegion().getId());
-
-
-        ItemStack membersitem = new ItemStack(MaterialFinder.getPlayerHead(), 1, (short) 3);
-        SkullMeta membersitemmeta = (SkullMeta) membersitem.getItemMeta();
-        membersitemmeta.setOwner(player.getDisplayName());
-        membersitemmeta.setDisplayName(Messages.GUI_MEMBERS_BUTTON);
-        membersitem.setItemMeta(membersitemmeta);
-        ClickItem membersicon = new ClickItem(membersitem).addClickAction(new ClickAction() {
-            @Override
-            public void execute(Player player) {
-                Gui.openMemberList(player, region);
-            }
-        });
-        inv.addIcon(membersicon, getPosition(actitem, itemcounter));
-
-        actitem++;
-
-        if(Permission.hasAnySubregionPermission(player) && region.isAllowSubregions()){
-            ClickItem teleportericon = new ClickItem(new ItemStack(Gui.SUBREGION_ITEM), Messages.GUI_SUBREGION_ITEM_BUTTON, new ArrayList<>()).addClickAction(new ClickAction() {
-                @Override
-                public void execute(Player player) throws InputException {
-                    Gui.openSubregionList(player, region);
-                }
-            });
-            inv.addIcon(teleportericon, getPosition(actitem, itemcounter));
-            actitem++;
-        }
-
-        if(player.hasPermission(Permission.MEMBER_TP)) {
-            ItemStack teleporteritem = new ItemStack(Gui.TP_ITEM);
-            ItemMeta teleporteritemmeta = teleporteritem.getItemMeta();
-            teleporteritemmeta.setDisplayName(Messages.GUI_TELEPORT_TO_REGION_BUTTON);
-            List<String> lore = new ArrayList<>(Messages.GUI_TELEPORT_TO_REGION_BUTTON_LORE);
-            for(String lorestring : lore) {
-                lorestring = region.getConvertedMessage(lorestring);
-            }
-            teleporteritemmeta.setLore(lore);
-            teleporteritem.setItemMeta(teleporteritemmeta);
-            ClickItem teleportericon = new ClickItem(teleporteritem).addClickAction(new ClickAction() {
-                @Override
-                public void execute(Player player) throws InputException {
-                    Teleporter.teleport(player, region);
-                    player.closeInventory();
-                }
-            });
-            inv.addIcon(teleportericon, getPosition(actitem, itemcounter));
-
-            actitem++;
-        }
-
-
-        if(player.hasPermission(Permission.MEMBER_RESETREGIONBLOCKS) && region.isUserResettable()) {
-
-            ItemStack resetItem = new ItemStack(Gui.RESET_ITEM);
-            ItemMeta resetitemItemMeta = resetItem.getItemMeta();
-            resetitemItemMeta.setDisplayName(Messages.GUI_RESET_REGION_BUTTON);
-            List<String> resetmessage = new ArrayList<>(Messages.GUI_RESET_REGION_BUTTON_LORE);
-            for (int i = 0; i < resetmessage.size(); i++) {
-                resetmessage.set(i, resetmessage.get(i).replace("%days%", Region.getResetCooldown() + ""));
-                resetmessage.set(i, region.getConvertedMessage(resetmessage.get(i)));
-            }
-            resetitemItemMeta.setLore(resetmessage);
-            resetItem.setItemMeta(resetitemItemMeta);
-            ClickItem reseticon = new ClickItem(resetItem).addClickAction(new ClickAction() {
-                @Override
-                public void execute(Player player) throws InputException {
-                    if(region.timeSinceLastReset() >= Region.getResetCooldown()){
-                        Gui.openRegionResetWarning(player, region, true);
-                    } else {
-                        String message = region.getConvertedMessage(Messages.RESET_REGION_COOLDOWN_ERROR);
-                        throw new InputException(player, message);
-                    }
-                }
-            });
-            inv.addIcon(reseticon, getPosition(actitem, itemcounter));
-
-            actitem++;
-        }
-
-        if(player.hasPermission(Permission.MEMBER_SELLBACK)) {
-            ItemStack resetItem = new ItemStack(Gui.SELL_REGION_ITEM);
-            ItemMeta resetitemItemMeta = resetItem.getItemMeta();
-            resetitemItemMeta.setDisplayName(Messages.GUI_USER_SELL_BUTTON);
-            List<String> message = new ArrayList<>(Messages.GUI_USER_SELL_BUTTON_LORE);
-            for (int i = 0; i < message.size(); i++) {
-                message.set(i, region.getConvertedMessage(message.get(i)));
-            }
-            resetitemItemMeta.setLore(message);
-            resetItem.setItemMeta(resetitemItemMeta);
-            ClickItem reseticon = new ClickItem(resetItem).addClickAction(new ClickAction() {
-                @Override
-                public void execute(Player player) {
-                    Gui.openSellWarning(player, region, true);
-                }
-            });
-            inv.addIcon(reseticon, getPosition(actitem, itemcounter));
-
-            actitem++;
-        }
-        ItemStack extendItem = new ItemStack(Gui.CONTRACT_ITEM);
-        ItemMeta extendItemMeta = extendItem.getItemMeta();
-        extendItemMeta.setDisplayName(Messages.GUI_CONTRACT_ITEM);
-        List<String> extendmessage = new ArrayList<>(Messages.GUI_CONTRACT_ITEM_LORE);
-        for (int i = 0; i < extendmessage.size(); i++) {
-            extendmessage.set(i, region.getConvertedMessage(extendmessage.get(i)));
-        }
-        extendItemMeta.setLore(extendmessage);
-        extendItem.setItemMeta(extendItemMeta);
-        ClickItem extendicon = new ClickItem(extendItem).addClickAction(new ClickAction() {
-            @Override
-            public void execute(Player player) throws InputException {
-                region.changeTerminated(player);
-                Gui.decideOwnerManager(player, region);
-            }
-        });
-        inv.addIcon(extendicon, getPosition(actitem, itemcounter));
-
-        actitem++;
-
-        if(player.hasPermission(Permission.MEMBER_ENTITYLIMIT_CHECK)) {
-            ClickItem infoicon = new ClickItem(getEntityLimtGroupItem(region)).addClickAction(new ClickAction() {
-                @Override
-                public void execute(Player player) {
-                    openContractRegionManagerOwner(player, region);
-                    net.alex9849.arm.entitylimit.commands.InfoCommand.sendInfoToPlayer(player, region.getEntityLimitGroup());
-                }
-            });
-            inv.addIcon(infoicon, getPosition(actitem, itemcounter));
-
-            actitem++;
-        }
-
-        if(player.hasPermission(Permission.MEMBER_INFO)){
-            ItemStack infoitem = new ItemStack(Gui.INFO_ITEM);
-            ItemMeta infoitemmeta = infoitem.getItemMeta();
-            infoitemmeta.setDisplayName(Messages.GUI_SHOW_INFOS_BUTTON);
-            infoitem.setItemMeta(infoitemmeta);
-            ClickItem infoicon = new ClickItem(infoitem).addClickAction(new ClickAction() {
-                @Override
-                public void execute(Player player) {
-                    region.regionInfo(player);
-                    player.closeInventory();
-                }
-            });
-            inv.addIcon(infoicon, getPosition(actitem, itemcounter));
-
-            actitem++;
-        }
-
-        ItemStack gobackitem = new ItemStack(Gui.GO_BACK_ITEM);
-        ItemMeta gobackitemmeta = gobackitem.getItemMeta();
-        gobackitemmeta.setDisplayName(Messages.GUI_GO_BACK);
-        gobackitem.setItemMeta(gobackitemmeta);
-        ClickItem gobackicon = new ClickItem(gobackitem).addClickAction(new ClickAction() {
-            @Override
-            public void execute(Player player) {
-                Gui.openRegionOwnerGui(player, isMainPageMultipleItems());
-            }
-        });
-        inv.addIcon(gobackicon, getPosition(actitem, itemcounter));
-        actitem++;
-
-        inv = Gui.placeFillItems(inv);
-
-        player.openInventory(inv.getInventory());
-
     }
 
     public static void openRegionFinder(Player player, Boolean withGoBack) {
@@ -1259,7 +940,7 @@ public class Gui implements Listener {
         Gui.openInfiniteGuiList(player, clickItems, 0, invname, new ClickAction() {
             @Override
             public void execute(Player player) {
-                Gui.decideOwnerManager(player, region);
+                Gui.openRegionOwnerManager(player, region);
             }
         });
 
@@ -1595,7 +1276,7 @@ public class Gui implements Listener {
             @Override
             public void execute(Player player) {
                 if(goBack){
-                    Gui.decideOwnerManager(player, region);
+                    Gui.openRegionOwnerManager(player, region);
                 } else {
                     player.closeInventory();
                 }
@@ -1639,7 +1320,7 @@ public class Gui implements Listener {
             @Override
             public void execute(Player player) {
                 if(goBack) {
-                    Gui.decideOwnerManager(player, region);
+                    Gui.openRegionOwnerManager(player, region);
                 } else {
                     player.closeInventory();
                 }
@@ -1661,16 +1342,6 @@ public class Gui implements Listener {
         inv.addIcon(noItem, 8);
         inv = Gui.placeFillItems(inv);
         player.openInventory(inv.getInventory());
-    }
-
-    public static void decideOwnerManager(Player player, Region region) {
-        if(region instanceof RentRegion) {
-            Gui.openRentRegionManagerOwner(player, (RentRegion) region);
-        } else if (region instanceof SellRegion) {
-            Gui.openSellRegionManagerOwner(player, region);
-        } else if (region instanceof ContractRegion) {
-            Gui.openContractRegionManagerOwner(player, (ContractRegion) region);
-        }
     }
 
     private static boolean isMainPageMultipleItems(){

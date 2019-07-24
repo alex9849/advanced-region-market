@@ -9,6 +9,7 @@ import me.wiefferink.areashop.regions.RentRegion;
 import me.wiefferink.areashop.shaded.interactivemessenger.processing.Message;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
+import net.alex9849.arm.flaggroups.FlagGroup;
 import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.price.Price;
@@ -109,7 +110,7 @@ public class AreaShopImporter {
                     Price armPrice = new Price(price);
 
                     armRegion = new net.alex9849.arm.regions.SellRegion(wgRegion, regionWorld, armSignDataList, armPrice, isSold, true, false,
-                            true, regionKind, null, 0, true, new ArrayList<Region>(), 0,
+                            true, regionKind, FlagGroup.DEFAULT, null, 0, true, new ArrayList<Region>(), 0,
                             EntityLimitGroup.DEFAULT, new HashMap<EntityType, Integer>(), 0);
 
                 } else if(asRegion instanceof RentRegion) {
@@ -122,7 +123,7 @@ public class AreaShopImporter {
                     RentPrice armPrice = new RentPrice(price, extendTime, maxRentTime);
 
                     armRegion = new net.alex9849.arm.regions.RentRegion(wgRegion, regionWorld, armSignDataList, armPrice, isSold, true, false,
-                            true, regionKind, null, 0, true, payedTill, new ArrayList<Region>(), 0,
+                            true, regionKind, FlagGroup.DEFAULT, null, 0, true, payedTill, new ArrayList<Region>(), 0,
                             EntityLimitGroup.DEFAULT, new HashMap<EntityType, Integer>(), 0);
                 }
 

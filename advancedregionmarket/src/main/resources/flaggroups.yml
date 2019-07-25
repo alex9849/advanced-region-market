@@ -49,15 +49,15 @@ DefaultFlagGroup:
   sold:
     0:
       setting: 'deny g:non_members'
-      editable: false
+      editable: true
       flag: interact
     1:
       setting: 'remove'
-      editable: false
+      editable: true
       flag: greeting
     2:
       setting: 'deny g:non_members'
-      editable: false
+      editable: true
       flag: use
     3:
       setting: 'deny g:non_members'
@@ -126,15 +126,15 @@ SubregionFlagGroup:
   sold:
     0:
       setting: 'deny g:non_members'
-      editable: false
+      editable: true
       flag: interact
     1:
       setting: 'remove'
-      editable: false
+      editable: true
       flag: greeting
     2:
       setting: 'deny g:non_members'
-      editable: false
+      editable: true
       flag: use
     3:
       setting: 'deny g:non_members'

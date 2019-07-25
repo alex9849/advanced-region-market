@@ -381,12 +381,16 @@ public class Gui implements Listener {
 
                 GroupFlagSetter(String input, ClickAction afterFlagSetAction) {
                     this.input = input;
+                    this.afterFlagSetAction = afterFlagSetAction;
                 }
 
                 @Override
                 public void execute(Player player) throws InputException {
+                    if(region.getRegion().getFlagSetting(rgFlag) == null) {
+                        throw new InputException(player, "Flag not activated!");
+                    }
                     try {
-                        RegionGroup groupFlag = AdvancedRegionMarket.getWorldGuardInterface().parseFlagInput(rgFlag.getRegionGroupFlag(), this.input);
+                        RegionGroup groupFlag = getParsedSettingsObject();
                         if(rgFlag.getRegionGroupFlag().getDefault() == groupFlag) {
                             region.getRegion().deleteFlags(rgFlag.getRegionGroupFlag());
                         } else {
@@ -401,13 +405,25 @@ public class Gui implements Listener {
                     }
                 }
 
-                private Object getSettingsObject(Flag flag) throws InvalidFlagFormat {
-                    return AdvancedRegionMarket.getWorldGuardInterface().parseFlagInput(flag, region.getConvertedMessage(this.input));
+                private RegionGroup getParsedSettingsObject() throws InvalidFlagFormat {
+                    return AdvancedRegionMarket.getWorldGuardInterface().parseFlagInput(rgFlag.getRegionGroupFlag(), region.getConvertedMessage(this.input));
                 }
 
-                public boolean isInputSelected(Flag flag) {
+                public boolean isInputSelected() {
                     try {
-                        return region.getRegion().getFlagSetting(flag) == getSettingsObject(flag);
+                        RegionGroup settingsObj = getParsedSettingsObject();
+                        Object regionFlagSetting = region.getRegion().getFlagSetting(rgFlag.getRegionGroupFlag());
+                        if(region.getRegion().getFlagSetting(rgFlag) == null) {
+                            return false;
+                        }
+                        if(regionFlagSetting == settingsObj) {
+                            return true;
+                        } else {
+                            if(rgFlag.getRegionGroupFlag().getDefault() == settingsObj && regionFlagSetting == null) {
+                                return true;
+                            }
+                            return false;
+                        }
                     } catch (InvalidFlagFormat e) {
                         return false;
                     }
@@ -442,27 +458,27 @@ public class Gui implements Listener {
             };
 
             GroupFlagSetter gfsAllButton = new GroupFlagSetter("all", afterFlagSetAction);
-            ClickItem allButton = new ClickItem(gfsAllButton.isInputSelected(rgFlag)? new ItemStack(MaterialFinder.getGuiFlagGroupSelectedItem()):
+            ClickItem allButton = new ClickItem(gfsAllButton.isInputSelected()? new ItemStack(MaterialFinder.getGuiFlagGroupSelectedItem()):
                     new ItemStack(MaterialFinder.getGuiFlagGroupNotSelectedItem()), "Set for all").addClickAction(gfsAllButton);
             guiInventory.addIcon(allButton, invIndex + 4);
 
             GroupFlagSetter gfsMembersButton = new GroupFlagSetter("members", afterFlagSetAction);
-            ClickItem membersButton = new ClickItem(gfsMembersButton.isInputSelected(rgFlag)? new ItemStack(MaterialFinder.getGuiFlagGroupSelectedItem()):
+            ClickItem membersButton = new ClickItem(gfsMembersButton.isInputSelected()? new ItemStack(MaterialFinder.getGuiFlagGroupSelectedItem()):
                     new ItemStack(MaterialFinder.getGuiFlagGroupNotSelectedItem()), "Set for members").addClickAction(gfsMembersButton);
             guiInventory.addIcon(membersButton, invIndex + 5);
 
             GroupFlagSetter gfsOwnersButton = new GroupFlagSetter("owners", afterFlagSetAction);
-            ClickItem ownersButton = new ClickItem(gfsOwnersButton.isInputSelected(rgFlag)? new ItemStack(MaterialFinder.getGuiFlagGroupSelectedItem()):
+            ClickItem ownersButton = new ClickItem(gfsOwnersButton.isInputSelected()? new ItemStack(MaterialFinder.getGuiFlagGroupSelectedItem()):
                     new ItemStack(MaterialFinder.getGuiFlagGroupNotSelectedItem()), "Set for owners").addClickAction(gfsOwnersButton);
             guiInventory.addIcon(ownersButton, invIndex + 6);
 
             GroupFlagSetter gfsNonMembersButton = new GroupFlagSetter("non_members", afterFlagSetAction);
-            ClickItem nonMembersButton = new ClickItem(gfsNonMembersButton.isInputSelected(rgFlag)? new ItemStack(MaterialFinder.getGuiFlagGroupSelectedItem()):
+            ClickItem nonMembersButton = new ClickItem(gfsNonMembersButton.isInputSelected()? new ItemStack(MaterialFinder.getGuiFlagGroupSelectedItem()):
                     new ItemStack(MaterialFinder.getGuiFlagGroupNotSelectedItem()), "Set for non members").addClickAction(gfsNonMembersButton);
             guiInventory.addIcon(nonMembersButton, invIndex + 7);
 
             GroupFlagSetter gfsNonOwnersButton = new GroupFlagSetter("non_owners", afterFlagSetAction);
-            ClickItem nonOwnersButton = new ClickItem(gfsNonOwnersButton.isInputSelected(rgFlag)? new ItemStack(MaterialFinder.getGuiFlagGroupSelectedItem()):
+            ClickItem nonOwnersButton = new ClickItem(gfsNonOwnersButton.isInputSelected()? new ItemStack(MaterialFinder.getGuiFlagGroupSelectedItem()):
                     new ItemStack(MaterialFinder.getGuiFlagGroupNotSelectedItem()), "Set for non owners").addClickAction(gfsNonOwnersButton);
             guiInventory.addIcon(nonOwnersButton, invIndex + 8);
         }
@@ -1884,7 +1900,7 @@ public class Gui implements Listener {
 
     public static ClickItem[] getFlagSettingItem(Flag flag, Region region, ClickAction afterFlagSetAction) {
         class FlagSetter implements ClickAction {
-            String input;
+            private String input;
 
             FlagSetter(String input) {
                 this.input = input;
@@ -1896,20 +1912,20 @@ public class Gui implements Listener {
 
             public boolean isInputSelected() {
                 try {
-                    return region.getRegion().getFlagSetting(flag) == getSettingsObject();
+                    return region.getRegion().getFlagSetting(flag) == getParsedSettingsObject();
                 } catch (InvalidFlagFormat e) {
                     return false;
                 }
             }
 
-            private Object getSettingsObject() throws InvalidFlagFormat {
+            private Object getParsedSettingsObject() throws InvalidFlagFormat {
                 return AdvancedRegionMarket.getWorldGuardInterface().parseFlagInput(flag, region.getConvertedMessage(this.input));
             }
 
             @Override
             public void execute(Player player) throws InputException {
                 try {
-                    Object flagSetting = getSettingsObject();
+                    Object flagSetting = getParsedSettingsObject();
                     if(flag.getDefault() == flagSetting) {
                         region.getRegion().deleteFlags(flag);
                     } else {

@@ -165,7 +165,7 @@ public class RentRegion extends Region {
         this.getRegion().setOwner(player);
 
         this.updateSigns();
-        this.flagGroup.applyToRegion(this, FlagGroup.ResetMode.NON_EDITABLE);
+        this.flagGroup.applyToRegion(this, FlagGroup.ResetMode.COMPLETE);
         this.queueSave();
 
     }

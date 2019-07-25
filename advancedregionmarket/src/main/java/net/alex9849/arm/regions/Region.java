@@ -586,7 +586,7 @@ public abstract class Region implements Saveable {
         this.extraEntitys.clear();
         this.extraTotalEntitys = 0;
         this.updateSigns();
-        this.flagGroup.applyToRegion(this, FlagGroup.ResetMode.NON_EDITABLE);
+        this.flagGroup.applyToRegion(this, FlagGroup.ResetMode.COMPLETE);
         this.queueSave();
     }
 

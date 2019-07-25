@@ -1,5 +1,6 @@
 package net.alex9849.arm;
 
+import net.alex9849.arm.flaggroups.FlagGroup;
 import net.alex9849.arm.flaggroups.FlagGroupManager;
 import net.alex9849.arm.handler.CommandHandler;
 import net.alex9849.arm.handler.Scheduler;
@@ -127,6 +128,11 @@ public class AdvancedRegionMarket extends JavaPlugin {
         AdvancedRegionMarket.flagGroupManager = new FlagGroupManager(new File(this.getDataFolder() + "/flaggroups.yml"));
         AdvancedRegionMarket.regionManager = new RegionManager(new File(this.getDataFolder() + "/regions.yml"));
         getLogger().log(Level.INFO, "Regions loaded!");
+        getLogger().log(Level.INFO, "Applying flags...!");
+        for(Region region : AdvancedRegionMarket.regionManager) {
+            region.applyFlagGroup(FlagGroup.ResetMode.NON_EDITABLE);
+        }
+        getLogger().log(Level.INFO, "Flags applied!");
         loadAutoReset();
         if(!connectSQL()) {
             Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {

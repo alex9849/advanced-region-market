@@ -86,7 +86,6 @@ public abstract class Region implements Saveable {
         this.extraEntitys = extraEntitys;
         this.extraTotalEntitys = boughtExtraTotalEntitys;
 
-        this.applyFlagGroup(FlagGroup.ResetMode.NON_EDITABLE);
         for(Region subregion : subregions) {
             subregion.setParentRegion(this);
         }

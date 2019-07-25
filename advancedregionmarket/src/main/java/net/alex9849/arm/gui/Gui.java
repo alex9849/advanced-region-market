@@ -8,6 +8,7 @@ import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.entitylimit.EntityLimit;
 import net.alex9849.arm.flaggroups.FlagGroup;
+import net.alex9849.arm.flaggroups.FlagSettings;
 import net.alex9849.arm.gui.chathandler.GuiChatInputListener;
 import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.util.MaterialFinder;
@@ -276,11 +277,11 @@ public class Gui implements Listener {
             ClickItem flagEditorItem = new ClickItem(new ItemStack(MaterialFinder.getGuiFlageditorItem()), "FlagEditor").addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
-                    Map<Flag, Tuple<String, Boolean>> flagMap = region.getFlagGroup().getFlagMapSold();
+                    List<FlagSettings> flagSettingsList = region.getFlagGroup().getFlagSettingsSold();
                     List<Flag> flagList = new ArrayList<>();
-                    for(Flag flag : flagMap.keySet()) {
-                        if(flagMap.get(flag).getValue2()) {
-                            flagList.add(flag);
+                    for(FlagSettings flagSettings : flagSettingsList) {
+                        if(flagSettings.isEditable()) {
+                            flagList.add(flagSettings.getFlag());
                         }
                     }
 

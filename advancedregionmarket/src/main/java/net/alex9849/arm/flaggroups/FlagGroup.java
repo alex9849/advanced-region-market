@@ -6,98 +6,113 @@ import com.sk89q.worldguard.protection.flags.RegionGroup;
 import com.sk89q.worldguard.protection.flags.RegionGroupFlag;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.regions.Region;
+import net.alex9849.arm.regions.SellType;
 import net.alex9849.arm.util.Saveable;
 import net.alex9849.arm.util.Tuple;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class FlagGroup implements Saveable {
-    public static FlagGroup DEFAULT = new FlagGroup("Default", 10, new HashMap<>(), new HashMap<>());
-    public static FlagGroup SUBREGION = new FlagGroup("Subregion", 10, new HashMap<>(), new HashMap<>());
+    public static FlagGroup DEFAULT = new FlagGroup("Default", 10, new ArrayList<>(), new ArrayList<>());
+    public static FlagGroup SUBREGION = new FlagGroup("Subregion", 10, new ArrayList<>(), new ArrayList<>());
     private boolean needsSave;
-    private Map<Flag, Tuple<String, Boolean>> flagMapSold;
-    private Map<Flag, Tuple<String, Boolean>> flagMapAvailable;
+
+    private List<FlagSettings> flagSettingsSold;
+    private List<FlagSettings> flagSettingsAvailable;
+
     private int priority;
     private String name;
 
 
-    public FlagGroup(String name, int priority, Map<Flag, Tuple<String, Boolean>> flagsSold, Map<Flag, Tuple<String, Boolean>> flagsAvailable) {
+    public FlagGroup(String name, int priority, List<FlagSettings> flagsSold, List<FlagSettings> flagsAvailable) {
         this.needsSave = false;
         this.name = name;
         this.priority = priority;
-        this.flagMapSold = new HashMap<>();
-        this.flagMapSold.putAll(flagsSold);
-        this.flagMapAvailable = new HashMap<>();
-        this.flagMapAvailable.putAll(flagsAvailable);
+        this.flagSettingsSold = flagsSold;
+        this.flagSettingsAvailable = flagsAvailable;
     }
 
     static FlagGroup parse(ConfigurationSection configurationSection, String name) {
-        Map<Flag, Tuple<String, Boolean>> flagMapSold = new HashMap<>();
-        Map<Flag, Tuple<String, Boolean>> flagMapAvailable = new HashMap<>();
+        List<FlagSettings> flagListSold = new ArrayList<>();
+        List<FlagSettings> flagListAvailable = new ArrayList<>();
 
         ConfigurationSection soldSection = configurationSection.getConfigurationSection("sold");
         if(soldSection != null) {
-            flagMapSold = parseFlags(soldSection);
+            flagListSold = parseFlags(soldSection);
         }
 
         ConfigurationSection availableSection = configurationSection.getConfigurationSection("available");
         if(availableSection != null) {
-            flagMapAvailable = parseFlags(availableSection);
+            flagListAvailable = parseFlags(availableSection);
         }
 
-        return new FlagGroup(name, configurationSection.getInt("priority"), flagMapSold, flagMapAvailable);
+        return new FlagGroup(name, configurationSection.getInt("priority"), flagListSold, flagListAvailable);
     }
 
-    private static Map<Flag, Tuple<String, Boolean>> parseFlags(ConfigurationSection yamlConfiguration) {
-        Map<Flag, Tuple<String, Boolean>> flagMap = new HashMap<>();
+    private static List<FlagSettings> parseFlags(ConfigurationSection yamlConfiguration) {
+        List<FlagSettings> flagSettingsList = new ArrayList<>();
 
         Set<String> flagNames = yamlConfiguration.getKeys(false);
-        for(String flagName : flagNames) {
-                String settings = yamlConfiguration.getString(flagName + ".setting");
-                boolean editable = yamlConfiguration.getBoolean(flagName + ".editable");
+        for(String id : flagNames) {
+            String settings = yamlConfiguration.getString(id + ".setting");
+            String flagName = yamlConfiguration.getString(id + ".flag");
+            boolean editable = yamlConfiguration.getBoolean(id + ".editable");
+            List<String> applyToString = yamlConfiguration.getStringList(id + ".applyto");
+            Set<SellType> applyTo = new TreeSet<>();
 
-                Flag flag = AdvancedRegionMarket.getWorldGuardInterface().fuzzyMatchFlag(flagName);
-
-                if(flag == null) {
-                    Bukkit.getLogger().info("Could not find flag " + flagName + "! Please check your flaggroups.yml");
-                    continue;
-                }
-                flagMap.put(flag, new Tuple<>(settings, editable));
+            if(applyToString == null || applyToString.isEmpty()) {
+                applyTo.addAll(Arrays.asList(SellType.values()));
             }
-        return flagMap;
+
+            for(String sellTypeString : applyToString) {
+                SellType sellType = SellType.getSelltype(sellTypeString);
+                if(sellType != null) {
+                    applyTo.add(sellType);
+                }
+            }
+
+            Flag flag = AdvancedRegionMarket.getWorldGuardInterface().fuzzyMatchFlag(flagName);
+
+            if(flag == null) {
+                Bukkit.getLogger().info("Could not find flag " + flagName + "! Please check your flaggroups.yml");
+                continue;
+            }
+            flagSettingsList.add(new FlagSettings(flag, editable, settings, applyTo));
+            }
+        return flagSettingsList;
     }
 
     public void applyToRegion(Region region, ResetMode resetMode) {
         if(region.isSold()) {
-            this.applyFlagMapToRegion(this.flagMapSold, region, resetMode);
+            this.applyFlagMapToRegion(this.flagSettingsSold, region, resetMode);
         } else {
-            this.applyFlagMapToRegion(this.flagMapAvailable, region, resetMode);
+            this.applyFlagMapToRegion(this.flagSettingsAvailable, region, resetMode);
         }
     }
 
-    private void applyFlagMapToRegion(Map<Flag, Tuple<String, Boolean>> flagMap, Region region, ResetMode resetMode) {
-        for(Flag rgFlag : flagMap.keySet()) {
-            Tuple<String, Boolean> flagSettingsTupel = flagMap.get(rgFlag);
-            if(resetMode == ResetMode.NON_EDITABLE && flagSettingsTupel.getValue2()) {
+    private void applyFlagMapToRegion(List<FlagSettings> flagSettingsList, Region region, ResetMode resetMode) {
+        for(FlagSettings flagSettings : flagSettingsList) {
+            if(!flagSettings.getApplyTo().contains(region.getSellType())) {
+                continue;
+            }
+            if(resetMode == ResetMode.NON_EDITABLE && flagSettings.isEditable()) {
                 continue;
             }
 
-            if(flagSettingsTupel.getValue1() == null || flagSettingsTupel.getValue1().isEmpty()
-                    || flagSettingsTupel.getValue1().equalsIgnoreCase("remove")) {
-                region.getRegion().deleteFlags(rgFlag);
+            if(flagSettings.getSettings() == null || flagSettings.getSettings().isEmpty()
+                    || flagSettings.getSettings().equalsIgnoreCase("remove")) {
+                region.getRegion().deleteFlags(flagSettings.getFlag());
             } else {
-                RegionGroupFlag groupFlag = rgFlag.getRegionGroupFlag();
-                String flagSettings = null;
+                RegionGroupFlag groupFlag = flagSettings.getFlag().getRegionGroupFlag();
+                String settings = null;
                 RegionGroup groupFlagSettings = null;
 
                 if(groupFlag == null) {
-                    flagSettings = flagSettingsTupel.getValue1();
+                    settings = flagSettings.getSettings();
                 } else {
-                    for(String part : flagSettingsTupel.getValue1().split(" ")) {
+                    for(String part : flagSettings.getSettings().split(" ")) {
                         if(part.startsWith("g:")) {
                             if(part.length() > 2) {
                                 try {
@@ -108,21 +123,21 @@ public class FlagGroup implements Saveable {
                                 }
                             }
                         } else {
-                            if(flagSettings == null) {
-                                flagSettings = part;
+                            if(settings == null) {
+                                settings = part;
                             } else {
-                                flagSettings += " " + part;
+                                settings += " " + part;
                             }
                         }
                     }
                 }
 
-                if(flagSettings != null) {
+                if(settings != null) {
                     try {
-                        Object wgFlagSettings = AdvancedRegionMarket.getWorldGuardInterface().parseFlagInput(rgFlag, region.getConvertedMessage(flagSettings));
-                        region.getRegion().setFlag(rgFlag, wgFlagSettings);
+                        Object wgFlagSettings = AdvancedRegionMarket.getWorldGuardInterface().parseFlagInput(flagSettings.getFlag(), region.getConvertedMessage(settings));
+                        region.getRegion().setFlag(flagSettings.getFlag(), wgFlagSettings);
                     } catch (InvalidFlagFormat invalidFlagFormat) {
-                        Bukkit.getLogger().info("Could not parse flag-settings for flag " + rgFlag.getName() + "! Flag will be ignored! Please check your flaggroups.yml");
+                        Bukkit.getLogger().info("Could not parse flag-settings for flag " + flagSettings.getFlag().getName() + "! Flag will be ignored! Please check your flaggroups.yml");
                         continue;
                     }
                 }
@@ -153,10 +168,6 @@ public class FlagGroup implements Saveable {
         this.needsSave = true;
     }
 
-    public Map<Flag, Tuple<String, Boolean>> getFlagMapSold() {
-        return flagMapSold;
-    }
-
     @Override
     public void setSaved() {
         this.needsSave = false;
@@ -165,6 +176,10 @@ public class FlagGroup implements Saveable {
     @Override
     public boolean needsSave() {
         return this.needsSave;
+    }
+
+    public List<FlagSettings> getFlagSettingsSold() {
+        return flagSettingsSold;
     }
 
     public enum ResetMode {

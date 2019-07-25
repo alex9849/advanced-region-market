@@ -4,90 +4,151 @@ FlagGroups:
 DefaultFlagGroup:
   priority: 0
   available:
-    interact:
+    0:
       setting: 'deny g:non_members'
       editable: false
-    greeting:
-      setting: '&b[ARM] &6This region can be bought for &2%price% %currency%'
+      flag: interact
+    1:
+      setting: '&b[ARM] &6This region can be bought for &2%price%%currency%'
       editable: false
+      flag: greeting
       applyto:
-    use:
+        - SellRegion
+    2:
+      setting: '&b[ARM] &6This region can be rented for &2%price%%currency%&6/&2%extendperclick% &6and extended for up to &2%maxrenttime%'
+      editable: false
+      flag: greeting
+      applyto:
+        - RentRegion
+    3:
+      setting: '&b[ARM] &6Contract available for &2%price%%currency%&6/&2%extend%'
+      editable: false
+      flag: greeting
+      applyto:
+        - ContractRegion
+    4:
       setting: 'allow g:all'
       editable: false
-    build:
+      flag: use
+    5:
       setting: 'deny g:non_members'
       editable: false
-    block-break:
+      flag: build
+    6:
       setting: 'deny g:non_members'
       editable: false
-    block-place:
+      flag: block-break
+    7:
       setting: 'deny g:non_members'
       editable: false
-    chest-access:
+      flag: block-place
+    8:
       setting: 'deny g:non_members'
       editable: false
+      flag: chest-access
   sold:
-    interact:
+    0:
       setting: 'deny g:non_members'
       editable: false
-    greeting:
+      flag: interact
+    1:
       setting: 'remove'
       editable: false
-    use:
+      flag: greeting
+    2:
       setting: 'deny g:non_members'
       editable: false
-    build:
+      flag: use
+    3:
       setting: 'deny g:non_members'
       editable: false
-    block-break:
+      flag: build
+    4:
       setting: 'deny g:non_members'
       editable: false
-    block-place:
+      flag: block-break
+    5:
       setting: 'deny g:non_members'
       editable: false
-    chest-access:
+      flag: block-place
+    6:
       setting: 'deny g:non_members'
       editable: false
+      flag: chest-access
 
 SubregionFlagGroup:
   # Pritority will be ignored for Subregions.
   # ARM will automatically select the priority based on your settings for subregions!
   priority: 0
   available:
-    interact:
+    0:
       setting: 'deny g:non_members'
       editable: false
-    use:
-      setting: 'allow'
+      flag: interact
+    1:
+      setting: '&b[ARM] &6This region can be bought for &2%price%%currency%'
       editable: false
-    build:
+      flag: greeting
+      applyto:
+        - SellRegion
+    2:
+      setting: '&b[ARM] &6This region can be rented for &2%price%%currency%/%extendperclick% and extended for up to %maxrenttime%'
+      editable: false
+      flag: greeting
+      applyto:
+        - RentRegion
+    3:
+      setting: '&b[ARM] &6Contract available for &2%price%%currency%/%extend%'
+      editable: false
+      flag: greeting
+      applyto:
+        - ContractRegion
+    4:
+      setting: 'allow g:all'
+      editable: false
+      flag: use
+    5:
       setting: 'deny g:non_members'
       editable: false
-    block-break:
+      flag: build
+    6:
       setting: 'deny g:non_members'
       editable: false
-    block-place:
+      flag: block-break
+    7:
       setting: 'deny g:non_members'
       editable: false
-    chest-access:
+      flag: block-place
+    8:
       setting: 'deny g:non_members'
       editable: false
+      flag: chest-access
   sold:
-    interact:
+    0:
       setting: 'deny g:non_members'
       editable: false
-    use:
+      flag: interact
+    1:
+      setting: 'remove'
+      editable: false
+      flag: greeting
+    2:
       setting: 'deny g:non_members'
       editable: false
-    build:
+      flag: use
+    3:
       setting: 'deny g:non_members'
       editable: false
-    block-break:
+      flag: build
+    4:
       setting: 'deny g:non_members'
       editable: false
-    block-place:
+      flag: block-break
+    5:
       setting: 'deny g:non_members'
       editable: false
-    chest-access:
+      flag: block-place
+    6:
       setting: 'deny g:non_members'
       editable: false
+      flag: chest-access

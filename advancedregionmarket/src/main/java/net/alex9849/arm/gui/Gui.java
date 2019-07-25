@@ -1972,7 +1972,7 @@ public class Gui implements Listener {
         else if (flag instanceof StringFlag) {
             clickItems = new ClickItem[1];
             final FlagSetter flagSetter = new FlagSetter("");
-            clickItems[0] = new ClickItem(new ItemStack(Material.GRASS_BLOCK), "Set message").addClickAction((new ClickAction() {
+            clickItems[0] = new ClickItem(new ItemStack(MaterialFinder.getGuiFlagUserInputItem()), "Set message").addClickAction((new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
 
@@ -1991,7 +1991,7 @@ public class Gui implements Listener {
 
             clickItems = new ClickItem[1];
             final FlagSetter flagSetter = new FlagSetter("");
-            clickItems[0] = new ClickItem(new ItemStack(Material.GRASS_BLOCK), "Write Number").addClickAction((new ClickAction() {
+            clickItems[0] = new ClickItem(new ItemStack(MaterialFinder.getGuiFlagUserInputItem()), "Write Number").addClickAction((new ClickAction() {
             @Override
             public void execute(Player player) throws InputException {
                 player.closeInventory();
@@ -2008,7 +2008,7 @@ public class Gui implements Listener {
 
             clickItems = new ClickItem[1];
             final FlagSetter flagSetter = new FlagSetter("");
-            clickItems[0] = new ClickItem(new ItemStack(Material.GRASS_BLOCK), "Write Number").addClickAction((new ClickAction() {
+            clickItems[0] = new ClickItem(new ItemStack(MaterialFinder.getGuiFlagUserInputItem()), "Write Number").addClickAction((new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
                     player.closeInventory();

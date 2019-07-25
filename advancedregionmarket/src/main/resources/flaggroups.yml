@@ -2,11 +2,15 @@ FlagGroups:
   testflaggroup: {}
 
 DefaultFlagGroup:
-  priority: 10
+  priority: 0
   available:
     interact:
       setting: 'deny g:non_members'
       editable: false
+    greeting:
+      setting: '&b[ARM] &6This region can be bought for &2%price% %currency%'
+      editable: false
+      applyto:
     use:
       setting: 'allow g:all'
       editable: false
@@ -26,6 +30,9 @@ DefaultFlagGroup:
     interact:
       setting: 'deny g:non_members'
       editable: false
+    greeting:
+      setting: 'remove'
+      editable: false
     use:
       setting: 'deny g:non_members'
       editable: false
@@ -43,6 +50,8 @@ DefaultFlagGroup:
       editable: false
 
 SubregionFlagGroup:
+  # Pritority will be ignored for Subregions.
+  # ARM will automatically select the priority based on your settings for subregions!
   priority: 0
   available:
     interact:

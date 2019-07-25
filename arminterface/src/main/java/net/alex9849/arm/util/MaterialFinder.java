@@ -47,6 +47,7 @@ public class MaterialFinder {
     private static Material GUI_FLAG_GROUP_SELECTED_ITEM;
     private static Material GUI_FLAG_GROUP_NOT_SELECTED_ITEM;
     private static Material GUI_FLAGEDITOR_ITEM;
+    private static Material GUI_FLAG_ITEM;
 
     static {
         MaterialFinder.signMaterials = new ArrayList<Material>();
@@ -96,6 +97,7 @@ public class MaterialFinder {
             MaterialFinder.GUI_FLAG_SETTING_NOT_SELECTED_ITEM = MaterialFinder.getMaterial("REDSTONE_BLOCK");
             MaterialFinder.GUI_FLAG_GROUP_SELECTED_ITEM = MaterialFinder.getMaterial("MELON_BLOCK");
             MaterialFinder.GUI_FLAG_GROUP_NOT_SELECTED_ITEM = MaterialFinder.getMaterial("REDSTONE_BLOCK");
+            MaterialFinder.GUI_FLAG_ITEM = MaterialFinder.getMaterial("SIGN_POST");
 
 
         } else if(serverVersion.equalsIgnoreCase("1.13") || serverVersion.contains("1.13")) {
@@ -136,6 +138,7 @@ public class MaterialFinder {
             MaterialFinder.GUI_FLAG_SETTING_NOT_SELECTED_ITEM = MaterialFinder.getMaterial("REDSTONE_BLOCK");
             MaterialFinder.GUI_FLAG_GROUP_SELECTED_ITEM = MaterialFinder.getMaterial("MELON");
             MaterialFinder.GUI_FLAG_GROUP_NOT_SELECTED_ITEM = MaterialFinder.getMaterial("REDSTONE_BLOCK");
+            MaterialFinder.GUI_FLAG_ITEM = MaterialFinder.getMaterial("SIGN");
         } else {
             MaterialFinder.defaultSign =  MaterialFinder.getMaterial("OAK_SIGN");
             MaterialFinder.wallSign = MaterialFinder.getMaterial("OAK_WALL_SIGN");
@@ -174,6 +177,7 @@ public class MaterialFinder {
             MaterialFinder.GUI_FLAG_SETTING_NOT_SELECTED_ITEM = MaterialFinder.getMaterial("REDSTONE_BLOCK");
             MaterialFinder.GUI_FLAG_GROUP_SELECTED_ITEM = MaterialFinder.getMaterial("MELON");
             MaterialFinder.GUI_FLAG_GROUP_NOT_SELECTED_ITEM = MaterialFinder.getMaterial("REDSTONE_BLOCK");
+            MaterialFinder.GUI_FLAG_ITEM = MaterialFinder.getMaterial("SIGN");
         }
     }
 
@@ -191,6 +195,10 @@ public class MaterialFinder {
 
     public static Material getWallSign() {
         return MaterialFinder.wallSign;
+    }
+
+    public static Material getGuiFlagItem() {
+        return MaterialFinder.GUI_FLAG_ITEM;
     }
 
     public static Material getSign() {

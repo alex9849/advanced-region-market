@@ -283,6 +283,11 @@ public class Gui implements Listener {
                             flagList.add(flag);
                         }
                     }
+
+                    Collections.sort(flagList, (o1, o2) -> {
+                        return o1.getName().compareTo(o2.getName());
+                    });
+
                     Gui.openFlagEditor(player, region, flagList, 0, (p) -> {
                         openRegionOwnerManager(player, region);
                     });
@@ -431,7 +436,7 @@ public class Gui implements Listener {
 
             }
 
-            ClickItem flagItem = new ClickItem(new ItemStack(Material.GRASS_BLOCK), rgFlag.getName());
+            ClickItem flagItem = new ClickItem(new ItemStack(MaterialFinder.getGuiFlagItem()), rgFlag.getName());
             guiInventory.addIcon(flagItem, invIndex);
 
             ClickItem[] flagStateButtons = getFlagSettingItem(rgFlag, region, (p) -> {
@@ -497,7 +502,7 @@ public class Gui implements Listener {
             guiInventory.addIcon(goBackButton, guiInventory.getSize() - 5);
         }
 
-        if(editableFlags.size() >= start + 5) {
+        if(editableFlags.size() > start + 5) {
             ClickItem prevButton = new ClickItem(new ItemStack(Gui.NEXT_PAGE_ITEM), Messages.GUI_NEXT_PAGE).addClickAction((p) -> {
                 openFlagEditor(player, region, editableFlags, start + 5, goBackAction);
             });

@@ -273,7 +273,7 @@ public class Gui implements Listener {
         }
 
         if(true) {
-            ClickItem flagEditorItem = new ClickItem(new ItemStack(Material.GRASS_BLOCK), "FlagEditor").addClickAction(new ClickAction() {
+            ClickItem flagEditorItem = new ClickItem(new ItemStack(MaterialFinder.getGuiFlageditorItem()), "FlagEditor").addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
                     Map<Flag, Tuple<String, Boolean>> flagMap = region.getFlagGroup().getFlagMapSold();
@@ -376,9 +376,10 @@ public class Gui implements Listener {
             int invIndex = (i - start) * 9;
 
             class GroupFlagSetter implements ClickAction {
-                String input;
+                private String input;
+                private ClickAction afterFlagSetAction;
 
-                GroupFlagSetter(String input) {
+                GroupFlagSetter(String input, ClickAction afterFlagSetAction) {
                     this.input = input;
                 }
 
@@ -392,18 +393,34 @@ public class Gui implements Listener {
                             region.getRegion().setFlag(rgFlag.getRegionGroupFlag(), groupFlag);
                         }
                         player.sendMessage(Messages.PREFIX + "Flag has been updated!");
+                        afterFlagSetAction.execute(player);
                     } catch (InvalidFlagFormat invalidFlagFormat) {
                         //Todo
                         player.sendMessage("Could not modify flag " + rgFlag.getName() + "!");
                         Bukkit.getLogger().info("Could not modify flag " + rgFlag.getName() + " via player flageditor!");
                     }
                 }
+
+                private Object getSettingsObject(Flag flag) throws InvalidFlagFormat {
+                    return AdvancedRegionMarket.getWorldGuardInterface().parseFlagInput(flag, region.getConvertedMessage(this.input));
+                }
+
+                public boolean isInputSelected(Flag flag) {
+                    try {
+                        return region.getRegion().getFlagSetting(flag) == getSettingsObject(flag);
+                    } catch (InvalidFlagFormat e) {
+                        return false;
+                    }
+                }
+
             }
 
             ClickItem flagItem = new ClickItem(new ItemStack(Material.GRASS_BLOCK), rgFlag.getName());
             guiInventory.addIcon(flagItem, invIndex);
 
-            ClickItem[] flagStateButtons = getFlagSettingItem(rgFlag, region);
+            ClickItem[] flagStateButtons = getFlagSettingItem(rgFlag, region, (p) -> {
+                openFlagEditor(p, region, editableFlags, start, goBackAction);
+            });
 
             if(flagStateButtons.length > 0) {
                 guiInventory.addIcon(flagStateButtons[0], invIndex + 1);
@@ -413,25 +430,40 @@ public class Gui implements Listener {
             }
 
             //Add Materials to MaterialHandler
-            ClickItem deleteButton = new ClickItem(new ItemStack(Material.GRASS_BLOCK), "Delete flag").addClickAction((pl -> {
+            ClickItem deleteButton = new ClickItem(new ItemStack(MaterialFinder.getGuiFlagRemoveItem()), "Delete flag").addClickAction((pl -> {
                 region.getRegion().deleteFlags(rgFlag);
+                openFlagEditor(pl, region, editableFlags, start, goBackAction);
                 pl.sendMessage(Messages.PREFIX + "Flag has been deleted!");
             }));
             guiInventory.addIcon(deleteButton, invIndex + 3);
 
-            ClickItem allButton = new ClickItem(new ItemStack(Material.GRASS_BLOCK), "Set for all").addClickAction(new GroupFlagSetter("all"));
+            ClickAction afterFlagSetAction = (pl) -> {
+                openFlagEditor(pl, region, editableFlags, start, goBackAction);
+            };
+
+            GroupFlagSetter gfsAllButton = new GroupFlagSetter("all", afterFlagSetAction);
+            ClickItem allButton = new ClickItem(gfsAllButton.isInputSelected(rgFlag)? new ItemStack(MaterialFinder.getGuiFlagGroupSelectedItem()):
+                    new ItemStack(MaterialFinder.getGuiFlagGroupNotSelectedItem()), "Set for all").addClickAction(gfsAllButton);
             guiInventory.addIcon(allButton, invIndex + 4);
 
-            ClickItem membersButton = new ClickItem(new ItemStack(Material.GRASS_BLOCK), "Set for members").addClickAction(new GroupFlagSetter("members"));
+            GroupFlagSetter gfsMembersButton = new GroupFlagSetter("members", afterFlagSetAction);
+            ClickItem membersButton = new ClickItem(gfsMembersButton.isInputSelected(rgFlag)? new ItemStack(MaterialFinder.getGuiFlagGroupSelectedItem()):
+                    new ItemStack(MaterialFinder.getGuiFlagGroupNotSelectedItem()), "Set for members").addClickAction(gfsMembersButton);
             guiInventory.addIcon(membersButton, invIndex + 5);
 
-            ClickItem ownersButton = new ClickItem(new ItemStack(Material.GRASS_BLOCK), "Set for owners").addClickAction(new GroupFlagSetter("owners"));
+            GroupFlagSetter gfsOwnersButton = new GroupFlagSetter("owners", afterFlagSetAction);
+            ClickItem ownersButton = new ClickItem(gfsOwnersButton.isInputSelected(rgFlag)? new ItemStack(MaterialFinder.getGuiFlagGroupSelectedItem()):
+                    new ItemStack(MaterialFinder.getGuiFlagGroupNotSelectedItem()), "Set for owners").addClickAction(gfsOwnersButton);
             guiInventory.addIcon(ownersButton, invIndex + 6);
 
-            ClickItem nonMembersButton = new ClickItem(new ItemStack(Material.GRASS_BLOCK), "Set for non members").addClickAction(new GroupFlagSetter("non_members"));
+            GroupFlagSetter gfsNonMembersButton = new GroupFlagSetter("non_members", afterFlagSetAction);
+            ClickItem nonMembersButton = new ClickItem(gfsNonMembersButton.isInputSelected(rgFlag)? new ItemStack(MaterialFinder.getGuiFlagGroupSelectedItem()):
+                    new ItemStack(MaterialFinder.getGuiFlagGroupNotSelectedItem()), "Set for non members").addClickAction(gfsNonMembersButton);
             guiInventory.addIcon(nonMembersButton, invIndex + 7);
 
-            ClickItem nonOwnersButton = new ClickItem(new ItemStack(Material.GRASS_BLOCK), "Set for non owners").addClickAction(new GroupFlagSetter("non_owners"));
+            GroupFlagSetter gfsNonOwnersButton = new GroupFlagSetter("non_owners", afterFlagSetAction);
+            ClickItem nonOwnersButton = new ClickItem(gfsNonOwnersButton.isInputSelected(rgFlag)? new ItemStack(MaterialFinder.getGuiFlagGroupSelectedItem()):
+                    new ItemStack(MaterialFinder.getGuiFlagGroupNotSelectedItem()), "Set for non owners").addClickAction(gfsNonOwnersButton);
             guiInventory.addIcon(nonOwnersButton, invIndex + 8);
         }
 
@@ -1850,7 +1882,7 @@ public class Gui implements Listener {
         return itemStack;
     }
 
-    public static ClickItem[] getFlagSettingItem(Flag flag, Region region) {
+    public static ClickItem[] getFlagSettingItem(Flag flag, Region region, ClickAction afterFlagSetAction) {
         class FlagSetter implements ClickAction {
             String input;
 
@@ -1862,15 +1894,28 @@ public class Gui implements Listener {
                 this.input = s;
             }
 
+            public boolean isInputSelected() {
+                try {
+                    return region.getRegion().getFlagSetting(flag) == getSettingsObject();
+                } catch (InvalidFlagFormat e) {
+                    return false;
+                }
+            }
+
+            private Object getSettingsObject() throws InvalidFlagFormat {
+                return AdvancedRegionMarket.getWorldGuardInterface().parseFlagInput(flag, region.getConvertedMessage(this.input));
+            }
+
             @Override
             public void execute(Player player) throws InputException {
                 try {
-                    Object flagSetting = AdvancedRegionMarket.getWorldGuardInterface().parseFlagInput(flag, region.getConvertedMessage(this.input));
+                    Object flagSetting = getSettingsObject();
                     if(flag.getDefault() == flagSetting) {
                         region.getRegion().deleteFlags(flag);
                     } else {
                         region.getRegion().setFlag(flag, flagSetting);
                     }
+                    afterFlagSetAction.execute(player);
                     player.sendMessage(Messages.PREFIX + "Flag has been updated!");
                 } catch (InvalidFlagFormat invalidFlagFormat) {
                     //Todo
@@ -1884,14 +1929,22 @@ public class Gui implements Listener {
         if(flag instanceof StateFlag) {
             clickItems = new ClickItem[2];
             //TODO change names (add to messages.yml)
-            clickItems[0] = new ClickItem(new ItemStack(Material.GRASS_BLOCK), "Allow").addClickAction(new FlagSetter("allow"));
-            clickItems[1] = new ClickItem(new ItemStack(Material.GRASS_BLOCK), "Deny").addClickAction(new FlagSetter("deny"));
+            FlagSetter fs0 = new FlagSetter("allow");
+            clickItems[0] = new ClickItem(fs0.isInputSelected()? new ItemStack(MaterialFinder.getGuiFlagSettingSelectedItem()):
+                    new ItemStack(MaterialFinder.getGuiFlagSettingNotSelectedItem()), "Allow").addClickAction(new FlagSetter("allow"));
+            FlagSetter fs1 = new FlagSetter("deny");
+            clickItems[1] = new ClickItem(fs1.isInputSelected()? new ItemStack(MaterialFinder.getGuiFlagSettingSelectedItem()):
+                    new ItemStack(MaterialFinder.getGuiFlagSettingNotSelectedItem()), "Deny").addClickAction(new FlagSetter("deny"));
 
         } else if(flag instanceof BooleanFlag) {
             clickItems = new ClickItem[2];
             //TODO change names (add to messages.yml)
-            clickItems[0] = new ClickItem(new ItemStack(Material.GRASS_BLOCK), "True").addClickAction(new FlagSetter("true"));
-            clickItems[1] = new ClickItem(new ItemStack(Material.GRASS_BLOCK), "False").addClickAction(new FlagSetter("false"));
+            FlagSetter fs0 = new FlagSetter("true");
+            clickItems[0] = new ClickItem(fs0.isInputSelected()? new ItemStack(MaterialFinder.getGuiFlagSettingSelectedItem()):
+                    new ItemStack(MaterialFinder.getGuiFlagSettingNotSelectedItem()), "True").addClickAction(fs0);
+            FlagSetter fs1 = new FlagSetter("false");
+            clickItems[1] = new ClickItem(fs1.isInputSelected()? new ItemStack(MaterialFinder.getGuiFlagSettingSelectedItem()):
+                    new ItemStack(MaterialFinder.getGuiFlagSettingNotSelectedItem()), "False").addClickAction(fs1);
 
         }
         else if (flag instanceof StringFlag) {

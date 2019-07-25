@@ -12,7 +12,6 @@ import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 public class WG7Region extends WGRegion {
@@ -161,5 +160,9 @@ public class WG7Region extends WGRegion {
                 this.region.setFlag(groupFlag, null);
             }
         }
+    }
+
+    public Object getFlagSetting(Flag flag) {
+        return this.region.getFlag(flag);
     }
 }

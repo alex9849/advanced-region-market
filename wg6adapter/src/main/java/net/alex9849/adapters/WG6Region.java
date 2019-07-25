@@ -5,6 +5,7 @@ import com.sk89q.worldedit.BlockVector2D;
 import com.sk89q.worldguard.domains.DefaultDomain;
 import com.sk89q.worldguard.protection.flags.Flag;
 import com.sk89q.worldguard.protection.flags.RegionGroupFlag;
+import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import net.alex9849.inter.WGRegion;
 import org.bukkit.OfflinePlayer;
@@ -160,5 +161,9 @@ public class WG6Region extends WGRegion {
                 this.region.setFlag(groupFlag, null);
             }
         }
+    }
+
+    public Object getFlagSetting(Flag flag) {
+        return this.region.getFlag(flag);
     }
 }

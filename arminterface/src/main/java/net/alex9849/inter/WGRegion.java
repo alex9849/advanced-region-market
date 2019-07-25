@@ -55,4 +55,6 @@ public abstract class WGRegion {
     public abstract  <T extends Flag<V>, V> void setFlag(Flag<V> flag, V value);
 
     public abstract void deleteFlags(Flag... flags);
+
+    public abstract Object getFlagSetting(Flag flag);
 }

@@ -41,6 +41,13 @@ public class MaterialFinder {
     private static Material WALL_TORCH;
     private static Material MAGMA_BLOCK;
 
+    private static Material GUI_FLAG_REMOVE_ITEM;
+    private static Material GUI_FLAG_SETTING_SELECTED_ITEM;
+    private static Material GUI_FLAG_SETTING_NOT_SELECTED_ITEM;
+    private static Material GUI_FLAG_GROUP_SELECTED_ITEM;
+    private static Material GUI_FLAG_GROUP_NOT_SELECTED_ITEM;
+    private static Material GUI_FLAGEDITOR_ITEM;
+
     static {
         MaterialFinder.signMaterials = new ArrayList<Material>();
         for(Material mat : Material.values()) {
@@ -83,6 +90,13 @@ public class MaterialFinder {
             MaterialFinder.RED_BED = MaterialFinder.getMaterial("BED");
             MaterialFinder.WALL_TORCH = MaterialFinder.getMaterial("TORCH");
             MaterialFinder.MAGMA_BLOCK = MaterialFinder.getMaterial("LAVA");
+            MaterialFinder.GUI_FLAG_REMOVE_ITEM = MaterialFinder.getMaterial("TNT");
+            MaterialFinder.GUI_FLAGEDITOR_ITEM = MaterialFinder.getMaterial("SIGN_POST");
+            MaterialFinder.GUI_FLAG_SETTING_SELECTED_ITEM = MaterialFinder.getMaterial("MELON_BLOCK");
+            MaterialFinder.GUI_FLAG_SETTING_NOT_SELECTED_ITEM = MaterialFinder.getMaterial("REDSTONE_BLOCK");
+            MaterialFinder.GUI_FLAG_GROUP_SELECTED_ITEM = MaterialFinder.getMaterial("MELON_BLOCK");
+            MaterialFinder.GUI_FLAG_GROUP_NOT_SELECTED_ITEM = MaterialFinder.getMaterial("REDSTONE_BLOCK");
+
 
         } else if(serverVersion.equalsIgnoreCase("1.13") || serverVersion.contains("1.13")) {
             MaterialFinder.defaultSign = MaterialFinder.getMaterial("SIGN");
@@ -116,6 +130,12 @@ public class MaterialFinder {
             MaterialFinder.RED_BED = MaterialFinder.getMaterial("RED_BED");
             MaterialFinder.WALL_TORCH = MaterialFinder.getMaterial("WALL_TORCH");
             MaterialFinder.MAGMA_BLOCK = MaterialFinder.getMaterial("MAGMA_BLOCK");
+            MaterialFinder.GUI_FLAG_REMOVE_ITEM = MaterialFinder.getMaterial("BARRIER");
+            MaterialFinder.GUI_FLAGEDITOR_ITEM = MaterialFinder.getMaterial("BANNER");
+            MaterialFinder.GUI_FLAG_SETTING_SELECTED_ITEM = MaterialFinder.getMaterial("MELON");
+            MaterialFinder.GUI_FLAG_SETTING_NOT_SELECTED_ITEM = MaterialFinder.getMaterial("REDSTONE_BLOCK");
+            MaterialFinder.GUI_FLAG_GROUP_SELECTED_ITEM = MaterialFinder.getMaterial("MELON");
+            MaterialFinder.GUI_FLAG_GROUP_NOT_SELECTED_ITEM = MaterialFinder.getMaterial("REDSTONE_BLOCK");
         } else {
             MaterialFinder.defaultSign =  MaterialFinder.getMaterial("OAK_SIGN");
             MaterialFinder.wallSign = MaterialFinder.getMaterial("OAK_WALL_SIGN");
@@ -148,6 +168,12 @@ public class MaterialFinder {
             MaterialFinder.RED_BED = MaterialFinder.getMaterial("RED_BED");
             MaterialFinder.WALL_TORCH = MaterialFinder.getMaterial("WALL_TORCH");
             MaterialFinder.MAGMA_BLOCK = MaterialFinder.getMaterial("MAGMA_BLOCK");
+            MaterialFinder.GUI_FLAG_REMOVE_ITEM = MaterialFinder.getMaterial("BARRIER");
+            MaterialFinder.GUI_FLAGEDITOR_ITEM = MaterialFinder.getMaterial("BANNER");
+            MaterialFinder.GUI_FLAG_SETTING_SELECTED_ITEM = MaterialFinder.getMaterial("MELON");
+            MaterialFinder.GUI_FLAG_SETTING_NOT_SELECTED_ITEM = MaterialFinder.getMaterial("REDSTONE_BLOCK");
+            MaterialFinder.GUI_FLAG_GROUP_SELECTED_ITEM = MaterialFinder.getMaterial("MELON");
+            MaterialFinder.GUI_FLAG_GROUP_NOT_SELECTED_ITEM = MaterialFinder.getMaterial("REDSTONE_BLOCK");
         }
     }
 
@@ -180,6 +206,30 @@ public class MaterialFinder {
         } else {
             return Material.matchMaterial(name);
         }
+    }
+
+    public static Material getGuiFlagRemoveItem() {
+        return GUI_FLAG_REMOVE_ITEM;
+    }
+
+    public static Material getGuiFlageditorItem() {
+        return GUI_FLAGEDITOR_ITEM;
+    }
+
+    public static Material getGuiFlagSettingSelectedItem() {
+        return GUI_FLAG_SETTING_SELECTED_ITEM;
+    }
+
+    public static Material getGuiFlagSettingNotSelectedItem() {
+        return GUI_FLAG_SETTING_NOT_SELECTED_ITEM;
+    }
+
+    public static Material getGuiFlagGroupSelectedItem() {
+        return GUI_FLAG_GROUP_SELECTED_ITEM;
+    }
+
+    public static Material getGuiFlagGroupNotSelectedItem() {
+        return GUI_FLAG_GROUP_NOT_SELECTED_ITEM;
     }
 
     public static Material getGuiRegionOwnerItem() {

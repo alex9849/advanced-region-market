@@ -161,4 +161,8 @@ public class WG7RegionBeta01 extends WGRegion {
             }
         }
     }
+
+    public Object getFlagSetting(Flag flag) {
+        return this.region.getFlag(flag);
+    }
 }

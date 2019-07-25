@@ -353,6 +353,7 @@ public abstract class Region implements Saveable {
                 }
             }
             this.resetBuiltBlocks();
+            this.flagGroup.applyToRegion(this, FlagGroup.ResetMode.COMPLETE);
 
         } catch (IOException e) {
             if(e instanceof SchematicNotFoundException) {
@@ -586,7 +587,7 @@ public abstract class Region implements Saveable {
         this.extraEntitys.clear();
         this.extraTotalEntitys = 0;
         this.updateSigns();
-        this.flagGroup.applyToRegion(this, FlagGroup.ResetMode.COMPLETE);
+        this.flagGroup.applyToRegion(this, FlagGroup.ResetMode.NON_EDITABLE);
         this.queueSave();
     }
 

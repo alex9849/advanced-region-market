@@ -283,7 +283,9 @@ public class Gui implements Listener {
                             flagList.add(flag);
                         }
                     }
-                    Gui.openFlagEditor(player, region, flagList, 0);
+                    Gui.openFlagEditor(player, region, flagList, 0, (p) -> {
+                        openRegionOwnerManager(player, region);
+                    });
                 }
             });
             inv.addIcon(flagEditorItem, getPosition(actitem, itemcounter));
@@ -364,7 +366,7 @@ public class Gui implements Listener {
         player.openInventory(inv.getInventory());
     }
 
-    public static void openFlagEditor(Player player, Region region, List<Flag> editableFlags, int start) {
+    public static void openFlagEditor(Player player, Region region, List<Flag> editableFlags, int start, ClickAction goBackAction) {
         int invsize = ((editableFlags.size() * 9) - (start * 9) <= 54) ? (editableFlags.size() * 9 + 9) : 54;
         //TODO incude in messages yml
         GuiInventory guiInventory = new GuiInventory(invsize, "Flag Editor");
@@ -389,6 +391,7 @@ public class Gui implements Listener {
                         } else {
                             region.getRegion().setFlag(rgFlag.getRegionGroupFlag(), groupFlag);
                         }
+                        player.sendMessage(Messages.PREFIX + "Flag has been updated!");
                     } catch (InvalidFlagFormat invalidFlagFormat) {
                         //Todo
                         player.sendMessage("Could not modify flag " + rgFlag.getName() + "!");
@@ -409,28 +412,48 @@ public class Gui implements Listener {
                 guiInventory.addIcon(flagStateButtons[1], invIndex + 2);
             }
 
-            /*
+            //Add Materials to MaterialHandler
             ClickItem deleteButton = new ClickItem(new ItemStack(Material.GRASS_BLOCK), "Delete flag").addClickAction((pl -> {
                 region.getRegion().deleteFlags(rgFlag);
-            })); */
+                pl.sendMessage(Messages.PREFIX + "Flag has been deleted!");
+            }));
+            guiInventory.addIcon(deleteButton, invIndex + 3);
 
             ClickItem allButton = new ClickItem(new ItemStack(Material.GRASS_BLOCK), "Set for all").addClickAction(new GroupFlagSetter("all"));
-            guiInventory.addIcon(allButton, invIndex + 3);
+            guiInventory.addIcon(allButton, invIndex + 4);
 
             ClickItem membersButton = new ClickItem(new ItemStack(Material.GRASS_BLOCK), "Set for members").addClickAction(new GroupFlagSetter("members"));
-            guiInventory.addIcon(membersButton, invIndex + 4);
+            guiInventory.addIcon(membersButton, invIndex + 5);
 
             ClickItem ownersButton = new ClickItem(new ItemStack(Material.GRASS_BLOCK), "Set for owners").addClickAction(new GroupFlagSetter("owners"));
-            guiInventory.addIcon(ownersButton, invIndex + 5);
+            guiInventory.addIcon(ownersButton, invIndex + 6);
 
             ClickItem nonMembersButton = new ClickItem(new ItemStack(Material.GRASS_BLOCK), "Set for non members").addClickAction(new GroupFlagSetter("non_members"));
-            guiInventory.addIcon(nonMembersButton, invIndex + 6);
+            guiInventory.addIcon(nonMembersButton, invIndex + 7);
 
             ClickItem nonOwnersButton = new ClickItem(new ItemStack(Material.GRASS_BLOCK), "Set for non owners").addClickAction(new GroupFlagSetter("non_owners"));
-            guiInventory.addIcon(nonOwnersButton, invIndex + 7);
+            guiInventory.addIcon(nonOwnersButton, invIndex + 8);
+        }
 
-            ClickItem nobodyButton = new ClickItem(new ItemStack(Material.GRASS_BLOCK), "Set for nobody").addClickAction(new GroupFlagSetter("none"));
-            guiInventory.addIcon(nobodyButton, invIndex + 8);
+        if(start != 0) {
+            final int newstart;
+            newstart = (start - 5 < 0)? 0:start - 5;
+            ClickItem prevButton = new ClickItem(new ItemStack(Gui.PREV_PAGE_ITEM), Messages.GUI_PREV_PAGE).addClickAction((p) -> {
+               openFlagEditor(player, region, editableFlags, newstart, goBackAction);
+            });
+            guiInventory.addIcon(prevButton, guiInventory.getSize() - 9);
+        }
+
+        if(goBackAction != null) {
+            ClickItem goBackButton = new ClickItem(new ItemStack(Gui.GO_BACK_ITEM), Messages.GUI_GO_BACK).addClickAction(goBackAction);
+            guiInventory.addIcon(goBackButton, guiInventory.getSize() - 5);
+        }
+
+        if(editableFlags.size() >= start + 5) {
+            ClickItem prevButton = new ClickItem(new ItemStack(Gui.NEXT_PAGE_ITEM), Messages.GUI_NEXT_PAGE).addClickAction((p) -> {
+                openFlagEditor(player, region, editableFlags, start + 5, goBackAction);
+            });
+            guiInventory.addIcon(prevButton, guiInventory.getSize() - 1);
         }
 
         guiInventory = Gui.placeFillItems(guiInventory);
@@ -1848,6 +1871,7 @@ public class Gui implements Listener {
                     } else {
                         region.getRegion().setFlag(flag, flagSetting);
                     }
+                    player.sendMessage(Messages.PREFIX + "Flag has been updated!");
                 } catch (InvalidFlagFormat invalidFlagFormat) {
                     //Todo
                     throw new InputException(player, "Could not parse given input for flag " + flag.getName());

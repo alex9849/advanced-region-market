@@ -367,13 +367,13 @@ public class Gui implements Listener {
     }
 
     public static void openFlagEditor(Player player, Region region, List<Flag> editableFlags, int start, ClickAction goBackAction) {
-        int invsize = ((editableFlags.size() * 9) - (start * 9) <= 54) ? (editableFlags.size() * 9 + 9) : 54;
+        int invsize = ((editableFlags.size() * 9) - (start * 9) <= 54) ? ((editableFlags.size() - start) * 9 + 9) : 54;
         //TODO incude in messages yml
         GuiInventory guiInventory = new GuiInventory(invsize, "Flag Editor");
 
-        for(int i = start; i * 9 < invsize - 9; i++) {
+        for(int i = start; (i - start) * 9 < (invsize - 9); i++) {
             Flag rgFlag = editableFlags.get(i);
-            int invIndex = i * 9;
+            int invIndex = (i - start) * 9;
 
             class GroupFlagSetter implements ClickAction {
                 String input;

@@ -221,7 +221,7 @@ public class Messages {
     public static String GUI_TELEPORT_TO_SIGN = "&6Teleport to buy sign!";
     public static String GUI_TELEPORT_TO_REGION = "&6Teleport to region!";
     public static String GUI_NEXT_PAGE = "&6Next page";
-    public static String GUI_PREV_PAGE = "&Prev page";
+    public static String GUI_PREV_PAGE = "&6Prev page";
     public static String ENABLED = "&aenabled";
     public static String DISABLED = "&cdisabled";
     public static String SOLD = "&csold";
@@ -1361,7 +1361,7 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIRegionfinderTeleportToRegionButton","&6Teleport to region!");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIRegionfinderTeleportToSignButton","&6Teleport to buy sign!");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUINextPageButton","&6Next page");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIPrevPageButton","&Prev page");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIPrevPageButton","&6Prev page");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.Enabled","&aenabled");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.Disabled","&cdisabled");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.Sold","&csold");

@@ -382,7 +382,6 @@ public class Gui implements Listener {
 
     public static void openFlagEditor(Player player, Region region, List<Flag> editableFlags, int start, ClickAction goBackAction) {
         int invsize = ((editableFlags.size() * 9) - (start * 9) < 54) ? ((editableFlags.size() - start) * 9 + 9) : 54;
-        //TODO incude in messages yml
         GuiInventory guiInventory = new GuiInventory(invsize, region.getConvertedMessage(Messages.GUI_FLAGEDITOR_MENU_NAME));
 
         for(int i = start; (i - start) * 9 < (invsize - 9); i++) {
@@ -2013,7 +2012,6 @@ public class Gui implements Listener {
         ClickItem[] clickItems;
         if(flag instanceof StateFlag) {
             clickItems = new ClickItem[2];
-            //TODO change names (add to messages.yml)
             FlagSetter fs0 = new FlagSetter("allow");
             clickItems[0] = new ClickItem(fs0.isInputSelected()? new ItemStack(Gui.FLAG_SETTING_SELECTED_ITEM):
                     new ItemStack(Gui.FLAG_SETTING_NOT_SELECTED_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_SET_STATEFLAG_ALLOW_BUTTON)).addClickAction(fs0);
@@ -2023,7 +2021,6 @@ public class Gui implements Listener {
 
         } else if(flag instanceof BooleanFlag) {
             clickItems = new ClickItem[2];
-            //TODO change names (add to messages.yml)
             FlagSetter fs0 = new FlagSetter("true");
             clickItems[0] = new ClickItem(fs0.isInputSelected()? new ItemStack(Gui.FLAG_SETTING_SELECTED_ITEM):
                     new ItemStack(Gui.FLAG_SETTING_NOT_SELECTED_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_SET_BOOLEANFLAG_TRUE_BUTTON)).addClickAction(fs0);

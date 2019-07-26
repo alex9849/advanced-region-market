@@ -58,6 +58,14 @@ public class Gui implements Listener {
     private static Material PREV_PAGE_ITEM = MaterialFinder.getGuiPrevPageItem();
     private static Material HOTEL_SETTING_ITEM = MaterialFinder.getGuiHotelSettingItem();
     private static Material UNSELL_ITEM = MaterialFinder.getGuiUnsellItem();
+    private static Material FLAG_REMOVE_ITEM = MaterialFinder.getGuiFlagRemoveItem();
+    private static Material FLAG_SETTING_SELECTED_ITEM = MaterialFinder.getGuiFlagSettingSelectedItem();
+    private static Material FLAG_SETTING_NOT_SELECTED_ITEM = MaterialFinder.getGuiFlagSettingNotSelectedItem();
+    private static Material FLAG_GROUP_SELECTED_ITEM = MaterialFinder.getGuiFlagGroupSelectedItem();
+    private static Material FLAG_GROUP_NOT_SELECTED_ITEM = MaterialFinder.getGuiFlagGroupNotSelectedItem();
+    private static Material FLAGEDITOR_ITEM = MaterialFinder.getGuiFlageditorItem();
+    private static Material FLAG_ITEM = MaterialFinder.getGuiFlagItem();
+    private static Material FLAG_USER_INPUT_ITEM = MaterialFinder.getGuiFlagUserInputItem();
 
 
     public static void openARMGui(Player player) {
@@ -274,7 +282,7 @@ public class Gui implements Listener {
         }
 
         if(true) {
-            ClickItem flagEditorItem = new ClickItem(new ItemStack(MaterialFinder.getGuiFlageditorItem()), "FlagEditor").addClickAction(new ClickAction() {
+            ClickItem flagEditorItem = new ClickItem(new ItemStack(Gui.FLAGEDITOR_ITEM), "FlagEditor").addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
                     List<FlagSettings> flagSettingsList = region.getFlagGroup().getFlagSettingsSold();
@@ -437,7 +445,7 @@ public class Gui implements Listener {
 
             }
 
-            ClickItem flagItem = new ClickItem(new ItemStack(MaterialFinder.getGuiFlagItem()), rgFlag.getName());
+            ClickItem flagItem = new ClickItem(new ItemStack(Gui.FLAG_ITEM), rgFlag.getName());
             guiInventory.addIcon(flagItem, invIndex);
 
             ClickItem[] flagStateButtons = getFlagSettingItem(rgFlag, region, (p) -> {
@@ -452,7 +460,7 @@ public class Gui implements Listener {
             }
 
             //Add Materials to MaterialHandler
-            ClickItem deleteButton = new ClickItem(new ItemStack(MaterialFinder.getGuiFlagRemoveItem()), "Delete flag").addClickAction((pl -> {
+            ClickItem deleteButton = new ClickItem(new ItemStack(Gui.FLAG_REMOVE_ITEM), "Delete flag").addClickAction((pl -> {
                 region.getRegion().deleteFlags(rgFlag);
                 openFlagEditor(pl, region, editableFlags, start, goBackAction);
                 pl.sendMessage(Messages.PREFIX + "Flag has been deleted!");
@@ -464,28 +472,28 @@ public class Gui implements Listener {
             };
 
             GroupFlagSetter gfsAllButton = new GroupFlagSetter("all", afterFlagSetAction);
-            ClickItem allButton = new ClickItem(gfsAllButton.isInputSelected()? new ItemStack(MaterialFinder.getGuiFlagGroupSelectedItem()):
-                    new ItemStack(MaterialFinder.getGuiFlagGroupNotSelectedItem()), "Set for all").addClickAction(gfsAllButton);
+            ClickItem allButton = new ClickItem(gfsAllButton.isInputSelected()? new ItemStack(Gui.FLAG_GROUP_SELECTED_ITEM):
+                    new ItemStack(Gui.FLAG_GROUP_NOT_SELECTED_ITEM), "Set for all").addClickAction(gfsAllButton);
             guiInventory.addIcon(allButton, invIndex + 4);
 
             GroupFlagSetter gfsMembersButton = new GroupFlagSetter("members", afterFlagSetAction);
-            ClickItem membersButton = new ClickItem(gfsMembersButton.isInputSelected()? new ItemStack(MaterialFinder.getGuiFlagGroupSelectedItem()):
-                    new ItemStack(MaterialFinder.getGuiFlagGroupNotSelectedItem()), "Set for members").addClickAction(gfsMembersButton);
+            ClickItem membersButton = new ClickItem(gfsMembersButton.isInputSelected()? new ItemStack(Gui.FLAG_GROUP_SELECTED_ITEM):
+                    new ItemStack(Gui.FLAG_GROUP_NOT_SELECTED_ITEM), "Set for members").addClickAction(gfsMembersButton);
             guiInventory.addIcon(membersButton, invIndex + 5);
 
             GroupFlagSetter gfsOwnersButton = new GroupFlagSetter("owners", afterFlagSetAction);
-            ClickItem ownersButton = new ClickItem(gfsOwnersButton.isInputSelected()? new ItemStack(MaterialFinder.getGuiFlagGroupSelectedItem()):
-                    new ItemStack(MaterialFinder.getGuiFlagGroupNotSelectedItem()), "Set for owners").addClickAction(gfsOwnersButton);
+            ClickItem ownersButton = new ClickItem(gfsOwnersButton.isInputSelected()? new ItemStack(Gui.FLAG_GROUP_SELECTED_ITEM):
+                    new ItemStack(Gui.FLAG_GROUP_NOT_SELECTED_ITEM), "Set for owners").addClickAction(gfsOwnersButton);
             guiInventory.addIcon(ownersButton, invIndex + 6);
 
             GroupFlagSetter gfsNonMembersButton = new GroupFlagSetter("non_members", afterFlagSetAction);
-            ClickItem nonMembersButton = new ClickItem(gfsNonMembersButton.isInputSelected()? new ItemStack(MaterialFinder.getGuiFlagGroupSelectedItem()):
-                    new ItemStack(MaterialFinder.getGuiFlagGroupNotSelectedItem()), "Set for non members").addClickAction(gfsNonMembersButton);
+            ClickItem nonMembersButton = new ClickItem(gfsNonMembersButton.isInputSelected()? new ItemStack(Gui.FLAG_GROUP_SELECTED_ITEM):
+                    new ItemStack(Gui.FLAG_GROUP_NOT_SELECTED_ITEM), "Set for non members").addClickAction(gfsNonMembersButton);
             guiInventory.addIcon(nonMembersButton, invIndex + 7);
 
             GroupFlagSetter gfsNonOwnersButton = new GroupFlagSetter("non_owners", afterFlagSetAction);
-            ClickItem nonOwnersButton = new ClickItem(gfsNonOwnersButton.isInputSelected()? new ItemStack(MaterialFinder.getGuiFlagGroupSelectedItem()):
-                    new ItemStack(MaterialFinder.getGuiFlagGroupNotSelectedItem()), "Set for non owners").addClickAction(gfsNonOwnersButton);
+            ClickItem nonOwnersButton = new ClickItem(gfsNonOwnersButton.isInputSelected()? new ItemStack(Gui.FLAG_GROUP_SELECTED_ITEM):
+                    new ItemStack(Gui.FLAG_GROUP_NOT_SELECTED_ITEM), "Set for non owners").addClickAction(gfsNonOwnersButton);
             guiInventory.addIcon(nonOwnersButton, invIndex + 8);
         }
 
@@ -1863,6 +1871,62 @@ public class Gui implements Listener {
         UNSELL_ITEM = UnsellItem;
     }
 
+    public static void setFlagRemoveItem(Material flagRemoveItem) {
+        if(flagRemoveItem == null) {
+            return;
+        }
+        FLAG_REMOVE_ITEM = flagRemoveItem;
+    }
+
+    public static void setFlagSettingSelectedItem(Material flagSettingSelectedItem) {
+        if(flagSettingSelectedItem == null) {
+            return;
+        }
+        FLAG_SETTING_SELECTED_ITEM = flagSettingSelectedItem;
+    }
+
+    public static void setFlagSettingNotSelectedItem(Material flagSettingNotSelectedItem) {
+        if(flagSettingNotSelectedItem == null) {
+            return;
+        }
+        FLAG_SETTING_NOT_SELECTED_ITEM = flagSettingNotSelectedItem;
+    }
+
+    public static void setFlagGroupSelectedItem(Material flagGroupSelectedItem) {
+        if(flagGroupSelectedItem == null) {
+            return;
+        }
+        FLAG_GROUP_SELECTED_ITEM = flagGroupSelectedItem;
+    }
+
+    public static void setFlagGroupNotSelectedItem(Material flagGroupNotSelectedItem) {
+        if(flagGroupNotSelectedItem == null) {
+            return;
+        }
+        FLAG_GROUP_NOT_SELECTED_ITEM = flagGroupNotSelectedItem;
+    }
+
+    public static void setFlageditorItem(Material flageditorItem) {
+        if(flageditorItem == null) {
+            return;
+        }
+        FLAGEDITOR_ITEM = flageditorItem;
+    }
+
+    public static void setFlagItem(Material flagItem) {
+        if(flagItem == null) {
+            return;
+        }
+        FLAG_ITEM = flagItem;
+    }
+
+    public static void setFlagUserInputItem(Material flagUserInputItem) {
+        if(flagUserInputItem == null) {
+            return;
+        }
+        FLAG_USER_INPUT_ITEM = flagUserInputItem;
+    }
+
     public static ItemStack getEntityLimtGroupItem(Region region) {
         ItemStack itemStack = new ItemStack(MaterialFinder.getChickenSpawnEgg());
         ItemMeta itemMeta = itemStack.getItemMeta();
@@ -1952,27 +2016,27 @@ public class Gui implements Listener {
             clickItems = new ClickItem[2];
             //TODO change names (add to messages.yml)
             FlagSetter fs0 = new FlagSetter("allow");
-            clickItems[0] = new ClickItem(fs0.isInputSelected()? new ItemStack(MaterialFinder.getGuiFlagSettingSelectedItem()):
-                    new ItemStack(MaterialFinder.getGuiFlagSettingNotSelectedItem()), "Allow").addClickAction(new FlagSetter("allow"));
+            clickItems[0] = new ClickItem(fs0.isInputSelected()? new ItemStack(Gui.FLAG_SETTING_SELECTED_ITEM):
+                    new ItemStack(Gui.FLAG_SETTING_NOT_SELECTED_ITEM), "Allow").addClickAction(new FlagSetter("allow"));
             FlagSetter fs1 = new FlagSetter("deny");
-            clickItems[1] = new ClickItem(fs1.isInputSelected()? new ItemStack(MaterialFinder.getGuiFlagSettingSelectedItem()):
-                    new ItemStack(MaterialFinder.getGuiFlagSettingNotSelectedItem()), "Deny").addClickAction(new FlagSetter("deny"));
+            clickItems[1] = new ClickItem(fs1.isInputSelected()? new ItemStack(Gui.FLAG_SETTING_SELECTED_ITEM):
+                    new ItemStack(Gui.FLAG_SETTING_NOT_SELECTED_ITEM), "Deny").addClickAction(new FlagSetter("deny"));
 
         } else if(flag instanceof BooleanFlag) {
             clickItems = new ClickItem[2];
             //TODO change names (add to messages.yml)
             FlagSetter fs0 = new FlagSetter("true");
-            clickItems[0] = new ClickItem(fs0.isInputSelected()? new ItemStack(MaterialFinder.getGuiFlagSettingSelectedItem()):
-                    new ItemStack(MaterialFinder.getGuiFlagSettingNotSelectedItem()), "True").addClickAction(fs0);
+            clickItems[0] = new ClickItem(fs0.isInputSelected()? new ItemStack(Gui.FLAG_SETTING_SELECTED_ITEM):
+                    new ItemStack(Gui.FLAG_SETTING_NOT_SELECTED_ITEM), "True").addClickAction(fs0);
             FlagSetter fs1 = new FlagSetter("false");
-            clickItems[1] = new ClickItem(fs1.isInputSelected()? new ItemStack(MaterialFinder.getGuiFlagSettingSelectedItem()):
-                    new ItemStack(MaterialFinder.getGuiFlagSettingNotSelectedItem()), "False").addClickAction(fs1);
+            clickItems[1] = new ClickItem(fs1.isInputSelected()? new ItemStack(Gui.FLAG_SETTING_SELECTED_ITEM):
+                    new ItemStack(Gui.FLAG_SETTING_NOT_SELECTED_ITEM), "False").addClickAction(fs1);
 
         }
         else if (flag instanceof StringFlag) {
             clickItems = new ClickItem[1];
             final FlagSetter flagSetter = new FlagSetter("");
-            clickItems[0] = new ClickItem(new ItemStack(MaterialFinder.getGuiFlagUserInputItem()), "Set message").addClickAction((new ClickAction() {
+            clickItems[0] = new ClickItem(new ItemStack(Gui.FLAG_USER_INPUT_ITEM), "Set message").addClickAction((new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
 
@@ -1991,7 +2055,7 @@ public class Gui implements Listener {
 
             clickItems = new ClickItem[1];
             final FlagSetter flagSetter = new FlagSetter("");
-            clickItems[0] = new ClickItem(new ItemStack(MaterialFinder.getGuiFlagUserInputItem()), "Write Number").addClickAction((new ClickAction() {
+            clickItems[0] = new ClickItem(new ItemStack(Gui.FLAG_USER_INPUT_ITEM), "Write Number").addClickAction((new ClickAction() {
             @Override
             public void execute(Player player) throws InputException {
                 player.closeInventory();
@@ -2008,7 +2072,7 @@ public class Gui implements Listener {
 
             clickItems = new ClickItem[1];
             final FlagSetter flagSetter = new FlagSetter("");
-            clickItems[0] = new ClickItem(new ItemStack(MaterialFinder.getGuiFlagUserInputItem()), "Write Number").addClickAction((new ClickAction() {
+            clickItems[0] = new ClickItem(new ItemStack(Gui.FLAG_USER_INPUT_ITEM), "Write Number").addClickAction((new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
                     player.closeInventory();

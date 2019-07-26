@@ -131,6 +131,9 @@ public class AdvancedRegionMarket extends JavaPlugin {
         getLogger().log(Level.INFO, "Applying flags...!");
         for(Region region : AdvancedRegionMarket.regionManager) {
             region.applyFlagGroup(FlagGroup.ResetMode.NON_EDITABLE);
+            for(Region subRegion:region.getSubregions()) {
+                region.applyFlagGroup(FlagGroup.ResetMode.NON_EDITABLE);
+            }
         }
         getLogger().log(Level.INFO, "Flags applied!");
         loadAutoReset();
@@ -500,7 +503,14 @@ public class AdvancedRegionMarket extends JavaPlugin {
         Gui.setPrevPageItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.PrevPageItem")));
         Gui.setHotelSettingItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.HotelSettingItem")));
         Gui.setUnsellItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.UnsellItem")));
-
+        Gui.setFlageditorItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.FlageditorItem")));;
+        Gui.setFlagItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.FlagItem")));
+        Gui.setFlagSettingSelectedItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.FlagSettingsSelectedItem")));
+        Gui.setFlagSettingNotSelectedItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.FlagSettingsNotSelectedItem")));
+        Gui.setFlagGroupSelectedItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.FlagGroupSelectedItem")));
+        Gui.setFlagGroupNotSelectedItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.FlagGroupNotSelectedItem")));
+        Gui.setFlagRemoveItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.FlagRemoveItem")));
+        Gui.setFlagUserInputItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.FlagUserInputItem")));
     }
 
     private void loadAutoReset() {
@@ -801,6 +811,10 @@ public class AdvancedRegionMarket extends JavaPlugin {
             if(version < 1.83) {
                 getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.8.3..");
                 updateTo1p83(pluginConfig);
+            }
+            if(version < 1.9) {
+                getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.9..");
+                updateTo1p9(pluginConfig);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -1213,6 +1227,19 @@ public class AdvancedRegionMarket extends JavaPlugin {
         regionConf.save(this.getDataFolder() + "/regions.yml");
 
         pluginConfig.set("Version", 1.83);
+        saveConfig();
+    }
+
+    private void updateTo1p9(FileConfiguration pluginConfig) throws IOException {
+        pluginConfig.set("GUI.FlageditorItem", "BANNER");
+        pluginConfig.set("GUI.FlagItem", "SIGN");
+        pluginConfig.set("GUI.FlagSettingsSelectedItem", "EMERALD_BLOCK");
+        pluginConfig.set("GUI.FlagSettingsNotSelectedItem", "REDSTONE_BLOCK");
+        pluginConfig.set("GUI.FlagGroupSelectedItem", "EMERALD_BLOCK");
+        pluginConfig.set("GUI.FlagGroupNotSelectedItem", "REDSTONE_BLOCK");
+        pluginConfig.set("GUI.FlagRemoveItem", "BARRIER");
+        pluginConfig.set("GUI.FlagUserInputItem", "WRITABLE_BOOK");
+        pluginConfig.set("Version", 1.9);
         saveConfig();
     }
 }

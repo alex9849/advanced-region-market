@@ -1,8 +1,7 @@
-FlagGroups:
-  testflaggroup: {}
+FlagGroups: {}
 
 DefaultFlagGroup:
-  priority: 0
+  priority: 10
   available:
     0:
       setting: 'deny g:non_members'

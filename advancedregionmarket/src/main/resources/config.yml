@@ -194,11 +194,19 @@ GUI:
   PrevPageItem: ARROW
   HotelSettingItem: RED_BED
   UnsellItem: NAME_TAG
+  FlageditorItem: BANNER
+  FlagItem: SIGN
+  FlagSettingsSelectedItem: EMERALD_BLOCK
+  FlagSettingsNotSelectedItem: REDSTONE_BLOCK
+  FlagGroupSelectedItem: EMERALD_BLOCK
+  FlagGroupNotSelectedItem: REDSTONE_BLOCK
+  FlagRemoveItem: BARRIER
+  FlagUserInputItem: WRITABLE_BOOK
   DisplayRegionOwnerButton: true
   DisplayRegionMemberButton: true
   DisplayRegionFinderButton: true
 
 #Do not change this
-Version: 1.83
+Version: 1.9
 # Programmed by Alex9849
 # If you like my plugin you are free to donate me via PayPal https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2Z6VVLS5SZXJS

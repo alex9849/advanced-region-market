@@ -66,6 +66,7 @@ public class Gui implements Listener {
     private static Material FLAGEDITOR_ITEM = MaterialFinder.getGuiFlageditorItem();
     private static Material FLAG_ITEM = MaterialFinder.getGuiFlagItem();
     private static Material FLAG_USER_INPUT_ITEM = MaterialFinder.getGuiFlagUserInputItem();
+    private static Material FLAGEDITOR_RESET_ITEM = MaterialFinder.getGuiFlageditorResetItem();
 
 
     public static void openARMGui(Player player) {
@@ -509,9 +510,16 @@ public class Gui implements Listener {
             guiInventory.addIcon(prevButton, guiInventory.getSize() - 9);
         }
 
+        ClickItem resetButton = new ClickItem(new ItemStack(Gui.FLAGEDITOR_RESET_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_RESET_BUTTON)).addClickAction((p) -> {
+           region.applyFlagGroup(FlagGroup.ResetMode.COMPLETE);
+           player.sendMessage(Messages.PREFIX + region.getConvertedMessage(Messages.FLAGEDITOR_FLAG_HAS_BEEN_UPDATED));
+           openFlagEditor(player, region, flagSettingsList, start, goBackAction);
+        });
+        guiInventory.addIcon(resetButton, guiInventory.getSize() - 7);
+
         if(goBackAction != null) {
             ClickItem goBackButton = new ClickItem(new ItemStack(Gui.GO_BACK_ITEM), Messages.GUI_GO_BACK).addClickAction(goBackAction);
-            guiInventory.addIcon(goBackButton, guiInventory.getSize() - 5);
+            guiInventory.addIcon(goBackButton, guiInventory.getSize() - 3);
         }
 
         if(flagSettingsList.size() > start + 5) {
@@ -1745,6 +1753,13 @@ public class Gui implements Listener {
             return;
         }
         CONTRACT_ITEM = contractItem;
+    }
+
+    public static void setFlageditorResetItem(Material flageditorResetItem) {
+        if(flageditorResetItem == null) {
+            return;
+        }
+        FLAGEDITOR_RESET_ITEM = flageditorResetItem;
     }
 
     public static void setGoBackItem(Material goBackItem) {

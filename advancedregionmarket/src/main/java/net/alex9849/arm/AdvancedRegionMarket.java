@@ -513,6 +513,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         Gui.setFlagGroupNotSelectedItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.FlagGroupNotSelectedItem")));
         Gui.setFlagRemoveItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.FlagRemoveItem")));
         Gui.setFlagUserInputItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.FlagUserInputItem")));
+        Gui.setFlageditorResetItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.FlageditorResetItem")));
     }
 
     private void loadAutoReset() {
@@ -1241,6 +1242,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         pluginConfig.set("GUI.FlagGroupNotSelectedItem", "REDSTONE_BLOCK");
         pluginConfig.set("GUI.FlagRemoveItem", "BARRIER");
         pluginConfig.set("GUI.FlagUserInputItem", "WRITABLE_BOOK");
+        pluginConfig.set("GUI.FlageditorResetItem", "TNT");
         pluginConfig.set("Version", 1.9);
         saveConfig();
     }

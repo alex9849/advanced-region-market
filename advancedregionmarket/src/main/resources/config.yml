@@ -202,6 +202,7 @@ GUI:
   FlagGroupNotSelectedItem: REDSTONE_BLOCK
   FlagRemoveItem: BARRIER
   FlagUserInputItem: WRITABLE_BOOK
+  FlageditorResetItem: TNT
   DisplayRegionOwnerButton: true
   DisplayRegionMemberButton: true
   DisplayRegionFinderButton: true

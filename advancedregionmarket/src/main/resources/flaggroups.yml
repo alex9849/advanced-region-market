@@ -53,8 +53,8 @@ DefaultFlagGroup:
       guidescription:
         - '&2Decides if players can use things'
         - '&2like doors, levers, inventorys, vehicles etc.'
-        - '&4Important: The flag use could also block'
-        - '&4the access to some of there things'
+        - '&4Important: The flag ''use'' could also block'
+        - '&4the access to some of these things'
     1:
       setting: 'remove'
       editable: true
@@ -70,8 +70,8 @@ DefaultFlagGroup:
       guidescription:
         - '&2Decides if players can use things'
         - '&2like doors, levers, etc.'
-        - '&4Important: The flag interact could'
-        - '&4also block the access to there things'
+        - '&4Important: The flag ''interact'' could'
+        - '&4also block the access to these things'
     3:
       setting: 'deny g:non_members'
       editable: false
@@ -144,8 +144,8 @@ SubregionFlagGroup:
       guidescription:
         - '&2Decides if players can use things'
         - '&2like doors, levers, inventorys, vehicles etc.'
-        - '&4Important: The flag use could also block'
-        - '&4the access to some of there things'
+        - '&4Important: The flag ''use'' could also block'
+        - '&4the access to some of these things'
     1:
       setting: 'remove'
       editable: true
@@ -161,8 +161,8 @@ SubregionFlagGroup:
       guidescription:
         - '&2Decides if players can use things'
         - '&2like doors, levers, etc.'
-        - '&4Important: The flag interact could'
-        - '&4also block the access to there things'
+        - '&4Important: The flag ''interact'' could'
+        - '&4also block the access to these things'
     3:
       setting: 'deny g:non_members'
       editable: false

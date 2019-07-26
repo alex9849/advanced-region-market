@@ -49,6 +49,7 @@ public class MaterialFinder {
     private static Material GUI_FLAGEDITOR_ITEM;
     private static Material GUI_FLAG_ITEM;
     private static Material GUI_FLAG_USER_INPUT_ITEM;
+    private static Material GUI_FLAGEDITOR_RESET_ITEM;
 
     static {
         MaterialFinder.signMaterials = new ArrayList<Material>();
@@ -100,6 +101,7 @@ public class MaterialFinder {
             MaterialFinder.GUI_FLAG_GROUP_NOT_SELECTED_ITEM = MaterialFinder.getMaterial("REDSTONE_BLOCK");
             MaterialFinder.GUI_FLAG_ITEM = MaterialFinder.getMaterial("SIGN_POST");
             MaterialFinder.GUI_FLAG_USER_INPUT_ITEM = MaterialFinder.getMaterial("BOOK_AND_QUILL");
+            MaterialFinder.GUI_FLAGEDITOR_RESET_ITEM = MaterialFinder.getMaterial("TNT");
 
 
         } else if(serverVersion.equalsIgnoreCase("1.13") || serverVersion.contains("1.13")) {
@@ -142,6 +144,7 @@ public class MaterialFinder {
             MaterialFinder.GUI_FLAG_GROUP_NOT_SELECTED_ITEM = MaterialFinder.getMaterial("REDSTONE_BLOCK");
             MaterialFinder.GUI_FLAG_ITEM = MaterialFinder.getMaterial("SIGN");
             MaterialFinder.GUI_FLAG_USER_INPUT_ITEM = MaterialFinder.getMaterial("WRITABLE_BOOK");
+            MaterialFinder.GUI_FLAGEDITOR_RESET_ITEM = MaterialFinder.getMaterial("TNT");
         } else {
             MaterialFinder.defaultSign =  MaterialFinder.getMaterial("OAK_SIGN");
             MaterialFinder.wallSign = MaterialFinder.getMaterial("OAK_WALL_SIGN");
@@ -182,6 +185,7 @@ public class MaterialFinder {
             MaterialFinder.GUI_FLAG_GROUP_NOT_SELECTED_ITEM = MaterialFinder.getMaterial("REDSTONE_BLOCK");
             MaterialFinder.GUI_FLAG_ITEM = MaterialFinder.getMaterial("SIGN");
             MaterialFinder.GUI_FLAG_USER_INPUT_ITEM = MaterialFinder.getMaterial("WRITABLE_BOOK");
+            MaterialFinder.GUI_FLAGEDITOR_RESET_ITEM = MaterialFinder.getMaterial("TNT");
         }
     }
 
@@ -362,5 +366,9 @@ public class MaterialFinder {
 
     public static Material getMagmaBlock() {
         return MAGMA_BLOCK;
+    }
+
+    public static Material getGuiFlageditorResetItem() {
+        return GUI_FLAGEDITOR_RESET_ITEM;
     }
 }

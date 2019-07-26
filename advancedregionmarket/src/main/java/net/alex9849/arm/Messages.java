@@ -384,6 +384,7 @@ public class Messages {
     public static String FLAGEDITOR_STRINGFLAG_SET_MESSAGE_INFO = "&9Please write down a message:";
     public static String FLAGEDITOR_INTEGERFLAG_SET_NUMBER_INFO = "&9Please write down a number that does not have decimals:";
     public static String FLAGEDITOR_DOUBLEFLAG_SET_NUMBER_INFO = "&9Please write down a number:";
+    public static String GUI_FLAGEDITOR_RESET_BUTTON = "&4Reset all Flags to default settings";
 
 
     public static List<String> GUI_TELEPORT_TO_REGION_BUTTON_LORE = new ArrayList<>();
@@ -748,6 +749,7 @@ public class Messages {
         FLAGEDITOR_STRINGFLAG_SET_MESSAGE_INFO = config.getString("Messages.FlageditorStringflagSetMessageInfo");
         FLAGEDITOR_INTEGERFLAG_SET_NUMBER_INFO = config.getString("Messages.FlageditorIntegerflagSetMessageInfo");
         FLAGEDITOR_DOUBLEFLAG_SET_NUMBER_INFO = config.getString("Messages.FlageditorDoubleflagSetMessageInfo");
+        GUI_FLAGEDITOR_RESET_BUTTON = config.getString("Messages.GUIFlageditorResetButton");
 
         Messages.translateColorCodes();
     }
@@ -1059,6 +1061,7 @@ public class Messages {
         FLAGEDITOR_STRINGFLAG_SET_MESSAGE_INFO = ChatColor.translateAlternateColorCodes('&', FLAGEDITOR_STRINGFLAG_SET_MESSAGE_INFO);
         FLAGEDITOR_INTEGERFLAG_SET_NUMBER_INFO = ChatColor.translateAlternateColorCodes('&', FLAGEDITOR_INTEGERFLAG_SET_NUMBER_INFO);
         FLAGEDITOR_DOUBLEFLAG_SET_NUMBER_INFO = ChatColor.translateAlternateColorCodes('&', FLAGEDITOR_DOUBLEFLAG_SET_NUMBER_INFO);
+        GUI_FLAGEDITOR_RESET_BUTTON = ChatColor.translateAlternateColorCodes('&', GUI_FLAGEDITOR_RESET_BUTTON);
 
         for(int i = 0; i < REGION_INFO_SELLREGION.size(); i++){
             REGION_INFO_SELLREGION.set(i, ChatColor.translateAlternateColorCodes('&', REGION_INFO_SELLREGION.get(i)));
@@ -1527,6 +1530,7 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.FlageditorStringflagSetMessageInfo", "&9Please write down a message:");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.FlageditorIntegerflagSetMessageInfo", "&9Please write down a number that does not have decimals:");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.FlageditorDoubleflagSetMessageInfo", "&9Please write down a number:");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIFlageditorResetButton", "&4Reset all Flags to default settings");
 
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoSellregionAdmin", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
                 "&9ID: &e%regionid% &7(Type: &r%selltype%&7)",

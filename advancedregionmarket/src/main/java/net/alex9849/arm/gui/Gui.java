@@ -419,27 +419,27 @@ public class Gui implements Listener {
                 openFlagEditor(pl, region, flagSettingsList, start, goBackAction);
             };
 
-            FlagSetter gfsAllButton = new FlagSetter(region, rgFlag.getRegionGroupFlag(), "all", afterFlagSetAction);
+            FlagSetter gfsAllButton = new FlagSetter(region, rgFlag.getRegionGroupFlag(), rgFlag, "all", afterFlagSetAction);
             ClickItem allButton = new ClickItem(gfsAllButton.isInputSelected()? new ItemStack(Gui.FLAG_GROUP_SELECTED_ITEM):
                     new ItemStack(Gui.FLAG_GROUP_NOT_SELECTED_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_SET_FLAG_GROUP_ALL_BUTTON)).addClickAction(gfsAllButton);
             guiInventory.addIcon(allButton, invIndex + 4);
 
-            FlagSetter gfsMembersButton = new FlagSetter(region, rgFlag.getRegionGroupFlag(), "members", afterFlagSetAction);
+            FlagSetter gfsMembersButton = new FlagSetter(region, rgFlag.getRegionGroupFlag(), rgFlag, "members", afterFlagSetAction);
             ClickItem membersButton = new ClickItem(gfsMembersButton.isInputSelected()? new ItemStack(Gui.FLAG_GROUP_SELECTED_ITEM):
                     new ItemStack(Gui.FLAG_GROUP_NOT_SELECTED_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_SET_FLAG_GROUP_MEMBERS_BUTTON)).addClickAction(gfsMembersButton);
             guiInventory.addIcon(membersButton, invIndex + 5);
 
-            FlagSetter gfsOwnersButton = new FlagSetter(region, rgFlag.getRegionGroupFlag(), "owners", afterFlagSetAction);
+            FlagSetter gfsOwnersButton = new FlagSetter(region, rgFlag.getRegionGroupFlag(), rgFlag, "owners", afterFlagSetAction);
             ClickItem ownersButton = new ClickItem(gfsOwnersButton.isInputSelected()? new ItemStack(Gui.FLAG_GROUP_SELECTED_ITEM):
                     new ItemStack(Gui.FLAG_GROUP_NOT_SELECTED_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_SET_FLAG_GROUP_OWNERS_BUTTON)).addClickAction(gfsOwnersButton);
             guiInventory.addIcon(ownersButton, invIndex + 6);
 
-            FlagSetter gfsNonMembersButton = new FlagSetter(region, rgFlag.getRegionGroupFlag(), "non_members", afterFlagSetAction);
+            FlagSetter gfsNonMembersButton = new FlagSetter(region, rgFlag.getRegionGroupFlag(), rgFlag, "non_members", afterFlagSetAction);
             ClickItem nonMembersButton = new ClickItem(gfsNonMembersButton.isInputSelected()? new ItemStack(Gui.FLAG_GROUP_SELECTED_ITEM):
                     new ItemStack(Gui.FLAG_GROUP_NOT_SELECTED_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_SET_FLAG_GROUP_NON_MEMBERS_BUTTON)).addClickAction(gfsNonMembersButton);
             guiInventory.addIcon(nonMembersButton, invIndex + 7);
 
-            FlagSetter gfsNonOwnersButton = new FlagSetter(region, rgFlag.getRegionGroupFlag(), "non_owners", afterFlagSetAction);
+            FlagSetter gfsNonOwnersButton = new FlagSetter(region, rgFlag.getRegionGroupFlag(), rgFlag, "non_owners", afterFlagSetAction);
             ClickItem nonOwnersButton = new ClickItem(gfsNonOwnersButton.isInputSelected()? new ItemStack(Gui.FLAG_GROUP_SELECTED_ITEM):
                     new ItemStack(Gui.FLAG_GROUP_NOT_SELECTED_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_SET_FLAG_GROUP_NON_OWNERS_BUTTON)).addClickAction(gfsNonOwnersButton);
             guiInventory.addIcon(nonOwnersButton, invIndex + 8);
@@ -1934,26 +1934,26 @@ public class Gui implements Listener {
         ClickItem[] clickItems;
         if(flag instanceof StateFlag) {
             clickItems = new ClickItem[2];
-            FlagSetter fs0 = new FlagSetter(region, flag, "allow", afterFlagSetAction);
+            FlagSetter fs0 = new FlagSetter(region, flag, null,"allow", afterFlagSetAction);
             clickItems[0] = new ClickItem(fs0.isInputSelected()? new ItemStack(Gui.FLAG_SETTING_SELECTED_ITEM):
                     new ItemStack(Gui.FLAG_SETTING_NOT_SELECTED_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_SET_STATEFLAG_ALLOW_BUTTON)).addClickAction(fs0);
-            FlagSetter fs1 = new FlagSetter(region, flag, "deny", afterFlagSetAction);
+            FlagSetter fs1 = new FlagSetter(region, flag, null,"deny", afterFlagSetAction);
             clickItems[1] = new ClickItem(fs1.isInputSelected()? new ItemStack(Gui.FLAG_SETTING_SELECTED_ITEM):
                     new ItemStack(Gui.FLAG_SETTING_NOT_SELECTED_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_SET_STATEFLAG_DENY_BUTTON)).addClickAction(fs1);
 
         } else if(flag instanceof BooleanFlag) {
             clickItems = new ClickItem[2];
-            FlagSetter fs0 = new FlagSetter(region, flag, "true", afterFlagSetAction);
+            FlagSetter fs0 = new FlagSetter(region, flag, null,"true", afterFlagSetAction);
             clickItems[0] = new ClickItem(fs0.isInputSelected()? new ItemStack(Gui.FLAG_SETTING_SELECTED_ITEM):
                     new ItemStack(Gui.FLAG_SETTING_NOT_SELECTED_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_SET_BOOLEANFLAG_TRUE_BUTTON)).addClickAction(fs0);
-            FlagSetter fs1 = new FlagSetter(region, flag, "false", afterFlagSetAction);
+            FlagSetter fs1 = new FlagSetter(region, flag,null, "false", afterFlagSetAction);
             clickItems[1] = new ClickItem(fs1.isInputSelected()? new ItemStack(Gui.FLAG_SETTING_SELECTED_ITEM):
                     new ItemStack(Gui.FLAG_SETTING_NOT_SELECTED_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_SET_BOOLEANFLAG_FALSE_BUTTON)).addClickAction(fs1);
 
         }
         else if (flag instanceof StringFlag) {
             clickItems = new ClickItem[1];
-            final FlagSetter flagSetter = new FlagSetter(region, flag, "", afterFlagSetAction);
+            final FlagSetter flagSetter = new FlagSetter(region, flag, null, "", afterFlagSetAction);
             clickItems[0] = new ClickItem(new ItemStack(Gui.FLAG_USER_INPUT_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_SET_STRINGFLAG_SET_MESSAGE_BUTTON)).addClickAction((new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
@@ -1972,7 +1972,7 @@ public class Gui implements Listener {
         else if (flag instanceof IntegerFlag) {
 
             clickItems = new ClickItem[1];
-            final FlagSetter flagSetter = new FlagSetter(region, flag, "", afterFlagSetAction);
+            final FlagSetter flagSetter = new FlagSetter(region, flag, null, "", afterFlagSetAction);
             clickItems[0] = new ClickItem(new ItemStack(Gui.FLAG_USER_INPUT_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_SET_INTEGERFLAG_SET_INTEGER_BUTTON)).addClickAction((new ClickAction() {
             @Override
             public void execute(Player player) throws InputException {
@@ -1989,7 +1989,7 @@ public class Gui implements Listener {
         else if (flag instanceof DoubleFlag) {
 
             clickItems = new ClickItem[1];
-            final FlagSetter flagSetter = new FlagSetter(region, flag, "", afterFlagSetAction);
+            final FlagSetter flagSetter = new FlagSetter(region, flag, null, "", afterFlagSetAction);
             clickItems[0] = new ClickItem(new ItemStack(Gui.FLAG_USER_INPUT_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_SET_DOUBLEFLAG_SET_DOUBLE_BUTTON)).addClickAction((new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
@@ -2005,7 +2005,7 @@ public class Gui implements Listener {
         }
         else {
             clickItems = new ClickItem[1];
-            final FlagSetter flagSetter = new FlagSetter(region, flag, "", afterFlagSetAction);
+            final FlagSetter flagSetter = new FlagSetter(region, flag, null, "", afterFlagSetAction);
             clickItems[0] = new ClickItem(new ItemStack(Gui.FLAG_USER_INPUT_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_UNKNOWNFLAG_SET_PROPERTIES_BUTTON)).addClickAction((new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
@@ -2026,12 +2026,14 @@ public class Gui implements Listener {
         private String input;
         private Region region;
         private Flag flag;
+        private Flag parentFlag;
         private ClickAction afterFlagSetAction;
 
-        FlagSetter(Region region, Flag flag, String input, ClickAction afterFlagSetAction) {
+        FlagSetter(Region region, Flag flag, Flag parentFlag, String input, ClickAction afterFlagSetAction) {
             this.input = input;
             this.region = region;
             this.flag = flag;
+            this.parentFlag = parentFlag;
             this.afterFlagSetAction = afterFlagSetAction;
         }
 
@@ -2040,8 +2042,23 @@ public class Gui implements Listener {
         }
 
         public boolean isInputSelected() {
+            if(this.flag == null) {
+                return false;
+            }
             try {
-                return region.getRegion().getFlagSetting(flag) == getParsedSettingsObject();
+                Object settingsObj = getParsedSettingsObject();
+                Object regionFlagSetting = region.getRegion().getFlagSetting(flag);
+                if(this.parentFlag != null && region.getRegion().getFlagSetting(parentFlag) == null) {
+                    return false;
+                }
+                if(regionFlagSetting == settingsObj) {
+                    return true;
+                } else {
+                    if(flag.getDefault() == settingsObj && regionFlagSetting == null) {
+                        return true;
+                    }
+                    return false;
+                }
             } catch (InvalidFlagFormat e) {
                 return false;
             }
@@ -2053,6 +2070,9 @@ public class Gui implements Listener {
 
         @Override
         public void execute(Player player) throws InputException {
+            if(parentFlag != null && this.region.getRegion().getFlagSetting(this.parentFlag) == null) {
+                throw new InputException(player, Messages.FlAGEDITOR_FLAG_NOT_ACTIVATED);
+            }
             try {
                 if(flag == null) {
                     throw new InvalidFlagFormat("");

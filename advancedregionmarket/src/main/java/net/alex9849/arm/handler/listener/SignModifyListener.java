@@ -144,6 +144,7 @@ public class SignModifyListener implements Listener {
                 sellsign.add(signData);
                 SellRegion addRegion = new SellRegion(region, regionWorld, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, flagGroup,null,1, userResettable, new ArrayList<Region>(), allowedSubregions, entityLimitGroup, new HashMap<>(), 0);
                 addRegion.createSchematic();
+                addRegion.applyFlagGroup(FlagGroup.ResetMode.COMPLETE);
                 AdvancedRegionMarket.getRegionManager().add(addRegion);
                 sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_ADDED_TO_ARM);
                 sign.setCancelled(true);
@@ -260,6 +261,7 @@ public class SignModifyListener implements Listener {
                 RentRegion addRegion = new RentRegion(region, regionWorld, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, flagGroup,null,
                         1, userResettable,1, new ArrayList<Region>(), allowedSubregions, entityLimitGroup, new HashMap<>(), 0);
                 addRegion.createSchematic();
+                addRegion.applyFlagGroup(FlagGroup.ResetMode.COMPLETE);
                 AdvancedRegionMarket.getRegionManager().add(addRegion);
 
                 sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_ADDED_TO_ARM);
@@ -370,6 +372,7 @@ public class SignModifyListener implements Listener {
                 ContractRegion addRegion = new ContractRegion(region, regionWorld, sellsign, price, false, autoReset, isHotel, doBlockReset, regionkind, flagGroup,null,
                         1, userResettable, 1, false, new ArrayList<Region>(), allowedSubregions, entityLimitGroup, new HashMap<>(), 0);
                 addRegion.createSchematic();
+                addRegion.applyFlagGroup(FlagGroup.ResetMode.COMPLETE);
                 AdvancedRegionMarket.getRegionManager().add(addRegion);
                 sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_ADDED_TO_ARM);
                 sign.setCancelled(true);

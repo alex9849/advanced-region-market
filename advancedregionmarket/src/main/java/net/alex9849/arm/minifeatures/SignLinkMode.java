@@ -2,6 +2,7 @@ package net.alex9849.arm.minifeatures;
 
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
+import net.alex9849.arm.flaggroups.FlagGroup;
 import net.alex9849.arm.presets.presets.Preset;
 import net.alex9849.arm.util.MaterialFinder;
 import net.alex9849.exceptions.InputException;
@@ -130,6 +131,7 @@ public class SignLinkMode implements Listener {
         } else {
             Region newRegion = this.preset.generateRegion(this.wgRegion, this.world, this.player, signs);
             newRegion.createSchematic();
+            newRegion.applyFlagGroup(FlagGroup.ResetMode.COMPLETE);
             AdvancedRegionMarket.getRegionManager().add(newRegion);
             this.player.sendMessage(Messages.PREFIX + Messages.REGION_ADDED_TO_ARM);
         }

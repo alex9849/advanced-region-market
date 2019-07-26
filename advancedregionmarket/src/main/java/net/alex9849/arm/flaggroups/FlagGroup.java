@@ -10,6 +10,7 @@ import net.alex9849.arm.regions.SellType;
 import net.alex9849.arm.util.Saveable;
 import net.alex9849.arm.util.Tuple;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.*;
@@ -61,9 +62,17 @@ public class FlagGroup implements Saveable {
             boolean editable = yamlConfiguration.getBoolean(id + ".editable");
             List<String> applyToString = yamlConfiguration.getStringList(id + ".applyto");
             Set<SellType> applyTo = new TreeSet<>();
+            List<String> guiDescriptionList = yamlConfiguration.getStringList(id + ".guidescription");
+            List<String> guidescription = new ArrayList<>();
 
             if(applyToString == null || applyToString.isEmpty()) {
                 applyTo.addAll(Arrays.asList(SellType.values()));
+            }
+
+            if(guiDescriptionList != null) {
+                for(String msg:guiDescriptionList) {
+                    guidescription.add(ChatColor.translateAlternateColorCodes('&', msg));
+                }
             }
 
             for(String sellTypeString : applyToString) {
@@ -79,7 +88,7 @@ public class FlagGroup implements Saveable {
                 Bukkit.getLogger().info("Could not find flag " + flagName + "! Please check your flaggroups.yml");
                 continue;
             }
-            flagSettingsList.add(new FlagSettings(flag, editable, settings, applyTo));
+            flagSettingsList.add(new FlagSettings(flag, editable, settings, applyTo, guidescription));
             }
         return flagSettingsList;
     }

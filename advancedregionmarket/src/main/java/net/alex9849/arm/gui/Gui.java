@@ -286,18 +286,18 @@ public class Gui implements Listener {
                 @Override
                 public void execute(Player player) throws InputException {
                     List<FlagSettings> flagSettingsList = region.getFlagGroup().getFlagSettingsSold();
-                    List<Flag> flagList = new ArrayList<>();
+                    List<FlagSettings> filteredFlagSettingsList = new ArrayList<>();
                     for(FlagSettings flagSettings : flagSettingsList) {
-                        if(flagSettings.isEditable()) {
-                            flagList.add(flagSettings.getFlag());
+                        if(flagSettings.isEditable() && flagSettings.getApplyTo().contains(region.getSellType())) {
+                            filteredFlagSettingsList.add(flagSettings);
                         }
                     }
 
-                    Collections.sort(flagList, (o1, o2) -> {
-                        return o1.getName().compareTo(o2.getName());
+                    Collections.sort(filteredFlagSettingsList, (o1, o2) -> {
+                        return o1.getFlag().getName().compareTo(o2.getFlag().getName());
                     });
 
-                    Gui.openFlagEditor(player, region, flagList, 0, (p) -> {
+                    Gui.openFlagEditor(player, region, filteredFlagSettingsList, 0, (p) -> {
                         openRegionOwnerManager(player, region);
                     });
                 }
@@ -380,12 +380,13 @@ public class Gui implements Listener {
         player.openInventory(inv.getInventory());
     }
 
-    public static void openFlagEditor(Player player, Region region, List<Flag> editableFlags, int start, ClickAction goBackAction) {
-        int invsize = ((editableFlags.size() * 9) - (start * 9) < 54) ? ((editableFlags.size() - start) * 9 + 9) : 54;
+    public static void openFlagEditor(Player player, Region region, List<FlagSettings> flagSettingsList, int start, ClickAction goBackAction) {
+        int invsize = ((flagSettingsList.size() * 9) - (start * 9) < 54) ? ((flagSettingsList.size() - start) * 9 + 9) : 54;
         GuiInventory guiInventory = new GuiInventory(invsize, region.getConvertedMessage(Messages.GUI_FLAGEDITOR_MENU_NAME));
 
         for(int i = start; (i - start) * 9 < (invsize - 9); i++) {
-            Flag rgFlag = editableFlags.get(i);
+            FlagSettings flagSettings = flagSettingsList.get(i);
+            Flag rgFlag = flagSettings.getFlag();
             int invIndex = (i - start) * 9;
 
             class GroupFlagSetter implements ClickAction {
@@ -443,11 +444,15 @@ public class Gui implements Listener {
 
             }
 
-            ClickItem flagItem = new ClickItem(new ItemStack(Gui.FLAG_ITEM), rgFlag.getName());
+            List<String> flagSettingsDescription = flagSettings.getGuidescription();
+            for(int j = 0; j < flagSettingsDescription.size(); j++) {
+                flagSettingsDescription.set(j, region.getConvertedMessage(flagSettingsDescription.get(j)));
+            }
+            ClickItem flagItem = new ClickItem(new ItemStack(Gui.FLAG_ITEM), rgFlag.getName(), flagSettingsDescription);
             guiInventory.addIcon(flagItem, invIndex);
 
             ClickItem[] flagStateButtons = getFlagSettingItem(rgFlag, region, (p) -> {
-                openFlagEditor(p, region, editableFlags, start, goBackAction);
+                openFlagEditor(p, region, flagSettingsList, start, goBackAction);
             });
 
             if(flagStateButtons.length > 0) {
@@ -460,13 +465,13 @@ public class Gui implements Listener {
             //Add Materials to MaterialHandler
             ClickItem deleteButton = new ClickItem(new ItemStack(Gui.FLAG_REMOVE_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_DELETE_FLAG_BUTTON)).addClickAction((pl -> {
                 region.getRegion().deleteFlags(rgFlag);
-                openFlagEditor(pl, region, editableFlags, start, goBackAction);
+                openFlagEditor(pl, region, flagSettingsList, start, goBackAction);
                 pl.sendMessage(Messages.PREFIX + region.getConvertedMessage(Messages.FlAGEDITOR_FLAG_HAS_BEEN_DELETED));
             }));
             guiInventory.addIcon(deleteButton, invIndex + 3);
 
             ClickAction afterFlagSetAction = (pl) -> {
-                openFlagEditor(pl, region, editableFlags, start, goBackAction);
+                openFlagEditor(pl, region, flagSettingsList, start, goBackAction);
             };
 
             GroupFlagSetter gfsAllButton = new GroupFlagSetter("all", afterFlagSetAction);
@@ -499,7 +504,7 @@ public class Gui implements Listener {
             final int newstart;
             newstart = (start - 5 < 0)? 0:start - 5;
             ClickItem prevButton = new ClickItem(new ItemStack(Gui.PREV_PAGE_ITEM), Messages.GUI_PREV_PAGE).addClickAction((p) -> {
-               openFlagEditor(player, region, editableFlags, newstart, goBackAction);
+               openFlagEditor(player, region, flagSettingsList, newstart, goBackAction);
             });
             guiInventory.addIcon(prevButton, guiInventory.getSize() - 9);
         }
@@ -509,9 +514,9 @@ public class Gui implements Listener {
             guiInventory.addIcon(goBackButton, guiInventory.getSize() - 5);
         }
 
-        if(editableFlags.size() > start + 5) {
+        if(flagSettingsList.size() > start + 5) {
             ClickItem prevButton = new ClickItem(new ItemStack(Gui.NEXT_PAGE_ITEM), Messages.GUI_NEXT_PAGE).addClickAction((p) -> {
-                openFlagEditor(player, region, editableFlags, start + 5, goBackAction);
+                openFlagEditor(player, region, flagSettingsList, start + 5, goBackAction);
             });
             guiInventory.addIcon(prevButton, guiInventory.getSize() - 1);
         }

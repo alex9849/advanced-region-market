@@ -50,14 +50,28 @@ DefaultFlagGroup:
       setting: 'deny g:non_members'
       editable: true
       flag: interact
+      guidescription:
+        - '&2Decides if players can use things'
+        - '&2like doors, levers, inventorys, vehicles etc.'
+        - '&4Important: The flag use could also block'
+        - '&4the access to some of there things'
     1:
       setting: 'remove'
       editable: true
       flag: greeting
+      guidescription:
+        - '&2Sets a message that will be'
+        - '&2shown to players that enter'
+        - '&2the region'
     2:
       setting: 'deny g:non_members'
       editable: true
       flag: use
+      guidescription:
+        - '&2Decides if players can use things'
+        - '&2like doors, levers, etc.'
+        - '&4Important: The flag interact could'
+        - '&4also block the access to there things'
     3:
       setting: 'deny g:non_members'
       editable: false
@@ -127,14 +141,28 @@ SubregionFlagGroup:
       setting: 'deny g:non_members'
       editable: true
       flag: interact
+      guidescription:
+        - '&2Decides if players can use things'
+        - '&2like doors, levers, inventorys, vehicles etc.'
+        - '&4Important: The flag use could also block'
+        - '&4the access to some of there things'
     1:
       setting: 'remove'
       editable: true
       flag: greeting
+      guidescription:
+        - '&2Sets a message that will be'
+        - '&2shown to players that enter'
+        - '&2the region'
     2:
       setting: 'deny g:non_members'
       editable: true
       flag: use
+      guidescription:
+        - '&2Decides if players can use things'
+        - '&2like doors, levers, etc.'
+        - '&4Important: The flag interact could'
+        - '&4also block the access to there things'
     3:
       setting: 'deny g:non_members'
       editable: false

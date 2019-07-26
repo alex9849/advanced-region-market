@@ -3,6 +3,8 @@ package net.alex9849.arm;
 import net.alex9849.arm.commands.DeleteCommand;
 import net.alex9849.arm.commands.InfoCommand;
 import net.alex9849.arm.entitylimit.commands.*;
+import net.alex9849.arm.entitylimit.commands.CreateCommand;
+import net.alex9849.arm.entitylimit.commands.ListCommand;
 import net.alex9849.arm.flaggroups.FlagGroup;
 import net.alex9849.arm.flaggroups.FlagGroupManager;
 import net.alex9849.arm.handler.CommandHandler;
@@ -11,9 +13,11 @@ import net.alex9849.arm.handler.listener.*;
 import net.alex9849.arm.commands.*;
 import net.alex9849.arm.entitylimit.EntityLimitGroupManager;
 import net.alex9849.arm.presets.PresetPatternManager;
+import net.alex9849.arm.regionkind.commands.*;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.regions.price.RentPrice;
 import net.alex9849.arm.regionkind.RegionKindManager;
+import net.alex9849.arm.subregions.commands.ToolCommand;
 import net.alex9849.arm.util.MaterialFinder;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.minifeatures.SignLinkMode;
@@ -189,14 +193,12 @@ public class AdvancedRegionMarket extends JavaPlugin {
         commands.add(new UpdateSchematicCommand());
         commands.add(new BuyCommand());
         commands.add(new SellBackCommand());
-        commands.add(new SubRegionCommand());
         commands.add(new SetSubregionLimit());
         commands.add(new SetPriceCommand());
         commands.add(new SetIsUserResettableCommand());
         commands.add(new ListAutoPricesCommand());
         commands.add(new SignLinkModeCommand());
         commands.add(new SetEntityLimitCommand());
-        commands.add(new RegionKindCommand());
 
         List<String> entityLimtUsage = new ArrayList<>(Arrays.asList("entitylimit [SETTING]", "entitylimit help"));
         List<BasicArmCommand> entityLimitCommands = new ArrayList<>();
@@ -210,6 +212,34 @@ public class AdvancedRegionMarket extends JavaPlugin {
         entityLimitCommands.add(new SetExtraLimitCommand());
         entityLimitCommands.add(new BuyExtraCommand());
         commands.add(new CommandSplitter("entitylimit", "(?i)entitylimit [^;\n]+", entityLimtUsage, Permission.ADMIN_ENTITYLIMIT_HELP, Messages.ENTITYLIMIT_HELP_HEADLINE, entityLimitCommands));
+
+        List<String> regionKindUsage = new ArrayList<>(Arrays.asList("regionkind [SETTING]", "regionkind help"));
+        List<BasicArmCommand> regionKindCommands = new ArrayList<>();
+        regionKindCommands.add(new net.alex9849.arm.regionkind.commands.CreateCommand());
+        regionKindCommands.add(new net.alex9849.arm.regionkind.commands.DeleteCommand());
+        regionKindCommands.add(new net.alex9849.arm.regionkind.commands.ListCommand());
+        regionKindCommands.add(new SetDisplayInGuiCommand());
+        regionKindCommands.add(new SetDisplayInLimitsCommand());
+        regionKindCommands.add(new SetItemCommand());
+        regionKindCommands.add(new AddLoreLineCommand());
+        regionKindCommands.add(new net.alex9849.arm.regionkind.commands.InfoCommand());
+        regionKindCommands.add(new RemoveLoreLineCommand());
+        regionKindCommands.add(new SetDisplayNameCommand());
+        regionKindCommands.add(new SetPaybackPercentage());
+        commands.add(new CommandSplitter("regionkind", "(?i)regionkind [^;\n]+", regionKindUsage, Permission.REGIONKIND_HELP, Messages.REGIONKIND_HELP_HEADLINE, regionKindCommands));
+
+        List<String> subRegionUsage = new ArrayList<>(Arrays.asList("subregion [SETTING]", "subregion help"));
+        List<BasicArmCommand> subRegionCommands = new ArrayList<>();
+        subRegionCommands.add(new ToolCommand());
+        subRegionCommands.add(new net.alex9849.arm.subregions.commands.CreateCommand());
+        subRegionCommands.add(new net.alex9849.arm.subregions.commands.HotelCommand());
+        subRegionCommands.add(new net.alex9849.arm.subregions.commands.TPCommand());
+        subRegionCommands.add(new net.alex9849.arm.subregions.commands.ResetBlocksCommand());
+        subRegionCommands.add(new net.alex9849.arm.subregions.commands.UnsellCommand());
+        subRegionCommands.add(new net.alex9849.arm.subregions.commands.DeleteCommand());
+        commands.add(new CommandSplitter("subregion", "(?i)subregion [^;\n]+", subRegionUsage, Permission.SUBREGION_HELP, Messages.SUBREGION_HELP_HEADLINE, subRegionCommands));
+
+
 
 
         AdvancedRegionMarket.commandHandler.addCommands(commands);

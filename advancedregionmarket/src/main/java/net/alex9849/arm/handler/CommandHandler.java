@@ -39,6 +39,10 @@ public class CommandHandler implements TabCompleter {
         this.commands.addAll(commands);
     }
 
+    public void addCommand(BasicArmCommand cmd) {
+        this.commands.add(cmd);
+    }
+
     public boolean executeCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args) throws InputException, CmdSyntaxException {
         String allargs = "";
 

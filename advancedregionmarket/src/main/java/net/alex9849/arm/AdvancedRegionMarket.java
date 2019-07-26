@@ -1,5 +1,8 @@
 package net.alex9849.arm;
 
+import net.alex9849.arm.commands.DeleteCommand;
+import net.alex9849.arm.commands.InfoCommand;
+import net.alex9849.arm.entitylimit.commands.*;
 import net.alex9849.arm.flaggroups.FlagGroup;
 import net.alex9849.arm.flaggroups.FlagGroupManager;
 import net.alex9849.arm.handler.CommandHandler;
@@ -192,9 +195,23 @@ public class AdvancedRegionMarket extends JavaPlugin {
         commands.add(new SetIsUserResettableCommand());
         commands.add(new ListAutoPricesCommand());
         commands.add(new SignLinkModeCommand());
-        commands.add(new EntityLimitCommand());
         commands.add(new SetEntityLimitCommand());
         commands.add(new RegionKindCommand());
+
+        List<String> entityLimtUsage = new ArrayList<>(Arrays.asList("entitylimit [SETTING]", "entitylimit help"));
+        List<BasicArmCommand> entityLimitCommands = new ArrayList<>();
+        entityLimitCommands.add(new CreateCommand());
+        entityLimitCommands.add(new net.alex9849.arm.entitylimit.commands.DeleteCommand());
+        entityLimitCommands.add(new RemoveLimit());
+        entityLimitCommands.add(new AddLimitCommand());
+        entityLimitCommands.add(new net.alex9849.arm.entitylimit.commands.InfoCommand());
+        entityLimitCommands.add(new ListCommand());
+        entityLimitCommands.add(new CheckCommand());
+        entityLimitCommands.add(new SetExtraLimitCommand());
+        entityLimitCommands.add(new BuyExtraCommand());
+        commands.add(new CommandSplitter("entitylimit", "(?i)entitylimit [^;\n]+", entityLimtUsage, Permission.ADMIN_ENTITYLIMIT_HELP, Messages.ENTITYLIMIT_HELP_HEADLINE, entityLimitCommands));
+
+
         AdvancedRegionMarket.commandHandler.addCommands(commands);
 
         getCommand("arm").setTabCompleter(this.commandHandler);

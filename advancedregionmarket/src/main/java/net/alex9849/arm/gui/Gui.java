@@ -2037,7 +2037,7 @@ public class Gui implements Listener {
                 public void execute(Player player) throws InputException {
 
                     player.closeInventory();
-                    player.sendMessage("Please write down a message:");
+                    player.sendMessage(region.getConvertedMessage(Messages.FLAGEDITOR_STRINGFLAG_SET_MESSAGE_INFO));
                     GuiChatInputListener gcil = new GuiChatInputListener(player, (s) -> {
                         flagSetter.setInput(s);
                         flagSetter.execute(player);
@@ -2055,7 +2055,7 @@ public class Gui implements Listener {
             @Override
             public void execute(Player player) throws InputException {
                 player.closeInventory();
-                player.sendMessage("Please write down a number that does not have decimals:");
+                player.sendMessage(region.getConvertedMessage(Messages.FLAGEDITOR_INTEGERFLAG_SET_NUMBER_INFO));
                 GuiChatInputListener gcil = new GuiChatInputListener(player, (s) -> {
                     flagSetter.setInput(s);
                     flagSetter.execute(player);
@@ -2072,7 +2072,7 @@ public class Gui implements Listener {
                 @Override
                 public void execute(Player player) throws InputException {
                     player.closeInventory();
-                    player.sendMessage("Please write down a number:");
+                    player.sendMessage(region.getConvertedMessage(Messages.FLAGEDITOR_DOUBLEFLAG_SET_NUMBER_INFO));
                     GuiChatInputListener gcil = new GuiChatInputListener(player, (s) -> {
                         flagSetter.setInput(s);
                         flagSetter.execute(player);

@@ -381,6 +381,9 @@ public class Messages {
     public static String FlAGEDITOR_FLAG_HAS_BEEN_DELETED = "&2Flag has been deleted!";
     public static String FLAGEDITOR_FLAG_HAS_BEEN_UPDATED = "&2Flag has been updated!";
     public static String FLAGEDITOR_FLAG_COULD_NOT_BE_MODIFIED = "Could not modify flag %flag%!";
+    public static String FLAGEDITOR_STRINGFLAG_SET_MESSAGE_INFO = "&9Please write down a message:";
+    public static String FLAGEDITOR_INTEGERFLAG_SET_NUMBER_INFO = "&9Please write down a number that does not have decimals:";
+    public static String FLAGEDITOR_DOUBLEFLAG_SET_NUMBER_INFO = "&9Please write down a number:";
 
 
     public static List<String> GUI_TELEPORT_TO_REGION_BUTTON_LORE = new ArrayList<>();
@@ -742,6 +745,9 @@ public class Messages {
         FLAGEDITOR_FLAG_HAS_BEEN_UPDATED = config.getString("Messages.FlageditorFlagHasBeenUpdated");
         FLAGEDITOR_FLAG_COULD_NOT_BE_MODIFIED = config.getString("Messages.FlageditorFlagCouldNotBeUpdated");
         FlAGEDITOR_FLAG_HAS_BEEN_DELETED = config.getString("Messages.FlageditorFlagHasBeenDeleted");
+        FLAGEDITOR_STRINGFLAG_SET_MESSAGE_INFO = config.getString("Messages.FlageditorStringflagSetMessageInfo");
+        FLAGEDITOR_INTEGERFLAG_SET_NUMBER_INFO = config.getString("Messages.FlageditorIntegerflagSetMessageInfo");
+        FLAGEDITOR_DOUBLEFLAG_SET_NUMBER_INFO = config.getString("Messages.FlageditorDoubleflagSetMessageInfo");
 
         Messages.translateColorCodes();
     }
@@ -1050,6 +1056,9 @@ public class Messages {
         FLAGEDITOR_FLAG_HAS_BEEN_UPDATED = ChatColor.translateAlternateColorCodes('&', FLAGEDITOR_FLAG_HAS_BEEN_UPDATED);
         FLAGEDITOR_FLAG_COULD_NOT_BE_MODIFIED = ChatColor.translateAlternateColorCodes('&', FLAGEDITOR_FLAG_COULD_NOT_BE_MODIFIED);
         FlAGEDITOR_FLAG_HAS_BEEN_DELETED = ChatColor.translateAlternateColorCodes('&', FlAGEDITOR_FLAG_HAS_BEEN_DELETED);
+        FLAGEDITOR_STRINGFLAG_SET_MESSAGE_INFO = ChatColor.translateAlternateColorCodes('&', FLAGEDITOR_STRINGFLAG_SET_MESSAGE_INFO);
+        FLAGEDITOR_INTEGERFLAG_SET_NUMBER_INFO = ChatColor.translateAlternateColorCodes('&', FLAGEDITOR_INTEGERFLAG_SET_NUMBER_INFO);
+        FLAGEDITOR_DOUBLEFLAG_SET_NUMBER_INFO = ChatColor.translateAlternateColorCodes('&', FLAGEDITOR_DOUBLEFLAG_SET_NUMBER_INFO);
 
         for(int i = 0; i < REGION_INFO_SELLREGION.size(); i++){
             REGION_INFO_SELLREGION.set(i, ChatColor.translateAlternateColorCodes('&', REGION_INFO_SELLREGION.get(i)));
@@ -1515,6 +1524,9 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.FlageditorFlagHasBeenUpdated", "&2Flag has been updated!");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.FlageditorFlagCouldNotBeUpdated", "Could not modify flag %flag%!");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.FlageditorFlagHasBeenDeleted", "&2Flag has been deleted!");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.FlageditorStringflagSetMessageInfo", "&9Please write down a message:");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.FlageditorIntegerflagSetMessageInfo", "&9Please write down a number that does not have decimals:");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.FlageditorDoubleflagSetMessageInfo", "&9Please write down a number:");
 
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoSellregionAdmin", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
                 "&9ID: &e%regionid% &7(Type: &r%selltype%&7)",

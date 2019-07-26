@@ -1513,8 +1513,8 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionKindHelpHeadline", "&6=====[AdvancedRegionMarket RegionKind Help ]=====\n&3Page %actualpage% / %maxpage%");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.PlayerNotFound", "&4Could not find selected player!");
 
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIFlageditorButton", "&6FlagEditor (%region%)");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIFlageditorMenuName", "&1FlagEditor");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIFlageditorButton", "&6FlagEditor");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIFlageditorMenuName", "&1FlagEditor (%region%)");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIFlageditorDeleteFlagButton", "&4Delete flag");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIFlageditorSetFlagGroupAllButton", "&9Set for everyone");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIFlageditorSetFlagGroupMembersButton", "&9Set for members and owners");

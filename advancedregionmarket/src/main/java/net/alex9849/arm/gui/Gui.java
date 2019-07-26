@@ -188,8 +188,7 @@ public class Gui implements Listener {
         if(Permission.hasAnySubregionPermission(player) && region.isAllowSubregions()){
             itemcounter++;
         }
-        //TODO change to region flageditor permission
-        if(true) {
+        if(player.hasPermission(Permission.MEMBER_FLAGEDITOR)) {
             itemcounter++;
         }
         if(region instanceof RentRegion) {
@@ -282,23 +281,11 @@ public class Gui implements Listener {
             actitem++;
         }
 
-        if(true) {
+        if(player.hasPermission(Permission.MEMBER_FLAGEDITOR)) {
             ClickItem flagEditorItem = new ClickItem(new ItemStack(Gui.FLAGEDITOR_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_BUTTON)).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
-                    List<FlagSettings> flagSettingsList = region.getFlagGroup().getFlagSettingsSold();
-                    List<FlagSettings> filteredFlagSettingsList = new ArrayList<>();
-                    for(FlagSettings flagSettings : flagSettingsList) {
-                        if(flagSettings.isEditable() && flagSettings.getApplyTo().contains(region.getSellType())) {
-                            filteredFlagSettingsList.add(flagSettings);
-                        }
-                    }
-
-                    Collections.sort(filteredFlagSettingsList, (o1, o2) -> {
-                        return o1.getFlag().getName().compareTo(o2.getFlag().getName());
-                    });
-
-                    Gui.openFlagEditor(player, region, filteredFlagSettingsList, 0, (p) -> {
+                    Gui.openFlagEditor(player, region, 0, (p) -> {
                         openRegionOwnerManager(player, region);
                     });
                 }
@@ -381,7 +368,19 @@ public class Gui implements Listener {
         player.openInventory(inv.getInventory());
     }
 
-    public static void openFlagEditor(Player player, Region region, List<FlagSettings> flagSettingsList, int start, ClickAction goBackAction) {
+    public static void openFlagEditor(Player player, Region region, int start, ClickAction goBackAction) {
+        List<FlagSettings> fullFlagSettingsList = region.getFlagGroup().getFlagSettingsSold();
+        List<FlagSettings> flagSettingsList = new ArrayList<>();
+        for(FlagSettings flagSettings : fullFlagSettingsList) {
+            if(flagSettings.isEditable() && flagSettings.getApplyTo().contains(region.getSellType())) {
+                flagSettingsList.add(flagSettings);
+            }
+        }
+
+        Collections.sort(flagSettingsList, (o1, o2) -> {
+            return o1.getFlag().getName().compareTo(o2.getFlag().getName());
+        });
+
         int invsize = ((flagSettingsList.size() * 9) - (start * 9) < 54) ? ((flagSettingsList.size() - start) * 9 + 9) : 54;
         GuiInventory guiInventory = new GuiInventory(invsize, region.getConvertedMessage(Messages.GUI_FLAGEDITOR_MENU_NAME));
 
@@ -398,7 +397,7 @@ public class Gui implements Listener {
             guiInventory.addIcon(flagItem, invIndex);
 
             ClickItem[] flagStateButtons = getFlagSettingItem(rgFlag, region, (p) -> {
-                openFlagEditor(p, region, flagSettingsList, start, goBackAction);
+                openFlagEditor(p, region, start, goBackAction);
             });
 
             if(flagStateButtons.length > 0) {
@@ -410,13 +409,13 @@ public class Gui implements Listener {
 
             ClickItem deleteButton = new ClickItem(new ItemStack(Gui.FLAG_REMOVE_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_DELETE_FLAG_BUTTON)).addClickAction((pl -> {
                 region.getRegion().deleteFlags(rgFlag);
-                openFlagEditor(pl, region, flagSettingsList, start, goBackAction);
+                openFlagEditor(pl, region, start, goBackAction);
                 pl.sendMessage(Messages.PREFIX + region.getConvertedMessage(Messages.FlAGEDITOR_FLAG_HAS_BEEN_DELETED));
             }));
             guiInventory.addIcon(deleteButton, invIndex + 3);
 
             ClickAction afterFlagSetAction = (pl) -> {
-                openFlagEditor(pl, region, flagSettingsList, start, goBackAction);
+                openFlagEditor(pl, region, start, goBackAction);
             };
 
             FlagSetter gfsAllButton = new FlagSetter(region, rgFlag.getRegionGroupFlag(), rgFlag, "all", afterFlagSetAction);
@@ -449,7 +448,7 @@ public class Gui implements Listener {
             final int newstart;
             newstart = (start - 5 < 0)? 0:start - 5;
             ClickItem prevButton = new ClickItem(new ItemStack(Gui.PREV_PAGE_ITEM), Messages.GUI_PREV_PAGE).addClickAction((p) -> {
-               openFlagEditor(player, region, flagSettingsList, newstart, goBackAction);
+               openFlagEditor(player, region, newstart, goBackAction);
             });
             guiInventory.addIcon(prevButton, guiInventory.getSize() - 9);
         }
@@ -457,7 +456,7 @@ public class Gui implements Listener {
         ClickItem resetButton = new ClickItem(new ItemStack(Gui.FLAGEDITOR_RESET_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_RESET_BUTTON)).addClickAction((p) -> {
            region.applyFlagGroup(FlagGroup.ResetMode.COMPLETE);
            player.sendMessage(Messages.PREFIX + region.getConvertedMessage(Messages.FLAGEDITOR_FLAG_HAS_BEEN_UPDATED));
-           openFlagEditor(player, region, flagSettingsList, start, goBackAction);
+           openFlagEditor(player, region, start, goBackAction);
         });
         guiInventory.addIcon(resetButton, guiInventory.getSize() - 7);
 
@@ -468,7 +467,7 @@ public class Gui implements Listener {
 
         if(flagSettingsList.size() > start + 5) {
             ClickItem prevButton = new ClickItem(new ItemStack(Gui.NEXT_PAGE_ITEM), Messages.GUI_NEXT_PAGE).addClickAction((p) -> {
-                openFlagEditor(player, region, flagSettingsList, start + 5, goBackAction);
+                openFlagEditor(player, region, start + 5, goBackAction);
             });
             guiInventory.addIcon(prevButton, guiInventory.getSize() - 1);
         }

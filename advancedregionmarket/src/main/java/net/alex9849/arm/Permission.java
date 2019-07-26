@@ -57,6 +57,7 @@ public class Permission {
     public static final String ADMIN_LISTAUTOPRICES = "arm.admin.listautoprices";
     public static final String ADMIN_SET_PRICE = "arm.admin.setprice";
     public static final String ADMIN_SIGN_LINK_MODE = "arm.admin.signlinkmode";
+    public static final String ADMIN_FLAGEDITOR = "arm.admin.flageditor";
 
     public static final String ADMIN_ENTITYLIMIT_CREATE = "arm.admin.entitylimit.create";
     public static final String ADMIN_ENTITYLIMIT_DELETE = "arm.admin.entitylimit.delete";
@@ -140,6 +141,7 @@ public class Permission {
     public static final String MEMBER_ENTITYLIMIT_BUY_EXTRA = "arm.member.entitylimit.buyextra";
     //TODO ADD TO WIKI
     public static final String MEMBER_TP_TO_FREE_REGION = "arm.member.tptofreeregion";
+    public static final String MEMBER_FLAGEDITOR = "arm.member.flageditor";
 
     public static final String ARM_HELP = "arm.help";
     public static final String ARM_BUYKIND = "arm.buykind.";

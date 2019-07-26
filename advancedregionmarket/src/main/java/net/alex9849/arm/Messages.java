@@ -363,7 +363,7 @@ public class Messages {
             "&6Extend Time: %extend%", "&6Next extend in: %remaining%"));
 
     public static String GUI_FLAGEDITOR_BUTTON = "&6FlagEditor";
-    public static String GUI_FLAGEDITOR_MENU_NAME = "&1FlagEditor";
+    public static String GUI_FLAGEDITOR_MENU_NAME = "&1FlagEditor (%region%)";
     public static String GUI_FLAGEDITOR_DELETE_FLAG_BUTTON = "&4Delete flag";
     public static String GUI_FLAGEDITOR_SET_FLAG_GROUP_ALL_BUTTON = "&9Set for everyone";
     public static String GUI_FLAGEDITOR_SET_FLAG_GROUP_MEMBERS_BUTTON = "&9Set for members";
@@ -1513,7 +1513,7 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionKindHelpHeadline", "&6=====[AdvancedRegionMarket RegionKind Help ]=====\n&3Page %actualpage% / %maxpage%");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.PlayerNotFound", "&4Could not find selected player!");
 
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIFlageditorButton", "&6FlagEditor");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIFlageditorButton", "&6FlagEditor (%region%)");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIFlageditorMenuName", "&1FlagEditor");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIFlageditorDeleteFlagButton", "&4Delete flag");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIFlageditorSetFlagGroupAllButton", "&9Set for everyone");

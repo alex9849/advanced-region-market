@@ -282,7 +282,7 @@ public class Gui implements Listener {
         }
 
         if(true) {
-            ClickItem flagEditorItem = new ClickItem(new ItemStack(Gui.FLAGEDITOR_ITEM), "FlagEditor").addClickAction(new ClickAction() {
+            ClickItem flagEditorItem = new ClickItem(new ItemStack(Gui.FLAGEDITOR_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_BUTTON)).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
                     List<FlagSettings> flagSettingsList = region.getFlagGroup().getFlagSettingsSold();
@@ -383,7 +383,7 @@ public class Gui implements Listener {
     public static void openFlagEditor(Player player, Region region, List<Flag> editableFlags, int start, ClickAction goBackAction) {
         int invsize = ((editableFlags.size() * 9) - (start * 9) < 54) ? ((editableFlags.size() - start) * 9 + 9) : 54;
         //TODO incude in messages yml
-        GuiInventory guiInventory = new GuiInventory(invsize, "Flag Editor");
+        GuiInventory guiInventory = new GuiInventory(invsize, region.getConvertedMessage(Messages.GUI_FLAGEDITOR_MENU_NAME));
 
         for(int i = start; (i - start) * 9 < (invsize - 9); i++) {
             Flag rgFlag = editableFlags.get(i);
@@ -401,7 +401,7 @@ public class Gui implements Listener {
                 @Override
                 public void execute(Player player) throws InputException {
                     if(region.getRegion().getFlagSetting(rgFlag) == null) {
-                        throw new InputException(player, "Flag not activated!");
+                        throw new InputException(player, region.getConvertedMessage(Messages.FlAGEDITOR_FLAG_NOT_ACTIVATED));
                     }
                     try {
                         RegionGroup groupFlag = getParsedSettingsObject();
@@ -410,12 +410,11 @@ public class Gui implements Listener {
                         } else {
                             region.getRegion().setFlag(rgFlag.getRegionGroupFlag(), groupFlag);
                         }
-                        player.sendMessage(Messages.PREFIX + "Flag has been updated!");
+                        player.sendMessage(Messages.PREFIX + region.getConvertedMessage(Messages.FLAGEDITOR_FLAG_HAS_BEEN_UPDATED));
                         afterFlagSetAction.execute(player);
                     } catch (InvalidFlagFormat invalidFlagFormat) {
-                        //Todo
-                        player.sendMessage("Could not modify flag " + rgFlag.getName() + "!");
                         Bukkit.getLogger().info("Could not modify flag " + rgFlag.getName() + " via player flageditor!");
+                        throw new InputException(player, Messages.FLAGEDITOR_FLAG_COULD_NOT_BE_MODIFIED.replace("%flag%", rgFlag.getName()));
                     }
                 }
 
@@ -460,10 +459,10 @@ public class Gui implements Listener {
             }
 
             //Add Materials to MaterialHandler
-            ClickItem deleteButton = new ClickItem(new ItemStack(Gui.FLAG_REMOVE_ITEM), "Delete flag").addClickAction((pl -> {
+            ClickItem deleteButton = new ClickItem(new ItemStack(Gui.FLAG_REMOVE_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_DELETE_FLAG_BUTTON)).addClickAction((pl -> {
                 region.getRegion().deleteFlags(rgFlag);
                 openFlagEditor(pl, region, editableFlags, start, goBackAction);
-                pl.sendMessage(Messages.PREFIX + "Flag has been deleted!");
+                pl.sendMessage(Messages.PREFIX + region.getConvertedMessage(Messages.FlAGEDITOR_FLAG_HAS_BEEN_DELETED));
             }));
             guiInventory.addIcon(deleteButton, invIndex + 3);
 
@@ -473,27 +472,27 @@ public class Gui implements Listener {
 
             GroupFlagSetter gfsAllButton = new GroupFlagSetter("all", afterFlagSetAction);
             ClickItem allButton = new ClickItem(gfsAllButton.isInputSelected()? new ItemStack(Gui.FLAG_GROUP_SELECTED_ITEM):
-                    new ItemStack(Gui.FLAG_GROUP_NOT_SELECTED_ITEM), "Set for all").addClickAction(gfsAllButton);
+                    new ItemStack(Gui.FLAG_GROUP_NOT_SELECTED_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_SET_FLAG_GROUP_ALL_BUTTON)).addClickAction(gfsAllButton);
             guiInventory.addIcon(allButton, invIndex + 4);
 
             GroupFlagSetter gfsMembersButton = new GroupFlagSetter("members", afterFlagSetAction);
             ClickItem membersButton = new ClickItem(gfsMembersButton.isInputSelected()? new ItemStack(Gui.FLAG_GROUP_SELECTED_ITEM):
-                    new ItemStack(Gui.FLAG_GROUP_NOT_SELECTED_ITEM), "Set for members").addClickAction(gfsMembersButton);
+                    new ItemStack(Gui.FLAG_GROUP_NOT_SELECTED_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_SET_FLAG_GROUP_MEMBERS_BUTTON)).addClickAction(gfsMembersButton);
             guiInventory.addIcon(membersButton, invIndex + 5);
 
             GroupFlagSetter gfsOwnersButton = new GroupFlagSetter("owners", afterFlagSetAction);
             ClickItem ownersButton = new ClickItem(gfsOwnersButton.isInputSelected()? new ItemStack(Gui.FLAG_GROUP_SELECTED_ITEM):
-                    new ItemStack(Gui.FLAG_GROUP_NOT_SELECTED_ITEM), "Set for owners").addClickAction(gfsOwnersButton);
+                    new ItemStack(Gui.FLAG_GROUP_NOT_SELECTED_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_SET_FLAG_GROUP_OWNERS_BUTTON)).addClickAction(gfsOwnersButton);
             guiInventory.addIcon(ownersButton, invIndex + 6);
 
             GroupFlagSetter gfsNonMembersButton = new GroupFlagSetter("non_members", afterFlagSetAction);
             ClickItem nonMembersButton = new ClickItem(gfsNonMembersButton.isInputSelected()? new ItemStack(Gui.FLAG_GROUP_SELECTED_ITEM):
-                    new ItemStack(Gui.FLAG_GROUP_NOT_SELECTED_ITEM), "Set for non members").addClickAction(gfsNonMembersButton);
+                    new ItemStack(Gui.FLAG_GROUP_NOT_SELECTED_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_SET_FLAG_GROUP_NON_MEMBERS_BUTTON)).addClickAction(gfsNonMembersButton);
             guiInventory.addIcon(nonMembersButton, invIndex + 7);
 
             GroupFlagSetter gfsNonOwnersButton = new GroupFlagSetter("non_owners", afterFlagSetAction);
             ClickItem nonOwnersButton = new ClickItem(gfsNonOwnersButton.isInputSelected()? new ItemStack(Gui.FLAG_GROUP_SELECTED_ITEM):
-                    new ItemStack(Gui.FLAG_GROUP_NOT_SELECTED_ITEM), "Set for non owners").addClickAction(gfsNonOwnersButton);
+                    new ItemStack(Gui.FLAG_GROUP_NOT_SELECTED_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_SET_FLAG_GROUP_NON_OWNERS_BUTTON)).addClickAction(gfsNonOwnersButton);
             guiInventory.addIcon(nonOwnersButton, invIndex + 8);
         }
 
@@ -2002,10 +2001,10 @@ public class Gui implements Listener {
                         region.getRegion().setFlag(flag, flagSetting);
                     }
                     afterFlagSetAction.execute(player);
-                    player.sendMessage(Messages.PREFIX + "Flag has been updated!");
+                    player.sendMessage(Messages.PREFIX + region.getConvertedMessage(Messages.FLAGEDITOR_FLAG_HAS_BEEN_UPDATED));
                 } catch (InvalidFlagFormat invalidFlagFormat) {
-                    //Todo
-                    throw new InputException(player, "Could not parse given input for flag " + flag.getName());
+                    Bukkit.getLogger().info("Could not modify flag " + flag.getName() + " via player flageditor!");
+                    throw new InputException(player, Messages.FLAGEDITOR_FLAG_COULD_NOT_BE_MODIFIED.replace("%flag%", flag.getName()));
                 }
             }
         }
@@ -2017,26 +2016,26 @@ public class Gui implements Listener {
             //TODO change names (add to messages.yml)
             FlagSetter fs0 = new FlagSetter("allow");
             clickItems[0] = new ClickItem(fs0.isInputSelected()? new ItemStack(Gui.FLAG_SETTING_SELECTED_ITEM):
-                    new ItemStack(Gui.FLAG_SETTING_NOT_SELECTED_ITEM), "Allow").addClickAction(new FlagSetter("allow"));
+                    new ItemStack(Gui.FLAG_SETTING_NOT_SELECTED_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_SET_STATEFLAG_ALLOW_BUTTON)).addClickAction(fs0);
             FlagSetter fs1 = new FlagSetter("deny");
             clickItems[1] = new ClickItem(fs1.isInputSelected()? new ItemStack(Gui.FLAG_SETTING_SELECTED_ITEM):
-                    new ItemStack(Gui.FLAG_SETTING_NOT_SELECTED_ITEM), "Deny").addClickAction(new FlagSetter("deny"));
+                    new ItemStack(Gui.FLAG_SETTING_NOT_SELECTED_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_SET_STATEFLAG_DENY_BUTTON)).addClickAction(fs1);
 
         } else if(flag instanceof BooleanFlag) {
             clickItems = new ClickItem[2];
             //TODO change names (add to messages.yml)
             FlagSetter fs0 = new FlagSetter("true");
             clickItems[0] = new ClickItem(fs0.isInputSelected()? new ItemStack(Gui.FLAG_SETTING_SELECTED_ITEM):
-                    new ItemStack(Gui.FLAG_SETTING_NOT_SELECTED_ITEM), "True").addClickAction(fs0);
+                    new ItemStack(Gui.FLAG_SETTING_NOT_SELECTED_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_SET_BOOLEANFLAG_TRUE_BUTTON)).addClickAction(fs0);
             FlagSetter fs1 = new FlagSetter("false");
             clickItems[1] = new ClickItem(fs1.isInputSelected()? new ItemStack(Gui.FLAG_SETTING_SELECTED_ITEM):
-                    new ItemStack(Gui.FLAG_SETTING_NOT_SELECTED_ITEM), "False").addClickAction(fs1);
+                    new ItemStack(Gui.FLAG_SETTING_NOT_SELECTED_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_SET_BOOLEANFLAG_FALSE_BUTTON)).addClickAction(fs1);
 
         }
         else if (flag instanceof StringFlag) {
             clickItems = new ClickItem[1];
             final FlagSetter flagSetter = new FlagSetter("");
-            clickItems[0] = new ClickItem(new ItemStack(Gui.FLAG_USER_INPUT_ITEM), "Set message").addClickAction((new ClickAction() {
+            clickItems[0] = new ClickItem(new ItemStack(Gui.FLAG_USER_INPUT_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_SET_STRINGFLAG_SET_MESSAGE_BUTTON)).addClickAction((new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
 
@@ -2055,7 +2054,7 @@ public class Gui implements Listener {
 
             clickItems = new ClickItem[1];
             final FlagSetter flagSetter = new FlagSetter("");
-            clickItems[0] = new ClickItem(new ItemStack(Gui.FLAG_USER_INPUT_ITEM), "Write Number").addClickAction((new ClickAction() {
+            clickItems[0] = new ClickItem(new ItemStack(Gui.FLAG_USER_INPUT_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_SET_INTEGERFLAG_SET_INTEGER_BUTTON)).addClickAction((new ClickAction() {
             @Override
             public void execute(Player player) throws InputException {
                 player.closeInventory();
@@ -2072,7 +2071,7 @@ public class Gui implements Listener {
 
             clickItems = new ClickItem[1];
             final FlagSetter flagSetter = new FlagSetter("");
-            clickItems[0] = new ClickItem(new ItemStack(Gui.FLAG_USER_INPUT_ITEM), "Write Number").addClickAction((new ClickAction() {
+            clickItems[0] = new ClickItem(new ItemStack(Gui.FLAG_USER_INPUT_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_SET_DOUBLEFLAG_SET_DOUBLE_BUTTON)).addClickAction((new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
                     player.closeInventory();

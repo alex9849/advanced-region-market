@@ -362,6 +362,26 @@ public class Messages {
             "&6Allowed Subregions: %subregionlimit%", "&6Subregions: %subregions%", "&6Terminated: %isterminated%",
             "&6Extend Time: %extend%", "&6Next extend in: %remaining%"));
 
+    public static String GUI_FLAGEDITOR_BUTTON = "&6FlagEditor";
+    public static String GUI_FLAGEDITOR_MENU_NAME = "&1FlagEditor";
+    public static String GUI_FLAGEDITOR_DELETE_FLAG_BUTTON = "&4Delete flag";
+    public static String GUI_FLAGEDITOR_SET_FLAG_GROUP_ALL_BUTTON = "&9Set for everyone";
+    public static String GUI_FLAGEDITOR_SET_FLAG_GROUP_MEMBERS_BUTTON = "&9Set for members";
+    public static String GUI_FLAGEDITOR_SET_FLAG_GROUP_OWNERS_BUTTON = "&9Set for owners";
+    public static String GUI_FLAGEDITOR_SET_FLAG_GROUP_NON_MEMBERS_BUTTON = "&9Set for non members\n (Everyone without permissions on your region)";
+    public static String GUI_FLAGEDITOR_SET_FLAG_GROUP_NON_OWNERS_BUTTON = "&9Set for non owners";
+    public static String GUI_FLAGEDITOR_SET_STATEFLAG_ALLOW_BUTTON = "&2Allow";
+    public static String GUI_FLAGEDITOR_SET_STATEFLAG_DENY_BUTTON = "&4Deny";
+    public static String GUI_FLAGEDITOR_SET_BOOLEANFLAG_TRUE_BUTTON = "&2Yes";
+    public static String GUI_FLAGEDITOR_SET_BOOLEANFLAG_FALSE_BUTTON = "&4No";
+    public static String GUI_FLAGEDITOR_SET_STRINGFLAG_SET_MESSAGE_BUTTON = "&2Set message";
+    public static String GUI_FLAGEDITOR_SET_INTEGERFLAG_SET_INTEGER_BUTTON = "&2Set number";
+    public static String GUI_FLAGEDITOR_SET_DOUBLEFLAG_SET_DOUBLE_BUTTON = "&2Set number";
+    public static String FlAGEDITOR_FLAG_NOT_ACTIVATED = "&4Flag not activated!";
+    public static String FlAGEDITOR_FLAG_HAS_BEEN_DELETED = "&2Flag has been deleted!";
+    public static String FLAGEDITOR_FLAG_HAS_BEEN_UPDATED = "&2Flag has been updated!";
+    public static String FLAGEDITOR_FLAG_COULD_NOT_BE_MODIFIED = "Could not modify flag %flag%!";
+
 
     public static List<String> GUI_TELEPORT_TO_REGION_BUTTON_LORE = new ArrayList<>();
     public static List<String> GUI_MAKE_OWNER_BUTTON_LORE = new ArrayList<>();
@@ -703,6 +723,26 @@ public class Messages {
         REGION_INFO_RENTREGION_SUBREGION = config.getStringList("Messages.RegionInfoRentregionSubregion");
         REGION_INFO_CONTRACTREGION_SUBREGION = config.getStringList("Messages.RegionInfoContractregionSubregion");
 
+        GUI_FLAGEDITOR_BUTTON = config.getString("Messages.GUIFlageditorButton");
+        GUI_FLAGEDITOR_MENU_NAME = config.getString("Messages.GUIFlageditorMenuName");
+        GUI_FLAGEDITOR_DELETE_FLAG_BUTTON = config.getString("Messages.GUIFlageditorDeleteFlagButton");
+        GUI_FLAGEDITOR_SET_FLAG_GROUP_ALL_BUTTON = config.getString("Messages.GUIFlageditorSetFlagGroupAllButton");
+        GUI_FLAGEDITOR_SET_FLAG_GROUP_MEMBERS_BUTTON = config.getString("Messages.GUIFlageditorSetFlagGroupMembersButton");
+        GUI_FLAGEDITOR_SET_FLAG_GROUP_OWNERS_BUTTON = config.getString("Messages.GUIFlageditorSetFlagGroupOwnersButton");
+        GUI_FLAGEDITOR_SET_FLAG_GROUP_NON_MEMBERS_BUTTON = config.getString("Messages.GUIFlageditorSetFlagGroupNonMembersButton");
+        GUI_FLAGEDITOR_SET_FLAG_GROUP_NON_OWNERS_BUTTON = config.getString("Messages.GUIFlageditorSetFlagGroupNonOwnersButton");
+        GUI_FLAGEDITOR_SET_STATEFLAG_ALLOW_BUTTON = config.getString("Messages.GUIFlageditorSetStateflagAllowButton");
+        GUI_FLAGEDITOR_SET_STATEFLAG_DENY_BUTTON = config.getString("Messages.GUIFlageditorSetStateflagDenyButton");
+        GUI_FLAGEDITOR_SET_BOOLEANFLAG_TRUE_BUTTON = config.getString("Messages.GUIFlageditorSetBooleanflagTrueButton");
+        GUI_FLAGEDITOR_SET_BOOLEANFLAG_FALSE_BUTTON = config.getString("Messages.GUIFlageditorSetBooleanflagFalseButton");
+        GUI_FLAGEDITOR_SET_STRINGFLAG_SET_MESSAGE_BUTTON = config.getString("Messages.GUIFlageditorSetStringflagSetMessageButton");
+        GUI_FLAGEDITOR_SET_INTEGERFLAG_SET_INTEGER_BUTTON = config.getString("Messages.GUIFlageditorSetIntegerflagSetIntegerButton");
+        GUI_FLAGEDITOR_SET_DOUBLEFLAG_SET_DOUBLE_BUTTON = config.getString("Messages.GUIFlageditorSetDoubleflagSetDoubleButton");
+        FlAGEDITOR_FLAG_NOT_ACTIVATED = config.getString("Messages.FlageditorFlagNotActivated");
+        FLAGEDITOR_FLAG_HAS_BEEN_UPDATED = config.getString("Messages.FlageditorFlagHasBeenUpdated");
+        FLAGEDITOR_FLAG_COULD_NOT_BE_MODIFIED = config.getString("Messages.FlageditorFlagCouldNotBeUpdated");
+        FlAGEDITOR_FLAG_HAS_BEEN_DELETED = config.getString("Messages.FlageditorFlagHasBeenDeleted");
+
         Messages.translateColorCodes();
     }
 
@@ -991,6 +1031,26 @@ public class Messages {
         REGIONKIND_HELP_HEADLINE = ChatColor.translateAlternateColorCodes('&', REGIONKIND_HELP_HEADLINE);
         PLAYER_NOT_FOUND = ChatColor.translateAlternateColorCodes('&', PLAYER_NOT_FOUND);
 
+        GUI_FLAGEDITOR_BUTTON = ChatColor.translateAlternateColorCodes('&', GUI_FLAGEDITOR_BUTTON);
+        GUI_FLAGEDITOR_MENU_NAME = ChatColor.translateAlternateColorCodes('&', GUI_FLAGEDITOR_MENU_NAME);
+        GUI_FLAGEDITOR_DELETE_FLAG_BUTTON = ChatColor.translateAlternateColorCodes('&', GUI_FLAGEDITOR_DELETE_FLAG_BUTTON);
+        GUI_FLAGEDITOR_SET_FLAG_GROUP_ALL_BUTTON = ChatColor.translateAlternateColorCodes('&', GUI_FLAGEDITOR_SET_FLAG_GROUP_ALL_BUTTON);
+        GUI_FLAGEDITOR_SET_FLAG_GROUP_MEMBERS_BUTTON = ChatColor.translateAlternateColorCodes('&', GUI_FLAGEDITOR_SET_FLAG_GROUP_MEMBERS_BUTTON);
+        GUI_FLAGEDITOR_SET_FLAG_GROUP_OWNERS_BUTTON = ChatColor.translateAlternateColorCodes('&', GUI_FLAGEDITOR_SET_FLAG_GROUP_OWNERS_BUTTON);
+        GUI_FLAGEDITOR_SET_FLAG_GROUP_NON_MEMBERS_BUTTON = ChatColor.translateAlternateColorCodes('&', GUI_FLAGEDITOR_SET_FLAG_GROUP_NON_MEMBERS_BUTTON);
+        GUI_FLAGEDITOR_SET_FLAG_GROUP_NON_OWNERS_BUTTON = ChatColor.translateAlternateColorCodes('&', GUI_FLAGEDITOR_SET_FLAG_GROUP_NON_OWNERS_BUTTON);
+        GUI_FLAGEDITOR_SET_STATEFLAG_ALLOW_BUTTON = ChatColor.translateAlternateColorCodes('&', GUI_FLAGEDITOR_SET_STATEFLAG_ALLOW_BUTTON);
+        GUI_FLAGEDITOR_SET_STATEFLAG_DENY_BUTTON = ChatColor.translateAlternateColorCodes('&', GUI_FLAGEDITOR_SET_STATEFLAG_DENY_BUTTON);
+        GUI_FLAGEDITOR_SET_BOOLEANFLAG_TRUE_BUTTON = ChatColor.translateAlternateColorCodes('&', GUI_FLAGEDITOR_SET_BOOLEANFLAG_TRUE_BUTTON);
+        GUI_FLAGEDITOR_SET_BOOLEANFLAG_FALSE_BUTTON = ChatColor.translateAlternateColorCodes('&', GUI_FLAGEDITOR_SET_BOOLEANFLAG_FALSE_BUTTON);
+        GUI_FLAGEDITOR_SET_STRINGFLAG_SET_MESSAGE_BUTTON = ChatColor.translateAlternateColorCodes('&', GUI_FLAGEDITOR_SET_STRINGFLAG_SET_MESSAGE_BUTTON);
+        GUI_FLAGEDITOR_SET_INTEGERFLAG_SET_INTEGER_BUTTON = ChatColor.translateAlternateColorCodes('&', GUI_FLAGEDITOR_SET_INTEGERFLAG_SET_INTEGER_BUTTON);
+        GUI_FLAGEDITOR_SET_DOUBLEFLAG_SET_DOUBLE_BUTTON = ChatColor.translateAlternateColorCodes('&', GUI_FLAGEDITOR_SET_DOUBLEFLAG_SET_DOUBLE_BUTTON);
+        FlAGEDITOR_FLAG_NOT_ACTIVATED = ChatColor.translateAlternateColorCodes('&', FlAGEDITOR_FLAG_NOT_ACTIVATED);
+        FLAGEDITOR_FLAG_HAS_BEEN_UPDATED = ChatColor.translateAlternateColorCodes('&', FLAGEDITOR_FLAG_HAS_BEEN_UPDATED);
+        FLAGEDITOR_FLAG_COULD_NOT_BE_MODIFIED = ChatColor.translateAlternateColorCodes('&', FLAGEDITOR_FLAG_COULD_NOT_BE_MODIFIED);
+        FlAGEDITOR_FLAG_HAS_BEEN_DELETED = ChatColor.translateAlternateColorCodes('&', FlAGEDITOR_FLAG_HAS_BEEN_DELETED);
+
         for(int i = 0; i < REGION_INFO_SELLREGION.size(); i++){
             REGION_INFO_SELLREGION.set(i, ChatColor.translateAlternateColorCodes('&', REGION_INFO_SELLREGION.get(i)));
         }
@@ -1018,11 +1078,9 @@ public class Messages {
         for(int i = 0; i < REGION_INFO_CONTRACTREGION_SUBREGION.size(); i++){
             REGION_INFO_CONTRACTREGION_SUBREGION.set(i, ChatColor.translateAlternateColorCodes('&', REGION_INFO_CONTRACTREGION_SUBREGION.get(i)));
         }
-
         for(int i = 0; i < GUI_ENTITYLIMIT_ITEM_LORE.size(); i++){
             GUI_ENTITYLIMIT_ITEM_LORE.set(i, ChatColor.translateAlternateColorCodes('&', GUI_ENTITYLIMIT_ITEM_LORE.get(i)));
         }
-
         for(int i = 0; i < GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM_LORE.size(); i++){
             GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM_LORE.set(i, ChatColor.translateAlternateColorCodes('&', GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM_LORE.get(i)));
         }
@@ -1437,6 +1495,26 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionKindInfoLore", "&6Lore:");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionKindHelpHeadline", "&6=====[AdvancedRegionMarket RegionKind Help ]=====\n&3Page %actualpage% / %maxpage%");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.PlayerNotFound", "&4Could not find selected player!");
+
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIFlageditorButton", "&6FlagEditor");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIFlageditorMenuName", "&1FlagEditor");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIFlageditorDeleteFlagButton", "&4Delete flag");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIFlageditorSetFlagGroupAllButton", "&9Set for everyone");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIFlageditorSetFlagGroupMembersButton", "&9Set for members and owners");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIFlageditorSetFlagGroupOwnersButton", "&9Set for owners");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIFlageditorSetFlagGroupNonMembersButton", "&9Set for non members and non owners");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIFlageditorSetFlagGroupNonOwnersButton", "&9Set for non owners");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIFlageditorSetStateflagAllowButton", "&2Allow");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIFlageditorSetStateflagDenyButton", "&4Deny");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIFlageditorSetBooleanflagTrueButton", "&2Yes");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIFlageditorSetBooleanflagFalseButton", "&4No");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIFlageditorSetStringflagSetMessageButton", "&2Set message");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIFlageditorSetIntegerflagSetIntegerButton", "&2Set number");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIFlageditorSetDoubleflagSetDoubleButton", "&2Set number");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.FlageditorFlagNotActivated", "&4Flag not activated!");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.FlageditorFlagHasBeenUpdated", "&2Flag has been updated!");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.FlageditorFlagCouldNotBeUpdated", "Could not modify flag %flag%!");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.FlageditorFlagHasBeenDeleted", "&2Flag has been deleted!");
 
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoSellregionAdmin", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
                 "&9ID: &e%regionid% &7(Type: &r%selltype%&7)",

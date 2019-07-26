@@ -371,6 +371,9 @@ public class Gui implements Listener {
 
     public static void openFlagEditor(Player player, Region region, int start, ClickAction goBackAction) {
         List<FlagSettings> fullFlagSettingsList = region.getFlagGroup().getFlagSettingsSold();
+        if(!region.isSold()) {
+            fullFlagSettingsList = region.getFlagGroup().getFlagSettingsAvailable();
+        }
         List<FlagSettings> flagSettingsList = new ArrayList<>();
         for(FlagSettings flagSettings : fullFlagSettingsList) {
             if(flagSettings.isEditable() && flagSettings.getApplyTo().contains(region.getSellType())) {

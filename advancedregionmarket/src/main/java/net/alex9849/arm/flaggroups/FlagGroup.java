@@ -190,6 +190,10 @@ public class FlagGroup implements Saveable {
         return flagSettingsSold;
     }
 
+    public List<FlagSettings> getFlagSettingsAvailable() {
+        return flagSettingsAvailable;
+    }
+
     public enum ResetMode {
         COMPLETE, NON_EDITABLE
     }

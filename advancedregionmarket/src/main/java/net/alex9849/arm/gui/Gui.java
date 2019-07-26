@@ -390,61 +390,6 @@ public class Gui implements Listener {
             Flag rgFlag = flagSettings.getFlag();
             int invIndex = (i - start) * 9;
 
-            class GroupFlagSetter implements ClickAction {
-                private String input;
-                private ClickAction afterFlagSetAction;
-
-                GroupFlagSetter(String input, ClickAction afterFlagSetAction) {
-                    this.input = input;
-                    this.afterFlagSetAction = afterFlagSetAction;
-                }
-
-                @Override
-                public void execute(Player player) throws InputException {
-                    if(region.getRegion().getFlagSetting(rgFlag) == null) {
-                        throw new InputException(player, region.getConvertedMessage(Messages.FlAGEDITOR_FLAG_NOT_ACTIVATED));
-                    }
-                    try {
-                        RegionGroup groupFlag = getParsedSettingsObject();
-                        if(rgFlag.getRegionGroupFlag().getDefault() == groupFlag) {
-                            region.getRegion().deleteFlags(rgFlag.getRegionGroupFlag());
-                        } else {
-                            region.getRegion().setFlag(rgFlag.getRegionGroupFlag(), groupFlag);
-                        }
-                        player.sendMessage(Messages.PREFIX + region.getConvertedMessage(Messages.FLAGEDITOR_FLAG_HAS_BEEN_UPDATED));
-                        afterFlagSetAction.execute(player);
-                    } catch (InvalidFlagFormat invalidFlagFormat) {
-                        Bukkit.getLogger().info("Could not modify flag " + rgFlag.getName() + " via player flageditor!");
-                        throw new InputException(player, Messages.FLAGEDITOR_FLAG_COULD_NOT_BE_MODIFIED.replace("%flag%", rgFlag.getName()));
-                    }
-                }
-
-                private RegionGroup getParsedSettingsObject() throws InvalidFlagFormat {
-                    return AdvancedRegionMarket.getWorldGuardInterface().parseFlagInput(rgFlag.getRegionGroupFlag(), region.getConvertedMessage(this.input));
-                }
-
-                public boolean isInputSelected() {
-                    try {
-                        RegionGroup settingsObj = getParsedSettingsObject();
-                        Object regionFlagSetting = region.getRegion().getFlagSetting(rgFlag.getRegionGroupFlag());
-                        if(region.getRegion().getFlagSetting(rgFlag) == null) {
-                            return false;
-                        }
-                        if(regionFlagSetting == settingsObj) {
-                            return true;
-                        } else {
-                            if(rgFlag.getRegionGroupFlag().getDefault() == settingsObj && regionFlagSetting == null) {
-                                return true;
-                            }
-                            return false;
-                        }
-                    } catch (InvalidFlagFormat e) {
-                        return false;
-                    }
-                }
-
-            }
-
             List<String> flagSettingsDescription = flagSettings.getGuidescription();
             for(int j = 0; j < flagSettingsDescription.size(); j++) {
                 flagSettingsDescription.set(j, region.getConvertedMessage(flagSettingsDescription.get(j)));
@@ -463,7 +408,6 @@ public class Gui implements Listener {
                 guiInventory.addIcon(flagStateButtons[1], invIndex + 2);
             }
 
-            //Add Materials to MaterialHandler
             ClickItem deleteButton = new ClickItem(new ItemStack(Gui.FLAG_REMOVE_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_DELETE_FLAG_BUTTON)).addClickAction((pl -> {
                 region.getRegion().deleteFlags(rgFlag);
                 openFlagEditor(pl, region, flagSettingsList, start, goBackAction);
@@ -475,27 +419,27 @@ public class Gui implements Listener {
                 openFlagEditor(pl, region, flagSettingsList, start, goBackAction);
             };
 
-            GroupFlagSetter gfsAllButton = new GroupFlagSetter("all", afterFlagSetAction);
+            FlagSetter gfsAllButton = new FlagSetter(region, rgFlag.getRegionGroupFlag(), "all", afterFlagSetAction);
             ClickItem allButton = new ClickItem(gfsAllButton.isInputSelected()? new ItemStack(Gui.FLAG_GROUP_SELECTED_ITEM):
                     new ItemStack(Gui.FLAG_GROUP_NOT_SELECTED_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_SET_FLAG_GROUP_ALL_BUTTON)).addClickAction(gfsAllButton);
             guiInventory.addIcon(allButton, invIndex + 4);
 
-            GroupFlagSetter gfsMembersButton = new GroupFlagSetter("members", afterFlagSetAction);
+            FlagSetter gfsMembersButton = new FlagSetter(region, rgFlag.getRegionGroupFlag(), "members", afterFlagSetAction);
             ClickItem membersButton = new ClickItem(gfsMembersButton.isInputSelected()? new ItemStack(Gui.FLAG_GROUP_SELECTED_ITEM):
                     new ItemStack(Gui.FLAG_GROUP_NOT_SELECTED_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_SET_FLAG_GROUP_MEMBERS_BUTTON)).addClickAction(gfsMembersButton);
             guiInventory.addIcon(membersButton, invIndex + 5);
 
-            GroupFlagSetter gfsOwnersButton = new GroupFlagSetter("owners", afterFlagSetAction);
+            FlagSetter gfsOwnersButton = new FlagSetter(region, rgFlag.getRegionGroupFlag(), "owners", afterFlagSetAction);
             ClickItem ownersButton = new ClickItem(gfsOwnersButton.isInputSelected()? new ItemStack(Gui.FLAG_GROUP_SELECTED_ITEM):
                     new ItemStack(Gui.FLAG_GROUP_NOT_SELECTED_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_SET_FLAG_GROUP_OWNERS_BUTTON)).addClickAction(gfsOwnersButton);
             guiInventory.addIcon(ownersButton, invIndex + 6);
 
-            GroupFlagSetter gfsNonMembersButton = new GroupFlagSetter("non_members", afterFlagSetAction);
+            FlagSetter gfsNonMembersButton = new FlagSetter(region, rgFlag.getRegionGroupFlag(), "non_members", afterFlagSetAction);
             ClickItem nonMembersButton = new ClickItem(gfsNonMembersButton.isInputSelected()? new ItemStack(Gui.FLAG_GROUP_SELECTED_ITEM):
                     new ItemStack(Gui.FLAG_GROUP_NOT_SELECTED_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_SET_FLAG_GROUP_NON_MEMBERS_BUTTON)).addClickAction(gfsNonMembersButton);
             guiInventory.addIcon(nonMembersButton, invIndex + 7);
 
-            GroupFlagSetter gfsNonOwnersButton = new GroupFlagSetter("non_owners", afterFlagSetAction);
+            FlagSetter gfsNonOwnersButton = new FlagSetter(region, rgFlag.getRegionGroupFlag(), "non_owners", afterFlagSetAction);
             ClickItem nonOwnersButton = new ClickItem(gfsNonOwnersButton.isInputSelected()? new ItemStack(Gui.FLAG_GROUP_SELECTED_ITEM):
                     new ItemStack(Gui.FLAG_GROUP_NOT_SELECTED_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_SET_FLAG_GROUP_NON_OWNERS_BUTTON)).addClickAction(gfsNonOwnersButton);
             guiInventory.addIcon(nonOwnersButton, invIndex + 8);
@@ -1987,71 +1931,29 @@ public class Gui implements Listener {
     }
 
     public static ClickItem[] getFlagSettingItem(Flag flag, Region region, ClickAction afterFlagSetAction) {
-        class FlagSetter implements ClickAction {
-            private String input;
-
-            FlagSetter(String input) {
-                this.input = input;
-            }
-
-            public void setInput(String s) {
-                this.input = s;
-            }
-
-            public boolean isInputSelected() {
-                try {
-                    return region.getRegion().getFlagSetting(flag) == getParsedSettingsObject();
-                } catch (InvalidFlagFormat e) {
-                    return false;
-                }
-            }
-
-            private Object getParsedSettingsObject() throws InvalidFlagFormat {
-                return AdvancedRegionMarket.getWorldGuardInterface().parseFlagInput(flag, region.getConvertedMessage(this.input));
-            }
-
-            @Override
-            public void execute(Player player) throws InputException {
-                try {
-                    Object flagSetting = getParsedSettingsObject();
-                    if(flag.getDefault() == flagSetting) {
-                        region.getRegion().deleteFlags(flag);
-                    } else {
-                        region.getRegion().setFlag(flag, flagSetting);
-                    }
-                    afterFlagSetAction.execute(player);
-                    player.sendMessage(Messages.PREFIX + region.getConvertedMessage(Messages.FLAGEDITOR_FLAG_HAS_BEEN_UPDATED));
-                } catch (InvalidFlagFormat invalidFlagFormat) {
-                    Bukkit.getLogger().info("Could not modify flag " + flag.getName() + " via player flageditor!");
-                    throw new InputException(player, Messages.FLAGEDITOR_FLAG_COULD_NOT_BE_MODIFIED.replace("%flag%", flag.getName()));
-                }
-            }
-        }
-
-
         ClickItem[] clickItems;
         if(flag instanceof StateFlag) {
             clickItems = new ClickItem[2];
-            FlagSetter fs0 = new FlagSetter("allow");
+            FlagSetter fs0 = new FlagSetter(region, flag, "allow", afterFlagSetAction);
             clickItems[0] = new ClickItem(fs0.isInputSelected()? new ItemStack(Gui.FLAG_SETTING_SELECTED_ITEM):
                     new ItemStack(Gui.FLAG_SETTING_NOT_SELECTED_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_SET_STATEFLAG_ALLOW_BUTTON)).addClickAction(fs0);
-            FlagSetter fs1 = new FlagSetter("deny");
+            FlagSetter fs1 = new FlagSetter(region, flag, "deny", afterFlagSetAction);
             clickItems[1] = new ClickItem(fs1.isInputSelected()? new ItemStack(Gui.FLAG_SETTING_SELECTED_ITEM):
                     new ItemStack(Gui.FLAG_SETTING_NOT_SELECTED_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_SET_STATEFLAG_DENY_BUTTON)).addClickAction(fs1);
 
         } else if(flag instanceof BooleanFlag) {
             clickItems = new ClickItem[2];
-            FlagSetter fs0 = new FlagSetter("true");
+            FlagSetter fs0 = new FlagSetter(region, flag, "true", afterFlagSetAction);
             clickItems[0] = new ClickItem(fs0.isInputSelected()? new ItemStack(Gui.FLAG_SETTING_SELECTED_ITEM):
                     new ItemStack(Gui.FLAG_SETTING_NOT_SELECTED_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_SET_BOOLEANFLAG_TRUE_BUTTON)).addClickAction(fs0);
-            FlagSetter fs1 = new FlagSetter("false");
+            FlagSetter fs1 = new FlagSetter(region, flag, "false", afterFlagSetAction);
             clickItems[1] = new ClickItem(fs1.isInputSelected()? new ItemStack(Gui.FLAG_SETTING_SELECTED_ITEM):
                     new ItemStack(Gui.FLAG_SETTING_NOT_SELECTED_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_SET_BOOLEANFLAG_FALSE_BUTTON)).addClickAction(fs1);
 
         }
         else if (flag instanceof StringFlag) {
             clickItems = new ClickItem[1];
-            final FlagSetter flagSetter = new FlagSetter("");
+            final FlagSetter flagSetter = new FlagSetter(region, flag, "", afterFlagSetAction);
             clickItems[0] = new ClickItem(new ItemStack(Gui.FLAG_USER_INPUT_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_SET_STRINGFLAG_SET_MESSAGE_BUTTON)).addClickAction((new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
@@ -2070,7 +1972,7 @@ public class Gui implements Listener {
         else if (flag instanceof IntegerFlag) {
 
             clickItems = new ClickItem[1];
-            final FlagSetter flagSetter = new FlagSetter("");
+            final FlagSetter flagSetter = new FlagSetter(region, flag, "", afterFlagSetAction);
             clickItems[0] = new ClickItem(new ItemStack(Gui.FLAG_USER_INPUT_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_SET_INTEGERFLAG_SET_INTEGER_BUTTON)).addClickAction((new ClickAction() {
             @Override
             public void execute(Player player) throws InputException {
@@ -2087,7 +1989,7 @@ public class Gui implements Listener {
         else if (flag instanceof DoubleFlag) {
 
             clickItems = new ClickItem[1];
-            final FlagSetter flagSetter = new FlagSetter("");
+            final FlagSetter flagSetter = new FlagSetter(region, flag, "", afterFlagSetAction);
             clickItems[0] = new ClickItem(new ItemStack(Gui.FLAG_USER_INPUT_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_SET_DOUBLEFLAG_SET_DOUBLE_BUTTON)).addClickAction((new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
@@ -2102,8 +2004,75 @@ public class Gui implements Listener {
             }));
         }
         else {
-            return new ClickItem[0];
+            clickItems = new ClickItem[1];
+            final FlagSetter flagSetter = new FlagSetter(region, flag, "", afterFlagSetAction);
+            clickItems[0] = new ClickItem(new ItemStack(Gui.FLAG_USER_INPUT_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_UNKNOWNFLAG_SET_PROPERTIES_BUTTON)).addClickAction((new ClickAction() {
+                @Override
+                public void execute(Player player) throws InputException {
+                    player.closeInventory();
+                    player.sendMessage(region.getConvertedMessage(Messages.FLAGEDITOR_UNKNOWNFLAG_SET_PROPERTIES_INFO));
+                    GuiChatInputListener gcil = new GuiChatInputListener(player, (s) -> {
+                        flagSetter.setInput(s);
+                        flagSetter.execute(player);
+                    });
+                    Bukkit.getPluginManager().registerEvents(gcil, AdvancedRegionMarket.getARM());
+                }
+            }));
         }
         return clickItems;
+    }
+
+    private static class FlagSetter implements ClickAction {
+        private String input;
+        private Region region;
+        private Flag flag;
+        private ClickAction afterFlagSetAction;
+
+        FlagSetter(Region region, Flag flag, String input, ClickAction afterFlagSetAction) {
+            this.input = input;
+            this.region = region;
+            this.flag = flag;
+            this.afterFlagSetAction = afterFlagSetAction;
+        }
+
+        public void setInput(String s) {
+            this.input = s;
+        }
+
+        public boolean isInputSelected() {
+            try {
+                return region.getRegion().getFlagSetting(flag) == getParsedSettingsObject();
+            } catch (InvalidFlagFormat e) {
+                return false;
+            }
+        }
+
+        private Object getParsedSettingsObject() throws InvalidFlagFormat {
+            return AdvancedRegionMarket.getWorldGuardInterface().parseFlagInput(flag, region.getConvertedMessage(this.input));
+        }
+
+        @Override
+        public void execute(Player player) throws InputException {
+            try {
+                if(flag == null) {
+                    throw new InvalidFlagFormat("");
+                }
+                Object flagSetting = getParsedSettingsObject();
+                if(flag.getDefault() == flagSetting) {
+                    region.getRegion().deleteFlags(flag);
+                } else {
+                    region.getRegion().setFlag(flag, flagSetting);
+                }
+                afterFlagSetAction.execute(player);
+                player.sendMessage(Messages.PREFIX + region.getConvertedMessage(Messages.FLAGEDITOR_FLAG_HAS_BEEN_UPDATED));
+            } catch (InvalidFlagFormat invalidFlagFormat) {
+                String flagname = "";
+                if(flag != null) {
+                    flagname = flag.getName();
+                }
+                Bukkit.getLogger().info("Could not modify flag " + flagname + " via player flageditor!");
+                throw new InputException(player, Messages.FLAGEDITOR_FLAG_COULD_NOT_BE_MODIFIED.replace("%flag%", flag.getName()));
+            }
+        }
     }
 }

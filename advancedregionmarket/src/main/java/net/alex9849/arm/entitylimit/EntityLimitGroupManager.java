@@ -26,13 +26,13 @@ public class EntityLimitGroupManager extends YamlFileManager<EntityLimitGroup> {
         if(yamlConfiguration.get("DefaultEntityLimit") != null) {
             ConfigurationSection entityLimitDEFAULTSection = yamlConfiguration.getConfigurationSection("DefaultEntityLimit");
             fileupdated |= updateDefaults(entityLimitDEFAULTSection);
-            EntityLimitGroup.setDEFAULT(parseEntityLimitGroup(entityLimitDEFAULTSection, "default"));
+            EntityLimitGroup.setDEFAULT(parseEntityLimitGroup(entityLimitDEFAULTSection, "Default"));
         }
 
         if(yamlConfiguration.get("SubregionEntityLimit") != null) {
             ConfigurationSection entityLimitSUBREGIONSection = yamlConfiguration.getConfigurationSection("SubregionEntityLimit");
             fileupdated |= updateDefaults(entityLimitSUBREGIONSection);
-            EntityLimitGroup.setSUBREGION(parseEntityLimitGroup(entityLimitSUBREGIONSection, "subregion"));
+            EntityLimitGroup.setSUBREGION(parseEntityLimitGroup(entityLimitSUBREGIONSection, "Subregion"));
         }
 
         if(yamlConfiguration.get("EntityLimits") == null) {

@@ -136,9 +136,9 @@ public class MaterialFinder {
             MaterialFinder.MAGMA_BLOCK = MaterialFinder.getMaterial("MAGMA_BLOCK");
             MaterialFinder.GUI_FLAG_REMOVE_ITEM = MaterialFinder.getMaterial("BARRIER");
             MaterialFinder.GUI_FLAGEDITOR_ITEM = MaterialFinder.getMaterial("BANNER");
-            MaterialFinder.GUI_FLAG_SETTING_SELECTED_ITEM = MaterialFinder.getMaterial("MELON");
+            MaterialFinder.GUI_FLAG_SETTING_SELECTED_ITEM = MaterialFinder.getMaterial("EMERALD_BLOCK");
             MaterialFinder.GUI_FLAG_SETTING_NOT_SELECTED_ITEM = MaterialFinder.getMaterial("REDSTONE_BLOCK");
-            MaterialFinder.GUI_FLAG_GROUP_SELECTED_ITEM = MaterialFinder.getMaterial("MELON");
+            MaterialFinder.GUI_FLAG_GROUP_SELECTED_ITEM = MaterialFinder.getMaterial("EMERALD_BLOCK");
             MaterialFinder.GUI_FLAG_GROUP_NOT_SELECTED_ITEM = MaterialFinder.getMaterial("REDSTONE_BLOCK");
             MaterialFinder.GUI_FLAG_ITEM = MaterialFinder.getMaterial("SIGN");
             MaterialFinder.GUI_FLAG_USER_INPUT_ITEM = MaterialFinder.getMaterial("WRITABLE_BOOK");
@@ -176,9 +176,9 @@ public class MaterialFinder {
             MaterialFinder.MAGMA_BLOCK = MaterialFinder.getMaterial("MAGMA_BLOCK");
             MaterialFinder.GUI_FLAG_REMOVE_ITEM = MaterialFinder.getMaterial("BARRIER");
             MaterialFinder.GUI_FLAGEDITOR_ITEM = MaterialFinder.getMaterial("BANNER");
-            MaterialFinder.GUI_FLAG_SETTING_SELECTED_ITEM = MaterialFinder.getMaterial("MELON");
+            MaterialFinder.GUI_FLAG_SETTING_SELECTED_ITEM = MaterialFinder.getMaterial("EMERALD_BLOCK");
             MaterialFinder.GUI_FLAG_SETTING_NOT_SELECTED_ITEM = MaterialFinder.getMaterial("REDSTONE_BLOCK");
-            MaterialFinder.GUI_FLAG_GROUP_SELECTED_ITEM = MaterialFinder.getMaterial("MELON");
+            MaterialFinder.GUI_FLAG_GROUP_SELECTED_ITEM = MaterialFinder.getMaterial("EMERALD_BLOCK");
             MaterialFinder.GUI_FLAG_GROUP_NOT_SELECTED_ITEM = MaterialFinder.getMaterial("REDSTONE_BLOCK");
             MaterialFinder.GUI_FLAG_ITEM = MaterialFinder.getMaterial("SIGN");
             MaterialFinder.GUI_FLAG_USER_INPUT_ITEM = MaterialFinder.getMaterial("WRITABLE_BOOK");

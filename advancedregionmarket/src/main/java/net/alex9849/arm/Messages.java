@@ -1439,19 +1439,19 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.PlayerNotFound", "&4Could not find selected player!");
 
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoSellregionAdmin", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
-                "&6ID: %regionid%", "&6Sold: %issold%", "&6Price: %price%", "&6Type: %selltype%" + "&6Regionkind: %regionkinddisplay%",
-                "&6EntityLimitGroup: %entitylimitgroup%", "&6Owner: %owner%", "&6Members: %members%", "&6isHotel: %ishotel%",
+                "&6ID: %regionid%", "&6Sold: %issold%", "&6Price: %price%", "&6Type: %selltype%", "&6Regionkind: %regionkinddisplay%",
+                "&6FlagGroup: %flaggroup%", "&6EntityLimitGroup: %entitylimitgroup%", "&6Owner: %owner%", "&6Members: %members%", "&6isHotel: %ishotel%",
                 "&6Autoreset: %isautoreset%", "&6UserResettable: %isuserresettable%" , "&6DoBlockReset: %isdoblockreset%", "&6Autoprice: %autoprice%",
                 "&6Allowed Subregions: %subregionlimit%", "&6Subregions: %subregions%")));
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoRentregionAdmin", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
                 "&6ID: %regionid%", "&6Sold: %issold%", "&6Price: %price%", "&6Type: %selltype%", "&6Regionkind: %regionkinddisplay%",
-                "&6EntityLimitGroup: %entitylimitgroup%", "&6Owner: %owner%", "&6Members: %members%", "&6isHotel: %ishotel%",
+                "&6FlagGroup: %flaggroup%", "&6EntityLimitGroup: %entitylimitgroup%", "&6Owner: %owner%", "&6Members: %members%", "&6isHotel: %ishotel%",
                 "&6Autoreset: %isautoreset%", "&6UserResettable: %isuserresettable%" , "&6DoBlockReset: %isdoblockreset%" , "&6Autoprice: %autoprice%",
                 "&6Allowed Subregions: %subregionlimit%", "&6Subregions: %subregions%", "&6Remaining time: %remaining%",
                 "&6Extend per click: %extendperclick%", "&6Max rent time: %maxrenttime%")));
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoContractregionAdmin", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
                 "&6ID: %regionid%", "&6Sold: %issold%", "&6Price: %price%", "&6Type: %selltype%", "&6Regionkind: %regionkinddisplay%",
-                "&6EntityLimitGroup: %entitylimitgroup%", "&6Owner: %owner%", "&6Members: %members%", "&6isHotel: %ishotel%",
+                "&6FlagGroup: %flaggroup%", "&6EntityLimitGroup: %entitylimitgroup%", "&6Owner: %owner%", "&6Members: %members%", "&6isHotel: %ishotel%",
                 "&6Autoreset: %isautoreset%", "&6UserResettable: %isuserresettable%" , "&6DoBlockReset: %isdoblockreset%" , "&6Autoprice: %autoprice%",
                 "&6Allowed Subregions: %subregionlimit%", "&6Subregions: %subregions%", "&6Terminated: %isterminated%",
                 "&6Extend Time: %extend%", "&6Next extend in: %remaining%")));
@@ -1471,18 +1471,18 @@ public class Messages {
                 "&6Extend Time: %extend%", "&6Next extend in: %remaining%")));
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoSellregionSubregion", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
                 "&6ID: %regionid%", "&6Sold: %issold%", "&6Price: %price%", "&6Type: %selltype%", "&6Regionkind: %regionkinddisplay%",
-                "&6EntityLimitGroup: %entitylimitgroup%", "&6Owner: %owner%", "&6Members: %members%", "&6isHotel: %ishotel%",
+                "&6FlagGroup: %flaggroup%", "&6EntityLimitGroup: %entitylimitgroup%", "&6Owner: %owner%", "&6Members: %members%", "&6isHotel: %ishotel%",
                 "&6Autoreset: %isautoreset%", "&6UserResettable: %isuserresettable%" , "&6DoBlockReset: %isdoblockreset%" , "&6Autoprice: %autoprice%",
                 "&6Allowed Subregions: %subregionlimit%", "&6Subregions: %subregions%")));
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoRentregionSubregion", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
                 "&6ID: %regionid%", "&6Sold: %issold%", "&6Price: %price%", "&6Type: %selltype%", "&6Regionkind: %regionkinddisplay%",
-                "&6EntityLimitGroup: %entitylimitgroup%", "&6Owner: %owner%", "&6Members: %members%", "&6isHotel: %ishotel%",
+                "&6FlagGroup: %flaggroup%", "&6EntityLimitGroup: %entitylimitgroup%", "&6Owner: %owner%", "&6Members: %members%", "&6isHotel: %ishotel%",
                 "&6Autoreset: %isautoreset%", "&6UserResettable: %isuserresettable%" , "&6DoBlockReset: %isdoblockreset%" , "&6Autoprice: %autoprice%",
                 "&6Allowed Subregions: %subregionlimit%", "&6Subregions: %subregions%", "&6Remaining time: %remaining%",
                 "&6Extend per click: %extendperclick%", "&6Max rent time: %maxrenttime%")));
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoContractregionSubregion", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
                 "&6ID: %regionid%", "&6Sold: %issold%", "&6Price: %price%", "&6Type: %selltype%", "&6Regionkind: %regionkinddisplay%",
-                "&6EntityLimitGroup: %entitylimitgroup%", "&6Owner: %owner%", "&6Members: %members%", "&6isHotel: %ishotel%",
+                "&6FlagGroup: %flaggroup%", "&6EntityLimitGroup: %entitylimitgroup%", "&6Owner: %owner%", "&6Members: %members%", "&6isHotel: %ishotel%",
                 "&6Autoreset: %isautoreset%", "&6UserResettable: %isuserresettable%" , "&6DoBlockReset: %isdoblockreset%" , "&6Autoprice: %autoprice%",
                 "&6Allowed Subregions: %subregionlimit%", "&6Subregions: %subregions%", "&6Terminated: %isterminated%",
                 "&6Extend Time: %extend%", "&6Next extend in: %remaining%")));

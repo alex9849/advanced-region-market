@@ -8,7 +8,6 @@ import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.SellType;
 import net.alex9849.arm.util.Saveable;
-import net.alex9849.arm.util.Tuple;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;

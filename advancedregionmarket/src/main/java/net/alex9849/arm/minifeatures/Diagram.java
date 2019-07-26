@@ -3,8 +3,9 @@ package net.alex9849.arm.minifeatures;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.regionkind.RegionKind;
+import net.alex9849.arm.regions.Region;
+import net.alex9849.arm.regions.SellType;
 import net.alex9849.exceptions.InputException;
-import net.alex9849.arm.regions.*;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 

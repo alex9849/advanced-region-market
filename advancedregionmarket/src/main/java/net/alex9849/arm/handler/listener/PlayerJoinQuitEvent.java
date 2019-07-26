@@ -2,11 +2,11 @@ package net.alex9849.arm.handler.listener;
 
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.ArmSettings;
-import net.alex9849.arm.presets.ActivePresetManager;
-import net.alex9849.arm.subregions.SubRegionCreator;
 import net.alex9849.arm.gui.Gui;
+import net.alex9849.arm.presets.ActivePresetManager;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.RentRegion;
+import net.alex9849.arm.subregions.SubRegionCreator;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

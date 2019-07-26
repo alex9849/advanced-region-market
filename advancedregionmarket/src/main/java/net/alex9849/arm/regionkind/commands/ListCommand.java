@@ -4,7 +4,6 @@ import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.commands.BasicArmCommand;
-import net.alex9849.arm.entitylimit.EntityLimitGroup;
 import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.exceptions.InputException;
 import org.bukkit.command.Command;

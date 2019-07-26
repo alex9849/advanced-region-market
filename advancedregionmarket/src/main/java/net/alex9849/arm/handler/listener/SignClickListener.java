@@ -6,7 +6,6 @@ import net.alex9849.arm.Messages;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.util.MaterialFinder;
 import net.alex9849.exceptions.InputException;
-import org.bukkit.Material;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

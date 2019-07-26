@@ -3,22 +3,17 @@ package net.alex9849.arm.commands;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
-import net.alex9849.arm.flaggroups.FlagSettings;
 import net.alex9849.arm.gui.Gui;
-import net.alex9849.exceptions.SchematicNotFoundException;
-import net.alex9849.exceptions.InputException;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regions.Region;
-import org.bukkit.Bukkit;
+import net.alex9849.exceptions.InputException;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.logging.Level;
 
 public class FlageditorCommand extends BasicArmCommand {
 

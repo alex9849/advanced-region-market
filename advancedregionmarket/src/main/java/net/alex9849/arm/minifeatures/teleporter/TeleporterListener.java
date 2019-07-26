@@ -1,6 +1,5 @@
 package net.alex9849.arm.minifeatures.teleporter;
 
-import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

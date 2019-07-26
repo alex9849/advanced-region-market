@@ -3,7 +3,6 @@ package net.alex9849.arm.entitylimit;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.util.Saveable;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
@@ -11,7 +10,6 @@ import org.bukkit.entity.EntityType;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 
 public class EntityLimitGroup implements Saveable {
     private List<EntityLimit> entityLimits;

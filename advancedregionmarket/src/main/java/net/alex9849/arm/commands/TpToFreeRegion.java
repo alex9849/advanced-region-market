@@ -3,7 +3,6 @@ package net.alex9849.arm.commands;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
-import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.exceptions.CmdSyntaxException;
 import net.alex9849.exceptions.InputException;

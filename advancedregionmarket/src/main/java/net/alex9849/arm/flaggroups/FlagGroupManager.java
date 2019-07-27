@@ -74,4 +74,24 @@ public class FlagGroupManager extends YamlFileManager<FlagGroup> {
         }
         return null;
     }
+
+    public List<String> tabCompleteFlaggroup(String name) {
+        List<String> returnme = new ArrayList<>();
+
+        for(FlagGroup flagGroup : this) {
+            if(flagGroup.getName().startsWith(name)) {
+                returnme.add(flagGroup.getName());
+            }
+        }
+
+        if("default".startsWith(name)) {
+            returnme.add("Default");
+        }
+
+        if("subregion".startsWith(name)) {
+            returnme.add("Subregion");
+        }
+
+        return returnme;
+    }
 }

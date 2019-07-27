@@ -153,6 +153,11 @@ public abstract class Region implements Saveable {
         return this.parentRegion;
     }
 
+    public void setFlagGroup(FlagGroup flagGroup) {
+        this.flagGroup = flagGroup;
+        this.queueSave();
+    }
+
     private void setParentRegion(Region region) {
         this.parentRegion = region;
     }

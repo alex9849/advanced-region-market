@@ -387,6 +387,8 @@ public class Messages {
     public static String GUI_FLAGEDITOR_RESET_BUTTON = "&4Reset all Flags to default settings";
     public static String GUI_FLAGEDITOR_UNKNOWNFLAG_SET_PROPERTIES_BUTTON = "&2Set properties";
     public static String FLAGEDITOR_UNKNOWNFLAG_SET_PROPERTIES_INFO = "&9Please write down your new flag properties:";
+    public static String FLAGGROUP_DOES_NOT_EXIST = "&4Flaggroup does not exist!";
+    public static String SUBREGION_FLAGGROUP_ONLY_FOR_SUBREGIONS = "&4Subregion flaggroup only for subregions";
 
     public static List<String> GUI_TELEPORT_TO_REGION_BUTTON_LORE = new ArrayList<>();
     public static List<String> GUI_MAKE_OWNER_BUTTON_LORE = new ArrayList<>();
@@ -753,6 +755,8 @@ public class Messages {
         GUI_FLAGEDITOR_RESET_BUTTON = config.getString("Messages.GUIFlageditorResetButton");
         GUI_FLAGEDITOR_UNKNOWNFLAG_SET_PROPERTIES_BUTTON = config.getString("Messages.GUIFlageditorUnknownFlagSetPropertiesButton");
         FLAGEDITOR_UNKNOWNFLAG_SET_PROPERTIES_INFO = config.getString("Messages.GUIFlageditorUnknownFlagSetPropertiesInfo");
+        FLAGGROUP_DOES_NOT_EXIST = config.getString("Messages.FlaggroupDoesNotExist");
+        SUBREGION_FLAGGROUP_ONLY_FOR_SUBREGIONS = config.getString("Messages.SubregionFlaggroupOnlyForSubregions");
 
         Messages.translateColorCodes();
     }
@@ -1067,6 +1071,8 @@ public class Messages {
         GUI_FLAGEDITOR_RESET_BUTTON = ChatColor.translateAlternateColorCodes('&', GUI_FLAGEDITOR_RESET_BUTTON);
         GUI_FLAGEDITOR_UNKNOWNFLAG_SET_PROPERTIES_BUTTON = ChatColor.translateAlternateColorCodes('&', GUI_FLAGEDITOR_UNKNOWNFLAG_SET_PROPERTIES_BUTTON);
         FLAGEDITOR_UNKNOWNFLAG_SET_PROPERTIES_INFO = ChatColor.translateAlternateColorCodes('&', FLAGEDITOR_UNKNOWNFLAG_SET_PROPERTIES_INFO);
+        FLAGGROUP_DOES_NOT_EXIST = ChatColor.translateAlternateColorCodes('&', FLAGGROUP_DOES_NOT_EXIST);
+        SUBREGION_FLAGGROUP_ONLY_FOR_SUBREGIONS = ChatColor.translateAlternateColorCodes('&', SUBREGION_FLAGGROUP_ONLY_FOR_SUBREGIONS);
 
         for(int i = 0; i < REGION_INFO_SELLREGION.size(); i++){
             REGION_INFO_SELLREGION.set(i, ChatColor.translateAlternateColorCodes('&', REGION_INFO_SELLREGION.get(i)));
@@ -1538,6 +1544,8 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIFlageditorResetButton", "&4Reset all Flags to default settings");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIFlageditorUnknownFlagSetPropertiesButton", "&2Set properties");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIFlageditorUnknownFlagSetPropertiesInfo", "&9Please write down your new flag properties:");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.FlaggroupDoesNotExist", "&4Flaggroup does not exist!");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SubregionFlaggroupOnlyForSubregions", "&4Subregion flaggroup only for subregions");
 
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoSellregionAdmin", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
                 "&9ID: &e%regionid% &7(Type: &r%selltype%&7)",

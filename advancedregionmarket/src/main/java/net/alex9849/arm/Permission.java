@@ -58,6 +58,7 @@ public class Permission {
     public static final String ADMIN_SET_PRICE = "arm.admin.setprice";
     public static final String ADMIN_SIGN_LINK_MODE = "arm.admin.signlinkmode";
     public static final String ADMIN_FLAGEDITOR = "arm.admin.flageditor";
+    public static final String ADMIN_SET_FLAGGROUP = "arm.admin.setflaggroup";
 
     public static final String ADMIN_ENTITYLIMIT_CREATE = "arm.admin.entitylimit.create";
     public static final String ADMIN_ENTITYLIMIT_DELETE = "arm.admin.entitylimit.delete";

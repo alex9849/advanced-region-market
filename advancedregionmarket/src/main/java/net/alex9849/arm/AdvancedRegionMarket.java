@@ -206,6 +206,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         commands.add(new SetIsUserResettableCommand());
         commands.add(new ListAutoPricesCommand());
         commands.add(new FlageditorCommand());
+        commands.add(new SetFlaggroupCommand());
         commands.add(new SignLinkModeCommand());
         commands.add(new SetEntityLimitCommand());
 

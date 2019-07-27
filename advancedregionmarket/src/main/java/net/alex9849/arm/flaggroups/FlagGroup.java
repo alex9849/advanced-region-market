@@ -211,6 +211,7 @@ public class FlagGroup implements Saveable {
     }
 
     public String getConvertedMessage(String message) {
-        return message.replace("%flaggroup%", this.name);
+        if(message.contains("%flaggroup%")) message.replace("%flaggroup%", this.name);
+        return message;
     }
 }

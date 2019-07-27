@@ -242,11 +242,11 @@ public class EntityLimitGroup implements Saveable {
     }
 
     public String getConvertedMessage(String message) {
-        message = message.replace("%entitylimitgroup%", this.getName());
-        message = message.replace("%priceperextraentity%", this.getPricePerExtraEntity() + "");
-        message = message.replace("%currency%", Messages.CURRENCY);
-        message = message.replace("%entitytype%", Messages.ENTITYLIMIT_TOTAL);
-        message = message.replace("%hardlimitentities%", EntityLimitGroup.intToLimitString(this.getHardLimit()));
+        if(message.contains("%entitylimitgroup%")) message = message.replace("%entitylimitgroup%", this.getName());
+        if(message.contains("%priceperextraentity%")) message = message.replace("%priceperextraentity%", this.getPricePerExtraEntity() + "");
+        if(message.contains("%currency%")) message = message.replace("%currency%", Messages.CURRENCY);
+        if(message.contains("%entitytype%")) message = message.replace("%entitytype%", Messages.ENTITYLIMIT_TOTAL);
+        if(message.contains("%hardlimitentities%")) message = message.replace("%hardlimitentities%", EntityLimitGroup.intToLimitString(this.getHardLimit()));
         return message;
     }
 }

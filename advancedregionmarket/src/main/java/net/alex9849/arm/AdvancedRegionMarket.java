@@ -165,6 +165,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
             }, 0, 200);
         }
 
+        loadSignLinkingModeRegions();
         loadOther();
         AdvancedRegionMarket.presetPatternManager = new PresetPatternManager(new File(this.getDataFolder() + "/presets.yml"));
         Region.setCompleteTabRegions(getConfig().getBoolean("Other.CompleteRegionsOnTabComplete"));

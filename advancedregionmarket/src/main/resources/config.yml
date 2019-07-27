@@ -99,6 +99,18 @@ RegionKinds:
   # and to be able to buy them. Replace REGIONKIND_INTERNAL_NAME with the internal name of the regionkind
   activateRegionKindPermissions: false
 
+SignLinkingMode:
+  # The regions listed below will automatically be ignored if you try to select a region via SignLinkingMode
+  regionblacklist:
+    world:
+      - blacklistedTestRegionInWorld1
+      - blacklistedTestRegionInWorld2
+    world_nether:
+      - blacklistedTestRegionInWorld_nether1
+      - blacklistedTestRegionInWorld_nether2
+    world_the_end:
+      - anotherBlacklistedRegion
+
 PriceFormatting:
   # Describes how prices will be formatted. For example:
   # US would format the price like this: 123,456.78

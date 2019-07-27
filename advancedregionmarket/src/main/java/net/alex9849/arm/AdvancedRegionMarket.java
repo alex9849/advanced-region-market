@@ -31,6 +31,7 @@ import net.alex9849.arm.subregions.commands.ToolCommand;
 import net.alex9849.arm.util.MaterialFinder;
 import net.alex9849.exceptions.CmdSyntaxException;
 import net.alex9849.exceptions.InputException;
+import net.alex9849.inter.WGRegion;
 import net.alex9849.inter.WorldEditInterface;
 import net.alex9849.inter.WorldGuardInterface;
 import net.alex9849.signs.SignDataFactory;
@@ -38,6 +39,7 @@ import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Server;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
@@ -249,12 +251,12 @@ public class AdvancedRegionMarket extends JavaPlugin {
         subRegionCommands.add(new net.alex9849.arm.subregions.commands.DeleteCommand());
         commands.add(new CommandSplitter("subregion", "(?i)subregion [^;\n]+", subRegionUsage, Permission.SUBREGION_HELP, Messages.SUBREGION_HELP_HEADLINE, subRegionCommands));
 
-
-
-
         AdvancedRegionMarket.commandHandler.addCommands(commands);
 
         getCommand("arm").setTabCompleter(this.commandHandler);
+
+
+
         Bukkit.getLogger().log(Level.INFO, "Programmed by Alex9849");
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
             @Override
@@ -658,6 +660,41 @@ public class AdvancedRegionMarket extends JavaPlugin {
             RentRegion.setExpirationWarningTime(0);
             RentRegion.setSendExpirationWarning(false);
         }
+    }
+
+    private void loadSignLinkingModeRegions() {
+        ConfigurationSection slmSection = getConfig().getConfigurationSection("SignLinkingMode");
+        if(slmSection == null) {
+            return;
+        }
+        ConfigurationSection blacklistRegionSection = slmSection.getConfigurationSection("regionblacklist");
+        if(blacklistRegionSection == null) {
+            return;
+        }
+        Set<String> worlds = blacklistRegionSection.getKeys(false);
+        if(worlds == null) {
+            return;
+        }
+        Set<WGRegion> wgRegions = new HashSet<>();
+        for(String worldName : worlds) {
+            World world = Bukkit.getWorld(worldName);
+            if(world == null) {
+                continue;
+            }
+            List<String> regionNames = blacklistRegionSection.getStringList(worldName);
+            if(regionNames == null) {
+                continue;
+            }
+
+            for(String regionName : regionNames) {
+                WGRegion wgRegion = AdvancedRegionMarket.getWorldGuardInterface().getRegion(world, AdvancedRegionMarket.getWorldGuard(), regionName);
+                if(wgRegion == null) {
+                    continue;
+                }
+                wgRegions.add(wgRegion);
+            }
+        }
+        SignLinkMode.setBlacklistedRegions(wgRegions);
     }
 
     private static void checkOrCreateMySql(String mysqldatabase) throws SQLException {
@@ -1300,6 +1337,11 @@ public class AdvancedRegionMarket extends JavaPlugin {
         pluginConfig.set("GUI.FlagRemoveItem", "BARRIER");
         pluginConfig.set("GUI.FlagUserInputItem", "WRITABLE_BOOK");
         pluginConfig.set("GUI.FlageditorResetItem", "TNT");
+
+        pluginConfig.set("SignLinkingMode.regionblacklist.world", Arrays.asList("blacklistedTestRegionInWorld1", "blacklistedTestRegionInWorld2"));
+        pluginConfig.set("SignLinkingMode.regionblacklist.world_nether", Arrays.asList("blacklistedTestRegionInWorld_nether1", "blacklistedTestRegionInWorld_nether2"));
+        pluginConfig.set("SignLinkingMode.regionblacklist.world_the_end", Arrays.asList("anotherBlacklistedRegion"));
+
         pluginConfig.set("Version", 1.9);
         saveConfig();
     }

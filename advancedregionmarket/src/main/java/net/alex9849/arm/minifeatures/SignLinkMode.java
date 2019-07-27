@@ -22,10 +22,13 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class SignLinkMode implements Listener {
     private static List<SignLinkMode> signLinkModeList = new ArrayList<>();
+    private static Set<WGRegion> blacklistedRegions = new HashSet<>();
     private Player player;
     private Preset preset;
     private Sign sign;
@@ -83,6 +86,7 @@ public class SignLinkMode implements Listener {
                     return;
                 }
                 List<WGRegion> regions = AdvancedRegionMarket.getWorldGuardInterface().getApplicableRegions(clicklocation.getWorld(), clicklocation, AdvancedRegionMarket.getWorldGuard());
+                regions.removeAll(SignLinkMode.blacklistedRegions);
                 if(regions.size() > 1) {
                     throw new InputException(event.getPlayer(), Messages.SIGN_LINK_MODE_COULD_NOT_SELECT_REGION_MULTIPLE_WG_REGIONS);
                 }
@@ -145,6 +149,7 @@ public class SignLinkMode implements Listener {
 
     public static void reset() {
         SignLinkMode.signLinkModeList = new ArrayList<>();
+        SignLinkMode.blacklistedRegions = new HashSet<>();
     }
 
     public Player getPlayer() {
@@ -174,5 +179,12 @@ public class SignLinkMode implements Listener {
         }
         signLinkModeList.add(slm);
         slm.register();
+    }
+
+    public static void setBlacklistedRegions(Set<WGRegion> regions) {
+        if(regions == null) {
+            return;
+        }
+        SignLinkMode.blacklistedRegions = regions;
     }
 }

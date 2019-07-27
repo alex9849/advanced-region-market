@@ -164,7 +164,7 @@ SignClickActions:
   RightClickNotSneakCmd: "buyaction"
   RightClickSneakCmd: "arm sellback %regionid%"
   LeftClickNotSneakCmd: "arm info %regionid%"
-  LeftClickSneakCmd: "arm info %regionid%"
+  LeftClickSneakCmd: "arm flageditor %regionid%"
 
 Subregions:
   AllowSubRegionUserReset: false

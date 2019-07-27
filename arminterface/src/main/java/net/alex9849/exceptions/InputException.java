@@ -1,6 +1,5 @@
 package net.alex9849.exceptions;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 import java.io.IOException;

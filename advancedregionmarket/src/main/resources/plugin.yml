@@ -16,6 +16,7 @@ commands:
 permissions:
    arm.*:
       description: Give access to all commands of AdvancedRegionMarket
+      default: op
       children:
          arm.admin.changeautoreset: true
          arm.admin.create.sellregion: true
@@ -128,6 +129,7 @@ permissions:
          arm.help: true
    arm.member.*:
       description: Give access to all commands for normal players without subregion commands and halp commands
+      default: true
       children:
          arm.member.resetregionblocks: true
          arm.member.sellregion: true
@@ -150,6 +152,7 @@ permissions:
          arm.member.flageditor: true
    arm.subregion.*:
       description: Give access to all commands for subregions
+      default: true
       children:
          arm.member.resetregionblocks: true
          arm.member.sellregion: true
@@ -370,37 +373,37 @@ permissions:
       default: op
    arm.subregion.tool:
       description: Allows give the player a tool that can be used to mark the corners of a new subregion
-      default: op
+      default: true
    arm.subregion.create.sellregion:
       description: Allows to create a subregions as sellregions
-      default: op
+      default: true
    arm.subregion.create.rentregion:
       description: Allows to create a subregions as rentregions
-      default: op
+      default: true
    arm.subregion.create.contractregion:
       description: Allows to create a subregions as contractregions
-      default: op
+      default: true
    arm.subregion.delete.available:
       description: Allows to delete subregions that are not sold
-      default: op
+      default: true
    arm.subregion.delete.sold:
       description: Allows to delete subregions that are sold
       default: op
    arm.subregion.changeishotel:
       description: Allows to enable or disable the hotelfunction for a subregion
-      default: op
+      default: true
    arm.subregion.tp:
       description: Allows to teleport to a subregion
-      default: op
+      default: true
    arm.subregion.unsell:
       description: Allows to unsell a subregion
-      default: op
+      default: true
    arm.subregion.resetregionblocks:
       description: Allows to reset the built blocks inside a subregion
-      default: op
+      default: true
    arm.subregion.help:
       description: Allows display the help page of the arm subregion command
-      default: op
+      default: true
    arm.admin.regionkind.create:
       description: Allows to create a regionkind
       default: op

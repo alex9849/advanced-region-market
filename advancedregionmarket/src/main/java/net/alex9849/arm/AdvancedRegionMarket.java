@@ -146,14 +146,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
         AdvancedRegionMarket.flagGroupManager = new FlagGroupManager(new File(this.getDataFolder() + "/flaggroups.yml"));
         AdvancedRegionMarket.regionManager = new RegionManager(new File(this.getDataFolder() + "/regions.yml"));
         getLogger().log(Level.INFO, "Regions loaded!");
-        getLogger().log(Level.INFO, "Applying flags...!");
-        for(Region region : AdvancedRegionMarket.regionManager) {
-            region.applyFlagGroup(FlagGroup.ResetMode.NON_EDITABLE);
-            for(Region subRegion:region.getSubregions()) {
-                region.applyFlagGroup(FlagGroup.ResetMode.NON_EDITABLE);
-            }
-        }
-        getLogger().log(Level.INFO, "Flags applied!");
         loadAutoReset();
         if(!connectSQL()) {
             Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {

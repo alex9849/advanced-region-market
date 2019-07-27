@@ -167,6 +167,8 @@ public class RegionManager extends YamlFileManager<Region> {
             }
         }
 
+        Region region;
+
         if (regiontype.equalsIgnoreCase("rentregion")) {
             RentPrice rentPrice;
             if (autoPriceString != null) {
@@ -182,7 +184,7 @@ public class RegionManager extends YamlFileManager<Region> {
                 rentPrice = new RentPrice(price, rentExtendPerClick, maxRentTime);
             }
             long payedtill = regionSection.getLong("payedTill");
-            return new RentRegion(wgRegion, regionWorld, regionsigns, rentPrice, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, flagGroup, teleportLoc,
+            region = new RentRegion(wgRegion, regionWorld, regionsigns, rentPrice, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, flagGroup, teleportLoc,
                     lastreset, isUserResettable, payedtill, subregions, allowedSubregions, entityLimitGroup, extraEntitysMap, boughtExtraTotalEntitys);
 
 
@@ -202,7 +204,7 @@ public class RegionManager extends YamlFileManager<Region> {
             }
             long payedtill = regionSection.getLong("payedTill");
             Boolean terminated = regionSection.getBoolean("terminated");
-            return new ContractRegion(wgRegion, regionWorld, regionsigns, contractPrice, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, flagGroup, teleportLoc,
+            region = new ContractRegion(wgRegion, regionWorld, regionsigns, contractPrice, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, flagGroup, teleportLoc,
                     lastreset, isUserResettable, payedtill, terminated, subregions, allowedSubregions, entityLimitGroup, extraEntitysMap, boughtExtraTotalEntitys);
         } else {
             Price sellPrice;
@@ -216,10 +218,31 @@ public class RegionManager extends YamlFileManager<Region> {
                 double price = regionSection.getDouble("price");
                 sellPrice = new Price(price);
             }
-            return new SellRegion(wgRegion, regionWorld, regionsigns, sellPrice, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, flagGroup, teleportLoc, lastreset,
+            region = new SellRegion(wgRegion, regionWorld, regionsigns, sellPrice, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, flagGroup, teleportLoc, lastreset,
                     isUserResettable, subregions, allowedSubregions, entityLimitGroup, extraEntitysMap, boughtExtraTotalEntitys);
 
         }
+
+        region.applyFlagGroup(FlagGroup.ResetMode.NON_EDITABLE);
+
+        for(Region subRegion : region.getSubregions()) {
+            region.applyFlagGroup(FlagGroup.ResetMode.NON_EDITABLE);
+
+            WGRegion parentRegion = region.getRegion();
+            WGRegion subWGRegion = subRegion.getRegion();
+
+            if (ArmSettings.isAllowParentRegionOwnersBuildOnSubregions()) {
+                if (subWGRegion.getParent() == null || !subWGRegion.getParent().equals(parentRegion)) {
+                    subWGRegion.setParent(parentRegion);
+                }
+            } else {
+                if ((parentRegion.getPriority() + 1) != subWGRegion.getPriority())
+                    subWGRegion.setPriority(parentRegion.getPriority() + 1);
+            }
+
+        }
+
+        return region;
     }
 
     private static Region parseSubRegion(ConfigurationSection section, World regionWorld, WGRegion subregion, WGRegion parentRegion) {
@@ -229,19 +252,6 @@ public class RegionManager extends YamlFileManager<Region> {
         String subregionRegiontype = section.getString("regiontype");
         long sublastreset = section.getLong("lastreset");
         List<SignData> subregionsigns = parseRegionsSigns(section);
-
-        if (ArmSettings.isAllowParentRegionOwnersBuildOnSubregions()) {
-            if (subregion.getParent() == null) {
-                subregion.setParent(parentRegion);
-            } else {
-                if (!subregion.getParent().equals(parentRegion)) {
-                    subregion.setParent(parentRegion);
-                }
-            }
-        } else {
-            if ((parentRegion.getPriority() + 1) != subregion.getPriority())
-                subregion.setPriority(parentRegion.getPriority() + 1);
-        }
 
         if (subregionRegiontype.equalsIgnoreCase("rentregion")) {
             long subregpayedtill = section.getLong("payedTill");

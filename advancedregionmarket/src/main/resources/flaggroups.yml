@@ -1,4 +1,66 @@
-FlagGroups: {}
+FlagGroups:
+  examplegroup:
+    priority: 10
+    available:
+      0:
+        setting: 'deny g:non_members'
+        editable: false
+        flag: interact
+      1:
+        setting: 'allow g:all'
+        editable: false
+        flag: use
+      2:
+        setting: 'deny g:non_members'
+        editable: false
+        flag: build
+      3:
+        setting: 'deny g:non_members'
+        editable: false
+        flag: block-break
+      4:
+        setting: 'deny g:non_members'
+        editable: false
+        flag: block-place
+      5:
+        setting: 'deny g:non_members'
+        editable: false
+        flag: chest-access
+    sold:
+      0:
+        setting: 'deny g:non_members'
+        editable: true
+        flag: interact
+        guidescription:
+          - '&2Decides if players can use things'
+          - '&2like doors, levers, inventorys, vehicles etc.'
+          - '&4Important: The flag ''use'' could also block'
+          - '&4the access to some of these things'
+      1:
+        setting: 'deny g:non_members'
+        editable: true
+        flag: use
+        guidescription:
+          - '&2Decides if players can use things'
+          - '&2like doors, levers, etc.'
+          - '&4Important: The flag ''interact'' could'
+          - '&4also block the access to these things'
+      2:
+        setting: 'deny g:non_members'
+        editable: false
+        flag: build
+      3:
+        setting: 'deny g:non_members'
+        editable: false
+        flag: block-break
+      4:
+        setting: 'deny g:non_members'
+        editable: false
+        flag: block-place
+      5:
+        setting: 'deny g:non_members'
+        editable: false
+        flag: chest-access
 
 DefaultFlagGroup:
   priority: 10

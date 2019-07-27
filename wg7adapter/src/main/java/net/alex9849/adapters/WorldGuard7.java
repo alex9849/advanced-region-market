@@ -16,10 +16,12 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 public class WorldGuard7 extends WorldGuardInterface {
-    private static List<WG7Region> createdRegions = new ArrayList<WG7Region>();
+    private static HashMap<ProtectedRegion, WG7Region> createdRegions = new HashMap<ProtectedRegion, WG7Region>();
 
     public RegionManager getRegionManager(World world, WorldGuardPlugin worldGuardPlugin) {
         return WorldGuard.getInstance().getPlatform().getRegionContainer().get(new BukkitWorld(world));
@@ -80,12 +82,12 @@ public class WorldGuard7 extends WorldGuardInterface {
     }
 
     private WG7Region getUniqueRegion(ProtectedRegion protectedRegion) {
-        for(WG7Region wgRegion : createdRegions) {
-            if(wgRegion.getRegion() == protectedRegion) {
-                return wgRegion;
-            }
+        if(createdRegions.containsKey(protectedRegion)) {
+            return createdRegions.get(protectedRegion);
         }
-        return new WG7Region(protectedRegion);
+        WG7Region wg7Region = new WG7Region(protectedRegion);
+        createdRegions.put(protectedRegion, wg7Region);
+        return wg7Region;
     }
 
     public Flag fuzzyMatchFlag(String id) {

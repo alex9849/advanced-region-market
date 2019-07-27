@@ -13,10 +13,12 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 public class WorldGuard6 extends WorldGuardInterface {
-    private static List<WG6Region> createdRegions = new ArrayList<WG6Region>();
+    private static HashMap<ProtectedRegion, WG6Region> createdRegions = new HashMap<ProtectedRegion, WG6Region>();
 
     @Override
     public RegionManager getRegionManager(World world, WorldGuardPlugin worldGuardPlugin) {
@@ -71,12 +73,12 @@ public class WorldGuard6 extends WorldGuardInterface {
     }
 
     private WG6Region getUniqueRegion(ProtectedRegion protectedRegion) {
-        for(WG6Region wgRegion : createdRegions) {
-            if(wgRegion.getRegion() == protectedRegion) {
-                return wgRegion;
-            }
+        if(createdRegions.containsKey(protectedRegion)) {
+            return createdRegions.get(protectedRegion);
         }
-        return new WG6Region(protectedRegion);
+        WG6Region wg7Region = new WG6Region(protectedRegion);
+        createdRegions.put(protectedRegion, wg7Region);
+        return wg7Region;
     }
 
     public Flag fuzzyMatchFlag(String id) {

@@ -73,6 +73,9 @@ public class WorldGuard6 extends WorldGuardInterface {
     }
 
     private WG6Region getUniqueRegion(ProtectedRegion protectedRegion) {
+        if(protectedRegion == null) {
+            return null;
+        }
         if(createdRegions.containsKey(protectedRegion)) {
             return createdRegions.get(protectedRegion);
         }

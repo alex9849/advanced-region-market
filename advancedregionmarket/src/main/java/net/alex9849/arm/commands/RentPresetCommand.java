@@ -45,6 +45,7 @@ public class RentPresetCommand extends SellPresetCommand {
         commands.add(new net.alex9849.arm.presets.commands.UserResettableCommand(PresetType.RENTPRESET));
         commands.add(new net.alex9849.arm.presets.commands.SetAutoPriceCommand(PresetType.RENTPRESET));
         commands.add(new net.alex9849.arm.presets.commands.EntityLimitCommand(PresetType.RENTPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.FlaggroupCommand(PresetType.RENTPRESET));
         this.commandHandler.addCommands(commands);
     }
 

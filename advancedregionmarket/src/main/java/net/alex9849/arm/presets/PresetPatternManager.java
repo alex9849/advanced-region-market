@@ -75,7 +75,7 @@ public class PresetPatternManager extends YamlFileManager<Preset> {
         boolean hasprice = section.getBoolean("hasPrice");
         double price = section.getDouble("price");
         String regionKindString = section.getString("regionKind");
-        String flagGroupString = section.getString("flagGroup");
+        String flagGroupString = section.getString("flaggroup");
         boolean isHotel = section.getBoolean("isHotel");
         boolean doBlockReset = section.getBoolean("doBlockReset");
         String entityLimitGroupString = section.getString("entityLimitGroup");
@@ -156,7 +156,7 @@ public class PresetPatternManager extends YamlFileManager<Preset> {
         updatedSomething |= this.addDefault(section, "doBlockReset", true);
         updatedSomething |= this.addDefault(section, "entityLimitGroup", "Default");
         updatedSomething |= this.addDefault(section, "autoreset", true);
-        updatedSomething |= this.addDefault(section, "flagGroup", "Default");
+        updatedSomething |= this.addDefault(section, "flaggroup", "Default");
         updatedSomething |= this.addDefault(section, "isUserResettable", true);
         updatedSomething |= this.addDefault(section, "allowedSubregions", 0);
         updatedSomething |= this.addDefault(section, "setupcommands", new ArrayList<String>());

@@ -162,14 +162,13 @@ public abstract class Preset implements Saveable {
         player.sendMessage(Messages.REGION_INFO_PRICE + price);
         this.getAdditionalInfo(player);
         player.sendMessage(Messages.REGION_INFO_TYPE + regKind.getName());
+        player.sendMessage(Messages.REGION_INFO_FLAGGROUP + flagGroup.getName());
         player.sendMessage(Messages.REGION_INFO_ENTITYLIMITGROUP + entityLimitGroup.getName());
         player.sendMessage(Messages.REGION_INFO_AUTORESET + this.isAutoReset());
         player.sendMessage(Messages.REGION_INFO_HOTEL + this.isHotel());
         player.sendMessage(Messages.REGION_INFO_DO_BLOCK_RESET + this.isDoBlockReset());
         player.sendMessage(Messages.REGION_INFO_IS_USER_RESETTABLE + this.isUserResettable());
         player.sendMessage(Messages.REGION_INFO_ALLOWED_SUBREGIONS + this.getAllowedSubregions());
-        //TODO FlagGroup in Messages and Command
-        player.sendMessage("FlagGroup: " + this.flagGroup.getName());
         player.sendMessage(Messages.PRESET_SETUP_COMMANDS);
         for(int i = 0; i < this.setupCommands.size(); i++) {
             String message = (i + 1) +". /" + this.setupCommands.get(i);
@@ -253,7 +252,7 @@ public abstract class Preset implements Saveable {
         section.set("regionKind", this.getRegionKind().getName());
         section.set("isHotel", this.isHotel());
         section.set("doBlockReset", this.isDoBlockReset());
-        section.set("flagGroup", this.flagGroup.getName());
+        section.set("flaggroup", this.flagGroup.getName());
         section.set("entityLimitGroup", this.getEntityLimitGroup().getName());
         section.set("autoreset", this.isAutoReset());
         if(this.hasAutoPrice()) {

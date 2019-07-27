@@ -159,7 +159,7 @@ public class RentPreset extends Preset {
     @Override
     public Region generateRegion(WGRegion wgRegion, World world, CommandSender sender, List<SignData> signs) {
 
-        RentRegion rentRegion = new RentRegion(wgRegion, world, signs, new RentPrice(AutoPrice.DEFAULT), false, this.isAutoReset(), this.isHotel(), this.isDoBlockReset(), this.getRegionKind(), this.flagGroup, null, 0, this.isUserResettable(), 1, new ArrayList<>(), this.getAllowedSubregions(), this.entityLimitGroup, new HashMap<>(), 0);
+        RentRegion rentRegion = new RentRegion(wgRegion, world, signs, new RentPrice(AutoPrice.DEFAULT), false, this.isAutoReset(), this.isHotel(), this.isDoBlockReset(), this.getRegionKind(), this.getFlagGroup(), null, 0, this.isUserResettable(), 1, new ArrayList<>(), this.getAllowedSubregions(), this.entityLimitGroup, new HashMap<>(), 0);
         if(this.hasAutoPrice()) {
             rentRegion.setPrice(new RentPrice(this.getAutoPrice()));
         } else if (this.hasPrice() && this.hasExtendPerClick() && this.hasMaxRentTime()) {

@@ -42,6 +42,7 @@ public class SellPresetCommand extends BasicArmCommand {
         commands.add(new net.alex9849.arm.presets.commands.UserResettableCommand(PresetType.SELLPRESET));
         commands.add(new net.alex9849.arm.presets.commands.SetAutoPriceCommand(PresetType.SELLPRESET));
         commands.add(new net.alex9849.arm.presets.commands.EntityLimitCommand(PresetType.SELLPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.FlaggroupCommand(PresetType.SELLPRESET));
         this.commandHandler.addCommands(commands);
     }
 

@@ -97,33 +97,6 @@ public class Permission {
     public static final String REGIONKIND_INFO = "arm.admin.regionkind.info";
     public static final String REGIONKIND_HELP = "arm.admin.regionkind.help";
 
-
-    public static boolean hasAnyRegionKindPermission(CommandSender sender) {
-        return (sender.hasPermission(REGIONKIND_CREATE))|| (sender.hasPermission(REGIONKIND_DELETE)) || (sender.hasPermission(REGIONKIND_LIST))
-                || (sender.hasPermission(REGIONKIND_SET_DISPLAY_IN_GUI)) || (sender.hasPermission(REGIONKIND_SET_DISPLAY_IN_LIMITS))
-                || (sender.hasPermission(REGIONKIND_SET_ITEM)) || (sender.hasPermission(REGIONKIND_SET_PAYBACKPERCENTAGE))
-                || (sender.hasPermission(REGIONKIND_SET_DISPLAYNAME)) || (sender.hasPermission(REGIONKIND_REMOVE_LORE_LINE))
-                || (sender.hasPermission(REGIONKIND_ADD_LORE_LINE)) || (sender.hasPermission(REGIONKIND_INFO))
-                || (sender.hasPermission(REGIONKIND_HELP));
-    }
-
-    public static boolean hasAnySubregionCreatePermission(CommandSender sender) {
-        return (sender.hasPermission(SUBREGION_CREATE_SELL)) || (sender.hasPermission(SUBREGION_CREATE_RENT)) || (sender.hasPermission(SUBREGION_CREATE_CONTRACT));
-    }
-
-    public static boolean hasAnyRegionBackupPermission(CommandSender sender) {
-        //TODO Finalize
-        return true;
-    }
-
-    public static boolean hasAnySubregionPermission(CommandSender sender) {
-        return hasAnySubregionCreatePermission(sender) || (sender.hasPermission(SUBREGION_TOOL)) || (sender.hasPermission(SUBREGION_DELETE_SOLD)) ||
-                (sender.hasPermission(SUBREGION_CHANGE_IS_HOTEL)) || (sender.hasPermission(SUBREGION_DELETE_AVAILABLE)) || (sender.hasPermission(SUBREGION_TP) ||
-                (sender.hasPermission(SUBREGION_UNSELL)) || (sender.hasPermission(SUBREGION_RESETREGIONBLOCKS)));
-    }
-
-
-
     public static final String MEMBER_RESETREGIONBLOCKS = "arm.member.resetregionblocks";
     public static final String MEMBER_SELLBACK = "arm.member.sellregion";
     public static final String MEMBER_INFO = "arm.member.info";
@@ -157,10 +130,13 @@ public class Permission {
         return (sender.hasPermission(MEMBER_BUY) || sender.hasPermission(OLD_BUY_CONTRACTREGION) || sender.hasPermission(OLD_BUY_RENTREGION) || sender.hasPermission(OLD_BUY_SELLREGION));
     }
 
-    public static boolean hasAnyEntityLimitPermission(CommandSender sender) {
-        return sender.hasPermission(MEMBER_ENTITYLIMIT_BUY_EXTRA) || sender.hasPermission(MEMBER_ENTITYLIMIT_CHECK) || sender.hasPermission(MEMBER_ENTITYLIMIT_INFO)
-                || sender.hasPermission(ADMIN_ENTITYLIMIT_CHECK) || sender.hasPermission(ADMIN_ENTITYLIMIT_REMOVE_LIMIT)
-                || sender.hasPermission(ADMIN_ENTITYLIMIT_LIST) || sender.hasPermission(ADMIN_ENTITYLIMIT_DELETE) || sender.hasPermission(ADMIN_ENTITYLIMIT_CREATE)
-                || sender.hasPermission(ADMIN_ENTITYLIMIT_ADD_LIMIT) || sender.hasPermission(ADMIN_ENTITYLIMIT_HELP);
+    public static boolean hasAnySubregionCreatePermission(CommandSender sender) {
+        return (sender.hasPermission(SUBREGION_CREATE_SELL)) || (sender.hasPermission(SUBREGION_CREATE_RENT)) || (sender.hasPermission(SUBREGION_CREATE_CONTRACT));
+    }
+
+    public static boolean hasAnySubregionPermission(CommandSender sender) {
+        return hasAnySubregionCreatePermission(sender) || (sender.hasPermission(SUBREGION_TOOL)) || (sender.hasPermission(SUBREGION_DELETE_SOLD)) ||
+                (sender.hasPermission(SUBREGION_CHANGE_IS_HOTEL)) || (sender.hasPermission(SUBREGION_DELETE_AVAILABLE)) || (sender.hasPermission(SUBREGION_TP) ||
+                (sender.hasPermission(SUBREGION_UNSELL)) || (sender.hasPermission(SUBREGION_RESETREGIONBLOCKS)));
     }
 }

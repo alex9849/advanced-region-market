@@ -160,7 +160,7 @@ public class RegionManager extends YamlFileManager<Region> {
                 for (String subregionName : subregionsection) {
                     WGRegion subWGRegion = AdvancedRegionMarket.getWorldGuardInterface().getRegion(regionWorld, AdvancedRegionMarket.getWorldGuard(), subregionName);
                     if(subWGRegion != null) {
-                        Region armSubRegion = parseSubRegion(regionSection.getConfigurationSection("subregions." + subregionName), regionWorld, subWGRegion, wgRegion);
+                        Region armSubRegion = parseSubRegion(regionSection.getConfigurationSection("subregions." + subregionName), regionWorld, subWGRegion);
                         subregions.add(armSubRegion);
                     }
                 }
@@ -245,7 +245,7 @@ public class RegionManager extends YamlFileManager<Region> {
         return region;
     }
 
-    private static Region parseSubRegion(ConfigurationSection section, World regionWorld, WGRegion subregion, WGRegion parentRegion) {
+    private static Region parseSubRegion(ConfigurationSection section, World regionWorld, WGRegion subregion) {
         double subregPrice = section.getDouble("price");
         boolean subregIsSold = section.getBoolean("sold");
         boolean subregIsHotel = section.getBoolean("isHotel");

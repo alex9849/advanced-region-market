@@ -83,11 +83,12 @@ public class SetFlaggroupCommand extends BasicArmCommand {
 
         for(Region region : regions) {
             region.setFlagGroup(flagGroup);
+            region.applyFlagGroup(FlagGroup.ResetMode.COMPLETE);
             if(region.isSubregion()) {
                 throw new InputException(sender, region.getConvertedMessage(Messages.SUB_REGION_ENTITYLIMITGROUP_ERROR));
             }
         }
-        String sendmessage = Messages.PREFIX + "&6Set entityLimitGroup &a" + flagGroup.getName() + " &6for " + selectedName + "&6!";
+        String sendmessage = Messages.PREFIX + "&6Set flaggroup &a" + flagGroup.getName() + " &6for " + selectedName + "&6!";
         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', sendmessage));
 
         return true;

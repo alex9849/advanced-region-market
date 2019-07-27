@@ -56,5 +56,7 @@ public abstract class WGRegion {
 
     public abstract void deleteFlags(Flag... flags);
 
+    public abstract void deleteAllFlags();
+
     public abstract Object getFlagSetting(Flag flag);
 }

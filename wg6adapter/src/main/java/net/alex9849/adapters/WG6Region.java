@@ -162,6 +162,11 @@ public class WG6Region extends WGRegion {
         }
     }
 
+    public void deleteAllFlags() {
+        Flag[] flagarr = new Flag[0];
+        deleteFlags(this.region.getFlags().keySet().toArray(flagarr));
+    }
+
     public Object getFlagSetting(Flag flag) {
         return this.region.getFlag(flag);
     }

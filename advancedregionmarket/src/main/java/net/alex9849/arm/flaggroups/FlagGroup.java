@@ -101,6 +101,10 @@ public class FlagGroup implements Saveable {
     }
 
     private void applyFlagMapToRegion(List<FlagSettings> flagSettingsList, Region region, ResetMode resetMode) {
+        if(resetMode == ResetMode.COMPLETE) {
+            region.getRegion().deleteAllFlags();
+        }
+
         for(FlagSettings flagSettings : flagSettingsList) {
             if(!flagSettings.getApplyTo().contains(region.getSellType())) {
                 continue;

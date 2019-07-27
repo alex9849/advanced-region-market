@@ -13,13 +13,15 @@ public class FlagSettings {
     private String settings;
     private Set<SellType> applyTo;
     private List<String> guidescription;
+    private String editPermission;
 
-    public FlagSettings(Flag flag, boolean editable, String settings, Set<SellType> applyTo, List<String> guidescription) {
+    public FlagSettings(Flag flag, boolean editable, String settings, Set<SellType> applyTo, List<String> guidescription, String editPermission) {
         this.flag = flag;
         this.editable = editable;
         this.settings = settings;
         this.applyTo = applyTo;
         this.guidescription = new ArrayList<>(guidescription);
+        this.editPermission = editPermission;
     }
 
     public Flag getFlag() {
@@ -40,5 +42,13 @@ public class FlagSettings {
 
     public String getSettings() {
         return settings;
+    }
+
+    public String getEditPermission() {
+        return this.editPermission;
+    }
+
+    public boolean hasEditPermission() {
+        return !this.editPermission.equals("");
     }
 }

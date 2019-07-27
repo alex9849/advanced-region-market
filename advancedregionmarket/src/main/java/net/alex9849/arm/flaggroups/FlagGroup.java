@@ -58,11 +58,15 @@ public class FlagGroup implements Saveable {
         for(String id : flagNames) {
             String settings = yamlConfiguration.getString(id + ".setting");
             String flagName = yamlConfiguration.getString(id + ".flag");
+            String editPermission = yamlConfiguration.getString(id + ".editPermission");
             boolean editable = yamlConfiguration.getBoolean(id + ".editable");
             List<String> applyToString = yamlConfiguration.getStringList(id + ".applyto");
             Set<SellType> applyTo = new TreeSet<>();
             List<String> guiDescriptionList = yamlConfiguration.getStringList(id + ".guidescription");
             List<String> guidescription = new ArrayList<>();
+            if(editPermission == null || editPermission.contains(" ")) {
+                editPermission = "";
+            }
 
             if(applyToString == null || applyToString.isEmpty()) {
                 applyTo.addAll(Arrays.asList(SellType.values()));
@@ -87,7 +91,7 @@ public class FlagGroup implements Saveable {
                 Bukkit.getLogger().info("Could not find flag " + flagName + "! Please check your flaggroups.yml");
                 continue;
             }
-            flagSettingsList.add(new FlagSettings(flag, editable, settings, applyTo, guidescription));
+            flagSettingsList.add(new FlagSettings(flag, editable, settings, applyTo, guidescription, editPermission));
             }
         return flagSettingsList;
     }

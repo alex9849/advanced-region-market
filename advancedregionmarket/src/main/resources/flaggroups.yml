@@ -112,6 +112,7 @@ DefaultFlagGroup:
       setting: 'deny g:non_members'
       editable: true
       flag: interact
+      editPermission: "my.custom.permission"
       guidescription:
         - '&2Decides if players can use things'
         - '&2like doors, levers, inventorys, vehicles etc.'

@@ -377,7 +377,14 @@ public class Gui implements Listener {
         List<FlagSettings> flagSettingsList = new ArrayList<>();
         for(FlagSettings flagSettings : fullFlagSettingsList) {
             if(flagSettings.isEditable() && flagSettings.getApplyTo().contains(region.getSellType())) {
-                flagSettingsList.add(flagSettings);
+                if(flagSettings.hasEditPermission()) {
+                    if(player.hasPermission(flagSettings.getEditPermission())) {
+                        flagSettingsList.add(flagSettings);
+                    }
+                } else {
+                    flagSettingsList.add(flagSettings);
+                }
+
             }
         }
 

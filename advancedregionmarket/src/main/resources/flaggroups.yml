@@ -5,7 +5,7 @@ FlagGroups:
       0:
         setting: 'deny g:non_members'
         editable: false
-        flag: interact
+        flag: ride
       1:
         setting: 'allow g:all'
         editable: false
@@ -30,12 +30,9 @@ FlagGroups:
       0:
         setting: 'deny g:non_members'
         editable: true
-        flag: interact
+        flag: ride
         guidescription:
-          - '&2Decides if players can use things'
-          - '&2like doors, levers, inventorys, vehicles etc.'
-          - '&4Important: The flag ''use'' could also block'
-          - '&4the access to some of these things'
+          - '&2Decides if players can use vehicles'
       1:
         setting: 'deny g:non_members'
         editable: true
@@ -43,8 +40,6 @@ FlagGroups:
         guidescription:
           - '&2Decides if players can use things'
           - '&2like doors, levers, etc.'
-          - '&4Important: The flag ''interact'' could'
-          - '&4also block the access to these things'
       2:
         setting: 'deny g:non_members'
         editable: false
@@ -68,7 +63,7 @@ DefaultFlagGroup:
     0:
       setting: 'deny g:non_members'
       editable: false
-      flag: interact
+      flag: ride
     1:
       setting: '&b[ARM] &6This region can be bought for &2%price%%currency%'
       editable: false
@@ -111,13 +106,10 @@ DefaultFlagGroup:
     0:
       setting: 'deny g:non_members'
       editable: true
-      flag: interact
+      flag: ride
       editPermission: "my.custom.permission"
       guidescription:
-        - '&2Decides if players can use things'
-        - '&2like doors, levers, inventorys, vehicles etc.'
-        - '&4Important: The flag ''use'' could also block'
-        - '&4the access to some of these things'
+        - '&2Decides if players can use vehicles'
     1:
       setting: 'remove'
       editable: true
@@ -133,8 +125,6 @@ DefaultFlagGroup:
       guidescription:
         - '&2Decides if players can use things'
         - '&2like doors, levers, etc.'
-        - '&4Important: The flag ''interact'' could'
-        - '&4also block the access to these things'
     3:
       setting: 'deny g:non_members'
       editable: false
@@ -160,7 +150,7 @@ SubregionFlagGroup:
     0:
       setting: 'deny g:non_members'
       editable: false
-      flag: interact
+      flag: ride
     1:
       setting: '&b[ARM] &6This region can be bought for &2%price%%currency%'
       editable: false
@@ -168,13 +158,13 @@ SubregionFlagGroup:
       applyto:
         - SellRegion
     2:
-      setting: '&b[ARM] &6This region can be rented for &2%price%%currency%/%extendperclick% and extended for up to %maxrenttime%'
+      setting: '&b[ARM] &6This region can be rented for &2%price%%currency%&6/&2%extendperclick% &6and extended for up to &2%maxrenttime%'
       editable: false
       flag: greeting
       applyto:
         - RentRegion
     3:
-      setting: '&b[ARM] &6Contract available for &2%price%%currency%/%extend%'
+      setting: '&b[ARM] &6Contract available for &2%price%%currency%&6/&2%extend%'
       editable: false
       flag: greeting
       applyto:
@@ -203,12 +193,10 @@ SubregionFlagGroup:
     0:
       setting: 'deny g:non_members'
       editable: true
-      flag: interact
+      flag: ride
+      editPermission: "my.custom.permission"
       guidescription:
-        - '&2Decides if players can use things'
-        - '&2like doors, levers, inventorys, vehicles etc.'
-        - '&4Important: The flag ''use'' could also block'
-        - '&4the access to some of these things'
+        - '&2Decides if players can use vehicles'
     1:
       setting: 'remove'
       editable: true
@@ -224,8 +212,6 @@ SubregionFlagGroup:
       guidescription:
         - '&2Decides if players can use things'
         - '&2like doors, levers, etc.'
-        - '&4Important: The flag ''interact'' could'
-        - '&4also block the access to these things'
     3:
       setting: 'deny g:non_members'
       editable: false

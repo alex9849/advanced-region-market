@@ -1569,127 +1569,90 @@ public class Gui implements Listener {
         if(maxItems < itemNr){
             throw new IndexOutOfBoundsException("itemNr does not have to be larger than maxItems");
         }
-        if(maxItems == 0) {
+
+        if(itemNr == 0) {
             return 4;
         }
-        if(maxItems == 1){
-            return 4;
+        if(itemNr == 1){
+            if(maxItems == 1) return 4;
+            if(maxItems == 2) return 2;
+            if(maxItems == 3) return 0;
+            if(maxItems == 4) return 0;
+            if(maxItems == 5) return 0;
+            if(maxItems == 6) return 0;
+            if(maxItems == 7) return 0;
+            if(maxItems == 8) return 0;
+            if(maxItems == 9) return 0;
+            if(maxItems > 9) return 0;
         }
-        else if(maxItems == 2) {
-            if(itemNr == 1) {
-                return 2;
-            } else {
-                return 6;
-            }
+        else if(itemNr == 2) {
+            if(maxItems == 2) return 8;
+            if(maxItems == 3) return 4;
+            if(maxItems == 4) return 2;
+            if(maxItems == 5) return 2;
+            if(maxItems == 6) return 1;
+            if(maxItems == 7) return 1;
+            if(maxItems == 8) return 1;
+            if(maxItems == 9) return 1;
+            if(maxItems > 9) return 1;
         }
-        else if(maxItems == 3) {
-            if(itemNr == 1) {
-                return 0;
-            } else if(itemNr == 2){
-                return 4;
-            } else {
-                return 8;
-            }
+        else if(itemNr == 3) {
+            if(maxItems == 3) return 8;
+            if(maxItems == 4) return 6;
+            if(maxItems == 5) return 4;
+            if(maxItems == 6) return 3;
+            if(maxItems == 7) return 3;
+            if(maxItems == 8) return 2;
+            if(maxItems == 9) return 2;
+            if(maxItems > 9) return 2;
         }
-        else if(maxItems == 4) {
-            if(itemNr == 1) {
-                return 0;
-            } else if(itemNr == 2){
-                return 2;
-            } else if(itemNr == 3){
-                return 6;
-            } else {
-                return 8;
-            }
+        else if(itemNr == 4) {
+            if(maxItems == 4) return 8;
+            if(maxItems == 5) return 6;
+            if(maxItems == 6) return 5;
+            if(maxItems == 7) return 4;
+            if(maxItems == 8) return 3;
+            if(maxItems == 9) return 3;
+            if(maxItems > 9) return 3;
         }
-        else if(maxItems == 5) {
-            if(itemNr == 1) {
-                return 0;
-            } else if(itemNr == 2){
-                return 2;
-            } else if(itemNr == 3){
-                return 4;
-            } else if(itemNr == 4){
-                return 6;
-            } else {
-                return 8;
-            }
+        else if(itemNr == 5) {
+            if(maxItems == 5) return 8;
+            if(maxItems == 6) return 7;
+            if(maxItems == 7) return 5;
+            if(maxItems == 8) return 5;
+            if(maxItems == 9) return 4;
+            if(maxItems > 9) return 4;
         }
-        else if(maxItems == 6) {
-            if(itemNr == 1) {
-                return 0;
-            } else if(itemNr == 2){
-                return 1;
-            } else if(itemNr == 3){
-                return 3;
-            } else if(itemNr == 4){
-                return 5;
-            } else if(itemNr == 5){
-                return 7;
-            } else {
-                return 8;
-            }
+        else if(itemNr == 6) {
+            if(maxItems == 6) return 8;
+            if(maxItems == 7) return 7;
+            if(maxItems == 8) return 6;
+            if(maxItems == 9) return 5;
+            if(maxItems > 9) return 5;
         }
-        else if(maxItems == 7) {
-            if(itemNr == 1) {
-                return 0;
-            } else if(itemNr == 2){
-                return 1;
-            } else if(itemNr == 3){
-                return 3;
-            } else if(itemNr == 4){
-                return 4;
-            } else if(itemNr == 5){
-                return 5;
-            } else if(itemNr == 6){
-                return 7;
-            } else {
-                return 8;
-            }
+        else if(itemNr == 7) {
+            if(maxItems == 7) return 8;
+            if(maxItems == 8) return 7;
+            if(maxItems == 9) return 6;
+            if(maxItems > 9) return 6;
         }
-        else if(maxItems == 8) {
-            if(itemNr == 1) {
-                return 0;
-            } else if(itemNr == 2){
-                return 1;
-            } else if(itemNr == 3){
-                return 2;
-            } else if(itemNr == 4){
-                return 3;
-            } else if(itemNr == 5){
-                return 5;
-            } else if(itemNr == 6){
-                return 6;
-            } else if(itemNr == 7){
-                return 7;
-            } else {
-                return 8;
-            }
+        else if(itemNr == 8) {
+            if(maxItems == 8) return 8;
+            if(maxItems == 9) return 7;
+            if(maxItems > 9) return 7;
         }
-        else if(maxItems == 9) {
-            if(itemNr == 1) {
-                return 0;
-            } else if(itemNr == 2){
-                return 1;
-            } else if(itemNr == 3){
-                return 2;
-            } else if(itemNr == 4){
-                return 3;
-            } else if(itemNr == 5){
-                return 4;
-            } else if(itemNr == 6){
-                return 5;
-            } else if(itemNr == 7){
-                return 6;
-            } else if(itemNr == 8){
-                return 7;
-            } else {
-                return 8;
-            }
+        else if(itemNr == 9) {
+            if(maxItems == 9) return 8;
+            if(maxItems > 9) return 8;
         }
-        else {
-            return getPosition(itemNr - 9, maxItems - 9) + 9;
+
+        if (maxItems > 9) {
+            maxItems -= 9;
         }
+        if(itemNr > 9) {
+            itemNr -= 9;
+        }
+        return getPosition(itemNr, maxItems) + 9;
     }
 
     public static void setRegionOwnerItem(Material regionOwnerItem){

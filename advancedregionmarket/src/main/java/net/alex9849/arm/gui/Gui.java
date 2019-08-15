@@ -201,8 +201,11 @@ public class Gui implements Listener {
             itemcounter++;
         }
 
-
-        GuiInventory inv = new GuiInventory(9 , region.getRegion().getId());
+        int invsize = 9;
+        while (itemcounter > invsize) {
+            invsize += 9;
+        }
+        GuiInventory inv = new GuiInventory(invsize , region.getRegion().getId());
 
         ItemStack membersitem = new ItemStack(MaterialFinder.getPlayerHead(), 1, (short) 3);
         SkullMeta membersitemmeta = (SkullMeta) membersitem.getItemMeta();
@@ -502,7 +505,12 @@ public class Gui implements Listener {
             itemcounter++;
         }
 
-        GuiInventory inv = new GuiInventory(9 , region.getRegion().getId());
+        int invsize = 9;
+        while (itemcounter > invsize) {
+            invsize += 9;
+        }
+
+        GuiInventory inv = new GuiInventory(invsize , region.getRegion().getId());
 
         if(player.hasPermission(Permission.MEMBER_TP)){
             ItemStack teleporteritem = new ItemStack(Gui.TP_ITEM);
@@ -1558,8 +1566,8 @@ public class Gui implements Listener {
     }
 
     private static int getPosition(int itemNr, int maxItems){
-        if(maxItems < itemNr || maxItems > 9){
-            throw new IndexOutOfBoundsException("getPosition-Method cant handle more than max. 9 Items");
+        if(maxItems < itemNr){
+            throw new IndexOutOfBoundsException("itemNr does not have to be larger than maxItems");
         }
         if(maxItems == 0) {
             return 4;
@@ -1573,7 +1581,8 @@ public class Gui implements Listener {
             } else {
                 return 6;
             }
-        } else if(maxItems == 3) {
+        }
+        else if(maxItems == 3) {
             if(itemNr == 1) {
                 return 0;
             } else if(itemNr == 2){
@@ -1581,7 +1590,8 @@ public class Gui implements Listener {
             } else {
                 return 8;
             }
-        } else if(maxItems == 4) {
+        }
+        else if(maxItems == 4) {
             if(itemNr == 1) {
                 return 0;
             } else if(itemNr == 2){
@@ -1591,7 +1601,8 @@ public class Gui implements Listener {
             } else {
                 return 8;
             }
-        } else if(maxItems == 5) {
+        }
+        else if(maxItems == 5) {
             if(itemNr == 1) {
                 return 0;
             } else if(itemNr == 2){
@@ -1603,7 +1614,8 @@ public class Gui implements Listener {
             } else {
                 return 8;
             }
-        } else if(maxItems == 6) {
+        }
+        else if(maxItems == 6) {
             if(itemNr == 1) {
                 return 0;
             } else if(itemNr == 2){
@@ -1617,7 +1629,8 @@ public class Gui implements Listener {
             } else {
                 return 8;
             }
-        } else if(maxItems == 7) {
+        }
+        else if(maxItems == 7) {
             if(itemNr == 1) {
                 return 0;
             } else if(itemNr == 2){
@@ -1633,7 +1646,8 @@ public class Gui implements Listener {
             } else {
                 return 8;
             }
-        } else if(maxItems == 8) {
+        }
+        else if(maxItems == 8) {
             if(itemNr == 1) {
                 return 0;
             } else if(itemNr == 2){
@@ -1651,7 +1665,8 @@ public class Gui implements Listener {
             } else {
                 return 8;
             }
-        } else {
+        }
+        else if(maxItems == 9) {
             if(itemNr == 1) {
                 return 0;
             } else if(itemNr == 2){
@@ -1671,6 +1686,9 @@ public class Gui implements Listener {
             } else {
                 return 8;
             }
+        }
+        else {
+            return getPosition(itemNr - 9, maxItems - 9) + 9;
         }
     }
 

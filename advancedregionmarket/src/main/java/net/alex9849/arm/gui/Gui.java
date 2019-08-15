@@ -1586,7 +1586,7 @@ public class Gui implements Listener {
             if(maxItems > 9) return 0;
         }
         else if(itemNr == 2) {
-            if(maxItems == 2) return 8;
+            if(maxItems == 2) return 6;
             if(maxItems == 3) return 4;
             if(maxItems == 4) return 2;
             if(maxItems == 5) return 2;

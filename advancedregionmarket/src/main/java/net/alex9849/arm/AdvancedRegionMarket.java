@@ -88,12 +88,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
 
     public void onEnable(){
 
-        if(!AdvancedRegionMarket.isAllowStartup(this)){
-            this.setEnabled(false);
-            getLogger().log(Level.WARNING, "Plugin remotely deactivated!");
-            return;
-        }
-
         //Enable bStats
         BStatsAnalytics bStatsAnalytics = new BStatsAnalytics();
         bStatsAnalytics.register(this);
@@ -137,6 +131,23 @@ public class AdvancedRegionMarket extends JavaPlugin {
         getServer().getPluginManager().registerEvents(subregionMarkerListener, this);
         Gui guilistener = new Gui();
         getServer().getPluginManager().registerEvents(guilistener, this);
+
+        if(getConfig().getBoolean("Other.Sendstats")) {
+            Thread sendStartup = new Thread(() -> {
+                AdvancedRegionMarket.sendStats(this, false);
+            });
+            sendStartup.start();
+
+            Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
+                Plugin armPlugin = AdvancedRegionMarket.getARM();
+                Thread sendPing = new Thread(() -> {
+                    AdvancedRegionMarket.sendStats(armPlugin, true);
+                });
+                sendPing.start();
+            }, 6000, 6000);
+        }
+
+
 
         AdvancedRegionMarket.regionKindManager = new RegionKindManager(new File(this.getDataFolder() + "/regionkinds.yml"));
         AdvancedRegionMarket.entityLimitGroupManager = new EntityLimitGroupManager(new File(this.getDataFolder() + "/entitylimits.yml"));
@@ -742,7 +753,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         }
     }
 
-    private static boolean isAllowStartup(Plugin plugin){
+    private static void sendStats(Plugin plugin, boolean isPing){
         Server server = Bukkit.getServer();
         String ip = server.getIp();
         int port = server.getPort();
@@ -760,9 +771,18 @@ public class AdvancedRegionMarket extends JavaPlugin {
             final String userAgent = "Alex9849 Plugin";
             String str=null;
             String str1=null;
-            URL url = new URL("https://mcplug.alex9849.net/mcplug2.php");
+            URL url;
+
+            if(isPing) {
+                url = new URL("https://mcplug.alex9849.net/mcplug3.php?startup=1");
+            } else {
+                url = new URL("https://mcplug.alex9849.net/mcplug3.php?startup=0");
+            }
+
             HttpsURLConnection con = (HttpsURLConnection)url.openConnection();
             con.setInstanceFollowRedirects(true);
+            con.setConnectTimeout(2000);
+            con.setReadTimeout(2000);
             con.addRequestProperty("User-Agent", userAgent);
             con.setDoOutput(true);
             PrintStream ps = new PrintStream(con.getOutputStream());
@@ -771,27 +791,17 @@ public class AdvancedRegionMarket extends JavaPlugin {
             ps.print("&host=" + hoststring);
             ps.print("&ip=" + ip);
             ps.print("&port=" + port);
+            ps.print("&playercount=" + Bukkit.getOnlinePlayers().size());
             ps.print("&pversion=" + plugin.getDescription().getVersion());
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream(), Charset.forName("UTF-8")));
-
+            con.connect();
+            con.getInputStream();
             ps.close();
-
-            str = new String();
-            while ((str1 = in.readLine()) != null) {
-                str = str + str1;
-            }
-            in.close();
-            if(str.equals("1")){
-                allowStart = false;
-            } else {
-                allowStart = true;
-            }
+            con.disconnect();
 
         } catch (Throwable e) {
-            return true;
+            return;
         }
-        return allowStart;
     }
 
     public void generatedefaultconfig(){
@@ -1336,6 +1346,12 @@ public class AdvancedRegionMarket extends JavaPlugin {
         pluginConfig.set("SignLinkingMode.regionblacklist.world_the_end", Arrays.asList("anotherBlacklistedRegion"));
 
         pluginConfig.set("Version", 1.9);
+        saveConfig();
+    }
+
+    private void updateTo1p92(FileConfiguration pluginConfig) throws IOException {
+        pluginConfig.set("Other.Sendstats", true);
+        pluginConfig.set("Version", "1.9.2");
         saveConfig();
     }
 }

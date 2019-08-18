@@ -157,6 +157,10 @@ Other:
   AllowRegionfinderTeleportToBuySign: true
   # If true all entities will be removed if the region gets resetted
   RemoveEntitiesOnRegionBlockReset: true
+  # If true the plugin will send me your servers ip address and playercount every 5 minutes. This allows me to visit your server and is one
+  # of my biggest motivations to continue to develop this plugin. If you disable this plugin or set Sendstats to false and do not start it
+  # for 2 weeks, all data from your server will automatically be deleted.
+  Sendstats: true
 
   #These commands will be executed by the player if the clicks on a sign. "buyaction" means the buyaction of the region will be executed (For example extending the region
   #or teminating the contract) you can use all region-variables in your commands.
@@ -220,6 +224,6 @@ GUI:
   DisplayRegionFinderButton: true
 
 #Do not change this
-Version: 1.9
+Version: 1.9.2
 # Programmed by Alex9849
 # If you like my plugin you are free to donate me via PayPal https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2Z6VVLS5SZXJS

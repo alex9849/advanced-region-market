@@ -9,7 +9,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-public abstract class YamlFileManager<ManagedObject extends Saveable> implements Collection<ManagedObject> {
+public abstract class YamlFileManager<ManagedObject extends Saveable> implements Iterable<ManagedObject> {
     private List<ManagedObject> objectList;
     private YamlConfiguration yamlConfiguration;
     private File savepath;
@@ -40,7 +40,6 @@ public abstract class YamlFileManager<ManagedObject extends Saveable> implements
         return this.add(managedObject, false);
     }
 
-    @Override
     public boolean remove(Object managedObject) {
         if(this.objectList.remove(managedObject)) {
             this.queueCompleteSave();
@@ -48,86 +47,6 @@ public abstract class YamlFileManager<ManagedObject extends Saveable> implements
             return true;
         }
         return false;
-    }
-
-    @Override
-    public boolean containsAll(Collection<?> c) {
-        return this.objectList.containsAll(c);
-    }
-
-    @Override
-    public boolean addAll(Collection<? extends ManagedObject> c) {
-        boolean changed = false;
-        for(ManagedObject obj:c) {
-            changed |= this.add(obj);
-        }
-        return changed;
-    }
-
-    @Override
-    public boolean removeAll(Collection<?> c) {
-        boolean anythingRemoved = false;
-
-        for(Object obj : c) {
-            if(this.objectList.remove(obj)) {
-                anythingRemoved = true;
-            }
-        }
-
-        if(anythingRemoved) {
-            this.queueCompleteSave();
-            this.updateFile();
-        }
-
-        return anythingRemoved;
-    }
-
-    @Override
-    public boolean removeIf(Predicate<? super ManagedObject> filter) {
-        boolean anythingRemoved = false;
-        for(int i = 0; i < this.size(); i++) {
-            if(filter.test(this.get(i))) {
-                this.objectList.remove(i);
-                anythingRemoved = true;
-                i--;
-            }
-        }
-        if(anythingRemoved) {
-            this.queueCompleteSave();
-            this.updateFile();
-        }
-        return anythingRemoved;
-    }
-
-    @Override
-    public boolean retainAll(Collection<?> c) {
-        boolean result = this.objectList.retainAll(c);
-        this.queueCompleteSave();
-        this.updateFile();
-        return result;
-    }
-
-    @Override
-    public void clear() {
-        this.objectList.clear();
-        this.yamlConfiguration = new YamlConfiguration();
-        this.queueCompleteSave();
-        this.updateFile();
-    }
-
-    @Override
-    public Spliterator<ManagedObject> spliterator() {
-        return this.objectList.spliterator();
-    }
-
-    @Override
-    public Stream<ManagedObject> stream() {
-        return this.objectList.stream();
-    }
-
-    @Override
-    public Stream<ManagedObject> parallelStream() {
-        return this.objectList.parallelStream();
     }
 
     public void saveFile() {
@@ -188,16 +107,6 @@ public abstract class YamlFileManager<ManagedObject extends Saveable> implements
     }
 
     @Override
-    public boolean isEmpty() {
-        return this.objectList.isEmpty();
-    }
-
-    @Override
-    public boolean contains(Object o) {
-        return this.objectList.contains(o);
-    }
-
-    @Override
     public Iterator<ManagedObject> iterator() {
         return this.objectList.iterator();
     }
@@ -205,16 +114,6 @@ public abstract class YamlFileManager<ManagedObject extends Saveable> implements
     @Override
     public void forEach(Consumer<? super ManagedObject> action) {
         this.objectList.forEach(action);
-    }
-
-    @Override
-    public Object[] toArray() {
-        return this.objectList.toArray();
-    }
-
-    @Override
-    public <T> T[] toArray(T[] a) {
-        return this.objectList.toArray(a);
     }
 
     public static void writeResourceToDisc(File savepath, InputStream resourceStream) {

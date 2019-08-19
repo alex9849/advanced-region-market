@@ -654,7 +654,13 @@ public class RegionManager extends YamlFileManager<Region> {
     }
 
     public boolean containsRegion(Region region) {
-        return this.contains(region);
+
+        for(Region mangerRegion : this) {
+            if(mangerRegion == region) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public List<String> completeTabRegions(Player player, String arg, PlayerRegionRelationship playerRegionRelationship, boolean inculdeNormalRegions, boolean includeSubregions) {

@@ -292,8 +292,9 @@ public class Messages {
     public static String ENTITYLIMITGROUP_EXTRA_ENTITIES_HARDLIMIT_REACHED = "&4Can not buy another entity-expansion! Hardlimit has been reached!";
     public static String ENTITYLIMITGROUP_EXTRA_ENTITIES_SET_SUBREGION_ERROR = "&4Can not change entitylimit! Region is a Subregion";
     public static String ENTITYLIMITGROUP_EXTRA_ENTITIES_BUY_SUBREGION_ERROR = "&4Can not expand entitylimit! Region is a Subregion";
+    public static String ENTITYLIMITGROUP_COULD_NOT_SPAWN_ENTITY = "&4Could not spawn entity on region %region%! The not spawned entity would exeed the regions " +
+            "entitylimit for more information type &6/arm entitylimit check %region%&4! Everybody on region %region% recieved this message! If you are not a member of this region, you can ignore this message!";
     public static String ARM_BASIC_COMMAND_MESSAGE = "&6AdvancedRegionMarket v%pluginversion% by Alex9849\n&6Download: &3https://bit.ly/2CfO3An\n&6Get a list with all commands with &3/arm help";
-
     public static String REGIONKIND_CREATED = "&aRegionKind created!";
     public static String REGIONKIND_ALREADY_EXISTS = "&4RegionKind already exists!";
     public static String REGIONKIND_DELETED = "&aRegionKind deleted!";
@@ -684,6 +685,7 @@ public class Messages {
         ENTITYLIMITGROUP_INFO_GROUPNAME = config.getString("Messages.EntityLimitGroupInfoGroupname");
         ENTITYLIMITGROUP_INFO_PATTERN = config.getString("Messages.EntityLimitGroupInfoPattern");
         ENTITYLIMITGROUP_LIST_HEADLINE = config.getString("Messages.EntityLimitGroupListHeadline");
+        ENTITYLIMITGROUP_COULD_NOT_SPAWN_ENTITY = config.getString("Messages.EntityLimitGroupCouldNotspawnEntity");
         REGION_INFO_ENTITYLIMITGROUP = config.getString("Messages.RegionInfoEntityLimit");
         ENTITYLIMITGROUP_SUBREGION_GROUP_ONLY_FOR_SUBREGIONS = config.getString("Messages.SubregionEntityLimitOnlyForSubregions");
         MASSACTION_SPLITTER = config.getString("Messages.MassactionSplitter");
@@ -1011,6 +1013,7 @@ public class Messages {
         ENTITYLIMITGROUP_INFO_GROUPNAME = ChatColor.translateAlternateColorCodes('&', ENTITYLIMITGROUP_INFO_GROUPNAME);
         ENTITYLIMITGROUP_INFO_PATTERN = ChatColor.translateAlternateColorCodes('&', ENTITYLIMITGROUP_INFO_PATTERN);
         ENTITYLIMITGROUP_LIST_HEADLINE = ChatColor.translateAlternateColorCodes('&', ENTITYLIMITGROUP_LIST_HEADLINE);
+        ENTITYLIMITGROUP_COULD_NOT_SPAWN_ENTITY = ChatColor.translateAlternateColorCodes('&', ENTITYLIMITGROUP_COULD_NOT_SPAWN_ENTITY);
         REGION_INFO_ENTITYLIMITGROUP = ChatColor.translateAlternateColorCodes('&', REGION_INFO_ENTITYLIMITGROUP);
         ENTITYLIMITGROUP_SUBREGION_GROUP_ONLY_FOR_SUBREGIONS = ChatColor.translateAlternateColorCodes('&', ENTITYLIMITGROUP_SUBREGION_GROUP_ONLY_FOR_SUBREGIONS);
         MASSACTION_SPLITTER = ChatColor.translateAlternateColorCodes('&', MASSACTION_SPLITTER);
@@ -1485,6 +1488,8 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.EntityLimitGroupInfoGroupname", "&6Groupname: ");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.EntityLimitGroupInfoPattern", "&6%entitytype%: &r%softlimitentities% %entityextensioninfo%");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.EntityLimitGroupListHeadline", "&6EntityLimitGroups:");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.EntityLimitGroupCouldNotspawnEntity", "&4Could not spawn entity on region %region%! The not spawned entity would exeed the regions " +
+        "entitylimit for more information type &6/arm entitylimit check %region%&4! \nEverybody on region %region% recieved this message! If you are not a member of this region, you can ignore this message.");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionInfoEntityLimit", "&6EntityLimitGroup: ");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.SubregionEntityLimitOnlyForSubregions", "&4SubregionEntityLimitGroup only for subregions");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.MassactionSplitter", "&6all regions with regionkind &a%regionkind%");

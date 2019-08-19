@@ -22,6 +22,7 @@ import net.alex9849.signs.SignAttachment;
 import net.alex9849.signs.SignData;
 import net.alex9849.signs.SignDataFactory;
 import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.BlockFace;
@@ -32,13 +33,12 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.logging.Level;
 
 public class RegionManager extends YamlFileManager<Region> {
+
+    private HashMap<World, HashMap<Chunk, List<Region>>> worldChunkRegionMap;
 
     public RegionManager(File savepath) {
         super(savepath);
@@ -56,21 +56,26 @@ public class RegionManager extends YamlFileManager<Region> {
         if(addRegionEvent.isCancelled()) {
             return false;
         }
-        return super.add(region, unsafe);
+        if(super.add(region, unsafe)) {
+            this.addToWorldChunkMap(region);
+            return true;
+        }
+        return false;
     }
 
     @Override
-    public boolean remove(Region obj) {
-        if(!(obj instanceof Region)) {
-            return false;
-        }
-        Region region = (Region) obj;
+    public boolean remove(Region region) {
         RemoveRegionEvent removeRegionEvent = new RemoveRegionEvent(region);
         Bukkit.getServer().getPluginManager().callEvent(removeRegionEvent);
         if(removeRegionEvent.isCancelled()) {
             return false;
         }
-        return super.remove(region);
+
+        if(super.remove(region)) {
+            this.removeFromWorldChunkMap(region);
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -113,12 +118,60 @@ public class RegionManager extends YamlFileManager<Region> {
 
         yamlConfiguration.options().copyDefaults(false);
 
+        for(Region region : loadedRegions) {
+            this.addToWorldChunkMap(region);
+        }
+
         return loadedRegions;
     }
 
     @Override
     public boolean staticSaveQuenued() {
         return false;
+    }
+
+    private void addToWorldChunkMap(Region region) {
+        HashMap<Chunk, List<Region>> chunkRegionMap = this.getWorldChunkRegionMap().get(region.getRegionworld());
+        if(chunkRegionMap == null) {
+            chunkRegionMap = new HashMap<>();
+            this.getWorldChunkRegionMap().put(region.getRegionworld(), chunkRegionMap);
+        }
+        Set<Chunk> regionChunks = region.getChunks();
+
+        for (Chunk chunk : regionChunks) {
+            List<Region> chunkRegions = chunkRegionMap.get(chunk);
+            if(chunkRegions == null) {
+                chunkRegions = new ArrayList<>();
+                chunkRegionMap.put(chunk, chunkRegions);
+            }
+            chunkRegions.add(region);
+        }
+    }
+
+    private void removeFromWorldChunkMap(Region region) {
+        HashMap<Chunk, List<Region>> chunkRegionMap = this.getWorldChunkRegionMap().get(region.getRegionworld());
+        if(chunkRegionMap != null) {
+            Set<Chunk> regionChunks = region.getChunks();
+            for(Chunk chunk : regionChunks) {
+                List<Region> regionList = chunkRegionMap.get(chunk);
+                if(regionList != null) {
+                    regionList.remove(region);
+                    if(regionList.isEmpty()) {
+                        chunkRegionMap.remove(chunk);
+                        if(chunkRegionMap.isEmpty()) {
+                            this.getWorldChunkRegionMap().remove(region.getRegionworld());
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private HashMap<World, HashMap<Chunk, List<Region>>> getWorldChunkRegionMap() {
+        if(this.worldChunkRegionMap == null) {
+            this.worldChunkRegionMap = new HashMap<>();
+        }
+        return this.worldChunkRegionMap;
     }
 
     private static Region parseRegion(ConfigurationSection regionSection, World regionWorld, WGRegion wgRegion) {
@@ -587,7 +640,18 @@ public class RegionManager extends YamlFileManager<Region> {
     public List<Region> getRegionsByLocation(Location location) {
         List<Region> regions = new ArrayList<>();
 
-        for(Region region : this) {
+        HashMap<Chunk, List<Region>> chunkRegionList = this.getWorldChunkRegionMap().get(location.getWorld());
+        if(chunkRegionList == null) {
+            return regions;
+        }
+
+        Chunk locationChunk = location.getChunk();
+        List<Region> regionsInChunk = chunkRegionList.get(locationChunk);
+        if(regionsInChunk == null) {
+            return regions;
+        }
+
+        for(Region region : regionsInChunk) {
             if(region.getRegion().contains(location.getBlockX(), location.getBlockY(), location.getBlockZ())) {
                 if(region.getRegionworld().getName().equals(location.getWorld().getName())) {
                     regions.add(region);

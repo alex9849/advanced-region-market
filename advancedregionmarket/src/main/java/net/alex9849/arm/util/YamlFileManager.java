@@ -40,7 +40,7 @@ public abstract class YamlFileManager<ManagedObject extends Saveable> implements
         return this.add(managedObject, false);
     }
 
-    public boolean remove(Object managedObject) {
+    public boolean remove(ManagedObject managedObject) {
         if(this.objectList.remove(managedObject)) {
             this.queueCompleteSave();
             this.updateFile();

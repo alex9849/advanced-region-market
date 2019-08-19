@@ -60,7 +60,7 @@ public class RegionManager extends YamlFileManager<Region> {
     }
 
     @Override
-    public boolean remove(Object obj) {
+    public boolean remove(Region obj) {
         if(!(obj instanceof Region)) {
             return false;
         }

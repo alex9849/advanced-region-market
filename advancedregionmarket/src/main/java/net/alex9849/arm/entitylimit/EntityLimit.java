@@ -21,7 +21,16 @@ public class EntityLimit {
             if (entityType.getEntityClass() == null) {
                 continue;
             }
-            if (Mob.class.isAssignableFrom(entityType.getEntityClass())) {
+            if (Animals.class.isAssignableFrom(entityType.getEntityClass())) {
+                entityTypeSet.add(LimitableEntityType.getUniqueLimitableEntityType(entityType.name(), entityType.getEntityClass()));
+            }
+            if (Monster.class.isAssignableFrom(entityType.getEntityClass())) {
+                entityTypeSet.add(LimitableEntityType.getUniqueLimitableEntityType(entityType.name(), entityType.getEntityClass()));
+            }
+            if (Creature.class.isAssignableFrom(entityType.getEntityClass())) {
+                entityTypeSet.add(LimitableEntityType.getUniqueLimitableEntityType(entityType.name(), entityType.getEntityClass()));
+            }
+            if (Item.class.isAssignableFrom(entityType.getEntityClass())) {
                 entityTypeSet.add(LimitableEntityType.getUniqueLimitableEntityType(entityType.name(), entityType.getEntityClass()));
             }
             if (Vehicle.class.isAssignableFrom(entityType.getEntityClass())) {

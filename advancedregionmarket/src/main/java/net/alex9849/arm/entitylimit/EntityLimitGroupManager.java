@@ -85,26 +85,24 @@ public class EntityLimitGroupManager extends YamlFileManager<EntityLimitGroup> {
             if(!(entityNumber.equalsIgnoreCase("softtotal") || entityNumber.equalsIgnoreCase("hardtotal") ||
                     entityNumber.equalsIgnoreCase("pricePerExtraEntity"))) {
                 String entityTypeName = section.getString(entityNumber + "." + "entityType");
-                try {
-                    EntityLimit.LimitableEntityType limitableEntityType = null;
-                    for(EntityLimit.LimitableEntityType entityType : EntityLimit.entityTypes) {
-                        if(entityType.getName().equalsIgnoreCase(entityTypeName)) {
-                            limitableEntityType = entityType;
-                        }
+                EntityLimit.LimitableEntityType limitableEntityType = null;
+                for(EntityLimit.LimitableEntityType entityType : EntityLimit.entityTypes) {
+                    if(entityType.getName().equalsIgnoreCase(entityTypeName)) {
+                        limitableEntityType = entityType;
                     }
-                    if(limitableEntityType != null) {
-                        int softLimit = section.getInt(entityNumber + "." + "softLimit");
-                        if(softLimit == -1) {
-                            softLimit = Integer.MAX_VALUE;
-                        }
-                        int hardLimit = section.getInt(entityNumber + "." + "hardLimit");
-                        if(hardLimit == -1) {
-                            hardLimit = Integer.MAX_VALUE;
-                        }
-                        int pricePerExtraEntity = section.getInt(entityNumber + "." + "pricePerExtraEntity");
-                        entityLimits.add(new EntityLimit(limitableEntityType, softLimit, hardLimit, pricePerExtraEntity));
+                }
+                if(limitableEntityType != null) {
+                    int softLimit = section.getInt(entityNumber + "." + "softLimit");
+                    if(softLimit == -1) {
+                        softLimit = Integer.MAX_VALUE;
                     }
-                } catch (IllegalArgumentException e) {
+                    int hardLimit = section.getInt(entityNumber + "." + "hardLimit");
+                    if(hardLimit == -1) {
+                        hardLimit = Integer.MAX_VALUE;
+                    }
+                    int pricePerExtraEntity = section.getInt(entityNumber + "." + "pricePerExtraEntity");
+                    entityLimits.add(new EntityLimit(limitableEntityType, softLimit, hardLimit, pricePerExtraEntity));
+                } else  {
                     Bukkit.getLogger().log(Level.WARNING, "Could not find EntityType " + entityTypeName + " for EntityLimitGroup " + id + "! Ignoring it");
                 }
             }

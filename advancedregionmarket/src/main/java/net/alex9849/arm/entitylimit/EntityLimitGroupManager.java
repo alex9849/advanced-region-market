@@ -86,8 +86,13 @@ public class EntityLimitGroupManager extends YamlFileManager<EntityLimitGroup> {
                     entityNumber.equalsIgnoreCase("pricePerExtraEntity"))) {
                 String entityTypeName = section.getString(entityNumber + "." + "entityType");
                 try {
-                    EntityType entityType = EntityType.valueOf(entityTypeName);
-                    if(entityType != null) {
+                    EntityLimit.LimitableEntityType limitableEntityType = null;
+                    for(EntityLimit.LimitableEntityType entityType : EntityLimit.entityTypes) {
+                        if(entityType.getName().equalsIgnoreCase(entityTypeName)) {
+                            limitableEntityType = entityType;
+                        }
+                    }
+                    if(limitableEntityType != null) {
                         int softLimit = section.getInt(entityNumber + "." + "softLimit");
                         if(softLimit == -1) {
                             softLimit = Integer.MAX_VALUE;
@@ -97,7 +102,7 @@ public class EntityLimitGroupManager extends YamlFileManager<EntityLimitGroup> {
                             hardLimit = Integer.MAX_VALUE;
                         }
                         int pricePerExtraEntity = section.getInt(entityNumber + "." + "pricePerExtraEntity");
-                        entityLimits.add(new EntityLimit(entityType, softLimit, hardLimit, pricePerExtraEntity));
+                        entityLimits.add(new EntityLimit(limitableEntityType, softLimit, hardLimit, pricePerExtraEntity));
                     }
                 } catch (IllegalArgumentException e) {
                     Bukkit.getLogger().log(Level.WARNING, "Could not find EntityType " + entityTypeName + " for EntityLimitGroup " + id + "! Ignoring it");

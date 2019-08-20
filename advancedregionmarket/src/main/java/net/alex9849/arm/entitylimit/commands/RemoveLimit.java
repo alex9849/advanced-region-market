@@ -54,16 +54,14 @@ public class RemoveLimit extends BasicArmCommand {
             sender.sendMessage(Messages.PREFIX + Messages.ENTITYLIMIT_REMOVED);
             return true;
         } else {
-            EntityType entityType = null;
-            try {
-                entityType = EntityType.valueOf(args[2]);
-            } catch (IllegalArgumentException e) {
+            EntityLimit.LimitableEntityType limitableEntityType = EntityLimit.getLimitableEntityType(args[2]);
+            if(limitableEntityType == null) {
                 throw new InputException(sender, Messages.ENTITYTYPE_DOES_NOT_EXIST.replace("%entitytype%", args[2]));
             }
 
 
             for(int i = 0; i < entityLimitGroup.getEntityLimits().size(); i++) {
-                if(entityLimitGroup.getEntityLimits().get(i).getEntityType() == entityType) {
+                if(entityLimitGroup.getEntityLimits().get(i).getLimitableEntityType() == limitableEntityType) {
                     entityLimitGroup.getEntityLimits().remove(i);
                     entityLimitGroup.queueSave();
                     sender.sendMessage(Messages.PREFIX + Messages.ENTITYLIMIT_REMOVED);
@@ -99,8 +97,8 @@ public class RemoveLimit extends BasicArmCommand {
                         return returnme;
                     }
                     for(EntityLimit entityLimit : entityLimitGroup.getEntityLimits()) {
-                        if(entityLimit.getEntityType().toString().toLowerCase().startsWith(args[2])) {
-                            returnme.add(entityLimit.getEntityType().toString());
+                        if(entityLimit.getLimitableEntityType().toString().toLowerCase().startsWith(args[2])) {
+                            returnme.add(entityLimit.getLimitableEntityType().toString());
                         }
                     }
                     if("total".startsWith(args[2])) {

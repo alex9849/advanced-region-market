@@ -50,12 +50,16 @@ public class EntityLimitGroup implements Saveable {
     }
 
     public boolean isLimitReached(Region region, EntityType entityType, int entityExpansion, int totalExpansion) {
+        EntityLimit.LimitableEntityType limitableEntityType = EntityLimit.toLimitableEntityType(entityType);
+        if(limitableEntityType == null) {
+            return false;
+        }
 
-        int maxEntitiesWithThisType = this.getLimit(entityType, entityExpansion);
+        int maxEntitiesWithThisType = this.getLimit(limitableEntityType, region);
 
         List<Entity> regionEntities = region.getFilteredInsideEntities(false, true, true, false, false, true, true);
 
-        int matchingEntities = EntityLimitGroup.filterEntitys(regionEntities, entityType).size();
+        int matchingEntities = EntityLimitGroup.filterEntitys(regionEntities, limitableEntityType).size();
 
         if((this.softTotal + totalExpansion) <= regionEntities.size()) {
             return true;
@@ -68,20 +72,11 @@ public class EntityLimitGroup implements Saveable {
         return maxEntitiesWithThisType <= matchingEntities;
     }
 
-    private int getLimit(EntityType entityType, int entityExpansion) {
-        for(EntityLimit entityLimit : this.entityLimits) {
-            if(entityLimit.getEntityType() == entityType) {
-                return entityLimit.getSoftLimit(entityExpansion);
-            }
-        }
-        return Integer.MAX_VALUE;
-    }
-
-    public static List<Entity> filterEntitys(List<Entity> inputlist, EntityType entityType) {
+    public static List<Entity> filterEntitys(List<Entity> inputlist, EntityLimit.LimitableEntityType limitableEntityType) {
         List<Entity> result = new ArrayList<>();
 
         for(Entity entity : inputlist) {
-            if(entity.getType() == entityType) {
+            if(limitableEntityType.isAssingnable(entity.getType().getEntityClass())) {
                 result.add(entity);
             }
         }
@@ -105,22 +100,36 @@ public class EntityLimitGroup implements Saveable {
         }
     }
 
-    public int getSoftLimit(EntityType entityType, int expansion) {
+    public int getSoftLimit(EntityLimit.LimitableEntityType limitableEntityType, int expansion) {
         for(EntityLimit entityLimit : entityLimits) {
-            if(entityLimit.getEntityType() == entityType) {
+            if(entityLimit.getLimitableEntityType() == limitableEntityType) {
                 return entityLimit.getSoftLimit(expansion);
             }
         }
         return Integer.MAX_VALUE;
     }
 
+    public int getLimit(EntityLimit.LimitableEntityType limitableEntityType, Region region) {
+        int actualLimit = Integer.MAX_VALUE;
+        int expansion = region.getExtraEntityAmount(limitableEntityType);
+
+        for(EntityLimit entityLimit : entityLimits) {
+            if(entityLimit.getLimitableEntityType().isAssingnable(limitableEntityType.getClazz())) {
+                if(entityLimit.getSoftLimit(expansion) < actualLimit) {
+                    actualLimit = entityLimit.getSoftLimit(expansion);
+                }
+            }
+        }
+        return actualLimit;
+    }
+
     public int getHardLimit() {
         return this.hardTotal;
     }
 
-    public int getHardLimit(EntityType entityType) {
+    public int getHardLimit(EntityLimit.LimitableEntityType limitableEntityType) {
         for(EntityLimit entityLimit : entityLimits) {
-            if(entityLimit.getEntityType() == entityType) {
+            if(entityLimit.getLimitableEntityType() == limitableEntityType) {
                 return entityLimit.getHardLimit();
             }
         }
@@ -131,9 +140,9 @@ public class EntityLimitGroup implements Saveable {
         return this.pricePerExtraEntity;
     }
 
-    public int getPricePerExtraEntity(EntityType entityType) {
+    public int getPricePerExtraEntity(EntityLimit.LimitableEntityType limitableEntityType) {
         for(EntityLimit entityLimit : entityLimits) {
-            if(entityLimit.getEntityType() == entityType) {
+            if(entityLimit.getLimitableEntityType() == limitableEntityType) {
                 return entityLimit.getPricePerExtraEntity();
             }
         }
@@ -191,18 +200,20 @@ public class EntityLimitGroup implements Saveable {
         return result;
     }
 
-    public boolean containsLimit(EntityType entityType) {
+    public boolean containsLimit(EntityLimit.LimitableEntityType limitableEntityType) {
+
         for(EntityLimit entityLimit : entityLimits) {
-            if(entityLimit.getEntityType() == entityType) {
+            if(entityLimit.getLimitableEntityType() == limitableEntityType) {
                 return true;
             }
         }
         return false;
     }
 
-    public EntityLimit getEntityLimit(EntityType entityType) {
+    public EntityLimit getEntityLimit(EntityLimit.LimitableEntityType limitableEntityType) {
+
         for(EntityLimit entityLimit : this.entityLimits) {
-            if(entityLimit.getEntityType() == entityType) {
+            if(entityLimit.getLimitableEntityType() == limitableEntityType) {
                 return entityLimit;
             }
         }
@@ -225,7 +236,7 @@ public class EntityLimitGroup implements Saveable {
         confSection.set("pricePerExtraEntity", this.getPricePerExtraEntity());
         for(int i = 0; i < this.getEntityLimits().size(); i++) {
             EntityLimit entityLimit = this.getEntityLimits().get(i);
-            confSection.set(i + ".entityType", entityLimit.getEntityType().name());
+            confSection.set(i + ".entityType", entityLimit.getLimitableEntityType().getName());
             int softLimitEntity = entityLimit.getSoftLimit(0);
             if(softLimitEntity == Integer.MAX_VALUE) {
                 softLimitEntity = -1;

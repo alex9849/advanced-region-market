@@ -80,30 +80,22 @@ public class AddLimitCommand extends BasicArmCommand {
             entityLimitGroup.setPricePerExtraEntity(pricePerExtraEntity);
             sender.sendMessage(Messages.PREFIX + Messages.ENTITYLIMIT_SET);
         } else {
-            EntityType entityType = null;
-            try {
-                entityType = EntityType.valueOf(args[2]);
-            } catch (IllegalArgumentException e) {
+            EntityLimit.LimitableEntityType limitableEntityType = EntityLimit.getLimitableEntityType(args[2]);
+
+            if(limitableEntityType == null) {
                 throw new InputException(sender, Messages.ENTITYTYPE_DOES_NOT_EXIST.replace("%entitytype%", args[2]));
             }
 
-
-            for(int i = 0; i < entityLimitGroup.getEntityLimits().size(); i++) {
-                if(entityLimitGroup.getEntityLimits().get(i).getEntityType() == entityType) {
-                    entityLimitGroup.getEntityLimits().remove(i);
-                    entityLimitGroup.queueSave();
+            final EntityLimit.LimitableEntityType finalLimitableEntity = limitableEntityType;
+            entityLimitGroup.getEntityLimits().removeIf(new Predicate<EntityLimit>() {
+                @Override
+                public boolean test(EntityLimit entityLimit) {
+                    return entityLimit.getLimitableEntityType() == finalLimitableEntity;
                 }
-            }
-            if(softLimit == Integer.MAX_VALUE) {
-                final EntityType finalEntity = entityType;
-                entityLimitGroup.getEntityLimits().removeIf(new Predicate<EntityLimit>() {
-                    @Override
-                    public boolean test(EntityLimit entityLimit) {
-                        return entityLimit.getEntityType() == finalEntity;
-                    }
-                });
-            } else {
-                entityLimitGroup.getEntityLimits().add(new EntityLimit(entityType, softLimit, hardLimit, pricePerExtraEntity));
+            });
+
+            if(softLimit != Integer.MAX_VALUE) {
+                entityLimitGroup.getEntityLimits().add(new EntityLimit(limitableEntityType, softLimit, hardLimit, pricePerExtraEntity));
             }
 
             entityLimitGroup.queueSave();
@@ -130,8 +122,8 @@ public class AddLimitCommand extends BasicArmCommand {
 
                 }
             } else if((args.length == 3) && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                for(EntityType entityType : EntityType.values()) {
-                    if(entityType.toString().toLowerCase().startsWith(args[2])) {
+                for(EntityLimit.LimitableEntityType entityType : EntityLimit.entityTypes) {
+                    if(entityType.getName().toLowerCase().startsWith(args[2])) {
                         returnme.add(entityType.toString());
                     }
                 }

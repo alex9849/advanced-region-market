@@ -2,6 +2,7 @@ package net.alex9849.arm.handler.listener;
 
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
+import net.alex9849.arm.entitylimit.EntityLimit;
 import net.alex9849.arm.regions.Region;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -31,11 +32,15 @@ public class EntitySpawnListener implements Listener {
         if(AdvancedRegionMarket.getRegionManager() == null) {
             return;
         }
+        EntityLimit.LimitableEntityType limitableEntityType = EntityLimit.toLimitableEntityType(event.getEntityType());
+        if(limitableEntityType == null) {
+            return;
+        }
 
         List<Region> regions = AdvancedRegionMarket.getRegionManager().getRegionsByLocation(event.getLocation());
 
         for(Region region : regions) {
-            if(region.getEntityLimitGroup().isLimitReached(region, event.getEntityType(), region.getExtraEntityAmount(event.getEntityType()), region.getExtraTotalEntitys())) {
+            if(region.getEntityLimitGroup().isLimitReached(region, event.getEntityType(), region.getExtraEntityAmount(limitableEntityType), region.getExtraTotalEntitys())) {
                 event.setCancelled(true);
                 for(Player player : Bukkit.getOnlinePlayers()) {
                     Location playerLoc = player.getLocation();
@@ -57,10 +62,15 @@ public class EntitySpawnListener implements Listener {
             return;
         }
 
+        EntityLimit.LimitableEntityType limitableEntityType = EntityLimit.toLimitableEntityType(event.getVehicle().getType());
+        if(limitableEntityType == null) {
+            return;
+        }
+
         List<Region> regions = AdvancedRegionMarket.getRegionManager().getRegionsByLocation(event.getVehicle().getLocation());
 
         for(Region region : regions) {
-            if(region.getEntityLimitGroup().isLimitReached(region, event.getVehicle().getType(), region.getExtraEntityAmount(event.getVehicle().getType()), region.getExtraTotalEntitys())) {
+            if(region.getEntityLimitGroup().isLimitReached(region, event.getVehicle().getType(), region.getExtraEntityAmount(limitableEntityType), region.getExtraTotalEntitys())) {
                 event.setCancelled(true);
             }
         }

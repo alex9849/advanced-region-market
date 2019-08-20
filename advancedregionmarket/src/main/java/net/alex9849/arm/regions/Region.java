@@ -3,6 +3,7 @@ package net.alex9849.arm.regions;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
+import net.alex9849.arm.entitylimit.EntityLimit;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
 import net.alex9849.arm.events.ResetBlocksEvent;
 import net.alex9849.arm.events.UnsellRegionEvent;
@@ -55,14 +56,14 @@ public abstract class Region implements Saveable {
     protected FlagGroup flagGroup;
     protected EntityLimitGroup entityLimitGroup;
     private boolean needsSave;
-    private HashMap<EntityType, Integer> extraEntitys;
+    private HashMap<EntityLimit.LimitableEntityType, Integer> extraEntitys;
     private int extraTotalEntitys;
     Integer m2Amount;
 
     public Region(WGRegion region, World regionworld, List<SignData> sellsign, Price price, Boolean sold, Boolean autoreset,
                   Boolean isHotel, Boolean doBlockReset, RegionKind regionKind, FlagGroup flagGroup, Location teleportLoc, long lastreset,
                   boolean isUserResettable, List<Region> subregions, int allowedSubregions, EntityLimitGroup entityLimitGroup,
-                  HashMap<EntityType, Integer> extraEntitys, int boughtExtraTotalEntitys){
+                  HashMap<EntityLimit.LimitableEntityType, Integer> extraEntitys, int boughtExtraTotalEntitys){
         this.region = region;
         this.sellsign = new ArrayList<SignData>(sellsign);
         this.sold = sold;
@@ -816,7 +817,7 @@ public abstract class Region implements Saveable {
         for(Entity selectedEntity : insideEntitys) {
             boolean add = false;
 
-            if((selectedEntity instanceof LivingEntity) && includeLivingEntity && (selectedEntity.getType() != EntityType.PLAYER)) {
+            if((selectedEntity instanceof LivingEntity) && includeLivingEntity) {
                 add = true;
             }
 
@@ -848,7 +849,7 @@ public abstract class Region implements Saveable {
         return result;
     }
 
-    public int getExtraEntityAmount(EntityType entityType) {
+    public int getExtraEntityAmount(EntityLimit.LimitableEntityType entityType) {
         Integer amount = this.extraEntitys.get(entityType);
         if(amount == null) {
             return 0;
@@ -879,7 +880,7 @@ public abstract class Region implements Saveable {
         this.queueSave();
     }
 
-    public void setExtraEntityAmount(EntityType entityType, int amount) {
+    public void setExtraEntityAmount(EntityLimit.LimitableEntityType entityType, int amount) {
         this.extraEntitys.remove(entityType);
         if(amount > 0) {
             this.extraEntitys.put(entityType, amount);
@@ -892,7 +893,7 @@ public abstract class Region implements Saveable {
         this.queueSave();
     }
 
-    protected HashMap<EntityType, Integer> getExtraEntitys() {
+    protected HashMap<EntityLimit.LimitableEntityType, Integer> getExtraEntitys() {
         return this.extraEntitys;
     }
 
@@ -924,8 +925,8 @@ public abstract class Region implements Saveable {
             yamlConfiguration.set("isUserResettable", this.isUserResettable());
             yamlConfiguration.set("boughtExtraTotalEntitys", this.getExtraTotalEntitys());
             List<String> boughtExtraEntitysStringList = new ArrayList<>();
-            for(Map.Entry<EntityType, Integer> entry : this.getExtraEntitys().entrySet()) {
-                boughtExtraEntitysStringList.add(entry.getKey().name() + ": " + entry.getValue());
+            for(Map.Entry<EntityLimit.LimitableEntityType, Integer> entry : this.getExtraEntitys().entrySet()) {
+                boughtExtraEntitysStringList.add(entry.getKey().getName() + ": " + entry.getValue());
             }
             yamlConfiguration.set("boughtExtraEntitys", boughtExtraEntitysStringList);
             if(this.getTeleportLocation() != null) {

@@ -67,9 +67,9 @@ public class CheckCommand extends BasicArmCommand {
         }
         player.sendMessage(totalstatus);
         for(EntityLimit entityLimit : region.getEntityLimitGroup().getEntityLimits()) {
-            String entitystatus = entityLimit.getConvertedMessage(Messages.ENTITYLIMIT_CHECK_PATTERN, entities, region.getExtraEntityAmount(entityLimit.getEntityType()));
-            if((entityLimit.getSoftLimit(region.getExtraEntityAmount(entityLimit.getEntityType())) < entityLimit.getHardLimit()) && !region.isSubregion()) {
-                entitystatus = entitystatus.replace("%entityextensioninfo%", entityLimit.getConvertedMessage(Messages.ENTITYLIMIT_CHECK_EXTENSION_INFO, entities, region.getExtraEntityAmount(entityLimit.getEntityType())));
+            String entitystatus = entityLimit.getConvertedMessage(Messages.ENTITYLIMIT_CHECK_PATTERN, entities, region.getExtraEntityAmount(entityLimit.getLimitableEntityType()));
+            if((entityLimit.getSoftLimit(region.getExtraEntityAmount(entityLimit.getLimitableEntityType())) < entityLimit.getHardLimit()) && !region.isSubregion()) {
+                entitystatus = entitystatus.replace("%entityextensioninfo%", entityLimit.getConvertedMessage(Messages.ENTITYLIMIT_CHECK_EXTENSION_INFO, entities, region.getExtraEntityAmount(entityLimit.getLimitableEntityType())));
             } else {
                 entitystatus = entitystatus.replace("%entityextensioninfo%", "");
             }

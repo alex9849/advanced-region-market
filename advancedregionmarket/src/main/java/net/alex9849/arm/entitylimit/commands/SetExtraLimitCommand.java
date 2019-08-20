@@ -4,6 +4,7 @@ import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.commands.BasicArmCommand;
+import net.alex9849.arm.entitylimit.EntityLimit;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.exceptions.InputException;
@@ -65,18 +66,15 @@ public class SetExtraLimitCommand extends BasicArmCommand {
         if(args[2].equalsIgnoreCase("total")) {
             region.setExtraTotalEntitys(amount);
         } else {
-            EntityType entityType;
-
-            try {
-                entityType = EntityType.valueOf(args[2]);
-            } catch (IllegalArgumentException e) {
-                throw new InputException(player, Messages.ENTITYTYPE_DOES_NOT_EXIST.replace("%entitytype%", args[2]));
+            EntityLimit.LimitableEntityType limitableEntityType = EntityLimit.getLimitableEntityType(args[2]);
+            if(limitableEntityType == null) {
+                throw new InputException(sender, Messages.ENTITYTYPE_DOES_NOT_EXIST.replace("%entitytype%", args[2]));
             }
 
-            if(!region.getEntityLimitGroup().containsLimit(entityType)) {
+            if(!region.getEntityLimitGroup().containsLimit(limitableEntityType)) {
                 throw new InputException(player, Messages.ENTITYLIMITGROUP_ENTITYLIMIT_ALREADY_UNLIMITED);
             }
-            region.setExtraEntityAmount(entityType, amount);
+            region.setExtraEntityAmount(limitableEntityType, amount);
         }
 
 

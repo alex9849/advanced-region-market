@@ -4,6 +4,7 @@ import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
+import net.alex9849.arm.entitylimit.EntityLimit;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
 import net.alex9849.arm.events.BuyRegionEvent;
 import net.alex9849.arm.flaggroups.FlagGroup;
@@ -31,7 +32,7 @@ public class SellRegion extends Region {
 
     public SellRegion(WGRegion region, World regionworld, List<SignData> sellsign, Price price, Boolean sold, Boolean autoreset, Boolean allowOnlyNewBlocks,
                       Boolean doBlockReset, RegionKind regionKind, FlagGroup flagGroup, Location teleportLoc, long lastreset, boolean isUserResettable, List<Region> subregions,
-                      int allowedSubregions, EntityLimitGroup entityLimitGroup, HashMap<EntityType, Integer> extraEntitys, int boughtExtraTotalEntitys) {
+                      int allowedSubregions, EntityLimitGroup entityLimitGroup, HashMap<EntityLimit.LimitableEntityType, Integer> extraEntitys, int boughtExtraTotalEntitys) {
         super(region, regionworld, sellsign, price, sold, autoreset,allowOnlyNewBlocks, doBlockReset, regionKind, flagGroup, teleportLoc, lastreset, isUserResettable,
                 subregions, allowedSubregions, entityLimitGroup, extraEntitys, boughtExtraTotalEntitys);
 

@@ -4,6 +4,7 @@ import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
+import net.alex9849.arm.entitylimit.EntityLimit;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
 import net.alex9849.arm.events.BuyRegionEvent;
 import net.alex9849.arm.events.ExtendRegionEvent;
@@ -40,7 +41,7 @@ public class ContractRegion extends Region {
     public ContractRegion(WGRegion region, World regionworld, List<SignData> contractsign, ContractPrice contractPrice, Boolean sold, Boolean autoreset,
                           Boolean isHotel, Boolean doBlockReset, RegionKind regionKind, FlagGroup flagGroup, Location teleportLoc, long lastreset, boolean isUserResettable,
                           long payedTill, Boolean terminated, List<Region> subregions, int allowedSubregions, EntityLimitGroup entityLimitGroup,
-                          HashMap<EntityType, Integer> extraEntitys, int boughtExtraTotalEntitys) {
+                          HashMap<EntityLimit.LimitableEntityType, Integer> extraEntitys, int boughtExtraTotalEntitys) {
         super(region, regionworld, contractsign, contractPrice, sold, autoreset, isHotel, doBlockReset, regionKind, flagGroup, teleportLoc, lastreset, isUserResettable,
                 subregions, allowedSubregions, entityLimitGroup, extraEntitys, boughtExtraTotalEntitys);
         this.payedTill = payedTill;

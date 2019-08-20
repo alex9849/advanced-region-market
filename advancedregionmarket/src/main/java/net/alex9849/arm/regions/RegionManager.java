@@ -3,6 +3,7 @@ package net.alex9849.arm.regions;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
+import net.alex9849.arm.entitylimit.EntityLimit;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
 import net.alex9849.arm.events.AddRegionEvent;
 import net.alex9849.arm.events.RemoveRegionEvent;
@@ -203,7 +204,7 @@ public class RegionManager extends YamlFileManager<Region> {
         if(entityLimitGroup == null) {
             entityLimitGroup = EntityLimitGroup.DEFAULT;
         }
-        HashMap<EntityType, Integer> extraEntitysMap = parseBoughtExtraEntitys(boughtExtraEntitys);
+        HashMap<EntityLimit.LimitableEntityType, Integer> extraEntitysMap = parseBoughtExtraEntitys(boughtExtraEntitys);
         List<SignData> regionsigns = parseRegionsSigns(regionSection);
 
         List<Region> subregions = new ArrayList<>();
@@ -384,19 +385,19 @@ public class RegionManager extends YamlFileManager<Region> {
         return regionsigns;
     }
 
-    private static HashMap<EntityType, Integer> parseBoughtExtraEntitys(List<String> stringList) {
-        HashMap<EntityType, Integer> boughtExtraEntitys = new HashMap<>();
+    private static HashMap<EntityLimit.LimitableEntityType, Integer> parseBoughtExtraEntitys(List<String> stringList) {
+        HashMap<EntityLimit.LimitableEntityType, Integer> boughtExtraEntitys = new HashMap<>();
         for(String element : stringList) {
             if(element.matches("[^;\n ]+: [0-9]+")) {
                 String[] extraparts = element.split(": ");
                 int extraAmount = Integer.parseInt(extraparts[1]);
-                try {
-                    EntityType entityType = EntityType.valueOf(extraparts[0]);
-                    boughtExtraEntitys.put(entityType, extraAmount);
-                } catch (IllegalArgumentException e) {
-                    Bukkit.getServer().getLogger().log(Level.INFO, "Could not parse EntitysType " + extraparts[0] + " at boughtExtraEntitys. Ignoring it...");
-                }
 
+                EntityLimit.LimitableEntityType limitableEntityType = EntityLimit.getLimitableEntityType(extraparts[0]);
+                if(limitableEntityType == null) {
+                    Bukkit.getServer().getLogger().log(Level.INFO, "Could not parse EntitysType " + extraparts[0] + " at boughtExtraEntitys. Ignoring it...");
+                    continue;
+                }
+                boughtExtraEntitys.put(limitableEntityType, extraAmount);
             }
         }
         return boughtExtraEntitys;

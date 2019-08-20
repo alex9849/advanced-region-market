@@ -79,25 +79,23 @@ public class BuyExtraCommand extends BasicArmCommand {
 
         } else {
 
-            EntityType entityType;
-            try {
-                entityType = EntityType.valueOf(args[2]);
-            } catch (IllegalArgumentException e) {
+            EntityLimit.LimitableEntityType limitableEntityType = EntityLimit.getLimitableEntityType(args[2]);
+            if(limitableEntityType == null) {
                 throw new InputException(player, Messages.ENTITYTYPE_DOES_NOT_EXIST.replace("%entitytype%", args[2]));
             }
-            EntityLimit entityLimit = region.getEntityLimitGroup().getEntityLimit(entityType);
+            EntityLimit entityLimit = region.getEntityLimitGroup().getEntityLimit(limitableEntityType);
             if(entityLimit == null) {
-                throw new InputException(player, region.getEntityLimitGroup().getConvertedMessage(Messages.ENTITYLIMITGROUP_ENTITYLIMIT_ALREADY_UNLIMITED, entities, region.getExtraEntityAmount(entityType)));
+                throw new InputException(player, region.getEntityLimitGroup().getConvertedMessage(Messages.ENTITYLIMITGROUP_ENTITYLIMIT_ALREADY_UNLIMITED, entities, region.getExtraEntityAmount(limitableEntityType)));
             }
-            if(region.getEntityLimitGroup().getHardLimit(entityType) <= region.getEntityLimitGroup().getSoftLimit(entityType, region.getExtraEntityAmount(entityType))) {
-                throw new InputException(player, entityLimit.getConvertedMessage(Messages.ENTITYLIMITGROUP_EXTRA_ENTITIES_HARDLIMIT_REACHED, entities, region.getExtraEntityAmount(entityType)));
+            if(region.getEntityLimitGroup().getHardLimit(limitableEntityType) <= region.getEntityLimitGroup().getSoftLimit(limitableEntityType, region.getExtraEntityAmount(limitableEntityType))) {
+                throw new InputException(player, entityLimit.getConvertedMessage(Messages.ENTITYLIMITGROUP_EXTRA_ENTITIES_HARDLIMIT_REACHED, entities, region.getExtraEntityAmount(limitableEntityType)));
             }
-            if(AdvancedRegionMarket.getEcon().getBalance(player) < region.getEntityLimitGroup().getPricePerExtraEntity(entityType)) {
+            if(AdvancedRegionMarket.getEcon().getBalance(player) < region.getEntityLimitGroup().getPricePerExtraEntity(limitableEntityType)) {
                 throw new InputException(player, Messages.NOT_ENOUGHT_MONEY);
             }
-            AdvancedRegionMarket.getEcon().withdrawPlayer(player, region.getEntityLimitGroup().getPricePerExtraEntity(entityType));
-            region.setExtraEntityAmount(entityType, region.getExtraEntityAmount(entityType) + 1);
-            player.sendMessage(Messages.PREFIX + entityLimit.getConvertedMessage(Messages.ENTITYLIMITGROUP_EXTRA_ENTITIES_EXPAND_SUCCESS, entities, region.getExtraEntityAmount(entityType)));
+            AdvancedRegionMarket.getEcon().withdrawPlayer(player, region.getEntityLimitGroup().getPricePerExtraEntity(limitableEntityType));
+            region.setExtraEntityAmount(limitableEntityType, region.getExtraEntityAmount(limitableEntityType) + 1);
+            player.sendMessage(Messages.PREFIX + entityLimit.getConvertedMessage(Messages.ENTITYLIMITGROUP_EXTRA_ENTITIES_EXPAND_SUCCESS, entities, region.getExtraEntityAmount(limitableEntityType)));
         }
 
         return true;
@@ -121,7 +119,7 @@ public class BuyExtraCommand extends BasicArmCommand {
 
                 }
             } else if((args.length == 3) && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                for(EntityType entityType : EntityType.values()) {
+                for(EntityLimit.LimitableEntityType entityType : EntityLimit.entityTypes) {
                     if(entityType.toString().toLowerCase().startsWith(args[2])) {
                         Region region = AdvancedRegionMarket.getRegionManager().getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
                         if(region != null) {

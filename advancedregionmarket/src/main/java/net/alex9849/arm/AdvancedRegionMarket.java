@@ -919,6 +919,10 @@ public class AdvancedRegionMarket extends JavaPlugin {
             if(version < 1.92) {
                 updateTo1p92(pluginConfig);
             }
+            if(version < 1.95) {
+                getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.9.5..");
+                updateTo1p95(pluginConfig);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -1355,6 +1359,11 @@ public class AdvancedRegionMarket extends JavaPlugin {
     private void updateTo1p92(FileConfiguration pluginConfig) throws IOException {
         pluginConfig.set("Other.Sendstats", true);
         pluginConfig.set("Version", 1.92);
+        saveConfig();
+    }
+
+    private void updateTo1p95(FileConfiguration pluginConfig) throws IOException {
+        pluginConfig.set("Version", 1.95);
         saveConfig();
     }
 }

@@ -1885,7 +1885,7 @@ public class Gui implements Listener {
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.setDisplayName(Messages.GUI_ENTITYLIMIT_ITEM_BUTTON);
 
-        List<Entity> entities = region.getFilteredInsideEntities(false, true, true, false, false, true, true);
+        List<Entity> entities = region.getFilteredInsideEntities(false, true,true, true, false, false, true, true);
         List<String> lore = new ArrayList<>(Messages.GUI_ENTITYLIMIT_ITEM_LORE);
         List<String> limitlist = new ArrayList<>();
 

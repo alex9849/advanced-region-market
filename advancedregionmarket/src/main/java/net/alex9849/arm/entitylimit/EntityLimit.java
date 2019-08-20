@@ -5,7 +5,10 @@ import net.alex9849.arm.Messages;
 import net.alex9849.arm.regions.Region;
 import org.bukkit.entity.*;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 public class EntityLimit {
     public static final ImmutableSet<LimitableEntityType> entityTypes;
@@ -14,17 +17,17 @@ public class EntityLimit {
     static {
         Set<LimitableEntityType> entityTypeSet = new LinkedHashSet<>();
 
-        for(EntityType entityType : EntityType.values()) {
-            if(entityType.getEntityClass() == null) {
+        for (EntityType entityType : EntityType.values()) {
+            if (entityType.getEntityClass() == null) {
                 continue;
             }
-            if(Mob.class.isAssignableFrom(entityType.getEntityClass())) {
+            if (Mob.class.isAssignableFrom(entityType.getEntityClass())) {
                 entityTypeSet.add(LimitableEntityType.getUniqueLimitableEntityType(entityType.name(), entityType.getEntityClass()));
             }
-            if(Vehicle.class.isAssignableFrom(entityType.getEntityClass())) {
+            if (Vehicle.class.isAssignableFrom(entityType.getEntityClass())) {
                 entityTypeSet.add(LimitableEntityType.getUniqueLimitableEntityType(entityType.name(), entityType.getEntityClass()));
             }
-            if(Projectile.class.isAssignableFrom(entityType.getEntityClass())) {
+            if (Projectile.class.isAssignableFrom(entityType.getEntityClass())) {
                 entityTypeSet.add(LimitableEntityType.getUniqueLimitableEntityType(entityType.name(), entityType.getEntityClass()));
             }
         }
@@ -49,7 +52,7 @@ public class EntityLimit {
         }
 
         public boolean isAssingnable(Class clazz) {
-            if(clazz == null) {
+            if (clazz == null) {
                 return false;
             }
             return this.clazz.isAssignableFrom(clazz);
@@ -69,7 +72,7 @@ public class EntityLimit {
         }
 
         private static LimitableEntityType getUniqueLimitableEntityType(String name, Class clazz) {
-            if(limitableEntityTypes.get(clazz) == null) {
+            if (limitableEntityTypes.get(clazz) == null) {
                 limitableEntityTypes.put(clazz, new LimitableEntityType(name, clazz));
             }
             return limitableEntityTypes.get(clazz);
@@ -82,16 +85,16 @@ public class EntityLimit {
     private int pricePerExtraEntity;
 
     public EntityLimit(LimitableEntityType limitableEntityType, int softlimit, int hardlimit, int pricePerExtraEntity) {
-        if(softlimit < 0) {
+        if (softlimit < 0) {
             softlimit = softlimit * (-1);
         }
-        if(hardlimit < 0) {
+        if (hardlimit < 0) {
             hardlimit = hardlimit * (-1);
         }
-        if(hardlimit < softlimit) {
+        if (hardlimit < softlimit) {
             hardlimit = softlimit;
         }
-        if(pricePerExtraEntity < 0) {
+        if (pricePerExtraEntity < 0) {
             pricePerExtraEntity = 0;
         }
         this.limitableEntityType = limitableEntityType;
@@ -105,7 +108,7 @@ public class EntityLimit {
     }
 
     public int getSoftLimit(int expansion) {
-        if((this.softlimit + expansion) >= 0) {
+        if ((this.softlimit + expansion) >= 0) {
             return this.softlimit + expansion;
         } else {
             return Integer.MAX_VALUE;
@@ -121,7 +124,7 @@ public class EntityLimit {
     }
 
     public boolean isLimitReached(List<Entity> entities, LimitableEntityType limitableEntityType, Region region) {
-        if(!this.limitableEntityType.isAssingnable(limitableEntityType.getClazz())) {
+        if (!this.limitableEntityType.isAssingnable(limitableEntityType.getClazz())) {
             return false;
         }
 
@@ -133,8 +136,8 @@ public class EntityLimit {
     public int affectedEntityAmount(List<Entity> inputlist) {
         int affected = 0;
 
-        for(Entity entity : inputlist) {
-            if(this.limitableEntityType.isAssingnable(entity.getType().getEntityClass())) {
+        for (Entity entity : inputlist) {
+            if (this.limitableEntityType.isAssingnable(entity.getType().getEntityClass())) {
                 affected++;
             }
         }
@@ -153,12 +156,12 @@ public class EntityLimit {
     }
 
     public static LimitableEntityType toLimitableEntityType(EntityType entityType) {
-        if(toLimitableEntityTypeMap.get(entityType) != null) {
+        if (toLimitableEntityTypeMap.get(entityType) != null) {
             return toLimitableEntityTypeMap.get(entityType);
         }
 
-        for(LimitableEntityType limitableEntityType : entityTypes) {
-            if(limitableEntityType.getClazz().equals(entityType.getEntityClass())) {
+        for (LimitableEntityType limitableEntityType : entityTypes) {
+            if (limitableEntityType.getClazz().equals(entityType.getEntityClass())) {
                 toLimitableEntityTypeMap.put(entityType, limitableEntityType);
                 return limitableEntityType;
             }
@@ -167,8 +170,8 @@ public class EntityLimit {
     }
 
     public static LimitableEntityType getLimitableEntityType(String name) {
-        for(LimitableEntityType limitableEntityType : entityTypes) {
-            if(limitableEntityType.getName().equalsIgnoreCase(name)) {
+        for (LimitableEntityType limitableEntityType : entityTypes) {
+            if (limitableEntityType.getName().equalsIgnoreCase(name)) {
                 return limitableEntityType;
             }
         }

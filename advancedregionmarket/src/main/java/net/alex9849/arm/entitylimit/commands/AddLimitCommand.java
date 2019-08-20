@@ -9,7 +9,6 @@ import net.alex9849.arm.entitylimit.EntityLimitGroup;
 import net.alex9849.exceptions.InputException;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;

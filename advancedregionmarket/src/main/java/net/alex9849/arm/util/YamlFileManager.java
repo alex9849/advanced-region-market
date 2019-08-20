@@ -4,10 +4,10 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.function.Consumer;
-import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 public abstract class YamlFileManager<ManagedObject extends Saveable> implements Iterable<ManagedObject> {
     private List<ManagedObject> objectList;

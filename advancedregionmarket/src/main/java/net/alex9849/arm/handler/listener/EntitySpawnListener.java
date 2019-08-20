@@ -6,17 +6,14 @@ import net.alex9849.arm.entitylimit.EntityLimit;
 import net.alex9849.arm.regions.Region;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.vehicle.VehicleCreateEvent;
 
 import java.util.List;
-import java.util.UUID;
 
 public class EntitySpawnListener implements Listener {
 

@@ -55,7 +55,7 @@ public class EntityLimitGroup implements Saveable {
             return false;
         }
 
-        List<Entity> regionEntities = region.getFilteredInsideEntities(false, true, true, true, true, false, false, false);
+        List<Entity> regionEntities = region.getFilteredInsideEntities(false, true, true, true, true, true, false, false, false);
 
         if((this.softTotal + totalExpansion) <= regionEntities.size()) {
             return true;

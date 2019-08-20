@@ -31,7 +31,6 @@ public class EntityLimit {
         entityTypeSet.add(LimitableEntityType.getUniqueLimitableEntityType("ANIMALS", Animals.class));
         entityTypeSet.add(LimitableEntityType.getUniqueLimitableEntityType("CREATURE", Creature.class));
         entityTypeSet.add(LimitableEntityType.getUniqueLimitableEntityType("MONSTER", Monster.class));
-        entityTypeSet.add(LimitableEntityType.getUniqueLimitableEntityType("MOB", Mob.class));
         entityTypeSet.add(LimitableEntityType.getUniqueLimitableEntityType("VEHICLE", Vehicle.class));
         entityTypeSet.add(LimitableEntityType.getUniqueLimitableEntityType("MINECART", Minecart.class));
         entityTypeSet.add(LimitableEntityType.getUniqueLimitableEntityType("PROJECTILE", Projectile.class));

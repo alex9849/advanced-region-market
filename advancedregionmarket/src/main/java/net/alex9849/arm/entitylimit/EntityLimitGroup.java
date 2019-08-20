@@ -49,27 +49,25 @@ public class EntityLimitGroup implements Saveable {
         this.needsSave = false;
     }
 
-    public boolean isLimitReached(Region region, EntityType entityType, int entityExpansion, int totalExpansion) {
+    public boolean isLimitReached(Region region, EntityType entityType, int totalExpansion) {
         EntityLimit.LimitableEntityType limitableEntityType = EntityLimit.toLimitableEntityType(entityType);
         if(limitableEntityType == null) {
             return false;
         }
 
-        int maxEntitiesWithThisType = this.getLimit(limitableEntityType, region);
-
-        List<Entity> regionEntities = region.getFilteredInsideEntities(false, true, true, false, false, true, true);
-
-        int matchingEntities = EntityLimitGroup.filterEntitys(regionEntities, limitableEntityType).size();
+        List<Entity> regionEntities = region.getFilteredInsideEntities(false, true, true, true, false, false, false);
 
         if((this.softTotal + totalExpansion) <= regionEntities.size()) {
             return true;
         }
 
-        if(maxEntitiesWithThisType == Integer.MAX_VALUE) {
-            return false;
+        for(EntityLimit entityLimit : this.entityLimits) {
+            if(entityLimit.isLimitReached(regionEntities, limitableEntityType, region)) {
+                return true;
+            }
         }
 
-        return maxEntitiesWithThisType <= matchingEntities;
+        return false;
     }
 
     public static List<Entity> filterEntitys(List<Entity> inputlist, EntityLimit.LimitableEntityType limitableEntityType) {

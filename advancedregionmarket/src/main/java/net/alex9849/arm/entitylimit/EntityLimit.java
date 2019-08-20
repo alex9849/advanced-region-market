@@ -2,6 +2,7 @@ package net.alex9849.arm.entitylimit;
 
 import com.google.common.collect.ImmutableSet;
 import net.alex9849.arm.Messages;
+import net.alex9849.arm.regions.Region;
 import org.bukkit.entity.*;
 
 import java.util.*;
@@ -47,8 +48,11 @@ public class EntityLimit {
             this.name = name;
         }
 
-        public boolean isAssingnable(Object obj) {
-            return this.clazz.isAssignableFrom(obj.getClass());
+        public boolean isAssingnable(Class clazz) {
+            if(clazz == null) {
+                return false;
+            }
+            return this.clazz.isAssignableFrom(clazz);
         }
 
         public String getName() {
@@ -114,6 +118,27 @@ public class EntityLimit {
 
     public int getPricePerExtraEntity() {
         return this.pricePerExtraEntity;
+    }
+
+    public boolean isLimitReached(List<Entity> entities, LimitableEntityType limitableEntityType, Region region) {
+        if(!this.limitableEntityType.isAssingnable(limitableEntityType.getClazz())) {
+            return false;
+        }
+
+        int extraEntities = region.getExtraEntityAmount(this.limitableEntityType);
+        int affectedEntities = this.affectedEntityAmount(entities);
+        return extraEntities + this.softlimit <= affectedEntities;
+    }
+
+    public int affectedEntityAmount(List<Entity> inputlist) {
+        int affected = 0;
+
+        for(Entity entity : inputlist) {
+            if(this.limitableEntityType.isAssingnable(entity.getType().getEntityClass())) {
+                affected++;
+            }
+        }
+        return affected;
     }
 
     public String getConvertedMessage(String message, List<Entity> entities, int entityExpansion) {

@@ -40,7 +40,7 @@ public class EntitySpawnListener implements Listener {
         List<Region> regions = AdvancedRegionMarket.getRegionManager().getRegionsByLocation(event.getLocation());
 
         for(Region region : regions) {
-            if(region.getEntityLimitGroup().isLimitReached(region, event.getEntityType(), region.getExtraEntityAmount(limitableEntityType), region.getExtraTotalEntitys())) {
+            if(region.getEntityLimitGroup().isLimitReached(region, event.getEntityType(), region.getExtraTotalEntitys())) {
                 event.setCancelled(true);
                 for(Player player : Bukkit.getOnlinePlayers()) {
                     Location playerLoc = player.getLocation();
@@ -70,7 +70,7 @@ public class EntitySpawnListener implements Listener {
         List<Region> regions = AdvancedRegionMarket.getRegionManager().getRegionsByLocation(event.getVehicle().getLocation());
 
         for(Region region : regions) {
-            if(region.getEntityLimitGroup().isLimitReached(region, event.getVehicle().getType(), region.getExtraEntityAmount(limitableEntityType), region.getExtraTotalEntitys())) {
+            if(region.getEntityLimitGroup().isLimitReached(region, event.getVehicle().getType(), region.getExtraTotalEntitys())) {
                 event.setCancelled(true);
             }
         }

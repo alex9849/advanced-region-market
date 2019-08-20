@@ -788,8 +788,8 @@ public abstract class Region implements Saveable {
 
         entities = new ArrayList<>(this.getRegionworld().getNearbyEntities(midLocation, xAxis, yAxis, zAxis));
 
-        for(int i = 0; i < entities.size(); i++) {
-            Location entityLoc = entities.get(i).getLocation();
+        for(Entity entity : entities) {
+            Location entityLoc = entity.getLocation();
             boolean insideRegion = false;
             boolean add = true;
 
@@ -797,19 +797,19 @@ public abstract class Region implements Saveable {
                 insideRegion = true;
             }
 
-            if((entities.get(i).getType() == EntityType.PLAYER) && !includePlayers) {
+            if((entity.getType() == EntityType.PLAYER) && !includePlayers) {
                 add = false;
             }
 
             if(insideRegion && add) {
-                result.add(entities.get(i));
+                result.add(entity);
             }
 
         }
         return result;
     }
 
-    public List<Entity> getFilteredInsideEntities(boolean includePlayers, boolean includeLivingEntity, boolean includeVehicles, boolean includeProjectiles, boolean includeAreaEffectCloud, boolean includeItemFrames, boolean includePaintings) {
+    public List<Entity> getFilteredInsideEntities(boolean includePlayers, boolean includeMobs, boolean includeVehicles, boolean includeProjectiles, boolean includeAreaEffectCloud, boolean includeItemFrames, boolean includePaintings) {
 
         List<Entity> insideEntitys = this.getInsideEntities(includePlayers);
         List<Entity> result = new ArrayList<>();
@@ -817,7 +817,7 @@ public abstract class Region implements Saveable {
         for(Entity selectedEntity : insideEntitys) {
             boolean add = false;
 
-            if((selectedEntity instanceof LivingEntity) && includeLivingEntity) {
+            if((selectedEntity instanceof Mob) && includeMobs) {
                 add = true;
             }
 

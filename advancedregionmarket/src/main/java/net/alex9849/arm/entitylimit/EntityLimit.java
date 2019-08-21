@@ -30,9 +30,6 @@ public class EntityLimit {
             if (Creature.class.isAssignableFrom(entityType.getEntityClass())) {
                 entityTypeSet.add(LimitableEntityType.getUniqueLimitableEntityType(entityType.name(), entityType.getEntityClass()));
             }
-            if (Item.class.isAssignableFrom(entityType.getEntityClass())) {
-                entityTypeSet.add(LimitableEntityType.getUniqueLimitableEntityType(entityType.name(), entityType.getEntityClass()));
-            }
             if (Vehicle.class.isAssignableFrom(entityType.getEntityClass())) {
                 entityTypeSet.add(LimitableEntityType.getUniqueLimitableEntityType(entityType.name(), entityType.getEntityClass()));
             }
@@ -50,7 +47,6 @@ public class EntityLimit {
         entityTypeSet.add(LimitableEntityType.getUniqueLimitableEntityType("VEHICLE", Vehicle.class));
         entityTypeSet.add(LimitableEntityType.getUniqueLimitableEntityType("MINECART", Minecart.class));
         entityTypeSet.add(LimitableEntityType.getUniqueLimitableEntityType("PROJECTILE", Projectile.class));
-        entityTypeSet.add(LimitableEntityType.getUniqueLimitableEntityType("ITEM", Item.class));
         entityTypes = ImmutableSet.copyOf(entityTypeSet);
     }
 

@@ -520,14 +520,11 @@ public abstract class Region implements Saveable {
     public abstract double getPaybackMoney();
 
     public void resetRegion() throws SchematicNotFoundException {
-        UnsellRegionEvent unsellRegionEvent = new UnsellRegionEvent(this);
-        Bukkit.getServer().getPluginManager().callEvent(unsellRegionEvent);
-        if(unsellRegionEvent.isCancelled()) {
-            return;
-        }
-
         this.unsell();
         this.resetBlocks();
+        this.extraEntitys.clear();
+        this.extraTotalEntitys = 0;
+        this.queueSave();
         return;
     }
 
@@ -540,14 +537,10 @@ public abstract class Region implements Saveable {
     }
 
     public void automaticResetRegion(Player player){
-        UnsellRegionEvent unsellRegionEvent = new UnsellRegionEvent(this);
-        Bukkit.getServer().getPluginManager().callEvent(unsellRegionEvent);
-        if(unsellRegionEvent.isCancelled()) {
-            return;
-        }
-
         this.unsell();
         if(this.isDoBlockReset()){
+            this.extraEntitys.clear();
+            this.extraTotalEntitys = 0;
             try {
                 this.resetBlocks();
             } catch (SchematicNotFoundException e) {
@@ -557,6 +550,7 @@ public abstract class Region implements Saveable {
         if(player != null) {
             player.sendMessage(Messages.PREFIX + Messages.RESET_COMPLETE);
         }
+        this.queueSave();
     }
 
     public boolean isHotel() {
@@ -576,6 +570,12 @@ public abstract class Region implements Saveable {
     }
 
     public void unsell(){
+        UnsellRegionEvent unsellRegionEvent = new UnsellRegionEvent(this);
+        Bukkit.getServer().getPluginManager().callEvent(unsellRegionEvent);
+        if(unsellRegionEvent.isCancelled()) {
+            return;
+        }
+
         this.getRegion().deleteMembers();
         this.getRegion().deleteOwners();
         this.sold = false;
@@ -586,9 +586,6 @@ public abstract class Region implements Saveable {
                 this.getSubregions().get(i).delete();
             }
         }
-
-        this.extraEntitys.clear();
-        this.extraTotalEntitys = 0;
         this.updateSigns();
         this.flagGroup.applyToRegion(this, FlagGroup.ResetMode.COMPLETE);
         this.queueSave();
@@ -809,8 +806,8 @@ public abstract class Region implements Saveable {
         return result;
     }
 
-    public List<Entity> getFilteredInsideEntities(boolean includePlayers, boolean includeHanging, boolean includeitems,
-                                                  boolean includeMonsters, boolean includeAnimals, boolean includeVehicles,
+    public List<Entity> getFilteredInsideEntities(boolean includePlayers, boolean includeHanging, boolean includeMonsters,
+                                                  boolean includeAnimals, boolean includeVehicles,
                                                   boolean includeProjectiles, boolean includeAreaEffectCloud,
                                                   boolean includeItemFrames, boolean includePaintings) {
 
@@ -821,10 +818,6 @@ public abstract class Region implements Saveable {
             boolean add = false;
 
             if((selectedEntity instanceof Hanging) && includeHanging) {
-                add = true;
-            }
-
-            if((selectedEntity instanceof Item) && includeitems) {
                 add = true;
             }
 

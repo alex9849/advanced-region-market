@@ -60,6 +60,7 @@ public class Permission {
     public static final String ADMIN_FLAGEDITOR = "arm.admin.flageditor";
     public static final String ADMIN_SET_FLAGGROUP = "arm.admin.setflaggroup";
     public static final String ADMIN_PRESET_SET_FLAGGROUP = "arm.admin.preset.flaggroup";
+    public static final String ADMIN_SUBREGION_CREATE_ON_UNOWNED_REGIONS = "arm.admin.subregion.createonunowned";
 
     public static final String ADMIN_ENTITYLIMIT_CREATE = "arm.admin.entitylimit.create";
     public static final String ADMIN_ENTITYLIMIT_DELETE = "arm.admin.entitylimit.delete";

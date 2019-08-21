@@ -3,6 +3,7 @@ package net.alex9849.arm.subregions;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
+import net.alex9849.arm.Permission;
 import net.alex9849.arm.minifeatures.ParticleBorder;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.exceptions.ArmInternalException;
@@ -105,7 +106,7 @@ public class SubRegionCreator {
             this.subRegion = null;
         }
 
-        if(!this.getParentRegion().getRegion().hasOwner(creator.getUniqueId())) {
+        if(!(this.getParentRegion().getRegion().hasOwner(creator.getUniqueId()) || creator.hasPermission(Permission.ADMIN_SUBREGION_CREATE_ON_UNOWNED_REGIONS) )) {
             this.remove();
             throw new InputException(this.creator, Messages.PARENT_REGION_NOT_OWN);
         }

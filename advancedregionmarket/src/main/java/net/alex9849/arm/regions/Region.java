@@ -809,13 +809,20 @@ public abstract class Region implements Saveable {
         return result;
     }
 
-    public List<Entity> getFilteredInsideEntities(boolean includePlayers, boolean includeitems, boolean includeMonsters, boolean includeAnimals, boolean includeVehicles, boolean includeProjectiles, boolean includeAreaEffectCloud, boolean includeItemFrames, boolean includePaintings) {
+    public List<Entity> getFilteredInsideEntities(boolean includePlayers, boolean includeHanging, boolean includeitems,
+                                                  boolean includeMonsters, boolean includeAnimals, boolean includeVehicles,
+                                                  boolean includeProjectiles, boolean includeAreaEffectCloud,
+                                                  boolean includeItemFrames, boolean includePaintings) {
 
         List<Entity> insideEntitys = this.getInsideEntities(includePlayers);
         List<Entity> result = new ArrayList<>();
 
         for(Entity selectedEntity : insideEntitys) {
             boolean add = false;
+
+            if((selectedEntity instanceof Hanging) && includeHanging) {
+                add = true;
+            }
 
             if((selectedEntity instanceof Item) && includeitems) {
                 add = true;

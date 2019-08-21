@@ -39,7 +39,11 @@ public class EntityLimit {
             if (Projectile.class.isAssignableFrom(entityType.getEntityClass())) {
                 entityTypeSet.add(LimitableEntityType.getUniqueLimitableEntityType(entityType.name(), entityType.getEntityClass()));
             }
+            if (Hanging.class.isAssignableFrom(entityType.getEntityClass())) {
+                entityTypeSet.add(LimitableEntityType.getUniqueLimitableEntityType(entityType.name(), entityType.getEntityClass()));
+            }
         }
+        entityTypeSet.add(LimitableEntityType.getUniqueLimitableEntityType("HANGING", Hanging.class));
         entityTypeSet.add(LimitableEntityType.getUniqueLimitableEntityType("ANIMALS", Animals.class));
         entityTypeSet.add(LimitableEntityType.getUniqueLimitableEntityType("CREATURE", Creature.class));
         entityTypeSet.add(LimitableEntityType.getUniqueLimitableEntityType("MONSTER", Monster.class));

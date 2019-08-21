@@ -61,8 +61,9 @@ public class BuyExtraCommand extends BasicArmCommand {
             throw new InputException(player, Messages.ENTITYLIMITGROUP_EXTRA_ENTITIES_BUY_SUBREGION_ERROR);
         }
 
-        List<Entity> entities = region.getFilteredInsideEntities(false, true, true, true,
-                true, true, false, false, false);
+        List<Entity> entities = region.getFilteredInsideEntities(false, true,true,
+                true, true, true, true,
+                false, false, false);
 
         if(args[2].equalsIgnoreCase("total")) {
 

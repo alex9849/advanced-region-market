@@ -69,6 +69,12 @@ public class EntitySpawnListener implements Listener {
         for(Region region : regions) {
             if(region.getEntityLimitGroup().isLimitReached(region, event.getVehicle().getType(), region.getExtraTotalEntitys())) {
                 event.setCancelled(true);
+                for(Player player : Bukkit.getOnlinePlayers()) {
+                    Location playerLoc = player.getLocation();
+                    if(region.getRegion().contains(playerLoc.getBlockX(), playerLoc.getBlockY(), playerLoc.getBlockZ())) {
+                        player.getPlayer().sendMessage(Messages.PREFIX + region.getConvertedMessage(Messages.ENTITYLIMITGROUP_COULD_NOT_SPAWN_ENTITY));
+                    }
+                }
             }
         }
     }

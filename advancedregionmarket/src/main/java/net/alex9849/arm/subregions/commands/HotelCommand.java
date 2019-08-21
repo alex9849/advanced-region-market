@@ -7,6 +7,7 @@ import net.alex9849.arm.commands.BasicArmCommand;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.exceptions.InputException;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -55,12 +56,12 @@ public class HotelCommand extends BasicArmCommand {
         if(!region.getParentRegion().getRegion().hasOwner(player.getUniqueId())) {
             throw new InputException(player, Messages.PARENT_REGION_NOT_OWN);
         }
-        region.setHotel(Boolean.parseBoolean(args[2]));
-        String state = "disabled";
-        if(Boolean.parseBoolean(args[2])){
-            state = "enabled";
-        }
-        player.sendMessage(Messages.PREFIX + "isHotel " + state + " for " + region.getRegion().getId());
+
+        boolean setting = Boolean.parseBoolean(args[2]);
+        region.setHotel(setting);
+
+        String sendmessage = Messages.PREFIX + "&6isHotel " + Messages.convertEnabledDisabled(setting) + " &6for " + region.getRegion().getId() + "&6!";
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', sendmessage));
         return true;
     }
 

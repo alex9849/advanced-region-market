@@ -1,6 +1,5 @@
 package net.alex9849.arm.entitylimit;
 
-import com.google.common.collect.ImmutableSet;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.regions.Region;
 import org.bukkit.entity.*;
@@ -11,7 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 public class EntityLimit {
-    public static final ImmutableSet<LimitableEntityType> entityTypes;
+    public static final Set<LimitableEntityType> entityTypes;
     private static HashMap<EntityType, LimitableEntityType> toLimitableEntityTypeMap = new HashMap<>();
 
     static {
@@ -47,7 +46,7 @@ public class EntityLimit {
         entityTypeSet.add(LimitableEntityType.getUniqueLimitableEntityType("VEHICLE", Vehicle.class));
         entityTypeSet.add(LimitableEntityType.getUniqueLimitableEntityType("MINECART", Minecart.class));
         entityTypeSet.add(LimitableEntityType.getUniqueLimitableEntityType("PROJECTILE", Projectile.class));
-        entityTypes = ImmutableSet.copyOf(entityTypeSet);
+        entityTypes = entityTypeSet;
     }
 
     public static class LimitableEntityType {

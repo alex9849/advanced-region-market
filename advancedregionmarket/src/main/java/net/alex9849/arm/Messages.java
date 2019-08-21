@@ -1488,7 +1488,7 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.EntityLimitGroupInfoGroupname", "&6Groupname: ");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.EntityLimitGroupInfoPattern", "&6%entitytype%: &r%softlimitentities% %entityextensioninfo%");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.EntityLimitGroupListHeadline", "&6EntityLimitGroups:");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.EntityLimitGroupCouldNotspawnEntity", "&4Could not spawn entity on region %region%! The not spawned entity would exeed the regions " +
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.EntityLimitGroupCouldNotspawnEntity", "&4Could not spawn entity on region &6%region%&4! The not spawned entity would exeed the regions " +
         "entitylimit for more information type &6/arm entitylimit check %region%&4! \nEverybody on region %region% recieved this message! If you are not a member of this region, you can ignore this message.");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionInfoEntityLimit", "&6EntityLimitGroup: ");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.SubregionEntityLimitOnlyForSubregions", "&4SubregionEntityLimitGroup only for subregions");

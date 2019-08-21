@@ -22,13 +22,13 @@ EntityLimits:
     hardtotal: -1
     pricePerExtraEntity: 0
     1:
-      entityType: CHICKEN
+      entityType: ANIMALS
       softLimit: 10
       hardLimit: 10
       pricePerExtraEntity: 0
     2:
-      entityType: BAT
-      softLimit: 0
+      entityType: CHICKEN
+      softLimit: 2
       hardLimit: 5
       pricePerExtraEntity: 2
 SubregionEntityLimit:

@@ -153,6 +153,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         loadGroups();
         loadGUI();
         AdvancedRegionMarket.flagGroupManager = new FlagGroupManager(new File(this.getDataFolder() + "/flaggroups.yml"));
+        getLogger().log(Level.INFO, "Loading and mapping regions! This can take a while... (About 5 seconds per 1000 regions)");
         AdvancedRegionMarket.regionManager = new RegionManager(new File(this.getDataFolder() + "/regions.yml"));
         getLogger().log(Level.INFO, "Regions loaded!");
         loadAutoReset();

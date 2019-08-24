@@ -830,7 +830,7 @@ public class RegionManager extends YamlFileManager<Region> {
     }
 
     private static class DummyChunk {
-        private static HashMap<Integer, DummyChunk> dummyChunks = new HashMap<>();
+        private static HashMap<Long, DummyChunk> dummyChunks = new HashMap<>();
         private int x;
         private int z;
 
@@ -839,8 +839,8 @@ public class RegionManager extends YamlFileManager<Region> {
             this.z = z;
         }
 
-        private int coordianteHash() {
-            return this.x * 10000 * this.z;
+        private long coordianteHash() {
+            return this.x * 10000000 * this.z;
         }
 
         static DummyChunk getUniqueDummyChunk(int x, int y) {

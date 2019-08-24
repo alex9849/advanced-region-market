@@ -154,12 +154,12 @@ public class EntityLimit {
 
     public String getConvertedMessage(String message, List<Entity> entities, int entityExpansion) {
         String result = message;
-        result = result.replace("%entitytype%", this.getLimitableEntityType().getName());
-        result = result.replace("%actualentities%", EntityLimitGroup.filterEntitys(entities, this.getLimitableEntityType()).size() + "");
-        result = result.replace("%softlimitentities%", EntityLimitGroup.intToLimitString(this.getSoftLimit(entityExpansion)));
-        result = result.replace("%hardlimitentities%", EntityLimitGroup.intToLimitString(this.getHardLimit()));
-        result = result.replace("%priceperextraentity%", this.getPricePerExtraEntity() + "");
-        result = result.replace("%currency%", Messages.CURRENCY);
+        if(result.contains("%entitytype%")) result = result.replace("%entitytype%", this.getLimitableEntityType().getName());
+        if(result.contains("%actualentities%")) result = result.replace("%actualentities%", EntityLimitGroup.filterEntitys(entities, this.getLimitableEntityType()).size() + "");
+        if(result.contains("%softlimitentities%")) result = result.replace("%softlimitentities%", EntityLimitGroup.intToLimitString(this.getSoftLimit(entityExpansion)));
+        if(result.contains("%hardlimitentities%")) result = result.replace("%hardlimitentities%", EntityLimitGroup.intToLimitString(this.getHardLimit()));
+        if(result.contains("%priceperextraentity%")) result = result.replace("%priceperextraentity%", this.getPricePerExtraEntity() + "");
+        if(result.contains("%currency%")) result = result.replace("%currency%", Messages.CURRENCY);
         return result;
     }
 

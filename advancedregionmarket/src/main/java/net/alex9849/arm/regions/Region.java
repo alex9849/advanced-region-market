@@ -736,7 +736,7 @@ public abstract class Region implements Saveable {
         }
         message = this.getRegionKind().getConvertedMessage(message);
         message = this.getEntityLimitGroup().getConvertedMessage(message);
-        message = this.flagGroup.getConvertedMessage(message);
+        message = this.getFlagGroup().getConvertedMessage(message);
         return message;
     }
 
@@ -965,18 +965,5 @@ public abstract class Region implements Saveable {
             }
         }
         return  returnme;
-    }
-
-    public Set<Chunk> getChunks() {
-        Set<Chunk> chunkSet = new HashSet<>();
-        int maxX = this.getRegion().getMaxPoint().getBlockX();
-        int maxZ = this.getRegion().getMaxPoint().getBlockZ();
-
-        for(int x = this.getRegion().getMinPoint().getBlockX(); x <= maxX + 16; x += 16) {
-            for(int z = this.getRegion().getMinPoint().getBlockZ(); z <= maxZ + 16; z += 16) {
-                chunkSet.add(this.getRegionworld().getChunkAt(x >> 4, z >> 4));
-            }
-        }
-        return chunkSet;
     }
 }

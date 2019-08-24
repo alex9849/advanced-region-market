@@ -23,7 +23,6 @@ import net.alex9849.signs.SignAttachment;
 import net.alex9849.signs.SignData;
 import net.alex9849.signs.SignDataFactory;
 import org.bukkit.Bukkit;
-import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.BlockFace;
@@ -38,7 +37,7 @@ import java.util.logging.Level;
 
 public class RegionManager extends YamlFileManager<Region> {
 
-    private HashMap<World, HashMap<Chunk, List<Region>>> worldChunkRegionMap;
+    private HashMap<World, HashMap<DummyChunk, List<Region>>> worldChunkRegionMap;
 
     public RegionManager(File savepath) {
         super(savepath);
@@ -131,14 +130,14 @@ public class RegionManager extends YamlFileManager<Region> {
     }
 
     private void addToWorldChunkMap(Region region) {
-        HashMap<Chunk, List<Region>> chunkRegionMap = this.getWorldChunkRegionMap().get(region.getRegionworld());
+        HashMap<DummyChunk, List<Region>> chunkRegionMap = this.getWorldChunkRegionMap().get(region.getRegionworld());
         if(chunkRegionMap == null) {
             chunkRegionMap = new HashMap<>();
             this.getWorldChunkRegionMap().put(region.getRegionworld(), chunkRegionMap);
         }
-        Set<Chunk> regionChunks = region.getChunks();
+        Set<DummyChunk> regionChunks = DummyChunk.getChunks(region);
 
-        for (Chunk chunk : regionChunks) {
+        for (DummyChunk chunk : regionChunks) {
             List<Region> chunkRegions = chunkRegionMap.get(chunk);
             if(chunkRegions == null) {
                 chunkRegions = new ArrayList<>();
@@ -149,10 +148,10 @@ public class RegionManager extends YamlFileManager<Region> {
     }
 
     private void removeFromWorldChunkMap(Region region) {
-        HashMap<Chunk, List<Region>> chunkRegionMap = this.getWorldChunkRegionMap().get(region.getRegionworld());
+        HashMap<DummyChunk, List<Region>> chunkRegionMap = this.getWorldChunkRegionMap().get(region.getRegionworld());
         if(chunkRegionMap != null) {
-            Set<Chunk> regionChunks = region.getChunks();
-            for(Chunk chunk : regionChunks) {
+            Set<DummyChunk> regionChunks = DummyChunk.getChunks(region);
+            for(DummyChunk chunk : regionChunks) {
                 List<Region> regionList = chunkRegionMap.get(chunk);
                 if(regionList != null) {
                     regionList.remove(region);
@@ -167,7 +166,7 @@ public class RegionManager extends YamlFileManager<Region> {
         }
     }
 
-    private HashMap<World, HashMap<Chunk, List<Region>>> getWorldChunkRegionMap() {
+    private HashMap<World, HashMap<DummyChunk, List<Region>>> getWorldChunkRegionMap() {
         if(this.worldChunkRegionMap == null) {
             this.worldChunkRegionMap = new HashMap<>();
         }
@@ -640,12 +639,12 @@ public class RegionManager extends YamlFileManager<Region> {
     public List<Region> getRegionsByLocation(Location location) {
         List<Region> regions = new ArrayList<>();
 
-        HashMap<Chunk, List<Region>> chunkRegionList = this.getWorldChunkRegionMap().get(location.getWorld());
+        HashMap<DummyChunk, List<Region>> chunkRegionList = this.getWorldChunkRegionMap().get(location.getWorld());
         if(chunkRegionList == null) {
             return regions;
         }
 
-        Chunk locationChunk = location.getChunk();
+        DummyChunk locationChunk = DummyChunk.getUniqueDummyChunk(location.getBlockX() >> 4, location.getBlockZ() >> 4);
         List<Region> regionsInChunk = chunkRegionList.get(locationChunk);
         if(regionsInChunk == null) {
             return regions;
@@ -830,5 +829,42 @@ public class RegionManager extends YamlFileManager<Region> {
         return selectedRegion;
     }
 
+    private static class DummyChunk {
+        private static HashMap<Integer, DummyChunk> dummyChunks = new HashMap<>();
+        private int x;
+        private int z;
+
+        private DummyChunk(int x, int z) {
+            this.x = x;
+            this.z = z;
+        }
+
+        private int coordianteHash() {
+            return this.x * 10000 * this.z;
+        }
+
+        static DummyChunk getUniqueDummyChunk(int x, int y) {
+            DummyChunk newChunk = new DummyChunk(x, y);
+            DummyChunk chunk = dummyChunks.get(newChunk.coordianteHash());
+            if(chunk == null) {
+                chunk = newChunk;
+                dummyChunks.put(chunk.coordianteHash(), chunk);
+            }
+            return chunk;
+        }
+
+        static Set<DummyChunk> getChunks(Region region) {
+            Set<DummyChunk> chunkSet = new HashSet<>();
+            int maxX = region.getRegion().getMaxPoint().getBlockX();
+            int maxZ = region.getRegion().getMaxPoint().getBlockZ();
+
+            for(int x = region.getRegion().getMinPoint().getBlockX(); x <= maxX + 16; x += 16) {
+                for(int z = region.getRegion().getMinPoint().getBlockZ(); z <= maxZ + 16; z += 16) {
+                    chunkSet.add(getUniqueDummyChunk(x >> 4, z >> 4));
+                }
+            }
+            return chunkSet;
+        }
+    }
 
 }

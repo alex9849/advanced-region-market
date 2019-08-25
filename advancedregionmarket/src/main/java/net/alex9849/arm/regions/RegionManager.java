@@ -838,7 +838,7 @@ public class RegionManager extends YamlFileManager<Region> {
         }
 
         private long coordianteHash() {
-            return this.x * 10000000 * this.z;
+            return this.x * 10000000 + this.z;
         }
 
         static DummyChunk getUniqueDummyChunk(int x, int y) {

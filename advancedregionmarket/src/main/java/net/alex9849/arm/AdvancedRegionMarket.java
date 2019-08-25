@@ -131,15 +131,17 @@ public class AdvancedRegionMarket extends JavaPlugin {
         getServer().getPluginManager().registerEvents(guilistener, this);
 
         if(getConfig().getBoolean("Other.Sendstats")) {
+            final int playercount = Bukkit.getOnlinePlayers().size();
             Thread sendStartup = new Thread(() -> {
-                AdvancedRegionMarket.sendStats(this, false);
+                AdvancedRegionMarket.sendStats(this, false, playercount);
             });
             sendStartup.start();
 
             Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
                 Plugin armPlugin = AdvancedRegionMarket.getARM();
+                final int onlineplayers = Bukkit.getOnlinePlayers().size();
                 Thread sendPing = new Thread(() -> {
-                    AdvancedRegionMarket.sendStats(armPlugin, true);
+                    AdvancedRegionMarket.sendStats(armPlugin, true, onlineplayers);
                 });
                 sendPing.start();
             }, 6000, 6000);
@@ -752,7 +754,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         }
     }
 
-    private static void sendStats(Plugin plugin, boolean isPing){
+    private static void sendStats(Plugin plugin, boolean isPing, int playerCount){
         Server server = Bukkit.getServer();
         String ip = server.getIp();
         int port = server.getPort();
@@ -790,7 +792,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
             ps.print("&host=" + hoststring);
             ps.print("&ip=" + ip);
             ps.print("&port=" + port);
-            ps.print("&playercount=" + Bukkit.getOnlinePlayers().size());
+            ps.print("&playercount=" + playerCount);
             ps.print("&pversion=" + plugin.getDescription().getVersion());
 
             con.connect();

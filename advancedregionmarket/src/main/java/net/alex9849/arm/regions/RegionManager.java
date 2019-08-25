@@ -37,10 +37,15 @@ import java.util.logging.Level;
 
 public class RegionManager extends YamlFileManager<Region> {
 
-    private HashMap<World, HashMap<DummyChunk, List<Region>>> worldChunkRegionMap;
+    private final HashMap<World, HashMap<DummyChunk, List<Region>>> worldChunkRegionMap;
 
     public RegionManager(File savepath) {
         super(savepath);
+        this.worldChunkRegionMap = new HashMap<>();
+
+        for(Region region : this) {
+            this.addToWorldChunkMap(region);
+        }
     }
 
     @Override
@@ -117,10 +122,6 @@ public class RegionManager extends YamlFileManager<Region> {
 
         yamlConfiguration.options().copyDefaults(false);
 
-        for(Region region : loadedRegions) {
-            this.addToWorldChunkMap(region);
-        }
-
         return loadedRegions;
     }
 
@@ -167,9 +168,6 @@ public class RegionManager extends YamlFileManager<Region> {
     }
 
     private HashMap<World, HashMap<DummyChunk, List<Region>>> getWorldChunkRegionMap() {
-        if(this.worldChunkRegionMap == null) {
-            this.worldChunkRegionMap = new HashMap<>();
-        }
         return this.worldChunkRegionMap;
     }
 

@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class RegionfinderCommand extends BasicArmCommand {
+public class RegionfinderCommand implements BasicArmCommand {
 
     private final String rootCommand = "regionfinder";
     private final String regex = "(?i)regionfinder";

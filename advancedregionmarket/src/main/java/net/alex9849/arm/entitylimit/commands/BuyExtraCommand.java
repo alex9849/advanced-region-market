@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class BuyExtraCommand extends BasicArmCommand {
+public class BuyExtraCommand implements BasicArmCommand {
     private final String rootCommand = "buyextra";
     private final String regex = "(?i)buyextra [^;\n ]+ [^;\n ]+";
     private final List<String> usage = new ArrayList<>(Arrays.asList("buyextra [REGION] [ENTITYTYPE]"));

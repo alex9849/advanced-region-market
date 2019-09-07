@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class EntityLimitCommand extends BasicArmCommand {
+public class EntityLimitCommand implements BasicArmCommand {
     private final String rootCommand = "entitylimit";
     private final String regex_set = "(?i)entitylimit [^;\n ]+";
     private final List<String> usage = new ArrayList<>(Arrays.asList("entitylimit ([ENTITYLIMIT])"));

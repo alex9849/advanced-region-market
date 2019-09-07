@@ -17,7 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 
-public class ResetCommand extends BasicArmCommand {
+public class ResetCommand implements BasicArmCommand {
 
     private final String rootCommand = "reset";
     private final String regex_with_args = "(?i)reset [^;\n ]+";

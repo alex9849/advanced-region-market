@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class DoBlockResetCommand extends BasicArmCommand {
+public class DoBlockResetCommand implements BasicArmCommand {
     private final String rootCommand = "doblockreset";
     private final String regex_set = "(?i)doblockreset (false|true)";
     private final List<String> usage = new ArrayList<>(Arrays.asList("doblockreset (true/false)"));

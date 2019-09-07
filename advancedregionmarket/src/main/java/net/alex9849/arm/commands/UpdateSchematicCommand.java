@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class UpdateSchematicCommand extends BasicArmCommand {
+public class UpdateSchematicCommand implements BasicArmCommand {
 
     private final String rootCommand = "updateschematic";
     private final String regex = "(?i)updateschematic";

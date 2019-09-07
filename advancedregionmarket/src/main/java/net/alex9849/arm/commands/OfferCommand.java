@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class OfferCommand extends BasicArmCommand {
+public class OfferCommand implements BasicArmCommand {
 
     private final String rootCommand = "offer";
     private final String regex_new = "(?i)offer [^;\n ]+ [^;\n ]+ ([0-9]+[.])?[0-9]+";

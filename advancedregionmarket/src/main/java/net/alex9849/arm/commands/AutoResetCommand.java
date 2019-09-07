@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class AutoResetCommand extends BasicArmCommand {
+public class AutoResetCommand implements BasicArmCommand {
 
     private final String rootCommand = "autoreset";
     private final String regex = "(?i)autoreset [^;\n ]+ (false|true)";

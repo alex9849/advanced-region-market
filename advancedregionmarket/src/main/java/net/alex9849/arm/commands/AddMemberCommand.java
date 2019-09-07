@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class AddMemberCommand extends BasicArmCommand {
+public class AddMemberCommand implements BasicArmCommand {
 
     private final String rootCommand = "addmember";
     private final String regex_with_args = "(?i)addmember [^;\n ]+ [^;\n ]+";

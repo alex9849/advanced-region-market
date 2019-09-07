@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class BuyCommand extends BasicArmCommand {
+public class BuyCommand implements BasicArmCommand {
 
     private final String rootCommand = "buy";
     private final String regex = "(?i)buy";

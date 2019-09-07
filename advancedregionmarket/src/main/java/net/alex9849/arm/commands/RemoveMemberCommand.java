@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class RemoveMemberCommand extends BasicArmCommand {
+public class RemoveMemberCommand implements BasicArmCommand {
 
     private final String rootCommand = "removemember";
     private final String regex = "(?i)removemember [^;\n ]+";

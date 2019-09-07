@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ListRegionsCommand extends BasicArmCommand {
+public class ListRegionsCommand implements BasicArmCommand {
     private final String rootCommand = "listregions";
     private final String regex = "(?i)listregions";
     private final List<String> usage = new ArrayList<>(Arrays.asList("listregions", "listregions [PLAYER]"));

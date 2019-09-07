@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class HelpCommand extends BasicArmCommand {
+public class HelpCommand implements BasicArmCommand {
 
     private final String rootCommand = "help";
     private final String regex_args = "(?i)help [0-9]+";

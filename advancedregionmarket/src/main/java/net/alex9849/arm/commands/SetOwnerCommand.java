@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SetOwnerCommand extends BasicArmCommand {
+public class SetOwnerCommand implements BasicArmCommand {
 
     private final String rootCommand = "setowner";
     private final String regex = "(?i)setowner [^;\n ]+ [^;\n ]+";

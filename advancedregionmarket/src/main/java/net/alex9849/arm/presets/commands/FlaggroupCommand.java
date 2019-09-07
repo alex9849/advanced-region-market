@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class FlaggroupCommand extends BasicArmCommand {
+public class FlaggroupCommand implements BasicArmCommand {
     private final String rootCommand = "flaggroup";
     private final String regex_set = "(?i)flaggroup [^;\n ]+";
     private final List<String> usage = new ArrayList<>(Arrays.asList("flaggroup ([ENTITYLIMIT])"));

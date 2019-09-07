@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ListCommand extends BasicArmCommand {
+public class ListCommand implements BasicArmCommand {
     private final String rootCommand = "list";
     private final String regex = "(?i)list";
     private final List<String> usage = new ArrayList<>(Arrays.asList("list"));

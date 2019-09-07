@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class CommandSplitter extends BasicArmCommand {
+public class CommandSplitter implements BasicArmCommand {
 
     private final String rootCommand;
     private final String regex;

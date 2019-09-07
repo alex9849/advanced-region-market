@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public abstract class BasicArmCommand {
+public interface BasicArmCommand {
 
     public abstract boolean matchesRegex(String command);
 

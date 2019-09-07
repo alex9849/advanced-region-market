@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ContractPresetExtendCommand extends BasicArmCommand {
+public class ContractPresetExtendCommand implements BasicArmCommand {
 
     private final String rootCommand = "extend";
     private final String regex_set = "(?i)extend ([0-9]+(s|m|h|d))";

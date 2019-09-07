@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class AddCommandCommand extends BasicArmCommand {
+public class AddCommandCommand implements BasicArmCommand {
     private final String rootCommand = "addcommand";
     private final String regex_remove = "(?i)addcommand [^;\n]+";
     private final List<String> usage = new ArrayList<>(Arrays.asList("addcommand [COMMAND]"));

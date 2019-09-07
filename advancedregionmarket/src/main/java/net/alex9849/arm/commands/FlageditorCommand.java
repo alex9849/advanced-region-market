@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class FlageditorCommand extends BasicArmCommand {
+public class FlageditorCommand implements BasicArmCommand {
 
     private final String rootCommand = "flageditor";
     private final String regex_with_args = "(?i)flageditor [^;\n ]+";

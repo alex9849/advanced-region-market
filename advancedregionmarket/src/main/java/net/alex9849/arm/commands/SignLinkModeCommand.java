@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SignLinkModeCommand extends BasicArmCommand {
+public class SignLinkModeCommand implements BasicArmCommand {
     private final String rootCommand = "signlinkmode";
     private final String regex_start = "(?i)signlinkmode [^;\n ]+";
     private final String regex_disable = "(?i)signlinkmode (?i)disable";

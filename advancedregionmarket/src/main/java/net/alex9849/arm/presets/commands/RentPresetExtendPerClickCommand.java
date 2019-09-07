@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class RentPresetExtendPerClickCommand extends BasicArmCommand {
+public class RentPresetExtendPerClickCommand implements BasicArmCommand {
 
     private final String rootCommand = "extendperclick";
     private final String regex_set = "(?i)extendperclick ([0-9]+(s|m|h|d))";

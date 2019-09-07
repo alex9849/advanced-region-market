@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class CreateCommand extends BasicArmCommand {
+public class CreateCommand implements BasicArmCommand {
 
     private final String rootCommand = "create";
     private final String regex = "(?i)create [^;\n ]+";

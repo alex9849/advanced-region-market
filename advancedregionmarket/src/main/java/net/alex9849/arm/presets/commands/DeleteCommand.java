@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class DeleteCommand extends BasicArmCommand {
+public class DeleteCommand implements BasicArmCommand {
 
     private final String rootCommand = "delete";
     private final String regex = "(?i)delete [^;\n ]+";

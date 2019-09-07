@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SetIsUserResettableCommand extends BasicArmCommand {
+public class SetIsUserResettableCommand implements BasicArmCommand {
     private final String rootCommand = "setisuserresettable";
     private final String regex = "(?i)setisuserresettable [^;\n ]+ (false|true)";
     private final String regex_massaction = "(?i)setisuserresettable rk:[^;\n ]+ (false|true)";

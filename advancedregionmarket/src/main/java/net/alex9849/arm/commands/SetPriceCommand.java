@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SetPriceCommand extends BasicArmCommand {
+public class SetPriceCommand implements BasicArmCommand {
     private final String rootCommand = "setprice";
     private final String regex_massaction = "(?i)setprice rk:[^;\n]+";
     private final String regex_price = "(?i)setprice [^;\n ]+ [0-9]+ [0-9]+(s|m|h|d) [0-9]+(s|m|h|d)";

@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SellBackCommand extends BasicArmCommand {
+public class SellBackCommand implements BasicArmCommand {
 
     private final String rootCommand = "sellback";
     private final String regex = "(?i)sellback [^;\n ]+";

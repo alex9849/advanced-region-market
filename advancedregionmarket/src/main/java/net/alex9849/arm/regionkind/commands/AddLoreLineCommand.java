@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class AddLoreLineCommand extends BasicArmCommand {
+public class AddLoreLineCommand implements BasicArmCommand {
     private final String rootCommand = "addloreline";
     private final String regex = "(?i)addloreline [^;\n ]+ [^;\n]+";
     private final List<String> usage = new ArrayList<>(Arrays.asList("addloreline [REGIONKIND] [loreline]"));

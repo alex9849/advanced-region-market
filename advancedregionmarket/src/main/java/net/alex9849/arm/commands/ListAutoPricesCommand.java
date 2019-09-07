@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ListAutoPricesCommand extends BasicArmCommand {
+public class ListAutoPricesCommand implements BasicArmCommand {
 
     private final String rootCommand = "listautoprices";
     private final String regex = "(?i)listautoprices";

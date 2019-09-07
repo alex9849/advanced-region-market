@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class UserResettableCommand extends BasicArmCommand {
+public class UserResettableCommand implements BasicArmCommand {
     private final String rootCommand = "userresettable";
     private final String regex_set = "(?i)userresettable (false|true)";
     private final List<String> usage = new ArrayList<>(Arrays.asList("userresettable (true/false)"));

@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class TPCommand extends BasicArmCommand {
+public class TPCommand implements BasicArmCommand {
 
     private final String rootCommand = "tp";
     private final String regex = "(?i)tp [^;\n ]+";

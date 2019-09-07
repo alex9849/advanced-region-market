@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SaveCommand extends BasicArmCommand {
+public class SaveCommand implements BasicArmCommand {
 
     private final String rootCommand = "save";
     private final String regex = "(?i)save [^;\n ]+";

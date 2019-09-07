@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class RemoveLimit extends BasicArmCommand {
+public class RemoveLimit implements BasicArmCommand {
     private final String rootCommand = "removelimit";
     private final String regex = "(?i)removelimit [^;\n ]+ [^;\n ]+";
     private final List<String> usage = new ArrayList<>(Arrays.asList("removelimit [GROUPNAME] [ENTITYTYPE]"));

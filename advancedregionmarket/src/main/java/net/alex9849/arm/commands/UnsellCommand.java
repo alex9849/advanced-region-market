@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class UnsellCommand extends BasicArmCommand {
+public class UnsellCommand implements BasicArmCommand {
     private final String rootCommand = "unsell";
     private final String regex_with_args = "(?i)unsell [^;\n ]+";
     private final String regex = "(?i)unsell";

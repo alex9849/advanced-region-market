@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ReloadCommand extends BasicArmCommand {
+public class ReloadCommand implements BasicArmCommand {
 
     private final String rootCommand = "reload";
     private final String regex = "(?i)reload";

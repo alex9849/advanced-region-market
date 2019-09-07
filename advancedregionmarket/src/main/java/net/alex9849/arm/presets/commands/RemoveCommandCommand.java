@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class RemoveCommandCommand extends BasicArmCommand {
+public class RemoveCommandCommand implements BasicArmCommand {
     private final String rootCommand = "removecommand";
     private final String regex_remove = "(?i)removecommand [0-9]+";
     private final List<String> usage = new ArrayList<>(Arrays.asList("removecommand [ID]"));

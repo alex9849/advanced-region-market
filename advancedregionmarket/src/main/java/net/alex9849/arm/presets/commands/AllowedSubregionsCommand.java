@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class AllowedSubregionsCommand extends BasicArmCommand {
+public class AllowedSubregionsCommand implements BasicArmCommand {
     private final String rootCommand = "allowedsubregions";
     private final String regex_set = "(?i)allowedsubregions [0-9]+";
     private final List<String> usage = new ArrayList<>(Arrays.asList("allowedsubregions [NUMBER]"));

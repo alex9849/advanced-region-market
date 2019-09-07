@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SetWarpCommand extends BasicArmCommand {
+public class SetWarpCommand implements BasicArmCommand {
 
     private final String rootCommand = "setwarp";
     private final String regex = "(?i)setwarp [^;\n ]+";

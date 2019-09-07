@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SetItemCommand extends BasicArmCommand {
+public class SetItemCommand implements BasicArmCommand {
     private final String rootCommand = "setitem";
     private final String regex = "(?i)setitem [^;\n ]+ [^;\n ]+";
     private final List<String> usage = new ArrayList<>(Arrays.asList("setitem [REGIONKIND] [ITEM]"));

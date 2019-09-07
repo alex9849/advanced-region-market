@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class RegionKindCommand extends BasicArmCommand {
+public class RegionKindCommand implements BasicArmCommand {
 
     private final String rootCommand = "regionkind";
     private final String regex_set = "(?i)regionkind [^;\n ]+";

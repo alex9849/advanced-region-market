@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SetExtraLimitCommand extends BasicArmCommand {
+public class SetExtraLimitCommand implements BasicArmCommand {
     private final String rootCommand = "setextralimit";
     private final String regex = "(?i)setextralimit [^;\n ]+ [^;\n ]+ [0-9]+";
     private final List<String> usage = new ArrayList<>(Arrays.asList("setextralimit [REGION] [ENTITYTYPE] [AMOUNT]"));

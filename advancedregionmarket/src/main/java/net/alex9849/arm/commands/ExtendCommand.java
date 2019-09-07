@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ExtendCommand extends BasicArmCommand {
+public class ExtendCommand implements BasicArmCommand {
 
     private final String rootCommand = "extend";
     private final String regex_with_args = "(?i)extend [^;\n ]+";

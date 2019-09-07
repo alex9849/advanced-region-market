@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class LimitCommand extends BasicArmCommand {
+public class LimitCommand implements BasicArmCommand {
 
     private final String rootCommand = "limit";
     private final String regex = "(?i)limit";

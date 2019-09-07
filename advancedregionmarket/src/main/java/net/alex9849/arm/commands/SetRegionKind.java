@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SetRegionKind extends BasicArmCommand {
+public class SetRegionKind implements BasicArmCommand {
     private final String rootCommand = "setregionkind";
     private final String regex = "(?i)setregionkind [^;\n ]+ [^;\n ]+";
     private final List<String> usage = new ArrayList<>(Arrays.asList("setregionkind [REGIONKIND] [REGION]"));

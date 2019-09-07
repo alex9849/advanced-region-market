@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SetDisplayNameCommand extends BasicArmCommand {
+public class SetDisplayNameCommand implements BasicArmCommand {
     private final String rootCommand = "setdisplayname";
     private final String regex = "(?i)setdisplayname [^;\n ]+ [^;\n]+";
     private final List<String> usage = new ArrayList<>(Arrays.asList("setdisplayname [REGIONKIND] [Displayname]"));

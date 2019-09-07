@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class LoadCommand extends BasicArmCommand {
+public class LoadCommand implements BasicArmCommand {
 
     private final String rootCommand = "load";
     private final String regex = "(?i)load [^;\n ]+";

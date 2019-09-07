@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class CheckCommand extends BasicArmCommand {
+public class CheckCommand implements BasicArmCommand {
     private final String rootCommand = "check";
     private final String regex = "(?i)check [^;\n ]+";
     private final List<String> usage = new ArrayList<>(Arrays.asList("check [REGION]"));

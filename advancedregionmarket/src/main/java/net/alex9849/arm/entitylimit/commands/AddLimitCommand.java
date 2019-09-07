@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 
-public class AddLimitCommand extends BasicArmCommand {
+public class AddLimitCommand implements BasicArmCommand {
     private final String rootCommand = "addlimit";
     private final String regex = "(?i)addlimit [^;\n ]+ [^;\n ]+ ([0-9]+|(?i)unlimited) ([0-9]+|(?i)unlimited) [0-9]+";
     private final List<String> usage = new ArrayList<>(Arrays.asList("addlimit [GROUPNAME] [ENTITYTYPE] [SOFTLIMIT] [HARDLIMIT] [PRICE PER EXTRA-ENTITY]"));

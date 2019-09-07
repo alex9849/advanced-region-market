@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SetDisplayInLimitsCommand extends BasicArmCommand {
+public class SetDisplayInLimitsCommand implements BasicArmCommand {
     private final String rootCommand = "setdisplayinlimits";
     private final String regex = "(?i)setdisplayinlimits [^;\n ]+ (false|true)";
     private final List<String> usage = new ArrayList<>(Arrays.asList("setdisplayinlimits [REGIONKIND] [true/false]"));

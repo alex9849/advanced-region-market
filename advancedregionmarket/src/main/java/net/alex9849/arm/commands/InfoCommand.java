@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class InfoCommand extends BasicArmCommand {
+public class InfoCommand implements BasicArmCommand {
     private final String rootCommand = "info";
     private final String regex = "(?i)info";
     private final String regex_with_args = "(?i)info [^;\n ]+";

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SetPaybackPercentage extends BasicArmCommand {
+public class SetPaybackPercentage implements BasicArmCommand {
     private final String rootCommand = "setpaybackpercentage";
     private final String regex = "(?i)setpaybackpercentage [^;\n ]+ [0-9]+";
     private final List<String> usage = new ArrayList<>(Arrays.asList("setpaybackpercentage [REGIONKIND] [Percentage]"));

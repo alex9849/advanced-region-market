@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SetSubregionLimit extends BasicArmCommand {
+public class SetSubregionLimit implements BasicArmCommand {
 
     private final String rootCommand = "setsubregionlimit";
     private final String regex = "(?i)setsubregionlimit [^;\n ]+ [0-9]+";

@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ToolCommand extends BasicArmCommand {
+public class ToolCommand implements BasicArmCommand {
     private final String rootCommand = "tool";
     private final String regex = "(?i)tool";
     private final List<String> usage = new ArrayList<>(Arrays.asList("tool"));

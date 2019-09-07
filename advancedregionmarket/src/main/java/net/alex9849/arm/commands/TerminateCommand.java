@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class TerminateCommand extends BasicArmCommand {
+public class TerminateCommand implements BasicArmCommand {
     private final String rootCommand = "terminate";
     private final String regex_with_args = "(?i)terminate [^;\n ]+ (false|true)";
     private final String regex = "(?i)terminate (false|true)";

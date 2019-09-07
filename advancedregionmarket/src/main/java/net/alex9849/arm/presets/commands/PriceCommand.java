@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class PriceCommand extends BasicArmCommand {
+public class PriceCommand implements BasicArmCommand {
 
     private final String rootCommand = "price";
     private final String regex_set = "(?i)price [+-]?([0-9]+[.])?[0-9]+";

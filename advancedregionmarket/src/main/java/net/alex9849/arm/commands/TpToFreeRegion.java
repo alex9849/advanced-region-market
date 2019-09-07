@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class TpToFreeRegion extends BasicArmCommand {
+public class TpToFreeRegion implements BasicArmCommand {
     private final String rootCommand = "tptofreeregion";
     private final String regex = "(?i)tptofreeregion [^;\n ]+";
     private final List<String> usage = new ArrayList<>(Arrays.asList("tptofreeregion [REGIONKIND]"));

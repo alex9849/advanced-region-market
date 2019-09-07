@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SellPresetCommand extends BasicArmCommand {
+public class SellPresetCommand implements BasicArmCommand {
 
     private final String rootCommand = "sellpreset";
     private final String regex = "(?i)sellpreset [^;\n]+";

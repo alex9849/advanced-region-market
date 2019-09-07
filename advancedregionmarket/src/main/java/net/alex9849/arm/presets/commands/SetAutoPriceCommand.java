@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SetAutoPriceCommand extends BasicArmCommand {
+public class SetAutoPriceCommand implements BasicArmCommand {
 
     private final String rootCommand = "autoprice";
     private final String regex_set = "(?i)autoprice [^;\n ]+";

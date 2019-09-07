@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SetFlaggroupCommand extends BasicArmCommand {
+public class SetFlaggroupCommand implements BasicArmCommand {
     private final String rootCommand = "setflaggroup";
     private final String regex = "(?i)setflaggroup [^;\n ]+ [^;\n ]+";
     private final String regex_massaction = "(?i)setflaggroup rk:[^;\n ]+ [^;\n ]+";

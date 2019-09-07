@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class RegionstatsCommand extends BasicArmCommand {
+public class RegionstatsCommand implements BasicArmCommand {
 
     private final String rootCommand = "regionstats";
     private final String regex = "(?i)regionstats";

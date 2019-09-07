@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SetEntityLimitCommand extends BasicArmCommand {
+public class SetEntityLimitCommand implements BasicArmCommand {
     private final String rootCommand = "setentitylimit";
     private final String regex = "(?i)setentitylimit [^;\n ]+ [^;\n ]+";
     private final String regex_massaction = "(?i)setentitylimit rk:[^;\n ]+ [^;\n ]+";

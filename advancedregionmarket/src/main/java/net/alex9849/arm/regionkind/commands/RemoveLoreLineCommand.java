@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class RemoveLoreLineCommand extends BasicArmCommand {
+public class RemoveLoreLineCommand implements BasicArmCommand {
     private final String rootCommand = "removeloreline";
     private final String regex = "(?i)removeloreline [^;\n ]+ [0-9]+";
     private final List<String> usage = new ArrayList<>(Arrays.asList("removeloreline [REGIONKIND] [Lore-line]"));

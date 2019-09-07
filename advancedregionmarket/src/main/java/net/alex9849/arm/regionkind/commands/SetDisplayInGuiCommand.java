@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SetDisplayInGuiCommand extends BasicArmCommand {
+public class SetDisplayInGuiCommand implements BasicArmCommand {
     private final String rootCommand = "setdisplayingui";
     private final String regex = "(?i)setdisplayingui [^;\n ]+ (false|true)";
     private final List<String> usage = new ArrayList<>(Arrays.asList("setdisplayingui [REGIONKIND] [true/false]"));

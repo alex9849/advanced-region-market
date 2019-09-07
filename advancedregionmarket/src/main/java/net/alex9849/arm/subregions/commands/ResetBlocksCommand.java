@@ -18,7 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 
-public class ResetBlocksCommand extends BasicArmCommand {
+public class ResetBlocksCommand implements BasicArmCommand {
     private final String rootCommand = "resetblocks";
     private final String regex = "(?i)resetblocks [^;\n ]+";
     private final List<String> usage = new ArrayList<>(Arrays.asList("resetblocks [REGION]"));

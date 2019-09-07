@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ResetCommand extends BasicArmCommand {
+public class ResetCommand implements BasicArmCommand {
     private final String rootCommand = "reset";
     private final String regex = "(?i)reset";
     private final List<String> usage = new ArrayList<>(Arrays.asList("reset"));

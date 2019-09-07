@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class GuiCommand extends BasicArmCommand {
+public class GuiCommand implements BasicArmCommand {
     private final String rootCommand = "gui";
     private final String regex = "(?i)gui";
     private final List<String> usage = new ArrayList<>(Arrays.asList("gui"));

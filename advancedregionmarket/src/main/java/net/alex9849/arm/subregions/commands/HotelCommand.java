@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class HotelCommand extends BasicArmCommand {
+public class HotelCommand implements BasicArmCommand {
 
     private final String rootCommand = "hotel";
     private final String regex = "(?i)hotel [^;\n ]+ (false|true)";

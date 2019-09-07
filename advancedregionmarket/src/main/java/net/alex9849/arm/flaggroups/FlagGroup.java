@@ -70,6 +70,13 @@ public class FlagGroup implements Saveable {
 
             if(applyToString == null || applyToString.isEmpty()) {
                 applyTo.addAll(Arrays.asList(SellType.values()));
+            } else {
+                for(String sellTypeString : applyToString) {
+                    SellType sellType = SellType.getSelltype(sellTypeString);
+                    if(sellType != null) {
+                        applyTo.add(sellType);
+                    }
+                }
             }
 
             if(guiDescriptionList != null) {
@@ -78,12 +85,6 @@ public class FlagGroup implements Saveable {
                 }
             }
 
-            for(String sellTypeString : applyToString) {
-                SellType sellType = SellType.getSelltype(sellTypeString);
-                if(sellType != null) {
-                    applyTo.add(sellType);
-                }
-            }
 
             Flag flag = AdvancedRegionMarket.getWorldGuardInterface().fuzzyMatchFlag(flagName);
 

@@ -6,141 +6,193 @@ FlagGroups:
         setting: 'deny g:non_members'
         editable: false
         flag: ride
+        editPermission: ""
+        applyto: []
       1:
         setting: 'allow g:all'
         editable: false
         flag: use
+        editPermission: ""
+        applyto: []
       2:
         setting: 'deny g:non_members'
         editable: false
         flag: build
+        editPermission: ""
+        applyto: []
       3:
         setting: 'deny g:non_members'
         editable: false
         flag: block-break
+        editPermission: ""
+        applyto: []
       4:
         setting: 'deny g:non_members'
         editable: false
         flag: block-place
+        editPermission: ""
+        applyto: []
       5:
         setting: 'deny g:non_members'
         editable: false
         flag: chest-access
+        editPermission: ""
+        applyto: []
     sold:
       0:
         setting: 'deny g:non_members'
         editable: true
         flag: ride
+        editPermission: ""
         guidescription:
           - '&2Decides if players can use vehicles'
+        applyto: []
       1:
         setting: 'deny g:non_members'
         editable: true
         flag: use
+        editPermission: ""
         guidescription:
           - '&2Decides if players can use things'
           - '&2like doors, levers, etc.'
+        applyto: []
       2:
         setting: 'deny g:non_members'
         editable: false
         flag: build
+        editPermission: ""
+        applyto: []
       3:
         setting: 'deny g:non_members'
         editable: false
         flag: block-break
+        editPermission: ""
+        applyto: []
       4:
         setting: 'deny g:non_members'
         editable: false
         flag: block-place
+        editPermission: ""
+        applyto: []
       5:
         setting: 'deny g:non_members'
         editable: false
         flag: chest-access
+        editPermission: ""
+        applyto: []
 
 DefaultFlagGroup:
-  priority: 10
+  priority: 20
   available:
     0:
-      setting: 'deny g:non_members'
+      setting: 'allow g:members'
       editable: false
       flag: ride
+      editPermission: ""
+      applyto: []
     1:
       setting: '&b[ARM] &6This region can be bought for &2%price%%currency%'
       editable: false
       flag: greeting
+      editPermission: ""
       applyto:
         - SellRegion
     2:
       setting: '&b[ARM] &6This region can be rented for &2%price%%currency%&6/&2%extendperclick% &6and extended for up to &2%maxrenttime%'
       editable: false
       flag: greeting
+      editPermission: ""
       applyto:
         - RentRegion
     3:
       setting: '&b[ARM] &6Contract available for &2%price%%currency%&6/&2%extend%'
       editable: false
       flag: greeting
+      editPermission: ""
       applyto:
         - ContractRegion
     4:
       setting: 'allow g:all'
       editable: false
       flag: use
+      editPermission: ""
+      applyto: []
     5:
-      setting: 'deny g:non_members'
+      setting: 'allow g:members'
       editable: false
       flag: build
+      editPermission: ""
+      applyto: []
     6:
-      setting: 'deny g:non_members'
+      setting: 'allow g:members'
       editable: false
       flag: block-break
+      editPermission: ""
+      applyto: []
     7:
-      setting: 'deny g:non_members'
+      setting: 'allow g:members'
       editable: false
       flag: block-place
+      editPermission: ""
+      applyto: []
     8:
-      setting: 'deny g:non_members'
+      setting: 'allow g:members'
       editable: false
       flag: chest-access
+      editPermission: ""
+      applyto: []
   sold:
     0:
-      setting: 'deny g:non_members'
+      setting: 'allow g:members'
       editable: true
       flag: ride
-      editPermission: "my.custom.permission"
+      editPermission: ""
       guidescription:
         - '&2Decides if players can use vehicles'
+      applyto: []
     1:
       setting: 'remove'
       editable: true
       flag: greeting
+      editPermission: ""
       guidescription:
         - '&2Sets a message that will be'
         - '&2shown to players that enter'
         - '&2the region'
+      applyto: []
     2:
-      setting: 'deny g:non_members'
+      setting: 'allow g:members'
       editable: true
       flag: use
+      editPermission: ""
       guidescription:
         - '&2Decides if players can use things'
         - '&2like doors, levers, etc.'
+      applyto: []
     3:
-      setting: 'deny g:non_members'
+      setting: 'allow g:members'
       editable: false
       flag: build
+      editPermission: ""
+      applyto: []
     4:
-      setting: 'deny g:non_members'
+      setting: 'allow g:members'
       editable: false
       flag: block-break
+      editPermission: ""
+      applyto: []
     5:
-      setting: 'deny g:non_members'
+      setting: 'allow g:members'
       editable: false
       flag: block-place
+      editPermission: ""
+      applyto: []
     6:
-      setting: 'deny g:non_members'
+      setting: 'allow g:members'
       editable: false
       flag: chest-access
+      editPermission: ""
+      applyto: []
 
 SubregionFlagGroup:
   # Pritority will be ignored for Subregions.
@@ -148,83 +200,111 @@ SubregionFlagGroup:
   priority: 0
   available:
     0:
-      setting: 'deny g:non_members'
+      setting: 'allow g:members'
       editable: false
       flag: ride
+      editPermission: ""
+      applyto: []
     1:
       setting: '&b[ARM] &6This region can be bought for &2%price%%currency%'
       editable: false
       flag: greeting
+      editPermission: ""
       applyto:
         - SellRegion
     2:
       setting: '&b[ARM] &6This region can be rented for &2%price%%currency%&6/&2%extendperclick% &6and extended for up to &2%maxrenttime%'
       editable: false
       flag: greeting
+      editPermission: ""
       applyto:
         - RentRegion
     3:
       setting: '&b[ARM] &6Contract available for &2%price%%currency%&6/&2%extend%'
       editable: false
       flag: greeting
+      editPermission: ""
       applyto:
         - ContractRegion
     4:
       setting: 'allow g:all'
       editable: false
       flag: use
+      editPermission: ""
+      applyto: []
     5:
-      setting: 'deny g:non_members'
+      setting: 'allow g:members'
       editable: false
       flag: build
+      editPermission: ""
+      applyto: []
     6:
-      setting: 'deny g:non_members'
+      setting: 'allow g:members'
       editable: false
       flag: block-break
+      editPermission: ""
+      applyto: []
     7:
-      setting: 'deny g:non_members'
+      setting: 'allow g:members'
       editable: false
       flag: block-place
+      editPermission: ""
+      applyto: []
     8:
-      setting: 'deny g:non_members'
+      setting: 'allow g:members'
       editable: false
       flag: chest-access
+      editPermission: ""
+      applyto: []
   sold:
     0:
-      setting: 'deny g:non_members'
+      setting: 'allow g:members'
       editable: true
       flag: ride
-      editPermission: "my.custom.permission"
+      editPermission: ""
       guidescription:
         - '&2Decides if players can use vehicles'
+      applyto: []
     1:
       setting: 'remove'
       editable: true
       flag: greeting
+      editPermission: ""
       guidescription:
         - '&2Sets a message that will be'
         - '&2shown to players that enter'
         - '&2the region'
+      applyto: []
     2:
-      setting: 'deny g:non_members'
+      setting: 'allow g:members'
       editable: true
       flag: use
+      editPermission: ""
       guidescription:
         - '&2Decides if players can use things'
         - '&2like doors, levers, etc.'
+      applyto: []
     3:
-      setting: 'deny g:non_members'
+      setting: 'allow g:members'
       editable: false
       flag: build
+      editPermission: ""
+      applyto: []
     4:
-      setting: 'deny g:non_members'
+      setting: 'allow g:members'
       editable: false
       flag: block-break
+      editPermission: ""
+      applyto: []
     5:
-      setting: 'deny g:non_members'
+      setting: 'allow g:members'
       editable: false
       flag: block-place
+      editPermission: ""
+      applyto: []
     6:
-      setting: 'deny g:non_members'
+      setting: 'allow g:members'
       editable: false
       flag: chest-access
+      editPermission: ""
+      applyto: []

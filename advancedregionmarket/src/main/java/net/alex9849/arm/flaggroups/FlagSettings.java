@@ -2,6 +2,7 @@ package net.alex9849.arm.flaggroups;
 
 import com.sk89q.worldguard.protection.flags.Flag;
 import net.alex9849.arm.regions.SellType;
+import org.bukkit.ChatColor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,16 @@ public class FlagSettings {
     }
 
     public List<String> getGuidescription() {
+        List<String> convertedDescription = new ArrayList<>();
+
+        for(String msg : this.guidescription) {
+            convertedDescription.add(ChatColor.translateAlternateColorCodes('&', msg));
+        }
+
+        return convertedDescription;
+    }
+
+    public List<String> getRawGuiDescription() {
         return new ArrayList<>(this.guidescription);
     }
 

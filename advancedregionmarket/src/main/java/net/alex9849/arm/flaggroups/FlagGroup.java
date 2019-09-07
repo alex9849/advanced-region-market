@@ -9,8 +9,8 @@ import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.SellType;
 import net.alex9849.arm.util.Saveable;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.util.*;
 
@@ -80,8 +80,8 @@ public class FlagGroup implements Saveable {
             }
 
             if(guiDescriptionList != null) {
-                for(String msg:guiDescriptionList) {
-                    guidescription.add(ChatColor.translateAlternateColorCodes('&', msg));
+                for(String msg : guiDescriptionList) {
+                    guidescription.add(msg);
                 }
             }
 
@@ -177,7 +177,33 @@ public class FlagGroup implements Saveable {
 
     @Override
     public ConfigurationSection toConfigurationSection() {
-        return null;
+        YamlConfiguration configurationSection = new YamlConfiguration();
+        configurationSection.set("priority", this.priority);
+        configurationSection.set("available", this.getFlagSettingsAsConfigurationSection(this.flagSettingsAvailable));
+        configurationSection.set("sold", this.getFlagSettingsAsConfigurationSection(this.flagSettingsSold));
+        return configurationSection;
+    }
+
+    private ConfigurationSection getFlagSettingsAsConfigurationSection(List<FlagSettings> flagSettings) {
+        YamlConfiguration yamlConfiguration = new YamlConfiguration();
+
+        for(int i = 0; i < flagSettings.size(); i++) {
+            FlagSettings flagSetting = flagSettings.get(i);
+            yamlConfiguration.set(i + ".setting", flagSetting.getSettings());
+            yamlConfiguration.set(i + ".editable", flagSetting.isEditable());
+            yamlConfiguration.set(i + ".flag", flagSetting.getFlag().getName());
+            yamlConfiguration.set(i + ".editPermission", flagSetting.getEditPermission());
+            yamlConfiguration.set(i + ".guidescription", flagSetting.getRawGuiDescription());
+            List<String> applyTo = new ArrayList<>();
+            if(!flagSetting.getApplyTo().containsAll(Arrays.asList(SellType.SELL, SellType.CONTRACT, SellType.RENT))) {
+                for(SellType sellType : flagSetting.getApplyTo()) {
+                    applyTo.add(sellType.getName());
+                }
+            }
+            yamlConfiguration.set(i + ".applyto", applyTo);
+        }
+
+        return yamlConfiguration;
     }
 
     @Override

@@ -47,17 +47,20 @@ public class FlagGroupManager extends YamlFileManager<FlagGroup> {
 
     @Override
     public boolean staticSaveQuenued() {
-        return false;
+        return FlagGroup.DEFAULT.needsSave() || FlagGroup.SUBREGION.needsSave();
     }
 
     @Override
     public void saveObjectToYamlObject(FlagGroup flagGroup, YamlConfiguration yamlConfiguration) {
-
+        yamlConfiguration.set("FlagGroups." + flagGroup.getName(), flagGroup.toConfigurationSection());
     }
 
     @Override
     public void writeStaticSettings(YamlConfiguration yamlConfiguration) {
-
+        yamlConfiguration.set("DefaultFlagGroup", FlagGroup.DEFAULT.toConfigurationSection());
+        FlagGroup.DEFAULT.setSaved();
+        yamlConfiguration.set("SubregionFlagGroup", FlagGroup.SUBREGION.toConfigurationSection());
+        FlagGroup.SUBREGION.setSaved();
     }
 
     public FlagGroup getFlagGroup(String id) {

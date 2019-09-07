@@ -268,6 +268,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
                 AdvancedRegionMarket.getRegionManager().updateFile();
                 AdvancedRegionMarket.getEntityLimitGroupManager().updateFile();
                 AdvancedRegionMarket.getRegionKindManager().updateFile();
+                AdvancedRegionMarket.getFlagGroupManager().updateFile();
             }
         }, 0, 60);
     }

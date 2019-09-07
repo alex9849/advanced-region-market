@@ -10,13 +10,13 @@ import java.util.List;
 
 public interface BasicArmCommand {
 
-    public abstract boolean matchesRegex(String command);
+    boolean matchesRegex(String command);
 
-    public abstract String getRootCommand();
+    String getRootCommand();
 
-    public abstract List<String> getUsage();
+    List<String> getUsage();
 
-    public abstract boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException, CmdSyntaxException;
+    boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException, CmdSyntaxException;
 
-    public abstract List<String> onTabComplete(Player player, String args[]);
+    List<String> onTabComplete(Player player, String args[]);
 }

@@ -1,9 +1,9 @@
 FlagGroups:
   examplegroup:
-    priority: 10
+    priority: 20
     available:
       0:
-        setting: 'deny g:non_members'
+        setting: 'allow g:members'
         editable: false
         flag: ride
         editPermission: ""
@@ -15,32 +15,32 @@ FlagGroups:
         editPermission: ""
         applyto: []
       2:
-        setting: 'deny g:non_members'
+        setting: 'allow g:members'
         editable: false
         flag: build
         editPermission: ""
         applyto: []
       3:
-        setting: 'deny g:non_members'
+        setting: 'allow g:members'
         editable: false
         flag: block-break
         editPermission: ""
         applyto: []
       4:
-        setting: 'deny g:non_members'
+        setting: 'allow g:members'
         editable: false
         flag: block-place
         editPermission: ""
         applyto: []
       5:
-        setting: 'deny g:non_members'
+        setting: 'allow g:members'
         editable: false
         flag: chest-access
         editPermission: ""
         applyto: []
     sold:
       0:
-        setting: 'deny g:non_members'
+        setting: 'allow g:members'
         editable: true
         flag: ride
         editPermission: ""
@@ -48,7 +48,7 @@ FlagGroups:
           - '&2Decides if players can use vehicles'
         applyto: []
       1:
-        setting: 'deny g:non_members'
+        setting: 'allow g:members'
         editable: true
         flag: use
         editPermission: ""
@@ -57,25 +57,25 @@ FlagGroups:
           - '&2like doors, levers, etc.'
         applyto: []
       2:
-        setting: 'deny g:non_members'
+        setting: 'allow g:members'
         editable: false
         flag: build
         editPermission: ""
         applyto: []
       3:
-        setting: 'deny g:non_members'
+        setting: 'allow g:members'
         editable: false
         flag: block-break
         editPermission: ""
         applyto: []
       4:
-        setting: 'deny g:non_members'
+        setting: 'allow g:members'
         editable: false
         flag: block-place
         editPermission: ""
         applyto: []
       5:
-        setting: 'deny g:non_members'
+        setting: 'allow g:members'
         editable: false
         flag: chest-access
         editPermission: ""

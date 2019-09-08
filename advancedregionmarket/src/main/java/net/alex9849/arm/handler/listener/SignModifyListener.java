@@ -92,7 +92,7 @@ public class SignModifyListener implements Listener {
             //Generate signdata
             SignData signData = AdvancedRegionMarket.getSignDataFactory().generateSignData(sign.getBlock().getLocation());
             if(signData == null) {
-                throw new InputException(sign.getPlayer(), "Could not import sign!");
+                throw new InputException(sign.getPlayer(), ChatColor.DARK_RED + "Could not import sign!");
             }
 
             Region existingArmRegion = AdvancedRegionMarket.getRegionManager().getRegion(wgRegion);

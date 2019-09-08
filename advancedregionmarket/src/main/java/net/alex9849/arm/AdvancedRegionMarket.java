@@ -278,6 +278,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         AdvancedRegionMarket.getRegionManager().updateFile();
         AdvancedRegionMarket.getRegionKindManager().updateFile();
         AdvancedRegionMarket.getEntityLimitGroupManager().updateFile();
+        AdvancedRegionMarket.getFlagGroupManager().updateFile();
         AdvancedRegionMarket.econ = null;
         AdvancedRegionMarket.worldguard = null;
         AdvancedRegionMarket.worldedit = null;

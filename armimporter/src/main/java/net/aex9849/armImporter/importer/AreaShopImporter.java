@@ -23,7 +23,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.FileUtil;
 
@@ -111,7 +110,7 @@ public class AreaShopImporter {
 
                     armRegion = new net.alex9849.arm.regions.SellRegion(wgRegion, regionWorld, armSignDataList, armPrice, isSold, true, false,
                             true, regionKind, FlagGroup.DEFAULT, null, 0, true, new ArrayList<Region>(), 0,
-                            EntityLimitGroup.DEFAULT, new HashMap<EntityType, Integer>(), 0);
+                            EntityLimitGroup.DEFAULT, new HashMap<>(), 0);
 
                 } else if(asRegion instanceof RentRegion) {
                     RentRegion rentRegion = (RentRegion) asRegion;
@@ -124,7 +123,7 @@ public class AreaShopImporter {
 
                     armRegion = new net.alex9849.arm.regions.RentRegion(wgRegion, regionWorld, armSignDataList, armPrice, isSold, true, false,
                             true, regionKind, FlagGroup.DEFAULT, null, 0, true, payedTill, new ArrayList<Region>(), 0,
-                            EntityLimitGroup.DEFAULT, new HashMap<EntityType, Integer>(), 0);
+                            EntityLimitGroup.DEFAULT, new HashMap<>(), 0);
                 }
 
                 if(armRegion != null) {

@@ -83,12 +83,6 @@
             <version>1.14-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>com.sk89q</groupId>
-            <artifactId>worldguard</artifactId>
-            <scope>provided</scope>
-            <version>6.1</version>
-        </dependency>
     </dependencies>
 
 

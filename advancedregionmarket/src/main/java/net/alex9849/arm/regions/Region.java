@@ -36,25 +36,25 @@ import java.util.logging.Level;
 public abstract class Region implements Saveable {
     public static boolean completeTabRegions;
 
-    protected WGRegion region;
-    protected World regionworld;
-    protected ArrayList<SignData> sellsign;
-    protected HashSet<Integer> builtblocks;
-    protected Price price;
-    protected boolean sold;
-    protected boolean autoreset;
-    protected boolean isHotel;
-    protected long lastreset;
-    protected static int resetcooldown;
-    protected RegionKind regionKind;
-    protected Location teleportLocation;
-    protected boolean isDoBlockReset;
-    protected List<Region> subregions;
-    protected int allowedSubregions;
-    protected Region parentRegion;
-    protected boolean isUserResettable;
-    protected FlagGroup flagGroup;
-    protected EntityLimitGroup entityLimitGroup;
+    private WGRegion region;
+    private World regionworld;
+    private ArrayList<SignData> sellsign;
+    private HashSet<Integer> builtblocks;
+    private Price price;
+    private boolean sold;
+    private boolean autoreset;
+    private boolean isHotel;
+    private long lastreset;
+    private static int resetcooldown;
+    private RegionKind regionKind;
+    private Location teleportLocation;
+    private boolean isDoBlockReset;
+    private List<Region> subregions;
+    private int allowedSubregions;
+    private Region parentRegion;
+    private boolean isUserResettable;
+    private FlagGroup flagGroup;
+    private EntityLimitGroup entityLimitGroup;
     private boolean needsSave;
     private HashMap<EntityLimit.LimitableEntityType, Integer> extraEntitys;
     private int extraTotalEntitys;
@@ -519,6 +519,11 @@ public abstract class Region implements Saveable {
     public abstract void userSell(Player player);
     public abstract double getPaybackMoney();
 
+    public void setSold(boolean sold) {
+        this.sold = sold;
+        this.queueSave();
+    }
+
     public void resetRegion() throws SchematicNotFoundException {
         this.unsell();
         this.resetBlocks();
@@ -665,7 +670,10 @@ public abstract class Region implements Saveable {
 
     public abstract SellType getSellType();
 
-    public abstract void setPrice(Price price);
+    public void setPrice(Price price) {
+        this.price = price;
+        this.queueSave();
+    }
 
     public String getConvertedMessage(String message) {
         if(message.contains("%regionid%")) message = message.replace("%regionid%", this.getRegion().getId());

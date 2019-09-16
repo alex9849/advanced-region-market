@@ -72,10 +72,15 @@ public class ContractRegion extends Region {
 
     @Override
     public void updateRegion() {
+
         if(this.isSold()){
             GregorianCalendar actualtime = new GregorianCalendar();
+
+            //If region expired and terminated
             if((this.payedTill < actualtime.getTimeInMillis()) && this.terminated){
                 this.automaticResetRegion();
+
+            //If region expired and not terminated
             } else if(this.payedTill < actualtime.getTimeInMillis()) {
                 List<UUID> owners = this.getRegion().getOwners();
                 if(owners.size() == 0){
@@ -107,12 +112,10 @@ public class ContractRegion extends Region {
                         }
                     }
                 }
-            } else {
-                this.updateSigns();
             }
-        } else {
-            this.updateSigns();
         }
+
+        this.updateSigns();
     }
 
     @Override

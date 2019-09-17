@@ -46,7 +46,9 @@ public class ContractRegion extends Region {
         this.payedTill = payedTill;
         this.extendTime = contractPrice.getExtendTime();
         this.terminated = terminated;
-
+        if(this.extendTime < 1000) {
+            this.extendTime = 1000;
+        }
         this.updateSigns();
     }
 

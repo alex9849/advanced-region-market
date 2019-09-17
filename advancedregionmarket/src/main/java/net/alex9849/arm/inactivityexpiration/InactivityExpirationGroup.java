@@ -53,7 +53,6 @@ public class InactivityExpirationGroup {
         if(AdvancedRegionMarket.getVaultPerms().isEnabled()) {
             return -1;
         }
-
         long resetAfterMs = DEFAULT.getResetAfterMs();
 
         for(InactivityExpirationGroup ieGroup : inactivityExpirationGroupSet) {
@@ -64,5 +63,21 @@ public class InactivityExpirationGroup {
             }
         }
         return resetAfterMs;
+    }
+
+    public static long getTakeOverAfterMsTime(OfflinePlayer oPlayer, World world) {
+        if(AdvancedRegionMarket.getVaultPerms().isEnabled()) {
+            return -1;
+        }
+        long takeOverAfterMs = DEFAULT.getTakeOverAfterMs();
+
+        for(InactivityExpirationGroup ieGroup : inactivityExpirationGroupSet) {
+            if(AdvancedRegionMarket.getVaultPerms().playerHas(world.getName(), oPlayer, Permission.ARM_INACTIVITY_EXPIRATION + ieGroup.getName())) {
+                if(takeOverAfterMs < ieGroup.getTakeOverAfterMs()) {
+                    takeOverAfterMs = ieGroup.getTakeOverAfterMs();
+                }
+            }
+        }
+        return takeOverAfterMs;
     }
 }

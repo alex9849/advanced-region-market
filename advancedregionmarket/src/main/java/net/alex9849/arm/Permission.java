@@ -124,6 +124,7 @@ public class Permission {
     public static final String ARM_HELP = "arm.help";
     public static final String ARM_BUYKIND = "arm.buykind.";
     public static final String ARM_LIMIT = "arm.limit.";
+    public static final String ARM_INACTIVITY_EXPIRATION = "arm.inactivityexpiration.";
 
     private static final String OLD_BUY_SELLREGION = "arm.buy.sellregion";
     private static final String OLD_BUY_RENTREGION = "arm.buy.rentregion";

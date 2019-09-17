@@ -72,6 +72,7 @@ import java.util.logging.Level;
 public class AdvancedRegionMarket extends JavaPlugin {
     private static Boolean faWeInstalled;
     private static Economy econ;
+    private static net.milkbowl.vault.permission.Permission vaultPerms;
     private static WorldGuardPlugin worldguard;
     private static WorldGuardInterface worldGuardInterface;
     private static WorldEditPlugin worldedit;
@@ -102,8 +103,10 @@ public class AdvancedRegionMarket extends JavaPlugin {
         }
         //Check if Vault and an Economy Plugin is installed
         if (!setupEconomy()) {
-            getLogger().log(Level.INFO, "Please install Vault and a economy Plugin!");
+            getLogger().log(Level.INFO, "Please install Vault and an economy Plugin!");
         }
+
+        setupPermissions();
 
         setupSignDataFactory();
 
@@ -364,6 +367,15 @@ public class AdvancedRegionMarket extends JavaPlugin {
         return econ != null;
     }
 
+    private boolean setupPermissions() {
+        if (getServer().getPluginManager().getPlugin("Vault") == null) {
+            return false;
+        }
+        RegisteredServiceProvider<net.milkbowl.vault.permission.Permission> rsp = getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
+        vaultPerms = rsp.getProvider();
+        return vaultPerms != null;
+    }
+
     private boolean setupFaWe(){
         Plugin plugin = getServer().getPluginManager().getPlugin("FastAsyncWorldEdit");
 
@@ -594,6 +606,10 @@ public class AdvancedRegionMarket extends JavaPlugin {
                 Bukkit.getLogger().log(Level.INFO, "SQL Login failed!");
             }
         }
+    }
+
+    public static net.milkbowl.vault.permission.Permission getVaultPerms() {
+        return vaultPerms;
     }
 
     public Boolean connectSQL(){

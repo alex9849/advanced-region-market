@@ -68,7 +68,7 @@
         <dependency>
             <groupId>net.alex9849</groupId>
             <artifactId>advancedregionmarket</artifactId>
-            <version>1.9.6</version>
+            <version>1.9.7</version>
         </dependency>
         <dependency>
             <groupId>org.spigotmc</groupId>

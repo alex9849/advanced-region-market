@@ -94,6 +94,30 @@ Limits:
     large: 2
     shop: 2
 
+
+# InactivityExpirationGroups can be assigned to players by giving them the permission arm.inactivityexpiration.INACTIVITYEXPIRATIONGROUP
+# For example use arm.inactivityexpiration.examplegroup1 to assign the examplegroup1 defined below.
+# Regions that have inactivityExpiration enabled will be reset if the owner of the region does not come online for the time
+# specified in 'resetAfter'. You can give members of the region the opportunity to become the owner the region before it gets reset.
+# You can specify the amount of days in 'takeOverAfter'.
+# If a player has multiple InactivityExpirationGroups assigned ARM automatically picks the group with the highest amount of days
+# If a player has no InactivityExpirationGroups assigned ARM will use the DefaultInactivityExpirationGroup!
+
+InactivityExpiration:
+  examplegroup1:
+    resetAfter: '30d'
+    takeOverAfter: '20d'
+  examplegroup2:
+    resetAfter: '60d'
+    takeOverAfter: '50d'
+  examplegroup3:
+    resetAfter: 'none'
+    takeOverAfter: 'none'
+
+DefaultInactivityExpiration:
+  resetAfter: 'none'
+  takeOverAfter: 'none'
+
 RegionKinds:
   # If true players need the permission 'arm.buykind.REGIONKIND_INTERNAL_NAME' to see the regionkind in the regionfinder
   # and to be able to buy them. Replace REGIONKIND_INTERNAL_NAME with the internal name of the regionkind

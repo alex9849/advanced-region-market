@@ -14,6 +14,7 @@ import net.alex9849.arm.gui.Gui;
 import net.alex9849.arm.handler.CommandHandler;
 import net.alex9849.arm.handler.Scheduler;
 import net.alex9849.arm.handler.listener.*;
+import net.alex9849.arm.inactivityexpiration.InactivityExpirationGroup;
 import net.alex9849.arm.limitgroups.LimitGroup;
 import net.alex9849.arm.minifeatures.SignLinkMode;
 import net.alex9849.arm.presets.ActivePresetManager;
@@ -172,6 +173,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         }
 
         loadSignLinkingModeRegions();
+        loadInactivityExpirationGroups();
         loadOther();
         AdvancedRegionMarket.presetPatternManager = new PresetPatternManager(new File(this.getDataFolder() + "/presets.yml"));
         Region.setCompleteTabRegions(getConfig().getBoolean("Other.CompleteRegionsOnTabComplete"));
@@ -286,6 +288,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         AdvancedRegionMarket.worldguard = null;
         AdvancedRegionMarket.worldedit = null;
         LimitGroup.Reset();
+        InactivityExpirationGroup.reset();
         AutoPrice.reset();
         SignLinkMode.reset();
         ActivePresetManager.reset();
@@ -647,6 +650,23 @@ public class AdvancedRegionMarket extends JavaPlugin {
         }
     }
 
+    private void loadInactivityExpirationGroups() {
+        if(getConfig().get("DefaultInactivityExpiration") != null) {
+            InactivityExpirationGroup.DEFAULT = InactivityExpirationGroup.parse(getConfig().getConfigurationSection("DefaultInactivityExpiration"), "Default");
+        }
+        if(getConfig().get("InactivityExpiration") == null) {
+            return;
+        }
+        List<String> groups = new ArrayList<>(getConfig().getConfigurationSection("InactivityExpiration").getKeys(false));
+        if(groups == null) {
+            return;
+        }
+        for(String groupname : groups) {
+            ConfigurationSection groupSection = getConfig().getConfigurationSection("InactivityExpiration." + groupname);
+            InactivityExpirationGroup.add(InactivityExpirationGroup.parse(groupSection, groupname));
+        }
+    }
+
     private void loadOther(){
         ArmSettings.setIsTeleportAfterRentRegionBought(getConfig().getBoolean("Other.TeleportAfterRentRegionBought"));
         ArmSettings.setIsTeleportAfterRentRegionExtend(getConfig().getBoolean("Other.TeleportAfterRentRegionExtend"));
@@ -944,6 +964,10 @@ public class AdvancedRegionMarket extends JavaPlugin {
             if(version < 1.97) {
                 getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.9.7..");
                 updateTo1p97(pluginConfig);
+            }
+            if(version < 2.00) {
+                getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 2.0.0..");
+                updateTo2p00(pluginConfig);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -1435,6 +1459,21 @@ public class AdvancedRegionMarket extends JavaPlugin {
                 }
             }
         }
+        saveConfig();
+    }
+
+    private void updateTo2p00(FileConfiguration pluginConfig) throws IOException {
+        pluginConfig.set("Version", 2.00);
+        pluginConfig.set("DefaultInactivityExpiration.resetAfter", "none");
+        pluginConfig.set("DefaultInactivityExpiration.takeOverAfter", "none");
+
+        pluginConfig.set("InactivityExpiration.examplegroup1.resetAfter", "30d");
+        pluginConfig.set("InactivityExpiration.examplegroup1.takeOverAfter", "20d");
+        pluginConfig.set("InactivityExpiration.examplegroup2.resetAfter", "60d");
+        pluginConfig.set("InactivityExpiration.examplegroup2.takeOverAfter", "50d");
+        pluginConfig.set("InactivityExpiration.examplegroup3.resetAfter", "none");
+        pluginConfig.set("InactivityExpiration.examplegroup3.takeOverAfter", "none");
+
         saveConfig();
     }
 }

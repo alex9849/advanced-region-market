@@ -2,11 +2,14 @@ package net.alex9849.arm.inactivityexpiration;
 
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Permission;
+import net.alex9849.arm.util.Utilities;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
+import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
 
 public class InactivityExpirationGroup {
     public static InactivityExpirationGroup DEFAULT = new InactivityExpirationGroup("Default", -1, -1);
@@ -45,7 +48,7 @@ public class InactivityExpirationGroup {
         inactivityExpirationGroupSet = new HashSet<>();
     }
 
-    public void add(InactivityExpirationGroup inactivityExpirationGroup) {
+    public static void add(InactivityExpirationGroup inactivityExpirationGroup) {
         inactivityExpirationGroup.add(inactivityExpirationGroup);
     }
 
@@ -79,5 +82,36 @@ public class InactivityExpirationGroup {
             }
         }
         return takeOverAfterMs;
+    }
+
+    public static InactivityExpirationGroup parse(ConfigurationSection configurationSection, String name) {
+        long resetAfterMs;
+        if(configurationSection.getString("resetAfter").equalsIgnoreCase("none")) {
+            resetAfterMs = -1;
+        } else {
+            try {
+                resetAfterMs = Utilities.stringToTime(configurationSection.getString("resetAfter"));
+            } catch (IllegalArgumentException e) {
+                AdvancedRegionMarket.getARM().getLogger().log(Level.WARNING, "Could parse resetAfter for " +
+                        "InactivityExpirationGroup " + name + "! Please check! ResetAfter has been set to unlimited to prevent unwanted region-resets" );
+                resetAfterMs = -1;
+            }
+
+        }
+        long takeOverAfterMs;
+        if(configurationSection.getString("takeOverAfter").equalsIgnoreCase("none")) {
+            takeOverAfterMs = -1;
+        } else {
+            try {
+                takeOverAfterMs = Utilities.stringToTime(configurationSection.getString("takeOverAfter"));
+            } catch (IllegalArgumentException e) {
+                AdvancedRegionMarket.getARM().getLogger().log(Level.WARNING, "Could parse resetAfter for " +
+                        "InactivityExpirationGroup " + name + "! Please check! ResetAfter has been set to unlimited to prevent unwanted region-resets" );
+                takeOverAfterMs = -1;
+            }
+
+        }
+
+        return new InactivityExpirationGroup(name, resetAfterMs, takeOverAfterMs);
     }
 }

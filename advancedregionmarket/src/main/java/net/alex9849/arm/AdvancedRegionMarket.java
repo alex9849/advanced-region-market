@@ -941,6 +941,10 @@ public class AdvancedRegionMarket extends JavaPlugin {
                 getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.9.5..");
                 updateTo1p95(pluginConfig);
             }
+            if(version < 1.97) {
+                getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.9.7..");
+                updateTo1p97(pluginConfig);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -1382,6 +1386,55 @@ public class AdvancedRegionMarket extends JavaPlugin {
 
     private void updateTo1p95(FileConfiguration pluginConfig) throws IOException {
         pluginConfig.set("Version", 1.95);
+        saveConfig();
+    }
+
+    private void updateTo1p97(FileConfiguration pluginConfig) throws IOException {
+        pluginConfig.set("Version", 1.97);
+
+        File schemfolder = new File(this.getDataFolder() + "/schematics");
+        if(schemfolder.isDirectory()) {
+            List<File> worldFolders = new ArrayList<>();
+            for(File listedFile : schemfolder.listFiles()) {
+                if(listedFile.isDirectory()) {
+                    worldFolders.add(listedFile);
+                }
+            }
+
+            for(File worldfolder : worldFolders) {
+                List<File> builtblocksFiles = new ArrayList<>();
+                for(File schemFile : worldfolder.listFiles()) {
+                    if(schemFile.getName().endsWith("--builtblocks.schematic")) {
+                        builtblocksFiles.add(schemFile);
+                    }
+                }
+
+                for(File builtBlocksFile : builtblocksFiles) {
+                    FileReader fileReader = new FileReader(builtBlocksFile);
+                    BufferedReader bReader = new BufferedReader(fileReader);
+                    List<String> blocks = new LinkedList<>();
+                    String line;
+                    while ((line = bReader.readLine()) != null) {
+                        blocks.add(line);
+                    }
+                    bReader.close();
+                    fileReader.close();
+                    builtBlocksFile.delete();
+
+                    File newBuiltBlocksFile = new File(builtBlocksFile.getAbsolutePath().substring(0, builtBlocksFile.getAbsolutePath().length() - 23) + ".builtblocks");
+                    FileWriter fileWriter = new FileWriter(newBuiltBlocksFile);
+                    BufferedWriter bWriter = new BufferedWriter(fileWriter);
+
+                    for (String location : blocks) {
+                        String[] coordinates = location.split(";", 2);
+                        bWriter.write(coordinates[1]);
+                        bWriter.newLine();
+                    }
+                    bWriter.close();
+                    fileWriter.close();
+                }
+            }
+        }
         saveConfig();
     }
 }

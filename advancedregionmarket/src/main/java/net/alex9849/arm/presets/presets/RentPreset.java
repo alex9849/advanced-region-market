@@ -11,7 +11,6 @@ import net.alex9849.arm.regions.price.RentPrice;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.signs.SignData;
 import org.bukkit.World;
-import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
@@ -157,7 +156,7 @@ public class RentPreset extends Preset {
     }
 
     @Override
-    public Region generateRegion(WGRegion wgRegion, World world, CommandSender sender, List<SignData> signs) {
+    public Region generateRegion(WGRegion wgRegion, World world, List<SignData> signs) {
 
         RentRegion rentRegion = new RentRegion(wgRegion, world, signs, new RentPrice(AutoPrice.DEFAULT), false, this.isAutoReset(), this.isHotel(), this.isDoBlockReset(), this.getRegionKind(), this.getFlagGroup(), null, 0, this.isUserResettable(), 1, new ArrayList<>(), this.getAllowedSubregions(), this.entityLimitGroup, new HashMap<>(), 0);
         if(this.hasAutoPrice()) {
@@ -165,7 +164,6 @@ public class RentPreset extends Preset {
         } else if (this.hasPrice() && this.hasExtendPerClick() && this.hasMaxRentTime()) {
             rentRegion.setPrice(new RentPrice(this.getPrice(), this.getExtendPerClick(), this.getMaxRentTime()));
         }
-        this.executeSavedCommands(sender, rentRegion);
         return rentRegion;
     }
 

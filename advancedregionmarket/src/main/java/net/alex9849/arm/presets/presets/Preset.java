@@ -240,7 +240,31 @@ public abstract class Preset implements Saveable {
 
     public abstract boolean canPriceLineBeLetEmpty();
 
-    public abstract Region generateRegion(WGRegion wgRegion, World world, CommandSender sender, List<SignData> signs);
+    /**
+     * Generates a region with the settings of the preset
+     * Does not create a schematic! Does not apply flaggroups!
+     * @param wgRegion The WorldGuard region
+     * @param world The world of the WorldGuard region
+     * @param sender The sender that executes the saved commands
+     * @param signs The signs that should be lonked to the region
+     * @return
+     */
+    public Region generateRegion(WGRegion wgRegion, World world, CommandSender sender, List<SignData> signs) {
+        Region region = generateRegion(wgRegion, world, signs);
+        this.executeSavedCommands(sender, region);
+        return region;
+    }
+
+    /**
+     * Generates a region with the settings of the preset
+     * without executing the saved commands of the preset.
+     * Does not create a schematic! Does not apply flaggroups!
+     * @param wgRegion The WorldGuard region
+     * @param world The world of the WorldGuard region
+     * @param signs The signs that should be lonked to the region
+     * @return
+     */
+    public abstract Region generateRegion(WGRegion wgRegion, World world, List<SignData> signs);
 
     @Override
     public ConfigurationSection toConfigurationSection() {

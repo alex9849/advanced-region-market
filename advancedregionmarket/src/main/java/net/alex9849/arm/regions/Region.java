@@ -90,18 +90,18 @@ public abstract class Region implements Saveable {
         }
 
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-        File builtblocksdic = new File(pluginfolder + "/schematics/" + this.regionworld.getName() + "/" + region.getId() + "--builtblocks.schematic");
+        File builtblocksdic = new File(pluginfolder + "/schematics/" + this.regionworld.getName() + "/" + region.getId() + ".builtblocks");
         if(builtblocksdic.exists()){
             try {
                 FileReader filereader = new FileReader(builtblocksdic);
                 BufferedReader reader = new BufferedReader(filereader);
                 String line;
                 while ((line = reader.readLine()) != null){
-                    String[] lines = line.split(";", 4);
-                    int x = Integer.parseInt(lines[1]);
-                    int y = Integer.parseInt(lines[2]);
-                    int z = Integer.parseInt(lines[3]);
-                    Location loc = new Location(Bukkit.getWorld(lines[0]), x, y, z);
+                    String[] lines = line.split(";", 3);
+                    int x = Integer.parseInt(lines[0]);
+                    int y = Integer.parseInt(lines[1]);
+                    int z = Integer.parseInt(lines[2]);
+                    Location loc = new Location(this.regionworld, x, y, z);
                     builtblocks.add(loc.hashCode());
                 }
                 reader.close();
@@ -190,7 +190,7 @@ public abstract class Region implements Saveable {
         if(this.builtblocks.add(loc.hashCode())) {
             try {
                 File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-                File builtblocksdic = new File(pluginfolder + "/schematics/" + this.regionworld.getName() + "/" + region.getId() + "--builtblocks.schematic");
+                File builtblocksdic = new File(pluginfolder + "/schematics/" + this.regionworld.getName() + "/" + region.getId() + ".builtblocks");
                 if(!builtblocksdic.exists()){
                     File builtblocksfolder = new File(pluginfolder + "/schematics/" + this.regionworld.getName());
                     builtblocksfolder.mkdirs();
@@ -200,7 +200,7 @@ public abstract class Region implements Saveable {
                 FileWriter fileWriter = new FileWriter(builtblocksdic, true);
                 BufferedWriter writer = new BufferedWriter(fileWriter);
                 loc.getBlock().getType();
-                writer.write(loc.getWorld().getName() + ";" + loc.getBlockX() + ";" + loc.getBlockY() + ";" + loc.getBlockZ());
+                writer.write(loc.getBlockX() + ";" + loc.getBlockY() + ";" + loc.getBlockZ());
                 writer.newLine();
                 writer.close();
                 fileWriter.close();
@@ -378,7 +378,7 @@ public abstract class Region implements Saveable {
 
     public void resetBuiltBlocks() {
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-        File builtblocksdic = new File(pluginfolder + "/schematics/" + this.regionworld.getName() + "/" + region.getId() + "--builtblocks.schematic");
+        File builtblocksdic = new File(pluginfolder + "/schematics/" + this.regionworld.getName() + "/" + region.getId() + ".builtblocks");
         if(builtblocksdic.exists()){
             builtblocksdic.delete();
             this.builtblocks = new HashSet<>();

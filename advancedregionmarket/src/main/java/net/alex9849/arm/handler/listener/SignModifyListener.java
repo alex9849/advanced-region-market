@@ -3,6 +3,7 @@ package net.alex9849.arm.handler.listener;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
+import net.alex9849.arm.flaggroups.FlagGroup;
 import net.alex9849.arm.presets.ActivePresetManager;
 import net.alex9849.arm.presets.presets.Preset;
 import net.alex9849.arm.presets.presets.PresetType;
@@ -104,12 +105,14 @@ public class SignModifyListener implements Listener {
             } else {
                 List<SignData> signDataList = new ArrayList<>();
                 signDataList.add(signData);
-                Region newArmRegion = preset.generateRegion(wgRegion, regionWorld, sign.getPlayer(), signDataList);
+                Region newArmRegion = preset.generateRegion(wgRegion, regionWorld, signDataList);
                 if(price == null) {
                     sign.getPlayer().sendMessage(Messages.PREFIX + "Price not defined! Using default Autoprice!");
                 } else {
                     newArmRegion.setPrice(price);
                 }
+                newArmRegion.createSchematic();
+                newArmRegion.applyFlagGroup(FlagGroup.ResetMode.COMPLETE);
                 AdvancedRegionMarket.getRegionManager().add(newArmRegion);
                 sign.setCancelled(true);
                 sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_ADDED_TO_ARM);

@@ -182,6 +182,7 @@ public class RegionManager extends YamlFileManager<Region> {
         boolean allowonlynewblocks = regionSection.getBoolean("isHotel");
         boolean doBlockReset = regionSection.getBoolean("doBlockReset");
         long lastreset = regionSection.getLong("lastreset");
+        long lastLogin = regionSection.getLong("lastLogin");
         String teleportLocString = regionSection.getString("teleportLoc");
         int allowedSubregions = regionSection.getInt("allowedSubregions");
         int boughtExtraTotalEntitys = regionSection.getInt("boughtExtraTotalEntitys");
@@ -235,7 +236,7 @@ public class RegionManager extends YamlFileManager<Region> {
             }
             long payedtill = regionSection.getLong("payedTill");
             region = new RentRegion(wgRegion, regionWorld, regionsigns, rentPrice, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, flagGroup, teleportLoc,
-                    lastreset, isUserResettable, payedtill, subregions, allowedSubregions, entityLimitGroup, extraEntitysMap, boughtExtraTotalEntitys);
+                    lastreset, lastLogin, isUserResettable, payedtill, subregions, allowedSubregions, entityLimitGroup, extraEntitysMap, boughtExtraTotalEntitys);
 
 
         }  else if (regiontype.equalsIgnoreCase("contractregion")) {
@@ -255,7 +256,7 @@ public class RegionManager extends YamlFileManager<Region> {
             long payedtill = regionSection.getLong("payedTill");
             Boolean terminated = regionSection.getBoolean("terminated");
             region = new ContractRegion(wgRegion, regionWorld, regionsigns, contractPrice, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, flagGroup, teleportLoc,
-                    lastreset, isUserResettable, payedtill, terminated, subregions, allowedSubregions, entityLimitGroup, extraEntitysMap, boughtExtraTotalEntitys);
+                    lastreset, lastLogin, isUserResettable, payedtill, terminated, subregions, allowedSubregions, entityLimitGroup, extraEntitysMap, boughtExtraTotalEntitys);
         } else {
             Price sellPrice;
             if (autoPriceString != null) {
@@ -269,7 +270,7 @@ public class RegionManager extends YamlFileManager<Region> {
                 sellPrice = new Price(price);
             }
             region = new SellRegion(wgRegion, regionWorld, regionsigns, sellPrice, sold, autoreset, allowonlynewblocks, doBlockReset, regionKind, flagGroup, teleportLoc, lastreset,
-                    isUserResettable, subregions, allowedSubregions, entityLimitGroup, extraEntitysMap, boughtExtraTotalEntitys);
+                    lastLogin, isUserResettable, subregions, allowedSubregions, entityLimitGroup, extraEntitysMap, boughtExtraTotalEntitys);
 
         }
 
@@ -301,6 +302,7 @@ public class RegionManager extends YamlFileManager<Region> {
         boolean subregIsHotel = section.getBoolean("isHotel");
         String subregionRegiontype = section.getString("regiontype");
         long sublastreset = section.getLong("lastreset");
+        long sublastLogin = section.getLong("lastLogin");
         List<SignData> subregionsigns = parseRegionsSigns(section);
 
         if (subregionRegiontype.equalsIgnoreCase("rentregion")) {
@@ -309,7 +311,7 @@ public class RegionManager extends YamlFileManager<Region> {
             long subregrentExtendPerClick = section.getLong("rentExtendPerClick");
             RentPrice subPrice = new RentPrice(subregPrice, subregrentExtendPerClick, subregmaxRentTime);
             return new RentRegion(subregion, regionWorld, subregionsigns, subPrice, subregIsSold, ArmSettings.isSubregionAutoReset(), subregIsHotel, ArmSettings.isSubregionBlockReset(), RegionKind.SUBREGION, FlagGroup.SUBREGION, null,
-                    sublastreset, ArmSettings.isAllowSubRegionUserReset(), subregpayedtill, new ArrayList<Region>(), 0, EntityLimitGroup.SUBREGION, new HashMap<>(), 0);
+                    sublastreset, sublastLogin, ArmSettings.isAllowSubRegionUserReset(), subregpayedtill, new ArrayList<Region>(), 0, EntityLimitGroup.SUBREGION, new HashMap<>(), 0);
 
         }  else if (subregionRegiontype.equalsIgnoreCase("contractregion")) {
             long subregpayedtill = section.getLong("payedTill");
@@ -317,12 +319,12 @@ public class RegionManager extends YamlFileManager<Region> {
             Boolean subregterminated = section.getBoolean("terminated");
             ContractPrice subPrice = new ContractPrice(subregPrice, subregextendTime);
             return new ContractRegion(subregion, regionWorld, subregionsigns, subPrice, subregIsSold, ArmSettings.isSubregionAutoReset(), subregIsHotel, ArmSettings.isSubregionBlockReset(), RegionKind.SUBREGION, FlagGroup.SUBREGION, null,
-                    sublastreset, ArmSettings.isAllowSubRegionUserReset(), subregpayedtill, subregterminated, new ArrayList<Region>(), 0, EntityLimitGroup.SUBREGION, new HashMap<>(), 0);
+                    sublastreset, sublastLogin, ArmSettings.isAllowSubRegionUserReset(), subregpayedtill, subregterminated, new ArrayList<Region>(), 0, EntityLimitGroup.SUBREGION, new HashMap<>(), 0);
 
         } else {
             Price subPrice = new Price(subregPrice);
             return new SellRegion(subregion, regionWorld, subregionsigns, subPrice, subregIsSold, ArmSettings.isSubregionAutoReset(), subregIsHotel, ArmSettings.isSubregionBlockReset(), RegionKind.SUBREGION, FlagGroup.SUBREGION, null,
-                    sublastreset, ArmSettings.isAllowSubRegionUserReset(), new ArrayList<Region>(), 0, EntityLimitGroup.SUBREGION, new HashMap<>(), 0);
+                    sublastreset, sublastLogin, ArmSettings.isAllowSubRegionUserReset(), new ArrayList<Region>(), 0, EntityLimitGroup.SUBREGION, new HashMap<>(), 0);
         }
     }
 
@@ -427,6 +429,7 @@ public class RegionManager extends YamlFileManager<Region> {
         fileupdated |= this.addDefault(section,"entityLimitGroup", "default");
         fileupdated |= this.addDefault(section,"doBlockReset", true);
         fileupdated |= this.addDefault(section,"allowedSubregions", 0);
+        fileupdated |= this.addDefault(section,"lastLogin", new GregorianCalendar().getTimeInMillis());
         fileupdated |= this.addDefault(section,"isUserResettable", true);
         fileupdated |= this.addDefault(section,"boughtExtraTotalEntitys", 0);
         fileupdated |= this.addDefault(section,"boughtExtraEntitys", new ArrayList<String>());

@@ -45,6 +45,7 @@ public abstract class Region implements Saveable {
     private boolean autoreset;
     private boolean isHotel;
     private long lastreset;
+    private long lastLogin;
     private static int resetcooldown;
     private RegionKind regionKind;
     private Location teleportLocation;
@@ -62,7 +63,7 @@ public abstract class Region implements Saveable {
 
     public Region(WGRegion region, World regionworld, List<SignData> sellsign, Price price, Boolean sold, Boolean autoreset,
                   Boolean isHotel, Boolean doBlockReset, RegionKind regionKind, FlagGroup flagGroup, Location teleportLoc, long lastreset,
-                  boolean isUserResettable, List<Region> subregions, int allowedSubregions, EntityLimitGroup entityLimitGroup,
+                  long lastLogin, boolean isUserResettable, List<Region> subregions, int allowedSubregions, EntityLimitGroup entityLimitGroup,
                   HashMap<EntityLimit.LimitableEntityType, Integer> extraEntitys, int boughtExtraTotalEntitys){
         this.region = region;
         this.sellsign = new ArrayList<SignData>(sellsign);
@@ -76,6 +77,7 @@ public abstract class Region implements Saveable {
         this.lastreset = lastreset;
         this.builtblocks = new HashSet<>();
         this.isHotel = isHotel;
+        this.lastLogin = lastLogin;
         this.teleportLocation = teleportLoc;
         this.subregions = subregions;
         this.allowedSubregions = allowedSubregions;
@@ -524,6 +526,15 @@ public abstract class Region implements Saveable {
         this.queueSave();
     }
 
+    public void setLastLogin(long timeInMs) {
+        this.lastLogin = timeInMs;
+        this.queueSave();
+    }
+
+    public long getLastLogin() {
+        return lastLogin;
+    }
+
     public void resetRegion() throws SchematicNotFoundException {
         this.unsell();
         this.resetBlocks();
@@ -918,6 +929,7 @@ public abstract class Region implements Saveable {
         yamlConfiguration.set("sold", this.isSold());
         yamlConfiguration.set("isHotel", this.isHotel());
         yamlConfiguration.set("lastreset", this.getLastreset());
+        yamlConfiguration.set("lastLogin", this.getLastLogin());
         yamlConfiguration.set("regiontype", this.getSellType().getInternalName());
         if(this.getPriceObject().isAutoPrice()) {
             yamlConfiguration.set("autoprice", this.getPriceObject().getAutoPrice().getName());

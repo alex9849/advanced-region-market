@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class InactivityExpirationGroup {
-    public static InactivityExpirationGroup DEFAULT = new InactivityExpirationGroup("Default", 0, 0);
+    public static InactivityExpirationGroup DEFAULT = new InactivityExpirationGroup("Default", -1, -1);
     private static Set<InactivityExpirationGroup> inactivityExpirationGroupSet = new HashSet<>();
     private String name;
     private long resetAfterMs;
@@ -29,6 +29,14 @@ public class InactivityExpirationGroup {
         return resetAfterMs;
     }
 
+    public boolean isResetDisabled() {
+        return this.resetAfterMs <= 0;
+    }
+
+    public boolean isTakeOverDisabled() {
+        return this.takeOverAfterMs <= 0;
+    }
+
     public long getTakeOverAfterMs() {
         return takeOverAfterMs;
     }
@@ -43,7 +51,7 @@ public class InactivityExpirationGroup {
 
     public static long getResetAfterMsTime(OfflinePlayer oPlayer, World world) {
         if(AdvancedRegionMarket.getVaultPerms().isEnabled()) {
-            return 0;
+            return -1;
         }
 
         long resetAfterMs = DEFAULT.getResetAfterMs();

@@ -47,6 +47,9 @@ public class RentRegion extends Region {
         this.payedTill = payedTill;
         this.maxRentTime = rentPrice.getMaxRentTime();
         this.rentExtendPerClick = rentPrice.getExtendTime();
+        if(this.rentExtendPerClick < 1000) {
+            this.rentExtendPerClick = 1000;
+        }
         this.updateSigns();
     }
 

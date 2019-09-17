@@ -45,7 +45,7 @@ public class SellRegion extends Region {
 
     @Override
     protected void updateSignText(SignData signData){
-        if(this.sold){
+        if(this.isSold()){
             String[] lines = new String[4];
             lines[0] = this.getConvertedMessage(Messages.SOLD_SIGN1);
             lines[1] = this.getConvertedMessage(Messages.SOLD_SIGN2);
@@ -69,17 +69,17 @@ public class SellRegion extends Region {
         if(!Permission.hasAnyBuyPermission(player)) {
             throw new InputException(player, Messages.NO_PERMISSION);
         }
-        if(this.sold) {
+        if(this.isSold()) {
             throw new InputException(player, Messages.REGION_ALREADY_SOLD);
         }
-        if (this.regionKind != RegionKind.DEFAULT){
-            if(!RegionKind.hasPermission(player, regionKind)){
+        if (this.getRegionKind() != RegionKind.DEFAULT){
+            if(!RegionKind.hasPermission(player, this.getRegionKind())){
                 throw new InputException(player, this.getConvertedMessage(Messages.NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION));
             }
         }
 
         if(!LimitGroup.isCanBuyAnother(player, this)){
-            throw new InputException(player, LimitGroup.getRegionBuyOutOfLimitMessage(player, this.regionKind));
+            throw new InputException(player, LimitGroup.getRegionBuyOutOfLimitMessage(player, this.getRegionKind()));
         }
 
         if(AdvancedRegionMarket.getEcon().getBalance(player) < this.getPrice()) {
@@ -103,12 +103,12 @@ public class SellRegion extends Region {
 
     @Override
     public void setSold(OfflinePlayer player){
-        this.sold = true;
+        this.setSold(true);
         this.getRegion().deleteMembers();
         this.getRegion().setOwner(player);
 
         this.updateSigns();
-        this.flagGroup.applyToRegion(this, FlagGroup.ResetMode.COMPLETE);
+        this.getFlagGroup().applyToRegion(this, FlagGroup.ResetMode.COMPLETE);
         this.queueSave();
     }
 
@@ -162,7 +162,7 @@ public class SellRegion extends Region {
     }
 
     public void setPrice(Price price) {
-        this.price = price;
+        this.setPrice(price);
         this.updateSigns();
         this.queueSave();
     }

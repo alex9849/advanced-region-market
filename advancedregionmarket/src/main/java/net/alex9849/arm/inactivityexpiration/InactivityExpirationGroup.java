@@ -13,6 +13,7 @@ import java.util.logging.Level;
 
 public class InactivityExpirationGroup {
     public static InactivityExpirationGroup DEFAULT = new InactivityExpirationGroup("Default", -1, -1);
+    private static InactivityExpirationGroup UNLIMITED = new InactivityExpirationGroup("Unlimited", -1, -1);
     private static Set<InactivityExpirationGroup> inactivityExpirationGroupSet = new HashSet<>();
     private String name;
     private long resetAfterMs;
@@ -52,36 +53,36 @@ public class InactivityExpirationGroup {
         inactivityExpirationGroup.add(inactivityExpirationGroup);
     }
 
-    public static long getResetAfterMsTime(OfflinePlayer oPlayer, World world) {
-        if(AdvancedRegionMarket.getVaultPerms().isEnabled()) {
-            return -1;
+    public static InactivityExpirationGroup getBestResetAfterMsTime(OfflinePlayer oPlayer, World world) {
+        if(!AdvancedRegionMarket.getVaultPerms().isEnabled()) {
+            return UNLIMITED;
         }
-        long resetAfterMs = DEFAULT.getResetAfterMs();
+        InactivityExpirationGroup selectedGroup = DEFAULT;
 
         for(InactivityExpirationGroup ieGroup : inactivityExpirationGroupSet) {
             if(AdvancedRegionMarket.getVaultPerms().playerHas(world.getName(), oPlayer, Permission.ARM_INACTIVITY_EXPIRATION + ieGroup.getName())) {
-                if(resetAfterMs < ieGroup.getResetAfterMs()) {
-                    resetAfterMs = ieGroup.getResetAfterMs();
+                if(selectedGroup == DEFAULT || ((!selectedGroup.isResetDisabled() && (selectedGroup.getResetAfterMs() < ieGroup.getResetAfterMs())) || ieGroup.isResetDisabled())) {
+                    selectedGroup = ieGroup;
                 }
             }
         }
-        return resetAfterMs;
+        return selectedGroup;
     }
 
-    public static long getTakeOverAfterMsTime(OfflinePlayer oPlayer, World world) {
-        if(AdvancedRegionMarket.getVaultPerms().isEnabled()) {
-            return -1;
+    public static InactivityExpirationGroup getBestTakeOverAfterMsTime(OfflinePlayer oPlayer, World world) {
+        if(!AdvancedRegionMarket.getVaultPerms().isEnabled()) {
+            return UNLIMITED;
         }
-        long takeOverAfterMs = DEFAULT.getTakeOverAfterMs();
+        InactivityExpirationGroup selectedGroup = DEFAULT;
 
         for(InactivityExpirationGroup ieGroup : inactivityExpirationGroupSet) {
             if(AdvancedRegionMarket.getVaultPerms().playerHas(world.getName(), oPlayer, Permission.ARM_INACTIVITY_EXPIRATION + ieGroup.getName())) {
-                if(takeOverAfterMs < ieGroup.getTakeOverAfterMs()) {
-                    takeOverAfterMs = ieGroup.getTakeOverAfterMs();
+                if(selectedGroup == DEFAULT || ((!selectedGroup.isTakeOverDisabled() && (selectedGroup.getTakeOverAfterMs() < ieGroup.getTakeOverAfterMs())) || ieGroup.isTakeOverDisabled())) {
+                    selectedGroup = ieGroup;
                 }
             }
         }
-        return takeOverAfterMs;
+        return selectedGroup;
     }
 
     public static InactivityExpirationGroup parse(ConfigurationSection configurationSection, String name) {

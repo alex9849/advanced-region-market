@@ -9,6 +9,7 @@ import net.alex9849.arm.events.ResetBlocksEvent;
 import net.alex9849.arm.events.UnsellRegionEvent;
 import net.alex9849.arm.events.UpdateRegionEvent;
 import net.alex9849.arm.flaggroups.FlagGroup;
+import net.alex9849.arm.inactivityexpiration.InactivityExpirationGroup;
 import net.alex9849.arm.minifeatures.ParticleBorder;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import net.alex9849.arm.regionkind.RegionKind;
@@ -781,6 +782,23 @@ public abstract class Region implements Saveable {
             }
         }
         return false;
+    }
+
+    public boolean isOwnerInactive() {
+        long actualTime = new GregorianCalendar().getTimeInMillis();
+        List<UUID> owners = this.getRegion().getOwners();
+        if(owners.size() == 0) {
+            if(InactivityExpirationGroup.DEFAULT.isResetDisabled()) {
+                return false;
+            }
+            return this.getLastLogin() + InactivityExpirationGroup.DEFAULT.getResetAfterMs() < actualTime;
+        }
+        OfflinePlayer oPlayer = Bukkit.getOfflinePlayer(owners.get(0));
+        InactivityExpirationGroup ieGroup = InactivityExpirationGroup.getBestResetAfterMsTime(oPlayer, this.getRegionworld());
+        if(ieGroup.isResetDisabled()) {
+            return false;
+        }
+        return (this.getLastLogin() + ieGroup.getResetAfterMs() < actualTime);
     }
 
     public List<Entity> getInsideEntities(boolean includePlayers) {

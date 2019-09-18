@@ -632,7 +632,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
 
         ArmSettings.setIsAllowSubRegionUserReset(getConfig().getBoolean("Subregions.AllowSubRegionUserReset"));
         ArmSettings.setIsSubregionBlockReset(getConfig().getBoolean("Subregions.SubregionBlockReset"));
-        ArmSettings.setIsSubregionAutoReset(getConfig().getBoolean("Subregions.SubregionAutoReset"));
+        ArmSettings.setIsSubregionInactivityReset(getConfig().getBoolean("Subregions.SubregionInactivityReset"));
         ArmSettings.setDeleteSubregionsOnParentRegionBlockReset(getConfig().getBoolean("Subregions.deleteSubregionsOnParentRegionBlockReset"));
         ArmSettings.setDeleteSubregionsOnParentRegionUnsell(getConfig().getBoolean("Subregions.deleteSubregionsOnParentRegionUnsell"));
         ArmSettings.setAllowParentRegionOwnersBuildOnSubregions(getConfig().getBoolean("Subregions.allowParentRegionOwnersBuildOnSubregions"));
@@ -1421,6 +1421,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         pluginConfig.set("InactivityExpiration.examplegroup2.resetAfter", "60d");
         pluginConfig.set("InactivityExpiration.examplegroup2.takeOverAfter", "50d");
         pluginConfig.set("InactivityExpiration.examplegroup3.resetAfter", "none");
+        pluginConfig.set("Subregions.SubregionInactivityReset", pluginConfig.getBoolean("Subregions.SubregionAutoReset"));
         pluginConfig.set("InactivityExpiration.examplegroup3.takeOverAfter", "none");
         pluginConfig.set("AutoResetAndTakeOver", null);
         saveConfig();

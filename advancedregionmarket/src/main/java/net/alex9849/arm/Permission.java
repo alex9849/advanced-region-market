@@ -32,7 +32,7 @@ public class Permission {
     public static final String ADMIN_PRESET_SET_EXTENDPERCLICK = "arm.admin.preset.setextendperclick";
     public static final String ADMIN_PRESET_SET_MAXRENTTIME = "arm.admin.preset.setmaxrenttime";
     public static final String ADMIN_PRESET_SET_REGIONKIND = "arm.admin.preset.setregionkind";
-    public static final String ADMIN_PRESET_SET_AUTORESET = "arm.admin.preset.setautoreset";
+    public static final String ADMIN_PRESET_SET_INACTIVITYRESET = "arm.admin.preset.setinactivityreset";
     public static final String ADMIN_PRESET_SET_HOTEL = "arm.admin.preset.sethotel";
     public static final String ADMIN_PRESET_SET_DOBLOCKRESET = "arm.admin.preset.setdoblockreset";
     public static final String ADMIN_PRESET_SET_AUTOPRICE = "arm.admin.preset.setautoprice";

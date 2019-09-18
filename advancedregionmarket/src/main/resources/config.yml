@@ -176,7 +176,7 @@ SignClickActions:
 Subregions:
   AllowSubRegionUserReset: false
   SubregionBlockReset: false
-  SubregionAutoReset: true
+  SubregionInactivityReset: true
   deleteSubregionsOnParentRegionUnsell: false
   deleteSubregionsOnParentRegionBlockReset: false
   allowParentRegionOwnersBuildOnSubregions: true

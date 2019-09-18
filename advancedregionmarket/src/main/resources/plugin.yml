@@ -18,7 +18,7 @@ permissions:
       description: Give access to all commands of AdvancedRegionMarket
       default: op
       children:
-         arm.admin.changeautoreset: true
+         arm.admin.changeinactivityreset: true
          arm.admin.create.sellregion: true
          arm.admin.create.rentregion: true
          arm.admin.create.contractregion: true
@@ -47,7 +47,7 @@ permissions:
          arm.admin.preset.setextendperclick: true
          arm.admin.preset.setmaxrenttime: true
          arm.admin.preset.setregionkind: true
-         arm.admin.preset.setautoreset: true
+         arm.admin.preset.setinactivityreset: true
          arm.admin.preset.sethotel: true
          arm.admin.preset.setdoblockreset: true
          arm.admin.preset.setautoprice: true
@@ -173,8 +173,8 @@ permissions:
          arm.member.entitylimit.buyextra: true
          arm.member.tptofreeregion: true
          arm.member.flageditor: true
-   arm.admin.changeautoreset:
-      description: Allows to enable and disable autoreset for specific regions
+   arm.admin.changeinactivityreset:
+      description: Allows to enable and disable inactivityreset for specific regions
       default: op
    arm.admin.create.sellregion:
       description: Allow to create sellregions
@@ -263,7 +263,7 @@ permissions:
    arm.admin.preset.setregionkind:
       description: Preset permission
       default: op
-   arm.admin.preset.setautoreset:
+   arm.admin.preset.setinactivityreset:
       description: Preset permission
       default: op
    arm.admin.preset.sethotel:

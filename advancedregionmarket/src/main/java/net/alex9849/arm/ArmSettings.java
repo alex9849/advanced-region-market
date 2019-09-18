@@ -5,7 +5,7 @@ import java.sql.Statement;
 public class ArmSettings {
     private static boolean isAllowSubRegionUserReset = false;
     private static boolean isSubregionBlockReset = false;
-    private static boolean isSubregionAutoReset = false;
+    private static boolean isSubregionInactivityReset = false;
     private static boolean isTeleportAfterSellRegionBought = false;
     private static boolean teleportAfterRentRegionBought = false;
     private static boolean isTeleportAfterRentRegionExtend = false;
@@ -67,8 +67,8 @@ public class ArmSettings {
         ArmSettings.isSubregionBlockReset = isSubregionBlockReset;
     }
 
-    protected static void setIsSubregionAutoReset(boolean isSubregionAutoReset) {
-        ArmSettings.isSubregionAutoReset = isSubregionAutoReset;
+    protected static void setIsSubregionInactivityReset(boolean isSubregionInactivityReset) {
+        ArmSettings.isSubregionInactivityReset = isSubregionInactivityReset;
     }
 
     protected static void setIsTeleportAfterSellRegionBought(boolean isTeleportAfterSellRegionBought) {
@@ -135,8 +135,8 @@ public class ArmSettings {
         return isSubregionBlockReset;
     }
 
-    public static boolean isSubregionAutoReset() {
-        return isSubregionAutoReset;
+    public static boolean isSubregionInactivityReset() {
+        return isSubregionInactivityReset;
     }
 
     public static boolean isTeleportAfterSellRegionBought() {

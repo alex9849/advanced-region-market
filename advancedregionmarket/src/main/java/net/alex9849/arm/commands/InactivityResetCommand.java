@@ -59,7 +59,7 @@ public class InactivityResetCommand implements BasicArmCommand {
                 throw new InputException(sender, Messages.REGIONKIND_DOES_NOT_EXIST);
             }
             if(selectedRegionkind == RegionKind.SUBREGION) {
-                throw new InputException(sender, Messages.SUB_REGION_AUTORESET_ERROR);
+                throw new InputException(sender, Messages.SUB_REGION_INACTIVITYRESET_ERROR);
             }
             regions = AdvancedRegionMarket.getRegionManager().getRegionsByRegionKind(selectedRegionkind);
             selectedName = selectedRegionkind.getConvertedMessage(Messages.MASSACTION_SPLITTER);
@@ -70,7 +70,7 @@ public class InactivityResetCommand implements BasicArmCommand {
             }
 
             if(selectedRegion.isSubregion()) {
-                throw new InputException(sender, Messages.SUB_REGION_AUTORESET_ERROR);
+                throw new InputException(sender, Messages.SUB_REGION_INACTIVITYRESET_ERROR);
             }
             regions.add(selectedRegion);
             selectedName = "&a" + selectedRegion.getRegion().getId();

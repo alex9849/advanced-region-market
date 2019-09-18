@@ -48,7 +48,7 @@ public class InactivityResetResetCommand implements BasicArmCommand {
         }
         Player player = (Player) sender;
 
-        if(!player.hasPermission(Permission.ADMIN_PRESET_SET_AUTORESET)) {
+        if(!player.hasPermission(Permission.ADMIN_PRESET_SET_INACTIVITYRESET)) {
             throw new InputException(player, Messages.NO_PERMISSION);
         }
 
@@ -63,7 +63,7 @@ public class InactivityResetResetCommand implements BasicArmCommand {
             ActivePresetManager.add(new PresetPlayerPair(player, preset));
         }
 
-        preset.setAutoReset(Boolean.parseBoolean(args[1]));
+        preset.setInactivityReset(Boolean.parseBoolean(args[1]));
         player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
         return true;
 
@@ -72,7 +72,7 @@ public class InactivityResetResetCommand implements BasicArmCommand {
     @Override
     public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
-        if(player.hasPermission(Permission.ADMIN_PRESET_SET_AUTORESET)) {
+        if(player.hasPermission(Permission.ADMIN_PRESET_SET_INACTIVITYRESET)) {
             if(args.length >= 1) {
                 if(args.length == 1) {
                     if(this.rootCommand.startsWith(args[0])) {

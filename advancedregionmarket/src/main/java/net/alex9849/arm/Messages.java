@@ -41,7 +41,7 @@ public class Messages {
     public static String COMMAND_ONLY_INGAME = "";
     public static String REGION_INFO_PRICE = "";
     public static String REGION_INFO_TYPE = "";
-    public static String REGION_INFO_AUTORESET = "";
+    public static String REGION_INFO_INACTIVITYRESET = "";
     public static String REGION_INFO_MAX_RENT_TIME = "";
     public static String REGION_INFO_EXTEND_PER_CLICK = "";
     public static String REGION_INFO_HOTEL = "";
@@ -183,7 +183,7 @@ public class Messages {
     public static String PRICE_CAN_NOT_BE_NEGATIVE = "&4Price can not be negative!";
     public static String SELLBACK_WARNING = "&4Sell region back to the server: \n&4WARNING: &cThis can not be undone! Your region &6%regionid% &cwill be released and all blocks on it will be resetted! " +
             "You and all members will loose their rights on it. You will get &6%paybackmoney% %currency% &cback";
-    public static String SUB_REGION_AUTORESET_ERROR = "";
+    public static String SUB_REGION_INACTIVITYRESET_ERROR = "";
     public static String SUB_REGION_DO_BLOCKRESET_ERROR = "";
     public static String REGION_NOT_RESETTABLE = "";
     public static String REGION_SELECTED_MULTIPLE_REGIONS = "";
@@ -314,54 +314,15 @@ public class Messages {
     public static String REGIONKIND_HELP_HEADLINE = "&6=====[AdvancedRegionMarket RegionKind Help ]=====\n&3Page %actualpage% / %maxpage%";
     public static String PLAYER_NOT_FOUND = "&4Could not find selected player!";
 
-    public static List<String> REGION_INFO_SELLREGION = new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
-            "&6ID: %regionid%", "&6Sold: %issold%", "&6Price: %price%", "&6Type: %selltype%", "&6Regionkind: %regionkinddisplay%",
-            "&6EntityLimitGroup: %entitylimitgroup%", "&6Owner: %owner%", "&6Members: %members%", "&6isHotel: %ishotel%",
-            "&6Allowed Subregions: %subregionlimit%", "&6Subregions: %subregions%"));
-    public static List<String> REGION_INFO_RENTREGION = new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
-            "&6ID: %regionid%", "&6Sold: %issold%", "&6Price: %price%", "&6Type: %selltype%", "&6Regionkind: %regionkinddisplay%",
-            "&6EntityLimitGroup: %entitylimitgroup%", "&6Owner: %owner%", "&6Members: %members%", "&6isHotel: %ishotel%",
-            "&6Allowed Subregions: %subregionlimit%", "&6Subregions: %subregions%", "&6Remaining time: %remaining%",
-            "&6Extend per click: %extendperclick%", "&6Max rent time: %maxrenttime%"));
-    public static List<String> REGION_INFO_CONTRACTREGION = new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
-            "&6ID: %regionid%", "&6Sold: %issold%", "&6Price: %price%", "&6Type: %selltype%", "&6Regionkind: %regionkinddisplay%",
-            "&6EntityLimitGroup: %entitylimitgroup%", "&6Owner: %owner%", "&6Members: %members%", "&6isHotel: %ishotel%",
-            "&6Allowed Subregions: %subregionlimit%", "&6Subregions: %subregions%", "&6Terminated: %isterminated%",
-            "&6Extend Time: %extend%", "&6Next extend in: %remaining%"));
-    public static List<String> REGION_INFO_SELLREGION_ADMIN = new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
-            "&6ID: %regionid%", "&6Sold: %issold%", "&6Price: %price%", "&6Type: %selltype%", "&6Regionkind: %regionkinddisplay%",
-            "&6EntityLimitGroup: %entitylimitgroup%", "&6Owner: %owner%", "&6Members: %members%", "&6isHotel: %ishotel%",
-            "&6Autoreset: %isautoreset%", "&6UserResettable: %isuserresettable%" , "&6DoBlockReset: %isdoblockreset%", "&6Autoprice: %autoprice%",
-            "&6Allowed Subregions: %subregionlimit%", "&6Subregions: %subregions%"));
-    public static List<String> REGION_INFO_RENTREGION_ADMIN = new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
-            "&6ID: %regionid%", "&6Sold: %issold%", "&6Price: %price%", "&6Type: %selltype%", "&6Regionkind: %regionkinddisplay%",
-            "&6EntityLimitGroup: %entitylimitgroup%", "&6Owner: %owner%", "&6Members: %members%", "&6isHotel: %ishotel%",
-            "&6Autoreset: %isautoreset%", "&6UserResettable: %isuserresettable%" , "&6DoBlockReset: %isdoblockreset%" , "&6Autoprice: %autoprice%",
-            "&6Allowed Subregions: %subregionlimit%", "&6Subregions: %subregions%", "&6Remaining time: %remaining%",
-            "&6Extend per click: %extendperclick%", "&6Max rent time: %maxrenttime%"));
-    public static List<String> REGION_INFO_CONTRACTREGION_ADMIN = new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
-            "&6ID: %regionid%", "&6Sold: %issold%", "&6Price: %price%", "&6Type: %selltype%", "&6Regionkind: %regionkinddisplay%",
-            "&6EntityLimitGroup: %entitylimitgroup%", "&6Owner: %owner%", "&6Members: %members%", "&6isHotel: %ishotel%",
-            "&6Autoreset: %isautoreset%", "&6UserResettable: %isuserresettable%" , "&6DoBlockReset: %isdoblockreset%" , "&6Autoprice: %autoprice%",
-            "&6Allowed Subregions: %subregionlimit%", "&6Subregions: %subregions%", "&6Terminated: %isterminated%",
-            "&6Extend Time: %extend%", "&6Next extend in: %remaining%"));
-    public static List<String> REGION_INFO_SELLREGION_SUBREGION = new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
-            "&6ID: %regionid%", "&6Sold: %issold%", "&6Price: %price%", "&6Type: %selltype%", "&6Regionkind: %regionkinddisplay%",
-            "&6EntityLimitGroup: %entitylimitgroup%", "&6Owner: %owner%", "&6Members: %members%", "&6isHotel: %ishotel%",
-            "&6Autoreset: %isautoreset%", "&6UserResettable: %isuserresettable%" , "&6DoBlockReset: %isdoblockreset%" , "&6Autoprice: %autoprice%",
-            "&6Allowed Subregions: %subregionlimit%", "&6Subregions: %subregions%"));
-    public static List<String> REGION_INFO_RENTREGION_SUBREGION = new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
-            "&6ID: %regionid%", "&6Sold: %issold%", "&6Price: %price%", "&6Type: %selltype%", "&6Regionkind: %regionkinddisplay%",
-            "&6EntityLimitGroup: %entitylimitgroup%", "&6Owner: %owner%", "&6Members: %members%", "&6isHotel: %ishotel%",
-            "&6Autoreset: %isautoreset%", "&6UserResettable: %isuserresettable%" , "&6DoBlockReset: %isdoblockreset%" , "&6Autoprice: %autoprice%",
-            "&6Allowed Subregions: %subregionlimit%", "&6Subregions: %subregions%", "&6Remaining time: %remaining%",
-            "&6Extend per click: %extendperclick%", "&6Max rent time: %maxrenttime%"));
-    public static List<String> REGION_INFO_CONTRACTREGION_SUBREGION = new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
-            "&6ID: %regionid%", "&6Sold: %issold%", "&6Price: %price%", "&6Type: %selltype%", "&6Regionkind: %regionkinddisplay%",
-            "&6EntityLimitGroup: %entitylimitgroup%", "&6Owner: %owner%", "&6Members: %members%", "&6isHotel: %ishotel%",
-            "&6Autoreset: %isautoreset%", "&6UserResettable: %isuserresettable%" , "&6DoBlockReset: %isdoblockreset%" , "&6Autoprice: %autoprice%",
-            "&6Allowed Subregions: %subregionlimit%", "&6Subregions: %subregions%", "&6Terminated: %isterminated%",
-            "&6Extend Time: %extend%", "&6Next extend in: %remaining%"));
+    public static List<String> REGION_INFO_SELLREGION = new ArrayList<>();
+    public static List<String> REGION_INFO_RENTREGION = new ArrayList<>();
+    public static List<String> REGION_INFO_CONTRACTREGION = new ArrayList<>();
+    public static List<String> REGION_INFO_SELLREGION_ADMIN = new ArrayList<>();
+    public static List<String> REGION_INFO_RENTREGION_ADMIN = new ArrayList<>();
+    public static List<String> REGION_INFO_CONTRACTREGION_ADMIN = new ArrayList<>();
+    public static List<String> REGION_INFO_SELLREGION_SUBREGION = new ArrayList<>();
+    public static List<String> REGION_INFO_RENTREGION_SUBREGION = new ArrayList<>();
+    public static List<String> REGION_INFO_CONTRACTREGION_SUBREGION = new ArrayList<>();
 
     public static String GUI_FLAGEDITOR_BUTTON = "&6FlagEditor";
     public static String GUI_FLAGEDITOR_MENU_NAME = "&1FlagEditor (%region%)";
@@ -449,7 +410,7 @@ public class Messages {
         COMMAND_ONLY_INGAME = config.getString("Messages.CommandOnlyIngame");
         REGION_INFO_PRICE = config.getString("Messages.RegionInfoPrice");
         REGION_INFO_TYPE = config.getString("Messages.RegionInfoType");
-        REGION_INFO_AUTORESET = config.getString("Messages.RegionInfoAutoreset");
+        REGION_INFO_INACTIVITYRESET = config.getString("Messages.RegionInfoInactivityReset");
         REGION_INFO_ALLOWED_SUBREGIONS = config.getString("Messages.RegionInfoAllowedSubregions");
         REGION_INFO_EXPIRED = config.getString("Messages.RegionInfoExpired");
         REGION_INFO_AUTOPRICE = config.getString("Messages.RegionInfoAutoprice");
@@ -600,7 +561,7 @@ public class Messages {
         PRESET_SETUP_COMMANDS = config.getString("Messages.PresetSetupCommands");
         PRICE_CAN_NOT_BE_NEGATIVE = config.getString("Messages.PriceCanNotBeNegative");
         SELLBACK_WARNING = config.getString("Messages.SellBackWarning");
-        SUB_REGION_AUTORESET_ERROR = config.getString("Messages.SubregionAutoResetError");
+        SUB_REGION_INACTIVITYRESET_ERROR = config.getString("Messages.SubregionInactivityResetError");
         SUB_REGION_DO_BLOCKRESET_ERROR = config.getString("Messages.SubregionDoBlockResetError");
         SUB_REGION_IS_USER_RESETTABLE_ERROR = config.getString("Messages.SubregionIsUserResettableError");
         REGION_NOT_RESETTABLE = config.getString("Messages.RegionNotResettable");
@@ -799,7 +760,7 @@ public class Messages {
         REGION_INFO_PRICE = ChatColor.translateAlternateColorCodes('&', REGION_INFO_PRICE);
         REGION_INFO_TYPE = ChatColor.translateAlternateColorCodes('&', REGION_INFO_TYPE);
         COMMAND_ONLY_INGAME = ChatColor.translateAlternateColorCodes('&', COMMAND_ONLY_INGAME);
-        REGION_INFO_AUTORESET = ChatColor.translateAlternateColorCodes('&', REGION_INFO_AUTORESET);
+        REGION_INFO_INACTIVITYRESET = ChatColor.translateAlternateColorCodes('&', REGION_INFO_INACTIVITYRESET);
         GUI_MAIN_MENU_NAME = ChatColor.translateAlternateColorCodes('&', GUI_MAIN_MENU_NAME);
         GUI_GO_BACK = ChatColor.translateAlternateColorCodes('&', GUI_GO_BACK);
         GUI_MY_OWN_REGIONS = ChatColor.translateAlternateColorCodes('&', GUI_MY_OWN_REGIONS);
@@ -937,7 +898,7 @@ public class Messages {
         PRESET_SETUP_COMMANDS = ChatColor.translateAlternateColorCodes('&', PRESET_SETUP_COMMANDS);
         PRICE_CAN_NOT_BE_NEGATIVE = ChatColor.translateAlternateColorCodes('&', PRICE_CAN_NOT_BE_NEGATIVE);
         SELLBACK_WARNING = ChatColor.translateAlternateColorCodes('&', SELLBACK_WARNING);
-        SUB_REGION_AUTORESET_ERROR = ChatColor.translateAlternateColorCodes('&', SUB_REGION_AUTORESET_ERROR);
+        SUB_REGION_INACTIVITYRESET_ERROR = ChatColor.translateAlternateColorCodes('&', SUB_REGION_INACTIVITYRESET_ERROR);
         SUB_REGION_DO_BLOCKRESET_ERROR = ChatColor.translateAlternateColorCodes('&', SUB_REGION_DO_BLOCKRESET_ERROR);
         REGION_NOT_RESETTABLE = ChatColor.translateAlternateColorCodes('&', REGION_NOT_RESETTABLE);
         REGION_SELECTED_MULTIPLE_REGIONS = ChatColor.translateAlternateColorCodes('&', REGION_SELECTED_MULTIPLE_REGIONS);
@@ -1306,7 +1267,7 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.SellBackWarning", "&4Sell region back to the server: \n&4WARNING: &cThis can not be undone! Your region &6%regionid% &cwill be released and all blocks on it will be resetted! " +
                 "You and all members will loose their rights on it. You will get &6%paybackmoney% %currency% &cback");
 
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SubregionAutoResetError", "&4The selected region is a subregion. You can change the autoReset setting for all subregions in the config.yml!");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SubregionInactivityResetError", "&4The selected region is a subregion. You can change the InactivityReset setting for all subregions in the config.yml!");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.SubregionDoBlockResetError", "&4The selected region is a subregion. You can change the doBlockReset setting for all subregions in the config.yml!");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.SubregionIsUserResettableError", "&4The selected region is a subregion. You can change the isUserResettable setting for all subregions in the config.yml!");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.SubregionRegionkindError", "&4The selected region is a subregion. You can edit the regionkind for all subregions in the config.yml!");
@@ -1346,7 +1307,7 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionInfoIsUserResettable", "&6UserResettable: ");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionInfoAutoprice", "&6Autoprice: ");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.isHotel", "&6isHotel: ");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionInfoAutoreset", "&6Autoreset: ");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionInfoInactivityReset", "&6InactivityReset: ");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionInfoMaxRentTime", "&6Max rent time: ");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionInfoExtendPerClick", "&6Extend per click: ");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionInfoAutoExtendTime", "&6Extend time: ");

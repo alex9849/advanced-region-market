@@ -25,7 +25,7 @@ public abstract class Preset implements Saveable {
     protected boolean hasPrice = false;
     protected double price = 0;
     protected RegionKind regionKind = RegionKind.DEFAULT;
-    protected boolean autoReset = true;
+    protected boolean inactivityReset = true;
     protected boolean isHotel = false;
     protected boolean doBlockReset = true;
     protected boolean isUserResettable = true;
@@ -36,12 +36,12 @@ public abstract class Preset implements Saveable {
     protected List<String> setupCommands = new ArrayList<>();
     private boolean needsSave = false;
 
-    public Preset(String name, boolean hasPrice, double price, RegionKind regionKind, FlagGroup flagGroup, boolean autoReset, boolean isHotel, boolean doBlockReset, boolean isUserResettable, int allowedSubregions, AutoPrice autoPrice, EntityLimitGroup entityLimitGroup, List<String> setupCommands){
+    public Preset(String name, boolean hasPrice, double price, RegionKind regionKind, FlagGroup flagGroup, boolean inactivityReset, boolean isHotel, boolean doBlockReset, boolean isUserResettable, int allowedSubregions, AutoPrice autoPrice, EntityLimitGroup entityLimitGroup, List<String> setupCommands){
         this.name = name;
         this.hasPrice = hasPrice;
         this.price = price;
         this.regionKind = regionKind;
-        this.autoReset = autoReset;
+        this.inactivityReset = inactivityReset;
         this.isHotel = isHotel;
         this.doBlockReset = doBlockReset;
         this.isUserResettable = isUserResettable;
@@ -164,7 +164,7 @@ public abstract class Preset implements Saveable {
         player.sendMessage(Messages.REGION_INFO_TYPE + regKind.getName());
         player.sendMessage(Messages.REGION_INFO_FLAGGROUP + flagGroup.getName());
         player.sendMessage(Messages.REGION_INFO_ENTITYLIMITGROUP + entityLimitGroup.getName());
-        player.sendMessage(Messages.REGION_INFO_AUTORESET + this.isAutoReset());
+        player.sendMessage(Messages.REGION_INFO_INACTIVITYRESET + this.isInactivityReset());
         player.sendMessage(Messages.REGION_INFO_HOTEL + this.isHotel());
         player.sendMessage(Messages.REGION_INFO_DO_BLOCK_RESET + this.isDoBlockReset());
         player.sendMessage(Messages.REGION_INFO_IS_USER_RESETTABLE + this.isUserResettable());
@@ -206,8 +206,8 @@ public abstract class Preset implements Saveable {
         this.doBlockReset = bool;
     }
 
-    public void setAutoReset(Boolean autoReset) {
-        this.autoReset = autoReset;
+    public void setInactivityReset(Boolean InactivityReset) {
+        this.inactivityReset = InactivityReset;
     }
 
     public void setHotel(Boolean isHotel){
@@ -222,8 +222,8 @@ public abstract class Preset implements Saveable {
         return regionKind;
     }
 
-    public boolean isAutoReset() {
-        return autoReset;
+    public boolean isInactivityReset() {
+        return this.inactivityReset;
     }
 
     public boolean isDoBlockReset() {
@@ -278,7 +278,7 @@ public abstract class Preset implements Saveable {
         section.set("doBlockReset", this.isDoBlockReset());
         section.set("flaggroup", this.flagGroup.getName());
         section.set("entityLimitGroup", this.getEntityLimitGroup().getName());
-        section.set("autoreset", this.isAutoReset());
+        section.set("inactivityReset", this.isInactivityReset());
         if(this.hasAutoPrice()) {
             section.set("autoPrice", this.getAutoPrice().getName());
         } else {

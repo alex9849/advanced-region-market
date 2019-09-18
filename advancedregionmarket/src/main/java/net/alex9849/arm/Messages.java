@@ -730,6 +730,12 @@ public class Messages {
         FLAGGROUP_DOES_NOT_EXIST = config.getString("Messages.FlaggroupDoesNotExist");
         SUBREGION_FLAGGROUP_ONLY_FOR_SUBREGIONS = config.getString("Messages.SubregionFlaggroupOnlyForSubregions");
         REGION_INFO_FLAGGROUP = config.getString("Messages.RegionInfoFlaggroup");
+        TAKEOVER_INFO_DEACTIVATED = config.getString("Messages.TakeOverInfoDeactivated");
+        INACTIVITY_RESET_INFO_DEACTIVATED = config.getString("Messages.InactivityResetInfoDeactivated");
+        TAKEOVER_INFO_REGION_NOT_SOLD = config.getString("Messages.TakeOverInfoDeactivated");
+        INACTIVITY_RESET_INFO_REGION_NOT_SOLD = config.getString("Messages.InactivityResetInfoDeactivated");
+        TAKEOVER_INFO_POSSIBLE = config.getString("Messages.TakeOverInfoDeactivated");
+        INACTIVITY_RESET_INFO_POSSIBLE = config.getString("Messages.InactivityResetInfoDeactivated");
 
         Messages.translateColorCodes();
     }
@@ -1531,6 +1537,14 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.FlaggroupDoesNotExist", "&4Flaggroup does not exist!");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.SubregionFlaggroupOnlyForSubregions", "&4Subregion flaggroup only for subregions");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionInfoFlaggroup", "&6FlagGroup: ");
+
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.TakeOverInfoDeactivated", "&4Deactivated");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.InactivityResetInfoDeactivated", "&4Deactivated");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.TakeOverInfoDeactivated", "&4Region not sold!");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.InactivityResetInfoDeactivated", "&4Region not sold!");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.TakeOverInfoDeactivated", "&2Now");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.InactivityResetInfoDeactivated", "&2Now");
+
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoSellregionAdmin", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
                 "&9ID: &e%regionid% &7(Type: &r%selltype%&7)",
                 "&9Sold: &e%issold%",

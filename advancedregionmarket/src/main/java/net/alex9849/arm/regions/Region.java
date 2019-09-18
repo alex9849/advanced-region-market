@@ -15,6 +15,7 @@ import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.util.Saveable;
+import net.alex9849.arm.util.Utilities;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.exceptions.SchematicNotFoundException;
 import net.alex9849.inter.WGRegion;
@@ -754,6 +755,32 @@ public abstract class Region implements Saveable {
             }
             message = message.replace("%members%", membersInfo);
         }
+        if(message.contains("%takeoverin%")) {
+            List<UUID> ownerslist = this.getRegion().getOwners();
+            OfflinePlayer oPlayer = null;
+            if(ownerslist.size() > 0) {
+                oPlayer = Bukkit.getOfflinePlayer(ownerslist.get(0));
+            }
+            InactivityExpirationGroup ieGroup = InactivityExpirationGroup.getBestTakeOverAfterMs(oPlayer, this.getRegionworld());
+            if(ieGroup.isTakeOverDisabled()) {
+                message = message.replace("%takeoverin%", Messages.TAKEOVER_INFO_DEACTIVATED);
+            } else {
+                message = message.replace("%takeoverin%", Utilities.timeInMsToString(ieGroup.getTakeOverAfterMs() + this.getLastLogin()));
+            }
+        }
+        if(message.contains("%inactivityresetin%")) {
+            List<UUID> ownerslist = this.getRegion().getOwners();
+            OfflinePlayer oPlayer = null;
+            if(ownerslist.size() > 0) {
+                oPlayer = Bukkit.getOfflinePlayer(ownerslist.get(0));
+            }
+            InactivityExpirationGroup ieGroup = InactivityExpirationGroup.getBestResetAfterMs(oPlayer, this.getRegionworld());
+            if(ieGroup.isResetDisabled()) {
+                message = message.replace("%inactivityresetin%", Messages.INACTIVITY_RESET_INFO_DEACTIVATED);
+            } else {
+                message = message.replace("%inactivityresetin%", Utilities.timeInMsToString(ieGroup.getResetAfterMs() + this.getLastLogin()));
+            }
+        }
         message = this.getRegionKind().getConvertedMessage(message);
         message = this.getEntityLimitGroup().getConvertedMessage(message);
         message = this.getFlagGroup().getConvertedMessage(message);
@@ -794,11 +821,28 @@ public abstract class Region implements Saveable {
             return this.getLastLogin() + InactivityExpirationGroup.DEFAULT.getResetAfterMs() < actualTime;
         }
         OfflinePlayer oPlayer = Bukkit.getOfflinePlayer(owners.get(0));
-        InactivityExpirationGroup ieGroup = InactivityExpirationGroup.getBestResetAfterMsTime(oPlayer, this.getRegionworld());
+        InactivityExpirationGroup ieGroup = InactivityExpirationGroup.getBestResetAfterMs(oPlayer, this.getRegionworld());
         if(ieGroup.isResetDisabled()) {
             return false;
         }
         return (this.getLastLogin() + ieGroup.getResetAfterMs() < actualTime);
+    }
+
+    public boolean isTakeOverReady() {
+        long actualTime = new GregorianCalendar().getTimeInMillis();
+        List<UUID> owners = this.getRegion().getOwners();
+        if(owners.size() == 0) {
+            if(InactivityExpirationGroup.DEFAULT.isTakeOverDisabled()) {
+                return false;
+            }
+            return this.getLastLogin() + InactivityExpirationGroup.DEFAULT.getTakeOverAfterMs() < actualTime;
+        }
+        OfflinePlayer oPlayer = Bukkit.getOfflinePlayer(owners.get(0));
+        InactivityExpirationGroup ieGroup = InactivityExpirationGroup.getBestTakeOverAfterMs(oPlayer, this.getRegionworld());
+        if(ieGroup.isTakeOverDisabled()) {
+            return false;
+        }
+        return (this.getLastLogin() + ieGroup.getTakeOverAfterMs() < actualTime);
     }
 
     public List<Entity> getInsideEntities(boolean includePlayers) {

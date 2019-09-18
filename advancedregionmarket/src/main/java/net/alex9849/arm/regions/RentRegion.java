@@ -15,6 +15,7 @@ import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.price.ContractPrice;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.regions.price.RentPrice;
+import net.alex9849.arm.util.Utilities;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.signs.SignData;
@@ -26,7 +27,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -201,100 +201,6 @@ public class RentRegion extends Region {
         } else {
             return 0;
         }
-    }
-
-    public String calcRemainingTime() {
-        String timetoString = ArmSettings.getRemainingTimeTimeformat();
-        timetoString = timetoString.replace("%countdown%", this.getCountdown(ArmSettings.isUseShortCountdown()));
-        timetoString = timetoString.replace("%date%", this.getDate(ArmSettings.getDateTimeformat()));
-
-
-        return timetoString;
-    }
-
-    private String getDate(String regex) {
-        GregorianCalendar actualtime = new GregorianCalendar();
-        GregorianCalendar payedTill = new GregorianCalendar();
-        payedTill.setTimeInMillis(this.payedTill);
-
-        if ((payedTill.getTimeInMillis() - actualtime.getTimeInMillis()) < 0) {
-            return Messages.REGION_INFO_EXPIRED;
-        }
-
-        SimpleDateFormat sdf = new SimpleDateFormat(regex);
-
-        return sdf.format(payedTill.getTime());
-    }
-
-    private String getCountdown(Boolean mini){
-        GregorianCalendar actualtime = new GregorianCalendar();
-        GregorianCalendar payedTill = new GregorianCalendar();
-        payedTill.setTimeInMillis(this.payedTill);
-
-        long remainingMilliSeconds = payedTill.getTimeInMillis() - actualtime.getTimeInMillis();
-
-        String sec;
-        String min;
-        String hour;
-        String days;
-        if(mini) {
-            sec = " " + Messages.TIME_SECONDS_SHORT;
-            min = " " + Messages.TIME_MINUTES_SHORT;
-            hour = " " + Messages.TIME_HOURS_SHORT;
-            days = " " + Messages.TIME_DAYS_SHORT;
-        } else {
-            sec = Messages.TIME_SECONDS;
-            min = Messages.TIME_MINUTES;
-            hour = Messages.TIME_HOURS;
-            days = Messages.TIME_DAYS;
-        }
-
-        if(remainingMilliSeconds < 0){
-            return Messages.REGION_INFO_EXPIRED;
-        }
-
-        long remainingDays = TimeUnit.DAYS.convert(remainingMilliSeconds, TimeUnit.MILLISECONDS);
-        remainingMilliSeconds = remainingMilliSeconds - (remainingDays * 1000 * 60 * 60 *24);
-
-        long remainingHours = TimeUnit.HOURS.convert(remainingMilliSeconds, TimeUnit.MILLISECONDS);
-        remainingMilliSeconds = remainingMilliSeconds - (remainingHours * 1000 * 60 * 60);
-
-        long remainingMinutes = TimeUnit.MINUTES.convert(remainingMilliSeconds, TimeUnit.MILLISECONDS);
-        remainingMilliSeconds = remainingMilliSeconds - (remainingMinutes * 1000 * 60);
-
-        long remainingSeconds = TimeUnit.SECONDS.convert(remainingMilliSeconds, TimeUnit.MILLISECONDS);
-
-
-        String timetoString = "";
-        if(remainingDays != 0) {
-            timetoString = timetoString + remainingDays + days;
-            if(mini){
-                return timetoString;
-            }
-        }
-        if(remainingHours != 0) {
-            timetoString = timetoString + remainingHours + hour;
-            if(mini){
-                return timetoString;
-            }
-        }
-        if(remainingMinutes != 0) {
-            timetoString = timetoString + remainingMinutes + min;
-            if(mini){
-                return timetoString;
-            }
-        }
-        if(remainingSeconds != 0) {
-            timetoString = timetoString + remainingSeconds + sec;
-            if(mini){
-                return timetoString;
-            }
-        }
-        if(remainingSeconds == 0 && remainingMinutes == 0 && remainingHours == 0 && remainingDays == 0){
-            timetoString = "0" + sec;
-        }
-
-        return timetoString;
     }
 
     public String getExtendPerClick(){
@@ -504,7 +410,7 @@ public class RentRegion extends Region {
     public String getConvertedMessage(String message) {
         message = super.getConvertedMessage(message);
         message = message.replace("%maxrenttime%", this.getMaxRentTimeString());
-        message = message.replace("%remaining%", this.calcRemainingTime());
+        message = message.replace("%remaining%", Utilities.timeInMsToString(this.getPayedTill()));
         message = message.replace("%extendperclick%", this.getExtendPerClick());
         message = message.replace("%priceperm2perweek%", Price.formatPrice(this.getPricePerM2PerWeek()));
         message = message.replace("%priceperm3perweek%", Price.formatPrice(this.getPricePerM3PerWeek()));

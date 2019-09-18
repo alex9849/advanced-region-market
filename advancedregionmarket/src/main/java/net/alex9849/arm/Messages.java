@@ -406,6 +406,10 @@ public class Messages {
     public static List<String> GUI_OWNER_MEMBER_INFO_LORE = new ArrayList<>();
     public static List<String> GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM_LORE = new ArrayList<>();
 
+    //TODO Add to messages.yml
+    public static String TAKEOVER_INFO_DEACTIVATED = "&4Deactivated";
+    public static String INACTIVITY_RESET_INFO_DEACTIVATED = "&4Deactivated";
+
 
     static void read(){
         Messages.generatedefaultConfig();

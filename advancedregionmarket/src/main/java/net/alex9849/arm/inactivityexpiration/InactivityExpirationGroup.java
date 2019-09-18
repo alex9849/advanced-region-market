@@ -53,8 +53,14 @@ public class InactivityExpirationGroup {
         inactivityExpirationGroup.add(inactivityExpirationGroup);
     }
 
-    public static InactivityExpirationGroup getBestResetAfterMsTime(OfflinePlayer oPlayer, World world) {
+    public static InactivityExpirationGroup getBestResetAfterMs(OfflinePlayer oPlayer, World world) {
         if(!AdvancedRegionMarket.getVaultPerms().isEnabled()) {
+            return UNLIMITED;
+        }
+        if(oPlayer == null) {
+            return DEFAULT;
+        }
+        if(AdvancedRegionMarket.getVaultPerms().playerHas(world.getName(), oPlayer, Permission.ARM_INACTIVITY_EXPIRATION + "unlimited")) {
             return UNLIMITED;
         }
         InactivityExpirationGroup selectedGroup = DEFAULT;
@@ -69,8 +75,14 @@ public class InactivityExpirationGroup {
         return selectedGroup;
     }
 
-    public static InactivityExpirationGroup getBestTakeOverAfterMsTime(OfflinePlayer oPlayer, World world) {
+    public static InactivityExpirationGroup getBestTakeOverAfterMs(OfflinePlayer oPlayer, World world) {
         if(!AdvancedRegionMarket.getVaultPerms().isEnabled()) {
+            return UNLIMITED;
+        }
+        if(oPlayer == null) {
+            return DEFAULT;
+        }
+        if(AdvancedRegionMarket.getVaultPerms().playerHas(world.getName(), oPlayer, Permission.ARM_INACTIVITY_EXPIRATION + "unlimited")) {
             return UNLIMITED;
         }
         InactivityExpirationGroup selectedGroup = DEFAULT;

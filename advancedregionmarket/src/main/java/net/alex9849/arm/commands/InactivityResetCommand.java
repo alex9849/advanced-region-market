@@ -16,12 +16,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class AutoResetCommand implements BasicArmCommand {
+public class InactivityResetCommand implements BasicArmCommand {
 
-    private final String rootCommand = "autoreset";
-    private final String regex = "(?i)autoreset [^;\n ]+ (false|true)";
-    private final String regex_massaction = "(?i)autoreset rk:[^;\n ]+ (false|true)";
-    private final List<String> usage = new ArrayList<>(Arrays.asList("autoreset [REGION] [true/false]", "autoreset rk:[REGIONKIND] [true/false]"));
+    private final String rootCommand = "inactivityreset";
+    private final String regex = "(?i)inactivityreset [^;\n ]+ (false|true)";
+    private final String regex_massaction = "(?i)inactivityreset rk:[^;\n ]+ (false|true)";
+    private final List<String> usage = new ArrayList<>(Arrays.asList("inactivityreset [REGION] [true/false]", "inactivityreset rk:[REGIONKIND] [true/false]"));
 
     @Override
     public boolean matchesRegex(String command) {
@@ -44,7 +44,7 @@ public class AutoResetCommand implements BasicArmCommand {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Player player = (Player) sender;
-        if(!sender.hasPermission(Permission.ADMIN_CHANGEAUTORESET)){
+        if(!sender.hasPermission(Permission.ADMIN_CHANGE_INACTIVITYRESET)){
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
 
@@ -79,9 +79,9 @@ public class AutoResetCommand implements BasicArmCommand {
         Boolean boolsetting = Boolean.parseBoolean(args[2]);
 
         for(Region region : regions) {
-            region.setAutoreset(boolsetting);
+            region.setInactivityReset(boolsetting);
         }
-        String sendmessage = Messages.PREFIX + "&6AutoReset " + Messages.convertEnabledDisabled(boolsetting) + " &6for " + selectedName + "&6!";
+        String sendmessage = Messages.PREFIX + "&6InactivityReset " + Messages.convertEnabledDisabled(boolsetting) + " &6for " + selectedName + "&6!";
         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', sendmessage));
 
         return true;
@@ -93,7 +93,7 @@ public class AutoResetCommand implements BasicArmCommand {
 
         if(args.length >= 1) {
             if (this.rootCommand.startsWith(args[0])) {
-                if(player.hasPermission(Permission.ADMIN_CHANGEAUTORESET)) {
+                if(player.hasPermission(Permission.ADMIN_CHANGE_INACTIVITYRESET)) {
                     if(args.length == 1) {
                         returnme.add(this.rootCommand);
                     } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {

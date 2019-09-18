@@ -62,8 +62,6 @@ import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.NumberFormat;
@@ -161,16 +159,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
         AdvancedRegionMarket.flagGroupManager = new FlagGroupManager(new File(this.getDataFolder() + "/flaggroups.yml"));
         AdvancedRegionMarket.regionManager = new RegionManager(new File(this.getDataFolder() + "/regions.yml"));
         getLogger().log(Level.INFO, "Regions loaded!");
-        loadAutoReset();
-        if(!connectSQL()) {
-            Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
-                @Override
-                public void run() {
-                    getLogger().log(Level.INFO, "SQL Login failed!");
-                    getLogger().log(Level.WARNING, "SQL Login wrong! Please check your config.yml!");
-                }
-            }, 0, 200);
-        }
 
         loadSignLinkingModeRegions();
         loadInactivityExpirationGroups();
@@ -182,7 +170,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         List<BasicArmCommand> commands = new ArrayList<>();
         String[] betweencmds = {};
         commands.add(new AddMemberCommand());
-        commands.add(new AutoResetCommand());
+        commands.add(new InactivityResetCommand());
         commands.add(new ContractPresetCommand());
         commands.add(new DeleteCommand());
         commands.add(new DoBlockResetCommand());
@@ -596,47 +584,8 @@ public class AdvancedRegionMarket extends JavaPlugin {
         Gui.setFlageditorResetItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.FlageditorResetItem")));
     }
 
-    private void loadAutoReset() {
-        ArmSettings.setEnableAutoReset(getConfig().getBoolean("AutoResetAndTakeOver.enableAutoReset"));
-        ArmSettings.setEnableTakeOver(getConfig().getBoolean("AutoResetAndTakeOver.enableTakeOver"));
-    }
-
-    public static void reconnectSQL() {
-        Bukkit.getServer().getLogger().log(Level.WARNING, "SQL connection lost. Reconnecting...");
-        AdvancedRegionMarket arm = AdvancedRegionMarket.getARM();
-        if(arm != null) {
-            if(!arm.connectSQL()) {
-                Bukkit.getLogger().log(Level.INFO, "SQL Login failed!");
-            }
-        }
-    }
-
     public static net.milkbowl.vault.permission.Permission getVaultPerms() {
         return vaultPerms;
-    }
-
-    public Boolean connectSQL(){
-        Boolean success = true;
-        if(ArmSettings.isEnableAutoReset() || ArmSettings.isEnableTakeOver()) {
-            String mysqlhost = getConfig().getString("AutoResetAndTakeOver.mysql-server");
-            String mysqldatabase = getConfig().getString("AutoResetAndTakeOver.mysql-database");
-            String mysqlpass = getConfig().getString("AutoResetAndTakeOver.mysql-password");
-            String mysqluser = getConfig().getString("AutoResetAndTakeOver.mysql-user");
-            ArmSettings.setSqlPrefix(getConfig().getString("AutoResetAndTakeOver.mysql-prefix"));
-            ArmSettings.setAutoResetAfter(getConfig().getInt("AutoResetAndTakeOver.autoresetAfter"));
-            ArmSettings.setTakeoverAfter(getConfig().getInt("AutoResetAndTakeOver.takeoverAfter"));
-
-            try {
-                Class.forName("com.mysql.jdbc.Driver").newInstance();
-                Connection con = DriverManager.getConnection("jdbc:mysql://" + mysqlhost + "/" + mysqldatabase, mysqluser, mysqlpass);
-                ArmSettings.setStmt(con.createStatement());
-                AdvancedRegionMarket.checkOrCreateMySql(mysqldatabase);
-                getLogger().log(Level.INFO, "SQL Login successful!");
-            } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
-                success = false;
-            }
-        }
-        return success;
     }
 
     private void loadGroups(){
@@ -1473,7 +1422,23 @@ public class AdvancedRegionMarket extends JavaPlugin {
         pluginConfig.set("InactivityExpiration.examplegroup2.takeOverAfter", "50d");
         pluginConfig.set("InactivityExpiration.examplegroup3.resetAfter", "none");
         pluginConfig.set("InactivityExpiration.examplegroup3.takeOverAfter", "none");
-
+        pluginConfig.set("AutoResetAndTakeOver", null);
         saveConfig();
+
+        File regionConfDic = new File(this.getDataFolder() + "/regions.yml");
+        YamlConfiguration regionConf = YamlConfiguration.loadConfiguration(regionConfDic);
+        ArrayList<String> worlds = new ArrayList<String>(regionConf.getConfigurationSection("Regions").getKeys(false));
+        if(worlds != null) {
+            for(int y = 0; y < worlds.size(); y++) {
+                ArrayList<String> regions = new ArrayList<String>(regionConf.getConfigurationSection("Regions." + worlds.get(y)).getKeys(false));
+                if(regions != null) {
+                    for (int i = 0; i < regions.size(); i++) {
+                        boolean autoreset = regionConf.getBoolean("Regions." + worlds.get(y) + "." + regions.get(i) + ".autoreset");
+                        regionConf.set("Regions." + worlds.get(y) + "." + regions.get(i) + ".inactivityReset", autoreset);
+                    }
+                }
+            }
+        }
+        regionConf.save(regionConfDic);
     }
 }

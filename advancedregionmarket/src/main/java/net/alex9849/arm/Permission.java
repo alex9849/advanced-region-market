@@ -3,7 +3,7 @@ package net.alex9849.arm;
 import org.bukkit.command.CommandSender;
 
 public class Permission {
-    public static final String ADMIN_CHANGEAUTORESET = "arm.admin.changeautoreset";
+    public static final String ADMIN_CHANGE_INACTIVITYRESET = "arm.admin.changeinactivityreset";
     public static final String ADMIN_CREATE_SELL = "arm.admin.create.sellregion";
     public static final String ADMIN_CREATE_RENT = "arm.admin.create.rentregion";
     public static final String ADMIN_CREATE_CONTRACT = "arm.admin.create.contractregion";

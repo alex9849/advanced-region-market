@@ -39,27 +39,6 @@ DefaultAutoprice:
   maxRentTime: 7d
   autoPriceCalculation: per_m2
 
-# If you activate one of these functions you have to fill in the MySQL data
-AutoResetAndTakeOver:
-  # If enabled the region will be resetted and released after the
-  # owner was not online for the amount of days standing at 'autoresetAfter'.
-  # It's recommended for BUNGEECORD servers to install ARMProxy in order to
-  # update the 'last online'-table if a user joined on another server in your network
-  enableAutoReset: false
-  autoresetAfter: 60
-  # If enabled all members of a region will have the opportunity to take over a region
-  # if the owner of it was not online for the amount of days standing at 'takeoverAfter'
-  # The members will be notified via GUI.
-  # It's recommended for BUNGEECORD servers to install ARMProxy in order to
-  # update the 'last online'-table if a user joined on another server in your network
-  enableTakeOver: false
-  takeoverAfter: 50
-  mysql-server: 'localhost'
-  mysql-database: 'database'
-  mysql-password: 'password'
-  mysql-user: 'user'
-  mysql-prefix: 'arm_'
-
 # Limits can be assigned to players by giving them the permission arm.limit.LIMITGROUP
 # you can set limits by writing a regionkind and the limit behind it. Not existing regionkinds
 # will be ignored. If you want to limit regions without a kind use 'Default'. If you want to

@@ -16,13 +16,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class AutoResetCommand implements BasicArmCommand {
-    private final String rootCommand = "autoreset";
-    private final String regex_set = "(?i)autoreset (false|true)";
-    private final List<String> usage = new ArrayList<>(Arrays.asList("autoreset (true/false)"));
+public class InactivityResetResetCommand implements BasicArmCommand {
+    private final String rootCommand = "inactivityreset";
+    private final String regex_set = "(?i)inactivityreset (false|true)";
+    private final List<String> usage = new ArrayList<>(Arrays.asList("inactivityreset (true/false)"));
     private PresetType presetType;
 
-    public AutoResetCommand(PresetType presetType) {
+    public InactivityResetResetCommand(PresetType presetType) {
         this.presetType = presetType;
     }
 

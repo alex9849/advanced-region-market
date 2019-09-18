@@ -28,10 +28,6 @@ public class ArmSettings {
 
     private static String REMAINING_TIME_TIMEFORMAT = "%date%";
     private static String DATE_TIMEFORMAT = "dd.MM.yyyy hh:mm";
-    private static int autoResetAfter;
-    private static int takeoverAfter;
-    private static boolean enableAutoReset;
-    private static boolean enableTakeOver;
     private static Statement stmt;
     private static String sqlPrefix;
 
@@ -123,22 +119,6 @@ public class ArmSettings {
         DATE_TIMEFORMAT = dateTimeformat;
     }
 
-    protected static void setAutoResetAfter(int autoResetAfter) {
-        ArmSettings.autoResetAfter = autoResetAfter;
-    }
-
-    protected static void setTakeoverAfter(int takeoverAfter) {
-        ArmSettings.takeoverAfter = takeoverAfter;
-    }
-
-    protected static void setEnableAutoReset(boolean enableAutoReset) {
-        ArmSettings.enableAutoReset = enableAutoReset;
-    }
-
-    protected static void setEnableTakeOver(boolean enableTakeOver) {
-        ArmSettings.enableTakeOver = enableTakeOver;
-    }
-
     protected static void setStmt(Statement stmt) {
         ArmSettings.stmt = stmt;
     }
@@ -189,22 +169,6 @@ public class ArmSettings {
 
     public static String getDateTimeformat() {
         return DATE_TIMEFORMAT;
-    }
-
-    public static int getAutoResetAfter() {
-        return autoResetAfter;
-    }
-
-    public static int getTakeoverAfter() {
-        return takeoverAfter;
-    }
-
-    public static boolean isEnableAutoReset() {
-        return enableAutoReset;
-    }
-
-    public static boolean isEnableTakeOver() {
-        return enableTakeOver;
     }
 
     public static boolean isRegionInfoParticleBorder() {

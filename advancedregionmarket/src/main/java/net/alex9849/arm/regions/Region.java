@@ -41,7 +41,7 @@ public abstract class Region implements Saveable {
     private HashSet<Integer> builtblocks;
     private Price price;
     private boolean sold;
-    private boolean autoreset;
+    private boolean inactivityReset;
     private boolean isHotel;
     private long lastreset;
     private long lastLogin;
@@ -60,7 +60,7 @@ public abstract class Region implements Saveable {
     private int extraTotalEntitys;
     Integer m2Amount;
 
-    public Region(WGRegion region, World regionworld, List<SignData> sellsign, Price price, Boolean sold, Boolean autoreset,
+    public Region(WGRegion region, World regionworld, List<SignData> sellsign, Price price, Boolean sold, Boolean inactivityReset,
                   Boolean isHotel, Boolean doBlockReset, RegionKind regionKind, FlagGroup flagGroup, Location teleportLoc, long lastreset,
                   long lastLogin, boolean isUserResettable, List<Region> subregions, int allowedSubregions, EntityLimitGroup entityLimitGroup,
                   HashMap<EntityLimit.LimitableEntityType, Integer> extraEntitys, int boughtExtraTotalEntitys){
@@ -71,7 +71,7 @@ public abstract class Region implements Saveable {
         this.regionworld = regionworld;
         this.regionKind = regionKind;
         this.flagGroup = flagGroup;
-        this.autoreset = autoreset;
+        this.inactivityReset = inactivityReset;
         this.isDoBlockReset = doBlockReset;
         this.lastreset = lastreset;
         this.builtblocks = new HashSet<>();
@@ -402,12 +402,8 @@ public abstract class Region implements Saveable {
 
     public abstract void updateRegion();
 
-    public boolean getAutoreset() {
-        return autoreset;
-    }
-
-    public void setAutoreset(Boolean state){
-        this.autoreset = state;
+    public void setInactivityReset(Boolean state){
+        this.inactivityReset = state;
         this.queueSave();
     }
 
@@ -605,8 +601,8 @@ public abstract class Region implements Saveable {
         return this.lastreset;
     }
 
-    protected boolean isAutoreset() {
-        return this.autoreset;
+    protected boolean isInactivityResetEnabled() {
+        return this.inactivityReset;
     }
 
     private String getOwnerName() {
@@ -678,7 +674,7 @@ public abstract class Region implements Saveable {
         if(message.contains("%ishotel%")) message = message.replace("%ishotel%", Messages.convertYesNo(this.isHotel()));
         if(message.contains("%isuserresettable%")) message = message.replace("%isuserresettable%", Messages.convertYesNo(this.isUserResettable()));
         if(message.contains("%isdoblockreset%")) message = message.replace("%isdoblockreset%", Messages.convertYesNo(this.isDoBlockReset()));
-        if(message.contains("%isinactivityreset%")) message = message.replace("%isinactivityreset%", Messages.convertYesNo(this.isAutoreset()));
+        if(message.contains("%isinactivityreset%")) message = message.replace("%isinactivityreset%", Messages.convertYesNo(this.isInactivityResetEnabled()));
         if(message.contains("%lastownerlogin%")) message = message.replace("%lastownerlogin%", Utilities.getDate(this.getLastLogin(), true, ""));
         if(message.contains("%autoprice%")) {
             String autopriceInfo = "";
@@ -722,7 +718,7 @@ public abstract class Region implements Saveable {
             message = message.replace("%members%", membersInfo);
         }
         if(message.contains("%takeoverin%")) {
-            if(!this.isAutoreset()) {
+            if(!this.isInactivityResetEnabled()) {
                 message = message.replace("%takeoverin%", Messages.TAKEOVER_INFO_DEACTIVATED);
             }
             if(!this.isSold()) {
@@ -743,7 +739,7 @@ public abstract class Region implements Saveable {
             }
         }
         if(message.contains("%inactivityresetin%")) {
-            if(!this.isAutoreset()) {
+            if(!this.isInactivityResetEnabled()) {
                 message = message.replace("%inactivityresetin%", Messages.INACTIVITY_RESET_INFO_DEACTIVATED);
             }
             if(!this.isSold()) {
@@ -794,6 +790,9 @@ public abstract class Region implements Saveable {
     }
 
     public boolean isOwnerInactive() {
+        if(!this.isInactivityResetEnabled()) {
+            return false;
+        }
         long actualTime = new GregorianCalendar().getTimeInMillis();
         List<UUID> owners = this.getRegion().getOwners();
         if(owners.size() == 0) {
@@ -811,6 +810,9 @@ public abstract class Region implements Saveable {
     }
 
     public boolean isTakeOverReady() {
+        if(!this.isInactivityResetEnabled()) {
+            return false;
+        }
         long actualTime = new GregorianCalendar().getTimeInMillis();
         List<UUID> owners = this.getRegion().getOwners();
         if(owners.size() == 0) {
@@ -990,7 +992,7 @@ public abstract class Region implements Saveable {
         if(!this.isSubregion()) {
             yamlConfiguration.set("kind", this.getRegionKind().getName());
             yamlConfiguration.set("flagGroup", this.flagGroup.getName());
-            yamlConfiguration.set("autoreset", this.isAutoreset());
+            yamlConfiguration.set("inactivityReset", this.isInactivityResetEnabled());
             yamlConfiguration.set("entityLimitGroup", this.getEntityLimitGroup().getName());
             yamlConfiguration.set("doBlockReset", this.isDoBlockReset());
             yamlConfiguration.set("allowedSubregions", this.getAllowedSubregions());

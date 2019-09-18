@@ -17,7 +17,6 @@ import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.regions.price.RentPrice;
 import net.alex9849.arm.util.YamlFileManager;
 import net.alex9849.exceptions.InputException;
-import net.alex9849.exceptions.SchematicNotFoundException;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.signs.SignAttachment;
 import net.alex9849.signs.SignData;
@@ -423,7 +422,7 @@ public class RegionManager extends YamlFileManager<Region> {
 
         fileupdated |= this.addDefault(section,"sold", false);
         fileupdated |= this.addDefault(section,"kind", "default");
-        fileupdated |= this.addDefault(section,"autoreset", true);
+        fileupdated |= this.addDefault(section,"inactivityReset", true);
         fileupdated |= this.addDefault(section,"lastreset", 1);
         fileupdated |= this.addDefault(section,"isHotel", false);
         fileupdated |= this.addDefault(section,"entityLimitGroup", "default");
@@ -521,23 +520,6 @@ public class RegionManager extends YamlFileManager<Region> {
             }
         }
         return returnme;
-    }
-
-    public boolean autoResetRegionsFromOwner(UUID uuid){
-        List<Region> regions = this.getRegionsByOwner(uuid);
-        for(Region region : regions){
-            if(region.getAutoreset()){
-                region.unsell();
-                if(region.isDoBlockReset()) {
-                    try {
-                        region.resetBlocks();
-                    } catch (SchematicNotFoundException e) {
-                        Bukkit.getLogger().log(Level.WARNING, "Could not find schematic file for region " + region.getRegion().getId() + "in world " + region.getRegionworld().getName());
-                    }
-                }
-            }
-        }
-        return true;
     }
 
     public void teleportToFreeRegion(RegionKind type, Player player) throws InputException {

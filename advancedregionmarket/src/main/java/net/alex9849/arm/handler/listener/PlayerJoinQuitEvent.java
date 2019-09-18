@@ -1,7 +1,6 @@
 package net.alex9849.arm.handler.listener;
 
 import net.alex9849.arm.AdvancedRegionMarket;
-import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.gui.Gui;
 import net.alex9849.arm.presets.ActivePresetManager;
 import net.alex9849.arm.regions.Region;
@@ -24,23 +23,20 @@ public class PlayerJoinQuitEvent implements Listener {
     public void setLastLoginAndOpenOvertake(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         List<Region> regions = AdvancedRegionMarket.getRegionManager().getRegionsByOwner(player.getUniqueId());
+        Plugin plugin = AdvancedRegionMarket.getARM();
 
         for(Region region : regions) {
             region.setLastLogin();
         }
 
-        if(ArmSettings.isEnableTakeOver()){
-            Plugin plugin = AdvancedRegionMarket.getARM();
-            Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-                @Override
-                public void run() {
-                    PlayerJoinQuitEvent.doOvertakeCheck(player);
-                }
-            }, 40L);
-        }
+        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+            @Override
+            public void run() {
+                PlayerJoinQuitEvent.doTakeOverCheck(player);
+            }
+        }, 40L);
 
         if(RentRegion.isSendExpirationWarning()) {
-            Plugin plugin = AdvancedRegionMarket.getARM();
             Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
                 @Override
                 public void run() {
@@ -57,7 +53,7 @@ public class PlayerJoinQuitEvent implements Listener {
         SubRegionCreator.removeSubRegioncreator(event.getPlayer());
     }
 
-    public static void doOvertakeCheck(Player player) {
+    public static void doTakeOverCheck(Player player) {
         List<Region> regions = AdvancedRegionMarket.getRegionManager().getRegionsByMember(player.getUniqueId());
         List<Region> takeoverableRegions = new ArrayList<>();
         for(Region region : regions) {

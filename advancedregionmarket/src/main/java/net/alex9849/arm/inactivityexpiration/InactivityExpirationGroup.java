@@ -57,7 +57,7 @@ public class InactivityExpirationGroup {
         if(!AdvancedRegionMarket.getVaultPerms().isEnabled()) {
             return UNLIMITED;
         }
-        if(oPlayer == null) {
+        if(oPlayer == null || oPlayer.getName() == null) {
             return DEFAULT;
         }
         if(AdvancedRegionMarket.getVaultPerms().playerHas(world.getName(), oPlayer, Permission.ARM_INACTIVITY_EXPIRATION + "unlimited")) {
@@ -79,7 +79,7 @@ public class InactivityExpirationGroup {
         if(!AdvancedRegionMarket.getVaultPerms().isEnabled()) {
             return UNLIMITED;
         }
-        if(oPlayer == null) {
+        if(oPlayer == null || oPlayer.getName() == null) {
             return DEFAULT;
         }
         if(AdvancedRegionMarket.getVaultPerms().playerHas(world.getName(), oPlayer, Permission.ARM_INACTIVITY_EXPIRATION + "unlimited")) {

@@ -1391,11 +1391,18 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegiontransferMemberNotOnline", "&4Member not online!");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegiontransferLimitError", "&4Transfer aborted! (Region would exceed players limit)");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUICloseWindow", "&6Close window");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.TakeOverItemLore", new ArrayList<>(Arrays.asList("&aYou are a member of this region. The owner of it hasn''t been",
-                "&aonline for a long time. You can transfer the owner rights to your", "&aaccount for free. The actual owner of it will become a member of the region.",
-                "&cIf the region does not get transferred or the owner does not come online",
-                "&cwithin &7%inactivityresetin% &cthe region will be resetted and everybody on it",
-                "&cwill lose their rights. Afterwards it will go back for sale!")));
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.TakeOverItemLore", new ArrayList<>(Arrays.asList("&aYou are a member of this region.",
+                "&aThe owner of it hasn''t been",
+                "&aonline for a long time. You",
+                "&acan transfer the owner rights to your",
+                "&aaccount for free. The actual owner",
+                "&aof it will become a member of the region.",
+                "&cIf the region does not get transferred",
+                "&cor the owner does not come online",
+                "&cwithin &7%inactivityresetin% &cthe",
+                "&cregion will be resetted and everybody on it",
+                "&cwill lose their rights.",
+                "&cAfterwards it will go back for sale!")));
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.OwnerMemberlistInfo", "&6Adding members:");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.OwnerMemberlistInfoLore", new ArrayList<>(Arrays.asList("&aYou can add members to your region",
                 "&ain order to build with them together", "&aYou can add members with:",

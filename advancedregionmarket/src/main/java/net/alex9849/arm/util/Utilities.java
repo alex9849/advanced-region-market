@@ -31,7 +31,7 @@ public class Utilities {
         return time;
     }
 
-    public static String getCountdown(Boolean shortedCountdown, long endTimeInMs){
+    public static String getCountdown(Boolean shortedCountdown, long endTimeInMs, boolean showZeroIfDateInThePast, String ifDateInPastReplacement){
         GregorianCalendar actualtime = new GregorianCalendar();
         GregorianCalendar payedTill = new GregorianCalendar();
         payedTill.setTimeInMillis(endTimeInMs);
@@ -54,8 +54,8 @@ public class Utilities {
             days = Messages.TIME_DAYS;
         }
 
-        if(remainingMilliSeconds < 0){
-            return Messages.REGION_INFO_EXPIRED;
+        if(remainingMilliSeconds < 0 && !showZeroIfDateInThePast){
+            return ifDateInPastReplacement;
         }
 
         long remainingDays = TimeUnit.DAYS.convert(remainingMilliSeconds, TimeUnit.MILLISECONDS);
@@ -102,13 +102,13 @@ public class Utilities {
         return timetoString;
     }
 
-    public static String getDate(long dateInMs) {
+    public static String getDate(long dateInMs, boolean showDateIfDateInThePast, String ifDateInPastReplacement) {
         GregorianCalendar actualtime = new GregorianCalendar();
         GregorianCalendar payedTill = new GregorianCalendar();
         payedTill.setTimeInMillis(dateInMs);
 
-        if ((payedTill.getTimeInMillis() - actualtime.getTimeInMillis()) < 0) {
-            return Messages.REGION_INFO_EXPIRED;
+        if ((payedTill.getTimeInMillis() - actualtime.getTimeInMillis()) < 0 && !showDateIfDateInThePast) {
+            return ifDateInPastReplacement;
         }
 
         SimpleDateFormat sdf = new SimpleDateFormat(ArmSettings.getDateTimeformat());
@@ -116,10 +116,10 @@ public class Utilities {
         return sdf.format(payedTill.getTime());
     }
 
-    public static String timeInMsToString(long endTime) {
+    public static String timeInMsToString(long endTime, boolean showTimeIfDateInThePast, String ifDateInPastReplacement) {
         String timetoString = ArmSettings.getRemainingTimeTimeformat();
-        timetoString = timetoString.replace("%countdown%", Utilities.getCountdown(ArmSettings.isUseShortCountdown(), endTime));
-        timetoString = timetoString.replace("%date%", Utilities.getDate(endTime));
+        timetoString = timetoString.replace("%countdown%", Utilities.getCountdown(ArmSettings.isUseShortCountdown(), endTime, showTimeIfDateInThePast, ifDateInPastReplacement));
+        timetoString = timetoString.replace("%date%", Utilities.getDate(endTime, showTimeIfDateInThePast, ifDateInPastReplacement));
         return timetoString;
     }
 

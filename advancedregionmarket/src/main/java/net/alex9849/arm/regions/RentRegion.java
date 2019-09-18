@@ -411,7 +411,7 @@ public class RentRegion extends Region {
     public String getConvertedMessage(String message) {
         message = super.getConvertedMessage(message);
         message = message.replace("%maxrenttime%", this.getMaxRentTimeString());
-        message = message.replace("%remaining%", Utilities.timeInMsToString(this.getPayedTill()));
+        message = message.replace("%remaining%", Utilities.timeInMsToString(this.getPayedTill(), false, Messages.REGION_INFO_EXPIRED));
         message = message.replace("%extendperclick%", this.getExtendPerClick());
         message = message.replace("%priceperm2perweek%", Price.formatPrice(this.getPricePerM2PerWeek()));
         message = message.replace("%priceperm3perweek%", Price.formatPrice(this.getPricePerM3PerWeek()));

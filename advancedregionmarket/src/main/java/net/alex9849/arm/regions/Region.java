@@ -679,6 +679,7 @@ public abstract class Region implements Saveable {
         if(message.contains("%isuserresettable%")) message = message.replace("%isuserresettable%", Messages.convertYesNo(this.isUserResettable()));
         if(message.contains("%isdoblockreset%")) message = message.replace("%isdoblockreset%", Messages.convertYesNo(this.isDoBlockReset()));
         if(message.contains("%isinactivityreset%")) message = message.replace("%isinactivityreset%", Messages.convertYesNo(this.isAutoreset()));
+        if(message.contains("%lastownerlogin%")) message = message.replace("%lastownerlogin%", Utilities.getDate(this.getLastLogin(), true, ""));
         if(message.contains("%autoprice%")) {
             String autopriceInfo = "";
             if(this.getPriceObject().isAutoPrice()) {
@@ -736,15 +737,17 @@ public abstract class Region implements Saveable {
             if(ieGroup.isTakeOverDisabled()) {
                 message = message.replace("%takeoverin%", Messages.TAKEOVER_INFO_DEACTIVATED);
             } else {
-                message = message.replace("%takeoverin%", Utilities.timeInMsToString(ieGroup.getTakeOverAfterMs() + this.getLastLogin()));
+                message = message.replace("%takeoverin%",
+                        Utilities.timeInMsToString(ieGroup.getTakeOverAfterMs() + this.getLastLogin(), false,
+                                Messages.TAKEOVER_INFO_POSSIBLE));
             }
         }
         if(message.contains("%inactivityresetin%")) {
             if(!this.isAutoreset()) {
-                message = message.replace("%takeoverin%", Messages.INACTIVITY_RESET_INFO_DEACTIVATED);
+                message = message.replace("%inactivityresetin%", Messages.INACTIVITY_RESET_INFO_DEACTIVATED);
             }
             if(!this.isSold()) {
-                message = message.replace("%takeoverin%", Messages.INACTIVITY_RESET_INFO_REGION_NOT_SOLD);
+                message = message.replace("%inactivityresetin%", Messages.INACTIVITY_RESET_INFO_REGION_NOT_SOLD);
             }
             List<UUID> ownerslist = this.getRegion().getOwners();
             OfflinePlayer oPlayer = null;
@@ -755,7 +758,9 @@ public abstract class Region implements Saveable {
             if(ieGroup.isResetDisabled()) {
                 message = message.replace("%inactivityresetin%", Messages.INACTIVITY_RESET_INFO_DEACTIVATED);
             } else {
-                message = message.replace("%inactivityresetin%", Utilities.timeInMsToString(ieGroup.getResetAfterMs() + this.getLastLogin()));
+                message = message.replace("%inactivityresetin%",
+                        Utilities.timeInMsToString(ieGroup.getResetAfterMs() + this.getLastLogin(),
+                                false, Messages.INACTIVITY_RESET_INFO_POSSIBLE));
             }
         }
         message = this.getRegionKind().getConvertedMessage(message);

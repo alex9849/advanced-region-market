@@ -50,7 +50,7 @@ public class InactivityExpirationGroup {
     }
 
     public static void add(InactivityExpirationGroup inactivityExpirationGroup) {
-        inactivityExpirationGroup.add(inactivityExpirationGroup);
+        inactivityExpirationGroupSet.add(inactivityExpirationGroup);
     }
 
     public static InactivityExpirationGroup getBestResetAfterMs(OfflinePlayer oPlayer, World world) {

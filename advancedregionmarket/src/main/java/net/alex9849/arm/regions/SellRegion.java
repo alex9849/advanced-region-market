@@ -106,6 +106,7 @@ public class SellRegion extends Region {
         this.setSold(true);
         this.getRegion().deleteMembers();
         this.getRegion().setOwner(player);
+        this.setLastLogin();
 
         this.updateSigns();
         this.getFlagGroup().applyToRegion(this, FlagGroup.ResetMode.COMPLETE);

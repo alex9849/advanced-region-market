@@ -162,6 +162,7 @@ public class RentRegion extends Region {
             GregorianCalendar actualtime = new GregorianCalendar();
             this.payedTill = actualtime.getTimeInMillis() + this.rentExtendPerClick;
         }
+        this.setLastLogin();
         this.setSold(true);
         this.getRegion().deleteMembers();
         this.getRegion().setOwner(player);

@@ -409,6 +409,8 @@ public class Messages {
     //TODO Add to messages.yml
     public static String TAKEOVER_INFO_DEACTIVATED = "&4Deactivated";
     public static String INACTIVITY_RESET_INFO_DEACTIVATED = "&4Deactivated";
+    public static String TAKEOVER_INFO_REGION_NOT_SOLD = "&4Region not sold!";
+    public static String INACTIVITY_RESET_INFO_REGION_NOT_SOLD = "&4Region not sold";
 
 
     static void read(){
@@ -1413,10 +1415,10 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegiontransferMemberNotOnline", "&4Member not online!");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegiontransferLimitError", "&4Transfer aborted! (Region would exceed players limit)");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUICloseWindow", "&6Close window");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.TakeOverItemLore", new ArrayList<>(Arrays.asList("&aYou are a member of this region. The owner of it was not online",
-                "&afor more than&7 50 &adays. You can transfer the owner rights to your", "&aaccount for free. The actual owner of it will become a member of it.",
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.TakeOverItemLore", new ArrayList<>(Arrays.asList("&aYou are a member of this region. The owner of it hasn''t been",
+                "&aonline for a long time. You can transfer the owner rights to your", "&aaccount for free. The actual owner of it will become a member of the region.",
                 "&cIf the region does not get transferred or the owner does not come online",
-                "&cin the next&7 %days% &cdays the region will be resetted and everybody on it",
+                "&cwithin &7%inactivityresetin% &cthe region will be resetted and everybody on it",
                 "&cwill lose their rights. Afterwards it will go back for sale!")));
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.OwnerMemberlistInfo", "&6Adding members:");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.OwnerMemberlistInfoLore", new ArrayList<>(Arrays.asList("&aYou can add members to your region",
@@ -1568,8 +1570,10 @@ public class Messages {
                 "&9Members: &e%members%",
                 "&9Regionkind: &e%regionkinddisplay% &9FlagGroup: &e%flaggroup%",
                 "&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%",
-                "&9Autoreset: &e%isautoreset%", "&9UserResettable: &e%isuserresettable%",
-                "&9DoBlockReset: &e%isdoblockreset% &9Autoprice: &e%autoprice%",
+                "&9Autoprice: &e%autoprice%", "&9UserResettable: &e%isuserresettable%",
+                "&9DoBlockReset: &e%isdoblockreset% &9InactivityResetEnabled: &e%isinactivityreset%",
+                "&9Owners last login: &e%lastownerlogin% &9TakeOver possible in: %takeoverin%",
+                "&9InactivityReset in: %inactivityresetin%",
                 "&9Allowed Subregions: &e%subregionlimit%",
                 "&9Subregions: &e%subregions%")));
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoRentregionAdmin", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
@@ -1581,8 +1585,10 @@ public class Messages {
                 "&9Members: &e%members%",
                 "&9Regionkind: &e%regionkinddisplay% &9FlagGroup: &e%flaggroup%",
                 "&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%",
-                "&9Autoreset: &e%isautoreset%", "&9UserResettable: &e%isuserresettable%",
-                "&9DoBlockReset: &e%isdoblockreset% &9Autoprice: &e%autoprice%",
+                "&9Autoprice: &e%autoprice%", "&9UserResettable: &e%isuserresettable%",
+                "&9DoBlockReset: &e%isdoblockreset% &9InactivityResetEnabled: &e%isinactivityreset%",
+                "&9Owners last login: &e%lastownerlogin% &9TakeOver possible in: %takeoverin%",
+                "&9InactivityReset in: %inactivityresetin%",
                 "&9Allowed Subregions: &e%subregionlimit%",
                 "&9Subregions: &e%subregions%")));
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoContractregionAdmin", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
@@ -1594,8 +1600,10 @@ public class Messages {
                 "&9Members: &e%members%",
                 "&9Regionkind: &e%regionkinddisplay% &9FlagGroup: &e%flaggroup%",
                 "&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%",
-                "&9Autoreset: &e%isautoreset%", "&9UserResettable: &e%isuserresettable%",
-                "&9DoBlockReset: &e%isdoblockreset% &9Autoprice: &e%autoprice%",
+                "&9Autoprice: &e%autoprice%", "&9UserResettable: &e%isuserresettable%",
+                "&9DoBlockReset: &e%isdoblockreset% &9InactivityResetEnabled: &e%isinactivityreset%",
+                "&9Owners last login: &e%lastownerlogin% &9TakeOver possible in: %takeoverin%",
+                "&9InactivityReset in: %inactivityresetin%",
                 "&9Allowed Subregions: &e%subregionlimit%",
                 "&9Subregions: &e%subregions%")));
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoSellregionUser", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
@@ -1606,8 +1614,10 @@ public class Messages {
                 "&9Members: &e%members%",
                 "&9Regionkind: &e%regionkinddisplay% &9FlagGroup: &e%flaggroup%",
                 "&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%",
-                "&9Autoreset: &e%isautoreset%", "&9UserResettable: &e%isuserresettable%",
-                "&9DoBlockReset: &e%isdoblockreset% &9Autoprice: &e%autoprice%",
+                "&9Autoprice: &e%autoprice%", "&9UserResettable: &e%isuserresettable%",
+                "&9DoBlockReset: &e%isdoblockreset% &9InactivityResetEnabled: &e%isinactivityreset%",
+                "&9Owners last login: &e%lastownerlogin% &9TakeOver possible in: %takeoverin%",
+                "&9InactivityReset in: %inactivityresetin%",
                 "&9Allowed Subregions: &e%subregionlimit%",
                 "&9Subregions: &e%subregions%")));
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoRentregionUser", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
@@ -1619,8 +1629,10 @@ public class Messages {
                 "&9Members: &e%members%",
                 "&9Regionkind: &e%regionkinddisplay% &9FlagGroup: &e%flaggroup%",
                 "&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%",
-                "&9Autoreset: &e%isautoreset%", "&9UserResettable: &e%isuserresettable%",
-                "&9DoBlockReset: &e%isdoblockreset% &9Autoprice: &e%autoprice%",
+                "&9Autoprice: &e%autoprice%", "&9UserResettable: &e%isuserresettable%",
+                "&9DoBlockReset: &e%isdoblockreset% &9InactivityResetEnabled: &e%isinactivityreset%",
+                "&9Owners last login: &e%lastownerlogin% &9TakeOver possible in: %takeoverin%",
+                "&9InactivityReset in: %inactivityresetin%",
                 "&9Allowed Subregions: &e%subregionlimit%",
                 "&9Subregions: &e%subregions%")));
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoContractregionUser", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
@@ -1632,8 +1644,10 @@ public class Messages {
                 "&9Members: &e%members%",
                 "&9Regionkind: &e%regionkinddisplay% &9FlagGroup: &e%flaggroup%",
                 "&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%",
-                "&9Autoreset: &e%isautoreset%", "&9UserResettable: &e%isuserresettable%",
-                "&9DoBlockReset: &e%isdoblockreset% &9Autoprice: &e%autoprice%",
+                "&9Autoprice: &e%autoprice%", "&9UserResettable: &e%isuserresettable%",
+                "&9DoBlockReset: &e%isdoblockreset% &9InactivityResetEnabled: &e%isinactivityreset%",
+                "&9Owners last login: &e%lastownerlogin% &9TakeOver possible in: %takeoverin%",
+                "&9InactivityReset in: %inactivityresetin%",
                 "&9Allowed Subregions: &e%subregionlimit%",
                 "&9Subregions: &e%subregions%")));
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoSellregionSubregion", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
@@ -1644,8 +1658,10 @@ public class Messages {
                 "&9Members: &e%members%",
                 "&9Regionkind: &e%regionkinddisplay% &9FlagGroup: &e%flaggroup%",
                 "&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%",
-                "&9Autoreset: &e%isautoreset%", "&9UserResettable: &e%isuserresettable%",
-                "&9DoBlockReset: &e%isdoblockreset% &9Autoprice: &e%autoprice%")));
+                "&9Autoprice: &e%autoprice%", "&9UserResettable: &e%isuserresettable%",
+                "&9DoBlockReset: &e%isdoblockreset% &9InactivityResetEnabled: &e%isinactivityreset%",
+                "&9Owners last login: &e%lastownerlogin% &9TakeOver possible in: %takeoverin%",
+                "&9InactivityReset in: %inactivityresetin%")));
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoRentregionSubregion", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
                 "&9ID: &e%regionid% &7(Type: &r%selltype%&7, Subregion)",
                 "&9Sold: &e%issold%",
@@ -1655,8 +1671,10 @@ public class Messages {
                 "&9Members: &e%members%",
                 "&9Regionkind: &e%regionkinddisplay% &9FlagGroup: &e%flaggroup%",
                 "&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%",
-                "&9Autoreset: &e%isautoreset%", "&9UserResettable: &e%isuserresettable%",
-                "&9DoBlockReset: &e%isdoblockreset% &9Autoprice: &e%autoprice%")));
+                "&9Autoprice: &e%autoprice%", "&9UserResettable: &e%isuserresettable%",
+                "&9DoBlockReset: &e%isdoblockreset% &9InactivityResetEnabled: &e%isinactivityreset%",
+                "&9Owners last login: &e%lastownerlogin% &9TakeOver possible in: %takeoverin%",
+                "&9InactivityReset in: %inactivityresetin%")));
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoContractregionSubregion", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
                 "&9ID: &e%regionid% &7(Type: &r%selltype%&7, Subregion)",
                 "&9Sold: &e%issold%",
@@ -1666,8 +1684,10 @@ public class Messages {
                 "&9Members: &e%members%",
                 "&9Regionkind: &e%regionkinddisplay% &9FlagGroup: &e%flaggroup%",
                 "&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%",
-                "&9Autoreset: &e%isautoreset%", "&9UserResettable: &e%isuserresettable%",
-                "&9DoBlockReset: &e%isdoblockreset% &9Autoprice: &e%autoprice%")));
+                "&9Autoprice: &e%autoprice%", "&9UserResettable: &e%isuserresettable%",
+                "&9DoBlockReset: &e%isdoblockreset% &9InactivityResetEnabled: &e%isinactivityreset%",
+                "&9Owners last login: &e%lastownerlogin% &9TakeOver possible in: %takeoverin%",
+                "&9InactivityReset in: %inactivityresetin%")));
 
         if(fileUpdated) {
             config.options().copyDefaults(true);

@@ -29,9 +29,6 @@ import org.bukkit.entity.*;
 import org.bukkit.util.Vector;
 
 import java.io.*;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.*;
 import java.util.logging.Level;
 
@@ -441,6 +438,7 @@ public abstract class Region implements Saveable {
             this.getRegion().addMember(owner.get(i));
         }
         this.getRegion().setOwner(member);
+        this.setLastLogin();
     }
 
     public String getDimensions(){
@@ -484,33 +482,6 @@ public abstract class Region implements Saveable {
         return Region.resetcooldown;
     }
 
-    public int getRemainingDaysTillReset(){
-        ArrayList<UUID> ownerlist = this.getRegion().getOwners();
-        if(ownerlist.size() > 0) {
-            UUID owner = ownerlist.get(0);
-            if(ArmSettings.isEnableTakeOver() ||ArmSettings.isEnableAutoReset()) {
-                try{
-                    ResultSet rs = ArmSettings.getStmt().executeQuery("SELECT * FROM `" + ArmSettings.getSqlPrefix() + "lastlogin` WHERE `uuid` = '" + owner.toString() + "'");
-
-                    if(rs.next()){
-                        Timestamp lastlogin = rs.getTimestamp("lastlogin");
-                        GregorianCalendar calendar = new GregorianCalendar();
-
-                        long time = lastlogin.getTime();
-                        long result = calendar.getTimeInMillis() - time;
-                        int days = (int)  (ArmSettings.getAutoResetAfter() - (result / (1000 * 60 * 60 * 24)));
-                        return days;
-                    }
-
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        return 0;
-    }
-
     public void writeSigns(){
         for (SignData signData : this.sellsign) {
             this.updateSignText(signData);
@@ -528,8 +499,8 @@ public abstract class Region implements Saveable {
         this.queueSave();
     }
 
-    public void setLastLogin(long timeInMs) {
-        this.lastLogin = timeInMs;
+    public void setLastLogin() {
+        this.lastLogin = new GregorianCalendar().getTimeInMillis();
         this.queueSave();
     }
 
@@ -707,6 +678,7 @@ public abstract class Region implements Saveable {
         if(message.contains("%ishotel%")) message = message.replace("%ishotel%", Messages.convertYesNo(this.isHotel()));
         if(message.contains("%isuserresettable%")) message = message.replace("%isuserresettable%", Messages.convertYesNo(this.isUserResettable()));
         if(message.contains("%isdoblockreset%")) message = message.replace("%isdoblockreset%", Messages.convertYesNo(this.isDoBlockReset()));
+        if(message.contains("%isinactivityreset%")) message = message.replace("%isinactivityreset%", Messages.convertYesNo(this.isAutoreset()));
         if(message.contains("%autoprice%")) {
             String autopriceInfo = "";
             if(this.getPriceObject().isAutoPrice()) {
@@ -715,13 +687,6 @@ public abstract class Region implements Saveable {
                 autopriceInfo = Messages.convertYesNo(this.getPriceObject().isAutoPrice());
             }
             message = message.replace("%autoprice%", autopriceInfo);
-        }
-        if(message.contains("%isautoreset%")) {
-            String autoresetInfo = Messages.convertYesNo(this.isAutoreset());
-            if(this.isAutoreset() && !ArmSettings.isEnableAutoReset()) {
-                autoresetInfo += " (but globally disabled)";
-            }
-            message = message.replace("%isautoreset%", autoresetInfo);
         }
         if(message.contains("%subregions%")) {
             String subregions = "";
@@ -756,6 +721,12 @@ public abstract class Region implements Saveable {
             message = message.replace("%members%", membersInfo);
         }
         if(message.contains("%takeoverin%")) {
+            if(!this.isAutoreset()) {
+                message = message.replace("%takeoverin%", Messages.TAKEOVER_INFO_DEACTIVATED);
+            }
+            if(!this.isSold()) {
+                message = message.replace("%takeoverin%", Messages.TAKEOVER_INFO_REGION_NOT_SOLD);
+            }
             List<UUID> ownerslist = this.getRegion().getOwners();
             OfflinePlayer oPlayer = null;
             if(ownerslist.size() > 0) {
@@ -769,6 +740,12 @@ public abstract class Region implements Saveable {
             }
         }
         if(message.contains("%inactivityresetin%")) {
+            if(!this.isAutoreset()) {
+                message = message.replace("%takeoverin%", Messages.INACTIVITY_RESET_INFO_DEACTIVATED);
+            }
+            if(!this.isSold()) {
+                message = message.replace("%takeoverin%", Messages.INACTIVITY_RESET_INFO_REGION_NOT_SOLD);
+            }
             List<UUID> ownerslist = this.getRegion().getOwners();
             OfflinePlayer oPlayer = null;
             if(ownerslist.size() > 0) {

@@ -1344,7 +1344,6 @@ public class Gui implements Listener {
             meta.setDisplayName(oldRegions.get(i).getRegion().getId());
             List<String> message = new LinkedList<>(Messages.GUI_TAKEOVER_ITEM_LORE);
             for (int j = 0; j < message.size(); j++) {
-                message.set(j, message.get(j).replace("%days%", oldRegions.get(i).getRemainingDaysTillReset() + ""));
                 message.set(j, oldRegions.get(i).getConvertedMessage(message.get(j)));
             }
             meta.setLore(message);

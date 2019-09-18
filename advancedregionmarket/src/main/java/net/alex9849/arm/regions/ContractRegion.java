@@ -127,6 +127,7 @@ public class ContractRegion extends Region {
             this.payedTill = actualtime.getTimeInMillis() + this.extendTime;
         }
         this.setSold(true);
+        this.setLastLogin();
         this.terminated = false;
         this.getRegion().deleteMembers();
         this.getRegion().setOwner(player);

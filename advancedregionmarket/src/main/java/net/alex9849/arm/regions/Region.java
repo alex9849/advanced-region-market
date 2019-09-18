@@ -789,7 +789,7 @@ public abstract class Region implements Saveable {
         return false;
     }
 
-    public boolean isOwnerInactive() {
+    public boolean isInactive() {
         if(!this.isInactivityResetEnabled()) {
             return false;
         }

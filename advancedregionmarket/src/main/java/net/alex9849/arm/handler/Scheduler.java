@@ -6,5 +6,6 @@ public class Scheduler implements Runnable {
     @Override
     public void run() {
         AdvancedRegionMarket.getRegionManager().updateRegions();
+        AdvancedRegionMarket.getRegionManager().resetInactiveRegions();
     }
 }

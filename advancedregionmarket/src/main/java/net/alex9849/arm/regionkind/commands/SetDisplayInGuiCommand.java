@@ -42,7 +42,7 @@ public class SetDisplayInGuiCommand implements BasicArmCommand {
         if(!sender.hasPermission(Permission.REGIONKIND_SET_DISPLAY_IN_GUI)) {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
-        RegionKind regionKind = AdvancedRegionMarket.getRegionKindManager().getRegionKind(args[1]);
+        RegionKind regionKind = AdvancedRegionMarket.getARM().getRegionKindManager().getRegionKind(args[1]);
         if(regionKind == null) {
             throw new InputException(sender, Messages.REGIONKIND_DOES_NOT_EXIST);
         }
@@ -64,7 +64,7 @@ public class SetDisplayInGuiCommand implements BasicArmCommand {
                 returnme.add(this.rootCommand);
             }
         } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
-            returnme.addAll(AdvancedRegionMarket.getRegionKindManager().completeTabRegionKinds(args[1], ""));
+            returnme.addAll(AdvancedRegionMarket.getARM().getRegionKindManager().completeTabRegionKinds(args[1], ""));
         } else if(args.length == 3 && (args[0].equalsIgnoreCase(this.rootCommand))) {
             if("true".startsWith(args[2])) {
                 returnme.add("true");

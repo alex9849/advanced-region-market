@@ -26,7 +26,7 @@ public class EntitySpawnListener implements Listener {
             return;
         }
 
-        if(AdvancedRegionMarket.getRegionManager() == null) {
+        if(AdvancedRegionMarket.getARM().getRegionManager() == null) {
             return;
         }
         EntityLimit.LimitableEntityType limitableEntityType = EntityLimit.toLimitableEntityType(event.getEntityType());
@@ -34,7 +34,7 @@ public class EntitySpawnListener implements Listener {
             return;
         }
 
-        List<Region> regions = AdvancedRegionMarket.getRegionManager().getRegionsByLocation(event.getLocation());
+        List<Region> regions = AdvancedRegionMarket.getARM().getRegionManager().getRegionsByLocation(event.getLocation());
 
         for(Region region : regions) {
             if(region.getEntityLimitGroup().isLimitReached(region, event.getEntityType(), region.getExtraTotalEntitys())) {
@@ -55,7 +55,7 @@ public class EntitySpawnListener implements Listener {
             return;
         }
 
-        if(AdvancedRegionMarket.getRegionManager() == null) {
+        if(AdvancedRegionMarket.getARM().getRegionManager() == null) {
             return;
         }
 
@@ -64,7 +64,7 @@ public class EntitySpawnListener implements Listener {
             return;
         }
 
-        List<Region> regions = AdvancedRegionMarket.getRegionManager().getRegionsByLocation(event.getVehicle().getLocation());
+        List<Region> regions = AdvancedRegionMarket.getARM().getRegionManager().getRegionsByLocation(event.getVehicle().getLocation());
 
         for(Region region : regions) {
             if(region.getEntityLimitGroup().isLimitReached(region, event.getVehicle().getType(), region.getExtraTotalEntitys())) {

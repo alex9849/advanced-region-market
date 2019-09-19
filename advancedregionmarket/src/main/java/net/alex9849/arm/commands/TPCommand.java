@@ -45,7 +45,7 @@ public class TPCommand implements BasicArmCommand {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Player player = (Player) sender;
-        Region region = AdvancedRegionMarket.getRegionManager().getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
+        Region region = AdvancedRegionMarket.getARM().getRegionManager().getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
 
         if (region == null) {
             throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
@@ -77,7 +77,7 @@ public class TPCommand implements BasicArmCommand {
                         } else {
                             playerRegionRelationship = PlayerRegionRelationship.MEMBER_OR_OWNER;
                         }
-                        returnme.addAll(AdvancedRegionMarket.getRegionManager().completeTabRegions(player, args[1], playerRegionRelationship, true,true));
+                        returnme.addAll(AdvancedRegionMarket.getARM().getRegionManager().completeTabRegions(player, args[1], playerRegionRelationship, true,true));
                     }
                 }
             }

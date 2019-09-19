@@ -7,7 +7,6 @@ import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.exceptions.SchematicException;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -52,9 +51,9 @@ public class ResetCommand implements BasicArmCommand {
 
         Region resregion;
         if(allargs.matches(this.regex)) {
-            resregion = AdvancedRegionMarket.getRegionManager().getRegionAtPositionOrNameCommand(player, "");
+            resregion = AdvancedRegionMarket.getARM().getRegionManager().getRegionAtPositionOrNameCommand(player, "");
         } else {
-            resregion = AdvancedRegionMarket.getRegionManager().getRegionAtPositionOrNameCommand(player, args[1]);
+            resregion = AdvancedRegionMarket.getARM().getRegionManager().getRegionAtPositionOrNameCommand(player, args[1]);
         }
 
         if(resregion == null) {
@@ -82,7 +81,7 @@ public class ResetCommand implements BasicArmCommand {
                     if(args.length == 1) {
                         returnme.add(this.rootCommand);
                     } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                        returnme.addAll(AdvancedRegionMarket.getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true,true));
+                        returnme.addAll(AdvancedRegionMarket.getARM().getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true,true));
                     }
                 }
             }

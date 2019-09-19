@@ -43,10 +43,10 @@ public class CreateCommand implements BasicArmCommand {
         if(!sender.hasPermission(Permission.ADMIN_ENTITYLIMIT_CREATE)) {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
-        if(AdvancedRegionMarket.getEntityLimitGroupManager().getEntityLimitGroup(args[1]) != null) {
+        if(AdvancedRegionMarket.getARM().getEntityLimitGroupManager().getEntityLimitGroup(args[1]) != null) {
             throw new InputException(sender, Messages.ENTITYLIMITGROUP_ALREADY_EXISTS);
         }
-        AdvancedRegionMarket.getEntityLimitGroupManager().add(new EntityLimitGroup(new ArrayList<>(), -1, -1, 0, args[1]));
+        AdvancedRegionMarket.getARM().getEntityLimitGroupManager().add(new EntityLimitGroup(new ArrayList<>(), -1, -1, 0, args[1]));
         sender.sendMessage(Messages.PREFIX + Messages.ENTITYLIMITGROUP_CREATED);
         return true;
     }

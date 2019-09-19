@@ -44,7 +44,7 @@ public class CreateCommand implements BasicArmCommand {
         if(!sender.hasPermission(Permission.REGIONKIND_CREATE)) {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
-        if(AdvancedRegionMarket.getRegionKindManager().getRegionKind(args[1]) != null) {
+        if(AdvancedRegionMarket.getARM().getRegionKindManager().getRegionKind(args[1]) != null) {
             throw new InputException(sender, Messages.REGIONKIND_ALREADY_EXISTS);
         }
 
@@ -56,7 +56,7 @@ public class CreateCommand implements BasicArmCommand {
         boolean displayInLimits = true;
         double paybackPercentage = 0.5;
 
-        AdvancedRegionMarket.getRegionKindManager().add(new RegionKind(internalName, item, lore, displayName, displayInGui, displayInLimits, paybackPercentage));
+        AdvancedRegionMarket.getARM().getRegionKindManager().add(new RegionKind(internalName, item, lore, displayName, displayInGui, displayInLimits, paybackPercentage));
         sender.sendMessage(Messages.PREFIX + Messages.REGIONKIND_CREATED);
         return true;
     }

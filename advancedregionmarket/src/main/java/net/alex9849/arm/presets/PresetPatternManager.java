@@ -86,16 +86,16 @@ public class PresetPatternManager extends YamlFileManager<Preset> {
         AutoPrice autoPrice = null;
 
         List<String> setupcommands = section.getStringList("setupcommands");
-        RegionKind regionKind = AdvancedRegionMarket.getRegionKindManager().getRegionKind(regionKindString);
+        RegionKind regionKind = AdvancedRegionMarket.getARM().getRegionKindManager().getRegionKind(regionKindString);
         if(regionKind == null) {
             regionKind = RegionKind.DEFAULT;
         }
-        FlagGroup flagGroup = AdvancedRegionMarket.getFlagGroupManager().getFlagGroup(flagGroupString);
+        FlagGroup flagGroup = AdvancedRegionMarket.getARM().getFlagGroupManager().getFlagGroup(flagGroupString);
         if(flagGroup == null) {
             flagGroup = FlagGroup.DEFAULT;
         }
 
-        EntityLimitGroup entityLimitGroup = AdvancedRegionMarket.getEntityLimitGroupManager().getEntityLimitGroup(entityLimitGroupString);
+        EntityLimitGroup entityLimitGroup = AdvancedRegionMarket.getARM().getEntityLimitGroupManager().getEntityLimitGroup(entityLimitGroupString);
         if(entityLimitGroup == null) {
             entityLimitGroup = EntityLimitGroup.DEFAULT;
         }

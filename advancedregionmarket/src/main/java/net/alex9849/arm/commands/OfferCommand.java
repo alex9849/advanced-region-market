@@ -50,7 +50,7 @@ public class OfferCommand implements BasicArmCommand {
 
         if (allargs.matches(regex_new)) {
             if(player.hasPermission(Permission.MEMBER_OFFER_CREATE)) {
-                Region region = AdvancedRegionMarket.getRegionManager().getRegionbyNameAndWorldCommands(args[2], player.getLocation().getWorld().getName());
+                Region region = AdvancedRegionMarket.getARM().getRegionManager().getRegionbyNameAndWorldCommands(args[2], player.getLocation().getWorld().getName());
                 if(region == null) {
                     throw new InputException(player, Messages.REGION_DOES_NOT_EXIST);
                 }
@@ -140,7 +140,7 @@ public class OfferCommand implements BasicArmCommand {
                             List<String> players = CommandHandler.tabCompleteOnlinePlayers(args[1]);
                             if(players.size() > 0) {
                                 if(args[1].equalsIgnoreCase(players.get(0))) {
-                                    returnme.addAll(AdvancedRegionMarket.getRegionManager().completeTabRegions(player, args[2], PlayerRegionRelationship.OWNER, true,true));
+                                    returnme.addAll(AdvancedRegionMarket.getARM().getRegionManager().completeTabRegions(player, args[2], PlayerRegionRelationship.OWNER, true,true));
                                 }
                             }
                         }

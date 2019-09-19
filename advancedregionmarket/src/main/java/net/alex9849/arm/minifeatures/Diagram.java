@@ -15,7 +15,7 @@ public class Diagram {
         sender.sendMessage(Messages.REGION_STATS);
         sendStatsForAllSellTypes(sender);
         sendStatsByRegionKind(sender, RegionKind.DEFAULT);
-        for(RegionKind regionKind : AdvancedRegionMarket.getRegionKindManager()) {
+        for(RegionKind regionKind : AdvancedRegionMarket.getARM().getRegionKindManager()) {
             sendStatsByRegionKind(sender, regionKind);
         }
         sendStatsByRegionKind(sender, RegionKind.SUBREGION);
@@ -24,7 +24,7 @@ public class Diagram {
 
     public static boolean sendRegionStats(CommandSender sender, String regiontype) throws InputException {
         SellType sellType = SellType.getSelltype(regiontype);
-        RegionKind regionKind = AdvancedRegionMarket.getRegionKindManager().getRegionKind(regiontype);
+        RegionKind regionKind = AdvancedRegionMarket.getARM().getRegionKindManager().getRegionKind(regiontype);
 
         if(sellType == null && regionKind == null) {
             throw new InputException(sender, Messages.REGIONKIND_DOES_NOT_EXIST);
@@ -45,7 +45,7 @@ public class Diagram {
         int allRegions = 0;
         int allSoldRegions = 0;
 
-        for(Region region : AdvancedRegionMarket.getRegionManager()) {
+        for(Region region : AdvancedRegionMarket.getARM().getRegionManager()) {
             allRegions++;
             if (region.isSold()) {
                 allSoldRegions++;
@@ -65,7 +65,7 @@ public class Diagram {
         int regions = 0;
         int soldregions = 0;
 
-        for(Region region : AdvancedRegionMarket.getRegionManager().getRegionsByRegionKind(regionKind)) {
+        for(Region region : AdvancedRegionMarket.getARM().getRegionManager().getRegionsByRegionKind(regionKind)) {
             if(region.getRegionKind() == regionKind) {
                 regions++;
                 if(region.isSold()) {
@@ -81,7 +81,7 @@ public class Diagram {
         int regions = 0;
         int soldregions = 0;
 
-        for(Region region : AdvancedRegionMarket.getRegionManager().getRegionsBySelltype(sellType)) {
+        for(Region region : AdvancedRegionMarket.getARM().getRegionManager().getRegionsBySelltype(sellType)) {
             regions++;
             if (region.isSold()) {
                 soldregions++;

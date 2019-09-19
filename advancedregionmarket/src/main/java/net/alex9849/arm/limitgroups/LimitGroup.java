@@ -27,7 +27,7 @@ public class LimitGroup {
             if(limit == -1){
                 limit = Integer.MAX_VALUE;
             }
-            RegionKind kind = AdvancedRegionMarket.getRegionKindManager().getRegionKind(regionKindStrings.get(i));
+            RegionKind kind = AdvancedRegionMarket.getARM().getRegionKindManager().getRegionKind(regionKindStrings.get(i));
             if(regionKindStrings.get(i).equals("total")){
                 this.total = limit;
             } else {
@@ -138,7 +138,7 @@ public class LimitGroup {
     }
 
     public static int getOwnedRegions(Player player, RegionKind regionkind){
-        List<Region> regions = AdvancedRegionMarket.getRegionManager().getRegionsByOwner(player.getUniqueId());
+        List<Region> regions = AdvancedRegionMarket.getARM().getRegionManager().getRegionsByOwner(player.getUniqueId());
         int ownedregionswiththistype = 0;
         for(int i = 0; i < regions.size(); i++) {
             if(regionkind == regions.get(i).getRegionKind()){
@@ -149,7 +149,7 @@ public class LimitGroup {
     }
 
     public static int getOwnedRegions(Player player){
-        return AdvancedRegionMarket.getRegionManager().getRegionsByOwner(player.getUniqueId()).size();
+        return AdvancedRegionMarket.getARM().getRegionManager().getRegionsByOwner(player.getUniqueId()).size();
     }
 
     public static void getLimitChat(Player player) {
@@ -192,7 +192,7 @@ public class LimitGroup {
             player.sendMessage(syntaxtotal);
         }
 
-        for(RegionKind regionKind : AdvancedRegionMarket.getRegionKindManager()){
+        for(RegionKind regionKind : AdvancedRegionMarket.getARM().getRegionKindManager()){
             if(RegionKind.hasPermission(player, regionKind) && regionKind.isDisplayInLimits()){
 
                 syntaxtotal = Messages.LIMIT_INFO;

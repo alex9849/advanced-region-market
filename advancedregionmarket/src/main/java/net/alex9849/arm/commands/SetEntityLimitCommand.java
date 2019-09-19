@@ -52,17 +52,17 @@ public class SetEntityLimitCommand implements BasicArmCommand {
         List<Region> regions = new ArrayList<>();
         String selectedName;
 
-        if(allargs.matches(regex_massaction) && (AdvancedRegionMarket.getRegionManager().getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName()) == null)) {
+        if(allargs.matches(regex_massaction) && (AdvancedRegionMarket.getARM().getRegionManager().getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName()) == null)) {
             String[] splittedRegionKindArg = args[1].split(":", 2);
 
-            RegionKind selectedRegionkind = AdvancedRegionMarket.getRegionKindManager().getRegionKind(splittedRegionKindArg[1]);
+            RegionKind selectedRegionkind = AdvancedRegionMarket.getARM().getRegionKindManager().getRegionKind(splittedRegionKindArg[1]);
             if(selectedRegionkind == null) {
                 throw new InputException(sender, Messages.REGIONKIND_DOES_NOT_EXIST);
             }
-            regions = AdvancedRegionMarket.getRegionManager().getRegionsByRegionKind(selectedRegionkind);
+            regions = AdvancedRegionMarket.getARM().getRegionManager().getRegionsByRegionKind(selectedRegionkind);
             selectedName = selectedRegionkind.getConvertedMessage(Messages.MASSACTION_SPLITTER);
         } else {
-            Region selectedRegion = AdvancedRegionMarket.getRegionManager().getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
+            Region selectedRegion = AdvancedRegionMarket.getARM().getRegionManager().getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
             if(selectedRegion == null){
                 throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
             }
@@ -71,7 +71,7 @@ public class SetEntityLimitCommand implements BasicArmCommand {
             selectedName = "&a" + selectedRegion.getRegion().getId();
         }
 
-        EntityLimitGroup entityLimitGroup = AdvancedRegionMarket.getEntityLimitGroupManager().getEntityLimitGroup(args[2]);
+        EntityLimitGroup entityLimitGroup = AdvancedRegionMarket.getARM().getEntityLimitGroupManager().getEntityLimitGroup(args[2]);
 
         if(entityLimitGroup == null) {
             throw new InputException(player, Messages.ENTITYLIMITGROUP_DOES_NOT_EXIST);
@@ -103,16 +103,16 @@ public class SetEntityLimitCommand implements BasicArmCommand {
                     if(args.length == 1) {
                         returnme.add(this.rootCommand);
                     } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                        returnme.addAll(AdvancedRegionMarket.getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true,false));
+                        returnme.addAll(AdvancedRegionMarket.getARM().getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true,false));
                         if("rk:".startsWith(args[1])) {
                             returnme.add("rk:");
                         }
                         if (args[1].matches("rk:([^;\n]+)?")) {
-                            returnme.addAll(AdvancedRegionMarket.getRegionKindManager().completeTabRegionKinds(args[1], "rk:"));
+                            returnme.addAll(AdvancedRegionMarket.getARM().getRegionKindManager().completeTabRegionKinds(args[1], "rk:"));
                         }
 
                     } else if(args.length == 3 && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                        returnme.addAll(AdvancedRegionMarket.getEntityLimitGroupManager().tabCompleteEntityLimitGroups(args[2]));
+                        returnme.addAll(AdvancedRegionMarket.getARM().getEntityLimitGroupManager().tabCompleteEntityLimitGroups(args[2]));
                     }
                 }
             }

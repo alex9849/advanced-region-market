@@ -48,7 +48,7 @@ public class SetOwnerCommand implements BasicArmCommand {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Player playersender = (Player) sender;
-        Region region = AdvancedRegionMarket.getRegionManager().getRegionbyNameAndWorldCommands(args[1], playersender.getWorld().getName());
+        Region region = AdvancedRegionMarket.getARM().getRegionManager().getRegionbyNameAndWorldCommands(args[1], playersender.getWorld().getName());
         if (region == null) {
             throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
         }
@@ -79,7 +79,7 @@ public class SetOwnerCommand implements BasicArmCommand {
                         } else {
                             playerRegionRelationship = PlayerRegionRelationship.OWNER;
                         }
-                        returnme.addAll(AdvancedRegionMarket.getRegionManager().completeTabRegions(player, args[1], playerRegionRelationship, true,true));
+                        returnme.addAll(AdvancedRegionMarket.getARM().getRegionManager().completeTabRegions(player, args[1], playerRegionRelationship, true,true));
                     } else if(args.length == 3 && (args[0].equalsIgnoreCase(this.rootCommand))) {
                         returnme.addAll(CommandHandler.tabCompleteOnlinePlayers(args[2]));
                     }

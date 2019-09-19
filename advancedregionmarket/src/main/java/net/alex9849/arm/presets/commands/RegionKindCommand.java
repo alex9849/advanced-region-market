@@ -66,7 +66,7 @@ public class RegionKindCommand implements BasicArmCommand {
             ActivePresetManager.add(new PresetPlayerPair(player, preset));
         }
 
-        RegionKind regkind = AdvancedRegionMarket.getRegionKindManager().getRegionKind(args[1]);
+        RegionKind regkind = AdvancedRegionMarket.getARM().getRegionKindManager().getRegionKind(args[1]);
         if(regkind == null) {
             player.sendMessage(Messages.PREFIX + Messages.REGIONKIND_DOES_NOT_EXIST);
             return true;
@@ -90,7 +90,7 @@ public class RegionKindCommand implements BasicArmCommand {
                     }
                 }
                 if(args.length == 2 && this.rootCommand.equalsIgnoreCase(args[0])) {
-                    returnme.addAll(AdvancedRegionMarket.getRegionKindManager().completeTabRegionKinds(args[1], ""));
+                    returnme.addAll(AdvancedRegionMarket.getARM().getRegionKindManager().completeTabRegionKinds(args[1], ""));
                 }
             }
         }

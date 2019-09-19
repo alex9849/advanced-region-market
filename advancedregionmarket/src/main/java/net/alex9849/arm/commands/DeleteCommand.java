@@ -45,9 +45,9 @@ public class DeleteCommand implements BasicArmCommand {
             Player player = (Player) sender;
             Region region;
             if(allargs.matches(this.regex)) {
-                region = AdvancedRegionMarket.getRegionManager().getRegionAtPositionOrNameCommand(player, "");
+                region = AdvancedRegionMarket.getARM().getRegionManager().getRegionAtPositionOrNameCommand(player, "");
             } else {
-                region = AdvancedRegionMarket.getRegionManager().getRegionAtPositionOrNameCommand(player, args[1]);
+                region = AdvancedRegionMarket.getARM().getRegionManager().getRegionAtPositionOrNameCommand(player, args[1]);
             }
 
             region.unsell();
@@ -70,7 +70,7 @@ public class DeleteCommand implements BasicArmCommand {
                     if(args.length == 1) {
                         returnme.add(this.rootCommand);
                     } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                        returnme.addAll(AdvancedRegionMarket.getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true,true));
+                        returnme.addAll(AdvancedRegionMarket.getARM().getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true,true));
                     }
                 }
             }

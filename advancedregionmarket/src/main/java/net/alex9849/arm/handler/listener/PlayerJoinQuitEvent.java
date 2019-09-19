@@ -22,7 +22,7 @@ public class PlayerJoinQuitEvent implements Listener {
     @EventHandler
     public void setLastLoginAndOpenOvertake(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        List<Region> regions = AdvancedRegionMarket.getRegionManager().getRegionsByOwner(player.getUniqueId());
+        List<Region> regions = AdvancedRegionMarket.getARM().getRegionManager().getRegionsByOwner(player.getUniqueId());
         Plugin plugin = AdvancedRegionMarket.getARM();
 
         for(Region region : regions) {
@@ -54,7 +54,7 @@ public class PlayerJoinQuitEvent implements Listener {
     }
 
     public static void doTakeOverCheck(Player player) {
-        List<Region> regions = AdvancedRegionMarket.getRegionManager().getRegionsByMember(player.getUniqueId());
+        List<Region> regions = AdvancedRegionMarket.getARM().getRegionManager().getRegionsByMember(player.getUniqueId());
         List<Region> takeoverableRegions = new ArrayList<>();
         for(Region region : regions) {
             if(region.isTakeOverReady()) {

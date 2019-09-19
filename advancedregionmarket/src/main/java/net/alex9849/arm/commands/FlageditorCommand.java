@@ -50,9 +50,9 @@ public class FlageditorCommand implements BasicArmCommand {
 
         Region selRegion;
         if(allargs.matches(this.regex)) {
-            selRegion = AdvancedRegionMarket.getRegionManager().getRegionAtPositionOrNameCommand(player, "");
+            selRegion = AdvancedRegionMarket.getARM().getRegionManager().getRegionAtPositionOrNameCommand(player, "");
         } else {
-            selRegion = AdvancedRegionMarket.getRegionManager().getRegionAtPositionOrNameCommand(player, args[1]);
+            selRegion = AdvancedRegionMarket.getARM().getRegionManager().getRegionAtPositionOrNameCommand(player, args[1]);
         }
 
         if(selRegion == null) {
@@ -84,7 +84,7 @@ public class FlageditorCommand implements BasicArmCommand {
                         } else {
                             playerRegionRelationship = PlayerRegionRelationship.MEMBER_OR_OWNER;
                         }
-                        returnme.addAll(AdvancedRegionMarket.getRegionManager().completeTabRegions(player, args[1], playerRegionRelationship, true,true));
+                        returnme.addAll(AdvancedRegionMarket.getARM().getRegionManager().completeTabRegions(player, args[1], playerRegionRelationship, true,true));
                     }
                 }
             }

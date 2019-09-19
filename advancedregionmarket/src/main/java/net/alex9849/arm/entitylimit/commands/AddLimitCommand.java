@@ -44,7 +44,7 @@ public class AddLimitCommand implements BasicArmCommand {
         if (!sender.hasPermission(Permission.ADMIN_ENTITYLIMIT_ADD_LIMIT)) {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
-        EntityLimitGroup entityLimitGroup = AdvancedRegionMarket.getEntityLimitGroupManager().getEntityLimitGroup(args[1]);
+        EntityLimitGroup entityLimitGroup = AdvancedRegionMarket.getARM().getEntityLimitGroupManager().getEntityLimitGroup(args[1]);
         if(entityLimitGroup == null) {
             throw new InputException(sender, Messages.ENTITYLIMITGROUP_DOES_NOT_EXIST);
         }
@@ -117,7 +117,7 @@ public class AddLimitCommand implements BasicArmCommand {
                 }
             } else if((args.length == 2) && (args[0].equalsIgnoreCase(this.rootCommand))) {
                 if (this.rootCommand.startsWith(args[0])) {
-                    returnme.addAll(AdvancedRegionMarket.getEntityLimitGroupManager().tabCompleteEntityLimitGroups(args[1]));
+                    returnme.addAll(AdvancedRegionMarket.getARM().getEntityLimitGroupManager().tabCompleteEntityLimitGroups(args[1]));
 
                 }
             } else if((args.length == 3) && (args[0].equalsIgnoreCase(this.rootCommand))) {

@@ -394,7 +394,7 @@ public abstract class Region implements Saveable {
     }
 
     public void updateRegion() {
-        if(!this.isInactivityResetEnabled() && this.isInactive()) {
+        if(this.isInactivityResetEnabled() && this.isInactive()) {
             this.automaticResetRegion();
         }
         this.updateSigns();

@@ -35,17 +35,17 @@ public class AreaShopImporter {
         Collection<RegionGroup> groups =  AreaShop.getInstance().getFileManager().getGroups();
         for(RegionGroup group : groups) {
             String regionKindName = group.getName();
-            RegionKind existingArmKind = AdvancedRegionMarket.getRegionKindManager().getRegionKind(regionKindName);
+            RegionKind existingArmKind = AdvancedRegionMarket.getInstance().getRegionKindManager().getRegionKind(regionKindName);
             RegionKind armRegionKind = new RegionKind(regionKindName, MaterialFinder.getRedBed(), new ArrayList<String>(), regionKindName, true, true, 0.5);
             if(existingArmKind != null) {
                 if(overwriteExisting) {
-                    AdvancedRegionMarket.getRegionKindManager().remove(existingArmKind);
-                    AdvancedRegionMarket.getRegionKindManager().add(armRegionKind, true);
+                    AdvancedRegionMarket.getInstance().getRegionKindManager().remove(existingArmKind);
+                    AdvancedRegionMarket.getInstance().getRegionKindManager().add(armRegionKind, true);
                 } else {
                     Bukkit.getLogger().info("Skipped regionkind " + regionKindName + "! A regionkind with this name already exists!");
                 }
             } else {
-                AdvancedRegionMarket.getRegionKindManager().add(armRegionKind, true);
+                AdvancedRegionMarket.getInstance().getRegionKindManager().add(armRegionKind, true);
             }
         }
     }
@@ -57,7 +57,7 @@ public class AreaShopImporter {
         for(GeneralRegion asRegion : regions) {
             World regionWorld = asRegion.getWorld();
 
-            WGRegion wgRegion = AdvancedRegionMarket.getWorldGuardInterface().getRegion(regionWorld, AdvancedRegionMarket.getWorldGuard(), asRegion.getRegion().getId());
+            WGRegion wgRegion = AdvancedRegionMarket.getInstance().getWorldGuardInterface().getRegion(regionWorld, AdvancedRegionMarket.getInstance().getWorldGuard(), asRegion.getRegion().getId());
 
             UUID regionOwner = asRegion.getOwner();
 
@@ -72,7 +72,7 @@ public class AreaShopImporter {
             if(wgRegion != null) {
                 List<RegionSign> asRegionSings = asRegion.getSignsFeature().getSigns();
                 List<SignData> armSignDataList = new ArrayList<SignData>();
-                SignDataFactory signDataFactory = AdvancedRegionMarket.getSignDataFactory();
+                SignDataFactory signDataFactory = AdvancedRegionMarket.getInstance().getSignDataFactory();
 
                 for(RegionSign asRegionSign : asRegionSings) {
                     SignAttachment signAttachment;
@@ -90,7 +90,7 @@ public class AreaShopImporter {
 
                 for(RegionGroup group : groups) {
                     if(regionKind == null) {
-                        regionKind = AdvancedRegionMarket.getRegionKindManager().getRegionKind(group.getName());
+                        regionKind = AdvancedRegionMarket.getInstance().getRegionKindManager().getRegionKind(group.getName());
                     }
                 }
 
@@ -128,18 +128,18 @@ public class AreaShopImporter {
                 }
 
                 if(armRegion != null) {
-                    Region armExistingRegion = AdvancedRegionMarket.getRegionManager().getRegion(wgRegion);
+                    Region armExistingRegion = AdvancedRegionMarket.getInstance().getRegionManager().getRegion(wgRegion);
 
                     if(armExistingRegion != null) {
                         if(overwriteExisting) {
-                            AdvancedRegionMarket.getRegionManager().remove(armExistingRegion);
-                            AdvancedRegionMarket.getRegionManager().add(armRegion, true);
+                            AdvancedRegionMarket.getInstance().getRegionManager().remove(armExistingRegion);
+                            AdvancedRegionMarket.getInstance().getRegionManager().add(armRegion, true);
                             scheamticImporter.scheduleSchematic(armRegion, getSchematicPath(asRegion));
                         } else {
                             Bukkit.getLogger().info("Skipped regionkind " + armRegion.getRegion().getId() + "! A regionkind with this name already exists!");
                         }
                     } else {
-                        AdvancedRegionMarket.getRegionManager().add(armRegion, true);
+                        AdvancedRegionMarket.getInstance().getRegionManager().add(armRegion, true);
                         scheamticImporter.scheduleSchematic(armRegion, getSchematicPath(asRegion));
                     }
 

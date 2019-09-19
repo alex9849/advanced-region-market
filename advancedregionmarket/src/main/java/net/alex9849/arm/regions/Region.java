@@ -443,7 +443,7 @@ public abstract class Region implements Saveable {
 
     }
 
-    public int timeSinceLastReset(){
+    public int timeSinceLastResetInDays(){
         GregorianCalendar calendar = new GregorianCalendar();
         long result = calendar.getTimeInMillis() - this.lastreset;
         int days = (int) (result / (1000 * 60 * 60 * 24));
@@ -658,7 +658,7 @@ public abstract class Region implements Saveable {
         if(message.contains("%dimensions%")) message = message.replace("%dimensions%", this.getDimensions());
         if(message.contains("%priceperm2%")) message = message.replace("%priceperm2%", Price.formatPrice(this.getPricePerM2()) + "");
         if(message.contains("%priceperm3%")) message = message.replace("%priceperm3%", Price.formatPrice(this.getPricePerM3()) + "");
-        if(message.contains("%remainingdays%")) message = message.replace("%remainingdays%", (Region.getResetCooldown() - this.timeSinceLastReset()) + "");
+        if(message.contains("%remainingdays%")) message = message.replace("%remainingdays%", (Region.getResetCooldown() - this.timeSinceLastResetInDays()) + "");
         if(message.contains("%paybackmoney%")) message = message.replace("%paybackmoney%", Price.formatPrice(this.getPaybackMoney()));
         if(message.contains("%currency%")) message = message.replace("%currency%", Messages.CURRENCY);
         if(message.contains("%world%")) message = message.replace("%world%", this.getRegionworld().getName());

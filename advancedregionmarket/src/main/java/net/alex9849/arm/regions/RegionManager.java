@@ -783,10 +783,7 @@ public class RegionManager extends YamlFileManager<Region> {
 
     public void resetInactiveRegions() {
         for(Region region : this) {
-            if(!region.isInactivityResetEnabled()) {
-                continue;
-            }
-            if(region.isInactive()) {
+            if(!region.isInactivityResetEnabled() && region.isInactive()) {
                 region.automaticResetRegion();
             }
         }

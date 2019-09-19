@@ -31,7 +31,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.*;
-import java.util.logging.Level;
 
 public class Gui implements Listener {
     private static Material REGION_OWNER_ITEM = MaterialFinder.getGuiRegionOwnerItem();
@@ -254,7 +253,7 @@ public class Gui implements Listener {
             reseticon = reseticon.addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
-                    if(region.timeSinceLastReset() >= Region.getResetCooldown()){
+                    if(region.timeSinceLastResetInDays() >= Region.getResetCooldown()){
                         Gui.openRegionResetWarning(player, region, true);
                     } else {
                         String message = region.getConvertedMessage(Messages.RESET_REGION_COOLDOWN_ERROR);

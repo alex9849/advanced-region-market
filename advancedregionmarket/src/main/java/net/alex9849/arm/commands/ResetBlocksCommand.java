@@ -8,7 +8,6 @@ import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.exceptions.SchematicException;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -71,7 +70,7 @@ public class ResetBlocksCommand implements BasicArmCommand {
                 if(!resregion.isUserResettable()) {
                     throw new InputException(player, Messages.REGION_NOT_RESETTABLE);
                 }
-                if(resregion.timeSinceLastReset() >= Region.getResetCooldown()){
+                if(resregion.timeSinceLastResetInDays() >= Region.getResetCooldown()){
                     Gui.openRegionResetWarning(player, resregion, false);
                     return true;
                 } else {

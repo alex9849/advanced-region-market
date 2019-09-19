@@ -87,12 +87,10 @@ public class ContractRegion extends Region {
                 List<UUID> owners = this.getRegion().getOwners();
                 if(owners.size() == 0){
                     this.extend();
-                    this.updateSigns();
                 } else {
                     OfflinePlayer oplayer = Bukkit.getOfflinePlayer(owners.get(0));
                     if(oplayer == null) {
                         this.extend();
-                        this.updateSigns();
                     } else {
                         if(AdvancedRegionMarket.getInstance().getEcon().hasAccount(oplayer)) {
                             if(AdvancedRegionMarket.getInstance().getEcon().getBalance(oplayer) < this.getPrice()) {
@@ -105,10 +103,8 @@ public class ContractRegion extends Region {
                                 if(oplayer.isOnline()) {
                                     Player player = Bukkit.getPlayer(owners.get(0));
                                     this.extend(player);
-                                    this.updateSigns();
                                 } else {
                                     this.extend();
-                                    this.updateSigns();
                                 }
                             }
                         }
@@ -116,8 +112,7 @@ public class ContractRegion extends Region {
                 }
             }
         }
-
-        this.updateSigns();
+        super.updateRegion();
     }
 
     @Override

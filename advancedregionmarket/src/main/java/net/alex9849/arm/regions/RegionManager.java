@@ -781,14 +781,6 @@ public class RegionManager extends YamlFileManager<Region> {
         }
     }
 
-    public void resetInactiveRegions() {
-        for(Region region : this) {
-            if(!region.isInactivityResetEnabled() && region.isInactive()) {
-                region.automaticResetRegion();
-            }
-        }
-    }
-
     /**
      * Selectes a region by using the players position or the regionID (regionName)
      * @param player the player

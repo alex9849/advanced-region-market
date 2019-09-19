@@ -148,12 +148,9 @@ public class RentRegion extends Region {
             GregorianCalendar actualtime = new GregorianCalendar();
             if(this.payedTill < actualtime.getTimeInMillis()){
                 this.automaticResetRegion();
-            } else {
-                this.updateSigns();
             }
-        } else {
-            this.updateSigns();
         }
+        super.updateRegion();
     }
 
     @Override

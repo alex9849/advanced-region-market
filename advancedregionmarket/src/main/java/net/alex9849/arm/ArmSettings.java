@@ -1,7 +1,5 @@
 package net.alex9849.arm;
 
-import java.sql.Statement;
-
 public class ArmSettings {
     private static boolean isAllowSubRegionUserReset = false;
     private static boolean isSubregionBlockReset = false;
@@ -28,8 +26,6 @@ public class ArmSettings {
 
     private static String REMAINING_TIME_TIMEFORMAT = "%date%";
     private static String DATE_TIMEFORMAT = "dd.MM.yyyy hh:mm";
-    private static Statement stmt;
-    private static String sqlPrefix;
 
     public static boolean isActivateRegionKindPermissions() {
         return ArmSettings.activateRegionKindPermissions;
@@ -119,14 +115,6 @@ public class ArmSettings {
         DATE_TIMEFORMAT = dateTimeformat;
     }
 
-    protected static void setStmt(Statement stmt) {
-        ArmSettings.stmt = stmt;
-    }
-
-    protected static void setSqlPrefix(String sqlPrefix) {
-        ArmSettings.sqlPrefix = sqlPrefix;
-    }
-
     public static boolean isAllowSubRegionUserReset() {
         return isAllowSubRegionUserReset;
     }
@@ -173,14 +161,6 @@ public class ArmSettings {
 
     public static boolean isRegionInfoParticleBorder() {
         return isRegionInfoParticleBorder;
-    }
-
-    public static Statement getStmt() {
-        return stmt;
-    }
-
-    public static String getSqlPrefix() {
-        return sqlPrefix;
     }
 
     public static boolean isDeleteSubregionsOnParentRegionUnsell() {

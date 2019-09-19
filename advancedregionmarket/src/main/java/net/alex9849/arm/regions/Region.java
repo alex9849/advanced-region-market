@@ -393,7 +393,12 @@ public abstract class Region implements Saveable {
         }
     }
 
-    public abstract void updateRegion();
+    public void updateRegion() {
+        if(!this.isInactivityResetEnabled() && this.isInactive()) {
+            this.automaticResetRegion();
+        }
+        this.updateSigns();
+    }
 
     public void setInactivityReset(Boolean state){
         this.inactivityReset = state;
@@ -787,6 +792,9 @@ public abstract class Region implements Saveable {
 
     public boolean isInactive() {
         if(!this.isInactivityResetEnabled()) {
+            return false;
+        }
+        if(!this.isSold()) {
             return false;
         }
         long actualTime = new GregorianCalendar().getTimeInMillis();

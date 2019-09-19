@@ -75,12 +75,13 @@ Limits:
 
 
 # InactivityExpirationGroups can be assigned to players by giving them the permission arm.inactivityexpiration.INACTIVITYEXPIRATIONGROUP
-# For example use arm.inactivityexpiration.examplegroup1 to assign the examplegroup1 defined below.
+# For example use arm.inactivityexpiration.examplegroup1 to assign the examplegroup1 defined below to a player.
 # Regions that have inactivityExpiration enabled will be reset if the owner of the region does not come online for the time
 # specified in 'resetAfter'. You can give members of the region the opportunity to become the owner the region before it gets reset.
-# You can specify the amount of days in 'takeOverAfter'.
+# You can specify the amount of time in 'takeOverAfter'.
 # If a player has multiple InactivityExpirationGroups assigned ARM automatically picks the group with the highest amount of days
 # If a player has no InactivityExpirationGroups assigned ARM will use the DefaultInactivityExpirationGroup!
+# Use arm.inactivityexpiration.unlimited to deactivate TakeOver and InactivityReset for a player
 
 InactivityExpiration:
   examplegroup1:

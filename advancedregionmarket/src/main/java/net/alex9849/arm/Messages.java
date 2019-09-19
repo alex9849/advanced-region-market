@@ -374,6 +374,7 @@ public class Messages {
     public static String INACTIVITY_RESET_INFO_REGION_NOT_SOLD = "&4Region not sold";
     public static String TAKEOVER_INFO_POSSIBLE = "&2Now";
     public static String INACTIVITY_RESET_INFO_POSSIBLE = "&2Now";
+    public static String COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG = "&4Could not find or load schematic for region %region% in world %world%! You can regenerate it with /arm updateschematic %region%";
 
 
     static void read(){
@@ -736,6 +737,7 @@ public class Messages {
         INACTIVITY_RESET_INFO_REGION_NOT_SOLD = config.getString("Messages.InactivityResetInfoDeactivated");
         TAKEOVER_INFO_POSSIBLE = config.getString("Messages.TakeOverInfoDeactivated");
         INACTIVITY_RESET_INFO_POSSIBLE = config.getString("Messages.InactivityResetInfoDeactivated");
+        COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG = config.getString("Messages.CouldNotFindOrLoadSchematicLog");
 
         Messages.translateColorCodes();
     }
@@ -1061,6 +1063,7 @@ public class Messages {
         INACTIVITY_RESET_INFO_REGION_NOT_SOLD = ChatColor.translateAlternateColorCodes('&', INACTIVITY_RESET_INFO_REGION_NOT_SOLD);
         TAKEOVER_INFO_POSSIBLE = ChatColor.translateAlternateColorCodes('&', TAKEOVER_INFO_POSSIBLE);
         INACTIVITY_RESET_INFO_POSSIBLE = ChatColor.translateAlternateColorCodes('&', INACTIVITY_RESET_INFO_POSSIBLE);
+        COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG = ChatColor.translateAlternateColorCodes('&', COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG);
 
         for(int i = 0; i < REGION_INFO_SELLREGION.size(); i++){
             REGION_INFO_SELLREGION.set(i, ChatColor.translateAlternateColorCodes('&', REGION_INFO_SELLREGION.get(i)));
@@ -1551,6 +1554,7 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.InactivityResetInfoDeactivated", "&4Region not sold!");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.TakeOverInfoDeactivated", "&2Now");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.InactivityResetInfoDeactivated", "&2Now");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.CouldNotFindOrLoadSchematicLog", "&4Could not find or load schematic for region %region% in world %world%! You can regenerate it with /arm updateschematic %region%");
 
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoSellregionAdmin", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
                 "&9ID: &e%regionid% &7(Type: &r%selltype%&7)",

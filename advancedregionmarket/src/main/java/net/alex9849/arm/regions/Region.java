@@ -17,7 +17,7 @@ import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.util.Saveable;
 import net.alex9849.arm.util.Utilities;
 import net.alex9849.exceptions.InputException;
-import net.alex9849.exceptions.SchematicNotFoundException;
+import net.alex9849.exceptions.SchematicException;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.signs.SignData;
 import org.bukkit.*;
@@ -338,7 +338,7 @@ public abstract class Region implements Saveable {
         AdvancedRegionMarket.getWorldEditInterface().createSchematic(this.getRegion(), this.getRegionworld(), AdvancedRegionMarket.getWorldedit().getWorldEdit());
     }
 
-    public void resetBlocks() throws SchematicNotFoundException {
+    public void resetBlocks() throws SchematicException {
 
         ResetBlocksEvent resetBlocksEvent = new ResetBlocksEvent(this);
         Bukkit.getServer().getPluginManager().callEvent(resetBlocksEvent);
@@ -346,26 +346,19 @@ public abstract class Region implements Saveable {
             return;
         }
 
-        try {
-            if(ArmSettings.isRemoveEntitiesOnRegionBlockReset()) {
-                this.killEntitys();
-            }
-            AdvancedRegionMarket.getWorldEditInterface().resetBlocks(this.getRegion(), this.getRegionworld(), AdvancedRegionMarket.getWorldedit().getWorldEdit());
-            if(ArmSettings.isDeleteSubregionsOnParentRegionBlockReset()) {
-                for(int i = 0; i < this.getSubregions().size();) {
-                    this.getSubregions().get(i).delete();
-                }
-            }
-            this.resetBuiltBlocks();
-            this.flagGroup.applyToRegion(this, FlagGroup.ResetMode.COMPLETE);
+        if(ArmSettings.isRemoveEntitiesOnRegionBlockReset()) {
+            this.killEntitys();
+        }
 
-        } catch (IOException e) {
-            if(e instanceof SchematicNotFoundException) {
-                throw new SchematicNotFoundException(((SchematicNotFoundException) e).getRegion());
-            } else {
-                e.printStackTrace();
+        AdvancedRegionMarket.getWorldEditInterface().resetBlocks(this.getRegion(), this.getRegionworld(), AdvancedRegionMarket.getWorldedit().getWorldEdit());
+
+        if(ArmSettings.isDeleteSubregionsOnParentRegionBlockReset()) {
+            for(int i = 0; i < this.getSubregions().size();) {
+                this.getSubregions().get(i).delete();
             }
         }
+        this.resetBuiltBlocks();
+        this.flagGroup.applyToRegion(this, FlagGroup.ResetMode.COMPLETE);
 
         return;
     }
@@ -463,11 +456,11 @@ public abstract class Region implements Saveable {
             GregorianCalendar calendar = new GregorianCalendar();
             this.lastreset = calendar.getTimeInMillis();
             this.queueSave();
-        } catch (SchematicNotFoundException e) {
+            player.sendMessage(Messages.PREFIX + Messages.RESET_COMPLETE);
+        } catch (SchematicException e) {
             player.sendMessage(Messages.PREFIX + Messages.SCHEMATIC_NOT_FOUND_ERROR_USER.replace("%regionid%", e.getRegion().getId()));
-            Bukkit.getLogger().log(Level.WARNING, "Could not find schematic file for region " + this.getRegion().getId() + "in world " + this.getRegionworld().getName());
+            AdvancedRegionMarket.getARM().getLogger().log(Level.WARNING, this.getConvertedMessage(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
         }
-        player.sendMessage(Messages.PREFIX + Messages.RESET_COMPLETE);
     }
 
     public static void setResetcooldown(int cooldown){
@@ -504,12 +497,12 @@ public abstract class Region implements Saveable {
         return lastLogin;
     }
 
-    public void resetRegion() throws SchematicNotFoundException {
+    public void resetRegion() throws SchematicException {
         this.unsell();
-        this.resetBlocks();
         this.extraEntitys.clear();
         this.extraTotalEntitys = 0;
         this.queueSave();
+        this.resetBlocks();
         return;
     }
 
@@ -528,8 +521,11 @@ public abstract class Region implements Saveable {
             this.extraTotalEntitys = 0;
             try {
                 this.resetBlocks();
-            } catch (SchematicNotFoundException e) {
-                Bukkit.getLogger().log(Level.WARNING, "Could not find schematic file for region " + this.getRegion().getId() + "in world " + this.getRegionworld().getName());
+            } catch (SchematicException e) {
+                AdvancedRegionMarket.getARM().getLogger().log(Level.WARNING, this.getConvertedMessage(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
+                if(player != null) {
+                    player.sendMessage(Messages.PREFIX + Messages.SCHEMATIC_NOT_FOUND_ERROR_USER.replace("%regionid%", e.getRegion().getId()));
+                }
             }
         }
         if(player != null) {

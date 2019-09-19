@@ -2,12 +2,14 @@ package net.alex9849.exceptions;
 
 import net.alex9849.inter.WGRegion;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
-public class SchematicNotFoundException extends FileNotFoundException {
-    WGRegion wgRegion;
+public class SchematicException extends IOException {
+    private WGRegion wgRegion;
 
-    public SchematicNotFoundException(WGRegion wgregion) {
+    public SchematicException(WGRegion wgregion) {
         this.wgRegion = wgregion;
     }
 

@@ -3,6 +3,7 @@ package net.alex9849.adapters;
 import com.boydti.fawe.object.schematic.Schematic;
 import com.sk89q.worldedit.BlockVector;
 import com.sk89q.worldedit.EditSession;
+import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.BukkitWorld;
 import com.sk89q.worldedit.extent.Extent;
@@ -12,7 +13,7 @@ import com.sk89q.worldedit.function.operation.ForwardExtentCopy;
 import com.sk89q.worldedit.function.operation.Operations;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.world.registry.WorldData;
-import net.alex9849.exceptions.SchematicNotFoundException;
+import net.alex9849.exceptions.SchematicException;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.inter.WorldEditInterface;
 import org.bukkit.Bukkit;
@@ -48,7 +49,7 @@ public class WorldEdit6FaWe extends WorldEditInterface {
         }
     }
 
-    public void resetBlocks(WGRegion region, World bukkitworld, WorldEdit we) throws IOException {
+    public void resetBlocks(WGRegion region, World bukkitworld, WorldEdit we) throws SchematicException {
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
         File rawschematicdic = new File(pluginfolder + "/schematics/" + bukkitworld.getName() + "/" + region.getId());
 
@@ -63,7 +64,7 @@ public class WorldEdit6FaWe extends WorldEditInterface {
         }
 
         if(file == null) {
-            throw new SchematicNotFoundException(region);
+            throw new SchematicException(region);
         }
 
         com.sk89q.worldedit.world.World world = new BukkitWorld(bukkitworld);
@@ -81,11 +82,10 @@ public class WorldEdit6FaWe extends WorldEditInterface {
 
             ((EditSession) destination).flushQueue();
 
-        } catch (SchematicNotFoundException e) {
-            throw e;
-        } catch (Exception e) {
-            Bukkit.getLogger().info("Could not load schematic " + file.getAbsolutePath() + " please check your WorldEdit version or regenerate the schematic file!");
-            e.printStackTrace();
+        } catch (IOException e ) {
+            throw new SchematicException(region);
+        } catch (MaxChangedBlocksException e) {
+            throw new SchematicException(region);
         }
     }
 }

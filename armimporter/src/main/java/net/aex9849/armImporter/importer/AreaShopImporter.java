@@ -100,6 +100,7 @@ public class AreaShopImporter {
 
                 Region armRegion = null;
                 boolean isSold = !asRegion.isAvailable();
+                long actualTime = new GregorianCalendar().getTimeInMillis();
 
 
                 if(asRegion instanceof BuyRegion) {
@@ -109,7 +110,7 @@ public class AreaShopImporter {
                     Price armPrice = new Price(price);
 
                     armRegion = new net.alex9849.arm.regions.SellRegion(wgRegion, regionWorld, armSignDataList, armPrice, isSold, true, false,
-                            true, regionKind, FlagGroup.DEFAULT, null, 0, true, new ArrayList<Region>(), 0,
+                            true, regionKind, FlagGroup.DEFAULT, null, 0, actualTime, true, new ArrayList<Region>(), 0,
                             EntityLimitGroup.DEFAULT, new HashMap<>(), 0);
 
                 } else if(asRegion instanceof RentRegion) {
@@ -122,7 +123,7 @@ public class AreaShopImporter {
                     RentPrice armPrice = new RentPrice(price, extendTime, maxRentTime);
 
                     armRegion = new net.alex9849.arm.regions.RentRegion(wgRegion, regionWorld, armSignDataList, armPrice, isSold, true, false,
-                            true, regionKind, FlagGroup.DEFAULT, null, 0, true, payedTill, new ArrayList<Region>(), 0,
+                            true, regionKind, FlagGroup.DEFAULT, null, 0, actualTime, true, payedTill, new ArrayList<Region>(), 0,
                             EntityLimitGroup.DEFAULT, new HashMap<>(), 0);
                 }
 

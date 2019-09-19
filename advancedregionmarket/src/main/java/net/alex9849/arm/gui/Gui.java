@@ -18,7 +18,6 @@ import net.alex9849.arm.regions.RentRegion;
 import net.alex9849.arm.regions.SellRegion;
 import net.alex9849.arm.util.MaterialFinder;
 import net.alex9849.exceptions.InputException;
-import net.alex9849.exceptions.SchematicNotFoundException;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -680,13 +679,8 @@ public class Gui implements Listener {
                     Gui.openWarning(player, Messages.GUI_RESET_REGION_WARNING_NAME, new ClickAction() {
                         @Override
                         public void execute(Player player) throws InputException {
-                            try {
-                                region.resetBlocks();
-                                player.sendMessage(Messages.PREFIX + Messages.COMPLETE);
-                            } catch (SchematicNotFoundException e) {
-                                player.sendMessage(Messages.PREFIX + Messages.SCHEMATIC_NOT_FOUND_ERROR_USER.replace("%regionid%", e.getRegion().getId()));
-                                Bukkit.getLogger().log(Level.WARNING, "Could not find schematic file for region " + region.getRegion().getId() + "in world " + region.getRegionworld().getName());
-                            }
+                            region.userBlockReset(player);
+                            player.sendMessage(Messages.PREFIX + Messages.COMPLETE);
                             player.closeInventory();
                         }
                     }, new ClickAction() {

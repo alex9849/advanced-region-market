@@ -7,7 +7,7 @@ import net.alex9849.arm.gui.Gui;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.exceptions.InputException;
-import net.alex9849.exceptions.SchematicNotFoundException;
+import net.alex9849.exceptions.SchematicException;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -60,9 +60,9 @@ public class ResetBlocksCommand implements BasicArmCommand {
         if(player.hasPermission(Permission.ADMIN_RESETREGIONBLOCKS)) {
             try {
                 resregion.resetBlocks();
-            } catch (SchematicNotFoundException e) {
-                player.sendMessage(Messages.PREFIX + Messages.SCHEMATIC_NOT_FOUND_ERROR_ADMIN.replace("%regionid%", e.getRegion().getId()));
-                Bukkit.getLogger().log(Level.WARNING, "Could not find schematic file for region " + resregion.getRegion().getId() + "in world " + resregion.getRegionworld().getName());
+            } catch (SchematicException e) {
+                AdvancedRegionMarket.getARM().getLogger().log(Level.WARNING, resregion.getConvertedMessage(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
+                player.sendMessage(Messages.PREFIX + Messages.SCHEMATIC_NOT_FOUND_ERROR_USER.replace("%regionid%", e.getRegion().getId()));
             }
             player.sendMessage(Messages.PREFIX + Messages.RESET_COMPLETE);
             return true;

@@ -65,7 +65,7 @@ public class FlaggroupCommand implements BasicArmCommand {
             ActivePresetManager.add(new PresetPlayerPair(player, preset));
         }
 
-        FlagGroup flagGroup = AdvancedRegionMarket.getFlagGroupManager().getFlagGroup(args[1]);
+        FlagGroup flagGroup = AdvancedRegionMarket.getARM().getFlagGroupManager().getFlagGroup(args[1]);
         if(flagGroup == null) {
             player.sendMessage(Messages.PREFIX + Messages.FLAGGROUP_DOES_NOT_EXIST);
             return true;
@@ -90,7 +90,7 @@ public class FlaggroupCommand implements BasicArmCommand {
                     }
                 }
                 if(args.length == 2 && this.rootCommand.equalsIgnoreCase(args[0])) {
-                    returnme.addAll(AdvancedRegionMarket.getFlagGroupManager().tabCompleteFlaggroup(args[1]));
+                    returnme.addAll(AdvancedRegionMarket.getARM().getFlagGroupManager().tabCompleteFlaggroup(args[1]));
                 }
             }
         }

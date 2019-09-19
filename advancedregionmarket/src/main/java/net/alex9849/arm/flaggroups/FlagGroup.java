@@ -86,7 +86,7 @@ public class FlagGroup implements Saveable {
             }
 
 
-            Flag flag = AdvancedRegionMarket.getWorldGuardInterface().fuzzyMatchFlag(flagName);
+            Flag flag = AdvancedRegionMarket.getARM().getWorldGuardInterface().fuzzyMatchFlag(flagName);
 
             if(flag == null) {
                 Bukkit.getLogger().info("Could not find flag " + flagName + "! Please check your flaggroups.yml");
@@ -133,7 +133,7 @@ public class FlagGroup implements Saveable {
                         if(part.startsWith("g:")) {
                             if(part.length() > 2) {
                                 try {
-                                    groupFlagSettings = AdvancedRegionMarket.getWorldGuardInterface().parseFlagInput(groupFlag, part.substring(2));
+                                    groupFlagSettings = AdvancedRegionMarket.getARM().getWorldGuardInterface().parseFlagInput(groupFlag, part.substring(2));
                                 } catch (InvalidFlagFormat iff) {
                                     Bukkit.getLogger().info("Could not parse groupflag-settings for groupflag " + groupFlag.getName() + "! Flag will be ignored! Please check your flaggroups.yml");
                                     continue;
@@ -151,7 +151,7 @@ public class FlagGroup implements Saveable {
 
                 if(settings != null) {
                     try {
-                        Object wgFlagSettings = AdvancedRegionMarket.getWorldGuardInterface().parseFlagInput(flagSettings.getFlag(), region.getConvertedMessage(settings));
+                        Object wgFlagSettings = AdvancedRegionMarket.getARM().getWorldGuardInterface().parseFlagInput(flagSettings.getFlag(), region.getConvertedMessage(settings));
                         region.getRegion().setFlag(flagSettings.getFlag(), wgFlagSettings);
                     } catch (InvalidFlagFormat invalidFlagFormat) {
                         Bukkit.getLogger().info("Could not parse flag-settings for flag " + flagSettings.getFlag().getName() + "! Flag will be ignored! Please check your flaggroups.yml");

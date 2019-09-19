@@ -51,9 +51,9 @@ public class ResetBlocksCommand implements BasicArmCommand {
 
         Region resregion;
         if(allargs.matches(this.regex)) {
-            resregion = AdvancedRegionMarket.getRegionManager().getRegionAtPositionOrNameCommand(player, "");
+            resregion = AdvancedRegionMarket.getARM().getRegionManager().getRegionAtPositionOrNameCommand(player, "");
         } else {
-            resregion = AdvancedRegionMarket.getRegionManager().getRegionAtPositionOrNameCommand(player, args[1]);
+            resregion = AdvancedRegionMarket.getARM().getRegionManager().getRegionAtPositionOrNameCommand(player, args[1]);
         }
 
         if(player.hasPermission(Permission.ADMIN_RESETREGIONBLOCKS)) {
@@ -99,7 +99,7 @@ public class ResetBlocksCommand implements BasicArmCommand {
                         } else {
                             playerRegionRelationship = PlayerRegionRelationship.OWNER;
                         }
-                        returnme.addAll(AdvancedRegionMarket.getRegionManager().completeTabRegions(player, args[1], playerRegionRelationship,true, true));
+                        returnme.addAll(AdvancedRegionMarket.getARM().getRegionManager().completeTabRegions(player, args[1], playerRegionRelationship,true, true));
                     }
                 }
             }

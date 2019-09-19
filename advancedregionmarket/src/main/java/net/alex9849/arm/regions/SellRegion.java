@@ -82,7 +82,7 @@ public class SellRegion extends Region {
             throw new InputException(player, LimitGroup.getRegionBuyOutOfLimitMessage(player, this.getRegionKind()));
         }
 
-        if(AdvancedRegionMarket.getEcon().getBalance(player) < this.getPrice()) {
+        if(AdvancedRegionMarket.getARM().getEcon().getBalance(player) < this.getPrice()) {
             throw new InputException(player, Messages.NOT_ENOUGHT_MONEY);
         }
         BuyRegionEvent buyRegionEvent = new BuyRegionEvent(this, player);
@@ -91,7 +91,7 @@ public class SellRegion extends Region {
             return;
         }
 
-        AdvancedRegionMarket.getEcon().withdrawPlayer(player, this.getPrice());
+        AdvancedRegionMarket.getARM().getEcon().withdrawPlayer(player, this.getPrice());
         this.giveParentRegionOwnerMoney(this.getPrice());
         this.setSold(player);
         this.resetBuiltBlocks();
@@ -140,7 +140,7 @@ public class SellRegion extends Region {
 
         if(amount > 0){
             for(int i = 0; i < defdomain.size(); i++) {
-                AdvancedRegionMarket.getEcon().depositPlayer(Bukkit.getOfflinePlayer(defdomain.get(i)), amount);
+                AdvancedRegionMarket.getARM().getEcon().depositPlayer(Bukkit.getOfflinePlayer(defdomain.get(i)), amount);
             }
         }
 

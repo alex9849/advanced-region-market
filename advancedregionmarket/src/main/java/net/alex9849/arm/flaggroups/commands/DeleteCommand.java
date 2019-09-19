@@ -41,7 +41,7 @@ public class DeleteCommand implements BasicArmCommand {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
         //TODO CHANGE MESSAGES
-        FlagGroup flagGroup = AdvancedRegionMarket.getFlagGroupManager().getFlagGroup(args[1]);
+        FlagGroup flagGroup = AdvancedRegionMarket.getARM().getFlagGroupManager().getFlagGroup(args[1]);
         if(flagGroup == null) {
             throw new InputException(sender, "FlagGroup does not exist!");
         }
@@ -52,9 +52,9 @@ public class DeleteCommand implements BasicArmCommand {
             throw new InputException(sender, "Can't remove subregion FlagGroup!");
         }
 
-        AdvancedRegionMarket.getFlagGroupManager().remove(flagGroup);
+        AdvancedRegionMarket.getARM().getFlagGroupManager().remove(flagGroup);
 
-        for(Region region : AdvancedRegionMarket.getRegionManager()) {
+        for(Region region : AdvancedRegionMarket.getARM().getRegionManager()) {
             if(region.getFlagGroup() == flagGroup) {
                 region.setFlagGroup(FlagGroup.DEFAULT);
             }
@@ -77,7 +77,7 @@ public class DeleteCommand implements BasicArmCommand {
                     returnme.add(this.rootCommand);
                 }
             } else if((args.length == 2) && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                returnme.addAll(AdvancedRegionMarket.getFlagGroupManager().tabCompleteFlaggroup(args[1]));
+                returnme.addAll(AdvancedRegionMarket.getARM().getFlagGroupManager().tabCompleteFlaggroup(args[1]));
             }
         }
         return returnme;

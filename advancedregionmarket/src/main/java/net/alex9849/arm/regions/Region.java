@@ -125,7 +125,7 @@ public abstract class Region implements Saveable {
                     for(UUID uuid : parentRegionOwners) {
                         OfflinePlayer subRegionOwner = Bukkit.getOfflinePlayer(uuid);
                         if(subRegionOwner != null) {
-                            AdvancedRegionMarket.getEcon().depositPlayer(subRegionOwner, amount);
+                            AdvancedRegionMarket.getARM().getEcon().depositPlayer(subRegionOwner, amount);
                         }
                     }
                 }
@@ -251,11 +251,11 @@ public abstract class Region implements Saveable {
                             this.getSubregions().get(y).delete();
                         }
                         if(this.isSubregion()) {
-                            AdvancedRegionMarket.getWorldGuardInterface().removeFromRegionManager(this.getRegion(), this.getRegionworld(), AdvancedRegionMarket.getWorldGuard());
+                            AdvancedRegionMarket.getARM().getWorldGuardInterface().removeFromRegionManager(this.getRegion(), this.getRegionworld(), AdvancedRegionMarket.getARM().getWorldGuard());
                             this.getParentRegion().getSubregions().remove(this);
                             this.getParentRegion().queueSave();
                         } else {
-                            AdvancedRegionMarket.getRegionManager().remove(this);
+                            AdvancedRegionMarket.getARM().getRegionManager().remove(this);
                         }
                         if(destroyer != null) {
                             destroyer.sendMessage(Messages.PREFIX + Messages.REGION_REMOVED_FROM_ARM);
@@ -335,7 +335,7 @@ public abstract class Region implements Saveable {
     }
 
     public void createSchematic(){
-        AdvancedRegionMarket.getWorldEditInterface().createSchematic(this.getRegion(), this.getRegionworld(), AdvancedRegionMarket.getWorldedit().getWorldEdit());
+        AdvancedRegionMarket.getARM().getWorldEditInterface().createSchematic(this.getRegion(), this.getRegionworld(), AdvancedRegionMarket.getARM().getWorldedit().getWorldEdit());
     }
 
     public void resetBlocks() throws SchematicException {
@@ -350,7 +350,7 @@ public abstract class Region implements Saveable {
             this.killEntitys();
         }
 
-        AdvancedRegionMarket.getWorldEditInterface().resetBlocks(this.getRegion(), this.getRegionworld(), AdvancedRegionMarket.getWorldedit().getWorldEdit());
+        AdvancedRegionMarket.getARM().getWorldEditInterface().resetBlocks(this.getRegion(), this.getRegionworld(), AdvancedRegionMarket.getARM().getWorldedit().getWorldEdit());
 
         if(ArmSettings.isDeleteSubregionsOnParentRegionBlockReset()) {
             for(int i = 0; i < this.getSubregions().size();) {

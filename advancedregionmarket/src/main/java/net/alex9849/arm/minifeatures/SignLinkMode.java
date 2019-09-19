@@ -75,7 +75,7 @@ public class SignLinkMode implements Listener {
             event.setCancelled(true);
             if(MaterialFinder.getSignMaterials().contains(event.getClickedBlock().getType())) {
                 Sign sign  = (Sign) event.getClickedBlock().getState();
-                if(AdvancedRegionMarket.getRegionManager().getRegion(sign) != null) {
+                if(AdvancedRegionMarket.getARM().getRegionManager().getRegion(sign) != null) {
                     throw new InputException(event.getPlayer(), Messages.SIGN_LINK_MODE_SIGN_BELONGS_TO_ANOTHER_REGION);
                 }
                 this.sign = sign;
@@ -85,7 +85,7 @@ public class SignLinkMode implements Listener {
                 if(clicklocation == null) {
                     return;
                 }
-                List<WGRegion> regions = AdvancedRegionMarket.getWorldGuardInterface().getApplicableRegions(clicklocation.getWorld(), clicklocation, AdvancedRegionMarket.getWorldGuard());
+                List<WGRegion> regions = AdvancedRegionMarket.getARM().getWorldGuardInterface().getApplicableRegions(clicklocation.getWorld(), clicklocation, AdvancedRegionMarket.getARM().getWorldGuard());
                 regions.removeAll(SignLinkMode.blacklistedRegions);
                 if(regions.size() > 1) {
                     throw new InputException(event.getPlayer(), Messages.SIGN_LINK_MODE_COULD_NOT_SELECT_REGION_MULTIPLE_WG_REGIONS);
@@ -117,16 +117,16 @@ public class SignLinkMode implements Listener {
         if(this.world == null) {
             throw new InputException(player, Messages.SIGN_LINK_MODE_COULD_NOT_IDENTIFY_WORLD);
         }
-        if(AdvancedRegionMarket.getRegionManager().getRegion(sign) != null) {
+        if(AdvancedRegionMarket.getARM().getRegionManager().getRegion(sign) != null) {
             throw new InputException(this.player, Messages.SIGN_LINK_MODE_SIGN_BELONGS_TO_ANOTHER_REGION);
         }
         List<SignData> signs = new ArrayList<>();
-        SignData signData = AdvancedRegionMarket.getSignDataFactory().generateSignData(this.sign.getLocation());
+        SignData signData = AdvancedRegionMarket.getARM().getSignDataFactory().generateSignData(this.sign.getLocation());
         if(signData == null) {
             throw new InputException(this.player, "Could not import sign!");
         }
         signs.add(signData);
-        Region existingRegion = AdvancedRegionMarket.getRegionManager().getRegion(wgRegion);
+        Region existingRegion = AdvancedRegionMarket.getARM().getRegionManager().getRegion(wgRegion);
         if(existingRegion != null) {
             existingRegion.addSign(signData);
             existingRegion.queueSave();
@@ -135,7 +135,7 @@ public class SignLinkMode implements Listener {
             Region newRegion = this.preset.generateRegion(this.wgRegion, this.world, this.player, signs);
             newRegion.createSchematic();
             newRegion.applyFlagGroup(FlagGroup.ResetMode.COMPLETE);
-            AdvancedRegionMarket.getRegionManager().add(newRegion);
+            AdvancedRegionMarket.getARM().getRegionManager().add(newRegion);
             this.player.sendMessage(Messages.PREFIX + Messages.REGION_ADDED_TO_ARM);
         }
         this.sign = null;

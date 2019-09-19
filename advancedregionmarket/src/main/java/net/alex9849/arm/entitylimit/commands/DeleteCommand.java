@@ -43,7 +43,7 @@ public class DeleteCommand implements BasicArmCommand {
         if (!sender.hasPermission(Permission.ADMIN_ENTITYLIMIT_DELETE)) {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
-        EntityLimitGroup entityLimitGroup = AdvancedRegionMarket.getEntityLimitGroupManager().getEntityLimitGroup(args[1]);
+        EntityLimitGroup entityLimitGroup = AdvancedRegionMarket.getARM().getEntityLimitGroupManager().getEntityLimitGroup(args[1]);
         if(entityLimitGroup == null) {
             throw new InputException(sender, Messages.ENTITYLIMITGROUP_DOES_NOT_EXIST);
         }
@@ -54,9 +54,9 @@ public class DeleteCommand implements BasicArmCommand {
             throw new InputException(sender, Messages.ENTITYLIMITGROUP_CAN_NOT_REMOVE_SYSTEM);
         }
 
-        AdvancedRegionMarket.getEntityLimitGroupManager().remove(entityLimitGroup);
+        AdvancedRegionMarket.getARM().getEntityLimitGroupManager().remove(entityLimitGroup);
 
-        for(Region region : AdvancedRegionMarket.getRegionManager()) {
+        for(Region region : AdvancedRegionMarket.getARM().getRegionManager()) {
             if(region.getEntityLimitGroup() == entityLimitGroup) {
                 region.setEntityLimitGroup(EntityLimitGroup.DEFAULT);
             }
@@ -80,7 +80,7 @@ public class DeleteCommand implements BasicArmCommand {
                 }
             } else if((args.length == 2) && (args[0].equalsIgnoreCase(this.rootCommand))) {
                 if (this.rootCommand.startsWith(args[0])) {
-                    returnme.addAll(AdvancedRegionMarket.getEntityLimitGroupManager().tabCompleteEntityLimitGroups(args[1]));
+                    returnme.addAll(AdvancedRegionMarket.getARM().getEntityLimitGroupManager().tabCompleteEntityLimitGroups(args[1]));
                 }
             }
         }

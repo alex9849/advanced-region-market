@@ -45,7 +45,7 @@ public class TpToFreeRegion implements BasicArmCommand {
             throw new InputException(player, Messages.NO_PERMISSION);
         }
 
-        RegionKind regionKind = AdvancedRegionMarket.getRegionKindManager().getRegionKind(args[1]);
+        RegionKind regionKind = AdvancedRegionMarket.getARM().getRegionKindManager().getRegionKind(args[1]);
         if(regionKind == null) {
             throw new InputException(player, Messages.REGIONKIND_DOES_NOT_EXIST);
         }
@@ -53,7 +53,7 @@ public class TpToFreeRegion implements BasicArmCommand {
             //TODO Das hier noch ändern!
             throw new InputException(player, Messages.NO_PERMISSION);
         }
-        AdvancedRegionMarket.getRegionManager().teleportToFreeRegion(regionKind, player);
+        AdvancedRegionMarket.getARM().getRegionManager().teleportToFreeRegion(regionKind, player);
 
         return true;
     }
@@ -73,7 +73,7 @@ public class TpToFreeRegion implements BasicArmCommand {
                     if(args.length == 1) {
                         returnme.add(this.rootCommand);
                     } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                        returnme.addAll(AdvancedRegionMarket.getRegionKindManager().completeTabRegionKinds(args[1], "", player));
+                        returnme.addAll(AdvancedRegionMarket.getARM().getRegionKindManager().completeTabRegionKinds(args[1], "", player));
                     }
                 }
             }

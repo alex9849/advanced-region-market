@@ -55,7 +55,7 @@ public class Offer {
             throw new InputException(senders, messages);
         }
 
-        Economy econ = AdvancedRegionMarket.getEcon();
+        Economy econ = AdvancedRegionMarket.getARM().getEcon();
 
         if(econ.getBalance(buyer) < price) {
             this.reject();

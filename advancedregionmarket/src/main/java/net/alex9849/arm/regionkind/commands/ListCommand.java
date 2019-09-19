@@ -45,7 +45,7 @@ public class ListCommand implements BasicArmCommand {
         sender.sendMessage(Messages.REGIONKIND_LIST_HEADLINE);
         sender.sendMessage("- " + RegionKind.DEFAULT.getName());
         sender.sendMessage("- " + RegionKind.SUBREGION.getName());
-        for(RegionKind regionKind : AdvancedRegionMarket.getRegionKindManager()) {
+        for(RegionKind regionKind : AdvancedRegionMarket.getARM().getRegionKindManager()) {
             sender.sendMessage("- " + regionKind.getName());
         }
         return true;

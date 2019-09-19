@@ -39,7 +39,7 @@ public class SignModifyListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void addSign(SignChangeEvent sign) {
-        if(AdvancedRegionMarket.getRegionManager() == null) {
+        if(AdvancedRegionMarket.getARM().getRegionManager() == null) {
             return;
         }
 
@@ -85,18 +85,18 @@ public class SignModifyListener implements Listener {
             }
 
             //Get region
-            WGRegion wgRegion = AdvancedRegionMarket.getWorldGuardInterface().getRegion(regionWorld, AdvancedRegionMarket.getWorldGuard(), sign.getLine(2));
+            WGRegion wgRegion = AdvancedRegionMarket.getARM().getWorldGuardInterface().getRegion(regionWorld, AdvancedRegionMarket.getARM().getWorldGuard(), sign.getLine(2));
             if(wgRegion == null) {
                 throw new InputException(sign.getPlayer(), Messages.REGION_DOES_NOT_EXIST);
             }
 
             //Generate signdata
-            SignData signData = AdvancedRegionMarket.getSignDataFactory().generateSignData(sign.getBlock().getLocation());
+            SignData signData = AdvancedRegionMarket.getARM().getSignDataFactory().generateSignData(sign.getBlock().getLocation());
             if(signData == null) {
                 throw new InputException(sign.getPlayer(), ChatColor.DARK_RED + "Could not import sign!");
             }
 
-            Region existingArmRegion = AdvancedRegionMarket.getRegionManager().getRegion(wgRegion);
+            Region existingArmRegion = AdvancedRegionMarket.getARM().getRegionManager().getRegion(wgRegion);
             if(existingArmRegion != null) {
                 existingArmRegion.addSign(signData);
                 sign.setCancelled(true);
@@ -113,7 +113,7 @@ public class SignModifyListener implements Listener {
                 }
                 newArmRegion.createSchematic();
                 newArmRegion.applyFlagGroup(FlagGroup.ResetMode.COMPLETE);
-                AdvancedRegionMarket.getRegionManager().add(newArmRegion);
+                AdvancedRegionMarket.getARM().getRegionManager().add(newArmRegion);
                 sign.setCancelled(true);
                 sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_ADDED_TO_ARM);
                 return;
@@ -199,7 +199,7 @@ public class SignModifyListener implements Listener {
             if (!MaterialFinder.getSignMaterials().contains(block.getBlock().getType())) {
                 return;
             }
-            Region region = AdvancedRegionMarket.getRegionManager().getRegion((Sign) block.getBlock().getState());
+            Region region = AdvancedRegionMarket.getARM().getRegionManager().getRegion((Sign) block.getBlock().getState());
             if(region == null){
                 return;
             }
@@ -253,7 +253,7 @@ public class SignModifyListener implements Listener {
     @EventHandler
     public void protectSignPhysics(BlockPhysicsEvent sign) {
         if (MaterialFinder.getSignMaterials().contains(sign.getBlock().getType())){
-            if(AdvancedRegionMarket.getRegionManager().getRegion((Sign) sign.getBlock().getState()) != null){
+            if(AdvancedRegionMarket.getARM().getRegionManager().getRegion((Sign) sign.getBlock().getState()) != null){
                 sign.setCancelled(true);
                 return;
             }

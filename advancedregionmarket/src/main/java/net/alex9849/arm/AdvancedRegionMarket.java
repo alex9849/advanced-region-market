@@ -69,20 +69,20 @@ import java.util.*;
 import java.util.logging.Level;
 
 public class AdvancedRegionMarket extends JavaPlugin {
-    private static Boolean faWeInstalled;
-    private static Economy econ;
-    private static net.milkbowl.vault.permission.Permission vaultPerms;
-    private static WorldGuardPlugin worldguard;
-    private static WorldGuardInterface worldGuardInterface;
-    private static WorldEditPlugin worldedit;
-    private static WorldEditInterface worldEditInterface;
-    private static CommandHandler commandHandler;
-    private static RegionKindManager regionKindManager;
-    private static EntityLimitGroupManager entityLimitGroupManager;
-    private static RegionManager regionManager;
-    private static PresetPatternManager presetPatternManager;
-    private static SignDataFactory signDataFactory;
-    private static FlagGroupManager flagGroupManager;
+    private Boolean faWeInstalled = null;
+    private Economy econ = null;
+    private net.milkbowl.vault.permission.Permission vaultPerms = null;
+    private WorldGuardPlugin worldguard = null;
+    private WorldGuardInterface worldGuardInterface = null;
+    private WorldEditPlugin worldedit = null;
+    private WorldEditInterface worldEditInterface = null;
+    private CommandHandler commandHandler = null;
+    private RegionKindManager regionKindManager = null;
+    private EntityLimitGroupManager entityLimitGroupManager = null;
+    private RegionManager regionManager = null;
+    private PresetPatternManager presetPatternManager = null;
+    private SignDataFactory signDataFactory = null;
+    private FlagGroupManager flagGroupManager = null;
 
     public void onEnable(){
 
@@ -90,7 +90,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         BStatsAnalytics bStatsAnalytics = new BStatsAnalytics();
         bStatsAnalytics.register(this);
 
-        AdvancedRegionMarket.faWeInstalled = setupFaWe();
+        this.faWeInstalled = setupFaWe();
 
         //Check if Worldguard is installed
         if (!setupWorldGuard()) {
@@ -151,22 +151,22 @@ public class AdvancedRegionMarket extends JavaPlugin {
 
 
 
-        AdvancedRegionMarket.regionKindManager = new RegionKindManager(new File(this.getDataFolder() + "/regionkinds.yml"));
-        AdvancedRegionMarket.entityLimitGroupManager = new EntityLimitGroupManager(new File(this.getDataFolder() + "/entitylimits.yml"));
+        this.regionKindManager = new RegionKindManager(new File(this.getDataFolder() + "/regionkinds.yml"));
+        this.entityLimitGroupManager = new EntityLimitGroupManager(new File(this.getDataFolder() + "/entitylimits.yml"));
         loadAutoPrice();
         loadGroups();
         loadGUI();
-        AdvancedRegionMarket.flagGroupManager = new FlagGroupManager(new File(this.getDataFolder() + "/flaggroups.yml"));
-        AdvancedRegionMarket.regionManager = new RegionManager(new File(this.getDataFolder() + "/regions.yml"));
+        this.flagGroupManager = new FlagGroupManager(new File(this.getDataFolder() + "/flaggroups.yml"));
+        this.regionManager = new RegionManager(new File(this.getDataFolder() + "/regions.yml"));
         getLogger().log(Level.INFO, "Regions loaded!");
 
         loadSignLinkingModeRegions();
         loadInactivityExpirationGroups();
         loadOther();
-        AdvancedRegionMarket.presetPatternManager = new PresetPatternManager(new File(this.getDataFolder() + "/presets.yml"));
+        this.presetPatternManager = new PresetPatternManager(new File(this.getDataFolder() + "/presets.yml"));
         Region.setCompleteTabRegions(getConfig().getBoolean("Other.CompleteRegionsOnTabComplete"));
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Scheduler() , 0 ,20*getConfig().getInt("Other.SignAndResetUpdateInterval"));
-        AdvancedRegionMarket.commandHandler = new CommandHandler(new ArrayList<>(Arrays.asList("help")), "");
+        this.commandHandler = new CommandHandler(new ArrayList<>(Arrays.asList("help")), "");
         List<BasicArmCommand> commands = new ArrayList<>();
         String[] betweencmds = {};
         commands.add(new AddMemberCommand());
@@ -177,7 +177,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         commands.add(new ExtendCommand());
         commands.add(new RegionfinderCommand());
         commands.add(new GuiCommand());
-        commands.add(new HelpCommand(AdvancedRegionMarket.commandHandler, Messages.HELP_HEADLINE, betweencmds, Permission.ARM_HELP));
+        commands.add(new HelpCommand(this.commandHandler, Messages.HELP_HEADLINE, betweencmds, Permission.ARM_HELP));
         commands.add(new HotelCommand());
         commands.add(new InfoCommand());
         commands.add(new LimitCommand());
@@ -248,7 +248,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         subRegionCommands.add(new net.alex9849.arm.subregions.commands.DeleteCommand());
         commands.add(new CommandSplitter("subregion", "(?i)subregion [^;\n]+", subRegionUsage, Permission.SUBREGION_HELP, Messages.SUBREGION_HELP_HEADLINE, subRegionCommands));
 
-        AdvancedRegionMarket.commandHandler.addCommands(commands);
+        this.commandHandler.addCommands(commands);
 
         getCommand("arm").setTabCompleter(this.commandHandler);
 
@@ -258,23 +258,24 @@ public class AdvancedRegionMarket extends JavaPlugin {
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
             @Override
             public void run() {
-                AdvancedRegionMarket.getRegionManager().updateFile();
-                AdvancedRegionMarket.getEntityLimitGroupManager().updateFile();
-                AdvancedRegionMarket.getRegionKindManager().updateFile();
-                AdvancedRegionMarket.getFlagGroupManager().updateFile();
+                AdvancedRegionMarket.getARM().getRegionManager().updateFile();
+                AdvancedRegionMarket.getARM().getEntityLimitGroupManager().updateFile();
+                AdvancedRegionMarket.getARM().getRegionKindManager().updateFile();
+                AdvancedRegionMarket.getARM().getFlagGroupManager().updateFile();
             }
         }, 0, 60);
     }
 
     public void onDisable(){
-        AdvancedRegionMarket.getPresetPatternManager().updateFile();
-        AdvancedRegionMarket.getRegionManager().updateFile();
-        AdvancedRegionMarket.getRegionKindManager().updateFile();
-        AdvancedRegionMarket.getEntityLimitGroupManager().updateFile();
-        AdvancedRegionMarket.getFlagGroupManager().updateFile();
-        AdvancedRegionMarket.econ = null;
-        AdvancedRegionMarket.worldguard = null;
-        AdvancedRegionMarket.worldedit = null;
+        this.getPresetPatternManager().updateFile();
+        this.getRegionManager().updateFile();
+        this.getRegionKindManager().updateFile();
+        this.getEntityLimitGroupManager().updateFile();
+        this.getFlagGroupManager().updateFile();
+        this.econ = null;
+        this.vaultPerms = null;
+        this.worldguard = null;
+        this.worldedit = null;
         LimitGroup.Reset();
         InactivityExpirationGroup.reset();
         AutoPrice.reset();
@@ -297,19 +298,19 @@ public class AdvancedRegionMarket extends JavaPlugin {
         HandlerList.unregisterAll(this);
     }
 
-    public static FlagGroupManager getFlagGroupManager() {
-        return AdvancedRegionMarket.flagGroupManager;
+    public FlagGroupManager getFlagGroupManager() {
+        return this.flagGroupManager;
     }
 
-    public static PresetPatternManager getPresetPatternManager() {
-        return AdvancedRegionMarket.presetPatternManager;
+    public PresetPatternManager getPresetPatternManager() {
+        return this.presetPatternManager;
     }
 
-    public static SignDataFactory getSignDataFactory() {
-        return AdvancedRegionMarket.signDataFactory;
+    public SignDataFactory getSignDataFactory() {
+        return this.signDataFactory;
     }
 
-    private static void setupSignDataFactory() {
+    private void setupSignDataFactory() {
         String classVersion = "";
         String serverVersion = Bukkit.getServer().getVersion();
         if(serverVersion.equalsIgnoreCase("1.12") || serverVersion.contains("1.12")) {
@@ -326,7 +327,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         try {
             Class<?> signDataFactoryClass = Class.forName("net.alex9849.signs.SignDataFactory" + classVersion);
             if(SignDataFactory.class.isAssignableFrom(signDataFactoryClass)) {
-                AdvancedRegionMarket.signDataFactory = (SignDataFactory) signDataFactoryClass.newInstance();
+                this.signDataFactory = (SignDataFactory) signDataFactoryClass.newInstance();
             }
         } catch (Exception e) {
             Bukkit.getLogger().log(Level.WARNING, "Could not setup SignDataFactory! (Is your server compatible? Compatible versions: 1.12, 1.13, 1.14)");
@@ -334,16 +335,16 @@ public class AdvancedRegionMarket extends JavaPlugin {
 
     }
 
-    public static RegionKindManager getRegionKindManager() {
-        return AdvancedRegionMarket.regionKindManager;
+    public RegionKindManager getRegionKindManager() {
+        return this.regionKindManager;
     }
 
-    public static EntityLimitGroupManager getEntityLimitGroupManager() {
-        return AdvancedRegionMarket.entityLimitGroupManager;
+    public EntityLimitGroupManager getEntityLimitGroupManager() {
+        return this.entityLimitGroupManager;
     }
 
-    public static RegionManager getRegionManager() {
-        return AdvancedRegionMarket.regionManager;
+    public RegionManager getRegionManager() {
+        return this.regionManager;
     }
 
     private boolean setupEconomy() {
@@ -354,8 +355,8 @@ public class AdvancedRegionMarket extends JavaPlugin {
         if (rsp == null) {
             return false;
         }
-        AdvancedRegionMarket.econ = rsp.getProvider();
-        return econ != null;
+        this.econ = rsp.getProvider();
+        return this.econ != null;
     }
 
     private boolean setupPermissions() {
@@ -363,8 +364,8 @@ public class AdvancedRegionMarket extends JavaPlugin {
             return false;
         }
         RegisteredServiceProvider<net.milkbowl.vault.permission.Permission> rsp = getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
-        vaultPerms = rsp.getProvider();
-        return vaultPerms != null;
+        this.vaultPerms = rsp.getProvider();
+        return this.vaultPerms != null;
     }
 
     private boolean setupFaWe(){
@@ -382,9 +383,9 @@ public class AdvancedRegionMarket extends JavaPlugin {
         if (plugin == null || !(plugin instanceof WorldGuardPlugin)) {
             return false;
         }
-        AdvancedRegionMarket.worldguard = (WorldGuardPlugin) plugin;
+        this.worldguard = (WorldGuardPlugin) plugin;
         String version = "notSupported";
-        if(AdvancedRegionMarket.worldguard.getDescription().getVersion().startsWith("6.")) {
+        if(this.worldguard.getDescription().getVersion().startsWith("6.")) {
             version = "6";
         } else {
 
@@ -402,7 +403,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         try {
             final Class<?> wgClass = Class.forName("net.alex9849.adapters.WorldGuard" + version);
             if(WorldGuardInterface.class.isAssignableFrom(wgClass)) {
-                AdvancedRegionMarket.worldGuardInterface = (WorldGuardInterface) wgClass.newInstance();
+                this.worldGuardInterface = (WorldGuardInterface) wgClass.newInstance();
             }
             Bukkit.getLogger().log(Level.INFO, "Using WorldGuard" + version + " adapter");
         } catch (Exception e) {
@@ -419,29 +420,29 @@ public class AdvancedRegionMarket extends JavaPlugin {
         if (plugin == null || !(plugin instanceof WorldEditPlugin)) {
             return false;
         }
-        AdvancedRegionMarket.worldedit = (WorldEditPlugin) plugin;
+        this.worldedit = (WorldEditPlugin) plugin;
         String version = "notSupported";
         Boolean hasFaWeHandler = true;
 
-        if(AdvancedRegionMarket.worldedit.getDescription().getVersion().startsWith("6.")) {
+        if(this.worldedit.getDescription().getVersion().startsWith("6.")) {
             version = "6";
         } else {
             version = "7";
             hasFaWeHandler = false;
-            if(AdvancedRegionMarket.worldedit.getDescription().getVersion().contains("beta-01") || ((parseWorldEditBuildNumber(worldedit) != null) && (parseWorldEditBuildNumber(worldedit) < 3930))){
+            if(this.worldedit.getDescription().getVersion().contains("beta-01") || ((parseWorldEditBuildNumber(worldedit) != null) && (parseWorldEditBuildNumber(worldedit) < 3930))){
                 version = "7Beta01";
             }
 
         }
 
-        if(AdvancedRegionMarket.isFaWeInstalled() && hasFaWeHandler){
+        if(this.isFaWeInstalled() && hasFaWeHandler){
             version = version + "FaWe";
         }
 
         try {
             final Class<?> weClass = Class.forName("net.alex9849.adapters.WorldEdit" + version);
             if(WorldEditInterface.class.isAssignableFrom(weClass)) {
-                AdvancedRegionMarket.worldEditInterface = (WorldEditInterface) weClass.newInstance();
+                this.worldEditInterface = (WorldEditInterface) weClass.newInstance();
             }
             Bukkit.getLogger().log(Level.INFO, "Using WorldEdit" + version + " adapter");
         } catch (Exception e) {
@@ -495,20 +496,20 @@ public class AdvancedRegionMarket extends JavaPlugin {
 
     }
 
-    public static CommandHandler getCommandHandler() {
-        return AdvancedRegionMarket.commandHandler;
+    public CommandHandler getCommandHandler() {
+        return this.commandHandler;
     }
 
-    public static WorldGuardPlugin getWorldGuard(){
-        return AdvancedRegionMarket.worldguard;
+    public WorldGuardPlugin getWorldGuard(){
+        return this.worldguard;
     }
 
-    public static WorldGuardInterface getWorldGuardInterface() {
-        return  AdvancedRegionMarket.worldGuardInterface;
+    public WorldGuardInterface getWorldGuardInterface() {
+        return  this.worldGuardInterface;
     }
 
-    public static WorldEditInterface getWorldEditInterface(){
-        return AdvancedRegionMarket.worldEditInterface;
+    public WorldEditInterface getWorldEditInterface(){
+        return this.worldEditInterface;
     }
 
     public static AdvancedRegionMarket getARM() {
@@ -520,8 +521,8 @@ public class AdvancedRegionMarket extends JavaPlugin {
         }
     }
 
-    public static Boolean isFaWeInstalled(){
-        return AdvancedRegionMarket.faWeInstalled;
+    private Boolean isFaWeInstalled(){
+        return this.faWeInstalled;
     }
 
     private void loadAutoPrice() {
@@ -584,8 +585,8 @@ public class AdvancedRegionMarket extends JavaPlugin {
         Gui.setFlageditorResetItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.FlageditorResetItem")));
     }
 
-    public static net.milkbowl.vault.permission.Permission getVaultPerms() {
-        return vaultPerms;
+    public net.milkbowl.vault.permission.Permission getVaultPerms() {
+        return this.vaultPerms;
     }
 
     private void loadGroups(){
@@ -678,7 +679,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
             }
 
             for(String regionName : regionNames) {
-                WGRegion wgRegion = AdvancedRegionMarket.getWorldGuardInterface().getRegion(world, AdvancedRegionMarket.getWorldGuard(), regionName);
+                WGRegion wgRegion = this.getWorldGuardInterface().getRegion(world, this.getWorldGuard(), regionName);
                 if(wgRegion == null) {
                     continue;
                 }
@@ -688,25 +689,11 @@ public class AdvancedRegionMarket extends JavaPlugin {
         SignLinkMode.setBlacklistedRegions(wgRegions);
     }
 
-    private static void checkOrCreateMySql(String mysqldatabase) throws SQLException {
-        ResultSet rs = ArmSettings.getStmt().executeQuery("SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'");
-        Boolean createLastlogin = true;
-        while (rs.next()){
-            if(rs.getString("TABLE_NAME").equals(ArmSettings.getSqlPrefix() + "lastlogin")){
-                createLastlogin = false;
-            }
-        }
-        if(createLastlogin){
-            ArmSettings.getStmt().executeUpdate("CREATE TABLE `" + mysqldatabase + "`.`" + ArmSettings.getSqlPrefix() + "lastlogin` ( `id` INT NOT NULL AUTO_INCREMENT , `uuid` VARCHAR(40) NOT NULL , `lastlogin` TIMESTAMP NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;");
-        }
-
+    public Economy getEcon(){
+        return this.econ;
     }
 
-    public static Economy getEcon(){
-        return AdvancedRegionMarket.econ;
-    }
-
-    public static WorldEditPlugin getWorldedit() {return AdvancedRegionMarket.worldedit;}
+    public WorldEditPlugin getWorldedit() {return this.worldedit;}
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args) {

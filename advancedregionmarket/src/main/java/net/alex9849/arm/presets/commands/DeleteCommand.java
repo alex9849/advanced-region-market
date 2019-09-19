@@ -52,13 +52,13 @@ public class DeleteCommand implements BasicArmCommand {
             throw new InputException(player, Messages.NO_PERMISSION);
         }
 
-        Preset toDeletePreset = AdvancedRegionMarket.getPresetPatternManager().getPreset(args[1], this.presetType);
+        Preset toDeletePreset = AdvancedRegionMarket.getARM().getPresetPatternManager().getPreset(args[1], this.presetType);
 
         if(toDeletePreset == null) {
             throw new InputException(player, Messages.PRESET_NOT_FOUND);
         }
 
-        AdvancedRegionMarket.getPresetPatternManager().remove(toDeletePreset);
+        AdvancedRegionMarket.getARM().getPresetPatternManager().remove(toDeletePreset);
         player.sendMessage(Messages.PREFIX + Messages.PRESET_DELETED);
 
         return true;
@@ -75,7 +75,7 @@ public class DeleteCommand implements BasicArmCommand {
                     }
                 }
                 if(args.length == 2 && this.rootCommand.equalsIgnoreCase(args[0])) {
-                    returnme.addAll(AdvancedRegionMarket.getPresetPatternManager().onTabCompleteCompleteSavedPresets(this.presetType, args[1]));
+                    returnme.addAll(AdvancedRegionMarket.getARM().getPresetPatternManager().onTabCompleteCompleteSavedPresets(this.presetType, args[1]));
                 }
             }
         }

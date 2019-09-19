@@ -94,11 +94,11 @@ public class ContractRegion extends Region {
                         this.extend();
                         this.updateSigns();
                     } else {
-                        if(AdvancedRegionMarket.getEcon().hasAccount(oplayer)) {
-                            if(AdvancedRegionMarket.getEcon().getBalance(oplayer) < this.getPrice()) {
+                        if(AdvancedRegionMarket.getARM().getEcon().hasAccount(oplayer)) {
+                            if(AdvancedRegionMarket.getARM().getEcon().getBalance(oplayer) < this.getPrice()) {
                                 this.automaticResetRegion();
                             } else {
-                                AdvancedRegionMarket.getEcon().withdrawPlayer(oplayer, this.getPrice());
+                                AdvancedRegionMarket.getARM().getEcon().withdrawPlayer(oplayer, this.getPrice());
                                 if(this.isSubregion()) {
                                     this.giveParentRegionOwnerMoney(this.getPrice());
                                 }
@@ -186,7 +186,7 @@ public class ContractRegion extends Region {
         if(!LimitGroup.isCanBuyAnother(player, this)) {
             throw new InputException(player, LimitGroup.getRegionBuyOutOfLimitMessage(player, this.getRegionKind()));
         }
-        if(AdvancedRegionMarket.getEcon().getBalance(player) < this.getPrice()) {
+        if(AdvancedRegionMarket.getARM().getEcon().getBalance(player) < this.getPrice()) {
             throw new InputException(player, Messages.NOT_ENOUGHT_MONEY);
         }
         BuyRegionEvent buyRegionEvent = new BuyRegionEvent(this, player);
@@ -194,7 +194,7 @@ public class ContractRegion extends Region {
         if(buyRegionEvent.isCancelled()) {
             return;
         }
-        AdvancedRegionMarket.getEcon().withdrawPlayer(player, this.getPrice());
+        AdvancedRegionMarket.getARM().getEcon().withdrawPlayer(player, this.getPrice());
         if(this.isSubregion()) {
             this.giveParentRegionOwnerMoney(this.getPrice());
         }
@@ -214,7 +214,7 @@ public class ContractRegion extends Region {
 
         if(amount > 0){
             for(int i = 0; i < defdomain.size(); i++) {
-                AdvancedRegionMarket.getEcon().depositPlayer(Bukkit.getOfflinePlayer(defdomain.get(i)), amount);
+                AdvancedRegionMarket.getARM().getEcon().depositPlayer(Bukkit.getOfflinePlayer(defdomain.get(i)), amount);
             }
         }
 

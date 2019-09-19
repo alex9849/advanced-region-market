@@ -78,7 +78,7 @@ public class SubRegionCreator {
         if(!this.parentRegion.getRegionworld().getName().equals(this.creator.getLocation().getWorld().getName())) {
             throw new InputException(this.creator, Messages.POSITION_CLOUD_NOT_BE_SET_MARK_OUTSIDE_REGION);
         }
-        if(!AdvancedRegionMarket.getRegionManager().containsRegion(this.getParentRegion())) {
+        if(!AdvancedRegionMarket.getARM().getRegionManager().containsRegion(this.getParentRegion())) {
             this.remove();
             throw new InputException(this.creator, Messages.REGION_NOT_REGISTRED);
         }
@@ -110,7 +110,7 @@ public class SubRegionCreator {
             this.remove();
             throw new InputException(this.creator, Messages.PARENT_REGION_NOT_OWN);
         }
-        if(!AdvancedRegionMarket.getRegionManager().containsRegion(this.getParentRegion())) {
+        if(!AdvancedRegionMarket.getARM().getRegionManager().containsRegion(this.getParentRegion())) {
             this.remove();
             throw new InputException(this.creator, Messages.REGION_NOT_REGISTRED);
         }
@@ -134,7 +134,7 @@ public class SubRegionCreator {
                 }
             }
         } while(inUse);
-        this.subRegion = AdvancedRegionMarket.getWorldGuardInterface().createRegion(this.parentRegion.getRegion().getId() + "-sub" + subregionID, this.pos1, this.pos2, AdvancedRegionMarket.getWorldGuard());
+        this.subRegion = AdvancedRegionMarket.getARM().getWorldGuardInterface().createRegion(this.parentRegion.getRegion().getId() + "-sub" + subregionID, this.pos1, this.pos2, AdvancedRegionMarket.getARM().getWorldGuard());
         if(ArmSettings.isAllowParentRegionOwnersBuildOnSubregions()) {
             this.subRegion.setParent(this.parentRegion.getRegion());
         } else {
@@ -171,7 +171,7 @@ public class SubRegionCreator {
 
     public void saveWorldGuardRegion() throws ArmInternalException {
         if(this.subRegion != null) {
-            AdvancedRegionMarket.getWorldGuardInterface().addToRegionManager(this.subRegion, this.parentRegion.getRegionworld(), AdvancedRegionMarket.getWorldGuard());
+            AdvancedRegionMarket.getARM().getWorldGuardInterface().addToRegionManager(this.subRegion, this.parentRegion.getRegionworld(), AdvancedRegionMarket.getARM().getWorldGuard());
         } else {
             throw new ArmInternalException("Could not save WorldGaurd Region! Subregion = null");
         }

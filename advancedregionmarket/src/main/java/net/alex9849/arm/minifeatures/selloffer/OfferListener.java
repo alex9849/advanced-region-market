@@ -41,7 +41,7 @@ public class OfferListener implements Listener {
 
     protected void activateCancelTimer(int ticks) {
         this.isTimerActive = true;
-        this.timertask = Bukkit.getScheduler().runTaskLater(AdvancedRegionMarket.getARM(), new Runnable() {
+        this.timertask = Bukkit.getScheduler().runTaskLater(AdvancedRegionMarket.getInstance(), new Runnable() {
             @Override
             public void run() {
                 seller.sendMessage(Messages.PREFIX + offer.getConvertedMessage(Messages.OFFER_TIMED_OUT));

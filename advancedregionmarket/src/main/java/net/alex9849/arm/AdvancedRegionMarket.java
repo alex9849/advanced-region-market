@@ -62,8 +62,6 @@ import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.URL;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.text.NumberFormat;
 import java.util.*;
 import java.util.logging.Level;
@@ -140,7 +138,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
             sendStartup.start();
 
             Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
-                Plugin armPlugin = AdvancedRegionMarket.getARM();
+                Plugin armPlugin = AdvancedRegionMarket.getInstance();
                 final int onlineplayers = Bukkit.getOnlinePlayers().size();
                 Thread sendPing = new Thread(() -> {
                     AdvancedRegionMarket.sendStats(armPlugin, true, onlineplayers);
@@ -258,10 +256,10 @@ public class AdvancedRegionMarket extends JavaPlugin {
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
             @Override
             public void run() {
-                AdvancedRegionMarket.getARM().getRegionManager().updateFile();
-                AdvancedRegionMarket.getARM().getEntityLimitGroupManager().updateFile();
-                AdvancedRegionMarket.getARM().getRegionKindManager().updateFile();
-                AdvancedRegionMarket.getARM().getFlagGroupManager().updateFile();
+                AdvancedRegionMarket.getInstance().getRegionManager().updateFile();
+                AdvancedRegionMarket.getInstance().getEntityLimitGroupManager().updateFile();
+                AdvancedRegionMarket.getInstance().getRegionKindManager().updateFile();
+                AdvancedRegionMarket.getInstance().getFlagGroupManager().updateFile();
             }
         }, 0, 60);
     }
@@ -512,7 +510,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         return this.worldEditInterface;
     }
 
-    public static AdvancedRegionMarket getARM() {
+    public static AdvancedRegionMarket getInstance() {
         Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("AdvancedRegionMarket");
         if(plugin instanceof AdvancedRegionMarket) {
             return (AdvancedRegionMarket) plugin;

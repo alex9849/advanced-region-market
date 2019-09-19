@@ -60,7 +60,7 @@ public class SubSignCreationListener implements Listener {
                     throw new InputException(event.getPlayer(), "Use a number as price in line 4");
                 }
                 List<SignData> signList = new ArrayList<>();
-                SignData signData = AdvancedRegionMarket.getARM().getSignDataFactory().generateSignData(event.getBlock().getLocation());
+                SignData signData = AdvancedRegionMarket.getInstance().getSignDataFactory().generateSignData(event.getBlock().getLocation());
                 if(signData == null) {
                     throw new InputException(event.getPlayer(), "Could not import sign!");
                 }
@@ -102,7 +102,7 @@ public class SubSignCreationListener implements Listener {
                 }
 
                 List<SignData> signList = new ArrayList<>();
-                SignData signData = AdvancedRegionMarket.getARM().getSignDataFactory().generateSignData(event.getBlock().getLocation());
+                SignData signData = AdvancedRegionMarket.getInstance().getSignDataFactory().generateSignData(event.getBlock().getLocation());
                 if(signData == null) {
                     throw new InputException(event.getPlayer(), "Could not import sign!");
                 }
@@ -141,7 +141,7 @@ public class SubSignCreationListener implements Listener {
                     return;
                 }
                 List<SignData> signList = new ArrayList<>();
-                SignData signData = AdvancedRegionMarket.getARM().getSignDataFactory().generateSignData(event.getBlock().getLocation());
+                SignData signData = AdvancedRegionMarket.getInstance().getSignDataFactory().generateSignData(event.getBlock().getLocation());
                 if(signData == null) {
                     throw new InputException(event.getPlayer(), "Could not import sign!");
                 }

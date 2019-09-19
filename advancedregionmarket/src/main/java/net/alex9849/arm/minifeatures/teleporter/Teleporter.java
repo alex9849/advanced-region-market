@@ -58,7 +58,7 @@ public class Teleporter {
         location.add(0.5, 0, 0.5);
         int timer = 0;
         if(useCountdown) {
-            timer = 20 * AdvancedRegionMarket.getARM().getConfig().getInt("Other.TeleporterTimer");
+            timer = 20 * AdvancedRegionMarket.getInstance().getConfig().getInt("Other.TeleporterTimer");
         }
         scheduleTeleport(player, location, message, timer);
         return;
@@ -119,7 +119,7 @@ public class Teleporter {
 
             TeleporterListener listener = new TeleporterListener(player);
 
-            int taskID = Bukkit.getScheduler().runTaskLater(AdvancedRegionMarket.getARM(), new Runnable() {
+            int taskID = Bukkit.getScheduler().runTaskLater(AdvancedRegionMarket.getInstance(), new Runnable() {
                 @Override
                 public void run() {
                     player.teleport(loc);
@@ -133,7 +133,7 @@ public class Teleporter {
 
             listener.setTeleportTaskID(taskID);
 
-            Bukkit.getServer().getPluginManager().registerEvents(listener, AdvancedRegionMarket.getARM());
+            Bukkit.getServer().getPluginManager().registerEvents(listener, AdvancedRegionMarket.getInstance());
 
             return;
 

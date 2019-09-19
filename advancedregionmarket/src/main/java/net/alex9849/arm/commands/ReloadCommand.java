@@ -38,9 +38,9 @@ public class ReloadCommand implements BasicArmCommand {
     public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
         if (sender.hasPermission(Permission.ADMIN_RELOAD)) {
             sender.sendMessage(Messages.PREFIX + "Reloading...");
-            AdvancedRegionMarket.getARM().onDisable();
+            AdvancedRegionMarket.getInstance().onDisable();
             Bukkit.getServer().getPluginManager().getPlugin("AdvancedRegionMarket").reloadConfig();
-            AdvancedRegionMarket.getARM().onEnable();
+            AdvancedRegionMarket.getInstance().onEnable();
             sender.sendMessage(Messages.PREFIX + "Complete!");
         } else {
             sender.sendMessage(Messages.PREFIX + Messages.NO_PERMISSION);

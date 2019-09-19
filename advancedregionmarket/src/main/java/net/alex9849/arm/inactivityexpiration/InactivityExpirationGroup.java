@@ -54,19 +54,19 @@ public class InactivityExpirationGroup {
     }
 
     public static InactivityExpirationGroup getBestResetAfterMs(OfflinePlayer oPlayer, World world) {
-        if(!AdvancedRegionMarket.getARM().getVaultPerms().isEnabled()) {
+        if(!AdvancedRegionMarket.getInstance().getVaultPerms().isEnabled()) {
             return UNLIMITED;
         }
         if(oPlayer == null || oPlayer.getName() == null) {
             return DEFAULT;
         }
-        if(AdvancedRegionMarket.getARM().getVaultPerms().playerHas(world.getName(), oPlayer, Permission.ARM_INACTIVITY_EXPIRATION + "unlimited")) {
+        if(AdvancedRegionMarket.getInstance().getVaultPerms().playerHas(world.getName(), oPlayer, Permission.ARM_INACTIVITY_EXPIRATION + "unlimited")) {
             return UNLIMITED;
         }
         InactivityExpirationGroup selectedGroup = DEFAULT;
 
         for(InactivityExpirationGroup ieGroup : inactivityExpirationGroupSet) {
-            if(AdvancedRegionMarket.getARM().getVaultPerms().playerHas(world.getName(), oPlayer, Permission.ARM_INACTIVITY_EXPIRATION + ieGroup.getName())) {
+            if(AdvancedRegionMarket.getInstance().getVaultPerms().playerHas(world.getName(), oPlayer, Permission.ARM_INACTIVITY_EXPIRATION + ieGroup.getName())) {
                 if(selectedGroup == DEFAULT || ((!selectedGroup.isResetDisabled() && (selectedGroup.getResetAfterMs() < ieGroup.getResetAfterMs())) || ieGroup.isResetDisabled())) {
                     selectedGroup = ieGroup;
                 }
@@ -76,19 +76,19 @@ public class InactivityExpirationGroup {
     }
 
     public static InactivityExpirationGroup getBestTakeOverAfterMs(OfflinePlayer oPlayer, World world) {
-        if(!AdvancedRegionMarket.getARM().getVaultPerms().isEnabled()) {
+        if(!AdvancedRegionMarket.getInstance().getVaultPerms().isEnabled()) {
             return UNLIMITED;
         }
         if(oPlayer == null || oPlayer.getName() == null) {
             return DEFAULT;
         }
-        if(AdvancedRegionMarket.getARM().getVaultPerms().playerHas(world.getName(), oPlayer, Permission.ARM_INACTIVITY_EXPIRATION + "unlimited")) {
+        if(AdvancedRegionMarket.getInstance().getVaultPerms().playerHas(world.getName(), oPlayer, Permission.ARM_INACTIVITY_EXPIRATION + "unlimited")) {
             return UNLIMITED;
         }
         InactivityExpirationGroup selectedGroup = DEFAULT;
 
         for(InactivityExpirationGroup ieGroup : inactivityExpirationGroupSet) {
-            if(AdvancedRegionMarket.getARM().getVaultPerms().playerHas(world.getName(), oPlayer, Permission.ARM_INACTIVITY_EXPIRATION + ieGroup.getName())) {
+            if(AdvancedRegionMarket.getInstance().getVaultPerms().playerHas(world.getName(), oPlayer, Permission.ARM_INACTIVITY_EXPIRATION + ieGroup.getName())) {
                 if(selectedGroup == DEFAULT || ((!selectedGroup.isTakeOverDisabled() && (selectedGroup.getTakeOverAfterMs() < ieGroup.getTakeOverAfterMs())) || ieGroup.isTakeOverDisabled())) {
                     selectedGroup = ieGroup;
                 }
@@ -105,7 +105,7 @@ public class InactivityExpirationGroup {
             try {
                 resetAfterMs = Utilities.stringToTime(configurationSection.getString("resetAfter"));
             } catch (IllegalArgumentException e) {
-                AdvancedRegionMarket.getARM().getLogger().log(Level.WARNING, "Could parse resetAfter for " +
+                AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Could parse resetAfter for " +
                         "InactivityExpirationGroup " + name + "! Please check! ResetAfter has been set to unlimited to prevent unwanted region-resets" );
                 resetAfterMs = -1;
             }
@@ -118,7 +118,7 @@ public class InactivityExpirationGroup {
             try {
                 takeOverAfterMs = Utilities.stringToTime(configurationSection.getString("takeOverAfter"));
             } catch (IllegalArgumentException e) {
-                AdvancedRegionMarket.getARM().getLogger().log(Level.WARNING, "Could parse resetAfter for " +
+                AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Could parse resetAfter for " +
                         "InactivityExpirationGroup " + name + "! Please check! ResetAfter has been set to unlimited to prevent unwanted region-resets" );
                 takeOverAfterMs = -1;
             }

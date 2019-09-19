@@ -27,13 +27,13 @@ public class SignClickListener implements Listener {
                 return;
             }
 
-            if(AdvancedRegionMarket.getARM().getRegionManager() == null) {
+            if(AdvancedRegionMarket.getInstance().getRegionManager() == null) {
                 return;
             }
 
             Sign sign = (Sign) event.getClickedBlock().getState();
 
-            Region region = AdvancedRegionMarket.getARM().getRegionManager().getRegion(sign);
+            Region region = AdvancedRegionMarket.getInstance().getRegionManager().getRegion(sign);
             if(region == null) {
                 return;
             }

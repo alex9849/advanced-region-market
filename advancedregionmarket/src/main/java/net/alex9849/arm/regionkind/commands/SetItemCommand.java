@@ -44,7 +44,7 @@ public class SetItemCommand implements BasicArmCommand {
         if(!sender.hasPermission(Permission.REGIONKIND_SET_ITEM)) {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
-        RegionKind regionKind = AdvancedRegionMarket.getARM().getRegionKindManager().getRegionKind(args[1]);
+        RegionKind regionKind = AdvancedRegionMarket.getInstance().getRegionKindManager().getRegionKind(args[1]);
         if(regionKind == null) {
             throw new InputException(sender, Messages.REGIONKIND_DOES_NOT_EXIST);
         }
@@ -74,7 +74,7 @@ public class SetItemCommand implements BasicArmCommand {
                 returnme.add(this.rootCommand);
             }
         } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
-            returnme.addAll(AdvancedRegionMarket.getARM().getRegionKindManager().completeTabRegionKinds(args[1], ""));
+            returnme.addAll(AdvancedRegionMarket.getInstance().getRegionKindManager().completeTabRegionKinds(args[1], ""));
         } else if(args.length == 3 && (args[0].equalsIgnoreCase(this.rootCommand))) {
             for(Material material : Material.values()) {
                 if(material.toString().toLowerCase().startsWith(args[2])) {

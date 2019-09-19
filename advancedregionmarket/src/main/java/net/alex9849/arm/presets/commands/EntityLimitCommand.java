@@ -65,7 +65,7 @@ public class EntityLimitCommand implements BasicArmCommand {
             ActivePresetManager.add(new PresetPlayerPair(player, preset));
         }
 
-        EntityLimitGroup entityLimitGroup = AdvancedRegionMarket.getARM().getEntityLimitGroupManager().getEntityLimitGroup(args[1]);
+        EntityLimitGroup entityLimitGroup = AdvancedRegionMarket.getInstance().getEntityLimitGroupManager().getEntityLimitGroup(args[1]);
         if(entityLimitGroup == null) {
             player.sendMessage(Messages.PREFIX + Messages.ENTITYLIMITGROUP_DOES_NOT_EXIST);
             return true;
@@ -90,7 +90,7 @@ public class EntityLimitCommand implements BasicArmCommand {
                     }
                 }
                 if(args.length == 2 && this.rootCommand.equalsIgnoreCase(args[0])) {
-                    returnme.addAll(AdvancedRegionMarket.getARM().getEntityLimitGroupManager().tabCompleteEntityLimitGroups(args[1]));
+                    returnme.addAll(AdvancedRegionMarket.getInstance().getEntityLimitGroupManager().tabCompleteEntityLimitGroups(args[1]));
                 }
             }
         }

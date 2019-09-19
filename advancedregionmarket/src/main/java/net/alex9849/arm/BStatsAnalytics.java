@@ -95,7 +95,7 @@ public class BStatsAnalytics {
     private static RegionStatistics getRegionStatistics() {
         RegionStatistics regionStatistics = new RegionStatistics();
 
-        for(Region region : AdvancedRegionMarket.getARM().getRegionManager()) {
+        for(Region region : AdvancedRegionMarket.getInstance().getRegionManager()) {
             if(region instanceof SellRegion) {
                 if(region.isSold()) {
                     regionStatistics.soldSellRegions++;

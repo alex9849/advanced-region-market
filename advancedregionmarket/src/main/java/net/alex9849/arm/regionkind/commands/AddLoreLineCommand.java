@@ -42,7 +42,7 @@ public class AddLoreLineCommand implements BasicArmCommand {
         if(!sender.hasPermission(Permission.REGIONKIND_ADD_LORE_LINE)) {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
-        RegionKind regionKind = AdvancedRegionMarket.getARM().getRegionKindManager().getRegionKind(args[1]);
+        RegionKind regionKind = AdvancedRegionMarket.getInstance().getRegionKindManager().getRegionKind(args[1]);
         if(regionKind == null) {
             throw new InputException(sender, Messages.REGIONKIND_DOES_NOT_EXIST);
         }
@@ -76,7 +76,7 @@ public class AddLoreLineCommand implements BasicArmCommand {
                 returnme.add(this.rootCommand);
             }
         } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
-            returnme.addAll(AdvancedRegionMarket.getARM().getRegionKindManager().completeTabRegionKinds(args[1], ""));
+            returnme.addAll(AdvancedRegionMarket.getInstance().getRegionKindManager().completeTabRegionKinds(args[1], ""));
         }
         return returnme;
     }

@@ -46,7 +46,7 @@ public class CheckCommand implements BasicArmCommand {
         if (!sender.hasPermission(Permission.MEMBER_ENTITYLIMIT_CHECK)) {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
-        Region region = AdvancedRegionMarket.getARM().getRegionManager().getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
+        Region region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
 
         if(region == null) {
             throw new InputException(player, Messages.REGION_DOES_NOT_EXIST);
@@ -95,9 +95,9 @@ public class CheckCommand implements BasicArmCommand {
             } else if((args.length == 2) && (args[0].equalsIgnoreCase(this.rootCommand))) {
                 if (this.rootCommand.startsWith(args[0])) {
                     if(player.hasPermission(Permission.ADMIN_ENTITYLIMIT_CHECK)) {
-                        returnme.addAll(AdvancedRegionMarket.getARM().getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true, true));
+                        returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true, true));
                     } else {
-                        returnme.addAll(AdvancedRegionMarket.getARM().getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.MEMBER_OR_OWNER, true, true));
+                        returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.MEMBER_OR_OWNER, true, true));
                     }
                 }
             }

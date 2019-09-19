@@ -135,7 +135,7 @@ public class Gui implements Listener {
     }
 
     public static void openRegionOwnerGui(Player player, Boolean withGoBack) {
-        List<Region> regions = AdvancedRegionMarket.getARM().getRegionManager().getRegionsByOwner(player.getUniqueId());
+        List<Region> regions = AdvancedRegionMarket.getInstance().getRegionManager().getRegionsByOwner(player.getUniqueId());
         List<ClickItem> clickItems = new ArrayList<>();
 
         for (int i = 0; i < regions.size(); i++) {
@@ -783,7 +783,7 @@ public class Gui implements Listener {
             itemcounter++;
         }
 
-        for(RegionKind regionKind : AdvancedRegionMarket.getARM().getRegionKindManager()) {
+        for(RegionKind regionKind : AdvancedRegionMarket.getInstance().getRegionKindManager()) {
             if(regionKind.isDisplayInGUI()) {
                 itemcounter++;
             }
@@ -809,7 +809,7 @@ public class Gui implements Listener {
             ClickItem icon = new ClickItem(stack).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
-                    Gui.openRegionFinderSellTypeSelector(player, AdvancedRegionMarket.getARM().getRegionManager().getFreeRegions(RegionKind.DEFAULT), new ClickAction() {
+                    Gui.openRegionFinderSellTypeSelector(player, AdvancedRegionMarket.getInstance().getRegionManager().getFreeRegions(RegionKind.DEFAULT), new ClickAction() {
                         @Override
                         public void execute(Player player) throws InputException {
                             Gui.openRegionFinder(player, withGoBack);
@@ -833,7 +833,7 @@ public class Gui implements Listener {
             ClickItem icon = new ClickItem(stack).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
-                    Gui.openRegionFinderSellTypeSelector(player, AdvancedRegionMarket.getARM().getRegionManager().getFreeRegions(RegionKind.SUBREGION), new ClickAction() {
+                    Gui.openRegionFinderSellTypeSelector(player, AdvancedRegionMarket.getInstance().getRegionManager().getFreeRegions(RegionKind.SUBREGION), new ClickAction() {
                         @Override
                         public void execute(Player player) throws InputException {
                             Gui.openRegionFinder(player, withGoBack);
@@ -846,7 +846,7 @@ public class Gui implements Listener {
         }
 
 
-        for(RegionKind regionKind : AdvancedRegionMarket.getARM().getRegionKindManager()) {
+        for(RegionKind regionKind : AdvancedRegionMarket.getInstance().getRegionKindManager()) {
             if(regionKind.isDisplayInGUI()) {
                 String displayName = Messages.GUI_REGIONFINDER_REGIONKIND_NAME;
                 displayName = regionKind.getConvertedMessage(displayName);
@@ -860,7 +860,7 @@ public class Gui implements Listener {
                     ClickItem icon = new ClickItem(stack).addClickAction(new ClickAction() {
                         @Override
                         public void execute(Player player) throws InputException {
-                            Gui.openRegionFinderSellTypeSelector(player, AdvancedRegionMarket.getARM().getRegionManager().getFreeRegions(regionKind), new ClickAction() {
+                            Gui.openRegionFinderSellTypeSelector(player, AdvancedRegionMarket.getInstance().getRegionManager().getFreeRegions(regionKind), new ClickAction() {
                                 @Override
                                 public void execute(Player player) throws InputException {
                                     Gui.openRegionFinder(player, withGoBack);
@@ -1283,7 +1283,7 @@ public class Gui implements Listener {
     }
 
     public static void openRegionMemberGui(Player player, Boolean withGoBack) {
-        List<Region> regions = AdvancedRegionMarket.getARM().getRegionManager().getRegionsByMember(player.getUniqueId());
+        List<Region> regions = AdvancedRegionMarket.getInstance().getRegionManager().getRegionsByMember(player.getUniqueId());
         List<ClickItem> clickItems = new ArrayList<>();
 
         for (int i = 0; i < regions.size(); i++) {
@@ -1944,7 +1944,7 @@ public class Gui implements Listener {
                         flagSetter.setInput(s);
                         flagSetter.execute(player);
                     });
-                    Bukkit.getPluginManager().registerEvents(gcil, AdvancedRegionMarket.getARM());
+                    Bukkit.getPluginManager().registerEvents(gcil, AdvancedRegionMarket.getInstance());
 
                 }
             }));
@@ -1962,7 +1962,7 @@ public class Gui implements Listener {
                     flagSetter.setInput(s);
                     flagSetter.execute(player);
                 });
-                Bukkit.getPluginManager().registerEvents(gcil, AdvancedRegionMarket.getARM());
+                Bukkit.getPluginManager().registerEvents(gcil, AdvancedRegionMarket.getInstance());
             }
         }));
         }
@@ -1979,7 +1979,7 @@ public class Gui implements Listener {
                         flagSetter.setInput(s);
                         flagSetter.execute(player);
                     });
-                    Bukkit.getPluginManager().registerEvents(gcil, AdvancedRegionMarket.getARM());
+                    Bukkit.getPluginManager().registerEvents(gcil, AdvancedRegionMarket.getInstance());
                 }
             }));
         }
@@ -1995,7 +1995,7 @@ public class Gui implements Listener {
                         flagSetter.setInput(s);
                         flagSetter.execute(player);
                     });
-                    Bukkit.getPluginManager().registerEvents(gcil, AdvancedRegionMarket.getARM());
+                    Bukkit.getPluginManager().registerEvents(gcil, AdvancedRegionMarket.getInstance());
                 }
             }));
         }
@@ -2045,7 +2045,7 @@ public class Gui implements Listener {
         }
 
         private Object getParsedSettingsObject() throws InvalidFlagFormat {
-            return AdvancedRegionMarket.getARM().getWorldGuardInterface().parseFlagInput(flag, region.getConvertedMessage(this.input));
+            return AdvancedRegionMarket.getInstance().getWorldGuardInterface().parseFlagInput(flag, region.getConvertedMessage(this.input));
         }
 
         @Override

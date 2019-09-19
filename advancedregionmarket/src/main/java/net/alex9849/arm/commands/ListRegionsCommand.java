@@ -70,8 +70,8 @@ public class ListRegionsCommand implements BasicArmCommand {
             throw new InputException(sender, Messages.PLAYER_NOT_FOUND);
         }
 
-        List<Region> regionsOwner = AdvancedRegionMarket.getARM().getRegionManager().getRegionsByOwner(oplayer.getUniqueId());
-        List<Region> regionsMember = AdvancedRegionMarket.getARM().getRegionManager().getRegionsByMember(oplayer.getUniqueId());
+        List<Region> regionsOwner = AdvancedRegionMarket.getInstance().getRegionManager().getRegionsByOwner(oplayer.getUniqueId());
+        List<Region> regionsMember = AdvancedRegionMarket.getInstance().getRegionManager().getRegionsByMember(oplayer.getUniqueId());
 
         String regionstring = "";
         if(regionsOwner.size() > 0) {

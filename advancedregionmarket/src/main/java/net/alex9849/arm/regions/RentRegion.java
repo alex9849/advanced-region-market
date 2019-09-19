@@ -103,7 +103,7 @@ public class RentRegion extends Region {
         if(!LimitGroup.isCanBuyAnother(player, this)){
             throw new InputException(player, LimitGroup.getRegionBuyOutOfLimitMessage(player, this.getRegionKind()));
         }
-        if(AdvancedRegionMarket.getARM().getEcon().getBalance(player) < this.getPrice()) {
+        if(AdvancedRegionMarket.getInstance().getEcon().getBalance(player) < this.getPrice()) {
             throw new InputException(player, Messages.NOT_ENOUGHT_MONEY);
         }
         BuyRegionEvent buyRegionEvent = new BuyRegionEvent(this, player);
@@ -112,12 +112,12 @@ public class RentRegion extends Region {
             return;
         }
 
-        AdvancedRegionMarket.getARM().getEcon().withdrawPlayer(player, this.getPrice());
+        AdvancedRegionMarket.getInstance().getEcon().withdrawPlayer(player, this.getPrice());
         this.giveParentRegionOwnerMoney(this.getPrice());
         this.setSold(player);
         this.resetBuiltBlocks();
         if(ArmSettings.isTeleportAfterRentRegionBought()){
-            Teleporter.teleport(player, this, "", AdvancedRegionMarket.getARM().getConfig().getBoolean("Other.TeleportAfterRegionBoughtCountdown"));
+            Teleporter.teleport(player, this, "", AdvancedRegionMarket.getInstance().getConfig().getBoolean("Other.TeleportAfterRegionBoughtCountdown"));
         }
         player.sendMessage(Messages.PREFIX + Messages.REGION_BUYMESSAGE);
     }
@@ -180,7 +180,7 @@ public class RentRegion extends Region {
 
         if(amount > 0){
             for(int i = 0; i < defdomain.size(); i++) {
-                AdvancedRegionMarket.getARM().getEcon().depositPlayer(Bukkit.getOfflinePlayer(defdomain.get(i)), amount);
+                AdvancedRegionMarket.getInstance().getEcon().depositPlayer(Bukkit.getOfflinePlayer(defdomain.get(i)), amount);
             }
         }
 
@@ -321,10 +321,10 @@ public class RentRegion extends Region {
             return;
         }
 
-        if(AdvancedRegionMarket.getARM().getEcon().getBalance(player) < this.getPrice()) {
+        if(AdvancedRegionMarket.getInstance().getEcon().getBalance(player) < this.getPrice()) {
             throw new InputException(player, Messages.NOT_ENOUGHT_MONEY);
         }
-        AdvancedRegionMarket.getARM().getEcon().withdrawPlayer(player, this.getPrice());
+        AdvancedRegionMarket.getInstance().getEcon().withdrawPlayer(player, this.getPrice());
         this.giveParentRegionOwnerMoney(this.getPrice());
         this.payedTill = this.payedTill + this.rentExtendPerClick;
 
@@ -343,7 +343,7 @@ public class RentRegion extends Region {
     }
 
     public static void sendExpirationWarnings(Player player) {
-        List<Region> regions = AdvancedRegionMarket.getARM().getRegionManager().getRegionsByOwner(player.getUniqueId());
+        List<Region> regions = AdvancedRegionMarket.getInstance().getRegionManager().getRegionsByOwner(player.getUniqueId());
         List<RentRegion> rentRegions = new ArrayList<>();
         for(int i = 0; i < regions.size(); i++) {
             if(regions.get(i) instanceof RentRegion) {

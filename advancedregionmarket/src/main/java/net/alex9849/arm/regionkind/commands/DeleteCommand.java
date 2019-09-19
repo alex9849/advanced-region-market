@@ -43,7 +43,7 @@ public class DeleteCommand implements BasicArmCommand {
         if (!sender.hasPermission(Permission.REGIONKIND_DELETE)) {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
-        RegionKind regionKind = AdvancedRegionMarket.getARM().getRegionKindManager().getRegionKind(args[1]);
+        RegionKind regionKind = AdvancedRegionMarket.getInstance().getRegionKindManager().getRegionKind(args[1]);
         if(regionKind == null) {
             throw new InputException(sender, Messages.REGIONKIND_DOES_NOT_EXIST);
         }
@@ -54,9 +54,9 @@ public class DeleteCommand implements BasicArmCommand {
             throw new InputException(sender, Messages.REGIONKIND_CAN_NOT_REMOVE_SYSTEM);
         }
 
-        AdvancedRegionMarket.getARM().getRegionKindManager().remove(regionKind);
+        AdvancedRegionMarket.getInstance().getRegionKindManager().remove(regionKind);
 
-        for(Region region : AdvancedRegionMarket.getARM().getRegionManager()) {
+        for(Region region : AdvancedRegionMarket.getInstance().getRegionManager()) {
             if(region.getRegionKind() == regionKind) {
                 region.setRegionKind(RegionKind.DEFAULT);
             }
@@ -79,7 +79,7 @@ public class DeleteCommand implements BasicArmCommand {
                     returnme.add(this.rootCommand);
                 }
             } else if((args.length == 2) && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                returnme.addAll(AdvancedRegionMarket.getARM().getRegionKindManager().completeTabRegionKinds(args[1], ""));
+                returnme.addAll(AdvancedRegionMarket.getInstance().getRegionKindManager().completeTabRegionKinds(args[1], ""));
             }
         }
         return returnme;

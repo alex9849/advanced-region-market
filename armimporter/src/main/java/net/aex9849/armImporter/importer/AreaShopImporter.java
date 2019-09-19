@@ -194,7 +194,7 @@ public class AreaShopImporter {
 
         public void run(int delayInTicks) {
             Plugin plugin = Bukkit.getPluginManager().getPlugin("ARMImporter");
-            final File armSchemFolder = new File(AdvancedRegionMarket.getARM().getDataFolder() + "/schematics");
+            final File armSchemFolder = new File(AdvancedRegionMarket.getInstance().getDataFolder() + "/schematics");
             List<Region> regions = new ArrayList<Region>(this.regionFileMap.keySet());
 
             final int regionsSize = regions.size();

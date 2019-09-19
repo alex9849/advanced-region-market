@@ -78,7 +78,7 @@ public class SubRegionCreator {
         if(!this.parentRegion.getRegionworld().getName().equals(this.creator.getLocation().getWorld().getName())) {
             throw new InputException(this.creator, Messages.POSITION_CLOUD_NOT_BE_SET_MARK_OUTSIDE_REGION);
         }
-        if(!AdvancedRegionMarket.getARM().getRegionManager().containsRegion(this.getParentRegion())) {
+        if(!AdvancedRegionMarket.getInstance().getRegionManager().containsRegion(this.getParentRegion())) {
             this.remove();
             throw new InputException(this.creator, Messages.REGION_NOT_REGISTRED);
         }
@@ -110,7 +110,7 @@ public class SubRegionCreator {
             this.remove();
             throw new InputException(this.creator, Messages.PARENT_REGION_NOT_OWN);
         }
-        if(!AdvancedRegionMarket.getARM().getRegionManager().containsRegion(this.getParentRegion())) {
+        if(!AdvancedRegionMarket.getInstance().getRegionManager().containsRegion(this.getParentRegion())) {
             this.remove();
             throw new InputException(this.creator, Messages.REGION_NOT_REGISTRED);
         }
@@ -134,14 +134,14 @@ public class SubRegionCreator {
                 }
             }
         } while(inUse);
-        this.subRegion = AdvancedRegionMarket.getARM().getWorldGuardInterface().createRegion(this.parentRegion.getRegion().getId() + "-sub" + subregionID, this.pos1, this.pos2, AdvancedRegionMarket.getARM().getWorldGuard());
+        this.subRegion = AdvancedRegionMarket.getInstance().getWorldGuardInterface().createRegion(this.parentRegion.getRegion().getId() + "-sub" + subregionID, this.pos1, this.pos2, AdvancedRegionMarket.getInstance().getWorldGuard());
         if(ArmSettings.isAllowParentRegionOwnersBuildOnSubregions()) {
             this.subRegion.setParent(this.parentRegion.getRegion());
         } else {
             this.subRegion.setPriority(this.parentRegion.getRegion().getPriority() + 1);
         }
         this.subSignCreationListener = new SubSignCreationListener(this.creator, this);
-        Bukkit.getServer().getPluginManager().registerEvents(this.subSignCreationListener, AdvancedRegionMarket.getARM());
+        Bukkit.getServer().getPluginManager().registerEvents(this.subSignCreationListener, AdvancedRegionMarket.getInstance());
         return;
     }
 
@@ -171,7 +171,7 @@ public class SubRegionCreator {
 
     public void saveWorldGuardRegion() throws ArmInternalException {
         if(this.subRegion != null) {
-            AdvancedRegionMarket.getARM().getWorldGuardInterface().addToRegionManager(this.subRegion, this.parentRegion.getRegionworld(), AdvancedRegionMarket.getARM().getWorldGuard());
+            AdvancedRegionMarket.getInstance().getWorldGuardInterface().addToRegionManager(this.subRegion, this.parentRegion.getRegionworld(), AdvancedRegionMarket.getInstance().getWorldGuard());
         } else {
             throw new ArmInternalException("Could not save WorldGaurd Region! Subregion = null");
         }

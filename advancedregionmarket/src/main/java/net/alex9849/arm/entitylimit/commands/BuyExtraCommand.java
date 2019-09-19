@@ -47,7 +47,7 @@ public class BuyExtraCommand implements BasicArmCommand {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
 
-        Region region = AdvancedRegionMarket.getARM().getRegionManager().getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
+        Region region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
 
         if(region == null) {
             throw new InputException(player, Messages.REGION_DOES_NOT_EXIST);
@@ -70,10 +70,10 @@ public class BuyExtraCommand implements BasicArmCommand {
             if(region.getEntityLimitGroup().getHardLimit() <= region.getEntityLimitGroup().getSoftLimit(region.getExtraTotalEntitys())) {
                 throw new InputException(player, region.getEntityLimitGroup().getConvertedMessage(Messages.ENTITYLIMITGROUP_EXTRA_ENTITIES_HARDLIMIT_REACHED, entities, region.getExtraTotalEntitys()));
             }
-            if(AdvancedRegionMarket.getARM().getEcon().getBalance(player) < region.getEntityLimitGroup().getPricePerExtraEntity()) {
+            if(AdvancedRegionMarket.getInstance().getEcon().getBalance(player) < region.getEntityLimitGroup().getPricePerExtraEntity()) {
                 throw new InputException(player, Messages.NOT_ENOUGHT_MONEY);
             }
-            AdvancedRegionMarket.getARM().getEcon().withdrawPlayer(player, region.getEntityLimitGroup().getPricePerExtraEntity());
+            AdvancedRegionMarket.getInstance().getEcon().withdrawPlayer(player, region.getEntityLimitGroup().getPricePerExtraEntity());
             region.setExtraTotalEntitys(region.getExtraTotalEntitys() + 1);
             player.sendMessage(Messages.PREFIX + region.getEntityLimitGroup().getConvertedMessage(Messages.ENTITYLIMITGROUP_EXTRA_ENTITIES_EXPAND_SUCCESS, entities, region.getExtraTotalEntitys()));
 
@@ -90,10 +90,10 @@ public class BuyExtraCommand implements BasicArmCommand {
             if(region.getEntityLimitGroup().getHardLimit(limitableEntityType) <= region.getEntityLimitGroup().getSoftLimit(limitableEntityType, region.getExtraEntityAmount(limitableEntityType))) {
                 throw new InputException(player, entityLimit.getConvertedMessage(Messages.ENTITYLIMITGROUP_EXTRA_ENTITIES_HARDLIMIT_REACHED, entities, region.getExtraEntityAmount(limitableEntityType)));
             }
-            if(AdvancedRegionMarket.getARM().getEcon().getBalance(player) < region.getEntityLimitGroup().getPricePerExtraEntity(limitableEntityType)) {
+            if(AdvancedRegionMarket.getInstance().getEcon().getBalance(player) < region.getEntityLimitGroup().getPricePerExtraEntity(limitableEntityType)) {
                 throw new InputException(player, Messages.NOT_ENOUGHT_MONEY);
             }
-            AdvancedRegionMarket.getARM().getEcon().withdrawPlayer(player, region.getEntityLimitGroup().getPricePerExtraEntity(limitableEntityType));
+            AdvancedRegionMarket.getInstance().getEcon().withdrawPlayer(player, region.getEntityLimitGroup().getPricePerExtraEntity(limitableEntityType));
             region.setExtraEntityAmount(limitableEntityType, region.getExtraEntityAmount(limitableEntityType) + 1);
             player.sendMessage(Messages.PREFIX + entityLimit.getConvertedMessage(Messages.ENTITYLIMITGROUP_EXTRA_ENTITIES_EXPAND_SUCCESS, entities, region.getExtraEntityAmount(limitableEntityType)));
         }
@@ -115,13 +115,13 @@ public class BuyExtraCommand implements BasicArmCommand {
                 }
             } else if((args.length == 2) && (args[0].equalsIgnoreCase(this.rootCommand))) {
                 if (this.rootCommand.startsWith(args[0])) {
-                    returnme.addAll(AdvancedRegionMarket.getARM().getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.OWNER, true, false));
+                    returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.OWNER, true, false));
 
                 }
             } else if((args.length == 3) && (args[0].equalsIgnoreCase(this.rootCommand))) {
                 for(EntityLimit.LimitableEntityType entityType : EntityLimit.entityTypes) {
                     if(entityType.toString().toLowerCase().startsWith(args[2])) {
-                        Region region = AdvancedRegionMarket.getARM().getRegionManager().getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
+                        Region region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
                         if(region != null) {
                             if(region.getEntityLimitGroup().containsLimit(entityType)) {
                                 returnme.add(entityType.toString());

@@ -55,7 +55,7 @@ public class Offer {
             throw new InputException(senders, messages);
         }
 
-        Economy econ = AdvancedRegionMarket.getARM().getEcon();
+        Economy econ = AdvancedRegionMarket.getInstance().getEcon();
 
         if(econ.getBalance(buyer) < price) {
             this.reject();
@@ -115,7 +115,7 @@ public class Offer {
         }
         Offer offer = new Offer(region, price, seller, buyer);
         offerList.add(offer);
-        int timer = AdvancedRegionMarket.getARM().getConfig().getInt("Reselling.Offers.OfferTimeOut");
+        int timer = AdvancedRegionMarket.getInstance().getConfig().getInt("Reselling.Offers.OfferTimeOut");
         if(timer != 0) {
             offer.activateTimer(20 * timer);
         }

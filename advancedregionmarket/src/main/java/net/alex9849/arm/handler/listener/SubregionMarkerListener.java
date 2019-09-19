@@ -32,7 +32,7 @@ public class SubregionMarkerListener implements Listener {
         if(event.getItem() == null) {
             return;
         }
-        if(AdvancedRegionMarket.getARM().getRegionManager() == null) {
+        if(AdvancedRegionMarket.getInstance().getRegionManager() == null) {
             return;
         }
         if(!Permission.hasAnySubregionCreatePermission(player)) {
@@ -46,7 +46,7 @@ public class SubregionMarkerListener implements Listener {
             return;
         }
 
-        List<Region> applicableRegions = AdvancedRegionMarket.getARM().getRegionManager().getRegionsByLocation(event.getClickedBlock().getLocation());
+        List<Region> applicableRegions = AdvancedRegionMarket.getInstance().getRegionManager().getRegionsByLocation(event.getClickedBlock().getLocation());
 
         if(applicableRegions.size() == 0) {
             player.sendMessage(Messages.NO_REGION_AT_PLAYERS_POSITION);

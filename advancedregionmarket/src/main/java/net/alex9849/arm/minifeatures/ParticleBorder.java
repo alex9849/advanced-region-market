@@ -168,7 +168,7 @@ public class ParticleBorder {
 
         final World finalWorld = this.world;
 
-        this.taskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(AdvancedRegionMarket.getARM(), new Runnable() {
+        this.taskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(AdvancedRegionMarket.getInstance(), new Runnable() {
 
             @Override
             public void run() {
@@ -182,7 +182,7 @@ public class ParticleBorder {
                 }
             }
         }, 0, 20);
-        this.cancelerID = Bukkit.getScheduler().scheduleSyncDelayedTask(AdvancedRegionMarket.getARM(), new Runnable() {
+        this.cancelerID = Bukkit.getScheduler().scheduleSyncDelayedTask(AdvancedRegionMarket.getInstance(), new Runnable() {
             @Override
             public void run() {
                 if(taskID != null) {

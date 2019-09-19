@@ -100,7 +100,7 @@ public class RegionManager extends YamlFileManager<Region> {
                             if(regions != null) {
                                 for(String regionname : regions){
                                     ConfigurationSection regionSection = worldSection.getConfigurationSection(regionname);
-                                    WGRegion wgRegion = AdvancedRegionMarket.getARM().getWorldGuardInterface().getRegion(regionWorld, AdvancedRegionMarket.getARM().getWorldGuard(), regionname);
+                                    WGRegion wgRegion = AdvancedRegionMarket.getInstance().getWorldGuardInterface().getRegion(regionWorld, AdvancedRegionMarket.getInstance().getWorldGuard(), regionname);
 
                                     if(wgRegion != null) {
                                         fileupdated |= updateDefaults(regionSection);
@@ -188,15 +188,15 @@ public class RegionManager extends YamlFileManager<Region> {
         List<String> boughtExtraEntitys = regionSection.getStringList("boughtExtraEntitys");
         boolean isUserResettable = regionSection.getBoolean("isUserResettable");
         Location teleportLoc = parseTpLocation(teleportLocString);
-        RegionKind regionKind = AdvancedRegionMarket.getARM().getRegionKindManager().getRegionKind(kind);
-        FlagGroup flagGroup = AdvancedRegionMarket.getARM().getFlagGroupManager().getFlagGroup(flagGroupString);
+        RegionKind regionKind = AdvancedRegionMarket.getInstance().getRegionKindManager().getRegionKind(kind);
+        FlagGroup flagGroup = AdvancedRegionMarket.getInstance().getFlagGroupManager().getFlagGroup(flagGroupString);
         if(flagGroup == null) {
             flagGroup = FlagGroup.DEFAULT;
         }
         if(regionKind == null) {
             regionKind = RegionKind.DEFAULT;
         }
-        EntityLimitGroup entityLimitGroup = AdvancedRegionMarket.getARM().getEntityLimitGroupManager().getEntityLimitGroup(entityLimitGroupString);
+        EntityLimitGroup entityLimitGroup = AdvancedRegionMarket.getInstance().getEntityLimitGroupManager().getEntityLimitGroup(entityLimitGroupString);
         if(entityLimitGroup == null) {
             entityLimitGroup = EntityLimitGroup.DEFAULT;
         }
@@ -208,7 +208,7 @@ public class RegionManager extends YamlFileManager<Region> {
             List<String> subregionsection = new ArrayList<>(regionSection.getConfigurationSection("subregions").getKeys(false));
             if (subregionsection != null) {
                 for (String subregionName : subregionsection) {
-                    WGRegion subWGRegion = AdvancedRegionMarket.getARM().getWorldGuardInterface().getRegion(regionWorld, AdvancedRegionMarket.getARM().getWorldGuard(), subregionName);
+                    WGRegion subWGRegion = AdvancedRegionMarket.getInstance().getWorldGuardInterface().getRegion(regionWorld, AdvancedRegionMarket.getInstance().getWorldGuard(), subregionName);
                     if(subWGRegion != null) {
                         Region armSubRegion = parseSubRegion(regionSection.getConfigurationSection("subregions." + subregionName), regionWorld, subWGRegion);
                         subregions.add(armSubRegion);
@@ -373,7 +373,7 @@ public class RegionManager extends YamlFileManager<Region> {
                 }
                 */
 
-                SignDataFactory signDataFactory = AdvancedRegionMarket.getARM().getSignDataFactory();
+                SignDataFactory signDataFactory = AdvancedRegionMarket.getInstance().getSignDataFactory();
                 SignData signData = signDataFactory.generateSignData(loc, signAttachment, facing);
 
                 regionsigns.add(signData);

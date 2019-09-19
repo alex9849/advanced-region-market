@@ -64,11 +64,11 @@ public class SaveCommand implements BasicArmCommand {
             throw new InputException(player, Messages.PRESET_PLAYER_DONT_HAS_PRESET);
         }
 
-        AdvancedRegionMarket.getARM().getPresetPatternManager().getPreset(name, this.presetType);
-        if(AdvancedRegionMarket.getARM().getPresetPatternManager().getPreset(name, this.presetType) == null) {
+        AdvancedRegionMarket.getInstance().getPresetPatternManager().getPreset(name, this.presetType);
+        if(AdvancedRegionMarket.getInstance().getPresetPatternManager().getPreset(name, this.presetType) == null) {
             Preset savePreset = preset.getCopy();
             savePreset.setName(name);
-            AdvancedRegionMarket.getARM().getPresetPatternManager().add(savePreset);
+            AdvancedRegionMarket.getInstance().getPresetPatternManager().add(savePreset);
             player.sendMessage(Messages.PRESET_SAVED);
             return true;
         } else {

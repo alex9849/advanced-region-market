@@ -43,7 +43,7 @@ public class CreateCommand implements BasicArmCommand {
         }
 
         FlagGroup createdFlagGroup = new FlagGroup(args[1], 20, new ArrayList(), new ArrayList<>());
-        AdvancedRegionMarket.getARM().getFlagGroupManager().add(createdFlagGroup);
+        AdvancedRegionMarket.getInstance().getFlagGroupManager().add(createdFlagGroup);
         sender.sendMessage(Messages.PREFIX + "FlagGroup created!");
 
         return true;

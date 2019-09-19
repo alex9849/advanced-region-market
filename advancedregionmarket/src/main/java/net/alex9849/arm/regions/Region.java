@@ -125,7 +125,7 @@ public abstract class Region implements Saveable {
                     for(UUID uuid : parentRegionOwners) {
                         OfflinePlayer subRegionOwner = Bukkit.getOfflinePlayer(uuid);
                         if(subRegionOwner != null) {
-                            AdvancedRegionMarket.getARM().getEcon().depositPlayer(subRegionOwner, amount);
+                            AdvancedRegionMarket.getInstance().getEcon().depositPlayer(subRegionOwner, amount);
                         }
                     }
                 }
@@ -251,11 +251,11 @@ public abstract class Region implements Saveable {
                             this.getSubregions().get(y).delete();
                         }
                         if(this.isSubregion()) {
-                            AdvancedRegionMarket.getARM().getWorldGuardInterface().removeFromRegionManager(this.getRegion(), this.getRegionworld(), AdvancedRegionMarket.getARM().getWorldGuard());
+                            AdvancedRegionMarket.getInstance().getWorldGuardInterface().removeFromRegionManager(this.getRegion(), this.getRegionworld(), AdvancedRegionMarket.getInstance().getWorldGuard());
                             this.getParentRegion().getSubregions().remove(this);
                             this.getParentRegion().queueSave();
                         } else {
-                            AdvancedRegionMarket.getARM().getRegionManager().remove(this);
+                            AdvancedRegionMarket.getInstance().getRegionManager().remove(this);
                         }
                         if(destroyer != null) {
                             destroyer.sendMessage(Messages.PREFIX + Messages.REGION_REMOVED_FROM_ARM);
@@ -335,7 +335,7 @@ public abstract class Region implements Saveable {
     }
 
     public void createSchematic(){
-        AdvancedRegionMarket.getARM().getWorldEditInterface().createSchematic(this.getRegion(), this.getRegionworld(), AdvancedRegionMarket.getARM().getWorldedit().getWorldEdit());
+        AdvancedRegionMarket.getInstance().getWorldEditInterface().createSchematic(this.getRegion(), this.getRegionworld(), AdvancedRegionMarket.getInstance().getWorldedit().getWorldEdit());
     }
 
     public void resetBlocks() throws SchematicException {
@@ -350,7 +350,7 @@ public abstract class Region implements Saveable {
             this.killEntitys();
         }
 
-        AdvancedRegionMarket.getARM().getWorldEditInterface().resetBlocks(this.getRegion(), this.getRegionworld(), AdvancedRegionMarket.getARM().getWorldedit().getWorldEdit());
+        AdvancedRegionMarket.getInstance().getWorldEditInterface().resetBlocks(this.getRegion(), this.getRegionworld(), AdvancedRegionMarket.getInstance().getWorldedit().getWorldEdit());
 
         if(ArmSettings.isDeleteSubregionsOnParentRegionBlockReset()) {
             for(int i = 0; i < this.getSubregions().size();) {
@@ -459,7 +459,7 @@ public abstract class Region implements Saveable {
             player.sendMessage(Messages.PREFIX + Messages.RESET_COMPLETE);
         } catch (SchematicException e) {
             player.sendMessage(Messages.PREFIX + Messages.SCHEMATIC_NOT_FOUND_ERROR_USER.replace("%regionid%", e.getRegion().getId()));
-            AdvancedRegionMarket.getARM().getLogger().log(Level.WARNING, this.getConvertedMessage(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
+            AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, this.getConvertedMessage(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
         }
     }
 
@@ -522,7 +522,7 @@ public abstract class Region implements Saveable {
             try {
                 this.resetBlocks();
             } catch (SchematicException e) {
-                AdvancedRegionMarket.getARM().getLogger().log(Level.WARNING, this.getConvertedMessage(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
+                AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, this.getConvertedMessage(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
                 if(player != null) {
                     player.sendMessage(Messages.PREFIX + Messages.SCHEMATIC_NOT_FOUND_ERROR_USER.replace("%regionid%", e.getRegion().getId()));
                 }

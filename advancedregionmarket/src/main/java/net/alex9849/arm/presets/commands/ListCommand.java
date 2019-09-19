@@ -53,7 +53,7 @@ public class ListCommand implements BasicArmCommand {
             throw new InputException(player, Messages.NO_PERMISSION);
         }
 
-        List<Preset> patterns = AdvancedRegionMarket.getARM().getPresetPatternManager().getPresets(this.presetType);
+        List<Preset> patterns = AdvancedRegionMarket.getInstance().getPresetPatternManager().getPresets(this.presetType);
 
         String presets = "";
 

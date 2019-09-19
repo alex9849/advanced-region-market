@@ -44,7 +44,7 @@ public class InfoCommand implements BasicArmCommand {
         if (!sender.hasPermission(Permission.MEMBER_ENTITYLIMIT_INFO)) {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
-        EntityLimitGroup entityLimitGroup = AdvancedRegionMarket.getARM().getEntityLimitGroupManager().getEntityLimitGroup(args[1]);
+        EntityLimitGroup entityLimitGroup = AdvancedRegionMarket.getInstance().getEntityLimitGroupManager().getEntityLimitGroup(args[1]);
         if(entityLimitGroup == null) {
             throw new InputException(sender, Messages.ENTITYLIMITGROUP_DOES_NOT_EXIST);
         }
@@ -67,7 +67,7 @@ public class InfoCommand implements BasicArmCommand {
                 }
             } else if((args.length == 2) && (args[0].equalsIgnoreCase(this.rootCommand))) {
                 if (this.rootCommand.startsWith(args[0])) {
-                    returnme.addAll(AdvancedRegionMarket.getARM().getEntityLimitGroupManager().tabCompleteEntityLimitGroups(args[1]));
+                    returnme.addAll(AdvancedRegionMarket.getInstance().getEntityLimitGroupManager().tabCompleteEntityLimitGroups(args[1]));
 
                 }
             }

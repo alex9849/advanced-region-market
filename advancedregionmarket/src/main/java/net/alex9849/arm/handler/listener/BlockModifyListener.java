@@ -21,11 +21,11 @@ public class BlockModifyListener implements Listener {
             return;
         }
 
-        if(AdvancedRegionMarket.getARM().getRegionManager() == null) {
+        if(AdvancedRegionMarket.getInstance().getRegionManager() == null) {
             return;
         }
 
-        List<Region> locRegions = AdvancedRegionMarket.getARM().getRegionManager().getRegionsByLocation(event.getBlock().getLocation());
+        List<Region> locRegions = AdvancedRegionMarket.getInstance().getRegionManager().getRegionsByLocation(event.getBlock().getLocation());
 
         for(Region region : locRegions) {
             if(region.isHotel()) {
@@ -52,12 +52,12 @@ public class BlockModifyListener implements Listener {
             return;
         }
 
-        if(AdvancedRegionMarket.getARM().getRegionManager() == null) {
+        if(AdvancedRegionMarket.getInstance().getRegionManager() == null) {
             return;
         }
 
         try {
-            List<Region> locRegions = AdvancedRegionMarket.getARM().getRegionManager().getRegionsByLocation(event.getBlock().getLocation());
+            List<Region> locRegions = AdvancedRegionMarket.getInstance().getRegionManager().getRegionsByLocation(event.getBlock().getLocation());
 
             for(Region region : locRegions) {
                 if(region.isHotel()) {

@@ -1,7 +1,6 @@
 package net.alex9849.arm.regions;
 
 import net.alex9849.arm.AdvancedRegionMarket;
-import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.entitylimit.EntityLimit;
@@ -195,7 +194,7 @@ public class ContractRegion extends Region {
         }
         this.setSold(player);
         this.resetBuiltBlocks();
-        if(ArmSettings.isTeleportAfterContractRegionBought()){
+        if(AdvancedRegionMarket.getInstance().getPluginSettings().isTeleportAfterContractRegionBought()){
             Teleporter.teleport(player, this, "", AdvancedRegionMarket.getInstance().getConfig().getBoolean("Other.TeleportAfterRegionBoughtCountdown"));
         }
         player.sendMessage(Messages.PREFIX + Messages.REGION_BUYMESSAGE);
@@ -234,9 +233,9 @@ public class ContractRegion extends Region {
     }
 
     public String calcRemainingTime() {
-        String timetoString = ArmSettings.getRemainingTimeTimeformat();
-        timetoString = timetoString.replace("%countdown%", this.getCountdown(ArmSettings.isUseShortCountdown()));
-        timetoString = timetoString.replace("%date%", this.getDate(ArmSettings.getDateTimeformat()));
+        String timetoString = AdvancedRegionMarket.getInstance().getPluginSettings().getRemainingTimeTimeformat();
+        timetoString = timetoString.replace("%countdown%", this.getCountdown(AdvancedRegionMarket.getInstance().getPluginSettings().isUseShortCountdown()));
+        timetoString = timetoString.replace("%date%", this.getDate(AdvancedRegionMarket.getInstance().getPluginSettings().getDateTimeformat()));
 
 
         return timetoString;
@@ -373,7 +372,7 @@ public class ContractRegion extends Region {
             this.payedTill = this.payedTill + this.extendTime;
         }
         this.queueSave();
-        if((player != null) && ArmSettings.isSendContractRegionExtendMessage()) {
+        if((player != null) && AdvancedRegionMarket.getInstance().getPluginSettings().isSendContractRegionExtendMessage()) {
             String sendmessage = this.getConvertedMessage(Messages.CONTRACT_REGION_EXTENDED);
             player.sendMessage(Messages.PREFIX + sendmessage);
         }

@@ -1,7 +1,6 @@
 package net.alex9849.arm.regions;
 
 import net.alex9849.arm.AdvancedRegionMarket;
-import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.entitylimit.EntityLimit;
@@ -116,7 +115,7 @@ public class RentRegion extends Region {
         this.giveParentRegionOwnerMoney(this.getPrice());
         this.setSold(player);
         this.resetBuiltBlocks();
-        if(ArmSettings.isTeleportAfterRentRegionBought()){
+        if(AdvancedRegionMarket.getInstance().getPluginSettings().isTeleportAfterRentRegionBought()){
             Teleporter.teleport(player, this, "", AdvancedRegionMarket.getInstance().getConfig().getBoolean("Other.TeleportAfterRegionBoughtCountdown"));
         }
         player.sendMessage(Messages.PREFIX + Messages.REGION_BUYMESSAGE);
@@ -332,7 +331,7 @@ public class RentRegion extends Region {
 
         this.updateSigns();
 
-        if(ArmSettings.isTeleportAfterRentRegionExtend()) {
+        if(AdvancedRegionMarket.getInstance().getPluginSettings().isTeleportAfterRentRegionExtend()) {
             Teleporter.teleport(player, this);
         }
 

@@ -1,6 +1,6 @@
 package net.alex9849.arm.regionkind;
 
-import net.alex9849.arm.ArmSettings;
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.util.MaterialFinder;
@@ -76,7 +76,7 @@ public class RegionKind implements Saveable {
     }
 
     public static boolean hasPermission(CommandSender sender, RegionKind regionKind) {
-        if(!ArmSettings.isActivateRegionKindPermissions()) {
+        if(!AdvancedRegionMarket.getInstance().getPluginSettings().isActivateRegionKindPermissions()) {
             return true;
         }
         if(regionKind == RegionKind.DEFAULT) {

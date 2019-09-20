@@ -1,7 +1,6 @@
 package net.alex9849.arm.subregions;
 
 import net.alex9849.arm.AdvancedRegionMarket;
-import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.minifeatures.ParticleBorder;
@@ -135,7 +134,7 @@ public class SubRegionCreator {
             }
         } while(inUse);
         this.subRegion = AdvancedRegionMarket.getInstance().getWorldGuardInterface().createRegion(this.parentRegion.getRegion().getId() + "-sub" + subregionID, this.pos1, this.pos2, AdvancedRegionMarket.getInstance().getWorldGuard());
-        if(ArmSettings.isAllowParentRegionOwnersBuildOnSubregions()) {
+        if(AdvancedRegionMarket.getInstance().getPluginSettings().isAllowParentRegionOwnersBuildOnSubregions()) {
             this.subRegion.setParent(this.parentRegion.getRegion());
         } else {
             this.subRegion.setPriority(this.parentRegion.getRegion().getPriority() + 1);

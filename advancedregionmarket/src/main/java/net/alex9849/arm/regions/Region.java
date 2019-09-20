@@ -1,7 +1,6 @@
 package net.alex9849.arm.regions;
 
 import net.alex9849.arm.AdvancedRegionMarket;
-import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.entitylimit.EntityLimit;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
@@ -346,13 +345,13 @@ public abstract class Region implements Saveable {
             return;
         }
 
-        if(ArmSettings.isRemoveEntitiesOnRegionBlockReset()) {
+        if(AdvancedRegionMarket.getInstance().getPluginSettings().isRemoveEntitiesOnRegionBlockReset()) {
             this.killEntitys();
         }
 
         AdvancedRegionMarket.getInstance().getWorldEditInterface().resetBlocks(this.getRegion(), this.getRegionworld(), AdvancedRegionMarket.getInstance().getWorldedit().getWorldEdit());
 
-        if(ArmSettings.isDeleteSubregionsOnParentRegionBlockReset()) {
+        if(AdvancedRegionMarket.getInstance().getPluginSettings().isDeleteSubregionsOnParentRegionBlockReset()) {
             for(int i = 0; i < this.getSubregions().size();) {
                 this.getSubregions().get(i).delete();
             }
@@ -381,7 +380,7 @@ public abstract class Region implements Saveable {
 
     public void regionInfo(CommandSender sender) {
         if(sender instanceof Player) {
-            if(ArmSettings.isRegionInfoParticleBorder()) {
+            if(AdvancedRegionMarket.getInstance().getPluginSettings().isRegionInfoParticleBorder()) {
                 Player player = (Player) sender;
                 new ParticleBorder(this.getRegion().getPoints(), this.getRegion().getMinPoint().getBlockY(), this.getRegion().getMaxPoint().getBlockY(), player, this.getRegionworld()).createParticleBorder(20 * 30);
                 for(Region subregion : this.getSubregions()) {
@@ -567,7 +566,7 @@ public abstract class Region implements Saveable {
         this.sold = false;
         this.lastreset = 1;
 
-        if(ArmSettings.isDeleteSubregionsOnParentRegionUnsell()) {
+        if(AdvancedRegionMarket.getInstance().getPluginSettings().isDeleteSubregionsOnParentRegionUnsell()) {
             for(int i = 0; i < this.getSubregions().size();) {
                 this.getSubregions().get(i).delete();
             }

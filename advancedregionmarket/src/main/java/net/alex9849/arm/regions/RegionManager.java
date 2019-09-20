@@ -1,7 +1,6 @@
 package net.alex9849.arm.regions;
 
 import net.alex9849.arm.AdvancedRegionMarket;
-import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.entitylimit.EntityLimit;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
@@ -281,7 +280,7 @@ public class RegionManager extends YamlFileManager<Region> {
             WGRegion parentRegion = region.getRegion();
             WGRegion subWGRegion = subRegion.getRegion();
 
-            if (ArmSettings.isAllowParentRegionOwnersBuildOnSubregions()) {
+            if (AdvancedRegionMarket.getInstance().getPluginSettings().isAllowParentRegionOwnersBuildOnSubregions()) {
                 if (subWGRegion.getParent() == null || !subWGRegion.getParent().equals(parentRegion)) {
                     subWGRegion.setParent(parentRegion);
                 }
@@ -309,21 +308,21 @@ public class RegionManager extends YamlFileManager<Region> {
             long subregmaxRentTime = section.getLong("maxRentTime");
             long subregrentExtendPerClick = section.getLong("rentExtendPerClick");
             RentPrice subPrice = new RentPrice(subregPrice, subregrentExtendPerClick, subregmaxRentTime);
-            return new RentRegion(subregion, regionWorld, subregionsigns, subPrice, subregIsSold, ArmSettings.isSubregionInactivityReset(), subregIsHotel, ArmSettings.isSubregionBlockReset(), RegionKind.SUBREGION, FlagGroup.SUBREGION, null,
-                    sublastreset, sublastLogin, ArmSettings.isAllowSubRegionUserReset(), subregpayedtill, new ArrayList<Region>(), 0, EntityLimitGroup.SUBREGION, new HashMap<>(), 0);
+            return new RentRegion(subregion, regionWorld, subregionsigns, subPrice, subregIsSold, AdvancedRegionMarket.getInstance().getPluginSettings().isSubregionInactivityReset(), subregIsHotel, AdvancedRegionMarket.getInstance().getPluginSettings().isSubregionBlockReset(), RegionKind.SUBREGION, FlagGroup.SUBREGION, null,
+                    sublastreset, sublastLogin, AdvancedRegionMarket.getInstance().getPluginSettings().isAllowSubRegionUserReset(), subregpayedtill, new ArrayList<Region>(), 0, EntityLimitGroup.SUBREGION, new HashMap<>(), 0);
 
         }  else if (subregionRegiontype.equalsIgnoreCase("contractregion")) {
             long subregpayedtill = section.getLong("payedTill");
             long subregextendTime = section.getLong("extendTime");
             Boolean subregterminated = section.getBoolean("terminated");
             ContractPrice subPrice = new ContractPrice(subregPrice, subregextendTime);
-            return new ContractRegion(subregion, regionWorld, subregionsigns, subPrice, subregIsSold, ArmSettings.isSubregionInactivityReset(), subregIsHotel, ArmSettings.isSubregionBlockReset(), RegionKind.SUBREGION, FlagGroup.SUBREGION, null,
-                    sublastreset, sublastLogin, ArmSettings.isAllowSubRegionUserReset(), subregpayedtill, subregterminated, new ArrayList<Region>(), 0, EntityLimitGroup.SUBREGION, new HashMap<>(), 0);
+            return new ContractRegion(subregion, regionWorld, subregionsigns, subPrice, subregIsSold, AdvancedRegionMarket.getInstance().getPluginSettings().isSubregionInactivityReset(), subregIsHotel, AdvancedRegionMarket.getInstance().getPluginSettings().isSubregionBlockReset(), RegionKind.SUBREGION, FlagGroup.SUBREGION, null,
+                    sublastreset, sublastLogin, AdvancedRegionMarket.getInstance().getPluginSettings().isAllowSubRegionUserReset(), subregpayedtill, subregterminated, new ArrayList<Region>(), 0, EntityLimitGroup.SUBREGION, new HashMap<>(), 0);
 
         } else {
             Price subPrice = new Price(subregPrice);
-            return new SellRegion(subregion, regionWorld, subregionsigns, subPrice, subregIsSold, ArmSettings.isSubregionInactivityReset(), subregIsHotel, ArmSettings.isSubregionBlockReset(), RegionKind.SUBREGION, FlagGroup.SUBREGION, null,
-                    sublastreset, sublastLogin, ArmSettings.isAllowSubRegionUserReset(), new ArrayList<Region>(), 0, EntityLimitGroup.SUBREGION, new HashMap<>(), 0);
+            return new SellRegion(subregion, regionWorld, subregionsigns, subPrice, subregIsSold, AdvancedRegionMarket.getInstance().getPluginSettings().isSubregionInactivityReset(), subregIsHotel, AdvancedRegionMarket.getInstance().getPluginSettings().isSubregionBlockReset(), RegionKind.SUBREGION, FlagGroup.SUBREGION, null,
+                    sublastreset, sublastLogin, AdvancedRegionMarket.getInstance().getPluginSettings().isAllowSubRegionUserReset(), new ArrayList<Region>(), 0, EntityLimitGroup.SUBREGION, new HashMap<>(), 0);
         }
     }
 

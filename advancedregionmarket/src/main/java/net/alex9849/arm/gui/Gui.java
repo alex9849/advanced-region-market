@@ -2,7 +2,6 @@ package net.alex9849.arm.gui;
 
 import com.sk89q.worldguard.protection.flags.*;
 import net.alex9849.arm.AdvancedRegionMarket;
-import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.entitylimit.EntityLimit;
@@ -1020,7 +1019,7 @@ public class Gui implements Listener {
     }
 
     public static void openRegionFinderTeleportLocationSeceltor(Player player, Region region) throws InputException {
-        if(!ArmSettings.isAllowTeleportToBuySign()) {
+        if(!AdvancedRegionMarket.getInstance().getPluginSettings().isAllowTeleportToBuySign()) {
             region.teleport(player, false);
             return;
         }

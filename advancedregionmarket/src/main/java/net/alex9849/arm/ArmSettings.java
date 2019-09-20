@@ -1,205 +1,205 @@
 package net.alex9849.arm;
 
 public class ArmSettings {
-    private static boolean isAllowSubRegionUserReset = false;
-    private static boolean isSubregionBlockReset = false;
-    private static boolean isSubregionInactivityReset = false;
-    private static boolean isTeleportAfterSellRegionBought = false;
-    private static boolean teleportAfterRentRegionBought = false;
-    private static boolean isTeleportAfterRentRegionExtend = false;
-    private static boolean isTeleportAfterContractRegionBought = false;
-    private static boolean isSendContractRegionExtendMessage = false;
-    private static boolean isRegionInfoParticleBorder = true;
-    private static boolean useShortCountdown = false;
-    private static boolean deleteSubregionsOnParentRegionUnsell = false;
-    private static boolean deleteSubregionsOnParentRegionBlockReset = false;
-    private static boolean allowParentRegionOwnersBuildOnSubregions = true;
-    private static boolean removeEntitiesOnRegionBlockReset = true;
-    private static boolean activateRegionKindPermissions = false;
+    private boolean isAllowSubRegionUserReset = false;
+    private boolean isSubregionBlockReset = false;
+    private boolean isSubregionInactivityReset = false;
+    private boolean isTeleportAfterSellRegionBought = false;
+    private boolean teleportAfterRentRegionBought = false;
+    private boolean isTeleportAfterRentRegionExtend = false;
+    private boolean isTeleportAfterContractRegionBought = false;
+    private boolean isSendContractRegionExtendMessage = false;
+    private boolean isRegionInfoParticleBorder = true;
+    private boolean useShortCountdown = false;
+    private boolean deleteSubregionsOnParentRegionUnsell = false;
+    private boolean deleteSubregionsOnParentRegionBlockReset = false;
+    private boolean allowParentRegionOwnersBuildOnSubregions = true;
+    private boolean removeEntitiesOnRegionBlockReset = true;
+    private boolean activateRegionKindPermissions = false;
 
-    private static String signRightClickSneakCommand = "buyaction";
-    private static String signRightClickNotSneakCommand = "buyaction";
-    private static String signLeftClickSneakCommand = "buyaction";
-    private static String signLeftClickNotSneakCommand = "buyaction";
+    private String signRightClickSneakCommand = "buyaction";
+    private String signRightClickNotSneakCommand = "buyaction";
+    private String signLeftClickSneakCommand = "buyaction";
+    private String signLeftClickNotSneakCommand = "buyaction";
 
-    private static boolean isAllowTeleportToBuySign = true;
+    private boolean isAllowTeleportToBuySign = true;
 
-    private static String REMAINING_TIME_TIMEFORMAT = "%date%";
-    private static String DATE_TIMEFORMAT = "dd.MM.yyyy hh:mm";
+    private String REMAINING_TIME_TIMEFORMAT = "%date%";
+    private String DATE_TIMEFORMAT = "dd.MM.yyyy hh:mm";
 
-    public static boolean isActivateRegionKindPermissions() {
-        return ArmSettings.activateRegionKindPermissions;
+    public boolean isActivateRegionKindPermissions() {
+        return this.activateRegionKindPermissions;
     }
 
-    public static void setActivateRegionKindPermissions(boolean activateRegionKindPermissions) {
-        ArmSettings.activateRegionKindPermissions = activateRegionKindPermissions;
+    public void setActivateRegionKindPermissions(boolean activateRegionKindPermissions) {
+        this.activateRegionKindPermissions = activateRegionKindPermissions;
     }
 
-    protected static void setRemoveEntitiesOnRegionBlockReset(boolean removeEntitiesOnRegionReset) {
-        ArmSettings.removeEntitiesOnRegionBlockReset = removeEntitiesOnRegionReset;
+    protected void setRemoveEntitiesOnRegionBlockReset(boolean removeEntitiesOnRegionReset) {
+        this.removeEntitiesOnRegionBlockReset = removeEntitiesOnRegionReset;
     }
 
-    protected static void setIsAllowTeleportToBuySign(boolean isAllowTeleportToBuySign) {
-        ArmSettings.isAllowTeleportToBuySign = isAllowTeleportToBuySign;
+    protected void setIsAllowTeleportToBuySign(boolean isAllowTeleportToBuySign) {
+        this.isAllowTeleportToBuySign = isAllowTeleportToBuySign;
     }
 
-    protected static void setDeleteSubregionsOnParentRegionUnsell(boolean deleteSubregionsOnParentRegionUnsell) {
-        ArmSettings.deleteSubregionsOnParentRegionUnsell = deleteSubregionsOnParentRegionUnsell;
+    protected void setDeleteSubregionsOnParentRegionUnsell(boolean deleteSubregionsOnParentRegionUnsell) {
+        this.deleteSubregionsOnParentRegionUnsell = deleteSubregionsOnParentRegionUnsell;
     }
 
-    protected static void setDeleteSubregionsOnParentRegionBlockReset(boolean deleteSubregionsOnParentRegionBlockReset) {
-        ArmSettings.deleteSubregionsOnParentRegionBlockReset = deleteSubregionsOnParentRegionBlockReset;
+    protected void setDeleteSubregionsOnParentRegionBlockReset(boolean deleteSubregionsOnParentRegionBlockReset) {
+        this.deleteSubregionsOnParentRegionBlockReset = deleteSubregionsOnParentRegionBlockReset;
     }
 
-    protected static void setIsAllowSubRegionUserReset(boolean isAllowSubRegionUserReset) {
-        ArmSettings.isAllowSubRegionUserReset = isAllowSubRegionUserReset;
+    protected void setIsAllowSubRegionUserReset(boolean isAllowSubRegionUserReset) {
+        this.isAllowSubRegionUserReset = isAllowSubRegionUserReset;
     }
 
-    protected static void setIsRegionInfoParticleBorder(boolean isRegionInfoParticleBorder) {
-        ArmSettings.isRegionInfoParticleBorder = isRegionInfoParticleBorder;
+    protected void setIsRegionInfoParticleBorder(boolean isRegionInfoParticleBorder) {
+        this.isRegionInfoParticleBorder = isRegionInfoParticleBorder;
     }
 
-    protected static void setIsSubregionBlockReset(boolean isSubregionBlockReset) {
-        ArmSettings.isSubregionBlockReset = isSubregionBlockReset;
+    protected void setIsSubregionBlockReset(boolean isSubregionBlockReset) {
+        this.isSubregionBlockReset = isSubregionBlockReset;
     }
 
-    protected static void setIsSubregionInactivityReset(boolean isSubregionInactivityReset) {
-        ArmSettings.isSubregionInactivityReset = isSubregionInactivityReset;
+    protected void setIsSubregionInactivityReset(boolean isSubregionInactivityReset) {
+        this.isSubregionInactivityReset = isSubregionInactivityReset;
     }
 
-    protected static void setIsTeleportAfterSellRegionBought(boolean isTeleportAfterSellRegionBought) {
-        ArmSettings.isTeleportAfterSellRegionBought = isTeleportAfterSellRegionBought;
+    protected void setIsTeleportAfterSellRegionBought(boolean isTeleportAfterSellRegionBought) {
+        this.isTeleportAfterSellRegionBought = isTeleportAfterSellRegionBought;
     }
 
-    protected static void setIsTeleportAfterRentRegionBought(boolean teleportAfterRentRegionBought) {
-        ArmSettings.teleportAfterRentRegionBought = teleportAfterRentRegionBought;
+    protected void setIsTeleportAfterRentRegionBought(boolean teleportAfterRentRegionBought) {
+        this.teleportAfterRentRegionBought = teleportAfterRentRegionBought;
     }
 
-    protected static void setIsTeleportAfterRentRegionExtend(boolean isTeleportAfterRentRegionExtend) {
-        ArmSettings.isTeleportAfterRentRegionExtend = isTeleportAfterRentRegionExtend;
+    protected void setIsTeleportAfterRentRegionExtend(boolean isTeleportAfterRentRegionExtend) {
+        this.isTeleportAfterRentRegionExtend = isTeleportAfterRentRegionExtend;
     }
 
-    protected static void setIsTeleportAfterContractRegionBought(boolean isTeleportAfterContractRegionBought) {
-        ArmSettings.isTeleportAfterContractRegionBought = isTeleportAfterContractRegionBought;
+    protected void setIsTeleportAfterContractRegionBought(boolean isTeleportAfterContractRegionBought) {
+        this.isTeleportAfterContractRegionBought = isTeleportAfterContractRegionBought;
     }
 
-    protected static void setIsSendContractRegionExtendMessage(boolean isSendContractRegionExtendMessage) {
-        ArmSettings.isSendContractRegionExtendMessage = isSendContractRegionExtendMessage;
+    protected void setIsSendContractRegionExtendMessage(boolean isSendContractRegionExtendMessage) {
+        this.isSendContractRegionExtendMessage = isSendContractRegionExtendMessage;
     }
 
-    protected static void setUseShortCountdown(boolean useShortCountdown) {
-        ArmSettings.useShortCountdown = useShortCountdown;
+    protected void setUseShortCountdown(boolean useShortCountdown) {
+        this.useShortCountdown = useShortCountdown;
     }
 
-    protected static void setRemainingTimeTimeformat(String remainingTimeTimeformat) {
+    protected void setRemainingTimeTimeformat(String remainingTimeTimeformat) {
         REMAINING_TIME_TIMEFORMAT = remainingTimeTimeformat;
     }
 
-    protected static void setSignRightClickSneakCommand(String signRightClickSneakCommand) {
-        ArmSettings.signRightClickSneakCommand = signRightClickSneakCommand;
+    protected void setSignRightClickSneakCommand(String signRightClickSneakCommand) {
+        this.signRightClickSneakCommand = signRightClickSneakCommand;
     }
 
-    protected static void setSignRightClickNotSneakCommand(String signRightClickNotSneakCommand) {
-        ArmSettings.signRightClickNotSneakCommand = signRightClickNotSneakCommand;
+    protected void setSignRightClickNotSneakCommand(String signRightClickNotSneakCommand) {
+        this.signRightClickNotSneakCommand = signRightClickNotSneakCommand;
     }
 
-    protected static void setSignLeftClickSneakCommand(String signLeftClickSneakCommand) {
-        ArmSettings.signLeftClickSneakCommand = signLeftClickSneakCommand;
+    protected void setSignLeftClickSneakCommand(String signLeftClickSneakCommand) {
+        this.signLeftClickSneakCommand = signLeftClickSneakCommand;
     }
 
-    protected static void setSignLeftClickNotSneakCommand(String signLeftClickNotSneakCommand) {
-        ArmSettings.signLeftClickNotSneakCommand = signLeftClickNotSneakCommand;
+    protected void setSignLeftClickNotSneakCommand(String signLeftClickNotSneakCommand) {
+        this.signLeftClickNotSneakCommand = signLeftClickNotSneakCommand;
     }
 
-    protected static void setDateTimeformat(String dateTimeformat) {
+    protected void setDateTimeformat(String dateTimeformat) {
         DATE_TIMEFORMAT = dateTimeformat;
     }
 
-    public static boolean isAllowSubRegionUserReset() {
+    public boolean isAllowSubRegionUserReset() {
         return isAllowSubRegionUserReset;
     }
 
-    public static boolean isSubregionBlockReset() {
+    public boolean isSubregionBlockReset() {
         return isSubregionBlockReset;
     }
 
-    public static boolean isSubregionInactivityReset() {
+    public boolean isSubregionInactivityReset() {
         return isSubregionInactivityReset;
     }
 
-    public static boolean isTeleportAfterSellRegionBought() {
+    public boolean isTeleportAfterSellRegionBought() {
         return isTeleportAfterSellRegionBought;
     }
 
-    public static boolean isTeleportAfterRentRegionBought() {
+    public boolean isTeleportAfterRentRegionBought() {
         return teleportAfterRentRegionBought;
     }
 
-    public static boolean isTeleportAfterRentRegionExtend() {
+    public boolean isTeleportAfterRentRegionExtend() {
         return isTeleportAfterRentRegionExtend;
     }
 
-    public static boolean isTeleportAfterContractRegionBought() {
+    public boolean isTeleportAfterContractRegionBought() {
         return isTeleportAfterContractRegionBought;
     }
 
-    public static boolean isSendContractRegionExtendMessage() {
+    public boolean isSendContractRegionExtendMessage() {
         return isSendContractRegionExtendMessage;
     }
 
-    public static boolean isUseShortCountdown() {
+    public boolean isUseShortCountdown() {
         return useShortCountdown;
     }
 
-    public static String getRemainingTimeTimeformat() {
+    public String getRemainingTimeTimeformat() {
         return REMAINING_TIME_TIMEFORMAT;
     }
 
-    public static String getDateTimeformat() {
+    public String getDateTimeformat() {
         return DATE_TIMEFORMAT;
     }
 
-    public static boolean isRegionInfoParticleBorder() {
+    public boolean isRegionInfoParticleBorder() {
         return isRegionInfoParticleBorder;
     }
 
-    public static boolean isDeleteSubregionsOnParentRegionUnsell() {
+    public boolean isDeleteSubregionsOnParentRegionUnsell() {
         return deleteSubregionsOnParentRegionUnsell;
     }
 
-    public static boolean isDeleteSubregionsOnParentRegionBlockReset() {
+    public boolean isDeleteSubregionsOnParentRegionBlockReset() {
         return deleteSubregionsOnParentRegionBlockReset;
     }
 
-    public static boolean isAllowTeleportToBuySign() {
+    public boolean isAllowTeleportToBuySign() {
         return isAllowTeleportToBuySign;
     }
 
-    public static boolean isAllowParentRegionOwnersBuildOnSubregions() {
+    public boolean isAllowParentRegionOwnersBuildOnSubregions() {
         return allowParentRegionOwnersBuildOnSubregions;
     }
 
-    public static void setAllowParentRegionOwnersBuildOnSubregions(boolean allowParentRegionOwnersBuildOnSubregions) {
-        ArmSettings.allowParentRegionOwnersBuildOnSubregions = allowParentRegionOwnersBuildOnSubregions;
+    public void setAllowParentRegionOwnersBuildOnSubregions(boolean allowParentRegionOwnersBuildOnSubregions) {
+        this.allowParentRegionOwnersBuildOnSubregions = allowParentRegionOwnersBuildOnSubregions;
     }
 
-    public static boolean isRemoveEntitiesOnRegionBlockReset() {
-        return ArmSettings.removeEntitiesOnRegionBlockReset;
+    public boolean isRemoveEntitiesOnRegionBlockReset() {
+        return this.removeEntitiesOnRegionBlockReset;
     }
 
-    public static String getSignRightClickSneakCommand() {
+    public String getSignRightClickSneakCommand() {
         return signRightClickSneakCommand;
     }
 
-    public static String getSignRightClickNotSneakCommand() {
+    public String getSignRightClickNotSneakCommand() {
         return signRightClickNotSneakCommand;
     }
 
-    public static String getSignLeftClickSneakCommand() {
+    public String getSignLeftClickSneakCommand() {
         return signLeftClickSneakCommand;
     }
 
-    public static String getSignLeftClickNotSneakCommand() {
+    public String getSignLeftClickNotSneakCommand() {
         return signLeftClickNotSneakCommand;
     }
 

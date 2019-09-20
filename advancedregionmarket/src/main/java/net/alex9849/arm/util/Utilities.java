@@ -1,6 +1,6 @@
 package net.alex9849.arm.util;
 
-import net.alex9849.arm.ArmSettings;
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 
 import java.text.SimpleDateFormat;
@@ -111,14 +111,14 @@ public class Utilities {
             return ifDateInPastReplacement;
         }
 
-        SimpleDateFormat sdf = new SimpleDateFormat(ArmSettings.getDateTimeformat());
+        SimpleDateFormat sdf = new SimpleDateFormat(AdvancedRegionMarket.getInstance().getPluginSettings().getDateTimeformat());
 
         return sdf.format(payedTill.getTime());
     }
 
     public static String timeInMsToString(long endTime, boolean showTimeIfDateInThePast, String ifDateInPastReplacement) {
-        String timetoString = ArmSettings.getRemainingTimeTimeformat();
-        timetoString = timetoString.replace("%countdown%", Utilities.getCountdown(ArmSettings.isUseShortCountdown(), endTime, showTimeIfDateInThePast, ifDateInPastReplacement));
+        String timetoString = AdvancedRegionMarket.getInstance().getPluginSettings().getRemainingTimeTimeformat();
+        timetoString = timetoString.replace("%countdown%", Utilities.getCountdown(AdvancedRegionMarket.getInstance().getPluginSettings().isUseShortCountdown(), endTime, showTimeIfDateInThePast, ifDateInPastReplacement));
         timetoString = timetoString.replace("%date%", Utilities.getDate(endTime, showTimeIfDateInThePast, ifDateInPastReplacement));
         return timetoString;
     }

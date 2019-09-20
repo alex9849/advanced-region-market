@@ -1,7 +1,6 @@
 package net.alex9849.arm.handler.listener;
 
 import net.alex9849.arm.AdvancedRegionMarket;
-import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.util.MaterialFinder;
@@ -40,15 +39,15 @@ public class SignClickListener implements Listener {
 
             if(event.getAction() == Action.RIGHT_CLICK_BLOCK) {
                 if(event.getPlayer().isSneaking()) {
-                    this.handleSignCmd(region, ArmSettings.getSignRightClickSneakCommand(), event.getPlayer());
+                    this.handleSignCmd(region, AdvancedRegionMarket.getInstance().getPluginSettings().getSignRightClickSneakCommand(), event.getPlayer());
                 } else {
-                    this.handleSignCmd(region, ArmSettings.getSignRightClickNotSneakCommand(), event.getPlayer());
+                    this.handleSignCmd(region, AdvancedRegionMarket.getInstance().getPluginSettings().getSignRightClickNotSneakCommand(), event.getPlayer());
                 }
             } else if (event.getAction() == Action.LEFT_CLICK_BLOCK){
                 if(event.getPlayer().isSneaking()) {
-                    this.handleSignCmd(region, ArmSettings.getSignLeftClickSneakCommand(), event.getPlayer());
+                    this.handleSignCmd(region, AdvancedRegionMarket.getInstance().getPluginSettings().getSignLeftClickSneakCommand(), event.getPlayer());
                 } else {
-                    this.handleSignCmd(region, ArmSettings.getSignLeftClickNotSneakCommand(), event.getPlayer());
+                    this.handleSignCmd(region, AdvancedRegionMarket.getInstance().getPluginSettings().getSignLeftClickNotSneakCommand(), event.getPlayer());
                 }
             }
 

@@ -244,7 +244,6 @@ public class ContractRegion extends CountdownRegion {
         message = message.replace("%status%", this.getTerminationString());
         message = message.replace("%statuslong%", this.getTerminationStringLong());
         message = super.getConvertedMessage(message);
-        message = message.replace("%extend%", this.getExtendTimeString());
         message = message.replace("%isterminated%", Messages.convertYesNo(this.isTerminated()));
         message = message.replace("%priceperm2perweek%", Price.formatPrice(this.getPricePerM2PerWeek()));
         message = message.replace("%priceperm3perweek%", Price.formatPrice(this.getPricePerM3PerWeek()));

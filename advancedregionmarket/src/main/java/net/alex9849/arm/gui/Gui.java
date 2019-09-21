@@ -17,6 +17,7 @@ import net.alex9849.arm.regions.RentRegion;
 import net.alex9849.arm.regions.SellRegion;
 import net.alex9849.arm.util.MaterialFinder;
 import net.alex9849.exceptions.InputException;
+import net.alex9849.inter.WGRegion;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -1249,7 +1250,11 @@ public class Gui implements Listener {
                     throw new InputException(player, Messages.REGION_TRANSFER_MEMBER_NOT_ONLINE);
                 }
                 if(LimitGroup.isCanBuyAnother(onlinemember, region)) {
-                    region.setNewOwner(onlinemember);
+                    WGRegion wgRegion = region.getRegion();
+                    for(UUID oldOwner : wgRegion.getOwners()) {
+                        wgRegion.addMember(oldOwner);
+                    }
+                    region.setOwner(onlinemember);
                     player.sendMessage(Messages.PREFIX + Messages.REGION_TRANSFER_COMPLETE_MESSAGE);
                 } else {
                     throw new InputException(player, Messages.REGION_TRANSFER_LIMIT_ERROR);
@@ -1344,7 +1349,13 @@ public class Gui implements Listener {
             ClickItem icon = new ClickItem(stack).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) {
-                    oldRegions.get(finalI).setNewOwner(player);
+
+                    Region oldRegion = oldRegions.get(finalI);
+                    WGRegion oldWgRegion = oldRegion.getRegion();
+                    for(UUID oldOwner : oldWgRegion.getOwners()) {
+                        oldWgRegion.addMember(oldOwner);
+                    }
+                    oldRegion.setOwner(player);
                     oldRegions.remove(finalI);
                     player.sendMessage(Messages.PREFIX + Messages.REGION_TRANSFER_COMPLETE_MESSAGE);
                     Gui.openOvertakeGUI(player, oldRegions);

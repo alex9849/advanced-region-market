@@ -133,6 +133,7 @@ public class RentRegion extends CountdownRegion {
         super.updateRegion();
     }
 
+    //TODO Include CowntdownRegion methods
     public void extendRegion(Player player) throws InputException {
         if(!Permission.hasAnyBuyPermission(player)) {
             throw new InputException(player, Messages.NO_PERMISSION);
@@ -158,7 +159,7 @@ public class RentRegion extends CountdownRegion {
         }
 
         GregorianCalendar actualtime = new GregorianCalendar();
-        if (this.maxRentTime < ((this.payedTill + this.rentExtendPerClick) - actualtime.getTimeInMillis())){
+        if (this.maxRentTime < ((this.getPayedTill() + this.getExtendTime()) - actualtime.getTimeInMillis())){
             String errormessage = this.getConvertedMessage(Messages.RENT_EXTEND_ERROR);
             throw new InputException(player, errormessage);
         }
@@ -173,7 +174,7 @@ public class RentRegion extends CountdownRegion {
         }
         AdvancedRegionMarket.getInstance().getEcon().withdrawPlayer(player, this.getPrice());
         this.giveParentRegionOwnerMoney(this.getPrice());
-        this.payedTill = this.payedTill + this.rentExtendPerClick;
+        this.extend();
 
         this.queueSave();
 
@@ -240,7 +241,6 @@ public class RentRegion extends CountdownRegion {
     public String getConvertedMessage(String message) {
         message = super.getConvertedMessage(message);
         message = message.replace("%maxrenttime%", CountdownRegion.timeInMsToString(this.getMaxRentTimeString()));
-        message = message.replace("%extendperclick%", this.getExtendPerClick());
         message = message.replace("%priceperm2perweek%", Price.formatPrice(this.getPricePerM2PerWeek()));
         message = message.replace("%priceperm3perweek%", Price.formatPrice(this.getPricePerM3PerWeek()));
         return message;

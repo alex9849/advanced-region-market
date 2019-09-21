@@ -150,18 +150,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
         }
 
 
-
-        this.regionKindManager = new RegionKindManager(new File(this.getDataFolder() + "/regionkinds.yml"));
-        this.entityLimitGroupManager = new EntityLimitGroupManager(new File(this.getDataFolder() + "/entitylimits.yml"));
-        loadAutoPrice();
-        loadGroups();
-        loadGUI();
-        this.flagGroupManager = new FlagGroupManager(new File(this.getDataFolder() + "/flaggroups.yml"));
-        this.regionManager = new RegionManager(new File(this.getDataFolder() + "/regions.yml"));
-        getLogger().log(Level.INFO, "Regions loaded!");
-
-        loadSignLinkingModeRegions();
-        loadInactivityExpirationGroups();
         this.pluginSettings = new ArmSettings();
         this.pluginSettings.setIsTeleportAfterRentRegionBought(getConfig().getBoolean("Other.TeleportAfterRentRegionBought"));
         this.pluginSettings.setIsTeleportAfterRentRegionExtend(getConfig().getBoolean("Other.TeleportAfterRentRegionExtend"));
@@ -185,6 +173,18 @@ public class AdvancedRegionMarket extends JavaPlugin {
         this.pluginSettings.setSignLeftClickSneakCommand(getConfig().getString("SignClickActions.LeftClickSneakCmd"));
         this.pluginSettings.setSignLeftClickNotSneakCommand(getConfig().getString("SignClickActions.LeftClickNotSneakCmd"));
         this.pluginSettings.setActivateRegionKindPermissions(getConfig().getBoolean("RegionKinds.activateRegionKindPermissions"));
+
+        this.regionKindManager = new RegionKindManager(new File(this.getDataFolder() + "/regionkinds.yml"));
+        this.entityLimitGroupManager = new EntityLimitGroupManager(new File(this.getDataFolder() + "/entitylimits.yml"));
+        loadAutoPrice();
+        loadGroups();
+        loadGUI();
+        this.flagGroupManager = new FlagGroupManager(new File(this.getDataFolder() + "/flaggroups.yml"));
+        this.regionManager = new RegionManager(new File(this.getDataFolder() + "/regions.yml"));
+        getLogger().log(Level.INFO, "Regions loaded!");
+
+        loadSignLinkingModeRegions();
+        loadInactivityExpirationGroups();
         loadOther();
         this.presetPatternManager = new PresetPatternManager(new File(this.getDataFolder() + "/presets.yml"));
         Region.setCompleteTabRegions(getConfig().getBoolean("Other.CompleteRegionsOnTabComplete"));
@@ -1436,5 +1436,31 @@ public class AdvancedRegionMarket extends JavaPlugin {
             }
         }
         regionConf.save(regionConfDic);
+
+        File messagesConfDic = new File(this.getDataFolder() + "/messages.yml");
+        YamlConfiguration messagesConf = YamlConfiguration.loadConfiguration(messagesConfDic);
+        ConfigurationSection messagesSection = messagesConf.getConfigurationSection("Messages");
+        if(messagesSection != null) {
+            ArrayList<String> messageKeys = new ArrayList<String>(messagesSection.getKeys(false));
+
+            for(String key : messageKeys) {
+                Object msgObject = messagesSection.get(key);
+                if(msgObject instanceof List) {
+                    List<String> msgList = (List) msgObject;
+                    for(int i = 0; i < msgList.size(); i++) {
+                        msgList.set(i, msgList.get(i).replace("%extendperclick%", "%extendtime%"));
+                        msgList.set(i, msgList.get(i).replace("%extend%", "%extendtime%"));
+                    }
+                } else if (msgObject instanceof String) {
+                    String msgString = (String) msgObject;
+                    msgString = msgString.replace("%extendperclick%", "%extendtime%");
+                    msgString = msgString.replace("%extend%", "%extendtime%");
+                    messagesSection.set(key, msgString);
+                }
+            }
+        }
+        messagesConf.save(messagesConfDic);
+
+
     }
 }

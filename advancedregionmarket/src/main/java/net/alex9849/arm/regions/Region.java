@@ -425,15 +425,6 @@ public abstract class Region implements Saveable {
         }
     }
 
-    public void setNewOwner(OfflinePlayer member){
-        ArrayList<UUID> owner = this.getRegion().getOwners();
-        for (int i = 0; i < owner.size(); i++) {
-            this.getRegion().addMember(owner.get(i));
-        }
-        this.getRegion().setOwner(member);
-        this.setLastLogin();
-    }
-
     public String getDimensions(){
         Vector min = this.getRegion().getMinPoint();
         Vector max = this.getRegion().getMaxPoint();
@@ -481,7 +472,16 @@ public abstract class Region implements Saveable {
         }
     }
 
-    public abstract void setSold(OfflinePlayer player);
+    /**
+     * Sets the region to sold and sets a players a an owner
+     * @param player The player that should own the region
+     */
+    public void setSold(OfflinePlayer player) {
+        this.getRegion().setOwner(player);
+        this.setSold(true);
+        this.queueSave();
+        this.updateSigns();
+    }
     protected abstract void updateSignText(SignData signData);
     public abstract void buy(Player player) throws InputException;
     public abstract void userSell(Player player);
@@ -489,7 +489,18 @@ public abstract class Region implements Saveable {
 
     public void setSold(boolean sold) {
         this.sold = sold;
+        if(!this.isSold() && sold || this.isSold() && !sold) {
+            this.setLastLogin();
+            this.getFlagGroup().applyToRegion(this, FlagGroup.ResetMode.COMPLETE);
+        }
         this.queueSave();
+    }
+
+    public void setOwner(OfflinePlayer oPlayer) {
+        if(!this.isSold()) {
+            this.setSold(oPlayer);
+        }
+        this.getRegion().deleteMembers();
     }
 
     public void setLastLogin() {

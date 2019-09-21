@@ -6,13 +6,13 @@ import net.alex9849.arm.Permission;
 import net.alex9849.arm.entitylimit.EntityLimit;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
 import net.alex9849.arm.events.BuyRegionEvent;
-import net.alex9849.arm.events.ExtendRegionEvent;
 import net.alex9849.arm.flaggroups.FlagGroup;
 import net.alex9849.arm.limitgroups.LimitGroup;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.price.ContractPrice;
 import net.alex9849.arm.regions.price.Price;
+import net.alex9849.arm.util.Utilities;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.signs.SignData;
@@ -24,16 +24,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
-import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
-public class ContractRegion extends Region {
-    private long payedTill;
-    private long extendTime;
+public class ContractRegion extends CountdownRegion {
     private boolean terminated;
 
     public ContractRegion(WGRegion region, World regionworld, List<SignData> contractsign, ContractPrice contractPrice, Boolean sold, Boolean inactivityReset,
@@ -41,13 +37,8 @@ public class ContractRegion extends Region {
                           long payedTill, Boolean terminated, List<Region> subregions, int allowedSubregions, EntityLimitGroup entityLimitGroup,
                           HashMap<EntityLimit.LimitableEntityType, Integer> extraEntitys, int boughtExtraTotalEntitys) {
         super(region, regionworld, contractsign, contractPrice, sold, inactivityReset, isHotel, doBlockReset, regionKind, flagGroup, teleportLoc, lastreset, lastLogin, isUserResettable,
-                subregions, allowedSubregions, entityLimitGroup, extraEntitys, boughtExtraTotalEntitys);
-        this.payedTill = payedTill;
-        this.extendTime = contractPrice.getExtendTime();
+                payedTill, subregions, allowedSubregions, entityLimitGroup, extraEntitys, boughtExtraTotalEntitys);
         this.terminated = terminated;
-        if(this.extendTime < 1000) {
-            this.extendTime = 1000;
-        }
         this.updateSigns();
     }
 
@@ -78,32 +69,31 @@ public class ContractRegion extends Region {
             GregorianCalendar actualtime = new GregorianCalendar();
 
             //If region expired and terminated
-            if((this.payedTill < actualtime.getTimeInMillis()) && this.terminated){
-                this.automaticResetRegion();
-
-            //If region expired and not terminated
-            } else if(this.payedTill < actualtime.getTimeInMillis()) {
-                List<UUID> owners = this.getRegion().getOwners();
-                if(owners.size() == 0){
-                    this.extend();
+            if((this.getPayedTill() < actualtime.getTimeInMillis()) && this.terminated){
+                if(this.isTerminated()) {
+                    this.automaticResetRegion();
                 } else {
-                    OfflinePlayer oplayer = Bukkit.getOfflinePlayer(owners.get(0));
-                    if(oplayer == null) {
+                    List<UUID> owners = this.getRegion().getOwners();
+                    if(owners.size() == 0){
                         this.extend();
                     } else {
-                        if(AdvancedRegionMarket.getInstance().getEcon().hasAccount(oplayer)) {
-                            if(AdvancedRegionMarket.getInstance().getEcon().getBalance(oplayer) < this.getPrice()) {
-                                this.automaticResetRegion();
-                            } else {
-                                AdvancedRegionMarket.getInstance().getEcon().withdrawPlayer(oplayer, this.getPrice());
-                                if(this.isSubregion()) {
-                                    this.giveParentRegionOwnerMoney(this.getPrice());
-                                }
-                                if(oplayer.isOnline()) {
-                                    Player player = Bukkit.getPlayer(owners.get(0));
-                                    this.extend(player);
+                        OfflinePlayer oplayer = Bukkit.getOfflinePlayer(owners.get(0));
+                        if(oplayer == null) {
+                            this.extend();
+                        } else {
+                            if(AdvancedRegionMarket.getInstance().getEcon().hasAccount(oplayer)) {
+                                if(AdvancedRegionMarket.getInstance().getEcon().getBalance(oplayer) < this.getPrice()) {
+                                    this.automaticResetRegion();
                                 } else {
+                                    AdvancedRegionMarket.getInstance().getEcon().withdrawPlayer(oplayer, this.getPrice());
+                                    if(this.isSubregion()) {
+                                        this.giveParentRegionOwnerMoney(this.getPrice());
+                                    }
                                     this.extend();
+                                    if(oplayer.isOnline() && AdvancedRegionMarket.getInstance().getPluginSettings().isSendContractRegionExtendMessage()) {
+                                        String sendmessage = this.getConvertedMessage(Messages.CONTRACT_REGION_EXTENDED);
+                                        oplayer.getPlayer().sendMessage(Messages.PREFIX + sendmessage);
+                                    }
                                 }
                             }
                         }
@@ -116,17 +106,8 @@ public class ContractRegion extends Region {
 
     @Override
     public void setSold(OfflinePlayer player) {
-        if(!this.isSold()) {
-            GregorianCalendar actualtime = new GregorianCalendar();
-            this.payedTill = actualtime.getTimeInMillis() + this.extendTime;
-        }
-        this.setSold(true);
-        this.setLastLogin();
         this.terminated = false;
-        this.getRegion().deleteMembers();
-        this.getRegion().setOwner(player);
-        this.updateSigns();
-        this.getFlagGroup().applyToRegion(this, FlagGroup.ResetMode.COMPLETE);
+        super.setSold(player);
         this.queueSave();
     }
 
@@ -193,7 +174,6 @@ public class ContractRegion extends Region {
             this.giveParentRegionOwnerMoney(this.getPrice());
         }
         this.setSold(player);
-        this.resetBuiltBlocks();
         if(AdvancedRegionMarket.getInstance().getPluginSettings().isTeleportAfterContractRegionBought()){
             Teleporter.teleport(player, this, "", AdvancedRegionMarket.getInstance().getConfig().getBoolean("Other.TeleportAfterRegionBoughtCountdown"));
         }
@@ -203,179 +183,16 @@ public class ContractRegion extends Region {
 
     @Override
     public void userSell(Player player){
-        List<UUID> defdomain = this.getRegion().getOwners();
+        List<UUID> owners = this.getRegion().getOwners();
         double amount = this.getPaybackMoney();
 
         if(amount > 0){
-            for(int i = 0; i < defdomain.size(); i++) {
-                AdvancedRegionMarket.getInstance().getEcon().depositPlayer(Bukkit.getOfflinePlayer(defdomain.get(i)), amount);
+            for(UUID owner : owners) {
+                AdvancedRegionMarket.getInstance().getEcon().depositPlayer(Bukkit.getOfflinePlayer(owner), amount);
             }
         }
 
         this.automaticResetRegion(player);
-    }
-
-    @Override
-    public double getPaybackMoney() {
-        double amount = (this.getPrice() * this.getRegionKind().getPaybackPercentage())/100;
-        GregorianCalendar acttime = new GregorianCalendar();
-        long remaining = this.payedTill - acttime.getTimeInMillis();
-        amount = amount * ((double)remaining / (double)extendTime);
-        amount = amount * 10;
-        amount = Math.round(amount);
-        amount = amount / 10d;
-
-        if(amount > 0) {
-            return amount;
-        } else {
-            return 0;
-        }
-    }
-
-    public String calcRemainingTime() {
-        String timetoString = AdvancedRegionMarket.getInstance().getPluginSettings().getRemainingTimeTimeformat();
-        timetoString = timetoString.replace("%countdown%", this.getCountdown(AdvancedRegionMarket.getInstance().getPluginSettings().isUseShortCountdown()));
-        timetoString = timetoString.replace("%date%", this.getDate(AdvancedRegionMarket.getInstance().getPluginSettings().getDateTimeformat()));
-
-
-        return timetoString;
-    }
-
-    private String getDate(String regex) {
-        GregorianCalendar payedTill = new GregorianCalendar();
-        payedTill.setTimeInMillis(this.payedTill);
-
-        SimpleDateFormat sdf = new SimpleDateFormat(regex);
-
-        return sdf.format(payedTill.getTime());
-    }
-
-    private String getCountdown(Boolean mini){
-        GregorianCalendar actualtime = new GregorianCalendar();
-        GregorianCalendar payedTill = new GregorianCalendar();
-        payedTill.setTimeInMillis(this.payedTill);
-
-        long remainingMilliSeconds = payedTill.getTimeInMillis() - actualtime.getTimeInMillis();
-
-        String sec;
-        String min;
-        String hour;
-        String days;
-        if(mini) {
-            sec = " " + Messages.TIME_SECONDS_SHORT;
-            min = " " + Messages.TIME_MINUTES_SHORT;
-            hour = " " + Messages.TIME_HOURS_SHORT;
-            days = " " + Messages.TIME_DAYS_SHORT;
-        } else {
-            sec = Messages.TIME_SECONDS;
-            min = Messages.TIME_MINUTES;
-            hour = Messages.TIME_HOURS;
-            days = Messages.TIME_DAYS;
-        }
-
-        if(remainingMilliSeconds < 0){
-            return Messages.REGION_INFO_EXPIRED;
-        }
-
-        long remainingDays = TimeUnit.DAYS.convert(remainingMilliSeconds, TimeUnit.MILLISECONDS);
-        remainingMilliSeconds = remainingMilliSeconds - (remainingDays * 1000 * 60 * 60 *24);
-
-        long remainingHours = TimeUnit.HOURS.convert(remainingMilliSeconds, TimeUnit.MILLISECONDS);
-        remainingMilliSeconds = remainingMilliSeconds - (remainingHours * 1000 * 60 * 60);
-
-        long remainingMinutes = TimeUnit.MINUTES.convert(remainingMilliSeconds, TimeUnit.MILLISECONDS);
-        remainingMilliSeconds = remainingMilliSeconds - (remainingMinutes * 1000 * 60);
-
-        long remainingSeconds = TimeUnit.SECONDS.convert(remainingMilliSeconds, TimeUnit.MILLISECONDS);
-
-
-        String timetoString = "";
-        if(remainingDays != 0) {
-            timetoString = timetoString + remainingDays + days;
-            if(mini){
-                return timetoString;
-            }
-        }
-        if(remainingHours != 0) {
-            timetoString = timetoString + remainingHours + hour;
-            if(mini){
-                return timetoString;
-            }
-        }
-        if(remainingMinutes != 0) {
-            timetoString = timetoString + remainingMinutes + min;
-            if(mini){
-                return timetoString;
-            }
-        }
-        if(remainingSeconds != 0) {
-            timetoString = timetoString + remainingSeconds + sec;
-            if(mini){
-                return timetoString;
-            }
-        }
-        if(remainingSeconds == 0 && remainingMinutes == 0 && remainingHours == 0 && remainingDays == 0){
-            timetoString = "0" + sec;
-        }
-
-        return timetoString;
-    }
-
-    public String getExtendTimeString(){
-        long time = this.extendTime;
-
-        long remainingDays = TimeUnit.DAYS.convert(time, TimeUnit.MILLISECONDS);
-        time = time - (remainingDays * 1000 * 60 * 60 *24);
-
-        long remainingHours = TimeUnit.HOURS.convert(time, TimeUnit.MILLISECONDS);
-        time = time - (remainingHours * 1000 * 60 * 60);
-
-        long remainingMinutes = TimeUnit.MINUTES.convert(time, TimeUnit.MILLISECONDS);
-        time = time - (remainingMinutes * 1000 * 60);
-
-        long remainingSeconds = TimeUnit.SECONDS.convert(time, TimeUnit.MILLISECONDS);
-
-
-        String timetoString = "";
-        if(remainingDays != 0) {
-            timetoString = timetoString + remainingDays + Messages.TIME_DAYS;
-        }
-        if(remainingHours != 0) {
-            timetoString = timetoString + remainingHours + Messages.TIME_HOURS;
-        }
-        if(remainingMinutes != 0) {
-            timetoString = timetoString + remainingMinutes + Messages.TIME_MINUTES;
-        }
-        if(remainingSeconds != 0) {
-            timetoString = timetoString + remainingSeconds + Messages.TIME_SECONDS;
-        }
-        if(remainingSeconds == 0 && remainingMinutes == 0 && remainingHours == 0 && remainingDays == 0){
-            timetoString = "0" + Messages.TIME_SECONDS;
-        }
-
-        return timetoString;
-    }
-
-    public void extend(){
-        this.extend(null);
-    }
-
-    public void extend(Player player){
-        ExtendRegionEvent extendRegionEvent = new ExtendRegionEvent(this);
-        Bukkit.getServer().getPluginManager().callEvent(extendRegionEvent);
-        if(extendRegionEvent.isCancelled()) {
-            return;
-        }
-
-        GregorianCalendar actualtime = new GregorianCalendar();
-        while (this.payedTill < actualtime.getTimeInMillis()) {
-            this.payedTill = this.payedTill + this.extendTime;
-        }
-        this.queueSave();
-        if((player != null) && AdvancedRegionMarket.getInstance().getPluginSettings().isSendContractRegionExtendMessage()) {
-            String sendmessage = this.getConvertedMessage(Messages.CONTRACT_REGION_EXTENDED);
-            player.sendMessage(Messages.PREFIX + sendmessage);
-        }
     }
 
     public void changeTerminated() throws InputException {
@@ -425,15 +242,7 @@ public class ContractRegion extends Region {
         }
     }
 
-    protected long getPayedTill() {
-        return this.payedTill;
-    }
-
-    protected long getExtendTime() {
-        return this.extendTime;
-    }
-
-    protected boolean isTerminated() {
+    public boolean isTerminated() {
         return this.terminated;
     }
 
@@ -461,7 +270,7 @@ public class ContractRegion extends Region {
         message = message.replace("%statuslong%", this.getTerminationStringLong());
         message = super.getConvertedMessage(message);
         message = message.replace("%extend%", this.getExtendTimeString());
-        message = message.replace("%remaining%", this.calcRemainingTime());
+        message = message.replace("%remaining%", Utilities.timeInMsToString(this.getPayedTill(), false, Messages.REGION_INFO_EXPIRED));
         message = message.replace("%isterminated%", Messages.convertYesNo(this.isTerminated()));
         message = message.replace("%priceperm2perweek%", Price.formatPrice(this.getPricePerM2PerWeek()));
         message = message.replace("%priceperm3perweek%", Price.formatPrice(this.getPricePerM3PerWeek()));
@@ -472,27 +281,8 @@ public class ContractRegion extends Region {
         return SellType.CONTRACT;
     }
 
-    @Override
-    public void setPrice(Price price) {
-        super.setPrice(price);
-        if(price instanceof ContractPrice) {
-            this.extendTime = ((ContractPrice) price).getExtendTime();
-        }
-        this.updateSigns();
-        this.queueSave();
-    }
-    public void setPayedTill(long payedTill) {
-        this.payedTill = payedTill;
-    }
-
     public ConfigurationSection toConfigurationSection() {
         ConfigurationSection yamlConfiguration = super.toConfigurationSection();
-        if(this.getPriceObject().isAutoPrice()) {
-            yamlConfiguration.set("extendTime", null);
-        } else {
-            yamlConfiguration.set("extendTime", this.getExtendTime());
-        }
-        yamlConfiguration.set("payedTill", this.getPayedTill());
         yamlConfiguration.set("terminated", this.isTerminated());
         return yamlConfiguration;
     }

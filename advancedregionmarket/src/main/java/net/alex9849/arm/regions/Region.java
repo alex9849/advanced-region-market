@@ -14,7 +14,6 @@ import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.util.Saveable;
-import net.alex9849.arm.util.Utilities;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.exceptions.SchematicException;
 import net.alex9849.inter.WGRegion;
@@ -698,7 +697,7 @@ public abstract class Region implements Saveable {
         if(message.contains("%isuserresettable%")) message = message.replace("%isuserresettable%", Messages.convertYesNo(this.isUserResettable()));
         if(message.contains("%isdoblockreset%")) message = message.replace("%isdoblockreset%", Messages.convertYesNo(this.isDoBlockReset()));
         if(message.contains("%isinactivityreset%")) message = message.replace("%isinactivityreset%", Messages.convertYesNo(this.isInactivityResetEnabled()));
-        if(message.contains("%lastownerlogin%")) message = message.replace("%lastownerlogin%", Utilities.getDate(this.getLastLogin(), true, ""));
+        if(message.contains("%lastownerlogin%")) message = message.replace("%lastownerlogin%", CountdownRegion.getDate(this.getLastLogin(), true, ""));
         if(message.contains("%autoprice%")) {
             String autopriceInfo = "";
             if(this.getPriceObject().isAutoPrice()) {
@@ -757,7 +756,7 @@ public abstract class Region implements Saveable {
                 message = message.replace("%takeoverin%", Messages.TAKEOVER_INFO_DEACTIVATED);
             } else {
                 message = message.replace("%takeoverin%",
-                        Utilities.timeInMsToString(ieGroup.getTakeOverAfterMs() + this.getLastLogin(), false,
+                        CountdownRegion.timeInMsToRemainingTimeString(ieGroup.getTakeOverAfterMs() + this.getLastLogin(), false,
                                 Messages.TAKEOVER_INFO_POSSIBLE));
             }
         }
@@ -778,7 +777,7 @@ public abstract class Region implements Saveable {
                 message = message.replace("%inactivityresetin%", Messages.INACTIVITY_RESET_INFO_DEACTIVATED);
             } else {
                 message = message.replace("%inactivityresetin%",
-                        Utilities.timeInMsToString(ieGroup.getResetAfterMs() + this.getLastLogin(),
+                        CountdownRegion.timeInMsToRemainingTimeString(ieGroup.getResetAfterMs() + this.getLastLogin(),
                                 false, Messages.INACTIVITY_RESET_INFO_POSSIBLE));
             }
         }

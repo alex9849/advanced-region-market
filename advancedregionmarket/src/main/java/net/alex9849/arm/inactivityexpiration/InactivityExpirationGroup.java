@@ -2,7 +2,7 @@ package net.alex9849.arm.inactivityexpiration;
 
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Permission;
-import net.alex9849.arm.util.Utilities;
+import net.alex9849.arm.regions.CountdownRegion;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
@@ -103,7 +103,7 @@ public class InactivityExpirationGroup {
             resetAfterMs = -1;
         } else {
             try {
-                resetAfterMs = Utilities.stringToTime(configurationSection.getString("resetAfter"));
+                resetAfterMs = CountdownRegion.stringToTime(configurationSection.getString("resetAfter"));
             } catch (IllegalArgumentException e) {
                 AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Could parse resetAfter for " +
                         "InactivityExpirationGroup " + name + "! Please check! ResetAfter has been set to unlimited to prevent unwanted region-resets" );
@@ -116,7 +116,7 @@ public class InactivityExpirationGroup {
             takeOverAfterMs = -1;
         } else {
             try {
-                takeOverAfterMs = Utilities.stringToTime(configurationSection.getString("takeOverAfter"));
+                takeOverAfterMs = CountdownRegion.stringToTime(configurationSection.getString("takeOverAfter"));
             } catch (IllegalArgumentException e) {
                 AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Could parse resetAfter for " +
                         "InactivityExpirationGroup " + name + "! Please check! ResetAfter has been set to unlimited to prevent unwanted region-resets" );

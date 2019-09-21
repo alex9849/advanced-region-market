@@ -123,12 +123,12 @@ public class Messages {
     public static String CONTRACT_SIGN1 = "&2Contract";
     public static String CONTRACT_SIGN2 = "&2available";
     public static String CONTRACT_SIGN3 = "%regionid%";
-    public static String CONTRACT_SIGN4 = "%price%%currency%/%extend%";
+    public static String CONTRACT_SIGN4 = "%price%%currency%/%extendtime%";
     public static String CONTRACT_SOLD_SIGN1 = "&4Contract in use";
     public static String CONTRACT_SOLD_SIGN2 = "%regionid%/%owner%";
-    public static String CONTRACT_SOLD_SIGN3 = "%price%%currency%/%extend%";
+    public static String CONTRACT_SOLD_SIGN3 = "%price%%currency%/%extendtime%";
     public static String CONTRACT_SOLD_SIGN4 = "%remaining%";
-    public static String CONTRACT_REGION_EXTENDED = "&aYour contract region %regionid% has been extended for %extend%. (For %price%%currency%.) ";
+    public static String CONTRACT_REGION_EXTENDED = "&aYour contract region %regionid% has been extended for %extendtime%. (For %price%%currency%.) ";
     public static String GUI_CONTRACT_ITEM = "&aManage contract";
     public static String REGION_INFO_AUTO_EXTEND_TIME = "&6Extend time: ";
     public static String REGION_INFO_AUTOPRICE = "&6Autoprice: ";
@@ -230,11 +230,11 @@ public class Messages {
     public static String SUB_REGION_IS_USER_RESETTABLE_ERROR = "&4The selected region is a subregion. You can change the isUserResettable setting for all subregions in the config.yml!";
     public static List<String> GUI_SUBREGION_HOTEL_BUTTON_LORE = new ArrayList<>(Arrays.asList("&6The hotel function allows you to prevent players", "&6from breaking blocks they do not have placed", "&6Status: %hotelfunctionstatus%", "&6Click to enable/disable"));
     public static List<String> GUI_SUBREGION_REGION_INFO_SELL = new ArrayList<>(Arrays.asList("%regionid%", "Selltype: %selltype%", "Status: %soldstatus%", "Price: %price%", "Price per M2: %priceperm2%", "Dimensions: %dimensions%"));
-    public static List<String> GUI_SUBREGION_REGION_INFO_RENT = new ArrayList<>(Arrays.asList("%regionid%", "Selltype: %selltype%", "Status: %soldstatus%", "Price: %price%", "Price per M2 (per week): %priceperm2perweek%", "Extend per click: %extendperclick%", "Max. extended time: %maxrenttime%", "Dimensions: %dimensions%"));
-    public static List<String> GUI_SUBREGION_REGION_INFO_CONTRACT = new ArrayList<>(Arrays.asList("%regionid%", "Selltype: %selltype%", "Status: %soldstatus%", "Price: %price%", "Price per M2 (per week): %priceperm2perweek%", "Automatic extend time: %extend%", "Dimensions: %dimensions%"));
+    public static List<String> GUI_SUBREGION_REGION_INFO_RENT = new ArrayList<>(Arrays.asList("%regionid%", "Selltype: %selltype%", "Status: %soldstatus%", "Price: %price%", "Price per M2 (per week): %priceperm2perweek%", "Extend per click: %extendtime%", "Max. extended time: %maxrenttime%", "Dimensions: %dimensions%"));
+    public static List<String> GUI_SUBREGION_REGION_INFO_CONTRACT = new ArrayList<>(Arrays.asList("%regionid%", "Selltype: %selltype%", "Status: %soldstatus%", "Price: %price%", "Price per M2 (per week): %priceperm2perweek%", "Automatic extend time: %extendtime%", "Dimensions: %dimensions%"));
     public static List<String> GUI_REGIONFINDER_REGION_INFO_SELL = new ArrayList<>(Arrays.asList("%regionid%", "Price: %price%", "Price per M2: %priceperm2%", "Dimensions: %dimensions%", "World: %world%"));
-    public static List<String> GUI_REGIONFINDER_REGION_INFO_RENT = new ArrayList<>(Arrays.asList("%regionid%", "Price: %price%" ,"Price per M2 (per week): %priceperm2perweek%", "Extend per click: %extendperclick%","Max. extended time: %maxrenttime%", "Dimensions: %dimensions%", "World: %world%"));
-    public static List<String> GUI_REGIONFINDER_REGION_INFO_CONTRACT = new ArrayList<>(Arrays.asList("%regionid%", "Price: %price%", "Price per M2 (per week): %priceperm2perweek%", "Automatic extend time: %extend%","Dimensions: %dimensions%", "World: %world%"));
+    public static List<String> GUI_REGIONFINDER_REGION_INFO_RENT = new ArrayList<>(Arrays.asList("%regionid%", "Price: %price%" ,"Price per M2 (per week): %priceperm2perweek%", "Extend per click: %extendtime%","Max. extended time: %maxrenttime%", "Dimensions: %dimensions%", "World: %world%"));
+    public static List<String> GUI_REGIONFINDER_REGION_INFO_CONTRACT = new ArrayList<>(Arrays.asList("%regionid%", "Price: %price%", "Price per M2 (per week): %priceperm2perweek%", "Automatic extend time: %extendtime%","Dimensions: %dimensions%", "World: %world%"));
     public static List<String> SELECTION_SAVED_CREATE_SIGN = new ArrayList<>(Arrays.asList("&aYour selection has been saved! You can now create a sign to sell the region.", "&aCreate a Sell-Region:", "&6First line: &1[sub-sell]", "&6Last line: &1price", "", "&aCreate a Rent-Region:", "&6First line: &1[sub-rent]",
             "&6Last line: &1PricePerPeriod&6;&1ExtendPerClick&6;&1MaxExtendTime", "&6example for ExtendPerClick/MaxExtendTime: 5d (5 days)", "", "&aCreate a Contract-Region:", "&6First line: &1[sub-contract]", "&6Last line: &1PricePerPeriod&6;&1ExtendTime", "&6example for ExtendTime: 12h (12 hours)"));
     public static List<String> SUBREGION_TOOL_INSTRUCTION = new ArrayList<>(Arrays.asList("&aYou got a tool in your inventory (feather) to select 2 points of your region that will mark the corners of your new subregion.", "&aLeft click to select pos1", "&aRight click to select pos2", "&aType \"&6/arm subregion create\" &aif you are done"));
@@ -1188,7 +1188,7 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.SchematicNotFoundErrorUser", "&4It seems like the schematic of your region %regionid% has not been created. Please contact an admin!");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.SchematicNotFoundErrorAdmin", "&4Could not find schematic for %regionid%");
 
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RentExtendMessage", "&aRegion extended for &6%extendperclick%&a (For %price% %currency%. New remaining time: &6%remaining%");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RentExtendMessage", "&aRegion extended for &6%extendtime%&a (For %price% %currency%. New remaining time: &6%remaining%");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.Buymessage", "&aRegion successfully bought!");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionAddedToARM", "&7Regionsign has been created and region has been added to ARM!");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.SignRemovedFromRegion", "&7Regionsign removed! %remaining% Sign(s) remaining before region gets removed from ARM!");
@@ -1211,19 +1211,19 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.SoldSign4", "%owner%");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RentSign1", "&2For Rent");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RentSign2", "%regionid%");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RentSign3", "%price%%currency%/%extendperclick%");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RentSign3", "%price%%currency%/%extendtime%");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RentSign4", "Max.: %maxrenttime%");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RentedSign1", "&4Rented");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RentedSign2", "%regionid%/%owner%");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RentedSign3", "%price%%currency%/%extendperclick%");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RentedSign3", "%price%%currency%/%extendtime%");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RentedSign4", "%remaining%");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.ContractSign1", "&2Contract");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.ContractSign2", "&2available");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.ContractSign3", "%regionid%");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.ContractSign4", "%price%%currency%/%extend%");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.ContractSign4", "%price%%currency%/%extendtime%");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.ContractSoldSign1", "&4Contract in use");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.ContractSoldSign2", "%regionid%/%owner%");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.ContractSoldSign3", "%price%%currency%/%extend%");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.ContractSoldSign3", "%price%%currency%/%extendtime%");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.ContractSoldSign4", "%remaining%");
 
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.Seconds", "s");
@@ -1239,7 +1239,7 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.TeleporterDontMove", "&6Teleportation will commence in &c%time% Seconds&6. Do not move!");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.TeleporterTeleportationAborded", "&4Teleportation aborded!");
 
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.ContractRegionExtended", "&aYour contract region %regionid% has been extended for %extend%. (For %price%%currency%.)");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.ContractRegionExtended", "&aYour contract region %regionid% has been extended for %extendtime%. (For %price%%currency%.)");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.ContractRegionChangeTerminated", "&6The contract of &a%regionid% &6has been set to %statuslong%");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.ContractRegionStatusActiveLong", "&aActive&6! Next Extension in %remaining%");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.ContractRegionStatusActive", "&aActive");
@@ -1410,7 +1410,7 @@ public class Messages {
                 "&ain order to build with them together", "&aYou can add members with:",
                 "&6/arm addmember %regionid% USERNAME", "&aMembers need to be online to add them")));
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIExtendRentRegionButton", "&1Extend region");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIExtendRentRegionButtonLore", new ArrayList<>(Arrays.asList("&aClick to extend your region for &6%extendperclick%",
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIExtendRentRegionButtonLore", new ArrayList<>(Arrays.asList("&aClick to extend your region for &6%extendtime%",
                 "&athis will cost you &6%price%%currency%&a!", "&aThis region will expire in &6%remaining%&a.", "&aYou can extend your region up to &6%maxrenttime%&a.")));
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIRentRegionLore", new ArrayList<>(Arrays.asList("&aExpires in &6%remaining%")));
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIUserSellButton", "&4Reset and sell Region");
@@ -1451,11 +1451,11 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUISubregionManagerNoSubregionItem", "&6Info");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIHotelButtonLore", new ArrayList<>(Arrays.asList("&6The hotel function allows you to prevent players", "&6from breaking blocks they do not have placed", "&6Status: %hotelfunctionstatus%", "&6Click to enable/disable")));
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUISubregionInfoSell", new ArrayList<>(Arrays.asList("&6Selltype: %selltype%", "&6Status: %soldstatus%", "&6Price: %price%", "&6Price per M2: %priceperm2%", "&6Dimensions: %dimensions%")));
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUISubregionInfoRent", new ArrayList<>(Arrays.asList("&6Selltype: %selltype%", "&6Status: %soldstatus%", "&6Price: %price%", "&6Price per M2 (per week): %priceperm2perweek%", "&6Extend per click: %extendperclick%", "&6Max. extended time: %maxrenttime%", "&6Dimensions: %dimensions%")));
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUISubregionInfoContract", new ArrayList<>(Arrays.asList("&6Selltype: %selltype%", "&6Status: %soldstatus%", "&6Price: %price%", "&6Price per M2 (per week): %priceperm2perweek%", "&6Automatic extend time: %extend%", "&6Dimensions: %dimensions%")));
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUISubregionInfoRent", new ArrayList<>(Arrays.asList("&6Selltype: %selltype%", "&6Status: %soldstatus%", "&6Price: %price%", "&6Price per M2 (per week): %priceperm2perweek%", "&6Extend per click: %extendtime%", "&6Max. extended time: %maxrenttime%", "&6Dimensions: %dimensions%")));
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUISubregionInfoContract", new ArrayList<>(Arrays.asList("&6Selltype: %selltype%", "&6Status: %soldstatus%", "&6Price: %price%", "&6Price per M2 (per week): %priceperm2perweek%", "&6Automatic extend time: %extendtime%", "&6Dimensions: %dimensions%")));
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIRegionfinderInfoSell", new ArrayList<>(Arrays.asList("&6Price: %price%", "&6Price per M2: %priceperm2%", "&6Dimensions: %dimensions%", "&6World: %world%")));
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIRegionfinderInfoRent", new ArrayList<>(Arrays.asList("&6Price: %price%" ,"&6Price per M2 (per week): %priceperm2perweek%", "&6Extend per click: %extendperclick%","&6Max. extended time: %maxrenttime%", "&6Dimensions: %dimensions%", "&6World: %world%")));
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIRegionfinderInfoContract", new ArrayList<>(Arrays.asList("&6Price: %price%", "&6Price per M2 (per week): %priceperm2perweek%", "&6Automatic extend time: %extend%","&6Dimensions: %dimensions%", "&6World: %world%")));
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIRegionfinderInfoRent", new ArrayList<>(Arrays.asList("&6Price: %price%" ,"&6Price per M2 (per week): %priceperm2perweek%", "&6Extend per click: %extendtime%","&6Max. extended time: %maxrenttime%", "&6Dimensions: %dimensions%", "&6World: %world%")));
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIRegionfinderInfoContract", new ArrayList<>(Arrays.asList("&6Price: %price%", "&6Price per M2 (per week): %priceperm2perweek%", "&6Automatic extend time: %extendtime%","&6Dimensions: %dimensions%", "&6World: %world%")));
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.SubregionCreationCreateSignInfo", new ArrayList<>(Arrays.asList("&aYour selection has been saved! You can now create a sign to sell the region.", "&aCreate a Sell-Region:", "&6First line: &b[sub-sell]", "&6Last line: &bprice", "", "&aCreate a Rent-Region:", "&6First line: &b[sub-rent]",
                 "&6Last line: &bPricePerPeriod&6;&bExtendPerClick&6;&bMaxExtendTime", "&6example for ExtendPerClick/MaxExtendTime: 5d (5 days)", "", "&aCreate a Contract-Region:", "&6First line: &b[sub-contract]", "&6Last line: &bPricePerPeriod&6;&bExtendTime", "&6example for ExtendTime: 12h (12 hours)", "&4We would strongly recommend to not place the sign within the subregion!")));
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.SubregionCreationSelectAreaInfo", new ArrayList<>(Arrays.asList("&aYou got a tool in your inventory (feather) to select 2 points of your region that will mark the corners of your new subregion.", "&aLeft click to select pos1", "&aRight click to select pos2", "&aType \"&6/arm subregion create\" &aif you are done")));
@@ -1573,7 +1573,7 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoRentregionAdmin", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
                 "&9ID: &e%regionid% &7(Type: &r%selltype%&7)",
                 "&9Sold: &e%issold%",
-                "&9Price: &e%price% &7per &e%extendperclick% &7max.: &e%maxrenttime%",
+                "&9Price: &e%price% &7per &e%extendtime% &7max.: &e%maxrenttime%",
                 "&9Remaining time: &e%remaining%",
                 "&9Owner: &e%owner%",
                 "&9Members: &e%members%",
@@ -1589,7 +1589,7 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoContractregionAdmin", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
                 "&9ID: &e%regionid% &7(Type: &r%selltype%&7)",
                 "&9Sold: &e%issold%",
-                "&9Price: &e%price% &7per &e%extend% &7(auto extend)",
+                "&9Price: &e%price% &7per &e%extendtime% &7(auto extend)",
                 "&9Next extend in: &e%remaining%",
                 "&9Owner: &e%owner%",
                 "&9Members: &e%members%",
@@ -1620,7 +1620,7 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoRentregionUser", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
                 "&9ID: &e%regionid% &7(Type: &r%selltype%&7)",
                 "&9Sold: &e%issold%",
-                "&9Price: &e%price% &7per &e%extendperclick% &7max.: &e%maxrenttime%",
+                "&9Price: &e%price% &7per &e%extendtime% &7max.: &e%maxrenttime%",
                 "&9Remaining time: &e%remaining%",
                 "&9Owner: &e%owner%",
                 "&9Members: &e%members%",
@@ -1636,7 +1636,7 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoContractregionUser", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
                 "&9ID: &e%regionid% &7(Type: &r%selltype%&7)",
                 "&9Sold: &e%issold%",
-                "&9Price: &e%price% &7per &e%extend% &7(auto extend)",
+                "&9Price: &e%price% &7per &e%extendtime% &7(auto extend)",
                 "&9Next extend in: &e%remaining%",
                 "&9Owner: &e%owner%",
                 "&9Members: &e%members%",
@@ -1665,7 +1665,7 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoRentregionSubregion", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
                 "&9ID: &e%regionid% &7(Type: &r%selltype%&7, Subregion)",
                 "&9Sold: &e%issold%",
-                "&9Price: &e%price% &7per &e%extendperclick% &7max.: &e%maxrenttime%",
+                "&9Price: &e%price% &7per &e%extendtime% &7max.: &e%maxrenttime%",
                 "&9Remaining time: &e%remaining%",
                 "&9Owner: &e%owner%",
                 "&9Members: &e%members%",
@@ -1679,7 +1679,7 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoContractregionSubregion", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
                 "&9ID: &e%regionid% &7(Type: &r%selltype%&7, Subregion)",
                 "&9Sold: &e%issold%",
-                "&9Price: &e%price% &7per &e%extend% &7(auto extend)",
+                "&9Price: &e%price% &7per &e%extendtime% &7(auto extend)",
                 "&9Next extend in: &e%remaining%",
                 "&9Owner: &e%owner%",
                 "&9Members: &e%members%",

@@ -12,7 +12,6 @@ import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.price.ContractPrice;
 import net.alex9849.arm.regions.price.Price;
-import net.alex9849.arm.util.Utilities;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.signs.SignData;
@@ -246,7 +245,6 @@ public class ContractRegion extends CountdownRegion {
         message = message.replace("%statuslong%", this.getTerminationStringLong());
         message = super.getConvertedMessage(message);
         message = message.replace("%extend%", this.getExtendTimeString());
-        message = message.replace("%remaining%", Utilities.timeInMsToString(this.getPayedTill(), false, Messages.REGION_INFO_EXPIRED));
         message = message.replace("%isterminated%", Messages.convertYesNo(this.isTerminated()));
         message = message.replace("%priceperm2perweek%", Price.formatPrice(this.getPricePerM2PerWeek()));
         message = message.replace("%priceperm3perweek%", Price.formatPrice(this.getPricePerM3PerWeek()));

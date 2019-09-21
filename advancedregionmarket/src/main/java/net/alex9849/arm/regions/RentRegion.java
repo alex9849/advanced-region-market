@@ -13,7 +13,6 @@ import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.regions.price.RentPrice;
-import net.alex9849.arm.util.Utilities;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.signs.SignData;
@@ -28,7 +27,6 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class RentRegion extends CountdownRegion {
     private long maxRentTime;
@@ -135,76 +133,6 @@ public class RentRegion extends CountdownRegion {
         super.updateRegion();
     }
 
-    public String getExtendPerClick(){
-        long time = this.rentExtendPerClick;
-
-        long remainingDays = TimeUnit.DAYS.convert(time, TimeUnit.MILLISECONDS);
-        time = time - (remainingDays * 1000 * 60 * 60 *24);
-
-        long remainingHours = TimeUnit.HOURS.convert(time, TimeUnit.MILLISECONDS);
-        time = time - (remainingHours * 1000 * 60 * 60);
-
-        long remainingMinutes = TimeUnit.MINUTES.convert(time, TimeUnit.MILLISECONDS);
-        time = time - (remainingMinutes * 1000 * 60);
-
-        long remainingSeconds = TimeUnit.SECONDS.convert(time, TimeUnit.MILLISECONDS);
-
-
-        String timetoString = "";
-        if(remainingDays != 0) {
-            timetoString = timetoString + remainingDays + Messages.TIME_DAYS;
-        }
-        if(remainingHours != 0) {
-            timetoString = timetoString + remainingHours + Messages.TIME_HOURS;
-        }
-        if(remainingMinutes != 0) {
-            timetoString = timetoString + remainingMinutes + Messages.TIME_MINUTES;
-        }
-        if(remainingSeconds != 0) {
-            timetoString = timetoString + remainingSeconds + Messages.TIME_SECONDS;
-        }
-        if(remainingSeconds == 0 && remainingMinutes == 0 && remainingHours == 0 && remainingDays == 0){
-            timetoString = "0" + Messages.TIME_SECONDS;
-        }
-
-        return timetoString;
-    }
-
-    public String getMaxRentTimeString(){
-        long time = this.maxRentTime;
-
-        long remainingDays = TimeUnit.DAYS.convert(time, TimeUnit.MILLISECONDS);
-        time = time - (remainingDays * 1000 * 60 * 60 *24);
-
-        long remainingHours = TimeUnit.HOURS.convert(time, TimeUnit.MILLISECONDS);
-        time = time - (remainingHours * 1000 * 60 * 60);
-
-        long remainingMinutes = TimeUnit.MINUTES.convert(time, TimeUnit.MILLISECONDS);
-        time = time - (remainingMinutes * 1000 * 60);
-
-        long remainingSeconds = TimeUnit.SECONDS.convert(time, TimeUnit.MILLISECONDS);
-
-
-        String timetoString = "";
-        if(remainingDays != 0) {
-            timetoString = timetoString + remainingDays + Messages.TIME_DAYS;
-        }
-        if(remainingHours != 0) {
-            timetoString = timetoString + remainingHours + Messages.TIME_HOURS;
-        }
-        if(remainingMinutes != 0) {
-            timetoString = timetoString + remainingMinutes + Messages.TIME_MINUTES;
-        }
-        if(remainingSeconds != 0) {
-            timetoString = timetoString + remainingSeconds + Messages.TIME_SECONDS;
-        }
-        if(remainingSeconds == 0 && remainingMinutes == 0 && remainingHours == 0 && remainingDays == 0){
-            timetoString = "0" + Messages.TIME_SECONDS;
-        }
-
-        return timetoString;
-    }
-
     public void extendRegion(Player player) throws InputException {
         if(!Permission.hasAnyBuyPermission(player)) {
             throw new InputException(player, Messages.NO_PERMISSION);
@@ -304,11 +232,14 @@ public class RentRegion extends CountdownRegion {
         this.queueSave();
     }
 
+    public long getMaxRentTimeString() {
+        return this.maxRentTime;
+    }
+
     @Override
     public String getConvertedMessage(String message) {
         message = super.getConvertedMessage(message);
-        message = message.replace("%maxrenttime%", this.getMaxRentTimeString());
-        message = message.replace("%remaining%", Utilities.timeInMsToString(this.getPayedTill(), false, Messages.REGION_INFO_EXPIRED));
+        message = message.replace("%maxrenttime%", CountdownRegion.timeInMsToString(this.getMaxRentTimeString()));
         message = message.replace("%extendperclick%", this.getExtendPerClick());
         message = message.replace("%priceperm2perweek%", Price.formatPrice(this.getPricePerM2PerWeek()));
         message = message.replace("%priceperm3perweek%", Price.formatPrice(this.getPricePerM3PerWeek()));

@@ -53,9 +53,9 @@ public abstract class CountdownRegion extends Region {
      *             If the region is already expired it will be extended
      *             to the actual_time + extend_time
      *
-     *             if 'false' the region will be set to not sold.
+     *             if 'false' the region will be set to not_sold.
      *             The already payed time of the region will be set to the
-     *             actual_time
+     *             actual_time owners and members will not be removed!
      */
     @Override
     public void setSold(boolean sold) {
@@ -67,6 +67,16 @@ public abstract class CountdownRegion extends Region {
             }
         } else {
             this.payedTill = actualTime;
+        }
+        this.queueSave();
+    }
+
+    @Override
+    public void unsell() {
+        super.unsell();
+        GregorianCalendar actualtime = new GregorianCalendar();
+        if(this.getPayedTill() > actualtime.getTimeInMillis()){
+            this.setPayedTill(actualtime.getTimeInMillis());
         }
         this.queueSave();
     }
@@ -100,11 +110,10 @@ public abstract class CountdownRegion extends Region {
         amount = Math.round(amount);
         amount = amount / 10d;
 
-        if(amount > 0) {
-            return amount;
-        } else {
+        if(amount < 0) {
             return 0;
         }
+        return amount;
     }
 
     @Override

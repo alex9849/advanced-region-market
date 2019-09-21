@@ -24,6 +24,7 @@ import net.alex9849.arm.regionkind.commands.*;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.RegionManager;
 import net.alex9849.arm.regions.RentRegion;
+import net.alex9849.arm.regions.SellType;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.regions.price.RentPrice;
@@ -1419,12 +1420,17 @@ public class AdvancedRegionMarket extends JavaPlugin {
         YamlConfiguration regionConf = YamlConfiguration.loadConfiguration(regionConfDic);
         ArrayList<String> worlds = new ArrayList<String>(regionConf.getConfigurationSection("Regions").getKeys(false));
         if(worlds != null) {
-            for(int y = 0; y < worlds.size(); y++) {
-                ArrayList<String> regions = new ArrayList<String>(regionConf.getConfigurationSection("Regions." + worlds.get(y)).getKeys(false));
+            for(String worldName : worlds) {
+                ArrayList<String> regions = new ArrayList<String>(regionConf.getConfigurationSection("Regions." + worldName).getKeys(false));
                 if(regions != null) {
-                    for (int i = 0; i < regions.size(); i++) {
-                        boolean autoreset = regionConf.getBoolean("Regions." + worlds.get(y) + "." + regions.get(i) + ".autoreset");
-                        regionConf.set("Regions." + worlds.get(y) + "." + regions.get(i) + ".inactivityReset", autoreset);
+                    for (String regionID : regions) {
+                        boolean autoreset = regionConf.getBoolean("Regions." + worldName + "." + regionID + ".autoreset");
+                        regionConf.set("Regions." + worldName + "." + regionID + ".inactivityReset", autoreset);
+                        if(regionConf.getString("Regions." + worldName + "." + regionID + ".regiontype").equalsIgnoreCase(SellType.RENT.getInternalName())) {
+                            String extendTime = regionConf.getString("Regions." + worldName + "." + regionID + ".rentExtendPerClick");
+                            regionConf.set("Regions." + worldName + "." + regionID + ".extendTime", extendTime);
+                            regionConf.set("Regions." + worldName + "." + regionID + ".rentExtendPerClick", null);
+                        }
                     }
                 }
             }

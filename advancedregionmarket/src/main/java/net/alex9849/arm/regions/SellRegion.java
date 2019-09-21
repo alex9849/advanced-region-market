@@ -23,7 +23,6 @@ import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
 public class SellRegion extends Region {
 
@@ -125,20 +124,6 @@ public class SellRegion extends Region {
         for(String s : msg) {
             sender.sendMessage(this.getConvertedMessage(s));
         }
-    }
-
-    @Override
-    public void userSell(Player player){
-        List<UUID> defdomain = this.getRegion().getOwners();
-        double amount = this.getPaybackMoney();
-
-        if(amount > 0){
-            for(int i = 0; i < defdomain.size(); i++) {
-                AdvancedRegionMarket.getInstance().getEcon().depositPlayer(Bukkit.getOfflinePlayer(defdomain.get(i)), amount);
-            }
-        }
-
-        this.automaticResetRegion(player);
     }
 
     @Override

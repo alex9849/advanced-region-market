@@ -112,16 +112,6 @@ public class ContractRegion extends CountdownRegion {
     }
 
     @Override
-    public void unsell() {
-        super.unsell();
-        GregorianCalendar actualtime = new GregorianCalendar();
-        if(this.getPayedTill() > actualtime.getTimeInMillis()){
-            this.setPayedTill(actualtime.getTimeInMillis());
-        }
-        this.queueSave();
-    }
-
-    @Override
     protected void updateSignText(SignData signData) {
         if(this.isSold()){
             String[] lines = new String[4];
@@ -179,20 +169,6 @@ public class ContractRegion extends CountdownRegion {
         }
         player.sendMessage(Messages.PREFIX + Messages.REGION_BUYMESSAGE);
 
-    }
-
-    @Override
-    public void userSell(Player player){
-        List<UUID> owners = this.getRegion().getOwners();
-        double amount = this.getPaybackMoney();
-
-        if(amount > 0){
-            for(UUID owner : owners) {
-                AdvancedRegionMarket.getInstance().getEcon().depositPlayer(Bukkit.getOfflinePlayer(owner), amount);
-            }
-        }
-
-        this.automaticResetRegion(player);
     }
 
     public void changeTerminated() throws InputException {

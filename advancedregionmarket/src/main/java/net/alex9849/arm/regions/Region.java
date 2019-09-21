@@ -484,8 +484,20 @@ public abstract class Region implements Saveable {
     }
     protected abstract void updateSignText(SignData signData);
     public abstract void buy(Player player) throws InputException;
-    public abstract void userSell(Player player);
     public abstract double getPaybackMoney();
+
+    public void userSell(Player player){
+        List<UUID> owners = this.getRegion().getOwners();
+        double amount = this.getPaybackMoney();
+
+        if(amount > 0){
+            for(UUID owner : owners) {
+                AdvancedRegionMarket.getInstance().getEcon().depositPlayer(Bukkit.getOfflinePlayer(owner), amount);
+            }
+        }
+
+        this.automaticResetRegion(player);
+    }
 
     public void setSold(boolean sold) {
         this.sold = sold;

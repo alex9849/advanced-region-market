@@ -11,7 +11,6 @@ import net.alex9849.arm.flaggroups.FlagGroup;
 import net.alex9849.arm.limitgroups.LimitGroup;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import net.alex9849.arm.regionkind.RegionKind;
-import net.alex9849.arm.regions.price.ContractPrice;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.regions.price.RentPrice;
 import net.alex9849.arm.util.Utilities;
@@ -20,19 +19,19 @@ import net.alex9849.inter.WGRegion;
 import net.alex9849.signs.SignData;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class RentRegion extends Region {
-    private long payedTill;
+public class RentRegion extends CountdownRegion {
     private long maxRentTime;
-    private long rentExtendPerClick;
     private static long expirationWarningTime;
     private static Boolean sendExpirationWarning;
 
@@ -41,14 +40,8 @@ public class RentRegion extends Region {
                       List<Region> subregions, int allowedSubregions, EntityLimitGroup entityLimitGroup, HashMap<EntityLimit.LimitableEntityType, Integer> extraEntitys,
                       int boughtExtraTotalEntitys) {
         super(region, regionworld, rentsign, rentPrice, sold, inactivityReset, allowOnlyNewBlocks, doBlockReset, regionKind, flagGroup, teleportLoc, lastreset, lastLogin, isUserResettable,
-                subregions, allowedSubregions, entityLimitGroup, extraEntitys, boughtExtraTotalEntitys);
-
-        this.payedTill = payedTill;
+                payedTill, subregions, allowedSubregions, entityLimitGroup, extraEntitys, boughtExtraTotalEntitys);
         this.maxRentTime = rentPrice.getMaxRentTime();
-        this.rentExtendPerClick = rentPrice.getExtendTime();
-        if(this.rentExtendPerClick < 1000) {
-            this.rentExtendPerClick = 1000;
-        }
         this.updateSigns();
     }
 
@@ -70,16 +63,6 @@ public class RentRegion extends Region {
             lines[3] = this.getConvertedMessage(Messages.RENT_SIGN4);
             signData.writeLines(lines);
         }
-    }
-
-    @Override
-    public void unsell() {
-        super.unsell();
-        GregorianCalendar actualtime = new GregorianCalendar();
-        if(this.getPayedTill() > actualtime.getTimeInMillis()){
-            this.setPayedTill(actualtime.getTimeInMillis());
-        }
-        this.queueSave();
     }
 
     @Override
@@ -145,59 +128,11 @@ public class RentRegion extends Region {
     public void updateRegion() {
         if(this.isSold()){
             GregorianCalendar actualtime = new GregorianCalendar();
-            if(this.payedTill < actualtime.getTimeInMillis()){
+            if(this.getPayedTill() < actualtime.getTimeInMillis()){
                 this.automaticResetRegion();
             }
         }
         super.updateRegion();
-    }
-
-    @Override
-    public void setSold(OfflinePlayer player){
-        if(!this.isSold()) {
-            GregorianCalendar actualtime = new GregorianCalendar();
-            this.payedTill = actualtime.getTimeInMillis() + this.rentExtendPerClick;
-        }
-        this.setLastLogin();
-        this.setSold(true);
-        this.getRegion().deleteMembers();
-        this.getRegion().setOwner(player);
-
-        this.updateSigns();
-        this.getFlagGroup().applyToRegion(this, FlagGroup.ResetMode.COMPLETE);
-        this.queueSave();
-
-    }
-
-    @Override
-    public void userSell(Player player){
-        List<UUID> defdomain = this.getRegion().getOwners();
-        double amount = this.getPaybackMoney();
-
-        if(amount > 0){
-            for(int i = 0; i < defdomain.size(); i++) {
-                AdvancedRegionMarket.getInstance().getEcon().depositPlayer(Bukkit.getOfflinePlayer(defdomain.get(i)), amount);
-            }
-        }
-
-        this.automaticResetRegion(player);
-    }
-
-    @Override
-    public double getPaybackMoney() {
-        double amount = (this.getPrice() * this.getRegionKind().getPaybackPercentage())/100;
-        GregorianCalendar acttime = new GregorianCalendar();
-        long remaining = this.payedTill - acttime.getTimeInMillis();
-        amount = amount * ((double)remaining / (double)rentExtendPerClick);
-        amount = amount * 10;
-        amount = Math.round(amount);
-        amount = amount / 10d;
-
-        if(amount > 0) {
-            return amount;
-        } else {
-            return 0;
-        }
     }
 
     public String getExtendPerClick(){
@@ -268,18 +203,6 @@ public class RentRegion extends Region {
         }
 
         return timetoString;
-    }
-
-    public void setPayedTill(long payedTill) {
-        this.payedTill = payedTill;
-    }
-
-    public long getRentExtendPerClick(){
-        return this.rentExtendPerClick;
-    }
-
-    public long getPayedTill() {
-        return this.payedTill;
     }
 
     public void extendRegion(Player player) throws InputException {
@@ -359,24 +282,6 @@ public class RentRegion extends Region {
         }
     }
 
-    public double getPricePerM2PerWeek() {
-        if(this.getRentExtendPerClick() == 0) {
-            return Integer.MAX_VALUE;
-        }
-        double pricePerM2 = this.getPricePerM2();
-        double msPerWeek = 1000 * 60 * 60 * 24 * 7;
-        return (msPerWeek / this.getRentExtendPerClick()) * pricePerM2;
-    }
-
-    public double getPricePerM3PerWeek() {
-        if(this.getRentExtendPerClick() == 0) {
-            return Integer.MAX_VALUE;
-        }
-        double pricePerM2 = this.getPricePerM3();
-        double msPerWeek = 1000 * 60 * 60 * 24 * 7;
-        return (msPerWeek / this.getRentExtendPerClick()) * pricePerM2;
-    }
-
     public static void setExpirationWarningTime(long time) {
         RentRegion.expirationWarningTime = time;
     }
@@ -391,10 +296,6 @@ public class RentRegion extends Region {
 
     public void setPrice(Price price) {
         super.setPrice(price);
-
-        if(price instanceof ContractPrice) {
-            this.rentExtendPerClick = ((ContractPrice) price).getExtendTime();
-        }
 
         if(price instanceof RentPrice) {
             this.maxRentTime = ((RentPrice) price).getMaxRentTime();
@@ -424,13 +325,10 @@ public class RentRegion extends Region {
 
     public ConfigurationSection toConfigurationSection() {
         ConfigurationSection yamlConfiguration = super.toConfigurationSection();
-        yamlConfiguration.set("payedTill", this.getPayedTill());
         if(this.getPriceObject().isAutoPrice()) {
             yamlConfiguration.set("maxRentTime", null);
-            yamlConfiguration.set("rentExtendPerClick", null);
         } else {
             yamlConfiguration.set("maxRentTime", this.getMaxRentTime());
-            yamlConfiguration.set("rentExtendPerClick", this.getRentExtendPerClick());
         }
         return yamlConfiguration;
     }

@@ -434,10 +434,13 @@ public class RegionManager extends YamlFileManager<Region> {
         fileupdated |= this.addDefault(section,"regiontype", "sellregion");
         fileupdated |= this.addDefault(section,"flagGroup", "default");
         if (section.getString("regiontype").equalsIgnoreCase("rentregion")) {
-            fileupdated |= this.addDefault(section,"payedTill", 1);
+            fileupdated |= this.addDefault(section,"payedTill", 0);
+            fileupdated |= this.addDefault(section,"maxRentTime", 1000);
+            fileupdated |= this.addDefault(section,"extendTime", 1000);
         }
         if (section.getString("regiontype").equalsIgnoreCase("contractregion")) {
-            fileupdated |= this.addDefault(section,"payedTill", 1);
+            fileupdated |= this.addDefault(section,"payedTill", 0);
+            fileupdated |= this.addDefault(section,"extendTime", 1000);
             fileupdated |= this.addDefault(section,"terminated", false);
         }
         if(section.get("subregions") != null) {
@@ -451,13 +454,13 @@ public class RegionManager extends YamlFileManager<Region> {
                     fileupdated |= this.addDefault(section,"subregions." + subregionID + ".regiontype", "sellregion");
                     if (section.getString("subregions." + subregionID + ".regiontype").equalsIgnoreCase("contractregion")) {
                         fileupdated |= this.addDefault(section,"subregions." + subregionID + ".payedTill", 0);
-                        fileupdated |= this.addDefault(section,"subregions." + subregionID + ".extendTime", 0);
+                        fileupdated |= this.addDefault(section,"subregions." + subregionID + ".extendTime", 1000);
                         fileupdated |= this.addDefault(section,"subregions." + subregionID + ".terminated", false);
                     }
                     if (section.getString("subregions." + subregionID + ".regiontype").equalsIgnoreCase("rentregion")) {
                         fileupdated |= this.addDefault(section,"subregions." + subregionID + ".payedTill", 0);
-                        fileupdated |= this.addDefault(section,"subregions." + subregionID + ".maxRentTime", 0);
-                        fileupdated |= this.addDefault(section,"subregions." + subregionID + ".rentExtendPerClick", 0);
+                        fileupdated |= this.addDefault(section,"subregions." + subregionID + ".maxRentTime", 1000);
+                        fileupdated |= this.addDefault(section,"subregions." + subregionID + ".extendTime", 1000);
                     }
                 }
             }

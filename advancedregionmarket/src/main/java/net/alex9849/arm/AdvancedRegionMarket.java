@@ -1427,7 +1427,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
                         boolean autoreset = regionConf.getBoolean("Regions." + worldName + "." + regionID + ".autoreset");
                         regionConf.set("Regions." + worldName + "." + regionID + ".inactivityReset", autoreset);
                         if(regionConf.getString("Regions." + worldName + "." + regionID + ".regiontype").equalsIgnoreCase(SellType.RENT.getInternalName())) {
-                            String extendTime = regionConf.getString("Regions." + worldName + "." + regionID + ".rentExtendPerClick");
+                            long extendTime = regionConf.getLong("Regions." + worldName + "." + regionID + ".rentExtendPerClick");
                             regionConf.set("Regions." + worldName + "." + regionID + ".extendTime", extendTime);
                             regionConf.set("Regions." + worldName + "." + regionID + ".rentExtendPerClick", null);
                         }

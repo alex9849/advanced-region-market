@@ -56,8 +56,10 @@ public class ExtendCommand implements BasicArmCommand {
                 throw new InputException(sender, Messages.REGION_IS_NOT_A_RENTREGION);
             }
 
-            ((RentRegion) region).extendRegion(player);
-
+            if(region.isSold()) {
+                throw new InputException(player, Messages.REGION_ALREADY_SOLD);
+            }
+            region.buy(player);
             return true;
         } else {
             throw new InputException(sender, Messages.NO_PERMISSION);

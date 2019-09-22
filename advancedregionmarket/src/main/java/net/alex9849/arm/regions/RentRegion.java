@@ -6,7 +6,6 @@ import net.alex9849.arm.Permission;
 import net.alex9849.arm.entitylimit.EntityLimit;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
 import net.alex9849.arm.events.BuyRegionEvent;
-import net.alex9849.arm.events.ExtendRegionEvent;
 import net.alex9849.arm.flaggroups.FlagGroup;
 import net.alex9849.arm.limitgroups.LimitGroup;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
@@ -14,6 +13,7 @@ import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.regions.price.RentPrice;
 import net.alex9849.exceptions.InputException;
+import net.alex9849.exceptions.MaxRentTimeExceededException;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.signs.SignData;
 import org.bukkit.Bukkit;
@@ -69,23 +69,23 @@ public class RentRegion extends CountdownRegion {
         if(!Permission.hasAnyBuyPermission(player)) {
             throw new InputException(player, Messages.NO_PERMISSION);
         }
-        if (this.getRegionKind() != RegionKind.DEFAULT){
-            if(!RegionKind.hasPermission(player, this.getRegionKind())){
-                throw new InputException(player, this.getConvertedMessage(Messages.NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION));
-            }
+
+        if(this.isSold() && !this.getRegion().hasOwner(player.getUniqueId()) && !player.hasPermission(Permission.ADMIN_EXTEND)) {
+            throw new InputException(player, Messages.REGION_ALREADY_SOLD);
         }
 
-        if(this.isSold()) {
-            this.extendRegion(player);
-            return;
+        if(!RegionKind.hasPermission(player, this.getRegionKind())){
+            throw new InputException(player, this.getConvertedMessage(Messages.NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION));
         }
 
         if(!LimitGroup.isCanBuyAnother(player, this)){
             throw new InputException(player, LimitGroup.getRegionBuyOutOfLimitMessage(player, this.getRegionKind()));
         }
+
         if(AdvancedRegionMarket.getInstance().getEcon().getBalance(player) < this.getPrice()) {
             throw new InputException(player, Messages.NOT_ENOUGHT_MONEY);
         }
+
         BuyRegionEvent buyRegionEvent = new BuyRegionEvent(this, player);
         Bukkit.getServer().getPluginManager().callEvent(buyRegionEvent);
         if(buyRegionEvent.isCancelled()) {
@@ -94,11 +94,22 @@ public class RentRegion extends CountdownRegion {
 
         AdvancedRegionMarket.getInstance().getEcon().withdrawPlayer(player, this.getPrice());
         this.giveParentRegionOwnerMoney(this.getPrice());
-        this.setSold(player);
-        if(AdvancedRegionMarket.getInstance().getPluginSettings().isTeleportAfterRentRegionBought()){
-            Teleporter.teleport(player, this, "", AdvancedRegionMarket.getInstance().getConfig().getBoolean("Other.TeleportAfterRegionBoughtCountdown"));
+
+        if(this.isSold()) {
+            try {
+                this.extendTakeCareOfMaxRentTime();
+            } catch (MaxRentTimeExceededException e) {
+                throw new InputException(player, Messages.RENT_EXTEND_ERROR);
+            }
+            player.sendMessage(Messages.PREFIX + this.getConvertedMessage(Messages.RENT_EXTEND_MESSAGE));
+        } else {
+            this.setSold(player);
+            if(AdvancedRegionMarket.getInstance().getPluginSettings().isTeleportAfterRentRegionBought()){
+                Teleporter.teleport(player, this, "", AdvancedRegionMarket.getInstance().getConfig().getBoolean("Other.TeleportAfterRegionBoughtCountdown"));
+            }
+            player.sendMessage(Messages.PREFIX + Messages.REGION_BUYMESSAGE);
         }
-        player.sendMessage(Messages.PREFIX + Messages.REGION_BUYMESSAGE);
+        this.queueSave();
     }
 
     @Override
@@ -132,61 +143,12 @@ public class RentRegion extends CountdownRegion {
         super.updateRegion();
     }
 
-    //TODO Include CowntdownRegion methods
-    public void extendRegion(Player player) throws InputException {
-        if(!Permission.hasAnyBuyPermission(player)) {
-            throw new InputException(player, Messages.NO_PERMISSION);
+    public void extendTakeCareOfMaxRentTime() throws MaxRentTimeExceededException {
+        long actualTime = new GregorianCalendar().getTimeInMillis();
+        if((this.getPayedTill() + this.getExtendTime()) - actualTime > this.getMaxRentTime()) {
+            throw new MaxRentTimeExceededException();
         }
-        if (this.getRegionKind() != RegionKind.DEFAULT){
-            if(!RegionKind.hasPermission(player, this.getRegionKind())){
-                throw new InputException(player, this.getConvertedMessage(Messages.NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION));
-            }
-        }
-
-        if(!this.isSold()) {
-            throw new InputException(player, Messages.REGION_NOT_SOLD);
-        }
-
-        if(!this.getRegion().hasOwner(player.getUniqueId())) {
-            if(!player.hasPermission(Permission.ADMIN_EXTEND)){
-                throw new InputException(player, Messages.REGION_NOT_OWN);
-            }
-        }
-
-        if(!LimitGroup.isInLimit(player, this)) {
-            throw new InputException(player, LimitGroup.getRegionBuyOutOfLimitMessage(player, this.getRegionKind()));
-        }
-
-        GregorianCalendar actualtime = new GregorianCalendar();
-        if (this.maxRentTime < ((this.getPayedTill() + this.getExtendTime()) - actualtime.getTimeInMillis())){
-            String errormessage = this.getConvertedMessage(Messages.RENT_EXTEND_ERROR);
-            throw new InputException(player, errormessage);
-        }
-        ExtendRegionEvent extendRegionEvent = new ExtendRegionEvent(this);
-        Bukkit.getServer().getPluginManager().callEvent(extendRegionEvent);
-        if(extendRegionEvent.isCancelled()) {
-            return;
-        }
-
-        if(AdvancedRegionMarket.getInstance().getEcon().getBalance(player) < this.getPrice()) {
-            throw new InputException(player, Messages.NOT_ENOUGHT_MONEY);
-        }
-        AdvancedRegionMarket.getInstance().getEcon().withdrawPlayer(player, this.getPrice());
-        this.giveParentRegionOwnerMoney(this.getPrice());
         this.extend();
-
-        this.queueSave();
-
-        String message = this.getConvertedMessage(Messages.RENT_EXTEND_MESSAGE);
-        player.sendMessage(Messages.PREFIX + message);
-
-        this.updateSigns();
-
-        if(AdvancedRegionMarket.getInstance().getPluginSettings().isTeleportAfterRentRegionExtend()) {
-            Teleporter.teleport(player, this);
-        }
-
-        return;
     }
 
     public static void sendExpirationWarnings(Player player) {

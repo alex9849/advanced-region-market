@@ -95,7 +95,6 @@ public class RentRegion extends CountdownRegion {
         AdvancedRegionMarket.getInstance().getEcon().withdrawPlayer(player, this.getPrice());
         this.giveParentRegionOwnerMoney(this.getPrice());
         this.setSold(player);
-        this.resetBuiltBlocks();
         if(AdvancedRegionMarket.getInstance().getPluginSettings().isTeleportAfterRentRegionBought()){
             Teleporter.teleport(player, this, "", AdvancedRegionMarket.getInstance().getConfig().getBoolean("Other.TeleportAfterRegionBoughtCountdown"));
         }

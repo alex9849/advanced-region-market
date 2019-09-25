@@ -5,6 +5,7 @@ import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.commands.BasicArmCommand;
 import net.alex9849.arm.exceptions.InputException;
+import net.alex9849.arm.exceptions.NoSaveLocationException;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import net.alex9849.arm.regions.Region;
@@ -59,7 +60,11 @@ public class TPCommand implements BasicArmCommand {
             throw new InputException(sender, Messages.PARENT_REGION_NOT_OWN);
         }
 
-        Teleporter.teleport(player, region);
+        try {
+            Teleporter.teleport(player, region);
+        } catch (NoSaveLocationException e) {
+            throw new InputException(sender, Messages.TELEPORTER_NO_SAVE_LOCATION_FOUND);
+        }
         return true;
     }
 

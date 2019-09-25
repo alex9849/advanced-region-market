@@ -8,6 +8,7 @@ import net.alex9849.arm.entitylimit.EntityLimitGroup;
 import net.alex9849.arm.events.BuyRegionEvent;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.exceptions.MaxRentTimeExceededException;
+import net.alex9849.arm.exceptions.NoSaveLocationException;
 import net.alex9849.arm.flaggroups.FlagGroup;
 import net.alex9849.arm.limitgroups.LimitGroup;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
@@ -95,6 +96,13 @@ public class RentRegion extends CountdownRegion {
         if(this.isSold()) {
             try {
                 this.extendNoteMaxRentTime();
+                if(AdvancedRegionMarket.getInstance().getPluginSettings().isTeleportAfterRentRegionExtend()){
+                    try {
+                        Teleporter.teleport(player, this, "", AdvancedRegionMarket.getInstance().getConfig().getBoolean("Other.TeleportAfterRegionBoughtCountdown"));
+                    } catch (NoSaveLocationException e) {
+                        player.sendMessage(Messages.PREFIX + this.getConvertedMessage(Messages.TELEPORTER_NO_SAVE_LOCATION_FOUND));
+                    }
+                }
             } catch (MaxRentTimeExceededException e) {
                 throw new InputException(player, this.getConvertedMessage(Messages.RENT_EXTEND_ERROR));
             }
@@ -102,7 +110,11 @@ public class RentRegion extends CountdownRegion {
         } else {
             this.setSold(player);
             if(AdvancedRegionMarket.getInstance().getPluginSettings().isTeleportAfterRentRegionBought()){
-                Teleporter.teleport(player, this, "", AdvancedRegionMarket.getInstance().getConfig().getBoolean("Other.TeleportAfterRegionBoughtCountdown"));
+                try {
+                    Teleporter.teleport(player, this, "", AdvancedRegionMarket.getInstance().getConfig().getBoolean("Other.TeleportAfterRegionBoughtCountdown"));
+                } catch (NoSaveLocationException e) {
+                    player.sendMessage(Messages.PREFIX + this.getConvertedMessage(Messages.TELEPORTER_NO_SAVE_LOCATION_FOUND));
+                }
             }
             player.sendMessage(Messages.PREFIX + Messages.REGION_BUYMESSAGE);
         }

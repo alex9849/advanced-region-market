@@ -7,6 +7,7 @@ import net.alex9849.arm.entitylimit.EntityLimit;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
 import net.alex9849.arm.events.BuyRegionEvent;
 import net.alex9849.arm.exceptions.InputException;
+import net.alex9849.arm.exceptions.NoSaveLocationException;
 import net.alex9849.arm.flaggroups.FlagGroup;
 import net.alex9849.arm.limitgroups.LimitGroup;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
@@ -165,7 +166,11 @@ public class ContractRegion extends CountdownRegion {
         }
         this.setSold(player);
         if(AdvancedRegionMarket.getInstance().getPluginSettings().isTeleportAfterContractRegionBought()){
-            Teleporter.teleport(player, this, "", AdvancedRegionMarket.getInstance().getConfig().getBoolean("Other.TeleportAfterRegionBoughtCountdown"));
+            try {
+                Teleporter.teleport(player, this, "", AdvancedRegionMarket.getInstance().getConfig().getBoolean("Other.TeleportAfterRegionBoughtCountdown"));
+            } catch (NoSaveLocationException e) {
+                player.sendMessage(Messages.PREFIX + this.getConvertedMessage(Messages.TELEPORTER_NO_SAVE_LOCATION_FOUND));
+            }
         }
         player.sendMessage(Messages.PREFIX + Messages.REGION_BUYMESSAGE);
 

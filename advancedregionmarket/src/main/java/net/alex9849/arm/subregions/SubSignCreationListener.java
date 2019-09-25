@@ -4,7 +4,6 @@ import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
-import net.alex9849.arm.exceptions.ArmInternalException;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.flaggroups.FlagGroup;
 import net.alex9849.arm.regionkind.RegionKind;
@@ -157,9 +156,6 @@ public class SubSignCreationListener implements Listener {
             }
         } catch (InputException e) {
             e.sendMessages(Messages.PREFIX);
-        } catch (ArmInternalException e) {
-            e.logMessage();
-            e.printStackTrace();
         }
     }
 

@@ -1,9 +1,5 @@
 package net.alex9849.arm.exceptions;
 
-import org.bukkit.Bukkit;
-
-import java.util.logging.Level;
-
 public class ArmInternalException extends Exception {
     String message;
 
@@ -11,8 +7,12 @@ public class ArmInternalException extends Exception {
         this.message = message;
     }
 
-    public void logMessage() {
-        Bukkit.getLogger().log(Level.ALL, "[ARM] " + message);
+    public ArmInternalException() {
+
+    }
+
+    public boolean hasMessage() {
+        return message != null;
     }
 
     public String getMessage() {

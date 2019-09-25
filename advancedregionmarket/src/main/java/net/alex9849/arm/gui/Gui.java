@@ -6,6 +6,7 @@ import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.entitylimit.EntityLimit;
 import net.alex9849.arm.exceptions.InputException;
+import net.alex9849.arm.exceptions.NoSaveLocationException;
 import net.alex9849.arm.exceptions.SchematicException;
 import net.alex9849.arm.flaggroups.FlagGroup;
 import net.alex9849.arm.flaggroups.FlagSettings;
@@ -67,6 +68,23 @@ public class Gui implements Listener {
     private static Material FLAG_ITEM = MaterialFinder.getGuiFlagItem();
     private static Material FLAG_USER_INPUT_ITEM = MaterialFinder.getGuiFlagUserInputItem();
     private static Material FLAGEDITOR_RESET_ITEM = MaterialFinder.getGuiFlageditorResetItem();
+
+    private static class TeleportToRegionClickAction implements ClickAction {
+        private Region region;
+
+        TeleportToRegionClickAction(Region region) {
+            this.region = region;
+        }
+
+        public void execute(Player player) {
+            try {
+                Teleporter.teleport(player, this.region);
+                player.closeInventory();
+            } catch (NoSaveLocationException e) {
+                player.sendMessage(Messages.PREFIX + this.region.getConvertedMessage(Messages.TELEPORTER_NO_SAVE_LOCATION_FOUND));
+            }
+        }
+    }
 
 
     public static void openARMGui(Player player) {
@@ -234,13 +252,7 @@ public class Gui implements Listener {
 
         if(player.hasPermission(Permission.MEMBER_TP)){
             ClickItem teleportericon = new ClickItem(new ItemStack(Gui.TP_ITEM), Messages.GUI_TELEPORT_TO_REGION_BUTTON, Messages.GUI_TELEPORT_TO_REGION_BUTTON_LORE);
-            teleportericon = teleportericon.addClickAction(new ClickAction() {
-                @Override
-                public void execute(Player player) throws InputException {
-                    Teleporter.teleport(player, region);
-                    player.closeInventory();
-                }
-            });
+            teleportericon = teleportericon.addClickAction(new TeleportToRegionClickAction(region));
             inv.addIcon(teleportericon, getPosition(actitem, itemcounter));
 
             actitem++;
@@ -521,13 +533,7 @@ public class Gui implements Listener {
             }
             teleporteritemmeta.setLore(lore);
             teleporteritem.setItemMeta(teleporteritemmeta);
-            ClickItem teleportericon = new ClickItem(teleporteritem).addClickAction(new ClickAction() {
-                @Override
-                public void execute(Player player) throws InputException {
-                    Teleporter.teleport(player, region);
-                    player.closeInventory();
-                }
-            });
+            ClickItem teleportericon = new ClickItem(teleporteritem).addClickAction(new TeleportToRegionClickAction(region));
             inv.addIcon(teleportericon, getPosition(actitem, itemcounter));
 
             actitem++;
@@ -650,13 +656,7 @@ public class Gui implements Listener {
         }
 
         if(player.hasPermission(Permission.SUBREGION_TP)) {
-            ClickItem tpItem = new ClickItem(new ItemStack(Gui.TP_ITEM), Messages.GUI_TELEPORT_TO_REGION_BUTTON).addClickAction(new ClickAction() {
-                @Override
-                public void execute(Player player) throws InputException {
-                    Teleporter.teleport(player, region);
-                    player.closeInventory();
-                }
-            });
+            ClickItem tpItem = new ClickItem(new ItemStack(Gui.TP_ITEM), Messages.GUI_TELEPORT_TO_REGION_BUTTON).addClickAction(new TeleportToRegionClickAction(region));
             inv.addIcon(tpItem, getPosition(actitem, itemcounter));
             actitem++;
         }
@@ -1030,7 +1030,7 @@ public class Gui implements Listener {
 
     public static void openRegionFinderTeleportLocationSeceltor(Player player, Region region) throws InputException {
         if(!AdvancedRegionMarket.getInstance().getPluginSettings().isAllowTeleportToBuySign()) {
-            region.teleport(player, false);
+            new TeleportToRegionClickAction(region).execute(player);
             return;
         }
 
@@ -1039,20 +1039,18 @@ public class Gui implements Listener {
         clickSign.addClickAction(new ClickAction() {
             @Override
             public void execute(Player player) throws InputException {
-                region.teleport(player, true);
-                player.closeInventory();
+                try {
+                    region.teleport(player, true);
+                    player.closeInventory();
+                } catch (NoSaveLocationException e) {
+                    player.sendMessage(Messages.PREFIX + region.getConvertedMessage(Messages.TELEPORTER_NO_SAVE_LOCATION_FOUND));
+                }
             }
         });
         inv.addIcon(clickSign, getPosition(1, 2));
 
         ClickItem clickRegion = new ClickItem(new ItemStack(Gui.TELEPORT_TO_REGION_ITEM), Messages.GUI_TELEPORT_TO_REGION);
-        clickRegion.addClickAction(new ClickAction() {
-            @Override
-            public void execute(Player player) throws InputException {
-                region.teleport(player, false);
-                player.closeInventory();
-            }
-        });
+        clickRegion.addClickAction(new TeleportToRegionClickAction(region));
         inv.addIcon(clickRegion, getPosition(2, 2));
         inv = Gui.placeFillItems(inv);
         player.openInventory(inv.getInventory());

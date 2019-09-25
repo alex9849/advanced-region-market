@@ -7,6 +7,7 @@ import net.alex9849.arm.entitylimit.EntityLimitGroup;
 import net.alex9849.arm.events.AddRegionEvent;
 import net.alex9849.arm.events.RemoveRegionEvent;
 import net.alex9849.arm.exceptions.InputException;
+import net.alex9849.arm.exceptions.NoSaveLocationException;
 import net.alex9849.arm.flaggroups.FlagGroup;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
@@ -527,10 +528,13 @@ public class RegionManager extends YamlFileManager<Region> {
     public void teleportToFreeRegion(RegionKind type, Player player) throws InputException {
         for (Region region : this){
 
-            if ((region.isSold() == false) && (region.getRegionKind() == type)){
-                WGRegion regionTP = region.getRegion();
-                String message = region.getConvertedMessage(Messages.REGION_TELEPORT_MESSAGE);
-                Teleporter.teleport(player, region, Messages.PREFIX + message, true);
+            if ((!region.isSold()) && (region.getRegionKind() == type)){
+                try {
+                    String message = region.getConvertedMessage(Messages.REGION_TELEPORT_MESSAGE);
+                    Teleporter.teleport(player, region, Messages.PREFIX + message, true);
+                } catch (NoSaveLocationException e) {
+                    continue;
+                }
                 return;
             }
         }

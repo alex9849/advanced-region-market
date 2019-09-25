@@ -3,7 +3,7 @@ package net.alex9849.arm.minifeatures.teleporter;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
-import net.alex9849.arm.exceptions.InputException;
+import net.alex9849.arm.exceptions.NoSaveLocationException;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.util.MaterialFinder;
 import net.alex9849.signs.SignData;
@@ -18,7 +18,7 @@ import org.bukkit.util.Vector;
 
 public class Teleporter {
 
-    public static void teleport(Player player, Region region, String message, Boolean useCountdown) throws InputException {
+    public static void teleport(Player player, Region region, String message, Boolean useCountdown) throws NoSaveLocationException {
 
         if(region.getTeleportLocation() == null) {
 
@@ -47,7 +47,7 @@ public class Teleporter {
                 }
             }
 
-            throw new InputException(player, Messages.TELEPORTER_NO_SAVE_LOCATION_FOUND);
+            throw new NoSaveLocationException(Messages.TELEPORTER_NO_SAVE_LOCATION_FOUND);
 
         } else {
             player.teleport(region.getTeleportLocation());
@@ -64,7 +64,7 @@ public class Teleporter {
         return;
     }
 
-    public static void teleport(Player player, Region region) throws InputException {
+    public static void teleport(Player player, Region region) throws NoSaveLocationException {
         teleport(player, region, "", true);
     }
 
@@ -72,7 +72,7 @@ public class Teleporter {
         teleport(player, location, "", true);
     }
 
-    public static boolean teleport(Player player, SignData sign) throws InputException {
+    public static boolean teleport(Player player, SignData sign) {
         for(int y = sign.getLocation().getBlockY(); ((y > 1) && (y > (sign.getLocation().getBlockY() - 10))); y--) {
             Location newLoc = new Location(sign.getLocation().getWorld(), sign.getLocation().getBlockX(), y, sign.getLocation().getBlockZ());
             if(isSaveTeleport(newLoc)) {

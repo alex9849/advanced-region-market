@@ -8,6 +8,7 @@ import net.alex9849.arm.events.ResetBlocksEvent;
 import net.alex9849.arm.events.UnsellRegionEvent;
 import net.alex9849.arm.events.UpdateRegionEvent;
 import net.alex9849.arm.exceptions.InputException;
+import net.alex9849.arm.exceptions.NoSaveLocationException;
 import net.alex9849.arm.exceptions.SchematicException;
 import net.alex9849.arm.flaggroups.FlagGroup;
 import net.alex9849.arm.inactivityexpiration.InactivityExpirationGroup;
@@ -423,14 +424,14 @@ public abstract class Region implements Saveable {
         return this.teleportLocation;
     }
 
-    public void teleport(Player player, boolean teleportToSign) throws InputException {
+    public void teleport(Player player, boolean teleportToSign) throws NoSaveLocationException {
         if(teleportToSign) {
             for(SignData signData : this.sellsign) {
                 if(Teleporter.teleport(player, signData)) {
                     return;
                 }
             }
-            throw new InputException(player, Messages.TELEPORTER_NO_SAVE_LOCATION_FOUND);
+            throw new NoSaveLocationException(Messages.TELEPORTER_NO_SAVE_LOCATION_FOUND);
         } else {
             Teleporter.teleport(player, this);
         }

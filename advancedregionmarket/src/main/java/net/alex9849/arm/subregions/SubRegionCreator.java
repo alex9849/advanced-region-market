@@ -3,7 +3,6 @@ package net.alex9849.arm.subregions;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
-import net.alex9849.arm.exceptions.ArmInternalException;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.minifeatures.ParticleBorder;
 import net.alex9849.arm.regions.Region;
@@ -168,12 +167,11 @@ public class SubRegionCreator {
         subRegionCreatorList.remove(this);
     }
 
-    public void saveWorldGuardRegion() throws ArmInternalException {
-        if(this.subRegion != null) {
-            AdvancedRegionMarket.getInstance().getWorldGuardInterface().addToRegionManager(this.subRegion, this.parentRegion.getRegionworld(), AdvancedRegionMarket.getInstance().getWorldGuard());
-        } else {
-            throw new ArmInternalException("Could not save WorldGaurd Region! Subregion = null");
+    public void saveWorldGuardRegion() {
+        if(this.subRegion == null) {
+            throw new NullPointerException("Subregion not created!");
         }
+        AdvancedRegionMarket.getInstance().getWorldGuardInterface().addToRegionManager(this.subRegion, this.parentRegion.getRegionworld(), AdvancedRegionMarket.getInstance().getWorldGuard());
     }
 
     public static void removeSubRegioncreator(Player player) {

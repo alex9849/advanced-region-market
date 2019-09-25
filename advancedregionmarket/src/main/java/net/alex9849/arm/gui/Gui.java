@@ -682,7 +682,7 @@ public class Gui implements Listener {
                         public void execute(Player player) throws InputException {
                             //TODO logToConsole
                             try {
-                                region.resetBlocks(Region.ActionReason.BLOCKRESET_BY_PARENT_REGION_OWNER, true);
+                                region.resetBlocks(Region.ActionReason.MANUALLY_BY_PARENT_REGION_OWNER, true);
                                 player.sendMessage(Messages.PREFIX + Messages.COMPLETE);
                             } catch (SchematicException e) {
                                 AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, region.getConvertedMessage(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
@@ -714,7 +714,7 @@ public class Gui implements Listener {
                         @Override
                         public void execute(Player player) throws InputException {
                             //TODO logToConsole
-                            region.unsell(Region.ActionReason.UNSOLD_BY_PARENT_REGION_OWNER, true);
+                            region.unsell(Region.ActionReason.MANUALLY_BY_PARENT_REGION_OWNER, true);
                             player.closeInventory();
                             player.sendMessage(Messages.PREFIX + Messages.REGION_NOW_AVIABLE);
                         }

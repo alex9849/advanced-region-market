@@ -32,9 +32,8 @@ import java.util.logging.Level;
 
 public abstract class Region implements Saveable {
     public static enum ActionReason {
-        USER_SELL, USER_RESET, EXPIRED, INACTIVITY, BLOCKRESET_BY_ADMIN, UNSOLD_BY_ADMIN,
-        INSUFFICIENT_MONEY, DELETE, BLOCKRESET_BY_PARENT_REGION_OWNER, NONE,
-        UNSOLD_BY_PARENT_REGION_OWNER, RESET_BY_ADMIN;
+        USER_SELL, USER_RESET, EXPIRED, INACTIVITY, MANUALLY_BY_ADMIN,
+        INSUFFICIENT_MONEY, DELETE, NONE, MANUALLY_BY_PARENT_REGION_OWNER;
 
         public String getConvertedMessage(String message) {
             if(message.contains("%resetreason%")) message = message.replace("%resetreason%", this.name());

@@ -62,7 +62,7 @@ public class ResetCommand implements BasicArmCommand {
 
         try {
             //TODO logToConsole
-            resregion.resetRegion(Region.ActionReason.RESET_BY_ADMIN, true);
+            resregion.resetRegion(Region.ActionReason.MANUALLY_BY_ADMIN, true);
             sender.sendMessage(Messages.PREFIX + Messages.REGION_NOW_AVIABLE);
         } catch (SchematicException e) {
             AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, resregion.getConvertedMessage(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));

@@ -496,8 +496,8 @@ public abstract class Region implements Saveable {
     }
 
     public void setSold(boolean sold) {
-        this.sold = sold;
         if(!this.isSold() && sold || this.isSold() && !sold) {
+            this.sold = sold;
             this.setLastLogin();
             this.getFlagGroup().applyToRegion(this, FlagGroup.ResetMode.COMPLETE);
         }

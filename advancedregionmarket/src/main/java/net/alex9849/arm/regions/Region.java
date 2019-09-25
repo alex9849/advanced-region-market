@@ -497,13 +497,13 @@ public abstract class Region implements Saveable {
 
     public void setSold(boolean sold) {
         boolean isSold = this.isSold();
+        this.sold = sold;
         if(!isSold && sold || isSold && !sold) {
             if(sold) {
                 this.setLastLogin();
             }
             this.getFlagGroup().applyToRegion(this, FlagGroup.ResetMode.COMPLETE);
         }
-        this.sold = sold;
         this.queueSave();
     }
 

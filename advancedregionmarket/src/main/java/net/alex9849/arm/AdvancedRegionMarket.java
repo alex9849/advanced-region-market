@@ -292,7 +292,8 @@ public class AdvancedRegionMarket extends JavaPlugin {
             public void run() {
                 for(Region region : AdvancedRegionMarket.getInstance().getRegionManager()) {
                     if(region.isInactivityResetEnabled() && region.isInactive()) {
-                        region.automaticResetRegion();
+                        //TODO logToConsole
+                        region.automaticResetRegion(Region.ActionReason.INACTIVITY, true);
                     }
                 }
             }

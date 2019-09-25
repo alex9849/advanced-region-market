@@ -58,7 +58,8 @@ public class ResetBlocksCommand implements BasicArmCommand {
 
         if(player.hasPermission(Permission.ADMIN_RESETREGIONBLOCKS)) {
             try {
-                resregion.resetBlocks();
+                //TODO logToConsole
+                resregion.resetBlocks(Region.ActionReason.BLOCKRESET_BY_ADMIN, true);
             } catch (SchematicException e) {
                 AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, resregion.getConvertedMessage(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
                 player.sendMessage(Messages.PREFIX + Messages.SCHEMATIC_NOT_FOUND_ERROR_USER.replace("%regionid%", e.getRegion().getId()));

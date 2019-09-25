@@ -137,7 +137,8 @@ public class RentRegion extends CountdownRegion {
         if(this.isSold()){
             GregorianCalendar actualtime = new GregorianCalendar();
             if(this.getPayedTill() < actualtime.getTimeInMillis()){
-                this.automaticResetRegion();
+                //TODO logToConsole
+                this.automaticResetRegion(ActionReason.EXPIRED, true);
             }
         }
         super.updateRegion();

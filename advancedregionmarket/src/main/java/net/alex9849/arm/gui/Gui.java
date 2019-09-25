@@ -17,6 +17,7 @@ import net.alex9849.arm.regions.RentRegion;
 import net.alex9849.arm.regions.SellRegion;
 import net.alex9849.arm.util.MaterialFinder;
 import net.alex9849.exceptions.InputException;
+import net.alex9849.exceptions.SchematicException;
 import net.alex9849.inter.WGRegion;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -31,6 +32,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.*;
+import java.util.logging.Level;
 
 public class Gui implements Listener {
     private static Material REGION_OWNER_ITEM = MaterialFinder.getGuiRegionOwnerItem();
@@ -678,8 +680,14 @@ public class Gui implements Listener {
                     Gui.openWarning(player, Messages.GUI_RESET_REGION_WARNING_NAME, new ClickAction() {
                         @Override
                         public void execute(Player player) throws InputException {
-                            region.userBlockReset(player);
-                            player.sendMessage(Messages.PREFIX + Messages.COMPLETE);
+                            //TODO logToConsole
+                            try {
+                                region.resetBlocks(Region.ActionReason.BLOCKRESET_BY_PARENT_REGION_OWNER, true);
+                                player.sendMessage(Messages.PREFIX + Messages.COMPLETE);
+                            } catch (SchematicException e) {
+                                AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, region.getConvertedMessage(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
+                                player.sendMessage(Messages.PREFIX + Messages.SCHEMATIC_NOT_FOUND_ERROR_USER.replace("%regionid%", e.getRegion().getId()));
+                            }
                             player.closeInventory();
                         }
                     }, new ClickAction() {
@@ -705,7 +713,8 @@ public class Gui implements Listener {
                     Gui.openWarning(player, Messages.UNSELL_REGION_WARNING_NAME, new ClickAction() {
                         @Override
                         public void execute(Player player) throws InputException {
-                            region.unsell();
+                            //TODO logToConsole
+                            region.unsell(Region.ActionReason.UNSOLD_BY_PARENT_REGION_OWNER, true);
                             player.closeInventory();
                             player.sendMessage(Messages.PREFIX + Messages.REGION_NOW_AVIABLE);
                         }

@@ -58,7 +58,8 @@ public class UnsellCommand implements BasicArmCommand {
             throw new InputException(sender, Messages.PARENT_REGION_NOT_OWN);
         }
 
-        region.unsell();
+        //TODO logToConsole
+        region.unsell(Region.ActionReason.UNSOLD_BY_PARENT_REGION_OWNER, true);
         player.sendMessage(Messages.PREFIX + Messages.REGION_NOW_AVIABLE);
         return true;
     }

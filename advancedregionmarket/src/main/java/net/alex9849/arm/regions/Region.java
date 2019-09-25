@@ -31,6 +31,16 @@ import java.util.*;
 import java.util.logging.Level;
 
 public abstract class Region implements Saveable {
+    public static enum ActionReason {
+        USER_SELL, USER_RESET, EXPIRED, INACTIVITY, BLOCKRESET_BY_ADMIN, UNSOLD_BY_ADMIN,
+        INSUFFICIENT_MONEY, DELETE, BLOCKRESET_BY_PARENT_REGION_OWNER, NONE,
+        UNSOLD_BY_PARENT_REGION_OWNER, RESET_BY_ADMIN;
+
+        public String getConvertedMessage(String message) {
+            if(message.contains("%resetreason%")) message = message.replace("%resetreason%", this.name());
+            return message;
+        }
+    }
     public static boolean completeTabRegions;
 
     private WGRegion region;
@@ -336,7 +346,7 @@ public abstract class Region implements Saveable {
         AdvancedRegionMarket.getInstance().getWorldEditInterface().createSchematic(this.getRegion(), this.getRegionworld(), AdvancedRegionMarket.getInstance().getWorldedit().getWorldEdit());
     }
 
-    public void resetBlocks() throws SchematicException {
+    public void resetBlocks(ActionReason actionReason, boolean logToConsole) throws SchematicException {
 
         ResetBlocksEvent resetBlocksEvent = new ResetBlocksEvent(this);
         Bukkit.getServer().getPluginManager().callEvent(resetBlocksEvent);
@@ -357,6 +367,12 @@ public abstract class Region implements Saveable {
         }
         this.resetBuiltBlocks();
         this.flagGroup.applyToRegion(this, FlagGroup.ResetMode.COMPLETE);
+
+        //TODO Add to messages.yml
+        if(logToConsole) {
+            AdvancedRegionMarket.getInstance().getLogger().log(Level.INFO,
+                    actionReason.getConvertedMessage(this.getConvertedMessage("Region %region% has been restored! Reason: %resetreason%")));
+        }
 
         return;
     }
@@ -443,7 +459,8 @@ public abstract class Region implements Saveable {
 
     public void userBlockReset(Player player){
         try {
-            this.resetBlocks();
+            //TODO Add if should log
+            this.resetBlocks(ActionReason.USER_RESET, true);
             GregorianCalendar calendar = new GregorianCalendar();
             this.lastreset = calendar.getTimeInMillis();
             this.queueSave();
@@ -492,7 +509,8 @@ public abstract class Region implements Saveable {
             }
         }
 
-        this.automaticResetRegion(player);
+        //TODO Check if should log
+        this.automaticResetRegion(player, ActionReason.USER_SELL, true);
     }
 
     public void setSold(boolean sold) {
@@ -508,9 +526,6 @@ public abstract class Region implements Saveable {
     }
 
     public void setOwner(OfflinePlayer oPlayer) {
-        if(!this.isSold()) {
-            this.setSold(oPlayer);
-        }
         this.getRegion().setOwner(oPlayer);
         this.setLastLogin();
     }
@@ -524,30 +539,30 @@ public abstract class Region implements Saveable {
         return lastLogin;
     }
 
-    public void resetRegion() throws SchematicException {
-        this.unsell();
+    public void resetRegion(ActionReason actionReason, boolean logToConsole) throws SchematicException {
+        this.unsell(actionReason, logToConsole);
         this.extraEntitys.clear();
         this.extraTotalEntitys = 0;
         this.queueSave();
-        this.resetBlocks();
+        this.resetBlocks(actionReason, logToConsole);
         return;
     }
 
-    public void automaticResetRegion(){
-        this.automaticResetRegion(null);
+    public void automaticResetRegion(ActionReason actionReason, boolean logToConsole){
+        this.automaticResetRegion(null, actionReason, logToConsole);
     }
 
     public FlagGroup getFlagGroup() {
         return this.flagGroup;
     }
 
-    public void automaticResetRegion(Player player){
-        this.unsell();
+    public void automaticResetRegion(Player player, ActionReason actionReason, boolean logToConsole){
+        this.unsell(actionReason, logToConsole);
         if(this.isDoBlockReset()){
             this.extraEntitys.clear();
             this.extraTotalEntitys = 0;
             try {
-                this.resetBlocks();
+                this.resetBlocks(actionReason, logToConsole);
             } catch (SchematicException e) {
                 AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, this.getConvertedMessage(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
                 if(player != null) {
@@ -577,7 +592,7 @@ public abstract class Region implements Saveable {
         this.queueSave();
     }
 
-    public void unsell(){
+    public void unsell(ActionReason actionReason, boolean logToConsole){
         UnsellRegionEvent unsellRegionEvent = new UnsellRegionEvent(this);
         Bukkit.getServer().getPluginManager().callEvent(unsellRegionEvent);
         if(unsellRegionEvent.isCancelled()) {
@@ -594,6 +609,12 @@ public abstract class Region implements Saveable {
                 this.getSubregions().get(i).delete();
             }
         }
+
+        if(logToConsole) {
+            AdvancedRegionMarket.getInstance().getLogger().log(Level.INFO,
+                    actionReason.getConvertedMessage(this.getConvertedMessage("Region %region% has been unsold! Reason: %resetreason%")));
+        }
+
         this.updateSigns();
         this.queueSave();
     }

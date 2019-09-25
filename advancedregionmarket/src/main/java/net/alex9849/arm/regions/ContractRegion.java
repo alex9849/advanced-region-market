@@ -69,7 +69,8 @@ public class ContractRegion extends CountdownRegion {
             //If region expired and terminated
             if(this.getPayedTill() < actualtime.getTimeInMillis()){
                 if(this.isTerminated()) {
-                    this.automaticResetRegion();
+                    //TODO logToConsole
+                    this.automaticResetRegion(ActionReason.EXPIRED, true);
                 } else {
                     List<UUID> owners = this.getRegion().getOwners();
                     if(owners.size() == 0){
@@ -81,7 +82,8 @@ public class ContractRegion extends CountdownRegion {
                         } else {
                             if(AdvancedRegionMarket.getInstance().getEcon().hasAccount(oplayer)) {
                                 if(AdvancedRegionMarket.getInstance().getEcon().getBalance(oplayer) < this.getPrice()) {
-                                    this.automaticResetRegion();
+                                    //TODO logToConsole
+                                    this.automaticResetRegion(ActionReason.INSUFFICIENT_MONEY, true);
                                 } else {
                                     AdvancedRegionMarket.getInstance().getEcon().withdrawPlayer(oplayer, this.getPrice());
                                     if(this.isSubregion()) {

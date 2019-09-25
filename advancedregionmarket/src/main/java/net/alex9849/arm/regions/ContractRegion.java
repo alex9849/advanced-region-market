@@ -68,7 +68,7 @@ public class ContractRegion extends CountdownRegion {
             GregorianCalendar actualtime = new GregorianCalendar();
 
             //If region expired and terminated
-            if((this.getPayedTill() < actualtime.getTimeInMillis()) && this.terminated){
+            if(this.getPayedTill() < actualtime.getTimeInMillis()){
                 if(this.isTerminated()) {
                     this.automaticResetRegion();
                 } else {

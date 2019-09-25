@@ -497,10 +497,12 @@ public abstract class Region implements Saveable {
 
     public void setSold(boolean sold) {
         if(!this.isSold() && sold || this.isSold() && !sold) {
-            this.sold = sold;
-            this.setLastLogin();
+            if(sold) {
+                this.setLastLogin();
+            }
             this.getFlagGroup().applyToRegion(this, FlagGroup.ResetMode.COMPLETE);
         }
+        this.sold = sold;
         this.queueSave();
     }
 
@@ -582,7 +584,7 @@ public abstract class Region implements Saveable {
 
         this.getRegion().deleteMembers();
         this.getRegion().deleteOwners();
-        this.sold = false;
+        this.setSold(false);
         this.lastreset = 1;
 
         if(AdvancedRegionMarket.getInstance().getPluginSettings().isDeleteSubregionsOnParentRegionUnsell()) {
@@ -591,7 +593,6 @@ public abstract class Region implements Saveable {
             }
         }
         this.updateSigns();
-        this.flagGroup.applyToRegion(this, FlagGroup.ResetMode.COMPLETE);
         this.queueSave();
     }
 

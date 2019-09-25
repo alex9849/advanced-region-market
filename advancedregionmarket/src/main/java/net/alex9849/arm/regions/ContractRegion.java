@@ -11,7 +11,6 @@ import net.alex9849.arm.limitgroups.LimitGroup;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.price.ContractPrice;
-import net.alex9849.arm.regions.price.Price;
 import net.alex9849.exceptions.InputException;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.signs.SignData;
@@ -170,10 +169,6 @@ public class ContractRegion extends CountdownRegion {
 
     }
 
-    public void changeTerminated() throws InputException {
-        this.changeTerminated(null);
-    }
-
     public void changeTerminated(Player player) throws InputException {
         if(this.isTerminated()) {
             if(!LimitGroup.isInLimit(player, this)) {
@@ -241,12 +236,10 @@ public class ContractRegion extends CountdownRegion {
 
     @Override
     public String getConvertedMessage(String message) {
-        message = message.replace("%status%", this.getTerminationString());
-        message = message.replace("%statuslong%", this.getTerminationStringLong());
         message = super.getConvertedMessage(message);
-        message = message.replace("%isterminated%", Messages.convertYesNo(this.isTerminated()));
-        message = message.replace("%priceperm2perweek%", Price.formatPrice(this.getPricePerM2PerWeek()));
-        message = message.replace("%priceperm3perweek%", Price.formatPrice(this.getPricePerM3PerWeek()));
+        if(message.contains("%status%")) message = message.replace("%status%", this.getTerminationString());
+        if(message.contains("%statuslong%")) message = message.replace("%statuslong%", this.getTerminationStringLong());
+        if(message.contains("%isterminated%")) message = message.replace("%isterminated%", Messages.convertYesNo(this.isTerminated()));
         return message;
     }
 

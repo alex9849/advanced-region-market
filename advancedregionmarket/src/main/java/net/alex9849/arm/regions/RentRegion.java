@@ -96,7 +96,7 @@ public class RentRegion extends CountdownRegion {
             try {
                 this.extendNoteMaxRentTime();
             } catch (MaxRentTimeExceededException e) {
-                throw new InputException(player, Messages.RENT_EXTEND_ERROR);
+                throw new InputException(player, this.getConvertedMessage(Messages.RENT_EXTEND_ERROR));
             }
             player.sendMessage(Messages.PREFIX + this.getConvertedMessage(Messages.RENT_EXTEND_MESSAGE));
         } else {
@@ -201,9 +201,7 @@ public class RentRegion extends CountdownRegion {
     @Override
     public String getConvertedMessage(String message) {
         message = super.getConvertedMessage(message);
-        message = message.replace("%maxrenttime%", CountdownRegion.timeInMsToString(this.getMaxRentTimeString()));
-        message = message.replace("%priceperm2perweek%", Price.formatPrice(this.getPricePerM2PerWeek()));
-        message = message.replace("%priceperm3perweek%", Price.formatPrice(this.getPricePerM3PerWeek()));
+        if(message.contains("%maxrenttime%")) message = message.replace("%maxrenttime%", CountdownRegion.timeInMsToString(this.getMaxRentTimeString()));
         return message;
     }
 

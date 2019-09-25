@@ -299,6 +299,8 @@ public abstract class CountdownRegion extends Region {
         message = super.getConvertedMessage(message);
         message = message.replace("%extendtime%", timeInMsToString(this.getExtendTime()));
         message = message.replace("%remaining%", CountdownRegion.timeInMsToRemainingTimeString(this.getPayedTill(), false, Messages.REGION_INFO_EXPIRED));
+        if(message.contains("%priceperm2perweek%")) message = message.replace("%priceperm2perweek%", Price.formatPrice(this.getPricePerM2PerWeek()));
+        if(message.contains("%priceperm3perweek%")) message = message.replace("%priceperm3perweek%", Price.formatPrice(this.getPricePerM3PerWeek()));
         return message;
     }
 

@@ -94,7 +94,7 @@ public class RentRegion extends CountdownRegion {
 
         if(this.isSold()) {
             try {
-                this.extendTakeCareOfMaxRentTime();
+                this.extendNoteMaxRentTime();
             } catch (MaxRentTimeExceededException e) {
                 throw new InputException(player, Messages.RENT_EXTEND_ERROR);
             }
@@ -143,7 +143,7 @@ public class RentRegion extends CountdownRegion {
         super.updateRegion();
     }
 
-    public void extendTakeCareOfMaxRentTime() throws MaxRentTimeExceededException {
+    public void extendNoteMaxRentTime() throws MaxRentTimeExceededException {
         long actualTime = new GregorianCalendar().getTimeInMillis();
         if((this.getPayedTill() + this.getExtendTime()) - actualTime > this.getMaxRentTime()) {
             throw new MaxRentTimeExceededException();

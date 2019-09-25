@@ -39,31 +39,28 @@ public class ExtendCommand implements BasicArmCommand {
 
     @Override
     public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
-        if (Permission.hasAnyBuyPermission(sender)) {
-            if(!(sender instanceof Player)) {
-                throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
-            }
-            Player player = (Player) sender;
-            Region region;
-
-            if(allargs.matches(this.regex_with_args)) {
-                region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, args[1]);
-            } else {
-                region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, null);
-            }
-
-            if(!(region instanceof RentRegion)) {
-                throw new InputException(sender, Messages.REGION_IS_NOT_A_RENTREGION);
-            }
-
-            if(region.isSold()) {
-                throw new InputException(player, Messages.REGION_ALREADY_SOLD);
-            }
-            region.buy(player);
-            return true;
-        } else {
+        if (!Permission.hasAnyBuyPermission(sender)) {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
+
+        if(!(sender instanceof Player)) {
+            throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
+        }
+        Player player = (Player) sender;
+        Region region;
+
+        if(allargs.matches(this.regex_with_args)) {
+            region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, args[1]);
+        } else {
+            region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, null);
+        }
+
+        if(!(region instanceof RentRegion)) {
+            throw new InputException(sender, Messages.REGION_IS_NOT_A_RENTREGION);
+        }
+
+        region.buy(player);
+        return true;
     }
 
     @Override

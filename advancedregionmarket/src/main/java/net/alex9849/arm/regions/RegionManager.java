@@ -229,8 +229,8 @@ public class RegionManager extends YamlFileManager<Region> {
             } else {
                 double price = regionSection.getDouble("price");
                 long maxRentTime = regionSection.getLong("maxRentTime");
-                long rentExtendPerClick = regionSection.getLong("rentExtendPerClick");
-                rentPrice = new RentPrice(price, rentExtendPerClick, maxRentTime);
+                long extendTime = regionSection.getLong("extendTime");
+                rentPrice = new RentPrice(price, extendTime, maxRentTime);
             }
             long payedtill = regionSection.getLong("payedTill");
             region = new RentRegion(wgRegion, regionWorld, regionsigns, rentPrice, sold, inactivityReset, allowonlynewblocks, doBlockReset, regionKind, flagGroup, teleportLoc,
@@ -306,8 +306,8 @@ public class RegionManager extends YamlFileManager<Region> {
         if (subregionRegiontype.equalsIgnoreCase("rentregion")) {
             long subregpayedtill = section.getLong("payedTill");
             long subregmaxRentTime = section.getLong("maxRentTime");
-            long subregrentExtendPerClick = section.getLong("rentExtendPerClick");
-            RentPrice subPrice = new RentPrice(subregPrice, subregrentExtendPerClick, subregmaxRentTime);
+            long subregextendTime = section.getLong("extendTime");
+            RentPrice subPrice = new RentPrice(subregPrice, subregextendTime, subregmaxRentTime);
             return new RentRegion(subregion, regionWorld, subregionsigns, subPrice, subregIsSold, AdvancedRegionMarket.getInstance().getPluginSettings().isSubregionInactivityReset(), subregIsHotel, AdvancedRegionMarket.getInstance().getPluginSettings().isSubregionBlockReset(), RegionKind.SUBREGION, FlagGroup.SUBREGION, null,
                     sublastreset, sublastLogin, AdvancedRegionMarket.getInstance().getPluginSettings().isAllowSubRegionUserReset(), subregpayedtill, new ArrayList<Region>(), 0, EntityLimitGroup.SUBREGION, new HashMap<>(), 0);
 

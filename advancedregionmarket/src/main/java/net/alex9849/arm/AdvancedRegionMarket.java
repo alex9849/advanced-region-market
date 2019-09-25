@@ -1472,5 +1472,48 @@ public class AdvancedRegionMarket extends JavaPlugin {
         messagesConf.save(messagesConfDic);
 
 
+        File flaggroupsConfDic = new File(this.getDataFolder() + "/flaggroups.yml");
+        YamlConfiguration flaggroupsConf = YamlConfiguration.loadConfiguration(flaggroupsConfDic);
+
+        class FlagUpdater {
+            void updateFlagGroup(ConfigurationSection cSection) {
+                if(cSection == null) {
+                    return;
+                }
+                ConfigurationSection availableSection = cSection.getConfigurationSection("available");
+                ConfigurationSection soldSection = cSection.getConfigurationSection("sold");
+                updateFlagSet(availableSection);
+                updateFlagSet(soldSection);
+            }
+
+            void updateFlagSet(ConfigurationSection cSection) {
+                if(cSection == null) {
+                    return;
+                }
+                ArrayList<String> keys = new ArrayList<String>(cSection.getKeys(false));
+                for(String key : keys) {
+                    String setting = cSection.getString(key + ".setting");
+                    if(setting == null) {
+                        continue;
+                    }
+                    setting = setting.replace("%extend%","%extendtime%");
+                    setting = setting.replace("%extendperclick%","%extendtime%");
+                    cSection.set(key + ".setting", setting);
+                }
+            }
+
+        }
+
+        FlagUpdater flagUpdater = new FlagUpdater();
+        ConfigurationSection groupsSection = flaggroupsConf.getConfigurationSection("FlagGroups");
+        if(groupsSection != null) {
+            ArrayList<String> groupKeys = new ArrayList<String>(groupsSection.getKeys(false));
+            for(String key : groupKeys) {
+                flagUpdater.updateFlagGroup(groupsSection.getConfigurationSection(key));
+            }
+        }
+        flagUpdater.updateFlagGroup(flaggroupsConf.getConfigurationSection("DefaultFlagGroup"));
+        flagUpdater.updateFlagGroup(flaggroupsConf.getConfigurationSection("SubregionFlagGroup"));
+        flaggroupsConf.save(flaggroupsConfDic);
     }
 }

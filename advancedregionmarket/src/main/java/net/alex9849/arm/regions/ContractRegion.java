@@ -238,10 +238,10 @@ public class ContractRegion extends CountdownRegion {
 
     @Override
     public String getConvertedMessage(String message) {
-        message = super.getConvertedMessage(message);
         if(message.contains("%status%")) message = message.replace("%status%", this.getTerminationString());
         if(message.contains("%statuslong%")) message = message.replace("%statuslong%", this.getTerminationStringLong());
         if(message.contains("%isterminated%")) message = message.replace("%isterminated%", Messages.convertYesNo(this.isTerminated()));
+        message = super.getConvertedMessage(message);
         return message;
     }
 

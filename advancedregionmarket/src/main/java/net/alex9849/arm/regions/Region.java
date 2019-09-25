@@ -511,7 +511,7 @@ public abstract class Region implements Saveable {
         if(!this.isSold()) {
             this.setSold(oPlayer);
         }
-        this.getRegion().deleteMembers();
+        this.getRegion().setOwner(oPlayer);
     }
 
     public void setLastLogin() {

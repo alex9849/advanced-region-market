@@ -1,6 +1,6 @@
 package net.alex9849.arm.gui;
 
-import net.alex9849.exceptions.InputException;
+import net.alex9849.arm.exceptions.InputException;
 import org.bukkit.entity.Player;
 
 public interface ClickAction {

@@ -1,8 +1,8 @@
 package net.alex9849.arm.handler;
 
 import net.alex9849.arm.commands.BasicArmCommand;
-import net.alex9849.exceptions.CmdSyntaxException;
-import net.alex9849.exceptions.InputException;
+import net.alex9849.arm.exceptions.CmdSyntaxException;
+import net.alex9849.arm.exceptions.InputException;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

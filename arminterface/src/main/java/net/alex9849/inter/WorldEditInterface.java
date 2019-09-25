@@ -1,10 +1,8 @@
 package net.alex9849.inter;
 
 import com.sk89q.worldedit.WorldEdit;
-import net.alex9849.exceptions.SchematicException;
+import net.alex9849.arm.exceptions.SchematicException;
 import org.bukkit.World;
-
-import java.io.IOException;
 
 public abstract class WorldEditInterface {
 

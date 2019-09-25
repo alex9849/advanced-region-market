@@ -1,9 +1,7 @@
-package net.alex9849.exceptions;
+package net.alex9849.arm.exceptions;
 
 import net.alex9849.inter.WGRegion;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class SchematicException extends IOException {

@@ -2,9 +2,9 @@ package net.alex9849.arm.handler.listener;
 
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
+import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.util.MaterialFinder;
-import net.alex9849.exceptions.InputException;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

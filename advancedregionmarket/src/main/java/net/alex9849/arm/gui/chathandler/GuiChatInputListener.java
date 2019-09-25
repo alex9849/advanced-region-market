@@ -1,7 +1,7 @@
 package net.alex9849.arm.gui.chathandler;
 
 import net.alex9849.arm.Messages;
-import net.alex9849.exceptions.InputException;
+import net.alex9849.arm.exceptions.InputException;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

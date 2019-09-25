@@ -512,6 +512,7 @@ public abstract class Region implements Saveable {
             this.setSold(oPlayer);
         }
         this.getRegion().setOwner(oPlayer);
+        this.setLastLogin();
     }
 
     public void setLastLogin() {
@@ -697,6 +698,7 @@ public abstract class Region implements Saveable {
         if(message.contains("%isdoblockreset%")) message = message.replace("%isdoblockreset%", Messages.convertYesNo(this.isDoBlockReset()));
         if(message.contains("%isinactivityreset%")) message = message.replace("%isinactivityreset%", Messages.convertYesNo(this.isInactivityResetEnabled()));
         if(message.contains("%lastownerlogin%")) message = message.replace("%lastownerlogin%", CountdownRegion.getDate(this.getLastLogin(), true, ""));
+        if(message.contains("%owner%")) message = message.replace("%owner%", this.getOwnerName());
         if(message.contains("%autoprice%")) {
             String autopriceInfo = "";
             if(this.getPriceObject().isAutoPrice()) {
@@ -715,17 +717,6 @@ public abstract class Region implements Saveable {
                 subregions = subregions + this.getSubregions().get(this.getSubregions().size() - 1).getRegion().getId();
             }
             message = message.replace("%subregions%", subregions);
-        }
-        if(message.contains("%owner%")) {
-            String ownersInfo = "";
-            List<UUID> ownerslist = this.getRegion().getOwners();
-            for(int i = 0; i < ownerslist.size() - 1; i++){
-                ownersInfo = ownersInfo + Bukkit.getOfflinePlayer(ownerslist.get(i)).getName() + ", ";
-            }
-            if(ownerslist.size() != 0){
-                ownersInfo = ownersInfo + Bukkit.getOfflinePlayer(ownerslist.get(ownerslist.size() - 1)).getName();
-            }
-            message = message.replace("%owner%", ownersInfo);
         }
         if(message.contains("%members%")) {
             String membersInfo = "";

@@ -92,9 +92,6 @@ public class RentRegion extends CountdownRegion {
             return;
         }
 
-        AdvancedRegionMarket.getInstance().getEcon().withdrawPlayer(player, this.getPrice());
-        this.giveParentRegionOwnerMoney(this.getPrice());
-
         if(this.isSold()) {
             try {
                 this.extendTakeCareOfMaxRentTime();
@@ -109,6 +106,9 @@ public class RentRegion extends CountdownRegion {
             }
             player.sendMessage(Messages.PREFIX + Messages.REGION_BUYMESSAGE);
         }
+
+        AdvancedRegionMarket.getInstance().getEcon().withdrawPlayer(player, this.getPrice());
+        this.giveParentRegionOwnerMoney(this.getPrice());
         this.queueSave();
     }
 

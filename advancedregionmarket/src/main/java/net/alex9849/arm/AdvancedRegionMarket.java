@@ -287,6 +287,16 @@ public class AdvancedRegionMarket extends JavaPlugin {
                 AdvancedRegionMarket.getInstance().getFlagGroupManager().updateFile();
             }
         }, 0, 60);
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+            @Override
+            public void run() {
+                for(Region region : AdvancedRegionMarket.getInstance().getRegionManager()) {
+                    if(region.isInactivityResetEnabled() && region.isInactive()) {
+                        region.automaticResetRegion();
+                    }
+                }
+            }
+        }, 1200, 6000);
     }
 
     public void onDisable(){

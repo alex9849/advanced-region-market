@@ -392,9 +392,6 @@ public abstract class Region implements Saveable {
     }
 
     public void updateRegion() {
-        if(this.isInactivityResetEnabled() && this.isInactive()) {
-            this.automaticResetRegion();
-        }
         this.updateSigns();
     }
 
@@ -623,7 +620,7 @@ public abstract class Region implements Saveable {
         return this.lastreset;
     }
 
-    protected boolean isInactivityResetEnabled() {
+    public boolean isInactivityResetEnabled() {
         return this.inactivityReset;
     }
 

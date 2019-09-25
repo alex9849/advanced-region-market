@@ -98,14 +98,14 @@ DefaultFlagGroup:
       applyto:
         - SellRegion
     2:
-      setting: '&b[ARM] &6This region can be rented for &2%price%%currency%&6/&2%extendperclick% &6and extended for up to &2%maxrenttime%'
+      setting: '&b[ARM] &6This region can be rented for &2%price%%currency%&6/&2%extendtime% &6and extended for up to &2%maxrenttime%'
       editable: false
       flag: greeting
       editPermission: ""
       applyto:
         - RentRegion
     3:
-      setting: '&b[ARM] &6Contract available for &2%price%%currency%&6/&2%extend%'
+      setting: '&b[ARM] &6Contract available for &2%price%%currency%&6/&2%extendtime%'
       editable: false
       flag: greeting
       editPermission: ""
@@ -213,14 +213,14 @@ SubregionFlagGroup:
       applyto:
         - SellRegion
     2:
-      setting: '&b[ARM] &6This region can be rented for &2%price%%currency%&6/&2%extendperclick% &6and extended for up to &2%maxrenttime%'
+      setting: '&b[ARM] &6This region can be rented for &2%price%%currency%&6/&2%extendtime% &6and extended for up to &2%maxrenttime%'
       editable: false
       flag: greeting
       editPermission: ""
       applyto:
         - RentRegion
     3:
-      setting: '&b[ARM] &6Contract available for &2%price%%currency%&6/&2%extend%'
+      setting: '&b[ARM] &6Contract available for &2%price%%currency%&6/&2%extendtime%'
       editable: false
       flag: greeting
       editPermission: ""

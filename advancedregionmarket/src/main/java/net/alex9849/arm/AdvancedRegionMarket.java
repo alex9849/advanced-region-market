@@ -26,7 +26,6 @@ import net.alex9849.arm.regionkind.commands.*;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.RegionManager;
 import net.alex9849.arm.regions.RentRegion;
-import net.alex9849.arm.regions.SellType;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.regions.price.RentPrice;
@@ -1429,23 +1428,48 @@ public class AdvancedRegionMarket extends JavaPlugin {
 
         File regionConfDic = new File(this.getDataFolder() + "/regions.yml");
         YamlConfiguration regionConf = YamlConfiguration.loadConfiguration(regionConfDic);
-        ArrayList<String> worlds = new ArrayList<String>(regionConf.getConfigurationSection("Regions").getKeys(false));
-        if(worlds != null) {
+
+        ConfigurationSection regionsSection = regionConf.getConfigurationSection("Regions");
+        if(regionsSection != null) {
+            ArrayList<String> worlds = new ArrayList<String>(regionsSection.getKeys(false));
             for(String worldName : worlds) {
-                ArrayList<String> regions = new ArrayList<String>(regionConf.getConfigurationSection("Regions." + worldName).getKeys(false));
-                if(regions != null) {
-                    for (String regionID : regions) {
-                        boolean autoreset = regionConf.getBoolean("Regions." + worldName + "." + regionID + ".autoreset");
-                        regionConf.set("Regions." + worldName + "." + regionID + ".inactivityReset", autoreset);
-                        if(regionConf.getString("Regions." + worldName + "." + regionID + ".regiontype").equalsIgnoreCase(SellType.RENT.getInternalName())) {
-                            long extendTime = regionConf.getLong("Regions." + worldName + "." + regionID + ".rentExtendPerClick");
-                            regionConf.set("Regions." + worldName + "." + regionID + ".extendTime", extendTime);
-                            regionConf.set("Regions." + worldName + "." + regionID + ".rentExtendPerClick", null);
+                ConfigurationSection worldSection = regionsSection.getConfigurationSection(worldName);
+                if(worldSection == null) {
+                    continue;
+                }
+                ArrayList<String> regions = new ArrayList<String>(worldSection.getKeys(false));
+                for (String regionID : regions) {
+                    ConfigurationSection regSection = worldSection.getConfigurationSection(regionID);
+                    if(regSection == null) {
+                        continue;
+                    }
+                    boolean autoreset = regSection.getBoolean("autoreset");
+                    regSection.set("inactivityReset", autoreset);
+                    if(regSection.getString("regiontype").equalsIgnoreCase("rentregion")) {
+                        long extendTime = regSection.getLong("rentExtendPerClick");
+                        regSection.set("extendTime", extendTime);
+                        regSection.set("rentExtendPerClick", null);
+                    }
+                    ConfigurationSection subSection = regSection.getConfigurationSection("subregions");
+                    if(subSection != null) {
+                        ArrayList<String> subregions = new ArrayList<String>(regSection.getKeys(false));
+                        for(String subregionID : subregions) {
+                            ConfigurationSection subregionSection = subSection.getConfigurationSection(subregionID);
+                            if(subregionSection == null) {
+                                continue;
+                            }
+                            if(regSection.getString("regiontype").equalsIgnoreCase("rentregion")) {
+                                long extendTime = regSection.getLong("rentExtendPerClick");
+                                regSection.set("extendTime", extendTime);
+                                regSection.set("rentExtendPerClick", null);
+                            }
                         }
                     }
                 }
             }
         }
+
+
         regionConf.save(regionConfDic);
 
         File messagesConfDic = new File(this.getDataFolder() + "/messages.yml");

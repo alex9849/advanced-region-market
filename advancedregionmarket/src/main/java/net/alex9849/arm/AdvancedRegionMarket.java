@@ -19,6 +19,7 @@ import net.alex9849.arm.handler.listener.*;
 import net.alex9849.arm.inactivityexpiration.InactivityExpirationGroup;
 import net.alex9849.arm.limitgroups.LimitGroup;
 import net.alex9849.arm.minifeatures.SignLinkMode;
+import net.alex9849.arm.minifeatures.selloffer.Offer;
 import net.alex9849.arm.presets.ActivePresetManager;
 import net.alex9849.arm.presets.PresetPatternManager;
 import net.alex9849.arm.regionkind.RegionKindManager;
@@ -314,6 +315,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         AutoPrice.reset();
         SignLinkMode.reset();
         ActivePresetManager.reset();
+        Offer.reset();
         getServer().getServicesManager().unregisterAll(this);
         SignChangeEvent.getHandlerList().unregister(this);
         InventoryClickEvent.getHandlerList().unregister(this);

@@ -3,6 +3,7 @@ package net.alex9849.arm.commands;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
+import net.alex9849.arm.exceptions.DublicateException;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.handler.CommandHandler;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
@@ -49,31 +50,36 @@ public class OfferCommand implements BasicArmCommand {
         Player player = (Player) sender;
 
         if (allargs.matches(regex_new)) {
-            if(player.hasPermission(Permission.MEMBER_OFFER_CREATE)) {
-                Region region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionbyNameAndWorldCommands(args[2], player.getLocation().getWorld().getName());
-                if(region == null) {
-                    throw new InputException(player, Messages.REGION_DOES_NOT_EXIST);
-                }
-                if(!region.getRegion().hasOwner(player.getUniqueId())) {
-                    throw new InputException(player, Messages.REGION_NOT_OWN);
-                }
-                if(!region.isSold()) {
-                    throw new InputException(player, Messages.REGION_NOT_SOLD);
-                }
-                Player buyer = Bukkit.getPlayer(args[1]);
-                if(buyer == null) {
-                    throw new InputException(player, Messages.SELECTED_PLAYER_NOT_ONLINE);
-                }
-                double price = Double.parseDouble(args[3]);
-
-                Offer offer = Offer.createOffer(region, price, player, buyer);
-
-                player.sendMessage(Messages.PREFIX + Messages.OFFER_SENT);
-                buyer.sendMessage(Messages.PREFIX + offer.getConvertedMessage(Messages.INCOMING_OFFER));
-                return true;
-            } else {
+            if(!player.hasPermission(Permission.MEMBER_OFFER_CREATE)) {
                 throw new InputException(player, Messages.NO_PERMISSION);
             }
+
+            Region region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionbyNameAndWorldCommands(args[2], player.getLocation().getWorld().getName());
+            if(region == null) {
+                throw new InputException(player, Messages.REGION_DOES_NOT_EXIST);
+            }
+            if(!region.getRegion().hasOwner(player.getUniqueId())) {
+                throw new InputException(player, Messages.REGION_NOT_OWN);
+            }
+            if(!region.isSold()) {
+                throw new InputException(player, Messages.REGION_NOT_SOLD);
+            }
+            Player buyer = Bukkit.getPlayer(args[1]);
+            if(buyer == null) {
+                throw new InputException(player, Messages.SELECTED_PLAYER_NOT_ONLINE);
+            }
+            double price = Double.parseDouble(args[3]);
+
+            Offer offer = null;
+            try {
+                offer = Offer.createOffer(region, price, player, buyer);
+                player.sendMessage(Messages.PREFIX + Messages.OFFER_SENT);
+                buyer.sendMessage(Messages.PREFIX + offer.getConvertedMessage(Messages.INCOMING_OFFER));
+            } catch (DublicateException | IllegalArgumentException e) {
+                player.sendMessage(Messages.PREFIX + region.getConvertedMessage(e.getMessage()));
+            }
+
+            return true;
 
 
         } else if (allargs.matches(regex_accept)) {

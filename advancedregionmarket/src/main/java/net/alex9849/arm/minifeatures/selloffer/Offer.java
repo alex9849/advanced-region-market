@@ -2,6 +2,7 @@ package net.alex9849.arm.minifeatures.selloffer;
 
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
+import net.alex9849.arm.exceptions.DublicateException;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.limitgroups.LimitGroup;
 import net.alex9849.arm.regionkind.RegionKind;
@@ -22,9 +23,9 @@ public class Offer {
     private Player buyer;
     private OfferListener offerListener;
 
-    private Offer(Region region, double price, Player seller, Player buyer) throws InputException {
+    private Offer(Region region, double price, Player seller, Player buyer) throws IllegalArgumentException {
         if(price < 0) {
-            throw new InputException(seller, Messages.PRICE_CAN_NOT_BE_NEGATIVE);
+            throw new IllegalArgumentException(Messages.PRICE_CAN_NOT_BE_NEGATIVE);
         }
         this.region = region;
         this.price = price;
@@ -97,13 +98,13 @@ public class Offer {
         this.offerListener.activateCancelTimer(ticks);
     }
 
-    public static Offer createOffer(Region region, double price, Player seller, Player buyer) throws InputException {
+    public static Offer createOffer(Region region, double price, Player seller, Player buyer) throws DublicateException, IllegalArgumentException {
         for(int i = 0; i < offerList.size(); i++) {
             if(offerList.get(i).getBuyer().getUniqueId() == buyer.getUniqueId()) {
-                throw new InputException(seller, Messages.BUYER_ALREADY_GOT_AN_OFFER);
+                throw new DublicateException(Messages.BUYER_ALREADY_GOT_AN_OFFER);
             }
             if(offerList.get(i).getSeller().getUniqueId() == seller.getUniqueId()) {
-                throw new InputException(seller, Messages.SELLER_ALREADY_CREATED_AN_OFFER);
+                throw new DublicateException(Messages.SELLER_ALREADY_CREATED_AN_OFFER);
             }
         }
 
@@ -150,6 +151,10 @@ public class Offer {
             }
         }
         throw new InputException(buyer, Messages.NO_OFFER_TO_REJECT);
+    }
+
+    public static void reset() {
+        Offer.offerList = new ArrayList<>();
     }
 
     public String getConvertedMessage(String message) {

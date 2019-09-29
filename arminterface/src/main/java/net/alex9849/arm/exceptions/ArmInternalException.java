@@ -1,6 +1,6 @@
 package net.alex9849.arm.exceptions;
 
-public class ArmInternalException extends Exception {
+public class ArmInternalException extends Exception implements MayHaveMessage {
     String message;
 
     public ArmInternalException(String message) {

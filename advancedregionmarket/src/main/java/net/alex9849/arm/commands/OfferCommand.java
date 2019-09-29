@@ -3,8 +3,7 @@ package net.alex9849.arm.commands;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
-import net.alex9849.arm.exceptions.DublicateException;
-import net.alex9849.arm.exceptions.InputException;
+import net.alex9849.arm.exceptions.*;
 import net.alex9849.arm.handler.CommandHandler;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.minifeatures.selloffer.Offer;
@@ -83,14 +82,18 @@ public class OfferCommand implements BasicArmCommand {
 
 
         } else if (allargs.matches(regex_accept)) {
-            if(player.hasPermission(Permission.MEMBER_OFFER_ANSWER)) {
+            if(!player.hasPermission(Permission.MEMBER_OFFER_ANSWER)) {
+                throw new InputException(player, Messages.NO_PERMISSION);
+            }
+
+            try {
                 Offer offer = Offer.acceptOffer(player);
                 player.sendMessage(Messages.PREFIX + offer.getConvertedMessage(Messages.OFFER_ACCEPTED_BUYER));
                 offer.getSeller().sendMessage(Messages.PREFIX + offer.getConvertedMessage(Messages.OFFER_ACCEPTED_SELLER));
-                return true;
-            } else {
-                throw new InputException(player, Messages.NO_PERMISSION);
+            } catch (RegionNotOwnException | NoBuyPermissionException | OutOfLimitExeption | NotEnoughMoneyException e) {
+                if(e.hasMessage()) player.sendMessage(Messages.PREFIX + e.getMessage());
             }
+            return true;
 
 
         } else if (allargs.matches(regex_cancel)) {

@@ -4,7 +4,6 @@ import org.bukkit.command.CommandSender;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,24 +17,6 @@ public class InputException extends IOException {
         this.sendToLogger = false;
         this.messages.add(message);
         this.senders.add(sender);
-    }
-
-    public InputException (Logger logger, String message) {
-        this.sendToLogger = true;
-        this.logger = logger;
-        this.messages.add(message);
-    }
-
-    public InputException (Collection<CommandSender> senders, Collection<String> messages) {
-        this.sendToLogger = false;
-        if(senders.size() != senders.size()) {
-            throw new IllegalArgumentException("The size of CommandSenders and Strings needs to be the same by creating an InputException!");
-        }
-        this.senders.addAll(senders);
-        this.messages.addAll(messages);
-    }
-
-    public InputException() {
     }
 
     public void sendMessages(String prefix){

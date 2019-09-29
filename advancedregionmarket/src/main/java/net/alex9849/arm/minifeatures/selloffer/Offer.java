@@ -2,17 +2,14 @@ package net.alex9849.arm.minifeatures.selloffer;
 
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
-import net.alex9849.arm.exceptions.DublicateException;
-import net.alex9849.arm.exceptions.InputException;
+import net.alex9849.arm.exceptions.*;
 import net.alex9849.arm.limitgroups.LimitGroup;
 import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.Region;
 import net.milkbowl.vault.economy.Economy;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Offer {
@@ -34,35 +31,27 @@ public class Offer {
         this.offerListener = new OfferListener(seller, buyer, this);
     }
 
-    public void accept() throws InputException {
+    public void accept() throws RegionNotOwnException, NoBuyPermissionException, OutOfLimitExeption, NotEnoughMoneyException {
         if(!region.isSold() || !region.getRegion().hasOwner(seller.getUniqueId())) {
             this.reject();
-            List<CommandSender> senders = new ArrayList<>(Arrays.asList(buyer, seller));
-            List<String> messages = new ArrayList<>(Arrays.asList(this.getConvertedMessage(Messages.SELLER_DOES_NOT_LONGER_OWN_REGION), this.getConvertedMessage(Messages.OFFER_HAS_BEEN_REJECTED)));
-            throw new InputException(senders, messages);
+            throw new RegionNotOwnException(this.getConvertedMessage(Messages.SELLER_DOES_NOT_LONGER_OWN_REGION));
         }
 
         if(!RegionKind.hasPermission(buyer, this.region.getRegionKind())) {
             this.reject();
-            List<CommandSender> senders = new ArrayList<>(Arrays.asList(buyer, seller));
-            List<String> messages = new ArrayList<>(Arrays.asList(Messages.NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION, this.getConvertedMessage(Messages.OFFER_HAS_BEEN_REJECTED)));
-            throw new InputException(senders, messages);
+            throw new NoBuyPermissionException(this.getConvertedMessage(Messages.NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION));
         }
 
         if(!LimitGroup.isCanBuyAnother(buyer, region)) {
             this.reject();
-            List<CommandSender> senders = new ArrayList<>(Arrays.asList(buyer, seller));
-            List<String> messages = new ArrayList<>(Arrays.asList(LimitGroup.getRegionBuyOutOfLimitMessage(buyer, region.getRegionKind()), this.getConvertedMessage(Messages.OFFER_HAS_BEEN_REJECTED)));
-            throw new InputException(senders, messages);
+            throw new OutOfLimitExeption(LimitGroup.getRegionBuyOutOfLimitMessage(buyer, region.getRegionKind()));
         }
 
         Economy econ = AdvancedRegionMarket.getInstance().getEcon();
 
         if(econ.getBalance(buyer) < price) {
             this.reject();
-            List<CommandSender> senders = new ArrayList<>(Arrays.asList(buyer, seller));
-            List<String> messages = new ArrayList<>(Arrays.asList(Messages.NOT_ENOUGHT_MONEY, this.getConvertedMessage(Messages.OFFER_HAS_BEEN_REJECTED)));
-            throw new InputException(senders, messages);
+            throw new NotEnoughMoneyException(this.getConvertedMessage(Messages.NOT_ENOUGHT_MONEY));
         }
         econ.depositPlayer(seller, price);
         econ.withdrawPlayer(buyer, price);
@@ -75,6 +64,9 @@ public class Offer {
 
     public void reject() {
         this.unregister();
+        if(this.seller.isOnline()) {
+            this.seller.sendMessage(Messages.PREFIX + this.getConvertedMessage(Messages.OFFER_HAS_BEEN_REJECTED));
+        }
     }
 
     private void unregister() {
@@ -99,11 +91,11 @@ public class Offer {
     }
 
     public static Offer createOffer(Region region, double price, Player seller, Player buyer) throws DublicateException, IllegalArgumentException {
-        for(int i = 0; i < offerList.size(); i++) {
-            if(offerList.get(i).getBuyer().getUniqueId() == buyer.getUniqueId()) {
+        for(Offer offer : offerList) {
+            if(offer.getBuyer().getUniqueId() == buyer.getUniqueId()) {
                 throw new DublicateException(Messages.BUYER_ALREADY_GOT_AN_OFFER);
             }
-            if(offerList.get(i).getSeller().getUniqueId() == seller.getUniqueId()) {
+            if(offer.getSeller().getUniqueId() == seller.getUniqueId()) {
                 throw new DublicateException(Messages.SELLER_ALREADY_CREATED_AN_OFFER);
             }
         }
@@ -123,7 +115,7 @@ public class Offer {
         return offer;
     }
 
-    public static Offer acceptOffer(Player buyer) throws InputException {
+    public static Offer acceptOffer(Player buyer) throws InputException, RegionNotOwnException, NoBuyPermissionException, OutOfLimitExeption, NotEnoughMoneyException {
         for(Offer offer : offerList) {
             if(offer.getBuyer().getUniqueId() == buyer.getUniqueId()) {
                 offer.accept();

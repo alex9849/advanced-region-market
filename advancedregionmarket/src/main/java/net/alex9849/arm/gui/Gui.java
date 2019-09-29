@@ -318,7 +318,8 @@ public class Gui implements Listener {
                     try {
                         region.buy(player);
                         Gui.openRegionOwnerManager(player, region);
-                    } catch (NoPermissionException | OutOfLimitExeption | NotEnoughMoneyException | AlreadySoldException e) {
+                    } catch (NoPermissionException | OutOfLimitExeption | NotEnoughMoneyException |
+                            AlreadySoldException | MaxRentTimeExceededException e) {
                         if(e.hasMessage()) player.sendMessage(Messages.PREFIX + e.getMessage());
                     }
                 }

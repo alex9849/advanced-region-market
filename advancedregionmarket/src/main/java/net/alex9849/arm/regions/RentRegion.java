@@ -63,7 +63,7 @@ public class RentRegion extends CountdownRegion {
     }
 
     @Override
-    public void buy(Player player) throws NoPermissionException, AlreadySoldException, OutOfLimitExeption, NotEnoughMoneyException {
+    public void buy(Player player) throws NoPermissionException, AlreadySoldException, OutOfLimitExeption, NotEnoughMoneyException, MaxRentTimeExceededException {
 
         if(!Permission.hasAnyBuyPermission(player)) {
             throw new NoPermissionException(Messages.NO_PERMISSION);
@@ -92,22 +92,17 @@ public class RentRegion extends CountdownRegion {
         }
 
         if(this.isSold()) {
-            try {
-                this.extendNoteMaxRentTime();
-                if(AdvancedRegionMarket.getInstance().getPluginSettings().isTeleportAfterRentRegionExtend()){
-                    try {
-                        Teleporter.teleport(player, this, "", AdvancedRegionMarket.getInstance().getConfig().getBoolean("Other.TeleportAfterRegionBoughtCountdown"));
-                    } catch (NoSaveLocationException e) {
-                        if(e.hasMessage()) {
-                            player.sendMessage(Messages.PREFIX + e.getMessage());
-                        }
+            this.extendNoteMaxRentTime();
+            if(AdvancedRegionMarket.getInstance().getPluginSettings().isTeleportAfterRentRegionExtend()){
+                try {
+                    Teleporter.teleport(player, this, "", AdvancedRegionMarket.getInstance().getConfig().getBoolean("Other.TeleportAfterRegionBoughtCountdown"));
+                } catch (NoSaveLocationException e) {
+                    if(e.hasMessage()) {
+                        player.sendMessage(Messages.PREFIX + e.getMessage());
                     }
                 }
-            } catch (MaxRentTimeExceededException e) {
-                if(e.hasMessage()) {
-                    player.sendMessage(Messages.PREFIX + e.getMessage());
-                }
             }
+
             player.sendMessage(Messages.PREFIX + this.getConvertedMessage(Messages.RENT_EXTEND_MESSAGE));
         } else {
             this.setSold(player);

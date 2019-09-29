@@ -55,7 +55,8 @@ public class BuyCommand implements BasicArmCommand {
             if(!region.isSold()) {
                 try {
                     region.buy(player);
-                } catch (NoPermissionException | OutOfLimitExeption | NotEnoughMoneyException | AlreadySoldException e) {
+                } catch (NoPermissionException | OutOfLimitExeption | NotEnoughMoneyException |
+                        AlreadySoldException | MaxRentTimeExceededException e) {
                     if(e.hasMessage()) player.sendMessage(Messages.PREFIX + e.getMessage());
                 }
             } else {

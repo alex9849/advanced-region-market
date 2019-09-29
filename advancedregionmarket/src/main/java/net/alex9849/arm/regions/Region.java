@@ -494,7 +494,7 @@ public abstract class Region implements Saveable {
         this.updateSigns();
     }
     protected abstract void updateSignText(SignData signData);
-    public abstract void buy(Player player) throws InputException, NoPermissionException, OutOfLimitExeption, NotEnoughMoneyException, AlreadySoldException;
+    public abstract void buy(Player player) throws NoPermissionException, OutOfLimitExeption, NotEnoughMoneyException, AlreadySoldException, MaxRentTimeExceededException;
     public abstract double getPaybackMoney();
 
     public void userSell(Player player){

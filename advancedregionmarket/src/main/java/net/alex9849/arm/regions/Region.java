@@ -806,6 +806,9 @@ public abstract class Region implements Saveable {
 
     public void setSaved() {
         this.needsSave = false;
+        for(Region subregion : this.subregions) {
+            subregion.setSaved();
+        }
     }
 
     public boolean needsSave() {

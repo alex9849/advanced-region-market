@@ -1447,6 +1447,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
                     }
                     boolean autoreset = regSection.getBoolean("autoreset");
                     regSection.set("inactivityReset", autoreset);
+                    regSection.set("lastLogin", new GregorianCalendar().getTimeInMillis());
                     if(regSection.getString("regiontype").equalsIgnoreCase("rentregion")) {
                         long extendTime = regSection.getLong("rentExtendPerClick");
                         regSection.set("extendTime", extendTime);
@@ -1454,16 +1455,17 @@ public class AdvancedRegionMarket extends JavaPlugin {
                     }
                     ConfigurationSection subSection = regSection.getConfigurationSection("subregions");
                     if(subSection != null) {
-                        ArrayList<String> subregions = new ArrayList<String>(regSection.getKeys(false));
+                        ArrayList<String> subregions = new ArrayList<String>(subSection.getKeys(false));
                         for(String subregionID : subregions) {
                             ConfigurationSection subregionSection = subSection.getConfigurationSection(subregionID);
                             if(subregionSection == null) {
                                 continue;
                             }
-                            if(regSection.getString("regiontype").equalsIgnoreCase("rentregion")) {
-                                long extendTime = regSection.getLong("rentExtendPerClick");
-                                regSection.set("extendTime", extendTime);
-                                regSection.set("rentExtendPerClick", null);
+                            subregionSection.set("lastLogin", new GregorianCalendar().getTimeInMillis());
+                            if(subregionSection.getString("regiontype").equalsIgnoreCase("rentregion")) {
+                                long extendTime = subregionSection.getLong("rentExtendPerClick");
+                                subregionSection.set("extendTime", extendTime);
+                                subregionSection.set("rentExtendPerClick", null);
                             }
                         }
                     }
@@ -1487,15 +1489,152 @@ public class AdvancedRegionMarket extends JavaPlugin {
                     for(int i = 0; i < msgList.size(); i++) {
                         msgList.set(i, msgList.get(i).replace("%extendperclick%", "%extendtime%"));
                         msgList.set(i, msgList.get(i).replace("%extend%", "%extendtime%"));
+                        msgList.set(i, msgList.get(i).replace("%isautoreset%", "%isinactivityreset%"));
                     }
                 } else if (msgObject instanceof String) {
                     String msgString = (String) msgObject;
                     msgString = msgString.replace("%extendperclick%", "%extendtime%");
                     msgString = msgString.replace("%extend%", "%extendtime%");
+                    msgString = msgString.replace("%isautoreset%", "%isinactivityreset%");
                     messagesSection.set(key, msgString);
                 }
             }
         }
+        messagesConf.set("Messages.RegionInfoSellregionAdmin", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
+                "&9ID: &e%regionid% &7(Type: &r%selltype%&7)",
+                "&9Sold: &e%issold%",
+                "&9Price: &e%price%",
+                "&9Owner: &e%owner%",
+                "&9Members: &e%members%",
+                "&9Regionkind: &e%regionkinddisplay% &9FlagGroup: &e%flaggroup%",
+                "&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%",
+                "&9UserResettable: &e%isuserresettable% &9InactivityResetEnabled: &e%isinactivityreset%",
+                "&9Owners last login: &e%lastownerlogin%",
+                "&9InactivityReset in: &e%inactivityresetin%",
+                "&9TakeOver possible in: &e%takeoverin%",
+                "&9DoBlockReset: &e%isdoblockreset% &9Autoprice: &e%autoprice%",
+                "&9Allowed Subregions: &e%subregionlimit%",
+                "&9Subregions: &e%subregions%")));
+        messagesConf.set("Messages.RegionInfoRentregionAdmin", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
+                "&9ID: &e%regionid% &7(Type: &r%selltype%&7)",
+                "&9Sold: &e%issold%",
+                "&9Price: &e%price% &7per &e%extendtime% &7max.: &e%maxrenttime%",
+                "&9Remaining time: &e%remaining%",
+                "&9Owner: &e%owner%",
+                "&9Members: &e%members%",
+                "&9Regionkind: &e%regionkinddisplay% &9FlagGroup: &e%flaggroup%",
+                "&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%",
+                "&9UserResettable: &e%isuserresettable% &9InactivityResetEnabled: &e%isinactivityreset%",
+                "&9Owners last login: &e%lastownerlogin%",
+                "&9InactivityReset in: &e%inactivityresetin%",
+                "&9TakeOver possible in: &e%takeoverin%",
+                "&9DoBlockReset: &e%isdoblockreset% &9Autoprice: &e%autoprice%",
+                "&9Allowed Subregions: &e%subregionlimit%",
+                "&9Subregions: &e%subregions%")));
+        messagesConf.set("Messages.RegionInfoContractregionAdmin", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
+                "&9ID: &e%regionid% &7(Type: &r%selltype%&7)",
+                "&9Sold: &e%issold%",
+                "&9Price: &e%price% &7per &e%extendtime% &7(auto extend)",
+                "&9Next extend in: &e%remaining%",
+                "&9Owner: &e%owner%",
+                "&9Members: &e%members%",
+                "&9Regionkind: &e%regionkinddisplay% &9FlagGroup: &e%flaggroup%",
+                "&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%",
+                "&9UserResettable: &e%isuserresettable% &9InactivityResetEnabled: &e%isinactivityreset%",
+                "&9Owners last login: &e%lastownerlogin%",
+                "&9InactivityReset in: &e%inactivityresetin%",
+                "&9TakeOver possible in: &e%takeoverin%",
+                "&9DoBlockReset: &e%isdoblockreset% &9Autoprice: &e%autoprice%",
+                "&9Allowed Subregions: &e%subregionlimit%",
+                "&9Subregions: &e%subregions%")));
+        messagesConf.set("Messages.RegionInfoSellregionUser", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
+                "&9ID: &e%regionid% &7(Type: &r%selltype%&7)",
+                "&9Sold: &e%issold%",
+                "&9Price: &e%price%",
+                "&9Owner: &e%owner%",
+                "&9Members: &e%members%",
+                "&9Regionkind: &e%regionkinddisplay% &9FlagGroup: &e%flaggroup%",
+                "&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%",
+                "&9UserResettable: &e%isuserresettable% &9InactivityResetEnabled: &e%isinactivityreset%",
+                "&9Owners last login: &e%lastownerlogin%",
+                "&9InactivityReset in: &e%inactivityresetin%",
+                "&9TakeOver possible in: &e%takeoverin%",
+                "&9DoBlockReset: &e%isdoblockreset% &9Autoprice: &e%autoprice%",
+                "&9Allowed Subregions: &e%subregionlimit%",
+                "&9Subregions: &e%subregions%")));
+        messagesConf.set("Messages.RegionInfoRentregionUser", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
+                "&9ID: &e%regionid% &7(Type: &r%selltype%&7)",
+                "&9Sold: &e%issold%",
+                "&9Price: &e%price% &7per &e%extendtime% &7max.: &e%maxrenttime%",
+                "&9Remaining time: &e%remaining%",
+                "&9Owner: &e%owner%",
+                "&9Members: &e%members%",
+                "&9Regionkind: &e%regionkinddisplay% &9FlagGroup: &e%flaggroup%",
+                "&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%",
+                "&9UserResettable: &e%isuserresettable% &9InactivityResetEnabled: &e%isinactivityreset%",
+                "&9Owners last login: &e%lastownerlogin%",
+                "&9InactivityReset in: &e%inactivityresetin%",
+                "&9TakeOver possible in: &e%takeoverin%",
+                "&9DoBlockReset: &e%isdoblockreset% &9Autoprice: &e%autoprice%",
+                "&9Allowed Subregions: &e%subregionlimit%",
+                "&9Subregions: &e%subregions%")));
+        messagesConf.set("Messages.RegionInfoContractregionUser", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
+                "&9ID: &e%regionid% &7(Type: &r%selltype%&7)",
+                "&9Sold: &e%issold%",
+                "&9Price: &e%price% &7per &e%extendtime% &7(auto extend)",
+                "&9Next extend in: &e%remaining%",
+                "&9Owner: &e%owner%",
+                "&9Members: &e%members%",
+                "&9Regionkind: &e%regionkinddisplay% &9FlagGroup: &e%flaggroup%",
+                "&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%",
+                "&9UserResettable: &e%isuserresettable% &9InactivityResetEnabled: &e%isinactivityreset%",
+                "&9Owners last login: &e%lastownerlogin%",
+                "&9InactivityReset in: &e%inactivityresetin%",
+                "&9TakeOver possible in: &e%takeoverin%",
+                "&9DoBlockReset: &e%isdoblockreset% &9Autoprice: &e%autoprice%",
+                "&9Allowed Subregions: &e%subregionlimit%",
+                "&9Subregions: &e%subregions%")));
+        messagesConf.set("Messages.RegionInfoSellregionSubregion", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
+                "&9ID: &e%regionid% &7(Type: &r%selltype%&7, Subregion)",
+                "&9Sold: &e%issold%",
+                "&9Price: &e%price%",
+                "&9Owner: &e%owner%",
+                "&9Members: &e%members%",
+                "&9Regionkind: &e%regionkinddisplay% &9FlagGroup: &e%flaggroup%",
+                "&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%",
+                "&9UserResettable: &e%isuserresettable% &9InactivityResetEnabled: &e%isinactivityreset%",
+                "&9Owners last login: &e%lastownerlogin%",
+                "&9InactivityReset in: &e%inactivityresetin%",
+                "&9TakeOver possible in: &e%takeoverin%",
+                "&9DoBlockReset: &e%isdoblockreset% &9Autoprice: &e%autoprice%")));
+        messagesConf.set("Messages.RegionInfoRentregionSubregion", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
+                "&9ID: &e%regionid% &7(Type: &r%selltype%&7, Subregion)",
+                "&9Sold: &e%issold%",
+                "&9Price: &e%price% &7per &e%extendtime% &7max.: &e%maxrenttime%",
+                "&9Remaining time: &e%remaining%",
+                "&9Owner: &e%owner%",
+                "&9Members: &e%members%",
+                "&9Regionkind: &e%regionkinddisplay% &9FlagGroup: &e%flaggroup%",
+                "&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%",
+                "&9UserResettable: &e%isuserresettable% &9InactivityResetEnabled: &e%isinactivityreset%",
+                "&9Owners last login: &e%lastownerlogin%",
+                "&9InactivityReset in: &e%inactivityresetin%",
+                "&9TakeOver possible in: &e%takeoverin%",
+                "&9DoBlockReset: &e%isdoblockreset% &9Autoprice: &e%autoprice%")));
+        messagesConf.set("Messages.RegionInfoContractregionSubregion", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
+                "&9ID: &e%regionid% &7(Type: &r%selltype%&7, Subregion)",
+                "&9Sold: &e%issold%",
+                "&9Price: &e%price% &7per &e%extendtime% &7(auto extend)",
+                "&9Next extend in: &e%remaining%",
+                "&9Owner: &e%owner%",
+                "&9Members: &e%members%",
+                "&9Regionkind: &e%regionkinddisplay% &9FlagGroup: &e%flaggroup%",
+                "&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%",
+                "&9UserResettable: &e%isuserresettable% &9InactivityResetEnabled: &e%isinactivityreset%",
+                "&9Owners last login: &e%lastownerlogin%",
+                "&9InactivityReset in: &e%inactivityresetin%",
+                "&9TakeOver possible in: &e%takeoverin%",
+                "&9DoBlockReset: &e%isdoblockreset% &9Autoprice: &e%autoprice%")));
         messagesConf.save(messagesConfDic);
 
 

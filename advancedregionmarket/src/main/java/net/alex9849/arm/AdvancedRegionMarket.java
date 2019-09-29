@@ -1635,6 +1635,18 @@ public class AdvancedRegionMarket extends JavaPlugin {
                 "&9InactivityReset in: &e%inactivityresetin%",
                 "&9TakeOver possible in: &e%takeoverin%",
                 "&9DoBlockReset: &e%isdoblockreset% &9Autoprice: &e%autoprice%")));
+        messagesConf.set("Messages.TakeOverItemLore", new ArrayList<>(Arrays.asList("&aYou are a member of this region.",
+                "&aThe owner of it hasn''t been",
+                "&aonline for a long time. You",
+                "&acan transfer the owner rights to your",
+                "&aaccount for free. The actual owner",
+                "&aof it will become a member of the region.",
+                "&cIf the region does not get transferred",
+                "&cor the owner does not come online",
+                "&cwithin &7%inactivityresetin% &cthe",
+                "&cregion will be resetted and everybody on it",
+                "&cwill lose their rights.",
+                "&cAfterwards it will go back for sale!")));
         messagesConf.save(messagesConfDic);
 
 

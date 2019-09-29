@@ -6,8 +6,7 @@ import net.alex9849.arm.Permission;
 import net.alex9849.arm.entitylimit.EntityLimit;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
 import net.alex9849.arm.events.BuyRegionEvent;
-import net.alex9849.arm.exceptions.InputException;
-import net.alex9849.arm.exceptions.NoSaveLocationException;
+import net.alex9849.arm.exceptions.*;
 import net.alex9849.arm.flaggroups.FlagGroup;
 import net.alex9849.arm.limitgroups.LimitGroup;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
@@ -132,28 +131,28 @@ public class ContractRegion extends CountdownRegion {
     }
 
     @Override
-    public void buy(Player player) throws InputException {
+    public void buy(Player player) throws NoPermissionException, AlreadySoldException, OutOfLimitExeption, NotEnoughMoneyException {
 
         if(!Permission.hasAnyBuyPermission(player)) {
-            throw new InputException(player, Messages.NO_PERMISSION);
+            throw new NoPermissionException(Messages.NO_PERMISSION);
         }
         if(this.isSold()) {
             if(this.getRegion().hasOwner(player.getUniqueId()) || player.hasPermission(Permission.ADMIN_TERMINATE_CONTRACT)) {
                 this.changeTerminated(player);
                 return;
             } else {
-                throw new InputException(player, Messages.REGION_ALREADY_SOLD);
+                throw new AlreadySoldException(Messages.REGION_ALREADY_SOLD);
             }
         }
         if(!RegionKind.hasPermission(player, this.getRegionKind())){
-            throw new InputException(player, this.getConvertedMessage(Messages.NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION));
+            throw new NoPermissionException(this.getConvertedMessage(Messages.NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION));
         }
 
         if(!LimitGroup.isCanBuyAnother(player, this)) {
-            throw new InputException(player, LimitGroup.getRegionBuyOutOfLimitMessage(player, this.getRegionKind()));
+            throw new OutOfLimitExeption(LimitGroup.getRegionBuyOutOfLimitMessage(player, this.getRegionKind()));
         }
         if(AdvancedRegionMarket.getInstance().getEcon().getBalance(player) < this.getPrice()) {
-            throw new InputException(player, Messages.NOT_ENOUGHT_MONEY);
+            throw new NotEnoughMoneyException(this.getConvertedMessage(Messages.NOT_ENOUGHT_MONEY));
         }
         BuyRegionEvent buyRegionEvent = new BuyRegionEvent(this, player);
         Bukkit.getServer().getPluginManager().callEvent(buyRegionEvent);
@@ -169,17 +168,19 @@ public class ContractRegion extends CountdownRegion {
             try {
                 Teleporter.teleport(player, this, "", AdvancedRegionMarket.getInstance().getConfig().getBoolean("Other.TeleportAfterRegionBoughtCountdown"));
             } catch (NoSaveLocationException e) {
-                player.sendMessage(Messages.PREFIX + this.getConvertedMessage(Messages.TELEPORTER_NO_SAVE_LOCATION_FOUND));
+                if(e.hasMessage()) {
+                    player.sendMessage(Messages.PREFIX + e.getMessage());
+                }
             }
         }
         player.sendMessage(Messages.PREFIX + Messages.REGION_BUYMESSAGE);
 
     }
 
-    public void changeTerminated(Player player) throws InputException {
+    public void changeTerminated(Player player) throws OutOfLimitExeption {
         if(this.isTerminated()) {
             if(!LimitGroup.isInLimit(player, this)) {
-                throw new InputException(player, LimitGroup.getRegionBuyOutOfLimitMessage(player, this.getRegionKind()));
+                throw new OutOfLimitExeption(LimitGroup.getRegionBuyOutOfLimitMessage(player, this.getRegionKind()));
             } else {
                 this.setTerminated(false, player);
             }

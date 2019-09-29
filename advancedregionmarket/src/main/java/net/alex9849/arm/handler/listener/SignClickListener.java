@@ -2,7 +2,7 @@ package net.alex9849.arm.handler.listener;
 
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
-import net.alex9849.arm.exceptions.InputException;
+import net.alex9849.arm.exceptions.*;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.util.MaterialFinder;
 import org.bukkit.block.Sign;
@@ -61,7 +61,12 @@ public class SignClickListener implements Listener {
             return;
         }
         if(cmd.equalsIgnoreCase("buyaction")) {
-            region.buy(player);
+            try {
+                region.buy(player);
+            } catch (NoPermissionException | OutOfLimitExeption | NotEnoughMoneyException | AlreadySoldException e) {
+                if(e.hasMessage()) player.sendMessage(Messages.PREFIX + e.getMessage());
+            }
+
             return;
         } else if (cmd.equalsIgnoreCase("")) {
             return;

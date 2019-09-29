@@ -31,7 +31,7 @@ public class Offer {
         this.offerListener = new OfferListener(seller, buyer, this);
     }
 
-    public void accept() throws RegionNotOwnException, NoBuyPermissionException, OutOfLimitExeption, NotEnoughMoneyException {
+    public void accept() throws RegionNotOwnException, NoPermissionException, OutOfLimitExeption, NotEnoughMoneyException {
         if(!region.isSold() || !region.getRegion().hasOwner(seller.getUniqueId())) {
             this.reject();
             throw new RegionNotOwnException(this.getConvertedMessage(Messages.SELLER_DOES_NOT_LONGER_OWN_REGION));
@@ -39,7 +39,7 @@ public class Offer {
 
         if(!RegionKind.hasPermission(buyer, this.region.getRegionKind())) {
             this.reject();
-            throw new NoBuyPermissionException(this.getConvertedMessage(Messages.NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION));
+            throw new NoPermissionException(this.getConvertedMessage(Messages.NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION));
         }
 
         if(!LimitGroup.isCanBuyAnother(buyer, region)) {
@@ -115,7 +115,7 @@ public class Offer {
         return offer;
     }
 
-    public static Offer acceptOffer(Player buyer) throws InputException, RegionNotOwnException, NoBuyPermissionException, OutOfLimitExeption, NotEnoughMoneyException {
+    public static Offer acceptOffer(Player buyer) throws InputException, RegionNotOwnException, NoPermissionException, OutOfLimitExeption, NotEnoughMoneyException {
         for(Offer offer : offerList) {
             if(offer.getBuyer().getUniqueId() == buyer.getUniqueId()) {
                 offer.accept();

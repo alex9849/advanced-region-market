@@ -5,9 +5,7 @@ import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.entitylimit.EntityLimit;
-import net.alex9849.arm.exceptions.InputException;
-import net.alex9849.arm.exceptions.NoSaveLocationException;
-import net.alex9849.arm.exceptions.SchematicException;
+import net.alex9849.arm.exceptions.*;
 import net.alex9849.arm.flaggroups.FlagGroup;
 import net.alex9849.arm.flaggroups.FlagSettings;
 import net.alex9849.arm.gui.chathandler.GuiChatInputListener;
@@ -317,8 +315,12 @@ public class Gui implements Listener {
             ClickItem extendicon = new ClickItem(new ItemStack(Gui.EXTEND_ITEM), Messages.GUI_EXTEND_BUTTON, extendmessage).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
-                    region.buy(player);
-                    Gui.openRegionOwnerManager(player, region);
+                    try {
+                        region.buy(player);
+                        Gui.openRegionOwnerManager(player, region);
+                    } catch (NoPermissionException | OutOfLimitExeption | NotEnoughMoneyException | AlreadySoldException e) {
+                        if(e.hasMessage()) player.sendMessage(Messages.PREFIX + e.getMessage());
+                    }
                 }
             });
             inv.addIcon(extendicon, getPosition(actitem, itemcounter));
@@ -334,8 +336,12 @@ public class Gui implements Listener {
             ClickItem extendicon = new ClickItem(new ItemStack(Gui.CONTRACT_ITEM), Messages.GUI_CONTRACT_ITEM, extendmessage).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
-                    cregion.changeTerminated(player);
-                    Gui.openRegionOwnerManager(player, region);
+                    try {
+                        cregion.changeTerminated(player);
+                        Gui.openRegionOwnerManager(player, region);
+                    } catch (OutOfLimitExeption e) {
+                        if(e.hasMessage()) player.sendMessage(Messages.PREFIX + e.getMessage());
+                    }
                 }
             });
             inv.addIcon(extendicon, getPosition(actitem, itemcounter));

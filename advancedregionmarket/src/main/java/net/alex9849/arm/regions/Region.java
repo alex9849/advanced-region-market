@@ -7,9 +7,7 @@ import net.alex9849.arm.entitylimit.EntityLimitGroup;
 import net.alex9849.arm.events.ResetBlocksEvent;
 import net.alex9849.arm.events.UnsellRegionEvent;
 import net.alex9849.arm.events.UpdateRegionEvent;
-import net.alex9849.arm.exceptions.InputException;
-import net.alex9849.arm.exceptions.NoSaveLocationException;
-import net.alex9849.arm.exceptions.SchematicException;
+import net.alex9849.arm.exceptions.*;
 import net.alex9849.arm.flaggroups.FlagGroup;
 import net.alex9849.arm.inactivityexpiration.InactivityExpirationGroup;
 import net.alex9849.arm.minifeatures.ParticleBorder;
@@ -496,7 +494,7 @@ public abstract class Region implements Saveable {
         this.updateSigns();
     }
     protected abstract void updateSignText(SignData signData);
-    public abstract void buy(Player player) throws InputException;
+    public abstract void buy(Player player) throws InputException, NoPermissionException, OutOfLimitExeption, NotEnoughMoneyException, AlreadySoldException;
     public abstract double getPaybackMoney();
 
     public void userSell(Player player){

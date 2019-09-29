@@ -92,7 +92,7 @@ public class Messages {
     public static String RENTED_SIGN3 = "";
     public static String RENTED_SIGN4 = "";
     public static String RENT_EXTEND_MESSAGE = "";
-    public static String RENT_EXTEND_ERROR = "";
+    public static String RENT_EXTEND_MAX_RENT_TIME_EXCEEDED = "";
     public static String GUI_EXTEND_BUTTON = "";
     public static String COMPLETE = "";
     public static String REGION_BUY_OUT_OF_LIMIT = "";
@@ -461,7 +461,7 @@ public class Messages {
         RENTED_SIGN4 = config.getString("Messages.RentedSign4");
         REGION_ERROR_CAN_NOT_BUILD_HERE = config.getString("Messages.RegionErrorCanNotBuildHere");
         RENT_EXTEND_MESSAGE = config.getString("Messages.RentExtendMessage");
-        RENT_EXTEND_ERROR = config.getString("Messages.RentExtendError");
+        RENT_EXTEND_MAX_RENT_TIME_EXCEEDED = config.getString("Messages.RentExtendMaxRentTimeExceeded");
         REGION_INFO_HOTEL = config.getString("Messages.isHotel");
         GUI_EXTEND_BUTTON = config.getString("Messages.GUIExtendRentRegionButton");
         REGION_INFO_MAX_RENT_TIME = config.getString("Messages.RegionInfoMaxRentTime");
@@ -813,7 +813,7 @@ public class Messages {
         RENTED_SIGN3 = ChatColor.translateAlternateColorCodes('&', RENTED_SIGN3);
         RENTED_SIGN4 = ChatColor.translateAlternateColorCodes('&', RENTED_SIGN4);
         RENT_EXTEND_MESSAGE = ChatColor.translateAlternateColorCodes('&', RENT_EXTEND_MESSAGE);
-        RENT_EXTEND_ERROR = ChatColor.translateAlternateColorCodes('&', RENT_EXTEND_ERROR);
+        RENT_EXTEND_MAX_RENT_TIME_EXCEEDED = ChatColor.translateAlternateColorCodes('&', RENT_EXTEND_MAX_RENT_TIME_EXCEEDED);
         GUI_EXTEND_BUTTON = ChatColor.translateAlternateColorCodes('&', GUI_EXTEND_BUTTON);
         REGION_INFO_MAX_RENT_TIME = ChatColor.translateAlternateColorCodes('&', REGION_INFO_MAX_RENT_TIME);
         REGION_INFO_EXTEND_PER_CLICK = ChatColor.translateAlternateColorCodes('&', REGION_INFO_EXTEND_PER_CLICK);
@@ -1176,7 +1176,7 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionKindNotExist", "&4Kind does not exist!");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.PriceCanNotBeNegative", "&4Price can not be negative!");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.CommandOnlyIngame", "&4This command can only be executed ingame!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RentExtendError", "&4You can not rent this region for more than &6%maxrenttime% &4at once");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RentExtendMaxRentTimeExceeded", "&4You can not rent this region for more than &6%maxrenttime% &4at once");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionErrorCanNotBuildHere", "&4You only allowed to break blocks you placed here!");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.NoFreeRegionWithThisKind", "&7No free region with this type found :(");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionkindDoesNotExist", "&4The selected regionkind does not exist!");

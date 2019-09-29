@@ -89,7 +89,7 @@ public class OfferCommand implements BasicArmCommand {
                 Offer offer = Offer.acceptOffer(player);
                 player.sendMessage(Messages.PREFIX + offer.getConvertedMessage(Messages.OFFER_ACCEPTED_BUYER));
                 offer.getSeller().sendMessage(Messages.PREFIX + offer.getConvertedMessage(Messages.OFFER_ACCEPTED_SELLER));
-            } catch (RegionNotOwnException | NoBuyPermissionException | OutOfLimitExeption | NotEnoughMoneyException e) {
+            } catch (RegionNotOwnException | NoPermissionException | OutOfLimitExeption | NotEnoughMoneyException e) {
                 if(e.hasMessage()) player.sendMessage(Messages.PREFIX + e.getMessage());
             }
             return true;

@@ -47,7 +47,7 @@ public class Teleporter {
                 }
             }
 
-            throw new NoSaveLocationException(Messages.TELEPORTER_NO_SAVE_LOCATION_FOUND);
+            throw new NoSaveLocationException(region.getConvertedMessage(Messages.TELEPORTER_NO_SAVE_LOCATION_FOUND));
 
         } else {
             player.teleport(region.getTeleportLocation());

@@ -3,7 +3,7 @@ package net.alex9849.arm.commands;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
-import net.alex9849.arm.exceptions.InputException;
+import net.alex9849.arm.exceptions.*;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regions.Region;
 import org.bukkit.command.Command;
@@ -53,7 +53,11 @@ public class BuyCommand implements BasicArmCommand {
             }
 
             if(!region.isSold()) {
-                region.buy(player);
+                try {
+                    region.buy(player);
+                } catch (NoPermissionException | OutOfLimitExeption | NotEnoughMoneyException | AlreadySoldException e) {
+                    if(e.hasMessage()) player.sendMessage(Messages.PREFIX + e.getMessage());
+                }
             } else {
                 throw new InputException(sender, Messages.REGION_ALREADY_SOLD);
             }

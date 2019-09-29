@@ -6,8 +6,7 @@ import net.alex9849.arm.Permission;
 import net.alex9849.arm.entitylimit.EntityLimit;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
 import net.alex9849.arm.events.BuyRegionEvent;
-import net.alex9849.arm.exceptions.InputException;
-import net.alex9849.arm.exceptions.NoSaveLocationException;
+import net.alex9849.arm.exceptions.*;
 import net.alex9849.arm.flaggroups.FlagGroup;
 import net.alex9849.arm.limitgroups.LimitGroup;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
@@ -58,26 +57,24 @@ public class SellRegion extends Region {
     }
 
     @Override
-    public void buy(Player player) throws InputException {
+    public void buy(Player player) throws NoPermissionException, OutOfLimitExeption, NotEnoughMoneyException, AlreadySoldException {
 
         if(!Permission.hasAnyBuyPermission(player)) {
-            throw new InputException(player, Messages.NO_PERMISSION);
+            throw new NoPermissionException(this.getConvertedMessage(Messages.NO_PERMISSION));
         }
         if(this.isSold()) {
-            throw new InputException(player, Messages.REGION_ALREADY_SOLD);
+            throw new AlreadySoldException(this.getConvertedMessage(Messages.REGION_ALREADY_SOLD));
         }
-        if (this.getRegionKind() != RegionKind.DEFAULT){
-            if(!RegionKind.hasPermission(player, this.getRegionKind())){
-                throw new InputException(player, this.getConvertedMessage(Messages.NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION));
-            }
+        if(!RegionKind.hasPermission(player, this.getRegionKind())){
+            throw new NoPermissionException(this.getConvertedMessage(Messages.NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION));
         }
 
         if(!LimitGroup.isCanBuyAnother(player, this)){
-            throw new InputException(player, LimitGroup.getRegionBuyOutOfLimitMessage(player, this.getRegionKind()));
+            throw new OutOfLimitExeption(LimitGroup.getRegionBuyOutOfLimitMessage(player, this.getRegionKind()));
         }
 
         if(AdvancedRegionMarket.getInstance().getEcon().getBalance(player) < this.getPrice()) {
-            throw new InputException(player, Messages.NOT_ENOUGHT_MONEY);
+            throw new NotEnoughMoneyException(this.getConvertedMessage(Messages.NOT_ENOUGHT_MONEY));
         }
         BuyRegionEvent buyRegionEvent = new BuyRegionEvent(this, player);
         Bukkit.getServer().getPluginManager().callEvent(buyRegionEvent);

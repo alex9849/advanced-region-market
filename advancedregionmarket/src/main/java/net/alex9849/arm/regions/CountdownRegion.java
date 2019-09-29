@@ -249,6 +249,7 @@ public abstract class CountdownRegion extends Region {
         }
         this.payedTill += this.getExtendTime();
         this.queueSave();
+        this.updateSigns();
     }
 
     @Override

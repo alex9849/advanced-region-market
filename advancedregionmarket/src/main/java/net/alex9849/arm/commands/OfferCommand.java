@@ -69,9 +69,8 @@ public class OfferCommand implements BasicArmCommand {
             }
             double price = Double.parseDouble(args[3]);
 
-            Offer offer = null;
             try {
-                offer = Offer.createOffer(region, price, player, buyer);
+                Offer offer = Offer.createOffer(region, price, player, buyer);
                 player.sendMessage(Messages.PREFIX + Messages.OFFER_SENT);
                 buyer.sendMessage(Messages.PREFIX + offer.getConvertedMessage(Messages.INCOMING_OFFER));
             } catch (DublicateException | IllegalArgumentException e) {
@@ -110,7 +109,6 @@ public class OfferCommand implements BasicArmCommand {
         } else if (allargs.matches(regex_reject)) {
             if(player.hasPermission(Permission.MEMBER_OFFER_CREATE)) {
                 Offer offer = Offer.rejectOffer(player);
-                player.sendMessage(Messages.PREFIX + Messages.OFFER_REJECTED);
                 offer.getSeller().sendMessage(Messages.PREFIX + offer.getConvertedMessage(Messages.OFFER_HAS_BEEN_REJECTED));
                 return true;
             } else {

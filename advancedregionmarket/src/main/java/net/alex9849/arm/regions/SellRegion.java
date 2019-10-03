@@ -143,7 +143,7 @@ public class SellRegion extends Region {
     }
 
     public void setPrice(Price price) {
-        this.setPrice(price);
+        super.setPrice(price);
         this.updateSigns();
         this.queueSave();
     }

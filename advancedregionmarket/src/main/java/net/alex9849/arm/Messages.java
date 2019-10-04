@@ -367,12 +367,9 @@ public class Messages {
     public static List<String> GUI_OWNER_MEMBER_INFO_LORE = new ArrayList<>();
     public static List<String> GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM_LORE = new ArrayList<>();
 
-    public static String TAKEOVER_INFO_DEACTIVATED = "&4Deactivated";
-    public static String INACTIVITY_RESET_INFO_DEACTIVATED = "&4Deactivated";
-    public static String TAKEOVER_INFO_REGION_NOT_SOLD = "&4Region not sold!";
-    public static String INACTIVITY_RESET_INFO_REGION_NOT_SOLD = "&4Region not sold";
-    public static String TAKEOVER_INFO_POSSIBLE = "&2Now";
-    public static String INACTIVITY_RESET_INFO_POSSIBLE = "&2Now";
+    public static String INFO_DEACTIVATED = "&4Deactivated";
+    public static String INFO_REGION_NOT_SOLD = "&4Region not sold!";
+    public static String INFO_NOW = "&2Now";
     public static String COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG = "&4Could not find or load schematic for region %region% in world %world%! You can regenerate it with /arm updateschematic %region%";
 
 
@@ -730,12 +727,9 @@ public class Messages {
         FLAGGROUP_DOES_NOT_EXIST = config.getString("Messages.FlaggroupDoesNotExist");
         SUBREGION_FLAGGROUP_ONLY_FOR_SUBREGIONS = config.getString("Messages.SubregionFlaggroupOnlyForSubregions");
         REGION_INFO_FLAGGROUP = config.getString("Messages.RegionInfoFlaggroup");
-        TAKEOVER_INFO_DEACTIVATED = config.getString("Messages.TakeOverInfoDeactivated");
-        INACTIVITY_RESET_INFO_DEACTIVATED = config.getString("Messages.InactivityResetInfoDeactivated");
-        TAKEOVER_INFO_REGION_NOT_SOLD = config.getString("Messages.TakeOverInfoNotSold");
-        INACTIVITY_RESET_INFO_REGION_NOT_SOLD = config.getString("Messages.InactivityResetInfoNotSold");
-        TAKEOVER_INFO_POSSIBLE = config.getString("Messages.TakeOverInfoPossibleNow");
-        INACTIVITY_RESET_INFO_POSSIBLE = config.getString("Messages.InactivityResetInfoPossibleNow");
+        INFO_DEACTIVATED = config.getString("Messages.InfoDeactivated");
+        INFO_REGION_NOT_SOLD = config.getString("Messages.InfoNotSold");
+        INFO_NOW = config.getString("Messages.InfoNow");
         COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG = config.getString("Messages.CouldNotFindOrLoadSchematicLog");
 
         Messages.translateColorCodes();
@@ -1055,13 +1049,9 @@ public class Messages {
         FLAGGROUP_DOES_NOT_EXIST = ChatColor.translateAlternateColorCodes('&', FLAGGROUP_DOES_NOT_EXIST);
         SUBREGION_FLAGGROUP_ONLY_FOR_SUBREGIONS = ChatColor.translateAlternateColorCodes('&', SUBREGION_FLAGGROUP_ONLY_FOR_SUBREGIONS);
         REGION_INFO_FLAGGROUP = ChatColor.translateAlternateColorCodes('&', REGION_INFO_FLAGGROUP);
-
-        TAKEOVER_INFO_DEACTIVATED = ChatColor.translateAlternateColorCodes('&', TAKEOVER_INFO_DEACTIVATED);
-        INACTIVITY_RESET_INFO_DEACTIVATED = ChatColor.translateAlternateColorCodes('&', INACTIVITY_RESET_INFO_DEACTIVATED);
-        TAKEOVER_INFO_REGION_NOT_SOLD = ChatColor.translateAlternateColorCodes('&', TAKEOVER_INFO_REGION_NOT_SOLD);
-        INACTIVITY_RESET_INFO_REGION_NOT_SOLD = ChatColor.translateAlternateColorCodes('&', INACTIVITY_RESET_INFO_REGION_NOT_SOLD);
-        TAKEOVER_INFO_POSSIBLE = ChatColor.translateAlternateColorCodes('&', TAKEOVER_INFO_POSSIBLE);
-        INACTIVITY_RESET_INFO_POSSIBLE = ChatColor.translateAlternateColorCodes('&', INACTIVITY_RESET_INFO_POSSIBLE);
+        INFO_DEACTIVATED = ChatColor.translateAlternateColorCodes('&', INFO_DEACTIVATED);
+        INFO_REGION_NOT_SOLD = ChatColor.translateAlternateColorCodes('&', INFO_REGION_NOT_SOLD);
+        INFO_NOW = ChatColor.translateAlternateColorCodes('&', INFO_NOW);
         COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG = ChatColor.translateAlternateColorCodes('&', COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG);
 
         for(int i = 0; i < REGION_INFO_SELLREGION.size(); i++){
@@ -1546,13 +1536,9 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.FlaggroupDoesNotExist", "&4Flaggroup does not exist!");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.SubregionFlaggroupOnlyForSubregions", "&4Subregion flaggroup only for subregions");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionInfoFlaggroup", "&6FlagGroup: ");
-
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.TakeOverInfoDeactivated", "&4Deactivated");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.InactivityResetInfoDeactivated", "&4Deactivated");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.TakeOverInfoNotSold", "&4Region not sold!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.InactivityResetInfoNotSold", "&4Region not sold!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.TakeOverInfoPossibleNow", "&2Now");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.InactivityResetInfoPossibleNow", "&2Now");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.InfoDeactivated", "&4Deactivated");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.InfoNotSold", "&4Region not sold!");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.InfoNow", "&2Now");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.CouldNotFindOrLoadSchematicLog", "&4Could not find or load schematic for region %region% in world %world%! You can regenerate it with /arm updateschematic %region%");
 
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoSellregionAdmin", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",

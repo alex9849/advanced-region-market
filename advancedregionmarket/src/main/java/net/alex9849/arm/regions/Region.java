@@ -750,10 +750,10 @@ public abstract class Region implements Saveable {
         }
         if(message.contains("%takeoverin%")) {
             if(!this.isInactivityResetEnabled()) {
-                message = message.replace("%takeoverin%", Messages.TAKEOVER_INFO_DEACTIVATED);
+                message = message.replace("%takeoverin%", Messages.INFO_DEACTIVATED);
             }
             if(!this.isSold()) {
-                message = message.replace("%takeoverin%", Messages.TAKEOVER_INFO_REGION_NOT_SOLD);
+                message = message.replace("%takeoverin%", Messages.INFO_REGION_NOT_SOLD);
             }
             List<UUID> ownerslist = this.getRegion().getOwners();
             OfflinePlayer oPlayer = null;
@@ -762,19 +762,19 @@ public abstract class Region implements Saveable {
             }
             InactivityExpirationGroup ieGroup = InactivityExpirationGroup.getBestTakeOverAfterMs(oPlayer, this.getRegionworld());
             if(ieGroup.isTakeOverDisabled()) {
-                message = message.replace("%takeoverin%", Messages.TAKEOVER_INFO_DEACTIVATED);
+                message = message.replace("%takeoverin%", Messages.INFO_DEACTIVATED);
             } else {
                 message = message.replace("%takeoverin%",
                         CountdownRegion.timeInMsToRemainingTimeString(ieGroup.getTakeOverAfterMs() + this.getLastLogin(), false,
-                                Messages.TAKEOVER_INFO_POSSIBLE));
+                                Messages.INFO_NOW));
             }
         }
         if(message.contains("%inactivityresetin%")) {
             if(!this.isInactivityResetEnabled()) {
-                message = message.replace("%inactivityresetin%", Messages.INACTIVITY_RESET_INFO_DEACTIVATED);
+                message = message.replace("%inactivityresetin%", Messages.INFO_DEACTIVATED);
             }
             if(!this.isSold()) {
-                message = message.replace("%inactivityresetin%", Messages.INACTIVITY_RESET_INFO_REGION_NOT_SOLD);
+                message = message.replace("%inactivityresetin%", Messages.INFO_REGION_NOT_SOLD);
             }
             List<UUID> ownerslist = this.getRegion().getOwners();
             OfflinePlayer oPlayer = null;
@@ -783,11 +783,11 @@ public abstract class Region implements Saveable {
             }
             InactivityExpirationGroup ieGroup = InactivityExpirationGroup.getBestResetAfterMs(oPlayer, this.getRegionworld());
             if(ieGroup.isResetDisabled()) {
-                message = message.replace("%inactivityresetin%", Messages.INACTIVITY_RESET_INFO_DEACTIVATED);
+                message = message.replace("%inactivityresetin%", Messages.INFO_DEACTIVATED);
             } else {
                 message = message.replace("%inactivityresetin%",
                         CountdownRegion.timeInMsToRemainingTimeString(ieGroup.getResetAfterMs() + this.getLastLogin(),
-                                false, Messages.INACTIVITY_RESET_INFO_POSSIBLE));
+                                false, Messages.INFO_NOW));
             }
         }
         message = this.getRegionKind().getConvertedMessage(message);

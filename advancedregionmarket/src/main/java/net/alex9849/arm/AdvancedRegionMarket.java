@@ -1513,6 +1513,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
                 }
             }
         }
+        messagesConf.set("Messages.ResetRegionCooldownError", "&7You have to wait&6 %remainingusersellcooldown% &till you can reset your region again");
         messagesConf.set("Messages.RegionInfoSellregionAdmin", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
                 "&9ID: &e%regionid% &7(Type: &r%selltype%&7)",
                 "&9Sold: &e%issold%",

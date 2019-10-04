@@ -16,6 +16,7 @@ public class ArmSettings {
     private boolean allowParentRegionOwnersBuildOnSubregions = true;
     private boolean removeEntitiesOnRegionBlockReset = true;
     private boolean activateRegionKindPermissions = false;
+    private long userResetCooldown = 604800000;
 
     private String signRightClickSneakCommand = "buyaction";
     private String signRightClickNotSneakCommand = "buyaction";
@@ -31,87 +32,87 @@ public class ArmSettings {
         return this.activateRegionKindPermissions;
     }
 
-    public void setActivateRegionKindPermissions(boolean activateRegionKindPermissions) {
+    void setActivateRegionKindPermissions(boolean activateRegionKindPermissions) {
         this.activateRegionKindPermissions = activateRegionKindPermissions;
     }
 
-    protected void setRemoveEntitiesOnRegionBlockReset(boolean removeEntitiesOnRegionReset) {
+    void setRemoveEntitiesOnRegionBlockReset(boolean removeEntitiesOnRegionReset) {
         this.removeEntitiesOnRegionBlockReset = removeEntitiesOnRegionReset;
     }
 
-    protected void setIsAllowTeleportToBuySign(boolean isAllowTeleportToBuySign) {
+    void setIsAllowTeleportToBuySign(boolean isAllowTeleportToBuySign) {
         this.isAllowTeleportToBuySign = isAllowTeleportToBuySign;
     }
 
-    protected void setDeleteSubregionsOnParentRegionUnsell(boolean deleteSubregionsOnParentRegionUnsell) {
+    void setDeleteSubregionsOnParentRegionUnsell(boolean deleteSubregionsOnParentRegionUnsell) {
         this.deleteSubregionsOnParentRegionUnsell = deleteSubregionsOnParentRegionUnsell;
     }
 
-    protected void setDeleteSubregionsOnParentRegionBlockReset(boolean deleteSubregionsOnParentRegionBlockReset) {
+    void setDeleteSubregionsOnParentRegionBlockReset(boolean deleteSubregionsOnParentRegionBlockReset) {
         this.deleteSubregionsOnParentRegionBlockReset = deleteSubregionsOnParentRegionBlockReset;
     }
 
-    protected void setIsAllowSubRegionUserReset(boolean isAllowSubRegionUserReset) {
+    void setIsAllowSubRegionUserReset(boolean isAllowSubRegionUserReset) {
         this.isAllowSubRegionUserReset = isAllowSubRegionUserReset;
     }
 
-    protected void setIsRegionInfoParticleBorder(boolean isRegionInfoParticleBorder) {
+    void setIsRegionInfoParticleBorder(boolean isRegionInfoParticleBorder) {
         this.isRegionInfoParticleBorder = isRegionInfoParticleBorder;
     }
 
-    protected void setIsSubregionBlockReset(boolean isSubregionBlockReset) {
+    void setIsSubregionBlockReset(boolean isSubregionBlockReset) {
         this.isSubregionBlockReset = isSubregionBlockReset;
     }
 
-    protected void setIsSubregionInactivityReset(boolean isSubregionInactivityReset) {
+    void setIsSubregionInactivityReset(boolean isSubregionInactivityReset) {
         this.isSubregionInactivityReset = isSubregionInactivityReset;
     }
 
-    protected void setIsTeleportAfterSellRegionBought(boolean isTeleportAfterSellRegionBought) {
+    void setIsTeleportAfterSellRegionBought(boolean isTeleportAfterSellRegionBought) {
         this.isTeleportAfterSellRegionBought = isTeleportAfterSellRegionBought;
     }
 
-    protected void setIsTeleportAfterRentRegionBought(boolean teleportAfterRentRegionBought) {
+    void setIsTeleportAfterRentRegionBought(boolean teleportAfterRentRegionBought) {
         this.teleportAfterRentRegionBought = teleportAfterRentRegionBought;
     }
 
-    protected void setIsTeleportAfterRentRegionExtend(boolean isTeleportAfterRentRegionExtend) {
+    void setIsTeleportAfterRentRegionExtend(boolean isTeleportAfterRentRegionExtend) {
         this.isTeleportAfterRentRegionExtend = isTeleportAfterRentRegionExtend;
     }
 
-    protected void setIsTeleportAfterContractRegionBought(boolean isTeleportAfterContractRegionBought) {
+    void setIsTeleportAfterContractRegionBought(boolean isTeleportAfterContractRegionBought) {
         this.isTeleportAfterContractRegionBought = isTeleportAfterContractRegionBought;
     }
 
-    protected void setIsSendContractRegionExtendMessage(boolean isSendContractRegionExtendMessage) {
+    void setIsSendContractRegionExtendMessage(boolean isSendContractRegionExtendMessage) {
         this.isSendContractRegionExtendMessage = isSendContractRegionExtendMessage;
     }
 
-    protected void setUseShortCountdown(boolean useShortCountdown) {
+    void setUseShortCountdown(boolean useShortCountdown) {
         this.useShortCountdown = useShortCountdown;
     }
 
-    protected void setRemainingTimeTimeformat(String remainingTimeTimeformat) {
+    void setRemainingTimeTimeformat(String remainingTimeTimeformat) {
         REMAINING_TIME_TIMEFORMAT = remainingTimeTimeformat;
     }
 
-    protected void setSignRightClickSneakCommand(String signRightClickSneakCommand) {
+    void setSignRightClickSneakCommand(String signRightClickSneakCommand) {
         this.signRightClickSneakCommand = signRightClickSneakCommand;
     }
 
-    protected void setSignRightClickNotSneakCommand(String signRightClickNotSneakCommand) {
+    void setSignRightClickNotSneakCommand(String signRightClickNotSneakCommand) {
         this.signRightClickNotSneakCommand = signRightClickNotSneakCommand;
     }
 
-    protected void setSignLeftClickSneakCommand(String signLeftClickSneakCommand) {
+    void setSignLeftClickSneakCommand(String signLeftClickSneakCommand) {
         this.signLeftClickSneakCommand = signLeftClickSneakCommand;
     }
 
-    protected void setSignLeftClickNotSneakCommand(String signLeftClickNotSneakCommand) {
+    void setSignLeftClickNotSneakCommand(String signLeftClickNotSneakCommand) {
         this.signLeftClickNotSneakCommand = signLeftClickNotSneakCommand;
     }
 
-    protected void setDateTimeformat(String dateTimeformat) {
+    void setDateTimeformat(String dateTimeformat) {
         DATE_TIMEFORMAT = dateTimeformat;
     }
 
@@ -201,6 +202,14 @@ public class ArmSettings {
 
     public String getSignLeftClickNotSneakCommand() {
         return signLeftClickNotSneakCommand;
+    }
+
+    public long getUserResetCooldown() {
+        return userResetCooldown;
+    }
+
+    void setUserResetCooldown(long userResetCooldown) {
+        this.userResetCooldown = userResetCooldown;
     }
 
 }

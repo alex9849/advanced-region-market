@@ -51,7 +51,6 @@ public abstract class Region implements Saveable {
     private boolean isHotel;
     private long lastreset;
     private long lastLogin;
-    private static int resetcooldown;
     private RegionKind regionKind;
     private Location teleportLocation;
     private boolean isDoBlockReset;
@@ -448,13 +447,6 @@ public abstract class Region implements Saveable {
 
     }
 
-    public int timeSinceLastResetInDays(){
-        GregorianCalendar calendar = new GregorianCalendar();
-        long result = calendar.getTimeInMillis() - this.lastreset;
-        int days = (int) (result / (1000 * 60 * 60 * 24));
-        return days;
-    }
-
     public void userBlockReset(Player player){
         try {
             //TODO Add if should log
@@ -467,14 +459,6 @@ public abstract class Region implements Saveable {
             player.sendMessage(Messages.PREFIX + Messages.SCHEMATIC_NOT_FOUND_ERROR_USER.replace("%regionid%", e.getRegion().getId()));
             AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, this.getConvertedMessage(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
         }
-    }
-
-    public static void setResetcooldown(int cooldown){
-        Region.resetcooldown = cooldown;
-    }
-
-    public static int getResetCooldown(){
-        return Region.resetcooldown;
     }
 
     public void writeSigns(){
@@ -703,7 +687,8 @@ public abstract class Region implements Saveable {
         if(message.contains("%dimensions%")) message = message.replace("%dimensions%", this.getDimensions());
         if(message.contains("%priceperm2%")) message = message.replace("%priceperm2%", Price.formatPrice(this.getPricePerM2()) + "");
         if(message.contains("%priceperm3%")) message = message.replace("%priceperm3%", Price.formatPrice(this.getPricePerM3()) + "");
-        if(message.contains("%remainingusersellcooldown%")) message = message.replace("%remainingusersellcooldown%", (Region.getResetCooldown() - this.timeSinceLastResetInDays()) + "");
+        if(message.contains("%remainingusersellcooldown%")) message = message.replace("%remainingusersellcooldown%", (CountdownRegion.getCountdown(false,
+                AdvancedRegionMarket.getInstance().getPluginSettings().getUserResetCooldown() + this.getLastreset(), true, "")));
         if(message.contains("%paybackmoney%")) message = message.replace("%paybackmoney%", Price.formatPrice(this.getPaybackMoney()));
         if(message.contains("%currency%")) message = message.replace("%currency%", Messages.CURRENCY);
         if(message.contains("%world%")) message = message.replace("%world%", this.getRegionworld().getName());

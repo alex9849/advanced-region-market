@@ -24,6 +24,7 @@ import net.alex9849.arm.presets.ActivePresetManager;
 import net.alex9849.arm.presets.PresetPatternManager;
 import net.alex9849.arm.regionkind.RegionKindManager;
 import net.alex9849.arm.regionkind.commands.*;
+import net.alex9849.arm.regions.CountdownRegion;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.RegionManager;
 import net.alex9849.arm.regions.RentRegion;
@@ -173,6 +174,13 @@ public class AdvancedRegionMarket extends JavaPlugin {
         this.pluginSettings.setSignLeftClickSneakCommand(getConfig().getString("SignClickActions.LeftClickSneakCmd"));
         this.pluginSettings.setSignLeftClickNotSneakCommand(getConfig().getString("SignClickActions.LeftClickNotSneakCmd"));
         this.pluginSettings.setActivateRegionKindPermissions(getConfig().getBoolean("RegionKinds.activateRegionKindPermissions"));
+        try {
+            this.pluginSettings.setUserResetCooldown(CountdownRegion.stringToTime(getConfig().getString("Other.userResetCooldown")));
+        } catch (IllegalArgumentException e) {
+            this.pluginSettings.setUserResetCooldown(604800000);
+            getLogger().log(Level.WARNING, "Could not parse 'Other.userResetCooldown' using 7d for now!");
+        }
+
 
         this.regionKindManager = new RegionKindManager(new File(this.getDataFolder() + "/regionkinds.yml"));
         this.entityLimitGroupManager = new EntityLimitGroupManager(new File(this.getDataFolder() + "/entitylimits.yml"));
@@ -657,7 +665,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
     }
 
     private void loadOther(){
-        Region.setResetcooldown(getConfig().getInt("Other.userResetCooldown"));
 
         try{
             RentRegion.setExpirationWarningTime(RentPrice.stringToTime(getConfig().getString("Other.RentRegionExpirationWarningTime")));
@@ -1425,6 +1432,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         pluginConfig.set("InactivityExpiration.examplegroup3.resetAfter", "none");
         pluginConfig.set("Subregions.SubregionInactivityReset", pluginConfig.getBoolean("Subregions.SubregionAutoReset"));
         pluginConfig.set("InactivityExpiration.examplegroup3.takeOverAfter", "none");
+        pluginConfig.set("Other.userResetCooldown", "7d");
         pluginConfig.set("AutoResetAndTakeOver", null);
         saveConfig();
 

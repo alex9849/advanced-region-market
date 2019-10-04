@@ -129,8 +129,8 @@ PriceFormatting:
 
 Other:
   # If users have the permission 'arm.resetregionblocks' they can reset their own regions. The number
-  # behind is the cooldown when they can reset their region again (in days).
-  userResetCooldown: 7
+  # behind is the cooldown when they can reset their region again.
+  userResetCooldown: 7d
   # If set on true the user will be teleported in the middle of their region if they buy one.
   TeleportAfterSellRegionBought: true
   TeleportAfterRentRegionBought: false

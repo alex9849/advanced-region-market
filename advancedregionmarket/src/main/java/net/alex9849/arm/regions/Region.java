@@ -622,7 +622,7 @@ public abstract class Region implements Saveable {
         return this.sellsign;
     }
 
-    protected long getLastreset() {
+    public long getLastreset() {
         return this.lastreset;
     }
 

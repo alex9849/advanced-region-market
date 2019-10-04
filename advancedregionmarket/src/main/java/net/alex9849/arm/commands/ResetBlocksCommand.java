@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -71,7 +72,7 @@ public class ResetBlocksCommand implements BasicArmCommand {
                 if(!resregion.isUserResettable()) {
                     throw new InputException(player, Messages.REGION_NOT_RESETTABLE);
                 }
-                if(resregion.timeSinceLastResetInDays() >= Region.getResetCooldown()){
+                if((new GregorianCalendar().getTimeInMillis()) >= AdvancedRegionMarket.getInstance().getPluginSettings().getUserResetCooldown() + resregion.getLastreset()){
                     Gui.openRegionResetWarning(player, resregion, false);
                     return true;
                 } else {

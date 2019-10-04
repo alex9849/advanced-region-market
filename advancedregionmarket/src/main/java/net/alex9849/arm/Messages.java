@@ -1378,7 +1378,7 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIResetRegionButton", "&4Reset region");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIResetRegionButtonLore", new ArrayList<>(Arrays.asList("Click to reset your region",
                 "&4WARNING: &cThis can not be undone! Your region", "&cwill be resetted and everything on it will", "&cbe deleted!",
-                "&cYou can only reset you region once every %days% days", "&2You and all members keep their rights on the region")));
+                "&cYou can only reset you region once every %userresetcooldown%", "&2You and all members keep their rights on the region")));
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionTransferCompleteMessage", "&aTransfer complete!");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegiontransferMemberNotOnline", "&4Member not online!");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegiontransferLimitError", "&4Transfer aborted! (Region would exceed players limit)");

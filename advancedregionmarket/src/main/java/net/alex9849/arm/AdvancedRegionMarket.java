@@ -1499,6 +1499,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
                         msgList.set(i, msgList.get(i).replace("%extend%", "%extendtime%"));
                         msgList.set(i, msgList.get(i).replace("%isautoreset%", "%isinactivityreset%"));
                         msgList.set(i, msgList.get(i).replace("%remainingdays%", "%remainingusersellcooldown%"));
+                        msgList.set(i, msgList.get(i).replace("%days%", "%userresetcooldown%"));
                     }
                 } else if (msgObject instanceof String) {
                     String msgString = (String) msgObject;
@@ -1506,6 +1507,8 @@ public class AdvancedRegionMarket extends JavaPlugin {
                     msgString = msgString.replace("%extend%", "%extendtime%");
                     msgString = msgString.replace("%isautoreset%", "%isinactivityreset%");
                     msgString = msgString.replace("%remainingdays%", "%remainingusersellcooldown%");
+                    msgString = msgString.replace("%days%", "%userresetcooldown%");
+
                     messagesSection.set(key, msgString);
                 }
             }

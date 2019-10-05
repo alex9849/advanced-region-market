@@ -8,6 +8,8 @@ import net.alex9849.arm.flaggroups.FlagGroup;
 import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.price.ContractPrice;
 import net.alex9849.arm.regions.price.Price;
+import net.alex9849.arm.util.stringreplacer.StringCreator;
+import net.alex9849.arm.util.stringreplacer.StringReplacer;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.signs.SignData;
 import org.bukkit.Location;
@@ -23,6 +25,25 @@ import java.util.concurrent.TimeUnit;
 public abstract class CountdownRegion extends Region {
     private long payedTill;
     private long extendTime;
+    private StringReplacer stringReplacer;
+
+    {
+        HashMap<String, StringCreator> variableReplacements = new HashMap<>();
+        variableReplacements.put("%extendtime%", () -> {
+            return timeInMsToString(this.getExtendTime());
+        });
+        variableReplacements.put("%remaining%", () -> {
+            return CountdownRegion.timeInMsToRemainingTimeString(this.getPayedTill(), false, Messages.REGION_INFO_EXPIRED);
+        });
+        variableReplacements.put("%priceperm2perweek%", () -> {
+            return Price.formatPrice(this.getPricePerM2PerWeek());
+        });
+        variableReplacements.put("%priceperm3perweek%", () -> {
+            return Price.formatPrice(this.getPricePerM3PerWeek());
+        });
+
+        this.stringReplacer = new StringReplacer(variableReplacements, 50);
+    }
 
     public CountdownRegion(WGRegion region, World regionworld, List<SignData> contractsign, ContractPrice contractPrice,
                            Boolean sold, Boolean inactivityReset, Boolean isHotel, Boolean doBlockReset,
@@ -295,14 +316,9 @@ public abstract class CountdownRegion extends Region {
         return pricePerM2PerWeek / (this.getRegion().getMaxPoint().getBlockY() - this.getRegion().getMinPoint().getBlockY());
     }
 
-    @Override
-    public String getConvertedMessage(String message) {
-        message = super.getConvertedMessage(message);
-        message = message.replace("%extendtime%", timeInMsToString(this.getExtendTime()));
-        message = message.replace("%remaining%", CountdownRegion.timeInMsToRemainingTimeString(this.getPayedTill(), false, Messages.REGION_INFO_EXPIRED));
-        if(message.contains("%priceperm2perweek%")) message = message.replace("%priceperm2perweek%", Price.formatPrice(this.getPricePerM2PerWeek()));
-        if(message.contains("%priceperm3perweek%")) message = message.replace("%priceperm3perweek%", Price.formatPrice(this.getPricePerM3PerWeek()));
-        return message;
+    public StringBuffer getConvertedMessage(StringBuffer sb) {
+        sb = super.getConvertedMessage(sb);
+        return this.stringReplacer.replace(sb);
     }
 
     public ConfigurationSection toConfigurationSection() {

@@ -832,11 +832,10 @@ public abstract class Region implements Saveable {
     }
 
     public StringBuffer getConvertedMessage(StringBuffer sb) {
-        this.stringReplacer.replace(sb);
-        this.getRegionKind().getConvertedMessage(sb);
-        this.getEntityLimitGroup().getConvertedMessage(sb);
-        this.getFlagGroup().getConvertedMessage(sb);
-        return sb;
+        sb = this.stringReplacer.replace(sb);
+        sb = this.getRegionKind().getConvertedMessage(sb);
+        sb = this.getEntityLimitGroup().getConvertedMessage(sb);
+        return this.getFlagGroup().getConvertedMessage(sb);
     }
 
     public void queueSave() {

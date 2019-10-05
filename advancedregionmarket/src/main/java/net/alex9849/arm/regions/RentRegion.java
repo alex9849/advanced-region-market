@@ -13,6 +13,8 @@ import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.regions.price.RentPrice;
+import net.alex9849.arm.util.stringreplacer.StringCreator;
+import net.alex9849.arm.util.stringreplacer.StringReplacer;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.signs.SignData;
 import org.bukkit.Bukkit;
@@ -31,6 +33,16 @@ public class RentRegion extends CountdownRegion {
     private long maxRentTime;
     private static long expirationWarningTime;
     private static Boolean sendExpirationWarning;
+    private StringReplacer stringReplacer;
+
+    {
+        HashMap<String, StringCreator> variableReplacements = new HashMap<>();
+        variableReplacements.put("%maxrenttime%", () -> {
+            return CountdownRegion.timeInMsToString(this.getMaxRentTimeString());
+        });
+
+        this.stringReplacer = new StringReplacer(variableReplacements, 50);
+    }
 
     public RentRegion(WGRegion region, World regionworld, List<SignData> rentsign, RentPrice rentPrice, Boolean sold, Boolean inactivityReset, Boolean allowOnlyNewBlocks,
                       Boolean doBlockReset, RegionKind regionKind, FlagGroup flagGroup, Location teleportLoc, long lastreset, long lastLogin, boolean isUserResettable, long payedTill,
@@ -210,11 +222,10 @@ public class RentRegion extends CountdownRegion {
         return this.maxRentTime;
     }
 
-    @Override
-    public String getConvertedMessage(String message) {
-        message = super.getConvertedMessage(message);
-        if(message.contains("%maxrenttime%")) message = message.replace("%maxrenttime%", CountdownRegion.timeInMsToString(this.getMaxRentTimeString()));
-        return message;
+
+    public StringBuffer getConvertedMessage(StringBuffer sb) {
+        sb = super.getConvertedMessage(sb);
+        return this.stringReplacer.replace(sb);
     }
 
     public long getMaxRentTime() {

@@ -370,7 +370,7 @@ public class Messages {
     public static String INFO_DEACTIVATED = "&4Deactivated";
     public static String INFO_REGION_NOT_SOLD = "&4Region not sold!";
     public static String INFO_NOW = "&2Now";
-    public static String INFO_NOT_CALCULATED = "&8Not calculated";
+    public static String INFO_NOT_CALCULATED = "&8Awaiting calculation...";
     public static String COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG = "&4Could not find or load schematic for region %region% in world %world%! You can regenerate it with /arm updateschematic %region%";
 
 
@@ -1542,7 +1542,7 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.InfoDeactivated", "&4Deactivated");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.InfoNotSold", "&4Region not sold!");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.InfoNow", "&2Now");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.InfoNotCalculated", "&8Not calculated");
+        fileUpdated |= YamlFileManager.addDefault(config,"Messages.InfoNotCalculated", "&8Awaiting calculation...");
         fileUpdated |= YamlFileManager.addDefault(config,"Messages.CouldNotFindOrLoadSchematicLog", "&4Could not find or load schematic for region %region% in world %world%! You can regenerate it with /arm updateschematic %region%");
 
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoSellregionAdmin", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",

@@ -632,7 +632,7 @@ public abstract class Region implements Saveable {
     }
 
     private String getOwnerName() {
-        List<UUID> ownerlist = new ArrayList<>(this.getRegion().getOwners());
+        List<UUID> ownerlist = this.getRegion().getOwners();
         String ownername;
         if(ownerlist.size() < 1){
             ownername = "Unknown";

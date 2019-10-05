@@ -2,17 +2,14 @@ package net.alex9849.arm.util.stringreplacer;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 public class StringReplacer {
     private HashMap<String, StringCreator> replacerMap;
-    private HashMap<String, Set<Map.Entry<String, StringCreator>>> knownStrings;
     private int minExtraLength;
 
     public StringReplacer(HashMap<String, StringCreator> replacerMap, int minExtraLength) {
         this.replacerMap = replacerMap;
         this.minExtraLength = minExtraLength;
-        this.knownStrings = new HashMap<>();
     }
 
     public StringBuffer replace(String string) {

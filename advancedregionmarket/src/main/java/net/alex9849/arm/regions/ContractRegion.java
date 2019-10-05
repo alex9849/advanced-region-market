@@ -12,6 +12,8 @@ import net.alex9849.arm.limitgroups.LimitGroup;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.price.ContractPrice;
+import net.alex9849.arm.util.stringreplacer.StringCreator;
+import net.alex9849.arm.util.stringreplacer.StringReplacer;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.signs.SignData;
 import org.bukkit.Bukkit;
@@ -29,6 +31,21 @@ import java.util.UUID;
 
 public class ContractRegion extends CountdownRegion {
     private boolean terminated;
+    private StringReplacer stringReplacer;
+
+    {
+        HashMap<String, StringCreator> variableReplacements = new HashMap<>();
+        variableReplacements.put("%status%", () -> {
+            return this.getTerminationString();
+        });
+        variableReplacements.put("%statuslong%", () -> {
+            return this.getTerminationStringLong();
+        });
+        variableReplacements.put("%isterminated%", () -> {
+            return Messages.convertYesNo(this.isTerminated());
+        });
+        this.stringReplacer = new StringReplacer(variableReplacements, 50);
+    }
 
     public ContractRegion(WGRegion region, World regionworld, List<SignData> contractsign, ContractPrice contractPrice, Boolean sold, Boolean inactivityReset,
                           Boolean isHotel, Boolean doBlockReset, RegionKind regionKind, FlagGroup flagGroup, Location teleportLoc, long lastreset, long lastLogin, boolean isUserResettable,
@@ -242,13 +259,9 @@ public class ContractRegion extends CountdownRegion {
         return  (msPerWeek / this.getExtendTime()) * pricePerM2;
     }
 
-    @Override
-    public String getConvertedMessage(String message) {
-        if(message.contains("%status%")) message = message.replace("%status%", this.getTerminationString());
-        if(message.contains("%statuslong%")) message = message.replace("%statuslong%", this.getTerminationStringLong());
-        if(message.contains("%isterminated%")) message = message.replace("%isterminated%", Messages.convertYesNo(this.isTerminated()));
-        message = super.getConvertedMessage(message);
-        return message;
+    public StringBuffer getConvertedMessage(StringBuffer sb) {
+        sb = this.stringReplacer.replace(sb);
+        return super.getConvertedMessage(sb);
     }
 
     public SellType getSellType() {

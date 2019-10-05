@@ -16,6 +16,8 @@ import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.util.Saveable;
+import net.alex9849.arm.util.stringreplacer.StringCreator;
+import net.alex9849.arm.util.stringreplacer.StringReplacer;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.signs.SignData;
 import org.bukkit.*;
@@ -40,8 +42,8 @@ public abstract class Region implements Saveable {
             return message;
         }
     }
-    public static boolean completeTabRegions;
 
+    public static boolean completeTabRegions;
     private WGRegion region;
     private World regionworld;
     private ArrayList<SignData> sellsign;
@@ -65,6 +67,149 @@ public abstract class Region implements Saveable {
     private HashMap<EntityLimit.LimitableEntityType, Integer> extraEntitys;
     private int extraTotalEntitys;
     Integer m2Amount;
+    private StringReplacer variableReplacer;
+
+    {
+        HashMap<String, StringCreator> variableReplacements = new HashMap<>();
+        variableReplacements.put("%regionid%", () -> {
+            return this.getRegion().getId();
+        });
+        variableReplacements.put("%region%", () -> {
+            return this.getRegion().getId();
+        });
+        variableReplacements.put("%price%", () -> {
+            return Price.formatPrice(this.getPrice());
+        });
+        variableReplacements.put("%dimensions%", () -> {
+            return this.getDimensions();
+        });
+        variableReplacements.put("%priceperm2%", () -> {
+           return Price.formatPrice(this.getPricePerM2());
+        });
+        variableReplacements.put("%priceperm3%", () -> {
+            return Price.formatPrice(this.getPricePerM3());
+        });
+        variableReplacements.put("%remainingusersellcooldown%", () -> {
+            return CountdownRegion.getCountdown(false,
+                    AdvancedRegionMarket.getInstance().getPluginSettings().getUserResetCooldown() + this.getLastreset(), true, "");
+        });
+        variableReplacements.put("%paybackmoney%", () -> {
+            return Price.formatPrice(this.getPaybackMoney());
+        });
+        variableReplacements.put("%currency%", () -> {
+            return Messages.CURRENCY;
+        });
+        variableReplacements.put("%world%", () -> {
+            return this.getRegionworld().getName();
+        });
+        variableReplacements.put("%subregionlimit%", () -> {
+            return this.getAllowedSubregions() + "";
+        });
+        variableReplacements.put("%hotelfunctionstatus%", () -> {
+            return Messages.convertEnabledDisabled(this.isHotel);
+        });
+        variableReplacements.put("%soldstatus%", () -> {
+            return this.getSoldStringStatus();
+        });
+        variableReplacements.put("%issold%", () -> {
+            return Messages.convertYesNo(this.isSold());
+        });
+        variableReplacements.put("%selltype%", () -> {
+            return this.getSellType().getName();
+        });
+        variableReplacements.put("%ishotel%", () -> {
+            return Messages.convertYesNo(this.isHotel());
+        });
+        variableReplacements.put("%isuserresettable%", () -> {
+            return Messages.convertYesNo(this.isUserResettable());
+        });
+        variableReplacements.put("%isdoblockreset%", () -> {
+            return Messages.convertYesNo(this.isDoBlockReset());
+        });
+        variableReplacements.put("%isinactivityreset%", () -> {
+            return Messages.convertYesNo(this.isInactivityResetEnabled());
+        });
+        variableReplacements.put("%lastownerlogin%", () -> {
+            return CountdownRegion.getDate(this.getLastLogin(), true, "");
+        });
+        variableReplacements.put("%owner%", () -> {
+            return this.getOwnerName();
+        });
+        variableReplacements.put("%autoprice%", () -> {
+            if(this.getPriceObject().isAutoPrice()) {
+                return this.getPriceObject().getAutoPrice().getName();
+            }
+            return Messages.convertYesNo(this.getPriceObject().isAutoPrice());
+        });
+        variableReplacements.put("%subregions%", () -> {
+            String subregions = "";
+            for (int i = 0; i < this.getSubregions().size() - 1; i++) {
+                subregions = subregions + this.getSubregions().get(i).getRegion().getId() + ", ";
+            }
+            if(this.getSubregions().size() != 0){
+                subregions = subregions + this.getSubregions().get(this.getSubregions().size() - 1).getRegion().getId();
+            }
+            return subregions;
+        });
+        variableReplacements.put("%members%", () -> {
+            String membersInfo = "";
+            List<UUID> memberslist = this.getRegion().getMembers();
+            for(int i = 0; i < memberslist.size() - 1; i++){
+                membersInfo = membersInfo + Bukkit.getOfflinePlayer(memberslist.get(i)).getName() + ", ";
+            }
+            if(memberslist.size() != 0){
+                membersInfo = membersInfo + Bukkit.getOfflinePlayer(memberslist.get(memberslist.size() - 1)).getName();
+            }
+            return membersInfo;
+        });
+        variableReplacements.put("%takeoverin%", () -> {
+            if (!this.isInactivityResetEnabled()) {
+                return Messages.INFO_DEACTIVATED;
+            }
+            if (!this.isSold()) {
+                return Messages.INFO_REGION_NOT_SOLD;
+            }
+            List<UUID> ownerslist = this.getRegion().getOwners();
+            UUID ownerID = null;
+            if (ownerslist.size() > 0) {
+                ownerID = ownerslist.get(0);
+            }
+            InactivityExpirationGroup ieGroup = PlayerInactivityGroupMapper.getBestTakeoverAfterMs(this.getRegionworld(), ownerID);
+            if (ieGroup.isNotCalculated()) {
+                return Messages.INFO_NOT_CALCULATED;
+            } else if(ieGroup.isTakeOverDisabled()) {
+                return Messages.INFO_DEACTIVATED;
+            } else {
+                return CountdownRegion.timeInMsToRemainingTimeString(ieGroup.getTakeOverAfterMs() + this.getLastLogin(), false,
+                                Messages.INFO_NOW);
+            }
+        });
+        variableReplacements.put("%inactivityresetin%", () -> {
+            if(!this.isInactivityResetEnabled()) {
+                return Messages.INFO_DEACTIVATED;
+            }
+            if(!this.isSold()) {
+                return Messages.INFO_REGION_NOT_SOLD;
+            }
+            List<UUID> ownerslist = this.getRegion().getOwners();
+            UUID ownerID = null;
+            if (ownerslist.size() > 0) {
+                ownerID = ownerslist.get(0);
+            }
+            InactivityExpirationGroup ieGroup = PlayerInactivityGroupMapper.getBestResetAfterMs(this.getRegionworld(), ownerID);
+            if (ieGroup.isNotCalculated()) {
+                return Messages.INFO_NOT_CALCULATED;
+            } else if(ieGroup.isResetDisabled()) {
+                return Messages.INFO_DEACTIVATED;
+            } else {
+                return CountdownRegion.timeInMsToRemainingTimeString(ieGroup.getResetAfterMs() + this.getLastLogin(),
+                                false, Messages.INFO_NOW);
+            }
+        });
+
+        variableReplacer = new StringReplacer(variableReplacements, 50);
+
+    }
 
     public Region(WGRegion region, World regionworld, List<SignData> sellsign, Price price, Boolean sold, Boolean inactivityReset,
                   Boolean isHotel, Boolean doBlockReset, RegionKind regionKind, FlagGroup flagGroup, Location teleportLoc, long lastreset,
@@ -682,104 +827,7 @@ public abstract class Region implements Saveable {
     }
 
     public String getConvertedMessage(String message) {
-        if(message.contains("%regionid%")) message = message.replace("%regionid%", this.getRegion().getId());
-        if(message.contains("%region%")) message = message.replace("%region%", this.getRegion().getId());
-        if(message.contains("%price%")) message = message.replace("%price%", Price.formatPrice(this.getPrice()) + "");
-        if(message.contains("%dimensions%")) message = message.replace("%dimensions%", this.getDimensions());
-        if(message.contains("%priceperm2%")) message = message.replace("%priceperm2%", Price.formatPrice(this.getPricePerM2()) + "");
-        if(message.contains("%priceperm3%")) message = message.replace("%priceperm3%", Price.formatPrice(this.getPricePerM3()) + "");
-        if(message.contains("%remainingusersellcooldown%")) message = message.replace("%remainingusersellcooldown%", (CountdownRegion.getCountdown(false,
-                AdvancedRegionMarket.getInstance().getPluginSettings().getUserResetCooldown() + this.getLastreset(), true, "")));
-        if(message.contains("%paybackmoney%")) message = message.replace("%paybackmoney%", Price.formatPrice(this.getPaybackMoney()));
-        if(message.contains("%currency%")) message = message.replace("%currency%", Messages.CURRENCY);
-        if(message.contains("%world%")) message = message.replace("%world%", this.getRegionworld().getName());
-        if(message.contains("%subregionlimit%")) message = message.replace("%subregionlimit%", this.getAllowedSubregions() + "");
-        if(message.contains("%hotelfunctionstatus%")) message = message.replace("%hotelfunctionstatus%", Messages.convertEnabledDisabled(this.isHotel));
-        if(message.contains("%soldstatus%")) message = message.replace("%soldstatus%", this.getSoldStringStatus());
-        if(message.contains("%issold%")) message = message.replace("%issold%", Messages.convertYesNo(this.isSold()));
-        if(message.contains("%selltype%")) message = message.replace("%selltype%", this.getSellType().getName());
-        if(message.contains("%ishotel%")) message = message.replace("%ishotel%", Messages.convertYesNo(this.isHotel()));
-        if(message.contains("%isuserresettable%")) message = message.replace("%isuserresettable%", Messages.convertYesNo(this.isUserResettable()));
-        if(message.contains("%isdoblockreset%")) message = message.replace("%isdoblockreset%", Messages.convertYesNo(this.isDoBlockReset()));
-        if(message.contains("%isinactivityreset%")) message = message.replace("%isinactivityreset%", Messages.convertYesNo(this.isInactivityResetEnabled()));
-        if(message.contains("%lastownerlogin%")) message = message.replace("%lastownerlogin%", CountdownRegion.getDate(this.getLastLogin(), true, ""));
-        if(message.contains("%owner%")) message = message.replace("%owner%", this.getOwnerName());
-        if(message.contains("%autoprice%")) {
-            String autopriceInfo = "";
-            if(this.getPriceObject().isAutoPrice()) {
-                autopriceInfo = this.getPriceObject().getAutoPrice().getName();
-            } else {
-                autopriceInfo = Messages.convertYesNo(this.getPriceObject().isAutoPrice());
-            }
-            message = message.replace("%autoprice%", autopriceInfo);
-        }
-        if(message.contains("%subregions%")) {
-            String subregions = "";
-            for (int i = 0; i < this.getSubregions().size() - 1; i++) {
-                subregions = subregions + this.getSubregions().get(i).getRegion().getId() + ", ";
-            }
-            if(this.getSubregions().size() != 0){
-                subregions = subregions + this.getSubregions().get(this.getSubregions().size() - 1).getRegion().getId();
-            }
-            message = message.replace("%subregions%", subregions);
-        }
-        if(message.contains("%members%")) {
-            String membersInfo = "";
-            List<UUID> memberslist = this.getRegion().getMembers();
-            for(int i = 0; i < memberslist.size() - 1; i++){
-                membersInfo = membersInfo + Bukkit.getOfflinePlayer(memberslist.get(i)).getName() + ", ";
-            }
-            if(memberslist.size() != 0){
-                membersInfo = membersInfo + Bukkit.getOfflinePlayer(memberslist.get(memberslist.size() - 1)).getName();
-            }
-            message = message.replace("%members%", membersInfo);
-        }
-        if(message.contains("%takeoverin%")) {
-            if (!this.isInactivityResetEnabled()) {
-                message = message.replace("%takeoverin%", Messages.INFO_DEACTIVATED);
-            }
-            if (!this.isSold()) {
-                message = message.replace("%takeoverin%", Messages.INFO_REGION_NOT_SOLD);
-            }
-            List<UUID> ownerslist = this.getRegion().getOwners();
-            UUID ownerID = null;
-            if (ownerslist.size() > 0) {
-                ownerID = ownerslist.get(0);
-            }
-            InactivityExpirationGroup ieGroup = PlayerInactivityGroupMapper.getBestTakeoverAfterMs(this.getRegionworld(), ownerID);
-            if (ieGroup.isNotCalculated()) {
-                message = message.replace("%takeoverin%", Messages.INFO_NOT_CALCULATED);
-            } else if(ieGroup.isTakeOverDisabled()) {
-                message = message.replace("%takeoverin%", Messages.INFO_DEACTIVATED);
-            } else {
-                message = message.replace("%takeoverin%",
-                        CountdownRegion.timeInMsToRemainingTimeString(ieGroup.getTakeOverAfterMs() + this.getLastLogin(), false,
-                                Messages.INFO_NOW));
-            }
-        }
-        if(message.contains("%inactivityresetin%")) {
-            if(!this.isInactivityResetEnabled()) {
-                message = message.replace("%inactivityresetin%", Messages.INFO_DEACTIVATED);
-            }
-            if(!this.isSold()) {
-                message = message.replace("%inactivityresetin%", Messages.INFO_REGION_NOT_SOLD);
-            }
-            List<UUID> ownerslist = this.getRegion().getOwners();
-            UUID ownerID = null;
-            if (ownerslist.size() > 0) {
-                ownerID = ownerslist.get(0);
-            }
-            InactivityExpirationGroup ieGroup = PlayerInactivityGroupMapper.getBestResetAfterMs(this.getRegionworld(), ownerID);
-            if (ieGroup.isNotCalculated()) {
-                message = message.replace("%inactivityresetin%", Messages.INFO_NOT_CALCULATED);
-            } else if(ieGroup.isResetDisabled()) {
-                message = message.replace("%inactivityresetin%", Messages.INFO_DEACTIVATED);
-            } else {
-                message = message.replace("%inactivityresetin%",
-                        CountdownRegion.timeInMsToRemainingTimeString(ieGroup.getResetAfterMs() + this.getLastLogin(),
-                                false, Messages.INFO_NOW));
-            }
-        }
+        message = this.variableReplacer.replace(message).toString();
         message = this.getRegionKind().getConvertedMessage(message);
         message = this.getEntityLimitGroup().getConvertedMessage(message);
         message = this.getFlagGroup().getConvertedMessage(message);

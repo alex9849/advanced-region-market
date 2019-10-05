@@ -10,6 +10,7 @@ import net.alex9849.arm.events.UpdateRegionEvent;
 import net.alex9849.arm.exceptions.*;
 import net.alex9849.arm.flaggroups.FlagGroup;
 import net.alex9849.arm.inactivityexpiration.InactivityExpirationGroup;
+import net.alex9849.arm.inactivityexpiration.PlayerInactivityGroupMapper;
 import net.alex9849.arm.minifeatures.ParticleBorder;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import net.alex9849.arm.regionkind.RegionKind;
@@ -734,19 +735,21 @@ public abstract class Region implements Saveable {
             message = message.replace("%members%", membersInfo);
         }
         if(message.contains("%takeoverin%")) {
-            if(!this.isInactivityResetEnabled()) {
+            if (!this.isInactivityResetEnabled()) {
                 message = message.replace("%takeoverin%", Messages.INFO_DEACTIVATED);
             }
-            if(!this.isSold()) {
+            if (!this.isSold()) {
                 message = message.replace("%takeoverin%", Messages.INFO_REGION_NOT_SOLD);
             }
             List<UUID> ownerslist = this.getRegion().getOwners();
-            OfflinePlayer oPlayer = null;
-            if(ownerslist.size() > 0) {
-                oPlayer = Bukkit.getOfflinePlayer(ownerslist.get(0));
+            UUID ownerID = null;
+            if (ownerslist.size() > 0) {
+                ownerID = ownerslist.get(0);
             }
-            InactivityExpirationGroup ieGroup = InactivityExpirationGroup.getBestTakeOverAfterMs(oPlayer, this.getRegionworld());
-            if(ieGroup.isTakeOverDisabled()) {
+            InactivityExpirationGroup ieGroup = PlayerInactivityGroupMapper.getBestTakeoverAfterMs(this.getRegionworld(), ownerID);
+            if (ieGroup.isNotCalculated()) {
+                message = message.replace("%takeoverin%", Messages.INFO_NOT_CALCULATED);
+            } else if(ieGroup.isTakeOverDisabled()) {
                 message = message.replace("%takeoverin%", Messages.INFO_DEACTIVATED);
             } else {
                 message = message.replace("%takeoverin%",
@@ -762,12 +765,14 @@ public abstract class Region implements Saveable {
                 message = message.replace("%inactivityresetin%", Messages.INFO_REGION_NOT_SOLD);
             }
             List<UUID> ownerslist = this.getRegion().getOwners();
-            OfflinePlayer oPlayer = null;
-            if(ownerslist.size() > 0) {
-                oPlayer = Bukkit.getOfflinePlayer(ownerslist.get(0));
+            UUID ownerID = null;
+            if (ownerslist.size() > 0) {
+                ownerID = ownerslist.get(0);
             }
-            InactivityExpirationGroup ieGroup = InactivityExpirationGroup.getBestResetAfterMs(oPlayer, this.getRegionworld());
-            if(ieGroup.isResetDisabled()) {
+            InactivityExpirationGroup ieGroup = PlayerInactivityGroupMapper.getBestResetAfterMs(this.getRegionworld(), ownerID);
+            if (ieGroup.isNotCalculated()) {
+                message = message.replace("%inactivityresetin%", Messages.INFO_NOT_CALCULATED);
+            } else if(ieGroup.isResetDisabled()) {
                 message = message.replace("%inactivityresetin%", Messages.INFO_DEACTIVATED);
             } else {
                 message = message.replace("%inactivityresetin%",
@@ -823,8 +828,8 @@ public abstract class Region implements Saveable {
             }
             return this.getLastLogin() + InactivityExpirationGroup.DEFAULT.getResetAfterMs() < actualTime;
         }
-        OfflinePlayer oPlayer = Bukkit.getOfflinePlayer(owners.get(0));
-        InactivityExpirationGroup ieGroup = InactivityExpirationGroup.getBestResetAfterMs(oPlayer, this.getRegionworld());
+        UUID ownerID = owners.get(0);
+        InactivityExpirationGroup ieGroup = PlayerInactivityGroupMapper.getBestResetAfterMs(this.getRegionworld(), ownerID);
         if(ieGroup.isResetDisabled()) {
             return false;
         }
@@ -843,8 +848,8 @@ public abstract class Region implements Saveable {
             }
             return this.getLastLogin() + InactivityExpirationGroup.DEFAULT.getTakeOverAfterMs() < actualTime;
         }
-        OfflinePlayer oPlayer = Bukkit.getOfflinePlayer(owners.get(0));
-        InactivityExpirationGroup ieGroup = InactivityExpirationGroup.getBestTakeOverAfterMs(oPlayer, this.getRegionworld());
+        UUID ownerID = owners.get(0);
+        InactivityExpirationGroup ieGroup = PlayerInactivityGroupMapper.getBestTakeoverAfterMs(this.getRegionworld(), ownerID);
         if(ieGroup.isTakeOverDisabled()) {
             return false;
         }

@@ -13,12 +13,14 @@ import java.util.logging.Level;
 
 public class InactivityExpirationGroup {
     public static InactivityExpirationGroup DEFAULT = new InactivityExpirationGroup("Default", -1, -1);
-    private static InactivityExpirationGroup UNLIMITED = new InactivityExpirationGroup("Unlimited", -1, -1);
+    public static final InactivityExpirationGroup UNLIMITED = new InactivityExpirationGroup("Unlimited", -1, -1);
+    public static final InactivityExpirationGroup NOT_CALCULATED = new InactivityExpirationGroup("Not calculated", -1, -1);
     private static Set<InactivityExpirationGroup> inactivityExpirationGroupSet = new HashSet<>();
     private String name;
     private long resetAfterMs;
     private long takeOverAfterMs;
 
+    //Workaround to prevent Luckperms from blocking permissionchecks for offlineplayers
     private static abstract class GetBestGroupThread extends Thread {
         private OfflinePlayer oPlayer;
         private World world;
@@ -66,6 +68,10 @@ public class InactivityExpirationGroup {
         return this.resetAfterMs <= 0;
     }
 
+    public boolean isNotCalculated() {
+        return this == NOT_CALCULATED;
+    }
+
     public boolean isTakeOverDisabled() {
         return this.takeOverAfterMs <= 0;
     }
@@ -83,6 +89,8 @@ public class InactivityExpirationGroup {
     }
 
     public static InactivityExpirationGroup getBestResetAfterMs(OfflinePlayer oPlayer, World world) {
+        //Workaround to prevent Luckperms from blocking permissionchecks for offlineplayers
+        //use PlayerInactivityGroupMapper for a more performant group check
         GetBestGroupThread getBestGroupThread = new GetBestGroupThread(oPlayer, world) {
             @Override
             public void run() {
@@ -122,6 +130,8 @@ public class InactivityExpirationGroup {
     }
 
     public static InactivityExpirationGroup getBestTakeOverAfterMs(OfflinePlayer oPlayer, World world) {
+        //Workaround to prevent Luckperms from blocking permissionchecks for offlineplayers
+        //use PlayerInactivityGroupMapper for a more performant group check
         GetBestGroupThread getBestGroupThread = new GetBestGroupThread(oPlayer, world) {
             @Override
             public void run() {

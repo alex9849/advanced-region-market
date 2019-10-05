@@ -17,6 +17,7 @@ import net.alex9849.arm.handler.CommandHandler;
 import net.alex9849.arm.handler.Scheduler;
 import net.alex9849.arm.handler.listener.*;
 import net.alex9849.arm.inactivityexpiration.InactivityExpirationGroup;
+import net.alex9849.arm.inactivityexpiration.PlayerInactivityGroupMapper;
 import net.alex9849.arm.limitgroups.LimitGroup;
 import net.alex9849.arm.minifeatures.SignLinkMode;
 import net.alex9849.arm.minifeatures.selloffer.Offer;
@@ -298,6 +299,12 @@ public class AdvancedRegionMarket extends JavaPlugin {
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
             @Override
             public void run() {
+                PlayerInactivityGroupMapper.updateMapAscync();
+            }
+        }, 900, 6000);
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+            @Override
+            public void run() {
                 for(Region region : AdvancedRegionMarket.getInstance().getRegionManager()) {
                     if(region.isInactivityResetEnabled() && region.isInactive()) {
                         //TODO logToConsole
@@ -305,7 +312,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
                     }
                 }
             }
-        }, 1200, 6000);
+        }, 1800, 6000);
     }
 
     public void onDisable(){
@@ -324,6 +331,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         SignLinkMode.reset();
         ActivePresetManager.reset();
         Offer.reset();
+        PlayerInactivityGroupMapper.reset();
         getServer().getServicesManager().unregisterAll(this);
         SignChangeEvent.getHandlerList().unregister(this);
         InventoryClickEvent.getHandlerList().unregister(this);

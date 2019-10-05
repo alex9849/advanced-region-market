@@ -223,9 +223,9 @@ public class RentRegion extends CountdownRegion {
     }
 
 
-    public StringBuffer getConvertedMessage(StringBuffer sb) {
-        sb = super.getConvertedMessage(sb);
-        return this.stringReplacer.replace(sb);
+    public String getConvertedMessage(String message) {
+        message = super.getConvertedMessage(message);
+        return this.stringReplacer.replace(message).toString();
     }
 
     public long getMaxRentTime() {

@@ -259,9 +259,9 @@ public class ContractRegion extends CountdownRegion {
         return  (msPerWeek / this.getExtendTime()) * pricePerM2;
     }
 
-    public StringBuffer getConvertedMessage(StringBuffer sb) {
-        sb = this.stringReplacer.replace(sb);
-        return super.getConvertedMessage(sb);
+    public String getConvertedMessage(String message) {
+        message = this.stringReplacer.replace(message).toString();
+        return super.getConvertedMessage(message);
     }
 
     public SellType getSellType() {

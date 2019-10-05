@@ -155,12 +155,7 @@ public class RegionKind implements Saveable {
     }
 
     public String getConvertedMessage(String message) {
-        StringBuffer sb = new StringBuffer(message);
-        return this.getConvertedMessage(sb).toString();
-    }
-
-    public StringBuffer getConvertedMessage(StringBuffer sb) {
-        return this.stringReplacer.replace(sb);
+        return this.stringReplacer.replace(message).toString();
     }
 
     @Override

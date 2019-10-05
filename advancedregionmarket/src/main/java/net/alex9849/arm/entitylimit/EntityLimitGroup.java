@@ -3,12 +3,15 @@ package net.alex9849.arm.entitylimit;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.util.Saveable;
+import net.alex9849.arm.util.stringreplacer.StringCreator;
+import net.alex9849.arm.util.stringreplacer.StringReplacer;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class EntityLimitGroup implements Saveable {
@@ -18,8 +21,31 @@ public class EntityLimitGroup implements Saveable {
     private int hardTotal;
     private int pricePerExtraEntity;
     private boolean needsSave = false;
+    private StringReplacer stringReplacer;
     public static EntityLimitGroup DEFAULT = new EntityLimitGroup(new ArrayList<>(), Integer.MAX_VALUE, Integer.MAX_VALUE, 0, "Default");
     public static EntityLimitGroup SUBREGION = new EntityLimitGroup(new ArrayList<>(), Integer.MAX_VALUE, Integer.MAX_VALUE, 0,"Subregion");
+
+
+    {
+        HashMap<String, StringCreator> variableReplacements = new HashMap<>();
+        variableReplacements.put("%entitylimitgroup%", () -> {
+            return this.getName();
+        });
+        variableReplacements.put("%priceperextraentity%", () -> {
+            return this.getPricePerExtraEntity() + "";
+        });
+        variableReplacements.put("%currency%", () -> {
+            return Messages.CURRENCY;
+        });
+        variableReplacements.put("%entitytype%", () -> {
+            return Messages.ENTITYLIMIT_TOTAL;
+        });
+        variableReplacements.put("%hardlimitentities%", () -> {
+            return EntityLimitGroup.intToLimitString(this.getHardLimit());
+        });
+
+        this.stringReplacer = new StringReplacer(variableReplacements, 20);
+    }
 
 
     public EntityLimitGroup(List<EntityLimit> entityLimits, int softTotal, int hardTotal, int pricePerExtraEntity, String name) {
@@ -253,11 +279,11 @@ public class EntityLimitGroup implements Saveable {
     }
 
     public String getConvertedMessage(String message) {
-        if(message.contains("%entitylimitgroup%")) message = message.replace("%entitylimitgroup%", this.getName());
-        if(message.contains("%priceperextraentity%")) message = message.replace("%priceperextraentity%", this.getPricePerExtraEntity() + "");
-        if(message.contains("%currency%")) message = message.replace("%currency%", Messages.CURRENCY);
-        if(message.contains("%entitytype%")) message = message.replace("%entitytype%", Messages.ENTITYLIMIT_TOTAL);
-        if(message.contains("%hardlimitentities%")) message = message.replace("%hardlimitentities%", EntityLimitGroup.intToLimitString(this.getHardLimit()));
-        return message;
+        StringBuffer sb = new StringBuffer(message);
+        return this.getConvertedMessage(sb).toString();
+    }
+
+    public StringBuffer getConvertedMessage(StringBuffer sb) {
+        return this.stringReplacer.replace(sb);
     }
 }

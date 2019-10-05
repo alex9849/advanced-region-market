@@ -67,7 +67,7 @@ public abstract class Region implements Saveable {
     private HashMap<EntityLimit.LimitableEntityType, Integer> extraEntitys;
     private int extraTotalEntitys;
     Integer m2Amount;
-    private StringReplacer variableReplacer;
+    private StringReplacer stringReplacer;
 
     {
         HashMap<String, StringCreator> variableReplacements = new HashMap<>();
@@ -207,7 +207,7 @@ public abstract class Region implements Saveable {
             }
         });
 
-        variableReplacer = new StringReplacer(variableReplacements, 50);
+        this.stringReplacer = new StringReplacer(variableReplacements, 50);
 
     }
 
@@ -827,11 +827,16 @@ public abstract class Region implements Saveable {
     }
 
     public String getConvertedMessage(String message) {
-        message = this.variableReplacer.replace(message).toString();
-        message = this.getRegionKind().getConvertedMessage(message);
-        message = this.getEntityLimitGroup().getConvertedMessage(message);
-        message = this.getFlagGroup().getConvertedMessage(message);
-        return message;
+        StringBuffer sb = new StringBuffer(message);
+        return this.getConvertedMessage(sb).toString();
+    }
+
+    public StringBuffer getConvertedMessage(StringBuffer sb) {
+        this.stringReplacer.replace(sb);
+        this.getRegionKind().getConvertedMessage(sb);
+        this.getEntityLimitGroup().getConvertedMessage(sb);
+        this.getFlagGroup().getConvertedMessage(sb);
+        return sb;
     }
 
     public void queueSave() {

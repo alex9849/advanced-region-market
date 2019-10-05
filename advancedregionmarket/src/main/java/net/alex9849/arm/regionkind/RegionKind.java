@@ -5,6 +5,8 @@ import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.util.MaterialFinder;
 import net.alex9849.arm.util.Saveable;
+import net.alex9849.arm.util.stringreplacer.StringCreator;
+import net.alex9849.arm.util.stringreplacer.StringReplacer;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -12,6 +14,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class RegionKind implements Saveable {
@@ -25,6 +28,34 @@ public class RegionKind implements Saveable {
     private boolean displayInLimits;
     private double paybackPercentage;
     private boolean needsSave;
+    private StringReplacer stringReplacer;
+
+    {
+        HashMap<String, StringCreator> variableReplacements = new HashMap<>();
+        variableReplacements.put("%regionkinddisplay%", () -> {
+            return this.getDisplayName();
+        });
+        variableReplacements.put("%regionkind%", () -> {
+            return this.getName();
+        });
+        variableReplacements.put("%currency%", () -> {
+            return Messages.CURRENCY;
+        });
+        variableReplacements.put("%paypackpercentage%", () -> {
+            return this.getPaybackPercentage() + "";
+        });
+        variableReplacements.put("%regionkinditem%", () -> {
+            return this.getMaterial().toString();
+        });
+        variableReplacements.put("%regionkinddisplayinlimits%", () -> {
+            return Messages.convertYesNo(this.isDisplayInLimits());
+        });
+        variableReplacements.put("%regionkinddisplayingui%", () -> {
+            return Messages.convertYesNo(this.isDisplayInGUI());
+        });
+
+        this.stringReplacer = new StringReplacer(variableReplacements, 20);
+    }
 
     public RegionKind(String name, Material material, List<String> lore, String displayName, boolean displayInGUI, boolean displayInLimits, double paybackPercentage){
         this.name = name;
@@ -124,14 +155,12 @@ public class RegionKind implements Saveable {
     }
 
     public String getConvertedMessage(String message) {
-        if(message.contains("%regionkinddisplay%")) message = message.replace("%regionkinddisplay%", this.getDisplayName());
-        if(message.contains("%regionkind%")) message = message.replace("%regionkind%", this.getName());
-        if(message.contains("%currency%")) message = message.replace("%currency%", Messages.CURRENCY);
-        if(message.contains("%paypackpercentage%")) message = message.replace("%paypackpercentage%", this.getPaybackPercentage() + "");
-        if(message.contains("%regionkinditem%")) message = message.replace("%regionkinditem%", this.getMaterial().toString());
-        if(message.contains("%regionkinddisplayinlimits%")) message = message.replace("%regionkinddisplayinlimits%", Messages.convertYesNo(this.isDisplayInLimits()));
-        if(message.contains("%regionkinddisplayingui%")) message = message.replace("%regionkinddisplayingui%", Messages.convertYesNo(this.isDisplayInGUI()));
-        return message;
+        StringBuffer sb = new StringBuffer(message);
+        return this.getConvertedMessage(sb).toString();
+    }
+
+    public StringBuffer getConvertedMessage(StringBuffer sb) {
+        return this.stringReplacer.replace(sb);
     }
 
     @Override

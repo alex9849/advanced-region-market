@@ -134,7 +134,8 @@ public class Teleporter {
 
     public static void teleport(Player player, Location location, String message, boolean useCountdown) {
         Location tpLocation = new Location(location.getWorld(),
-                location.getBlockX() + 0.5, location.getBlockY() + 0.5, location.getBlockZ() + 0.5);
+                location.getBlockX() + 0.5, location.getBlockY() + 0.5, location.getBlockZ() + 0.5,
+                location.getYaw(), location.getPitch());
         int timer = 0;
         if(useCountdown) {
             timer = 20 * AdvancedRegionMarket.getInstance().getConfig().getInt("Other.TeleporterTimer");

@@ -2,7 +2,7 @@ name: AdvancedRegionMarket
 version: ${project.version}
 main: net.alex9849.arm.AdvancedRegionMarket
 depend: [WorldGuard, WorldEdit, Vault]
-softdepend: [MultiWorld, Multiverse-Core, FastAsyncWorldEdit]
+softdepend: [MultiWorld, Multiverse-Core, FastAsyncWorldEdit, LuckPerms]
 authors:
    - alex9849
 api-version: 1.13
@@ -18,6 +18,7 @@ permissions:
       description: Give access to all commands of AdvancedRegionMarket
       default: op
       children:
+         arm.inactivityexpiration.unlimited: true
          arm.admin.changeinactivityreset: true
          arm.admin.create.sellregion: true
          arm.admin.create.rentregion: true
@@ -500,3 +501,6 @@ permissions:
    arm.help:
       description: Allows to display the help page of AdvancedRegionMarket
       default: true
+   arm.inactivityexpiration.unlimited:
+      description: Deactivated InactivityReset for the user
+      default: op

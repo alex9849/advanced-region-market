@@ -2,12 +2,15 @@ package net.alex9849.arm.util.stringreplacer;
 
 import org.ahocorasick.trie.Emit;
 import org.ahocorasick.trie.Trie;
+import org.bukkit.Bukkit;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.logging.Level;
 
 public class StringReplacer {
     private HashMap<String, StringCreator> replacerMap;
+    private HashMap<String, Collection<Emit>> knownStrings;
     private Trie ahoCorasickTrie;
     private int minExtraLength;
 
@@ -16,10 +19,29 @@ public class StringReplacer {
         this.minExtraLength = minExtraLength;
         this.ahoCorasickTrie = Trie.builder().ignoreOverlaps().
                 addKeywords(this.replacerMap.keySet()).build();
+        this.knownStrings = new HashMap<>();
     }
 
     public StringBuffer replace(String string) {
-        Collection<Emit> emits = this.ahoCorasickTrie.parseText(string);
+        return this.replace(string, false);
+    }
+
+    public StringBuffer replace(String string, boolean textlerning) {
+        Collection<Emit> emits;
+
+
+        if(textlerning) {
+            emits = this.knownStrings.get(string);
+            if(emits == null) {
+                emits = this.ahoCorasickTrie.parseText(string);
+                this.knownStrings.put(string, emits);
+            }
+        } else {
+            long timer = System.nanoTime();
+            emits = this.ahoCorasickTrie.parseText(string);
+            Bukkit.getLogger().log(Level.INFO, "Aho-Corasick: " + (System.nanoTime() - timer));
+        }
+
         StringBuffer sb = new StringBuffer(string);
         sb.ensureCapacity(sb.capacity() + this.minExtraLength);
         int shifted = 0;
@@ -32,30 +54,7 @@ public class StringReplacer {
             sb.replace(emit.getStart() + shifted, emit.getEnd() + shifted + 1, replaceString);
             shifted += replaceString.length() - emit.getKeyword().length();
         }
-        return sb; //replace(sb);
+        return sb;
     }
-
-    /*public StringBuffer replace(StringBuffer stringBuffer) {
-        stringBuffer.ensureCapacity(stringBuffer.capacity() + minExtraLength);
-        for(Map.Entry<String, StringCreator> entry : replacerMap.entrySet()) {
-            replace(stringBuffer, entry.getKey(), entry.getValue());
-        }
-        return stringBuffer;
-    }
-
-    private void replace(StringBuffer stringBuffer, String variable, StringCreator replacement) {
-
-        int start = stringBuffer.indexOf(variable);
-        String replacementString = null;
-        if(start > -1) {
-            replacementString = replacement.create();
-        }
-        while (start > -1) {
-            int end = start + variable.length();
-            int nextSearchStart = start + replacementString.length();
-            stringBuffer.replace(start, end, replacementString);
-            start = stringBuffer.indexOf(variable, nextSearchStart);
-        }
-    } */
 
 }

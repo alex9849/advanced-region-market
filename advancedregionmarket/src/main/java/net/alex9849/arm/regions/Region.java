@@ -432,12 +432,9 @@ public abstract class Region implements Saveable {
 
         for(SignData signData : this.sellsign) {
             if(signData.isChunkLoaded()) {
-                //TODO
-                long timer = System.nanoTime();
                 if (!signData.isPlaced()) {
                     signData.placeSign();
                 }
-                Bukkit.getLogger().log(Level.INFO, "Check if sign is placed/place sign: " + (System.nanoTime() - timer));
                 this.updateSignText(signData);
             }
         }

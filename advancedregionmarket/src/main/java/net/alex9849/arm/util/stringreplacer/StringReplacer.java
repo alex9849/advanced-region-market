@@ -2,11 +2,9 @@ package net.alex9849.arm.util.stringreplacer;
 
 import org.ahocorasick.trie.Emit;
 import org.ahocorasick.trie.Trie;
-import org.bukkit.Bukkit;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.logging.Level;
 
 public class StringReplacer {
     private HashMap<String, StringCreator> replacerMap;
@@ -37,9 +35,7 @@ public class StringReplacer {
                 this.knownStrings.put(string, emits);
             }
         } else {
-            long timer = System.nanoTime();
             emits = this.ahoCorasickTrie.parseText(string);
-            Bukkit.getLogger().log(Level.INFO, "Aho-Corasick: " + (System.nanoTime() - timer));
         }
 
         StringBuffer sb = new StringBuffer(string);

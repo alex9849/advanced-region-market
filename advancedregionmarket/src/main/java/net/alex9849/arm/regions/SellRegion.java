@@ -32,8 +32,6 @@ public class SellRegion extends Region {
                       int allowedSubregions, EntityLimitGroup entityLimitGroup, HashMap<EntityLimit.LimitableEntityType, Integer> extraEntitys, int boughtExtraTotalEntitys) {
         super(region, regionworld, sellsign, price, sold, inactivityReset,allowOnlyNewBlocks, doBlockReset, regionKind, flagGroup, teleportLoc, lastreset, lastLogin, isUserResettable,
                 subregions, allowedSubregions, entityLimitGroup, extraEntitys, boughtExtraTotalEntitys);
-
-        this.updateSigns();
     }
 
     @Override

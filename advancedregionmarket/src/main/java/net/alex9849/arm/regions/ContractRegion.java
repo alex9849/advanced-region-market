@@ -54,7 +54,6 @@ public class ContractRegion extends CountdownRegion {
         super(region, regionworld, contractsign, contractPrice, sold, inactivityReset, isHotel, doBlockReset, regionKind, flagGroup, teleportLoc, lastreset, lastLogin, isUserResettable,
                 payedTill, subregions, allowedSubregions, entityLimitGroup, extraEntitys, boughtExtraTotalEntitys);
         this.terminated = terminated;
-        this.updateSigns();
     }
 
     @Override

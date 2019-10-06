@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
 
 public class RentRegion extends CountdownRegion {
     private long maxRentTime;
@@ -58,12 +59,17 @@ public class RentRegion extends CountdownRegion {
     protected void updateSignText(SignData signData){
 
         if(this.isSold()){
+            //TODO
+            long timer = System.nanoTime();
             String[] lines = new String[4];
             lines[0] = this.getConvertedMessage(Messages.RENTED_SIGN1);
             lines[1] = this.getConvertedMessage(Messages.RENTED_SIGN2);
             lines[2] = this.getConvertedMessage(Messages.RENTED_SIGN3);
             lines[3] = this.getConvertedMessage(Messages.RENTED_SIGN4);
+            Bukkit.getLogger().log(Level.INFO, "Message converting: " + (System.nanoTime() - timer));
+            timer = System.nanoTime();
             signData.writeLines(lines);
+            Bukkit.getLogger().log(Level.INFO, "Sign writing: " + (System.nanoTime() - timer));
         } else {
             String[] lines = new String[4];
             lines[0] = this.getConvertedMessage(Messages.RENT_SIGN1);

@@ -39,14 +39,14 @@ public class ToolCommand implements BasicArmCommand {
 
     @Override
     public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
-        if(!sender.hasPermission(Permission.SUBREGION_TOOL)) {
+        if (!sender.hasPermission(Permission.SUBREGION_TOOL)) {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
         if (!(sender instanceof Player)) {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Player player = (Player) sender;
-        for(String msg : Messages.SUBREGION_TOOL_INSTRUCTION) {
+        for (String msg : Messages.SUBREGION_TOOL_INSTRUCTION) {
             player.sendMessage(msg);
         }
         // Check if Tool is already in Inventory -> Prevent duplicating Feathers
@@ -66,11 +66,12 @@ public class ToolCommand implements BasicArmCommand {
 
     /**
      * Removes the Subregion-Tool from the players inventory to prevent duplicating feathers a bit
+     *
      * @param player The player which gets checked
      * @return boolean True: Feder ist vorhanden<br>False: Spieler hat keine Feder
      */
     private boolean checkFeather(Player player) {
-        for (int i=0;i<36;i++) {
+        for (int i = 0; i < 36; i++) {
             ItemStack item = player.getInventory().getItem(i);
             if (item != null && item.getItemMeta() != null && item.getItemMeta().getDisplayName().equals("Subregion Tool")) {
                 return true;
@@ -82,9 +83,9 @@ public class ToolCommand implements BasicArmCommand {
     @Override
     public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
-        if(player.hasPermission(Permission.SUBREGION_TOOL)) {
-            if(args.length == 1) {
-                if(this.rootCommand.startsWith(args[0])) {
+        if (player.hasPermission(Permission.SUBREGION_TOOL)) {
+            if (args.length == 1) {
+                if (this.rootCommand.startsWith(args[0])) {
                     returnme.add(this.rootCommand);
                 }
             }

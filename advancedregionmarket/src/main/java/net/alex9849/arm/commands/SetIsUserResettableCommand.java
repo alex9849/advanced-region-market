@@ -39,36 +39,36 @@ public class SetIsUserResettableCommand implements BasicArmCommand {
 
     @Override
     public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
-        if(!(sender instanceof Player)) {
+        if (!(sender instanceof Player)) {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Player player = (Player) sender;
-        if(!player.hasPermission(Permission.ADMIN_SET_IS_USERRESETTABLE)) {
+        if (!player.hasPermission(Permission.ADMIN_SET_IS_USERRESETTABLE)) {
             throw new InputException(player, Messages.NO_PERMISSION);
         }
 
         List<Region> regions = new ArrayList<>();
         String selectedName;
 
-        if(allargs.matches(regex_massaction) && (AdvancedRegionMarket.getInstance().getRegionManager().getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName()) == null)) {
+        if (allargs.matches(regex_massaction) && (AdvancedRegionMarket.getInstance().getRegionManager().getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName()) == null)) {
             String[] splittedRegionKindArg = args[1].split(":", 2);
 
             RegionKind selectedRegionkind = AdvancedRegionMarket.getInstance().getRegionKindManager().getRegionKind(splittedRegionKindArg[1]);
-            if(selectedRegionkind == null) {
+            if (selectedRegionkind == null) {
                 throw new InputException(sender, Messages.REGIONKIND_DOES_NOT_EXIST);
             }
-            if(selectedRegionkind == RegionKind.SUBREGION) {
+            if (selectedRegionkind == RegionKind.SUBREGION) {
                 throw new InputException(sender, Messages.SUB_REGION_IS_USER_RESETTABLE_ERROR);
             }
             regions = AdvancedRegionMarket.getInstance().getRegionManager().getRegionsByRegionKind(selectedRegionkind);
             selectedName = selectedRegionkind.getConvertedMessage(Messages.MASSACTION_SPLITTER);
         } else {
             Region selectedRegion = AdvancedRegionMarket.getInstance().getRegionManager().getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
-            if(selectedRegion == null){
+            if (selectedRegion == null) {
                 throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
             }
 
-            if(selectedRegion.isSubregion()) {
+            if (selectedRegion.isSubregion()) {
                 throw new InputException(sender, Messages.SUB_REGION_IS_USER_RESETTABLE_ERROR);
             }
             regions.add(selectedRegion);
@@ -77,7 +77,7 @@ public class SetIsUserResettableCommand implements BasicArmCommand {
 
         Boolean boolsetting = Boolean.parseBoolean(args[2]);
 
-        for(Region region : regions) {
+        for (Region region : regions) {
             region.setIsUserResettable(boolsetting);
         }
         String sendmessage = Messages.PREFIX + "&6isUserResettable " + Messages.convertEnabledDisabled(boolsetting) + " &6for " + selectedName + "&6!";
@@ -90,25 +90,25 @@ public class SetIsUserResettableCommand implements BasicArmCommand {
     public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
 
-        if(args.length >= 1) {
+        if (args.length >= 1) {
             if (this.rootCommand.startsWith(args[0])) {
-                if(player.hasPermission(Permission.ADMIN_SET_IS_USERRESETTABLE)) {
-                    if(args.length == 1) {
+                if (player.hasPermission(Permission.ADMIN_SET_IS_USERRESETTABLE)) {
+                    if (args.length == 1) {
                         returnme.add(this.rootCommand);
-                    } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                        returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true,false));
-                        if("rk:".startsWith(args[1])) {
+                    } else if (args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
+                        returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true, false));
+                        if ("rk:".startsWith(args[1])) {
                             returnme.add("rk:");
                         }
                         if (args[1].matches("rk:([^;\n]+)?")) {
                             returnme.addAll(AdvancedRegionMarket.getInstance().getRegionKindManager().completeTabRegionKinds(args[1], "rk:"));
                         }
 
-                    } else if(args.length == 3 && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                        if("true".startsWith(args[2])) {
+                    } else if (args.length == 3 && (args[0].equalsIgnoreCase(this.rootCommand))) {
+                        if ("true".startsWith(args[2])) {
                             returnme.add("true");
                         }
-                        if("false".startsWith(args[2])) {
+                        if ("false".startsWith(args[2])) {
                             returnme.add("false");
                         }
                     }

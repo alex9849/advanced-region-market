@@ -39,11 +39,11 @@ public class SetDisplayInGuiCommand implements BasicArmCommand {
         if (!(sender instanceof Player)) {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
-        if(!sender.hasPermission(Permission.REGIONKIND_SET_DISPLAY_IN_GUI)) {
+        if (!sender.hasPermission(Permission.REGIONKIND_SET_DISPLAY_IN_GUI)) {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
         RegionKind regionKind = AdvancedRegionMarket.getInstance().getRegionKindManager().getRegionKind(args[1]);
-        if(regionKind == null) {
+        if (regionKind == null) {
             throw new InputException(sender, Messages.REGIONKIND_DOES_NOT_EXIST);
         }
         regionKind.setDisplayInGUI(Boolean.parseBoolean(args[2]));
@@ -55,21 +55,21 @@ public class SetDisplayInGuiCommand implements BasicArmCommand {
     public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
 
-        if(!player.hasPermission(Permission.REGIONKIND_SET_DISPLAY_IN_GUI)) {
+        if (!player.hasPermission(Permission.REGIONKIND_SET_DISPLAY_IN_GUI)) {
             return returnme;
         }
 
-        if(args.length == 1) {
+        if (args.length == 1) {
             if (this.rootCommand.startsWith(args[0])) {
                 returnme.add(this.rootCommand);
             }
-        } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
+        } else if (args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
             returnme.addAll(AdvancedRegionMarket.getInstance().getRegionKindManager().completeTabRegionKinds(args[1], ""));
-        } else if(args.length == 3 && (args[0].equalsIgnoreCase(this.rootCommand))) {
-            if("true".startsWith(args[2])) {
+        } else if (args.length == 3 && (args[0].equalsIgnoreCase(this.rootCommand))) {
+            if ("true".startsWith(args[2])) {
                 returnme.add("true");
             }
-            if("false".startsWith(args[2])) {
+            if ("false".startsWith(args[2])) {
                 returnme.add("false");
             }
         }

@@ -40,11 +40,11 @@ public class SetOwnerCommand implements BasicArmCommand {
 
     @Override
     public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
-        if(!sender.hasPermission(Permission.ADMIN_SETOWNER)) {
+        if (!sender.hasPermission(Permission.ADMIN_SETOWNER)) {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
 
-        if(!(sender instanceof Player)) {
+        if (!(sender instanceof Player)) {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Player playersender = (Player) sender;
@@ -67,20 +67,20 @@ public class SetOwnerCommand implements BasicArmCommand {
     public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
 
-        if(args.length >= 1) {
+        if (args.length >= 1) {
             if (this.rootCommand.startsWith(args[0])) {
                 if (player.hasPermission(Permission.ADMIN_SETOWNER)) {
-                    if(args.length == 1) {
+                    if (args.length == 1) {
                         returnme.add(this.rootCommand);
-                    } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
+                    } else if (args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
                         PlayerRegionRelationship playerRegionRelationship = null;
-                        if(player.hasPermission(Permission.ADMIN_SETOWNER)) {
+                        if (player.hasPermission(Permission.ADMIN_SETOWNER)) {
                             playerRegionRelationship = PlayerRegionRelationship.ALL;
                         } else {
                             playerRegionRelationship = PlayerRegionRelationship.OWNER;
                         }
-                        returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], playerRegionRelationship, true,true));
-                    } else if(args.length == 3 && (args[0].equalsIgnoreCase(this.rootCommand))) {
+                        returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], playerRegionRelationship, true, true));
+                    } else if (args.length == 3 && (args[0].equalsIgnoreCase(this.rootCommand))) {
                         returnme.addAll(CommandHandler.tabCompleteOnlinePlayers(args[2]));
                     }
                 }

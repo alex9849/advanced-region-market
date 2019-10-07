@@ -39,21 +39,21 @@ public class HotelCommand implements BasicArmCommand {
 
     @Override
     public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
-        if(!(sender.hasPermission(Permission.SUBREGION_CHANGE_IS_HOTEL))){
+        if (!(sender.hasPermission(Permission.SUBREGION_CHANGE_IS_HOTEL))) {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
-        if(!(sender instanceof Player)) {
+        if (!(sender instanceof Player)) {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Player player = (Player) sender;
         Region region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
-        if(region == null) {
+        if (region == null) {
             throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
         }
-        if(!region.isSubregion()) {
+        if (!region.isSubregion()) {
             throw new InputException(player, Messages.REGION_NOT_A_SUBREGION);
         }
-        if(!region.getParentRegion().getRegion().hasOwner(player.getUniqueId())) {
+        if (!region.getParentRegion().getRegion().hasOwner(player.getUniqueId())) {
             throw new InputException(player, Messages.PARENT_REGION_NOT_OWN);
         }
 
@@ -69,18 +69,18 @@ public class HotelCommand implements BasicArmCommand {
     public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
 
-        if(args.length >= 1) {
+        if (args.length >= 1) {
             if (this.rootCommand.startsWith(args[0])) {
-                if(player.hasPermission(Permission.SUBREGION_CHANGE_IS_HOTEL)) {
-                    if(args.length == 1) {
+                if (player.hasPermission(Permission.SUBREGION_CHANGE_IS_HOTEL)) {
+                    if (args.length == 1) {
                         returnme.add(this.rootCommand);
-                    } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                        returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.PARENTREGION_OWNER,false, true));
-                    } else if(args.length == 3 && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                        if("true".startsWith(args[2])) {
+                    } else if (args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
+                        returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.PARENTREGION_OWNER, false, true));
+                    } else if (args.length == 3 && (args[0].equalsIgnoreCase(this.rootCommand))) {
+                        if ("true".startsWith(args[2])) {
                             returnme.add("true");
                         }
-                        if("false".startsWith(args[2])) {
+                        if ("false".startsWith(args[2])) {
                             returnme.add("false");
                         }
                     }

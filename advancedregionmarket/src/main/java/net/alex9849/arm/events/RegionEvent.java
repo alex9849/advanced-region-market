@@ -15,6 +15,10 @@ public class RegionEvent extends Event implements Cancellable {
         this.isCancelled = false;
     }
 
+    public static HandlerList getHandlerList() {
+        return handlerList;
+    }
+
     @Override
     public HandlerList getHandlers() {
         return RegionEvent.handlerList;
@@ -24,15 +28,11 @@ public class RegionEvent extends Event implements Cancellable {
         return this.region;
     }
 
-    public void setCancelled(boolean cancelled) {
-        this.isCancelled = cancelled;
-    }
-
     public boolean isCancelled() {
         return this.isCancelled;
     }
 
-    public static HandlerList getHandlerList() {
-        return handlerList;
+    public void setCancelled(boolean cancelled) {
+        this.isCancelled = cancelled;
     }
 }

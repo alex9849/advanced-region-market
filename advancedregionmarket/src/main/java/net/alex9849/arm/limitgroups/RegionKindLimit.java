@@ -9,12 +9,12 @@ public class RegionKindLimit {
     RegionKindLimit(RegionKind regionKind, int limit) {
         this.regionKind = regionKind;
         this.limit = limit;
-        if(this.limit == -1){
+        if (this.limit == -1) {
             this.limit = Integer.MAX_VALUE;
         }
     }
 
-    public RegionKind getRegionKind(){
+    public RegionKind getRegionKind() {
         return this.regionKind;
     }
 

@@ -47,7 +47,7 @@ public class RemoveMemberCommand implements BasicArmCommand {
 
         Region region;
         OfflinePlayer removemember;
-        if(allargs.matches(this.regex)) {
+        if (allargs.matches(this.regex)) {
             region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, "");
             removemember = Bukkit.getOfflinePlayer(args[1]);
         } else {
@@ -55,21 +55,21 @@ public class RemoveMemberCommand implements BasicArmCommand {
             removemember = Bukkit.getOfflinePlayer(args[2]);
         }
 
-        if(region.getRegion().hasOwner(((Player) sender).getUniqueId()) && sender.hasPermission(Permission.MEMBER_REMOVEMEMBER)) {
-            if(!region.getRegion().hasMember(removemember.getUniqueId())) {
+        if (region.getRegion().hasOwner(((Player) sender).getUniqueId()) && sender.hasPermission(Permission.MEMBER_REMOVEMEMBER)) {
+            if (!region.getRegion().hasMember(removemember.getUniqueId())) {
                 throw new InputException(sender, Messages.REGION_REMOVE_MEMBER_NOT_A_MEMBER);
             }
             region.getRegion().removeMember(removemember.getUniqueId());
             sender.sendMessage(Messages.PREFIX + Messages.REGION_REMOVE_MEMBER_REMOVED);
             return true;
-        } else if (sender.hasPermission(Permission.ADMIN_REMOVEMEMBER)){
-            if(!region.getRegion().hasMember(removemember.getUniqueId())) {
+        } else if (sender.hasPermission(Permission.ADMIN_REMOVEMEMBER)) {
+            if (!region.getRegion().hasMember(removemember.getUniqueId())) {
                 throw new InputException(sender, Messages.REGION_REMOVE_MEMBER_NOT_A_MEMBER);
             }
             region.getRegion().removeMember(removemember.getUniqueId());
             sender.sendMessage(Messages.PREFIX + Messages.REGION_REMOVE_MEMBER_REMOVED);
             return true;
-        } else if (!(sender.hasPermission(Permission.MEMBER_REMOVEMEMBER))){
+        } else if (!(sender.hasPermission(Permission.MEMBER_REMOVEMEMBER))) {
             throw new InputException(sender, Messages.NO_PERMISSION);
         } else {
             throw new InputException(sender, Messages.REGION_REMOVE_MEMBER_DO_NOT_OWN);
@@ -80,19 +80,19 @@ public class RemoveMemberCommand implements BasicArmCommand {
     public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
 
-        if(args.length >= 1) {
+        if (args.length >= 1) {
             if (this.rootCommand.startsWith(args[0])) {
                 if (player.hasPermission(Permission.ADMIN_REMOVEMEMBER) || player.hasPermission(Permission.MEMBER_REMOVEMEMBER)) {
-                    if(args.length == 1) {
+                    if (args.length == 1) {
                         returnme.add(this.rootCommand);
-                    } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
+                    } else if (args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
                         PlayerRegionRelationship playerRegionRelationship = null;
-                        if(player.hasPermission(Permission.ADMIN_REMOVEMEMBER)) {
+                        if (player.hasPermission(Permission.ADMIN_REMOVEMEMBER)) {
                             playerRegionRelationship = PlayerRegionRelationship.ALL;
                         } else {
                             playerRegionRelationship = PlayerRegionRelationship.OWNER;
                         }
-                        returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], playerRegionRelationship, true,true));
+                        returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], playerRegionRelationship, true, true));
 
                     }
                 }

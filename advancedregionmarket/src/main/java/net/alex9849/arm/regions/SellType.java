@@ -32,10 +32,6 @@ public enum SellType {
         }
     };
 
-    public abstract String getName();
-
-    public abstract String getInternalName();
-
     public static SellType getSelltype(String string) {
         if (string.equalsIgnoreCase(SellType.SELL.getInternalName())) {
             return SellType.SELL;
@@ -46,5 +42,9 @@ public enum SellType {
         }
         return null;
     }
+
+    public abstract String getName();
+
+    public abstract String getInternalName();
 
 }

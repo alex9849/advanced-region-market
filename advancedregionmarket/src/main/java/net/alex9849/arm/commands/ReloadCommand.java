@@ -52,7 +52,7 @@ public class ReloadCommand implements BasicArmCommand {
     public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
 
-        if(args.length == 1) {
+        if (args.length == 1) {
             if (this.rootCommand.startsWith(args[0])) {
                 if (player.hasPermission(Permission.ADMIN_RELOAD)) {
                     returnme.add(this.rootCommand);

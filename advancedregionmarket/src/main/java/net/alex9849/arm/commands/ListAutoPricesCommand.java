@@ -35,13 +35,13 @@ public class ListAutoPricesCommand implements BasicArmCommand {
 
     @Override
     public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
-        if(!sender.hasPermission(Permission.ADMIN_LISTAUTOPRICES)) {
+        if (!sender.hasPermission(Permission.ADMIN_LISTAUTOPRICES)) {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
 
         sender.sendMessage(Messages.AUTOPRICE_LIST);
         sender.sendMessage("- " + "default");
-        for (AutoPrice autoPrice : AutoPrice.getAutoPrices()){
+        for (AutoPrice autoPrice : AutoPrice.getAutoPrices()) {
             sender.sendMessage("- " + autoPrice.getName());
         }
         return true;
@@ -51,7 +51,7 @@ public class ListAutoPricesCommand implements BasicArmCommand {
     public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
 
-        if(args.length == 1) {
+        if (args.length == 1) {
             if (this.rootCommand.startsWith(args[0])) {
                 if (player.hasPermission(Permission.ADMIN_LISTAUTOPRICES)) {
                     returnme.add(this.rootCommand);

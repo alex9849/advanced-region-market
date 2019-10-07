@@ -45,18 +45,18 @@ public class ResetCommand implements BasicArmCommand {
         }
         Player player = (Player) sender;
 
-        if(!sender.hasPermission(Permission.ADMIN_RESETREGION)){
+        if (!sender.hasPermission(Permission.ADMIN_RESETREGION)) {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
 
         Region resregion;
-        if(allargs.matches(this.regex)) {
+        if (allargs.matches(this.regex)) {
             resregion = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, "");
         } else {
             resregion = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, args[1]);
         }
 
-        if(resregion == null) {
+        if (resregion == null) {
             throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
         }
 
@@ -76,13 +76,13 @@ public class ResetCommand implements BasicArmCommand {
     public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
 
-        if(args.length >= 1) {
-            if(this.rootCommand.startsWith(args[0])) {
-                if(player.hasPermission(Permission.ADMIN_RESETREGION)) {
-                    if(args.length == 1) {
+        if (args.length >= 1) {
+            if (this.rootCommand.startsWith(args[0])) {
+                if (player.hasPermission(Permission.ADMIN_RESETREGION)) {
+                    if (args.length == 1) {
                         returnme.add(this.rootCommand);
-                    } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                        returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true,true));
+                    } else if (args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
+                        returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true, true));
                     }
                 }
             }

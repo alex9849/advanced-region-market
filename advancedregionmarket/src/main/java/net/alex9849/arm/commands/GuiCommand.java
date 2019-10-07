@@ -50,7 +50,7 @@ public class GuiCommand implements BasicArmCommand {
     public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
 
-        if(args.length == 1) {
+        if (args.length == 1) {
             if (this.rootCommand.startsWith(args[0])) {
                 if (player.hasPermission(Permission.MEMBER_GUI)) {
                     returnme.add(this.rootCommand);

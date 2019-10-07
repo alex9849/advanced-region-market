@@ -48,11 +48,11 @@ public class CheckCommand implements BasicArmCommand {
         }
         Region region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
 
-        if(region == null) {
+        if (region == null) {
             throw new InputException(player, Messages.REGION_DOES_NOT_EXIST);
         }
 
-        if(!region.getRegion().hasMember(player.getUniqueId()) && !region.getRegion().hasOwner(player.getUniqueId()) && !player.hasPermission(Permission.ADMIN_ENTITYLIMIT_CHECK)) {
+        if (!region.getRegion().hasMember(player.getUniqueId()) && !region.getRegion().hasOwner(player.getUniqueId()) && !player.hasPermission(Permission.ADMIN_ENTITYLIMIT_CHECK)) {
             throw new InputException(player, Messages.NOT_A_MEMBER_OR_OWNER);
         }
         List<Entity> entities = region.getFilteredInsideEntities(false, true,
@@ -62,15 +62,15 @@ public class CheckCommand implements BasicArmCommand {
         player.sendMessage(region.getConvertedMessage(Messages.ENTITYLIMIT_CHECK_HEADLINE));
         String totalstatus = region.getEntityLimitGroup().getConvertedMessage(Messages.ENTITYLIMIT_CHECK_PATTERN, entities, region.getExtraTotalEntitys());
 
-        if((region.getEntityLimitGroup().getSoftLimit(region.getExtraTotalEntitys()) < region.getEntityLimitGroup().getHardLimit()) && !region.isSubregion()) {
+        if ((region.getEntityLimitGroup().getSoftLimit(region.getExtraTotalEntitys()) < region.getEntityLimitGroup().getHardLimit()) && !region.isSubregion()) {
             totalstatus = totalstatus.replace("%entityextensioninfo%", region.getEntityLimitGroup().getConvertedMessage(Messages.ENTITYLIMIT_CHECK_EXTENSION_INFO, entities, region.getExtraTotalEntitys()));
         } else {
             totalstatus = totalstatus.replace("%entityextensioninfo%", "");
         }
         player.sendMessage(totalstatus);
-        for(EntityLimit entityLimit : region.getEntityLimitGroup().getEntityLimits()) {
+        for (EntityLimit entityLimit : region.getEntityLimitGroup().getEntityLimits()) {
             String entitystatus = entityLimit.getConvertedMessage(Messages.ENTITYLIMIT_CHECK_PATTERN, entities, region.getExtraEntityAmount(entityLimit.getLimitableEntityType()));
-            if((entityLimit.getSoftLimit(region.getExtraEntityAmount(entityLimit.getLimitableEntityType())) < entityLimit.getHardLimit()) && !region.isSubregion()) {
+            if ((entityLimit.getSoftLimit(region.getExtraEntityAmount(entityLimit.getLimitableEntityType())) < entityLimit.getHardLimit()) && !region.isSubregion()) {
                 entitystatus = entitystatus.replace("%entityextensioninfo%", entityLimit.getConvertedMessage(Messages.ENTITYLIMIT_CHECK_EXTENSION_INFO, entities, region.getExtraEntityAmount(entityLimit.getLimitableEntityType())));
             } else {
                 entitystatus = entitystatus.replace("%entityextensioninfo%", "");
@@ -87,14 +87,14 @@ public class CheckCommand implements BasicArmCommand {
             return returnme;
         }
 
-        if(args.length >= 1) {
-            if(args.length == 1) {
+        if (args.length >= 1) {
+            if (args.length == 1) {
                 if (this.rootCommand.startsWith(args[0])) {
                     returnme.add(this.rootCommand);
                 }
-            } else if((args.length == 2) && (args[0].equalsIgnoreCase(this.rootCommand))) {
+            } else if ((args.length == 2) && (args[0].equalsIgnoreCase(this.rootCommand))) {
                 if (this.rootCommand.startsWith(args[0])) {
-                    if(player.hasPermission(Permission.ADMIN_ENTITYLIMIT_CHECK)) {
+                    if (player.hasPermission(Permission.ADMIN_ENTITYLIMIT_CHECK)) {
                         returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true, true));
                     } else {
                         returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.MEMBER_OR_OWNER, true, true));

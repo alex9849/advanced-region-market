@@ -41,17 +41,17 @@ public class SetItemCommand implements BasicArmCommand {
         if (!(sender instanceof Player)) {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
-        if(!sender.hasPermission(Permission.REGIONKIND_SET_ITEM)) {
+        if (!sender.hasPermission(Permission.REGIONKIND_SET_ITEM)) {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
         RegionKind regionKind = AdvancedRegionMarket.getInstance().getRegionKindManager().getRegionKind(args[1]);
-        if(regionKind == null) {
+        if (regionKind == null) {
             throw new InputException(sender, Messages.REGIONKIND_DOES_NOT_EXIST);
         }
 
         Material material = MaterialFinder.getMaterial(args[2]);
 
-        if(material == null) {
+        if (material == null) {
             throw new InputException(sender, Messages.MATERIAL_NOT_FOUND);
         }
 
@@ -65,19 +65,19 @@ public class SetItemCommand implements BasicArmCommand {
     public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
 
-        if(!player.hasPermission(Permission.REGIONKIND_SET_ITEM)) {
+        if (!player.hasPermission(Permission.REGIONKIND_SET_ITEM)) {
             return returnme;
         }
 
-        if(args.length == 1) {
+        if (args.length == 1) {
             if (this.rootCommand.startsWith(args[0])) {
                 returnme.add(this.rootCommand);
             }
-        } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
+        } else if (args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
             returnme.addAll(AdvancedRegionMarket.getInstance().getRegionKindManager().completeTabRegionKinds(args[1], ""));
-        } else if(args.length == 3 && (args[0].equalsIgnoreCase(this.rootCommand))) {
-            for(Material material : Material.values()) {
-                if(material.toString().toLowerCase().startsWith(args[2])) {
+        } else if (args.length == 3 && (args[0].equalsIgnoreCase(this.rootCommand))) {
+            for (Material material : Material.values()) {
+                if (material.toString().toLowerCase().startsWith(args[2])) {
                     returnme.add(material.toString());
                 }
             }

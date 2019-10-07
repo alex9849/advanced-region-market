@@ -17,27 +17,27 @@ public class FlagGroupManager extends YamlFileManager<FlagGroup> {
 
     @Override
     public List loadSavedObjects(YamlConfiguration yamlConfiguration) {
-        if(yamlConfiguration.get("DefaultFlagGroup") != null) {
+        if (yamlConfiguration.get("DefaultFlagGroup") != null) {
             ConfigurationSection defaultRkConfig = yamlConfiguration.getConfigurationSection("DefaultFlagGroup");
             FlagGroup.DEFAULT = FlagGroup.parse(defaultRkConfig, "Default");
         }
-        if(yamlConfiguration.get("SubregionFlagGroup") != null) {
+        if (yamlConfiguration.get("SubregionFlagGroup") != null) {
             ConfigurationSection subregionRkConfig = yamlConfiguration.getConfigurationSection("SubregionFlagGroup");
             FlagGroup.SUBREGION = FlagGroup.parse(subregionRkConfig, "SubRegion");
         }
 
         List<FlagGroup> flagGroupList = new ArrayList<>();
         ConfigurationSection flagGroupsSection = yamlConfiguration.getConfigurationSection("FlagGroups");
-        if(flagGroupsSection == null) {
+        if (flagGroupsSection == null) {
             return flagGroupList;
         }
         Set<String> flagGroupNames = flagGroupsSection.getKeys(false);
-        if(flagGroupNames == null) {
+        if (flagGroupNames == null) {
             return flagGroupList;
         }
-        for(String flaggroupsName : flagGroupNames) {
+        for (String flaggroupsName : flagGroupNames) {
             ConfigurationSection flagGroupSection = flagGroupsSection.getConfigurationSection(flaggroupsName);
-            if(flagGroupSection == null) {
+            if (flagGroupSection == null) {
                 continue;
             }
             flagGroupList.add(FlagGroup.parse(flagGroupSection, flaggroupsName));
@@ -64,14 +64,14 @@ public class FlagGroupManager extends YamlFileManager<FlagGroup> {
     }
 
     public FlagGroup getFlagGroup(String id) {
-        if("default".equalsIgnoreCase(id)) {
+        if ("default".equalsIgnoreCase(id)) {
             return FlagGroup.DEFAULT;
         }
-        if("subregion".equalsIgnoreCase(id)) {
+        if ("subregion".equalsIgnoreCase(id)) {
             return FlagGroup.SUBREGION;
         }
-        for(FlagGroup flagGroup : this) {
-            if(flagGroup.getName().equalsIgnoreCase(id)) {
+        for (FlagGroup flagGroup : this) {
+            if (flagGroup.getName().equalsIgnoreCase(id)) {
                 return flagGroup;
             }
         }
@@ -81,17 +81,17 @@ public class FlagGroupManager extends YamlFileManager<FlagGroup> {
     public List<String> tabCompleteFlaggroup(String name) {
         List<String> returnme = new ArrayList<>();
 
-        for(FlagGroup flagGroup : this) {
-            if(flagGroup.getName().startsWith(name)) {
+        for (FlagGroup flagGroup : this) {
+            if (flagGroup.getName().startsWith(name)) {
                 returnme.add(flagGroup.getName());
             }
         }
 
-        if("default".startsWith(name)) {
+        if ("default".startsWith(name)) {
             returnme.add("Default");
         }
 
-        if("subregion".startsWith(name)) {
+        if ("subregion".startsWith(name)) {
             returnme.add("Subregion");
         }
 

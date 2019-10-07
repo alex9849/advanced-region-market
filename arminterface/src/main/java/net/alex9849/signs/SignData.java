@@ -23,7 +23,7 @@ public abstract class SignData {
     public abstract void placeSign();
 
     public Sign getSign() {
-        if(!this.isPlaced()) {
+        if (!this.isPlaced()) {
             return null;
         }
         return (Sign) this.getLocation().getBlock().getState();
@@ -36,7 +36,7 @@ public abstract class SignData {
     public void writeLines(String[] lines) {
         Sign sign = this.getSign();
 
-        if(sign == null) {
+        if (sign == null) {
             return;
         }
 
@@ -61,7 +61,7 @@ public abstract class SignData {
 
     public String toString() {
         String wallsignIndicator;
-        if(this.isWallSign()) {
+        if (this.isWallSign()) {
             wallsignIndicator = "WALL";
         } else {
             wallsignIndicator = "GROUND";

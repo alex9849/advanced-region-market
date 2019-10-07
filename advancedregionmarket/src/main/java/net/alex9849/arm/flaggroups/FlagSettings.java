@@ -32,7 +32,7 @@ public class FlagSettings {
     public List<String> getGuidescription() {
         List<String> convertedDescription = new ArrayList<>();
 
-        for(String msg : this.guidescription) {
+        for (String msg : this.guidescription) {
             convertedDescription.add(ChatColor.translateAlternateColorCodes('&', msg));
         }
 

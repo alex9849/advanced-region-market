@@ -41,11 +41,11 @@ public class SubSignCreationListener implements Listener {
     @EventHandler
     public void signChangeEvent(SignChangeEvent event) {
         try {
-            if(event.getPlayer().getUniqueId() != this.player.getUniqueId()) {
+            if (event.getPlayer().getUniqueId() != this.player.getUniqueId()) {
                 return;
             }
-            if(event.getLine(0).equalsIgnoreCase("[Sub-Sell]")) {
-                if(!event.getPlayer().hasPermission(Permission.SUBREGION_CREATE_SELL)) {
+            if (event.getLine(0).equalsIgnoreCase("[Sub-Sell]")) {
+                if (!event.getPlayer().hasPermission(Permission.SUBREGION_CREATE_SELL)) {
                     throw new InputException(event.getPlayer(), Messages.NO_PERMISSION);
                 }
 
@@ -59,7 +59,7 @@ public class SubSignCreationListener implements Listener {
                 }
                 List<SignData> signList = new ArrayList<>();
                 SignData signData = AdvancedRegionMarket.getInstance().getSignDataFactory().generateSignData(event.getBlock().getLocation());
-                if(signData == null) {
+                if (signData == null) {
                     throw new InputException(event.getPlayer(), "Could not import sign!");
                 }
                 signList.add(signData);
@@ -72,15 +72,15 @@ public class SubSignCreationListener implements Listener {
                 sellRegion.applyFlagGroup(FlagGroup.ResetMode.COMPLETE);
                 this.subRegionCreator.remove();
                 event.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_CREATED_AND_SAVED);
-            } else if(event.getLine(0).equalsIgnoreCase("[Sub-Rent]")) {
-                if(!event.getPlayer().hasPermission(Permission.SUBREGION_CREATE_RENT)) {
+            } else if (event.getLine(0).equalsIgnoreCase("[Sub-Rent]")) {
+                if (!event.getPlayer().hasPermission(Permission.SUBREGION_CREATE_RENT)) {
                     throw new InputException(event.getPlayer(), Messages.NO_PERMISSION);
                 }
                 double price = 0;
                 long maxRentTime = 0;
                 long extendPerClick = 0;
 
-                try{
+                try {
                     String[] priceline = event.getLine(3).split("(;|:)", 3);
                     String pricestring = priceline[0];
                     String extendPerClickString = priceline[1];
@@ -101,7 +101,7 @@ public class SubSignCreationListener implements Listener {
 
                 List<SignData> signList = new ArrayList<>();
                 SignData signData = AdvancedRegionMarket.getInstance().getSignDataFactory().generateSignData(event.getBlock().getLocation());
-                if(signData == null) {
+                if (signData == null) {
                     throw new InputException(event.getPlayer(), "Could not import sign!");
                 }
                 signList.add(signData);
@@ -114,15 +114,15 @@ public class SubSignCreationListener implements Listener {
                 rentRegion.applyFlagGroup(FlagGroup.ResetMode.COMPLETE);
                 this.subRegionCreator.remove();
                 event.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_CREATED_AND_SAVED);
-            } else if(event.getLine(0).equalsIgnoreCase("[Sub-Contract]")) {
-                if(!event.getPlayer().hasPermission(Permission.SUBREGION_CREATE_CONTRACT)) {
+            } else if (event.getLine(0).equalsIgnoreCase("[Sub-Contract]")) {
+                if (!event.getPlayer().hasPermission(Permission.SUBREGION_CREATE_CONTRACT)) {
                     throw new InputException(event.getPlayer(), Messages.NO_PERMISSION);
                 }
 
                 double price = 0;
                 long extendtime = 0;
 
-                try{
+                try {
                     String[] priceline = event.getLine(3).split("(;|:)", 2);
                     String pricestring = priceline[0];
                     String extendtimeString = priceline[1];
@@ -140,7 +140,7 @@ public class SubSignCreationListener implements Listener {
                 }
                 List<SignData> signList = new ArrayList<>();
                 SignData signData = AdvancedRegionMarket.getInstance().getSignDataFactory().generateSignData(event.getBlock().getLocation());
-                if(signData == null) {
+                if (signData == null) {
                     throw new InputException(event.getPlayer(), "Could not import sign!");
                 }
                 signList.add(signData);

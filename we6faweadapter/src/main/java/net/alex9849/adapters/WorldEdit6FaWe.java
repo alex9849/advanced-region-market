@@ -28,7 +28,7 @@ public class WorldEdit6FaWe extends WorldEditInterface {
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
         File file = new File(pluginfolder + "/schematics/" + bukkitworld.getName() + "/" + region.getId() + ".schematic");
         File schematicfolder = new File(pluginfolder + "/schematics/" + bukkitworld.getName());
-        if(file.exists()){
+        if (file.exists()) {
             file.delete();
         }
 
@@ -63,7 +63,7 @@ public class WorldEdit6FaWe extends WorldEditInterface {
             }
         }
 
-        if(file == null) {
+        if (file == null) {
             throw new SchematicException(region);
         }
 
@@ -82,7 +82,7 @@ public class WorldEdit6FaWe extends WorldEditInterface {
 
             ((EditSession) destination).flushQueue();
 
-        } catch (IOException e ) {
+        } catch (IOException e) {
             throw new SchematicException(region);
         } catch (MaxChangedBlocksException e) {
             throw new SchematicException(region);

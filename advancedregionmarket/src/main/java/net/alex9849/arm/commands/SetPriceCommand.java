@@ -45,10 +45,10 @@ public class SetPriceCommand implements BasicArmCommand {
 
     @Override
     public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
-        if(!(sender.hasPermission(Permission.ADMIN_SET_PRICE))){
+        if (!(sender.hasPermission(Permission.ADMIN_SET_PRICE))) {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
-        if(!(sender instanceof Player)) {
+        if (!(sender instanceof Player)) {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Player player = (Player) sender;
@@ -57,38 +57,38 @@ public class SetPriceCommand implements BasicArmCommand {
         RentPrice price;
         String selectedName;
 
-        if(allargs.matches(this.regex_massaction)) {
+        if (allargs.matches(this.regex_massaction)) {
             String[] splittedRegionKindArg = args[1].split(":", 2);
             RegionKind selectedRegionkind = AdvancedRegionMarket.getInstance().getRegionKindManager().getRegionKind(splittedRegionKindArg[1]);
-            if(selectedRegionkind == null) {
+            if (selectedRegionkind == null) {
                 throw new InputException(sender, Messages.REGIONKIND_DOES_NOT_EXIST);
             }
             selectedregions = AdvancedRegionMarket.getInstance().getRegionManager().getRegionsByRegionKind(selectedRegionkind);
             selectedName = selectedRegionkind.getConvertedMessage(Messages.MASSACTION_SPLITTER);
         } else {
             Region selectedRegion = AdvancedRegionMarket.getInstance().getRegionManager().getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
-            if(selectedRegion == null){
+            if (selectedRegion == null) {
                 throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
             }
             selectedregions.add(selectedRegion);
             selectedName = "&a" + selectedRegion.getRegion().getId();
         }
 
-        if(allargs.matches(this.regex_price) || allargs.matches(this.regex_price_massaction)) {
+        if (allargs.matches(this.regex_price) || allargs.matches(this.regex_price_massaction)) {
             int priceint = Integer.parseInt(args[2]);
             long extend = RentPrice.stringToTime(args[3]);
             long maxrenttime = RentPrice.stringToTime(args[4]);
 
-            for(Region region : selectedregions) {
+            for (Region region : selectedregions) {
                 price = new RentPrice(priceint, extend, maxrenttime);
                 region.setPrice(price);
             }
         } else {
             AutoPrice selectedAutoprice = AutoPrice.getAutoprice(args[2]);
-            if(selectedAutoprice == null) {
+            if (selectedAutoprice == null) {
                 throw new InputException(sender, ChatColor.RED + "Autoprice does not exist!");
             }
-            for(Region region : selectedregions) {
+            for (Region region : selectedregions) {
                 price = new RentPrice(selectedAutoprice);
                 region.setPrice(price);
             }
@@ -104,31 +104,31 @@ public class SetPriceCommand implements BasicArmCommand {
     public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
 
-        if(args.length >= 1) {
-            if(this.rootCommand.startsWith(args[0])) {
+        if (args.length >= 1) {
+            if (this.rootCommand.startsWith(args[0])) {
                 if (player.hasPermission(Permission.ADMIN_SET_PRICE)) {
-                    if(args.length == 1) {
+                    if (args.length == 1) {
                         returnme.add(this.rootCommand);
-                    } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                        returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true,true));
-                        if("rk:".startsWith(args[1])) {
+                    } else if (args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
+                        returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true, true));
+                        if ("rk:".startsWith(args[1])) {
                             returnme.add("rk:");
                         }
                         if (args[1].matches("rk:([^;\n]+)?")) {
                             returnme.addAll(AdvancedRegionMarket.getInstance().getRegionKindManager().completeTabRegionKinds(args[1], "rk:"));
                         }
 
-                    } else if(args.length == 3 && (args[0].equalsIgnoreCase(this.rootCommand))) {
+                    } else if (args.length == 3 && (args[0].equalsIgnoreCase(this.rootCommand))) {
                         returnme.addAll(AutoPrice.tabCompleteAutoPrice(args[2]));
-                    } else if(args.length == 4 && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                        if(args[3].matches("[0-9]+")) {
+                    } else if (args.length == 4 && (args[0].equalsIgnoreCase(this.rootCommand))) {
+                        if (args[3].matches("[0-9]+")) {
                             returnme.add(args[3] + "s");
                             returnme.add(args[3] + "m");
                             returnme.add(args[3] + "h");
                             returnme.add(args[3] + "d");
                         }
-                    } else if(args.length == 5 && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                        if(args[4].matches("[0-9]+")) {
+                    } else if (args.length == 5 && (args[0].equalsIgnoreCase(this.rootCommand))) {
+                        if (args[4].matches("[0-9]+")) {
                             returnme.add(args[4] + "s");
                             returnme.add(args[4] + "m");
                             returnme.add(args[4] + "h");

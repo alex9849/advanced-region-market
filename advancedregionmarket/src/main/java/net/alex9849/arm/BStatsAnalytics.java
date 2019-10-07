@@ -15,6 +15,36 @@ import java.util.logging.Level;
 
 public class BStatsAnalytics {
 
+    private static RegionStatistics getRegionStatistics() {
+        RegionStatistics regionStatistics = new RegionStatistics();
+
+        for (Region region : AdvancedRegionMarket.getInstance().getRegionManager()) {
+            if (region instanceof SellRegion) {
+                if (region.isSold()) {
+                    regionStatistics.soldSellRegions++;
+                } else {
+                    regionStatistics.availableSellRegions++;
+                }
+
+            } else if (region instanceof RentRegion) {
+                if (region.isSold()) {
+                    regionStatistics.soldRentRegions++;
+                } else {
+                    regionStatistics.availableRentRegions++;
+                }
+
+            } else if (region instanceof ContractRegion) {
+                if (region.isSold()) {
+                    regionStatistics.soldContractRegions++;
+                } else {
+                    regionStatistics.availableContractRegions++;
+                }
+
+            }
+        }
+        return regionStatistics;
+    }
+
     public void register(Plugin plugin) {
         try {
             Metrics metrics = new Metrics(plugin);
@@ -90,35 +120,5 @@ public class BStatsAnalytics {
         private int soldRentRegions = 0;
         private int availableContractRegions = 0;
         private int soldContractRegions = 0;
-    }
-
-    private static RegionStatistics getRegionStatistics() {
-        RegionStatistics regionStatistics = new RegionStatistics();
-
-        for(Region region : AdvancedRegionMarket.getInstance().getRegionManager()) {
-            if(region instanceof SellRegion) {
-                if(region.isSold()) {
-                    regionStatistics.soldSellRegions++;
-                } else {
-                    regionStatistics.availableSellRegions++;
-                }
-
-            } else if(region instanceof RentRegion) {
-                if(region.isSold()) {
-                    regionStatistics.soldRentRegions++;
-                } else {
-                    regionStatistics.availableRentRegions++;
-                }
-
-            } else if(region instanceof ContractRegion) {
-                if(region.isSold()) {
-                    regionStatistics.soldContractRegions++;
-                } else {
-                    regionStatistics.availableContractRegions++;
-                }
-
-            }
-        }
-        return regionStatistics;
     }
 }

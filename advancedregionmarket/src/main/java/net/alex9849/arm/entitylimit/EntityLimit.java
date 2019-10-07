@@ -49,49 +49,10 @@ public class EntityLimit {
         entityTypes = entityTypeSet;
     }
 
-    public static class LimitableEntityType {
-        private static HashMap<Class, LimitableEntityType> limitableEntityTypes = new HashMap<>();
-        private final Class clazz;
-        private final String name;
-
-        private LimitableEntityType(String name, Class clazz) {
-            this.clazz = clazz;
-            this.name = name;
-        }
-
-        public boolean isAssingnable(Class clazz) {
-            if (clazz == null) {
-                return false;
-            }
-            return this.clazz.isAssignableFrom(clazz);
-        }
-
-        public String getName() {
-            return this.name;
-        }
-
-        public Class getClazz() {
-            return this.clazz;
-        }
-
-        @Override
-        public String toString() {
-            return this.getName();
-        }
-
-        private static LimitableEntityType getUniqueLimitableEntityType(String name, Class clazz) {
-            if (limitableEntityTypes.get(clazz) == null) {
-                limitableEntityTypes.put(clazz, new LimitableEntityType(name, clazz));
-            }
-            return limitableEntityTypes.get(clazz);
-        }
-    }
-
     private LimitableEntityType limitableEntityType;
     private int softlimit;
     private int hardlimit;
     private int pricePerExtraEntity;
-
     public EntityLimit(LimitableEntityType limitableEntityType, int softlimit, int hardlimit, int pricePerExtraEntity) {
         if (softlimit < 0) {
             softlimit = softlimit * (-1);
@@ -109,6 +70,29 @@ public class EntityLimit {
         this.softlimit = softlimit;
         this.hardlimit = hardlimit;
         this.pricePerExtraEntity = pricePerExtraEntity;
+    }
+
+    public static LimitableEntityType toLimitableEntityType(EntityType entityType) {
+        if (toLimitableEntityTypeMap.get(entityType) != null) {
+            return toLimitableEntityTypeMap.get(entityType);
+        }
+
+        for (LimitableEntityType limitableEntityType : entityTypes) {
+            if (limitableEntityType.getClazz().equals(entityType.getEntityClass())) {
+                toLimitableEntityTypeMap.put(entityType, limitableEntityType);
+                return limitableEntityType;
+            }
+        }
+        return null;
+    }
+
+    public static LimitableEntityType getLimitableEntityType(String name) {
+        for (LimitableEntityType limitableEntityType : entityTypes) {
+            if (limitableEntityType.getName().equalsIgnoreCase(name)) {
+                return limitableEntityType;
+            }
+        }
+        return null;
     }
 
     public LimitableEntityType getLimitableEntityType() {
@@ -154,35 +138,55 @@ public class EntityLimit {
 
     public String getConvertedMessage(String message, List<Entity> entities, int entityExpansion) {
         String result = message;
-        if(result.contains("%entitytype%")) result = result.replace("%entitytype%", this.getLimitableEntityType().getName());
-        if(result.contains("%actualentities%")) result = result.replace("%actualentities%", EntityLimitGroup.filterEntitys(entities, this.getLimitableEntityType()).size() + "");
-        if(result.contains("%softlimitentities%")) result = result.replace("%softlimitentities%", EntityLimitGroup.intToLimitString(this.getSoftLimit(entityExpansion)));
-        if(result.contains("%hardlimitentities%")) result = result.replace("%hardlimitentities%", EntityLimitGroup.intToLimitString(this.getHardLimit()));
-        if(result.contains("%priceperextraentity%")) result = result.replace("%priceperextraentity%", this.getPricePerExtraEntity() + "");
-        if(result.contains("%currency%")) result = result.replace("%currency%", Messages.CURRENCY);
+        if (result.contains("%entitytype%"))
+            result = result.replace("%entitytype%", this.getLimitableEntityType().getName());
+        if (result.contains("%actualentities%"))
+            result = result.replace("%actualentities%", EntityLimitGroup.filterEntitys(entities, this.getLimitableEntityType()).size() + "");
+        if (result.contains("%softlimitentities%"))
+            result = result.replace("%softlimitentities%", EntityLimitGroup.intToLimitString(this.getSoftLimit(entityExpansion)));
+        if (result.contains("%hardlimitentities%"))
+            result = result.replace("%hardlimitentities%", EntityLimitGroup.intToLimitString(this.getHardLimit()));
+        if (result.contains("%priceperextraentity%"))
+            result = result.replace("%priceperextraentity%", this.getPricePerExtraEntity() + "");
+        if (result.contains("%currency%")) result = result.replace("%currency%", Messages.CURRENCY);
         return result;
     }
 
-    public static LimitableEntityType toLimitableEntityType(EntityType entityType) {
-        if (toLimitableEntityTypeMap.get(entityType) != null) {
-            return toLimitableEntityTypeMap.get(entityType);
+    public static class LimitableEntityType {
+        private static HashMap<Class, LimitableEntityType> limitableEntityTypes = new HashMap<>();
+        private final Class clazz;
+        private final String name;
+
+        private LimitableEntityType(String name, Class clazz) {
+            this.clazz = clazz;
+            this.name = name;
         }
 
-        for (LimitableEntityType limitableEntityType : entityTypes) {
-            if (limitableEntityType.getClazz().equals(entityType.getEntityClass())) {
-                toLimitableEntityTypeMap.put(entityType, limitableEntityType);
-                return limitableEntityType;
+        private static LimitableEntityType getUniqueLimitableEntityType(String name, Class clazz) {
+            if (limitableEntityTypes.get(clazz) == null) {
+                limitableEntityTypes.put(clazz, new LimitableEntityType(name, clazz));
             }
+            return limitableEntityTypes.get(clazz);
         }
-        return null;
-    }
 
-    public static LimitableEntityType getLimitableEntityType(String name) {
-        for (LimitableEntityType limitableEntityType : entityTypes) {
-            if (limitableEntityType.getName().equalsIgnoreCase(name)) {
-                return limitableEntityType;
+        public boolean isAssingnable(Class clazz) {
+            if (clazz == null) {
+                return false;
             }
+            return this.clazz.isAssignableFrom(clazz);
         }
-        return null;
+
+        public String getName() {
+            return this.name;
+        }
+
+        public Class getClazz() {
+            return this.clazz;
+        }
+
+        @Override
+        public String toString() {
+            return this.getName();
+        }
     }
 }

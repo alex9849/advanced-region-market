@@ -42,21 +42,21 @@ public class RemoveCommandCommand implements BasicArmCommand {
 
     @Override
     public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
-        if(!(sender instanceof Player)) {
+        if (!(sender instanceof Player)) {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Player player = (Player) sender;
 
-        if(!player.hasPermission(Permission.ADMIN_PRESET_REMOVECOMMAND)) {
+        if (!player.hasPermission(Permission.ADMIN_PRESET_REMOVECOMMAND)) {
             throw new InputException(player, Messages.NO_PERMISSION);
         }
-        if(presetType == null) {
+        if (presetType == null) {
             return false;
         }
 
         Preset preset = ActivePresetManager.getPreset(player, this.presetType);
 
-        if(preset == null) {
+        if (preset == null) {
             player.sendMessage(Messages.PREFIX + Messages.PRESET_PLAYER_DONT_HAS_PRESET);
             return true;
         }
@@ -70,10 +70,10 @@ public class RemoveCommandCommand implements BasicArmCommand {
     @Override
     public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
-        if(player.hasPermission(Permission.ADMIN_PRESET_REMOVECOMMAND)) {
-            if(args.length >= 1) {
-                if(args.length == 1) {
-                    if(this.rootCommand.startsWith(args[0])) {
+        if (player.hasPermission(Permission.ADMIN_PRESET_REMOVECOMMAND)) {
+            if (args.length >= 1) {
+                if (args.length == 1) {
+                    if (this.rootCommand.startsWith(args[0])) {
                         returnme.add(this.rootCommand);
                     }
                 }

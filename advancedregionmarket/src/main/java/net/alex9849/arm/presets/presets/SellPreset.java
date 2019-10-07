@@ -17,9 +17,9 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 
-public class SellPreset extends Preset{
+public class SellPreset extends Preset {
 
-    public SellPreset(String name, boolean hasPrice, double price, RegionKind regionKind, FlagGroup flagGroup, boolean inactivityReset, boolean isHotel, boolean doBlockReset, boolean isUserResettable, int allowedSubregions, AutoPrice autoPrice, EntityLimitGroup entityLimitGroup, List<String> setupCommands){
+    public SellPreset(String name, boolean hasPrice, double price, RegionKind regionKind, FlagGroup flagGroup, boolean inactivityReset, boolean isHotel, boolean doBlockReset, boolean isUserResettable, int allowedSubregions, AutoPrice autoPrice, EntityLimitGroup entityLimitGroup, List<String> setupCommands) {
         super(name, hasPrice, price, regionKind, flagGroup, inactivityReset, isHotel, doBlockReset, isUserResettable, allowedSubregions, autoPrice, entityLimitGroup, setupCommands);
     }
 
@@ -32,9 +32,9 @@ public class SellPreset extends Preset{
         return PresetType.SELLPRESET;
     }
 
-    public SellPreset getCopy(){
+    public SellPreset getCopy() {
         List<String> newsetupCommands = new ArrayList<>();
-        for(String cmd : setupCommands) {
+        for (String cmd : setupCommands) {
             newsetupCommands.add(cmd);
         }
         return new SellPreset(this.name, this.hasPrice, this.price, this.regionKind, this.flagGroup, this.inactivityReset, this.isHotel, this.doBlockReset, this.isUserResettable, this.allowedSubregions, this.autoPrice, this.entityLimitGroup, newsetupCommands);
@@ -49,7 +49,7 @@ public class SellPreset extends Preset{
     public Region generateRegion(WGRegion wgRegion, World world, List<SignData> signs) {
 
         SellRegion sellRegion = new SellRegion(wgRegion, world, signs, new Price(AutoPrice.DEFAULT), false, this.isInactivityReset(), this.isHotel(), this.isDoBlockReset(), this.getRegionKind(), this.getFlagGroup(), null, 0, new GregorianCalendar().getTimeInMillis(), this.isUserResettable(), new ArrayList<>(), this.getAllowedSubregions(), this.entityLimitGroup, new HashMap<>(), 0);
-        if(this.hasAutoPrice()) {
+        if (this.hasAutoPrice()) {
             sellRegion.setPrice(new Price(this.getAutoPrice()));
         } else if (this.hasPrice()) {
             sellRegion.setPrice(new Price(this.getPrice()));

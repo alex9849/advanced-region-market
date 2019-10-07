@@ -17,6 +17,7 @@ public class RegionfinderCommand implements BasicArmCommand {
     private final String rootCommand = "regionfinder";
     private final String regex = "(?i)regionfinder";
     private final List<String> usage = new ArrayList<>(Arrays.asList("regionfinder"));
+
     @Override
     public boolean matchesRegex(String command) {
         return command.matches(this.regex);
@@ -38,7 +39,7 @@ public class RegionfinderCommand implements BasicArmCommand {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Player player = (Player) sender;
-        if(!player.hasPermission(Permission.MEMBER_REGIONFINDER)) {
+        if (!player.hasPermission(Permission.MEMBER_REGIONFINDER)) {
             throw new InputException(player, Messages.NO_PERMISSION);
         }
         Gui.openRegionFinder(player, false);
@@ -49,13 +50,13 @@ public class RegionfinderCommand implements BasicArmCommand {
     public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
 
-        if(!player.hasPermission(Permission.MEMBER_REGIONFINDER)) {
+        if (!player.hasPermission(Permission.MEMBER_REGIONFINDER)) {
             return returnme;
         }
 
-        if(args.length >= 1) {
+        if (args.length >= 1) {
             if (this.rootCommand.startsWith(args[0])) {
-                if(args.length == 1) {
+                if (args.length == 1) {
                     returnme.add(this.rootCommand);
                 }
             }

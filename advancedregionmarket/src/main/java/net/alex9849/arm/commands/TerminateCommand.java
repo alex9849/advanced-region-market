@@ -40,14 +40,14 @@ public class TerminateCommand implements BasicArmCommand {
     @Override
     public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
         if (Permission.hasAnyBuyPermission(sender) || sender.hasPermission(Permission.ADMIN_TERMINATE_CONTRACT)) {
-            if(!(sender instanceof Player)) {
+            if (!(sender instanceof Player)) {
                 throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
             }
             Player player = (Player) sender;
             Region region;
             boolean termination;
 
-            if(allargs.matches(regex)) {
+            if (allargs.matches(regex)) {
                 region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, "");
                 termination = Boolean.parseBoolean(args[1]);
             } else {
@@ -55,23 +55,23 @@ public class TerminateCommand implements BasicArmCommand {
                 termination = Boolean.parseBoolean(args[2]);
             }
 
-            if(!(region instanceof ContractRegion)) {
+            if (!(region instanceof ContractRegion)) {
                 throw new InputException(sender, Messages.REGION_IS_NOT_A_CONTRACT_REGION);
             }
 
-            if(!region.isSold()) {
+            if (!region.isSold()) {
                 throw new InputException(sender, Messages.REGION_NOT_SOLD);
             }
 
-            if(!region.getRegion().hasOwner(player.getUniqueId())) {
-                if(!player.hasPermission(Permission.ADMIN_TERMINATE_CONTRACT)){
+            if (!region.getRegion().hasOwner(player.getUniqueId())) {
+                if (!player.hasPermission(Permission.ADMIN_TERMINATE_CONTRACT)) {
                     throw new InputException(sender, Messages.REGION_NOT_OWN);
                 }
             }
 
             ContractRegion contractRegion = (ContractRegion) region;
 
-            if(!termination && !LimitGroup.isInLimit(player, contractRegion)) {
+            if (!termination && !LimitGroup.isInLimit(player, contractRegion)) {
                 throw new InputException(player, LimitGroup.getRegionBuyOutOfLimitMessage(player, contractRegion.getRegionKind()));
             }
 
@@ -86,30 +86,30 @@ public class TerminateCommand implements BasicArmCommand {
     public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
 
-        if(args.length >= 1) {
+        if (args.length >= 1) {
             if (this.rootCommand.startsWith(args[0])) {
-                if(player.hasPermission(Permission.ADMIN_TERMINATE_CONTRACT) || Permission.hasAnyBuyPermission(player)) {
-                    if(args.length == 1) {
+                if (player.hasPermission(Permission.ADMIN_TERMINATE_CONTRACT) || Permission.hasAnyBuyPermission(player)) {
+                    if (args.length == 1) {
                         returnme.add(this.rootCommand);
-                    } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
+                    } else if (args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
                         PlayerRegionRelationship playerRegionRelationship = null;
-                        if(player.hasPermission(Permission.ADMIN_TERMINATE_CONTRACT)) {
+                        if (player.hasPermission(Permission.ADMIN_TERMINATE_CONTRACT)) {
                             playerRegionRelationship = PlayerRegionRelationship.ALL;
                         } else {
                             playerRegionRelationship = PlayerRegionRelationship.OWNER;
                         }
-                        returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], playerRegionRelationship, true,true));
-                        if("true".startsWith(args[1])) {
+                        returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], playerRegionRelationship, true, true));
+                        if ("true".startsWith(args[1])) {
                             returnme.add("true");
                         }
-                        if("false".startsWith(args[1])) {
+                        if ("false".startsWith(args[1])) {
                             returnme.add("false");
                         }
-                    } else if(args.length == 3 && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                        if("true".startsWith(args[2])) {
+                    } else if (args.length == 3 && (args[0].equalsIgnoreCase(this.rootCommand))) {
+                        if ("true".startsWith(args[2])) {
                             returnme.add("true");
                         }
-                        if("false".startsWith(args[2])) {
+                        if ("false".startsWith(args[2])) {
                             returnme.add("false");
                         }
                     }

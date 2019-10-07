@@ -39,21 +39,21 @@ public class SellBackCommand implements BasicArmCommand {
 
     @Override
     public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
-        if(!sender.hasPermission(Permission.MEMBER_SELLBACK)) {
+        if (!sender.hasPermission(Permission.MEMBER_SELLBACK)) {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
-        if(!(sender instanceof Player)) {
+        if (!(sender instanceof Player)) {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Player player = (Player) sender;
         Region region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionbyNameAndWorldCommands(args[1], player.getLocation().getWorld().getName());
-        if(region == null) {
+        if (region == null) {
             throw new InputException(player, Messages.REGION_DOES_NOT_EXIST);
         }
-        if(!region.getRegion().hasOwner(player.getUniqueId())) {
+        if (!region.getRegion().hasOwner(player.getUniqueId())) {
             throw new InputException(player, Messages.REGION_NOT_OWN);
         }
-        if(!region.isSold()) {
+        if (!region.isSold()) {
             throw new InputException(player, Messages.REGION_NOT_SOLD);
         }
         String confirmQuestion = region.getConvertedMessage(Messages.SELLBACK_WARNING);
@@ -66,13 +66,13 @@ public class SellBackCommand implements BasicArmCommand {
     public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
 
-        if(args.length >= 1) {
+        if (args.length >= 1) {
             if (this.rootCommand.startsWith(args[0])) {
                 if (player.hasPermission(Permission.MEMBER_SELLBACK)) {
-                    if(args.length == 1) {
+                    if (args.length == 1) {
                         returnme.add(this.rootCommand);
-                    } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                        returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.OWNER, true,true));
+                    } else if (args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
+                        returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.OWNER, true, true));
                     }
                 }
             }

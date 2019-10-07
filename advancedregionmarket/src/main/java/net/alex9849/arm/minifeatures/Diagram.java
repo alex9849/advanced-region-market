@@ -15,7 +15,7 @@ public class Diagram {
         sender.sendMessage(Messages.REGION_STATS);
         sendStatsForAllSellTypes(sender);
         sendStatsByRegionKind(sender, RegionKind.DEFAULT);
-        for(RegionKind regionKind : AdvancedRegionMarket.getInstance().getRegionKindManager()) {
+        for (RegionKind regionKind : AdvancedRegionMarket.getInstance().getRegionKindManager()) {
             sendStatsByRegionKind(sender, regionKind);
         }
         sendStatsByRegionKind(sender, RegionKind.SUBREGION);
@@ -26,15 +26,15 @@ public class Diagram {
         SellType sellType = SellType.getSelltype(regiontype);
         RegionKind regionKind = AdvancedRegionMarket.getInstance().getRegionKindManager().getRegionKind(regiontype);
 
-        if(sellType == null && regionKind == null) {
+        if (sellType == null && regionKind == null) {
             throw new InputException(sender, Messages.REGIONKIND_DOES_NOT_EXIST);
         }
         sender.sendMessage(Messages.REGION_STATS);
-        if(sellType != null) {
+        if (sellType != null) {
             sendStatsBySellType(sender, sellType);
         }
 
-        if(regionKind != null) {
+        if (regionKind != null) {
             sendStatsByRegionKind(sender, regionKind);
         }
         return true;
@@ -45,7 +45,7 @@ public class Diagram {
         int allRegions = 0;
         int allSoldRegions = 0;
 
-        for(Region region : AdvancedRegionMarket.getInstance().getRegionManager()) {
+        for (Region region : AdvancedRegionMarket.getInstance().getRegionManager()) {
             allRegions++;
             if (region.isSold()) {
                 allSoldRegions++;
@@ -54,7 +54,7 @@ public class Diagram {
 
         String regtypesting = Messages.REGION_STATS_PATTERN;
         sender.sendMessage(regtypesting.replace("%regionkind%", Messages.LIMIT_INFO_TOTAL)
-        .replace("%regionkinddisplay%", Messages.LIMIT_INFO_TOTAL));
+                .replace("%regionkinddisplay%", Messages.LIMIT_INFO_TOTAL));
         sender.sendMessage(generateDiagramm(allSoldRegions, allRegions));
         sendStatsBySellType(sender, SellType.SELL);
         sendStatsBySellType(sender, SellType.CONTRACT);
@@ -65,10 +65,10 @@ public class Diagram {
         int regions = 0;
         int soldregions = 0;
 
-        for(Region region : AdvancedRegionMarket.getInstance().getRegionManager().getRegionsByRegionKind(regionKind)) {
-            if(region.getRegionKind() == regionKind) {
+        for (Region region : AdvancedRegionMarket.getInstance().getRegionManager().getRegionsByRegionKind(regionKind)) {
+            if (region.getRegionKind() == regionKind) {
                 regions++;
-                if(region.isSold()) {
+                if (region.isSold()) {
                     soldregions++;
                 }
             }
@@ -81,7 +81,7 @@ public class Diagram {
         int regions = 0;
         int soldregions = 0;
 
-        for(Region region : AdvancedRegionMarket.getInstance().getRegionManager().getRegionsBySelltype(sellType)) {
+        for (Region region : AdvancedRegionMarket.getInstance().getRegionManager().getRegionsBySelltype(sellType)) {
             regions++;
             if (region.isSold()) {
                 soldregions++;
@@ -104,7 +104,7 @@ public class Diagram {
         neededhashtags = (int) Math.round(neededhashtags * (percent / 100));
         String diagram = ChatColor.GOLD + "[";
         ChatColor color = null;
-        if(percent < 65) {
+        if (percent < 65) {
             color = ChatColor.GREEN;
         } else if (percent < 85) {
             color = ChatColor.YELLOW;
@@ -112,8 +112,8 @@ public class Diagram {
             color = ChatColor.DARK_RED;
         }
 
-        for(int i = 0; i < 20; i++) {
-            if(i < neededhashtags) {
+        for (int i = 0; i < 20; i++) {
+            if (i < neededhashtags) {
                 diagram = diagram + color + "#";
             } else {
                 diagram = diagram + ChatColor.WHITE + "-";

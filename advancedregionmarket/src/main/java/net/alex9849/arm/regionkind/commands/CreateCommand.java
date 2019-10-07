@@ -41,10 +41,10 @@ public class CreateCommand implements BasicArmCommand {
         if (!(sender instanceof Player)) {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
-        if(!sender.hasPermission(Permission.REGIONKIND_CREATE)) {
+        if (!sender.hasPermission(Permission.REGIONKIND_CREATE)) {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
-        if(AdvancedRegionMarket.getInstance().getRegionKindManager().getRegionKind(args[1]) != null) {
+        if (AdvancedRegionMarket.getInstance().getRegionKindManager().getRegionKind(args[1]) != null) {
             throw new InputException(sender, Messages.REGIONKIND_ALREADY_EXISTS);
         }
 
@@ -65,7 +65,7 @@ public class CreateCommand implements BasicArmCommand {
     public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
 
-        if(args.length == 1) {
+        if (args.length == 1) {
             if (this.rootCommand.startsWith(args[0])) {
                 if (player.hasPermission(Permission.REGIONKIND_CREATE)) {
                     returnme.add(this.rootCommand);

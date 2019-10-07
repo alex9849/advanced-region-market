@@ -46,18 +46,18 @@ public class ResetBlocksCommand implements BasicArmCommand {
         }
         Player player = (Player) sender;
 
-        if(!player.hasPermission(Permission.ADMIN_RESETREGIONBLOCKS) && !player.hasPermission(Permission.MEMBER_RESETREGIONBLOCKS)){
+        if (!player.hasPermission(Permission.ADMIN_RESETREGIONBLOCKS) && !player.hasPermission(Permission.MEMBER_RESETREGIONBLOCKS)) {
             throw new InputException(player, Messages.NO_PERMISSION);
         }
 
         Region resregion;
-        if(allargs.matches(this.regex)) {
+        if (allargs.matches(this.regex)) {
             resregion = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, "");
         } else {
             resregion = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, args[1]);
         }
 
-        if(player.hasPermission(Permission.ADMIN_RESETREGIONBLOCKS)) {
+        if (player.hasPermission(Permission.ADMIN_RESETREGIONBLOCKS)) {
             try {
                 //TODO logToConsole
                 resregion.resetBlocks(Region.ActionReason.MANUALLY_BY_ADMIN, true);
@@ -68,11 +68,11 @@ public class ResetBlocksCommand implements BasicArmCommand {
             player.sendMessage(Messages.PREFIX + Messages.RESET_COMPLETE);
             return true;
         } else {
-            if(resregion.getRegion().hasOwner(player.getUniqueId())) {
-                if(!resregion.isUserResettable()) {
+            if (resregion.getRegion().hasOwner(player.getUniqueId())) {
+                if (!resregion.isUserResettable()) {
                     throw new InputException(player, Messages.REGION_NOT_RESETTABLE);
                 }
-                if((new GregorianCalendar().getTimeInMillis()) >= AdvancedRegionMarket.getInstance().getPluginSettings().getUserResetCooldown() + resregion.getLastreset()){
+                if ((new GregorianCalendar().getTimeInMillis()) >= AdvancedRegionMarket.getInstance().getPluginSettings().getUserResetCooldown() + resregion.getLastreset()) {
                     Gui.openRegionResetWarning(player, resregion, false);
                     return true;
                 } else {
@@ -89,19 +89,19 @@ public class ResetBlocksCommand implements BasicArmCommand {
     public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
 
-        if(args.length >= 1) {
+        if (args.length >= 1) {
             if (this.rootCommand.startsWith(args[0])) {
                 if (player.hasPermission(Permission.MEMBER_RESETREGIONBLOCKS) || player.hasPermission(Permission.ADMIN_RESETREGIONBLOCKS)) {
-                    if(args.length == 1) {
+                    if (args.length == 1) {
                         returnme.add(this.rootCommand);
-                    } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
+                    } else if (args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
                         PlayerRegionRelationship playerRegionRelationship = null;
-                        if(player.hasPermission(Permission.ADMIN_RESETREGIONBLOCKS)) {
+                        if (player.hasPermission(Permission.ADMIN_RESETREGIONBLOCKS)) {
                             playerRegionRelationship = PlayerRegionRelationship.ALL;
                         } else {
                             playerRegionRelationship = PlayerRegionRelationship.OWNER;
                         }
-                        returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], playerRegionRelationship,true, true));
+                        returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], playerRegionRelationship, true, true));
                     }
                 }
             }

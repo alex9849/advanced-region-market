@@ -28,9 +28,9 @@ public class StringReplacer {
         Collection<Emit> emits;
 
 
-        if(textlerning) {
+        if (textlerning) {
             emits = this.knownStrings.get(string);
-            if(emits == null) {
+            if (emits == null) {
                 emits = this.ahoCorasickTrie.parseText(string);
                 this.knownStrings.put(string, emits);
             }
@@ -41,9 +41,9 @@ public class StringReplacer {
         StringBuilder sb = new StringBuilder(string);
         sb.ensureCapacity(sb.capacity() + this.minExtraLength);
         int shifted = 0;
-        for(Emit emit : emits) {
+        for (Emit emit : emits) {
             StringCreator replacement = this.replacerMap.get(emit.getKeyword());
-            if(replacement == null) {
+            if (replacement == null) {
                 continue;
             }
             String replaceString = replacement.create();

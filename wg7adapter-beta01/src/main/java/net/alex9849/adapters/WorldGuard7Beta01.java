@@ -29,24 +29,24 @@ public class WorldGuard7Beta01 extends WorldGuardInterface {
 
     public WG7RegionBeta01 getRegion(World world, WorldGuardPlugin worldGuardPlugin, String regionID) {
         RegionManager regionManager = this.getRegionManager(world, worldGuardPlugin);
-        if(regionManager == null) {
+        if (regionManager == null) {
             return null;
         }
 
         ProtectedRegion region = regionManager.getRegion(regionID);
-        if(region == null) {
+        if (region == null) {
             return null;
         }
 
         return getUniqueRegion(region);
     }
 
-    public boolean canBuild(Player player, Location location, WorldGuardPlugin worldGuardPlugin){
+    public boolean canBuild(Player player, Location location, WorldGuardPlugin worldGuardPlugin) {
 
         ApplicableRegionSet regSet = WorldGuard.getInstance().getPlatform().getRegionContainer().get(new BukkitWorld(location.getWorld())).getApplicableRegions(new Vector(location.getX(), location.getY(), location.getZ()));
         ArrayList<ProtectedRegion> regList = new ArrayList(regSet.getRegions());
-        for(int i = 0; i < regList.size(); i++) {
-            if(regList.get(i).getOwners().contains(player.getUniqueId()) || regList.get(i).getMembers().contains(player.getUniqueId())) {
+        for (int i = 0; i < regList.size(); i++) {
+            if (regList.get(i).getOwners().contains(player.getUniqueId()) || regList.get(i).getMembers().contains(player.getUniqueId())) {
                 return true;
             }
         }
@@ -65,7 +65,7 @@ public class WorldGuard7Beta01 extends WorldGuardInterface {
     public List<WGRegion> getApplicableRegions(World world, Location loc, WorldGuardPlugin worldGuardPlugin) {
         List<ProtectedRegion> protectedRegions = new ArrayList<ProtectedRegion>(this.getRegionManager(world, worldGuardPlugin).getApplicableRegions(new Vector(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ())).getRegions());
         List<WGRegion> wg7Regions = new ArrayList<WGRegion>();
-        for(ProtectedRegion pRegion : protectedRegions) {
+        for (ProtectedRegion pRegion : protectedRegions) {
             wg7Regions.add(getUniqueRegion(pRegion));
         }
         return wg7Regions;
@@ -84,10 +84,10 @@ public class WorldGuard7Beta01 extends WorldGuardInterface {
     }
 
     private WG7RegionBeta01 getUniqueRegion(ProtectedRegion protectedRegion) {
-        if(protectedRegion == null) {
+        if (protectedRegion == null) {
             return null;
         }
-        if(createdRegions.containsKey(protectedRegion)) {
+        if (createdRegions.containsKey(protectedRegion)) {
             return createdRegions.get(protectedRegion);
         }
         WG7RegionBeta01 wg7Region = new WG7RegionBeta01(protectedRegion);
@@ -99,7 +99,7 @@ public class WorldGuard7Beta01 extends WorldGuardInterface {
         return Flags.fuzzyMatchFlag(WorldGuard.getInstance().getFlagRegistry(), id);
     }
 
-    public <V> V parseFlagInput(Flag<V> flag , String input) throws InvalidFlagFormat {
+    public <V> V parseFlagInput(Flag<V> flag, String input) throws InvalidFlagFormat {
         return flag.parseInput(FlagContext.create().setInput(input).build());
     }
 

@@ -44,23 +44,23 @@ public class RemoveLimit implements BasicArmCommand {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
         EntityLimitGroup entityLimitGroup = AdvancedRegionMarket.getInstance().getEntityLimitGroupManager().getEntityLimitGroup(args[1]);
-        if(entityLimitGroup == null) {
+        if (entityLimitGroup == null) {
             throw new InputException(sender, Messages.ENTITYLIMITGROUP_DOES_NOT_EXIST);
         }
 
-        if(args[2].equalsIgnoreCase("total")) {
+        if (args[2].equalsIgnoreCase("total")) {
             entityLimitGroup.setSoftLimit(Integer.MAX_VALUE);
             sender.sendMessage(Messages.PREFIX + Messages.ENTITYLIMIT_REMOVED);
             return true;
         } else {
             EntityLimit.LimitableEntityType limitableEntityType = EntityLimit.getLimitableEntityType(args[2]);
-            if(limitableEntityType == null) {
+            if (limitableEntityType == null) {
                 throw new InputException(sender, Messages.ENTITYTYPE_DOES_NOT_EXIST.replace("%entitytype%", args[2]));
             }
 
 
-            for(int i = 0; i < entityLimitGroup.getEntityLimits().size(); i++) {
-                if(entityLimitGroup.getEntityLimits().get(i).getLimitableEntityType() == limitableEntityType) {
+            for (int i = 0; i < entityLimitGroup.getEntityLimits().size(); i++) {
+                if (entityLimitGroup.getEntityLimits().get(i).getLimitableEntityType() == limitableEntityType) {
                     entityLimitGroup.getEntityLimits().remove(i);
                     entityLimitGroup.queueSave();
                     sender.sendMessage(Messages.PREFIX + Messages.ENTITYLIMIT_REMOVED);
@@ -79,28 +79,28 @@ public class RemoveLimit implements BasicArmCommand {
             return returnme;
         }
 
-        if(args.length >= 1) {
-            if(args.length == 1) {
+        if (args.length >= 1) {
+            if (args.length == 1) {
                 if (this.rootCommand.startsWith(args[0])) {
                     returnme.add(this.rootCommand);
                 }
-            } else if((args.length == 2) && (args[0].equalsIgnoreCase(this.rootCommand))) {
+            } else if ((args.length == 2) && (args[0].equalsIgnoreCase(this.rootCommand))) {
                 if (this.rootCommand.startsWith(args[0])) {
                     returnme.addAll(AdvancedRegionMarket.getInstance().getEntityLimitGroupManager().tabCompleteEntityLimitGroups(args[1]));
 
                 }
-            } else if((args.length == 3) && (args[0].equalsIgnoreCase(this.rootCommand))) {
+            } else if ((args.length == 3) && (args[0].equalsIgnoreCase(this.rootCommand))) {
                 if (this.rootCommand.startsWith(args[0])) {
                     EntityLimitGroup entityLimitGroup = AdvancedRegionMarket.getInstance().getEntityLimitGroupManager().getEntityLimitGroup(args[1]);
-                    if(entityLimitGroup == null) {
+                    if (entityLimitGroup == null) {
                         return returnme;
                     }
-                    for(EntityLimit entityLimit : entityLimitGroup.getEntityLimits()) {
-                        if(entityLimit.getLimitableEntityType().toString().toLowerCase().startsWith(args[2])) {
+                    for (EntityLimit entityLimit : entityLimitGroup.getEntityLimits()) {
+                        if (entityLimit.getLimitableEntityType().toString().toLowerCase().startsWith(args[2])) {
                             returnme.add(entityLimit.getLimitableEntityType().toString());
                         }
                     }
-                    if("total".startsWith(args[2])) {
+                    if ("total".startsWith(args[2])) {
                         returnme.add("total");
                     }
                 }

@@ -36,20 +36,8 @@ public class ArmSettings {
         this.activateRegionKindPermissions = activateRegionKindPermissions;
     }
 
-    void setRemoveEntitiesOnRegionBlockReset(boolean removeEntitiesOnRegionReset) {
-        this.removeEntitiesOnRegionBlockReset = removeEntitiesOnRegionReset;
-    }
-
     void setIsAllowTeleportToBuySign(boolean isAllowTeleportToBuySign) {
         this.isAllowTeleportToBuySign = isAllowTeleportToBuySign;
-    }
-
-    void setDeleteSubregionsOnParentRegionUnsell(boolean deleteSubregionsOnParentRegionUnsell) {
-        this.deleteSubregionsOnParentRegionUnsell = deleteSubregionsOnParentRegionUnsell;
-    }
-
-    void setDeleteSubregionsOnParentRegionBlockReset(boolean deleteSubregionsOnParentRegionBlockReset) {
-        this.deleteSubregionsOnParentRegionBlockReset = deleteSubregionsOnParentRegionBlockReset;
     }
 
     void setIsAllowSubRegionUserReset(boolean isAllowSubRegionUserReset) {
@@ -88,34 +76,6 @@ public class ArmSettings {
         this.isSendContractRegionExtendMessage = isSendContractRegionExtendMessage;
     }
 
-    void setUseShortCountdown(boolean useShortCountdown) {
-        this.useShortCountdown = useShortCountdown;
-    }
-
-    void setRemainingTimeTimeformat(String remainingTimeTimeformat) {
-        REMAINING_TIME_TIMEFORMAT = remainingTimeTimeformat;
-    }
-
-    void setSignRightClickSneakCommand(String signRightClickSneakCommand) {
-        this.signRightClickSneakCommand = signRightClickSneakCommand;
-    }
-
-    void setSignRightClickNotSneakCommand(String signRightClickNotSneakCommand) {
-        this.signRightClickNotSneakCommand = signRightClickNotSneakCommand;
-    }
-
-    void setSignLeftClickSneakCommand(String signLeftClickSneakCommand) {
-        this.signLeftClickSneakCommand = signLeftClickSneakCommand;
-    }
-
-    void setSignLeftClickNotSneakCommand(String signLeftClickNotSneakCommand) {
-        this.signLeftClickNotSneakCommand = signLeftClickNotSneakCommand;
-    }
-
-    void setDateTimeformat(String dateTimeformat) {
-        DATE_TIMEFORMAT = dateTimeformat;
-    }
-
     public boolean isAllowSubRegionUserReset() {
         return isAllowSubRegionUserReset;
     }
@@ -152,12 +112,24 @@ public class ArmSettings {
         return useShortCountdown;
     }
 
+    void setUseShortCountdown(boolean useShortCountdown) {
+        this.useShortCountdown = useShortCountdown;
+    }
+
     public String getRemainingTimeTimeformat() {
         return REMAINING_TIME_TIMEFORMAT;
     }
 
+    void setRemainingTimeTimeformat(String remainingTimeTimeformat) {
+        REMAINING_TIME_TIMEFORMAT = remainingTimeTimeformat;
+    }
+
     public String getDateTimeformat() {
         return DATE_TIMEFORMAT;
+    }
+
+    void setDateTimeformat(String dateTimeformat) {
+        DATE_TIMEFORMAT = dateTimeformat;
     }
 
     public boolean isRegionInfoParticleBorder() {
@@ -168,8 +140,16 @@ public class ArmSettings {
         return deleteSubregionsOnParentRegionUnsell;
     }
 
+    void setDeleteSubregionsOnParentRegionUnsell(boolean deleteSubregionsOnParentRegionUnsell) {
+        this.deleteSubregionsOnParentRegionUnsell = deleteSubregionsOnParentRegionUnsell;
+    }
+
     public boolean isDeleteSubregionsOnParentRegionBlockReset() {
         return deleteSubregionsOnParentRegionBlockReset;
+    }
+
+    void setDeleteSubregionsOnParentRegionBlockReset(boolean deleteSubregionsOnParentRegionBlockReset) {
+        this.deleteSubregionsOnParentRegionBlockReset = deleteSubregionsOnParentRegionBlockReset;
     }
 
     public boolean isAllowTeleportToBuySign() {
@@ -188,20 +168,40 @@ public class ArmSettings {
         return this.removeEntitiesOnRegionBlockReset;
     }
 
+    void setRemoveEntitiesOnRegionBlockReset(boolean removeEntitiesOnRegionReset) {
+        this.removeEntitiesOnRegionBlockReset = removeEntitiesOnRegionReset;
+    }
+
     public String getSignRightClickSneakCommand() {
         return signRightClickSneakCommand;
+    }
+
+    void setSignRightClickSneakCommand(String signRightClickSneakCommand) {
+        this.signRightClickSneakCommand = signRightClickSneakCommand;
     }
 
     public String getSignRightClickNotSneakCommand() {
         return signRightClickNotSneakCommand;
     }
 
+    void setSignRightClickNotSneakCommand(String signRightClickNotSneakCommand) {
+        this.signRightClickNotSneakCommand = signRightClickNotSneakCommand;
+    }
+
     public String getSignLeftClickSneakCommand() {
         return signLeftClickSneakCommand;
     }
 
+    void setSignLeftClickSneakCommand(String signLeftClickSneakCommand) {
+        this.signLeftClickSneakCommand = signLeftClickSneakCommand;
+    }
+
     public String getSignLeftClickNotSneakCommand() {
         return signLeftClickNotSneakCommand;
+    }
+
+    void setSignLeftClickNotSneakCommand(String signLeftClickNotSneakCommand) {
+        this.signLeftClickNotSneakCommand = signLeftClickNotSneakCommand;
     }
 
     public long getUserResetCooldown() {

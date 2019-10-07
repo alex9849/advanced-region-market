@@ -38,7 +38,7 @@ public class CreateCommand implements BasicArmCommand {
     @Override
     public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException, CmdSyntaxException {
         //TODO CHANGE MESSAGES
-        if(!sender.hasPermission(Permission.ADMIN_FLAGGROUP_CREATE)) {
+        if (!sender.hasPermission(Permission.ADMIN_FLAGGROUP_CREATE)) {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
 
@@ -53,7 +53,7 @@ public class CreateCommand implements BasicArmCommand {
     public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
 
-        if(args.length == 1) {
+        if (args.length == 1) {
             if (this.rootCommand.startsWith(args[0])) {
                 if (player.hasPermission(Permission.ADMIN_FLAGGROUP_CREATE)) {
                     returnme.add(this.rootCommand);

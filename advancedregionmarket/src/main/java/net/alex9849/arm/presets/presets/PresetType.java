@@ -47,12 +47,6 @@ public enum PresetType {
         }
     };
 
-    public abstract String getName();
-
-    public abstract String getMajorityName();
-
-    public abstract Preset create();
-
     public static PresetType getPresetType(String type) {
         if (type.equalsIgnoreCase("sellpreset")) {
             return SELLPRESET;
@@ -64,4 +58,10 @@ public enum PresetType {
             return null;
         }
     }
+
+    public abstract String getName();
+
+    public abstract String getMajorityName();
+
+    public abstract Preset create();
 }

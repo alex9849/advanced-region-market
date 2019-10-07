@@ -43,7 +43,7 @@ public class ListCommand implements BasicArmCommand {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
         sender.sendMessage(Messages.ENTITYLIMITGROUP_LIST_HEADLINE);
-        for(EntityLimitGroup entityLimitGroup : AdvancedRegionMarket.getInstance().getEntityLimitGroupManager()) {
+        for (EntityLimitGroup entityLimitGroup : AdvancedRegionMarket.getInstance().getEntityLimitGroupManager()) {
             sender.sendMessage("- " + entityLimitGroup.getName());
         }
         return true;
@@ -53,7 +53,7 @@ public class ListCommand implements BasicArmCommand {
     public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
 
-        if(args.length == 1) {
+        if (args.length == 1) {
             if (this.rootCommand.startsWith(args[0])) {
                 if (player.hasPermission(Permission.ADMIN_ENTITYLIMIT_LIST)) {
                     returnme.add(this.rootCommand);

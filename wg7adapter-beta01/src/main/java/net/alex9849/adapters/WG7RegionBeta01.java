@@ -22,12 +22,12 @@ public class WG7RegionBeta01 extends WGRegion {
         this.region = region;
     }
 
-    public Vector getMaxPoint()  {
+    public Vector getMaxPoint() {
         BlockVector wgVector = this.region.getMaximumPoint();
         return new Vector(wgVector.getBlockX(), wgVector.getBlockY(), wgVector.getBlockZ());
     }
 
-    public Vector getMinPoint()  {
+    public Vector getMinPoint() {
         BlockVector wgVector = this.region.getMinimumPoint();
         return new Vector(wgVector.getBlockX(), wgVector.getBlockY(), wgVector.getBlockZ());
     }
@@ -96,7 +96,7 @@ public class WG7RegionBeta01 extends WGRegion {
 
     @Override
     public WGRegion getParent() {
-        if(this.getRegion().getParent() != null) {
+        if (this.getRegion().getParent() != null) {
             return new WG7RegionBeta01(this.getRegion().getParent());
         } else {
             return null;
@@ -137,7 +137,7 @@ public class WG7RegionBeta01 extends WGRegion {
         List<BlockVector2D> points2D = this.region.getPoints();
         int minY = this.region.getMinimumPoint().getBlockY();
 
-        for(BlockVector2D vector2D : points2D) {
+        for (BlockVector2D vector2D : points2D) {
             points.add(new Vector(vector2D.getBlockX(), minY, vector2D.getBlockZ()));
         }
         return points;
@@ -147,16 +147,16 @@ public class WG7RegionBeta01 extends WGRegion {
         this.region.setFlag(flag, value);
     }
 
-    public void deleteFlags(Flag... flags){
-        if(flags == null) {
+    public void deleteFlags(Flag... flags) {
+        if (flags == null) {
             return;
         }
-        for(Flag<?> flag : flags) {
+        for (Flag<?> flag : flags) {
             RegionGroupFlag groupFlag = flag.getRegionGroupFlag();
-            if(this.region.getFlag(flag) != null) {
+            if (this.region.getFlag(flag) != null) {
                 this.region.setFlag(flag, null);
             }
-            if(groupFlag != null && this.region.getFlag(groupFlag) != null) {
+            if (groupFlag != null && this.region.getFlag(groupFlag) != null) {
                 this.region.setFlag(groupFlag, null);
             }
         }

@@ -44,12 +44,12 @@ public class ListCommand implements BasicArmCommand {
 
     @Override
     public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
-        if(!(sender instanceof Player)) {
+        if (!(sender instanceof Player)) {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Player player = (Player) sender;
 
-        if(!player.hasPermission(Permission.ADMIN_PRESET_LIST)) {
+        if (!player.hasPermission(Permission.ADMIN_PRESET_LIST)) {
             throw new InputException(player, Messages.NO_PERMISSION);
         }
 
@@ -58,7 +58,7 @@ public class ListCommand implements BasicArmCommand {
         String presets = "";
 
         player.sendMessage(Messages.PREFIX + ChatColor.GOLD + this.presetType.getMajorityName() + ":");
-        for(int i = 0; i < patterns.size(); i++) {
+        for (int i = 0; i < patterns.size(); i++) {
             player.sendMessage(ChatColor.GOLD + " - " + patterns.get(i).getName());
         }
 
@@ -68,10 +68,10 @@ public class ListCommand implements BasicArmCommand {
     @Override
     public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
-        if(player.hasPermission(Permission.ADMIN_PRESET_LIST)) {
-            if(args.length >= 1) {
-                if(args.length == 1) {
-                    if(this.rootCommand.startsWith(args[0])) {
+        if (player.hasPermission(Permission.ADMIN_PRESET_LIST)) {
+            if (args.length >= 1) {
+                if (args.length == 1) {
+                    if (this.rootCommand.startsWith(args[0])) {
                         returnme.add(this.rootCommand);
                     }
                 }

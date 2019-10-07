@@ -19,29 +19,29 @@ public class EntitySpawnListener implements Listener {
 
     @EventHandler
     public void entitySpawnEvent(EntitySpawnEvent event) {
-        if(event.isCancelled()) {
+        if (event.isCancelled()) {
             return;
         }
-        if(event.getEntityType() == EntityType.PLAYER) {
+        if (event.getEntityType() == EntityType.PLAYER) {
             return;
         }
 
-        if(AdvancedRegionMarket.getInstance().getRegionManager() == null) {
+        if (AdvancedRegionMarket.getInstance().getRegionManager() == null) {
             return;
         }
         EntityLimit.LimitableEntityType limitableEntityType = EntityLimit.toLimitableEntityType(event.getEntityType());
-        if(limitableEntityType == null) {
+        if (limitableEntityType == null) {
             return;
         }
 
         List<Region> regions = AdvancedRegionMarket.getInstance().getRegionManager().getRegionsByLocation(event.getLocation());
 
-        for(Region region : regions) {
-            if(region.getEntityLimitGroup().isLimitReached(region, event.getEntityType(), region.getExtraTotalEntitys())) {
+        for (Region region : regions) {
+            if (region.getEntityLimitGroup().isLimitReached(region, event.getEntityType(), region.getExtraTotalEntitys())) {
                 event.setCancelled(true);
-                for(Player player : Bukkit.getOnlinePlayers()) {
+                for (Player player : Bukkit.getOnlinePlayers()) {
                     Location playerLoc = player.getLocation();
-                    if(region.getRegion().contains(playerLoc.getBlockX(), playerLoc.getBlockY(), playerLoc.getBlockZ())) {
+                    if (region.getRegion().contains(playerLoc.getBlockX(), playerLoc.getBlockY(), playerLoc.getBlockZ())) {
                         player.getPlayer().sendMessage(Messages.PREFIX + region.getConvertedMessage(Messages.ENTITYLIMITGROUP_COULD_NOT_SPAWN_ENTITY));
                     }
                 }
@@ -51,27 +51,27 @@ public class EntitySpawnListener implements Listener {
 
     @EventHandler
     public void vehicleSpawnEvent(VehicleCreateEvent event) {
-        if(event.isCancelled()) {
+        if (event.isCancelled()) {
             return;
         }
 
-        if(AdvancedRegionMarket.getInstance().getRegionManager() == null) {
+        if (AdvancedRegionMarket.getInstance().getRegionManager() == null) {
             return;
         }
 
         EntityLimit.LimitableEntityType limitableEntityType = EntityLimit.toLimitableEntityType(event.getVehicle().getType());
-        if(limitableEntityType == null) {
+        if (limitableEntityType == null) {
             return;
         }
 
         List<Region> regions = AdvancedRegionMarket.getInstance().getRegionManager().getRegionsByLocation(event.getVehicle().getLocation());
 
-        for(Region region : regions) {
-            if(region.getEntityLimitGroup().isLimitReached(region, event.getVehicle().getType(), region.getExtraTotalEntitys())) {
+        for (Region region : regions) {
+            if (region.getEntityLimitGroup().isLimitReached(region, event.getVehicle().getType(), region.getExtraTotalEntitys())) {
                 event.setCancelled(true);
-                for(Player player : Bukkit.getOnlinePlayers()) {
+                for (Player player : Bukkit.getOnlinePlayers()) {
                     Location playerLoc = player.getLocation();
-                    if(region.getRegion().contains(playerLoc.getBlockX(), playerLoc.getBlockY(), playerLoc.getBlockZ())) {
+                    if (region.getRegion().contains(playerLoc.getBlockX(), playerLoc.getBlockY(), playerLoc.getBlockZ())) {
                         player.getPlayer().sendMessage(Messages.PREFIX + region.getConvertedMessage(Messages.ENTITYLIMITGROUP_COULD_NOT_SPAWN_ENTITY));
                     }
                 }

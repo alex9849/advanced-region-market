@@ -26,19 +26,19 @@ public class WorldGuard6 extends WorldGuardInterface {
 
     public WG6Region getRegion(World world, WorldGuardPlugin worldGuardPlugin, String regionID) {
         RegionManager regionManager = this.getRegionManager(world, worldGuardPlugin);
-        if(regionManager == null) {
+        if (regionManager == null) {
             return null;
         }
 
         ProtectedRegion region = regionManager.getRegion(regionID);
-        if(region == null) {
+        if (region == null) {
             return null;
         }
 
         return getUniqueRegion(region);
     }
 
-    public boolean canBuild(Player player, Location location, WorldGuardPlugin worldGuardPlugin){
+    public boolean canBuild(Player player, Location location, WorldGuardPlugin worldGuardPlugin) {
         return worldGuardPlugin.canBuild(player, location);
     }
 
@@ -53,7 +53,7 @@ public class WorldGuard6 extends WorldGuardInterface {
     public List<WGRegion> getApplicableRegions(World world, Location loc, WorldGuardPlugin worldGuardPlugin) {
         List<ProtectedRegion> protectedRegions = new ArrayList<ProtectedRegion>(worldGuardPlugin.getRegionManager(world).getApplicableRegions(loc).getRegions());
         List<WGRegion> wg6Regions = new ArrayList<WGRegion>();
-        for(ProtectedRegion pRegion : protectedRegions) {
+        for (ProtectedRegion pRegion : protectedRegions) {
             wg6Regions.add(getUniqueRegion(pRegion));
         }
         return wg6Regions;
@@ -72,10 +72,10 @@ public class WorldGuard6 extends WorldGuardInterface {
     }
 
     private WG6Region getUniqueRegion(ProtectedRegion protectedRegion) {
-        if(protectedRegion == null) {
+        if (protectedRegion == null) {
             return null;
         }
-        if(createdRegions.containsKey(protectedRegion)) {
+        if (createdRegions.containsKey(protectedRegion)) {
             return createdRegions.get(protectedRegion);
         }
         WG6Region wg7Region = new WG6Region(protectedRegion);
@@ -87,7 +87,7 @@ public class WorldGuard6 extends WorldGuardInterface {
         return DefaultFlag.fuzzyMatchFlag(id);
     }
 
-    public <V> V parseFlagInput(Flag<V> flag , String input) throws InvalidFlagFormat {
+    public <V> V parseFlagInput(Flag<V> flag, String input) throws InvalidFlagFormat {
         return flag.parseInput(WorldGuardPlugin.inst(), null, input);
     }
 

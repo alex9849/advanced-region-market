@@ -44,29 +44,29 @@ public class AddCommandCommand implements BasicArmCommand {
     @Override
     public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
 
-        if(!(sender instanceof Player)) {
+        if (!(sender instanceof Player)) {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Player player = (Player) sender;
 
-        if(!sender.hasPermission(Permission.ADMIN_PRESET_ADDCOMMAND)) {
+        if (!sender.hasPermission(Permission.ADMIN_PRESET_ADDCOMMAND)) {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
-        if(presetType == null) {
+        if (presetType == null) {
             return false;
         }
 
         Preset preset = ActivePresetManager.getPreset(player, presetType);
 
-        if(preset == null) {
+        if (preset == null) {
             preset = this.presetType.create();
             ActivePresetManager.add(new PresetPlayerPair(player, preset));
         }
 
         String addCommand = "";
 
-        for(int i = 1; i < args.length; i++) {
-            if(i < (args.length - 1)) {
+        for (int i = 1; i < args.length; i++) {
+            if (i < (args.length - 1)) {
                 addCommand += args[i] + " ";
             } else {
                 addCommand += args[i];
@@ -82,10 +82,10 @@ public class AddCommandCommand implements BasicArmCommand {
     @Override
     public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
-        if(player.hasPermission(Permission.ADMIN_PRESET_ADDCOMMAND)) {
-            if(args.length >= 1) {
-                if(args.length == 1) {
-                    if(this.rootCommand.startsWith(args[0])) {
+        if (player.hasPermission(Permission.ADMIN_PRESET_ADDCOMMAND)) {
+            if (args.length >= 1) {
+                if (args.length == 1) {
+                    if (this.rootCommand.startsWith(args[0])) {
                         returnme.add(this.rootCommand);
                     }
                 }

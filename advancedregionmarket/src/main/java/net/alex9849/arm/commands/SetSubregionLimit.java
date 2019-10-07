@@ -51,25 +51,25 @@ public class SetSubregionLimit implements BasicArmCommand {
         List<Region> regions = new ArrayList<>();
         String selectedName;
 
-        if(allargs.matches(regex_massaction) && (AdvancedRegionMarket.getInstance().getRegionManager().getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName()) == null)) {
+        if (allargs.matches(regex_massaction) && (AdvancedRegionMarket.getInstance().getRegionManager().getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName()) == null)) {
             String[] splittedRegionKindArg = args[1].split(":", 2);
 
             RegionKind selectedRegionkind = AdvancedRegionMarket.getInstance().getRegionKindManager().getRegionKind(splittedRegionKindArg[1]);
-            if(selectedRegionkind == null) {
+            if (selectedRegionkind == null) {
                 throw new InputException(sender, Messages.REGIONKIND_DOES_NOT_EXIST);
             }
-            if(selectedRegionkind == RegionKind.SUBREGION) {
+            if (selectedRegionkind == RegionKind.SUBREGION) {
                 throw new InputException(sender, ChatColor.RED + "Subregions can not have subregions");
             }
             regions = AdvancedRegionMarket.getInstance().getRegionManager().getRegionsByRegionKind(selectedRegionkind);
             selectedName = selectedRegionkind.getConvertedMessage(Messages.MASSACTION_SPLITTER);
         } else {
             Region selectedRegion = AdvancedRegionMarket.getInstance().getRegionManager().getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
-            if(selectedRegion == null){
+            if (selectedRegion == null) {
                 throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
             }
 
-            if(selectedRegion.isSubregion()) {
+            if (selectedRegion.isSubregion()) {
                 throw new InputException(sender, ChatColor.RED + "Subregions can not have subregions");
             }
             regions.add(selectedRegion);
@@ -77,8 +77,8 @@ public class SetSubregionLimit implements BasicArmCommand {
         }
 
         int allowedSubregions = Integer.parseInt(args[2]);
-        for(Region region : regions) {
-            if(!region.isSubregion()) {
+        for (Region region : regions) {
+            if (!region.isSubregion()) {
                 region.setAllowedSubregions(allowedSubregions);
             }
         }
@@ -92,14 +92,14 @@ public class SetSubregionLimit implements BasicArmCommand {
     public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
 
-        if(args.length >= 1) {
-            if(this.rootCommand.startsWith(args[0])) {
+        if (args.length >= 1) {
+            if (this.rootCommand.startsWith(args[0])) {
                 if (player.hasPermission(Permission.ADMIN_SET_SUBREGION_LIMIT)) {
-                    if(args.length == 1) {
+                    if (args.length == 1) {
                         returnme.add(this.rootCommand);
-                    } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                        returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true,false));
-                        if("rk:".startsWith(args[1])) {
+                    } else if (args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
+                        returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true, false));
+                        if ("rk:".startsWith(args[1])) {
                             returnme.add("rk:");
                         }
                         if (args[1].matches("rk:([^;\n]+)?")) {

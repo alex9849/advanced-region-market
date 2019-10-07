@@ -38,13 +38,13 @@ public class UnsellCommand implements BasicArmCommand {
     @Override
     public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
         if (sender.hasPermission(Permission.ADMIN_UNSELL)) {
-            if(!(sender instanceof Player)) {
+            if (!(sender instanceof Player)) {
                 throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
             }
             Player player = (Player) sender;
 
             Region region;
-            if(allargs.matches(this.regex)) {
+            if (allargs.matches(this.regex)) {
                 region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, "");
             } else {
                 region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, args[1]);
@@ -64,13 +64,13 @@ public class UnsellCommand implements BasicArmCommand {
     public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
 
-        if(args.length >= 1) {
+        if (args.length >= 1) {
             if (this.rootCommand.startsWith(args[0])) {
                 if (player.hasPermission(Permission.ADMIN_UNSELL)) {
-                    if(args.length == 1) {
+                    if (args.length == 1) {
                         returnme.add(this.rootCommand);
-                    } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                        returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true,true));
+                    } else if (args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
+                        returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true, true));
                     }
                 }
             }

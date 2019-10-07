@@ -48,7 +48,7 @@ public class AddMemberCommand implements BasicArmCommand {
         Region region;
         Player addPlayer;
 
-        if(allargs.matches(this.regex)) {
+        if (allargs.matches(this.regex)) {
             region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, "");
             addPlayer = Bukkit.getPlayer(args[1]);
         } else {
@@ -56,17 +56,17 @@ public class AddMemberCommand implements BasicArmCommand {
             addPlayer = Bukkit.getPlayer(args[2]);
         }
 
-        if(addPlayer == null) {
+        if (addPlayer == null) {
             throw new InputException(player, Messages.REGION_ADD_MEMBER_NOT_ONLINE);
         }
 
-        if(region.getRegion().hasOwner(player.getUniqueId()) && player.hasPermission(Permission.MEMBER_ADDMEMBER)) {
+        if (region.getRegion().hasOwner(player.getUniqueId()) && player.hasPermission(Permission.MEMBER_ADDMEMBER)) {
             region.getRegion().addMember(addPlayer.getUniqueId());
             player.sendMessage(Messages.PREFIX + Messages.REGION_ADD_MEMBER_ADDED);
-        } else if (player.hasPermission(Permission.ADMIN_ADDMEMBER)){
+        } else if (player.hasPermission(Permission.ADMIN_ADDMEMBER)) {
             region.getRegion().addMember(addPlayer.getUniqueId());
             player.sendMessage(Messages.PREFIX + Messages.REGION_ADD_MEMBER_ADDED);
-        } else if (!(player.hasPermission(Permission.MEMBER_ADDMEMBER))){
+        } else if (!(player.hasPermission(Permission.MEMBER_ADDMEMBER))) {
             throw new InputException(player, Messages.NO_PERMISSION);
         } else {
             throw new InputException(player, Messages.REGION_ADD_MEMBER_DO_NOT_OWN);
@@ -79,21 +79,21 @@ public class AddMemberCommand implements BasicArmCommand {
     public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
 
-        if(args.length >= 1) {
+        if (args.length >= 1) {
             if (this.rootCommand.startsWith(args[0])) {
                 if (player.hasPermission(Permission.ADMIN_ADDMEMBER) || player.hasPermission(Permission.MEMBER_ADDMEMBER)) {
-                    if(args.length == 1) {
+                    if (args.length == 1) {
                         returnme.add(this.rootCommand);
-                    } else if(args.length == 2 && args[0].equalsIgnoreCase(this.rootCommand)) {
+                    } else if (args.length == 2 && args[0].equalsIgnoreCase(this.rootCommand)) {
                         PlayerRegionRelationship playerRegionRelationship = null;
-                        if(player.hasPermission(Permission.ADMIN_ADDMEMBER)) {
+                        if (player.hasPermission(Permission.ADMIN_ADDMEMBER)) {
                             playerRegionRelationship = PlayerRegionRelationship.ALL;
                         } else {
                             playerRegionRelationship = PlayerRegionRelationship.OWNER;
                         }
-                        returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], playerRegionRelationship,true, true));
+                        returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], playerRegionRelationship, true, true));
                         returnme.addAll(CommandHandler.tabCompleteOnlinePlayers(args[1]));
-                    } else if(args.length == 3 && args[0].equalsIgnoreCase(this.rootCommand)) {
+                    } else if (args.length == 3 && args[0].equalsIgnoreCase(this.rootCommand)) {
                         returnme.addAll(CommandHandler.tabCompleteOnlinePlayers(args[2]));
                     }
                 }

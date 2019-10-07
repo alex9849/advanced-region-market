@@ -52,8 +52,8 @@ public class TPCommand implements BasicArmCommand {
             throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
         }
 
-        if(!region.getRegion().hasMember(player.getUniqueId()) && !region.getRegion().hasOwner(player.getUniqueId())){
-            if(!player.hasPermission(Permission.ADMIN_TP)){
+        if (!region.getRegion().hasMember(player.getUniqueId()) && !region.getRegion().hasOwner(player.getUniqueId())) {
+            if (!player.hasPermission(Permission.ADMIN_TP)) {
                 throw new InputException(sender, Messages.NOT_A_MEMBER_OR_OWNER);
             }
         }
@@ -70,19 +70,19 @@ public class TPCommand implements BasicArmCommand {
     public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
 
-        if(args.length >= 1) {
-            if(this.rootCommand.startsWith(args[0])) {
+        if (args.length >= 1) {
+            if (this.rootCommand.startsWith(args[0])) {
                 if (player.hasPermission(Permission.ADMIN_TP) || player.hasPermission(Permission.MEMBER_TP)) {
-                    if(args.length == 1) {
+                    if (args.length == 1) {
                         returnme.add(this.rootCommand);
-                    } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
+                    } else if (args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
                         PlayerRegionRelationship playerRegionRelationship = null;
-                        if(player.hasPermission(Permission.ADMIN_TP)) {
+                        if (player.hasPermission(Permission.ADMIN_TP)) {
                             playerRegionRelationship = PlayerRegionRelationship.ALL;
                         } else {
                             playerRegionRelationship = PlayerRegionRelationship.MEMBER_OR_OWNER;
                         }
-                        returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], playerRegionRelationship, true,true));
+                        returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], playerRegionRelationship, true, true));
                     }
                 }
             }

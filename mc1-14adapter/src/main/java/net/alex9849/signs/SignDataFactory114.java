@@ -8,14 +8,14 @@ import org.bukkit.block.data.type.WallSign;
 
 public class SignDataFactory114 extends SignDataFactory {
     public SignData generateSignData(Location loc) {
-        if(!MaterialFinder.getSignMaterials().contains(loc.getBlock().getType())) {
+        if (!MaterialFinder.getSignMaterials().contains(loc.getBlock().getType())) {
             return null;
         }
 
         BlockFace blockFace;
         SignAttachment signAttachment;
 
-        if(loc.getBlock().getBlockData() instanceof Sign) {
+        if (loc.getBlock().getBlockData() instanceof Sign) {
             Sign sign = (Sign) loc.getBlock().getBlockData();
             blockFace = sign.getRotation();
             signAttachment = SignAttachment.GROUND_SIGN;

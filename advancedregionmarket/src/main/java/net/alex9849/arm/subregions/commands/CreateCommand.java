@@ -35,7 +35,7 @@ public class CreateCommand implements BasicArmCommand {
 
     @Override
     public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
-        if(!Permission.hasAnySubregionCreatePermission(sender)) {
+        if (!Permission.hasAnySubregionCreatePermission(sender)) {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
         if (!(sender instanceof Player)) {
@@ -43,11 +43,11 @@ public class CreateCommand implements BasicArmCommand {
         }
         Player player = (Player) sender;
         SubRegionCreator selection = SubRegionCreator.getSubRegioncreator(player);
-        if(selection == null) {
+        if (selection == null) {
             throw new InputException(player, Messages.SELECTION_INVALID);
         }
         selection.createWGRegion();
-        for(String msg : Messages.SELECTION_SAVED_CREATE_SIGN) {
+        for (String msg : Messages.SELECTION_SAVED_CREATE_SIGN) {
             player.sendMessage(Messages.PREFIX + msg);
         }
         return true;
@@ -56,9 +56,9 @@ public class CreateCommand implements BasicArmCommand {
     @Override
     public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
-        if(Permission.hasAnySubregionCreatePermission(player)) {
-            if(args.length == 1) {
-                if(this.rootCommand.startsWith(args[0])) {
+        if (Permission.hasAnySubregionCreatePermission(player)) {
+            if (args.length == 1) {
+                if (this.rootCommand.startsWith(args[0])) {
                     returnme.add(this.rootCommand);
                 }
             }

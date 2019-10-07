@@ -36,20 +36,20 @@ public class TpToFreeRegion implements BasicArmCommand {
 
     @Override
     public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException, CmdSyntaxException {
-        if(!(sender instanceof Player)) {
+        if (!(sender instanceof Player)) {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Player player = (Player) sender;
 
-        if(!player.hasPermission(Permission.MEMBER_TP_TO_FREE_REGION)) {
+        if (!player.hasPermission(Permission.MEMBER_TP_TO_FREE_REGION)) {
             throw new InputException(player, Messages.NO_PERMISSION);
         }
 
         RegionKind regionKind = AdvancedRegionMarket.getInstance().getRegionKindManager().getRegionKind(args[1]);
-        if(regionKind == null) {
+        if (regionKind == null) {
             throw new InputException(player, Messages.REGIONKIND_DOES_NOT_EXIST);
         }
-        if(!RegionKind.hasPermission(player, regionKind)) {
+        if (!RegionKind.hasPermission(player, regionKind)) {
             //TODO Das hier noch ändern!
             throw new InputException(player, Messages.NO_PERMISSION);
         }
@@ -62,17 +62,17 @@ public class TpToFreeRegion implements BasicArmCommand {
     public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
 
-        if(args.length >= 1) {
+        if (args.length >= 1) {
 
-            if(!player.hasPermission(Permission.MEMBER_TP_TO_FREE_REGION)) {
+            if (!player.hasPermission(Permission.MEMBER_TP_TO_FREE_REGION)) {
                 return returnme;
             }
 
             if (this.rootCommand.startsWith(args[0])) {
                 if (Permission.hasAnyBuyPermission(player)) {
-                    if(args.length == 1) {
+                    if (args.length == 1) {
                         returnme.add(this.rootCommand);
-                    } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
+                    } else if (args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
                         returnme.addAll(AdvancedRegionMarket.getInstance().getRegionKindManager().completeTabRegionKinds(args[1], "", player));
                     }
                 }

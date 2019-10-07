@@ -7,7 +7,7 @@ public class RentPrice extends ContractPrice {
 
     public RentPrice(double price, long extendTime, long maxRentTime) {
         super(price, extendTime);
-        if(maxRentTime < 0) {
+        if (maxRentTime < 0) {
             this.maxRentTime = (-1) * maxRentTime;
         } else {
             this.maxRentTime = maxRentTime;

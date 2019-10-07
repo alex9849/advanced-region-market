@@ -22,7 +22,7 @@ public class ARMImporter extends JavaPlugin {
         if (Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket") == null) {
             getLogger().info("AdvancedRegionMarket not installed. AdvancedRegionMarket needs to be loaded in order to import your AreaShop files to ARM");
         }
-        if(!this.getDataFolder().exists()) {
+        if (!this.getDataFolder().exists()) {
             this.getDataFolder().mkdirs();
         }
 
@@ -32,22 +32,22 @@ public class ARMImporter extends JavaPlugin {
     public boolean onCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args) {
         String allsArgs = "";
 
-        if(args.length > 0) {
+        if (args.length > 0) {
             allsArgs = args[0];
         }
-        for(int i = 1; i < args.length; i++) {
+        for (int i = 1; i < args.length; i++) {
             allsArgs += " " + args[i];
         }
 
 
-        if(cmd.getName().equalsIgnoreCase("armimport")) {
-            if(!sender.hasPermission("armimporter.import")) {
+        if (cmd.getName().equalsIgnoreCase("armimport")) {
+            if (!sender.hasPermission("armimporter.import")) {
                 sender.sendMessage("You do not have the permission armimporter.import");
                 return true;
             }
 
 
-            if(allsArgs.matches("(?i)regionkinds (true|false)")) {
+            if (allsArgs.matches("(?i)regionkinds (true|false)")) {
                 sender.sendMessage("Creating backup...");
                 Date date = new Date();
                 SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy-HH.mm.ss.SSS");
@@ -57,7 +57,7 @@ public class ARMImporter extends JavaPlugin {
                 sender.sendMessage("Import complete");
                 return true;
             }
-            if(allsArgs.matches("(?i)regions (true|false) [0-9]+")) {
+            if (allsArgs.matches("(?i)regions (true|false) [0-9]+")) {
                 sender.sendMessage("Creating backup...");
                 Date date = new Date();
                 SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy-HH.mm.ss.SSS");
@@ -72,7 +72,7 @@ public class ARMImporter extends JavaPlugin {
                 sender.sendMessage("Please wait with restarting your server till the import process has been completed! Check your console!");
                 return true;
             }
-            if(allsArgs.matches("(?i)all (true|false) [0-9]+")) {
+            if (allsArgs.matches("(?i)all (true|false) [0-9]+")) {
                 sender.sendMessage("Creating backup...");
                 Date date = new Date();
                 SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy-HH.mm.ss.SSS");
@@ -89,7 +89,7 @@ public class ARMImporter extends JavaPlugin {
                 sender.sendMessage("Please wait with restarting your server till the import process has been completed! Check your console!");
                 return true;
             }
-            if(allsArgs.matches("(?i)help")) {
+            if (allsArgs.matches("(?i)help")) {
                 sender.sendMessage(ChatColor.GOLD + "/armimport regionkinds (true/false)" + ChatColor.WHITE + "   -   Imports regionkinds. If true arm will overwrite already existing regionkinds with the imported ones");
                 sender.sendMessage(ChatColor.GOLD + "/armimport regions (true/false) ticksPerSchematic" + ChatColor.WHITE + "   -   Imports regions. If true regions that already exists will be overwritten with the imported ones. ticksPerSchematic determines how log the plugin should wait between the schematic imports. (Because ARM may has to create new schematics if AreaShop has not created schematics)");
                 sender.sendMessage(ChatColor.GOLD + "/armimport all (true/false) ticksPerSchematic" + ChatColor.WHITE + "   -   Imports regionkinds and regions");

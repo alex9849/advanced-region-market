@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 public class PresetPlayerPair {
     private Player player;
     private Preset preset;
+
     public PresetPlayerPair(Player player, Preset preset) {
         this.player = player;
         this.preset = preset;

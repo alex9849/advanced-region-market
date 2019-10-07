@@ -45,7 +45,7 @@ public class AddLimitCommand implements BasicArmCommand {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
         EntityLimitGroup entityLimitGroup = AdvancedRegionMarket.getInstance().getEntityLimitGroupManager().getEntityLimitGroup(args[1]);
-        if(entityLimitGroup == null) {
+        if (entityLimitGroup == null) {
             throw new InputException(sender, Messages.ENTITYLIMITGROUP_DOES_NOT_EXIST);
         }
 
@@ -53,27 +53,27 @@ public class AddLimitCommand implements BasicArmCommand {
         int hardLimit;
         int pricePerExtraEntity = Integer.parseInt(args[5]);
 
-        if(args[3].equalsIgnoreCase("unlimited")) {
+        if (args[3].equalsIgnoreCase("unlimited")) {
             softLimit = Integer.MAX_VALUE;
         } else {
             softLimit = Integer.parseInt(args[3]);
         }
 
-        if(args[4].equalsIgnoreCase("unlimited")) {
+        if (args[4].equalsIgnoreCase("unlimited")) {
             hardLimit = Integer.MAX_VALUE;
         } else {
             hardLimit = Integer.parseInt(args[4]);
         }
 
-        if(hardLimit == -1) {
+        if (hardLimit == -1) {
             hardLimit = Integer.MAX_VALUE;
         }
-        if(softLimit == -1) {
+        if (softLimit == -1) {
             softLimit = Integer.MAX_VALUE;
         }
 
 
-        if(args[2].equalsIgnoreCase("total")) {
+        if (args[2].equalsIgnoreCase("total")) {
             entityLimitGroup.setSoftLimit(softLimit);
             entityLimitGroup.setHardLimit(hardLimit);
             entityLimitGroup.setPricePerExtraEntity(pricePerExtraEntity);
@@ -81,7 +81,7 @@ public class AddLimitCommand implements BasicArmCommand {
         } else {
             EntityLimit.LimitableEntityType limitableEntityType = EntityLimit.getLimitableEntityType(args[2]);
 
-            if(limitableEntityType == null) {
+            if (limitableEntityType == null) {
                 throw new InputException(sender, Messages.ENTITYTYPE_DOES_NOT_EXIST.replace("%entitytype%", args[2]));
             }
 
@@ -93,7 +93,7 @@ public class AddLimitCommand implements BasicArmCommand {
                 }
             });
 
-            if(softLimit != Integer.MAX_VALUE) {
+            if (softLimit != Integer.MAX_VALUE) {
                 entityLimitGroup.getEntityLimits().add(new EntityLimit(limitableEntityType, softLimit, hardLimit, pricePerExtraEntity));
             }
 
@@ -110,31 +110,31 @@ public class AddLimitCommand implements BasicArmCommand {
             return returnme;
         }
 
-        if(args.length >= 1) {
-            if(args.length == 1) {
+        if (args.length >= 1) {
+            if (args.length == 1) {
                 if (this.rootCommand.startsWith(args[0])) {
                     returnme.add(this.rootCommand);
                 }
-            } else if((args.length == 2) && (args[0].equalsIgnoreCase(this.rootCommand))) {
+            } else if ((args.length == 2) && (args[0].equalsIgnoreCase(this.rootCommand))) {
                 if (this.rootCommand.startsWith(args[0])) {
                     returnme.addAll(AdvancedRegionMarket.getInstance().getEntityLimitGroupManager().tabCompleteEntityLimitGroups(args[1]));
 
                 }
-            } else if((args.length == 3) && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                for(EntityLimit.LimitableEntityType entityType : EntityLimit.entityTypes) {
-                    if(entityType.getName().toLowerCase().startsWith(args[2])) {
+            } else if ((args.length == 3) && (args[0].equalsIgnoreCase(this.rootCommand))) {
+                for (EntityLimit.LimitableEntityType entityType : EntityLimit.entityTypes) {
+                    if (entityType.getName().toLowerCase().startsWith(args[2])) {
                         returnme.add(entityType.toString());
                     }
                 }
-                if("total".startsWith(args[2])) {
+                if ("total".startsWith(args[2])) {
                     returnme.add("total");
                 }
-            } else if((args.length == 4) && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                if("unlimited".startsWith(args[3])) {
+            } else if ((args.length == 4) && (args[0].equalsIgnoreCase(this.rootCommand))) {
+                if ("unlimited".startsWith(args[3])) {
                     returnme.add("unlimited");
                 }
-            } else if((args.length == 5) && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                if("unlimited".startsWith(args[4])) {
+            } else if ((args.length == 5) && (args[0].equalsIgnoreCase(this.rootCommand))) {
+                if ("unlimited".startsWith(args[4])) {
                     returnme.add("unlimited");
                 }
             }

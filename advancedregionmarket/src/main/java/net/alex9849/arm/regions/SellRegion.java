@@ -30,13 +30,13 @@ public class SellRegion extends Region {
     public SellRegion(WGRegion region, World regionworld, List<SignData> sellsign, Price price, Boolean sold, Boolean inactivityReset, Boolean allowOnlyNewBlocks,
                       Boolean doBlockReset, RegionKind regionKind, FlagGroup flagGroup, Location teleportLoc, long lastreset, long lastLogin, boolean isUserResettable, List<Region> subregions,
                       int allowedSubregions, EntityLimitGroup entityLimitGroup, HashMap<EntityLimit.LimitableEntityType, Integer> extraEntitys, int boughtExtraTotalEntitys) {
-        super(region, regionworld, sellsign, price, sold, inactivityReset,allowOnlyNewBlocks, doBlockReset, regionKind, flagGroup, teleportLoc, lastreset, lastLogin, isUserResettable,
+        super(region, regionworld, sellsign, price, sold, inactivityReset, allowOnlyNewBlocks, doBlockReset, regionKind, flagGroup, teleportLoc, lastreset, lastLogin, isUserResettable,
                 subregions, allowedSubregions, entityLimitGroup, extraEntitys, boughtExtraTotalEntitys);
     }
 
     @Override
-    protected void updateSignText(SignData signData){
-        if(this.isSold()){
+    protected void updateSignText(SignData signData) {
+        if (this.isSold()) {
             String[] lines = new String[4];
             lines[0] = this.getConvertedMessage(Messages.SOLD_SIGN1);
             lines[1] = this.getConvertedMessage(Messages.SOLD_SIGN2);
@@ -57,33 +57,33 @@ public class SellRegion extends Region {
     @Override
     public void buy(Player player) throws NoPermissionException, OutOfLimitExeption, NotEnoughMoneyException, AlreadySoldException {
 
-        if(!Permission.hasAnyBuyPermission(player)) {
+        if (!Permission.hasAnyBuyPermission(player)) {
             throw new NoPermissionException(this.getConvertedMessage(Messages.NO_PERMISSION));
         }
-        if(this.isSold()) {
+        if (this.isSold()) {
             throw new AlreadySoldException(this.getConvertedMessage(Messages.REGION_ALREADY_SOLD));
         }
-        if(!RegionKind.hasPermission(player, this.getRegionKind())){
+        if (!RegionKind.hasPermission(player, this.getRegionKind())) {
             throw new NoPermissionException(this.getConvertedMessage(Messages.NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION));
         }
 
-        if(!LimitGroup.isCanBuyAnother(player, this)){
+        if (!LimitGroup.isCanBuyAnother(player, this)) {
             throw new OutOfLimitExeption(LimitGroup.getRegionBuyOutOfLimitMessage(player, this.getRegionKind()));
         }
 
-        if(AdvancedRegionMarket.getInstance().getEcon().getBalance(player) < this.getPrice()) {
+        if (AdvancedRegionMarket.getInstance().getEcon().getBalance(player) < this.getPrice()) {
             throw new NotEnoughMoneyException(this.getConvertedMessage(Messages.NOT_ENOUGHT_MONEY));
         }
         BuyRegionEvent buyRegionEvent = new BuyRegionEvent(this, player);
         Bukkit.getServer().getPluginManager().callEvent(buyRegionEvent);
-        if(buyRegionEvent.isCancelled()) {
+        if (buyRegionEvent.isCancelled()) {
             return;
         }
 
         AdvancedRegionMarket.getInstance().getEcon().withdrawPlayer(player, this.getPrice());
         this.giveParentRegionOwnerMoney(this.getPrice());
         this.setSold(player);
-        if(AdvancedRegionMarket.getInstance().getPluginSettings().isTeleportAfterSellRegionBought()){
+        if (AdvancedRegionMarket.getInstance().getPluginSettings().isTeleportAfterSellRegionBought()) {
             try {
                 Teleporter.teleport(player, this, "", AdvancedRegionMarket.getInstance().getConfig().getBoolean("Other.TeleportAfterRegionBoughtCountdown"));
             } catch (NoSaveLocationException e) {
@@ -94,7 +94,7 @@ public class SellRegion extends Region {
     }
 
     @Override
-    public void setSold(OfflinePlayer player){
+    public void setSold(OfflinePlayer player) {
         this.setSold(true);
         this.getRegion().deleteMembers();
         this.getRegion().setOwner(player);
@@ -110,24 +110,24 @@ public class SellRegion extends Region {
         super.regionInfo(sender);
         List<String> msg;
 
-        if(sender.hasPermission(Permission.ADMIN_INFO)) {
+        if (sender.hasPermission(Permission.ADMIN_INFO)) {
             msg = Messages.REGION_INFO_SELLREGION_ADMIN;
         } else {
             msg = Messages.REGION_INFO_SELLREGION;
         }
 
-        if(this.isSubregion()) {
+        if (this.isSubregion()) {
             msg = Messages.REGION_INFO_SELLREGION_SUBREGION;
         }
 
-        for(String s : msg) {
+        for (String s : msg) {
             sender.sendMessage(this.getConvertedMessage(s));
         }
     }
 
     @Override
     public double getPaybackMoney() {
-        double money = (this.getPrice() * this.getRegionKind().getPaybackPercentage())/100;
+        double money = (this.getPrice() * this.getRegionKind().getPaybackPercentage()) / 100;
         if (money > 0) {
             return money;
         } else {

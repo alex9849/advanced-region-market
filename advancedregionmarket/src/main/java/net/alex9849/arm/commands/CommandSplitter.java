@@ -23,7 +23,7 @@ public class CommandSplitter implements BasicArmCommand {
         this.regex = regex;
         this.usage = new ArrayList<>(usage);
         this.commandHandler = new CommandHandler(usage, rootCommand);
-        if(commands != null) {
+        if (commands != null) {
             this.commandHandler.addCommands(commands);
         }
         this.commandHandler.addCommand(new HelpCommand(this.commandHandler, helpCommandHeadline, new String[]{rootCommand}, helpCommandPermission));
@@ -51,14 +51,14 @@ public class CommandSplitter implements BasicArmCommand {
 
         for (int i = 1; i < args.length; i++) {
             newargs[i - 1] = args[i];
-            if(i == 1) {
+            if (i == 1) {
                 newallargs = args[i];
             } else {
                 newallargs = newallargs + " " + args[i];
             }
         }
 
-        return  this.commandHandler.executeCommand(sender, cmd , commandsLabel, newargs);
+        return this.commandHandler.executeCommand(sender, cmd, commandsLabel, newargs);
     }
 
     @Override
@@ -67,16 +67,16 @@ public class CommandSplitter implements BasicArmCommand {
 
         String[] newargs = new String[args.length - 1];
 
-        for(int i = 1; i < args.length; i++) {
+        for (int i = 1; i < args.length; i++) {
             newargs[i - 1] = args[i];
         }
 
-        if(args.length == 1) {
-            if(this.rootCommand.startsWith(args[0]) && this.commandHandler.onTabComplete(player, new String[]{""}).size() != 0) {
+        if (args.length == 1) {
+            if (this.rootCommand.startsWith(args[0]) && this.commandHandler.onTabComplete(player, new String[]{""}).size() != 0) {
                 returnme.add(this.rootCommand);
             }
         }
-        if(args.length >= 2 && this.rootCommand.equalsIgnoreCase(args[0])) {
+        if (args.length >= 2 && this.rootCommand.equalsIgnoreCase(args[0])) {
             returnme.addAll(this.commandHandler.onTabComplete(player, newargs));
         }
         return returnme;

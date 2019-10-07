@@ -44,28 +44,28 @@ public class SaveCommand implements BasicArmCommand {
 
     @Override
     public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
-        if(!(sender instanceof Player)) {
+        if (!(sender instanceof Player)) {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Player player = (Player) sender;
 
-        if(!player.hasPermission(Permission.ADMIN_PRESET_SAVE)) {
+        if (!player.hasPermission(Permission.ADMIN_PRESET_SAVE)) {
             throw new InputException(player, Messages.NO_PERMISSION);
         }
 
-        if(presetType == null) {
+        if (presetType == null) {
             return false;
         }
 
         Preset preset = ActivePresetManager.getPreset(player, this.presetType);
         String name = args[1];
 
-        if(preset == null) {
+        if (preset == null) {
             throw new InputException(player, Messages.PRESET_PLAYER_DONT_HAS_PRESET);
         }
 
         AdvancedRegionMarket.getInstance().getPresetPatternManager().getPreset(name, this.presetType);
-        if(AdvancedRegionMarket.getInstance().getPresetPatternManager().getPreset(name, this.presetType) == null) {
+        if (AdvancedRegionMarket.getInstance().getPresetPatternManager().getPreset(name, this.presetType) == null) {
             Preset savePreset = preset.getCopy();
             savePreset.setName(name);
             AdvancedRegionMarket.getInstance().getPresetPatternManager().add(savePreset);
@@ -79,14 +79,14 @@ public class SaveCommand implements BasicArmCommand {
     @Override
     public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
-        if(player.hasPermission(Permission.ADMIN_PRESET_LOAD)) {
-            if(args.length >= 1) {
-                if(args.length == 1) {
-                    if(this.rootCommand.startsWith(args[0])) {
+        if (player.hasPermission(Permission.ADMIN_PRESET_LOAD)) {
+            if (args.length >= 1) {
+                if (args.length == 1) {
+                    if (this.rootCommand.startsWith(args[0])) {
                         returnme.add(this.rootCommand);
                     }
                 }
-                if(args.length == 2 && args[0].equalsIgnoreCase(this.rootCommand)) {
+                if (args.length == 2 && args[0].equalsIgnoreCase(this.rootCommand)) {
                     returnme.add(args[1]);
                 }
             }

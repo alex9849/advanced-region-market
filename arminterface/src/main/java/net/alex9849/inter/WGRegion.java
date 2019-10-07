@@ -52,7 +52,7 @@ public abstract class WGRegion {
 
     public abstract List<Vector> getPoints();
 
-    public abstract  <T extends Flag<V>, V> void setFlag(Flag<V> flag, V value);
+    public abstract <T extends Flag<V>, V> void setFlag(Flag<V> flag, V value);
 
     public abstract void deleteFlags(Flag... flags);
 

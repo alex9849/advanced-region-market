@@ -15,20 +15,20 @@ public enum AutoPriceCalculation {
         }
     };
 
-    public abstract String toString();
-
     public static AutoPriceCalculation getAutoPriceType(String name) {
-        if(name.equalsIgnoreCase("static")) {
+        if (name.equalsIgnoreCase("static")) {
             return STATIC;
-        } else if(name.equalsIgnoreCase("per_m2")) {
+        } else if (name.equalsIgnoreCase("per_m2")) {
             return PER_M2;
-        } else if(name.equalsIgnoreCase("perm2")) {
+        } else if (name.equalsIgnoreCase("perm2")) {
             return PER_M2;
-        } else if(name.equalsIgnoreCase("per_m3")) {
+        } else if (name.equalsIgnoreCase("per_m3")) {
             return PER_M3;
-        } else if(name.equalsIgnoreCase("perm3")) {
+        } else if (name.equalsIgnoreCase("perm3")) {
             return PER_M3;
         }
         return null;
     }
+
+    public abstract String toString();
 }

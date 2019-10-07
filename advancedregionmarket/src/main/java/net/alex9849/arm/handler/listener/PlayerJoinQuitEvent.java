@@ -19,13 +19,27 @@ import java.util.List;
 
 public class PlayerJoinQuitEvent implements Listener {
 
+    public static void doTakeOverCheck(Player player) {
+        List<Region> regions = AdvancedRegionMarket.getInstance().getRegionManager().getRegionsByMember(player.getUniqueId());
+        List<Region> takeoverableRegions = new ArrayList<>();
+        for (Region region : regions) {
+            if (region.isTakeOverReady()) {
+                takeoverableRegions.add(region);
+            }
+        }
+
+        if (takeoverableRegions.size() > 0) {
+            Gui.openOvertakeGUI(player, takeoverableRegions);
+        }
+    }
+
     @EventHandler
     public void setLastLoginAndOpenOvertake(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         List<Region> regions = AdvancedRegionMarket.getInstance().getRegionManager().getRegionsByOwner(player.getUniqueId());
         Plugin plugin = AdvancedRegionMarket.getInstance();
 
-        for(Region region : regions) {
+        for (Region region : regions) {
             region.setLastLogin();
         }
 
@@ -36,7 +50,7 @@ public class PlayerJoinQuitEvent implements Listener {
             }
         }, 40L);
 
-        if(RentRegion.isSendExpirationWarning()) {
+        if (RentRegion.isSendExpirationWarning()) {
             Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
                 @Override
                 public void run() {
@@ -51,20 +65,6 @@ public class PlayerJoinQuitEvent implements Listener {
     public void onPlayerQuit(PlayerQuitEvent event) {
         ActivePresetManager.deletePreset(event.getPlayer());
         SubRegionCreator.removeSubRegioncreator(event.getPlayer());
-    }
-
-    public static void doTakeOverCheck(Player player) {
-        List<Region> regions = AdvancedRegionMarket.getInstance().getRegionManager().getRegionsByMember(player.getUniqueId());
-        List<Region> takeoverableRegions = new ArrayList<>();
-        for(Region region : regions) {
-            if(region.isTakeOverReady()) {
-                takeoverableRegions.add(region);
-            }
-        }
-
-        if(takeoverableRegions.size() > 0) {
-            Gui.openOvertakeGUI(player, takeoverableRegions);
-        }
     }
 
 }

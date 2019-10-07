@@ -9,8 +9,8 @@ import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 public class GuiChatInputListener implements Listener {
-    private Player player;
     GuiInputAction guiInputAction;
+    private Player player;
 
     public GuiChatInputListener(Player player, GuiInputAction guiInputAction) {
         this.player = player;
@@ -19,7 +19,7 @@ public class GuiChatInputListener implements Listener {
 
     @EventHandler
     public void handleChat(PlayerChatEvent event) {
-        if(event.getPlayer().getUniqueId() != this.player.getUniqueId()) {
+        if (event.getPlayer().getUniqueId() != this.player.getUniqueId()) {
             return;
         }
         event.setCancelled(true);
@@ -34,7 +34,7 @@ public class GuiChatInputListener implements Listener {
 
     @EventHandler
     public void playerQuitEvent(PlayerQuitEvent event) {
-        if(!(event.getPlayer().getUniqueId() == this.player.getUniqueId())) {
+        if (!(event.getPlayer().getUniqueId() == this.player.getUniqueId())) {
             return;
         }
         this.unregister();

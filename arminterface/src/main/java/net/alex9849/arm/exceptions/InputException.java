@@ -13,17 +13,17 @@ public class InputException extends IOException {
     private Logger logger;
     private ArrayList<String> messages = new ArrayList<String>();
 
-    public InputException (CommandSender sender, String message) {
+    public InputException(CommandSender sender, String message) {
         this.sendToLogger = false;
         this.messages.add(message);
         this.senders.add(sender);
     }
 
-    public void sendMessages(String prefix){
-        if(sendToLogger) {
+    public void sendMessages(String prefix) {
+        if (sendToLogger) {
             this.logger.log(Level.WARNING, messages.get(0));
         } else {
-            for(int i = 0; i < this.senders.size(); i++) {
+            for (int i = 0; i < this.senders.size(); i++) {
                 this.senders.get(i).sendMessage(prefix + this.messages.get(i));
             }
         }

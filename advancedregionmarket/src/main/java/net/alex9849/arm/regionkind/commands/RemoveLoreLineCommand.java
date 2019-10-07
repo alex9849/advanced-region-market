@@ -39,18 +39,18 @@ public class RemoveLoreLineCommand implements BasicArmCommand {
         if (!(sender instanceof Player)) {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
-        if(!sender.hasPermission(Permission.REGIONKIND_REMOVE_LORE_LINE)) {
+        if (!sender.hasPermission(Permission.REGIONKIND_REMOVE_LORE_LINE)) {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
         RegionKind regionKind = AdvancedRegionMarket.getInstance().getRegionKindManager().getRegionKind(args[1]);
-        if(regionKind == null) {
+        if (regionKind == null) {
             throw new InputException(sender, Messages.REGIONKIND_DOES_NOT_EXIST);
         }
 
         int lineIndex = Integer.parseInt(args[2]) - 1;
         List<String> lore = regionKind.getRawLore();
 
-        if((lineIndex < 0) || (lineIndex >= lore.size())) {
+        if ((lineIndex < 0) || (lineIndex >= lore.size())) {
             throw new InputException(sender, Messages.REGIONKIND_LORE_LINE_NOT_EXIST);
         } else {
             lore.remove(lineIndex);
@@ -65,24 +65,24 @@ public class RemoveLoreLineCommand implements BasicArmCommand {
     public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
 
-        if(!player.hasPermission(Permission.REGIONKIND_REMOVE_LORE_LINE)) {
+        if (!player.hasPermission(Permission.REGIONKIND_REMOVE_LORE_LINE)) {
             return returnme;
         }
 
-        if(args.length == 1) {
+        if (args.length == 1) {
             if (this.rootCommand.startsWith(args[0])) {
                 returnme.add(this.rootCommand);
             }
-        } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
+        } else if (args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
             returnme.addAll(AdvancedRegionMarket.getInstance().getRegionKindManager().completeTabRegionKinds(args[1], ""));
-        } else if(args.length == 3 && (args[0].equalsIgnoreCase(this.rootCommand))) {
+        } else if (args.length == 3 && (args[0].equalsIgnoreCase(this.rootCommand))) {
             RegionKind regionKind = AdvancedRegionMarket.getInstance().getRegionKindManager().getRegionKind(args[2]);
-            if(regionKind == null) {
+            if (regionKind == null) {
                 return returnme;
             } else {
                 int loresize = regionKind.getRawLore().size();
-                for(int i = 1; i < loresize + 1; i++) {
-                    if(args[3].startsWith(i + "")) {
+                for (int i = 1; i < loresize + 1; i++) {
+                    if (args[3].startsWith(i + "")) {
                         returnme.add(i + "");
                     }
                 }

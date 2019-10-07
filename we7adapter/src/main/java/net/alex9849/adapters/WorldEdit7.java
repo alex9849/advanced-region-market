@@ -53,7 +53,7 @@ public class WorldEdit7 extends WorldEditInterface {
         copy.setCopyingEntities(true);
         try {
             Operations.completeLegacy(copy);
-        } catch(MaxChangedBlocksException e) {
+        } catch (MaxChangedBlocksException e) {
             e.printStackTrace();
         }
         try {
@@ -64,7 +64,7 @@ public class WorldEdit7 extends WorldEditInterface {
             ClipboardWriter writer = closer.register(BuiltInClipboardFormat.SPONGE_SCHEMATIC.getWriter(bufferedOutputStream));
             writer.write(clip);
             closer.close();
-        } catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             return;
         }
@@ -86,7 +86,7 @@ public class WorldEdit7 extends WorldEditInterface {
             }
         }
 
-        if(file == null) {
+        if (file == null) {
             throw new SchematicException(region);
         }
 
@@ -107,7 +107,7 @@ public class WorldEdit7 extends WorldEditInterface {
             Operations.completeLegacy(copy);
             ((EditSession) destination).flushSession();
             closer.close();
-        } catch (IOException e ) {
+        } catch (IOException e) {
             throw new SchematicException(region);
         } catch (MaxChangedBlocksException e) {
             throw new SchematicException(region);

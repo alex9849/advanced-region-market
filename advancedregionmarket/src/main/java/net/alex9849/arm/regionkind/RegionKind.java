@@ -18,10 +18,10 @@ import java.util.HashMap;
 import java.util.List;
 
 public class RegionKind implements Saveable {
-    private String name;
-    private Material material;
     public static RegionKind DEFAULT = new RegionKind("Default", MaterialFinder.getRedBed(), new ArrayList<String>(), "Default", true, true, 50);
     public static RegionKind SUBREGION = new RegionKind("Subregion", MaterialFinder.getRedBed(), new ArrayList<String>(), "Subregion", false, false, 0);
+    private String name;
+    private Material material;
     private List<String> lore;
     private String displayName;
     private boolean displayInGUI;
@@ -57,7 +57,7 @@ public class RegionKind implements Saveable {
         this.stringReplacer = new StringReplacer(variableReplacements, 20);
     }
 
-    public RegionKind(String name, Material material, List<String> lore, String displayName, boolean displayInGUI, boolean displayInLimits, double paybackPercentage){
+    public RegionKind(String name, Material material, List<String> lore, String displayName, boolean displayInGUI, boolean displayInLimits, double paybackPercentage) {
         this.name = name;
         this.material = material;
         this.lore = lore;
@@ -68,30 +68,55 @@ public class RegionKind implements Saveable {
         this.needsSave = false;
     }
 
+    public static boolean hasPermission(CommandSender sender, RegionKind regionKind) {
+        if (!AdvancedRegionMarket.getInstance().getPluginSettings().isActivateRegionKindPermissions()) {
+            return true;
+        }
+        if (regionKind == RegionKind.DEFAULT) {
+            return true;
+        } else {
+            return sender.hasPermission(Permission.ARM_BUYKIND + regionKind.getName());
+        }
+    }
+
+    public static RegionKind parse(ConfigurationSection confSection, String id) {
+        Material material = MaterialFinder.getMaterial(confSection.getString("item"));
+        if (material == null) {
+            material = MaterialFinder.getRedBed();
+        }
+        String displayName = confSection.getString("displayName");
+        boolean displayInLimits = confSection.getBoolean("displayInLimits");
+        boolean displayInGUI = confSection.getBoolean("displayInGUI");
+        double paybackPercentage = confSection.getDouble("paypackPercentage");
+        List<String> lore = new ArrayList<>(confSection.getStringList("lore"));
+
+        return new RegionKind(id, material, lore, displayName, displayInGUI, displayInLimits, paybackPercentage);
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public Material getMaterial() {
+        return this.material;
+    }
+
     public void setMaterial(Material mat) {
         this.material = mat;
         this.queueSave();
     }
 
-    public void setLore(List<String> lore) {
-        this.lore = lore;
-        this.queueSave();
-    }
-
-    public String getName(){
-        return this.name;
-    }
-
-    public Material getMaterial(){
-        return this.material;
-    }
-
-    public List<String> getLore(){
+    public List<String> getLore() {
         List<String> newLore = new ArrayList<>();
-        for(String msg : this.lore) {
+        for (String msg : this.lore) {
             newLore.add(ChatColor.translateAlternateColorCodes('&', msg));
         }
         return newLore;
+    }
+
+    public void setLore(List<String> lore) {
+        this.lore = lore;
+        this.queueSave();
     }
 
     public List<String> getRawLore() {
@@ -106,29 +131,8 @@ public class RegionKind implements Saveable {
         return ChatColor.translateAlternateColorCodes('&', this.displayName);
     }
 
-    public static boolean hasPermission(CommandSender sender, RegionKind regionKind) {
-        if(!AdvancedRegionMarket.getInstance().getPluginSettings().isActivateRegionKindPermissions()) {
-            return true;
-        }
-        if(regionKind == RegionKind.DEFAULT) {
-            return true;
-        } else {
-            return sender.hasPermission(Permission.ARM_BUYKIND + regionKind.getName());
-        }
-    }
-
-    public void setPaybackPercentage(double paybackPercentage) {
-        this.paybackPercentage = paybackPercentage;
-        this.queueSave();
-    }
-
-    public void setDisplayInGUI(boolean displayInGUI) {
-        this.displayInGUI = displayInGUI;
-        this.queueSave();
-    }
-
-    public void setDisplayInLimits(boolean displayInLimits) {
-        this.displayInLimits = displayInLimits;
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
         this.queueSave();
     }
 
@@ -137,21 +141,31 @@ public class RegionKind implements Saveable {
         this.queueSave();
     }
 
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-        this.queueSave();
-    }
-
     public boolean isDisplayInGUI() {
         return displayInGUI;
+    }
+
+    public void setDisplayInGUI(boolean displayInGUI) {
+        this.displayInGUI = displayInGUI;
+        this.queueSave();
     }
 
     public boolean isDisplayInLimits() {
         return displayInLimits;
     }
 
+    public void setDisplayInLimits(boolean displayInLimits) {
+        this.displayInLimits = displayInLimits;
+        this.queueSave();
+    }
+
     public double getPaybackPercentage() {
         return paybackPercentage;
+    }
+
+    public void setPaybackPercentage(double paybackPercentage) {
+        this.paybackPercentage = paybackPercentage;
+        this.queueSave();
     }
 
     public String getConvertedMessage(String message) {
@@ -168,20 +182,6 @@ public class RegionKind implements Saveable {
         confSection.set("paypackPercentage", this.getPaybackPercentage());
         confSection.set("lore", this.getRawLore());
         return confSection;
-    }
-
-    public static RegionKind parse(ConfigurationSection confSection, String id) {
-        Material material = MaterialFinder.getMaterial(confSection.getString("item"));
-        if(material == null) {
-            material = MaterialFinder.getRedBed();
-        }
-        String displayName = confSection.getString("displayName");
-        boolean displayInLimits = confSection.getBoolean("displayInLimits");
-        boolean displayInGUI = confSection.getBoolean("displayInGUI");
-        double paybackPercentage = confSection.getDouble("paypackPercentage");
-        List<String> lore = new ArrayList<>(confSection.getStringList("lore"));
-
-        return new RegionKind(id, material, lore, displayName, displayInGUI, displayInLimits, paybackPercentage);
     }
 
     @Override

@@ -56,23 +56,23 @@ public abstract class CountdownRegion extends Region {
                 entityLimitGroup, extraEntitys, boughtExtraTotalEntitys);
         this.payedTill = payedTill;
         this.extendTime = contractPrice.getExtendTime();
-        if(this.extendTime < 1000) {
+        if (this.extendTime < 1000) {
             this.extendTime = 1000;
         }
     }
 
     public static long stringToTime(String stringtime) throws IllegalArgumentException {
         long time = 0;
-        if(stringtime.matches("[\\d]+d")){
+        if (stringtime.matches("[\\d]+d")) {
             time = Long.parseLong(stringtime.split("d")[0]);
-            time = time * 1000*60*60*24;
-        } else if(stringtime.matches("[\\d]+h")){
+            time = time * 1000 * 60 * 60 * 24;
+        } else if (stringtime.matches("[\\d]+h")) {
             time = Long.parseLong(stringtime.split("h")[0]);
-            time = time * 1000*60*60;
-        } else if(stringtime.matches("[\\d]+m")){
+            time = time * 1000 * 60 * 60;
+        } else if (stringtime.matches("[\\d]+m")) {
             time = Long.parseLong(stringtime.split("m")[0]);
-            time = time * 1000*60;
-        } else if(stringtime.matches("[\\d]+s")){
+            time = time * 1000 * 60;
+        } else if (stringtime.matches("[\\d]+s")) {
             time = Long.parseLong(stringtime.split("s")[0]);
             time = time * 1000;
         } else if (stringtime.matches("[\\d]+")) {
@@ -83,7 +83,7 @@ public abstract class CountdownRegion extends Region {
         return time;
     }
 
-    public static String getCountdown(Boolean shortedCountdown, long endTimeInMs, boolean showZeroIfDateInThePast, String ifDateInPastReplacement){
+    public static String getCountdown(Boolean shortedCountdown, long endTimeInMs, boolean showZeroIfDateInThePast, String ifDateInPastReplacement) {
         GregorianCalendar actualtime = new GregorianCalendar();
         GregorianCalendar payedTill = new GregorianCalendar();
         payedTill.setTimeInMillis(endTimeInMs);
@@ -94,7 +94,7 @@ public abstract class CountdownRegion extends Region {
         String min;
         String hour;
         String days;
-        if(shortedCountdown) {
+        if (shortedCountdown) {
             sec = " " + Messages.TIME_SECONDS_SHORT;
             min = " " + Messages.TIME_MINUTES_SHORT;
             hour = " " + Messages.TIME_HOURS_SHORT;
@@ -106,12 +106,12 @@ public abstract class CountdownRegion extends Region {
             days = Messages.TIME_DAYS;
         }
 
-        if(remainingMilliSeconds < 0 && !showZeroIfDateInThePast){
+        if (remainingMilliSeconds < 0 && !showZeroIfDateInThePast) {
             return ifDateInPastReplacement;
         }
 
         long remainingDays = TimeUnit.DAYS.convert(remainingMilliSeconds, TimeUnit.MILLISECONDS);
-        remainingMilliSeconds = remainingMilliSeconds - (remainingDays * 1000 * 60 * 60 *24);
+        remainingMilliSeconds = remainingMilliSeconds - (remainingDays * 1000 * 60 * 60 * 24);
 
         long remainingHours = TimeUnit.HOURS.convert(remainingMilliSeconds, TimeUnit.MILLISECONDS);
         remainingMilliSeconds = remainingMilliSeconds - (remainingHours * 1000 * 60 * 60);
@@ -123,31 +123,31 @@ public abstract class CountdownRegion extends Region {
 
 
         String timetoString = "";
-        if(remainingDays != 0) {
+        if (remainingDays != 0) {
             timetoString = timetoString + remainingDays + days;
-            if(shortedCountdown){
+            if (shortedCountdown) {
                 return timetoString;
             }
         }
-        if(remainingHours != 0) {
+        if (remainingHours != 0) {
             timetoString = timetoString + remainingHours + hour;
-            if(shortedCountdown){
+            if (shortedCountdown) {
                 return timetoString;
             }
         }
-        if(remainingMinutes != 0) {
+        if (remainingMinutes != 0) {
             timetoString = timetoString + remainingMinutes + min;
-            if(shortedCountdown){
+            if (shortedCountdown) {
                 return timetoString;
             }
         }
-        if(remainingSeconds != 0) {
+        if (remainingSeconds != 0) {
             timetoString = timetoString + remainingSeconds + sec;
-            if(shortedCountdown){
+            if (shortedCountdown) {
                 return timetoString;
             }
         }
-        if(remainingSeconds == 0 && remainingMinutes == 0 && remainingHours == 0 && remainingDays == 0){
+        if (remainingSeconds == 0 && remainingMinutes == 0 && remainingHours == 0 && remainingDays == 0) {
             timetoString = "0" + sec;
         }
 
@@ -158,7 +158,7 @@ public abstract class CountdownRegion extends Region {
         long time = timeInMs;
 
         long remainingDays = TimeUnit.DAYS.convert(time, TimeUnit.MILLISECONDS);
-        time = time - (remainingDays * 1000 * 60 * 60 *24);
+        time = time - (remainingDays * 1000 * 60 * 60 * 24);
 
         long remainingHours = TimeUnit.HOURS.convert(time, TimeUnit.MILLISECONDS);
         time = time - (remainingHours * 1000 * 60 * 60);
@@ -170,19 +170,19 @@ public abstract class CountdownRegion extends Region {
 
 
         String timetoString = "";
-        if(remainingDays != 0) {
+        if (remainingDays != 0) {
             timetoString = timetoString + remainingDays + Messages.TIME_DAYS;
         }
-        if(remainingHours != 0) {
+        if (remainingHours != 0) {
             timetoString = timetoString + remainingHours + Messages.TIME_HOURS;
         }
-        if(remainingMinutes != 0) {
+        if (remainingMinutes != 0) {
             timetoString = timetoString + remainingMinutes + Messages.TIME_MINUTES;
         }
-        if(remainingSeconds != 0) {
+        if (remainingSeconds != 0) {
             timetoString = timetoString + remainingSeconds + Messages.TIME_SECONDS;
         }
-        if(remainingSeconds == 0 && remainingMinutes == 0 && remainingHours == 0 && remainingDays == 0){
+        if (remainingSeconds == 0 && remainingMinutes == 0 && remainingHours == 0 && remainingDays == 0) {
             timetoString = "0" + Messages.TIME_SECONDS;
         }
 
@@ -218,13 +218,17 @@ public abstract class CountdownRegion extends Region {
         return this.payedTill;
     }
 
+    public void setPayedTill(long payedTill) {
+        this.payedTill = payedTill;
+    }
 
     /**
      * Sets the region to sold or not
+     *
      * @param sold If 'true' the region will be set to sold
      *             If the region is already expired it will be extended
      *             to the actual_time + extend_time
-     *
+     *             <p>
      *             if 'false' the region will be set to not_sold.
      *             The already payed time of the region will be set to the
      *             actual_time owners and members will not be removed!
@@ -233,8 +237,8 @@ public abstract class CountdownRegion extends Region {
     public void setSold(boolean sold) {
         super.setSold(sold);
         long actualTime = new GregorianCalendar().getTimeInMillis();
-        if(sold) {
-            if(this.getPayedTill() < actualTime) {
+        if (sold) {
+            if (this.getPayedTill() < actualTime) {
                 this.payedTill = actualTime + this.getExtendTime();
             }
         } else {
@@ -247,14 +251,10 @@ public abstract class CountdownRegion extends Region {
     public void unsell(ActionReason actionReason, boolean logToConsole) {
         super.unsell(actionReason, logToConsole);
         GregorianCalendar actualtime = new GregorianCalendar();
-        if(this.getPayedTill() > actualtime.getTimeInMillis()){
+        if (this.getPayedTill() > actualtime.getTimeInMillis()) {
             this.setPayedTill(actualtime.getTimeInMillis());
         }
         this.queueSave();
-    }
-
-    public void setPayedTill(long payedTill) {
-        this.payedTill = payedTill;
     }
 
     /**
@@ -265,7 +265,7 @@ public abstract class CountdownRegion extends Region {
      */
     public void extend() {
         long actualTime = new GregorianCalendar().getTimeInMillis();
-        if(this.payedTill < actualTime) {
+        if (this.payedTill < actualTime) {
             this.payedTill = actualTime;
         }
         this.payedTill += this.getExtendTime();
@@ -275,15 +275,15 @@ public abstract class CountdownRegion extends Region {
 
     @Override
     public double getPaybackMoney() {
-        double amount = (this.getPrice() * this.getRegionKind().getPaybackPercentage())/100;
+        double amount = (this.getPrice() * this.getRegionKind().getPaybackPercentage()) / 100;
         GregorianCalendar acttime = new GregorianCalendar();
         long remaining = this.payedTill - acttime.getTimeInMillis();
-        amount = amount * ((double)remaining / (double)extendTime);
+        amount = amount * ((double) remaining / (double) extendTime);
         amount = amount * 10;
         amount = Math.round(amount);
         amount = amount / 10d;
 
-        if(amount < 0) {
+        if (amount < 0) {
             return 0;
         }
         return amount;
@@ -292,7 +292,7 @@ public abstract class CountdownRegion extends Region {
     @Override
     public void setPrice(Price price) {
         super.setPrice(price);
-        if(price instanceof ContractPrice) {
+        if (price instanceof ContractPrice) {
             this.extendTime = ((ContractPrice) price).getExtendTime();
         }
         this.updateSigns();
@@ -300,16 +300,16 @@ public abstract class CountdownRegion extends Region {
     }
 
     public double getPricePerM2PerWeek() {
-        if(this.getExtendTime() == 0) {
+        if (this.getExtendTime() == 0) {
             return Integer.MAX_VALUE;
         }
         double pricePerM2 = this.getPricePerM2();
         double msPerWeek = 1000 * 60 * 60 * 24 * 7;
-        return  (msPerWeek / this.getExtendTime()) * pricePerM2;
+        return (msPerWeek / this.getExtendTime()) * pricePerM2;
     }
 
     public double getPricePerM3PerWeek() {
-        if(this.getExtendTime() == 0) {
+        if (this.getExtendTime() == 0) {
             return Integer.MAX_VALUE;
         }
         double pricePerM2PerWeek = this.getPricePerM2PerWeek();
@@ -323,7 +323,7 @@ public abstract class CountdownRegion extends Region {
 
     public ConfigurationSection toConfigurationSection() {
         ConfigurationSection cofSection = super.toConfigurationSection();
-        if(this.getPriceObject().isAutoPrice()) {
+        if (this.getPriceObject().isAutoPrice()) {
             cofSection.set("extendTime", null);
         } else {
             cofSection.set("extendTime", this.getExtendTime());

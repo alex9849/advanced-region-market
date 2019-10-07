@@ -38,15 +38,15 @@ public class SetWarpCommand implements BasicArmCommand {
     @Override
     public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
         if (sender.hasPermission(Permission.ADMIN_SETWARP)) {
-            if(!(sender instanceof Player)) {
+            if (!(sender instanceof Player)) {
                 throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
             }
             Player player = (Player) sender;
             Region region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
-            if(region == null){
+            if (region == null) {
                 throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
             }
-            if(region.isSubregion()) {
+            if (region.isSubregion()) {
                 throw new InputException(sender, Messages.SUB_REGION_TELEPORT_LOCATION_ERROR);
             }
             region.setTeleportLocation(player.getLocation());
@@ -62,13 +62,13 @@ public class SetWarpCommand implements BasicArmCommand {
     public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
 
-        if(args.length >= 1) {
+        if (args.length >= 1) {
             if (this.rootCommand.startsWith(args[0])) {
                 if (player.hasPermission(Permission.ADMIN_SETWARP)) {
-                    if(args.length == 1) {
+                    if (args.length == 1) {
                         returnme.add(this.rootCommand);
-                    } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                        returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true,false));
+                    } else if (args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
+                        returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true, false));
                     }
                 }
             }

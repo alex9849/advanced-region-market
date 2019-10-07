@@ -25,6 +25,16 @@ public class CommandHandler implements TabCompleter {
         this.commands = new ArrayList<>();
     }
 
+    public static List<String> tabCompleteOnlinePlayers(String args) {
+        List<String> returnme = new ArrayList<>();
+        for (Player player : Bukkit.getServer().getOnlinePlayers()) {
+            if (player.getName().toLowerCase().startsWith(args)) {
+                returnme.add(player.getName());
+            }
+        }
+        return returnme;
+    }
+
     public String getRootcommand() {
         return this.rootcommand;
     }
@@ -45,25 +55,25 @@ public class CommandHandler implements TabCompleter {
         String allargs = "";
 
         for (int i = 0; i < args.length; i++) {
-            if(i == 0) {
+            if (i == 0) {
                 allargs = args[i];
             } else {
                 allargs = allargs + " " + args[i];
             }
         }
 
-        if(args.length >= 1) {
-            for(BasicArmCommand command : this.commands) {
-                if(command.getRootCommand().equalsIgnoreCase(args[0])) {
-                    if(command.matchesRegex(allargs)) {
+        if (args.length >= 1) {
+            for (BasicArmCommand command : this.commands) {
+                if (command.getRootCommand().equalsIgnoreCase(args[0])) {
+                    if (command.matchesRegex(allargs)) {
 
                         try {
                             return command.runCommand(sender, cmd, commandsLabel, args, allargs);
                         } catch (CmdSyntaxException syntaxException) {
                             List<String> syntax = syntaxException.getSyntax();
 
-                            if(!this.rootcommand.equalsIgnoreCase("")) {
-                                for(int i = 0; i < syntax.size(); i++) {
+                            if (!this.rootcommand.equalsIgnoreCase("")) {
+                                for (int i = 0; i < syntax.size(); i++) {
                                     syntax.set(i, this.rootcommand + " " + syntax.get(i));
                                 }
                             }
@@ -73,8 +83,8 @@ public class CommandHandler implements TabCompleter {
                     } else {
                         List<String> syntax = new ArrayList<>(command.getUsage());
 
-                        if(!this.rootcommand.equalsIgnoreCase("")) {
-                            for(int i = 0; i < syntax.size(); i++) {
+                        if (!this.rootcommand.equalsIgnoreCase("")) {
+                            for (int i = 0; i < syntax.size(); i++) {
                                 syntax.set(i, this.rootcommand + " " + syntax.get(i));
                             }
                         }
@@ -83,7 +93,7 @@ public class CommandHandler implements TabCompleter {
                 }
             }
         }
-        if(this.usage.size() >= 1) {
+        if (this.usage.size() >= 1) {
             List<String> syntax = new ArrayList<>(this.usage);
             throw new CmdSyntaxException(syntax);
         }
@@ -93,38 +103,27 @@ public class CommandHandler implements TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender commandSender, Command command, String commandsLabel, String[] args) {
         List<String> returnme = new ArrayList<>();
-        if(!(commandSender instanceof Player)) {
+        if (!(commandSender instanceof Player)) {
             return returnme;
         }
 
         Player player = (Player) commandSender;
 
-        for(int i = 0; i < args.length; i++) {
+        for (int i = 0; i < args.length; i++) {
             args[i] = args[i].toLowerCase();
         }
 
-        if(command.getName().equalsIgnoreCase("arm")) {
+        if (command.getName().equalsIgnoreCase("arm")) {
             returnme.addAll(this.onTabComplete(player, args));
         }
 
         return returnme;
     }
 
-
     public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
-        for(int i = 0; i < this.commands.size(); i++) {
+        for (int i = 0; i < this.commands.size(); i++) {
             returnme.addAll(this.commands.get(i).onTabComplete(player, args));
-        }
-        return returnme;
-    }
-
-    public static List<String> tabCompleteOnlinePlayers(String args) {
-        List<String> returnme = new ArrayList<>();
-        for(Player player : Bukkit.getServer().getOnlinePlayers()) {
-            if(player.getName().toLowerCase().startsWith(args)) {
-                returnme.add(player.getName());
-            }
         }
         return returnme;
     }

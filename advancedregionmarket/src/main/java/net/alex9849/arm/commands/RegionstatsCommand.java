@@ -22,7 +22,7 @@ public class RegionstatsCommand implements BasicArmCommand {
 
     @Override
     public boolean matchesRegex(String command) {
-        if(command.matches(this.regex)){
+        if (command.matches(this.regex)) {
             return true;
         } else {
             return command.matches(this.regex_with_args);
@@ -43,7 +43,7 @@ public class RegionstatsCommand implements BasicArmCommand {
     public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
         if (sender.hasPermission(Permission.ADMIN_REGION_STATS)) {
 
-            if(allargs.matches(regex)) {
+            if (allargs.matches(regex)) {
                 return Diagram.sendRegionStats(sender);
             } else {
                 return Diagram.sendRegionStats(sender, args[1]);
@@ -58,20 +58,20 @@ public class RegionstatsCommand implements BasicArmCommand {
     public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
 
-        if(args.length >= 1) {
+        if (args.length >= 1) {
             if (this.rootCommand.startsWith(args[0])) {
                 if (player.hasPermission(Permission.ADMIN_REGION_STATS)) {
-                    if(args.length == 1) {
+                    if (args.length == 1) {
                         returnme.add(this.rootCommand);
-                    } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
+                    } else if (args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
                         returnme.addAll(AdvancedRegionMarket.getInstance().getRegionKindManager().completeTabRegionKinds(args[1], ""));
-                        if("rentregion".startsWith(args[1])) {
+                        if ("rentregion".startsWith(args[1])) {
                             returnme.add("rentregion");
                         }
-                        if("sellregion".startsWith(args[1])) {
+                        if ("sellregion".startsWith(args[1])) {
                             returnme.add("sellregion");
                         }
-                        if("contractregion".startsWith(args[1])) {
+                        if ("contractregion".startsWith(args[1])) {
                             returnme.add("contractregion");
                         }
                     }

@@ -15,7 +15,7 @@ public class Zipper {
 
         try {
             ZipOutputStream zipOut = new ZipOutputStream(new FileOutputStream(outputFile));
-            for(File file: files) {
+            for (File file : files) {
 
                 String insideZipPath = file.getAbsolutePath();
                 insideZipPath = insideZipPath.substring(toZipPath.getAbsolutePath().length() + 1);
@@ -50,8 +50,8 @@ public class Zipper {
 
         File[] pathFiles = path.listFiles();
 
-        for(File file : pathFiles) {
-            if(file.isFile()) {
+        for (File file : pathFiles) {
+            if (file.isFile()) {
                 allFiles.add(file);
             } else {
                 allFiles.addAll(getRecFiles(file));

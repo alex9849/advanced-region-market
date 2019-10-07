@@ -44,20 +44,20 @@ public class DeleteCommand implements BasicArmCommand {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
         RegionKind regionKind = AdvancedRegionMarket.getInstance().getRegionKindManager().getRegionKind(args[1]);
-        if(regionKind == null) {
+        if (regionKind == null) {
             throw new InputException(sender, Messages.REGIONKIND_DOES_NOT_EXIST);
         }
-        if(regionKind == RegionKind.DEFAULT) {
+        if (regionKind == RegionKind.DEFAULT) {
             throw new InputException(sender, Messages.REGIONKIND_CAN_NOT_REMOVE_SYSTEM);
         }
-        if(regionKind == RegionKind.SUBREGION) {
+        if (regionKind == RegionKind.SUBREGION) {
             throw new InputException(sender, Messages.REGIONKIND_CAN_NOT_REMOVE_SYSTEM);
         }
 
         AdvancedRegionMarket.getInstance().getRegionKindManager().remove(regionKind);
 
-        for(Region region : AdvancedRegionMarket.getInstance().getRegionManager()) {
-            if(region.getRegionKind() == regionKind) {
+        for (Region region : AdvancedRegionMarket.getInstance().getRegionManager()) {
+            if (region.getRegionKind() == regionKind) {
                 region.setRegionKind(RegionKind.DEFAULT);
             }
         }
@@ -73,12 +73,12 @@ public class DeleteCommand implements BasicArmCommand {
             return returnme;
         }
 
-        if(args.length >= 1) {
-            if(args.length == 1) {
+        if (args.length >= 1) {
+            if (args.length == 1) {
                 if (this.rootCommand.startsWith(args[0])) {
                     returnme.add(this.rootCommand);
                 }
-            } else if((args.length == 2) && (args[0].equalsIgnoreCase(this.rootCommand))) {
+            } else if ((args.length == 2) && (args[0].equalsIgnoreCase(this.rootCommand))) {
                 returnme.addAll(AdvancedRegionMarket.getInstance().getRegionKindManager().completeTabRegionKinds(args[1], ""));
             }
         }

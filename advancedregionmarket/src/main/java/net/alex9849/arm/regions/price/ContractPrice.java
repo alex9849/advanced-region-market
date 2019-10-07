@@ -7,7 +7,7 @@ public class ContractPrice extends Price {
 
     public ContractPrice(double price, long extendTime) {
         super(price);
-        if(extendTime < 1000) {
+        if (extendTime < 1000) {
             this.extendTime = 1000;
         } else {
             this.extendTime = extendTime;
@@ -19,22 +19,18 @@ public class ContractPrice extends Price {
         this.extendTime = autoPrice.getExtendtime();
     }
 
-    public long getExtendTime() {
-        return this.extendTime;
-    }
-
     public static long stringToTime(String stringtime) throws IllegalArgumentException {
         long time = 0;
-        if(stringtime.matches("[\\d]+d")){
+        if (stringtime.matches("[\\d]+d")) {
             time = Long.parseLong(stringtime.split("d")[0]);
-            time = time * 1000*60*60*24;
-        } else if(stringtime.matches("[\\d]+h")){
+            time = time * 1000 * 60 * 60 * 24;
+        } else if (stringtime.matches("[\\d]+h")) {
             time = Long.parseLong(stringtime.split("h")[0]);
-            time = time * 1000*60*60;
-        } else if(stringtime.matches("[\\d]+m")){
+            time = time * 1000 * 60 * 60;
+        } else if (stringtime.matches("[\\d]+m")) {
             time = Long.parseLong(stringtime.split("m")[0]);
-            time = time * 1000*60;
-        } else if(stringtime.matches("[\\d]+s")){
+            time = time * 1000 * 60;
+        } else if (stringtime.matches("[\\d]+s")) {
             time = Long.parseLong(stringtime.split("s")[0]);
             time = time * 1000;
         } else if (stringtime.matches("[\\d]+")) {
@@ -43,5 +39,9 @@ public class ContractPrice extends Price {
             throw new IllegalArgumentException();
         }
         return time;
+    }
+
+    public long getExtendTime() {
+        return this.extendTime;
     }
 }

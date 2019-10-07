@@ -43,14 +43,14 @@ public class SignLinkModeCommand implements BasicArmCommand {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Player player = (Player) sender;
-        if(!sender.hasPermission(Permission.ADMIN_SIGN_LINK_MODE)){
+        if (!sender.hasPermission(Permission.ADMIN_SIGN_LINK_MODE)) {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
 
-        if(allargs.matches(this.regex_disable)) {
+        if (allargs.matches(this.regex_disable)) {
 
             SignLinkMode slm = SignLinkMode.getSignLinkMode(player);
-            if(slm == null) {
+            if (slm == null) {
                 throw new InputException(player, Messages.SIGN_LINK_MODE_ALREADY_DEACTIVATED);
             }
             slm.unregister();
@@ -60,30 +60,30 @@ public class SignLinkModeCommand implements BasicArmCommand {
         } else {
 
             SellType sellType = SellType.getSelltype(args[1]);
-            if(sellType == null) {
+            if (sellType == null) {
                 throw new InputException(player, Messages.SELLTYPE_NOT_EXIST);
             }
             Preset preset = null;
-            if(sellType == SellType.SELL) {
-                if(!player.hasPermission(Permission.ADMIN_CREATE_SELL)) {
+            if (sellType == SellType.SELL) {
+                if (!player.hasPermission(Permission.ADMIN_CREATE_SELL)) {
                     throw new InputException(player, Messages.NO_PERMISSION);
                 }
                 preset = ActivePresetManager.getPreset(player, PresetType.SELLPRESET);
             } else if (sellType == SellType.RENT) {
-                if(!player.hasPermission(Permission.ADMIN_CREATE_RENT)) {
+                if (!player.hasPermission(Permission.ADMIN_CREATE_RENT)) {
                     throw new InputException(player, Messages.NO_PERMISSION);
                 }
                 preset = ActivePresetManager.getPreset(player, PresetType.RENTPRESET);
             } else if (sellType == SellType.CONTRACT) {
-                if(!player.hasPermission(Permission.ADMIN_CREATE_CONTRACT)) {
+                if (!player.hasPermission(Permission.ADMIN_CREATE_CONTRACT)) {
                     throw new InputException(player, Messages.NO_PERMISSION);
                 }
                 preset = ActivePresetManager.getPreset(player, PresetType.CONTRACTPRESET);
             }
-            if(preset == null) {
+            if (preset == null) {
                 throw new InputException(player, Messages.SIGN_LINK_MODE_NO_PRESET_SELECTED);
             }
-            if(!preset.canPriceLineBeLetEmpty()) {
+            if (!preset.canPriceLineBeLetEmpty()) {
                 player.sendMessage(Messages.PREFIX + Messages.SIGN_LINK_MODE_PRESET_NOT_PRICEREADY);
             }
             SignLinkMode.register(new SignLinkMode(player, preset));
@@ -98,23 +98,23 @@ public class SignLinkModeCommand implements BasicArmCommand {
     public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
 
-        if(args.length >= 1) {
-            if(this.rootCommand.startsWith(args[0])) {
+        if (args.length >= 1) {
+            if (this.rootCommand.startsWith(args[0])) {
                 if (player.hasPermission(Permission.ADMIN_SIGN_LINK_MODE)) {
-                    if(args.length == 1) {
+                    if (args.length == 1) {
                         returnme.add(this.rootCommand);
                     }
-                    if(args.length == 2) {
-                        if(SellType.SELL.getInternalName().toLowerCase().startsWith(args[1]) && player.hasPermission(Permission.ADMIN_CREATE_SELL)) {
+                    if (args.length == 2) {
+                        if (SellType.SELL.getInternalName().toLowerCase().startsWith(args[1]) && player.hasPermission(Permission.ADMIN_CREATE_SELL)) {
                             returnme.add(SellType.SELL.getInternalName());
                         }
-                        if(SellType.RENT.getInternalName().toLowerCase().startsWith(args[1]) && player.hasPermission(Permission.ADMIN_CREATE_RENT)) {
+                        if (SellType.RENT.getInternalName().toLowerCase().startsWith(args[1]) && player.hasPermission(Permission.ADMIN_CREATE_RENT)) {
                             returnme.add(SellType.RENT.getInternalName());
                         }
-                        if(SellType.CONTRACT.getInternalName().toLowerCase().startsWith(args[1]) && player.hasPermission(Permission.ADMIN_CREATE_CONTRACT)) {
+                        if (SellType.CONTRACT.getInternalName().toLowerCase().startsWith(args[1]) && player.hasPermission(Permission.ADMIN_CREATE_CONTRACT)) {
                             returnme.add(SellType.CONTRACT.getInternalName());
                         }
-                        if("disable".startsWith(args[1])) {
+                        if ("disable".startsWith(args[1])) {
                             returnme.add("disable");
                         }
                     }

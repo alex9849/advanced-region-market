@@ -49,15 +49,15 @@ public class BuyExtraCommand implements BasicArmCommand {
 
         Region region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
 
-        if(region == null) {
+        if (region == null) {
             throw new InputException(player, Messages.REGION_DOES_NOT_EXIST);
         }
 
-        if(!(region.getRegion().hasOwner(player.getUniqueId()) || region.getRegion().hasMember(player.getUniqueId()))) {
+        if (!(region.getRegion().hasOwner(player.getUniqueId()) || region.getRegion().hasMember(player.getUniqueId()))) {
             throw new InputException(player, Messages.REGION_NOT_OWN);
         }
 
-        if(region.isSubregion()) {
+        if (region.isSubregion()) {
             throw new InputException(player, Messages.ENTITYLIMITGROUP_EXTRA_ENTITIES_BUY_SUBREGION_ERROR);
         }
 
@@ -65,12 +65,12 @@ public class BuyExtraCommand implements BasicArmCommand {
                 true, true, true, true,
                 false, false, false);
 
-        if(args[2].equalsIgnoreCase("total")) {
+        if (args[2].equalsIgnoreCase("total")) {
 
-            if(region.getEntityLimitGroup().getHardLimit() <= region.getEntityLimitGroup().getSoftLimit(region.getExtraTotalEntitys())) {
+            if (region.getEntityLimitGroup().getHardLimit() <= region.getEntityLimitGroup().getSoftLimit(region.getExtraTotalEntitys())) {
                 throw new InputException(player, region.getEntityLimitGroup().getConvertedMessage(Messages.ENTITYLIMITGROUP_EXTRA_ENTITIES_HARDLIMIT_REACHED, entities, region.getExtraTotalEntitys()));
             }
-            if(AdvancedRegionMarket.getInstance().getEcon().getBalance(player) < region.getEntityLimitGroup().getPricePerExtraEntity()) {
+            if (AdvancedRegionMarket.getInstance().getEcon().getBalance(player) < region.getEntityLimitGroup().getPricePerExtraEntity()) {
                 throw new InputException(player, Messages.NOT_ENOUGHT_MONEY);
             }
             AdvancedRegionMarket.getInstance().getEcon().withdrawPlayer(player, region.getEntityLimitGroup().getPricePerExtraEntity());
@@ -80,17 +80,17 @@ public class BuyExtraCommand implements BasicArmCommand {
         } else {
 
             EntityLimit.LimitableEntityType limitableEntityType = EntityLimit.getLimitableEntityType(args[2]);
-            if(limitableEntityType == null) {
+            if (limitableEntityType == null) {
                 throw new InputException(player, Messages.ENTITYTYPE_DOES_NOT_EXIST.replace("%entitytype%", args[2]));
             }
             EntityLimit entityLimit = region.getEntityLimitGroup().getEntityLimit(limitableEntityType);
-            if(entityLimit == null) {
+            if (entityLimit == null) {
                 throw new InputException(player, region.getEntityLimitGroup().getConvertedMessage(Messages.ENTITYLIMITGROUP_ENTITYLIMIT_ALREADY_UNLIMITED, entities, region.getExtraEntityAmount(limitableEntityType)));
             }
-            if(region.getEntityLimitGroup().getHardLimit(limitableEntityType) <= region.getEntityLimitGroup().getSoftLimit(limitableEntityType, region.getExtraEntityAmount(limitableEntityType))) {
+            if (region.getEntityLimitGroup().getHardLimit(limitableEntityType) <= region.getEntityLimitGroup().getSoftLimit(limitableEntityType, region.getExtraEntityAmount(limitableEntityType))) {
                 throw new InputException(player, entityLimit.getConvertedMessage(Messages.ENTITYLIMITGROUP_EXTRA_ENTITIES_HARDLIMIT_REACHED, entities, region.getExtraEntityAmount(limitableEntityType)));
             }
-            if(AdvancedRegionMarket.getInstance().getEcon().getBalance(player) < region.getEntityLimitGroup().getPricePerExtraEntity(limitableEntityType)) {
+            if (AdvancedRegionMarket.getInstance().getEcon().getBalance(player) < region.getEntityLimitGroup().getPricePerExtraEntity(limitableEntityType)) {
                 throw new InputException(player, Messages.NOT_ENOUGHT_MONEY);
             }
             AdvancedRegionMarket.getInstance().getEcon().withdrawPlayer(player, region.getEntityLimitGroup().getPricePerExtraEntity(limitableEntityType));
@@ -108,22 +108,22 @@ public class BuyExtraCommand implements BasicArmCommand {
             return returnme;
         }
 
-        if(args.length >= 1) {
-            if(args.length == 1) {
+        if (args.length >= 1) {
+            if (args.length == 1) {
                 if (this.rootCommand.startsWith(args[0])) {
                     returnme.add(this.rootCommand);
                 }
-            } else if((args.length == 2) && (args[0].equalsIgnoreCase(this.rootCommand))) {
+            } else if ((args.length == 2) && (args[0].equalsIgnoreCase(this.rootCommand))) {
                 if (this.rootCommand.startsWith(args[0])) {
                     returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.OWNER, true, false));
 
                 }
-            } else if((args.length == 3) && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                for(EntityLimit.LimitableEntityType entityType : EntityLimit.entityTypes) {
-                    if(entityType.toString().toLowerCase().startsWith(args[2])) {
+            } else if ((args.length == 3) && (args[0].equalsIgnoreCase(this.rootCommand))) {
+                for (EntityLimit.LimitableEntityType entityType : EntityLimit.entityTypes) {
+                    if (entityType.toString().toLowerCase().startsWith(args[2])) {
                         Region region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
-                        if(region != null) {
-                            if(region.getEntityLimitGroup().containsLimit(entityType)) {
+                        if (region != null) {
+                            if (region.getEntityLimitGroup().containsLimit(entityType)) {
                                 returnme.add(entityType.toString());
                             }
                         } else {
@@ -131,7 +131,7 @@ public class BuyExtraCommand implements BasicArmCommand {
                         }
                     }
                 }
-                if("total".startsWith(args[2])) {
+                if ("total".startsWith(args[2])) {
                     returnme.add("total");
                 }
             }

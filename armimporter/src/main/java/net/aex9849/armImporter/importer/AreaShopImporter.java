@@ -32,13 +32,13 @@ import java.util.*;
 public class AreaShopImporter {
 
     public static void importRegionKinds(boolean overwriteExisting) {
-        Collection<RegionGroup> groups =  AreaShop.getInstance().getFileManager().getGroups();
-        for(RegionGroup group : groups) {
+        Collection<RegionGroup> groups = AreaShop.getInstance().getFileManager().getGroups();
+        for (RegionGroup group : groups) {
             String regionKindName = group.getName();
             RegionKind existingArmKind = AdvancedRegionMarket.getInstance().getRegionKindManager().getRegionKind(regionKindName);
             RegionKind armRegionKind = new RegionKind(regionKindName, MaterialFinder.getRedBed(), new ArrayList<String>(), regionKindName, true, true, 0.5);
-            if(existingArmKind != null) {
-                if(overwriteExisting) {
+            if (existingArmKind != null) {
+                if (overwriteExisting) {
                     AdvancedRegionMarket.getInstance().getRegionKindManager().remove(existingArmKind);
                     AdvancedRegionMarket.getInstance().getRegionKindManager().add(armRegionKind, true);
                 } else {
@@ -54,29 +54,29 @@ public class AreaShopImporter {
         Collection<GeneralRegion> regions = AreaShop.getInstance().getFileManager().getRegions();
         ScheamticImporter scheamticImporter = new ScheamticImporter();
 
-        for(GeneralRegion asRegion : regions) {
+        for (GeneralRegion asRegion : regions) {
             World regionWorld = asRegion.getWorld();
 
             WGRegion wgRegion = AdvancedRegionMarket.getInstance().getWorldGuardInterface().getRegion(regionWorld, AdvancedRegionMarket.getInstance().getWorldGuard(), asRegion.getRegion().getId());
 
             UUID regionOwner = asRegion.getOwner();
 
-            if(regionOwner != null) {
+            if (regionOwner != null) {
                 OfflinePlayer oPlayer = Bukkit.getOfflinePlayer(regionOwner);
-                if(oPlayer != null) {
+                if (oPlayer != null) {
                     wgRegion.setOwner(oPlayer);
                 }
             }
 
 
-            if(wgRegion != null) {
+            if (wgRegion != null) {
                 List<RegionSign> asRegionSings = asRegion.getSignsFeature().getSigns();
                 List<SignData> armSignDataList = new ArrayList<SignData>();
                 SignDataFactory signDataFactory = AdvancedRegionMarket.getInstance().getSignDataFactory();
 
-                for(RegionSign asRegionSign : asRegionSings) {
+                for (RegionSign asRegionSign : asRegionSings) {
                     SignAttachment signAttachment;
-                    if(asRegionSign.getMaterial().toString().contains("WALL_SIGN") || asRegionSign.getMaterial().toString().equals("WALL_SIGN")) {
+                    if (asRegionSign.getMaterial().toString().contains("WALL_SIGN") || asRegionSign.getMaterial().toString().equals("WALL_SIGN")) {
                         signAttachment = SignAttachment.WALL_SIGN;
                     } else {
                         signAttachment = SignAttachment.GROUND_SIGN;
@@ -88,13 +88,13 @@ public class AreaShopImporter {
 
                 List<RegionGroup> groups = new ArrayList<RegionGroup>(asRegion.getGroups());
 
-                for(RegionGroup group : groups) {
-                    if(regionKind == null) {
+                for (RegionGroup group : groups) {
+                    if (regionKind == null) {
                         regionKind = AdvancedRegionMarket.getInstance().getRegionKindManager().getRegionKind(group.getName());
                     }
                 }
 
-                if(regionKind == null) {
+                if (regionKind == null) {
                     regionKind = RegionKind.DEFAULT;
                 }
 
@@ -103,7 +103,7 @@ public class AreaShopImporter {
                 long actualTime = new GregorianCalendar().getTimeInMillis();
 
 
-                if(asRegion instanceof BuyRegion) {
+                if (asRegion instanceof BuyRegion) {
                     BuyRegion buyRegion = (BuyRegion) asRegion;
                     double price = buyRegion.getPrice();
 
@@ -113,7 +113,7 @@ public class AreaShopImporter {
                             true, regionKind, FlagGroup.DEFAULT, null, 0, actualTime, true, new ArrayList<Region>(), 0,
                             EntityLimitGroup.DEFAULT, new HashMap<>(), 0);
 
-                } else if(asRegion instanceof RentRegion) {
+                } else if (asRegion instanceof RentRegion) {
                     RentRegion rentRegion = (RentRegion) asRegion;
                     double price = rentRegion.getPrice();
                     long extendTime = rentRegion.getDuration();
@@ -127,11 +127,11 @@ public class AreaShopImporter {
                             EntityLimitGroup.DEFAULT, new HashMap<>(), 0);
                 }
 
-                if(armRegion != null) {
+                if (armRegion != null) {
                     Region armExistingRegion = AdvancedRegionMarket.getInstance().getRegionManager().getRegion(wgRegion);
 
-                    if(armExistingRegion != null) {
-                        if(overwriteExisting) {
+                    if (armExistingRegion != null) {
+                        if (overwriteExisting) {
                             AdvancedRegionMarket.getInstance().getRegionManager().remove(armExistingRegion);
                             AdvancedRegionMarket.getInstance().getRegionManager().add(armRegion, true);
                             scheamticImporter.scheduleSchematic(armRegion, getSchematicPath(asRegion));
@@ -163,20 +163,20 @@ public class AreaShopImporter {
 
     private static File getSchematicPath(GeneralRegion asRegion) {
         ConfigurationSection profileSection = asRegion.getConfigurationSectionSetting("general.schematicProfile", "schematicProfiles");
-        if(profileSection == null) {
+        if (profileSection == null) {
             return null;
         }
 
         String restore = profileSection.getString(GeneralRegion.RegionEvent.CREATED.getValue() + ".save");
 
         // Restore the region if needed
-        if(restore != null && !restore.equalsIgnoreCase("")) {
+        if (restore != null && !restore.equalsIgnoreCase("")) {
             restore = Message.fromString(restore).replacements(asRegion).getSingle();
             File schemFile = new File(AreaShop.getInstance().getFileManager().getSchematicFolder() + "/" + restore + ".schem");
-            if(!schemFile.exists()) {
+            if (!schemFile.exists()) {
                 schemFile = new File(AreaShop.getInstance().getFileManager().getSchematicFolder() + "/" + restore + ".schematic");
             }
-            if(!schemFile.exists()) {
+            if (!schemFile.exists()) {
                 return null;
             }
             return schemFile;
@@ -199,7 +199,7 @@ public class AreaShopImporter {
 
             final int regionsSize = regions.size();
 
-            for(int i = 0; i < regions.size(); i++) {
+            for (int i = 0; i < regions.size(); i++) {
                 final int finalI = i;
                 final Region finalRegion = regions.get(i);
                 Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
@@ -209,12 +209,12 @@ public class AreaShopImporter {
                         File armWorldSchemDic = new File(armSchemFolder + "/" + region.getRegionworld().getName());
                         File armRegionSchemDic = new File(armWorldSchemDic + "/" + region.getRegion().getId() + ".schem");
 
-                        if(!armWorldSchemDic.exists()) {
+                        if (!armWorldSchemDic.exists()) {
                             armWorldSchemDic.mkdirs();
                         }
 
-                        if(areaShopRegionSchemDic != null) {
-                            if(areaShopRegionSchemDic.exists()) {
+                        if (areaShopRegionSchemDic != null) {
+                            if (areaShopRegionSchemDic.exists()) {
                                 FileUtil.copy(areaShopRegionSchemDic, armRegionSchemDic);
                             } else {
                                 region.createSchematic();

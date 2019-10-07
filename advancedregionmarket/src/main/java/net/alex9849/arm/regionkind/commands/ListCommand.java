@@ -45,7 +45,7 @@ public class ListCommand implements BasicArmCommand {
         sender.sendMessage(Messages.REGIONKIND_LIST_HEADLINE);
         sender.sendMessage("- " + RegionKind.DEFAULT.getName());
         sender.sendMessage("- " + RegionKind.SUBREGION.getName());
-        for(RegionKind regionKind : AdvancedRegionMarket.getInstance().getRegionKindManager()) {
+        for (RegionKind regionKind : AdvancedRegionMarket.getInstance().getRegionKindManager()) {
             sender.sendMessage("- " + regionKind.getName());
         }
         return true;
@@ -55,7 +55,7 @@ public class ListCommand implements BasicArmCommand {
     public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
 
-        if(args.length == 1) {
+        if (args.length == 1) {
             if (this.rootCommand.startsWith(args[0])) {
                 if (player.hasPermission(Permission.REGIONKIND_LIST)) {
                     returnme.add(this.rootCommand);

@@ -25,15 +25,15 @@ public class ContractPreset extends Preset {
     private boolean hasExtend = false;
     private long extend = 0;
 
-    public ContractPreset(String name, boolean hasPrice, double price, RegionKind regionKind, FlagGroup flagGroup, boolean inactivityReset, boolean isHotel, boolean doBlockReset, boolean hasExtend, long extend, boolean isUserResettable, int allowedSubregions, AutoPrice autoPrice, EntityLimitGroup entityLimitGroup, List<String> setupCommands){
+    public ContractPreset(String name, boolean hasPrice, double price, RegionKind regionKind, FlagGroup flagGroup, boolean inactivityReset, boolean isHotel, boolean doBlockReset, boolean hasExtend, long extend, boolean isUserResettable, int allowedSubregions, AutoPrice autoPrice, EntityLimitGroup entityLimitGroup, List<String> setupCommands) {
         super(name, hasPrice, price, regionKind, flagGroup, inactivityReset, isHotel, doBlockReset, isUserResettable, allowedSubregions, autoPrice, entityLimitGroup, setupCommands);
         this.hasExtend = hasExtend;
         this.extend = extend;
     }
 
-    public ContractPreset getCopy(){
+    public ContractPreset getCopy() {
         List<String> newsetupCommands = new ArrayList<>();
-        for(String cmd : setupCommands) {
+        for (String cmd : setupCommands) {
             newsetupCommands.add(cmd);
         }
         return new ContractPreset(this.name, this.hasPrice, this.price, this.regionKind, this.flagGroup, this.inactivityReset, this.isHotel, this.doBlockReset, this.hasExtend, this.extend, this.isUserResettable, this.allowedSubregions, this.autoPrice, this.entityLimitGroup, newsetupCommands);
@@ -43,12 +43,12 @@ public class ContractPreset extends Preset {
         return hasExtend;
     }
 
-    public void removeExtend(){
+    public void removeExtend() {
         this.hasExtend = false;
         this.extend = 0;
     }
 
-    public long getExtend(){
+    public long getExtend() {
         return this.extend;
     }
 
@@ -70,10 +70,10 @@ public class ContractPreset extends Preset {
         this.removeExtend();
     }
 
-    private String longToTime(long time){
+    private String longToTime(long time) {
 
         long remainingDays = TimeUnit.DAYS.convert(time, TimeUnit.MILLISECONDS);
-        time = time - (remainingDays * 1000 * 60 * 60 *24);
+        time = time - (remainingDays * 1000 * 60 * 60 * 24);
 
         long remainingHours = TimeUnit.HOURS.convert(time, TimeUnit.MILLISECONDS);
         time = time - (remainingHours * 1000 * 60 * 60);
@@ -85,16 +85,16 @@ public class ContractPreset extends Preset {
 
 
         String timetoString = "";
-        if(remainingDays != 0) {
+        if (remainingDays != 0) {
             timetoString = timetoString + remainingDays + "d";
         }
-        if(remainingHours != 0) {
+        if (remainingHours != 0) {
             timetoString = timetoString + remainingHours + "h";
         }
-        if(remainingMinutes != 0) {
+        if (remainingMinutes != 0) {
             timetoString = timetoString + remainingMinutes + "m";
         }
-        if(remainingSeconds != 0) {
+        if (remainingSeconds != 0) {
             timetoString = timetoString + remainingSeconds + "s";
         }
 
@@ -104,7 +104,7 @@ public class ContractPreset extends Preset {
     @Override
     public void getAdditionalInfo(Player player) {
         String extendtime = "not defined";
-        if(this.hasExtend()) {
+        if (this.hasExtend()) {
             extendtime = longToTime(this.extend);
         }
         player.sendMessage(Messages.REGION_INFO_AUTO_EXTEND_TIME + extendtime);
@@ -124,7 +124,7 @@ public class ContractPreset extends Preset {
     public Region generateRegion(WGRegion wgRegion, World world, List<SignData> signs) {
 
         ContractRegion contractRegion = new ContractRegion(wgRegion, world, signs, new ContractPrice(AutoPrice.DEFAULT), false, this.isInactivityReset(), this.isHotel(), this.isDoBlockReset(), this.getRegionKind(), this.getFlagGroup(), null, 0, new GregorianCalendar().getTimeInMillis(), this.isUserResettable(), 1, true, new ArrayList<>(), this.getAllowedSubregions(), this.entityLimitGroup, new HashMap<>(), 0);
-        if(this.hasAutoPrice()) {
+        if (this.hasAutoPrice()) {
             contractRegion.setPrice(new ContractPrice(this.getAutoPrice()));
         } else if (this.hasPrice() && this.hasExtend()) {
             contractRegion.setPrice(new ContractPrice(this.getPrice(), this.getExtend()));

@@ -41,9 +41,9 @@ public class ParticleBorder {
     }
 
     private List<Location> getParticleLocations() {
-        if(this.points.size() == 2) {
+        if (this.points.size() == 2) {
             return this.getCuboidParticleLocations();
-        } else if(this.points.size() > 2) {
+        } else if (this.points.size() > 2) {
             return this.get2DParticleLocations();
         } else {
             return new ArrayList<>();
@@ -56,19 +56,19 @@ public class ParticleBorder {
         final Vector minPos = this.getMinVector(this.points.get(0), this.points.get(1));
         final Vector maxPos = this.getMaxVector(this.points.get(0), this.points.get(1));
 
-        for(int i = minPos.getBlockX(); i <= maxPos.getBlockX(); i++) {
+        for (int i = minPos.getBlockX(); i <= maxPos.getBlockX(); i++) {
             particleLoc.add(new Location(player.getWorld(), i, minPos.getBlockY(), minPos.getBlockZ()));
             particleLoc.add(new Location(player.getWorld(), i, minPos.getBlockY(), maxPos.getBlockZ()));
             particleLoc.add(new Location(player.getWorld(), i, maxPos.getBlockY(), minPos.getBlockZ()));
             particleLoc.add(new Location(player.getWorld(), i, maxPos.getBlockY(), maxPos.getBlockZ()));
         }
-        for(int i = minPos.getBlockY(); i <= maxPos.getBlockY(); i++) {
+        for (int i = minPos.getBlockY(); i <= maxPos.getBlockY(); i++) {
             particleLoc.add(new Location(player.getWorld(), minPos.getBlockX(), i, minPos.getBlockZ()));
             particleLoc.add(new Location(player.getWorld(), minPos.getBlockX(), i, maxPos.getBlockZ()));
             particleLoc.add(new Location(player.getWorld(), maxPos.getBlockX(), i, minPos.getBlockZ()));
             particleLoc.add(new Location(player.getWorld(), maxPos.getBlockX(), i, maxPos.getBlockZ()));
         }
-        for(int i = minPos.getBlockZ(); i <= maxPos.getBlockZ(); i++) {
+        for (int i = minPos.getBlockZ(); i <= maxPos.getBlockZ(); i++) {
             particleLoc.add(new Location(player.getWorld(), minPos.getBlockX(), minPos.getBlockY(), i));
             particleLoc.add(new Location(player.getWorld(), minPos.getBlockX(), maxPos.getBlockY(), i));
             particleLoc.add(new Location(player.getWorld(), maxPos.getBlockX(), minPos.getBlockY(), i));
@@ -81,7 +81,7 @@ public class ParticleBorder {
     private List<Location> get2DParticleLocations() {
         List<Location> particleLoc = new ArrayList<>();
 
-        for(int i = 0; i < this.points.size(); i++) {
+        for (int i = 0; i < this.points.size(); i++) {
             Vector point1bottem = new Vector(this.points.get(i).getBlockX(), this.depth, this.points.get(i).getBlockZ());
             Vector point2bottem = new Vector(this.points.get(Math.floorMod(i + 1, this.points.size())).getBlockX(), this.depth, this.points.get(Math.floorMod(i + 1, this.points.size())).getBlockZ());
             Vector point1top = new Vector(this.points.get(i).getBlockX(), this.height, this.points.get(i).getBlockZ());
@@ -105,7 +105,7 @@ public class ParticleBorder {
         Vector vector = vectorP1Copy.subtract(vectorP2).normalize();
         int points = (int) vectorP1.distance(vectorP2);
 
-        for(int i = 0; i < points; i++) {
+        for (int i = 0; i < points; i++) {
             Vector multiplier = vector.clone();
             Vector vectorP2Copy = vectorP2.clone();
             Vector newPoint = vectorP2Copy.add(multiplier.multiply(i));
@@ -120,17 +120,17 @@ public class ParticleBorder {
         int y = 0;
         int z = 0;
 
-        if(p1.getBlockX() < p2.getBlockX()) {
+        if (p1.getBlockX() < p2.getBlockX()) {
             x = p2.getBlockX();
         } else {
             x = p1.getBlockX();
         }
-        if(p1.getBlockY() < p2.getBlockY()) {
+        if (p1.getBlockY() < p2.getBlockY()) {
             y = p2.getBlockY();
         } else {
             y = p1.getBlockY();
         }
-        if(p1.getBlockZ() < p2.getBlockZ()) {
+        if (p1.getBlockZ() < p2.getBlockZ()) {
             z = p2.getBlockZ();
         } else {
             z = p1.getBlockZ();
@@ -143,17 +143,17 @@ public class ParticleBorder {
         int y = 0;
         int z = 0;
 
-        if(p1.getBlockX() > p2.getBlockX()) {
+        if (p1.getBlockX() > p2.getBlockX()) {
             x = p2.getBlockX();
         } else {
             x = p1.getBlockX();
         }
-        if(p1.getBlockY() > p2.getBlockY()) {
+        if (p1.getBlockY() > p2.getBlockY()) {
             y = p2.getBlockY();
         } else {
             y = p1.getBlockY();
         }
-        if(p1.getBlockZ() > p2.getBlockZ()) {
+        if (p1.getBlockZ() > p2.getBlockZ()) {
             z = p2.getBlockZ();
         } else {
             z = p1.getBlockZ();
@@ -172,12 +172,12 @@ public class ParticleBorder {
 
             @Override
             public void run() {
-                if(finalWorld == null) {
+                if (finalWorld == null) {
                     return;
                 }
-                if(player.getWorld().getName().equals(finalWorld.getName())) {
-                    for(Location location : particleSpawnPoints) {
-                        player.spawnParticle(Particle.SPELL_WITCH, location.getX() + 0.5, location.getY() + 0.5, location.getBlockZ() + 0.5, 6,0, 0, 0);
+                if (player.getWorld().getName().equals(finalWorld.getName())) {
+                    for (Location location : particleSpawnPoints) {
+                        player.spawnParticle(Particle.SPELL_WITCH, location.getX() + 0.5, location.getY() + 0.5, location.getBlockZ() + 0.5, 6, 0, 0, 0);
                     }
                 }
             }
@@ -185,7 +185,7 @@ public class ParticleBorder {
         this.cancelerID = Bukkit.getScheduler().scheduleSyncDelayedTask(AdvancedRegionMarket.getInstance(), new Runnable() {
             @Override
             public void run() {
-                if(taskID != null) {
+                if (taskID != null) {
                     Bukkit.getScheduler().cancelTask(taskID);
                 }
                 cancelerID = null;
@@ -195,7 +195,7 @@ public class ParticleBorder {
     }
 
     public void removeBorder() {
-        if((this.taskID == null) || (this.cancelerID == null)) {
+        if ((this.taskID == null) || (this.cancelerID == null)) {
             return;
         }
         Bukkit.getScheduler().cancelTask(cancelerID);

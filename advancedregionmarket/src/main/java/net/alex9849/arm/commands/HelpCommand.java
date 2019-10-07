@@ -48,11 +48,11 @@ public class HelpCommand implements BasicArmCommand {
 
     @Override
     public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
-        if(!sender.hasPermission(this.permission)){
+        if (!sender.hasPermission(this.permission)) {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
         int selectedpage;
-        if(allargs.matches(this.regex_args)) {
+        if (allargs.matches(this.regex_args)) {
             selectedpage = Integer.parseInt(args[1]);
         } else {
             selectedpage = 1;
@@ -61,7 +61,7 @@ public class HelpCommand implements BasicArmCommand {
         List<BasicArmCommand> commands = this.cmdHandler.getCommands();
         List<String> usages = new ArrayList<>();
 
-        for(BasicArmCommand command : commands) {
+        for (BasicArmCommand command : commands) {
             usages.addAll(command.getUsage());
         }
 
@@ -69,25 +69,25 @@ public class HelpCommand implements BasicArmCommand {
 
         final int commandsPerPage = 7;
         int pages = usages.size() / commandsPerPage;
-        if((usages.size() % commandsPerPage) != 0) {
+        if ((usages.size() % commandsPerPage) != 0) {
             pages++;
         }
 
-        if(pages < selectedpage) {
+        if (pages < selectedpage) {
             selectedpage = pages;
         }
 
         int firstCommand = (selectedpage * commandsPerPage) - commandsPerPage;
         int lastCommand = selectedpage * commandsPerPage;
 
-        if(usages.size() < lastCommand) {
+        if (usages.size() < lastCommand) {
             lastCommand = usages.size();
         }
 
         sender.sendMessage(this.headline.replace("%actualpage%", selectedpage + "").replace("%maxpage%", pages + ""));
-        for(int i = firstCommand; i < lastCommand; i++) {
+        for (int i = firstCommand; i < lastCommand; i++) {
             String sendmessage = ChatColor.GOLD + "/" + commandsLabel + " ";
-            for(String bcmd : betweenCmds) {
+            for (String bcmd : betweenCmds) {
                 sendmessage = sendmessage + bcmd + " ";
             }
             sendmessage = sendmessage + usages.get(i);
@@ -101,7 +101,7 @@ public class HelpCommand implements BasicArmCommand {
     public List<String> onTabComplete(Player player, String[] args) {
 
         List<String> returnme = new ArrayList<>();
-        if(args.length == 1) {
+        if (args.length == 1) {
             if (this.rootCommand.startsWith(args[0])) {
                 if (player.hasPermission(this.permission)) {
                     returnme.add(this.rootCommand);

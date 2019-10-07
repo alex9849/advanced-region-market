@@ -44,20 +44,20 @@ public class DeleteCommand implements BasicArmCommand {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
         EntityLimitGroup entityLimitGroup = AdvancedRegionMarket.getInstance().getEntityLimitGroupManager().getEntityLimitGroup(args[1]);
-        if(entityLimitGroup == null) {
+        if (entityLimitGroup == null) {
             throw new InputException(sender, Messages.ENTITYLIMITGROUP_DOES_NOT_EXIST);
         }
-        if(entityLimitGroup == EntityLimitGroup.DEFAULT) {
+        if (entityLimitGroup == EntityLimitGroup.DEFAULT) {
             throw new InputException(sender, Messages.ENTITYLIMITGROUP_CAN_NOT_REMOVE_SYSTEM);
         }
-        if(entityLimitGroup == EntityLimitGroup.SUBREGION) {
+        if (entityLimitGroup == EntityLimitGroup.SUBREGION) {
             throw new InputException(sender, Messages.ENTITYLIMITGROUP_CAN_NOT_REMOVE_SYSTEM);
         }
 
         AdvancedRegionMarket.getInstance().getEntityLimitGroupManager().remove(entityLimitGroup);
 
-        for(Region region : AdvancedRegionMarket.getInstance().getRegionManager()) {
-            if(region.getEntityLimitGroup() == entityLimitGroup) {
+        for (Region region : AdvancedRegionMarket.getInstance().getRegionManager()) {
+            if (region.getEntityLimitGroup() == entityLimitGroup) {
                 region.setEntityLimitGroup(EntityLimitGroup.DEFAULT);
             }
         }
@@ -73,12 +73,12 @@ public class DeleteCommand implements BasicArmCommand {
             return returnme;
         }
 
-        if(args.length >= 1) {
-            if(args.length == 1) {
+        if (args.length >= 1) {
+            if (args.length == 1) {
                 if (this.rootCommand.startsWith(args[0])) {
                     returnme.add(this.rootCommand);
                 }
-            } else if((args.length == 2) && (args[0].equalsIgnoreCase(this.rootCommand))) {
+            } else if ((args.length == 2) && (args[0].equalsIgnoreCase(this.rootCommand))) {
                 if (this.rootCommand.startsWith(args[0])) {
                     returnme.addAll(AdvancedRegionMarket.getInstance().getEntityLimitGroupManager().tabCompleteEntityLimitGroups(args[1]));
                 }

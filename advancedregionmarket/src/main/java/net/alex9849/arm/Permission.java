@@ -15,8 +15,8 @@ public class Permission {
     public static final String ADMIN_SETREGIONKIND = "arm.admin.setregionkind";
     public static final String ADMIN_LISTREGIONS = "arm.admin.listregions";
     public static final String ADMIN_RESETREGION = "arm.admin.resetregion";
-    public static final String ADMIN_RESETREGIONBLOCKS= "arm.admin.resetregionblocks";
-    public static final String ADMIN_UNSELL= "arm.admin.unsell";
+    public static final String ADMIN_RESETREGIONBLOCKS = "arm.admin.resetregionblocks";
+    public static final String ADMIN_UNSELL = "arm.admin.unsell";
     public static final String ADMIN_INFO = "arm.admin.info";
     public static final String ADMIN_ADDMEMBER = "arm.admin.addmember";
     public static final String ADMIN_REMOVEMEMBER = "arm.admin.removemember";

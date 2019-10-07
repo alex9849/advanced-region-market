@@ -52,12 +52,12 @@ public class FlagGroup implements Saveable {
         List<FlagSettings> flagListAvailable = new ArrayList<>();
 
         ConfigurationSection soldSection = configurationSection.getConfigurationSection("sold");
-        if(soldSection != null) {
+        if (soldSection != null) {
             flagListSold = parseFlags(soldSection);
         }
 
         ConfigurationSection availableSection = configurationSection.getConfigurationSection("available");
-        if(availableSection != null) {
+        if (availableSection != null) {
             flagListAvailable = parseFlags(availableSection);
         }
 
@@ -68,7 +68,7 @@ public class FlagGroup implements Saveable {
         List<FlagSettings> flagSettingsList = new ArrayList<>();
 
         Set<String> flagNames = yamlConfiguration.getKeys(false);
-        for(String id : flagNames) {
+        for (String id : flagNames) {
             String settings = yamlConfiguration.getString(id + ".setting");
             String flagName = yamlConfiguration.getString(id + ".flag");
             String editPermission = yamlConfiguration.getString(id + ".editPermission");
@@ -77,23 +77,23 @@ public class FlagGroup implements Saveable {
             Set<SellType> applyTo = new TreeSet<>();
             List<String> guiDescriptionList = yamlConfiguration.getStringList(id + ".guidescription");
             List<String> guidescription = new ArrayList<>();
-            if(editPermission == null || editPermission.contains(" ")) {
+            if (editPermission == null || editPermission.contains(" ")) {
                 editPermission = "";
             }
 
-            if(applyToString == null || applyToString.isEmpty()) {
+            if (applyToString == null || applyToString.isEmpty()) {
                 applyTo.addAll(Arrays.asList(SellType.values()));
             } else {
-                for(String sellTypeString : applyToString) {
+                for (String sellTypeString : applyToString) {
                     SellType sellType = SellType.getSelltype(sellTypeString);
-                    if(sellType != null) {
+                    if (sellType != null) {
                         applyTo.add(sellType);
                     }
                 }
             }
 
-            if(guiDescriptionList != null) {
-                for(String msg : guiDescriptionList) {
+            if (guiDescriptionList != null) {
+                for (String msg : guiDescriptionList) {
                     guidescription.add(msg);
                 }
             }
@@ -101,17 +101,17 @@ public class FlagGroup implements Saveable {
 
             Flag flag = AdvancedRegionMarket.getInstance().getWorldGuardInterface().fuzzyMatchFlag(flagName);
 
-            if(flag == null) {
+            if (flag == null) {
                 Bukkit.getLogger().info("Could not find flag " + flagName + "! Please check your flaggroups.yml");
                 continue;
             }
             flagSettingsList.add(new FlagSettings(flag, editable, settings, applyTo, guidescription, editPermission));
-            }
+        }
         return flagSettingsList;
     }
 
     public void applyToRegion(Region region, ResetMode resetMode) {
-        if(region.isSold()) {
+        if (region.isSold()) {
             this.applyFlagMapToRegion(this.flagSettingsSold, region, resetMode);
         } else {
             this.applyFlagMapToRegion(this.flagSettingsAvailable, region, resetMode);
@@ -119,19 +119,19 @@ public class FlagGroup implements Saveable {
     }
 
     private void applyFlagMapToRegion(List<FlagSettings> flagSettingsList, Region region, ResetMode resetMode) {
-        if(resetMode == ResetMode.COMPLETE) {
+        if (resetMode == ResetMode.COMPLETE) {
             region.getRegion().deleteAllFlags();
         }
 
-        for(FlagSettings flagSettings : flagSettingsList) {
-            if(!flagSettings.getApplyTo().contains(region.getSellType())) {
+        for (FlagSettings flagSettings : flagSettingsList) {
+            if (!flagSettings.getApplyTo().contains(region.getSellType())) {
                 continue;
             }
-            if(resetMode == ResetMode.NON_EDITABLE && flagSettings.isEditable()) {
+            if (resetMode == ResetMode.NON_EDITABLE && flagSettings.isEditable()) {
                 continue;
             }
 
-            if(flagSettings.getSettings() == null || flagSettings.getSettings().isEmpty()
+            if (flagSettings.getSettings() == null || flagSettings.getSettings().isEmpty()
                     || flagSettings.getSettings().equalsIgnoreCase("remove")) {
                 region.getRegion().deleteFlags(flagSettings.getFlag());
             } else {
@@ -139,12 +139,12 @@ public class FlagGroup implements Saveable {
                 String settings = null;
                 RegionGroup groupFlagSettings = null;
 
-                if(groupFlag == null) {
+                if (groupFlag == null) {
                     settings = flagSettings.getSettings();
                 } else {
-                    for(String part : flagSettings.getSettings().split(" ")) {
-                        if(part.startsWith("g:")) {
-                            if(part.length() > 2) {
+                    for (String part : flagSettings.getSettings().split(" ")) {
+                        if (part.startsWith("g:")) {
+                            if (part.length() > 2) {
                                 try {
                                     groupFlagSettings = AdvancedRegionMarket.getInstance().getWorldGuardInterface().parseFlagInput(groupFlag, part.substring(2));
                                 } catch (InvalidFlagFormat iff) {
@@ -153,7 +153,7 @@ public class FlagGroup implements Saveable {
                                 }
                             }
                         } else {
-                            if(settings == null) {
+                            if (settings == null) {
                                 settings = part;
                             } else {
                                 settings += " " + part;
@@ -162,7 +162,7 @@ public class FlagGroup implements Saveable {
                     }
                 }
 
-                if(settings != null) {
+                if (settings != null) {
                     try {
                         Object wgFlagSettings = AdvancedRegionMarket.getInstance().getWorldGuardInterface().parseFlagInput(flagSettings.getFlag(), region.getConvertedMessage(settings));
                         region.getRegion().setFlag(flagSettings.getFlag(), wgFlagSettings);
@@ -171,8 +171,8 @@ public class FlagGroup implements Saveable {
                         continue;
                     }
                 }
-                if(groupFlagSettings != null) {
-                    if(groupFlagSettings == groupFlag.getDefault()) {
+                if (groupFlagSettings != null) {
+                    if (groupFlagSettings == groupFlag.getDefault()) {
                         region.getRegion().deleteFlags(groupFlag);
                     } else {
                         region.getRegion().setFlag(groupFlag, groupFlagSettings);
@@ -180,10 +180,9 @@ public class FlagGroup implements Saveable {
                 }
 
 
-
             }
         }
-        if(!region.isSubregion()) {
+        if (!region.isSubregion()) {
             region.getRegion().setPriority(this.priority);
         }
     }
@@ -200,7 +199,7 @@ public class FlagGroup implements Saveable {
     private ConfigurationSection getFlagSettingsAsConfigurationSection(List<FlagSettings> flagSettings) {
         YamlConfiguration yamlConfiguration = new YamlConfiguration();
 
-        for(int i = 0; i < flagSettings.size(); i++) {
+        for (int i = 0; i < flagSettings.size(); i++) {
             FlagSettings flagSetting = flagSettings.get(i);
             yamlConfiguration.set(i + ".setting", flagSetting.getSettings());
             yamlConfiguration.set(i + ".editable", flagSetting.isEditable());
@@ -208,8 +207,8 @@ public class FlagGroup implements Saveable {
             yamlConfiguration.set(i + ".editPermission", flagSetting.getEditPermission());
             yamlConfiguration.set(i + ".guidescription", flagSetting.getRawGuiDescription());
             List<String> applyTo = new ArrayList<>();
-            if(!flagSetting.getApplyTo().containsAll(Arrays.asList(SellType.SELL, SellType.CONTRACT, SellType.RENT))) {
-                for(SellType sellType : flagSetting.getApplyTo()) {
+            if (!flagSetting.getApplyTo().containsAll(Arrays.asList(SellType.SELL, SellType.CONTRACT, SellType.RENT))) {
+                for (SellType sellType : flagSetting.getApplyTo()) {
                     applyTo.add(sellType.getName());
                 }
             }
@@ -242,15 +241,15 @@ public class FlagGroup implements Saveable {
         return flagSettingsAvailable;
     }
 
-    public enum ResetMode {
-        COMPLETE, NON_EDITABLE
-    }
-
     public String getName() {
         return this.name;
     }
 
     public String getConvertedMessage(String message) {
         return this.stringReplacer.replace(message).toString();
+    }
+
+    public enum ResetMode {
+        COMPLETE, NON_EDITABLE
     }
 }

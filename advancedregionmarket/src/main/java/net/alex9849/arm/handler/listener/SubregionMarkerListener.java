@@ -18,7 +18,7 @@ import java.util.List;
 public class SubregionMarkerListener implements Listener {
 
     @EventHandler
-    public void interactEvent(PlayerInteractEvent event){
+    public void interactEvent(PlayerInteractEvent event) {
         try {
             this.setSubregionMark(event);
         } catch (InputException inputException) {
@@ -29,53 +29,53 @@ public class SubregionMarkerListener implements Listener {
 
     private void setSubregionMark(PlayerInteractEvent event) throws InputException {
         Player player = event.getPlayer();
-        if(event.getItem() == null) {
+        if (event.getItem() == null) {
             return;
         }
-        if(AdvancedRegionMarket.getInstance().getRegionManager() == null) {
+        if (AdvancedRegionMarket.getInstance().getRegionManager() == null) {
             return;
         }
-        if(!Permission.hasAnySubregionCreatePermission(player)) {
+        if (!Permission.hasAnySubregionCreatePermission(player)) {
             return;
         }
-        if((event.getItem().getType() != Material.FEATHER) || ((event.getAction() != Action.RIGHT_CLICK_BLOCK) && (event.getAction() != Action.LEFT_CLICK_BLOCK))) {
+        if ((event.getItem().getType() != Material.FEATHER) || ((event.getAction() != Action.RIGHT_CLICK_BLOCK) && (event.getAction() != Action.LEFT_CLICK_BLOCK))) {
             return;
         }
 
-        if(!event.getItem().getItemMeta().getDisplayName().equals("Subregion Tool")) {
+        if (!event.getItem().getItemMeta().getDisplayName().equals("Subregion Tool")) {
             return;
         }
 
         List<Region> applicableRegions = AdvancedRegionMarket.getInstance().getRegionManager().getRegionsByLocation(event.getClickedBlock().getLocation());
 
-        if(applicableRegions.size() == 0) {
+        if (applicableRegions.size() == 0) {
             player.sendMessage(Messages.NO_REGION_AT_PLAYERS_POSITION);
             return;
         }
 
-        for(Region region : applicableRegions) {
-            if(!region.getRegion().hasOwner(player.getUniqueId()) && !player.hasPermission(Permission.ADMIN_SUBREGION_CREATE_ON_UNOWNED_REGIONS)) {
+        for (Region region : applicableRegions) {
+            if (!region.getRegion().hasOwner(player.getUniqueId()) && !player.hasPermission(Permission.ADMIN_SUBREGION_CREATE_ON_UNOWNED_REGIONS)) {
                 continue;
             }
-            if(region.isSubregion()) {
+            if (region.isSubregion()) {
                 continue;
             }
 
             SubRegionCreator subRegionCreator = SubRegionCreator.getSubRegioncreator(player);
 
-            if(subRegionCreator == null) {
+            if (subRegionCreator == null) {
                 subRegionCreator = new SubRegionCreator(region, player);
 
-            } else if(subRegionCreator.getParentRegion() != region) {
+            } else if (subRegionCreator.getParentRegion() != region) {
                 player.sendMessage(Messages.MARK_IN_OTHER_REGION_REMOVING);
                 subRegionCreator = new SubRegionCreator(region, player);
             }
 
-            if(event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
                 subRegionCreator.setPos2(event.getClickedBlock().getLocation());
                 event.setCancelled(true);
                 player.sendMessage(Messages.SECOND_POSITION_SET);
-            } else if(event.getAction() == Action.LEFT_CLICK_BLOCK) {
+            } else if (event.getAction() == Action.LEFT_CLICK_BLOCK) {
                 subRegionCreator.setPos1(event.getClickedBlock().getLocation());
                 event.setCancelled(true);
                 player.sendMessage(Messages.FIRST_POSITION_SET);

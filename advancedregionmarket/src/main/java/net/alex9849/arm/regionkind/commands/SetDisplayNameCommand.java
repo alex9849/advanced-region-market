@@ -39,19 +39,19 @@ public class SetDisplayNameCommand implements BasicArmCommand {
         if (!(sender instanceof Player)) {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
-        if(!sender.hasPermission(Permission.REGIONKIND_SET_DISPLAYNAME)) {
+        if (!sender.hasPermission(Permission.REGIONKIND_SET_DISPLAYNAME)) {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
         RegionKind regionKind = AdvancedRegionMarket.getInstance().getRegionKindManager().getRegionKind(args[1]);
-        if(regionKind == null) {
+        if (regionKind == null) {
             throw new InputException(sender, Messages.REGIONKIND_DOES_NOT_EXIST);
         }
 
         String displayname = "";
 
-        for(int i = 2; i < args.length; i++) {
+        for (int i = 2; i < args.length; i++) {
             displayname += args[i];
-            if(i < args.length - 1) {
+            if (i < args.length - 1) {
                 displayname += " ";
             }
         }
@@ -66,15 +66,15 @@ public class SetDisplayNameCommand implements BasicArmCommand {
     public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
 
-        if(!player.hasPermission(Permission.REGIONKIND_SET_DISPLAYNAME)) {
+        if (!player.hasPermission(Permission.REGIONKIND_SET_DISPLAYNAME)) {
             return returnme;
         }
 
-        if(args.length == 1) {
+        if (args.length == 1) {
             if (this.rootCommand.startsWith(args[0])) {
                 returnme.add(this.rootCommand);
             }
-        } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
+        } else if (args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
             returnme.addAll(AdvancedRegionMarket.getInstance().getRegionKindManager().completeTabRegionKinds(args[1], ""));
         }
         return returnme;

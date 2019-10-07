@@ -14,7 +14,6 @@ import java.util.List;
 
 public class Messages {
 
-    private static YamlConfiguration config;
     public static String PREFIX = "";
     public static String REGION_BUYMESSAGE = "";
     public static String NOT_ENOUGHT_MONEY = "";
@@ -209,7 +208,6 @@ public class Messages {
     public static List<String> UNSELL_REGION_BUTTON_LORE = new ArrayList<>(Arrays.asList("&4Click to unsell your subregion and", "&4kick the players of it"));
     public static String UNSELL_REGION_WARNING_NAME = "&4Unsell region?";
     public static String SUBREGION_HELP_HEADLINE = "&6=====[AdvancedRegionMarket Subregion Help ]=====\n&3Page %actualpage% / %maxpage%";
-
     public static String SELLREGION_NAME = "Sellregion";
     public static String CONTRACTREGION_NAME = "Contractregion";
     public static String RENTREGION_NAME = "Rentregion";
@@ -233,15 +231,14 @@ public class Messages {
     public static List<String> GUI_SUBREGION_REGION_INFO_RENT = new ArrayList<>(Arrays.asList("%regionid%", "Selltype: %selltype%", "Status: %soldstatus%", "Price: %price%", "Price per M2 (per week): %priceperm2perweek%", "Extend per click: %extendtime%", "Max. extended time: %maxrenttime%", "Dimensions: %dimensions%"));
     public static List<String> GUI_SUBREGION_REGION_INFO_CONTRACT = new ArrayList<>(Arrays.asList("%regionid%", "Selltype: %selltype%", "Status: %soldstatus%", "Price: %price%", "Price per M2 (per week): %priceperm2perweek%", "Automatic extend time: %extendtime%", "Dimensions: %dimensions%"));
     public static List<String> GUI_REGIONFINDER_REGION_INFO_SELL = new ArrayList<>(Arrays.asList("%regionid%", "Price: %price%", "Price per M2: %priceperm2%", "Dimensions: %dimensions%", "World: %world%"));
-    public static List<String> GUI_REGIONFINDER_REGION_INFO_RENT = new ArrayList<>(Arrays.asList("%regionid%", "Price: %price%" ,"Price per M2 (per week): %priceperm2perweek%", "Extend per click: %extendtime%","Max. extended time: %maxrenttime%", "Dimensions: %dimensions%", "World: %world%"));
-    public static List<String> GUI_REGIONFINDER_REGION_INFO_CONTRACT = new ArrayList<>(Arrays.asList("%regionid%", "Price: %price%", "Price per M2 (per week): %priceperm2perweek%", "Automatic extend time: %extendtime%","Dimensions: %dimensions%", "World: %world%"));
+    public static List<String> GUI_REGIONFINDER_REGION_INFO_RENT = new ArrayList<>(Arrays.asList("%regionid%", "Price: %price%", "Price per M2 (per week): %priceperm2perweek%", "Extend per click: %extendtime%", "Max. extended time: %maxrenttime%", "Dimensions: %dimensions%", "World: %world%"));
+    public static List<String> GUI_REGIONFINDER_REGION_INFO_CONTRACT = new ArrayList<>(Arrays.asList("%regionid%", "Price: %price%", "Price per M2 (per week): %priceperm2perweek%", "Automatic extend time: %extendtime%", "Dimensions: %dimensions%", "World: %world%"));
     public static List<String> SELECTION_SAVED_CREATE_SIGN = new ArrayList<>(Arrays.asList("&aYour selection has been saved! You can now create a sign to sell the region.", "&aCreate a Sell-Region:", "&6First line: &1[sub-sell]", "&6Last line: &1price", "", "&aCreate a Rent-Region:", "&6First line: &1[sub-rent]",
             "&6Last line: &1PricePerPeriod&6;&1ExtendPerClick&6;&1MaxExtendTime", "&6example for ExtendPerClick/MaxExtendTime: 5d (5 days)", "", "&aCreate a Contract-Region:", "&6First line: &1[sub-contract]", "&6Last line: &1PricePerPeriod&6;&1ExtendTime", "&6example for ExtendTime: 12h (12 hours)"));
     public static List<String> SUBREGION_TOOL_INSTRUCTION = new ArrayList<>(Arrays.asList("&aYou got a tool in your inventory (feather) to select 2 points of your region that will mark the corners of your new subregion.", "&aLeft click to select pos1", "&aRight click to select pos2", "&aType \"&6/arm subregion create\" &aif you are done"));
     public static String SUBREGION_TOOL_ALREADY_OWNED = "&4You already own a Subregion Tool. Please use this instead of a new one!";
     public static String AUTOPRICE_LIST = "&6=========[Autoprices]=========";
     public static String GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM = "&6Info";
-
     public static String SELLTYPE_NOT_EXIST = "&4The selected selltype does not exist!";
     public static String SIGN_LINK_MODE_ACTIVATED = "&aSign-Link-Mode activated! Click on a sign and on a region to create a region or to add the sign to the region";
     public static String SIGN_LINK_MODE_DEACTIVATED = "&aSign-Link-Mode deactivated!";
@@ -258,7 +255,6 @@ public class Messages {
     public static String SIGN_LINK_MODE_REGION_SELECTED = "&aSelected region: %regionid%";
     public static String SCHEMATIC_NOT_FOUND_ERROR_USER = "&4It seems like the schematic of your region %regionid% has not been created. Please contact an admin!";
     public static String SCHEMATIC_NOT_FOUND_ERROR_ADMIN = "&4Could not find schematic for %regionid%";
-
     public static String ENTITYLIMIT_HELP_HEADLINE = "&6=====[AdvancedRegionMarket EntityLimit Help ]=====\n&3Page %actualpage% / %maxpage%";
     public static String ENTITYLIMITGROUP_DOES_NOT_EXIST = "&4EntityLimitGroup does not exist!";
     public static String ENTITYLIMIT_SET = "&aEntityLimit has been set!";
@@ -313,7 +309,6 @@ public class Messages {
     public static String REGIONKIND_INFO_LORE = "&6Lore:";
     public static String REGIONKIND_HELP_HEADLINE = "&6=====[AdvancedRegionMarket RegionKind Help ]=====\n&3Page %actualpage% / %maxpage%";
     public static String PLAYER_NOT_FOUND = "&4Could not find selected player!";
-
     public static List<String> REGION_INFO_SELLREGION = new ArrayList<>();
     public static List<String> REGION_INFO_RENTREGION = new ArrayList<>();
     public static List<String> REGION_INFO_CONTRACTREGION = new ArrayList<>();
@@ -323,7 +318,6 @@ public class Messages {
     public static List<String> REGION_INFO_SELLREGION_SUBREGION = new ArrayList<>();
     public static List<String> REGION_INFO_RENTREGION_SUBREGION = new ArrayList<>();
     public static List<String> REGION_INFO_CONTRACTREGION_SUBREGION = new ArrayList<>();
-
     public static String GUI_FLAGEDITOR_BUTTON = "&6FlagEditor";
     public static String GUI_FLAGEDITOR_MENU_NAME = "&1FlagEditor (%region%)";
     public static String GUI_FLAGEDITOR_DELETE_FLAG_BUTTON = "&4Delete flag";
@@ -352,7 +346,6 @@ public class Messages {
     public static String FLAGGROUP_DOES_NOT_EXIST = "&4Flaggroup does not exist!";
     public static String SUBREGION_FLAGGROUP_ONLY_FOR_SUBREGIONS = "&4Subregion flaggroup only for subregions";
     public static String REGION_INFO_FLAGGROUP = "&6FlagGroup: ";
-
     public static List<String> GUI_TELEPORT_TO_REGION_BUTTON_LORE = new ArrayList<>();
     public static List<String> GUI_MAKE_OWNER_BUTTON_LORE = new ArrayList<>();
     public static List<String> GUI_REMOVE_MEMBER_BUTTON_LORE = new ArrayList<>();
@@ -366,20 +359,18 @@ public class Messages {
     public static List<String> GUI_CONTRACT_REGION_LORE = new ArrayList<>();
     public static List<String> GUI_OWNER_MEMBER_INFO_LORE = new ArrayList<>();
     public static List<String> GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM_LORE = new ArrayList<>();
-
     public static String INFO_DEACTIVATED = "&4Deactivated";
     public static String INFO_REGION_NOT_SOLD = "&4Region not sold!";
     public static String INFO_NOW = "&2Now";
     public static String INFO_NOT_CALCULATED = "&8Awaiting calculation...";
     public static String COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG = "&4Could not find or load schematic for region %region% in world %world%! You can regenerate it with /arm updateschematic %region%";
+    private static YamlConfiguration config;
 
-
-    static void read(){
+    static void read() {
         Messages.generatedefaultConfig();
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
         File messagesconfigdic = new File(pluginfolder + "/messages.yml");
         Configuration config = YamlConfiguration.loadConfiguration(messagesconfigdic);
-
 
 
         PREFIX = config.getString("Messages.Prefix") + " ";
@@ -567,13 +558,13 @@ public class Messages {
         SUB_REGION_REGIONKIND_ERROR = config.getString("Messages.SubregionRegionkindError");
         SUB_REGION_REGIONKIND_ONLY_FOR_SUB_REGIONS = config.getString("Messages.SubRegionRegionkindOnlyForSubregions");
         SUB_REGION_TELEPORT_LOCATION_ERROR = config.getString("Messages.SubregionTeleportLocationError");
-        REGION_NOT_REGISTRED  = config.getString("Messages.RegionNotRegistred");
-        FIRST_POSITION_SET  = config.getString("Messages.FirstPositionSet");
-        SECOND_POSITION_SET  = config.getString("Messages.SecondPositionSet");
-        MARK_IN_OTHER_REGION_REMOVING  = config.getString("Messages.MarkInOtherRegion");
-        PARENT_REGION_NOT_OWN =  config.getString("Messages.ParentRegionNotOwn");
-        NOT_ALLOWED_TO_REMOVE_SUB_REGION_SOLD  = config.getString("Messages.SubRegionRemoveNoPermissionBecauseSold");
-        NOT_ALLOWED_TO_REMOVE_SUB_REGION_AVAILABLE  = config.getString("Messages.SubRegionRemoveNoPermissionBecauseAvailable");
+        REGION_NOT_REGISTRED = config.getString("Messages.RegionNotRegistred");
+        FIRST_POSITION_SET = config.getString("Messages.FirstPositionSet");
+        SECOND_POSITION_SET = config.getString("Messages.SecondPositionSet");
+        MARK_IN_OTHER_REGION_REMOVING = config.getString("Messages.MarkInOtherRegion");
+        PARENT_REGION_NOT_OWN = config.getString("Messages.ParentRegionNotOwn");
+        NOT_ALLOWED_TO_REMOVE_SUB_REGION_SOLD = config.getString("Messages.SubRegionRemoveNoPermissionBecauseSold");
+        NOT_ALLOWED_TO_REMOVE_SUB_REGION_AVAILABLE = config.getString("Messages.SubRegionRemoveNoPermissionBecauseAvailable");
         POSITION_CLOUD_NOT_BE_SET_MARK_OUTSIDE_REGION = config.getString("Messages.PosCloudNotBeSetMarkOutsideRegion");
         ALREADY_SUB_REGION_AT_THIS_POSITION = config.getString("Messages.SubRegionAlreadyAtThisPosition");
         SUB_REGION_LIMIT_REACHED = config.getString("Messages.SubRegionLimitReached");
@@ -737,7 +728,7 @@ public class Messages {
         Messages.translateColorCodes();
     }
 
-    private static void translateColorCodes(){
+    private static void translateColorCodes() {
         PREFIX = ChatColor.translateAlternateColorCodes('&', PREFIX);
         REGION_BUYMESSAGE = ChatColor.translateAlternateColorCodes('&', REGION_BUYMESSAGE);
         NOT_ENOUGHT_MONEY = ChatColor.translateAlternateColorCodes('&', NOT_ENOUGHT_MONEY);
@@ -828,7 +819,7 @@ public class Messages {
         REGION_NOT_OWN = ChatColor.translateAlternateColorCodes('&', REGION_NOT_OWN);
         REGION_NOT_SOLD = ChatColor.translateAlternateColorCodes('&', REGION_NOT_SOLD);
         PRESET_REMOVED = ChatColor.translateAlternateColorCodes('&', PRESET_REMOVED);
-        PRESET_SET= ChatColor.translateAlternateColorCodes('&', PRESET_SET);
+        PRESET_SET = ChatColor.translateAlternateColorCodes('&', PRESET_SET);
         REGION_INFO_DO_BLOCK_RESET = ChatColor.translateAlternateColorCodes('&', REGION_INFO_DO_BLOCK_RESET);
         PRESET_SAVED = ChatColor.translateAlternateColorCodes('&', PRESET_SAVED);
         PRESET_ALREADY_EXISTS = ChatColor.translateAlternateColorCodes('&', PRESET_ALREADY_EXISTS);
@@ -910,13 +901,13 @@ public class Messages {
         SUB_REGION_TELEPORT_LOCATION_ERROR = ChatColor.translateAlternateColorCodes('&', SUB_REGION_TELEPORT_LOCATION_ERROR);
         REGION_INFO_ALLOWED_SUBREGIONS = ChatColor.translateAlternateColorCodes('&', REGION_INFO_ALLOWED_SUBREGIONS);
         REGION_INFO_EXPIRED = ChatColor.translateAlternateColorCodes('&', REGION_INFO_EXPIRED);
-        REGION_NOT_REGISTRED  = ChatColor.translateAlternateColorCodes('&', REGION_NOT_REGISTRED);
-        FIRST_POSITION_SET  = ChatColor.translateAlternateColorCodes('&', FIRST_POSITION_SET);
-        SECOND_POSITION_SET  = ChatColor.translateAlternateColorCodes('&', SECOND_POSITION_SET);
-        MARK_IN_OTHER_REGION_REMOVING  = ChatColor.translateAlternateColorCodes('&', MARK_IN_OTHER_REGION_REMOVING);
-        PARENT_REGION_NOT_OWN =  ChatColor.translateAlternateColorCodes('&', PARENT_REGION_NOT_OWN);
-        NOT_ALLOWED_TO_REMOVE_SUB_REGION_SOLD  = ChatColor.translateAlternateColorCodes('&', NOT_ALLOWED_TO_REMOVE_SUB_REGION_SOLD);
-        NOT_ALLOWED_TO_REMOVE_SUB_REGION_AVAILABLE  = ChatColor.translateAlternateColorCodes('&', NOT_ALLOWED_TO_REMOVE_SUB_REGION_AVAILABLE);
+        REGION_NOT_REGISTRED = ChatColor.translateAlternateColorCodes('&', REGION_NOT_REGISTRED);
+        FIRST_POSITION_SET = ChatColor.translateAlternateColorCodes('&', FIRST_POSITION_SET);
+        SECOND_POSITION_SET = ChatColor.translateAlternateColorCodes('&', SECOND_POSITION_SET);
+        MARK_IN_OTHER_REGION_REMOVING = ChatColor.translateAlternateColorCodes('&', MARK_IN_OTHER_REGION_REMOVING);
+        PARENT_REGION_NOT_OWN = ChatColor.translateAlternateColorCodes('&', PARENT_REGION_NOT_OWN);
+        NOT_ALLOWED_TO_REMOVE_SUB_REGION_SOLD = ChatColor.translateAlternateColorCodes('&', NOT_ALLOWED_TO_REMOVE_SUB_REGION_SOLD);
+        NOT_ALLOWED_TO_REMOVE_SUB_REGION_AVAILABLE = ChatColor.translateAlternateColorCodes('&', NOT_ALLOWED_TO_REMOVE_SUB_REGION_AVAILABLE);
         POSITION_CLOUD_NOT_BE_SET_MARK_OUTSIDE_REGION = ChatColor.translateAlternateColorCodes('&', POSITION_CLOUD_NOT_BE_SET_MARK_OUTSIDE_REGION);
         ALREADY_SUB_REGION_AT_THIS_POSITION = ChatColor.translateAlternateColorCodes('&', ALREADY_SUB_REGION_AT_THIS_POSITION);
         SUB_REGION_LIMIT_REACHED = ChatColor.translateAlternateColorCodes('&', SUB_REGION_LIMIT_REACHED);
@@ -1057,336 +1048,336 @@ public class Messages {
         COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG = ChatColor.translateAlternateColorCodes('&', COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG);
         INFO_NOT_CALCULATED = ChatColor.translateAlternateColorCodes('&', INFO_NOT_CALCULATED);
 
-        for(int i = 0; i < REGION_INFO_SELLREGION.size(); i++){
+        for (int i = 0; i < REGION_INFO_SELLREGION.size(); i++) {
             REGION_INFO_SELLREGION.set(i, ChatColor.translateAlternateColorCodes('&', REGION_INFO_SELLREGION.get(i)));
         }
-        for(int i = 0; i < REGION_INFO_RENTREGION.size(); i++){
+        for (int i = 0; i < REGION_INFO_RENTREGION.size(); i++) {
             REGION_INFO_RENTREGION.set(i, ChatColor.translateAlternateColorCodes('&', REGION_INFO_RENTREGION.get(i)));
         }
-        for(int i = 0; i < REGION_INFO_CONTRACTREGION.size(); i++){
+        for (int i = 0; i < REGION_INFO_CONTRACTREGION.size(); i++) {
             REGION_INFO_CONTRACTREGION.set(i, ChatColor.translateAlternateColorCodes('&', REGION_INFO_CONTRACTREGION.get(i)));
         }
-        for(int i = 0; i < REGION_INFO_SELLREGION_ADMIN.size(); i++){
+        for (int i = 0; i < REGION_INFO_SELLREGION_ADMIN.size(); i++) {
             REGION_INFO_SELLREGION_ADMIN.set(i, ChatColor.translateAlternateColorCodes('&', REGION_INFO_SELLREGION_ADMIN.get(i)));
         }
-        for(int i = 0; i < REGION_INFO_RENTREGION_ADMIN.size(); i++){
+        for (int i = 0; i < REGION_INFO_RENTREGION_ADMIN.size(); i++) {
             REGION_INFO_RENTREGION_ADMIN.set(i, ChatColor.translateAlternateColorCodes('&', REGION_INFO_RENTREGION_ADMIN.get(i)));
         }
-        for(int i = 0; i < REGION_INFO_CONTRACTREGION_ADMIN.size(); i++){
+        for (int i = 0; i < REGION_INFO_CONTRACTREGION_ADMIN.size(); i++) {
             REGION_INFO_CONTRACTREGION_ADMIN.set(i, ChatColor.translateAlternateColorCodes('&', REGION_INFO_CONTRACTREGION_ADMIN.get(i)));
         }
-        for(int i = 0; i < REGION_INFO_SELLREGION_SUBREGION.size(); i++){
+        for (int i = 0; i < REGION_INFO_SELLREGION_SUBREGION.size(); i++) {
             REGION_INFO_SELLREGION_SUBREGION.set(i, ChatColor.translateAlternateColorCodes('&', REGION_INFO_SELLREGION_SUBREGION.get(i)));
         }
-        for(int i = 0; i < REGION_INFO_RENTREGION_SUBREGION.size(); i++){
+        for (int i = 0; i < REGION_INFO_RENTREGION_SUBREGION.size(); i++) {
             REGION_INFO_RENTREGION_SUBREGION.set(i, ChatColor.translateAlternateColorCodes('&', REGION_INFO_RENTREGION_SUBREGION.get(i)));
         }
-        for(int i = 0; i < REGION_INFO_CONTRACTREGION_SUBREGION.size(); i++){
+        for (int i = 0; i < REGION_INFO_CONTRACTREGION_SUBREGION.size(); i++) {
             REGION_INFO_CONTRACTREGION_SUBREGION.set(i, ChatColor.translateAlternateColorCodes('&', REGION_INFO_CONTRACTREGION_SUBREGION.get(i)));
         }
-        for(int i = 0; i < GUI_ENTITYLIMIT_ITEM_LORE.size(); i++){
+        for (int i = 0; i < GUI_ENTITYLIMIT_ITEM_LORE.size(); i++) {
             GUI_ENTITYLIMIT_ITEM_LORE.set(i, ChatColor.translateAlternateColorCodes('&', GUI_ENTITYLIMIT_ITEM_LORE.get(i)));
         }
-        for(int i = 0; i < GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM_LORE.size(); i++){
+        for (int i = 0; i < GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM_LORE.size(); i++) {
             GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM_LORE.set(i, ChatColor.translateAlternateColorCodes('&', GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM_LORE.get(i)));
         }
-        for(int i = 0; i < GUI_SUBREGION_HOTEL_BUTTON_LORE.size(); i++){
+        for (int i = 0; i < GUI_SUBREGION_HOTEL_BUTTON_LORE.size(); i++) {
             GUI_SUBREGION_HOTEL_BUTTON_LORE.set(i, ChatColor.translateAlternateColorCodes('&', GUI_SUBREGION_HOTEL_BUTTON_LORE.get(i)));
         }
-        for(int i = 0; i < GUI_SUBREGION_REGION_INFO_SELL.size(); i++){
+        for (int i = 0; i < GUI_SUBREGION_REGION_INFO_SELL.size(); i++) {
             GUI_SUBREGION_REGION_INFO_SELL.set(i, ChatColor.translateAlternateColorCodes('&', GUI_SUBREGION_REGION_INFO_SELL.get(i)));
         }
-        for(int i = 0; i < GUI_SUBREGION_REGION_INFO_RENT.size(); i++){
+        for (int i = 0; i < GUI_SUBREGION_REGION_INFO_RENT.size(); i++) {
             GUI_SUBREGION_REGION_INFO_RENT.set(i, ChatColor.translateAlternateColorCodes('&', GUI_SUBREGION_REGION_INFO_RENT.get(i)));
         }
-        for(int i = 0; i < GUI_SUBREGION_REGION_INFO_CONTRACT.size(); i++){
+        for (int i = 0; i < GUI_SUBREGION_REGION_INFO_CONTRACT.size(); i++) {
             GUI_SUBREGION_REGION_INFO_CONTRACT.set(i, ChatColor.translateAlternateColorCodes('&', GUI_SUBREGION_REGION_INFO_CONTRACT.get(i)));
         }
-        for(int i = 0; i < GUI_REGIONFINDER_REGION_INFO_SELL.size(); i++){
+        for (int i = 0; i < GUI_REGIONFINDER_REGION_INFO_SELL.size(); i++) {
             GUI_REGIONFINDER_REGION_INFO_SELL.set(i, ChatColor.translateAlternateColorCodes('&', GUI_REGIONFINDER_REGION_INFO_SELL.get(i)));
         }
-        for(int i = 0; i < GUI_REGIONFINDER_REGION_INFO_RENT.size(); i++){
+        for (int i = 0; i < GUI_REGIONFINDER_REGION_INFO_RENT.size(); i++) {
             GUI_REGIONFINDER_REGION_INFO_RENT.set(i, ChatColor.translateAlternateColorCodes('&', GUI_REGIONFINDER_REGION_INFO_RENT.get(i)));
         }
-        for(int i = 0; i < GUI_REGIONFINDER_REGION_INFO_CONTRACT.size(); i++){
+        for (int i = 0; i < GUI_REGIONFINDER_REGION_INFO_CONTRACT.size(); i++) {
             GUI_REGIONFINDER_REGION_INFO_CONTRACT.set(i, ChatColor.translateAlternateColorCodes('&', GUI_REGIONFINDER_REGION_INFO_CONTRACT.get(i)));
         }
-        for(int i = 0; i < SELECTION_SAVED_CREATE_SIGN.size(); i++){
+        for (int i = 0; i < SELECTION_SAVED_CREATE_SIGN.size(); i++) {
             SELECTION_SAVED_CREATE_SIGN.set(i, ChatColor.translateAlternateColorCodes('&', SELECTION_SAVED_CREATE_SIGN.get(i)));
         }
-        for(int i = 0; i < SUBREGION_TOOL_INSTRUCTION.size(); i++){
+        for (int i = 0; i < SUBREGION_TOOL_INSTRUCTION.size(); i++) {
             SUBREGION_TOOL_INSTRUCTION.set(i, ChatColor.translateAlternateColorCodes('&', SUBREGION_TOOL_INSTRUCTION.get(i)));
         }
-        for(int i = 0; i < GUI_TELEPORT_TO_REGION_BUTTON_LORE.size(); i++){
+        for (int i = 0; i < GUI_TELEPORT_TO_REGION_BUTTON_LORE.size(); i++) {
             GUI_TELEPORT_TO_REGION_BUTTON_LORE.set(i, ChatColor.translateAlternateColorCodes('&', GUI_TELEPORT_TO_REGION_BUTTON_LORE.get(i)));
         }
-        for(int i = 0; i < GUI_MAKE_OWNER_BUTTON_LORE.size(); i++){
+        for (int i = 0; i < GUI_MAKE_OWNER_BUTTON_LORE.size(); i++) {
             GUI_MAKE_OWNER_BUTTON_LORE.set(i, ChatColor.translateAlternateColorCodes('&', GUI_MAKE_OWNER_BUTTON_LORE.get(i)));
         }
-        for(int i = 0; i < GUI_REMOVE_MEMBER_BUTTON_LORE.size(); i++){
+        for (int i = 0; i < GUI_REMOVE_MEMBER_BUTTON_LORE.size(); i++) {
             GUI_REMOVE_MEMBER_BUTTON_LORE.set(i, ChatColor.translateAlternateColorCodes('&', GUI_REMOVE_MEMBER_BUTTON_LORE.get(i)));
         }
-        for(int i = 0; i < GUI_RESET_REGION_BUTTON_LORE.size(); i++){
+        for (int i = 0; i < GUI_RESET_REGION_BUTTON_LORE.size(); i++) {
             GUI_RESET_REGION_BUTTON_LORE.set(i, ChatColor.translateAlternateColorCodes('&', GUI_RESET_REGION_BUTTON_LORE.get(i)));
         }
-        for(int i = 0; i < GUI_TAKEOVER_ITEM_LORE.size(); i++){
+        for (int i = 0; i < GUI_TAKEOVER_ITEM_LORE.size(); i++) {
             GUI_TAKEOVER_ITEM_LORE.set(i, ChatColor.translateAlternateColorCodes('&', GUI_TAKEOVER_ITEM_LORE.get(i)));
         }
-        for(int i = 0; i < GUI_EXTEND_BUTTON_LORE.size(); i++){
+        for (int i = 0; i < GUI_EXTEND_BUTTON_LORE.size(); i++) {
             GUI_EXTEND_BUTTON_LORE.set(i, ChatColor.translateAlternateColorCodes('&', GUI_EXTEND_BUTTON_LORE.get(i)));
         }
-        for(int i = 0; i < GUI_RENT_REGION_LORE.size(); i++){
+        for (int i = 0; i < GUI_RENT_REGION_LORE.size(); i++) {
             GUI_RENT_REGION_LORE.set(i, ChatColor.translateAlternateColorCodes('&', GUI_RENT_REGION_LORE.get(i)));
         }
-        for(int i = 0; i < GUI_USER_SELL_BUTTON_LORE.size(); i++){
+        for (int i = 0; i < GUI_USER_SELL_BUTTON_LORE.size(); i++) {
             GUI_USER_SELL_BUTTON_LORE.set(i, ChatColor.translateAlternateColorCodes('&', GUI_USER_SELL_BUTTON_LORE.get(i)));
         }
-        for(int i = 0; i < GUI_MEMBER_INFO_LORE.size(); i++){
+        for (int i = 0; i < GUI_MEMBER_INFO_LORE.size(); i++) {
             GUI_MEMBER_INFO_LORE.set(i, ChatColor.translateAlternateColorCodes('&', GUI_MEMBER_INFO_LORE.get(i)));
         }
-        for(int i = 0; i < GUI_CONTRACT_ITEM_LORE.size(); i++){
+        for (int i = 0; i < GUI_CONTRACT_ITEM_LORE.size(); i++) {
             GUI_CONTRACT_ITEM_LORE.set(i, ChatColor.translateAlternateColorCodes('&', GUI_CONTRACT_ITEM_LORE.get(i)));
         }
-        for(int i = 0; i < GUI_CONTRACT_REGION_LORE.size(); i++){
+        for (int i = 0; i < GUI_CONTRACT_REGION_LORE.size(); i++) {
             GUI_CONTRACT_REGION_LORE.set(i, ChatColor.translateAlternateColorCodes('&', GUI_CONTRACT_REGION_LORE.get(i)));
         }
-        for(int i = 0; i < GUI_OWNER_MEMBER_INFO_LORE.size(); i++) {
+        for (int i = 0; i < GUI_OWNER_MEMBER_INFO_LORE.size(); i++) {
             GUI_OWNER_MEMBER_INFO_LORE.set(i, ChatColor.translateAlternateColorCodes('&', GUI_OWNER_MEMBER_INFO_LORE.get(i)));
         }
-        for(int i = 0; i < UNSELL_REGION_BUTTON_LORE.size(); i++) {
+        for (int i = 0; i < UNSELL_REGION_BUTTON_LORE.size(); i++) {
             UNSELL_REGION_BUTTON_LORE.set(i, ChatColor.translateAlternateColorCodes('&', UNSELL_REGION_BUTTON_LORE.get(i)));
         }
     }
 
     private static void updateDefauts() {
-        boolean fileUpdated = YamlFileManager.addDefault(config,"Messages.Prefix", "&b[ARM]&r");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.ArmBasicCommandMessage", "&6AdvancedRegionMarket v%pluginversion% by Alex9849\n&6Download: &3https://bit.ly/2CfO3An\n&6Get a list with all commands with &3/arm help");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.NoPermission", "&4You do not have permission!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.NotEnoughtMoney", "&4You do not have enough money!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionAlreadySold", "&4Region already Sold!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.WorldDoesNotExist", "&4The selected world does not exist!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionDoesNotExist", "&4The selected region does not exist in this (or the selected) world!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionKindNotExist", "&4Kind does not exist!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.PriceCanNotBeNegative", "&4Price can not be negative!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.CommandOnlyIngame", "&4This command can only be executed ingame!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RentExtendMaxRentTimeExceeded", "&4You can not rent this region for more than &6%maxrenttime% &4at once");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionErrorCanNotBuildHere", "&4You only allowed to break blocks you placed here!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.NoFreeRegionWithThisKind", "&7No free region with this type found :(");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionkindDoesNotExist", "&4The selected regionkind does not exist!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.NoPermissionsToBuyThisKindOfRegion", "&4You do not have permission to buy this kind of region (You need the permission &6arm.buykind.%regionkind%&4)");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.UserNotAMemberOrOwner", "&4You are not a member or owner of this region!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SelectedPlayerIsNotOnline", "&4The selected player is not online");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.BadSyntax", "&7Bad syntax! Please use: &8%command%");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.BadSyntaxSplitter", "\n&7or &8%command%");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SchematicNotFoundErrorUser", "&4It seems like the schematic of your region %regionid% has not been created. Please contact an admin!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SchematicNotFoundErrorAdmin", "&4Could not find schematic for %regionid%");
+        boolean fileUpdated = YamlFileManager.addDefault(config, "Messages.Prefix", "&b[ARM]&r");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.ArmBasicCommandMessage", "&6AdvancedRegionMarket v%pluginversion% by Alex9849\n&6Download: &3https://bit.ly/2CfO3An\n&6Get a list with all commands with &3/arm help");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.NoPermission", "&4You do not have permission!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.NotEnoughtMoney", "&4You do not have enough money!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionAlreadySold", "&4Region already Sold!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.WorldDoesNotExist", "&4The selected world does not exist!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionDoesNotExist", "&4The selected region does not exist in this (or the selected) world!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionKindNotExist", "&4Kind does not exist!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.PriceCanNotBeNegative", "&4Price can not be negative!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.CommandOnlyIngame", "&4This command can only be executed ingame!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RentExtendMaxRentTimeExceeded", "&4You can not rent this region for more than &6%maxrenttime% &4at once");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionErrorCanNotBuildHere", "&4You only allowed to break blocks you placed here!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.NoFreeRegionWithThisKind", "&7No free region with this type found :(");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionkindDoesNotExist", "&4The selected regionkind does not exist!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.NoPermissionsToBuyThisKindOfRegion", "&4You do not have permission to buy this kind of region (You need the permission &6arm.buykind.%regionkind%&4)");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.UserNotAMemberOrOwner", "&4You are not a member or owner of this region!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SelectedPlayerIsNotOnline", "&4The selected player is not online");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.BadSyntax", "&7Bad syntax! Please use: &8%command%");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.BadSyntaxSplitter", "\n&7or &8%command%");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SchematicNotFoundErrorUser", "&4It seems like the schematic of your region %regionid% has not been created. Please contact an admin!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SchematicNotFoundErrorAdmin", "&4Could not find schematic for %regionid%");
 
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RentExtendMessage", "&aRegion extended for &6%extendtime%&a (For %price% %currency%. New remaining time: &6%remaining%");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.Buymessage", "&aRegion successfully bought!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionAddedToARM", "&7Regionsign has been created and region has been added to ARM!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SignRemovedFromRegion", "&7Regionsign removed! %remaining% Sign(s) remaining before region gets removed from ARM!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SignAddedToRegion", "&7Region already exists! The sign has been added to the region!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.UseANumberAsPrice", "&4Please use a number as a price in line 4!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionRemovedFromARM", "&7The region has been removed from ARM!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionKindSet", "&aRegionkind set!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.ResetComplete", "&aReset complete!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.Complete", "&aComplete!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.ResetRegionCooldownError", "&7You have to wait&6 %remainingusersellcooldown% &7till you can reset your region again");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RentExtendMessage", "&aRegion extended for &6%extendtime%&a (For %price% %currency%. New remaining time: &6%remaining%");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.Buymessage", "&aRegion successfully bought!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionAddedToARM", "&7Regionsign has been created and region has been added to ARM!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SignRemovedFromRegion", "&7Regionsign removed! %remaining% Sign(s) remaining before region gets removed from ARM!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SignAddedToRegion", "&7Region already exists! The sign has been added to the region!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.UseANumberAsPrice", "&4Please use a number as a price in line 4!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionRemovedFromARM", "&7The region has been removed from ARM!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionKindSet", "&aRegionkind set!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.ResetComplete", "&aReset complete!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.Complete", "&aComplete!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.ResetRegionCooldownError", "&7You have to wait&6 %remainingusersellcooldown% &7till you can reset your region again");
 
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.Currency", "$");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SellSign1", "&2For Sale");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SellSign2", "%regionid%");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SellSign3", "%price%%currency%");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SellSign4", "%dimensions%");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SoldSign1", "&4Sold");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SoldSign2", "%regionid%");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SoldSign3", "");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SoldSign4", "%owner%");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RentSign1", "&2For Rent");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RentSign2", "%regionid%");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RentSign3", "%price%%currency%/%extendtime%");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RentSign4", "Max.: %maxrenttime%");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RentedSign1", "&4Rented");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RentedSign2", "%regionid%/%owner%");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RentedSign3", "%price%%currency%/%extendtime%");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RentedSign4", "%remaining%");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.ContractSign1", "&2Contract");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.ContractSign2", "&2available");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.ContractSign3", "%regionid%");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.ContractSign4", "%price%%currency%/%extendtime%");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.ContractSoldSign1", "&4Contract in use");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.ContractSoldSign2", "%regionid%/%owner%");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.ContractSoldSign3", "%price%%currency%/%extendtime%");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.ContractSoldSign4", "%remaining%");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.Currency", "$");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SellSign1", "&2For Sale");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SellSign2", "%regionid%");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SellSign3", "%price%%currency%");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SellSign4", "%dimensions%");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SoldSign1", "&4Sold");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SoldSign2", "%regionid%");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SoldSign3", "");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SoldSign4", "%owner%");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RentSign1", "&2For Rent");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RentSign2", "%regionid%");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RentSign3", "%price%%currency%/%extendtime%");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RentSign4", "Max.: %maxrenttime%");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RentedSign1", "&4Rented");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RentedSign2", "%regionid%/%owner%");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RentedSign3", "%price%%currency%/%extendtime%");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RentedSign4", "%remaining%");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.ContractSign1", "&2Contract");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.ContractSign2", "&2available");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.ContractSign3", "%regionid%");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.ContractSign4", "%price%%currency%/%extendtime%");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.ContractSoldSign1", "&4Contract in use");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.ContractSoldSign2", "%regionid%/%owner%");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.ContractSoldSign3", "%price%%currency%/%extendtime%");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.ContractSoldSign4", "%remaining%");
 
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.Seconds", "s");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.Minutes", "m");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.Hours", "h");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.Days", "d");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SecondsForShortCountDown", "second(s)");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.MinutesForShortCountDown", "minute(s)");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.HoursForShortCountDown", "hour(s)");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.DaysForShortCountDown", "day(s)");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.Seconds", "s");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.Minutes", "m");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.Hours", "h");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.Days", "d");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SecondsForShortCountDown", "second(s)");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.MinutesForShortCountDown", "minute(s)");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.HoursForShortCountDown", "hour(s)");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.DaysForShortCountDown", "day(s)");
 
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.TeleporterNoSaveLocation", "&4Could not find a save teleport location");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.TeleporterDontMove", "&6Teleportation will commence in &c%time% Seconds&6. Do not move!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.TeleporterTeleportationAborded", "&4Teleportation aborded!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.TeleporterNoSaveLocation", "&4Could not find a save teleport location");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.TeleporterDontMove", "&6Teleportation will commence in &c%time% Seconds&6. Do not move!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.TeleporterTeleportationAborded", "&4Teleportation aborded!");
 
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.ContractRegionExtended", "&aYour contract region %regionid% has been extended for %extendtime%. (For %price%%currency%.)");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.ContractRegionChangeTerminated", "&6The contract of &a%regionid% &6has been set to %statuslong%");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.ContractRegionStatusActiveLong", "&aActive&6! Next Extension in %remaining%");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.ContractRegionStatusActive", "&aActive");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.ContractRegionStatusTerminatedLong", "&4Terminated&6! It will be resetted in %remaining%");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.ContractRegionStatusTerminated", "&4Terminated");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.ContractRegionExtended", "&aYour contract region %regionid% has been extended for %extendtime%. (For %price%%currency%.)");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.ContractRegionChangeTerminated", "&6The contract of &a%regionid% &6has been set to %statuslong%");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.ContractRegionStatusActiveLong", "&aActive&6! Next Extension in %remaining%");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.ContractRegionStatusActive", "&aActive");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.ContractRegionStatusTerminatedLong", "&4Terminated&6! It will be resetted in %remaining%");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.ContractRegionStatusTerminated", "&4Terminated");
 
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.PresetRemoved", "&aPreset removed!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.PresetSet", "&aPreset set!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.PresetSaved", "&aPreset saved!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.PresetAlreadyExists", "&4A preset with this name already exists!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.PresetPlayerDontHasPreset", "&4You do not have a preset!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.PresetDeleted", "&aPreset deleted!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.PresetNotFound", "&4No preset with this name found!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.PresetLoaded", "&aPreset loaded!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.PresetSetupCommands", "&6Setup commands:");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.PresetRemoved", "&aPreset removed!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.PresetSet", "&aPreset set!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.PresetSaved", "&aPreset saved!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.PresetAlreadyExists", "&4A preset with this name already exists!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.PresetPlayerDontHasPreset", "&4You do not have a preset!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.PresetDeleted", "&aPreset deleted!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.PresetNotFound", "&4No preset with this name found!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.PresetLoaded", "&aPreset loaded!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.PresetSetupCommands", "&6Setup commands:");
 
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.OfferSent", "&aYour offer has been sent");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.OfferAcceptedSeller", "&a%buyer% &aaccepted your offer");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.OfferAcceptedBuyer", "&aOffer accepted! You are now the owner of &c%regionid%");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.NoOfferToAnswer", "&4You dont have an offer to answer");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.OfferRejected", "&aOffer rejected!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.OfferHasBeenRejected", "&4%buyer% &4rejected your offer!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.NoOfferToReject", "&4You do not have an offer to reject");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.OfferCancelled", "&aYour offer has been cancelled!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.OfferHasBeenCancelled", "&4%seller% &4cancelled his offer!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.NoOfferToCancel", "&4You do not have an offer to cancel");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.BuyerAlreadyGotAnOffer", "&4The selected buyer already got an offer that he has to answer first!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SellerAlreadyCreatedAnOffer", "&4You have already created an offer! Please wait for an answer or cancel it first!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SellerDoesNotLongerOwnRegion", "&4%seller% &4does not longer own this region. His offer has been cancelled");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.IncommingOffer", "&c%seller% &6offers you his region &c%regionid% &6in the world &c%world% &6for &c%price% %currency%&6! " +
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.OfferSent", "&aYour offer has been sent");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.OfferAcceptedSeller", "&a%buyer% &aaccepted your offer");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.OfferAcceptedBuyer", "&aOffer accepted! You are now the owner of &c%regionid%");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.NoOfferToAnswer", "&4You dont have an offer to answer");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.OfferRejected", "&aOffer rejected!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.OfferHasBeenRejected", "&4%buyer% &4rejected your offer!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.NoOfferToReject", "&4You do not have an offer to reject");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.OfferCancelled", "&aYour offer has been cancelled!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.OfferHasBeenCancelled", "&4%seller% &4cancelled his offer!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.NoOfferToCancel", "&4You do not have an offer to cancel");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.BuyerAlreadyGotAnOffer", "&4The selected buyer already got an offer that he has to answer first!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SellerAlreadyCreatedAnOffer", "&4You have already created an offer! Please wait for an answer or cancel it first!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SellerDoesNotLongerOwnRegion", "&4%seller% &4does not longer own this region. His offer has been cancelled");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.IncommingOffer", "&c%seller% &6offers you his region &c%regionid% &6in the world &c%world% &6for &c%price% %currency%&6! " +
                 "You can accept his offer with &c/arm offer accept &6or reject it &c/arm offer reject");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.OfferTimedOut", "&4Offer timed out!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SellBackWarning", "&4Sell region back to the server: \n&4WARNING: &cThis can not be undone! Your region &6%regionid% &cwill be released and all blocks on it will be resetted! " +
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.OfferTimedOut", "&4Offer timed out!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SellBackWarning", "&4Sell region back to the server: \n&4WARNING: &cThis can not be undone! Your region &6%regionid% &cwill be released and all blocks on it will be resetted! " +
                 "You and all members will loose their rights on it. You will get &6%paybackmoney% %currency% &cback");
 
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SubregionInactivityResetError", "&4The selected region is a subregion. You can change the InactivityReset setting for all subregions in the config.yml!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SubregionDoBlockResetError", "&4The selected region is a subregion. You can change the doBlockReset setting for all subregions in the config.yml!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SubregionIsUserResettableError", "&4The selected region is a subregion. You can change the isUserResettable setting for all subregions in the config.yml!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SubregionRegionkindError", "&4The selected region is a subregion. You can edit the regionkind for all subregions in the config.yml!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SubRegionRegionkindOnlyForSubregions", "&4Subregion regionkind only for subregions!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SubregionTeleportLocationError", "&4The selected region is a subregion. Teleport location can not be changed");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.PosCloudNotBeSetMarkOutsideRegion", "&4Position could not be set! Position outside region");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SubRegionAlreadyAtThisPosition", "Your selection would overlap with a subregion that already has been created");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SubRegionLimitReached", "&4Subregion limit reached! You are not allowed to create more than &6%subregionlimit% &4subregions");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SelectionInvalid", "&4Selection invalid! You need to select 2 positions! (Left/Right click) Type \"&6/arm subregion tool&4\" to get the selection tool");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionCreatedAndSaved", "&aRegion created and saved!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SubregionInactivityResetError", "&4The selected region is a subregion. You can change the InactivityReset setting for all subregions in the config.yml!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SubregionDoBlockResetError", "&4The selected region is a subregion. You can change the doBlockReset setting for all subregions in the config.yml!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SubregionIsUserResettableError", "&4The selected region is a subregion. You can change the isUserResettable setting for all subregions in the config.yml!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SubregionRegionkindError", "&4The selected region is a subregion. You can edit the regionkind for all subregions in the config.yml!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SubRegionRegionkindOnlyForSubregions", "&4Subregion regionkind only for subregions!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SubregionTeleportLocationError", "&4The selected region is a subregion. Teleport location can not be changed");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.PosCloudNotBeSetMarkOutsideRegion", "&4Position could not be set! Position outside region");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SubRegionAlreadyAtThisPosition", "Your selection would overlap with a subregion that already has been created");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SubRegionLimitReached", "&4Subregion limit reached! You are not allowed to create more than &6%subregionlimit% &4subregions");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SelectionInvalid", "&4Selection invalid! You need to select 2 positions! (Left/Right click) Type \"&6/arm subregion tool&4\" to get the selection tool");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionCreatedAndSaved", "&aRegion created and saved!");
 
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionNotOwn", "&4You do not own this region!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionNotSold", "&4Region not sold!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionNotResettable", "&4Region not resettable!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionIsNotARentregion", "&4Region is not a rentregion!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionIsNotAContractRegion", "&4Region is not a contractregion!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionTeleportMessage", "&7You have been teleported to %regionid%");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionNowAviable", "&aRegion is now available!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.NoRegionAtPlayersPosition", "&7Could not find a region at your position!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionAddMemberNotOnline", "&4The selected player is not online!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionAddMemberAdded", "&aMember has been added!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionAddMemberDoNotOwn", "&4You do not own this region!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionRemoveMemberNotAMember", "&4The selected player is not a member of the region");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionRemoveMemberRemoved", "&aMember has been removed!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionRemoveMemberDoNotOwn", "&4You do not own this region!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionBuyOutOfLimit", "&4Out of Limit! You have &7%playerownedkind%/%limitkind% &4%regionkind%-regions and &7%playerownedtotal%/%limittotal% &4Regions total!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.Unlimited", "Unlimited");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.AutopriceList", "&6=========[Autoprices]=========");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SubregionHelpHeadline", "&6=====[AdvancedRegionMarket Subregion Help]=====\n&3Page %actualpage% / %maxpage%");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionNotOwn", "&4You do not own this region!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionNotSold", "&4Region not sold!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionNotResettable", "&4Region not resettable!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionIsNotARentregion", "&4Region is not a rentregion!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionIsNotAContractRegion", "&4Region is not a contractregion!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionTeleportMessage", "&7You have been teleported to %regionid%");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionNowAviable", "&aRegion is now available!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.NoRegionAtPlayersPosition", "&7Could not find a region at your position!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionAddMemberNotOnline", "&4The selected player is not online!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionAddMemberAdded", "&aMember has been added!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionAddMemberDoNotOwn", "&4You do not own this region!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionRemoveMemberNotAMember", "&4The selected player is not a member of the region");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionRemoveMemberRemoved", "&aMember has been removed!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionRemoveMemberDoNotOwn", "&4You do not own this region!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionBuyOutOfLimit", "&4Out of Limit! You have &7%playerownedkind%/%limitkind% &4%regionkind%-regions and &7%playerownedtotal%/%limittotal% &4Regions total!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.Unlimited", "Unlimited");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.AutopriceList", "&6=========[Autoprices]=========");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SubregionHelpHeadline", "&6=====[AdvancedRegionMarket Subregion Help]=====\n&3Page %actualpage% / %maxpage%");
 
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.LimitInfoTop", "&6=========[Limit Info]=========");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.LimitInfoTotal", "&6Total");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.LimitInfo", "&6%regionkind%: %playerownedkind%/%limitkind%");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionInfoPrice", "&6Price: ");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionInfoType", "&6Type: ");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionInfoDoBlockReset", "&6DoBlockReset: ");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionInfoIsUserResettable", "&6UserResettable: ");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionInfoAutoprice", "&6Autoprice: ");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.isHotel", "&6isHotel: ");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionInfoInactivityReset", "&6InactivityReset: ");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionInfoMaxRentTime", "&6Max rent time: ");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionInfoExtendPerClick", "&6Extend per click: ");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionInfoAutoExtendTime", "&6Extend time: ");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionInfoYes", "&2yes");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionInfoNo", "&4no");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionInfoAllowedSubregions", "&6Allowed Subregions: ");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionInfoExpired", "&4Expired");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionSelectedMultipleRegions", "&6There is more than one region at your position. Please select one: &4");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RentRegionExpirationWarning", "&4WARNING! This RentRegion(s) will expire soon: &c");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionDeleted", "&aRegion deleted!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.LimitInfoTop", "&6=========[Limit Info]=========");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.LimitInfoTotal", "&6Total");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.LimitInfo", "&6%regionkind%: %playerownedkind%/%limitkind%");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoPrice", "&6Price: ");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoType", "&6Type: ");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoDoBlockReset", "&6DoBlockReset: ");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoIsUserResettable", "&6UserResettable: ");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoAutoprice", "&6Autoprice: ");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.isHotel", "&6isHotel: ");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoInactivityReset", "&6InactivityReset: ");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoMaxRentTime", "&6Max rent time: ");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoExtendPerClick", "&6Extend per click: ");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoAutoExtendTime", "&6Extend time: ");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoYes", "&2yes");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoNo", "&4no");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoAllowedSubregions", "&6Allowed Subregions: ");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoExpired", "&4Expired");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionSelectedMultipleRegions", "&6There is more than one region at your position. Please select one: &4");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RentRegionExpirationWarning", "&4WARNING! This RentRegion(s) will expire soon: &c");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionDeleted", "&aRegion deleted!");
 
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionNotRegistred", "&4Region not registred");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.FirstPositionSet", "&aFirst position set!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SecondPositionSet", "&aSecond position set!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.MarkInOtherRegion", "&4Mark in other Region. Removing old mark");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.ParentRegionNotOwn", "&4You don not own the parent region!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SubRegionRemoveNoPermissionBecauseSold", "&4You are not allowed to remove this region. Please ask an admin if you believe this is an error");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SubRegionRemoveNoPermissionBecauseAvailable", "&4You are not allowed to remove this region, because it is sold. You may ask the owner or an admin to release it");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionNotASubregion", "&4Region not a subregion!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionNotRegistred", "&4Region not registred");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.FirstPositionSet", "&aFirst position set!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SecondPositionSet", "&aSecond position set!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.MarkInOtherRegion", "&4Mark in other Region. Removing old mark");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.ParentRegionNotOwn", "&4You don not own the parent region!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SubRegionRemoveNoPermissionBecauseSold", "&4You are not allowed to remove this region. Please ask an admin if you believe this is an error");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SubRegionRemoveNoPermissionBecauseAvailable", "&4You are not allowed to remove this region, because it is sold. You may ask the owner or an admin to release it");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionNotASubregion", "&4Region not a subregion!");
 
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RentRegion", "RentRegion");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SellRegion", "SellRegion");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.ContractRegion", "ContractRegion");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionStats", "&6=========[Region stats]=========");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionStatsPattern", "&8Used regions (%regionkind%&8):");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RentRegion", "RentRegion");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SellRegion", "SellRegion");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.ContractRegion", "ContractRegion");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionStats", "&6=========[Region stats]=========");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionStatsPattern", "&8Used regions (%regionkind%&8):");
 
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SelltypeNotExist", "&4The selected selltype does not exist!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SignLinkModeActivated", "&aSign-Link-Mode activated! Click into a region and afterwards click on a sign. ARM will automatically create a region (or will just add the sign if the region already exists) with the settings of your preset");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SignLinkModeDeactivated", "&aSign-Link-Mode deactivated!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SignLinkModeAlreadyDeactivated", "&4Sign-Link-Mode is already deactivated!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SignLinkModePresetNotPriceready", "&cThe selected preset is not price-ready! All regions you will create now will be created with the default autoprice");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SignLinkModeNoPresetSelected", "&cYou dont have a preset loaded! Please load or create a preset first! &cYou can create a preset by using the &6/arm sellpreset/rentpreset/contractpreset &ccommands!\nFor more &cinformation about presets click here:\n&6https://goo.gl/3upfAA (Gitlab Wiki)");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SignLinkModeSignBelongsToAnotherRegion", "&4Sign belongs to another region!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SignLinkModeSignSelected", "&aSign selected!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SignLinkModeMultipleWgRegionsAtPosition", "&4Could not select WorldGuard-Region! There is more than one region available!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SignLinkModeNoWgRegionAtPosition", "&4Could not select WorldGuard-Region! There is no region at your position!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SignLinkModeCouldNotIdentifyWorld", "&4Could not identify world! Please select the WorldGuard-Region again!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SignLinkModeNoSignSelected", "&4You have not selected a sign");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SignLinkModeNoWgRegionSelected", "&4You have not selected a WorldGuard-Region");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SignLinkModeSelectedRegion", "&aSelected region: %regionid%");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SelltypeNotExist", "&4The selected selltype does not exist!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SignLinkModeActivated", "&aSign-Link-Mode activated! Click into a region and afterwards click on a sign. ARM will automatically create a region (or will just add the sign if the region already exists) with the settings of your preset");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SignLinkModeDeactivated", "&aSign-Link-Mode deactivated!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SignLinkModeAlreadyDeactivated", "&4Sign-Link-Mode is already deactivated!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SignLinkModePresetNotPriceready", "&cThe selected preset is not price-ready! All regions you will create now will be created with the default autoprice");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SignLinkModeNoPresetSelected", "&cYou dont have a preset loaded! Please load or create a preset first! &cYou can create a preset by using the &6/arm sellpreset/rentpreset/contractpreset &ccommands!\nFor more &cinformation about presets click here:\n&6https://goo.gl/3upfAA (Gitlab Wiki)");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SignLinkModeSignBelongsToAnotherRegion", "&4Sign belongs to another region!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SignLinkModeSignSelected", "&aSign selected!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SignLinkModeMultipleWgRegionsAtPosition", "&4Could not select WorldGuard-Region! There is more than one region available!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SignLinkModeNoWgRegionAtPosition", "&4Could not select WorldGuard-Region! There is no region at your position!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SignLinkModeCouldNotIdentifyWorld", "&4Could not identify world! Please select the WorldGuard-Region again!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SignLinkModeNoSignSelected", "&4You have not selected a sign");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SignLinkModeNoWgRegionSelected", "&4You have not selected a WorldGuard-Region");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SignLinkModeSelectedRegion", "&aSelected region: %regionid%");
 
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIMainMenuName", "&1ARM - Menu");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIRegionFinderMenuName", "&1ARM - Regionfinder");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIRegionFinderRegionKindName", "&a&l%regionkinddisplay%");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIMemberListMenuName", "&1ARM - Members of %regionid%");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIOwnRegionsMenuName", "&1ARM - My regions (Owner)");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIRegionItemName", "%regionid% (%regionkinddisplay%)");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIMakeOwnerWarningName", "&4&lAre you shure?");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIMemberRegionsMenuName", "&1ARM - My regions (Member)");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIResetRegionWarningName", "&4&lReset your region?");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIRegionTakeOverMenuName", "&4Region take-over");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIGoBack", "&6Go back");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIMyOwnRegions", "&6My regions (Owner)");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIMyMemberRegions", "&6My regions (Member)");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUISearchFreeRegion", "&6Search free region");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIMembersButton", "&6Members");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUITeleportToRegionButton", "&6Teleport to region");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIMainMenuName", "&1ARM - Menu");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIRegionFinderMenuName", "&1ARM - Regionfinder");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIRegionFinderRegionKindName", "&a&l%regionkinddisplay%");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIMemberListMenuName", "&1ARM - Members of %regionid%");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIOwnRegionsMenuName", "&1ARM - My regions (Owner)");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIRegionItemName", "%regionid% (%regionkinddisplay%)");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIMakeOwnerWarningName", "&4&lAre you shure?");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIMemberRegionsMenuName", "&1ARM - My regions (Member)");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIResetRegionWarningName", "&4&lReset your region?");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIRegionTakeOverMenuName", "&4Region take-over");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIGoBack", "&6Go back");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIMyOwnRegions", "&6My regions (Owner)");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIMyMemberRegions", "&6My regions (Member)");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUISearchFreeRegion", "&6Search free region");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIMembersButton", "&6Members");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUITeleportToRegionButton", "&6Teleport to region");
 
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUITeleportToRegionButtonLore", new ArrayList<>(Arrays.asList("Click to teleport you to",
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUITeleportToRegionButtonLore", new ArrayList<>(Arrays.asList("Click to teleport you to",
                 "your region")));
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIShowInfosButton", "&6Show infos");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIMakeOwnerButton", "&aMake owner");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIMakeOwnerButtonLore", new ArrayList<>(Arrays.asList("Click to transfer your owner rights",
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIShowInfosButton", "&6Show infos");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIMakeOwnerButton", "&aMake owner");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIMakeOwnerButtonLore", new ArrayList<>(Arrays.asList("Click to transfer your owner rights",
                 "to the selected member.", "&4WARNING: &cYou will lose your owner", "&crights and become a member")));
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIRemoveMemberButton", "&4Remove");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIRemoveMemberButtonLore", new ArrayList<>(Arrays.asList("Click to remove the selected member",
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIRemoveMemberButton", "&4Remove");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIRemoveMemberButtonLore", new ArrayList<>(Arrays.asList("Click to remove the selected member",
                 "from your region")));
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIWarningYes", "&aYes");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIWarningNo", "&4No");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIResetRegionButton", "&4Reset region");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIResetRegionButtonLore", new ArrayList<>(Arrays.asList("Click to reset your region",
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIWarningYes", "&aYes");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIWarningNo", "&4No");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIResetRegionButton", "&4Reset region");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIResetRegionButtonLore", new ArrayList<>(Arrays.asList("Click to reset your region",
                 "&4WARNING: &cThis can not be undone! Your region", "&cwill be resetted and everything on it will", "&cbe deleted!",
                 "&cYou can only reset you region once every %userresetcooldown%", "&2You and all members keep their rights on the region")));
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionTransferCompleteMessage", "&aTransfer complete!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegiontransferMemberNotOnline", "&4Member not online!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegiontransferLimitError", "&4Transfer aborted! (Region would exceed players limit)");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUICloseWindow", "&6Close window");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.TakeOverItemLore", new ArrayList<>(Arrays.asList("&aYou are a member of this region.",
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionTransferCompleteMessage", "&aTransfer complete!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegiontransferMemberNotOnline", "&4Member not online!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegiontransferLimitError", "&4Transfer aborted! (Region would exceed players limit)");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUICloseWindow", "&6Close window");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.TakeOverItemLore", new ArrayList<>(Arrays.asList("&aYou are a member of this region.",
                 "&aThe owner of it hasn''t been",
                 "&aonline for a long time. You",
                 "&acan transfer the owner rights to your",
@@ -1398,152 +1389,152 @@ public class Messages {
                 "&cregion will be resetted and everybody on it",
                 "&cwill lose their rights.",
                 "&cAfterwards it will go back for sale!")));
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.OwnerMemberlistInfo", "&6Adding members:");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.OwnerMemberlistInfoLore", new ArrayList<>(Arrays.asList("&aYou can add members to your region",
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.OwnerMemberlistInfo", "&6Adding members:");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.OwnerMemberlistInfoLore", new ArrayList<>(Arrays.asList("&aYou can add members to your region",
                 "&ain order to build with them together", "&aYou can add members with:",
                 "&6/arm addmember %regionid% USERNAME", "&aMembers need to be online to add them")));
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIExtendRentRegionButton", "&1Extend region");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIExtendRentRegionButtonLore", new ArrayList<>(Arrays.asList("&aClick to extend your region for &6%extendtime%",
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIExtendRentRegionButton", "&1Extend region");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIExtendRentRegionButtonLore", new ArrayList<>(Arrays.asList("&aClick to extend your region for &6%extendtime%",
                 "&athis will cost you &6%price%%currency%&a!", "&aThis region will expire in &6%remaining%&a.", "&aYou can extend your region up to &6%maxrenttime%&a.")));
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIRentRegionLore", new ArrayList<>(Arrays.asList("&aExpires in &6%remaining%")));
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIUserSellButton", "&4Reset and sell Region");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIUserSellButtonLore", new ArrayList<>(Arrays.asList("Click to sell your region",
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIRentRegionLore", new ArrayList<>(Arrays.asList("&aExpires in &6%remaining%")));
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIUserSellButton", "&4Reset and sell Region");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIUserSellButtonLore", new ArrayList<>(Arrays.asList("Click to sell your region",
                 "&4WARNING: &cThis can not be undone! Your region", "&cwill be released and all blocks on it will be", "&cresetted! You and all members of it will loose",
                 "&ctheir rights on it.", "&cYou will get &6%paybackmoney% %currency% &cback")));
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIUserSellWarning", "&4&lSell your region?");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUILimitButton", "&6My limits");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.MemberlistInfo", "&6How to become a Member:");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.MemberlistInfoLore", new ArrayList<>(Arrays.asList("&aYou can be added as a member to",
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIUserSellWarning", "&4&lSell your region?");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUILimitButton", "&6My limits");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.MemberlistInfo", "&6How to become a Member:");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.MemberlistInfoLore", new ArrayList<>(Arrays.asList("&aYou can be added as a member to",
                 "&athe region of someone else in order", "&ato build with him together", "&aJust ask a region owner to add you with:",
                 "&6/arm addmember REGIONID USERNAME", "&aYou need to be online for this")));
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIContractItem", "&6Manage contract");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIContractItemLore", new ArrayList<>(Arrays.asList("&aStatus: %status%", "&aIf active the next extend is in:",
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIContractItem", "&6Manage contract");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIContractItemLore", new ArrayList<>(Arrays.asList("&aStatus: %status%", "&aIf active the next extend is in:",
                 "&6%remaining%")));
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIContractItemRegionLore", new ArrayList<>(Arrays.asList("&aStatus: %status%", "&aIf active the next extend is in:",
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIContractItemRegionLore", new ArrayList<>(Arrays.asList("&aStatus: %status%", "&aIf active the next extend is in:",
                 "&6%remaining%")));
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SellregionName", "Sellregion");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.ContractregionName","Contractregion");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RentregionName","Rentregion");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUISubregionsButton","&6Subregions");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUISubregionListMenuName","&1Subregions");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIHotelButton","&6Hotel-function");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIDeleteRegionButton","&4Delete region");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUITeleportToSignOrRegionButton","Teleport to sign or region?");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIRegionfinderTeleportToRegionButton","&6Teleport to region!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIRegionfinderTeleportToSignButton","&6Teleport to buy sign!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUINextPageButton","&6Next page");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIPrevPageButton","&6Prev page");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.Enabled","&aenabled");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.Disabled","&cdisabled");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.Sold","&csold");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.Available","&aavailable");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.DeleteRegionWarningName", "&4&lDelete region?");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.UnsellRegionButton", "&4Unsell region");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.UnsellRegionButtonLore", new ArrayList<>(Arrays.asList("&4Click to unsell your subregion and", "&4kick the players of it")));
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.UnsellRegionWarningName", "&4&lUnsell region?");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUISubregionManagerNoSubregionItem", "&6Info");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIHotelButtonLore", new ArrayList<>(Arrays.asList("&6The hotel function allows you to prevent players", "&6from breaking blocks they do not have placed", "&6Status: %hotelfunctionstatus%", "&6Click to enable/disable")));
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUISubregionInfoSell", new ArrayList<>(Arrays.asList("&6Selltype: %selltype%", "&6Status: %soldstatus%", "&6Price: %price%", "&6Price per M2: %priceperm2%", "&6Dimensions: %dimensions%")));
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUISubregionInfoRent", new ArrayList<>(Arrays.asList("&6Selltype: %selltype%", "&6Status: %soldstatus%", "&6Price: %price%", "&6Price per M2 (per week): %priceperm2perweek%", "&6Extend per click: %extendtime%", "&6Max. extended time: %maxrenttime%", "&6Dimensions: %dimensions%")));
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUISubregionInfoContract", new ArrayList<>(Arrays.asList("&6Selltype: %selltype%", "&6Status: %soldstatus%", "&6Price: %price%", "&6Price per M2 (per week): %priceperm2perweek%", "&6Automatic extend time: %extendtime%", "&6Dimensions: %dimensions%")));
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIRegionfinderInfoSell", new ArrayList<>(Arrays.asList("&6Price: %price%", "&6Price per M2: %priceperm2%", "&6Dimensions: %dimensions%", "&6World: %world%")));
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIRegionfinderInfoRent", new ArrayList<>(Arrays.asList("&6Price: %price%" ,"&6Price per M2 (per week): %priceperm2perweek%", "&6Extend per click: %extendtime%","&6Max. extended time: %maxrenttime%", "&6Dimensions: %dimensions%", "&6World: %world%")));
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIRegionfinderInfoContract", new ArrayList<>(Arrays.asList("&6Price: %price%", "&6Price per M2 (per week): %priceperm2perweek%", "&6Automatic extend time: %extendtime%","&6Dimensions: %dimensions%", "&6World: %world%")));
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SubregionCreationCreateSignInfo", new ArrayList<>(Arrays.asList("&aYour selection has been saved! You can now create a sign to sell the region.", "&aCreate a Sell-Region:", "&6First line: &b[sub-sell]", "&6Last line: &bprice", "", "&aCreate a Rent-Region:", "&6First line: &b[sub-rent]",
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SellregionName", "Sellregion");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.ContractregionName", "Contractregion");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RentregionName", "Rentregion");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUISubregionsButton", "&6Subregions");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUISubregionListMenuName", "&1Subregions");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIHotelButton", "&6Hotel-function");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIDeleteRegionButton", "&4Delete region");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUITeleportToSignOrRegionButton", "Teleport to sign or region?");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIRegionfinderTeleportToRegionButton", "&6Teleport to region!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIRegionfinderTeleportToSignButton", "&6Teleport to buy sign!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUINextPageButton", "&6Next page");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIPrevPageButton", "&6Prev page");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.Enabled", "&aenabled");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.Disabled", "&cdisabled");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.Sold", "&csold");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.Available", "&aavailable");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.DeleteRegionWarningName", "&4&lDelete region?");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.UnsellRegionButton", "&4Unsell region");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.UnsellRegionButtonLore", new ArrayList<>(Arrays.asList("&4Click to unsell your subregion and", "&4kick the players of it")));
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.UnsellRegionWarningName", "&4&lUnsell region?");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUISubregionManagerNoSubregionItem", "&6Info");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIHotelButtonLore", new ArrayList<>(Arrays.asList("&6The hotel function allows you to prevent players", "&6from breaking blocks they do not have placed", "&6Status: %hotelfunctionstatus%", "&6Click to enable/disable")));
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUISubregionInfoSell", new ArrayList<>(Arrays.asList("&6Selltype: %selltype%", "&6Status: %soldstatus%", "&6Price: %price%", "&6Price per M2: %priceperm2%", "&6Dimensions: %dimensions%")));
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUISubregionInfoRent", new ArrayList<>(Arrays.asList("&6Selltype: %selltype%", "&6Status: %soldstatus%", "&6Price: %price%", "&6Price per M2 (per week): %priceperm2perweek%", "&6Extend per click: %extendtime%", "&6Max. extended time: %maxrenttime%", "&6Dimensions: %dimensions%")));
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUISubregionInfoContract", new ArrayList<>(Arrays.asList("&6Selltype: %selltype%", "&6Status: %soldstatus%", "&6Price: %price%", "&6Price per M2 (per week): %priceperm2perweek%", "&6Automatic extend time: %extendtime%", "&6Dimensions: %dimensions%")));
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIRegionfinderInfoSell", new ArrayList<>(Arrays.asList("&6Price: %price%", "&6Price per M2: %priceperm2%", "&6Dimensions: %dimensions%", "&6World: %world%")));
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIRegionfinderInfoRent", new ArrayList<>(Arrays.asList("&6Price: %price%", "&6Price per M2 (per week): %priceperm2perweek%", "&6Extend per click: %extendtime%", "&6Max. extended time: %maxrenttime%", "&6Dimensions: %dimensions%", "&6World: %world%")));
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIRegionfinderInfoContract", new ArrayList<>(Arrays.asList("&6Price: %price%", "&6Price per M2 (per week): %priceperm2perweek%", "&6Automatic extend time: %extendtime%", "&6Dimensions: %dimensions%", "&6World: %world%")));
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SubregionCreationCreateSignInfo", new ArrayList<>(Arrays.asList("&aYour selection has been saved! You can now create a sign to sell the region.", "&aCreate a Sell-Region:", "&6First line: &b[sub-sell]", "&6Last line: &bprice", "", "&aCreate a Rent-Region:", "&6First line: &b[sub-rent]",
                 "&6Last line: &bPricePerPeriod&6;&bExtendPerClick&6;&bMaxExtendTime", "&6example for ExtendPerClick/MaxExtendTime: 5d (5 days)", "", "&aCreate a Contract-Region:", "&6First line: &b[sub-contract]", "&6Last line: &bPricePerPeriod&6;&bExtendTime", "&6example for ExtendTime: 12h (12 hours)", "&4We would strongly recommend to not place the sign within the subregion!")));
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SubregionCreationSelectAreaInfo", new ArrayList<>(Arrays.asList("&aYou got a tool in your inventory (feather) to select 2 points of your region that will mark the corners of your new subregion.", "&aLeft click to select pos1", "&aRight click to select pos2", "&aType \"&6/arm subregion create\" &aif you are done")));
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SubregionToolAlreadyOwned", "&4You already own a Subregion Tool. Please use that instead of a new one!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUISubregionManagerNoSubregionItemLore", new ArrayList<>(Arrays.asList("&aYou do not have any subregions on your region.", "&aYou can create a new subregion, that you",  "&acan sell to other players by typing", "&6/arm subregion tool &aand following displayed the steps")));
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SubregionCreationSelectAreaInfo", new ArrayList<>(Arrays.asList("&aYou got a tool in your inventory (feather) to select 2 points of your region that will mark the corners of your new subregion.", "&aLeft click to select pos1", "&aRight click to select pos2", "&aType \"&6/arm subregion create\" &aif you are done")));
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SubregionToolAlreadyOwned", "&4You already own a Subregion Tool. Please use that instead of a new one!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUISubregionManagerNoSubregionItemLore", new ArrayList<>(Arrays.asList("&aYou do not have any subregions on your region.", "&aYou can create a new subregion, that you", "&acan sell to other players by typing", "&6/arm subregion tool &aand following displayed the steps")));
 
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.EntityLimitHelpHeadline", "&6=====[AdvancedRegionMarket EntityLimit Help ]=====\n&3Page %actualpage% / %maxpage%");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.EntityLimitGroupNotExist", "&4EntityLimitGroup does not exist!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.EntityLimitSet", "&aEntityLimit has been set!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.EntityLimitRemoved", "&aEntityLimit has been removed!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.EntityTypeDoesNotExist", "&4The entitytype &6%entitytype% &4does not exist!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.EntityLimitGroupNotContainEntityLimit", "&4The selected EntityLimitGroup does not contain the selected EntityType");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.EntityLimitTotal", "Total");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.EntityLimitCheckHeadline", "&6===[EntityLimitCheck for %regionid%]===");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.EntityLimitCheckPattern", "&6%entitytype%: &a(&r%actualentities%&a/&r%softlimitentities%&a) %entityextensioninfo%");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.EntityLimitGroupAlreadyExists", "&4Group already exists!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.EntityLimitGroupCreated", "&aEntitylimitgroup has been created!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.EntityLimitGroupCanNotRemoveSystem", "&4You can not remove a system-EntityLimitGroup!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.EntityLimitGroupDeleted", "&aEntitylimitgroup has been deleted!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.EntityLimitGroupInfoHeadline", "&6======[Entitylimitgroup Info]======");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.EntityLimitGroupInfoGroupname", "&6Groupname: ");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.EntityLimitGroupInfoPattern", "&6%entitytype%: &r%softlimitentities% %entityextensioninfo%");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.EntityLimitGroupListHeadline", "&6EntityLimitGroups:");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.EntityLimitGroupCouldNotspawnEntity", "&4Could not spawn entity on region &6%region%&4! The not spawned entity would exeed the regions " +
-        "entitylimit for more information type &6/arm entitylimit check %region%&4! \nEverybody on region %region% recieved this message! If you are not a member of this region, you can ignore this message.");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionInfoEntityLimit", "&6EntityLimitGroup: ");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SubregionEntityLimitOnlyForSubregions", "&4SubregionEntityLimitGroup only for subregions");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.MassactionSplitter", "&6all regions with regionkind &a%regionkind%");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SubregionEntityLimitError", "&4Could not change EntiyLimitGroup for the region &6%regionid%&4! Region is a Subregion!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIEntityLimitItemButton", "&6EntityLimits");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIEntityLimitItemLore", new ArrayList<>(Arrays.asList("&6Click to display the entity-limits", "&6for this region in chat", "%entityinfopattern%", "", "You can expand your entity-limit with:", "&6/arm entitylimit buyextra %regionid% [ENTITYTYPE/total]")));
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIEntityLimitInfoPattern", "&6%entitytype%: &a(&r%actualentities%&a/&r%softlimitentities%&a) %entityextensioninfo%");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.EntityLimitCheckExtensionInfo", "\n&6&o--> Limit extendable up to &r%hardlimitentities% &6entities for &r%priceperextraentity% %currency%&6/entity");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIEntityLimitInfoExtensionInfo", "&6&oMax. &r%hardlimitentities% &6for &r%priceperextraentity% %currency%&6/entity");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.EntityLimitInfoExtensionInfo", "\n&6&o--> Limit extendable up to &r%hardlimitentities% &6entities for &r%priceperextraentity% %currency%&6/entity");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.EntityLimitHelpHeadline", "&6=====[AdvancedRegionMarket EntityLimit Help ]=====\n&3Page %actualpage% / %maxpage%");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.EntityLimitGroupNotExist", "&4EntityLimitGroup does not exist!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.EntityLimitSet", "&aEntityLimit has been set!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.EntityLimitRemoved", "&aEntityLimit has been removed!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.EntityTypeDoesNotExist", "&4The entitytype &6%entitytype% &4does not exist!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.EntityLimitGroupNotContainEntityLimit", "&4The selected EntityLimitGroup does not contain the selected EntityType");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.EntityLimitTotal", "Total");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.EntityLimitCheckHeadline", "&6===[EntityLimitCheck for %regionid%]===");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.EntityLimitCheckPattern", "&6%entitytype%: &a(&r%actualentities%&a/&r%softlimitentities%&a) %entityextensioninfo%");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.EntityLimitGroupAlreadyExists", "&4Group already exists!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.EntityLimitGroupCreated", "&aEntitylimitgroup has been created!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.EntityLimitGroupCanNotRemoveSystem", "&4You can not remove a system-EntityLimitGroup!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.EntityLimitGroupDeleted", "&aEntitylimitgroup has been deleted!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.EntityLimitGroupInfoHeadline", "&6======[Entitylimitgroup Info]======");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.EntityLimitGroupInfoGroupname", "&6Groupname: ");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.EntityLimitGroupInfoPattern", "&6%entitytype%: &r%softlimitentities% %entityextensioninfo%");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.EntityLimitGroupListHeadline", "&6EntityLimitGroups:");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.EntityLimitGroupCouldNotspawnEntity", "&4Could not spawn entity on region &6%region%&4! The not spawned entity would exeed the regions " +
+                "entitylimit for more information type &6/arm entitylimit check %region%&4! \nEverybody on region %region% recieved this message! If you are not a member of this region, you can ignore this message.");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoEntityLimit", "&6EntityLimitGroup: ");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SubregionEntityLimitOnlyForSubregions", "&4SubregionEntityLimitGroup only for subregions");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.MassactionSplitter", "&6all regions with regionkind &a%regionkind%");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SubregionEntityLimitError", "&4Could not change EntiyLimitGroup for the region &6%regionid%&4! Region is a Subregion!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIEntityLimitItemButton", "&6EntityLimits");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIEntityLimitItemLore", new ArrayList<>(Arrays.asList("&6Click to display the entity-limits", "&6for this region in chat", "%entityinfopattern%", "", "You can expand your entity-limit with:", "&6/arm entitylimit buyextra %regionid% [ENTITYTYPE/total]")));
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIEntityLimitInfoPattern", "&6%entitytype%: &a(&r%actualentities%&a/&r%softlimitentities%&a) %entityextensioninfo%");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.EntityLimitCheckExtensionInfo", "\n&6&o--> Limit extendable up to &r%hardlimitentities% &6entities for &r%priceperextraentity% %currency%&6/entity");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIEntityLimitInfoExtensionInfo", "&6&oMax. &r%hardlimitentities% &6for &r%priceperextraentity% %currency%&6/entity");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.EntityLimitInfoExtensionInfo", "\n&6&o--> Limit extendable up to &r%hardlimitentities% &6entities for &r%priceperextraentity% %currency%&6/entity");
 
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.EntityLimitGroupEntityLimitAlreadyUnlimited", "&4EntityLimit for the selected entity and region is already unlimited!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.EntityLimitGroupExtraEntitiesSet", "&aExtra-Entities have been set!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.EntityLimitGroupExtraEntitiesExpandSuccess", "&aYou have sucessfully expanded the entitylimit to &6%softlimitentities% &aentities! (For &6%priceperextraentity%%currency%&a)");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.EntityLimitGroupExtraEntitiesHardlimitReached", "&4Can not buy another entity-expansion! Hardlimit has been reached!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.EntityLimitGroupExtraEntitiesSetSubregionError", "&4Can not change entitylimit! Region is a Subregion");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.EntityLimitGroupExtraEntitiesBuySubregionError", "&4Can not expand entitylimit! Region is a Subregion");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.EntityLimitGroupEntityLimitAlreadyUnlimited", "&4EntityLimit for the selected entity and region is already unlimited!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.EntityLimitGroupExtraEntitiesSet", "&aExtra-Entities have been set!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.EntityLimitGroupExtraEntitiesExpandSuccess", "&aYou have sucessfully expanded the entitylimit to &6%softlimitentities% &aentities! (For &6%priceperextraentity%%currency%&a)");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.EntityLimitGroupExtraEntitiesHardlimitReached", "&4Can not buy another entity-expansion! Hardlimit has been reached!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.EntityLimitGroupExtraEntitiesSetSubregionError", "&4Can not change entitylimit! Region is a Subregion");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.EntityLimitGroupExtraEntitiesBuySubregionError", "&4Can not expand entitylimit! Region is a Subregion");
 
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionKindCreated", "&aRegionKind created!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionKindAlreadyExists", "&4RegionKind already exists!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionKindDeleted", "&aRegionKind deleted!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionKindCanNotRemoveSystem", "&4You can not remove a system-RegionKind!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionKindListHeadline", "&6Regionkinds:");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionKindModified", "&aRegionKind modified!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.MaterialNotFound", "&4Material not found!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionKindLoreLineNotExist", "&aThe selected lore-line does not exist!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionKindInfoHeadline", "&6=========[Regionkind info]=========");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionKindInfoInternalName", "&6Internal name: %regionkind%");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionKindInfoDisplayName", "&6Displayname: %regionkinddisplay%");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionKindInfoMaterial", "&6Material: %regionkinditem%");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionKindInfoDisplayInGui", "&6DisplayInGui: %regionkinddisplayingui%");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionKindInfoDisplayInLimits", "&6DisplayInLimits: %regionkinddisplayinlimits%");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionKindInfoPaybackPercentage", "&6PaybackPercentage: %paypackpercentage%");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionKindInfoLore", "&6Lore:");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionKindHelpHeadline", "&6=====[AdvancedRegionMarket RegionKind Help ]=====\n&3Page %actualpage% / %maxpage%");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionKindCreated", "&aRegionKind created!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionKindAlreadyExists", "&4RegionKind already exists!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionKindDeleted", "&aRegionKind deleted!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionKindCanNotRemoveSystem", "&4You can not remove a system-RegionKind!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionKindListHeadline", "&6Regionkinds:");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionKindModified", "&aRegionKind modified!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.MaterialNotFound", "&4Material not found!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionKindLoreLineNotExist", "&aThe selected lore-line does not exist!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionKindInfoHeadline", "&6=========[Regionkind info]=========");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionKindInfoInternalName", "&6Internal name: %regionkind%");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionKindInfoDisplayName", "&6Displayname: %regionkinddisplay%");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionKindInfoMaterial", "&6Material: %regionkinditem%");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionKindInfoDisplayInGui", "&6DisplayInGui: %regionkinddisplayingui%");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionKindInfoDisplayInLimits", "&6DisplayInLimits: %regionkinddisplayinlimits%");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionKindInfoPaybackPercentage", "&6PaybackPercentage: %paypackpercentage%");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionKindInfoLore", "&6Lore:");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionKindHelpHeadline", "&6=====[AdvancedRegionMarket RegionKind Help ]=====\n&3Page %actualpage% / %maxpage%");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.PlayerNotFound", "&4Could not find selected player!");
 
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIFlageditorButton", "&6FlagEditor");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIFlageditorMenuName", "&1FlagEditor (%region%)");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIFlageditorDeleteFlagButton", "&4Delete flag");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIFlageditorSetFlagGroupAllButton", "&9Set for everyone");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIFlageditorSetFlagGroupMembersButton", "&9Set for members and owners");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIFlageditorSetFlagGroupOwnersButton", "&9Set for owners");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIFlageditorSetFlagGroupNonMembersButton", "&9Set for non members and non owners");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIFlageditorSetFlagGroupNonOwnersButton", "&9Set for non owners");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIFlageditorSetStateflagAllowButton", "&2Allow");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIFlageditorSetStateflagDenyButton", "&4Deny");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIFlageditorSetBooleanflagTrueButton", "&2Yes");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIFlageditorSetBooleanflagFalseButton", "&4No");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIFlageditorSetStringflagSetMessageButton", "&2Set message");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIFlageditorSetIntegerflagSetIntegerButton", "&2Set number");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIFlageditorSetDoubleflagSetDoubleButton", "&2Set number");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.FlageditorFlagNotActivated", "&4Flag not activated!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.FlageditorFlagHasBeenUpdated", "&2Flag has been updated!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.FlageditorFlagCouldNotBeUpdated", "Could not modify flag %flag%!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.FlageditorFlagHasBeenDeleted", "&2Flag has been deleted!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.FlageditorStringflagSetMessageInfo", "&9Please write down a message:");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.FlageditorIntegerflagSetMessageInfo", "&9Please write down a number that does not have decimals:");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.FlageditorDoubleflagSetMessageInfo", "&9Please write down a number:");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIFlageditorResetButton", "&4Reset all Flags to default settings");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIFlageditorUnknownFlagSetPropertiesButton", "&2Set properties");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.GUIFlageditorUnknownFlagSetPropertiesInfo", "&9Please write down your new flag properties:");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.FlaggroupDoesNotExist", "&4Flaggroup does not exist!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.SubregionFlaggroupOnlyForSubregions", "&4Subregion flaggroup only for subregions");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.RegionInfoFlaggroup", "&6FlagGroup: ");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.InfoDeactivated", "&4Deactivated");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.InfoNotSold", "&4Region not sold!");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.InfoNow", "&2Now");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.InfoNotCalculated", "&8Awaiting calculation...");
-        fileUpdated |= YamlFileManager.addDefault(config,"Messages.CouldNotFindOrLoadSchematicLog", "&4Could not find or load schematic for region %region% in world %world%! You can regenerate it with /arm updateschematic %region%");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIFlageditorButton", "&6FlagEditor");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIFlageditorMenuName", "&1FlagEditor (%region%)");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIFlageditorDeleteFlagButton", "&4Delete flag");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIFlageditorSetFlagGroupAllButton", "&9Set for everyone");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIFlageditorSetFlagGroupMembersButton", "&9Set for members and owners");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIFlageditorSetFlagGroupOwnersButton", "&9Set for owners");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIFlageditorSetFlagGroupNonMembersButton", "&9Set for non members and non owners");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIFlageditorSetFlagGroupNonOwnersButton", "&9Set for non owners");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIFlageditorSetStateflagAllowButton", "&2Allow");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIFlageditorSetStateflagDenyButton", "&4Deny");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIFlageditorSetBooleanflagTrueButton", "&2Yes");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIFlageditorSetBooleanflagFalseButton", "&4No");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIFlageditorSetStringflagSetMessageButton", "&2Set message");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIFlageditorSetIntegerflagSetIntegerButton", "&2Set number");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIFlageditorSetDoubleflagSetDoubleButton", "&2Set number");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.FlageditorFlagNotActivated", "&4Flag not activated!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.FlageditorFlagHasBeenUpdated", "&2Flag has been updated!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.FlageditorFlagCouldNotBeUpdated", "Could not modify flag %flag%!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.FlageditorFlagHasBeenDeleted", "&2Flag has been deleted!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.FlageditorStringflagSetMessageInfo", "&9Please write down a message:");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.FlageditorIntegerflagSetMessageInfo", "&9Please write down a number that does not have decimals:");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.FlageditorDoubleflagSetMessageInfo", "&9Please write down a number:");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIFlageditorResetButton", "&4Reset all Flags to default settings");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIFlageditorUnknownFlagSetPropertiesButton", "&2Set properties");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.GUIFlageditorUnknownFlagSetPropertiesInfo", "&9Please write down your new flag properties:");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.FlaggroupDoesNotExist", "&4Flaggroup does not exist!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SubregionFlaggroupOnlyForSubregions", "&4Subregion flaggroup only for subregions");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoFlaggroup", "&6FlagGroup: ");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.InfoDeactivated", "&4Deactivated");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.InfoNotSold", "&4Region not sold!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.InfoNow", "&2Now");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.InfoNotCalculated", "&8Awaiting calculation...");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.CouldNotFindOrLoadSchematicLog", "&4Could not find or load schematic for region %region% in world %world%! You can regenerate it with /arm updateschematic %region%");
 
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoSellregionAdmin", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
                 "&9ID: &e%regionid% &7(Type: &r%selltype%&7)",
@@ -1681,17 +1672,17 @@ public class Messages {
                 "&9TakeOver possible in: &e%takeoverin%",
                 "&9DoBlockReset: &e%isdoblockreset% &9Autoprice: &e%autoprice%")));
 
-        if(fileUpdated) {
+        if (fileUpdated) {
             config.options().copyDefaults(true);
             saveConfig();
         }
     }
 
-    public static void generatedefaultConfig(){
+    public static void generatedefaultConfig() {
         Plugin plugin = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket");
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
         File messagesdic = new File(pluginfolder + "/messages.yml");
-        if(!messagesdic.exists()){
+        if (!messagesdic.exists()) {
             try {
                 InputStream stream = plugin.getResource("messages.yml");
                 byte[] buffer = new byte[stream.available()];
@@ -1708,17 +1699,17 @@ public class Messages {
         updateDefauts();
     }
 
-    public static YamlConfiguration getConfig(){
+    public static YamlConfiguration getConfig() {
         return Messages.config;
     }
 
-    public static void setConfig(){
+    public static void setConfig() {
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
         File messagesconfigdic = new File(pluginfolder + "/messages.yml");
         Messages.config = YamlConfiguration.loadConfiguration(messagesconfigdic);
     }
 
-    public static void saveConfig(){
+    public static void saveConfig() {
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
         File messagesconfigdic = new File(pluginfolder + "/messages.yml");
         try {
@@ -1729,7 +1720,7 @@ public class Messages {
     }
 
     public static String convertYesNo(Boolean bool) {
-        if(bool) {
+        if (bool) {
             return Messages.YES;
         } else {
             return Messages.NO;
@@ -1737,7 +1728,7 @@ public class Messages {
     }
 
     public static String convertEnabledDisabled(boolean bool) {
-        if(bool) {
+        if (bool) {
             return Messages.ENABLED;
         } else {
             return Messages.DISABLED;

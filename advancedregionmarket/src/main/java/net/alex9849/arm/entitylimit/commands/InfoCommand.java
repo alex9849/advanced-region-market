@@ -20,6 +20,28 @@ public class InfoCommand implements BasicArmCommand {
     private final String regex = "(?i)info [^;\n ]+";
     private final List<String> usage = new ArrayList<>(Arrays.asList("info [GROUPNAME]"));
 
+    public static void sendInfoToPlayer(Player player, EntityLimitGroup entityLimitGroup) {
+        player.sendMessage(Messages.ENTITYLIMITGROUP_INFO_HEADLINE);
+        player.sendMessage(Messages.ENTITYLIMITGROUP_INFO_GROUPNAME + entityLimitGroup.getName());
+        String totalstatus = entityLimitGroup.getConvertedMessage(Messages.ENTITYLIMITGROUP_INFO_PATTERN, new ArrayList<>(), 0);
+        if (entityLimitGroup.getSoftLimit(0) < entityLimitGroup.getHardLimit()) {
+            totalstatus = totalstatus.replace("%entityextensioninfo%", entityLimitGroup.getConvertedMessage(Messages.ENTITYLIMITGROUP_INFO_EXTENSION_INFO, new ArrayList<>(), 0));
+        } else {
+            totalstatus = totalstatus.replace("%entityextensioninfo%", "");
+        }
+        player.sendMessage(totalstatus);
+
+        for (EntityLimit entityLimit : entityLimitGroup.getEntityLimits()) {
+            String entitystatus = entityLimit.getConvertedMessage(Messages.ENTITYLIMITGROUP_INFO_PATTERN, new ArrayList<>(), 0);
+            if (entityLimit.getSoftLimit(0) < entityLimit.getHardLimit()) {
+                entitystatus = entitystatus.replace("%entityextensioninfo%", entityLimit.getConvertedMessage(Messages.ENTITYLIMITGROUP_INFO_EXTENSION_INFO, new ArrayList<>(), 0));
+            } else {
+                entitystatus = entitystatus.replace("%entityextensioninfo%", "");
+            }
+            player.sendMessage(entitystatus);
+        }
+    }
+
     @Override
     public boolean matchesRegex(String command) {
         return command.matches(this.regex);
@@ -45,7 +67,7 @@ public class InfoCommand implements BasicArmCommand {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
         EntityLimitGroup entityLimitGroup = AdvancedRegionMarket.getInstance().getEntityLimitGroupManager().getEntityLimitGroup(args[1]);
-        if(entityLimitGroup == null) {
+        if (entityLimitGroup == null) {
             throw new InputException(sender, Messages.ENTITYLIMITGROUP_DOES_NOT_EXIST);
         }
 
@@ -60,12 +82,12 @@ public class InfoCommand implements BasicArmCommand {
             return returnme;
         }
 
-        if(args.length >= 1) {
-            if(args.length == 1) {
+        if (args.length >= 1) {
+            if (args.length == 1) {
                 if (this.rootCommand.startsWith(args[0])) {
                     returnme.add(this.rootCommand);
                 }
-            } else if((args.length == 2) && (args[0].equalsIgnoreCase(this.rootCommand))) {
+            } else if ((args.length == 2) && (args[0].equalsIgnoreCase(this.rootCommand))) {
                 if (this.rootCommand.startsWith(args[0])) {
                     returnme.addAll(AdvancedRegionMarket.getInstance().getEntityLimitGroupManager().tabCompleteEntityLimitGroups(args[1]));
 
@@ -73,27 +95,5 @@ public class InfoCommand implements BasicArmCommand {
             }
         }
         return returnme;
-    }
-
-    public static void sendInfoToPlayer(Player player, EntityLimitGroup entityLimitGroup) {
-        player.sendMessage(Messages.ENTITYLIMITGROUP_INFO_HEADLINE);
-        player.sendMessage(Messages.ENTITYLIMITGROUP_INFO_GROUPNAME + entityLimitGroup.getName());
-        String totalstatus = entityLimitGroup.getConvertedMessage(Messages.ENTITYLIMITGROUP_INFO_PATTERN, new ArrayList<>(), 0);
-        if(entityLimitGroup.getSoftLimit(0) < entityLimitGroup.getHardLimit()) {
-            totalstatus = totalstatus.replace("%entityextensioninfo%", entityLimitGroup.getConvertedMessage(Messages.ENTITYLIMITGROUP_INFO_EXTENSION_INFO, new ArrayList<>(), 0));
-        } else {
-            totalstatus = totalstatus.replace("%entityextensioninfo%", "");
-        }
-        player.sendMessage(totalstatus);
-
-        for(EntityLimit entityLimit : entityLimitGroup.getEntityLimits()) {
-            String entitystatus = entityLimit.getConvertedMessage(Messages.ENTITYLIMITGROUP_INFO_PATTERN, new ArrayList<>(), 0);
-            if(entityLimit.getSoftLimit(0) < entityLimit.getHardLimit()) {
-                entitystatus = entitystatus.replace("%entityextensioninfo%", entityLimit.getConvertedMessage(Messages.ENTITYLIMITGROUP_INFO_EXTENSION_INFO, new ArrayList<>(), 0));
-            } else {
-                entitystatus = entitystatus.replace("%entityextensioninfo%", "");
-            }
-            player.sendMessage(entitystatus);
-        }
     }
 }

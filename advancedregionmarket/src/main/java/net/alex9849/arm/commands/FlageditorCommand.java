@@ -44,21 +44,21 @@ public class FlageditorCommand implements BasicArmCommand {
         }
         Player player = (Player) sender;
 
-        if(!(sender.hasPermission(Permission.MEMBER_FLAGEDITOR) || sender.hasPermission(Permission.ADMIN_FLAGEDITOR))){
+        if (!(sender.hasPermission(Permission.MEMBER_FLAGEDITOR) || sender.hasPermission(Permission.ADMIN_FLAGEDITOR))) {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
 
         Region selRegion;
-        if(allargs.matches(this.regex)) {
+        if (allargs.matches(this.regex)) {
             selRegion = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, "");
         } else {
             selRegion = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, args[1]);
         }
 
-        if(selRegion == null) {
+        if (selRegion == null) {
             throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
         }
-        if(!(selRegion.getRegion().hasOwner(player.getUniqueId()) || player.hasPermission(Permission.ADMIN_FLAGEDITOR))) {
+        if (!(selRegion.getRegion().hasOwner(player.getUniqueId()) || player.hasPermission(Permission.ADMIN_FLAGEDITOR))) {
             throw new InputException(player, Messages.REGION_NOT_OWN);
         }
 
@@ -72,19 +72,19 @@ public class FlageditorCommand implements BasicArmCommand {
     public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
 
-        if(args.length >= 1) {
-            if(this.rootCommand.startsWith(args[0])) {
-                if(player.hasPermission(Permission.ADMIN_FLAGEDITOR) || player.hasPermission(Permission.MEMBER_FLAGEDITOR)) {
-                    if(args.length == 1) {
+        if (args.length >= 1) {
+            if (this.rootCommand.startsWith(args[0])) {
+                if (player.hasPermission(Permission.ADMIN_FLAGEDITOR) || player.hasPermission(Permission.MEMBER_FLAGEDITOR)) {
+                    if (args.length == 1) {
                         returnme.add(this.rootCommand);
-                    } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
+                    } else if (args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
                         PlayerRegionRelationship playerRegionRelationship = null;
-                        if(player.hasPermission(Permission.ADMIN_FLAGEDITOR)) {
+                        if (player.hasPermission(Permission.ADMIN_FLAGEDITOR)) {
                             playerRegionRelationship = PlayerRegionRelationship.ALL;
                         } else {
                             playerRegionRelationship = PlayerRegionRelationship.MEMBER_OR_OWNER;
                         }
-                        returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], playerRegionRelationship, true,true));
+                        returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], playerRegionRelationship, true, true));
                     }
                 }
             }

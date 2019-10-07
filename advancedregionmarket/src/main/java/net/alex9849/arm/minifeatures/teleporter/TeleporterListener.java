@@ -24,10 +24,10 @@ public class TeleporterListener implements Listener {
 
     @EventHandler
     private void playerMove(PlayerMoveEvent event) {
-        if(event.getPlayer().getUniqueId() == player.getUniqueId()) {
+        if (event.getPlayer().getUniqueId() == player.getUniqueId()) {
             if (event.getFrom().getX() == event.getTo().getX()) {
                 if (event.getFrom().getY() == event.getTo().getY()) {
-                    if(event.getFrom().getZ() == event.getTo().getZ()) {
+                    if (event.getFrom().getZ() == event.getTo().getZ()) {
                         return;
                     }
                 }
@@ -37,8 +37,8 @@ public class TeleporterListener implements Listener {
             this.tolerance = this.tolerance - Math.abs(event.getFrom().getY() - event.getTo().getY());
             this.tolerance = this.tolerance - Math.abs(event.getFrom().getZ() - event.getTo().getZ());
 
-            if(this.tolerance < 0) {
-                if(teleportTask != null) {
+            if (this.tolerance < 0) {
+                if (teleportTask != null) {
                     this.player.sendMessage(Messages.PREFIX + Messages.TELEPORTER_TELEPORTATION_ABORDED);
                     Bukkit.getScheduler().cancelTask(this.teleportTask);
                     PlayerMoveEvent.getHandlerList().unregister(this);
@@ -50,7 +50,7 @@ public class TeleporterListener implements Listener {
 
     @EventHandler
     private void playerLeave(PlayerQuitEvent event) {
-        if(event.getPlayer().getUniqueId() == this.player.getUniqueId()) {
+        if (event.getPlayer().getUniqueId() == this.player.getUniqueId()) {
             Bukkit.getScheduler().cancelTask(this.teleportTask);
             PlayerMoveEvent.getHandlerList().unregister(this);
             PlayerQuitEvent.getHandlerList().unregister(this);

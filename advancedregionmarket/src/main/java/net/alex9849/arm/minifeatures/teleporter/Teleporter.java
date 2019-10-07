@@ -20,10 +20,10 @@ public class Teleporter {
 
     public static void teleport(Player player, Region region, String message, Boolean useCountdown) throws NoSaveLocationException {
 
-        if(region.getTeleportLocation() == null) {
+        if (region.getTeleportLocation() == null) {
 
             World world = region.getRegionworld();
-            if(world == null) {
+            if (world == null) {
                 return;
             }
             Vector min = region.getRegion().getMinPoint();
@@ -41,7 +41,7 @@ public class Teleporter {
 
             for (int y = maxY; y >= minY; y--) {
                 Location loc = new Location(world, xAxis, y, zAxis);
-                if(isSaveTeleport(loc)) {
+                if (isSaveTeleport(loc)) {
                     teleport(player, loc, message, useCountdown);
                     return;
                 }
@@ -55,13 +55,13 @@ public class Teleporter {
                 do {
                     movedX++;
                     xAxis++;
-                    if(!region.getRegion().contains(xAxis, maxY, zAxis)) {
+                    if (!region.getRegion().contains(xAxis, maxY, zAxis)) {
                         continue;
                     }
                     inRegionOneTime = true;
                     for (int y = maxY; y >= minY; y--) {
                         Location loc = new Location(world, xAxis, y, zAxis);
-                        if(isSaveTeleport(loc)) {
+                        if (isSaveTeleport(loc)) {
                             teleport(player, loc, message, useCountdown);
                             return;
                         }
@@ -72,13 +72,13 @@ public class Teleporter {
                 do {
                     movedZ++;
                     zAxis++;
-                    if(!region.getRegion().contains(xAxis, maxY, zAxis)) {
+                    if (!region.getRegion().contains(xAxis, maxY, zAxis)) {
                         continue;
                     }
                     inRegionOneTime = true;
                     for (int y = maxY; y >= minY; y--) {
                         Location loc = new Location(world, xAxis, y, zAxis);
-                        if(isSaveTeleport(loc)) {
+                        if (isSaveTeleport(loc)) {
                             teleport(player, loc, message, useCountdown);
                             return;
                         }
@@ -91,13 +91,13 @@ public class Teleporter {
                 do {
                     movedX++;
                     xAxis--;
-                    if(!region.getRegion().contains(xAxis, maxY, zAxis)) {
+                    if (!region.getRegion().contains(xAxis, maxY, zAxis)) {
                         continue;
                     }
                     inRegionOneTime = true;
                     for (int y = maxY; y >= minY; y--) {
                         Location loc = new Location(world, xAxis, y, zAxis);
-                        if(isSaveTeleport(loc)) {
+                        if (isSaveTeleport(loc)) {
                             teleport(player, loc, message, useCountdown);
                             return;
                         }
@@ -108,13 +108,13 @@ public class Teleporter {
                 do {
                     movedZ++;
                     zAxis--;
-                    if(!region.getRegion().contains(xAxis, maxY, zAxis)) {
+                    if (!region.getRegion().contains(xAxis, maxY, zAxis)) {
                         continue;
                     }
                     inRegionOneTime = true;
                     for (int y = maxY; y >= minY; y--) {
                         Location loc = new Location(world, xAxis, y, zAxis);
-                        if(isSaveTeleport(loc)) {
+                        if (isSaveTeleport(loc)) {
                             teleport(player, loc, message, useCountdown);
                             return;
                         }
@@ -137,7 +137,7 @@ public class Teleporter {
                 location.getBlockX() + 0.5, location.getBlockY() + 0.5, location.getBlockZ() + 0.5,
                 location.getYaw(), location.getPitch());
         int timer = 0;
-        if(useCountdown) {
+        if (useCountdown) {
             timer = 20 * AdvancedRegionMarket.getInstance().getConfig().getInt("Other.TeleporterTimer");
         }
         scheduleTeleport(player, tpLocation, message, timer);
@@ -153,16 +153,16 @@ public class Teleporter {
     }
 
     public static boolean teleport(Player player, SignData sign) {
-        for(int y = sign.getLocation().getBlockY(); ((y > 1) && (y > (sign.getLocation().getBlockY() - 10))); y--) {
+        for (int y = sign.getLocation().getBlockY(); ((y > 1) && (y > (sign.getLocation().getBlockY() - 10))); y--) {
             Location newLoc = new Location(sign.getLocation().getWorld(), sign.getLocation().getBlockX(), y, sign.getLocation().getBlockZ());
-            if(isSaveTeleport(newLoc)) {
+            if (isSaveTeleport(newLoc)) {
                 teleport(player, newLoc);
                 return true;
             }
         }
-        for(int y = sign.getLocation().getBlockY(); ((y < 255) && (y < (sign.getLocation().getBlockY() + 10))); y++) {
+        for (int y = sign.getLocation().getBlockY(); ((y < 255) && (y < (sign.getLocation().getBlockY() + 10))); y++) {
             Location newLoc = new Location(sign.getLocation().getWorld(), sign.getLocation().getBlockX(), y, sign.getLocation().getBlockZ());
-            if(isSaveTeleport(newLoc)) {
+            if (isSaveTeleport(newLoc)) {
                 teleport(player, newLoc);
                 return true;
             }
@@ -173,13 +173,13 @@ public class Teleporter {
     private static boolean isSaveTeleport(Location loc) {
         Location locP1 = new Location(loc.getWorld(), loc.getBlockX(), loc.getBlockY() + 1, loc.getBlockZ());
         Location locM1 = new Location(loc.getWorld(), loc.getBlockX(), loc.getBlockY() - 1, loc.getBlockZ());
-        if(!((locP1.getBlock().getType() == Material.AIR) || MaterialFinder.getSignMaterials().contains(locP1.getBlock().getType()) || (loc.getBlock().getType() == MaterialFinder.getWallTorch()))) {
+        if (!((locP1.getBlock().getType() == Material.AIR) || MaterialFinder.getSignMaterials().contains(locP1.getBlock().getType()) || (loc.getBlock().getType() == MaterialFinder.getWallTorch()))) {
             return false;
         }
-        if(!((loc.getBlock().getType() == Material.AIR) || MaterialFinder.getSignMaterials().contains(loc.getBlock().getType()) || (loc.getBlock().getType() == MaterialFinder.getWallTorch()))) {
+        if (!((loc.getBlock().getType() == Material.AIR) || MaterialFinder.getSignMaterials().contains(loc.getBlock().getType()) || (loc.getBlock().getType() == MaterialFinder.getWallTorch()))) {
             return false;
         }
-        if((locM1.getBlock().getType() == Material.AIR) || (locM1.getBlock().getType() == Material.LAVA) || (locM1.getBlock().getType() == MaterialFinder.getMagmaBlock())
+        if ((locM1.getBlock().getType() == Material.AIR) || (locM1.getBlock().getType() == Material.LAVA) || (locM1.getBlock().getType() == MaterialFinder.getMagmaBlock())
                 || MaterialFinder.getSignMaterials().contains(locM1.getBlock().getType()) || (locM1.getBlock().getType() == MaterialFinder.getWallTorch())) {
             return false;
         }
@@ -187,14 +187,14 @@ public class Teleporter {
     }
 
     public static void scheduleTeleport(Player player, Location loc, String message, int ticks) {
-        if((ticks == 0) || player.hasPermission(Permission.ADMIN_BYPASS_TELEPORTER_COOLDOWN)) {
+        if ((ticks == 0) || player.hasPermission(Permission.ADMIN_BYPASS_TELEPORTER_COOLDOWN)) {
             player.teleport(loc);
-            if(!message.equals("") && message != null) {
+            if (!message.equals("") && message != null) {
                 player.sendMessage(message);
             }
             return;
         } else {
-            String preTPmessage = Messages.TELEPORTER_DONT_MOVE.replace("%time%", (ticks/20) + "");
+            String preTPmessage = Messages.TELEPORTER_DONT_MOVE.replace("%time%", (ticks / 20) + "");
             player.sendMessage(Messages.PREFIX + preTPmessage);
 
             TeleporterListener listener = new TeleporterListener(player);
@@ -203,7 +203,7 @@ public class Teleporter {
                 @Override
                 public void run() {
                     player.teleport(loc);
-                    if(!message.equals("")) {
+                    if (!message.equals("")) {
                         player.sendMessage(message);
                     }
                     PlayerMoveEvent.getHandlerList().unregister(listener);

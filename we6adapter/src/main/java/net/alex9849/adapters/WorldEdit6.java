@@ -30,7 +30,7 @@ public class WorldEdit6 extends WorldEditInterface {
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
         File schematicdic = new File(pluginfolder + "/schematics/" + bukkitworld.getName() + "/" + region.getId() + ".schematic");
         File schematicfolder = new File(pluginfolder + "/schematics/" + bukkitworld.getName());
-        if(schematicdic.exists()){
+        if (schematicdic.exists()) {
             schematicdic.delete();
         }
 
@@ -48,7 +48,7 @@ public class WorldEdit6 extends WorldEditInterface {
         ForwardExtentCopy copy = new ForwardExtentCopy(editSession, new CuboidRegion(world, minPoint, maxPoint), clip, minPoint);
         try {
             Operations.completeLegacy(copy);
-        } catch(MaxChangedBlocksException e) {
+        } catch (MaxChangedBlocksException e) {
             e.printStackTrace();
         }
         try {
@@ -59,7 +59,7 @@ public class WorldEdit6 extends WorldEditInterface {
             ClipboardWriter writer = closer.register(ClipboardFormat.SCHEMATIC.getWriter(bufferedOutputStream));
             writer.write(clip, worldData);
             closer.close();
-        } catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             return;
         }
@@ -81,7 +81,7 @@ public class WorldEdit6 extends WorldEditInterface {
             }
         }
 
-        if(file == null) {
+        if (file == null) {
             throw new SchematicException(region);
         }
 
@@ -98,7 +98,7 @@ public class WorldEdit6 extends WorldEditInterface {
 
             Operations.completeLegacy(copy);
             ((EditSession) destination).flushQueue();
-        } catch (IOException e ) {
+        } catch (IOException e) {
             throw new SchematicException(region);
         } catch (MaxChangedBlocksException e) {
             throw new SchematicException(region);

@@ -37,24 +37,24 @@ public class SetRegionKind implements BasicArmCommand {
 
     @Override
     public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
-        if(sender instanceof Player){
-            if(!sender.hasPermission(Permission.ADMIN_SETREGIONKIND)) {
+        if (sender instanceof Player) {
+            if (!sender.hasPermission(Permission.ADMIN_SETREGIONKIND)) {
                 throw new InputException(sender, Messages.NO_PERMISSION);
             }
             Player player = (Player) sender;
             Region region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionbyNameAndWorldCommands(args[2], player.getWorld().getName());
 
-            if(region == null) {
+            if (region == null) {
                 throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
             }
-            if(region.isSubregion()) {
+            if (region.isSubregion()) {
                 throw new InputException(sender, Messages.SUB_REGION_REGIONKIND_ERROR);
             }
             RegionKind regionKind = AdvancedRegionMarket.getInstance().getRegionKindManager().getRegionKind(args[1]);
-            if(regionKind == null) {
+            if (regionKind == null) {
                 throw new InputException(sender, Messages.REGION_KIND_NOT_EXIST);
             }
-            if(regionKind == RegionKind.SUBREGION) {
+            if (regionKind == RegionKind.SUBREGION) {
                 throw new InputException(sender, Messages.SUB_REGION_REGIONKIND_ONLY_FOR_SUB_REGIONS);
             }
             region.setKind(regionKind);
@@ -69,7 +69,7 @@ public class SetRegionKind implements BasicArmCommand {
     public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
 
-        if(args.length >= 1) {
+        if (args.length >= 1) {
             if (this.rootCommand.startsWith(args[0])) {
                 if (player.hasPermission(Permission.ADMIN_SETREGIONKIND))
                     if (args.length == 1) {
@@ -77,7 +77,7 @@ public class SetRegionKind implements BasicArmCommand {
                     } else if (args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
                         returnme.addAll(AdvancedRegionMarket.getInstance().getRegionKindManager().completeTabRegionKinds(args[1], ""));
                     } else if (args.length == 3 && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                        returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[2], PlayerRegionRelationship.ALL, true,false));
+                        returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[2], PlayerRegionRelationship.ALL, true, false));
                     }
             }
         }

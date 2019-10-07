@@ -6,14 +6,14 @@ import net.alex9849.inter.WGRegion;
 import java.text.NumberFormat;
 
 public class Price {
+    private static NumberFormat priceFormater;
     protected AutoPrice autoPrice;
     protected double price;
     protected boolean hasPriceBeenCalced;
     protected double calcedAutoPrice;
-    private static NumberFormat priceFormater;
 
     public Price(double price) {
-        if(price < 0) {
+        if (price < 0) {
             this.price = (-1) * price;
         } else {
             this.price = price;
@@ -30,9 +30,17 @@ public class Price {
         this.hasPriceBeenCalced = false;
     }
 
-    public double calcPrice(WGRegion wgRegion){
-        if(this.isAutoPrice()) {
-            if(this.hasPriceBeenCalced) {
+    public static void setPriceFormater(NumberFormat formater) {
+        Price.priceFormater = formater;
+    }
+
+    public static String formatPrice(double price) {
+        return Price.priceFormater.format(price);
+    }
+
+    public double calcPrice(WGRegion wgRegion) {
+        if (this.isAutoPrice()) {
+            if (this.hasPriceBeenCalced) {
                 return this.calcedAutoPrice;
             } else {
                 int m2 = wgRegion.getVolume() / ((wgRegion.getMaxPoint().getBlockY() - wgRegion.getMinPoint().getBlockY()) + 1);
@@ -46,7 +54,7 @@ public class Price {
     }
 
     public double getPrice() {
-        if(this.isAutoPrice()) {
+        if (this.isAutoPrice()) {
             return this.autoPrice.getPrice();
         } else {
             return this.price;
@@ -59,14 +67,6 @@ public class Price {
 
     public AutoPrice getAutoPrice() {
         return this.autoPrice;
-    }
-
-    public static void setPriceFormater(NumberFormat formater) {
-        Price.priceFormater = formater;
-    }
-
-    public static String formatPrice(double price) {
-        return Price.priceFormater.format(price);
     }
 
     /*

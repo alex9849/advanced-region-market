@@ -17,39 +17,84 @@ public class EntityLimitGroupManager extends YamlFileManager<EntityLimitGroup> {
         super(savepath);
     }
 
+    private static EntityLimitGroup parseEntityLimitGroup(ConfigurationSection section, String id) {
+        List<String> entityNumbers = new ArrayList<>(section.getKeys(false));
+        List<EntityLimit> entityLimits = new ArrayList<>();
+        int softtotal = section.getInt("softtotal");
+        int hardtotal = section.getInt("hardtotal");
+        int pricePerExtraEntityTotal = section.getInt("pricePerExtraEntity");
+        for (String entityNumber : entityNumbers) {
+            if (!(entityNumber.equalsIgnoreCase("softtotal") || entityNumber.equalsIgnoreCase("hardtotal") ||
+                    entityNumber.equalsIgnoreCase("pricePerExtraEntity"))) {
+                String entityTypeName = section.getString(entityNumber + "." + "entityType");
+                EntityLimit.LimitableEntityType limitableEntityType = null;
+                for (EntityLimit.LimitableEntityType entityType : EntityLimit.entityTypes) {
+                    if (entityType.getName().equalsIgnoreCase(entityTypeName)) {
+                        limitableEntityType = entityType;
+                    }
+                }
+                if (limitableEntityType != null) {
+                    int softLimit = section.getInt(entityNumber + "." + "softLimit");
+                    if (softLimit == -1) {
+                        softLimit = Integer.MAX_VALUE;
+                    }
+                    int hardLimit = section.getInt(entityNumber + "." + "hardLimit");
+                    if (hardLimit == -1) {
+                        hardLimit = Integer.MAX_VALUE;
+                    }
+                    int pricePerExtraEntity = section.getInt(entityNumber + "." + "pricePerExtraEntity");
+                    entityLimits.add(new EntityLimit(limitableEntityType, softLimit, hardLimit, pricePerExtraEntity));
+                } else {
+                    Bukkit.getLogger().log(Level.WARNING, "Could not find EntityType " + entityTypeName + " for EntityLimitGroup " + id + "! Ignoring it");
+                }
+            }
+        }
+        if (softtotal == -1) {
+            softtotal = Integer.MAX_VALUE;
+        }
+        if (hardtotal == -1) {
+            hardtotal = Integer.MAX_VALUE;
+        }
+        if (pricePerExtraEntityTotal < 0) {
+            pricePerExtraEntityTotal = 0;
+        }
+
+        return new EntityLimitGroup(entityLimits, softtotal, hardtotal, pricePerExtraEntityTotal, id);
+    }
+
     @Override
     public List<EntityLimitGroup> loadSavedObjects(YamlConfiguration yamlConfiguration) {
         ArrayList<EntityLimitGroup> entityLimitGroups = new ArrayList<>();
         yamlConfiguration.options().copyDefaults(true);
         boolean fileupdated = false;
 
-        if(yamlConfiguration.get("DefaultEntityLimit") != null) {
+        if (yamlConfiguration.get("DefaultEntityLimit") != null) {
             ConfigurationSection entityLimitDEFAULTSection = yamlConfiguration.getConfigurationSection("DefaultEntityLimit");
             fileupdated |= updateDefaults(entityLimitDEFAULTSection);
             EntityLimitGroup.setDEFAULT(parseEntityLimitGroup(entityLimitDEFAULTSection, "Default"));
         }
 
-        if(yamlConfiguration.get("SubregionEntityLimit") != null) {
+        if (yamlConfiguration.get("SubregionEntityLimit") != null) {
             ConfigurationSection entityLimitSUBREGIONSection = yamlConfiguration.getConfigurationSection("SubregionEntityLimit");
             fileupdated |= updateDefaults(entityLimitSUBREGIONSection);
             EntityLimitGroup.setSUBREGION(parseEntityLimitGroup(entityLimitSUBREGIONSection, "Subregion"));
         }
 
-        if(yamlConfiguration.get("EntityLimits") == null) {
-            return  entityLimitGroups;
+        if (yamlConfiguration.get("EntityLimits") == null) {
+            return entityLimitGroups;
         }
         ConfigurationSection entityLimitsSection = yamlConfiguration.getConfigurationSection("EntityLimits");
         List<String> limitnames = new ArrayList<>(entityLimitsSection.getKeys(false));
 
-        for(String limitname : limitnames) {
-            if(entityLimitsSection.get(limitname) != null) {
+        for (String limitname : limitnames) {
+            if (entityLimitsSection.get(limitname) != null) {
                 ConfigurationSection limitSection = entityLimitsSection.getConfigurationSection(limitname);
                 fileupdated |= updateDefaults(limitSection);
                 entityLimitGroups.add(parseEntityLimitGroup(limitSection, limitname));
             }
         }
 
-        if(fileupdated) {
+        if (fileupdated) {
             this.saveFile();
         }
         yamlConfiguration.options().copyDefaults(false);
@@ -75,65 +120,20 @@ public class EntityLimitGroupManager extends YamlFileManager<EntityLimitGroup> {
         EntityLimitGroup.SUBREGION.setSaved();
     }
 
-    private static EntityLimitGroup parseEntityLimitGroup(ConfigurationSection section, String id) {
-        List<String> entityNumbers = new ArrayList<>(section.getKeys(false));
-        List<EntityLimit> entityLimits = new ArrayList<>();
-        int softtotal = section.getInt("softtotal");
-        int hardtotal = section.getInt("hardtotal");
-        int pricePerExtraEntityTotal = section.getInt("pricePerExtraEntity");
-        for(String entityNumber : entityNumbers) {
-            if(!(entityNumber.equalsIgnoreCase("softtotal") || entityNumber.equalsIgnoreCase("hardtotal") ||
-                    entityNumber.equalsIgnoreCase("pricePerExtraEntity"))) {
-                String entityTypeName = section.getString(entityNumber + "." + "entityType");
-                EntityLimit.LimitableEntityType limitableEntityType = null;
-                for(EntityLimit.LimitableEntityType entityType : EntityLimit.entityTypes) {
-                    if(entityType.getName().equalsIgnoreCase(entityTypeName)) {
-                        limitableEntityType = entityType;
-                    }
-                }
-                if(limitableEntityType != null) {
-                    int softLimit = section.getInt(entityNumber + "." + "softLimit");
-                    if(softLimit == -1) {
-                        softLimit = Integer.MAX_VALUE;
-                    }
-                    int hardLimit = section.getInt(entityNumber + "." + "hardLimit");
-                    if(hardLimit == -1) {
-                        hardLimit = Integer.MAX_VALUE;
-                    }
-                    int pricePerExtraEntity = section.getInt(entityNumber + "." + "pricePerExtraEntity");
-                    entityLimits.add(new EntityLimit(limitableEntityType, softLimit, hardLimit, pricePerExtraEntity));
-                } else  {
-                    Bukkit.getLogger().log(Level.WARNING, "Could not find EntityType " + entityTypeName + " for EntityLimitGroup " + id + "! Ignoring it");
-                }
-            }
-        }
-        if(softtotal == -1) {
-            softtotal = Integer.MAX_VALUE;
-        }
-        if(hardtotal == -1) {
-            hardtotal = Integer.MAX_VALUE;
-        }
-        if(pricePerExtraEntityTotal < 0) {
-            pricePerExtraEntityTotal = 0;
-        }
-
-        return new EntityLimitGroup(entityLimits, softtotal, hardtotal, pricePerExtraEntityTotal, id);
-    }
-
     public List<String> tabCompleteEntityLimitGroups(String name) {
         List<String> returnme = new ArrayList<>();
 
-        for(EntityLimitGroup entityLimitGroup : this) {
-            if(entityLimitGroup.getName().startsWith(name)) {
+        for (EntityLimitGroup entityLimitGroup : this) {
+            if (entityLimitGroup.getName().startsWith(name)) {
                 returnme.add(entityLimitGroup.getName());
             }
         }
 
-        if("default".startsWith(name)) {
+        if ("default".startsWith(name)) {
             returnme.add("Default");
         }
 
-        if("subregion".startsWith(name)) {
+        if ("subregion".startsWith(name)) {
             returnme.add("Subregion");
         }
 
@@ -141,16 +141,16 @@ public class EntityLimitGroupManager extends YamlFileManager<EntityLimitGroup> {
     }
 
     public EntityLimitGroup getEntityLimitGroup(String name) {
-        for(EntityLimitGroup entityLimitGroup : this) {
-            if(entityLimitGroup.getName().equalsIgnoreCase(name)) {
+        for (EntityLimitGroup entityLimitGroup : this) {
+            if (entityLimitGroup.getName().equalsIgnoreCase(name)) {
                 return entityLimitGroup;
             }
         }
-        if(EntityLimitGroup.DEFAULT.getName().equalsIgnoreCase(name) || "default".equalsIgnoreCase(name)) {
+        if (EntityLimitGroup.DEFAULT.getName().equalsIgnoreCase(name) || "default".equalsIgnoreCase(name)) {
             return EntityLimitGroup.DEFAULT;
         }
 
-        if(EntityLimitGroup.SUBREGION.getName().equalsIgnoreCase(name) || "subregion".equalsIgnoreCase(name)) {
+        if (EntityLimitGroup.SUBREGION.getName().equalsIgnoreCase(name) || "subregion".equalsIgnoreCase(name)) {
             return EntityLimitGroup.SUBREGION;
         }
 
@@ -164,8 +164,8 @@ public class EntityLimitGroupManager extends YamlFileManager<EntityLimitGroup> {
         updated |= this.addDefault(section, "pricePerExtraEntity", 0);
 
         List<String> entityNumbers = new ArrayList<>(section.getKeys(false));
-        for(String entityNumber : entityNumbers) {
-            if(!(entityNumber.equalsIgnoreCase("softtotal") || entityNumber.equalsIgnoreCase("hardtotal") || entityNumber.equalsIgnoreCase("pricePerExtraEntity"))) {
+        for (String entityNumber : entityNumbers) {
+            if (!(entityNumber.equalsIgnoreCase("softtotal") || entityNumber.equalsIgnoreCase("hardtotal") || entityNumber.equalsIgnoreCase("pricePerExtraEntity"))) {
                 updated |= this.addDefault(section, entityNumber + ".entityType", EntityType.ARMOR_STAND.name());
                 updated |= this.addDefault(section, entityNumber + ".softLimit", 1);
                 updated |= this.addDefault(section, entityNumber + ".hardLimit", 1);

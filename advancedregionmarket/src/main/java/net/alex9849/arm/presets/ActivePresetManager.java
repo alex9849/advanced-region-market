@@ -11,8 +11,8 @@ public class ActivePresetManager {
     private static List<PresetPlayerPair> presetPlayerPairList = new ArrayList();
 
     public static Preset getPreset(Player player, PresetType presetType) {
-        for(PresetPlayerPair ppp : presetPlayerPairList) {
-            if((ppp.getPlayer().getUniqueId() == player.getUniqueId()) && (ppp.getPreset().getPresetType() == presetType)) {
+        for (PresetPlayerPair ppp : presetPlayerPairList) {
+            if ((ppp.getPlayer().getUniqueId() == player.getUniqueId()) && (ppp.getPreset().getPresetType() == presetType)) {
                 return ppp.getPreset();
             }
         }
@@ -25,8 +25,8 @@ public class ActivePresetManager {
     }
 
     public static void deletePreset(Player player) {
-        for(int i = 0; i < presetPlayerPairList.size(); i++) {
-            if(presetPlayerPairList.get(i).getPlayer().getUniqueId() == player.getUniqueId()) {
+        for (int i = 0; i < presetPlayerPairList.size(); i++) {
+            if (presetPlayerPairList.get(i).getPlayer().getUniqueId() == player.getUniqueId()) {
                 presetPlayerPairList.remove(i);
                 i--;
             }
@@ -34,8 +34,8 @@ public class ActivePresetManager {
     }
 
     public static void deletePreset(Player player, PresetType presetType) {
-        for(int i = 0; i < presetPlayerPairList.size(); i++) {
-            if((presetPlayerPairList.get(i).getPlayer().getUniqueId() == player.getUniqueId()) && presetPlayerPairList.get(i).getPreset().getPresetType() == presetType) {
+        for (int i = 0; i < presetPlayerPairList.size(); i++) {
+            if ((presetPlayerPairList.get(i).getPlayer().getUniqueId() == player.getUniqueId()) && presetPlayerPairList.get(i).getPreset().getPresetType() == presetType) {
                 presetPlayerPairList.remove(i);
                 i--;
             }

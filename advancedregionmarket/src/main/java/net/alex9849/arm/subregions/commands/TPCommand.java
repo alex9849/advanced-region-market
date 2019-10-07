@@ -48,7 +48,7 @@ public class TPCommand implements BasicArmCommand {
         Player player = (Player) sender;
         Region region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
 
-        if(region == null) {
+        if (region == null) {
             throw new InputException(player, Messages.REGION_DOES_NOT_EXIST);
         }
 
@@ -56,7 +56,7 @@ public class TPCommand implements BasicArmCommand {
             throw new InputException(sender, Messages.REGION_NOT_A_SUBREGION);
         }
 
-        if(!region.getParentRegion().getRegion().hasOwner(player.getUniqueId())) {
+        if (!region.getParentRegion().getRegion().hasOwner(player.getUniqueId())) {
             throw new InputException(sender, Messages.PARENT_REGION_NOT_OWN);
         }
 
@@ -72,13 +72,13 @@ public class TPCommand implements BasicArmCommand {
     public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
 
-        if(args.length >= 1) {
+        if (args.length >= 1) {
             if (this.rootCommand.startsWith(args[0])) {
-                if(player.hasPermission(Permission.SUBREGION_TP)) {
-                    if(args.length == 1) {
+                if (player.hasPermission(Permission.SUBREGION_TP)) {
+                    if (args.length == 1) {
                         returnme.add(this.rootCommand);
-                    } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                        returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.PARENTREGION_OWNER,false, true));
+                    } else if (args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
+                        returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.PARENTREGION_OWNER, false, true));
                     }
                 }
             }

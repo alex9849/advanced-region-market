@@ -49,29 +49,29 @@ public class SetExtraLimitCommand implements BasicArmCommand {
 
         Region region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
 
-        if(region == null) {
+        if (region == null) {
             throw new InputException(player, Messages.REGION_DOES_NOT_EXIST);
         }
 
-        if(region.isSubregion()) {
+        if (region.isSubregion()) {
             throw new InputException(player, Messages.ENTITYLIMITGROUP_EXTRA_ENTITIES_SET_SUBREGION_ERROR);
         }
 
         int amount = Integer.parseInt(args[3]);
 
-        if(amount < 0) {
+        if (amount < 0) {
             amount = 0;
         }
 
-        if(args[2].equalsIgnoreCase("total")) {
+        if (args[2].equalsIgnoreCase("total")) {
             region.setExtraTotalEntitys(amount);
         } else {
             EntityLimit.LimitableEntityType limitableEntityType = EntityLimit.getLimitableEntityType(args[2]);
-            if(limitableEntityType == null) {
+            if (limitableEntityType == null) {
                 throw new InputException(sender, Messages.ENTITYTYPE_DOES_NOT_EXIST.replace("%entitytype%", args[2]));
             }
 
-            if(!region.getEntityLimitGroup().containsLimit(limitableEntityType)) {
+            if (!region.getEntityLimitGroup().containsLimit(limitableEntityType)) {
                 throw new InputException(player, Messages.ENTITYLIMITGROUP_ENTITYLIMIT_ALREADY_UNLIMITED);
             }
             region.setExtraEntityAmount(limitableEntityType, amount);
@@ -90,23 +90,23 @@ public class SetExtraLimitCommand implements BasicArmCommand {
             return returnme;
         }
 
-        if(args.length >= 1) {
-            if(args.length == 1) {
+        if (args.length >= 1) {
+            if (args.length == 1) {
                 if (this.rootCommand.startsWith(args[0])) {
                     returnme.add(this.rootCommand);
                 }
-            } else if((args.length == 2) && (args[0].equalsIgnoreCase(this.rootCommand))) {
+            } else if ((args.length == 2) && (args[0].equalsIgnoreCase(this.rootCommand))) {
                 if (this.rootCommand.startsWith(args[0])) {
                     returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true, false));
 
                 }
-            } else if((args.length == 3) && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                for(EntityType entityType : EntityType.values()) {
-                    if(entityType.toString().toLowerCase().startsWith(args[2])) {
+            } else if ((args.length == 3) && (args[0].equalsIgnoreCase(this.rootCommand))) {
+                for (EntityType entityType : EntityType.values()) {
+                    if (entityType.toString().toLowerCase().startsWith(args[2])) {
                         returnme.add(entityType.toString());
                     }
                 }
-                if("total".startsWith(args[2])) {
+                if ("total".startsWith(args[2])) {
                     returnme.add("total");
                 }
             }

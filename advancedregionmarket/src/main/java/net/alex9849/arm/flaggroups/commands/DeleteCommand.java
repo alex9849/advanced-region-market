@@ -42,20 +42,20 @@ public class DeleteCommand implements BasicArmCommand {
         }
         //TODO CHANGE MESSAGES
         FlagGroup flagGroup = AdvancedRegionMarket.getInstance().getFlagGroupManager().getFlagGroup(args[1]);
-        if(flagGroup == null) {
+        if (flagGroup == null) {
             throw new InputException(sender, "FlagGroup does not exist!");
         }
-        if(flagGroup == FlagGroup.DEFAULT) {
+        if (flagGroup == FlagGroup.DEFAULT) {
             throw new InputException(sender, "Can't remove default FlagGroup!");
         }
-        if(flagGroup == FlagGroup.SUBREGION) {
+        if (flagGroup == FlagGroup.SUBREGION) {
             throw new InputException(sender, "Can't remove subregion FlagGroup!");
         }
 
         AdvancedRegionMarket.getInstance().getFlagGroupManager().remove(flagGroup);
 
-        for(Region region : AdvancedRegionMarket.getInstance().getRegionManager()) {
-            if(region.getFlagGroup() == flagGroup) {
+        for (Region region : AdvancedRegionMarket.getInstance().getRegionManager()) {
+            if (region.getFlagGroup() == flagGroup) {
                 region.setFlagGroup(FlagGroup.DEFAULT);
             }
         }
@@ -71,12 +71,12 @@ public class DeleteCommand implements BasicArmCommand {
             return returnme;
         }
 
-        if(args.length >= 1) {
-            if(args.length == 1) {
+        if (args.length >= 1) {
+            if (args.length == 1) {
                 if (this.rootCommand.startsWith(args[0])) {
                     returnme.add(this.rootCommand);
                 }
-            } else if((args.length == 2) && (args[0].equalsIgnoreCase(this.rootCommand))) {
+            } else if ((args.length == 2) && (args[0].equalsIgnoreCase(this.rootCommand))) {
                 returnme.addAll(AdvancedRegionMarket.getInstance().getFlagGroupManager().tabCompleteFlaggroup(args[1]));
             }
         }

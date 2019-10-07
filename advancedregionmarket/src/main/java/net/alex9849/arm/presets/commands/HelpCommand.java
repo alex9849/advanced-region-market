@@ -24,7 +24,7 @@ public class HelpCommand implements BasicArmCommand {
     private final List<String> usage = new ArrayList<>(Arrays.asList("help"));
     private PresetType presetType;
     private CommandHandler cmdHandler;
-    private String help_Headline ;
+    private String help_Headline;
 
     public HelpCommand(PresetType presetType, CommandHandler cmdHandler) {
         this.presetType = presetType;
@@ -50,17 +50,17 @@ public class HelpCommand implements BasicArmCommand {
 
     @Override
     public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
-        if(!(sender instanceof Player)) {
+        if (!(sender instanceof Player)) {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Player player = (Player) sender;
 
-        if(!player.hasPermission(Permission.ADMIN_PRESET_HELP)) {
+        if (!player.hasPermission(Permission.ADMIN_PRESET_HELP)) {
             throw new InputException(player, Messages.NO_PERMISSION);
         }
 
         int selectedpage;
-        if(allargs.matches(this.regex_args)) {
+        if (allargs.matches(this.regex_args)) {
             selectedpage = Integer.parseInt(args[1]);
         } else {
             selectedpage = 1;
@@ -69,7 +69,7 @@ public class HelpCommand implements BasicArmCommand {
         List<BasicArmCommand> commands = this.cmdHandler.getCommands();
         List<String> usages = new ArrayList<>();
 
-        for(BasicArmCommand command : commands) {
+        for (BasicArmCommand command : commands) {
             usages.addAll(command.getUsage());
         }
 
@@ -77,23 +77,23 @@ public class HelpCommand implements BasicArmCommand {
 
         final int commandsPerPage = 7;
         int pages = usages.size() / commandsPerPage;
-        if((usages.size() % commandsPerPage) != 0) {
+        if ((usages.size() % commandsPerPage) != 0) {
             pages++;
         }
 
-        if(pages < selectedpage) {
+        if (pages < selectedpage) {
             selectedpage = pages;
         }
 
         int firstCommand = (selectedpage * commandsPerPage) - commandsPerPage;
         int lastCommand = selectedpage * commandsPerPage;
 
-        if(usages.size() < lastCommand) {
+        if (usages.size() < lastCommand) {
             lastCommand = usages.size();
         }
 
         sender.sendMessage(this.help_Headline.replace("%actualpage%", selectedpage + "").replace("%maxpage%", pages + ""));
-        for(int i = firstCommand; i < lastCommand; i++) {
+        for (int i = firstCommand; i < lastCommand; i++) {
             sender.sendMessage(ChatColor.GOLD + "/" + commandsLabel + " " + this.cmdHandler.getRootcommand() + " " + usages.get(i));
         }
 
@@ -103,10 +103,10 @@ public class HelpCommand implements BasicArmCommand {
     @Override
     public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
-        if(player.hasPermission(Permission.ADMIN_PRESET_HELP)) {
-            if(args.length >= 1) {
-                if(args.length == 1) {
-                    if(this.rootCommand.startsWith(args[0])) {
+        if (player.hasPermission(Permission.ADMIN_PRESET_HELP)) {
+            if (args.length >= 1) {
+                if (args.length == 1) {
+                    if (this.rootCommand.startsWith(args[0])) {
                         returnme.add(this.rootCommand);
                     }
                 }

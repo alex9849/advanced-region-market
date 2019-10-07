@@ -39,11 +39,11 @@ public class InfoCommand implements BasicArmCommand {
         if (!(sender instanceof Player)) {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
-        if(!sender.hasPermission(Permission.REGIONKIND_INFO)) {
+        if (!sender.hasPermission(Permission.REGIONKIND_INFO)) {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
         RegionKind regionKind = AdvancedRegionMarket.getInstance().getRegionKindManager().getRegionKind(args[1]);
-        if(regionKind == null) {
+        if (regionKind == null) {
             throw new InputException(sender, Messages.REGIONKIND_DOES_NOT_EXIST);
         }
 
@@ -58,7 +58,7 @@ public class InfoCommand implements BasicArmCommand {
         sender.sendMessage(regionKind.getConvertedMessage(Messages.REGIONKIND_INFO_PAYBACKPERCENTAGE));
         sender.sendMessage(Messages.REGIONKIND_INFO_LORE);
 
-        for(int i = 0; i < lore.size(); i++) {
+        for (int i = 0; i < lore.size(); i++) {
             sender.sendMessage((i + 1) + ". " + lore.get(i));
         }
         return true;
@@ -68,15 +68,15 @@ public class InfoCommand implements BasicArmCommand {
     public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
 
-        if(!player.hasPermission(Permission.REGIONKIND_INFO)) {
+        if (!player.hasPermission(Permission.REGIONKIND_INFO)) {
             return returnme;
         }
 
-        if(args.length == 1) {
+        if (args.length == 1) {
             if (this.rootCommand.startsWith(args[0])) {
                 returnme.add(this.rootCommand);
             }
-        } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
+        } else if (args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
             returnme.addAll(AdvancedRegionMarket.getInstance().getRegionKindManager().completeTabRegionKinds(args[1], ""));
         }
         return returnme;

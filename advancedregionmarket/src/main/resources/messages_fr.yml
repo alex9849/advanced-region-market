@@ -172,80 +172,80 @@ Messages:
   GUIMembersButton: '&6Membres'
   GUITeleportToRegionButton: '&6Téléporter vers la région'
   GUITeleportToRegionButtonLore:
-  - Cliquez pour vous téléporter vers
-  - votre région
+    - Cliquez pour vous téléporter vers
+    - votre région
   GUIShowInfosButton: '&6Montrer les infos'
   GUIMakeOwnerButton: '&aMettre propriétaire'
   GUIMakeOwnerButtonLore:
-  - Cliquez pour rendre propriétaire
-  - le membre sélectionné.
-  - '&4ATTENTION : &cVous ne serrez plus propriétaire'
-  - '&cet serrez un membre'
+    - Cliquez pour rendre propriétaire
+    - le membre sélectionné.
+    - '&4ATTENTION : &cVous ne serrez plus propriétaire'
+    - '&cet serrez un membre'
   GUIRemoveMemberButton: '&4Supprimer'
   GUIRemoveMemberButtonLore:
-  - Cliquez pour supprimé le membres séléctionné
-  - de votre région
+    - Cliquez pour supprimé le membres séléctionné
+    - de votre région
   GUIWarningYes: '&aOui'
   GUIWarningNo: '&4Non'
   GUIResetRegionButton: '&4Réinitialiser la région'
   GUIResetRegionButtonLore:
-  - Cliquez pour réinitialiser la région
-  - '&4ATTENTION : &cCela ne peut pas être annulé ! Votre région'
-  - '&csera réinstallé et tout sera'
-  - '&csupprimé!'
-  - '&cVous pouvez réinitialiser votre région tout les %days% jours'
-  - '&2Vous et tous les membres conservez leurs droits sur la région'
+    - Cliquez pour réinitialiser la région
+    - '&4ATTENTION : &cCela ne peut pas être annulé ! Votre région'
+    - '&csera réinstallé et tout sera'
+    - '&csupprimé!'
+    - '&cVous pouvez réinitialiser votre région tout les %days% jours'
+    - '&2Vous et tous les membres conservez leurs droits sur la région'
   RegionTransferCompleteMessage: '&aTransfert terminé !'
   RegiontransferMemberNotOnline: '&4Membre hors ligne !'
   RegiontransferLimitError: '&4Transfert annulé! (La région dépasserait la limite
     de joueurs)'
   GUICloseWindow: '&6Fermer'
   TakeOverItemLore:
-  - '&aVous êtes membre de cette région. Le propriétaire n’a pas été en ligne'
-  - '&apendant plus de&7 50 &ajours. Vous pouvez devenir le propriétaire'
-  - '&agratuitement. Le propriétaire actuel en deviendra membre.'
-  - '&cSi le propriétaire ne se reconnecte pas dans les'
-  - '&7 %days% &cprochains jours la région sera réinitialisé et tout le monde'
-  - '&cperdra les droits. Ensuite, elle sera remis en vente !'
+    - '&aVous êtes membre de cette région. Le propriétaire n’a pas été en ligne'
+    - '&apendant plus de&7 50 &ajours. Vous pouvez devenir le propriétaire'
+    - '&agratuitement. Le propriétaire actuel en deviendra membre.'
+    - '&cSi le propriétaire ne se reconnecte pas dans les'
+    - '&7 %days% &cprochains jours la région sera réinitialisé et tout le monde'
+    - '&cperdra les droits. Ensuite, elle sera remis en vente !'
   OwnerMemberlistInfo: '&6Ajout de membres :'
   OwnerMemberlistInfoLore:
-  - '&aVous pouvez ajouter des membres à votre'
-  - '&arégion afin de construire avec eux'
-  - '&aVous pouvez ajouter des membres avec :'
-  - '&6/arm addmember %regionid% PSEUDO'
-  - '&aLes membres doivent être en ligne pour les ajouter'
+    - '&aVous pouvez ajouter des membres à votre'
+    - '&arégion afin de construire avec eux'
+    - '&aVous pouvez ajouter des membres avec :'
+    - '&6/arm addmember %regionid% PSEUDO'
+    - '&aLes membres doivent être en ligne pour les ajouter'
   GUIExtendRentRegionButton: '&1Renouveler la région'
   GUIExtendRentRegionButtonLore:
-  - '&aCliquez pour Renouveler votre région de &6%extendpercick%'
-  - '&acela vous coûtera &6%price%%currency%&a!'
-  - '&aCette région expirera dans &6%remaining%&a.'
-  - '&aVous pouvez renouveler votre région jusqu''à &6%maxrenttime%&a.'
+    - '&aCliquez pour Renouveler votre région de &6%extendpercick%'
+    - '&acela vous coûtera &6%price%%currency%&a!'
+    - '&aCette région expirera dans &6%remaining%&a.'
+    - '&aVous pouvez renouveler votre région jusqu''à &6%maxrenttime%&a.'
   GUIRentRegionLore:
-  - '&aExpire dans &6%remaining%'
+    - '&aExpire dans &6%remaining%'
   GUIUserSellButton: '&4Réinitialiser et vendre la région'
   GUIUserSellButtonLore:
-  - Cliquez pour vendre la région
-  - '&4ATTENTION : &cCela ne peut pas être annulé ! Votre région'
-  - '&csera publié et tous les blocs seront'
-  - '&créinitialisé. Vous et tous les membres'
-  - '&cperdront leurs droit.'
-  - '&cVous aurez &6%paybackmoney% %currency%'
+    - Cliquez pour vendre la région
+    - '&4ATTENTION : &cCela ne peut pas être annulé ! Votre région'
+    - '&csera publié et tous les blocs seront'
+    - '&créinitialisé. Vous et tous les membres'
+    - '&cperdront leurs droit.'
+    - '&cVous aurez &6%paybackmoney% %currency%'
   GUIUserSellWarning: '&4&lSell your region?'
   GUILimitButton: '&6Mes limites'
   MemberlistInfo: '&6Comment devenir un membre:'
   MemberlistInfoLore:
-  - '&aVous pouvez être ajouté en tant'
-  - '&aque membre à la région de quelqu''un'
-  - '&ad''autre afin de construire avec lui'
-  - '&aIl suffit de demander à un propriétaire de région de vous ajouter avec :'
-  - '&6/arm addmember NOMDEREGION PSEUDO'
-  - '&aIl doit être ne ligne'
+    - '&aVous pouvez être ajouté en tant'
+    - '&aque membre à la région de quelqu''un'
+    - '&ad''autre afin de construire avec lui'
+    - '&aIl suffit de demander à un propriétaire de région de vous ajouter avec :'
+    - '&6/arm addmember NOMDEREGION PSEUDO'
+    - '&aIl doit être ne ligne'
   GUIContractItem: '&6Gérer le contrat'
   GUIContractItemLore:
-  - '&aStatut: %status%'
-  - '&aSi actif, le prochain renouvellement est dans :'
-  - '&6%remaining%'
+    - '&aStatut: %status%'
+    - '&aSi actif, le prochain renouvellement est dans :'
+    - '&6%remaining%'
   GUIContractItemRegionLore:
-  - '&aStatut: %status%'
-  - '&aSi actif, le prochain renouvellement est dans :'
-  - '&6%remaining%'
+    - '&aStatut: %status%'
+    - '&aSi actif, le prochain renouvellement est dans :'
+    - '&6%remaining%'

@@ -33,17 +33,8 @@ import java.util.*;
 import java.util.logging.Level;
 
 public abstract class Region implements Saveable {
-    public static enum ActionReason {
-        USER_SELL, USER_RESET, EXPIRED, INACTIVITY, MANUALLY_BY_ADMIN,
-        INSUFFICIENT_MONEY, DELETE, NONE, MANUALLY_BY_PARENT_REGION_OWNER;
-
-        public String getConvertedMessage(String message) {
-            if(message.contains("%resetreason%")) message = message.replace("%resetreason%", this.name());
-            return message;
-        }
-    }
-
     public static boolean completeTabRegions;
+    Integer m2Amount;
     private WGRegion region;
     private World regionworld;
     private ArrayList<SignData> sellsign;
@@ -66,7 +57,6 @@ public abstract class Region implements Saveable {
     private boolean needsSave;
     private HashMap<EntityLimit.LimitableEntityType, Integer> extraEntitys;
     private int extraTotalEntitys;
-    Integer m2Amount;
     private StringReplacer stringReplacer;
 
     {
@@ -84,7 +74,7 @@ public abstract class Region implements Saveable {
             return this.getDimensions();
         });
         variableReplacements.put("%priceperm2%", () -> {
-           return Price.formatPrice(this.getPricePerM2());
+            return Price.formatPrice(this.getPricePerM2());
         });
         variableReplacements.put("%priceperm3%", () -> {
             return Price.formatPrice(this.getPricePerM3());
@@ -136,7 +126,7 @@ public abstract class Region implements Saveable {
             return this.getOwnerName();
         });
         variableReplacements.put("%autoprice%", () -> {
-            if(this.getPriceObject().isAutoPrice()) {
+            if (this.getPriceObject().isAutoPrice()) {
                 return this.getPriceObject().getAutoPrice().getName();
             }
             return Messages.convertYesNo(this.getPriceObject().isAutoPrice());
@@ -146,7 +136,7 @@ public abstract class Region implements Saveable {
             for (int i = 0; i < this.getSubregions().size() - 1; i++) {
                 subregions = subregions + this.getSubregions().get(i).getRegion().getId() + ", ";
             }
-            if(this.getSubregions().size() != 0){
+            if (this.getSubregions().size() != 0) {
                 subregions = subregions + this.getSubregions().get(this.getSubregions().size() - 1).getRegion().getId();
             }
             return subregions;
@@ -154,10 +144,10 @@ public abstract class Region implements Saveable {
         variableReplacements.put("%members%", () -> {
             String membersInfo = "";
             List<UUID> memberslist = this.getRegion().getMembers();
-            for(int i = 0; i < memberslist.size() - 1; i++){
+            for (int i = 0; i < memberslist.size() - 1; i++) {
                 membersInfo = membersInfo + Bukkit.getOfflinePlayer(memberslist.get(i)).getName() + ", ";
             }
-            if(memberslist.size() != 0){
+            if (memberslist.size() != 0) {
                 membersInfo = membersInfo + Bukkit.getOfflinePlayer(memberslist.get(memberslist.size() - 1)).getName();
             }
             return membersInfo;
@@ -177,18 +167,18 @@ public abstract class Region implements Saveable {
             InactivityExpirationGroup ieGroup = PlayerInactivityGroupMapper.getBestTakeoverAfterMs(this.getRegionworld(), ownerID);
             if (ieGroup.isNotCalculated()) {
                 return Messages.INFO_NOT_CALCULATED;
-            } else if(ieGroup.isTakeOverDisabled()) {
+            } else if (ieGroup.isTakeOverDisabled()) {
                 return Messages.INFO_DEACTIVATED;
             } else {
                 return CountdownRegion.timeInMsToRemainingTimeString(ieGroup.getTakeOverAfterMs() + this.getLastLogin(), false,
-                                Messages.INFO_NOW);
+                        Messages.INFO_NOW);
             }
         });
         variableReplacements.put("%inactivityresetin%", () -> {
-            if(!this.isInactivityResetEnabled()) {
+            if (!this.isInactivityResetEnabled()) {
                 return Messages.INFO_DEACTIVATED;
             }
-            if(!this.isSold()) {
+            if (!this.isSold()) {
                 return Messages.INFO_REGION_NOT_SOLD;
             }
             List<UUID> ownerslist = this.getRegion().getOwners();
@@ -199,11 +189,11 @@ public abstract class Region implements Saveable {
             InactivityExpirationGroup ieGroup = PlayerInactivityGroupMapper.getBestResetAfterMs(this.getRegionworld(), ownerID);
             if (ieGroup.isNotCalculated()) {
                 return Messages.INFO_NOT_CALCULATED;
-            } else if(ieGroup.isResetDisabled()) {
+            } else if (ieGroup.isResetDisabled()) {
                 return Messages.INFO_DEACTIVATED;
             } else {
                 return CountdownRegion.timeInMsToRemainingTimeString(ieGroup.getResetAfterMs() + this.getLastLogin(),
-                                false, Messages.INFO_NOW);
+                        false, Messages.INFO_NOW);
             }
         });
 
@@ -214,7 +204,7 @@ public abstract class Region implements Saveable {
     public Region(WGRegion region, World regionworld, List<SignData> sellsign, Price price, Boolean sold, Boolean inactivityReset,
                   Boolean isHotel, Boolean doBlockReset, RegionKind regionKind, FlagGroup flagGroup, Location teleportLoc, long lastreset,
                   long lastLogin, boolean isUserResettable, List<Region> subregions, int allowedSubregions, EntityLimitGroup entityLimitGroup,
-                  HashMap<EntityLimit.LimitableEntityType, Integer> extraEntitys, int boughtExtraTotalEntitys){
+                  HashMap<EntityLimit.LimitableEntityType, Integer> extraEntitys, int boughtExtraTotalEntitys) {
         this.region = region;
         this.sellsign = new ArrayList<SignData>(sellsign);
         this.sold = sold;
@@ -237,18 +227,18 @@ public abstract class Region implements Saveable {
         this.extraEntitys = extraEntitys;
         this.extraTotalEntitys = boughtExtraTotalEntitys;
 
-        for(Region subregion : subregions) {
+        for (Region subregion : subregions) {
             subregion.setParentRegion(this);
         }
 
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
         File builtblocksdic = new File(pluginfolder + "/schematics/" + this.regionworld.getName() + "/" + region.getId() + ".builtblocks");
-        if(builtblocksdic.exists()){
+        if (builtblocksdic.exists()) {
             try {
                 FileReader filereader = new FileReader(builtblocksdic);
                 BufferedReader reader = new BufferedReader(filereader);
                 String line;
-                while ((line = reader.readLine()) != null){
+                while ((line = reader.readLine()) != null) {
                     String[] lines = line.split(";", 3);
                     int x = Integer.parseInt(lines[0]);
                     int y = Integer.parseInt(lines[1]);
@@ -268,25 +258,24 @@ public abstract class Region implements Saveable {
         }
     }
 
+    public static void setCompleteTabRegions(Boolean bool) {
+        Region.completeTabRegions = bool;
+    }
+
     protected void giveParentRegionOwnerMoney(double amount) {
-        if(this.isSubregion()) {
-            if(this.getParentRegion() != null) {
-                if(this.getParentRegion().isSold()) {
+        if (this.isSubregion()) {
+            if (this.getParentRegion() != null) {
+                if (this.getParentRegion().isSold()) {
                     List<UUID> parentRegionOwners = this.getParentRegion().getRegion().getOwners();
-                    for(UUID uuid : parentRegionOwners) {
+                    for (UUID uuid : parentRegionOwners) {
                         OfflinePlayer subRegionOwner = Bukkit.getOfflinePlayer(uuid);
-                        if(subRegionOwner != null) {
+                        if (subRegionOwner != null) {
                             AdvancedRegionMarket.getInstance().getEcon().depositPlayer(subRegionOwner, amount);
                         }
                     }
                 }
             }
         }
-    }
-
-    public void setAllowedSubregions(int allowedSubregions) {
-        this.allowedSubregions = allowedSubregions;
-        this.queueSave();
     }
 
     public boolean isUserResettable() {
@@ -297,18 +286,8 @@ public abstract class Region implements Saveable {
         return (this.parentRegion != null);
     }
 
-    public void setTeleportLocation(Location loc) {
-        this.teleportLocation = loc;
-        this.queueSave();
-    }
-
     public Region getParentRegion() {
         return this.parentRegion;
-    }
-
-    public void setFlagGroup(FlagGroup flagGroup) {
-        this.flagGroup = flagGroup;
-        this.queueSave();
     }
 
     private void setParentRegion(Region region) {
@@ -317,6 +296,11 @@ public abstract class Region implements Saveable {
 
     public int getAllowedSubregions() {
         return this.allowedSubregions;
+    }
+
+    public void setAllowedSubregions(int allowedSubregions) {
+        this.allowedSubregions = allowedSubregions;
+        this.queueSave();
     }
 
     public boolean isAllowSubregions() {
@@ -330,7 +314,7 @@ public abstract class Region implements Saveable {
     }
 
     public void delete() {
-        for(int i = 0; i < this.sellsign.size(); i++) {
+        for (int i = 0; i < this.sellsign.size(); i++) {
             Location loc = this.sellsign.get(i).getLocation();
             loc.getBlock().setType(Material.AIR);
             this.removeSign(loc, null);
@@ -339,11 +323,11 @@ public abstract class Region implements Saveable {
     }
 
     public void addBuiltBlock(Location loc) {
-        if(this.builtblocks.add(loc.hashCode())) {
+        if (this.builtblocks.add(loc.hashCode())) {
             try {
                 File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
                 File builtblocksdic = new File(pluginfolder + "/schematics/" + this.regionworld.getName() + "/" + region.getId() + ".builtblocks");
-                if(!builtblocksdic.exists()){
+                if (!builtblocksdic.exists()) {
                     File builtblocksfolder = new File(pluginfolder + "/schematics/" + this.regionworld.getName());
                     builtblocksfolder.mkdirs();
                     builtblocksdic.createNewFile();
@@ -372,8 +356,8 @@ public abstract class Region implements Saveable {
         this.queueSave();
     }
 
-    public void addSign(SignData signData){
-        if(signData == null) {
+    public void addSign(SignData signData) {
+        if (signData == null) {
             return;
         }
 
@@ -384,31 +368,31 @@ public abstract class Region implements Saveable {
 
     }
 
-    public boolean removeSign(Location loc){
+    public boolean removeSign(Location loc) {
         return this.removeSign(loc, null);
     }
 
-    public boolean removeSign(Location loc, Player destroyer){
-        for(int i = 0; i < this.sellsign.size(); i++){
-            if(this.sellsign.get(i).getLocation().getWorld().getName().equals(loc.getWorld().getName())){
-                if(this.sellsign.get(i).getLocation().distance(loc) == 0){
+    public boolean removeSign(Location loc, Player destroyer) {
+        for (int i = 0; i < this.sellsign.size(); i++) {
+            if (this.sellsign.get(i).getLocation().getWorld().getName().equals(loc.getWorld().getName())) {
+                if (this.sellsign.get(i).getLocation().distance(loc) == 0) {
                     this.sellsign.remove(i);
-                    if(destroyer != null) {
+                    if (destroyer != null) {
                         String message = Messages.SIGN_REMOVED_FROM_REGION.replace("%remaining%", this.getNumberOfSigns() + "");
                         destroyer.sendMessage(Messages.PREFIX + message);
                     }
-                    if(this.sellsign.size() == 0) {
-                        for(int y = 0; i < this.getSubregions().size();) {
+                    if (this.sellsign.size() == 0) {
+                        for (int y = 0; i < this.getSubregions().size(); ) {
                             this.getSubregions().get(y).delete();
                         }
-                        if(this.isSubregion()) {
+                        if (this.isSubregion()) {
                             AdvancedRegionMarket.getInstance().getWorldGuardInterface().removeFromRegionManager(this.getRegion(), this.getRegionworld(), AdvancedRegionMarket.getInstance().getWorldGuard());
                             this.getParentRegion().getSubregions().remove(this);
                             this.getParentRegion().queueSave();
                         } else {
                             AdvancedRegionMarket.getInstance().getRegionManager().remove(this);
                         }
-                        if(destroyer != null) {
+                        if (destroyer != null) {
                             destroyer.sendMessage(Messages.PREFIX + Messages.REGION_REMOVED_FROM_ARM);
                         }
                     }
@@ -430,8 +414,8 @@ public abstract class Region implements Saveable {
 
     public void updateSigns() {
 
-        for(SignData signData : this.sellsign) {
-            if(signData.isChunkLoaded()) {
+        for (SignData signData : this.sellsign) {
+            if (signData.isChunkLoaded()) {
                 if (!signData.isPlaced()) {
                     signData.placeSign();
                 }
@@ -444,14 +428,19 @@ public abstract class Region implements Saveable {
         return regionworld;
     }
 
-    public double getPrice(){
+    public double getPrice() {
         return this.price.calcPrice(this.getRegion());
     }
 
-    public boolean hasSign(Sign sign){
-        for(int i = 0; i < this.sellsign.size(); i++){
-            if(this.sellsign.get(i).getLocation().getWorld().getName().equalsIgnoreCase(sign.getWorld().getName())){
-                if(this.sellsign.get(i).getLocation().distance(sign.getLocation()) == 0){
+    public void setPrice(Price price) {
+        this.price = price;
+        this.queueSave();
+    }
+
+    public boolean hasSign(Sign sign) {
+        for (int i = 0; i < this.sellsign.size(); i++) {
+            if (this.sellsign.get(i).getLocation().getWorld().getName().equalsIgnoreCase(sign.getWorld().getName())) {
+                if (this.sellsign.get(i).getLocation().distance(sign.getLocation()) == 0) {
                     return true;
                 }
             }
@@ -459,12 +448,12 @@ public abstract class Region implements Saveable {
         return false;
     }
 
-    public int getNumberOfSigns(){
+    public int getNumberOfSigns() {
         return this.sellsign.size();
     }
 
-    public boolean setKind(RegionKind kind){
-        if(kind == null) {
+    public boolean setKind(RegionKind kind) {
+        if (kind == null) {
             return false;
         }
         this.regionKind = kind;
@@ -477,15 +466,44 @@ public abstract class Region implements Saveable {
         this.queueSave();
     }
 
-    public RegionKind getRegionKind(){
+    public RegionKind getRegionKind() {
         return this.regionKind;
+    }
+
+    public void setRegionKind(RegionKind regionKind) {
+        this.regionKind = regionKind;
+        this.queueSave();
     }
 
     public boolean isSold() {
         return sold;
     }
 
-    public void createSchematic(){
+    /**
+     * Sets the region to sold and sets a players a an owner
+     *
+     * @param player The player that should own the region
+     */
+    public void setSold(OfflinePlayer player) {
+        this.getRegion().setOwner(player);
+        this.setSold(true);
+        this.queueSave();
+        this.updateSigns();
+    }
+
+    public void setSold(boolean sold) {
+        boolean isSold = this.isSold();
+        this.sold = sold;
+        if (!isSold && sold || isSold && !sold) {
+            if (sold) {
+                this.setLastLogin();
+            }
+            this.getFlagGroup().applyToRegion(this, FlagGroup.ResetMode.COMPLETE);
+        }
+        this.queueSave();
+    }
+
+    public void createSchematic() {
         AdvancedRegionMarket.getInstance().getWorldEditInterface().createSchematic(this.getRegion(), this.getRegionworld(), AdvancedRegionMarket.getInstance().getWorldedit().getWorldEdit());
     }
 
@@ -493,18 +511,18 @@ public abstract class Region implements Saveable {
 
         ResetBlocksEvent resetBlocksEvent = new ResetBlocksEvent(this);
         Bukkit.getServer().getPluginManager().callEvent(resetBlocksEvent);
-        if(resetBlocksEvent.isCancelled()) {
+        if (resetBlocksEvent.isCancelled()) {
             return;
         }
 
-        if(AdvancedRegionMarket.getInstance().getPluginSettings().isRemoveEntitiesOnRegionBlockReset()) {
+        if (AdvancedRegionMarket.getInstance().getPluginSettings().isRemoveEntitiesOnRegionBlockReset()) {
             this.killEntitys();
         }
 
         AdvancedRegionMarket.getInstance().getWorldEditInterface().resetBlocks(this.getRegion(), this.getRegionworld(), AdvancedRegionMarket.getInstance().getWorldedit().getWorldEdit());
 
-        if(AdvancedRegionMarket.getInstance().getPluginSettings().isDeleteSubregionsOnParentRegionBlockReset()) {
-            for(int i = 0; i < this.getSubregions().size();) {
+        if (AdvancedRegionMarket.getInstance().getPluginSettings().isDeleteSubregionsOnParentRegionBlockReset()) {
+            for (int i = 0; i < this.getSubregions().size(); ) {
                 this.getSubregions().get(i).delete();
             }
         }
@@ -512,7 +530,7 @@ public abstract class Region implements Saveable {
         this.flagGroup.applyToRegion(this, FlagGroup.ResetMode.COMPLETE);
 
         //TODO Add to messages.yml
-        if(logToConsole) {
+        if (logToConsole) {
             AdvancedRegionMarket.getInstance().getLogger().log(Level.INFO,
                     actionReason.getConvertedMessage(this.getConvertedMessage("Region %region% has been restored! Reason: %resetreason%")));
         }
@@ -522,7 +540,7 @@ public abstract class Region implements Saveable {
 
     public void killEntitys() {
         List<Entity> entities = this.getInsideEntities(false);
-        for(Entity entity : entities) {
+        for (Entity entity : entities) {
             entity.remove();
         }
     }
@@ -530,18 +548,18 @@ public abstract class Region implements Saveable {
     public void resetBuiltBlocks() {
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
         File builtblocksdic = new File(pluginfolder + "/schematics/" + this.regionworld.getName() + "/" + region.getId() + ".builtblocks");
-        if(builtblocksdic.exists()){
+        if (builtblocksdic.exists()) {
             builtblocksdic.delete();
             this.builtblocks = new HashSet<>();
         }
     }
 
     public void regionInfo(CommandSender sender) {
-        if(sender instanceof Player) {
-            if(AdvancedRegionMarket.getInstance().getPluginSettings().isRegionInfoParticleBorder()) {
+        if (sender instanceof Player) {
+            if (AdvancedRegionMarket.getInstance().getPluginSettings().isRegionInfoParticleBorder()) {
                 Player player = (Player) sender;
                 new ParticleBorder(this.getRegion().getPoints(), this.getRegion().getMinPoint().getBlockY(), this.getRegion().getMaxPoint().getBlockY(), player, this.getRegionworld()).createParticleBorder(20 * 30);
-                for(Region subregion : this.getSubregions()) {
+                for (Region subregion : this.getSubregions()) {
                     Location lpos1 = new Location(subregion.getRegionworld(), subregion.getRegion().getMinPoint().getX(), subregion.getRegion().getMinPoint().getY(), subregion.getRegion().getMinPoint().getZ());
                     Location lPos2 = new Location(subregion.getRegionworld(), subregion.getRegion().getMaxPoint().getX(), subregion.getRegion().getMaxPoint().getY(), subregion.getRegion().getMaxPoint().getZ());
                     new ParticleBorder(lpos1.toVector(), lPos2.toVector(), player, subregion.getRegionworld()).createParticleBorder(20 * 30);
@@ -554,7 +572,7 @@ public abstract class Region implements Saveable {
         this.updateSigns();
     }
 
-    public void setInactivityReset(Boolean state){
+    public void setInactivityReset(Boolean state) {
         this.inactivityReset = state;
         this.queueSave();
     }
@@ -567,10 +585,15 @@ public abstract class Region implements Saveable {
         return this.teleportLocation;
     }
 
+    public void setTeleportLocation(Location loc) {
+        this.teleportLocation = loc;
+        this.queueSave();
+    }
+
     public void teleport(Player player, boolean teleportToSign) throws NoSaveLocationException {
-        if(teleportToSign) {
-            for(SignData signData : this.sellsign) {
-                if(Teleporter.teleport(player, signData)) {
+        if (teleportToSign) {
+            for (SignData signData : this.sellsign) {
+                if (Teleporter.teleport(player, signData)) {
                     return;
                 }
             }
@@ -580,7 +603,7 @@ public abstract class Region implements Saveable {
         }
     }
 
-    public String getDimensions(){
+    public String getDimensions() {
         Vector min = this.getRegion().getMinPoint();
         Vector max = this.getRegion().getMaxPoint();
         int maxX = max.getBlockX();
@@ -593,7 +616,7 @@ public abstract class Region implements Saveable {
 
     }
 
-    public void userBlockReset(Player player){
+    public void userBlockReset(Player player) {
         try {
             //TODO Add if should log
             this.resetBlocks(ActionReason.USER_RESET, true);
@@ -607,50 +630,30 @@ public abstract class Region implements Saveable {
         }
     }
 
-    public void writeSigns(){
+    public void writeSigns() {
         for (SignData signData : this.sellsign) {
             this.updateSignText(signData);
         }
     }
 
-    /**
-     * Sets the region to sold and sets a players a an owner
-     * @param player The player that should own the region
-     */
-    public void setSold(OfflinePlayer player) {
-        this.getRegion().setOwner(player);
-        this.setSold(true);
-        this.queueSave();
-        this.updateSigns();
-    }
     protected abstract void updateSignText(SignData signData);
+
     public abstract void buy(Player player) throws NoPermissionException, OutOfLimitExeption, NotEnoughMoneyException, AlreadySoldException, MaxRentTimeExceededException;
+
     public abstract double getPaybackMoney();
 
-    public void userSell(Player player){
+    public void userSell(Player player) {
         List<UUID> owners = this.getRegion().getOwners();
         double amount = this.getPaybackMoney();
 
-        if(amount > 0){
-            for(UUID owner : owners) {
+        if (amount > 0) {
+            for (UUID owner : owners) {
                 AdvancedRegionMarket.getInstance().getEcon().depositPlayer(Bukkit.getOfflinePlayer(owner), amount);
             }
         }
 
         //TODO Check if should log
         this.automaticResetRegion(player, ActionReason.USER_SELL, true);
-    }
-
-    public void setSold(boolean sold) {
-        boolean isSold = this.isSold();
-        this.sold = sold;
-        if(!isSold && sold || isSold && !sold) {
-            if(sold) {
-                this.setLastLogin();
-            }
-            this.getFlagGroup().applyToRegion(this, FlagGroup.ResetMode.COMPLETE);
-        }
-        this.queueSave();
     }
 
     public void setOwner(OfflinePlayer oPlayer) {
@@ -676,7 +679,7 @@ public abstract class Region implements Saveable {
         return;
     }
 
-    public void automaticResetRegion(ActionReason actionReason, boolean logToConsole){
+    public void automaticResetRegion(ActionReason actionReason, boolean logToConsole) {
         this.automaticResetRegion(null, actionReason, logToConsole);
     }
 
@@ -684,21 +687,26 @@ public abstract class Region implements Saveable {
         return this.flagGroup;
     }
 
-    public void automaticResetRegion(Player player, ActionReason actionReason, boolean logToConsole){
+    public void setFlagGroup(FlagGroup flagGroup) {
+        this.flagGroup = flagGroup;
+        this.queueSave();
+    }
+
+    public void automaticResetRegion(Player player, ActionReason actionReason, boolean logToConsole) {
         this.unsell(actionReason, logToConsole);
-        if(this.isDoBlockReset()){
+        if (this.isDoBlockReset()) {
             this.extraEntitys.clear();
             this.extraTotalEntitys = 0;
             try {
                 this.resetBlocks(actionReason, logToConsole);
             } catch (SchematicException e) {
                 AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, this.getConvertedMessage(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
-                if(player != null) {
+                if (player != null) {
                     player.sendMessage(Messages.PREFIX + Messages.SCHEMATIC_NOT_FOUND_ERROR_USER.replace("%regionid%", e.getRegion().getId()));
                 }
             }
         }
-        if(player != null) {
+        if (player != null) {
             player.sendMessage(Messages.PREFIX + Messages.RESET_COMPLETE);
         }
         this.queueSave();
@@ -708,22 +716,22 @@ public abstract class Region implements Saveable {
         return isHotel;
     }
 
-    public boolean allowBlockBreak(Location breakloc) {
-        if(this.isHotel) {
-            return this.builtblocks.contains(breakloc.hashCode());
-        }
-        return true;
-    }
-
     public void setHotel(Boolean bool) {
         this.isHotel = bool;
         this.queueSave();
     }
 
-    public void unsell(ActionReason actionReason, boolean logToConsole){
+    public boolean allowBlockBreak(Location breakloc) {
+        if (this.isHotel) {
+            return this.builtblocks.contains(breakloc.hashCode());
+        }
+        return true;
+    }
+
+    public void unsell(ActionReason actionReason, boolean logToConsole) {
         UnsellRegionEvent unsellRegionEvent = new UnsellRegionEvent(this);
         Bukkit.getServer().getPluginManager().callEvent(unsellRegionEvent);
-        if(unsellRegionEvent.isCancelled()) {
+        if (unsellRegionEvent.isCancelled()) {
             return;
         }
 
@@ -732,13 +740,13 @@ public abstract class Region implements Saveable {
         this.setSold(false);
         this.lastreset = 1;
 
-        if(AdvancedRegionMarket.getInstance().getPluginSettings().isDeleteSubregionsOnParentRegionUnsell()) {
-            for(int i = 0; i < this.getSubregions().size();) {
+        if (AdvancedRegionMarket.getInstance().getPluginSettings().isDeleteSubregionsOnParentRegionUnsell()) {
+            for (int i = 0; i < this.getSubregions().size(); ) {
                 this.getSubregions().get(i).delete();
             }
         }
 
-        if(logToConsole) {
+        if (logToConsole) {
             AdvancedRegionMarket.getInstance().getLogger().log(Level.INFO,
                     actionReason.getConvertedMessage(this.getConvertedMessage("Region %region% has been unsold! Reason: %resetreason%")));
         }
@@ -754,10 +762,6 @@ public abstract class Region implements Saveable {
     public void setDoBlockReset(Boolean bool) {
         this.isDoBlockReset = bool;
         this.queueSave();
-    }
-
-    public static void setCompleteTabRegions(Boolean bool) {
-        Region.completeTabRegions = bool;
     }
 
     public List<Region> getSubregions() {
@@ -779,13 +783,13 @@ public abstract class Region implements Saveable {
     private String getOwnerName() {
         List<UUID> ownerlist = this.getRegion().getOwners();
         String ownername;
-        if(ownerlist.size() < 1){
+        if (ownerlist.size() < 1) {
             ownername = "Unknown";
         } else {
             OfflinePlayer owner = Bukkit.getOfflinePlayer(ownerlist.get(0));
             ownername = owner.getName();
 
-            if(ownername == null) {
+            if (ownername == null) {
                 ownername = "Unknown";
             }
         }
@@ -808,7 +812,7 @@ public abstract class Region implements Saveable {
     }
 
     private String getSoldStringStatus() {
-        if(this.isSold()) {
+        if (this.isSold()) {
             return Messages.SOLD;
         } else {
             return Messages.AVAILABLE;
@@ -821,11 +825,6 @@ public abstract class Region implements Saveable {
 
     public abstract SellType getSellType();
 
-    public void setPrice(Price price) {
-        this.price = price;
-        this.queueSave();
-    }
-
     public String getConvertedMessage(String message) {
         message = this.stringReplacer.replace(message).toString();
         message = this.getRegionKind().getConvertedMessage(message).toString();
@@ -836,24 +835,24 @@ public abstract class Region implements Saveable {
     public void queueSave() {
         UpdateRegionEvent updateRegionEvent = new UpdateRegionEvent(this);
         Bukkit.getServer().getPluginManager().callEvent(updateRegionEvent);
-        if(!updateRegionEvent.isCancelled()) {
+        if (!updateRegionEvent.isCancelled()) {
             this.needsSave = true;
         }
     }
 
     public void setSaved() {
         this.needsSave = false;
-        for(Region subregion : this.subregions) {
+        for (Region subregion : this.subregions) {
             subregion.setSaved();
         }
     }
 
     public boolean needsSave() {
-        if(this.needsSave) {
+        if (this.needsSave) {
             return true;
         }
-        for(Region subregion : this.subregions) {
-            if(subregion.needsSave()) {
+        for (Region subregion : this.subregions) {
+            if (subregion.needsSave()) {
                 return true;
             }
         }
@@ -861,43 +860,43 @@ public abstract class Region implements Saveable {
     }
 
     public boolean isInactive() {
-        if(!this.isInactivityResetEnabled()) {
+        if (!this.isInactivityResetEnabled()) {
             return false;
         }
-        if(!this.isSold()) {
+        if (!this.isSold()) {
             return false;
         }
         long actualTime = new GregorianCalendar().getTimeInMillis();
         List<UUID> owners = this.getRegion().getOwners();
-        if(owners.size() == 0) {
-            if(InactivityExpirationGroup.DEFAULT.isResetDisabled()) {
+        if (owners.size() == 0) {
+            if (InactivityExpirationGroup.DEFAULT.isResetDisabled()) {
                 return false;
             }
             return this.getLastLogin() + InactivityExpirationGroup.DEFAULT.getResetAfterMs() < actualTime;
         }
         UUID ownerID = owners.get(0);
         InactivityExpirationGroup ieGroup = PlayerInactivityGroupMapper.getBestResetAfterMs(this.getRegionworld(), ownerID);
-        if(ieGroup.isResetDisabled()) {
+        if (ieGroup.isResetDisabled()) {
             return false;
         }
         return (this.getLastLogin() + ieGroup.getResetAfterMs() < actualTime);
     }
 
     public boolean isTakeOverReady() {
-        if(!this.isInactivityResetEnabled()) {
+        if (!this.isInactivityResetEnabled()) {
             return false;
         }
         long actualTime = new GregorianCalendar().getTimeInMillis();
         List<UUID> owners = this.getRegion().getOwners();
-        if(owners.size() == 0) {
-            if(InactivityExpirationGroup.DEFAULT.isTakeOverDisabled()) {
+        if (owners.size() == 0) {
+            if (InactivityExpirationGroup.DEFAULT.isTakeOverDisabled()) {
                 return false;
             }
             return this.getLastLogin() + InactivityExpirationGroup.DEFAULT.getTakeOverAfterMs() < actualTime;
         }
         UUID ownerID = owners.get(0);
         InactivityExpirationGroup ieGroup = PlayerInactivityGroupMapper.getBestTakeoverAfterMs(this.getRegionworld(), ownerID);
-        if(ieGroup.isTakeOverDisabled()) {
+        if (ieGroup.isTakeOverDisabled()) {
             return false;
         }
         return (this.getLastLogin() + ieGroup.getTakeOverAfterMs() < actualTime);
@@ -924,20 +923,20 @@ public abstract class Region implements Saveable {
 
         entities = new ArrayList<>(this.getRegionworld().getNearbyEntities(midLocation, xAxis, yAxis, zAxis));
 
-        for(Entity entity : entities) {
+        for (Entity entity : entities) {
             Location entityLoc = entity.getLocation();
             boolean insideRegion = false;
             boolean add = true;
 
-            if(this.getRegion().contains(entityLoc.getBlockX(), entityLoc.getBlockY(), entityLoc.getBlockZ())) {
+            if (this.getRegion().contains(entityLoc.getBlockX(), entityLoc.getBlockY(), entityLoc.getBlockZ())) {
                 insideRegion = true;
             }
 
-            if((entity.getType() == EntityType.PLAYER) && !includePlayers) {
+            if ((entity.getType() == EntityType.PLAYER) && !includePlayers) {
                 add = false;
             }
 
-            if(insideRegion && add) {
+            if (insideRegion && add) {
                 result.add(entity);
             }
 
@@ -953,42 +952,42 @@ public abstract class Region implements Saveable {
         List<Entity> insideEntitys = this.getInsideEntities(includePlayers);
         List<Entity> result = new ArrayList<>();
 
-        for(Entity selectedEntity : insideEntitys) {
+        for (Entity selectedEntity : insideEntitys) {
             boolean add = false;
 
-            if((selectedEntity instanceof Hanging) && includeHanging) {
+            if ((selectedEntity instanceof Hanging) && includeHanging) {
                 add = true;
             }
 
-            if((selectedEntity instanceof Monster) && includeMonsters) {
+            if ((selectedEntity instanceof Monster) && includeMonsters) {
                 add = true;
             }
 
-            if((selectedEntity instanceof Animals) && includeAnimals) {
+            if ((selectedEntity instanceof Animals) && includeAnimals) {
                 add = true;
             }
 
-            if((selectedEntity instanceof Vehicle) && includeVehicles) {
+            if ((selectedEntity instanceof Vehicle) && includeVehicles) {
                 add = true;
             }
 
-            if((selectedEntity instanceof Projectile) && includeProjectiles) {
+            if ((selectedEntity instanceof Projectile) && includeProjectiles) {
                 add = true;
             }
 
-            if((selectedEntity instanceof AreaEffectCloud) && includeAreaEffectCloud) {
+            if ((selectedEntity instanceof AreaEffectCloud) && includeAreaEffectCloud) {
                 add = true;
             }
 
-            if((selectedEntity instanceof ItemFrame) && includeItemFrames) {
+            if ((selectedEntity instanceof ItemFrame) && includeItemFrames) {
                 add = true;
             }
 
-            if((selectedEntity instanceof Painting) && includePaintings) {
+            if ((selectedEntity instanceof Painting) && includePaintings) {
                 add = true;
             }
 
-            if(add) {
+            if (add) {
                 result.add(selectedEntity);
             }
         }
@@ -998,7 +997,7 @@ public abstract class Region implements Saveable {
 
     public int getExtraEntityAmount(EntityLimit.LimitableEntityType entityType) {
         Integer amount = this.extraEntitys.get(entityType);
-        if(amount == null) {
+        if (amount == null) {
             return 0;
         } else {
             return amount;
@@ -1006,7 +1005,7 @@ public abstract class Region implements Saveable {
     }
 
     protected int getM2Amount() {
-        if(this.m2Amount == null) {
+        if (this.m2Amount == null) {
             int hight = ((this.getRegion().getMaxPoint().getBlockY() - this.getRegion().getMinPoint().getBlockY()) + 1);
             this.m2Amount = this.getRegion().getVolume() / hight;
         }
@@ -1018,7 +1017,7 @@ public abstract class Region implements Saveable {
     }
 
     public void setExtraTotalEntitys(int extraTotalEntitys) {
-        if(extraTotalEntitys < 0) {
+        if (extraTotalEntitys < 0) {
             this.extraTotalEntitys = 0;
         } else {
             this.extraTotalEntitys = extraTotalEntitys;
@@ -1029,14 +1028,9 @@ public abstract class Region implements Saveable {
 
     public void setExtraEntityAmount(EntityLimit.LimitableEntityType entityType, int amount) {
         this.extraEntitys.remove(entityType);
-        if(amount > 0) {
+        if (amount > 0) {
             this.extraEntitys.put(entityType, amount);
         }
-        this.queueSave();
-    }
-
-    public void setRegionKind(RegionKind regionKind) {
-        this.regionKind = regionKind;
         this.queueSave();
     }
 
@@ -1051,19 +1045,19 @@ public abstract class Region implements Saveable {
         yamlConfiguration.set("lastreset", this.getLastreset());
         yamlConfiguration.set("lastLogin", this.getLastLogin());
         yamlConfiguration.set("regiontype", this.getSellType().getInternalName());
-        if(this.getPriceObject().isAutoPrice()) {
+        if (this.getPriceObject().isAutoPrice()) {
             yamlConfiguration.set("autoprice", this.getPriceObject().getAutoPrice().getName());
             yamlConfiguration.set("price", null);
         } else {
             yamlConfiguration.set("price", this.getPrice());
         }
         List<String> signs = new ArrayList<>();
-        for(SignData signData : this.getSellSigns()) {
+        for (SignData signData : this.getSellSigns()) {
             signs.add(signData.toString());
         }
         yamlConfiguration.set("signs", signs);
 
-        if(!this.isSubregion()) {
+        if (!this.isSubregion()) {
             yamlConfiguration.set("kind", this.getRegionKind().getName());
             yamlConfiguration.set("flagGroup", this.flagGroup.getName());
             yamlConfiguration.set("inactivityReset", this.isInactivityResetEnabled());
@@ -1073,11 +1067,11 @@ public abstract class Region implements Saveable {
             yamlConfiguration.set("isUserResettable", this.isUserResettable());
             yamlConfiguration.set("boughtExtraTotalEntitys", this.getExtraTotalEntitys());
             List<String> boughtExtraEntitysStringList = new ArrayList<>();
-            for(Map.Entry<EntityLimit.LimitableEntityType, Integer> entry : this.getExtraEntitys().entrySet()) {
+            for (Map.Entry<EntityLimit.LimitableEntityType, Integer> entry : this.getExtraEntitys().entrySet()) {
                 boughtExtraEntitysStringList.add(entry.getKey().getName() + ": " + entry.getValue());
             }
             yamlConfiguration.set("boughtExtraEntitys", boughtExtraEntitysStringList);
-            if(this.getTeleportLocation() != null) {
+            if (this.getTeleportLocation() != null) {
                 String teleportloc = this.getTeleportLocation().getWorld().getName() + ";" + this.getTeleportLocation().getBlockX() + ";" +
                         this.getTeleportLocation().getBlockY() + ";" + this.getTeleportLocation().getBlockZ() + ";" +
                         this.getTeleportLocation().getPitch() + ";" + this.getTeleportLocation().getYaw();
@@ -1085,7 +1079,7 @@ public abstract class Region implements Saveable {
             } else {
                 yamlConfiguration.set("teleportLoc", null);
             }
-            for(Region subregion : this.getSubregions()) {
+            for (Region subregion : this.getSubregions()) {
                 yamlConfiguration.set("subregions." + subregion.getRegion().getId(), subregion.toConfigurationSection());
             }
         }
@@ -1096,14 +1090,24 @@ public abstract class Region implements Saveable {
         List<String> returnme = new ArrayList<>();
 
         List<UUID> uuidList = this.getRegion().getMembers();
-        for(UUID uuids: uuidList) {
+        for (UUID uuids : uuidList) {
             OfflinePlayer oplayer = Bukkit.getOfflinePlayer(uuids);
-            if(oplayer != null) {
+            if (oplayer != null) {
                 if (oplayer.getName().toLowerCase().startsWith(args)) {
                     returnme.add(oplayer.getName());
                 }
             }
         }
-        return  returnme;
+        return returnme;
+    }
+
+    public static enum ActionReason {
+        USER_SELL, USER_RESET, EXPIRED, INACTIVITY, MANUALLY_BY_ADMIN,
+        INSUFFICIENT_MONEY, DELETE, NONE, MANUALLY_BY_PARENT_REGION_OWNER;
+
+        public String getConvertedMessage(String message) {
+            if (message.contains("%resetreason%")) message = message.replace("%resetreason%", this.name());
+            return message;
+        }
     }
 }

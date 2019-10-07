@@ -53,15 +53,15 @@ public class MaterialFinder {
 
     static {
         MaterialFinder.signMaterials = new ArrayList<Material>();
-        for(Material mat : Material.values()) {
-            if(mat.toString().contains("SIGN")) {
+        for (Material mat : Material.values()) {
+            if (mat.toString().contains("SIGN")) {
                 MaterialFinder.signMaterials.add(mat);
             }
         }
 
         String serverVersion = Bukkit.getServer().getVersion();
 
-        if(serverVersion.equalsIgnoreCase("1.12") || serverVersion.contains("1.12")) {
+        if (serverVersion.equalsIgnoreCase("1.12") || serverVersion.contains("1.12")) {
             MaterialFinder.defaultSign = MaterialFinder.getMaterial("SIGN_POST");
             MaterialFinder.wallSign = MaterialFinder.getMaterial("WALL_SIGN");
             MaterialFinder.GUI_REGION_OWNER_ITEM = MaterialFinder.getMaterial("ENDER_CHEST");
@@ -104,7 +104,7 @@ public class MaterialFinder {
             MaterialFinder.GUI_FLAGEDITOR_RESET_ITEM = MaterialFinder.getMaterial("TNT");
 
 
-        } else if(serverVersion.equalsIgnoreCase("1.13") || serverVersion.contains("1.13")) {
+        } else if (serverVersion.equalsIgnoreCase("1.13") || serverVersion.contains("1.13")) {
             MaterialFinder.defaultSign = MaterialFinder.getMaterial("SIGN");
             MaterialFinder.wallSign = MaterialFinder.getMaterial("WALL_SIGN");
             MaterialFinder.GUI_REGION_OWNER_ITEM = MaterialFinder.getMaterial("ENDER_CHEST");
@@ -146,7 +146,7 @@ public class MaterialFinder {
             MaterialFinder.GUI_FLAG_USER_INPUT_ITEM = MaterialFinder.getMaterial("WRITABLE_BOOK");
             MaterialFinder.GUI_FLAGEDITOR_RESET_ITEM = MaterialFinder.getMaterial("TNT");
         } else {
-            MaterialFinder.defaultSign =  MaterialFinder.getMaterial("OAK_SIGN");
+            MaterialFinder.defaultSign = MaterialFinder.getMaterial("OAK_SIGN");
             MaterialFinder.wallSign = MaterialFinder.getMaterial("OAK_WALL_SIGN");
             MaterialFinder.GUI_REGION_OWNER_ITEM = MaterialFinder.getMaterial("ENDER_CHEST");
             MaterialFinder.GUI_REGION_MEMBER_ITEM = MaterialFinder.getMaterial("CHEST");
@@ -195,7 +195,7 @@ public class MaterialFinder {
 
     public static Material getMaterial(String materialName) {
         Material material = MaterialFinder.getMaterial(materialName, false);
-        if(material == null) {
+        if (material == null) {
             material = MaterialFinder.getMaterial(materialName, true);
         }
         return material;

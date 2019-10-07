@@ -45,32 +45,32 @@ public class FlaggroupCommand implements BasicArmCommand {
 
     @Override
     public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
-        if(!(sender instanceof Player)) {
+        if (!(sender instanceof Player)) {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Player player = (Player) sender;
 
-        if(!player.hasPermission(Permission.ADMIN_PRESET_SET_FLAGGROUP)) {
+        if (!player.hasPermission(Permission.ADMIN_PRESET_SET_FLAGGROUP)) {
             throw new InputException(player, Messages.NO_PERMISSION);
         }
 
-        if(this.presetType == null) {
+        if (this.presetType == null) {
             return false;
         }
 
         Preset preset = ActivePresetManager.getPreset(player, this.presetType);
 
-        if(preset == null) {
+        if (preset == null) {
             preset = this.presetType.create();
             ActivePresetManager.add(new PresetPlayerPair(player, preset));
         }
 
         FlagGroup flagGroup = AdvancedRegionMarket.getInstance().getFlagGroupManager().getFlagGroup(args[1]);
-        if(flagGroup == null) {
+        if (flagGroup == null) {
             player.sendMessage(Messages.PREFIX + Messages.FLAGGROUP_DOES_NOT_EXIST);
             return true;
         }
-        if(flagGroup == FlagGroup.SUBREGION) {
+        if (flagGroup == FlagGroup.SUBREGION) {
             throw new InputException(player, Messages.SUBREGION_FLAGGROUP_ONLY_FOR_SUBREGIONS);
         }
 
@@ -82,14 +82,14 @@ public class FlaggroupCommand implements BasicArmCommand {
     @Override
     public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
-        if(player.hasPermission(Permission.ADMIN_PRESET_SET_FLAGGROUP)) {
-            if(args.length >= 1) {
-                if(args.length == 1) {
-                    if(this.rootCommand.startsWith(args[0])) {
+        if (player.hasPermission(Permission.ADMIN_PRESET_SET_FLAGGROUP)) {
+            if (args.length >= 1) {
+                if (args.length == 1) {
+                    if (this.rootCommand.startsWith(args[0])) {
                         returnme.add(this.rootCommand);
                     }
                 }
-                if(args.length == 2 && this.rootCommand.equalsIgnoreCase(args[0])) {
+                if (args.length == 2 && this.rootCommand.equalsIgnoreCase(args[0])) {
                     returnme.addAll(AdvancedRegionMarket.getInstance().getFlagGroupManager().tabCompleteFlaggroup(args[1]));
                 }
             }

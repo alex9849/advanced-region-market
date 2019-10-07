@@ -24,12 +24,36 @@ public abstract class YamlFileManager<ManagedObject extends Saveable> implements
         this.objectList.addAll(loadSavedObjects(this.yamlConfiguration));
     }
 
+    public static void writeResourceToDisc(File savepath, InputStream resourceStream) {
+        if (savepath.exists()) {
+            return;
+        }
+        try {
+            byte[] buffer = new byte[resourceStream.available()];
+            resourceStream.read(buffer);
+            OutputStream output = new FileOutputStream(savepath);
+            output.write(buffer);
+            output.close();
+            resourceStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static boolean addDefault(ConfigurationSection section, String path, Object obj) {
+        if (section.get(path) == null) {
+            section.addDefault(path, obj);
+            return true;
+        }
+        return false;
+    }
+
     public boolean add(ManagedObject managedObject, boolean unsafe) {
         boolean result = false;
-        if(!this.objectList.contains(managedObject)) {
+        if (!this.objectList.contains(managedObject)) {
             result = this.objectList.add(managedObject);
             managedObject.queueSave();
-            if(!unsafe) {
+            if (!unsafe) {
                 this.updateFile();
             }
         }
@@ -41,7 +65,7 @@ public abstract class YamlFileManager<ManagedObject extends Saveable> implements
     }
 
     public boolean remove(ManagedObject managedObject) {
-        if(this.objectList.remove(managedObject)) {
+        if (this.objectList.remove(managedObject)) {
             this.queueCompleteSave();
             this.updateFile();
             return true;
@@ -60,18 +84,18 @@ public abstract class YamlFileManager<ManagedObject extends Saveable> implements
     public void updateFile() {
         boolean savedSomething = false;
 
-        if(this.completeSaveQueuned) {
+        if (this.completeSaveQueuned) {
             this.yamlConfiguration = new YamlConfiguration();
             savedSomething = true;
         }
 
-        if(this.completeSaveQueuned || this.staticSaveQuenued()) {
+        if (this.completeSaveQueuned || this.staticSaveQuenued()) {
             this.writeStaticSettings(this.yamlConfiguration);
             savedSomething = true;
         }
 
-        for(ManagedObject managedObject : this.objectList) {
-            if(managedObject.needsSave() || this.completeSaveQueuned) {
+        for (ManagedObject managedObject : this.objectList) {
+            if (managedObject.needsSave() || this.completeSaveQueuned) {
                 saveObjectToYamlObject(managedObject, this.yamlConfiguration);
                 managedObject.setSaved();
                 savedSomething = true;
@@ -80,7 +104,7 @@ public abstract class YamlFileManager<ManagedObject extends Saveable> implements
 
         this.completeSaveQueuned = false;
 
-        if(savedSomething) {
+        if (savedSomething) {
             saveFile();
         }
     }
@@ -115,32 +139,6 @@ public abstract class YamlFileManager<ManagedObject extends Saveable> implements
     public void forEach(Consumer<? super ManagedObject> action) {
         this.objectList.forEach(action);
     }
-
-    public static void writeResourceToDisc(File savepath, InputStream resourceStream) {
-        if(savepath.exists()) {
-            return;
-        }
-        try {
-            byte[] buffer = new byte[resourceStream.available()];
-            resourceStream.read(buffer);
-            OutputStream output = new FileOutputStream(savepath);
-            output.write(buffer);
-            output.close();
-            resourceStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static boolean addDefault(ConfigurationSection section, String path, Object obj) {
-        if(section.get(path) == null) {
-            section.addDefault(path, obj);
-            return true;
-        }
-        return false;
-    }
-
-
 
 
 }

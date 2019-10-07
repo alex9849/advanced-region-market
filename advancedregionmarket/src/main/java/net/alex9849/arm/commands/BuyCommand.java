@@ -39,25 +39,25 @@ public class BuyCommand implements BasicArmCommand {
     @Override
     public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
         if (Permission.hasAnyBuyPermission(sender)) {
-            if(!(sender instanceof Player)) {
+            if (!(sender instanceof Player)) {
                 throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
             }
 
             Player player = (Player) sender;
             Region region;
 
-            if(allargs.matches(this.regex_with_args)) {
+            if (allargs.matches(this.regex_with_args)) {
                 region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, args[1]);
             } else {
                 region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, null);
             }
 
-            if(!region.isSold()) {
+            if (!region.isSold()) {
                 try {
                     region.buy(player);
                 } catch (NoPermissionException | OutOfLimitExeption | NotEnoughMoneyException |
                         AlreadySoldException | MaxRentTimeExceededException e) {
-                    if(e.hasMessage()) player.sendMessage(Messages.PREFIX + e.getMessage());
+                    if (e.hasMessage()) player.sendMessage(Messages.PREFIX + e.getMessage());
                 }
             } else {
                 throw new InputException(sender, Messages.REGION_ALREADY_SOLD);
@@ -74,13 +74,13 @@ public class BuyCommand implements BasicArmCommand {
     public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
 
-        if(args.length >= 1) {
+        if (args.length >= 1) {
             if (this.rootCommand.startsWith(args[0])) {
                 if (Permission.hasAnyBuyPermission(player)) {
-                    if(args.length == 1) {
+                    if (args.length == 1) {
                         returnme.add(this.rootCommand);
-                    } else if(args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                        returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.AVAILABLE,true, true));
+                    } else if (args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
+                        returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.AVAILABLE, true, true));
                     }
                 }
             }

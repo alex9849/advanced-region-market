@@ -23,27 +23,27 @@ public class RegionKindManager extends YamlFileManager<RegionKind> {
 
         yamlConfiguration.options().copyDefaults(true);
 
-        if(yamlConfiguration.get("DefaultRegionKind") != null) {
+        if (yamlConfiguration.get("DefaultRegionKind") != null) {
             ConfigurationSection defaultRkConfig = yamlConfiguration.getConfigurationSection("DefaultRegionKind");
             fileupdated |= updateDefaults(defaultRkConfig);
             RegionKind.DEFAULT = RegionKind.parse(defaultRkConfig, "Default");
         }
 
-        if(yamlConfiguration.get("SubregionRegionKind") != null) {
+        if (yamlConfiguration.get("SubregionRegionKind") != null) {
             ConfigurationSection subregionRkConfig = yamlConfiguration.getConfigurationSection("SubregionRegionKind");
             fileupdated |= updateDefaults(subregionRkConfig);
             RegionKind.SUBREGION = RegionKind.parse(subregionRkConfig, "Subregion");
         }
 
-        if(yamlConfiguration.get("RegionKinds") != null) {
+        if (yamlConfiguration.get("RegionKinds") != null) {
             ConfigurationSection regionKindsSection = yamlConfiguration.getConfigurationSection("RegionKinds");
             List<String> regionKinds = new ArrayList<>(regionKindsSection.getKeys(false));
-            if(regionKinds != null) {
-                for(String regionKindID : regionKinds) {
-                    if(regionKindsSection.get(regionKindID) != null) {
+            if (regionKinds != null) {
+                for (String regionKindID : regionKinds) {
+                    if (regionKindsSection.get(regionKindID) != null) {
                         ConfigurationSection rkConfSection = regionKindsSection.getConfigurationSection(regionKindID);
-                        if(rkConfSection != null) {
-                            fileupdated |=  updateDefaults(rkConfSection);
+                        if (rkConfSection != null) {
+                            fileupdated |= updateDefaults(rkConfSection);
                             regionKindList.add(RegionKind.parse(rkConfSection, regionKindID));
                         }
                     }
@@ -51,7 +51,7 @@ public class RegionKindManager extends YamlFileManager<RegionKind> {
             }
         }
 
-        if(fileupdated) {
+        if (fileupdated) {
             this.saveFile();
         }
         yamlConfiguration.options().copyDefaults(false);
@@ -84,19 +84,19 @@ public class RegionKindManager extends YamlFileManager<RegionKind> {
         List<String> returnme = new ArrayList<>();
 
         for (RegionKind regionkind : this) {
-            if(player == null || RegionKind.hasPermission(player, regionkind)) {
+            if (player == null || RegionKind.hasPermission(player, regionkind)) {
                 if ((returnPrefix + regionkind.getName()).toLowerCase().startsWith(arg)) {
                     returnme.add(returnPrefix + regionkind.getName());
                 }
             }
         }
         if ((returnPrefix + "default").startsWith(arg)) {
-            if(player == null || RegionKind.hasPermission(player, RegionKind.DEFAULT)) {
+            if (player == null || RegionKind.hasPermission(player, RegionKind.DEFAULT)) {
                 returnme.add(returnPrefix + "default");
             }
         }
         if ((returnPrefix + "subregion").startsWith(arg)) {
-            if(player == null || RegionKind.hasPermission(player, RegionKind.SUBREGION)) {
+            if (player == null || RegionKind.hasPermission(player, RegionKind.SUBREGION)) {
                 returnme.add(returnPrefix + "subregion");
             }
         }
@@ -104,41 +104,41 @@ public class RegionKindManager extends YamlFileManager<RegionKind> {
         return returnme;
     }
 
-    public boolean kindExists(String kind){
+    public boolean kindExists(String kind) {
 
-        for(RegionKind regionKind : this) {
-            if(regionKind.getName().equalsIgnoreCase(kind)){
+        for (RegionKind regionKind : this) {
+            if (regionKind.getName().equalsIgnoreCase(kind)) {
                 return true;
             }
         }
 
-        if(kind.equalsIgnoreCase("default")) {
+        if (kind.equalsIgnoreCase("default")) {
             return true;
         }
-        if(kind.equalsIgnoreCase(RegionKind.DEFAULT.getDisplayName())){
+        if (kind.equalsIgnoreCase(RegionKind.DEFAULT.getDisplayName())) {
             return true;
         }
-        if(kind.equalsIgnoreCase("subregion")) {
+        if (kind.equalsIgnoreCase("subregion")) {
             return true;
         }
-        if(kind.equalsIgnoreCase(RegionKind.SUBREGION.getDisplayName())){
+        if (kind.equalsIgnoreCase(RegionKind.SUBREGION.getDisplayName())) {
             return true;
         }
         return false;
     }
 
-    public RegionKind getRegionKind(String name){
+    public RegionKind getRegionKind(String name) {
 
-        for(RegionKind regionKind : this) {
-            if(regionKind.getName().equalsIgnoreCase(name)){
+        for (RegionKind regionKind : this) {
+            if (regionKind.getName().equalsIgnoreCase(name)) {
                 return regionKind;
             }
         }
 
-        if(name.equalsIgnoreCase("default") || name.equalsIgnoreCase(RegionKind.DEFAULT.getDisplayName())){
+        if (name.equalsIgnoreCase("default") || name.equalsIgnoreCase(RegionKind.DEFAULT.getDisplayName())) {
             return RegionKind.DEFAULT;
         }
-        if(name.equalsIgnoreCase("subregion") || name.equalsIgnoreCase(RegionKind.SUBREGION.getDisplayName())){
+        if (name.equalsIgnoreCase("subregion") || name.equalsIgnoreCase(RegionKind.SUBREGION.getDisplayName())) {
             return RegionKind.SUBREGION;
         }
         return null;

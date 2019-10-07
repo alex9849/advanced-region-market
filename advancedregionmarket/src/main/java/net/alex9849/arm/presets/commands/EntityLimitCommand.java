@@ -45,32 +45,32 @@ public class EntityLimitCommand implements BasicArmCommand {
 
     @Override
     public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
-        if(!(sender instanceof Player)) {
+        if (!(sender instanceof Player)) {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Player player = (Player) sender;
 
-        if(!player.hasPermission(Permission.ADMIN_PRESET_SET_ENTITYLIMIT)) {
+        if (!player.hasPermission(Permission.ADMIN_PRESET_SET_ENTITYLIMIT)) {
             throw new InputException(player, Messages.NO_PERMISSION);
         }
 
-        if(this.presetType == null) {
+        if (this.presetType == null) {
             return false;
         }
 
         Preset preset = ActivePresetManager.getPreset(player, this.presetType);
 
-        if(preset == null) {
+        if (preset == null) {
             preset = this.presetType.create();
             ActivePresetManager.add(new PresetPlayerPair(player, preset));
         }
 
         EntityLimitGroup entityLimitGroup = AdvancedRegionMarket.getInstance().getEntityLimitGroupManager().getEntityLimitGroup(args[1]);
-        if(entityLimitGroup == null) {
+        if (entityLimitGroup == null) {
             player.sendMessage(Messages.PREFIX + Messages.ENTITYLIMITGROUP_DOES_NOT_EXIST);
             return true;
         }
-        if(entityLimitGroup == EntityLimitGroup.SUBREGION) {
+        if (entityLimitGroup == EntityLimitGroup.SUBREGION) {
             throw new InputException(player, Messages.ENTITYLIMITGROUP_SUBREGION_GROUP_ONLY_FOR_SUBREGIONS);
         }
 
@@ -82,14 +82,14 @@ public class EntityLimitCommand implements BasicArmCommand {
     @Override
     public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
-        if(player.hasPermission(Permission.ADMIN_PRESET_SET_ENTITYLIMIT)) {
-            if(args.length >= 1) {
-                if(args.length == 1) {
-                    if(this.rootCommand.startsWith(args[0])) {
+        if (player.hasPermission(Permission.ADMIN_PRESET_SET_ENTITYLIMIT)) {
+            if (args.length >= 1) {
+                if (args.length == 1) {
+                    if (this.rootCommand.startsWith(args[0])) {
                         returnme.add(this.rootCommand);
                     }
                 }
-                if(args.length == 2 && this.rootCommand.equalsIgnoreCase(args[0])) {
+                if (args.length == 2 && this.rootCommand.equalsIgnoreCase(args[0])) {
                     returnme.addAll(AdvancedRegionMarket.getInstance().getEntityLimitGroupManager().tabCompleteEntityLimitGroups(args[1]));
                 }
             }

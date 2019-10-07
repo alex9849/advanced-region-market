@@ -31,7 +31,7 @@ public class RentPresetMaxRentTimeCommand implements BasicArmCommand {
 
     @Override
     public boolean matchesRegex(String command) {
-        if(command.matches(this.regex_set)) {
+        if (command.matches(this.regex_set)) {
             return true;
         } else {
             return command.matches(this.regex_remove);
@@ -50,35 +50,35 @@ public class RentPresetMaxRentTimeCommand implements BasicArmCommand {
 
     @Override
     public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
-        if(!(sender instanceof Player)) {
+        if (!(sender instanceof Player)) {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Player player = (Player) sender;
 
-        if(!player.hasPermission(Permission.ADMIN_PRESET_SET_MAXRENTTIME)) {
+        if (!player.hasPermission(Permission.ADMIN_PRESET_SET_MAXRENTTIME)) {
             throw new InputException(player, Messages.NO_PERMISSION);
         }
 
-        if(presetType != PresetType.RENTPRESET) {
+        if (presetType != PresetType.RENTPRESET) {
             return false;
         }
 
         Preset preset = ActivePresetManager.getPreset(player, this.presetType);
 
-        if(preset == null) {
+        if (preset == null) {
             preset = this.presetType.create();
             ActivePresetManager.add(new PresetPlayerPair(player, preset));
         }
 
-        if(!(preset instanceof RentPreset)) {
+        if (!(preset instanceof RentPreset)) {
             return false;
         }
         RentPreset rentPreset = (RentPreset) preset;
 
-        if(allargs.matches(this.regex_set)) {
+        if (allargs.matches(this.regex_set)) {
             rentPreset.setMaxRentTime(args[1]);
             player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
-            if(rentPreset.hasPrice() && rentPreset.hasMaxRentTime() && rentPreset.hasExtendPerClick()) {
+            if (rentPreset.hasPrice() && rentPreset.hasMaxRentTime() && rentPreset.hasExtendPerClick()) {
                 player.sendMessage(Messages.PREFIX + "You can leave the price-line on signs empty now");
             }
             return true;
@@ -92,18 +92,18 @@ public class RentPresetMaxRentTimeCommand implements BasicArmCommand {
     @Override
     public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
-        if(player.hasPermission(Permission.ADMIN_PRESET_SET_MAXRENTTIME)) {
-            if(args.length >= 1) {
-                if(args.length == 1) {
-                    if(this.rootCommand.startsWith(args[0])) {
+        if (player.hasPermission(Permission.ADMIN_PRESET_SET_MAXRENTTIME)) {
+            if (args.length >= 1) {
+                if (args.length == 1) {
+                    if (this.rootCommand.startsWith(args[0])) {
                         returnme.add(this.rootCommand);
                     }
                 }
-                if(args.length == 2 && this.rootCommand.equalsIgnoreCase(args[0])) {
-                    if("remove".startsWith(args[1])) {
+                if (args.length == 2 && this.rootCommand.equalsIgnoreCase(args[0])) {
+                    if ("remove".startsWith(args[1])) {
                         returnme.add("remove");
                     }
-                    if(args[1].matches("[0-9]+")) {
+                    if (args[1].matches("[0-9]+")) {
                         returnme.add(args[1] + "s");
                         returnme.add(args[1] + "m");
                         returnme.add(args[1] + "h");

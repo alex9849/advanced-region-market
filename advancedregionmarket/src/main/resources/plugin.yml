@@ -4,503 +4,503 @@ main: net.alex9849.arm.AdvancedRegionMarket
 depend: [WorldGuard, WorldEdit, Vault]
 softdepend: [MultiWorld, Multiverse-Core, FastAsyncWorldEdit, LuckPerms]
 authors:
-   - alex9849
+  - alex9849
 api-version: 1.13
 prefix: AdvancedRegionMarket
 commands:
-   arm:
-      description: Shows the help page of ARM
-      usage: /arm help
-      permission-message: You don't have <permission>
-      aliases: [regionmarket]
+  arm:
+    description: Shows the help page of ARM
+    usage: /arm help
+    permission-message: You don't have <permission>
+    aliases: [regionmarket]
 permissions:
-   arm.*:
-      description: Give access to all commands of AdvancedRegionMarket
-      default: op
-      children:
-         arm.inactivityexpiration.unlimited: true
-         arm.admin.changeinactivityreset: true
-         arm.admin.create.sellregion: true
-         arm.admin.create.rentregion: true
-         arm.admin.create.contractregion: true
-         arm.admin.remove: true
-         arm.admin.buildeverywhere: true
-         arm.admin.updateschematic: true
-         arm.admin.changeishotel: true
-         arm.admin.changedoblockreset: true
-         arm.admin.setregionkind: true
-         arm.admin.listregions: true
-         arm.admin.resetregion: true
-         arm.admin.resetregionblocks: true
-         arm.admin.unsell: true
-         arm.admin.info: true
-         arm.admin.addmember: true
-         arm.admin.removemember: true
-         arm.admin.tp: true
-         arm.admin.setowner: true
-         arm.admin.bypasslimit: true
-         arm.admin.setwarp: true
-         arm.admin.deleteregion: true
-         arm.admin.extend: true
-         arm.admin.reload: true
-         arm.admin.preset: true
-         arm.admin.preset.setprice: true
-         arm.admin.preset.setextendperclick: true
-         arm.admin.preset.setmaxrenttime: true
-         arm.admin.preset.setregionkind: true
-         arm.admin.preset.setinactivityreset: true
-         arm.admin.preset.sethotel: true
-         arm.admin.preset.setdoblockreset: true
-         arm.admin.preset.setautoprice: true
-         arm.admin.set.entitylimit: true
-         arm.admin.preset.info: true
-         arm.admin.preset.reset: true
-         arm.admin.preset.help: true
-         arm.admin.preset.load: true
-         arm.admin.preset.delete: true
-         arm.admin.preset.save: true
-         arm.admin.preset.list: true
-         arm.admin.preset.addcommand: true
-         arm.admin.preset.userresettable: true
-         arm.admin.preset.allowedsubregions: true
-         arm.admin.preset.removecommand: true
-         arm.admin.preset.setextend: true
-         arm.admin.terminatecontract: true
-         arm.admin.regionstatus: true
-         arm.admin.bypassteleportercooldown: true
-         arm.admin.setsubregionlimit: true
-         arm.admin.setisuserresettable: true
-         arm.admin.listautoprices: true
-         arm.admin.setprice: true
-         arm.admin.signlinkmode: true
-         arm.admin.flageditor: true
-         arm.admin.setflaggroup: true
-         arm.admin.set.flaggroup: true
-         arm.admin.entitylimit.create: true
-         arm.admin.entitylimit.delete: true
-         arm.admin.entitylimit.addlimit: true
-         arm.admin.entitylimit.removelimit: true
-         arm.admin.entitylimit.list: true
-         arm.admin.setentitylimit: true
-         arm.admin.entitylimit.check: true
-         arm.admin.entitylimit.setextra: true
-         arm.admin.entitylimit.help: true
-         arm.subregion.tool: true
-         arm.subregion.create.sellregion: true
-         arm.subregion.create.rentregion: true
-         arm.subregion.create.contractregion: true
-         arm.subregion.delete.available: true
-         arm.subregion.delete.sold: true
-         arm.subregion.changeishotel: true
-         arm.subregion.tp: true
-         arm.subregion.unsell: true
-         arm.subregion.resetregionblocks: true
-         arm.subregion.help: true
-         arm.admin.regionkind.create: true
-         arm.admin.regionkind.delete: true
-         arm.admin.regionkind.list: true
-         arm.admin.regionkind.setdisplayingui: true
-         arm.admin.regionkind.setdisplayinlimits: true
-         arm.admin.regionkind.setitem: true
-         arm.admin.regionkind.setpaybackpercentage: true
-         arm.admin.regionkind.setdisplayname: true
-         arm.admin.regionkind.removeloreline: true
-         arm.admin.regionkind.addloreline: true
-         arm.admin.regionkind.info: true
-         arm.admin.regionkind.help: true
-         arm.member.resetregionblocks: true
-         arm.member.sellregion: true
-         arm.member.info: true
-         arm.member.addmember: true
-         arm.member.removemember: true
-         arm.member.listregions: true
-         arm.member.gui: true
-         arm.member.tp: true
-         arm.member.limit: true
-         arm.member.offer.create: true
-         arm.member.offer.answer: true
-         arm.member.promote: true
-         arm.member.buy: true
-         arm.member.regionfinder: true
-         arm.member.entitylimit.info: true
-         arm.member.entitylimit.check: true
-         arm.member.entitylimit.buyextra: true
-         arm.member.tptofreeregion: true
-         arm.member.flageditor: true
-         arm.help: true
-   arm.member.*:
-      description: Give access to all commands for normal players without subregion commands and halp commands
-      default: true
-      children:
-         arm.member.resetregionblocks: true
-         arm.member.sellregion: true
-         arm.member.info: true
-         arm.member.addmember: true
-         arm.member.removemember: true
-         arm.member.listregions: true
-         arm.member.gui: true
-         arm.member.tp: true
-         arm.member.limit: true
-         arm.member.offer.create: true
-         arm.member.offer.answer: true
-         arm.member.promote: true
-         arm.member.buy: true
-         arm.member.regionfinder: true
-         arm.member.entitylimit.info: true
-         arm.member.entitylimit.check: true
-         arm.member.entitylimit.buyextra: true
-         arm.member.tptofreeregion: true
-         arm.member.flageditor: true
-   arm.subregion.*:
-      description: Give access to all commands for subregions
-      default: true
-      children:
-         arm.member.resetregionblocks: true
-         arm.member.sellregion: true
-         arm.member.info: true
-         arm.member.addmember: true
-         arm.member.removemember: true
-         arm.member.listregions: true
-         arm.member.gui: true
-         arm.member.tp: true
-         arm.member.limit: true
-         arm.member.offer.create: true
-         arm.member.offer.answer: true
-         arm.member.promote: true
-         arm.member.buy: true
-         arm.member.regionfinder: true
-         arm.member.entitylimit.info: true
-         arm.member.entitylimit.check: true
-         arm.member.entitylimit.buyextra: true
-         arm.member.tptofreeregion: true
-         arm.member.flageditor: true
-   arm.admin.changeinactivityreset:
-      description: Allows to enable and disable inactivityreset for specific regions
-      default: op
-   arm.admin.create.sellregion:
-      description: Allow to create sellregions
-      default: op
-   arm.admin.create.rentregion:
-      description: Allow to create rentregions
-      default: op
-   arm.admin.create.contractregion:
-      description: Allow to create contractregions
-      default: op
-   arm.admin.remove:
-      description: Allow to remove signs that a linked to regions
-      default: op
-   arm.admin.buildeverywhere:
-      description: Allows to break blocks in regions that have the hotel setting enabled
-      default: op
-   arm.admin.updateschematic:
-      description: Allows update the schematic of a region
-      default: op
-   arm.admin.changeishotel:
-      description: Allows to enable and disable the hotel feature for specific regions
-      default: op
-   arm.admin.changedoblockreset:
-      description: Allows to enable and disable the automatic regionrestore after a region got automatically reset
-      default: op
-   arm.admin.setregionkind:
-      description: Allows to change the regionkind of a region
-      default: op
-   arm.admin.listregions:
-      description: Allows to list all regions where a player is owner or member
-      default: op
-   arm.admin.resetregion:
-      description: Allows to reset a region which includes restoring the blocks inside the region
-      default: op
-   arm.admin.resetregionblocks:
-      description: Allows to reset the blocks inside a region without removing owner or members
-      default: op
-   arm.admin.unsell:
-      description: Allows to unsell a region without restoring the blocks inside the region
-      default: op
-   arm.admin.info:
-      description: Allows to display information about a region
-      default: op
-   arm.admin.addmember:
-      description: Allows to add a member to a region without having owner rights on it
-      default: op
-   arm.admin.removemember:
-      description: Allows to remove a member from a region without having owner rights on it
-      default: op
-   arm.admin.tp:
-      description: Allows to teleport to a region without being a member of it
-      default: op
-   arm.admin.setowner:
-      description: Allows to set the owner of a region
-      default: op
-   arm.admin.bypasslimit:
-      description: Allows bypass region limits
-      default: op
-   arm.admin.setwarp:
-      description: Allows to change the teleport location of a region
-      default: op
-   arm.admin.deleteregion:
-      description: Allows to delete a region
-      default: op
-   arm.admin.extend:
-      description: Allows to extend a region without being the owner of it
-      default: op
-   arm.admin.reload:
-      description: Allows to reload the plugin
-      default: op
-   arm.admin.set.entitylimit:
-      description: Allows set the entitylimitgroup of a region
-      default: op
-   arm.admin.preset:
-      description: Preset permission
-      default: op
-   arm.admin.preset.setprice:
-      description: Preset permission
-      default: op
-   arm.admin.preset.setextendperclick:
-      description: Preset permission
-      default: op
-   arm.admin.preset.setmaxrenttime:
-      description: Preset permission
-      default: op
-   arm.admin.preset.setregionkind:
-      description: Preset permission
-      default: op
-   arm.admin.preset.setinactivityreset:
-      description: Preset permission
-      default: op
-   arm.admin.preset.sethotel:
-      description: Preset permission
-      default: op
-   arm.admin.preset.setdoblockreset:
-      description: Preset permission
-      default: op
-   arm.admin.preset.setautoprice:
-      description: Preset permission
-      default: op
-   arm.admin.preset.info:
-      description: Preset permission
-      default: op
-   arm.admin.preset.reset:
-      description: Preset permission
-      default: op
-   arm.admin.preset.help:
-      description: Preset permission
-      default: op
-   arm.admin.preset.load:
-      description: Preset permission
-      default: op
-   arm.admin.preset.delete:
-      description: Preset permission
-      default: op
-   arm.admin.preset.save:
-      description: Preset permission
-      default: op
-   arm.admin.preset.list:
-      description: Preset permission
-      default: op
-   arm.admin.preset.addcommand:
-      description: Preset permission
-      default: op
-   arm.admin.preset.userresettable:
-      description: Preset permission
-      default: op
-   arm.admin.preset.allowedsubregions:
-      description: Preset permission
-      default: op
-   arm.admin.preset.removecommand:
-      description: Preset permission
-      default: op
-   arm.admin.preset.setextend:
-      description: Preset permission
-      default: op
-   arm.admin.preset.flaggroup:
-      description: Preset permission
-      default: op
-   arm.admin.terminatecontract:
-      description: Allows terminate another player contractregion
-      default: op
-   arm.admin.regionstatus:
-      description: Allows to display statistics about all regions
-      default: op
-   arm.admin.bypassteleportercooldown:
-      description: Allows to bypass the cooldown of the teleporter
-      default: op
-   arm.admin.setsubregionlimit:
-      description: Allows set the amount of allowed subregions on a region
-      default: op
-   arm.admin.setisuserresettable:
-      description: Allows decide of the owner of a region can reset the blocks of the region
-      default: op
-   arm.admin.listautoprices:
-      description: Allows display all available autoprices
-      default: op
-   arm.admin.setprice:
-      description: Allows to set the price of a region
-      default: op
-   arm.admin.signlinkmode:
-      description: Allows to enter the SignLinkingMode
-      default: op
-   arm.admin.flageditor:
-      description: Allows to open the flageditor for all regions
-      default: op
-   arm.admin.setflaggroup:
-      description: Allows to set the flaggroup of a region
-      default: op
-   arm.admin.entitylimit.create:
-      description: Allows to create an entitylimitgroup
-      default: op
-   arm.admin.entitylimit.delete:
-      description: Allows to delete an entitylimitgroup
-      default: op
-   arm.admin.entitylimit.addlimit:
-      description: Allows to add a limit to an entitylimitgroup
-      default: op
-   arm.admin.entitylimit.removelimit:
-      description: Allows to remove a limit of an entitylimitgroup
-      default: op
-   arm.admin.entitylimit.list:
-      description: Allows to list all entitylimitgroups
-      default: op
-   arm.admin.setentitylimit:
-      description: Allows to set the entitylimitgroup of a region
-      default: op
-   arm.admin.entitylimit.check:
-      description: Allows to check the amount of entities insire a region
-      default: op
-   arm.admin.entitylimit.setextra:
-      description: Allows to expand the amount of entities that can be spawned inside a region
-      default: op
-   arm.admin.entitylimit.help:
-      description: Allows to display the help page of the arm entitylimit command
-      default: op
-   arm.subregion.tool:
-      description: Allows give the player a tool that can be used to mark the corners of a new subregion
-      default: true
-   arm.subregion.create.sellregion:
-      description: Allows to create a subregions as sellregions
-      default: true
-   arm.subregion.create.rentregion:
-      description: Allows to create a subregions as rentregions
-      default: true
-   arm.subregion.create.contractregion:
-      description: Allows to create a subregions as contractregions
-      default: true
-   arm.subregion.delete.available:
-      description: Allows to delete subregions that are not sold
-      default: true
-   arm.subregion.delete.sold:
-      description: Allows to delete subregions that are sold
-      default: op
-   arm.subregion.changeishotel:
-      description: Allows to enable or disable the hotelfunction for a subregion
-      default: true
-   arm.subregion.tp:
-      description: Allows to teleport to a subregion
-      default: true
-   arm.subregion.unsell:
-      description: Allows to unsell a subregion
-      default: true
-   arm.subregion.resetregionblocks:
-      description: Allows to reset the built blocks inside a subregion
-      default: true
-   arm.subregion.help:
-      description: Allows display the help page of the arm subregion command
-      default: true
-   arm.admin.regionkind.create:
-      description: Allows to create a regionkind
-      default: op
-   arm.admin.regionkind.delete:
-      description: Allows to delete a regionkind
-      default: op
-   arm.admin.regionkind.list:
-      description: Allows to list all regionkinds
-      default: op
-   arm.admin.regionkind.setdisplayingui:
-      description: Allows to set if a regionkind will be displayed in the regionfinder
-      default: op
-   arm.admin.regionkind.setdisplayinlimits:
-      description: Allows to set if a regionkind will be displayed in the limits
-      default: op
-   arm.admin.regionkind.setitem:
-      description: Allows to set the icon of a regionkind
-      default: op
-   arm.admin.regionkind.setpaybackpercentage:
-      description: Allows to set the percentage the a player will get back if he sells a region with that regionkind back to the server
-      default: op
-   arm.admin.regionkind.setdisplayname:
-      description: Allows to change the displayname of a regionkind
-      default: op
-   arm.admin.regionkind.removeloreline:
-      description: Allows to remove a line of the description from a regionkind
-      default: op
-   arm.admin.regionkind.addloreline:
-      description: Allows to add a line to the description from a regionkind
-      default: op
-   arm.admin.regionkind.info:
-      description: Allows to display information about a regionkind
-      default: op
-   arm.admin.regionkind.help:
-      description: Allows to display the help page of the arm regionkind command
-      default: op
-   arm.member.resetregionblocks:
-      description: Allows to reset own regions
-      default: true
-   arm.member.sellregion:
-      description: Allows to sell a region back to the server
-      default: true
-   arm.member.info:
-      description: Allows display information about a region
-      default: true
-   arm.member.addmember:
-      description: Allows to add a member to your own region
-      default: true
-   arm.member.removemember:
-      description: Allows to remove a member from your own region
-      default: true
-   arm.member.listregions:
-      description: Allows to list own regions
-      default: true
-   arm.member.gui:
-      description: Allows to open the GUI of AdvancedRegionMarket
-      default: true
-   arm.member.tp:
-      description: Allows to teleport to your own regions
-      default: true
-   arm.member.limit:
-      description: Allows display your limits
-      default: true
-   arm.member.offer.create:
-      description: Allows to send a selloffer to a player
-      default: true
-   arm.member.offer.answer:
-      description: Allows to answer a selloffer
-      default: true
-   arm.member.promote:
-      description: Allows to make a member of your own region to the owner
-      default: true
-   arm.member.buy:
-      description: Allows to buy regions
-      default: true
-   arm.member.regionfinder:
-      description: Allows to use the regionfinder
-      default: true
-   arm.member.entitylimit.info:
-      description: Allows to display information about an entitylimit
-      default: true
-   arm.member.entitylimit.check:
-      description: Allows to check the amount of entities inside an owned region
-      default: true
-   arm.member.entitylimit.buyextra:
-      description: Allows to buy extra entities for a region
-      default: true
-   arm.member.tptofreeregion:
-      description: Allows to teleport to a free region with a specific regionkind
-      default: true
-   arm.member.flageditor:
-      description: Allows to use the flageditor for own regions
-      default: true
-   arm.help:
-      description: Allows to display the help page of AdvancedRegionMarket
-      default: true
-   arm.inactivityexpiration.unlimited:
-      description: Deactivated InactivityReset for the user
-      default: op
+  arm.*:
+    description: Give access to all commands of AdvancedRegionMarket
+    default: op
+    children:
+      arm.inactivityexpiration.unlimited: true
+      arm.admin.changeinactivityreset: true
+      arm.admin.create.sellregion: true
+      arm.admin.create.rentregion: true
+      arm.admin.create.contractregion: true
+      arm.admin.remove: true
+      arm.admin.buildeverywhere: true
+      arm.admin.updateschematic: true
+      arm.admin.changeishotel: true
+      arm.admin.changedoblockreset: true
+      arm.admin.setregionkind: true
+      arm.admin.listregions: true
+      arm.admin.resetregion: true
+      arm.admin.resetregionblocks: true
+      arm.admin.unsell: true
+      arm.admin.info: true
+      arm.admin.addmember: true
+      arm.admin.removemember: true
+      arm.admin.tp: true
+      arm.admin.setowner: true
+      arm.admin.bypasslimit: true
+      arm.admin.setwarp: true
+      arm.admin.deleteregion: true
+      arm.admin.extend: true
+      arm.admin.reload: true
+      arm.admin.preset: true
+      arm.admin.preset.setprice: true
+      arm.admin.preset.setextendperclick: true
+      arm.admin.preset.setmaxrenttime: true
+      arm.admin.preset.setregionkind: true
+      arm.admin.preset.setinactivityreset: true
+      arm.admin.preset.sethotel: true
+      arm.admin.preset.setdoblockreset: true
+      arm.admin.preset.setautoprice: true
+      arm.admin.set.entitylimit: true
+      arm.admin.preset.info: true
+      arm.admin.preset.reset: true
+      arm.admin.preset.help: true
+      arm.admin.preset.load: true
+      arm.admin.preset.delete: true
+      arm.admin.preset.save: true
+      arm.admin.preset.list: true
+      arm.admin.preset.addcommand: true
+      arm.admin.preset.userresettable: true
+      arm.admin.preset.allowedsubregions: true
+      arm.admin.preset.removecommand: true
+      arm.admin.preset.setextend: true
+      arm.admin.terminatecontract: true
+      arm.admin.regionstatus: true
+      arm.admin.bypassteleportercooldown: true
+      arm.admin.setsubregionlimit: true
+      arm.admin.setisuserresettable: true
+      arm.admin.listautoprices: true
+      arm.admin.setprice: true
+      arm.admin.signlinkmode: true
+      arm.admin.flageditor: true
+      arm.admin.setflaggroup: true
+      arm.admin.set.flaggroup: true
+      arm.admin.entitylimit.create: true
+      arm.admin.entitylimit.delete: true
+      arm.admin.entitylimit.addlimit: true
+      arm.admin.entitylimit.removelimit: true
+      arm.admin.entitylimit.list: true
+      arm.admin.setentitylimit: true
+      arm.admin.entitylimit.check: true
+      arm.admin.entitylimit.setextra: true
+      arm.admin.entitylimit.help: true
+      arm.subregion.tool: true
+      arm.subregion.create.sellregion: true
+      arm.subregion.create.rentregion: true
+      arm.subregion.create.contractregion: true
+      arm.subregion.delete.available: true
+      arm.subregion.delete.sold: true
+      arm.subregion.changeishotel: true
+      arm.subregion.tp: true
+      arm.subregion.unsell: true
+      arm.subregion.resetregionblocks: true
+      arm.subregion.help: true
+      arm.admin.regionkind.create: true
+      arm.admin.regionkind.delete: true
+      arm.admin.regionkind.list: true
+      arm.admin.regionkind.setdisplayingui: true
+      arm.admin.regionkind.setdisplayinlimits: true
+      arm.admin.regionkind.setitem: true
+      arm.admin.regionkind.setpaybackpercentage: true
+      arm.admin.regionkind.setdisplayname: true
+      arm.admin.regionkind.removeloreline: true
+      arm.admin.regionkind.addloreline: true
+      arm.admin.regionkind.info: true
+      arm.admin.regionkind.help: true
+      arm.member.resetregionblocks: true
+      arm.member.sellregion: true
+      arm.member.info: true
+      arm.member.addmember: true
+      arm.member.removemember: true
+      arm.member.listregions: true
+      arm.member.gui: true
+      arm.member.tp: true
+      arm.member.limit: true
+      arm.member.offer.create: true
+      arm.member.offer.answer: true
+      arm.member.promote: true
+      arm.member.buy: true
+      arm.member.regionfinder: true
+      arm.member.entitylimit.info: true
+      arm.member.entitylimit.check: true
+      arm.member.entitylimit.buyextra: true
+      arm.member.tptofreeregion: true
+      arm.member.flageditor: true
+      arm.help: true
+  arm.member.*:
+    description: Give access to all commands for normal players without subregion commands and halp commands
+    default: true
+    children:
+      arm.member.resetregionblocks: true
+      arm.member.sellregion: true
+      arm.member.info: true
+      arm.member.addmember: true
+      arm.member.removemember: true
+      arm.member.listregions: true
+      arm.member.gui: true
+      arm.member.tp: true
+      arm.member.limit: true
+      arm.member.offer.create: true
+      arm.member.offer.answer: true
+      arm.member.promote: true
+      arm.member.buy: true
+      arm.member.regionfinder: true
+      arm.member.entitylimit.info: true
+      arm.member.entitylimit.check: true
+      arm.member.entitylimit.buyextra: true
+      arm.member.tptofreeregion: true
+      arm.member.flageditor: true
+  arm.subregion.*:
+    description: Give access to all commands for subregions
+    default: true
+    children:
+      arm.member.resetregionblocks: true
+      arm.member.sellregion: true
+      arm.member.info: true
+      arm.member.addmember: true
+      arm.member.removemember: true
+      arm.member.listregions: true
+      arm.member.gui: true
+      arm.member.tp: true
+      arm.member.limit: true
+      arm.member.offer.create: true
+      arm.member.offer.answer: true
+      arm.member.promote: true
+      arm.member.buy: true
+      arm.member.regionfinder: true
+      arm.member.entitylimit.info: true
+      arm.member.entitylimit.check: true
+      arm.member.entitylimit.buyextra: true
+      arm.member.tptofreeregion: true
+      arm.member.flageditor: true
+  arm.admin.changeinactivityreset:
+    description: Allows to enable and disable inactivityreset for specific regions
+    default: op
+  arm.admin.create.sellregion:
+    description: Allow to create sellregions
+    default: op
+  arm.admin.create.rentregion:
+    description: Allow to create rentregions
+    default: op
+  arm.admin.create.contractregion:
+    description: Allow to create contractregions
+    default: op
+  arm.admin.remove:
+    description: Allow to remove signs that a linked to regions
+    default: op
+  arm.admin.buildeverywhere:
+    description: Allows to break blocks in regions that have the hotel setting enabled
+    default: op
+  arm.admin.updateschematic:
+    description: Allows update the schematic of a region
+    default: op
+  arm.admin.changeishotel:
+    description: Allows to enable and disable the hotel feature for specific regions
+    default: op
+  arm.admin.changedoblockreset:
+    description: Allows to enable and disable the automatic regionrestore after a region got automatically reset
+    default: op
+  arm.admin.setregionkind:
+    description: Allows to change the regionkind of a region
+    default: op
+  arm.admin.listregions:
+    description: Allows to list all regions where a player is owner or member
+    default: op
+  arm.admin.resetregion:
+    description: Allows to reset a region which includes restoring the blocks inside the region
+    default: op
+  arm.admin.resetregionblocks:
+    description: Allows to reset the blocks inside a region without removing owner or members
+    default: op
+  arm.admin.unsell:
+    description: Allows to unsell a region without restoring the blocks inside the region
+    default: op
+  arm.admin.info:
+    description: Allows to display information about a region
+    default: op
+  arm.admin.addmember:
+    description: Allows to add a member to a region without having owner rights on it
+    default: op
+  arm.admin.removemember:
+    description: Allows to remove a member from a region without having owner rights on it
+    default: op
+  arm.admin.tp:
+    description: Allows to teleport to a region without being a member of it
+    default: op
+  arm.admin.setowner:
+    description: Allows to set the owner of a region
+    default: op
+  arm.admin.bypasslimit:
+    description: Allows bypass region limits
+    default: op
+  arm.admin.setwarp:
+    description: Allows to change the teleport location of a region
+    default: op
+  arm.admin.deleteregion:
+    description: Allows to delete a region
+    default: op
+  arm.admin.extend:
+    description: Allows to extend a region without being the owner of it
+    default: op
+  arm.admin.reload:
+    description: Allows to reload the plugin
+    default: op
+  arm.admin.set.entitylimit:
+    description: Allows set the entitylimitgroup of a region
+    default: op
+  arm.admin.preset:
+    description: Preset permission
+    default: op
+  arm.admin.preset.setprice:
+    description: Preset permission
+    default: op
+  arm.admin.preset.setextendperclick:
+    description: Preset permission
+    default: op
+  arm.admin.preset.setmaxrenttime:
+    description: Preset permission
+    default: op
+  arm.admin.preset.setregionkind:
+    description: Preset permission
+    default: op
+  arm.admin.preset.setinactivityreset:
+    description: Preset permission
+    default: op
+  arm.admin.preset.sethotel:
+    description: Preset permission
+    default: op
+  arm.admin.preset.setdoblockreset:
+    description: Preset permission
+    default: op
+  arm.admin.preset.setautoprice:
+    description: Preset permission
+    default: op
+  arm.admin.preset.info:
+    description: Preset permission
+    default: op
+  arm.admin.preset.reset:
+    description: Preset permission
+    default: op
+  arm.admin.preset.help:
+    description: Preset permission
+    default: op
+  arm.admin.preset.load:
+    description: Preset permission
+    default: op
+  arm.admin.preset.delete:
+    description: Preset permission
+    default: op
+  arm.admin.preset.save:
+    description: Preset permission
+    default: op
+  arm.admin.preset.list:
+    description: Preset permission
+    default: op
+  arm.admin.preset.addcommand:
+    description: Preset permission
+    default: op
+  arm.admin.preset.userresettable:
+    description: Preset permission
+    default: op
+  arm.admin.preset.allowedsubregions:
+    description: Preset permission
+    default: op
+  arm.admin.preset.removecommand:
+    description: Preset permission
+    default: op
+  arm.admin.preset.setextend:
+    description: Preset permission
+    default: op
+  arm.admin.preset.flaggroup:
+    description: Preset permission
+    default: op
+  arm.admin.terminatecontract:
+    description: Allows terminate another player contractregion
+    default: op
+  arm.admin.regionstatus:
+    description: Allows to display statistics about all regions
+    default: op
+  arm.admin.bypassteleportercooldown:
+    description: Allows to bypass the cooldown of the teleporter
+    default: op
+  arm.admin.setsubregionlimit:
+    description: Allows set the amount of allowed subregions on a region
+    default: op
+  arm.admin.setisuserresettable:
+    description: Allows decide of the owner of a region can reset the blocks of the region
+    default: op
+  arm.admin.listautoprices:
+    description: Allows display all available autoprices
+    default: op
+  arm.admin.setprice:
+    description: Allows to set the price of a region
+    default: op
+  arm.admin.signlinkmode:
+    description: Allows to enter the SignLinkingMode
+    default: op
+  arm.admin.flageditor:
+    description: Allows to open the flageditor for all regions
+    default: op
+  arm.admin.setflaggroup:
+    description: Allows to set the flaggroup of a region
+    default: op
+  arm.admin.entitylimit.create:
+    description: Allows to create an entitylimitgroup
+    default: op
+  arm.admin.entitylimit.delete:
+    description: Allows to delete an entitylimitgroup
+    default: op
+  arm.admin.entitylimit.addlimit:
+    description: Allows to add a limit to an entitylimitgroup
+    default: op
+  arm.admin.entitylimit.removelimit:
+    description: Allows to remove a limit of an entitylimitgroup
+    default: op
+  arm.admin.entitylimit.list:
+    description: Allows to list all entitylimitgroups
+    default: op
+  arm.admin.setentitylimit:
+    description: Allows to set the entitylimitgroup of a region
+    default: op
+  arm.admin.entitylimit.check:
+    description: Allows to check the amount of entities insire a region
+    default: op
+  arm.admin.entitylimit.setextra:
+    description: Allows to expand the amount of entities that can be spawned inside a region
+    default: op
+  arm.admin.entitylimit.help:
+    description: Allows to display the help page of the arm entitylimit command
+    default: op
+  arm.subregion.tool:
+    description: Allows give the player a tool that can be used to mark the corners of a new subregion
+    default: true
+  arm.subregion.create.sellregion:
+    description: Allows to create a subregions as sellregions
+    default: true
+  arm.subregion.create.rentregion:
+    description: Allows to create a subregions as rentregions
+    default: true
+  arm.subregion.create.contractregion:
+    description: Allows to create a subregions as contractregions
+    default: true
+  arm.subregion.delete.available:
+    description: Allows to delete subregions that are not sold
+    default: true
+  arm.subregion.delete.sold:
+    description: Allows to delete subregions that are sold
+    default: op
+  arm.subregion.changeishotel:
+    description: Allows to enable or disable the hotelfunction for a subregion
+    default: true
+  arm.subregion.tp:
+    description: Allows to teleport to a subregion
+    default: true
+  arm.subregion.unsell:
+    description: Allows to unsell a subregion
+    default: true
+  arm.subregion.resetregionblocks:
+    description: Allows to reset the built blocks inside a subregion
+    default: true
+  arm.subregion.help:
+    description: Allows display the help page of the arm subregion command
+    default: true
+  arm.admin.regionkind.create:
+    description: Allows to create a regionkind
+    default: op
+  arm.admin.regionkind.delete:
+    description: Allows to delete a regionkind
+    default: op
+  arm.admin.regionkind.list:
+    description: Allows to list all regionkinds
+    default: op
+  arm.admin.regionkind.setdisplayingui:
+    description: Allows to set if a regionkind will be displayed in the regionfinder
+    default: op
+  arm.admin.regionkind.setdisplayinlimits:
+    description: Allows to set if a regionkind will be displayed in the limits
+    default: op
+  arm.admin.regionkind.setitem:
+    description: Allows to set the icon of a regionkind
+    default: op
+  arm.admin.regionkind.setpaybackpercentage:
+    description: Allows to set the percentage the a player will get back if he sells a region with that regionkind back to the server
+    default: op
+  arm.admin.regionkind.setdisplayname:
+    description: Allows to change the displayname of a regionkind
+    default: op
+  arm.admin.regionkind.removeloreline:
+    description: Allows to remove a line of the description from a regionkind
+    default: op
+  arm.admin.regionkind.addloreline:
+    description: Allows to add a line to the description from a regionkind
+    default: op
+  arm.admin.regionkind.info:
+    description: Allows to display information about a regionkind
+    default: op
+  arm.admin.regionkind.help:
+    description: Allows to display the help page of the arm regionkind command
+    default: op
+  arm.member.resetregionblocks:
+    description: Allows to reset own regions
+    default: true
+  arm.member.sellregion:
+    description: Allows to sell a region back to the server
+    default: true
+  arm.member.info:
+    description: Allows display information about a region
+    default: true
+  arm.member.addmember:
+    description: Allows to add a member to your own region
+    default: true
+  arm.member.removemember:
+    description: Allows to remove a member from your own region
+    default: true
+  arm.member.listregions:
+    description: Allows to list own regions
+    default: true
+  arm.member.gui:
+    description: Allows to open the GUI of AdvancedRegionMarket
+    default: true
+  arm.member.tp:
+    description: Allows to teleport to your own regions
+    default: true
+  arm.member.limit:
+    description: Allows display your limits
+    default: true
+  arm.member.offer.create:
+    description: Allows to send a selloffer to a player
+    default: true
+  arm.member.offer.answer:
+    description: Allows to answer a selloffer
+    default: true
+  arm.member.promote:
+    description: Allows to make a member of your own region to the owner
+    default: true
+  arm.member.buy:
+    description: Allows to buy regions
+    default: true
+  arm.member.regionfinder:
+    description: Allows to use the regionfinder
+    default: true
+  arm.member.entitylimit.info:
+    description: Allows to display information about an entitylimit
+    default: true
+  arm.member.entitylimit.check:
+    description: Allows to check the amount of entities inside an owned region
+    default: true
+  arm.member.entitylimit.buyextra:
+    description: Allows to buy extra entities for a region
+    default: true
+  arm.member.tptofreeregion:
+    description: Allows to teleport to a free region with a specific regionkind
+    default: true
+  arm.member.flageditor:
+    description: Allows to use the flageditor for own regions
+    default: true
+  arm.help:
+    description: Allows to display the help page of AdvancedRegionMarket
+    default: true
+  arm.inactivityexpiration.unlimited:
+    description: Deactivated InactivityReset for the user
+    default: op

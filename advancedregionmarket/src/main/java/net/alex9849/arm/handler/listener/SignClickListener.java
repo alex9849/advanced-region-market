@@ -15,10 +15,10 @@ import org.bukkit.event.player.PlayerInteractEvent;
 public class SignClickListener implements Listener {
 
     @EventHandler
-    public void interactEvent(PlayerInteractEvent event){
+    public void interactEvent(PlayerInteractEvent event) {
         try {
 
-            if((event.getAction() != Action.LEFT_CLICK_BLOCK) && (event.getAction() != Action.RIGHT_CLICK_BLOCK)) {
+            if ((event.getAction() != Action.LEFT_CLICK_BLOCK) && (event.getAction() != Action.RIGHT_CLICK_BLOCK)) {
                 return;
             }
 
@@ -26,25 +26,25 @@ public class SignClickListener implements Listener {
                 return;
             }
 
-            if(AdvancedRegionMarket.getInstance().getRegionManager() == null) {
+            if (AdvancedRegionMarket.getInstance().getRegionManager() == null) {
                 return;
             }
 
             Sign sign = (Sign) event.getClickedBlock().getState();
 
             Region region = AdvancedRegionMarket.getInstance().getRegionManager().getRegion(sign);
-            if(region == null) {
+            if (region == null) {
                 return;
             }
 
-            if(event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                if(event.getPlayer().isSneaking()) {
+            if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                if (event.getPlayer().isSneaking()) {
                     this.handleSignCmd(region, AdvancedRegionMarket.getInstance().getPluginSettings().getSignRightClickSneakCommand(), event.getPlayer());
                 } else {
                     this.handleSignCmd(region, AdvancedRegionMarket.getInstance().getPluginSettings().getSignRightClickNotSneakCommand(), event.getPlayer());
                 }
-            } else if (event.getAction() == Action.LEFT_CLICK_BLOCK){
-                if(event.getPlayer().isSneaking()) {
+            } else if (event.getAction() == Action.LEFT_CLICK_BLOCK) {
+                if (event.getPlayer().isSneaking()) {
                     this.handleSignCmd(region, AdvancedRegionMarket.getInstance().getPluginSettings().getSignLeftClickSneakCommand(), event.getPlayer());
                 } else {
                     this.handleSignCmd(region, AdvancedRegionMarket.getInstance().getPluginSettings().getSignLeftClickNotSneakCommand(), event.getPlayer());
@@ -57,15 +57,15 @@ public class SignClickListener implements Listener {
     }
 
     private void handleSignCmd(Region region, String cmd, Player player) throws InputException {
-        if(cmd.equalsIgnoreCase("")) {
+        if (cmd.equalsIgnoreCase("")) {
             return;
         }
-        if(cmd.equalsIgnoreCase("buyaction")) {
+        if (cmd.equalsIgnoreCase("buyaction")) {
             try {
                 region.buy(player);
             } catch (NoPermissionException | OutOfLimitExeption | NotEnoughMoneyException |
                     AlreadySoldException | MaxRentTimeExceededException e) {
-                if(e.hasMessage()) player.sendMessage(Messages.PREFIX + e.getMessage());
+                if (e.hasMessage()) player.sendMessage(Messages.PREFIX + e.getMessage());
             }
 
             return;

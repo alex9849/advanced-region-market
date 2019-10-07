@@ -184,7 +184,7 @@ Subregions:
 
 Reselling:
   Offers:
-# Time in seconds
+    # Time in seconds
     OfferTimeOut: 30
 
 #Here you can change the Blocks that will be shown in the GUI. You can use

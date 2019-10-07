@@ -28,9 +28,9 @@ public abstract class WorldGuardInterface {
 
     public abstract void removeFromRegionManager(WGRegion region, World world, WorldGuardPlugin worldGuardPlugin);
 
-    public abstract <V> V parseFlagInput(Flag<V> flag , String input) throws InvalidFlagFormat;
+    public abstract <V> V parseFlagInput(Flag<V> flag, String input) throws InvalidFlagFormat;
 
-    public abstract RegionGroup parseFlagInput(RegionGroupFlag flag , String input) throws InvalidFlagFormat;
+    public abstract RegionGroup parseFlagInput(RegionGroupFlag flag, String input) throws InvalidFlagFormat;
 
     public abstract Flag fuzzyMatchFlag(String id);
 }

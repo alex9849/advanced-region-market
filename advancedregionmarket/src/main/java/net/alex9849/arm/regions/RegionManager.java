@@ -64,6 +64,7 @@ public class RegionManager extends YamlFileManager<Region> {
         }
         if(super.add(region, unsafe)) {
             this.addToWorldChunkMap(region);
+            this.updateScheduler.rearrangeUpdateQuenue();
             return true;
         }
         return false;
@@ -79,6 +80,7 @@ public class RegionManager extends YamlFileManager<Region> {
 
         if(super.remove(region)) {
             this.removeFromWorldChunkMap(region);
+            this.updateScheduler.rearrangeUpdateQuenue();
             return true;
         }
         return false;

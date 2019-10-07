@@ -14,7 +14,6 @@ import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.flaggroups.FlagGroupManager;
 import net.alex9849.arm.gui.Gui;
 import net.alex9849.arm.handler.CommandHandler;
-import net.alex9849.arm.handler.Scheduler;
 import net.alex9849.arm.handler.listener.*;
 import net.alex9849.arm.inactivityexpiration.InactivityExpirationGroup;
 import net.alex9849.arm.inactivityexpiration.PlayerInactivityGroupMapper;
@@ -189,7 +188,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         loadGroups();
         loadGUI();
         this.flagGroupManager = new FlagGroupManager(new File(this.getDataFolder() + "/flaggroups.yml"));
-        this.regionManager = new RegionManager(new File(this.getDataFolder() + "/regions.yml"));
+        this.regionManager = new RegionManager(new File(this.getDataFolder() + "/regions.yml"), 20 * getConfig().getInt("Other.SignAndResetUpdateInterval"));
         getLogger().log(Level.INFO, "Regions loaded!");
 
         loadSignLinkingModeRegions();
@@ -197,7 +196,9 @@ public class AdvancedRegionMarket extends JavaPlugin {
         loadOther();
         this.presetPatternManager = new PresetPatternManager(new File(this.getDataFolder() + "/presets.yml"));
         Region.setCompleteTabRegions(getConfig().getBoolean("Other.CompleteRegionsOnTabComplete"));
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Scheduler() , 0 ,20*getConfig().getInt("Other.SignAndResetUpdateInterval"));
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
+            this.getRegionManager().doTick();
+        }, 1, 1);
         this.commandHandler = new CommandHandler(new ArrayList<>(Arrays.asList("help")), "");
         List<BasicArmCommand> commands = new ArrayList<>();
         String[] betweencmds = {};

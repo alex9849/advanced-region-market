@@ -37,14 +37,17 @@ import java.util.logging.Level;
 public class RegionManager extends YamlFileManager<Region> {
 
     private final HashMap<World, HashMap<DummyChunk, List<Region>>> worldChunkRegionMap;
+    private UpdateScheduler updateScheduler;
 
-    public RegionManager(File savepath) {
+    public RegionManager(File savepath, int updateTicks) {
         super(savepath);
         this.worldChunkRegionMap = new HashMap<>();
 
         for(Region region : this) {
             this.addToWorldChunkMap(region);
         }
+
+        this.updateScheduler = this.new UpdateScheduler(updateTicks);
     }
 
     @Override
@@ -778,13 +781,10 @@ public class RegionManager extends YamlFileManager<Region> {
         return returnme;
     }
 
-    public void updateRegions(){
-        for(Region region : this) {
-            region.updateRegion();
-            for(Region subregion : region.getSubregions()) {
-                subregion.updateRegion();
-            }
-        }
+    public void doTick() {
+        long timer = System.nanoTime();
+        this.updateScheduler.updateNextGroup();
+        Bukkit.getLogger().log(Level.INFO, "Tick took: " + (System.nanoTime() - timer) + "ns");
     }
 
     /**
@@ -854,6 +854,47 @@ public class RegionManager extends YamlFileManager<Region> {
             }
             return chunkSet;
         }
+    }
+
+    private class UpdateScheduler {
+        private int nextToUpdate = 0;
+        private List<Region>[] updateQuenue;
+
+        UpdateScheduler(int ticks) {
+            this.updateQuenue = new List[ticks];
+            for(int i = 0; i < this.updateQuenue.length; i++) {
+                this.updateQuenue[i] = new ArrayList<>();
+            }
+            this.rearrangeUpdateQuenue();
+        }
+
+        void rearrangeUpdateQuenue() {
+            int rmSize = RegionManager.this.size();
+            int quenueLength = this.updateQuenue.length;
+            double jumpGap = (quenueLength) / ((double) rmSize);
+
+
+            for(int i = 0; i < rmSize; i++) {
+                int index = (int) jumpGap * i;
+                if(index >= this.updateQuenue.length) index %= this.updateQuenue.length;
+                this.updateQuenue[index].add(RegionManager.this.get(i));
+            }
+        }
+
+        void updateNextGroup() {
+            List<Region> toUpdate = this.updateQuenue[this.nextToUpdate++];
+            this.nextToUpdate %= this.updateQuenue.length;
+
+            for(Region region : toUpdate) {
+                region.updateRegion();
+                for(Region subregion : region.getSubregions()) {
+                    subregion.updateRegion();
+                }
+            }
+
+        }
+
+
     }
 
 }

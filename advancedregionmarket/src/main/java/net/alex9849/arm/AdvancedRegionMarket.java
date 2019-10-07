@@ -500,8 +500,10 @@ public class AdvancedRegionMarket extends JavaPlugin {
         }
         this.worldguard = (WorldGuardPlugin) plugin;
         String version = "notSupported";
-        if (this.worldguard.getDescription().getVersion().startsWith("6.")) {
-            version = "6";
+        if (this.worldguard.getDescription().getVersion().startsWith("6.1")) {
+            version = "6_1";
+        } else if (this.worldguard.getDescription().getVersion().startsWith("6.2")) {
+            version = "6_2";
         } else {
 
             version = "7";

@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class WorldGuard6 extends WorldGuardInterface {
+public class WorldGuard6_1 extends WorldGuardInterface {
     private static HashMap<ProtectedRegion, WG6Region> createdRegions = new HashMap<ProtectedRegion, WG6Region>();
 
     @Override

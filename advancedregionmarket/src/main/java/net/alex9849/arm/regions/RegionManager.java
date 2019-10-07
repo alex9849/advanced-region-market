@@ -784,9 +784,7 @@ public class RegionManager extends YamlFileManager<Region> {
     }
 
     public void doTick() {
-        long timer = System.nanoTime();
         this.updateScheduler.updateNextGroup();
-        Bukkit.getLogger().log(Level.INFO, "Tick took: " + (System.nanoTime() - timer) + "ns");
     }
 
     /**

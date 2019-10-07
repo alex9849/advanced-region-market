@@ -20,11 +20,11 @@ public class StringReplacer {
         this.knownStrings = new HashMap<>();
     }
 
-    public StringBuffer replace(String string) {
+    public StringBuilder replace(String string) {
         return this.replace(string, false);
     }
 
-    public StringBuffer replace(String string, boolean textlerning) {
+    public StringBuilder replace(String string, boolean textlerning) {
         Collection<Emit> emits;
 
 
@@ -38,7 +38,7 @@ public class StringReplacer {
             emits = this.ahoCorasickTrie.parseText(string);
         }
 
-        StringBuffer sb = new StringBuffer(string);
+        StringBuilder sb = new StringBuilder(string);
         sb.ensureCapacity(sb.capacity() + this.minExtraLength);
         int shifted = 0;
         for(Emit emit : emits) {
@@ -52,5 +52,6 @@ public class StringReplacer {
         }
         return sb;
     }
+
 
 }

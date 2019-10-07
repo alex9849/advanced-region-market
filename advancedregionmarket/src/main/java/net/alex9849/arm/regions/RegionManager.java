@@ -871,16 +871,45 @@ public class RegionManager extends YamlFileManager<Region> {
         }
 
         void rearrangeUpdateQuenue() {
+            List<Region>[] newUpdateQuenue = new List[this.updateQuenue.length];
+            for(int i = 0; i < newUpdateQuenue.length; i++) {
+                newUpdateQuenue[i] = new ArrayList<>();
+            }
+
+            //Map regionSigns to chunks
+            HashMap<DummyChunk, List<Region>> signMap = new HashMap<>();
+            for(Region region : RegionManager.this) {
+                for(SignData signData : region.getSellSigns()) {
+                    Location sLoc = signData.getLocation();
+                    DummyChunk chunk = DummyChunk.getUniqueDummyChunk(sLoc.getBlockX() >> 4, sLoc.getBlockZ() >> 4);
+                    List<Region> regions = signMap.get(chunk);
+                    if(regions == null) {
+                        regions = new ArrayList<>();
+                        signMap.put(chunk, regions);
+                    }
+                    regions.add(region);
+                }
+            }
+            HashSet<Region> scheduledRegions = new HashSet<>();
+
             int rmSize = RegionManager.this.size();
-            int quenueLength = this.updateQuenue.length;
+            int quenueLength = newUpdateQuenue.length;
             double jumpGap = (quenueLength) / ((double) rmSize);
 
-
-            for(int i = 0; i < rmSize; i++) {
-                int index = (int) jumpGap * i;
-                if(index >= this.updateQuenue.length) index %= this.updateQuenue.length;
-                this.updateQuenue[index].add(RegionManager.this.get(i));
+            int i = 0;
+            for(List<Region> regionChunk : signMap.values()) {
+                for(Region region : regionChunk) {
+                    if(!scheduledRegions.contains(region)) {
+                        int index = (int) (jumpGap * i);
+                        if(index >= newUpdateQuenue.length) index %= newUpdateQuenue.length;
+                        newUpdateQuenue[index].add(RegionManager.this.get(i));
+                        scheduledRegions.add(region);
+                        i++;
+                    }
+                }
             }
+
+            this.updateQuenue = newUpdateQuenue;
         }
 
         void updateNextGroup() {

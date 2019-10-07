@@ -106,7 +106,7 @@ public class SignModifyListener implements Listener {
                 List<SignData> signDataList = new ArrayList<>();
                 signDataList.add(signData);
                 Region newArmRegion = preset.generateRegion(wgRegion, regionWorld, signDataList);
-                if(price == null) {
+                if(price == null && preset.canPriceLineBeLetEmpty()) {
                     sign.getPlayer().sendMessage(Messages.PREFIX + "Price not defined! Using default Autoprice!");
                 } else {
                     newArmRegion.setPrice(price);

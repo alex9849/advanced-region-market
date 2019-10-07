@@ -778,21 +778,11 @@ public class RegionManager extends YamlFileManager<Region> {
         return returnme;
     }
 
-    static long elapsedTime = 0;
-    static long updates = 0;
     public void updateRegions(){
-        long timer = System.nanoTime();
         for(Region region : this) {
             region.updateRegion();
             for(Region subregion : region.getSubregions()) {
                 subregion.updateRegion();
-            }
-            elapsedTime += System.nanoTime() - timer;
-            updates++;
-            Bukkit.getLogger().log(Level.INFO, "Average update: " + elapsedTime / updates);
-            if(updates % 5 == 0) {
-                updates = 0;
-                elapsedTime = 0;
             }
         }
     }

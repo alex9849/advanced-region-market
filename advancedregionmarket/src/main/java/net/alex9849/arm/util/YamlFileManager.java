@@ -4,20 +4,20 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Consumer;
 
 public abstract class YamlFileManager<ManagedObject extends Saveable> implements Iterable<ManagedObject> {
-    private List<ManagedObject> objectList;
+    private CopyOnWriteArrayList<ManagedObject> objectList;
     private YamlConfiguration yamlConfiguration;
     private File savepath;
     private boolean completeSaveQueuned;
 
 
     public YamlFileManager(File savepath) {
-        this.objectList = new ArrayList<>();
+        this.objectList = new CopyOnWriteArrayList<>();
         this.savepath = savepath;
         this.completeSaveQueuned = false;
         this.yamlConfiguration = YamlConfiguration.loadConfiguration(this.savepath);

@@ -903,27 +903,6 @@ public class RegionManager extends YamlFileManager<Region> {
                 }
             }
 
-            //Make list-size distribution symmetric to prevent updating all regions at the start of an update period,
-            //if the number of regions is smaller than the amount of update-ticks
-            int nrOfListsWithLargerSize = newUpdateQuenue.length;
-            for(int i = 0; i < newUpdateQuenue.length - 1; i++) {
-                if(newUpdateQuenue[i].size() > newUpdateQuenue[i + 1].size()) {
-                    nrOfListsWithLargerSize = i + 1;
-                    break;
-                }
-            }
-
-            double jumpGap = newUpdateQuenue.length / ((double) nrOfListsWithLargerSize);
-            for(int i = 0; i < nrOfListsWithLargerSize; i++) {
-                int switchDestination = (newUpdateQuenue.length - 1) - ((int) (jumpGap * i));
-                if(switchDestination < 0) switchDestination = 0;
-                List<Region> tmp = newUpdateQuenue[switchDestination];
-                newUpdateQuenue[switchDestination] = newUpdateQuenue[i];
-                newUpdateQuenue[i] = tmp;
-            }
-
-
-
             this.updateQuenue = newUpdateQuenue;
         }
 

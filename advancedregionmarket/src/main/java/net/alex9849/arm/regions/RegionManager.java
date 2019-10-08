@@ -891,22 +891,39 @@ public class RegionManager extends YamlFileManager<Region> {
             }
             HashSet<Region> scheduledRegions = new HashSet<>();
 
-            int rmSize = RegionManager.this.size();
-            int quenueLength = newUpdateQuenue.length;
-            double jumpGap = (quenueLength) / ((double) rmSize);
-
-            int i = 0;
+            //Try to distribute regions from the same chuck to different update-ticks as good as possible
+            int index = 0;
             for (List<Region> regionChunk : signMap.values()) {
                 for (Region region : regionChunk) {
                     if (!scheduledRegions.contains(region)) {
-                        int index = (int) (jumpGap * i);
-                        if (index >= newUpdateQuenue.length) index %= newUpdateQuenue.length;
-                        newUpdateQuenue[index].add(RegionManager.this.get(i));
-                        scheduledRegions.add(region);
-                        i++;
+                        newUpdateQuenue[index].add(region);
+                        index++;
+                        index %= newUpdateQuenue.length;
                     }
                 }
             }
+
+            //Make list-size distribution symmetric to prevent updating all regions at the start of an update period,
+            //if the number of regions is smaller than the amount of update-ticks
+            int nrOfListsWithLargerSize = newUpdateQuenue.length;
+            for(int i = 0; i < newUpdateQuenue.length - 1; i++) {
+                if(newUpdateQuenue[i].size() > newUpdateQuenue[i + 1].size()) {
+                    nrOfListsWithLargerSize = i + 1;
+                    break;
+                }
+            }
+
+            double jumpGap = newUpdateQuenue.length / ((double) nrOfListsWithLargerSize);
+            for(int i = 0; i < nrOfListsWithLargerSize; i++) {
+                int switchDestination = (newUpdateQuenue.length - 1) - ((int) (jumpGap * i));
+                if(switchDestination < 0) switchDestination = 0;
+                List<Region> tmp = newUpdateQuenue[switchDestination];
+                newUpdateQuenue[switchDestination] = newUpdateQuenue[i];
+                newUpdateQuenue[i] = tmp;
+            }
+
+
+
             this.updateQuenue = newUpdateQuenue;
         }
 

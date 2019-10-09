@@ -896,6 +896,7 @@ public class RegionManager extends YamlFileManager<Region> {
             for (List<Region> regionChunk : signMap.values()) {
                 for (Region region : regionChunk) {
                     if (!scheduledRegions.contains(region)) {
+                        scheduledRegions.add(region);
                         newUpdateQuenue[index].add(region);
                         index++;
                         index %= newUpdateQuenue.length;

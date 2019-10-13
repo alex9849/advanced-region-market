@@ -123,7 +123,10 @@ public abstract class Region implements Saveable {
             return CountdownRegion.getDate(this.getLastLogin(), true, "");
         });
         variableReplacements.put("%owner%", () -> {
-            return this.getOwnerName();
+            if(this.getRegion().getOwners().size() > 0) {
+                return this.getOwnerName();
+            }
+            return "";
         });
         variableReplacements.put("%autoprice%", () -> {
             if (this.getPriceObject().isAutoPrice()) {

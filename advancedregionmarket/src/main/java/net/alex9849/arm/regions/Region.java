@@ -61,6 +61,9 @@ public abstract class Region implements Saveable {
 
     {
         HashMap<String, StringCreator> variableReplacements = new HashMap<>();
+        variableReplacements.put("%prefix%", () -> {
+            return Messages.PREFIX;
+        });
         variableReplacements.put("%regionid%", () -> {
             return this.getRegion().getId();
         });

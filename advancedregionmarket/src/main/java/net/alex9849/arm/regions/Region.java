@@ -316,12 +316,20 @@ public abstract class Region implements Saveable {
         this.queueSave();
     }
 
-    public void delete() {
+    public void delete(RegionManager regionManager) {
         for (int i = 0; i < this.sellsign.size(); i++) {
             Location loc = this.sellsign.get(i).getLocation();
             loc.getBlock().setType(Material.AIR);
-            this.removeSign(loc, null);
+            this.removeSign(loc);
             i--;
+        }
+
+        if(this.isSubregion()) {
+            AdvancedRegionMarket.getInstance().getWorldGuardInterface().removeFromRegionManager(this.getRegion(), this.getRegionworld(), AdvancedRegionMarket.getInstance().getWorldGuard());
+            this.getParentRegion().getSubregions().remove(this);
+            this.getParentRegion().queueSave();
+        } else {
+            regionManager.remove(this);
         }
     }
 
@@ -372,34 +380,10 @@ public abstract class Region implements Saveable {
     }
 
     public boolean removeSign(Location loc) {
-        return this.removeSign(loc, null);
-    }
-
-    public boolean removeSign(Location loc, Player destroyer) {
         for (int i = 0; i < this.sellsign.size(); i++) {
             if (this.sellsign.get(i).getLocation().getWorld().getName().equals(loc.getWorld().getName())) {
                 if (this.sellsign.get(i).getLocation().distance(loc) == 0) {
                     this.sellsign.remove(i);
-                    if (destroyer != null) {
-                        String message = Messages.SIGN_REMOVED_FROM_REGION.replace("%remaining%", this.getNumberOfSigns() + "");
-                        destroyer.sendMessage(Messages.PREFIX + message);
-                    }
-                    if (this.sellsign.size() == 0) {
-                        for (int y = 0; i < this.getSubregions().size(); ) {
-                            this.getSubregions().get(y).delete();
-                        }
-                        if (this.isSubregion()) {
-                            AdvancedRegionMarket.getInstance().getWorldGuardInterface().removeFromRegionManager(this.getRegion(), this.getRegionworld(), AdvancedRegionMarket.getInstance().getWorldGuard());
-                            this.getParentRegion().getSubregions().remove(this);
-                            this.getParentRegion().queueSave();
-                        } else {
-                            AdvancedRegionMarket.getInstance().getRegionManager().remove(this);
-                        }
-                        if (destroyer != null) {
-                            destroyer.sendMessage(Messages.PREFIX + Messages.REGION_REMOVED_FROM_ARM);
-                        }
-                    }
-                    this.queueSave();
                     return true;
                 }
             }
@@ -525,8 +509,13 @@ public abstract class Region implements Saveable {
         AdvancedRegionMarket.getInstance().getWorldEditInterface().resetBlocks(this.getRegion(), this.getRegionworld(), AdvancedRegionMarket.getInstance().getWorldedit().getWorldEdit());
 
         if (AdvancedRegionMarket.getInstance().getPluginSettings().isDeleteSubregionsOnParentRegionBlockReset()) {
-            for (int i = 0; i < this.getSubregions().size(); ) {
-                this.getSubregions().get(i).delete();
+            for (int i = 0; i < this.getSubregions().size(); i++) {
+                Region subRegion = this.getSubregions().get(i);
+                //Just an extra check to make shure that the region really is a subregion
+                if(subRegion.isSubregion()) {
+                    this.getSubregions().get(i).delete(null);
+                    i--;
+                }
             }
         }
         this.resetBuiltBlocks();
@@ -744,8 +733,13 @@ public abstract class Region implements Saveable {
         this.lastreset = 1;
 
         if (AdvancedRegionMarket.getInstance().getPluginSettings().isDeleteSubregionsOnParentRegionUnsell()) {
-            for (int i = 0; i < this.getSubregions().size(); ) {
-                this.getSubregions().get(i).delete();
+            for (int i = 0; i < this.getSubregions().size(); i++) {
+                Region subRegion = this.getSubregions().get(i);
+                //Just an extra check to make shure that the region really is a subregion
+                if(subRegion.isSubregion()) {
+                    this.getSubregions().get(i).delete(null);
+                    i--;
+                }
             }
         }
 

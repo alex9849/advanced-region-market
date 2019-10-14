@@ -729,7 +729,7 @@ public class Gui implements Listener {
                     Gui.openWarning(player, Messages.DELETE_REGION_WARNING_NAME, new ClickAction() {
                         @Override
                         public void execute(Player player) throws InputException {
-                            region.delete();
+                            region.delete(AdvancedRegionMarket.getInstance().getRegionManager());
                             player.closeInventory();
                             player.sendMessage(Messages.PREFIX + Messages.REGION_DELETED);
                         }

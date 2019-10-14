@@ -22,6 +22,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -218,7 +219,8 @@ public class SignModifyListener implements Listener {
             Location loc = new Location(block.getBlock().getWorld(), loc_x, loc_y, loc_z);
 
             if (block.getPlayer().hasPermission(Permission.ADMIN_REMOVE_SIGN)) {
-                block.setCancelled(!region.removeSign(loc, block.getPlayer()));
+                block.setCancelled(true);
+                this.removeSignAndSendMessages(region, loc, block.getPlayer());
                 return;
             }
 
@@ -227,7 +229,8 @@ public class SignModifyListener implements Listener {
                     if (region.getParentRegion().getRegion().hasOwner(block.getPlayer().getUniqueId())) {
                         if (region.isSold()) {
                             if (block.getPlayer().hasPermission(Permission.SUBREGION_DELETE_SOLD)) {
-                                block.setCancelled(!region.removeSign(loc, block.getPlayer()));
+                                block.setCancelled(true);
+                                this.removeSignAndSendMessages(region, loc, block.getPlayer());
                                 return;
                             } else {
                                 block.setCancelled(true);
@@ -235,7 +238,8 @@ public class SignModifyListener implements Listener {
                             }
                         } else {
                             if (block.getPlayer().hasPermission(Permission.SUBREGION_DELETE_AVAILABLE)) {
-                                block.setCancelled(!region.removeSign(loc, block.getPlayer()));
+                                block.setCancelled(true);
+                                this.removeSignAndSendMessages(region, loc, block.getPlayer());
                                 return;
                             } else {
                                 block.setCancelled(true);
@@ -250,6 +254,18 @@ public class SignModifyListener implements Listener {
             }
         } catch (InputException inputException) {
             inputException.sendMessages(Messages.PREFIX);
+        }
+    }
+
+    private void removeSignAndSendMessages(Region region, Location signLoc, Player player) {
+        String message = Messages.SIGN_REMOVED_FROM_REGION.replace("%remaining%", region.getNumberOfSigns() + "");
+        player.sendMessage(Messages.PREFIX + message);
+        if(region.getNumberOfSigns() == 0) {
+            if(region.isSubregion()) {
+                region.delete(AdvancedRegionMarket.getInstance().getRegionManager());
+            }
+            AdvancedRegionMarket.getInstance().getRegionManager().remove(region);
+            player.sendMessage(Messages.PREFIX + Messages.REGION_REMOVED_FROM_ARM);
         }
     }
 

@@ -666,7 +666,6 @@ public class Gui implements Listener {
                     Gui.openWarning(player, Messages.GUI_RESET_REGION_WARNING_NAME, new ClickAction() {
                         @Override
                         public void execute(Player player) throws InputException {
-                            //TODO logToConsole
                             try {
                                 region.resetBlocks(Region.ActionReason.MANUALLY_BY_PARENT_REGION_OWNER, true);
                                 player.sendMessage(Messages.PREFIX + Messages.COMPLETE);
@@ -699,7 +698,6 @@ public class Gui implements Listener {
                     Gui.openWarning(player, Messages.UNSELL_REGION_WARNING_NAME, new ClickAction() {
                         @Override
                         public void execute(Player player) throws InputException {
-                            //TODO logToConsole
                             region.unsell(Region.ActionReason.MANUALLY_BY_PARENT_REGION_OWNER, true);
                             player.closeInventory();
                             player.sendMessage(Messages.PREFIX + Messages.REGION_NOW_AVIABLE);
@@ -1427,13 +1425,14 @@ public class Gui implements Listener {
             public void execute(Player player) throws InputException {
                 player.closeInventory();
                 if (region.getRegion().hasOwner(player.getUniqueId())) {
+                    String soldSuccessfullyMessage = region.getConvertedMessage(Messages.REGION_SOLD_BACK_SUCCESSFULLY);
                     try {
-                        //TODO send reset complete message
                         region.userSell(player);
                     } catch (SchematicNotFoundException e) {
                         AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, region.getConvertedMessage(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
                         player.sendMessage(Messages.PREFIX + Messages.SCHEMATIC_NOT_FOUND_ERROR_USER.replace("%regionid%", e.getRegion().getId()));
                     }
+                    player.sendMessage(Messages.PREFIX + soldSuccessfullyMessage);
 
                 } else {
                     throw new InputException(player, Messages.REGION_NOT_OWN);

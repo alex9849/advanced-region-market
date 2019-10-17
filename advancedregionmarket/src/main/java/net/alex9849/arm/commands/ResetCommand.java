@@ -63,11 +63,11 @@ public class ResetCommand implements BasicArmCommand {
         try {
             //TODO logToConsole
             resregion.resetRegion(Region.ActionReason.MANUALLY_BY_ADMIN, true);
-            sender.sendMessage(Messages.PREFIX + Messages.REGION_NOW_AVIABLE);
         } catch (SchematicNotFoundException e) {
             AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, resregion.getConvertedMessage(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
             player.sendMessage(Messages.PREFIX + Messages.SCHEMATIC_NOT_FOUND_ERROR_USER.replace("%regionid%", e.getRegion().getId()));
         }
+        sender.sendMessage(Messages.PREFIX + Messages.REGION_NOW_AVIABLE);
 
         return true;
     }

@@ -647,7 +647,6 @@ public abstract class Region implements Saveable {
             }
         }
 
-        //TODO Check if should log
         this.automaticResetRegion(ActionReason.USER_SELL, true);
     }
 
@@ -683,6 +682,13 @@ public abstract class Region implements Saveable {
         this.queueSave();
     }
 
+    /**
+     *
+     * @param actionReason
+     * @param logToConsole
+     * @throws SchematicNotFoundException if the schematic file of the region could not be found. Nevertheless
+     * if the execption gets thrown the region will be unsold
+     */
     public void automaticResetRegion(ActionReason actionReason, boolean logToConsole) throws SchematicNotFoundException {
         this.unsell(actionReason, logToConsole);
         if (this.isDoBlockReset()) {

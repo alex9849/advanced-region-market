@@ -363,6 +363,7 @@ public class Messages {
     public static String INFO_NOW = "&2Now";
     public static String INFO_NOT_CALCULATED = "&8Awaiting calculation...";
     public static String COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG = "&4Could not find or load schematic for region %region% in world %world%! You can regenerate it with /arm updateschematic %region%";
+    public static String REGION_SOLD_BACK_SUCCESSFULLY = "&2Your region %regionid% has been successfully sold back to the server! %paybackmoney%%currency% have been added to your account!";
     private static YamlConfiguration config;
 
     static void read() {
@@ -722,7 +723,7 @@ public class Messages {
         INFO_NOW = config.getString("Messages.InfoNow");
         INFO_NOT_CALCULATED = config.getString("Messages.InfoNotCalculated");
         COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG = config.getString("Messages.CouldNotFindOrLoadSchematicLog");
-
+        REGION_SOLD_BACK_SUCCESSFULLY = config.getString("Messages.RegionSoldBackSuccessfully");
         Messages.translateColorCodes();
     }
 
@@ -1044,6 +1045,7 @@ public class Messages {
         INFO_NOW = ChatColor.translateAlternateColorCodes('&', INFO_NOW);
         COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG = ChatColor.translateAlternateColorCodes('&', COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG);
         INFO_NOT_CALCULATED = ChatColor.translateAlternateColorCodes('&', INFO_NOT_CALCULATED);
+        REGION_SOLD_BACK_SUCCESSFULLY = ChatColor.translateAlternateColorCodes('&', REGION_SOLD_BACK_SUCCESSFULLY);
 
         for (int i = 0; i < REGION_INFO_SELLREGION.size(); i++) {
             REGION_INFO_SELLREGION.set(i, ChatColor.translateAlternateColorCodes('&', REGION_INFO_SELLREGION.get(i)));
@@ -1531,6 +1533,7 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.InfoNow", "&2Now");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.InfoNotCalculated", "&8Awaiting calculation...");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.CouldNotFindOrLoadSchematicLog", "&4Could not find or load schematic for region %region% in world %world%! You can regenerate it with /arm updateschematic %region%");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionSoldBackSuccessfully", "&2Your region %regionid% has been successfully sold back to the server! &6%paybackmoney%%currency% &2have been added to your account!");
 
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoSellregionAdmin", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
                 "&9ID: &e%regionid% &7(Type: &r%selltype%&7)",

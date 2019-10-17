@@ -1264,7 +1264,7 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.SubRegionRegionkindOnlyForSubregions", "&4Subregion regionkind only for subregions!");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.SubregionTeleportLocationError", "&4The selected region is a subregion. Teleport location can not be changed");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.PosCloudNotBeSetMarkOutsideRegion", "&4Position could not be set! Position outside region");
-        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SubRegionAlreadyAtThisPosition", "Your selection would overlap with a subregion that already has been created");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SubRegionAlreadyAtThisPosition", "&4Your selection would overlap with a subregion that already has been created");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.SubRegionLimitReached", "&4Subregion limit reached! You are not allowed to create more than &6%subregionlimit% &4subregions");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.SelectionInvalid", "&4Selection invalid! You need to select 2 positions! (Left/Right click) Type \"&6/arm subregion tool&4\" to get the selection tool");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionCreatedAndSaved", "&aRegion created and saved!");

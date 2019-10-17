@@ -1533,7 +1533,7 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.InfoNow", "&2Now");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.InfoNotCalculated", "&8Awaiting calculation...");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.CouldNotFindOrLoadSchematicLog", "&4Could not find or load schematic for region %region% in world %world%! You can regenerate it with /arm updateschematic %region%");
-        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionSoldBackSuccessfully", "&2Your region &6%regionid% &2has been successfully sold back to the server! &6%paybackmoney%%currency% &2have been added to your account!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionSoldBackSuccessfully", "&2Your region &6%regionid% &2has been sold back to the server successfully! &6%paybackmoney%%currency% &2have been added to your account!");
 
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoSellregionAdmin", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
                 "&9ID: &e%regionid% &7(Type: &r%selltype%&7)",

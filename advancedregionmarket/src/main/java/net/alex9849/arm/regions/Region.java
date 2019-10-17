@@ -497,7 +497,7 @@ public abstract class Region implements Saveable {
         AdvancedRegionMarket.getInstance().getWorldEditInterface().createSchematic(this.getRegion(), this.getRegionworld(), AdvancedRegionMarket.getInstance().getWorldedit().getWorldEdit());
     }
 
-    public void resetBlocks(ActionReason actionReason, boolean logToConsole) throws SchematicException {
+    public void resetBlocks(ActionReason actionReason, boolean logToConsole) throws SchematicNotFoundException {
 
         ResetBlocksEvent resetBlocksEvent = new ResetBlocksEvent(this);
         Bukkit.getServer().getPluginManager().callEvent(resetBlocksEvent);
@@ -619,7 +619,7 @@ public abstract class Region implements Saveable {
             this.lastreset = calendar.getTimeInMillis();
             this.queueSave();
             player.sendMessage(Messages.PREFIX + Messages.RESET_COMPLETE);
-        } catch (SchematicException e) {
+        } catch (SchematicNotFoundException e) {
             player.sendMessage(Messages.PREFIX + Messages.SCHEMATIC_NOT_FOUND_ERROR_USER.replace("%regionid%", e.getRegion().getId()));
             AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, this.getConvertedMessage(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
         }
@@ -637,7 +637,7 @@ public abstract class Region implements Saveable {
 
     public abstract double getPaybackMoney();
 
-    public void userSell(Player player) {
+    public void userSell(Player player) throws SchematicNotFoundException {
         List<UUID> owners = this.getRegion().getOwners();
         double amount = this.getPaybackMoney();
 
@@ -648,7 +648,7 @@ public abstract class Region implements Saveable {
         }
 
         //TODO Check if should log
-        this.automaticResetRegion(player, ActionReason.USER_SELL, true);
+        this.automaticResetRegion(ActionReason.USER_SELL, true);
     }
 
     public void setOwner(OfflinePlayer oPlayer) {
@@ -665,17 +665,13 @@ public abstract class Region implements Saveable {
         return lastLogin;
     }
 
-    public void resetRegion(ActionReason actionReason, boolean logToConsole) throws SchematicException {
+    public void resetRegion(ActionReason actionReason, boolean logToConsole) throws SchematicNotFoundException {
         this.unsell(actionReason, logToConsole);
         this.extraEntitys.clear();
         this.extraTotalEntitys = 0;
         this.queueSave();
         this.resetBlocks(actionReason, logToConsole);
         return;
-    }
-
-    public void automaticResetRegion(ActionReason actionReason, boolean logToConsole) {
-        this.automaticResetRegion(null, actionReason, logToConsole);
     }
 
     public FlagGroup getFlagGroup() {
@@ -687,22 +683,16 @@ public abstract class Region implements Saveable {
         this.queueSave();
     }
 
-    public void automaticResetRegion(Player player, ActionReason actionReason, boolean logToConsole) {
+    public void automaticResetRegion(ActionReason actionReason, boolean logToConsole) throws SchematicNotFoundException {
         this.unsell(actionReason, logToConsole);
         if (this.isDoBlockReset()) {
             this.extraEntitys.clear();
             this.extraTotalEntitys = 0;
             try {
                 this.resetBlocks(actionReason, logToConsole);
-            } catch (SchematicException e) {
-                AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, this.getConvertedMessage(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
-                if (player != null) {
-                    player.sendMessage(Messages.PREFIX + Messages.SCHEMATIC_NOT_FOUND_ERROR_USER.replace("%regionid%", e.getRegion().getId()));
-                }
+            } finally {
+                this.queueSave();
             }
-        }
-        if (player != null) {
-            player.sendMessage(Messages.PREFIX + Messages.RESET_COMPLETE);
         }
         this.queueSave();
     }

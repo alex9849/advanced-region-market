@@ -36,7 +36,6 @@ public class Messages {
     public static String SOLD_SIGN4 = "";
     public static String CURRENCY = "";
     public static String REGION_KIND_SET = "";
-    public static String REGION_KIND_NOT_EXIST = "";
     public static String COMMAND_ONLY_INGAME = "";
     public static String REGION_INFO_PRICE = "";
     public static String REGION_INFO_TYPE = "";
@@ -395,7 +394,6 @@ public class Messages {
         SOLD_SIGN4 = config.getString("Messages.SoldSign4");
         CURRENCY = config.getString("Messages.Currency");
         REGION_KIND_SET = config.getString("Messages.RegionKindSet");
-        REGION_KIND_NOT_EXIST = config.getString("Messages.RegionKindNotExist");
         COMMAND_ONLY_INGAME = config.getString("Messages.CommandOnlyIngame");
         REGION_INFO_PRICE = config.getString("Messages.RegionInfoPrice");
         REGION_INFO_TYPE = config.getString("Messages.RegionInfoType");
@@ -750,7 +748,6 @@ public class Messages {
         SOLD_SIGN4 = ChatColor.translateAlternateColorCodes('&', SOLD_SIGN4);
         CURRENCY = ChatColor.translateAlternateColorCodes('&', CURRENCY);
         REGION_KIND_SET = ChatColor.translateAlternateColorCodes('&', REGION_KIND_SET);
-        REGION_KIND_NOT_EXIST = ChatColor.translateAlternateColorCodes('&', REGION_KIND_NOT_EXIST);
         REGION_INFO_PRICE = ChatColor.translateAlternateColorCodes('&', REGION_INFO_PRICE);
         REGION_INFO_TYPE = ChatColor.translateAlternateColorCodes('&', REGION_INFO_TYPE);
         COMMAND_ONLY_INGAME = ChatColor.translateAlternateColorCodes('&', COMMAND_ONLY_INGAME);
@@ -1157,7 +1154,6 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionAlreadySold", "&4Region already Sold!");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.WorldDoesNotExist", "&4The selected world does not exist!");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionDoesNotExist", "&4The selected region does not exist in this (or the selected) world!");
-        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionKindNotExist", "&4Kind does not exist!");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.PriceCanNotBeNegative", "&4Price can not be negative!");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.CommandOnlyIngame", "&4This command can only be executed ingame!");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.RentExtendMaxRentTimeExceeded", "&4You can not rent this region for more than &6%maxrenttime% &4at once");

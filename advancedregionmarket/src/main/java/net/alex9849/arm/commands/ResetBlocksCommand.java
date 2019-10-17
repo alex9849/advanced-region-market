@@ -4,7 +4,7 @@ import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.InputException;
-import net.alex9849.arm.exceptions.SchematicException;
+import net.alex9849.arm.exceptions.SchematicNotFoundException;
 import net.alex9849.arm.gui.Gui;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regions.Region;
@@ -61,7 +61,7 @@ public class ResetBlocksCommand implements BasicArmCommand {
             try {
                 //TODO logToConsole
                 resregion.resetBlocks(Region.ActionReason.MANUALLY_BY_ADMIN, true);
-            } catch (SchematicException e) {
+            } catch (SchematicNotFoundException e) {
                 AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, resregion.getConvertedMessage(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
                 player.sendMessage(Messages.PREFIX + Messages.SCHEMATIC_NOT_FOUND_ERROR_USER.replace("%regionid%", e.getRegion().getId()));
             }

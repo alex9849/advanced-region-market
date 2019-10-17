@@ -670,7 +670,7 @@ public class Gui implements Listener {
                             try {
                                 region.resetBlocks(Region.ActionReason.MANUALLY_BY_PARENT_REGION_OWNER, true);
                                 player.sendMessage(Messages.PREFIX + Messages.COMPLETE);
-                            } catch (SchematicException e) {
+                            } catch (SchematicNotFoundException e) {
                                 AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, region.getConvertedMessage(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
                                 player.sendMessage(Messages.PREFIX + Messages.SCHEMATIC_NOT_FOUND_ERROR_USER.replace("%regionid%", e.getRegion().getId()));
                             }
@@ -1427,7 +1427,14 @@ public class Gui implements Listener {
             public void execute(Player player) throws InputException {
                 player.closeInventory();
                 if (region.getRegion().hasOwner(player.getUniqueId())) {
-                    region.userSell(player);
+                    try {
+                        //TODO send reset complete message
+                        region.userSell(player);
+                    } catch (SchematicNotFoundException e) {
+                        AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, region.getConvertedMessage(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
+                        player.sendMessage(Messages.PREFIX + Messages.SCHEMATIC_NOT_FOUND_ERROR_USER.replace("%regionid%", e.getRegion().getId()));
+                    }
+
                 } else {
                     throw new InputException(player, Messages.REGION_NOT_OWN);
                 }

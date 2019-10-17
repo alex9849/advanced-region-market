@@ -11,6 +11,7 @@ import net.alex9849.arm.entitylimit.commands.ListCommand;
 import net.alex9849.arm.entitylimit.commands.*;
 import net.alex9849.arm.exceptions.CmdSyntaxException;
 import net.alex9849.arm.exceptions.InputException;
+import net.alex9849.arm.exceptions.SchematicNotFoundException;
 import net.alex9849.arm.flaggroups.FlagGroupManager;
 import net.alex9849.arm.gui.Gui;
 import net.alex9849.arm.handler.CommandHandler;
@@ -368,7 +369,11 @@ public class AdvancedRegionMarket extends JavaPlugin {
                 for (Region region : AdvancedRegionMarket.getInstance().getRegionManager()) {
                     if (region.isInactivityResetEnabled() && region.isInactive()) {
                         //TODO logToConsole
-                        region.automaticResetRegion(Region.ActionReason.INACTIVITY, true);
+                        try {
+                            region.automaticResetRegion(Region.ActionReason.INACTIVITY, true);
+                        } catch (SchematicNotFoundException e) {
+                            AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, region.getConvertedMessage(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
+                        }
                     }
                 }
             }

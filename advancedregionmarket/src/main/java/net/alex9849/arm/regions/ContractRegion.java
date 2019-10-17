@@ -28,6 +28,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Level;
 
 public class ContractRegion extends CountdownRegion {
     private boolean terminated;
@@ -79,36 +80,38 @@ public class ContractRegion extends CountdownRegion {
     @Override
     public void updateRegion() {
 
-        if (this.isSold()) {
-            GregorianCalendar actualtime = new GregorianCalendar();
+        try {
+            if (this.isSold()) {
+                GregorianCalendar actualtime = new GregorianCalendar();
 
-            //If region expired and terminated
-            if (this.getPayedTill() < actualtime.getTimeInMillis()) {
-                if (this.isTerminated()) {
-                    //TODO logToConsole
-                    this.automaticResetRegion(ActionReason.EXPIRED, true);
-                } else {
-                    List<UUID> owners = this.getRegion().getOwners();
-                    if (owners.size() == 0) {
-                        this.extend();
+                //If region expired and terminated
+                if (this.getPayedTill() < actualtime.getTimeInMillis()) {
+                    if (this.isTerminated()) {
+                        //TODO logToConsole
+                        this.automaticResetRegion(ActionReason.EXPIRED, true);
                     } else {
-                        OfflinePlayer oplayer = Bukkit.getOfflinePlayer(owners.get(0));
-                        if (oplayer == null) {
+                        List<UUID> owners = this.getRegion().getOwners();
+                        if (owners.size() == 0) {
                             this.extend();
                         } else {
-                            if (AdvancedRegionMarket.getInstance().getEcon().hasAccount(oplayer)) {
-                                if (AdvancedRegionMarket.getInstance().getEcon().getBalance(oplayer) < this.getPrice()) {
-                                    //TODO logToConsole
-                                    this.automaticResetRegion(ActionReason.INSUFFICIENT_MONEY, true);
-                                } else {
-                                    AdvancedRegionMarket.getInstance().getEcon().withdrawPlayer(oplayer, this.getPrice());
-                                    if (this.isSubregion()) {
-                                        this.giveParentRegionOwnerMoney(this.getPrice());
-                                    }
-                                    this.extend();
-                                    if (oplayer.isOnline() && AdvancedRegionMarket.getInstance().getPluginSettings().isSendContractRegionExtendMessage()) {
-                                        String sendmessage = this.getConvertedMessage(Messages.CONTRACT_REGION_EXTENDED);
-                                        oplayer.getPlayer().sendMessage(Messages.PREFIX + sendmessage);
+                            OfflinePlayer oplayer = Bukkit.getOfflinePlayer(owners.get(0));
+                            if (oplayer == null) {
+                                this.extend();
+                            } else {
+                                if (AdvancedRegionMarket.getInstance().getEcon().hasAccount(oplayer)) {
+                                    if (AdvancedRegionMarket.getInstance().getEcon().getBalance(oplayer) < this.getPrice()) {
+                                        //TODO logToConsole
+                                        this.automaticResetRegion(ActionReason.INSUFFICIENT_MONEY, true);
+                                    } else {
+                                        AdvancedRegionMarket.getInstance().getEcon().withdrawPlayer(oplayer, this.getPrice());
+                                        if (this.isSubregion()) {
+                                            this.giveParentRegionOwnerMoney(this.getPrice());
+                                        }
+                                        this.extend();
+                                        if (oplayer.isOnline() && AdvancedRegionMarket.getInstance().getPluginSettings().isSendContractRegionExtendMessage()) {
+                                            String sendmessage = this.getConvertedMessage(Messages.CONTRACT_REGION_EXTENDED);
+                                            oplayer.getPlayer().sendMessage(Messages.PREFIX + sendmessage);
+                                        }
                                     }
                                 }
                             }
@@ -116,7 +119,10 @@ public class ContractRegion extends CountdownRegion {
                     }
                 }
             }
+        } catch (SchematicNotFoundException e) {
+            AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, this.getConvertedMessage(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
         }
+
         super.updateRegion();
     }
 

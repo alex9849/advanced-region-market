@@ -4,10 +4,10 @@ import net.alex9849.inter.WGRegion;
 
 import java.io.IOException;
 
-public class SchematicException extends IOException {
+public class SchematicNotFoundException extends IOException {
     private WGRegion wgRegion;
 
-    public SchematicException(WGRegion wgregion) {
+    public SchematicNotFoundException(WGRegion wgregion) {
         this.wgRegion = wgregion;
     }
 

@@ -52,7 +52,7 @@ public class SetRegionKind implements BasicArmCommand {
             }
             RegionKind regionKind = AdvancedRegionMarket.getInstance().getRegionKindManager().getRegionKind(args[1]);
             if (regionKind == null) {
-                throw new InputException(sender, Messages.REGION_KIND_NOT_EXIST);
+                throw new InputException(sender, Messages.REGIONKIND_DOES_NOT_EXIST);
             }
             if (regionKind == RegionKind.SUBREGION) {
                 throw new InputException(sender, Messages.SUB_REGION_REGIONKIND_ONLY_FOR_SUB_REGIONS);

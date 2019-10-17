@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
 
 public class RentRegion extends CountdownRegion {
     private static long expirationWarningTime;
@@ -194,7 +195,10 @@ public class RentRegion extends CountdownRegion {
             GregorianCalendar actualtime = new GregorianCalendar();
             if (this.getPayedTill() < actualtime.getTimeInMillis()) {
                 //TODO logToConsole
-                this.automaticResetRegion(ActionReason.EXPIRED, true);
+                try {
+                    this.automaticResetRegion(ActionReason.EXPIRED, true);
+                } catch (SchematicNotFoundException e) {
+                    AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, this.getConvertedMessage(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG)); }
             }
         }
         super.updateRegion();

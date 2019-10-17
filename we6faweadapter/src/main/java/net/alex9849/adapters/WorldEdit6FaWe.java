@@ -13,7 +13,7 @@ import com.sk89q.worldedit.function.operation.ForwardExtentCopy;
 import com.sk89q.worldedit.function.operation.Operations;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.world.registry.WorldData;
-import net.alex9849.arm.exceptions.SchematicException;
+import net.alex9849.arm.exceptions.SchematicNotFoundException;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.inter.WorldEditInterface;
 import org.bukkit.Bukkit;
@@ -49,7 +49,7 @@ public class WorldEdit6FaWe extends WorldEditInterface {
         }
     }
 
-    public void resetBlocks(WGRegion region, World bukkitworld, WorldEdit we) throws SchematicException {
+    public void resetBlocks(WGRegion region, World bukkitworld, WorldEdit we) throws SchematicNotFoundException {
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
         File rawschematicdic = new File(pluginfolder + "/schematics/" + bukkitworld.getName() + "/" + region.getId());
 
@@ -64,7 +64,7 @@ public class WorldEdit6FaWe extends WorldEditInterface {
         }
 
         if (file == null) {
-            throw new SchematicException(region);
+            throw new SchematicNotFoundException(region);
         }
 
         com.sk89q.worldedit.world.World world = new BukkitWorld(bukkitworld);
@@ -83,9 +83,9 @@ public class WorldEdit6FaWe extends WorldEditInterface {
             ((EditSession) destination).flushQueue();
 
         } catch (IOException e) {
-            throw new SchematicException(region);
+            throw new SchematicNotFoundException(region);
         } catch (MaxChangedBlocksException e) {
-            throw new SchematicException(region);
+            throw new SchematicNotFoundException(region);
         }
     }
 }

@@ -1183,7 +1183,7 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionKindSet", "&aRegionkind set!");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.ResetComplete", "&aReset complete!");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.Complete", "&aComplete!");
-        fileUpdated |= YamlFileManager.addDefault(config, "Messages.ResetRegionCooldownError", "&7You have to wait&6 %remainingusersellcooldown% &7till you can reset your region again");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.ResetRegionCooldownError", "&7You have to wait&6 %remaininguserresetcooldown% &7till you can reset your region again");
 
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.Currency", "$");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.SellSign1", "&2For Sale");

@@ -1732,6 +1732,27 @@ public class AdvancedRegionMarket extends JavaPlugin {
     }
 
     private void updateTo2p08(FileConfiguration pluginConfig) throws IOException {
+        File messagesConfDic = new File(this.getDataFolder() + "/messages.yml");
+        YamlConfiguration messagesConf = YamlConfiguration.loadConfiguration(messagesConfDic);
+        ConfigurationSection messagesSection = messagesConf.getConfigurationSection("Messages");
+        if (messagesSection != null) {
+            ArrayList<String> messageKeys = new ArrayList<String>(messagesSection.getKeys(false));
+
+            for (String key : messageKeys) {
+                Object msgObject = messagesSection.get(key);
+                if (msgObject instanceof List) {
+                    List<String> msgList = (List) msgObject;
+                    for (int i = 0; i < msgList.size(); i++) {
+                        msgList.set(i, msgList.get(i).replace("%remainingusersellcooldown%", "%remaininguserresetcooldown%"));
+                    }
+                } else if (msgObject instanceof String) {
+                    String msgString = (String) msgObject;
+                    msgString = msgString.replace("%remainingusersellcooldown%", "%remaininguserresetcooldown%");
+                    messagesSection.set(key, msgString);
+                }
+            }
+        }
+        messagesConf.save(messagesConfDic);
         File regionkindsConfDic = new File(this.getDataFolder() + "/regionkinds.yml");
         YamlConfiguration regionkindsConf = YamlConfiguration.loadConfiguration(regionkindsConfDic);
         ConfigurationSection regionKindsSection = regionkindsConf.getConfigurationSection("RegionKinds");
@@ -1749,4 +1770,5 @@ public class AdvancedRegionMarket extends JavaPlugin {
         pluginConfig.set("Version", 2.08);
         saveConfig();
     }
+
 }

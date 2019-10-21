@@ -82,7 +82,7 @@ public abstract class Region implements Saveable {
         variableReplacements.put("%priceperm3%", () -> {
             return Price.formatPrice(this.getPricePerM3());
         });
-        variableReplacements.put("%remainingusersellcooldown%", () -> {
+        variableReplacements.put("%remaininguserresetcooldown%", () -> {
             return CountdownRegion.getCountdown(false,
                     AdvancedRegionMarket.getInstance().getPluginSettings().getUserResetCooldown() + this.getLastreset(), true, "");
         });

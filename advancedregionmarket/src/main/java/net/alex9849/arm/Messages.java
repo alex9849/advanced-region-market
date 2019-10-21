@@ -128,10 +128,7 @@ public class Messages {
     public static String GUI_CONTRACT_ITEM = "&aManage contract";
     public static String REGION_INFO_AUTO_EXTEND_TIME = "&6Extend time: ";
     public static String REGION_INFO_AUTOPRICE = "&6Autoprice: ";
-    public static String CONTRACT_REGION_CHANGE_TERMINATED = "&6The contract of &a%regionid% &6has been set to %statuslong%";
-    public static String CONTRACT_REGION_STATUS_ACTIVE_LONG = "&aActive&6! Next Extension in %remaining%";
     public static String CONTRACT_REGION_STATUS_ACTIVE = "&aActive";
-    public static String CONTRACT_REGION_STATUS_TERMINATED_LONG = "&4Terminated&6! It will be resetted in %remaining%";
     public static String CONTRACT_REGION_STATUS_TERMINATED = "&4Terminated";
     public static String REGION_IS_NOT_A_CONTRACT_REGION = "&4Region is not a contractregion!";
     public static String GUI_OWNER_MEMBER_INFO_ITEM = "";
@@ -366,6 +363,8 @@ public class Messages {
     public static String REGION_MODIFIED = "&6%option% &6modified for %selectedregions%&6!";
     public static String UPDATING_SCHEMATIC = "&8Updating schematic...";
     public static String SCHEMATIC_UPDATED = "&aSchematic updated!";
+    public static String CONTRACTREGION_TERMINATED = "&aYour contractregion &6%region% &ahas successfully been &4terminated&a! It will be resetted in &6%remaining% &aexcept it gets reactivated!";
+    public static String CONTRACTREGION_REACTIVATED = "&aYour contractregion &6%region% &ahas successfully been &4reactivated&a! It will automatically extended in &6%remaining% &aif you can pay for the rent!";
     private static YamlConfiguration config;
 
     static void read() {
@@ -499,10 +498,7 @@ public class Messages {
         CONTRACT_REGION_EXTENDED = config.getString("Messages.ContractRegionExtended");
         GUI_CONTRACT_ITEM = config.getString("Messages.GUIContractItem");
         REGION_INFO_AUTO_EXTEND_TIME = config.getString("Messages.RegionInfoAutoExtendTime");
-        CONTRACT_REGION_CHANGE_TERMINATED = config.getString("Messages.ContractRegionChangeTerminated");
-        CONTRACT_REGION_STATUS_ACTIVE_LONG = config.getString("Messages.ContractRegionStatusActiveLong");
         CONTRACT_REGION_STATUS_ACTIVE = config.getString("Messages.ContractRegionStatusActive");
-        CONTRACT_REGION_STATUS_TERMINATED_LONG = config.getString("Messages.ContractRegionStatusTerminatedLong");
         CONTRACT_REGION_STATUS_TERMINATED = config.getString("Messages.ContractRegionStatusTerminated");
         GUI_CONTRACT_ITEM_LORE = config.getStringList("Messages.GUIContractItemLore");
         GUI_CONTRACT_REGION_LORE = config.getStringList("Messages.GUIContractItemRegionLore");
@@ -728,6 +724,8 @@ public class Messages {
         REGION_MODIFIED = config.getString("Messages.RegionModified");
         UPDATING_SCHEMATIC = config.getString("Messages.UpdatingSchematic");
         SCHEMATIC_UPDATED = config.getString("Messages.SchematicUpdated");
+        CONTRACTREGION_TERMINATED = config.getString("Messages.ContractRegionTerminated");
+        CONTRACTREGION_REACTIVATED = config.getString("Messages.ContractRegionReactivated");
         Messages.translateColorCodes();
     }
 
@@ -842,10 +840,7 @@ public class Messages {
         CONTRACT_REGION_EXTENDED = ChatColor.translateAlternateColorCodes('&', CONTRACT_REGION_EXTENDED);
         GUI_CONTRACT_ITEM = ChatColor.translateAlternateColorCodes('&', GUI_CONTRACT_ITEM);
         REGION_INFO_AUTO_EXTEND_TIME = ChatColor.translateAlternateColorCodes('&', REGION_INFO_AUTO_EXTEND_TIME);
-        CONTRACT_REGION_CHANGE_TERMINATED = ChatColor.translateAlternateColorCodes('&', CONTRACT_REGION_CHANGE_TERMINATED);
-        CONTRACT_REGION_STATUS_ACTIVE_LONG = ChatColor.translateAlternateColorCodes('&', CONTRACT_REGION_STATUS_ACTIVE_LONG);
         CONTRACT_REGION_STATUS_ACTIVE = ChatColor.translateAlternateColorCodes('&', CONTRACT_REGION_STATUS_ACTIVE);
-        CONTRACT_REGION_STATUS_TERMINATED_LONG = ChatColor.translateAlternateColorCodes('&', CONTRACT_REGION_STATUS_TERMINATED_LONG);
         CONTRACT_REGION_STATUS_TERMINATED = ChatColor.translateAlternateColorCodes('&', CONTRACT_REGION_STATUS_TERMINATED);
         REGION_IS_NOT_A_CONTRACT_REGION = ChatColor.translateAlternateColorCodes('&', REGION_IS_NOT_A_CONTRACT_REGION);
         GUI_OWNER_MEMBER_INFO_ITEM = ChatColor.translateAlternateColorCodes('&', GUI_OWNER_MEMBER_INFO_ITEM);
@@ -1052,6 +1047,8 @@ public class Messages {
         REGION_MODIFIED = ChatColor.translateAlternateColorCodes('&', REGION_MODIFIED);
         UPDATING_SCHEMATIC = ChatColor.translateAlternateColorCodes('&', UPDATING_SCHEMATIC);
         SCHEMATIC_UPDATED = ChatColor.translateAlternateColorCodes('&', SCHEMATIC_UPDATED);
+        CONTRACTREGION_TERMINATED = ChatColor.translateAlternateColorCodes('&', CONTRACTREGION_TERMINATED);
+        CONTRACTREGION_REACTIVATED = ChatColor.translateAlternateColorCodes('&', CONTRACTREGION_REACTIVATED);
 
         for (int i = 0; i < REGION_INFO_SELLREGION.size(); i++) {
             REGION_INFO_SELLREGION.set(i, ChatColor.translateAlternateColorCodes('&', REGION_INFO_SELLREGION.get(i)));
@@ -1228,10 +1225,7 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.TeleporterTeleportationAborded", "&4Teleportation aborded!");
 
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.ContractRegionExtended", "&aYour contract region %regionid% has been extended for %extendtime%. (For %price%%currency%.)");
-        fileUpdated |= YamlFileManager.addDefault(config, "Messages.ContractRegionChangeTerminated", "&6The contract of &a%regionid% &6has been set to %statuslong%");
-        fileUpdated |= YamlFileManager.addDefault(config, "Messages.ContractRegionStatusActiveLong", "&aActive&6! Next Extension in %remaining%");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.ContractRegionStatusActive", "&aActive");
-        fileUpdated |= YamlFileManager.addDefault(config, "Messages.ContractRegionStatusTerminatedLong", "&4Terminated&6! It will be resetted in %remaining%");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.ContractRegionStatusTerminated", "&4Terminated");
 
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.PresetRemoved", "&aPreset removed!");
@@ -1542,6 +1536,8 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionModified", "&6%option% &6modified for %selectedregions%&6!");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.UpdatingSchematic", "&8Updating schematic...");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.SchematicUpdated", "&aSchematic updated!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.ContractRegionTerminated", "&6Your contractregion &a%region% &6has successfully been &4terminated&6! It will be resetted in &a%remaining% &6except it gets reactivated!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.ContractRegionReactivated", "&6Your contractregion &a%region% &6has successfully been &areactivated&6! It will automatically be extended in &a%remaining% &6if you can pay for the rent!");
 
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoSellregionAdmin", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
                 "&9ID: &e%regionid% &7(Type: &r%selltype%&7)",

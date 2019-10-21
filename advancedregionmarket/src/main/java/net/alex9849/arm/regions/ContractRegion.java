@@ -39,9 +39,6 @@ public class ContractRegion extends CountdownRegion {
         variableReplacements.put("%status%", () -> {
             return this.getTerminationString();
         });
-        variableReplacements.put("%statuslong%", () -> {
-            return this.getTerminationStringLong();
-        });
         variableReplacements.put("%isterminated%", () -> {
             return Messages.convertYesNo(this.isTerminated());
         });
@@ -215,19 +212,14 @@ public class ContractRegion extends CountdownRegion {
         this.terminated = bool;
         this.queueSave();
         if (player != null) {
-            String sendmessage = this.getConvertedMessage(Messages.CONTRACT_REGION_CHANGE_TERMINATED);
-            player.sendMessage(Messages.PREFIX + sendmessage);
+            String sendmessage;
+            if(bool) {
+                sendmessage = Messages.CONTRACTREGION_TERMINATED;
+            } else {
+                sendmessage = Messages.CONTRACTREGION_REACTIVATED;
+            }
+            player.sendMessage(Messages.PREFIX + this.getConvertedMessage(sendmessage));
         }
-    }
-
-    public String getTerminationStringLong() {
-        String retMessage;
-        if (this.terminated) {
-            retMessage = Messages.CONTRACT_REGION_STATUS_TERMINATED_LONG;
-        } else {
-            retMessage = Messages.CONTRACT_REGION_STATUS_ACTIVE_LONG;
-        }
-        return retMessage;
     }
 
     public String getTerminationString() {

@@ -7,7 +7,6 @@ import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.Region;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -72,7 +71,7 @@ public class SetIsUserResettableCommand implements BasicArmCommand {
                 throw new InputException(sender, Messages.SUB_REGION_IS_USER_RESETTABLE_ERROR);
             }
             regions.add(selectedRegion);
-            selectedName = "&a" + selectedRegion.getRegion().getId();
+            selectedName = selectedRegion.getRegion().getId();
         }
 
         Boolean boolsetting = Boolean.parseBoolean(args[2]);
@@ -80,8 +79,11 @@ public class SetIsUserResettableCommand implements BasicArmCommand {
         for (Region region : regions) {
             region.setIsUserResettable(boolsetting);
         }
-        String sendmessage = Messages.PREFIX + "&6isUserResettable " + Messages.convertEnabledDisabled(boolsetting) + " &6for " + selectedName + "&6!";
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', sendmessage));
+        String sendmessage = Messages.REGION_MODIFIED_BOOLEAN;
+        sendmessage = sendmessage.replace("%option%", "IsUserResettable");
+        sendmessage = sendmessage.replace("%state%", Messages.convertEnabledDisabled(boolsetting));
+        sendmessage = sendmessage.replace("%selectedregions%", selectedName);
+        sender.sendMessage(Messages.PREFIX + sendmessage);
 
         return true;
     }

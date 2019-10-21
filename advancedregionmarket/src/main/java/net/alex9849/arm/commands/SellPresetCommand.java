@@ -5,6 +5,7 @@ import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.CmdSyntaxException;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.handler.CommandHandler;
+import net.alex9849.arm.presets.commands.InactivityResetResetCommand;
 import net.alex9849.arm.presets.presets.PresetType;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -24,6 +25,7 @@ public class SellPresetCommand implements BasicArmCommand {
     public SellPresetCommand() {
         this.commandHandler = new CommandHandler(this.usage, this.rootCommand);
         List<BasicArmCommand> commands = new ArrayList<>();
+        commands.add(new InactivityResetResetCommand(PresetType.SELLPRESET));
         commands.add(new net.alex9849.arm.presets.commands.AddCommandCommand(PresetType.SELLPRESET));
         commands.add(new net.alex9849.arm.presets.commands.DeleteCommand(PresetType.SELLPRESET));
         commands.add(new net.alex9849.arm.presets.commands.DoBlockResetCommand(PresetType.SELLPRESET));

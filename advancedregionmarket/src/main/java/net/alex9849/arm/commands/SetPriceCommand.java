@@ -71,7 +71,7 @@ public class SetPriceCommand implements BasicArmCommand {
                 throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
             }
             selectedregions.add(selectedRegion);
-            selectedName = "&a" + selectedRegion.getRegion().getId();
+            selectedName = selectedRegion.getRegion().getId();
         }
 
         if (allargs.matches(this.regex_price) || allargs.matches(this.regex_price_massaction)) {
@@ -93,9 +93,10 @@ public class SetPriceCommand implements BasicArmCommand {
                 region.setPrice(price);
             }
         }
-
-        String sendmessage = Messages.PREFIX + "&6Price has been set for " + selectedName + "&6!";
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', sendmessage));
+        String sendmessage = Messages.REGION_MODIFIED_BOOLEAN;
+        sendmessage = sendmessage.replace("%option%", "Price");
+        sendmessage = sendmessage.replace("%selectedregions%", selectedName);
+        sender.sendMessage(Messages.PREFIX + sendmessage);
 
         return true;
     }

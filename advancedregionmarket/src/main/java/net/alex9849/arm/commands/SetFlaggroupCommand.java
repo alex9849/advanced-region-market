@@ -8,7 +8,6 @@ import net.alex9849.arm.flaggroups.FlagGroup;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.Region;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -68,7 +67,7 @@ public class SetFlaggroupCommand implements BasicArmCommand {
             }
 
             regions.add(selectedRegion);
-            selectedName = "&a" + selectedRegion.getRegion().getId();
+            selectedName = selectedRegion.getRegion().getId();
         }
 
         FlagGroup flagGroup = AdvancedRegionMarket.getInstance().getFlagGroupManager().getFlagGroup(args[2]);
@@ -88,8 +87,10 @@ public class SetFlaggroupCommand implements BasicArmCommand {
                 throw new InputException(sender, region.getConvertedMessage(Messages.SUB_REGION_ENTITYLIMITGROUP_ERROR));
             }
         }
-        String sendmessage = Messages.PREFIX + "&6Set flaggroup &a" + flagGroup.getName() + " &6for " + selectedName + "&6!";
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', sendmessage));
+        String sendmessage = Messages.REGION_MODIFIED_BOOLEAN;
+        sendmessage = sendmessage.replace("%option%", "FlagGroup");
+        sendmessage = sendmessage.replace("%selectedregions%", selectedName);
+        sender.sendMessage(Messages.PREFIX + sendmessage);
 
         return true;
     }

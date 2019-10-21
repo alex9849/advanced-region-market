@@ -7,7 +7,6 @@ import net.alex9849.arm.commands.BasicArmCommand;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regions.Region;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -60,8 +59,11 @@ public class HotelCommand implements BasicArmCommand {
         boolean setting = Boolean.parseBoolean(args[2]);
         region.setHotel(setting);
 
-        String sendmessage = Messages.PREFIX + "&6isHotel " + Messages.convertEnabledDisabled(setting) + " &6for " + region.getRegion().getId() + "&6!";
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', sendmessage));
+        String sendmessage = Messages.REGION_MODIFIED_BOOLEAN;
+        sendmessage = sendmessage.replace("%option%", "Hotel-function");
+        sendmessage = sendmessage.replace("%state%", Messages.convertEnabledDisabled(setting));
+        sendmessage = sendmessage.replace("%selectedregions%", region.getRegion().getId());
+        sender.sendMessage(Messages.PREFIX + sendmessage);
         return true;
     }
 

@@ -73,7 +73,7 @@ public class SetSubregionLimit implements BasicArmCommand {
                 throw new InputException(sender, ChatColor.RED + "Subregions can not have subregions");
             }
             regions.add(selectedRegion);
-            selectedName = "&a" + selectedRegion.getRegion().getId();
+            selectedName = selectedRegion.getRegion().getId();
         }
 
         int allowedSubregions = Integer.parseInt(args[2]);
@@ -82,8 +82,10 @@ public class SetSubregionLimit implements BasicArmCommand {
                 region.setAllowedSubregions(allowedSubregions);
             }
         }
-        String sendmessage = Messages.PREFIX + "&6Subregionlimit has been set to &a" + allowedSubregions + " &6for " + selectedName + "&6!";
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', sendmessage));
+        String sendmessage = Messages.REGION_MODIFIED_BOOLEAN;
+        sendmessage = sendmessage.replace("%option%", "SubregionLimit");
+        sendmessage = sendmessage.replace("%selectedregions%", selectedName);
+        sender.sendMessage(Messages.PREFIX + sendmessage);
 
         return true;
     }

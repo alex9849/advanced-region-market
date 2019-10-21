@@ -14,10 +14,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SetDisplayInGuiCommand implements BasicArmCommand {
-    private final String rootCommand = "setdisplayingui";
-    private final String regex = "(?i)setdisplayingui [^;\n ]+ (false|true)";
-    private final List<String> usage = new ArrayList<>(Arrays.asList("setdisplayingui [REGIONKIND] [true/false]"));
+public class SetDisplayInRegionfinderCommand implements BasicArmCommand {
+    private final String rootCommand = "setdisplayinregionfinder";
+    private final String regex = "(?i)setdisplayinregionfinder [^;\n ]+ (false|true)";
+    private final List<String> usage = new ArrayList<>(Arrays.asList("setdisplayinregionfinder [REGIONKIND] [true/false]"));
 
     @Override
     public boolean matchesRegex(String command) {

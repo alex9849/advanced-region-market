@@ -321,7 +321,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         regionKindCommands.add(new net.alex9849.arm.regionkind.commands.CreateCommand());
         regionKindCommands.add(new net.alex9849.arm.regionkind.commands.DeleteCommand());
         regionKindCommands.add(new net.alex9849.arm.regionkind.commands.ListCommand());
-        regionKindCommands.add(new SetDisplayInGuiCommand());
+        regionKindCommands.add(new SetDisplayInRegionfinderCommand());
         regionKindCommands.add(new SetDisplayInLimitsCommand());
         regionKindCommands.add(new SetItemCommand());
         regionKindCommands.add(new AddLoreLineCommand());

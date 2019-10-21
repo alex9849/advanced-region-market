@@ -87,7 +87,7 @@ public class SetFlaggroupCommand implements BasicArmCommand {
                 throw new InputException(sender, region.getConvertedMessage(Messages.SUB_REGION_ENTITYLIMITGROUP_ERROR));
             }
         }
-        String sendmessage = Messages.REGION_MODIFIED_BOOLEAN;
+        String sendmessage = Messages.REGION_MODIFIED;
         sendmessage = sendmessage.replace("%option%", "FlagGroup");
         sendmessage = sendmessage.replace("%selectedregions%", selectedName);
         sender.sendMessage(Messages.PREFIX + sendmessage);

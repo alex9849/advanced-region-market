@@ -93,7 +93,7 @@ public class SetPriceCommand implements BasicArmCommand {
                 region.setPrice(price);
             }
         }
-        String sendmessage = Messages.REGION_MODIFIED_BOOLEAN;
+        String sendmessage = Messages.REGION_MODIFIED;
         sendmessage = sendmessage.replace("%option%", "Price");
         sendmessage = sendmessage.replace("%selectedregions%", selectedName);
         sender.sendMessage(Messages.PREFIX + sendmessage);

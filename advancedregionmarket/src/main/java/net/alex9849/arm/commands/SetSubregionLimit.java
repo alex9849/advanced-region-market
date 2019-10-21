@@ -82,7 +82,7 @@ public class SetSubregionLimit implements BasicArmCommand {
                 region.setAllowedSubregions(allowedSubregions);
             }
         }
-        String sendmessage = Messages.REGION_MODIFIED_BOOLEAN;
+        String sendmessage = Messages.REGION_MODIFIED;
         sendmessage = sendmessage.replace("%option%", "SubregionLimit");
         sendmessage = sendmessage.replace("%selectedregions%", selectedName);
         sender.sendMessage(Messages.PREFIX + sendmessage);

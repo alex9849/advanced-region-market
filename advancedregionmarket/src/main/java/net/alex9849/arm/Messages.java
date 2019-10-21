@@ -364,6 +364,8 @@ public class Messages {
     public static String REGION_SOLD_BACK_SUCCESSFULLY = "&2Your region %regionid% has been successfully sold back to the server! %paybackmoney%%currency% have been added to your account!";
     public static String REGION_MODIFIED_BOOLEAN = "&6%option% %state% &6for %selectedregions%&6!";
     public static String REGION_MODIFIED = "&6%option% &6modified for %selectedregions%&6!";
+    public static String UPDATING_SCHEMATIC = "&8Updating schematic...";
+    public static String SCHEMATIC_UPDATED = "&aSchematic updated!";
     private static YamlConfiguration config;
 
     static void read() {
@@ -724,6 +726,8 @@ public class Messages {
         REGION_SOLD_BACK_SUCCESSFULLY = config.getString("Messages.RegionSoldBackSuccessfully");
         REGION_MODIFIED_BOOLEAN = config.getString("Messages.RegionModifiedBoolean");
         REGION_MODIFIED = config.getString("Messages.RegionModified");
+        UPDATING_SCHEMATIC = config.getString("Messages.UpdatingSchematic");
+        SCHEMATIC_UPDATED = config.getString("Messages.SchematicUpdated");
         Messages.translateColorCodes();
     }
 
@@ -1046,6 +1050,8 @@ public class Messages {
         REGION_SOLD_BACK_SUCCESSFULLY = ChatColor.translateAlternateColorCodes('&', REGION_SOLD_BACK_SUCCESSFULLY);
         REGION_MODIFIED_BOOLEAN = ChatColor.translateAlternateColorCodes('&', REGION_MODIFIED_BOOLEAN);
         REGION_MODIFIED = ChatColor.translateAlternateColorCodes('&', REGION_MODIFIED);
+        UPDATING_SCHEMATIC = ChatColor.translateAlternateColorCodes('&', UPDATING_SCHEMATIC);
+        SCHEMATIC_UPDATED = ChatColor.translateAlternateColorCodes('&', SCHEMATIC_UPDATED);
 
         for (int i = 0; i < REGION_INFO_SELLREGION.size(); i++) {
             REGION_INFO_SELLREGION.set(i, ChatColor.translateAlternateColorCodes('&', REGION_INFO_SELLREGION.get(i)));
@@ -1534,6 +1540,8 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionSoldBackSuccessfully", "&2Your region &6%regionid% &2has been sold back to the server successfully! &6%paybackmoney%%currency% &2have been added to your account!");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionModifiedBoolean", "&6%option% %state% &6for &a%selectedregions%&6!");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionModified", "&6%option% &6modified for %selectedregions%&6!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.UpdatingSchematic", "&8Updating schematic...");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SchematicUpdated", "&aSchematic updated!");
 
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoSellregionAdmin", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
                 "&9ID: &e%regionid% &7(Type: &r%selltype%&7)",

@@ -53,9 +53,9 @@ public class UpdateSchematicCommand implements BasicArmCommand {
             region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, args[1]);
         }
 
-        player.sendMessage(Messages.PREFIX + "Creating schematic...");
+        player.sendMessage(Messages.PREFIX + Messages.UPDATING_SCHEMATIC);
         region.createSchematic();
-        player.sendMessage(Messages.PREFIX + Messages.COMPLETE);
+        player.sendMessage(Messages.PREFIX + Messages.SCHEMATIC_UPDATED);
         return true;
     }
 

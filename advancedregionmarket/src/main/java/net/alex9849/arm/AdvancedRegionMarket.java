@@ -945,6 +945,10 @@ public class AdvancedRegionMarket extends JavaPlugin {
                 getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 2.0.0..");
                 updateTo2p00(pluginConfig);
             }
+            if (version < 2.08) {
+                getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 2.0.8..");
+                updateTo2p08(pluginConfig);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -1725,5 +1729,24 @@ public class AdvancedRegionMarket extends JavaPlugin {
         flagUpdater.updateFlagGroup(flaggroupsConf.getConfigurationSection("DefaultFlagGroup"));
         flagUpdater.updateFlagGroup(flaggroupsConf.getConfigurationSection("SubregionFlagGroup"));
         flaggroupsConf.save(flaggroupsConfDic);
+    }
+
+    private void updateTo2p08(FileConfiguration pluginConfig) throws IOException {
+        File regionkindsConfDic = new File(this.getDataFolder() + "/regionkinds.yml");
+        YamlConfiguration regionkindsConf = YamlConfiguration.loadConfiguration(regionkindsConfDic);
+        ConfigurationSection regionKindsSection = regionkindsConf.getConfigurationSection("RegionKinds");
+        if (regionKindsSection != null) {
+            ArrayList<String> worlds = new ArrayList<String>(regionKindsSection.getKeys(false));
+            for (String regionkindName : worlds) {
+                ConfigurationSection regionKindSection = regionKindsSection.getConfigurationSection(regionkindName);
+                if (regionKindSection == null) {
+                    continue;
+                }
+                regionKindSection.set("displayInRegionfinder", regionKindSection.getBoolean("displayInGUI"));
+            }
+        }
+        regionkindsConf.save(regionkindsConfDic);
+        pluginConfig.set("Version", 2.08);
+        saveConfig();
     }
 }

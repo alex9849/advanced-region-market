@@ -46,7 +46,7 @@ public class SetDisplayInRegionfinderCommand implements BasicArmCommand {
         if (regionKind == null) {
             throw new InputException(sender, Messages.REGIONKIND_DOES_NOT_EXIST);
         }
-        regionKind.setDisplayInGUI(Boolean.parseBoolean(args[2]));
+        regionKind.setDisplayInRegionfinder(Boolean.parseBoolean(args[2]));
         sender.sendMessage(Messages.PREFIX + Messages.REGIONKIND_MODIFIED);
         return true;
     }

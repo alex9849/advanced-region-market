@@ -768,16 +768,16 @@ public class Gui implements Listener {
             itemcounter++;
         }
 
-        if (RegionKind.DEFAULT.isDisplayInGUI()) {
+        if (RegionKind.DEFAULT.isDisplayInRegionfinder()) {
             itemcounter++;
         }
 
-        if (RegionKind.SUBREGION.isDisplayInGUI() && RegionKind.hasPermission(player, RegionKind.SUBREGION)) {
+        if (RegionKind.SUBREGION.isDisplayInRegionfinder() && RegionKind.hasPermission(player, RegionKind.SUBREGION)) {
             itemcounter++;
         }
 
         for (RegionKind regionKind : AdvancedRegionMarket.getInstance().getRegionKindManager()) {
-            if (regionKind.isDisplayInGUI()) {
+            if (regionKind.isDisplayInRegionfinder()) {
                 itemcounter++;
             }
         }
@@ -790,7 +790,7 @@ public class Gui implements Listener {
 
         GuiInventory inv = new GuiInventory(invsize, Messages.GUI_REGION_FINDER_MENU_NAME);
         int itempos = 0;
-        if (RegionKind.DEFAULT.isDisplayInGUI()) {
+        if (RegionKind.DEFAULT.isDisplayInRegionfinder()) {
             String displayName = Messages.GUI_REGIONFINDER_REGIONKIND_NAME;
             displayName = RegionKind.DEFAULT.getConvertedMessage(displayName);
             Material material = RegionKind.DEFAULT.getMaterial();
@@ -814,7 +814,7 @@ public class Gui implements Listener {
             itempos++;
         }
 
-        if (RegionKind.SUBREGION.isDisplayInGUI() && RegionKind.hasPermission(player, RegionKind.SUBREGION)) {
+        if (RegionKind.SUBREGION.isDisplayInRegionfinder() && RegionKind.hasPermission(player, RegionKind.SUBREGION)) {
             String displayName = Messages.GUI_REGIONFINDER_REGIONKIND_NAME;
             displayName = RegionKind.SUBREGION.getConvertedMessage(displayName);
             Material material = RegionKind.SUBREGION.getMaterial();
@@ -840,7 +840,7 @@ public class Gui implements Listener {
 
 
         for (RegionKind regionKind : AdvancedRegionMarket.getInstance().getRegionKindManager()) {
-            if (regionKind.isDisplayInGUI()) {
+            if (regionKind.isDisplayInRegionfinder()) {
                 String displayName = Messages.GUI_REGIONFINDER_REGIONKIND_NAME;
                 displayName = regionKind.getConvertedMessage(displayName);
                 Material material = regionKind.getMaterial();

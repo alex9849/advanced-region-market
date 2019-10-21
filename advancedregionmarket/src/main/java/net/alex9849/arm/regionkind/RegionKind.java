@@ -24,7 +24,7 @@ public class RegionKind implements Saveable {
     private Material material;
     private List<String> lore;
     private String displayName;
-    private boolean displayInGUI;
+    private boolean displayInRegionFinder;
     private boolean displayInLimits;
     private double paybackPercentage;
     private boolean needsSave;
@@ -51,18 +51,18 @@ public class RegionKind implements Saveable {
             return Messages.convertYesNo(this.isDisplayInLimits());
         });
         variableReplacements.put("%regionkinddisplayingui%", () -> {
-            return Messages.convertYesNo(this.isDisplayInGUI());
+            return Messages.convertYesNo(this.isDisplayInRegionfinder());
         });
 
         this.stringReplacer = new StringReplacer(variableReplacements, 20);
     }
 
-    public RegionKind(String name, Material material, List<String> lore, String displayName, boolean displayInGUI, boolean displayInLimits, double paybackPercentage) {
+    public RegionKind(String name, Material material, List<String> lore, String displayName, boolean displayInRegionFinder, boolean displayInLimits, double paybackPercentage) {
         this.name = name;
         this.material = material;
         this.lore = lore;
         this.displayName = displayName;
-        this.displayInGUI = displayInGUI;
+        this.displayInRegionFinder = displayInRegionFinder;
         this.displayInLimits = displayInLimits;
         this.paybackPercentage = paybackPercentage;
         this.needsSave = false;
@@ -86,11 +86,11 @@ public class RegionKind implements Saveable {
         }
         String displayName = confSection.getString("displayName");
         boolean displayInLimits = confSection.getBoolean("displayInLimits");
-        boolean displayInGUI = confSection.getBoolean("displayInGUI");
+        boolean displayInRegionfinder = confSection.getBoolean("displayInRegionfinder");
         double paybackPercentage = confSection.getDouble("paypackPercentage");
         List<String> lore = new ArrayList<>(confSection.getStringList("lore"));
 
-        return new RegionKind(id, material, lore, displayName, displayInGUI, displayInLimits, paybackPercentage);
+        return new RegionKind(id, material, lore, displayName, displayInRegionfinder, displayInLimits, paybackPercentage);
     }
 
     public String getName() {
@@ -141,12 +141,12 @@ public class RegionKind implements Saveable {
         this.queueSave();
     }
 
-    public boolean isDisplayInGUI() {
-        return displayInGUI;
+    public boolean isDisplayInRegionfinder() {
+        return displayInRegionFinder;
     }
 
-    public void setDisplayInGUI(boolean displayInGUI) {
-        this.displayInGUI = displayInGUI;
+    public void setDisplayInRegionfinder(boolean displayInRegionfinder) {
+        this.displayInRegionFinder = displayInRegionfinder;
         this.queueSave();
     }
 
@@ -178,7 +178,7 @@ public class RegionKind implements Saveable {
         confSection.set("item", this.getMaterial().toString());
         confSection.set("displayName", this.getRawDisplayName());
         confSection.set("displayInLimits", this.isDisplayInLimits());
-        confSection.set("displayInGUI", this.isDisplayInGUI());
+        confSection.set("displayInRegionfinder", this.isDisplayInRegionfinder());
         confSection.set("paypackPercentage", this.getPaybackPercentage());
         confSection.set("lore", this.getRawLore());
         return confSection;

@@ -72,7 +72,7 @@ public class RemoveMemberCommand implements BasicArmCommand {
         } else if (!(sender.hasPermission(Permission.MEMBER_REMOVEMEMBER))) {
             throw new InputException(sender, Messages.NO_PERMISSION);
         } else {
-            throw new InputException(sender, Messages.REGION_REMOVE_MEMBER_DO_NOT_OWN);
+            throw new InputException(sender, Messages.REGION_NOT_OWN);
         }
     }
 

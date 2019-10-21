@@ -69,7 +69,7 @@ public class AddMemberCommand implements BasicArmCommand {
         } else if (!(player.hasPermission(Permission.MEMBER_ADDMEMBER))) {
             throw new InputException(player, Messages.NO_PERMISSION);
         } else {
-            throw new InputException(player, Messages.REGION_ADD_MEMBER_DO_NOT_OWN);
+            throw new InputException(player, Messages.REGION_NOT_OWN);
         }
 
         return true;

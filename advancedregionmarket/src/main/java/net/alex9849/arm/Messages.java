@@ -69,11 +69,9 @@ public class Messages {
     public static String REGION_NOW_AVIABLE = "";
     public static String NO_REGION_AT_PLAYERS_POSITION = "";
     public static String REGION_ADD_MEMBER_NOT_ONLINE = "";
-    public static String REGION_ADD_MEMBER_DO_NOT_OWN = "";
     public static String REGION_ADD_MEMBER_ADDED = "";
     public static String REGION_REMOVE_MEMBER_NOT_A_MEMBER = "";
     public static String REGION_REMOVE_MEMBER_REMOVED = "";
-    public static String REGION_REMOVE_MEMBER_DO_NOT_OWN = "";
     public static String GUI_RESET_REGION_BUTTON = "";
     public static String GUI_RESET_REGION_WARNING_NAME = "";
     public static String RESET_COMPLETE = "";
@@ -425,11 +423,9 @@ public class Messages {
         REGION_NOW_AVIABLE = config.getString("Messages.RegionNowAviable");
         NO_REGION_AT_PLAYERS_POSITION = config.getString("Messages.NoRegionAtPlayersPosition");
         REGION_ADD_MEMBER_NOT_ONLINE = config.getString("Messages.RegionAddMemberNotOnline");
-        REGION_ADD_MEMBER_DO_NOT_OWN = config.getString("Messages.RegionAddMemberDoNotOwn");
         REGION_ADD_MEMBER_ADDED = config.getString("Messages.RegionAddMemberAdded");
         REGION_REMOVE_MEMBER_NOT_A_MEMBER = config.getString("Messages.RegionRemoveMemberNotAMember");
         REGION_REMOVE_MEMBER_REMOVED = config.getString("Messages.RegionRemoveMemberRemoved");
-        REGION_REMOVE_MEMBER_DO_NOT_OWN = config.getString("Messages.RegionRemoveMemberDoNotOwn");
         GUI_RESET_REGION_BUTTON = config.getString("Messages.GUIResetRegionButton");
         GUI_RESET_REGION_WARNING_NAME = config.getString("Messages.GUIResetRegionWarningName");
         RESET_COMPLETE = config.getString("Messages.ResetComplete");
@@ -777,11 +773,9 @@ public class Messages {
         REGION_NOW_AVIABLE = ChatColor.translateAlternateColorCodes('&', REGION_NOW_AVIABLE);
         NO_REGION_AT_PLAYERS_POSITION = ChatColor.translateAlternateColorCodes('&', NO_REGION_AT_PLAYERS_POSITION);
         REGION_ADD_MEMBER_NOT_ONLINE = ChatColor.translateAlternateColorCodes('&', REGION_ADD_MEMBER_NOT_ONLINE);
-        REGION_ADD_MEMBER_DO_NOT_OWN = ChatColor.translateAlternateColorCodes('&', REGION_ADD_MEMBER_DO_NOT_OWN);
         REGION_ADD_MEMBER_ADDED = ChatColor.translateAlternateColorCodes('&', REGION_ADD_MEMBER_ADDED);
         REGION_REMOVE_MEMBER_NOT_A_MEMBER = ChatColor.translateAlternateColorCodes('&', REGION_REMOVE_MEMBER_NOT_A_MEMBER);
         REGION_REMOVE_MEMBER_REMOVED = ChatColor.translateAlternateColorCodes('&', REGION_REMOVE_MEMBER_REMOVED);
-        REGION_REMOVE_MEMBER_DO_NOT_OWN = ChatColor.translateAlternateColorCodes('&', REGION_REMOVE_MEMBER_DO_NOT_OWN);
         GUI_RESET_REGION_BUTTON = ChatColor.translateAlternateColorCodes('&', GUI_RESET_REGION_BUTTON);
         GUI_RESET_REGION_WARNING_NAME = ChatColor.translateAlternateColorCodes('&', GUI_RESET_REGION_WARNING_NAME);
         RESET_COMPLETE = ChatColor.translateAlternateColorCodes('&', RESET_COMPLETE);
@@ -1279,10 +1273,8 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.NoRegionAtPlayersPosition", "&7Could not find a region at your position!");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionAddMemberNotOnline", "&4The selected player is not online!");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionAddMemberAdded", "&aMember has been added!");
-        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionAddMemberDoNotOwn", "&4You do not own this region!");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionRemoveMemberNotAMember", "&4The selected player is not a member of the region");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionRemoveMemberRemoved", "&aMember has been removed!");
-        fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionRemoveMemberDoNotOwn", "&4You do not own this region!");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionBuyOutOfLimit", "&4Out of Limit! You have &7%playerownedkind%/%limitkind% &4%regionkind%-regions and &7%playerownedtotal%/%limittotal% &4Regions total!");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.Unlimited", "Unlimited");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.AutopriceList", "&6=========[Autoprices]=========");
@@ -1332,7 +1324,7 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.SignLinkModeNoPresetSelected", "&cYou dont have a preset loaded! Please load or create a preset first! &cYou can create a preset by using the &6/arm sellpreset/rentpreset/contractpreset &ccommands!\nFor more &cinformation about presets click here:\n&6https://goo.gl/3upfAA (Gitlab Wiki)");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.SignLinkModeSignBelongsToAnotherRegion", "&4Sign belongs to another region!");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.SignLinkModeSignSelected", "&aSign selected!");
-        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SignLinkModeMultipleWgRegionsAtPosition", "&4Could not select WorldGuard-Region! There is more than one region available!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SignLinkModeMultipleWgRegionsAtPosition", "&4Could not select WorldGuard-Region! There is more than one region available! You can add unwanted regions to the ignore-list located in the config.yml, if you want ARM to ignore that regions!");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.SignLinkModeNoWgRegionAtPosition", "&4Could not select WorldGuard-Region! There is no region at your position!");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.SignLinkModeCouldNotIdentifyWorld", "&4Could not identify world! Please select the WorldGuard-Region again!");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.SignLinkModeNoSignSelected", "&4You have not selected a sign");

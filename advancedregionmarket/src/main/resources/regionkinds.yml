@@ -10,7 +10,7 @@ RegionKinds:
     item: WOODEN_SHOVEL
     displayName: 'Starter-Region'
     displayInLimits: true
-    displayInGUI: true
+    displayInRegionfinder: true
     # If players have the permission 'arm.member.sellregion' they can sell their region
     # back to the server (who resets it) via GUI.
     # You can define the percentage they will get back here. If they don't have the permission the button will
@@ -22,7 +22,7 @@ RegionKinds:
     item: STONE_SHOVEL
     displayName: 'Small-Region'
     displayInLimits: true
-    displayInGUI: true
+    displayInRegionfinder: true
     paypackPercentage: 50
     lore:
       - 'A bit larger and good for small'
@@ -31,7 +31,7 @@ RegionKinds:
     item: IRON_SHOVEL
     displayName: 'Medium-Region'
     displayInLimits: true
-    displayInGUI: true
+    displayInRegionfinder: true
     paypackPercentage: 40
     lore:
       - 'A mid-sized region'
@@ -39,7 +39,7 @@ RegionKinds:
     item: DIAMOND_SHOVEL
     displayName: 'Large-Region'
     displayInLimits: true
-    displayInGUI: true
+    displayInRegionfinder: true
     paypackPercentage: 30
     lore:
       - 'A really large region'
@@ -47,7 +47,7 @@ RegionKinds:
     item: EMERALD
     displayName: 'Shop-Region'
     displayInLimits: true
-    displayInGUI: true
+    displayInRegionfinder: true
     paypackPercentage: 80
     lore:
       - 'A shop where you can sell your stuff'
@@ -61,7 +61,7 @@ DefaultRegionKind:
   lore:
     - 'very default'
   displayInLimits: true
-  displayInGUI: false
+  displayInRegionfinder: false
   paypackPercentage: 50
 
 # RegionKind for subregions
@@ -72,5 +72,5 @@ SubregionRegionKind:
   lore:
     - 'very subregion'
   displayInLimits: true
-  displayInGUI: false
+  displayInRegionfinder: false
   paypackPercentage: 0

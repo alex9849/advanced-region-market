@@ -10,7 +10,6 @@ import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regions.Region;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -101,7 +100,7 @@ public class SetExtraLimitCommand implements BasicArmCommand {
 
                 }
             } else if ((args.length == 3) && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                for (EntityType entityType : EntityType.values()) {
+                for (EntityLimit.LimitableEntityType entityType : EntityLimit.entityTypes) {
                     if (entityType.toString().toLowerCase().startsWith(args[2])) {
                         returnme.add(entityType.toString());
                     }

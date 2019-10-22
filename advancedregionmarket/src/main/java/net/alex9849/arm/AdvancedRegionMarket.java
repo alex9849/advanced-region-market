@@ -1725,6 +1725,8 @@ public class AdvancedRegionMarket extends JavaPlugin {
         UpdateHelpMethods.replaceVariableInFlagGroupsYML("%takeoverin%", "%takeoverin-countdown-short%");
         UpdateHelpMethods.replaceVariableInFlagGroupsYML("%inactivityresetin%", "%inactivityresetin-countdown-short%");
         UpdateHelpMethods.replaceVariableInFlagGroupsYML("%remaininguserresetcooldown%", "%remaininguserresetcooldown-countdown-short%");
+        UpdateHelpMethods.setMessageInMessageYML("Messages.SignRemovedFromRegion", "&7Regionsign removed! %remaining% Sign(s) remaining before "
+                +"region gets removed from ARM!");
         pluginConfig.set("Other.RemainingTimeFormat", null);
         pluginConfig.set("Other.ShortCountdown", null);
         pluginConfig.set("Version", 2.09);
@@ -1754,6 +1756,13 @@ public class AdvancedRegionMarket extends JavaPlugin {
                     }
                 }
             }
+            messagesConf.save(messagesConfDic);
+        }
+
+        private static void setMessageInMessageYML(String key, Object obj) throws IOException {
+            File messagesConfDic = new File(AdvancedRegionMarket.getInstance().getDataFolder() + "/messages.yml");
+            YamlConfiguration messagesConf = YamlConfiguration.loadConfiguration(messagesConfDic);
+            messagesConf.set(key, obj);
             messagesConf.save(messagesConfDic);
         }
 

@@ -1,0 +1,729 @@
+Messages:
+  SecondsSingular: Sekunde
+  MinutesSingular: Minute
+  HoursSingular: Stunde
+  DaysSingular: Tag
+  SecondsPlural: Sekunden
+  MinutesPlural: Minuten
+  HoursPlural: Stunden
+  DaysPlural: Tage
+  SecondsShort: 's'
+  MinutesShort: 'm'
+  HoursShort: 'h'
+  DaysShort: 't'
+  TimeUnitSplitter: ' und '
+  Prefix: '&b[ARM]&r'
+  ArmBasicCommandMessage: |-
+    &6AdvancedRegionMarket v%pluginversion% programmiert von Alex9849
+    &6Download: &3https://bit.ly/2CfO3An
+    &6Nutze &3/arm help &6um dir eine Liste mit allen verfügbaren
+    &6Befehlen anzeigen zu lassen
+  NoPermission: '&4Du hast keine Berechtigung für diesen Befehl'
+  NotEnoughtMoney: '&4Du hast nicht genug Geld!'
+  RegionAlreadySold: '&4Diese Region ist bereits verkauft!'
+  WorldDoesNotExist: '&4Die ausgewählte Welt existiert nicht!'
+  RegionDoesNotExist: '&4Die ausgewähle Region existiert nicht in dieser (oder in
+    der ausgewählten) Welt!'
+  PriceCanNotBeNegative: '&4Der Preis darf nicht negativ sein!'
+  CommandOnlyIngame: '&4Dieser Befehl ist nur ingame ausführbar!'
+  RentExtendMaxRentTimeExceeded: '&4Du kannst deine Region für maximal &6%maxrenttime-writtenout%
+    &4im Vorraus bezahlen!'
+  RegionErrorCanNotBuildHere: '&4Du kannst innerhalb dieser Region nur Blöcke abbauen,
+    welche von einem Spieler gesetzt wurden!'
+  NoFreeRegionWithThisKind: '&7Es wurde keine freie Region mit dem ausgewählten Typ
+    gefunden :('
+  RegionkindDoesNotExist: '&4Der ausgewähle RegionKind existiert nicht!'
+  NoPermissionsToBuyThisKindOfRegion: '&4Du hast keine Berechtigung diese Region zu
+    kaufen! (Du benötigst die Permission &6arm.buykind.%regionkind%&4)'
+  UserNotAMemberOrOwner: '&4Du bist kein Mitglied oder Inhaber dieser Region!'
+  SelectedPlayerIsNotOnline: '&4Der ausgewählte Spieler ist nicht online!'
+  BadSyntax: '&7Falsche syntax! Versuche mal: &8%command%'
+  BadSyntaxSplitter: |2-
+
+    &7oder &8%command%
+  SchematicNotFoundErrorUser: '&4Leider konnten wir keine Schematic für deine Region
+    &6%regionid% &4finden! Bitte kontaktiere einen Admin!'
+  SchematicNotFoundErrorAdmin: '&4Konnte keine Schematic für die Region &6%regionid%
+    &4finden!'
+  RentExtendMessage: '&aRegion für &6%price%%currency%&a um &6%extendtime-writtenout%&a verlängert!
+    Verbleibende Zeit: &6%remaining-countdown-short%'
+  Buymessage: '&aRegion erfolgreich gekauft!'
+  RegionAddedToARM: '&7Verkaufsschild wurde erfolgreich erstellt und die region in
+    wurde in ARM registriert!'
+  SignRemovedFromRegion: '&7Verkaufsschild entfernt! %remaining% Schilder verbleiben,
+    bevor die Region auf ARM gelöscht wird!'
+  SignAddedToRegion: '&7Region bereits in ARM registriert! Schild wurde zur Region
+    hinzugefügt!'
+  UseANumberAsPrice: '&4Bitte nutze eine Zahl als Preis auf dem Verkaufsschild in
+    Zeile 4!'
+  RegionRemovedFromARM: '&7Region wurde aus ARM entfernt!'
+  RegionKindSet: '&aRegionkind erfolgreich gesetzt!'
+  ResetComplete: '&aReset vollständig!'
+  Complete: '&aVollständig!'
+  ResetRegionCooldownError: '&7Du musst noch&6 %remaininguserresetcooldown-countdown-writtenout% &7warten,
+    bis du deine Region wieder Resetten kannst!'
+  Currency: $
+  SellSign1: '&2Zu Verkaufen'
+  SellSign2: '%regionid%'
+  SellSign3: '%price%%currency%'
+  SellSign4: '%dimensions%'
+  SoldSign1: '&4Verkauft'
+  SoldSign2: '%regionid%'
+  SoldSign3: ''
+  SoldSign4: '%owner%'
+  RentSign1: '&2Zu Vermieten'
+  RentSign2: '%regionid%'
+  RentSign3: '%price%%currency%/%extendtime-short%'
+  RentSign4: 'Max.: %maxrenttime-writtenout%'
+  RentedSign1: '&4Vermietet'
+  RentedSign2: '%regionid%/%owner%'
+  RentedSign3: '%price%%currency%/%extendtime-short%'
+  RentedSign4: '%remaining-date%'
+  ContractSign1: '&2Vertrag'
+  ContractSign2: '&2verfügbar'
+  ContractSign3: '%regionid%'
+  ContractSign4: '%price%%currency%/%extendtime-short%'
+  ContractSoldSign1: '&4Vertrag läuft'
+  ContractSoldSign2: '%regionid%/%owner%'
+  ContractSoldSign3: '%price%%currency%/%extendtime-short%'
+  ContractSoldSign4: '%remaining-date%'
+  Seconds: s
+  Minutes: m
+  Hours: h
+  Days: d
+  SecondsForShortCountDown: Sekunde(n)
+  MinutesForShortCountDown: Minute(n)
+  HoursForShortCountDown: Stunde(n)
+  DaysForShortCountDown: Tag(e)
+  TeleporterNoSaveLocation: '&4Konnte keine sichere Position zum Teleportieren finden!'
+  TeleporterDontMove: '&6Teleportation startet in &c%time% Sekunden&6. Bitte bewege
+    dich nicht!'
+  TeleporterTeleportationAborded: '&4Teleportation abgebrochen!'
+  ContractRegionExtended: '&aDeine Vertragsregion %regionid% wurde automatisch um
+    &6%extendtime-writtenout% &afür &6%price%%currency% &averlängert.'
+  ContractRegionStatusActive: '&a&nAktiv'
+  ContractRegionStatusTerminated: '&4&nGekündigt'
+  PresetRemoved: '&aPreset gelöscht!'
+  PresetSet: '&aPreset eingestellt!'
+  PresetSaved: '&aPreset gespeichert!'
+  PresetAlreadyExists: '&4Ein Preset mit diesem Namen existiert bereits!'
+  PresetPlayerDontHasPreset: '&4Du hast keinen Preset!'
+  PresetDeleted: '&aPreset gelöscht!'
+  PresetNotFound: '&4Kein Preset mit diesem Namen gefunden!'
+  PresetLoaded: '&aPreset geladen!'
+  PresetSetupCommands: '&6Setup Befehle:'
+  OfferSent: '&aAngebot versendet'
+  OfferAcceptedSeller: '&a%buyer% &ahat dein Angebot angenommen'
+  OfferAcceptedBuyer: '&aAngebot akzeptiert! Du bist jetzt der Besitzer der Region
+    &6%regionid%'
+  NoOfferToAnswer: '&4Du hast zur Zeit keine Angebote auf die du antworten kannst'
+  OfferRejected: '&aAngebot abgelehnt!'
+  OfferHasBeenRejected: '&4%buyer% &4hat dein Angebot abgelehnt!'
+  NoOfferToReject: '&4Du hast zur Zeit kein Anbegont, das du ablehnen kannst!'
+  OfferCancelled: '&aDein Abgebot wurde zurückgezogen!'
+  OfferHasBeenCancelled: '&4%seller% &4hat sein Angebot zurückgezogen!'
+  NoOfferToCancel: '&4Du hast kein Angebot, das du zurückziehen kannst'
+  BuyerAlreadyGotAnOffer: '&4Der ausgewählte Spieler hat bereits ein Angebot, auf
+    welches er zuerst Reagieren muss!'
+  SellerAlreadyCreatedAnOffer: '&4Du hast bereits eine Angebot verschickt. Bitte warte
+    auf eine Antwort oder ziehe das Angebot zurück!'
+  SellerDoesNotLongerOwnRegion: '&4%seller% &4besitzt diese Region nicht länger! Der
+    Kauf wurde abgebrochen!'
+  IncommingOffer: '&c%seller% &6bietet dir seine Region &c%regionid% &6in der Welt
+    &c%world% &6für &c%price% %currency%&6 an! Du kannst sein Angebot mit &c/arm offer
+    accept &6akzeptieren oder mit &c/arm offer reject &6ablehnen'
+  OfferTimedOut: '&4Anfrage abgelaufen!'
+  SellBackWarning: "&4Region an den Server zurückverkaufen: \n&4ACHTUNG: &cDies kann\
+    \ nicht rückgangig gemacht werden! Dein Region &6%regionid% &cwird zurückgesetzt\
+    \ und geht zurück in den Verkauf! Du und alle anderen Mitglieder dieser Region\
+    \ werden ihre Rechte an der Region verliehren. Dir werden &6%paybackmoney%%currency%\
+    \ &czurückgezahlt"
+  SubregionInactivityResetError: '&4Die ausgewählte Region ist eine Subregion. Du
+    kannst die InactivityReset Option für alle Subregionen in der config.yml einstellen!'
+  SubregionDoBlockResetError: '&4Die ausgewählte Region ist eine Subregion. Du kannst
+    die DoBlockReset Option für alle Subregionen in der config.yml einstellen!'
+  SubregionIsUserResettableError: '&4Die ausgewählte Region ist eine Subregion. Du
+    kannst die isUserResettable Option für alle Subregionen in der config.yml einstellen!'
+  SubregionRegionkindError: '&4Die ausgewählte Region ist eine Subregion. Du kannst
+    den für Subregionen nicht ändern! Du kannst allerdings den RegionKind editieren
+    und umbenennen!'
+  SubRegionRegionkindOnlyForSubregions: '&4Der Subregion RegionKind ist für Subregionen
+    reserviert!'
+  SubregionTeleportLocationError: '&4Die ausgewählte Region ist eine Subregion! Der
+    Warp kann für Subregionen nicht verändert werden!'
+  PosCloudNotBeSetMarkOutsideRegion: '&4Position konnte nicht gesetzt werden, da sich
+    diese nicht innerhalb der Region befindet!'
+  SubRegionAlreadyAtThisPosition: '&4Deine makierte Region überlappt sich mit einer
+    anderen Subregion!'
+  SubRegionLimitReached: '&4Subregion Limit erreicht! Du darfst nicht mehr als &6%subregionlimit%
+    &4Subregionen erstellen!'
+  SelectionInvalid: '&4Auswahl ungültig! Du musst 2 Punkte mit einem Links- und einem
+    Rechtsklick auswählen! Nutze den Befehl "&6/arm subregion tool&4" um das Auswahltool
+    zu bekommen'
+  RegionCreatedAndSaved: '&aRegion erstellt und gespeichert!'
+  RegionNotOwn: '&4Dir gehört diese Region nicht!'
+  RegionNotSold: '&4Region nicht verkauft!'
+  RegionNotResettable: '&4Diese Region kann nicht zurückgesetzt werden!'
+  RegionIsNotARentregion: '&4Region ist keine RentRegion!'
+  RegionIsNotAContractRegion: '&4Region ist keine ContractRegion!'
+  RegionTeleportMessage: '&7Du wurdest zur region &6%regionid% &7teleportiert'
+  RegionNowAviable: '&aRegion is now available!'
+  NoRegionAtPlayersPosition: '&7Konnte keine keine Region an deiner Position finden!'
+  RegionAddMemberNotOnline: '&4Der ausgewählte Spieler ist nicht online!'
+  RegionAddMemberAdded: '&aDer Spieler wurde zur Region hinzugefügt!'
+  RegionRemoveMemberNotAMember: '&4Der ausgewählte Spieler ist kein Mitglied der Region!'
+  RegionRemoveMemberRemoved: '&aSpieler wurde vom Region gelöscht!'
+  RegionBuyOutOfLimit: '&4Limit erreicht! Du hast &7%playerownedkind%/%limitkind%
+    &4%regionkind%-Regionen und &7%playerownedtotal%/%limittotal% &4Regionen insgesamt!'
+  Unlimited: Unbegrenzt
+  AutopriceList: '&6=========[Autopreise]========='
+  SubregionHelpHeadline: |-
+    &6=====[AdvancedRegionMarket Subregion Hilfe]=====
+    &3Seite %actualpage% / %maxpage%
+  LimitInfoTop: '&6=========[Limit Info]========='
+  LimitInfoTotal: '&6Insgesamt'
+  LimitInfo: '&6%regionkind%: %playerownedkind%/%limitkind%'
+  RegionInfoPrice: '&6Preis: '
+  RegionInfoType: '&6Typ: '
+  RegionInfoDoBlockReset: '&6Wiederherstellen: '
+  RegionInfoIsUserResettable: '&6Vom Owner zurücksetzbar: '
+  RegionInfoAutoprice: '&6Autopreis: '
+  isHotel: '&6Hotelregion: '
+  RegionInfoInactivityReset: '&6InaktivitätsReset: '
+  RegionInfoMaxRentTime: '&6Max. verlängerbar auf: '
+  RegionInfoExtendPerClick: '&6Verlängerungszeit: '
+  RegionInfoAutoExtendTime: '&6Verlängerungszeit: '
+  RegionInfoYes: '&2Ja'
+  RegionInfoNo: '&4Nein'
+  RegionInfoAllowedSubregions: '&6Eraubte Unterregionen: '
+  RegionInfoExpired: '&4Abgelaufen'
+  RegionSelectedMultipleRegions: '&6Es gibte mehrere Regionen an deiner Position.
+    Bitte wähle eine aus: &4'
+  RentRegionExpirationWarning: '&4WARNUNG! Diese RentRegionen von dir laufen bald
+    ab: &c'
+  RegionDeleted: '&aRegion gelöscht!'
+  RegionNotRegistred: '&4Region nicht registriert'
+  FirstPositionSet: '&aErste Position gesetzt!'
+  SecondPositionSet: '&aZweite Position gesetzt!'
+  MarkInOtherRegion: '&4Makierung in anderer Region! Lösche alte Makierung!'
+  ParentRegionNotOwn: '&4Dir gehört die Oberregion nicht!'
+  SubRegionRemoveNoPermissionBecauseSold: '&4Du darfst diese Region nicht löschen!
+    Bitte frage einen Admin, wenn du glaubst, dass dies ein Fehler ist!'
+  SubRegionRemoveNoPermissionBecauseAvailable: '&4Du darfst diese Region nicht löschen,
+    da diese verkauft wurde! Bitte frage einen Admin, wenn du glaubst, dass dies ein
+    Fehler ist!'
+  RegionNotASubregion: '&4Die ausgewählte Region ist keine Unterregion!'
+  RentRegion: RentRegion
+  SellRegion: SellRegion
+  ContractRegion: ContractRegion
+  RegionStats: '&6=========[Region Statistiken]========='
+  RegionStatsPattern: '&8Verkaufte Regionen (%regionkind%&8):'
+  SelltypeNotExist: '&4Der ausgewählte Verkaufstyp existiert nicht!'
+  SignLinkModeActivated: '&aSign-Link-Modus aktiviert! Klicke in eine WorldGuard-Region
+    um diese auszuwählen und anschließend auf ein Schild. ARM wird automatisch eine
+    Region mit den Einstellungen aus deinem Preset erstellen (oder nur das ausgewählte
+    Schild zu der ausgewählten Region hinzufügen, falls diese bereits existiert).'
+  SignLinkModeDeactivated: '&aSign-Link-Mode deaktiviert!'
+  SignLinkModeAlreadyDeactivated: '&4Der Sign-Link-Mode ist bereits deaktiviert!'
+  SignLinkModePresetNotPriceready: '&cDer Preis des ausgewählten Presets ist unvollständig!
+    Alle Regionen welche, mit diesem Preset erstellt werden, bekommen den Standard
+    Autopreis!'
+  SignLinkModeNoPresetSelected: |-
+    &cDu hast keinen Preset ausgewählt! Bitte lade oder erstellen zuerst einen! &cDu kannst einen Preset mit Hilfe des Befehls &6/arm sellpreset/rentpreset/contractpreset &cerstellen!
+    Klicke hier für weitere Informationen:
+    &6https://goo.gl/3upfAA (Gitlab Wiki)
+  SignLinkModeSignBelongsToAnotherRegion: '&4Schild gehört bereits zu einer anderen
+    Region!'
+  SignLinkModeSignSelected: '&aSchild ausgewählt!'
+  SignLinkModeMultipleWgRegionsAtPosition: '&4Konnte WorldGuard-Region nicht auswählen,
+    da mehrere Regionen an dieser Position gefunden wurden! Du kannst Regionen auf
+    eine Blacklist in der config.yml setzen, damit diese Ignoriert werden!'
+  SignLinkModeNoWgRegionAtPosition: '&4Konnte WorldGuard-Region nicht auswählen! Es
+    gibt keine Regionen an dieser Position!'
+  SignLinkModeCouldNotIdentifyWorld: '&4Konnte Welt nicht identifizieren! Bitte wähle
+    die WorldGuard-Region nochmal aus!'
+  SignLinkModeNoSignSelected: '&4Du hast kein Schild ausgewählt!'
+  SignLinkModeNoWgRegionSelected: '&4Du hast keine WorldGuard-Region ausgewählt!'
+  SignLinkModeSelectedRegion: '&aAusgewählte Region: %regionid%'
+  GUIMainMenuName: '&1ARM - Menü'
+  GUIRegionFinderMenuName: '&1ARM - Regionfinder'
+  GUIRegionFinderRegionKindName: '&a&l%regionkinddisplay%'
+  GUIMemberListMenuName: '&1ARM - Mitglieder von %regionid%'
+  GUIOwnRegionsMenuName: '&1ARM - Meine Regionen (Besitzer)'
+  GUIRegionItemName: '%regionid% (%regionkinddisplay%)'
+  GUIMakeOwnerWarningName: '&4&lBist du sicher?'
+  GUIMemberRegionsMenuName: '&1ARM - Meine Regionen (Mitglied)'
+  GUIResetRegionWarningName: '&4&lRegion zurücksetzen?'
+  GUIRegionTakeOverMenuName: '&4Region übernahme'
+  GUIGoBack: '&6Zurück'
+  GUIMyOwnRegions: '&6Meine Regionen (Besitzer)'
+  GUIMyMemberRegions: '&6Meine Regionen (Mitglied)'
+  GUISearchFreeRegion: '&6Freie Region finden'
+  GUIMembersButton: '&6Mitglieder'
+  GUITeleportToRegionButton: '&6Teleportieren'
+  GUITeleportToRegionButtonLore:
+  - '&aKlicke zum teleportieren'
+  GUIShowInfosButton: '&6Infos anzeigen'
+  GUIMakeOwnerButton: '&aZum Besitzer befördern'
+  GUIMakeOwnerButtonLore:
+  - '&4WARNUNG: &cDu selbst verlierst deine'
+  - '&cBesitzer-Rechte und wirst zum Mitglied'
+  - '&cder Region!'
+  GUIRemoveMemberButton: '&4Entfernen'
+  GUIRemoveMemberButtonLore:
+  - '&aMitglied entfernen'
+  GUIWarningYes: '&aJa'
+  GUIWarningNo: '&4Nein'
+  GUIResetRegionButton: '&4Region zurücksetzen'
+  GUIResetRegionButtonLore:
+  - '&4WARNUNG: &cDieser Vorgang kann nicht! Rückgängig'
+  - '&cgemacht werden. Alles Erbaute wird gelöscht und'
+  - '&cdie Region wird auf ihren Anfangszustand zurückgesetzt!'
+  - '&cDu kannst deine Region nur einmal alle %userresetcooldown%'
+  - '&czurücksetzen'
+  - '&2Du und alle Mitglieder behalten ihre Rechte an der Region!'
+  - '&2Einstellungen bleiben erhalten!'
+  RegionTransferCompleteMessage: '&aTransfer vollständig!'
+  RegiontransferMemberNotOnline: '&4Spieler nicht online!'
+  RegiontransferLimitError: '&4Transfer abgebrochen! (Die Region würde die maximale
+    Anzahl an Regionen die der Spieler besitzen dürfte überschreiten)'
+  GUICloseWindow: '&6Fenster schließen'
+  TakeOverItemLore:
+  - '&aDu bist ein Mitglied dieser Region.'
+  - '&aDa der Besitzer schon lange nicht mehr'
+  - '&aonline war, hast du die Möglichkeit'
+  - '&adiese Region zu übernehmen!'
+  - '&aDu kannst die Region kostenlos zu'
+  - '&adeinem Account transferieren und damit'
+  - '&azum Besitzer dieser werden!'
+  - '&aDer aktuelle Besitzer wird dann'
+  - '&aautomatisch zum Mitglied.'
+  - '&cFalls die Region nicht transferiert wird'
+  - '&coder der Owner nicht demnächst online'
+  - '&ckommt, wird die Region an den Server'
+  - '&czurückgegeben und alle Mitglieder verlieren'
+  - '&cihre Rechte an dieser!'
+  - '&cZeit bis zum Reset: &7%inactivityresetin-countdown-short%'
+  OwnerMemberlistInfo: '&6Spieler hinzufügen:'
+  OwnerMemberlistInfoLore:
+  - '&aDu kannst Freunde zu deiner Region'
+  - '&ahinzufügen. Der Befehl dafür lautet:'
+  - '&6/arm addmember %regionid% SPIELERNAME'
+  - '&aSpieler müssen online sein um sie'
+  - '&ahinzufügen zu können'
+  GUIExtendRentRegionButton: '&1Region verlängern'
+  GUIExtendRentRegionButtonLore:
+  - '&aKlicke um deine Region um &6%extendtime-writtenout%'
+  - '&afür &6%price%%currency%&a zu verlängern!'
+  - '&aDiese Region läuft in &6%remaining-countdown-short% &aab.'
+  - '&aDu kannst deine Region auf bis zu'
+  - '&6%maxrenttime-writtenout% &averlängern.'
+  GUIRentRegionLore:
+  - '&aVerbleibende Zeit: &6%remaining-countdown-short%'
+  GUIUserSellButton: '&4Zurücksetzen und verkaufen'
+  GUIUserSellButtonLore:
+  - '&4WARNUNG: &cDieser Vorgang kann nicht rückgängig!'
+  - '&cgemacht werden! Deine Region wird zurückgesetzt'
+  - '&cund wieder für andere Spieler zum Kauf verfügbar'
+  - '&cDu und alle Mitglieder verlieren ihre'
+  - '&cRechte an der Region!'
+  - '&cDir werden &6%paybackmoney%%currency% &czurückgezahlt!'
+  GUIUserSellWarning: '&4&lRegion verkaufen?'
+  GUILimitButton: '&6Meine Limits'
+  MemberlistInfo: '&6Wie werde ich Miglied?:'
+  MemberlistInfoLore:
+  - '&aDu kannst vom Besitzer einer Region'
+  - '&aals Mitglied hinzugefügt werden.'
+  - '&aDer Besitzer einer Region kann dich'
+  - '&amit folgendem Befehl hinzufügen:'
+  - '&6/arm addmember REGIONID SPIELERNAME'
+  - '&aDu musst online sein um hinzugefügt'
+  - '&awerden zu können!'
+  GUIContractItem: '&6Vertrag managen'
+  GUIContractItemLore:
+  - '&aStatus: %status%'
+  - '&aFalls der Vertrag aktiv ist und dein'
+  - '&aKonto gedeckt ist wird die Region nach Ablauf'
+  - '&ades Timers automatisch verlängert. Falls'
+  - '&anicht wird die Region automatisch zurückgesetzt!'
+  - '&aCountdown: &6%remaining-countdown-short%'
+  GUIContractItemRegionLore:
+  - '&aStatus: %status%'
+  - '&aFalls aktiv wird die Region nach Ablauf'
+  - '&ades Timers automatisch verlängert. Falls'
+  - '&anicht wird die Region automatisch zurückgesetzt!'
+  - '&aCountdown: &6%remaining-countdown-short%'
+  SellregionName: Kauf-Region
+  ContractregionName: Vertrags-Region
+  RentregionName: Prepaid-Region
+  GUISubregionsButton: '&6Unterregionen'
+  GUISubregionListMenuName: '&1Unterregionen'
+  GUIHotelButton: '&6Hotel-Funktion'
+  GUIDeleteRegionButton: '&4Region löschen'
+  GUITeleportToSignOrRegionButton: '&1Teleportieren...'
+  GUIRegionfinderTeleportToRegionButton: '&6Zur Region'
+  GUIRegionfinderTeleportToSignButton: '&6Zum Verkaufsschild'
+  GUINextPageButton: '&6Nächste Seite'
+  GUIPrevPageButton: '&6Vorherige Seite'
+  Enabled: '&aaktiviert'
+  Disabled: '&cdeaktiviert'
+  Sold: '&cverkauft'
+  Available: '&averfügbar'
+  DeleteRegionWarningName: '&4&lRegion löschen?'
+  UnsellRegionButton: '&4Region freigeben'
+  UnsellRegionButtonLore:
+  - '&4Klicken um die Region freizugeben und'
+  - '&4alle Spieler zu entfernen'
+  UnsellRegionWarningName: '&4&lRegion freigeben?'
+  GUISubregionManagerNoSubregionItem: '&6Info'
+  GUIHotelButtonLore:
+  - '&6Die Hotel-Funktion verhindert, dass Spieler'
+  - '&6Blöcke abbauen können, welche sie nicht selbst'
+  - '&6gesetzt haben.'
+  - '&6Status: %hotelfunctionstatus%'
+  - '&6Klicken zum aktivieren/deaktivieren'
+  GUISubregionInfoSell:
+  - '&6Verkaufstyp: %selltype%'
+  - '&6Status: %soldstatus%'
+  - '&6Preis: %price%'
+  - '&6Preis pro Quadratmeter: %priceperm2%'
+  - '&6Abmessungen: %dimensions%'
+  GUISubregionInfoRent:
+  - '&6Verkaufstyp: %selltype%'
+  - '&6Status: %soldstatus%'
+  - '&6Preis: %price%'
+  - '&6Preis pro Quadratmeter (pro Woche): %priceperm2perweek%'
+  - '&6Verlängerungszeit: %extendtime-writtenout%'
+  - '&6Max. vorrauszahlbar: %maxrenttime-writtenout%'
+  - '&6Abmessungen: %dimensions%'
+  GUISubregionInfoContract:
+  - '&6Verkaufstyp: %selltype%'
+  - '&6Status: %soldstatus%'
+  - '&6Preis: %price%'
+  - '&6Preis pro Quadratmeter (pro Woche): %priceperm2perweek%'
+  - '&6Verlängerungszeit: %extendtime-writtenout%'
+  - '&6Abmessungen: %dimensions%'
+  GUIRegionfinderInfoSell:
+  - '&6Peis: %price%%currency%'
+  - '&6Preis pro Quadratmeter: %priceperm2%%currency%'
+  - '&6Abmessungen: %dimensions%'
+  - '&6Welt: %world%'
+  GUIRegionfinderInfoRent:
+  - '&6Preis: %price%%currency%'
+  - '&6Preis pro Quadratmeter (Pro Woche): %priceperm2perweek%%currency%'
+  - '&6Verlängerungszeit: %extendtime-writtenout%'
+  - '&6Max. vorrauszahlbar: %maxrenttime-writtenout%'
+  - '&6Abmessungen: %dimensions%'
+  - '&6Welt: %world%'
+  GUIRegionfinderInfoContract:
+  - '&6Preis: %price%%currency%'
+  - '&6Preis pro Quadratmeter (Pro Woche): %priceperm2perweek%%currency%'
+  - '&6Verlängerungszeit: %extendtime-writtenout%'
+  - '&6Abmessungen: %dimensions%'
+  - '&6Welt: %world%'
+  SubregionCreationCreateSignInfo:
+  - '&aDeine Auswahl wurde gespeichert! Du kannst jetzt ein Schild erstellen um die
+    Region zu verkaufen.'
+  - '&aSyntax für eine Kauf-Region:'
+  - '&61. Zeile: &b[sub-sell]'
+  - '&64. Zeile: &bprice'
+  - ''
+  - '&aSyntax für eine Prepaid-Region:'
+  - '&61. Zeile: &b[sub-rent]'
+  - '&64. Zeile: &bPreisProPeriode&6;&bVerlängerungszeit&6;&bMaxVerlängerbar'
+  - '&6Beispiel für Verlängerungszeit/MaxVerlängerbar: 5d (5 Tage)'
+  - ''
+  - '&aSyntax für eine Vertrags-Region:'
+  - '&61. Zeile: &b[sub-contract]'
+  - '&64. Zeile: &bPreisProPeriode&6;&bVerlängerungszeit'
+  - '&6Beispiel für Verlängerungszeit: 12h (12 Stunden)'
+  - '&4Um Fehler zu vermeiden empfehlen wir, das Schild außerhalb der Region zu platzieren!'
+  SubregionCreationSelectAreaInfo:
+  - '&aDu hast soeben ein Tool bekommen (Feder) mit den du 2 Punkte makieren kannst
+    welche die Ecken deiner neuen Unterregion festlegen.'
+  - '&aLinksklick um die erste Position zu makieren'
+  - '&aRechtsklick um die zweite Position zu makieren'
+  - '&aNutze "&6/arm subregion create" &aum die Region zu speichern und fortzufahren'
+  SubregionToolAlreadyOwned: '&4Du besitzt bereits ein Tool!'
+  GUISubregionManagerNoSubregionItemLore:
+  - '&aIn deiner Region gibt es keine Unterregionen.'
+  - '&aDu kannst Unterregionen erstellen, welche du an'
+  - '&aSpieler verkaufen kannst. Nutze dafür den Befehl'
+  - '&6/arm subregion tool &aund folge den Angegebenen'
+  - '&aSchritten.'
+  EntityLimitHelpHeadline: |-
+    &6=====[AdvancedRegionMarket EntityLimit Hilfe ]=====
+    &3Seite %actualpage% / %maxpage%
+  EntityLimitGroupNotExist: '&4EntityLimitGruppe existiert nicht!'
+  EntityLimitSet: '&aEntityLimit wurde eingestellt!'
+  EntityLimitRemoved: '&aEntityLimit wurde gelöscht!'
+  ContractRegionTerminated: '&6Deine Vertragsregion &a%region% &6wurde erfolgreich
+    &4gekündigt&6! Deine Region wird in &a%remaining-countdown-short% &6automatisch resettet, es sei
+    denn sie wird reaktiviert!'
+  ContractRegionReactivated: '&6Deine Vertragsregion &a%region% &6wurde &areaktiviert&6!
+    Deine Region wird von nun an automatisch verlängert, solange dein Konto gedeckt
+    ist!'
+  EntityTypeDoesNotExist: '&4Der Entity-Typ &6%entitytype% &4existiert nicht!'
+  EntityLimitGroupNotContainEntityLimit: '&4Die ausgewähte EntityLimitGruppe beinhaltet
+    den ausgewählten Entity-Typen nicht!'
+  EntityLimitTotal: Insgesamt
+  EntityLimitCheckHeadline: '&6===[EntityLimitCheck für %regionid%]==='
+  EntityLimitCheckPattern: '&6%entitytype%: &a(&r%actualentities%&a/&r%softlimitentities%&a)
+    %entityextensioninfo%'
+  EntityLimitGroupAlreadyExists: '&4Gruppe exisitert bereits!'
+  EntityLimitGroupCreated: '&aEntityLimitGruppe erstellt!'
+  EntityLimitGroupCanNotRemoveSystem: '&4Du kannst keine System-EntityLimitGruppe
+    entfernen!'
+  EntityLimitGroupDeleted: '&aEntitylimitgroup wurde gelöscht!'
+  EntityLimitGroupInfoHeadline: '&6======[Entitylimitgroup Info]======'
+  EntityLimitGroupInfoGroupname: '&6Gruppenname: '
+  EntityLimitGroupInfoPattern: '&6%entitytype%: &r%softlimitentities% %entityextensioninfo%'
+  EntityLimitGroupListHeadline: '&6EntityLimitGuppen:'
+  EntityLimitGroupCouldNotspawnEntity: "&4Konnte Entity nicht spawnen! &4Entity wü\
+    rde das EntityLimit der Region &6%region%&4 überschreiten! Benutze &6/arm entitylimit\
+    \ check %region%&4 um dir Details anzeigen zu lassen! \nJeder der sich gerade\
+    \ in der Region %region% aufhält, hat diese Nachricht bekommen! Falls du kein\
+    \ Mitglied dieser Region bist, kannst du diese Nachricht ignorieren."
+  RegionInfoEntityLimit: '&6EntityLimitGruppe: '
+  SubregionEntityLimitOnlyForSubregions: '&4SubregionEntityLimitGroup nur für Unterregionen'
+  MassactionSplitter: '&6alle Regionen mit Regionkind &a%regionkind%'
+  SubregionEntityLimitError: '&4Die EntiyLimitGruppe kann für Unterregionen nicht
+    geändert werden!'
+  GUIEntityLimitItemButton: '&6EntityLimits'
+  GUIEntityLimitItemLore:
+  - '&6Klicke um dir die EntityLimits für'
+  - '&6diese Region im Chat anzeigen zu lassen'
+  - '%entityinfopattern%'
+  - ''
+  - 'Du kannst dein EntityLimit eventuell mit:'
+  - '&6/arm entitylimit buyextra %regionid% [ENTITYTYPE/total]'
+  - vergrößern
+  GUIEntityLimitInfoPattern: '&6%entitytype%: &a(&r%actualentities%&a/&r%softlimitentities%&a)
+    %entityextensioninfo%'
+  EntityLimitCheckExtensionInfo: |2-
+
+    &6&o--> Limit erweiterbar auf bis zu &r%hardlimitentities% &6Entities, für &r%priceperextraentity%%currency%&6/Entity
+  GUIEntityLimitInfoExtensionInfo: '&6&oMax. &r%hardlimitentities% &6für &r%priceperextraentity%%currency%&6/Entity'
+  EntityLimitInfoExtensionInfo: |2-
+
+    &6&o--> Limit erweiterbar auf bis zu &r%hardlimitentities% &6Entities, für &r%priceperextraentity%%currency%&6/Entity
+  EntityLimitGroupEntityLimitAlreadyUnlimited: '&4EntityLimit für den ausgewählten
+    Entity-Typen ist bereits unbegrenzt!'
+  EntityLimitGroupExtraEntitiesSet: '&aExtra-Entities wurden eingestellt!'
+  EntityLimitGroupExtraEntitiesExpandSuccess: '&aDu hast das EntityLimit erfolgreich
+    auf &6%softlimitentities% &aEntities erweitert! (Für &6%priceperextraentity%%currency%&a)'
+  EntityLimitGroupExtraEntitiesHardlimitReached: '&4Du kannst das EntityLimit nicht
+    weiter erhöhen! Hardlimit wurde erreicht!'
+  EntityLimitGroupExtraEntitiesSetSubregionError: '&4Konnte EntityLimit nicht ändern!
+    Region ist eine Unterregion!'
+  EntityLimitGroupExtraEntitiesBuySubregionError: '&4Konnte EntityLimit nicht erweitern!
+    Region ist eine Unterregion!'
+  RegionKindCreated: '&aRegionKind erstellt!'
+  RegionKindAlreadyExists: '&4RegionKind existiert bereits!'
+  RegionKindDeleted: '&aRegionKind gelöscht!'
+  RegionKindCanNotRemoveSystem: '&4Du kannst keinen System-RegionKind löschen!'
+  RegionKindListHeadline: '&6RegionKinds:'
+  RegionKindModified: '&aRegionKind bearbeitet!'
+  MaterialNotFound: '&4Material nicht gefunden!'
+  RegionKindLoreLineNotExist: '&aDie ausgewähte Zeile existiert nicht!'
+  RegionKindInfoHeadline: '&6=========[RegionKind Info]========='
+  RegionKindInfoInternalName: '&6Interner Name: %regionkind%'
+  RegionKindInfoDisplayName: '&6Anzeigename: %regionkinddisplay%'
+  RegionKindInfoMaterial: '&6Material: %regionkinditem%'
+  RegionKindInfoDisplayInGui: '&6In Regionfinder anzeigen: %regionkinddisplayingui%'
+  RegionKindInfoDisplayInLimits: '&6In Limits anzeigen: %regionkinddisplayinlimits%'
+  RegionKindInfoPaybackPercentage: '&6Rückzahlbetrag in %: %paypackpercentage%'
+  RegionKindInfoLore: '&6Beschreibung:'
+  RegionKindHelpHeadline: |-
+    &6=====[AdvancedRegionMarket RegionKind Hilfe ]=====
+    &3Seite %actualpage% / %maxpage%
+  PlayerNotFound: '&4Konnte ausgewählten Spieler nicht finden!'
+  GUIFlageditorButton: '&6FlagEditor'
+  GUIFlageditorMenuName: '&1FlagEditor (%region%)'
+  GUIFlageditorDeleteFlagButton: '&4Flag löschen'
+  GUIFlageditorSetFlagGroupAllButton: '&9Für alle'
+  GUIFlageditorSetFlagGroupMembersButton: '&9Für Mitglieder und Besitzer'
+  GUIFlageditorSetFlagGroupOwnersButton: '&9Für Besitzer'
+  GUIFlageditorSetFlagGroupNonMembersButton: '&9Für nicht-Mitglieder und nicht-Owner'
+  GUIFlageditorSetFlagGroupNonOwnersButton: '&9Für nicht-Mitglieder'
+  GUIFlageditorSetStateflagAllowButton: '&2Erlauben'
+  GUIFlageditorSetStateflagDenyButton: '&4Verweigern'
+  GUIFlageditorSetBooleanflagTrueButton: '&2Ja'
+  GUIFlageditorSetBooleanflagFalseButton: '&4Nein'
+  GUIFlageditorSetStringflagSetMessageButton: '&2Nachricht einstellen'
+  GUIFlageditorSetIntegerflagSetIntegerButton: '&2Wert einstellen'
+  GUIFlageditorSetDoubleflagSetDoubleButton: '&2Wert einstellen'
+  FlageditorFlagNotActivated: '&4Flag nicht aktiviert!'
+  FlageditorFlagHasBeenUpdated: '&2Flag wurde geupdated!'
+  FlageditorFlagCouldNotBeUpdated: '&4Konnte flag &6%flag% &4nicht bearbeiten!'
+  FlageditorFlagHasBeenDeleted: '&2Flag wurde gelöscht!'
+  FlageditorStringflagSetMessageInfo: '&9Bitte schreibe deine Nachricht in den Chat:'
+  FlageditorIntegerflagSetMessageInfo: '&9Bitte schreibe eine &lganze Zahl &r&9in
+    den Chat:'
+  FlageditorDoubleflagSetMessageInfo: '&9Bitte scheibe eine Zahl in den Chat:'
+  GUIFlageditorResetButton: '&4Alle Flags zurücksetzen'
+  GUIFlageditorUnknownFlagSetPropertiesButton: '&2Einstellen'
+  GUIFlageditorUnknownFlagSetPropertiesInfo: '&9Bitte schreibe den neuen Wert in den
+    Chat:'
+  FlaggroupDoesNotExist: '&4FlagGruppe existiert nicht!'
+  SubregionFlaggroupOnlyForSubregions: '&4Subregion Flaggruppe nicht für Unterregionen'
+  RegionInfoFlaggroup: '&6FlagGruppe: '
+  InfoDeactivated: '&4Deaktiviert'
+  InfoNotSold: '&4Region nicht verkauft!'
+  InfoNow: '&2Jetzt'
+  InfoNotCalculated: '&8Berechnung läuft...'
+  CouldNotFindOrLoadSchematicLog: '&4Konnte Schematic für die Region %region% in der
+    Welt %world% nicht finden oder laden! Du kannst die Schematic mit &6/arm updateschematic
+    %region% &4regenerieren!'
+  RegionSoldBackSuccessfully: '&2Deine Region &6%regionid% &2wurde erfolgreich zurück
+    an den Server verkauft! Dir wurden &6%paybackmoney%%currency% &2gutgeschrieben!'
+  RegionModifiedBoolean: '&6%option% %state% &6für &a%selectedregions%&6!'
+  RegionModified: '&6%option% &6bearbeitet für %selectedregions%&6!'
+  UpdatingSchematic: '&6Update Schematic...'
+  SchematicUpdated: '&aSchemtic geupdated!'
+  RegionInfoSellregionAdmin:
+  - '&6=========[Region Info]========='
+  - '&9ID: &e%regionid% &7(Typ: &r%selltype%&7)'
+  - '&9Verkauft: &e%issold%'
+  - '&9Preis: &e%price%'
+  - '&9Besitzer: &e%owner%'
+  - '&9Mitglieder: &e%members%'
+  - '&9Regionkind: &e%regionkinddisplay% &9FlagGruppe: &e%flaggroup%'
+  - '&9EntityLimitGruppe: &e%entitylimitgroup% &9Hotel: &e%ishotel%'
+  - '&9Zurücksetzbar: &e%isuserresettable% &9InactivityReset: &e%isinactivityreset%'
+  - '&9Besitzer zuletzt online: &e%lastownerlogin%'
+  - '&9InactivityReset in: &e%inactivityresetin-countdown-short%'
+  - '&9Übernahme möglich in: &e%takeoverin-countdown-short%'
+  - '&9Rückspielen bei Ablauf: &e%isdoblockreset% &9Autopreis: &e%autoprice%'
+  - '&9Erlaubre Unterregionen: &e%subregionlimit%'
+  - '&9Unterregionen: &e%subregions%'
+  RegionInfoRentregionAdmin:
+  - '&6=========[Region Info]========='
+  - '&9ID: &e%regionid% &7(Typ: &r%selltype%&7)'
+  - '&9Verkauft: &e%issold%'
+  - '&9Preis: &e%price% &7pro &e%extendtime-writtenout% &7Max.: &e%maxrenttime-writtenout%'
+  - '&9Verbleibende Zeit: &e%remaining-countdown-short%'
+  - '&9Besitzer: &e%owner%'
+  - '&9Mitglieder: &e%members%'
+  - '&9Regionkind: &e%regionkinddisplay% &9FlagGruppe: &e%flaggroup%'
+  - '&9EntityLimitGruppe: &e%entitylimitgroup% &9Hotel: &e%ishotel%'
+  - '&9Zurücksetzbar: &e%isuserresettable% &9InactivityReset aktiv: &e%isinactivityreset%'
+  - '&9Besitzer zuletzt online: &e%lastownerlogin%'
+  - '&9InactivityReset in: &e%inactivityresetin-countdown-short%'
+  - '&9Übernahme möglich in: &e%takeoverin-countdown-short%'
+  - '&9Rückspielen bei Ablauf: &e%isdoblockreset% &9Autopreis: &e%autoprice%'
+  - '&9Erlaubre Unterregionen: &e%subregionlimit%'
+  - '&9Unterregionen: &e%subregions%'
+  RegionInfoContractregionAdmin:
+  - '&6=========[Region Info]========='
+  - '&9ID: &e%regionid% &7(Typ: &r%selltype%&7)'
+  - '&9Verkauft: &e%issold%'
+  - '&9Preis: &e%price% &7pro &e%extendtime-writtenout% &7(automatische Verlängerung)'
+  - '&9Verbleibende Zeit: &e%remaining-countdown-short%'
+  - '&9Besitzer: &e%owner%'
+  - '&9Mitglieder: &e%members%'
+  - '&9Regionkind: &e%regionkinddisplay% &9FlagGruppe: &e%flaggroup%'
+  - '&9EntityLimitGruppe: &e%entitylimitgroup% &9Hotel: &e%ishotel%'
+  - '&9Zurücksetzbar: &e%isuserresettable% &9InactivityReset aktiv: &e%isinactivityreset%'
+  - '&9Besitzer zuletzt online: &e%lastownerlogin%'
+  - '&9InactivityReset in: &e%inactivityresetin-countdown-short%'
+  - '&9Übernahme möglich in: &e%takeoverin-countdown-short%'
+  - '&9Rückspielen bei Ablauf: &e%isdoblockreset% &9Autopreis: &e%autoprice%'
+  - '&9Erlaubre Unterregionen: &e%subregionlimit%'
+  - '&9Unterregionen: &e%subregions%'
+  RegionInfoSellregionUser:
+  - '&6=========[Region Info]========='
+  - '&9ID: &e%regionid% &7(Typ: &r%selltype%&7)'
+  - '&9Verkauft: &e%issold%'
+  - '&9Preis: &e%price%'
+  - '&9Besitzer: &e%owner%'
+  - '&9Mitglieder: &e%members%'
+  - '&9Regionkind: &e%regionkinddisplay% &9FlagGruppe: &e%flaggroup%'
+  - '&9EntityLimitGruppe: &e%entitylimitgroup% &9Hotel: &e%ishotel%'
+  - '&9Zurücksetzbar: &e%isuserresettable% &9InactivityReset: &e%isinactivityreset%'
+  - '&9Besitzer zuletzt online: &e%lastownerlogin%'
+  - '&9InactivityReset in: &e%inactivityresetin-countdown-short%'
+  - '&9Übernahme möglich in: &e%takeoverin-countdown-short%'
+  - '&9Rückspielen bei Ablauf: &e%isdoblockreset% &9Autopreis: &e%autoprice%'
+  - '&9Erlaubre Unterregionen: &e%subregionlimit%'
+  - '&9Unterregionen: &e%subregions%'
+  RegionInfoRentregionUser:
+  - '&6=========[Region Info]========='
+  - '&9ID: &e%regionid% &7(Typ: &r%selltype%&7)'
+  - '&9Verkauft: &e%issold%'
+  - '&9Preis: &e%price% &7pro &e%extendtime-writtenout% &7Max.: &e%maxrenttime-writtenout%'
+  - '&9Verbleibende Zeit: &e%remaining-countdown-short%'
+  - '&9Besitzer: &e%owner%'
+  - '&9Mitglieder: &e%members%'
+  - '&9Regionkind: &e%regionkinddisplay% &9FlagGruppe: &e%flaggroup%'
+  - '&9EntityLimitGruppe: &e%entitylimitgroup% &9Hotel: &e%ishotel%'
+  - '&9Zurücksetzbar: &e%isuserresettable% &9InactivityReset aktiv: &e%isinactivityreset%'
+  - '&9Besitzer zuletzt online: &e%lastownerlogin%'
+  - '&9InactivityReset in: &e%inactivityresetin-countdown-short%'
+  - '&9Übernahme möglich in: &e%takeoverin-countdown-short%'
+  - '&9Rückspielen bei Ablauf: &e%isdoblockreset% &9Autopreis: &e%autoprice%'
+  - '&9Erlaubre Unterregionen: &e%subregionlimit%'
+  - '&9Unterregionen: &e%subregions%'
+  RegionInfoContractregionUser:
+  - '&6=========[Region Info]========='
+  - '&9ID: &e%regionid% &7(Typ: &r%selltype%&7)'
+  - '&9Verkauft: &e%issold%'
+  - '&9Preis: &e%price% &7pro &e%extendtime-writtenout% &7(automatische Verlängerung)'
+  - '&9Verbleibende Zeit: &e%remaining-countdown-short%'
+  - '&9Besitzer: &e%owner%'
+  - '&9Mitglieder: &e%members%'
+  - '&9Regionkind: &e%regionkinddisplay% &9FlagGruppe: &e%flaggroup%'
+  - '&9EntityLimitGruppe: &e%entitylimitgroup% &9Hotel: &e%ishotel%'
+  - '&9Zurücksetzbar: &e%isuserresettable% &9InactivityReset aktiv: &e%isinactivityreset%'
+  - '&9Besitzer zuletzt online: &e%lastownerlogin%'
+  - '&9InactivityReset in: &e%inactivityresetin-countdown-short%'
+  - '&9Übernahme möglich in: &e%takeoverin-countdown-short%'
+  - '&9Rückspielen bei Ablauf: &e%isdoblockreset% &9Autopreis: &e%autoprice%'
+  - '&9Erlaubre Unterregionen: &e%subregionlimit%'
+  - '&9Unterregionen: &e%subregions%'
+  RegionInfoSellregionSubregion:
+  - '&6=========[Region Info]========='
+  - '&9ID: &e%regionid% &7(Typ: &r%selltype%&7, Subregion)'
+  - '&9Verkauft: &e%issold%'
+  - '&9Preis: &e%price%'
+  - '&9Besitzer: &e%owner%'
+  - '&9Mitglieder: &e%members%'
+  - '&9Regionkind: &e%regionkinddisplay% &9FlagGruppe: &e%flaggroup%'
+  - '&9EntityLimitGruppe: &e%entitylimitgroup% &9Hotel: &e%ishotel%'
+  - '&9Zurücksetzbar: &e%isuserresettable% &9InactivityReset: &e%isinactivityreset%'
+  - '&9Besitzer zuletzt online: &e%lastownerlogin%'
+  - '&9InactivityReset in: &e%inactivityresetin-countdown-short%'
+  - '&9Übernahme möglich in: &e%takeoverin-countdown-short%'
+  - '&9Rückspielen bei Ablauf: &e%isdoblockreset% &9Autopreis: &e%autoprice%'
+  - '&9Erlaubre Unterregionen: &e%subregionlimit%'
+  - '&9Unterregionen: &e%subregions%'
+  RegionInfoRentregionSubregion:
+  - '&6=========[Region Info]========='
+  - '&9ID: &e%regionid% &7(Typ: &r%selltype%&7, Subregion)'
+  - '&9Verkauft: &e%issold%'
+  - '&9Preis: &e%price% &7pro &e%extendtime-writtenout% &7Max.: &e%maxrenttime-writtenout%'
+  - '&9Verbleibende Zeit: &e%remaining-countdown-short%'
+  - '&9Besitzer: &e%owner%'
+  - '&9Mitglieder: &e%members%'
+  - '&9Regionkind: &e%regionkinddisplay% &9FlagGruppe: &e%flaggroup%'
+  - '&9EntityLimitGruppe: &e%entitylimitgroup% &9Hotel: &e%ishotel%'
+  - '&9Zurücksetzbar: &e%isuserresettable% &9InactivityReset aktiv: &e%isinactivityreset%'
+  - '&9Besitzer zuletzt online: &e%lastownerlogin%'
+  - '&9InactivityReset in: &e%inactivityresetin-countdown-short%'
+  - '&9Übernahme möglich in: &e%takeoverin-countdown-short%'
+  - '&9Rückspielen bei Ablauf: &e%isdoblockreset% &9Autopreis: &e%autoprice%'
+  RegionInfoContractregionSubregion:
+  - '&6=========[Region Info]========='
+  - '&9ID: &e%regionid% &7(Typ: &r%selltype%&7, Subregion)'
+  - '&9Verkauft: &e%issold%'
+  - '&9Preis: &e%price% &7pro &e%extendtime-writtenout% &7(automatische Verlängerung)'
+  - '&9Verbleibende Zeit: &e%remaining-countdown-short%'
+  - '&9Besitzer: &e%owner%'
+  - '&9Mitglieder: &e%members%'
+  - '&9Regionkind: &e%regionkinddisplay% &9FlagGruppe: &e%flaggroup%'
+  - '&9EntityLimitGruppe: &e%entitylimitgroup% &9Hotel: &e%ishotel%'
+  - '&9Zurücksetzbar: &e%isuserresettable% &9InactivityReset aktiv: &e%isinactivityreset%'
+  - '&9Besitzer zuletzt online: &e%lastownerlogin%'
+  - '&9InactivityReset in: &e%inactivityresetin-countdown-short%'
+  - '&9Übernahme möglich in: &e%takeoverin-countdown-short%'
+  - '&9Rückspielen bei Ablauf: &e%isdoblockreset% &9Autopreis: &e%autoprice%'

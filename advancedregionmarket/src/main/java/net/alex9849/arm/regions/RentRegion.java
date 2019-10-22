@@ -40,10 +40,10 @@ public class RentRegion extends CountdownRegion {
     {
         HashMap<String, StringCreator> variableReplacements = new HashMap<>();
         variableReplacements.put("%maxrenttime-short%", () -> {
-            return TimeUtil.timeInMsToString(this.getMaxRentTimeString(), false, false);
+            return TimeUtil.timeInMsToString(this.getMaxRentTime(), false, false);
         });
         variableReplacements.put("%maxrenttime-writtenout%", () -> {
-            return TimeUtil.timeInMsToString(this.getMaxRentTimeString(), true, false);
+            return TimeUtil.timeInMsToString(this.getMaxRentTime(), true, false);
         });
 
         this.stringReplacer = new StringReplacer(variableReplacements, 50);
@@ -226,7 +226,7 @@ public class RentRegion extends CountdownRegion {
         this.queueSave();
     }
 
-    public long getMaxRentTimeString() {
+    public long getMaxRentTime() {
         return this.maxRentTime;
     }
 
@@ -234,10 +234,6 @@ public class RentRegion extends CountdownRegion {
     public String getConvertedMessage(String message) {
         message = super.getConvertedMessage(message);
         return this.stringReplacer.replace(message).toString();
-    }
-
-    public long getMaxRentTime() {
-        return this.maxRentTime;
     }
 
     public SellType getSellType() {

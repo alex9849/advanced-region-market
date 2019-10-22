@@ -147,7 +147,8 @@ public class Messages {
     public static String TIME_HOURS_SHORT = "h";
     public static String TIME_DAYS_SHORT = "d";
     public static String TIME_UNIT_SPLITTER = " and ";
-    public static String TIME_UNIT_SPLITTER_SHORT = " ";
+    //TODO add to file
+    public static String TIME_UNIT_SPLITTER_SHORT = ":";
     public static String NOT_A_MEMBER_OR_OWNER = "";
     public static String YES = "";
     public static String NO = "";

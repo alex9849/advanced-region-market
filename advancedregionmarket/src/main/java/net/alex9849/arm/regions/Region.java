@@ -85,7 +85,7 @@ public abstract class Region implements Saveable {
         });
         variableReplacements.put("%remaininguserresetcooldown-date%", () -> {
             return TimeUtil.getDate(AdvancedRegionMarket.getInstance().getPluginSettings().getUserResetCooldown() + this.getLastreset(),
-                    true, "", AdvancedRegionMarket.getInstance().getPluginSettings().getDateTimeformat());
+                    true, Messages.INFO_NOW, AdvancedRegionMarket.getInstance().getPluginSettings().getDateTimeformat());
         });
         variableReplacements.put("%remaininguserresetcooldown-countdown-short%", () -> {
             return TimeUtil.getCountdown(AdvancedRegionMarket.getInstance().getPluginSettings().getUserResetCooldown() + this.getLastreset(),
@@ -461,7 +461,7 @@ public abstract class Region implements Saveable {
             return Messages.INFO_DEACTIVATED;
         } else {
             if(date) {
-                return TimeUtil.getDate(ieGroup.getTakeOverAfterMs() + this.getLastLogin(), false,
+                return TimeUtil.getDate(ieGroup.getTakeOverAfterMs() + this.getLastLogin(), true,
                         Messages.INFO_NOW, AdvancedRegionMarket.getInstance().getPluginSettings().getDateTimeformat());
             } else {
                 return TimeUtil.getCountdown(ieGroup.getTakeOverAfterMs() + this.getLastLogin(), writeOut,
@@ -489,7 +489,7 @@ public abstract class Region implements Saveable {
             return Messages.INFO_DEACTIVATED;
         } else {
             if(date) {
-                return TimeUtil.getDate(ieGroup.getResetAfterMs() + this.getLastLogin(), false,
+                return TimeUtil.getDate(ieGroup.getResetAfterMs() + this.getLastLogin(), true,
                         Messages.INFO_NOW, AdvancedRegionMarket.getInstance().getPluginSettings().getDateTimeformat());
             } else {
                 return TimeUtil.getCountdown(ieGroup.getResetAfterMs() + this.getLastLogin(), writeOut,

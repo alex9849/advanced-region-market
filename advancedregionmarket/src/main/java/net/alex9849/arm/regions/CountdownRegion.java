@@ -1,6 +1,7 @@
 package net.alex9849.arm.regions;
 
 import net.alex9849.arm.AdvancedRegionMarket;
+import net.alex9849.arm.Messages;
 import net.alex9849.arm.entitylimit.EntityLimit;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
 import net.alex9849.arm.flaggroups.FlagGroup;
@@ -34,20 +35,20 @@ public abstract class CountdownRegion extends Region {
             return TimeUtil.timeInMsToString(this.getExtendTime(), true, false);
         });
         variableReplacements.put("%remaining-date%", () -> {
-            return TimeUtil.getDate(this.getPayedTill(), true, "",
+            return TimeUtil.getDate(this.getPayedTill(), true, Messages.REGION_INFO_EXPIRED,
                     AdvancedRegionMarket.getInstance().getPluginSettings().getDateTimeformat());
         });
         variableReplacements.put("%remaining-countdown-short%", () -> {
-            return TimeUtil.getCountdown(this.getPayedTill(), false, false, true, "");
+            return TimeUtil.getCountdown(this.getPayedTill(), false, false, true, Messages.REGION_INFO_EXPIRED);
         });
-        variableReplacements.put("%remaining-countdown-cutted%", () -> {
-            return TimeUtil.getCountdown(this.getPayedTill(), false, true, true, "");
+        variableReplacements.put("%remaining-countdown-short-cutted%", () -> {
+            return TimeUtil.getCountdown(this.getPayedTill(), false, true, true, Messages.REGION_INFO_EXPIRED);
         });
         variableReplacements.put("%remaining-countdown-writtenout%", () -> {
-            return TimeUtil.getCountdown(this.getPayedTill(), true, false, true, "");
+            return TimeUtil.getCountdown(this.getPayedTill(), true, false, true, Messages.REGION_INFO_EXPIRED);
         });
         variableReplacements.put("%remaining-countdown-writtenout-cutted%", () -> {
-            return TimeUtil.getCountdown(this.getPayedTill(), true, true, true, "");
+            return TimeUtil.getCountdown(this.getPayedTill(), true, true, true, Messages.REGION_INFO_EXPIRED);
         });
         variableReplacements.put("%priceperm2perweek%", () -> {
             return Price.formatPrice(this.getPricePerM2PerWeek());

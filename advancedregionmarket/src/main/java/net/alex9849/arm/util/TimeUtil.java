@@ -77,7 +77,7 @@ public class TimeUtil {
         if (remainingHours != 0) {
             if(remainingDays != 0) {
                 if(writeOut) {
-                    timetoString.append(" ");
+                    timetoString.append(Messages.TIME_UNIT_SPLITTER);
                 } else {
                     timetoString.append(Messages.TIME_UNIT_SPLITTER_SHORT);
                 }
@@ -89,7 +89,7 @@ public class TimeUtil {
         if (remainingMinutes != 0) {
             if(remainingDays != 0 || remainingHours != 0) {
                 if(writeOut) {
-                    timetoString.append(" ");
+                    timetoString.append(Messages.TIME_UNIT_SPLITTER);
                 } else {
                     timetoString.append(Messages.TIME_UNIT_SPLITTER_SHORT);
                 }
@@ -101,7 +101,7 @@ public class TimeUtil {
         if (remainingSeconds != 0 || (remainingSeconds == 0 && remainingMinutes == 0 && remainingHours == 0 && remainingDays == 0)) {
             if(remainingDays != 0 || remainingHours != 0 ||remainingMinutes != 0) {
                 if(writeOut) {
-                    timetoString.append(" ");
+                    timetoString.append(Messages.TIME_UNIT_SPLITTER);
                 } else {
                     timetoString.append(Messages.TIME_UNIT_SPLITTER_SHORT);
                 }
@@ -124,12 +124,12 @@ public class TimeUtil {
         return writtenOutUnit;
     }
 
-    public static String getDate(long dateInMs, boolean showDateIfDateInThePast, String ifDateInPastReplacement, String datePattern) {
+    public static String getDate(long dateInMs, boolean showReplacementIfDateInThePast, String ifDateInPastReplacement, String datePattern) {
         GregorianCalendar actualtime = new GregorianCalendar();
         GregorianCalendar payedTill = new GregorianCalendar();
         payedTill.setTimeInMillis(dateInMs);
 
-        if ((payedTill.getTimeInMillis() - actualtime.getTimeInMillis()) < 0 && !showDateIfDateInThePast) {
+        if ((payedTill.getTimeInMillis() - actualtime.getTimeInMillis()) < 0 && showReplacementIfDateInThePast) {
             return ifDateInPastReplacement;
         }
 

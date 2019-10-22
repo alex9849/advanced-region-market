@@ -1,0 +1,687 @@
+Messages:
+  Prefix: '&b[ARM]&r'
+  ArmBasicCommandMessage: |-
+    &6AdvancedRegionMarket v%pluginversion% by Alex9849
+    &6Download: &3https://bit.ly/2CfO3An
+    &6Get a list with all commands with &3/arm help
+  NoPermission: '&4You do not have permission!'
+  NotEnoughtMoney: '&4You do not have enough money!'
+  RegionAlreadySold: '&4Region already Sold!'
+  WorldDoesNotExist: '&4The selected world does not exist!'
+  RegionDoesNotExist: '&4The selected region does not exist in this (or the selected)
+    world!'
+  PriceCanNotBeNegative: '&4Price can not be negative!'
+  CommandOnlyIngame: '&4This command can only be executed ingame!'
+  RentExtendMaxRentTimeExceeded: '&4You can not rent this region for more than &6%maxrenttime-writtenout%
+    &4at once'
+  RegionErrorCanNotBuildHere: '&4You only allowed to break blocks you placed here!'
+  NoFreeRegionWithThisKind: '&7No free region with this type found :('
+  RegionkindDoesNotExist: '&4The selected regionkind does not exist!'
+  NoPermissionsToBuyThisKindOfRegion: '&4You do not have permission to buy this kind
+    of region (You need the permission &6arm.buykind.%regionkind%&4)'
+  UserNotAMemberOrOwner: '&4You are not a member or owner of this region!'
+  SelectedPlayerIsNotOnline: '&4The selected player is not online'
+  BadSyntax: '&7Bad syntax! Please use: &8%command%'
+  BadSyntaxSplitter: |2-
+
+    &7or &8%command%
+  SchematicNotFoundErrorUser: '&4It seems like the schematic of your region %regionid%
+    has not been created. Please contact an admin!'
+  SchematicNotFoundErrorAdmin: '&4Could not find schematic for %regionid%'
+  RentExtendMessage: '&aRegion extended for &6%extendtime-writtenout%&a (For %price%%currency%.
+    New remaining time: &6%remaining-countdown-short%'
+  Buymessage: '&aRegion successfully bought!'
+  RegionAddedToARM: '&7Regionsign has been created and region has been added to ARM!'
+  SignRemovedFromRegion: '&7Regionsign removed! %remaining% Sign(s) remaining before
+    region gets removed from ARM!'
+  SignAddedToRegion: '&7Region already exists! The sign has been added to the region!'
+  UseANumberAsPrice: '&4Please use a number as a price in line 4!'
+  RegionRemovedFromARM: '&7The region has been removed from ARM!'
+  RegionKindSet: '&aRegionkind set!'
+  ResetComplete: '&aReset complete!'
+  Complete: '&aComplete!'
+  ResetRegionCooldownError: '&7You have to wait&6 %remaininguserresetcooldown-countdown-writtenout% &7till
+    you can reset your region again'
+  Currency: $
+  SellSign1: '&2For Sale'
+  SellSign2: '%regionid%'
+  SellSign3: '%price%%currency%'
+  SellSign4: '%dimensions%'
+  SoldSign1: '&4Sold'
+  SoldSign2: '%regionid%'
+  SoldSign3: ''
+  SoldSign4: '%owner%'
+  RentSign1: '&2For Rent'
+  RentSign2: '%regionid%'
+  RentSign3: '%price%%currency%/%extendtime-short%'
+  RentSign4: 'Max.: %maxrenttime-writtenout%'
+  RentedSign1: '&4Rented'
+  RentedSign2: '%regionid%/%owner%'
+  RentedSign3: '%price%%currency%/%extendtime-short%'
+  RentedSign4: '%remaining-countdown-short%'
+  ContractSign1: '&2Contract'
+  ContractSign2: '&2available'
+  ContractSign3: '%regionid%'
+  ContractSign4: '%price%%currency%/%extendtime-short%'
+  ContractSoldSign1: '&4Contract in use'
+  ContractSoldSign2: '%regionid%/%owner%'
+  ContractSoldSign3: '%price%%currency%/%extendtime-short%'
+  ContractSoldSign4: '%remaining-countdown-short%'
+  SecondsSingular: Second
+  MinutesSingular: Minute
+  HoursSingular: Hour
+  DaysSingular: Day
+  SecondsPlural: Seconds
+  MinutesPlural: Minutes
+  HoursPlural: Hours
+  DaysPlural: Days
+  SecondsShort: s
+  MinutesShort: m
+  HoursShort: h
+  DaysShort: d
+  TimeUnitSplitterShort: ':'
+  TeleporterNoSaveLocation: '&4Could not find a save teleport location'
+  TeleporterDontMove: '&6Teleportation will commence in &c%time% Seconds&6. Do not
+    move!'
+  TeleporterTeleportationAborded: '&4Teleportation aborded!'
+  ContractRegionExtended: '&aYour contract region %regionid% has been extended for
+    %extendtime-writtenout%. (For %price%%currency%.)'
+  ContractRegionStatusActive: '&aActive'
+  ContractRegionStatusTerminated: '&4Terminated'
+  PresetRemoved: '&aPreset removed!'
+  PresetSet: '&aPreset set!'
+  PresetSaved: '&aPreset saved!'
+  PresetAlreadyExists: '&4A preset with this name already exists!'
+  PresetPlayerDontHasPreset: '&4You do not have a preset!'
+  PresetDeleted: '&aPreset deleted!'
+  PresetNotFound: '&4No preset with this name found!'
+  PresetLoaded: '&aPreset loaded!'
+  PresetSetupCommands: '&6Setup commands:'
+  OfferSent: '&aYour offer has been sent'
+  OfferAcceptedSeller: '&a%buyer% &aaccepted your offer'
+  OfferAcceptedBuyer: '&aOffer accepted! You are now the owner of &c%regionid%'
+  NoOfferToAnswer: '&4You dont have an offer to answer'
+  OfferRejected: '&aOffer rejected!'
+  OfferHasBeenRejected: '&4%buyer% &4rejected your offer!'
+  NoOfferToReject: '&4You do not have an offer to reject'
+  OfferCancelled: '&aYour offer has been cancelled!'
+  OfferHasBeenCancelled: '&4%seller% &4cancelled his offer!'
+  NoOfferToCancel: '&4You do not have an offer to cancel'
+  BuyerAlreadyGotAnOffer: '&4The selected buyer already got an offer that he has to
+    answer first!'
+  SellerAlreadyCreatedAnOffer: '&4You have already created an offer! Please wait for
+    an answer or cancel it first!'
+  SellerDoesNotLongerOwnRegion: '&4%seller% &4does not longer own this region. His
+    offer has been cancelled'
+  IncommingOffer: '&c%seller% &6offers you his region &c%regionid% &6in the world
+    &c%world% &6for &c%price%%currency%&6! You can accept his offer with &c/arm offer
+    accept &6or reject it &c/arm offer reject'
+  OfferTimedOut: '&4Offer timed out!'
+  SellBackWarning: "&4Sell region back to the server: \n&4WARNING: &cThis can not\
+    \ be undone! Your region &6%regionid% &cwill be released and all blocks on it\
+    \ will be resetted! You and all members will loose their rights on it. You will\
+    \ get &6%paybackmoney%%currency% &cback"
+  SubregionInactivityResetError: '&4The selected region is a subregion. You can change
+    the InactivityReset setting for all subregions in the config.yml!'
+  SubregionDoBlockResetError: '&4The selected region is a subregion. You can change
+    the doBlockReset setting for all subregions in the config.yml!'
+  SubregionIsUserResettableError: '&4The selected region is a subregion. You can change
+    the isUserResettable setting for all subregions in the config.yml!'
+  SubregionRegionkindError: '&4The selected region is a subregion. You can edit the
+    regionkind for all subregions in the config.yml!'
+  SubRegionRegionkindOnlyForSubregions: '&4Subregion regionkind only for subregions!'
+  SubregionTeleportLocationError: '&4The selected region is a subregion. Teleport
+    location can not be changed'
+  PosCloudNotBeSetMarkOutsideRegion: '&4Position could not be set! Position outside
+    region'
+  SubRegionAlreadyAtThisPosition: '&4Your selection would overlap with a subregion
+    that already has been created'
+  SubRegionLimitReached: '&4Subregion limit reached! You are not allowed to create
+    more than &6%subregionlimit% &4subregions'
+  SelectionInvalid: '&4Selection invalid! You need to select 2 positions! (Left/Right
+    click) Type "&6/arm subregion tool&4" to get the selection tool'
+  RegionCreatedAndSaved: '&aRegion created and saved!'
+  RegionNotOwn: '&4You do not own this region!'
+  RegionNotSold: '&4Region not sold!'
+  RegionNotResettable: '&4Region not resettable!'
+  RegionIsNotARentregion: '&4Region is not a rentregion!'
+  RegionIsNotAContractRegion: '&4Region is not a contractregion!'
+  RegionTeleportMessage: '&7You have been teleported to %regionid%'
+  RegionNowAviable: '&aRegion is now available!'
+  NoRegionAtPlayersPosition: '&7Could not find a region at your position!'
+  RegionAddMemberNotOnline: '&4The selected player is not online!'
+  RegionAddMemberAdded: '&aMember has been added!'
+  RegionRemoveMemberNotAMember: '&4The selected player is not a member of the region'
+  RegionRemoveMemberRemoved: '&aMember has been removed!'
+  RegionBuyOutOfLimit: '&4Out of Limit! You have &7%playerownedkind%/%limitkind% &4%regionkind%-regions
+    and &7%playerownedtotal%/%limittotal% &4Regions total!'
+  Unlimited: Unlimited
+  AutopriceList: '&6=========[Autoprices]========='
+  SubregionHelpHeadline: |-
+    &6=====[AdvancedRegionMarket Subregion Help]=====
+    &3Page %actualpage% / %maxpage%
+  LimitInfoTop: '&6=========[Limit Info]========='
+  LimitInfoTotal: '&6Total'
+  LimitInfo: '&6%regionkind%: %playerownedkind%/%limitkind%'
+  RegionInfoPrice: '&6Price: '
+  RegionInfoType: '&6Type: '
+  RegionInfoDoBlockReset: '&6DoBlockReset: '
+  RegionInfoIsUserResettable: '&6UserResettable: '
+  RegionInfoAutoprice: '&6Autoprice: '
+  isHotel: '&6isHotel: '
+  RegionInfoInactivityReset: '&6InactivityReset: '
+  RegionInfoMaxRentTime: '&6Max rent time: '
+  RegionInfoExtendPerClick: '&6Extend per click: '
+  RegionInfoAutoExtendTime: '&6Extend time: '
+  RegionInfoYes: '&2yes'
+  RegionInfoNo: '&4no'
+  RegionInfoAllowedSubregions: '&6Allowed Subregions: '
+  RegionInfoExpired: '&4Expired'
+  RegionSelectedMultipleRegions: '&6There is more than one region at your position.
+    Please select one: &4'
+  RentRegionExpirationWarning: '&4WARNING! This RentRegion(s) will expire soon: &c'
+  RegionDeleted: '&aRegion deleted!'
+  RegionNotRegistred: '&4Region not registred'
+  FirstPositionSet: '&aFirst position set!'
+  SecondPositionSet: '&aSecond position set!'
+  MarkInOtherRegion: '&4Mark in other Region. Removing old mark'
+  ParentRegionNotOwn: '&4You don not own the parent region!'
+  SubRegionRemoveNoPermissionBecauseSold: '&4You are not allowed to remove this region.
+    Please ask an admin if you believe this is an error'
+  SubRegionRemoveNoPermissionBecauseAvailable: '&4You are not allowed to remove this
+    region, because it is sold. You may ask the owner or an admin to release it'
+  RegionNotASubregion: '&4Region not a subregion!'
+  RentRegion: RentRegion
+  SellRegion: SellRegion
+  ContractRegion: ContractRegion
+  RegionStats: '&6=========[Region stats]========='
+  RegionStatsPattern: '&8Used regions (%regionkind%&8):'
+  SelltypeNotExist: '&4The selected selltype does not exist!'
+  SignLinkModeActivated: '&aSign-Link-Mode activated! Click into a region and afterwards
+    click on a sign. ARM will automatically create a region (or will just add the
+    sign if the region already exists) with the settings of your preset'
+  SignLinkModeDeactivated: '&aSign-Link-Mode deactivated!'
+  SignLinkModeAlreadyDeactivated: '&4Sign-Link-Mode is already deactivated!'
+  SignLinkModePresetNotPriceready: '&cThe selected preset is not price-ready! All
+    regions you will create now will be created with the default autoprice'
+  SignLinkModeNoPresetSelected: |-
+    &cYou dont have a preset loaded! Please load or create a preset first! &cYou can create a preset by using the &6/arm sellpreset/rentpreset/contractpreset &ccommands!
+    For more &cinformation about presets click here:
+    &6https://goo.gl/3upfAA (Gitlab Wiki)
+  SignLinkModeSignBelongsToAnotherRegion: '&4Sign belongs to another region!'
+  SignLinkModeSignSelected: '&aSign selected!'
+  SignLinkModeMultipleWgRegionsAtPosition: '&4Could not select WorldGuard-Region!
+    There is more than one region available! You can add unwanted regions to the ignore-list
+    located in the config.yml, if you want ARM to ignore that regions!'
+  SignLinkModeNoWgRegionAtPosition: '&4Could not select WorldGuard-Region! There is
+    no region at your position!'
+  SignLinkModeCouldNotIdentifyWorld: '&4Could not identify world! Please select the
+    WorldGuard-Region again!'
+  SignLinkModeNoSignSelected: '&4You have not selected a sign'
+  SignLinkModeNoWgRegionSelected: '&4You have not selected a WorldGuard-Region'
+  SignLinkModeSelectedRegion: '&aSelected region: %regionid%'
+  GUIMainMenuName: '&1ARM - Menu'
+  GUIRegionFinderMenuName: '&1ARM - Regionfinder'
+  GUIRegionFinderRegionKindName: '&a&l%regionkinddisplay%'
+  GUIMemberListMenuName: '&1ARM - Members of %regionid%'
+  GUIOwnRegionsMenuName: '&1ARM - My regions (Owner)'
+  GUIRegionItemName: '%regionid% (%regionkinddisplay%)'
+  GUIMakeOwnerWarningName: '&4&lAre you shure?'
+  GUIMemberRegionsMenuName: '&1ARM - My regions (Member)'
+  GUIResetRegionWarningName: '&4&lReset your region?'
+  GUIRegionTakeOverMenuName: '&4Region take-over'
+  GUIGoBack: '&6Go back'
+  GUIMyOwnRegions: '&6My regions (Owner)'
+  GUIMyMemberRegions: '&6My regions (Member)'
+  GUISearchFreeRegion: '&6Search free region'
+  GUIMembersButton: '&6Members'
+  GUITeleportToRegionButton: '&6Teleport to region'
+  GUITeleportToRegionButtonLore:
+  - Click to teleport you to
+  - your region
+  GUIShowInfosButton: '&6Show infos'
+  GUIMakeOwnerButton: '&aMake owner'
+  GUIMakeOwnerButtonLore:
+  - Click to transfer your owner rights
+  - to the selected member.
+  - '&4WARNING: &cYou will lose your owner'
+  - '&crights and become a member'
+  GUIRemoveMemberButton: '&4Remove'
+  GUIRemoveMemberButtonLore:
+  - Click to remove the selected member
+  - from your region
+  GUIWarningYes: '&aYes'
+  GUIWarningNo: '&4No'
+  GUIResetRegionButton: '&4Reset region'
+  GUIResetRegionButtonLore:
+  - Click to reset your region
+  - '&4WARNING: &cThis can not be undone! Your region'
+  - '&cwill be resetted and everything on it will'
+  - '&cbe deleted!'
+  - '&cYou can only reset you region once every %userresetcooldown%'
+  - '&2You and all members keep their rights on the region'
+  RegionTransferCompleteMessage: '&aTransfer complete!'
+  RegiontransferMemberNotOnline: '&4Member not online!'
+  RegiontransferLimitError: '&4Transfer aborted! (Region would exceed players limit)'
+  GUICloseWindow: '&6Close window'
+  TakeOverItemLore:
+  - '&aYou are a member of this region.'
+  - '&aThe owner of it hasn''''t been'
+  - '&aonline for a long time. You'
+  - '&acan transfer the owner rights to your'
+  - '&aaccount for free. The actual owner'
+  - '&aof it will become a member of the region.'
+  - '&cIf the region does not get transferred'
+  - '&cor the owner does not come online'
+  - '&cwithin &7%inactivityresetin-countdown-short% &cthe'
+  - '&cregion will be resetted and everybody on it'
+  - '&cwill lose their rights.'
+  - '&cAfterwards it will go back for sale!'
+  OwnerMemberlistInfo: '&6Adding members:'
+  OwnerMemberlistInfoLore:
+  - '&aYou can add members to your region'
+  - '&ain order to build with them together'
+  - '&aYou can add members with:'
+  - '&6/arm addmember %regionid% USERNAME'
+  - '&aMembers need to be online to add them'
+  GUIExtendRentRegionButton: '&1Extend region'
+  GUIExtendRentRegionButtonLore:
+  - '&aClick to extend your region for &6%extendtime-writtenout%'
+  - '&athis will cost you &6%price%%currency%&a!'
+  - '&aThis region will expire in &6%remaining-countdown-short%&a.'
+  - '&aYou can extend your region up to &6%maxrenttime-writtenout%&a.'
+  GUIRentRegionLore:
+  - '&aExpires in &6%remaining-countdown-short%'
+  GUIUserSellButton: '&4Reset and sell Region'
+  GUIUserSellButtonLore:
+  - Click to sell your region
+  - '&4WARNING: &cThis can not be undone! Your region'
+  - '&cwill be released and all blocks on it will be'
+  - '&cresetted! You and all members of it will loose'
+  - '&ctheir rights on it.'
+  - '&cYou will get &6%paybackmoney%%currency% &cback'
+  GUIUserSellWarning: '&4&lSell your region?'
+  GUILimitButton: '&6My limits'
+  MemberlistInfo: '&6How to become a Member:'
+  MemberlistInfoLore:
+  - '&aYou can be added as a member to'
+  - '&athe region of someone else in order'
+  - '&ato build with him together'
+  - '&aJust ask a region owner to add you with:'
+  - '&6/arm addmember REGIONID USERNAME'
+  - '&aYou need to be online for this'
+  GUIContractItem: '&6Manage contract'
+  GUIContractItemLore:
+  - '&aStatus: %status%'
+  - '&aIf active the next extend is in:'
+  - '&6%remaining-countdown-short%'
+  GUIContractItemRegionLore:
+  - '&aStatus: %status%'
+  - '&aIf active the next extend is in:'
+  - '&6%remaining-countdown-short%'
+  SellregionName: Sellregion
+  ContractregionName: Contractregion
+  RentregionName: Rentregion
+  GUISubregionsButton: '&6Subregions'
+  GUISubregionListMenuName: '&1Subregions'
+  GUIHotelButton: '&6Hotel-function'
+  GUIDeleteRegionButton: '&4Delete region'
+  GUITeleportToSignOrRegionButton: Teleport to sign or region?
+  GUIRegionfinderTeleportToRegionButton: '&6Teleport to region!'
+  GUIRegionfinderTeleportToSignButton: '&6Teleport to buy sign!'
+  GUINextPageButton: '&6Next page'
+  GUIPrevPageButton: '&6Prev page'
+  Enabled: '&aenabled'
+  Disabled: '&cdisabled'
+  Sold: '&csold'
+  Available: '&aavailable'
+  DeleteRegionWarningName: '&4&lDelete region?'
+  UnsellRegionButton: '&4Unsell region'
+  UnsellRegionButtonLore:
+  - '&4Click to unsell your subregion and'
+  - '&4kick the players of it'
+  UnsellRegionWarningName: '&4&lUnsell region?'
+  GUISubregionManagerNoSubregionItem: '&6Info'
+  GUIHotelButtonLore:
+  - '&6The hotel function allows you to prevent players'
+  - '&6from breaking blocks they do not have placed'
+  - '&6Status: %hotelfunctionstatus%'
+  - '&6Click to enable/disable'
+  GUISubregionInfoSell:
+  - '&6Selltype: %selltype%'
+  - '&6Status: %soldstatus%'
+  - '&6Price: %price%'
+  - '&6Price per M2: %priceperm2%'
+  - '&6Dimensions: %dimensions%'
+  GUISubregionInfoRent:
+  - '&6Selltype: %selltype%'
+  - '&6Status: %soldstatus%'
+  - '&6Price: %price%'
+  - '&6Price per M2 (per week): %priceperm2perweek%'
+  - '&6Extend per click: %extendtime-writtenout%'
+  - '&6Max. extended time: %maxrenttime-writtenout%'
+  - '&6Dimensions: %dimensions%'
+  GUISubregionInfoContract:
+  - '&6Selltype: %selltype%'
+  - '&6Status: %soldstatus%'
+  - '&6Price: %price%'
+  - '&6Price per M2 (per week): %priceperm2perweek%'
+  - '&6Automatic extend time: %extendtime-writtenout%'
+  - '&6Dimensions: %dimensions%'
+  GUIRegionfinderInfoSell:
+  - '&6Price: %price%'
+  - '&6Price per M2: %priceperm2%'
+  - '&6Dimensions: %dimensions%'
+  - '&6World: %world%'
+  GUIRegionfinderInfoRent:
+  - '&6Price: %price%'
+  - '&6Price per M2 (per week): %priceperm2perweek%'
+  - '&6Extend per click: %extendtime-writtenout%'
+  - '&6Max. extended time: %maxrenttime-writtenout%'
+  - '&6Dimensions: %dimensions%'
+  - '&6World: %world%'
+  GUIRegionfinderInfoContract:
+  - '&6Price: %price%'
+  - '&6Price per M2 (per week): %priceperm2perweek%'
+  - '&6Automatic extend time: %extendtime-writtenout%'
+  - '&6Dimensions: %dimensions%'
+  - '&6World: %world%'
+  SubregionCreationCreateSignInfo:
+  - '&aYour selection has been saved! You can now create a sign to sell the region.'
+  - '&aCreate a Sell-Region:'
+  - '&6First line: &b[sub-sell]'
+  - '&6Last line: &bprice'
+  - ''
+  - '&aCreate a Rent-Region:'
+  - '&6First line: &b[sub-rent]'
+  - '&6Last line: &bPricePerPeriod&6;&bExtendPerClick&6;&bMaxExtendTime'
+  - '&6example for ExtendPerClick/MaxExtendTime: 5d (5 days)'
+  - ''
+  - '&aCreate a Contract-Region:'
+  - '&6First line: &b[sub-contract]'
+  - '&6Last line: &bPricePerPeriod&6;&bExtendTime'
+  - '&6example for ExtendTime: 12h (12 hours)'
+  - '&4We would strongly recommend to not place the sign within the subregion!'
+  SubregionCreationSelectAreaInfo:
+  - '&aYou got a tool in your inventory (feather) to select 2 points of your region
+    that will mark the corners of your new subregion.'
+  - '&aLeft click to select pos1'
+  - '&aRight click to select pos2'
+  - '&aType "&6/arm subregion create" &aif you are done'
+  SubregionToolAlreadyOwned: '&4You already own a Subregion Tool. Please use that
+    instead of a new one!'
+  GUISubregionManagerNoSubregionItemLore:
+  - '&aYou do not have any subregions on your region.'
+  - '&aYou can create a new subregion, that you'
+  - '&acan sell to other players by typing'
+  - '&6/arm subregion tool &aand following displayed the steps'
+  EntityLimitHelpHeadline: |-
+    &6=====[AdvancedRegionMarket EntityLimit Help ]=====
+    &3Page %actualpage% / %maxpage%
+  EntityLimitGroupNotExist: '&4EntityLimitGroup does not exist!'
+  EntityLimitSet: '&aEntityLimit has been set!'
+  EntityLimitRemoved: '&aEntityLimit has been removed!'
+  EntityTypeDoesNotExist: '&4The entitytype &6%entitytype% &4does not exist!'
+  EntityLimitGroupNotContainEntityLimit: '&4The selected EntityLimitGroup does not
+    contain the selected EntityType'
+  EntityLimitTotal: Total
+  EntityLimitCheckHeadline: '&6===[EntityLimitCheck for %regionid%]==='
+  EntityLimitCheckPattern: '&6%entitytype%: &a(&r%actualentities%&a/&r%softlimitentities%&a)
+    %entityextensioninfo%'
+  EntityLimitGroupAlreadyExists: '&4Group already exists!'
+  EntityLimitGroupCreated: '&aEntitylimitgroup has been created!'
+  EntityLimitGroupCanNotRemoveSystem: '&4You can not remove a system-EntityLimitGroup!'
+  EntityLimitGroupDeleted: '&aEntitylimitgroup has been deleted!'
+  EntityLimitGroupInfoHeadline: '&6======[Entitylimitgroup Info]======'
+  EntityLimitGroupInfoGroupname: '&6Groupname: '
+  EntityLimitGroupInfoPattern: '&6%entitytype%: &r%softlimitentities% %entityextensioninfo%'
+  EntityLimitGroupListHeadline: '&6EntityLimitGroups:'
+  EntityLimitGroupCouldNotspawnEntity: "&4Could not spawn entity on region &6%region%&4!\
+    \ The not spawned entity would exeed the regions entitylimit for more information\
+    \ type &6/arm entitylimit check %region%&4! \nEverybody on region %region% recieved\
+    \ this message! If you are not a member of this region, you can ignore this message."
+  RegionInfoEntityLimit: '&6EntityLimitGroup: '
+  SubregionEntityLimitOnlyForSubregions: '&4SubregionEntityLimitGroup only for subregions'
+  MassactionSplitter: '&6all regions with regionkind &a%regionkind%'
+  SubregionEntityLimitError: '&4Could not change EntiyLimitGroup for the region &6%regionid%&4!
+    Region is a Subregion!'
+  GUIEntityLimitItemButton: '&6EntityLimits'
+  GUIEntityLimitItemLore:
+  - '&6Click to display the entity-limits'
+  - '&6for this region in chat'
+  - '%entityinfopattern%'
+  - ''
+  - 'You can expand your entity-limit with:'
+  - '&6/arm entitylimit buyextra %regionid% [ENTITYTYPE/total]'
+  GUIEntityLimitInfoPattern: '&6%entitytype%: &a(&r%actualentities%&a/&r%softlimitentities%&a)
+    %entityextensioninfo%'
+  EntityLimitCheckExtensionInfo: |2-
+
+    &6&o--> Limit extendable up to &r%hardlimitentities% &6entities for &r%priceperextraentity%%currency%&6/entity
+  GUIEntityLimitInfoExtensionInfo: '&6&oMax. &r%hardlimitentities% &6for &r%priceperextraentity%%currency%&6/entity'
+  EntityLimitInfoExtensionInfo: |2-
+
+    &6&o--> Limit extendable up to &r%hardlimitentities% &6entities for &r%priceperextraentity%%currency%&6/entity
+  EntityLimitGroupEntityLimitAlreadyUnlimited: '&4EntityLimit for the selected entity
+    and region is already unlimited!'
+  EntityLimitGroupExtraEntitiesSet: '&aExtra-Entities have been set!'
+  EntityLimitGroupExtraEntitiesExpandSuccess: '&aYou have sucessfully expanded the
+    entitylimit to &6%softlimitentities% &aentities! (For &6%priceperextraentity%%currency%&a)'
+  EntityLimitGroupExtraEntitiesHardlimitReached: '&4Can not buy another entity-expansion!
+    Hardlimit has been reached!'
+  EntityLimitGroupExtraEntitiesSetSubregionError: '&4Can not change entitylimit! Region
+    is a Subregion'
+  EntityLimitGroupExtraEntitiesBuySubregionError: '&4Can not expand entitylimit! Region
+    is a Subregion'
+  RegionKindCreated: '&aRegionKind created!'
+  RegionKindAlreadyExists: '&4RegionKind already exists!'
+  RegionKindDeleted: '&aRegionKind deleted!'
+  RegionKindCanNotRemoveSystem: '&4You can not remove a system-RegionKind!'
+  RegionKindListHeadline: '&6Regionkinds:'
+  RegionKindModified: '&aRegionKind modified!'
+  MaterialNotFound: '&4Material not found!'
+  RegionKindLoreLineNotExist: '&aThe selected lore-line does not exist!'
+  RegionKindInfoHeadline: '&6=========[Regionkind info]========='
+  RegionKindInfoInternalName: '&6Internal name: %regionkind%'
+  RegionKindInfoDisplayName: '&6Displayname: %regionkinddisplay%'
+  RegionKindInfoMaterial: '&6Material: %regionkinditem%'
+  RegionKindInfoDisplayInGui: '&6DisplayInGui: %regionkinddisplayingui%'
+  RegionKindInfoDisplayInLimits: '&6DisplayInLimits: %regionkinddisplayinlimits%'
+  RegionKindInfoPaybackPercentage: '&6PaybackPercentage: %paypackpercentage%'
+  RegionKindInfoLore: '&6Lore:'
+  RegionKindHelpHeadline: |-
+    &6=====[AdvancedRegionMarket RegionKind Help ]=====
+    &3Page %actualpage% / %maxpage%
+  PlayerNotFound: '&4Could not find selected player!'
+  GUIFlageditorButton: '&6FlagEditor'
+  GUIFlageditorMenuName: '&1FlagEditor (%region%)'
+  GUIFlageditorDeleteFlagButton: '&4Delete flag'
+  GUIFlageditorSetFlagGroupAllButton: '&9Set for everyone'
+  GUIFlageditorSetFlagGroupMembersButton: '&9Set for members and owners'
+  GUIFlageditorSetFlagGroupOwnersButton: '&9Set for owners'
+  GUIFlageditorSetFlagGroupNonMembersButton: '&9Set for non members and non owners'
+  GUIFlageditorSetFlagGroupNonOwnersButton: '&9Set for non owners'
+  GUIFlageditorSetStateflagAllowButton: '&2Allow'
+  GUIFlageditorSetStateflagDenyButton: '&4Deny'
+  GUIFlageditorSetBooleanflagTrueButton: '&2Yes'
+  GUIFlageditorSetBooleanflagFalseButton: '&4No'
+  GUIFlageditorSetStringflagSetMessageButton: '&2Set message'
+  GUIFlageditorSetIntegerflagSetIntegerButton: '&2Set number'
+  GUIFlageditorSetDoubleflagSetDoubleButton: '&2Set number'
+  FlageditorFlagNotActivated: '&4Flag not activated!'
+  FlageditorFlagHasBeenUpdated: '&2Flag has been updated!'
+  FlageditorFlagCouldNotBeUpdated: Could not modify flag %flag%!
+  FlageditorFlagHasBeenDeleted: '&2Flag has been deleted!'
+  FlageditorStringflagSetMessageInfo: '&9Please write down a message:'
+  FlageditorIntegerflagSetMessageInfo: '&9Please write down a number that does not
+    have decimals:'
+  FlageditorDoubleflagSetMessageInfo: '&9Please write down a number:'
+  GUIFlageditorResetButton: '&4Reset all Flags to default settings'
+  GUIFlageditorUnknownFlagSetPropertiesButton: '&2Set properties'
+  GUIFlageditorUnknownFlagSetPropertiesInfo: '&9Please write down your new flag properties:'
+  FlaggroupDoesNotExist: '&4Flaggroup does not exist!'
+  SubregionFlaggroupOnlyForSubregions: '&4Subregion flaggroup only for subregions'
+  RegionInfoFlaggroup: '&6FlagGroup: '
+  InfoDeactivated: '&4Deactivated'
+  InfoNotSold: '&4Region not sold!'
+  InfoNow: '&2Now'
+  InfoNotCalculated: '&8Awaiting calculation...'
+  CouldNotFindOrLoadSchematicLog: '&4Could not find or load schematic for region %region%
+    in world %world%! You can regenerate it with /arm updateschematic %region%'
+  RegionSoldBackSuccessfully: '&2Your region &6%regionid% &2has been sold back to
+    the server successfully! &6%paybackmoney%%currency% &2have been added to your
+    account!'
+  RegionModifiedBoolean: '&6%option% %state% &6for &a%selectedregions%&6!'
+  RegionModified: '&6%option% &6modified for %selectedregions%&6!'
+  UpdatingSchematic: '&8Updating schematic...'
+  SchematicUpdated: '&aSchematic updated!'
+  ContractRegionTerminated: '&6Your contractregion &a%region% &6has successfully been
+    &4terminated&6! It will be resetted in &a%remaining-countdown-short% &6except it gets reactivated!'
+  ContractRegionReactivated: '&6Your contractregion &a%region% &6has successfully
+    been &areactivated&6! It will automatically be extended in &a%remaining-countdown-short% &6if
+    you can pay for the rent!'
+  TimeUnitSplitter: ' and '
+  RegionInfoSellregionAdmin:
+  - '&6=========[Region Info]========='
+  - '&9ID: &e%regionid% &7(Type: &r%selltype%&7)'
+  - '&9Sold: &e%issold%'
+  - '&9Price: &e%price%'
+  - '&9Owner: &e%owner%'
+  - '&9Members: &e%members%'
+  - '&9Regionkind: &e%regionkinddisplay% &9FlagGroup: &e%flaggroup%'
+  - '&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%'
+  - '&9UserResettable: &e%isuserresettable% &9InactivityResetEnabled: &e%isinactivityreset%'
+  - '&9Owners last login: &e%lastownerlogin%'
+  - '&9InactivityReset in: &e%inactivityresetin-countdown-short%'
+  - '&9TakeOver possible in: &e%takeoverin-countdown-short%'
+  - '&9DoBlockReset: &e%isdoblockreset% &9Autoprice: &e%autoprice%'
+  - '&9Allowed Subregions: &e%subregionlimit%'
+  - '&9Subregions: &e%subregions%'
+  RegionInfoRentregionAdmin:
+  - '&6=========[Region Info]========='
+  - '&9ID: &e%regionid% &7(Type: &r%selltype%&7)'
+  - '&9Sold: &e%issold%'
+  - '&9Price: &e%price% &7per &e%extendtime-writtenout% &7max.: &e%maxrenttime-writtenout%'
+  - '&9Remaining time: &e%remaining-countdown-short%'
+  - '&9Owner: &e%owner%'
+  - '&9Members: &e%members%'
+  - '&9Regionkind: &e%regionkinddisplay% &9FlagGroup: &e%flaggroup%'
+  - '&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%'
+  - '&9UserResettable: &e%isuserresettable% &9InactivityResetEnabled: &e%isinactivityreset%'
+  - '&9Owners last login: &e%lastownerlogin%'
+  - '&9InactivityReset in: &e%inactivityresetin-countdown-short%'
+  - '&9TakeOver possible in: &e%takeoverin-countdown-short%'
+  - '&9DoBlockReset: &e%isdoblockreset% &9Autoprice: &e%autoprice%'
+  - '&9Allowed Subregions: &e%subregionlimit%'
+  - '&9Subregions: &e%subregions%'
+  RegionInfoContractregionAdmin:
+  - '&6=========[Region Info]========='
+  - '&9ID: &e%regionid% &7(Type: &r%selltype%&7)'
+  - '&9Sold: &e%issold%'
+  - '&9Price: &e%price% &7per &e%extendtime-writtenout% &7(auto extend)'
+  - '&9Next extend in: &e%remaining-countdown-short%'
+  - '&9Owner: &e%owner%'
+  - '&9Members: &e%members%'
+  - '&9Regionkind: &e%regionkinddisplay% &9FlagGroup: &e%flaggroup%'
+  - '&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%'
+  - '&9UserResettable: &e%isuserresettable% &9InactivityResetEnabled: &e%isinactivityreset%'
+  - '&9Owners last login: &e%lastownerlogin%'
+  - '&9InactivityReset in: &e%inactivityresetin-countdown-short%'
+  - '&9TakeOver possible in: &e%takeoverin-countdown-short%'
+  - '&9DoBlockReset: &e%isdoblockreset% &9Autoprice: &e%autoprice%'
+  - '&9Allowed Subregions: &e%subregionlimit%'
+  - '&9Subregions: &e%subregions%'
+  RegionInfoSellregionUser:
+  - '&6=========[Region Info]========='
+  - '&9ID: &e%regionid% &7(Type: &r%selltype%&7)'
+  - '&9Sold: &e%issold%'
+  - '&9Price: &e%price%'
+  - '&9Owner: &e%owner%'
+  - '&9Members: &e%members%'
+  - '&9Regionkind: &e%regionkinddisplay% &9FlagGroup: &e%flaggroup%'
+  - '&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%'
+  - '&9UserResettable: &e%isuserresettable% &9InactivityResetEnabled: &e%isinactivityreset%'
+  - '&9Owners last login: &e%lastownerlogin%'
+  - '&9InactivityReset in: &e%inactivityresetin-countdown-short%'
+  - '&9TakeOver possible in: &e%takeoverin-countdown-short%'
+  - '&9DoBlockReset: &e%isdoblockreset% &9Autoprice: &e%autoprice%'
+  - '&9Allowed Subregions: &e%subregionlimit%'
+  - '&9Subregions: &e%subregions%'
+  RegionInfoRentregionUser:
+  - '&6=========[Region Info]========='
+  - '&9ID: &e%regionid% &7(Type: &r%selltype%&7)'
+  - '&9Sold: &e%issold%'
+  - '&9Price: &e%price% &7per &e%extendtime-writtenout% &7max.: &e%maxrenttime-writtenout%'
+  - '&9Remaining time: &e%remaining-countdown-short%'
+  - '&9Owner: &e%owner%'
+  - '&9Members: &e%members%'
+  - '&9Regionkind: &e%regionkinddisplay% &9FlagGroup: &e%flaggroup%'
+  - '&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%'
+  - '&9UserResettable: &e%isuserresettable% &9InactivityResetEnabled: &e%isinactivityreset%'
+  - '&9Owners last login: &e%lastownerlogin%'
+  - '&9InactivityReset in: &e%inactivityresetin-countdown-short%'
+  - '&9TakeOver possible in: &e%takeoverin-countdown-short%'
+  - '&9DoBlockReset: &e%isdoblockreset% &9Autoprice: &e%autoprice%'
+  - '&9Allowed Subregions: &e%subregionlimit%'
+  - '&9Subregions: &e%subregions%'
+  RegionInfoContractregionUser:
+  - '&6=========[Region Info]========='
+  - '&9ID: &e%regionid% &7(Type: &r%selltype%&7)'
+  - '&9Sold: &e%issold%'
+  - '&9Price: &e%price% &7per &e%extendtime-writtenout% &7(auto extend)'
+  - '&9Next extend in: &e%remaining-countdown-short%'
+  - '&9Owner: &e%owner%'
+  - '&9Members: &e%members%'
+  - '&9Regionkind: &e%regionkinddisplay% &9FlagGroup: &e%flaggroup%'
+  - '&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%'
+  - '&9UserResettable: &e%isuserresettable% &9InactivityResetEnabled: &e%isinactivityreset%'
+  - '&9Owners last login: &e%lastownerlogin%'
+  - '&9InactivityReset in: &e%inactivityresetin-countdown-short%'
+  - '&9TakeOver possible in: &e%takeoverin-countdown-short%'
+  - '&9DoBlockReset: &e%isdoblockreset% &9Autoprice: &e%autoprice%'
+  - '&9Allowed Subregions: &e%subregionlimit%'
+  - '&9Subregions: &e%subregions%'
+  RegionInfoSellregionSubregion:
+  - '&6=========[Region Info]========='
+  - '&9ID: &e%regionid% &7(Type: &r%selltype%&7, Subregion)'
+  - '&9Sold: &e%issold%'
+  - '&9Price: &e%price%'
+  - '&9Owner: &e%owner%'
+  - '&9Members: &e%members%'
+  - '&9Regionkind: &e%regionkinddisplay% &9FlagGroup: &e%flaggroup%'
+  - '&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%'
+  - '&9UserResettable: &e%isuserresettable% &9InactivityResetEnabled: &e%isinactivityreset%'
+  - '&9Owners last login: &e%lastownerlogin%'
+  - '&9InactivityReset in: &e%inactivityresetin-countdown-short%'
+  - '&9TakeOver possible in: &e%takeoverin-countdown-short%'
+  - '&9DoBlockReset: &e%isdoblockreset% &9Autoprice: &e%autoprice%'
+  RegionInfoRentregionSubregion:
+  - '&6=========[Region Info]========='
+  - '&9ID: &e%regionid% &7(Type: &r%selltype%&7, Subregion)'
+  - '&9Sold: &e%issold%'
+  - '&9Price: &e%price% &7per &e%extendtime-writtenout% &7max.: &e%maxrenttime-writtenout%'
+  - '&9Remaining time: &e%remaining-countdown-short%'
+  - '&9Owner: &e%owner%'
+  - '&9Members: &e%members%'
+  - '&9Regionkind: &e%regionkinddisplay% &9FlagGroup: &e%flaggroup%'
+  - '&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%'
+  - '&9UserResettable: &e%isuserresettable% &9InactivityResetEnabled: &e%isinactivityreset%'
+  - '&9Owners last login: &e%lastownerlogin%'
+  - '&9InactivityReset in: &e%inactivityresetin-countdown-short%'
+  - '&9TakeOver possible in: &e%takeoverin-countdown-short%'
+  - '&9DoBlockReset: &e%isdoblockreset% &9Autoprice: &e%autoprice%'
+  RegionInfoContractregionSubregion:
+  - '&6=========[Region Info]========='
+  - '&9ID: &e%regionid% &7(Type: &r%selltype%&7, Subregion)'
+  - '&9Sold: &e%issold%'
+  - '&9Price: &e%price% &7per &e%extendtime-writtenout% &7(auto extend)'
+  - '&9Next extend in: &e%remaining-countdown-short%'
+  - '&9Owner: &e%owner%'
+  - '&9Members: &e%members%'
+  - '&9Regionkind: &e%regionkinddisplay% &9FlagGroup: &e%flaggroup%'
+  - '&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%'
+  - '&9UserResettable: &e%isuserresettable% &9InactivityResetEnabled: &e%isinactivityreset%'
+  - '&9Owners last login: &e%lastownerlogin%'
+  - '&9InactivityReset in: &e%inactivityresetin-countdown-short%'
+  - '&9TakeOver possible in: &e%takeoverin-countdown-short%'
+  - '&9DoBlockReset: &e%isdoblockreset% &9Autoprice: &e%autoprice%'

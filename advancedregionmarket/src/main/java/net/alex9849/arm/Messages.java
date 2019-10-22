@@ -147,7 +147,6 @@ public class Messages {
     public static String TIME_HOURS_SHORT = "h";
     public static String TIME_DAYS_SHORT = "d";
     public static String TIME_UNIT_SPLITTER = " and ";
-    //TODO add to file
     public static String TIME_UNIT_SPLITTER_SHORT = ":";
     public static String NOT_A_MEMBER_OR_OWNER = "";
     public static String YES = "";
@@ -524,6 +523,7 @@ public class Messages {
         TIME_HOURS_SHORT = config.getString("Messages.HoursShort");
         TIME_DAYS_SHORT = config.getString("Messages.DaysShort");
         TIME_UNIT_SPLITTER = config.getString("Messages.TimeUnitSplitter");
+        TIME_UNIT_SPLITTER_SHORT = config.getString("Messages.TimeUnitSplitterShort");
         NOT_A_MEMBER_OR_OWNER = config.getString("Messages.UserNotAMemberOrOwner");
         YES = config.getString("Messages.RegionInfoYes");
         NO = config.getString("Messages.RegionInfoNo");
@@ -968,6 +968,7 @@ public class Messages {
         SIGN_LINK_MODE_NO_SIGN_SELECTED = ChatColor.translateAlternateColorCodes('&', SIGN_LINK_MODE_NO_SIGN_SELECTED);
         SIGN_LINK_MODE_NO_WG_REGION_SELECTED = ChatColor.translateAlternateColorCodes('&', SIGN_LINK_MODE_NO_WG_REGION_SELECTED);
         SIGN_LINK_MODE_REGION_SELECTED = ChatColor.translateAlternateColorCodes('&', SIGN_LINK_MODE_REGION_SELECTED);
+        TIME_UNIT_SPLITTER_SHORT = ChatColor.translateAlternateColorCodes('&', TIME_UNIT_SPLITTER_SHORT);
 
         ENTITYLIMIT_HELP_HEADLINE = ChatColor.translateAlternateColorCodes('&', ENTITYLIMIT_HELP_HEADLINE);
         ENTITYLIMITGROUP_DOES_NOT_EXIST = ChatColor.translateAlternateColorCodes('&', ENTITYLIMITGROUP_DOES_NOT_EXIST);
@@ -1238,6 +1239,7 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.MinutesShort", "m");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.HoursShort", "h");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.DaysShort", "d");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.TimeUnitSplitterShort", ":");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.TeleporterNoSaveLocation", "&4Could not find a save teleport location");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.TeleporterDontMove", "&6Teleportation will commence in &c%time% Seconds&6. Do not move!");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.TeleporterTeleportationAborded", "&4Teleportation aborded!");

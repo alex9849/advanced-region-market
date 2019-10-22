@@ -1687,74 +1687,13 @@ public class AdvancedRegionMarket extends JavaPlugin {
                 "&cAfterwards it will go back for sale!")));
         messagesConf.save(messagesConfDic);
 
-
-        File flaggroupsConfDic = new File(this.getDataFolder() + "/flaggroups.yml");
-        YamlConfiguration flaggroupsConf = YamlConfiguration.loadConfiguration(flaggroupsConfDic);
-
-        class FlagUpdater {
-            void updateFlagGroup(ConfigurationSection cSection) {
-                if (cSection == null) {
-                    return;
-                }
-                ConfigurationSection availableSection = cSection.getConfigurationSection("available");
-                ConfigurationSection soldSection = cSection.getConfigurationSection("sold");
-                updateFlagSet(availableSection);
-                updateFlagSet(soldSection);
-            }
-
-            void updateFlagSet(ConfigurationSection cSection) {
-                if (cSection == null) {
-                    return;
-                }
-                ArrayList<String> keys = new ArrayList<String>(cSection.getKeys(false));
-                for (String key : keys) {
-                    String setting = cSection.getString(key + ".setting");
-                    if (setting == null) {
-                        continue;
-                    }
-                    setting = setting.replace("%extend%", "%extendtime%");
-                    setting = setting.replace("%extendperclick%", "%extendtime%");
-                    cSection.set(key + ".setting", setting);
-                }
-            }
-
-        }
-
-        FlagUpdater flagUpdater = new FlagUpdater();
-        ConfigurationSection groupsSection = flaggroupsConf.getConfigurationSection("FlagGroups");
-        if (groupsSection != null) {
-            ArrayList<String> groupKeys = new ArrayList<String>(groupsSection.getKeys(false));
-            for (String key : groupKeys) {
-                flagUpdater.updateFlagGroup(groupsSection.getConfigurationSection(key));
-            }
-        }
-        flagUpdater.updateFlagGroup(flaggroupsConf.getConfigurationSection("DefaultFlagGroup"));
-        flagUpdater.updateFlagGroup(flaggroupsConf.getConfigurationSection("SubregionFlagGroup"));
-        flaggroupsConf.save(flaggroupsConfDic);
+        UpdateHelpMethods.replaceVariableInFlagGroupsYML("%extend%", "%extendtime%");
+        UpdateHelpMethods.replaceVariableInFlagGroupsYML("%extendperclick%", "%extendtime%");
     }
 
     private void updateTo2p08(FileConfiguration pluginConfig) throws IOException {
-        File messagesConfDic = new File(this.getDataFolder() + "/messages.yml");
-        YamlConfiguration messagesConf = YamlConfiguration.loadConfiguration(messagesConfDic);
-        ConfigurationSection messagesSection = messagesConf.getConfigurationSection("Messages");
-        if (messagesSection != null) {
-            ArrayList<String> messageKeys = new ArrayList<String>(messagesSection.getKeys(false));
+        UpdateHelpMethods.replaceVariableInMessagesYML("%remainingusersellcooldown%", "%remaininguserresetcooldown%");
 
-            for (String key : messageKeys) {
-                Object msgObject = messagesSection.get(key);
-                if (msgObject instanceof List) {
-                    List<String> msgList = (List) msgObject;
-                    for (int i = 0; i < msgList.size(); i++) {
-                        msgList.set(i, msgList.get(i).replace("%remainingusersellcooldown%", "%remaininguserresetcooldown%"));
-                    }
-                } else if (msgObject instanceof String) {
-                    String msgString = (String) msgObject;
-                    msgString = msgString.replace("%remainingusersellcooldown%", "%remaininguserresetcooldown%");
-                    messagesSection.set(key, msgString);
-                }
-            }
-        }
-        messagesConf.save(messagesConfDic);
         File regionkindsConfDic = new File(this.getDataFolder() + "/regionkinds.yml");
         YamlConfiguration regionkindsConf = YamlConfiguration.loadConfiguration(regionkindsConfDic);
         ConfigurationSection regionKindsSection = regionkindsConf.getConfigurationSection("RegionKinds");
@@ -1780,6 +1719,12 @@ public class AdvancedRegionMarket extends JavaPlugin {
         UpdateHelpMethods.replaceVariableInMessagesYML("%takeoverin%", "%takeoverin-countdown-short%");
         UpdateHelpMethods.replaceVariableInMessagesYML("%inactivityresetin%", "%inactivityresetin-countdown-short%");
         UpdateHelpMethods.replaceVariableInMessagesYML("%remaininguserresetcooldown%", "%remaininguserresetcooldown-countdown-short%");
+        UpdateHelpMethods.replaceVariableInFlagGroupsYML("%extendtime%", "%extendtime-short%");
+        UpdateHelpMethods.replaceVariableInFlagGroupsYML("%remaining%", "%remaining-countdown-short%");
+        UpdateHelpMethods.replaceVariableInFlagGroupsYML("%maxrenttime%", "%maxrenttime-short%");
+        UpdateHelpMethods.replaceVariableInFlagGroupsYML("%takeoverin%", "%takeoverin-countdown-short%");
+        UpdateHelpMethods.replaceVariableInFlagGroupsYML("%inactivityresetin%", "%inactivityresetin-countdown-short%");
+        UpdateHelpMethods.replaceVariableInFlagGroupsYML("%remaininguserresetcooldown%", "%remaininguserresetcooldown-countdown-short%");
         pluginConfig.set("Other.RemainingTimeFormat", null);
         pluginConfig.set("Other.ShortCountdown", null);
         pluginConfig.set("Version", 2.09);
@@ -1810,6 +1755,50 @@ public class AdvancedRegionMarket extends JavaPlugin {
                 }
             }
             messagesConf.save(messagesConfDic);
+        }
+
+        private static void replaceVariableInFlagGroupsYML(String variable, String replacement) throws IOException {
+            File flaggroupsConfDic = new File(AdvancedRegionMarket.getInstance().getDataFolder() + "/flaggroups.yml");
+            YamlConfiguration flaggroupsConf = YamlConfiguration.loadConfiguration(flaggroupsConfDic);
+
+            class FlagUpdater {
+                void updateFlagGroup(ConfigurationSection cSection) {
+                    if (cSection == null) {
+                        return;
+                    }
+                    ConfigurationSection availableSection = cSection.getConfigurationSection("available");
+                    ConfigurationSection soldSection = cSection.getConfigurationSection("sold");
+                    updateFlagSet(availableSection);
+                    updateFlagSet(soldSection);
+                }
+
+                void updateFlagSet(ConfigurationSection cSection) {
+                    if (cSection == null) {
+                        return;
+                    }
+                    ArrayList<String> keys = new ArrayList<String>(cSection.getKeys(false));
+                    for (String key : keys) {
+                        String setting = cSection.getString(key + ".setting");
+                        if (setting == null) {
+                            continue;
+                        }
+                        setting = setting.replace(variable, replacement);
+                        cSection.set(key + ".setting", setting);
+                    }
+                }
+            }
+
+            FlagUpdater flagUpdater = new FlagUpdater();
+            ConfigurationSection groupsSection = flaggroupsConf.getConfigurationSection("FlagGroups");
+            if (groupsSection != null) {
+                ArrayList<String> groupKeys = new ArrayList<String>(groupsSection.getKeys(false));
+                for (String key : groupKeys) {
+                    flagUpdater.updateFlagGroup(groupsSection.getConfigurationSection(key));
+                }
+            }
+            flagUpdater.updateFlagGroup(flaggroupsConf.getConfigurationSection("DefaultFlagGroup"));
+            flagUpdater.updateFlagGroup(flaggroupsConf.getConfigurationSection("SubregionFlagGroup"));
+            flaggroupsConf.save(flaggroupsConfDic);
         }
 
     }

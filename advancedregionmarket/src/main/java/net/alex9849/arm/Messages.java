@@ -1170,7 +1170,7 @@ public class Messages {
     }
 
     private static void updateDefauts() {
-        YamlConfiguration modelConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(Messages.class.getClassLoader().getResourceAsStream("messages.yml")));
+        YamlConfiguration modelConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(AdvancedRegionMarket.getInstance().getResource("messages.yml")));
 
         ConfigurationSection msgSection = modelConfig.getConfigurationSection("Messages");
         if(msgSection == null) {

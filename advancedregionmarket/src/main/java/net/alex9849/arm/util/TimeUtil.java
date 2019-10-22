@@ -28,7 +28,7 @@ public class TimeUtil {
 
         long remainingMilliSeconds = payedTill.getTimeInMillis() - actualtime.getTimeInMillis();
 
-        if (remainingMilliSeconds < 0 && !showReplacementIfDateInThePast) {
+        if (remainingMilliSeconds < 0 && showReplacementIfDateInThePast) {
             return ifDateInPastReplacement;
         }
 

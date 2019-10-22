@@ -13,6 +13,7 @@ import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.regions.price.RentPrice;
+import net.alex9849.arm.util.TimeUtil;
 import net.alex9849.arm.util.stringreplacer.StringCreator;
 import net.alex9849.arm.util.stringreplacer.StringReplacer;
 import net.alex9849.inter.WGRegion;
@@ -38,8 +39,11 @@ public class RentRegion extends CountdownRegion {
 
     {
         HashMap<String, StringCreator> variableReplacements = new HashMap<>();
-        variableReplacements.put("%maxrenttime%", () -> {
-            return CountdownRegion.timeInMsToString(this.getMaxRentTimeString());
+        variableReplacements.put("%maxrenttime-short%", () -> {
+            return TimeUtil.timeInMsToString(this.getMaxRentTimeString(), false, false);
+        });
+        variableReplacements.put("%maxrenttime-writtenout%", () -> {
+            return TimeUtil.timeInMsToString(this.getMaxRentTimeString(), true, false);
         });
 
         this.stringReplacer = new StringReplacer(variableReplacements, 50);

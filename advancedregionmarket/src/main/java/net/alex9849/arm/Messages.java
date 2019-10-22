@@ -134,14 +134,20 @@ public class Messages {
     public static String GUI_OWNER_MEMBER_INFO_ITEM = "";
     public static String REGION_TRANSFER_MEMBER_NOT_ONLINE = "Member not online!";
     public static String REGION_TRANSFER_LIMIT_ERROR = "Transfer aborted! (Region would exceed players limit)";
-    public static String TIME_SECONDS = "s";
-    public static String TIME_MINUTES = "m";
-    public static String TIME_HOURS = "h";
-    public static String TIME_DAYS = "d";
-    public static String TIME_SECONDS_SHORT = "";
-    public static String TIME_MINUTES_SHORT = "";
-    public static String TIME_HOURS_SHORT = "";
-    public static String TIME_DAYS_SHORT = "";
+    public static String TIME_SECONDS = "Second";
+    public static String TIME_MINUTES = "Minute";
+    public static String TIME_HOURS = "Hour";
+    public static String TIME_DAYS = "Day";
+    public static String TIME_SECONDS_PLURAL = "Seconds";
+    public static String TIME_MINUTES_PLURAL = "Minutes";
+    public static String TIME_HOURS_PLURAL = "Hours";
+    public static String TIME_DAYS_PLURAL = "Days";
+    public static String TIME_SECONDS_SHORT = "s";
+    public static String TIME_MINUTES_SHORT = "m";
+    public static String TIME_HOURS_SHORT = "h";
+    public static String TIME_DAYS_SHORT = "d";
+    public static String TIME_UNIT_SPLITTER = " and ";
+    public static String TIME_UNIT_SPLITTER_SHORT = " ";
     public static String NOT_A_MEMBER_OR_OWNER = "";
     public static String YES = "";
     public static String NO = "";
@@ -373,7 +379,6 @@ public class Messages {
         File messagesconfigdic = new File(pluginfolder + "/messages.yml");
         Configuration config = YamlConfiguration.loadConfiguration(messagesconfigdic);
 
-
         PREFIX = config.getString("Messages.Prefix") + " ";
         REGION_BUYMESSAGE = config.getString("Messages.Buymessage");
         NOT_ENOUGHT_MONEY = config.getString("Messages.NotEnoughtMoney");
@@ -509,10 +514,15 @@ public class Messages {
         TIME_MINUTES = config.getString("Messages.Minutes");
         TIME_HOURS = config.getString("Messages.Hours");
         TIME_DAYS = config.getString("Messages.Days");
-        TIME_SECONDS_SHORT = config.getString("Messages.SecondsForShortCountDown");
-        TIME_MINUTES_SHORT = config.getString("Messages.MinutesForShortCountDown");
-        TIME_HOURS_SHORT = config.getString("Messages.HoursForShortCountDown");
-        TIME_DAYS_SHORT = config.getString("Messages.DaysForShortCountDown");
+        TIME_SECONDS_PLURAL = config.getString("Messages.SecondsPlural");
+        TIME_MINUTES_PLURAL = config.getString("Messages.MinutesPlural");
+        TIME_HOURS_PLURAL = config.getString("Messages.HoursPlural");
+        TIME_DAYS_PLURAL = config.getString("Messages.DaysPlural");
+        TIME_SECONDS_SHORT = config.getString("Messages.SecondsShort");
+        TIME_MINUTES_SHORT = config.getString("Messages.MinutesShort");
+        TIME_HOURS_SHORT = config.getString("Messages.HoursShort");
+        TIME_DAYS_SHORT = config.getString("Messages.DaysShort");
+        TIME_UNIT_SPLITTER = config.getString("Messages.TimeUnitSplitter");
         NOT_A_MEMBER_OR_OWNER = config.getString("Messages.UserNotAMemberOrOwner");
         YES = config.getString("Messages.RegionInfoYes");
         NO = config.getString("Messages.RegionInfoNo");
@@ -854,6 +864,10 @@ public class Messages {
         TIME_MINUTES_SHORT = ChatColor.translateAlternateColorCodes('&', TIME_MINUTES_SHORT);
         TIME_HOURS_SHORT = ChatColor.translateAlternateColorCodes('&', TIME_HOURS_SHORT);
         TIME_DAYS_SHORT = ChatColor.translateAlternateColorCodes('&', TIME_DAYS_SHORT);
+        TIME_SECONDS_PLURAL = ChatColor.translateAlternateColorCodes('&', TIME_SECONDS_PLURAL);
+        TIME_MINUTES_PLURAL = ChatColor.translateAlternateColorCodes('&', TIME_MINUTES_PLURAL);
+        TIME_HOURS_PLURAL = ChatColor.translateAlternateColorCodes('&', TIME_HOURS_PLURAL);
+        TIME_DAYS_PLURAL = ChatColor.translateAlternateColorCodes('&', TIME_DAYS_PLURAL);
         NOT_A_MEMBER_OR_OWNER = ChatColor.translateAlternateColorCodes('&', NOT_A_MEMBER_OR_OWNER);
         YES = ChatColor.translateAlternateColorCodes('&', YES);
         NO = ChatColor.translateAlternateColorCodes('&', NO);
@@ -938,7 +952,7 @@ public class Messages {
         GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM = ChatColor.translateAlternateColorCodes('&', GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM);
         SCHEMATIC_NOT_FOUND_ERROR_USER = ChatColor.translateAlternateColorCodes('&', SCHEMATIC_NOT_FOUND_ERROR_USER);
         SCHEMATIC_NOT_FOUND_ERROR_ADMIN = ChatColor.translateAlternateColorCodes('&', SCHEMATIC_NOT_FOUND_ERROR_ADMIN);
-
+        TIME_UNIT_SPLITTER = ChatColor.translateAlternateColorCodes('&', TIME_UNIT_SPLITTER);
         SELLTYPE_NOT_EXIST = ChatColor.translateAlternateColorCodes('&', SELLTYPE_NOT_EXIST);
         SIGN_LINK_MODE_ACTIVATED = ChatColor.translateAlternateColorCodes('&', SIGN_LINK_MODE_ACTIVATED);
         SIGN_LINK_MODE_DEACTIVATED = ChatColor.translateAlternateColorCodes('&', SIGN_LINK_MODE_DEACTIVATED);
@@ -1211,15 +1225,18 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.ContractSoldSign3", "%price%%currency%/%extendtime%");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.ContractSoldSign4", "%remaining%");
 
-        fileUpdated |= YamlFileManager.addDefault(config, "Messages.Seconds", "s");
-        fileUpdated |= YamlFileManager.addDefault(config, "Messages.Minutes", "m");
-        fileUpdated |= YamlFileManager.addDefault(config, "Messages.Hours", "h");
-        fileUpdated |= YamlFileManager.addDefault(config, "Messages.Days", "d");
-        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SecondsForShortCountDown", "second(s)");
-        fileUpdated |= YamlFileManager.addDefault(config, "Messages.MinutesForShortCountDown", "minute(s)");
-        fileUpdated |= YamlFileManager.addDefault(config, "Messages.HoursForShortCountDown", "hour(s)");
-        fileUpdated |= YamlFileManager.addDefault(config, "Messages.DaysForShortCountDown", "day(s)");
-
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.Seconds", "Second");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.Minutes", "Minute");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.Hours", "Hour");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.Days", "Day");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SecondsPlural", "Seconds");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.MinutesPlural", "Minutes");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.HoursPlural", "Hours");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.DaysPlural", "Days");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.SecondsShort", "s");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.MinutesShort", "m");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.HoursShort", "h");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.DaysShort", "d");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.TeleporterNoSaveLocation", "&4Could not find a save teleport location");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.TeleporterDontMove", "&6Teleportation will commence in &c%time% Seconds&6. Do not move!");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.TeleporterTeleportationAborded", "&4Teleportation aborded!");
@@ -1538,6 +1555,7 @@ public class Messages {
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.SchematicUpdated", "&aSchematic updated!");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.ContractRegionTerminated", "&6Your contractregion &a%region% &6has successfully been &4terminated&6! It will be resetted in &a%remaining% &6except it gets reactivated!");
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.ContractRegionReactivated", "&6Your contractregion &a%region% &6has successfully been &areactivated&6! It will automatically be extended in &a%remaining% &6if you can pay for the rent!");
+        fileUpdated |= YamlFileManager.addDefault(config, "Messages.TimeUnitSplitter", " and ");
 
         fileUpdated |= YamlFileManager.addDefault(config, "Messages.RegionInfoSellregionAdmin", new ArrayList<>(Arrays.asList("&6=========[Region Info]=========",
                 "&9ID: &e%regionid% &7(Type: &r%selltype%&7)",

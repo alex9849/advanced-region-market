@@ -1,13 +1,13 @@
 package net.alex9849.arm.regions;
 
 import net.alex9849.arm.AdvancedRegionMarket;
-import net.alex9849.arm.Messages;
 import net.alex9849.arm.entitylimit.EntityLimit;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
 import net.alex9849.arm.flaggroups.FlagGroup;
 import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.price.ContractPrice;
 import net.alex9849.arm.regions.price.Price;
+import net.alex9849.arm.util.TimeUtil;
 import net.alex9849.arm.util.stringreplacer.StringCreator;
 import net.alex9849.arm.util.stringreplacer.StringReplacer;
 import net.alex9849.inter.WGRegion;
@@ -16,11 +16,9 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 
-import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public abstract class CountdownRegion extends Region {
     private long payedTill;
@@ -29,11 +27,27 @@ public abstract class CountdownRegion extends Region {
 
     {
         HashMap<String, StringCreator> variableReplacements = new HashMap<>();
-        variableReplacements.put("%extendtime%", () -> {
-            return timeInMsToString(this.getExtendTime());
+        variableReplacements.put("%extendtime-short%", () -> {
+            return TimeUtil.timeInMsToString(this.getExtendTime(), false, false);
         });
-        variableReplacements.put("%remaining%", () -> {
-            return CountdownRegion.timeInMsToRemainingTimeString(this.getPayedTill(), false, Messages.REGION_INFO_EXPIRED);
+        variableReplacements.put("%extendtime-writtenout%", () -> {
+            return TimeUtil.timeInMsToString(this.getExtendTime(), true, false);
+        });
+        variableReplacements.put("%remaining-date%", () -> {
+            return TimeUtil.getDate(this.getPayedTill(), true, "",
+                    AdvancedRegionMarket.getInstance().getPluginSettings().getDateTimeformat());
+        });
+        variableReplacements.put("%remaining-countdown-short%", () -> {
+            return TimeUtil.getCountdown(this.getPayedTill(), false, false, true, "");
+        });
+        variableReplacements.put("%remaining-countdown-cutted%", () -> {
+            return TimeUtil.getCountdown(this.getPayedTill(), false, true, true, "");
+        });
+        variableReplacements.put("%remaining-countdown-writtenout%", () -> {
+            return TimeUtil.getCountdown(this.getPayedTill(), true, false, true, "");
+        });
+        variableReplacements.put("%remaining-countdown-writtenout-cutted%", () -> {
+            return TimeUtil.getCountdown(this.getPayedTill(), true, true, true, "");
         });
         variableReplacements.put("%priceperm2perweek%", () -> {
             return Price.formatPrice(this.getPricePerM2PerWeek());
@@ -81,133 +95,6 @@ public abstract class CountdownRegion extends Region {
             throw new IllegalArgumentException();
         }
         return time;
-    }
-
-    public static String getCountdown(Boolean shortedCountdown, long endTimeInMs, boolean showZeroIfDateInThePast, String ifDateInPastReplacement) {
-        GregorianCalendar actualtime = new GregorianCalendar();
-        GregorianCalendar payedTill = new GregorianCalendar();
-        payedTill.setTimeInMillis(endTimeInMs);
-
-        long remainingMilliSeconds = payedTill.getTimeInMillis() - actualtime.getTimeInMillis();
-
-        String sec;
-        String min;
-        String hour;
-        String days;
-        if (shortedCountdown) {
-            sec = " " + Messages.TIME_SECONDS_SHORT;
-            min = " " + Messages.TIME_MINUTES_SHORT;
-            hour = " " + Messages.TIME_HOURS_SHORT;
-            days = " " + Messages.TIME_DAYS_SHORT;
-        } else {
-            sec = Messages.TIME_SECONDS;
-            min = Messages.TIME_MINUTES;
-            hour = Messages.TIME_HOURS;
-            days = Messages.TIME_DAYS;
-        }
-
-        if (remainingMilliSeconds < 0 && !showZeroIfDateInThePast) {
-            return ifDateInPastReplacement;
-        }
-
-        long remainingDays = TimeUnit.DAYS.convert(remainingMilliSeconds, TimeUnit.MILLISECONDS);
-        remainingMilliSeconds = remainingMilliSeconds - (remainingDays * 1000 * 60 * 60 * 24);
-
-        long remainingHours = TimeUnit.HOURS.convert(remainingMilliSeconds, TimeUnit.MILLISECONDS);
-        remainingMilliSeconds = remainingMilliSeconds - (remainingHours * 1000 * 60 * 60);
-
-        long remainingMinutes = TimeUnit.MINUTES.convert(remainingMilliSeconds, TimeUnit.MILLISECONDS);
-        remainingMilliSeconds = remainingMilliSeconds - (remainingMinutes * 1000 * 60);
-
-        long remainingSeconds = TimeUnit.SECONDS.convert(remainingMilliSeconds, TimeUnit.MILLISECONDS);
-
-
-        String timetoString = "";
-        if (remainingDays != 0) {
-            timetoString = timetoString + remainingDays + days;
-            if (shortedCountdown) {
-                return timetoString;
-            }
-        }
-        if (remainingHours != 0) {
-            timetoString = timetoString + remainingHours + hour;
-            if (shortedCountdown) {
-                return timetoString;
-            }
-        }
-        if (remainingMinutes != 0) {
-            timetoString = timetoString + remainingMinutes + min;
-            if (shortedCountdown) {
-                return timetoString;
-            }
-        }
-        if (remainingSeconds != 0) {
-            timetoString = timetoString + remainingSeconds + sec;
-            if (shortedCountdown) {
-                return timetoString;
-            }
-        }
-        if (remainingSeconds == 0 && remainingMinutes == 0 && remainingHours == 0 && remainingDays == 0) {
-            timetoString = "0" + sec;
-        }
-
-        return timetoString;
-    }
-
-    public static String timeInMsToString(long timeInMs) {
-        long time = timeInMs;
-
-        long remainingDays = TimeUnit.DAYS.convert(time, TimeUnit.MILLISECONDS);
-        time = time - (remainingDays * 1000 * 60 * 60 * 24);
-
-        long remainingHours = TimeUnit.HOURS.convert(time, TimeUnit.MILLISECONDS);
-        time = time - (remainingHours * 1000 * 60 * 60);
-
-        long remainingMinutes = TimeUnit.MINUTES.convert(time, TimeUnit.MILLISECONDS);
-        time = time - (remainingMinutes * 1000 * 60);
-
-        long remainingSeconds = TimeUnit.SECONDS.convert(time, TimeUnit.MILLISECONDS);
-
-
-        String timetoString = "";
-        if (remainingDays != 0) {
-            timetoString = timetoString + remainingDays + Messages.TIME_DAYS;
-        }
-        if (remainingHours != 0) {
-            timetoString = timetoString + remainingHours + Messages.TIME_HOURS;
-        }
-        if (remainingMinutes != 0) {
-            timetoString = timetoString + remainingMinutes + Messages.TIME_MINUTES;
-        }
-        if (remainingSeconds != 0) {
-            timetoString = timetoString + remainingSeconds + Messages.TIME_SECONDS;
-        }
-        if (remainingSeconds == 0 && remainingMinutes == 0 && remainingHours == 0 && remainingDays == 0) {
-            timetoString = "0" + Messages.TIME_SECONDS;
-        }
-
-        return timetoString;
-    }
-
-    public static String getDate(long dateInMs, boolean showDateIfDateInThePast, String ifDateInPastReplacement) {
-        GregorianCalendar actualtime = new GregorianCalendar();
-        GregorianCalendar payedTill = new GregorianCalendar();
-        payedTill.setTimeInMillis(dateInMs);
-
-        if ((payedTill.getTimeInMillis() - actualtime.getTimeInMillis()) < 0 && !showDateIfDateInThePast) {
-            return ifDateInPastReplacement;
-        }
-
-        SimpleDateFormat sdf = new SimpleDateFormat(AdvancedRegionMarket.getInstance().getPluginSettings().getDateTimeformat());
-
-        return sdf.format(payedTill.getTime());
-    }
-
-    public static String timeInMsToRemainingTimeString(long endTime, boolean showTimeIfDateInThePast, String ifDateInPastReplacement) {
-        String timetoString = AdvancedRegionMarket.getInstance().getPluginSettings().getRemainingTimeTimeformat();
-        timetoString = timetoString.replace("%countdown%", getCountdown(AdvancedRegionMarket.getInstance().getPluginSettings().isUseShortCountdown(), endTime, showTimeIfDateInThePast, ifDateInPastReplacement));
-        timetoString = timetoString.replace("%date%", getDate(endTime, showTimeIfDateInThePast, ifDateInPastReplacement));
-        return timetoString;
     }
 
     public long getExtendTime() {

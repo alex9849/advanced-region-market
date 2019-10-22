@@ -16,6 +16,7 @@ import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.util.Saveable;
+import net.alex9849.arm.util.TimeUtil;
 import net.alex9849.arm.util.stringreplacer.StringCreator;
 import net.alex9849.arm.util.stringreplacer.StringReplacer;
 import net.alex9849.inter.WGRegion;
@@ -82,9 +83,25 @@ public abstract class Region implements Saveable {
         variableReplacements.put("%priceperm3%", () -> {
             return Price.formatPrice(this.getPricePerM3());
         });
-        variableReplacements.put("%remaininguserresetcooldown%", () -> {
-            return CountdownRegion.getCountdown(false,
-                    AdvancedRegionMarket.getInstance().getPluginSettings().getUserResetCooldown() + this.getLastreset(), true, "");
+        variableReplacements.put("%remaininguserresetcooldown-date%", () -> {
+            return TimeUtil.getDate(AdvancedRegionMarket.getInstance().getPluginSettings().getUserResetCooldown() + this.getLastreset(),
+                    true, "", AdvancedRegionMarket.getInstance().getPluginSettings().getDateTimeformat());
+        });
+        variableReplacements.put("%remaininguserresetcooldown-countdown-short%", () -> {
+            return TimeUtil.getCountdown(AdvancedRegionMarket.getInstance().getPluginSettings().getUserResetCooldown() + this.getLastreset(),
+                    false, false, false, "");
+        });
+        variableReplacements.put("%remaininguserresetcooldown-countdown-short-cutted%", () -> {
+            return TimeUtil.getCountdown(AdvancedRegionMarket.getInstance().getPluginSettings().getUserResetCooldown() + this.getLastreset(),
+                    false, true, false, "");
+        });
+        variableReplacements.put("%remaininguserresetcooldown-countdown-writtenout%", () -> {
+            return TimeUtil.getCountdown(AdvancedRegionMarket.getInstance().getPluginSettings().getUserResetCooldown() + this.getLastreset(),
+                    true, false, false, "");
+        });
+        variableReplacements.put("%remaininguserresetcooldown-countdown-writtenout-cutted%", () -> {
+            return TimeUtil.getCountdown(AdvancedRegionMarket.getInstance().getPluginSettings().getUserResetCooldown() + this.getLastreset(),
+                    true, true, false, "");
         });
         variableReplacements.put("%paybackmoney%", () -> {
             return Price.formatPrice(this.getPaybackMoney());
@@ -123,7 +140,8 @@ public abstract class Region implements Saveable {
             return Messages.convertYesNo(this.isInactivityResetEnabled());
         });
         variableReplacements.put("%lastownerlogin%", () -> {
-            return CountdownRegion.getDate(this.getLastLogin(), true, "");
+            return TimeUtil.getDate(this.getLastLogin(), true, "",
+                    AdvancedRegionMarket.getInstance().getPluginSettings().getDateTimeformat());
         });
         variableReplacements.put("%owner%", () -> {
             if(this.getRegion().getOwners().size() > 0) {
@@ -158,49 +176,35 @@ public abstract class Region implements Saveable {
             }
             return membersInfo;
         });
-        variableReplacements.put("%takeoverin%", () -> {
-            if (!this.isInactivityResetEnabled()) {
-                return Messages.INFO_DEACTIVATED;
-            }
-            if (!this.isSold()) {
-                return Messages.INFO_REGION_NOT_SOLD;
-            }
-            List<UUID> ownerslist = this.getRegion().getOwners();
-            UUID ownerID = null;
-            if (ownerslist.size() > 0) {
-                ownerID = ownerslist.get(0);
-            }
-            InactivityExpirationGroup ieGroup = PlayerInactivityGroupMapper.getBestTakeoverAfterMs(this.getRegionworld(), ownerID);
-            if (ieGroup.isNotCalculated()) {
-                return Messages.INFO_NOT_CALCULATED;
-            } else if (ieGroup.isTakeOverDisabled()) {
-                return Messages.INFO_DEACTIVATED;
-            } else {
-                return CountdownRegion.timeInMsToRemainingTimeString(ieGroup.getTakeOverAfterMs() + this.getLastLogin(), false,
-                        Messages.INFO_NOW);
-            }
+        variableReplacements.put("%takeoverin-date%", () -> {
+            return this.getTakeoverCountdown(true, false, false);
         });
-        variableReplacements.put("%inactivityresetin%", () -> {
-            if (!this.isInactivityResetEnabled()) {
-                return Messages.INFO_DEACTIVATED;
-            }
-            if (!this.isSold()) {
-                return Messages.INFO_REGION_NOT_SOLD;
-            }
-            List<UUID> ownerslist = this.getRegion().getOwners();
-            UUID ownerID = null;
-            if (ownerslist.size() > 0) {
-                ownerID = ownerslist.get(0);
-            }
-            InactivityExpirationGroup ieGroup = PlayerInactivityGroupMapper.getBestResetAfterMs(this.getRegionworld(), ownerID);
-            if (ieGroup.isNotCalculated()) {
-                return Messages.INFO_NOT_CALCULATED;
-            } else if (ieGroup.isResetDisabled()) {
-                return Messages.INFO_DEACTIVATED;
-            } else {
-                return CountdownRegion.timeInMsToRemainingTimeString(ieGroup.getResetAfterMs() + this.getLastLogin(),
-                        false, Messages.INFO_NOW);
-            }
+        variableReplacements.put("%takeoverin-countdown-short%", () -> {
+            return this.getTakeoverCountdown(false, false, false);
+        });
+        variableReplacements.put("%takeoverin-countdown-short-cutted%", () -> {
+            return this.getTakeoverCountdown(false, false, true);
+        });
+        variableReplacements.put("%takeoverin-countdown-writtenout%", () -> {
+            return this.getTakeoverCountdown(false, true, false);
+        });
+        variableReplacements.put("%takeoverin-countdown-writtenout-cutted%", () -> {
+            return this.getTakeoverCountdown(false, true, true);
+        });
+        variableReplacements.put("%inactivityresetin-date%", () -> {
+            return this.getInactivityResetCountdown(true, false, false);
+        });
+        variableReplacements.put("%inactivityresetin-countdown-short%", () -> {
+            return this.getInactivityResetCountdown(false, false, false);
+        });
+        variableReplacements.put("%inactivityresetin-countdown-short-cutted%", () -> {
+            return this.getInactivityResetCountdown(false, false, true);
+        });
+        variableReplacements.put("%inactivityresetin-countdown-writtenout%", () -> {
+            return this.getInactivityResetCountdown(false, true, false);
+        });
+        variableReplacements.put("%inactivityresetin-countdown-writtenout-cutted%", () -> {
+            return this.getInactivityResetCountdown(false, true, true);
         });
 
         this.stringReplacer = new StringReplacer(variableReplacements, 50);
@@ -436,6 +440,62 @@ public abstract class Region implements Saveable {
             }
         }
         return false;
+    }
+
+    private String getTakeoverCountdown(boolean date, boolean writeOut, boolean returnOnlyHighestUnit) {
+        if (!this.isInactivityResetEnabled()) {
+            return Messages.INFO_DEACTIVATED;
+        }
+        if (!this.isSold()) {
+            return Messages.INFO_REGION_NOT_SOLD;
+        }
+        List<UUID> ownerslist = this.getRegion().getOwners();
+        UUID ownerID = null;
+        if (ownerslist.size() > 0) {
+            ownerID = ownerslist.get(0);
+        }
+        InactivityExpirationGroup ieGroup = PlayerInactivityGroupMapper.getBestTakeoverAfterMs(this.getRegionworld(), ownerID);
+        if (ieGroup.isNotCalculated()) {
+            return Messages.INFO_NOT_CALCULATED;
+        } else if (ieGroup.isTakeOverDisabled()) {
+            return Messages.INFO_DEACTIVATED;
+        } else {
+            if(date) {
+                return TimeUtil.getDate(ieGroup.getTakeOverAfterMs() + this.getLastLogin(), false,
+                        Messages.INFO_NOW, AdvancedRegionMarket.getInstance().getPluginSettings().getDateTimeformat());
+            } else {
+                return TimeUtil.getCountdown(ieGroup.getTakeOverAfterMs() + this.getLastLogin(), writeOut,
+                        returnOnlyHighestUnit, true, Messages.INFO_NOW);
+            }
+        }
+    }
+
+    private String getInactivityResetCountdown(boolean date, boolean writeOut, boolean returnOnlyHighestUnit) {
+        if (!this.isInactivityResetEnabled()) {
+            return Messages.INFO_DEACTIVATED;
+        }
+        if (!this.isSold()) {
+            return Messages.INFO_REGION_NOT_SOLD;
+        }
+        List<UUID> ownerslist = this.getRegion().getOwners();
+        UUID ownerID = null;
+        if (ownerslist.size() > 0) {
+            ownerID = ownerslist.get(0);
+        }
+        InactivityExpirationGroup ieGroup = PlayerInactivityGroupMapper.getBestResetAfterMs(this.getRegionworld(), ownerID);
+        if (ieGroup.isNotCalculated()) {
+            return Messages.INFO_NOT_CALCULATED;
+        } else if (ieGroup.isResetDisabled()) {
+            return Messages.INFO_DEACTIVATED;
+        } else {
+            if(date) {
+                return TimeUtil.getDate(ieGroup.getResetAfterMs() + this.getLastLogin(), false,
+                        Messages.INFO_NOW, AdvancedRegionMarket.getInstance().getPluginSettings().getDateTimeformat());
+            } else {
+                return TimeUtil.getCountdown(ieGroup.getResetAfterMs() + this.getLastLogin(), writeOut,
+                        returnOnlyHighestUnit, true, Messages.INFO_NOW);
+            }
+        }
     }
 
     public int getNumberOfSigns() {

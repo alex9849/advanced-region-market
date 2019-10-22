@@ -12,8 +12,12 @@ import net.alex9849.arm.gui.chathandler.GuiChatInputListener;
 import net.alex9849.arm.limitgroups.LimitGroup;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import net.alex9849.arm.regionkind.RegionKind;
-import net.alex9849.arm.regions.*;
+import net.alex9849.arm.regions.ContractRegion;
+import net.alex9849.arm.regions.Region;
+import net.alex9849.arm.regions.RentRegion;
+import net.alex9849.arm.regions.SellRegion;
 import net.alex9849.arm.util.MaterialFinder;
+import net.alex9849.arm.util.TimeUtil;
 import net.alex9849.inter.WGRegion;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -238,7 +242,7 @@ public class Gui implements Listener {
         if (player.hasPermission(Permission.MEMBER_RESETREGIONBLOCKS) && region.isUserResettable()) {
             List<String> message = new ArrayList<>(Messages.GUI_RESET_REGION_BUTTON_LORE);
             for (int i = 0; i < message.size(); i++) {
-                message.set(i, message.get(i).replace("%userresetcooldown%", CountdownRegion.timeInMsToString(AdvancedRegionMarket.getInstance().getPluginSettings().getUserResetCooldown())));
+                message.set(i, message.get(i).replace("%userresetcooldown%", TimeUtil.timeInMsToString(AdvancedRegionMarket.getInstance().getPluginSettings().getUserResetCooldown(), true, false)));
             }
             ClickItem reseticon = new ClickItem(new ItemStack(Gui.RESET_ITEM), Messages.GUI_RESET_REGION_BUTTON, message);
             reseticon = reseticon.addClickAction(new ClickAction() {

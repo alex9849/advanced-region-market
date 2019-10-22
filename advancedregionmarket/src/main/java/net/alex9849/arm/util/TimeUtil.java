@@ -52,7 +52,7 @@ public class TimeUtil {
         long time = timeInMs;
 
         if(timeInMs < 0) {
-            return 0 + getTimeUnit(0, writeOut, Messages.TIME_SECONDS_SHORT, Messages.TIME_SECONDS, Messages.TIME_SECONDS_PLURAL);
+            return 0 + getTimeUnit(0, writeOut, Messages.TIME_SECONDS_SHORT, Messages.TIME_SECONDS_SINGULAR, Messages.TIME_SECONDS_PLURAL);
         }
 
         long remainingDays = TimeUnit.DAYS.convert(time, TimeUnit.MILLISECONDS);
@@ -66,36 +66,42 @@ public class TimeUtil {
 
         long remainingSeconds = TimeUnit.SECONDS.convert(time, TimeUnit.MILLISECONDS);
 
-
-        //String timetoString = "";
         StringBuilder timetoString = new StringBuilder(30);
         if (remainingDays != 0) {
-            timetoString.append(remainingDays);
-            timetoString.append(getTimeUnit(remainingDays, writeOut, Messages.TIME_DAYS_SHORT, Messages.TIME_DAYS, Messages.TIME_DAYS_PLURAL));
+            timetoString.append(remainingDays + " ");
+            timetoString.append(getTimeUnit(remainingDays, writeOut, Messages.TIME_DAYS_SHORT, Messages.TIME_DAYS_SINGULAR, Messages.TIME_DAYS_PLURAL));
             if(returnOnlyHighestUnit) return timetoString.toString();
         }
         if (remainingHours != 0) {
             if(remainingDays != 0) {
                 if(writeOut) {
-                    timetoString.append(Messages.TIME_UNIT_SPLITTER);
+                    if(remainingMinutes == 0) {
+                        timetoString.append(Messages.TIME_UNIT_SPLITTER);
+                    } else {
+                        timetoString.append(", ");
+                    }
                 } else {
                     timetoString.append(Messages.TIME_UNIT_SPLITTER_SHORT);
                 }
             }
-            timetoString.append(remainingHours);
-            timetoString.append(getTimeUnit(remainingHours, writeOut, Messages.TIME_HOURS_SHORT, Messages.TIME_HOURS, Messages.TIME_HOURS_PLURAL));
+            timetoString.append(remainingHours + " ");
+            timetoString.append(getTimeUnit(remainingHours, writeOut, Messages.TIME_HOURS_SHORT, Messages.TIME_HOURS_SINGULAR, Messages.TIME_HOURS_PLURAL));
             if(returnOnlyHighestUnit) return timetoString.toString();
         }
         if (remainingMinutes != 0) {
             if(remainingDays != 0 || remainingHours != 0) {
                 if(writeOut) {
-                    timetoString.append(Messages.TIME_UNIT_SPLITTER);
+                    if(remainingSeconds == 0) {
+                        timetoString.append(Messages.TIME_UNIT_SPLITTER);
+                    } else {
+                        timetoString.append(", ");
+                    }
                 } else {
                     timetoString.append(Messages.TIME_UNIT_SPLITTER_SHORT);
                 }
             }
-            timetoString.append(remainingMinutes);
-            timetoString.append(getTimeUnit(remainingMinutes, writeOut, Messages.TIME_MINUTES_SHORT, Messages.TIME_MINUTES, Messages.TIME_MINUTES_PLURAL));
+            timetoString.append(remainingMinutes + " ");
+            timetoString.append(getTimeUnit(remainingMinutes, writeOut, Messages.TIME_MINUTES_SHORT, Messages.TIME_MINUTES_SINGULAR, Messages.TIME_MINUTES_PLURAL));
             if(returnOnlyHighestUnit) return timetoString.toString();
         }
         if (remainingSeconds != 0 || (remainingSeconds == 0 && remainingMinutes == 0 && remainingHours == 0 && remainingDays == 0)) {
@@ -106,8 +112,8 @@ public class TimeUtil {
                     timetoString.append(Messages.TIME_UNIT_SPLITTER_SHORT);
                 }
             }
-            timetoString.append(remainingSeconds);
-            timetoString.append(getTimeUnit(remainingSeconds, writeOut, Messages.TIME_SECONDS_SHORT, Messages.TIME_SECONDS, Messages.TIME_SECONDS_PLURAL));
+            timetoString.append(remainingSeconds + " ");
+            timetoString.append(getTimeUnit(remainingSeconds, writeOut, Messages.TIME_SECONDS_SHORT, Messages.TIME_SECONDS_SINGULAR, Messages.TIME_SECONDS_PLURAL));
             if(returnOnlyHighestUnit) return timetoString.toString();
         }
 

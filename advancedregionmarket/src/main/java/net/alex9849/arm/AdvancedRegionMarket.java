@@ -218,9 +218,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         this.pluginSettings.setIsTeleportAfterSellRegionBought(getConfig().getBoolean("Other.TeleportAfterSellRegionBought"));
         this.pluginSettings.setIsTeleportAfterContractRegionBought(getConfig().getBoolean("Other.TeleportAfterContractRegionBought"));
         this.pluginSettings.setIsSendContractRegionExtendMessage(getConfig().getBoolean("Other.SendContractRegionExtendMessage"));
-        this.pluginSettings.setRemainingTimeTimeformat(getConfig().getString("Other.RemainingTimeFormat"));
         this.pluginSettings.setDateTimeformat(getConfig().getString("Other.DateTimeFormat"));
-        this.pluginSettings.setUseShortCountdown(getConfig().getBoolean("Other.ShortCountdown"));
         this.pluginSettings.setIsRegionInfoParticleBorder(getConfig().getBoolean("Other.RegionInfoParticleBorder"));
         this.pluginSettings.setIsAllowTeleportToBuySign(getConfig().getBoolean("Other.AllowRegionfinderTeleportToBuySign"));
         this.pluginSettings.setRemoveEntitiesOnRegionBlockReset(getConfig().getBoolean("Other.RemoveEntitiesOnRegionBlockReset"));

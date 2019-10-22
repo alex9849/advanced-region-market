@@ -10,7 +10,6 @@ public class ArmSettings {
     private boolean isTeleportAfterContractRegionBought = false;
     private boolean isSendContractRegionExtendMessage = false;
     private boolean isRegionInfoParticleBorder = true;
-    private boolean useShortCountdown = false;
     private boolean deleteSubregionsOnParentRegionUnsell = false;
     private boolean deleteSubregionsOnParentRegionBlockReset = false;
     private boolean allowParentRegionOwnersBuildOnSubregions = true;
@@ -25,7 +24,6 @@ public class ArmSettings {
 
     private boolean isAllowTeleportToBuySign = true;
 
-    private String REMAINING_TIME_TIMEFORMAT = "%date%";
     private String DATE_TIMEFORMAT = "dd.MM.yyyy hh:mm";
 
     public boolean isActivateRegionKindPermissions() {
@@ -106,22 +104,6 @@ public class ArmSettings {
 
     public boolean isSendContractRegionExtendMessage() {
         return isSendContractRegionExtendMessage;
-    }
-
-    public boolean isUseShortCountdown() {
-        return useShortCountdown;
-    }
-
-    void setUseShortCountdown(boolean useShortCountdown) {
-        this.useShortCountdown = useShortCountdown;
-    }
-
-    public String getRemainingTimeTimeformat() {
-        return REMAINING_TIME_TIMEFORMAT;
-    }
-
-    void setRemainingTimeTimeformat(String remainingTimeTimeformat) {
-        REMAINING_TIME_TIMEFORMAT = remainingTimeTimeformat;
     }
 
     public String getDateTimeformat() {

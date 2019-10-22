@@ -947,6 +947,10 @@ public class AdvancedRegionMarket extends JavaPlugin {
                 getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 2.0.8..");
                 updateTo2p08(pluginConfig);
             }
+            if (version < 2.09) {
+                getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 2.0.9..");
+                updateTo2p09(pluginConfig);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -1767,6 +1771,47 @@ public class AdvancedRegionMarket extends JavaPlugin {
         regionkindsConf.save(regionkindsConfDic);
         pluginConfig.set("Version", 2.08);
         saveConfig();
+    }
+
+    private void updateTo2p09(FileConfiguration pluginConfig) throws IOException {
+        UpdateHelpMethods.replaceVariableInMessagesYML("%extendtime%", "%extendtime-short%");
+        UpdateHelpMethods.replaceVariableInMessagesYML("%remaining%", "%remaining-countdown-short%");
+        UpdateHelpMethods.replaceVariableInMessagesYML("%maxrenttime%", "%maxrenttime-short%");
+        UpdateHelpMethods.replaceVariableInMessagesYML("%takeoverin%", "%takeoverin-countdown-short%");
+        UpdateHelpMethods.replaceVariableInMessagesYML("%inactivityresetin%", "%inactivityresetin-countdown-short%");
+        UpdateHelpMethods.replaceVariableInMessagesYML("%remaininguserresetcooldown%", "%remaininguserresetcooldown-countdown-short%");
+        pluginConfig.set("Other.RemainingTimeFormat", null);
+        pluginConfig.set("Other.ShortCountdown", null);
+        pluginConfig.set("Version", 2.09);
+        saveConfig();
+    }
+
+    private static class UpdateHelpMethods {
+
+        private static void replaceVariableInMessagesYML(String variable, String replacement) throws IOException {
+            File messagesConfDic = new File(AdvancedRegionMarket.getInstance().getDataFolder() + "/messages.yml");
+            YamlConfiguration messagesConf = YamlConfiguration.loadConfiguration(messagesConfDic);
+            ConfigurationSection messagesSection = messagesConf.getConfigurationSection("Messages");
+            if (messagesSection != null) {
+                ArrayList<String> messageKeys = new ArrayList<String>(messagesSection.getKeys(false));
+
+                for (String key : messageKeys) {
+                    Object msgObject = messagesSection.get(key);
+                    if (msgObject instanceof List) {
+                        List<String> msgList = (List) msgObject;
+                        for (int i = 0; i < msgList.size(); i++) {
+                            msgList.set(i, msgList.get(i).replace(variable, replacement));
+                        }
+                    } else if (msgObject instanceof String) {
+                        String msgString = (String) msgObject;
+                        msgString = msgString.replace(variable, replacement);
+                        messagesSection.set(key, msgString);
+                    }
+                }
+            }
+            messagesConf.save(messagesConfDic);
+        }
+
     }
 
 }

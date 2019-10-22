@@ -67,14 +67,14 @@ Messages:
   ContractSoldSign2: '%regionid%/%owner%'
   ContractSoldSign3: '%price%%currency%/%extendtime-short%'
   ContractSoldSign4: '%remaining-countdown-short%'
-  SecondsSingular: Second
-  MinutesSingular: Minute
-  HoursSingular: Hour
-  DaysSingular: Day
-  SecondsPlural: Seconds
-  MinutesPlural: Minutes
-  HoursPlural: Hours
-  DaysPlural: Days
+  SecondsSingular: second
+  MinutesSingular: minute
+  HoursSingular: hour
+  DaysSingular: day
+  SecondsPlural: seconds
+  MinutesPlural: minutes
+  HoursPlural: hours
+  DaysPlural: days
   SecondsShort: s
   MinutesShort: m
   HoursShort: h

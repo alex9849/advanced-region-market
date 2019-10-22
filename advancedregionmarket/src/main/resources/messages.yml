@@ -58,7 +58,7 @@ Messages:
   RentedSign1: '&4Rented'
   RentedSign2: '%regionid%/%owner%'
   RentedSign3: '%price%%currency%/%extendtime-short%'
-  RentedSign4: '%remaining-countdown-short%'
+  RentedSign4: '%remaining-date%'
   ContractSign1: '&2Contract'
   ContractSign2: '&2available'
   ContractSign3: '%regionid%'
@@ -66,7 +66,7 @@ Messages:
   ContractSoldSign1: '&4Contract in use'
   ContractSoldSign2: '%regionid%/%owner%'
   ContractSoldSign3: '%price%%currency%/%extendtime-short%'
-  ContractSoldSign4: '%remaining-countdown-short%'
+  ContractSoldSign4: '%remaining-date%'
   SecondsSingular: second
   MinutesSingular: minute
   HoursSingular: hour

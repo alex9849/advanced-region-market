@@ -345,7 +345,10 @@ public class AdvancedRegionMarket extends JavaPlugin {
         getCommand("arm").setTabCompleter(this.commandHandler);
 
 
-        Bukkit.getLogger().log(Level.INFO, "Programmed by Alex9849");
+        getLogger().log(Level.INFO, "Programmed by Alex9849");
+        getLogger().log(Level.INFO, "I'm always searching for better translations of AdvancedRegionMarket. "
+                +"If you've translated the plugin it would be very nice if you would send me your translation via "
+                + "spigot private message! :)");
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
             @Override
             public void run() {
@@ -433,13 +436,13 @@ public class AdvancedRegionMarket extends JavaPlugin {
         String serverVersion = Bukkit.getServer().getVersion();
         if (serverVersion.equalsIgnoreCase("1.12") || serverVersion.contains("1.12")) {
             classVersion = "112";
-            Bukkit.getLogger().log(Level.INFO, "Using MC 1.12 sign adapter");
+            getLogger().log(Level.INFO, "Using MC 1.12 sign adapter");
         } else if (serverVersion.equalsIgnoreCase("1.13") || serverVersion.contains("1.13")) {
             classVersion = "113";
-            Bukkit.getLogger().log(Level.INFO, "Using MC 1.13 sign adapter");
+            getLogger().log(Level.INFO, "Using MC 1.13 sign adapter");
         } else {
             classVersion = "114";
-            Bukkit.getLogger().log(Level.INFO, "Using MC 1.14 sign adapter");
+            getLogger().log(Level.INFO, "Using MC 1.14 sign adapter");
         }
 
         try {
@@ -448,7 +451,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
                 this.signDataFactory = (SignDataFactory) signDataFactoryClass.newInstance();
             }
         } catch (Exception e) {
-            Bukkit.getLogger().log(Level.WARNING, "Could not setup SignDataFactory! (Is your server compatible? Compatible versions: 1.12, 1.13, 1.14)");
+            getLogger().log(Level.WARNING, "Could not setup SignDataFactory! (Is your server compatible? Compatible versions: 1.12, 1.13, 1.14)");
         }
 
     }
@@ -525,9 +528,9 @@ public class AdvancedRegionMarket extends JavaPlugin {
             if (WorldGuardInterface.class.isAssignableFrom(wgClass)) {
                 this.worldGuardInterface = (WorldGuardInterface) wgClass.newInstance();
             }
-            Bukkit.getLogger().log(Level.INFO, "Using WorldGuard" + version + " adapter");
+            getLogger().log(Level.INFO, "Using WorldGuard" + version + " adapter");
         } catch (Exception e) {
-            Bukkit.getLogger().log(Level.INFO, "Could not setup WorldGuard! (handler could not be loaded) Compatible WorldGuard versions: 6, 7");
+            getLogger().log(Level.INFO, "Could not setup WorldGuard! (handler could not be loaded) Compatible WorldGuard versions: 6, 7");
             e.printStackTrace();
         }
 
@@ -564,9 +567,9 @@ public class AdvancedRegionMarket extends JavaPlugin {
             if (WorldEditInterface.class.isAssignableFrom(weClass)) {
                 this.worldEditInterface = (WorldEditInterface) weClass.newInstance();
             }
-            Bukkit.getLogger().log(Level.INFO, "Using WorldEdit" + version + " adapter");
+            getLogger().log(Level.INFO, "Using WorldEdit" + version + " adapter");
         } catch (Exception e) {
-            Bukkit.getLogger().log(Level.INFO, "Could not setup WorldEdit! (handler could not be loaded) Compatible WorldEdit versions: 6, 7");
+            getLogger().log(Level.INFO, "Could not setup WorldEdit! (handler could not be loaded) Compatible WorldEdit versions: 6, 7");
             e.printStackTrace();
         }
 
@@ -643,7 +646,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
             locale = Locale.forLanguageTag(languageTag);
         } catch (NullPointerException e) {
             locale = Locale.getDefault();
-            Bukkit.getLogger().log(Level.WARNING, "Could not find language-Tag " + languageTag + "! Using " + locale + " now!");
+            getLogger().log(Level.WARNING, "Could not find language-Tag " + languageTag + "! Using " + locale + " now!");
         }
         NumberFormat priceFormatter = NumberFormat.getInstance(locale);
         priceFormatter.setMinimumFractionDigits(getConfig().getInt("PriceFormatting.minimumFractionDigits"));
@@ -735,7 +738,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
             RentRegion.setExpirationWarningTime(RentPrice.stringToTime(getConfig().getString("Other.RentRegionExpirationWarningTime")));
             RentRegion.setSendExpirationWarning(getConfig().getBoolean("Other.SendRentRegionExpirationWarning"));
         } catch (IllegalArgumentException | NullPointerException e) {
-            Bukkit.getLogger().log(Level.INFO, "Warning! Bad syntax of time format \"RentRegionExpirationWarningTime\" disabling it...");
+            getLogger().log(Level.INFO, "Warning! Bad syntax of time format \"RentRegionExpirationWarningTime\" disabling it...");
             RentRegion.setExpirationWarningTime(0);
             RentRegion.setSendExpirationWarning(false);
         }

@@ -68,7 +68,7 @@ public class TimeUtil {
 
         StringBuilder timetoString = new StringBuilder(30);
         if (remainingDays != 0) {
-            timetoString.append(remainingDays + " ");
+            timetoString.append(remainingDays);
             timetoString.append(getTimeUnit(remainingDays, writeOut, Messages.TIME_DAYS_SHORT, Messages.TIME_DAYS_SINGULAR, Messages.TIME_DAYS_PLURAL));
             if(returnOnlyHighestUnit) return timetoString.toString();
         }
@@ -84,7 +84,7 @@ public class TimeUtil {
                     timetoString.append(Messages.TIME_UNIT_SPLITTER_SHORT);
                 }
             }
-            timetoString.append(remainingHours + " ");
+            timetoString.append(remainingHours);
             timetoString.append(getTimeUnit(remainingHours, writeOut, Messages.TIME_HOURS_SHORT, Messages.TIME_HOURS_SINGULAR, Messages.TIME_HOURS_PLURAL));
             if(returnOnlyHighestUnit) return timetoString.toString();
         }
@@ -100,7 +100,7 @@ public class TimeUtil {
                     timetoString.append(Messages.TIME_UNIT_SPLITTER_SHORT);
                 }
             }
-            timetoString.append(remainingMinutes + " ");
+            timetoString.append(remainingMinutes);
             timetoString.append(getTimeUnit(remainingMinutes, writeOut, Messages.TIME_MINUTES_SHORT, Messages.TIME_MINUTES_SINGULAR, Messages.TIME_MINUTES_PLURAL));
             if(returnOnlyHighestUnit) return timetoString.toString();
         }
@@ -112,7 +112,7 @@ public class TimeUtil {
                     timetoString.append(Messages.TIME_UNIT_SPLITTER_SHORT);
                 }
             }
-            timetoString.append(remainingSeconds + " ");
+            timetoString.append(remainingSeconds);
             timetoString.append(getTimeUnit(remainingSeconds, writeOut, Messages.TIME_SECONDS_SHORT, Messages.TIME_SECONDS_SINGULAR, Messages.TIME_SECONDS_PLURAL));
             if(returnOnlyHighestUnit) return timetoString.toString();
         }
@@ -125,9 +125,9 @@ public class TimeUtil {
             return shortUnit;
         }
         if(amount > 1) {
-            return writtenOutUnitPlural;
+            return " " + writtenOutUnitPlural;
         }
-        return writtenOutUnit;
+        return " " + writtenOutUnit;
     }
 
     public static String getDate(long dateInMs, boolean showReplacementIfDateInThePast, String ifDateInPastReplacement, String datePattern) {

@@ -13,7 +13,7 @@ Messages:
   PriceCanNotBeNegative: '&4Price can not be negative!'
   CommandOnlyIngame: '&4This command can only be executed ingame!'
   RentExtendMaxRentTimeExceeded: '&4You can not pay this region for more than &6%maxrenttime-writtenout%
-    &4in advance'
+    &4in advance!'
   RegionErrorCanNotBuildHere: '&4You only allowed to break blocks you placed here!'
   NoFreeRegionWithThisKind: '&7No free region with this type found :('
   RegionkindDoesNotExist: '&4The selected regionkind does not exist!'

@@ -29,7 +29,7 @@ Messages:
     has not been created. Please contact an admin!'
   SchematicNotFoundErrorAdmin: '&4Could not find schematic for %regionid%'
   RentExtendMessage: '&aRegion extended for &6%extendtime-writtenout%&a (For %price%%currency%.
-    New remaining time: &6%remaining-countdown-short%'
+    Remaining time: &6%remaining-countdown-short%'
   Buymessage: '&aRegion successfully bought!'
   RegionAddedToARM: '&7Regionsign has been created and region has been added to ARM!'
   SignRemovedFromRegion: '&7Regionsign removed! %remaining% Sign(s) remaining before

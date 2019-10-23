@@ -24,7 +24,7 @@ Messages:
   SchematicNotFoundErrorUser: '&4Похоже, что схема вашего региона %regionid% не была
    создана. Пожалуйста, свяжитесь с администратором!'
   SchematicNotFoundErrorAdmin: '&4Не удалось найти схему для %regionid%'
-  RentExtendMessage: '&aРегион продлен на &6%extendtime-short%&a (%price% %currency%. Новое оставшееся время: &6%remaining-countdown-short%'
+  RentExtendMessage: '&aРегион продлен на &6%extendtime-short%&a (%price% %currency%. Новое оставшееся время: &6%remainingtime-countdown-short%'
   Buymessage: '&aРегион успешно куплен!'
   RegionAddedToARM: '&7Табличка продажи создана, а регион был добавлен в ARM!'
   SignRemovedFromRegion: '&7Табличка продажи удалена! %remaining% осталось до того,
@@ -56,7 +56,7 @@ Messages:
   RentedSign1: '&2Арендован'
   RentedSign2: '%regionid%/%owner%'
   RentedSign3: '%currency%%price%/%extendtime-short%'
-  RentedSign4: '%remaining-countdown-short%'
+  RentedSign4: '%remainingtime-countdown-short%'
   ContractSign1: '&4КОнтракт'
   ContractSign2: '&2доступен'
   ContractSign3: '%regionid%'
@@ -64,7 +64,7 @@ Messages:
   ContractSoldSign1: '&2Исполняется'
   ContractSoldSign2: '%regionid%/%owner%'
   ContractSoldSign3: '%currency%%price%/%extendtime-short%'
-  ContractSoldSign4: '%remaining-countdown-short%'
+  ContractSoldSign4: '%remainingtime-countdown-short%'
   Seconds: с
   Minutes: м
   Hours: ч
@@ -78,9 +78,9 @@ Messages:
   TeleporterTeleportationAborded: '&4Телепортация прервана!'
   ContractRegionExtended: '&aВаш контрактный регион %regionid% продлен на %extendtime-short%. (%currency%%price%.)'
   ContractRegionChangeTerminated: '&6Контракт &a%regionid% &6был установлен на %statuslong%'
-  ContractRegionStatusActiveLong: '&aАктивен!&6 Следующее продление в %remaining-countdown-short%'
+  ContractRegionStatusActiveLong: '&aАктивен!&6 Следующее продление в %remainingtime-countdown-short%'
   ContractRegionStatusActive: '&aАктивен'
-  ContractRegionStatusTerminatedLong: '&4Отменено!&6 Будет сброшено в %remaining-countdown-short%'
+  ContractRegionStatusTerminatedLong: '&4Отменено!&6 Будет сброшено в %remainingtime-countdown-short%'
   ContractRegionStatusTerminated: '&4Отменено'
   PresetRemoved: '&aПресет удален!'
   PresetSet: '&aПресет установлен!'
@@ -278,10 +278,10 @@ Messages:
   GUIExtendRentRegionButtonLore:
   - '&aНажмите, чтобы продлить свой регион &6%extendtime-short%'
   - '&aэто будет стоить вам &6%price%%currency%&a!'
-  - '&aСрок действия региона истекает &6%remaining-countdown-short%&a.'
+  - '&aСрок действия региона истекает &6%remainingtime-countdown-short%&a.'
   - '&aПродлить регион можно до &6%maxrenttime-short%&a.'
   GUIRentRegionLore:
-  - '&aИстекает в &6%remaining-countdown-short%'
+  - '&aИстекает в &6%remainingtime-countdown-short%'
   GUIUserSellButton: '&4Сбросить и продать регион'
   GUIUserSellButtonLore:
   - Нажмите, чтобы продать свой регион
@@ -303,11 +303,11 @@ Messages:
   GUIContractItemLore:
   - '&aСтатус: %status%'
   - '&aЕсли активен, продление находится в:'
-  - '&6%remaining-countdown-short%'
+  - '&6%remainingtime-countdown-short%'
   GUIContractItemRegionLore:
   - '&aСтатус: %status%'
   - '&aЕсли активен, продление находится в:'
-  - '&6%remaining-countdown-short%'
+  - '&6%remainingtime-countdown-short%'
   SellregionName: Регион на продажу
   ContractregionName: Регион по контракту
   RentregionName: Регион в аренду

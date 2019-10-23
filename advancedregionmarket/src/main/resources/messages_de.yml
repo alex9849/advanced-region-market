@@ -46,7 +46,7 @@ Messages:
   SchematicNotFoundErrorAdmin: '&4Konnte keine Schematic für die Region &6%regionid%
     &4finden!'
   RentExtendMessage: '&aRegion für &6%price%%currency%&a um &6%extendtime-writtenout%&a verlängert!
-    Verbleibende Zeit: &6%remaining-countdown-short%'
+    Verbleibende Zeit: &6%remainingtime-countdown-short%'
   Buymessage: '&aRegion erfolgreich gekauft!'
   RegionAddedToARM: '&7Verkaufsschild wurde erfolgreich erstellt und die region in
     wurde in ARM registriert!'
@@ -78,7 +78,7 @@ Messages:
   RentedSign1: '&4Vermietet'
   RentedSign2: '%regionid%/%owner%'
   RentedSign3: '%price%%currency%/%extendtime-short%'
-  RentedSign4: '%remaining-date%'
+  RentedSign4: '%remainingtime-date%'
   ContractSign1: '&2Vertrag'
   ContractSign2: '&2verfügbar'
   ContractSign3: '%regionid%'
@@ -86,7 +86,7 @@ Messages:
   ContractSoldSign1: '&4Vertrag läuft'
   ContractSoldSign2: '%regionid%/%owner%'
   ContractSoldSign3: '%price%%currency%/%extendtime-short%'
-  ContractSoldSign4: '%remaining-date%'
+  ContractSoldSign4: '%remainingtime-date%'
   Seconds: s
   Minutes: m
   Hours: h
@@ -315,11 +315,11 @@ Messages:
   GUIExtendRentRegionButtonLore:
   - '&aKlicke um deine Region um &6%extendtime-writtenout%'
   - '&afür &6%price%%currency%&a zu verlängern!'
-  - '&aDiese Region läuft in &6%remaining-countdown-short% &aab.'
+  - '&aDiese Region läuft in &6%remainingtime-countdown-short% &aab.'
   - '&aDu kannst deine Region auf bis zu'
   - '&6%maxrenttime-writtenout% &averlängern.'
   GUIRentRegionLore:
-  - '&aVerbleibende Zeit: &6%remaining-countdown-short%'
+  - '&aVerbleibende Zeit: &6%remainingtime-countdown-short%'
   GUIUserSellButton: '&4Zurücksetzen und verkaufen'
   GUIUserSellButtonLore:
   - '&4WARNUNG: &cDieser Vorgang kann nicht rückgängig!'
@@ -346,13 +346,13 @@ Messages:
   - '&aKonto gedeckt ist wird die Region nach Ablauf'
   - '&ades Timers automatisch verlängert. Falls'
   - '&anicht wird die Region automatisch zurückgesetzt!'
-  - '&aCountdown: &6%remaining-countdown-short%'
+  - '&aCountdown: &6%remainingtime-countdown-short%'
   GUIContractItemRegionLore:
   - '&aStatus: %status%'
   - '&aFalls aktiv wird die Region nach Ablauf'
   - '&ades Timers automatisch verlängert. Falls'
   - '&anicht wird die Region automatisch zurückgesetzt!'
-  - '&aCountdown: &6%remaining-countdown-short%'
+  - '&aCountdown: &6%remainingtime-countdown-short%'
   SellregionName: Kauf-Region
   ContractregionName: Vertrags-Region
   RentregionName: Prepaid-Region
@@ -458,7 +458,7 @@ Messages:
   EntityLimitSet: '&aEntityLimit wurde eingestellt!'
   EntityLimitRemoved: '&aEntityLimit wurde gelöscht!'
   ContractRegionTerminated: '&6Deine Vertragsregion &a%region% &6wurde erfolgreich
-    &4gekündigt&6! Deine Region wird in &a%remaining-countdown-short% &6automatisch resettet, es sei
+    &4gekündigt&6! Deine Region wird in &a%remainingtime-countdown-short% &6automatisch resettet, es sei
     denn sie wird reaktiviert!'
   ContractRegionReactivated: '&6Deine Vertragsregion &a%region% &6wurde &areaktiviert&6!
     Deine Region wird von nun an automatisch verlängert, solange dein Konto gedeckt
@@ -602,7 +602,7 @@ Messages:
   - '&9ID: &e%regionid% &7(Typ: &r%selltype%&7)'
   - '&9Verkauft: &e%issold%'
   - '&9Preis: &e%price% &7pro &e%extendtime-writtenout% &7Max.: &e%maxrenttime-writtenout%'
-  - '&9Verbleibende Zeit: &e%remaining-countdown-short%'
+  - '&9Verbleibende Zeit: &e%remainingtime-countdown-short%'
   - '&9Besitzer: &e%owner%'
   - '&9Mitglieder: &e%members%'
   - '&9Regionkind: &e%regionkinddisplay% &9FlagGruppe: &e%flaggroup%'
@@ -619,7 +619,7 @@ Messages:
   - '&9ID: &e%regionid% &7(Typ: &r%selltype%&7)'
   - '&9Verkauft: &e%issold%'
   - '&9Preis: &e%price% &7pro &e%extendtime-writtenout% &7(automatische Verlängerung)'
-  - '&9Verbleibende Zeit: &e%remaining-countdown-short%'
+  - '&9Verbleibende Zeit: &e%remainingtime-countdown-short%'
   - '&9Besitzer: &e%owner%'
   - '&9Mitglieder: &e%members%'
   - '&9Regionkind: &e%regionkinddisplay% &9FlagGruppe: &e%flaggroup%'
@@ -652,7 +652,7 @@ Messages:
   - '&9ID: &e%regionid% &7(Typ: &r%selltype%&7)'
   - '&9Verkauft: &e%issold%'
   - '&9Preis: &e%price% &7pro &e%extendtime-writtenout% &7Max.: &e%maxrenttime-writtenout%'
-  - '&9Verbleibende Zeit: &e%remaining-countdown-short%'
+  - '&9Verbleibende Zeit: &e%remainingtime-countdown-short%'
   - '&9Besitzer: &e%owner%'
   - '&9Mitglieder: &e%members%'
   - '&9Regionkind: &e%regionkinddisplay% &9FlagGruppe: &e%flaggroup%'
@@ -669,7 +669,7 @@ Messages:
   - '&9ID: &e%regionid% &7(Typ: &r%selltype%&7)'
   - '&9Verkauft: &e%issold%'
   - '&9Preis: &e%price% &7pro &e%extendtime-writtenout% &7(automatische Verlängerung)'
-  - '&9Verbleibende Zeit: &e%remaining-countdown-short%'
+  - '&9Verbleibende Zeit: &e%remainingtime-countdown-short%'
   - '&9Besitzer: &e%owner%'
   - '&9Mitglieder: &e%members%'
   - '&9Regionkind: &e%regionkinddisplay% &9FlagGruppe: &e%flaggroup%'
@@ -702,7 +702,7 @@ Messages:
   - '&9ID: &e%regionid% &7(Typ: &r%selltype%&7, Subregion)'
   - '&9Verkauft: &e%issold%'
   - '&9Preis: &e%price% &7pro &e%extendtime-writtenout% &7Max.: &e%maxrenttime-writtenout%'
-  - '&9Verbleibende Zeit: &e%remaining-countdown-short%'
+  - '&9Verbleibende Zeit: &e%remainingtime-countdown-short%'
   - '&9Besitzer: &e%owner%'
   - '&9Mitglieder: &e%members%'
   - '&9Regionkind: &e%regionkinddisplay% &9FlagGruppe: &e%flaggroup%'
@@ -717,7 +717,7 @@ Messages:
   - '&9ID: &e%regionid% &7(Typ: &r%selltype%&7, Subregion)'
   - '&9Verkauft: &e%issold%'
   - '&9Preis: &e%price% &7pro &e%extendtime-writtenout% &7(automatische Verlängerung)'
-  - '&9Verbleibende Zeit: &e%remaining-countdown-short%'
+  - '&9Verbleibende Zeit: &e%remainingtime-countdown-short%'
   - '&9Besitzer: &e%owner%'
   - '&9Mitglieder: &e%members%'
   - '&9Regionkind: &e%regionkinddisplay% &9FlagGruppe: &e%flaggroup%'

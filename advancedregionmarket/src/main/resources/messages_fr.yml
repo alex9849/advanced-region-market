@@ -19,7 +19,7 @@ Messages:
   SelectedPlayerIsNotOnline: '&4The selected player is not online'
   BadSyntax: '&7Bad syntax! Please use: &8%command%'
   BadSyntaxSplitter: '&7or &8%command%'
-  RentExtendMessage: '&aRégion étendue de &6%extendtime-short%&a (Pour %price% %currency%. Nouveau temps restant : &6%remaining-countdown-short%'
+  RentExtendMessage: '&aRégion étendue de &6%extendtime-short%&a (Pour %price% %currency%. Nouveau temps restant : &6%remainingtime-countdown-short%'
   Buymessage: '&aRégion acheté avec succès !'
   RegionAddedToARM: '&7Le panneau de région à été crée et à été ajouté à ARM !'
   SignRemovedFromRegion: '&7Le panneau de région à été supprimé ! %remaining% restant avant que la région soit supprimé de ARM!'
@@ -49,7 +49,7 @@ Messages:
   RentedSign1: '&4Loué'
   RentedSign2: '%regionid%/%owner%'
   RentedSign3: '%price%%currency%/%extendtime-short%'
-  RentedSign4: '%remaining-countdown-short%'
+  RentedSign4: '%remainingtime-countdown-short%'
   ContractSign1: '&2Contrat'
   ContractSign2: '&2available'
   ContractSign3: '%regionid%'
@@ -57,7 +57,7 @@ Messages:
   ContractSoldSign1: 'Contrat en cours'
   ContractSoldSign2: '%regionid%/%owner%'
   ContractSoldSign3: '%price%%currency%/%extendtime-short%'
-  ContractSoldSign4: '%remaining-countdown-short%'
+  ContractSoldSign4: '%remainingtime-countdown-short%'
   Seconds: s
   Minutes: m
   Hours: h
@@ -74,9 +74,9 @@ Messages:
     pour %extendtime-short%. (Pour %price%%currency%.)'
   ContractRegionChangeTerminated: '&6Le contrat de &a%regionid% &6a été définit à
     %statuslong%'
-  ContractRegionStatusActiveLong: '&aActif&6! Prochain renouvellement dans %remaining-countdown-short%'
+  ContractRegionStatusActiveLong: '&aActif&6! Prochain renouvellement dans %remainingtime-countdown-short%'
   ContractRegionStatusActive: '&aActif'
-  ContractRegionStatusTerminatedLong: '&4Terminé&6! Il sera restauré dans %remaining-countdown-short%'
+  ContractRegionStatusTerminatedLong: '&4Terminé&6! Il sera restauré dans %remainingtime-countdown-short%'
   ContractRegionStatusTerminated: '&4Terminée'
   PresetRemoved: '&aPréréglage supprimé !'
   PresetSet: '&aPréréglage définit!'
@@ -211,10 +211,10 @@ Messages:
   GUIExtendRentRegionButtonLore:
   - '&aCliquez pour Renouveler votre région de &6%extendtime-short%'
   - '&acela vous coûtera &6%price%%currency%&a!'
-  - '&aCette région expirera dans &6%remaining-countdown-short%&a.'
+  - '&aCette région expirera dans &6%remainingtime-countdown-short%&a.'
   - '&aVous pouvez renouveler votre région jusqu''à &6%maxrenttime-short%&a.'
   GUIRentRegionLore:
-  - '&aExpire dans &6%remaining-countdown-short%'
+  - '&aExpire dans &6%remainingtime-countdown-short%'
   GUIUserSellButton: '&4Réinitialiser et vendre la région'
   GUIUserSellButtonLore:
   - Cliquez pour vendre la région
@@ -237,8 +237,8 @@ Messages:
   GUIContractItemLore:
   - '&aStatut: %status%'
   - '&aSi actif, le prochain renouvellement est dans :'
-  - '&6%remaining-countdown-short%'
+  - '&6%remainingtime-countdown-short%'
   GUIContractItemRegionLore:
   - '&aStatut: %status%'
   - '&aSi actif, le prochain renouvellement est dans :'
-  - '&6%remaining-countdown-short%'
+  - '&6%remainingtime-countdown-short%'

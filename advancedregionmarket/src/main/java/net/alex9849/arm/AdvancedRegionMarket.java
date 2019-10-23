@@ -1717,13 +1717,13 @@ public class AdvancedRegionMarket extends JavaPlugin {
 
     private void updateTo2p09(FileConfiguration pluginConfig) throws IOException {
         UpdateHelpMethods.replaceVariableInMessagesYML("%extendtime%", "%extendtime-short%");
-        UpdateHelpMethods.replaceVariableInMessagesYML("%remaining%", "%remaining-countdown-short%");
+        UpdateHelpMethods.replaceVariableInMessagesYML("%remaining%", "%remainingtime-countdown-short%");
         UpdateHelpMethods.replaceVariableInMessagesYML("%maxrenttime%", "%maxrenttime-short%");
         UpdateHelpMethods.replaceVariableInMessagesYML("%takeoverin%", "%takeoverin-countdown-short%");
         UpdateHelpMethods.replaceVariableInMessagesYML("%inactivityresetin%", "%inactivityresetin-countdown-short%");
         UpdateHelpMethods.replaceVariableInMessagesYML("%remaininguserresetcooldown%", "%remaininguserresetcooldown-countdown-short%");
         UpdateHelpMethods.replaceVariableInFlagGroupsYML("%extendtime%", "%extendtime-short%");
-        UpdateHelpMethods.replaceVariableInFlagGroupsYML("%remaining%", "%remaining-countdown-short%");
+        UpdateHelpMethods.replaceVariableInFlagGroupsYML("%remaining%", "%remainingtime-countdown-short%");
         UpdateHelpMethods.replaceVariableInFlagGroupsYML("%maxrenttime%", "%maxrenttime-short%");
         UpdateHelpMethods.replaceVariableInFlagGroupsYML("%takeoverin%", "%takeoverin-countdown-short%");
         UpdateHelpMethods.replaceVariableInFlagGroupsYML("%inactivityresetin%", "%inactivityresetin-countdown-short%");

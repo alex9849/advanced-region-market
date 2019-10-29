@@ -1988,6 +1988,10 @@ public class Gui implements Listener {
 
                 GuiInventory customHolder = (GuiInventory) event.getView().getTopInventory().getHolder();
 
+                if(customHolder.getSize() <= event.getRawSlot()) {
+                    return;
+                }
+
                 ClickItem icon = customHolder.getIcon(event.getRawSlot());
                 if (icon == null) return;
 

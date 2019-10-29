@@ -13,12 +13,10 @@ build:newestVersion:
   script:
     - mvn package
     - cp ./advancedregionmarket/target/advancedregionmarket.jar ./advancedregionmarket.jar
-    - cp ./armimporter/target/armimporter.jar ./armimporter.jar
   artifacts:
     expire_in: 1 week
     paths:
       - ./advancedregionmarket.jar
-      - ./armimporter.jar
 
 build:1.13:
   stage: build

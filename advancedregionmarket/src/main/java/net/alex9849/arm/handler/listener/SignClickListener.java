@@ -11,6 +11,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 
 public class SignClickListener implements Listener {
 
@@ -19,6 +20,9 @@ public class SignClickListener implements Listener {
         try {
 
             if ((event.getAction() != Action.LEFT_CLICK_BLOCK) && (event.getAction() != Action.RIGHT_CLICK_BLOCK)) {
+                return;
+            }
+            if(event.getHand() != EquipmentSlot.HAND) {
                 return;
             }
 
@@ -33,6 +37,7 @@ public class SignClickListener implements Listener {
             Sign sign = (Sign) event.getClickedBlock().getState();
 
             Region region = AdvancedRegionMarket.getInstance().getRegionManager().getRegion(sign);
+
             if (region == null) {
                 return;
             }

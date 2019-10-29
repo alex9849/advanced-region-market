@@ -12,6 +12,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 
 import java.util.List;
 
@@ -28,6 +29,9 @@ public class SubregionMarkerListener implements Listener {
     }
 
     private void setSubregionMark(PlayerInteractEvent event) throws InputException {
+        if(event.getHand() != EquipmentSlot.HAND) {
+            return;
+        }
         Player player = event.getPlayer();
         if (event.getItem() == null) {
             return;

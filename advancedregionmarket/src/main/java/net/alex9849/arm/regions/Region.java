@@ -140,7 +140,7 @@ public abstract class Region implements Saveable {
             return Messages.convertYesNo(this.isInactivityResetEnabled());
         });
         variableReplacements.put("%lastownerlogin%", () -> {
-            return TimeUtil.getDate(this.getLastLogin(), true, "",
+            return TimeUtil.getDate(this.getLastLogin(), false, "",
                     AdvancedRegionMarket.getInstance().getPluginSettings().getDateTimeformat());
         });
         variableReplacements.put("%owner%", () -> {

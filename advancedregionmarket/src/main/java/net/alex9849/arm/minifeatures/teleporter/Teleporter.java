@@ -153,21 +153,33 @@ public class Teleporter {
     }
 
     public static boolean teleport(Player player, SignData sign) {
-        for (int y = sign.getLocation().getBlockY(); ((y > 1) && (y > (sign.getLocation().getBlockY() - 10))); y--) {
-            Location newLoc = new Location(sign.getLocation().getWorld(), sign.getLocation().getBlockX(), y, sign.getLocation().getBlockZ());
-            if (isSaveTeleport(newLoc)) {
-                teleport(player, newLoc);
-                return true;
+        Location teleportXZLoc = sign.getLocation().clone().add(sign.getBlockFace().getDirection().getX(),
+                0, sign.getBlockFace().getModZ());
+
+        Location teleportLoc = teleportXZLoc;
+        boolean locationFound = false;
+
+        for (int y = teleportXZLoc.getBlockY(); ((y > 1) && (y > (teleportXZLoc.getBlockY() - 10)) && !locationFound); y--) {
+            teleportLoc = new Location(teleportXZLoc.getWorld(), teleportXZLoc.getBlockX(), y, teleportXZLoc.getBlockZ());
+            if (isSaveTeleport(teleportLoc)) {
+                locationFound = true;
             }
         }
-        for (int y = sign.getLocation().getBlockY(); ((y < 255) && (y < (sign.getLocation().getBlockY() + 10))); y++) {
-            Location newLoc = new Location(sign.getLocation().getWorld(), sign.getLocation().getBlockX(), y, sign.getLocation().getBlockZ());
-            if (isSaveTeleport(newLoc)) {
-                teleport(player, newLoc);
-                return true;
+        for (int y = teleportXZLoc.getBlockY(); ((y < 255) && (y < (teleportXZLoc.getBlockY() + 10)) && !locationFound); y++) {
+            teleportLoc = new Location(teleportXZLoc.getWorld(), teleportXZLoc.getBlockX(), y, teleportXZLoc.getBlockZ());
+            if (isSaveTeleport(teleportLoc)) {
+                locationFound = true;
             }
         }
-        return false;
+        if(!locationFound) {
+            return false;
+        }
+        Vector lookingDirection = new Vector(sign.getLocation().getX() - teleportLoc.getX(),
+                sign.getLocation().getY() - teleportLoc.getY() - 1,
+                sign.getLocation().getZ() - teleportLoc.getZ());
+        teleportLoc.setDirection(lookingDirection);
+        teleport(player, teleportLoc);
+        return true;
     }
 
     private static boolean isSaveTeleport(Location loc) {

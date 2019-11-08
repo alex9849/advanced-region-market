@@ -153,7 +153,11 @@ public class Teleporter {
     }
 
     public static boolean teleport(Player player, SignData sign) {
-        Vector normalizedBlockFaceDirection = new Vector(sign.getBlockFace().getModX(), 0, sign.getBlockFace().getModY()).normalize();
+        Vector normalizedBlockFaceDirection = new Vector(sign.getBlockFace().getModX(), 0, sign.getBlockFace().getModZ());
+        if (normalizedBlockFaceDirection.getBlockX() != 0 || normalizedBlockFaceDirection.getBlockY() != 0
+                || normalizedBlockFaceDirection.getBlockZ() != 0) {
+            normalizedBlockFaceDirection.normalize();
+        }
         Location teleportXZLoc = sign.getLocation().clone().add(normalizedBlockFaceDirection);
 
         Location teleportLoc = teleportXZLoc;

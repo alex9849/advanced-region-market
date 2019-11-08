@@ -1207,6 +1207,7 @@ public class Messages {
                 stream.read(buffer);
                 OutputStream output = new FileOutputStream(messagesdic);
                 output.write(buffer);
+                output.flush();
                 output.close();
                 stream.close();
             } catch (IOException e) {

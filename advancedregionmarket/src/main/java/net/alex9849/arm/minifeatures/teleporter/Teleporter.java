@@ -154,7 +154,7 @@ public class Teleporter {
 
     public static boolean teleport(Player player, SignData sign) {
         Location teleportXZLoc = sign.getLocation().clone().add(sign.getBlockFace().getDirection().getX(),
-                0, sign.getBlockFace().getModZ());
+                0, sign.getBlockFace().getDirection().getZ());
 
         Location teleportLoc = teleportXZLoc;
         boolean locationFound = false;

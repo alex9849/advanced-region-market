@@ -6,6 +6,8 @@ Messages:
     &6Get a list with all commands with &3/arm help
   NoPermission: '&4You do not have permission!'
   NotEnoughtMoney: '&4You do not have enough money!'
+  FlagGroupFeatureDisabled: '&4FlagGroups are currently disabled! You can activate them in the config.yml!'
+  RegionInfoFeatureDisabled: '&4Feature disbaled!'
   RegionAlreadySold: '&4Region already Sold!'
   WorldDoesNotExist: '&4The selected world does not exist!'
   RegionDoesNotExist: '&4The selected region does not exist in this (or the selected)

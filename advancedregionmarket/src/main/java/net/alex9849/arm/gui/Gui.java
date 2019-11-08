@@ -187,7 +187,7 @@ public class Gui implements Listener {
         if (Permission.hasAnySubregionPermission(player) && region.isAllowSubregions()) {
             itemcounter++;
         }
-        if (player.hasPermission(Permission.MEMBER_FLAGEDITOR)) {
+        if (player.hasPermission(Permission.MEMBER_FLAGEDITOR) && FlagGroup.isFeatureEnabled()) {
             itemcounter++;
         }
         if (region instanceof RentRegion) {
@@ -277,7 +277,7 @@ public class Gui implements Listener {
             actitem++;
         }
 
-        if (player.hasPermission(Permission.MEMBER_FLAGEDITOR)) {
+        if (player.hasPermission(Permission.MEMBER_FLAGEDITOR) && FlagGroup.isFeatureEnabled()) {
             ClickItem flagEditorItem = new ClickItem(new ItemStack(Gui.FLAGEDITOR_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_BUTTON)).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
@@ -469,7 +469,12 @@ public class Gui implements Listener {
         }
 
         ClickItem resetButton = new ClickItem(new ItemStack(Gui.FLAGEDITOR_RESET_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_RESET_BUTTON)).addClickAction((p) -> {
-            region.applyFlagGroup(FlagGroup.ResetMode.COMPLETE);
+            try {
+                //Force apply, because menu can only be opened if the flagGroups feature is enabled
+                region.applyFlagGroup(FlagGroup.ResetMode.COMPLETE, true);
+            } catch (FeatureDisabledException e) {
+                //Exception can't be thrown. Ignore
+            }
             player.sendMessage(Messages.PREFIX + region.getConvertedMessage(Messages.FLAGEDITOR_FLAG_HAS_BEEN_UPDATED));
             openFlagEditor(player, region, start, goBackAction);
         });

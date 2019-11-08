@@ -24,6 +24,8 @@ Messages:
   WorldDoesNotExist: '&4Die ausgewählte Welt existiert nicht!'
   RegionDoesNotExist: '&4Die ausgewähle Region existiert nicht in dieser (oder in
     der ausgewählten) Welt!'
+  FlagGroupFeatureDisabled: '&4FlagGroups sind zur Zeit deaktiviert! Falls du Admin bist kannst du diese in der config.yml aktivieren!'
+  RegionInfoFeatureDisabled: '&4Feature deaktiviert!'
   PriceCanNotBeNegative: '&4Der Preis darf nicht negativ sein!'
   CommandOnlyIngame: '&4Dieser Befehl ist nur ingame ausführbar!'
   RentExtendMaxRentTimeExceeded: '&4Du kannst deine Region für maximal &6%maxrenttime-writtenout%

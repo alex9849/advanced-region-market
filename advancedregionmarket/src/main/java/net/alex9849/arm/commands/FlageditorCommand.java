@@ -4,6 +4,7 @@ import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.InputException;
+import net.alex9849.arm.flaggroups.FlagGroup;
 import net.alex9849.arm.gui.Gui;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regions.Region;
@@ -46,6 +47,10 @@ public class FlageditorCommand implements BasicArmCommand {
 
         if (!(sender.hasPermission(Permission.MEMBER_FLAGEDITOR) || sender.hasPermission(Permission.ADMIN_FLAGEDITOR))) {
             throw new InputException(sender, Messages.NO_PERMISSION);
+        }
+
+        if(!FlagGroup.isFeatureEnabled()) {
+            throw new InputException(sender, Messages.PREFIX + Messages.FLAGGROUP_FEATURE_DISABLED);
         }
 
         Region selRegion;

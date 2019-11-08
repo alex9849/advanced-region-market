@@ -4,6 +4,7 @@ import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
+import net.alex9849.arm.exceptions.FeatureDisabledException;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.flaggroups.FlagGroup;
 import net.alex9849.arm.regionkind.RegionKind;
@@ -69,7 +70,11 @@ public class SubSignCreationListener implements Listener {
                 event.setCancelled(true);
                 this.subRegionCreator.getParentRegion().addSubRegion(sellRegion);
                 sellRegion.createSchematic();
-                sellRegion.applyFlagGroup(FlagGroup.ResetMode.COMPLETE);
+                try {
+                    sellRegion.applyFlagGroup(FlagGroup.ResetMode.COMPLETE, false);
+                } catch (FeatureDisabledException e) {
+                    //Ignore
+                }
                 this.subRegionCreator.remove();
                 event.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_CREATED_AND_SAVED);
             } else if (event.getLine(0).equalsIgnoreCase("[Sub-Rent]")) {
@@ -111,7 +116,11 @@ public class SubSignCreationListener implements Listener {
                 event.setCancelled(true);
                 this.subRegionCreator.getParentRegion().addSubRegion(rentRegion);
                 rentRegion.createSchematic();
-                rentRegion.applyFlagGroup(FlagGroup.ResetMode.COMPLETE);
+                try {
+                    rentRegion.applyFlagGroup(FlagGroup.ResetMode.COMPLETE, false);
+                } catch (FeatureDisabledException e) {
+                    //Ignore
+                }
                 this.subRegionCreator.remove();
                 event.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_CREATED_AND_SAVED);
             } else if (event.getLine(0).equalsIgnoreCase("[Sub-Contract]")) {
@@ -150,7 +159,11 @@ public class SubSignCreationListener implements Listener {
                 event.setCancelled(true);
                 this.subRegionCreator.getParentRegion().addSubRegion(contractRegion);
                 contractRegion.createSchematic();
-                contractRegion.applyFlagGroup(FlagGroup.ResetMode.COMPLETE);
+                try {
+                    contractRegion.applyFlagGroup(FlagGroup.ResetMode.COMPLETE, false);
+                } catch (FeatureDisabledException e) {
+                    //Ignore
+                }
                 this.subRegionCreator.remove();
                 event.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_CREATED_AND_SAVED);
             }

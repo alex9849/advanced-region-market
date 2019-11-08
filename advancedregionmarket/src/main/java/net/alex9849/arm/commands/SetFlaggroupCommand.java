@@ -3,6 +3,7 @@ package net.alex9849.arm.commands;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
+import net.alex9849.arm.exceptions.FeatureDisabledException;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.flaggroups.FlagGroup;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
@@ -48,6 +49,10 @@ public class SetFlaggroupCommand implements BasicArmCommand {
             throw new InputException(player, Messages.NO_PERMISSION);
         }
 
+        if(!FlagGroup.isFeatureEnabled()) {
+            throw new InputException(player, Messages.FLAGGROUP_FEATURE_DISABLED);
+        }
+
         List<Region> regions = new ArrayList<>();
         String selectedName;
 
@@ -82,7 +87,11 @@ public class SetFlaggroupCommand implements BasicArmCommand {
 
         for (Region region : regions) {
             region.setFlagGroup(flagGroup);
-            region.applyFlagGroup(FlagGroup.ResetMode.COMPLETE);
+            try {
+                region.applyFlagGroup(FlagGroup.ResetMode.COMPLETE, false);
+            } catch (FeatureDisabledException e) {
+                //Ignore
+            }
             if (region.isSubregion()) {
                 throw new InputException(sender, region.getConvertedMessage(Messages.SUB_REGION_ENTITYLIMITGROUP_ERROR));
             }

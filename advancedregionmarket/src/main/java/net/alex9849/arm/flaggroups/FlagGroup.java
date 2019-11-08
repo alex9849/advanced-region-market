@@ -5,6 +5,8 @@ import com.sk89q.worldguard.protection.flags.InvalidFlagFormat;
 import com.sk89q.worldguard.protection.flags.RegionGroup;
 import com.sk89q.worldguard.protection.flags.RegionGroupFlag;
 import net.alex9849.arm.AdvancedRegionMarket;
+import net.alex9849.arm.Messages;
+import net.alex9849.arm.exceptions.FeatureDisabledException;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.SellType;
 import net.alex9849.arm.util.Saveable;
@@ -21,6 +23,7 @@ public class FlagGroup implements Saveable {
     public static FlagGroup SUBREGION = new FlagGroup("Subregion", 10, new ArrayList<>(), new ArrayList<>());
     private boolean needsSave;
     private StringReplacer stringReplacer;
+    private static boolean featureEnabled = false;
 
     private List<FlagSettings> flagSettingsSold;
     private List<FlagSettings> flagSettingsAvailable;
@@ -32,7 +35,7 @@ public class FlagGroup implements Saveable {
     {
         HashMap<String, StringCreator> variableReplacements = new HashMap<>();
         variableReplacements.put("%flaggroup%", () -> {
-            return this.getName();
+            return FlagGroup.isFeatureEnabled()? this.getName() : Messages.REGION_INFO_FEATURE_DISABLED;
         });
 
         this.stringReplacer = new StringReplacer(variableReplacements, 20);
@@ -110,7 +113,21 @@ public class FlagGroup implements Saveable {
         return flagSettingsList;
     }
 
-    public void applyToRegion(Region region, ResetMode resetMode) {
+    /**
+     * Applies all flags of the flaggroup to the region, that qualify
+     * to the state of the region.
+     * @param region the region
+     * @param resetMode the resetmode. If COMPLETE all flags will be applied
+     *                  if NON_EDITABLE only flags will be applied that cannot
+     *                  be edited by players
+     * @param forceApply if true the flaggroup will be applied even if the feature is disabled.
+     *                   No exception will be thrown
+     * @throws FeatureDisabledException if the FlagGroup-feature is disabled
+     */
+    public void applyToRegion(Region region, ResetMode resetMode, boolean forceApply) throws FeatureDisabledException {
+        if (!(this.isFeatureEnabled() || forceApply)) {
+            throw new FeatureDisabledException();
+        }
         if (region.isSold()) {
             this.applyFlagMapToRegion(this.flagSettingsSold, region, resetMode);
         } else {
@@ -251,5 +268,13 @@ public class FlagGroup implements Saveable {
 
     public enum ResetMode {
         COMPLETE, NON_EDITABLE
+    }
+
+    public static void setFeatureEnabled(boolean enabled) {
+        FlagGroup.featureEnabled = enabled;
+    }
+
+    public static boolean isFeatureEnabled() {
+        return FlagGroup.featureEnabled;
     }
 }

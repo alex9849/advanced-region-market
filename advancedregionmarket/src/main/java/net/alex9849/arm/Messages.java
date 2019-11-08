@@ -373,6 +373,8 @@ public class Messages {
     public static String SCHEMATIC_UPDATED = "&aSchematic updated!";
     public static String CONTRACTREGION_TERMINATED = "&aYour contractregion &6%region% &ahas successfully been &4terminated&a! It will be resetted in &6%remaining% &aexcept it gets reactivated!";
     public static String CONTRACTREGION_REACTIVATED = "&aYour contractregion &6%region% &ahas successfully been &4reactivated&a! It will automatically extended in &6%remaining% &aif you can pay for the rent!";
+    public static String REGION_INFO_FEATURE_DISABLED = "";
+    public static String FLAGGROUP_FEATURE_DISABLED = "";
     private static YamlConfiguration config;
 
     static void read() {
@@ -739,6 +741,9 @@ public class Messages {
         SCHEMATIC_UPDATED = config.getString("Messages.SchematicUpdated");
         CONTRACTREGION_TERMINATED = config.getString("Messages.ContractRegionTerminated");
         CONTRACTREGION_REACTIVATED = config.getString("Messages.ContractRegionReactivated");
+        REGION_INFO_FEATURE_DISABLED = config.getString("Messages.RegionInfoFeatureDisabled");
+        FLAGGROUP_FEATURE_DISABLED = config.getString("Messages.FlagGroupFeatureDisabled");
+
         Messages.translateColorCodes();
     }
 
@@ -1067,6 +1072,8 @@ public class Messages {
         SCHEMATIC_UPDATED = ChatColor.translateAlternateColorCodes('&', SCHEMATIC_UPDATED);
         CONTRACTREGION_TERMINATED = ChatColor.translateAlternateColorCodes('&', CONTRACTREGION_TERMINATED);
         CONTRACTREGION_REACTIVATED = ChatColor.translateAlternateColorCodes('&', CONTRACTREGION_REACTIVATED);
+        REGION_INFO_FEATURE_DISABLED = ChatColor.translateAlternateColorCodes('&', REGION_INFO_FEATURE_DISABLED);
+        FLAGGROUP_FEATURE_DISABLED = ChatColor.translateAlternateColorCodes('&', FLAGGROUP_FEATURE_DISABLED);
 
         for (int i = 0; i < REGION_INFO_SELLREGION.size(); i++) {
             REGION_INFO_SELLREGION.set(i, ChatColor.translateAlternateColorCodes('&', REGION_INFO_SELLREGION.get(i)));

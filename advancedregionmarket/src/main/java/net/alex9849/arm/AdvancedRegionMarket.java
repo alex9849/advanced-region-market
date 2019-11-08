@@ -12,6 +12,7 @@ import net.alex9849.arm.entitylimit.commands.*;
 import net.alex9849.arm.exceptions.CmdSyntaxException;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.exceptions.SchematicNotFoundException;
+import net.alex9849.arm.flaggroups.FlagGroup;
 import net.alex9849.arm.flaggroups.FlagGroupManager;
 import net.alex9849.arm.gui.Gui;
 import net.alex9849.arm.handler.CommandHandler;
@@ -233,6 +234,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         this.pluginSettings.setSignLeftClickSneakCommand(getConfig().getString("SignClickActions.LeftClickSneakCmd"));
         this.pluginSettings.setSignLeftClickNotSneakCommand(getConfig().getString("SignClickActions.LeftClickNotSneakCmd"));
         this.pluginSettings.setActivateRegionKindPermissions(getConfig().getBoolean("RegionKinds.activateRegionKindPermissions"));
+        FlagGroup.setFeatureEnabled(getConfig().getBoolean("FlagGroups.enabled"));
         try {
             this.pluginSettings.setUserResetCooldown(CountdownRegion.stringToTime(getConfig().getString("Other.userResetCooldown")));
         } catch (IllegalArgumentException e) {
@@ -953,6 +955,10 @@ public class AdvancedRegionMarket extends JavaPlugin {
             if (version < 2.09) {
                 getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 2.0.9..");
                 updateTo2p09(pluginConfig);
+            }
+            if (version < 2.12) {
+                getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 2.1.2..");
+                updateTo2p12(pluginConfig);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -1734,6 +1740,11 @@ public class AdvancedRegionMarket extends JavaPlugin {
         pluginConfig.set("Other.ShortCountdown", null);
         pluginConfig.set("Version", 2.09);
         saveConfig();
+    }
+
+    private void updateTo2p12(FileConfiguration pluginConfig) throws IOException {
+        pluginConfig.set("FlagGroups.enabled", true);
+        pluginConfig.set("Version", 2.12);
     }
 
     private static class UpdateHelpMethods {

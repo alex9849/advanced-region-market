@@ -6,6 +6,7 @@ import net.alex9849.arm.entitylimit.EntityLimit;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
 import net.alex9849.arm.events.AddRegionEvent;
 import net.alex9849.arm.events.RemoveRegionEvent;
+import net.alex9849.arm.exceptions.FeatureDisabledException;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.exceptions.NoSaveLocationException;
 import net.alex9849.arm.flaggroups.FlagGroup;
@@ -153,10 +154,18 @@ public class RegionManager extends YamlFileManager<Region> {
 
         }
 
-        region.applyFlagGroup(FlagGroup.ResetMode.NON_EDITABLE);
+        try {
+            region.applyFlagGroup(FlagGroup.ResetMode.NON_EDITABLE, false);
+        } catch (FeatureDisabledException e) {
+            //Ignore
+        }
 
         for (Region subRegion : region.getSubregions()) {
-            region.applyFlagGroup(FlagGroup.ResetMode.NON_EDITABLE);
+            try {
+                region.applyFlagGroup(FlagGroup.ResetMode.NON_EDITABLE, false);
+            } catch (FeatureDisabledException e) {
+                //Ignore
+            }
 
             WGRegion parentRegion = region.getRegion();
             WGRegion subWGRegion = subRegion.getRegion();

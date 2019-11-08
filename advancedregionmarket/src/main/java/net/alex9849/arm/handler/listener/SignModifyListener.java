@@ -3,6 +3,7 @@ package net.alex9849.arm.handler.listener;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
+import net.alex9849.arm.exceptions.FeatureDisabledException;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.flaggroups.FlagGroup;
 import net.alex9849.arm.presets.ActivePresetManager;
@@ -180,7 +181,11 @@ public class SignModifyListener implements Listener {
                     newArmRegion.setPrice(price);
                 }
                 newArmRegion.createSchematic();
-                newArmRegion.applyFlagGroup(FlagGroup.ResetMode.COMPLETE);
+                try {
+                    newArmRegion.applyFlagGroup(FlagGroup.ResetMode.COMPLETE, false);
+                } catch (FeatureDisabledException e) {
+                    //Ignore
+                }
                 AdvancedRegionMarket.getInstance().getRegionManager().add(newArmRegion);
                 sign.setCancelled(true);
                 sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_ADDED_TO_ARM);

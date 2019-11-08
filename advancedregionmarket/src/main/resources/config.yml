@@ -39,6 +39,18 @@ DefaultAutoprice:
   maxRentTime: 7d
   autoPriceCalculation: per_m2
 
+FlagGroups:
+  # FlagGroups can be used to automatically assign flags and priorities on.
+  # regions. You can also define Flags that will only be applied if the region
+  # is currently available or only if the region is sold. You could use this
+  # for example to allow all players to open doors and to use buttons if a region
+  # is not sold and only allow owners and members of a region to use these things
+  # is the region got bought. You can also allow your players to edit specific
+  # flags via "/arm flageditor [REGION]". An example for that would be a greeting
+  # greeting message if a player enters the region.
+  # You can edit the flaggroups in the file flaggroups.yml.
+  enabled: false
+
 # Limits can be assigned to players by giving them the permission arm.limit.LIMITGROUP
 # you can set limits by writing a regionkind and the limit behind it. Not existing regionkinds
 # will be ignored. If you want to limit regions without a kind use 'Default'. If you want to
@@ -225,6 +237,6 @@ GUI:
   DisplayRegionFinderButton: true
 
 #Do not change this
-Version: 2.11
+Version: 2.12
 # Programmed by Alex9849
 # If you like my plugin you are free to donate me via PayPal https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2Z6VVLS5SZXJS

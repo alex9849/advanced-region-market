@@ -402,8 +402,8 @@ public abstract class Region implements Saveable {
         return region;
     }
 
-    public void applyFlagGroup(FlagGroup.ResetMode resetMode) {
-        this.flagGroup.applyToRegion(this, resetMode);
+    public void applyFlagGroup(FlagGroup.ResetMode resetMode, boolean forceApply) throws FeatureDisabledException {
+        this.flagGroup.applyToRegion(this, resetMode, forceApply);
     }
 
     public void updateSigns() {
@@ -548,7 +548,11 @@ public abstract class Region implements Saveable {
             if (sold) {
                 this.setLastLogin();
             }
-            this.getFlagGroup().applyToRegion(this, FlagGroup.ResetMode.COMPLETE);
+            try {
+                this.getFlagGroup().applyToRegion(this, FlagGroup.ResetMode.COMPLETE, false);
+            } catch (FeatureDisabledException e) {
+                //Ignore exception
+            }
         }
         this.queueSave();
     }
@@ -582,7 +586,6 @@ public abstract class Region implements Saveable {
             }
         }
         this.resetBuiltBlocks();
-        this.flagGroup.applyToRegion(this, FlagGroup.ResetMode.COMPLETE);
 
         //TODO Add to messages.yml
         if (logToConsole) {

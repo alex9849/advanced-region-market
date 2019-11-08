@@ -101,7 +101,6 @@ public class SellRegion extends Region {
         this.setLastLogin();
 
         this.updateSigns();
-        this.getFlagGroup().applyToRegion(this, FlagGroup.ResetMode.COMPLETE);
         this.queueSave();
     }
 

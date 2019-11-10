@@ -15,11 +15,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SetIsUserResettableCommand implements BasicArmCommand {
-    private final String rootCommand = "setisuserresettable";
-    private final String regex = "(?i)setisuserresettable [^;\n ]+ (false|true)";
-    private final String regex_massaction = "(?i)setisuserresettable rk:[^;\n ]+ (false|true)";
-    private final List<String> usage = new ArrayList<>(Arrays.asList("setisuserresettable [REGION] [true/false]", "setisuserresettable rk:[REGIONKIND] [true/false]"));
+public class SetIsUserRestorableCommand implements BasicArmCommand {
+    private final String rootCommand = "setuserrestorable";
+    private final String regex = "(?i)setuserrestorable [^;\n ]+ (false|true)";
+    private final String regex_massaction = "(?i)setuserrestorable rk:[^;\n ]+ (false|true)";
+    private final List<String> usage = new ArrayList<>(Arrays.asList("setuserrestorable [REGION] [true/false]", "setuserrestorable rk:[REGIONKIND] [true/false]"));
 
     @Override
     public boolean matchesRegex(String command) {
@@ -42,7 +42,7 @@ public class SetIsUserResettableCommand implements BasicArmCommand {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Player player = (Player) sender;
-        if (!player.hasPermission(Permission.ADMIN_SET_IS_USERRESETTABLE)) {
+        if (!player.hasPermission(Permission.ADMIN_SET_IS_USERRESTORABLE)) {
             throw new InputException(player, Messages.NO_PERMISSION);
         }
 
@@ -77,7 +77,7 @@ public class SetIsUserResettableCommand implements BasicArmCommand {
         Boolean boolsetting = Boolean.parseBoolean(args[2]);
 
         for (Region region : regions) {
-            region.setIsUserResettable(boolsetting);
+            region.setUserRestorable(boolsetting);
         }
         String sendmessage = Messages.REGION_MODIFIED_BOOLEAN;
         sendmessage = sendmessage.replace("%option%", "IsUserResettable");
@@ -94,7 +94,7 @@ public class SetIsUserResettableCommand implements BasicArmCommand {
 
         if (args.length >= 1) {
             if (this.rootCommand.startsWith(args[0])) {
-                if (player.hasPermission(Permission.ADMIN_SET_IS_USERRESETTABLE)) {
+                if (player.hasPermission(Permission.ADMIN_SET_IS_USERRESTORABLE)) {
                     if (args.length == 1) {
                         returnme.add(this.rootCommand);
                     } else if (args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {

@@ -27,8 +27,8 @@ public abstract class Preset implements Saveable {
     protected RegionKind regionKind = RegionKind.DEFAULT;
     protected boolean inactivityReset = true;
     protected boolean isHotel = false;
-    protected boolean doBlockReset = true;
-    protected boolean isUserResettable = true;
+    protected boolean autoRestore = true;
+    protected boolean isUserRestorable = true;
     protected int allowedSubregions = 0;
     protected FlagGroup flagGroup = FlagGroup.DEFAULT;
     protected AutoPrice autoPrice;
@@ -36,15 +36,15 @@ public abstract class Preset implements Saveable {
     protected List<String> setupCommands = new ArrayList<>();
     private boolean needsSave = false;
 
-    public Preset(String name, boolean hasPrice, double price, RegionKind regionKind, FlagGroup flagGroup, boolean inactivityReset, boolean isHotel, boolean doBlockReset, boolean isUserResettable, int allowedSubregions, AutoPrice autoPrice, EntityLimitGroup entityLimitGroup, List<String> setupCommands) {
+    public Preset(String name, boolean hasPrice, double price, RegionKind regionKind, FlagGroup flagGroup, boolean inactivityReset, boolean isHotel, boolean autoRestore, boolean isUserRestorable, int allowedSubregions, AutoPrice autoPrice, EntityLimitGroup entityLimitGroup, List<String> setupCommands) {
         this.name = name;
         this.hasPrice = hasPrice;
         this.price = price;
         this.regionKind = regionKind;
         this.inactivityReset = inactivityReset;
         this.isHotel = isHotel;
-        this.doBlockReset = doBlockReset;
-        this.isUserResettable = isUserResettable;
+        this.autoRestore = autoRestore;
+        this.isUserRestorable = isUserRestorable;
         this.allowedSubregions = allowedSubregions;
         this.setupCommands = setupCommands;
         this.autoPrice = autoPrice;
@@ -69,12 +69,12 @@ public abstract class Preset implements Saveable {
         this.flagGroup = flagGroup;
     }
 
-    public boolean isUserResettable() {
-        return this.isUserResettable;
+    public boolean isUserRestorable() {
+        return this.isUserRestorable;
     }
 
-    public void setUserResettable(boolean isUserResettable) {
-        this.isUserResettable = isUserResettable;
+    public void setUserRestorable(boolean isUserResettable) {
+        this.isUserRestorable = isUserResettable;
     }
 
     public int getAllowedSubregions() {
@@ -157,8 +157,8 @@ public abstract class Preset implements Saveable {
         player.sendMessage(Messages.REGION_INFO_ENTITYLIMITGROUP + entityLimitGroup.getName());
         player.sendMessage(Messages.REGION_INFO_INACTIVITYRESET + this.isInactivityReset());
         player.sendMessage(Messages.REGION_INFO_HOTEL + this.isHotel());
-        player.sendMessage(Messages.REGION_INFO_DO_BLOCK_RESET + this.isDoBlockReset());
-        player.sendMessage(Messages.REGION_INFO_IS_USER_RESETTABLE + this.isUserResettable());
+        player.sendMessage(Messages.REGION_INFO_AUTORESTORE + this.isAutoRestore());
+        player.sendMessage(Messages.REGION_INFO_IS_USER_RESTORABLE + this.isUserRestorable());
         player.sendMessage(Messages.REGION_INFO_ALLOWED_SUBREGIONS + this.getAllowedSubregions());
         player.sendMessage(Messages.PRESET_SETUP_COMMANDS);
         for (int i = 0; i < this.setupCommands.size(); i++) {
@@ -218,12 +218,12 @@ public abstract class Preset implements Saveable {
         this.inactivityReset = InactivityReset;
     }
 
-    public boolean isDoBlockReset() {
-        return doBlockReset;
+    public boolean isAutoRestore() {
+        return autoRestore;
     }
 
-    public void setDoBlockReset(Boolean bool) {
-        this.doBlockReset = bool;
+    public void setAutoRestore(Boolean bool) {
+        this.autoRestore = bool;
     }
 
     public boolean isHotel() {
@@ -273,11 +273,11 @@ public abstract class Preset implements Saveable {
         ConfigurationSection section = new YamlConfiguration();
         section.set("hasPrice", this.hasPrice());
         section.set("price", this.getPrice());
-        section.set("isUserResettable", this.isUserResettable());
+        section.set("userrestorable", this.isUserRestorable());
         section.set("allowedSubregions", this.getAllowedSubregions());
         section.set("regionKind", this.getRegionKind().getName());
         section.set("isHotel", this.isHotel());
-        section.set("doBlockReset", this.isDoBlockReset());
+        section.set("autorestore", this.isAutoRestore());
         section.set("flaggroup", this.flagGroup.getName());
         section.set("entityLimitGroup", this.getEntityLimitGroup().getName());
         section.set("inactivityReset", this.isInactivityReset());

@@ -107,7 +107,7 @@ public class Messages {
     public static String REGION_NOT_SOLD = "Region not sold!";
     public static String PRESET_REMOVED = "Preset removed!";
     public static String PRESET_SET = "Preset set!";
-    public static String REGION_INFO_DO_BLOCK_RESET = "DoBlockReset: ";
+    public static String REGION_INFO_AUTORESTORE = "Autorestore: ";
     public static String PRESET_SAVED = "Preset saved!";
     public static String PRESET_ALREADY_EXISTS = "A preset with this name already exists!";
     public static String PRESET_PLAYER_DONT_HAS_PRESET = "You do not have a preset!";
@@ -226,7 +226,7 @@ public class Messages {
     public static String DISABLED = "&cdisabled";
     public static String SOLD = "&csold";
     public static String AVAILABLE = "&aavailable";
-    public static String REGION_INFO_IS_USER_RESETTABLE = "&6UserResettable: ";
+    public static String REGION_INFO_IS_USER_RESTORABLE = "&6UserResettable: ";
     public static String SUB_REGION_IS_USER_RESETTABLE_ERROR = "&4The selected region is a subregion. You can change the isUserResettable setting for all subregions in the config.yml!";
     public static List<String> GUI_SUBREGION_HOTEL_BUTTON_LORE = new ArrayList<>(Arrays.asList("&6The hotel function allows you to prevent players", "&6from breaking blocks they do not have placed", "&6Status: %hotelfunctionstatus%", "&6Click to enable/disable"));
     public static List<String> GUI_SUBREGION_REGION_INFO_SELL = new ArrayList<>(Arrays.asList("%regionid%", "Selltype: %selltype%", "Status: %soldstatus%", "Price: %price%", "Price per M2: %priceperm2%", "Dimensions: %dimensions%"));
@@ -485,7 +485,7 @@ public class Messages {
         REGION_NOT_SOLD = config.getString("Messages.RegionNotSold");
         PRESET_REMOVED = config.getString("Messages.PresetRemoved");
         PRESET_SET = config.getString("Messages.PresetSet");
-        REGION_INFO_DO_BLOCK_RESET = config.getString("Messages.RegionInfoDoBlockReset");
+        REGION_INFO_AUTORESTORE = config.getString("Messages.RegionInfoAutoRestore");
         PRESET_SAVED = config.getString("Messages.PresetSaved");
         PRESET_ALREADY_EXISTS = config.getString("Messages.PresetAlreadyExists");
         PRESET_PLAYER_DONT_HAS_PRESET = config.getString("Messages.PresetPlayerDontHasPreset");
@@ -609,7 +609,7 @@ public class Messages {
         SELECTION_SAVED_CREATE_SIGN = config.getStringList("Messages.SubregionCreationCreateSignInfo");
         SUBREGION_TOOL_INSTRUCTION = config.getStringList("Messages.SubregionCreationSelectAreaInfo");
         SUBREGION_TOOL_ALREADY_OWNED = config.getString("Messages.SubregionToolAlreadyOwned");
-        REGION_INFO_IS_USER_RESETTABLE = config.getString("Messages.RegionInfoIsUserResettable");
+        REGION_INFO_IS_USER_RESTORABLE = config.getString("Messages.RegionInfoIsUserRestorable");
         DELETE_REGION_WARNING_NAME = config.getString("Messages.DeleteRegionWarningName");
         UNSELL_REGION_BUTTON = config.getString("Messages.UnsellRegionButton");
         UNSELL_REGION_BUTTON_LORE = config.getStringList("Messages.UnsellRegionButtonLore");
@@ -836,7 +836,7 @@ public class Messages {
         REGION_NOT_SOLD = ChatColor.translateAlternateColorCodes('&', REGION_NOT_SOLD);
         PRESET_REMOVED = ChatColor.translateAlternateColorCodes('&', PRESET_REMOVED);
         PRESET_SET = ChatColor.translateAlternateColorCodes('&', PRESET_SET);
-        REGION_INFO_DO_BLOCK_RESET = ChatColor.translateAlternateColorCodes('&', REGION_INFO_DO_BLOCK_RESET);
+        REGION_INFO_AUTORESTORE = ChatColor.translateAlternateColorCodes('&', REGION_INFO_AUTORESTORE);
         PRESET_SAVED = ChatColor.translateAlternateColorCodes('&', PRESET_SAVED);
         PRESET_ALREADY_EXISTS = ChatColor.translateAlternateColorCodes('&', PRESET_ALREADY_EXISTS);
         PRESET_PLAYER_DONT_HAS_PRESET = ChatColor.translateAlternateColorCodes('&', PRESET_PLAYER_DONT_HAS_PRESET);
@@ -949,7 +949,7 @@ public class Messages {
         DISABLED = ChatColor.translateAlternateColorCodes('&', DISABLED);
         SOLD = ChatColor.translateAlternateColorCodes('&', SOLD);
         AVAILABLE = ChatColor.translateAlternateColorCodes('&', AVAILABLE);
-        REGION_INFO_IS_USER_RESETTABLE = ChatColor.translateAlternateColorCodes('&', REGION_INFO_IS_USER_RESETTABLE);
+        REGION_INFO_IS_USER_RESTORABLE = ChatColor.translateAlternateColorCodes('&', REGION_INFO_IS_USER_RESTORABLE);
         DELETE_REGION_WARNING_NAME = ChatColor.translateAlternateColorCodes('&', DELETE_REGION_WARNING_NAME);
         UNSELL_REGION_BUTTON = ChatColor.translateAlternateColorCodes('&', UNSELL_REGION_BUTTON);
         UNSELL_REGION_WARNING_NAME = ChatColor.translateAlternateColorCodes('&', UNSELL_REGION_WARNING_NAME);

@@ -175,7 +175,7 @@ public class Gui implements Listener {
         if (player.hasPermission(Permission.MEMBER_SELLBACK)) {
             itemcounter++;
         }
-        if (player.hasPermission(Permission.MEMBER_RESETREGIONBLOCKS) && region.isUserResettable()) {
+        if (player.hasPermission(Permission.MEMBER_RESTORE) && region.isUserRestorable()) {
             itemcounter++;
         }
         if (player.hasPermission(Permission.MEMBER_ENTITYLIMIT_CHECK)) {
@@ -239,7 +239,7 @@ public class Gui implements Listener {
             actitem++;
         }
 
-        if (player.hasPermission(Permission.MEMBER_RESETREGIONBLOCKS) && region.isUserResettable()) {
+        if (player.hasPermission(Permission.MEMBER_RESTORE) && region.isUserRestorable()) {
             List<String> message = new ArrayList<>(Messages.GUI_RESET_REGION_BUTTON_LORE);
             for (int i = 0; i < message.size(); i++) {
                 message.set(i, message.get(i).replace("%userresetcooldown%", TimeUtil.timeInMsToString(AdvancedRegionMarket.getInstance().getPluginSettings().getUserResetCooldown(), true, false)));
@@ -614,7 +614,7 @@ public class Gui implements Listener {
         int itemcounter = 1;
         int actitem = 1;
 
-        if (player.hasPermission(Permission.SUBREGION_CHANGE_IS_HOTEL)) {
+        if (player.hasPermission(Permission.SUBREGION_SET_IS_HOTEL)) {
             itemcounter++;
         }
         if (player.hasPermission(Permission.SUBREGION_TP)) {
@@ -623,7 +623,7 @@ public class Gui implements Listener {
         if (player.hasPermission(Permission.MEMBER_INFO)) {
             itemcounter++;
         }
-        if (player.hasPermission(Permission.SUBREGION_RESETREGIONBLOCKS) && region.isUserResettable()) {
+        if (player.hasPermission(Permission.SUBREGION_RESTORE) && region.isUserRestorable()) {
             itemcounter++;
         }
         if (player.hasPermission(Permission.SUBREGION_UNSELL)) {
@@ -633,7 +633,7 @@ public class Gui implements Listener {
             itemcounter++;
         }
 
-        if (player.hasPermission(Permission.SUBREGION_CHANGE_IS_HOTEL)) {
+        if (player.hasPermission(Permission.SUBREGION_SET_IS_HOTEL)) {
             List<String> message = new ArrayList<>(Messages.GUI_SUBREGION_HOTEL_BUTTON_LORE);
             for (int j = 0; j < message.size(); j++) {
                 message.set(j, region.getConvertedMessage(message.get(j)));
@@ -667,7 +667,7 @@ public class Gui implements Listener {
             inv.addIcon(infoItem, getPosition(actitem, itemcounter));
             actitem++;
         }
-        if (player.hasPermission(Permission.SUBREGION_RESETREGIONBLOCKS) && region.isUserResettable()) {
+        if (player.hasPermission(Permission.SUBREGION_RESTORE) && region.isUserRestorable()) {
             ClickItem resetItem = new ClickItem(new ItemStack(Gui.RESET_ITEM), Messages.GUI_RESET_REGION_BUTTON);
             resetItem = resetItem.addClickAction(new ClickAction() {
                 @Override
@@ -1393,7 +1393,7 @@ public class Gui implements Listener {
             @Override
             public void execute(Player player) {
                 player.closeInventory();
-                region.userBlockReset(player);
+                region.userRestore(player);
             }
         });
         inv.addIcon(yesButton, 0);

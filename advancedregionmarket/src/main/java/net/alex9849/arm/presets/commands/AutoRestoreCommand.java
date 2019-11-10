@@ -16,13 +16,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class UserResettableCommand implements BasicArmCommand {
-    private final String rootCommand = "userresettable";
-    private final String regex_set = "(?i)userresettable (false|true)";
-    private final List<String> usage = new ArrayList<>(Arrays.asList("userresettable (true/false)"));
+public class AutoRestoreCommand implements BasicArmCommand {
+    private final String rootCommand = "autorestore";
+    private final String regex_set = "(?i)autorestore (false|true)";
+    private final List<String> usage = new ArrayList<>(Arrays.asList("autorestore (true/false)"));
     private PresetType presetType;
 
-    public UserResettableCommand(PresetType presetType) {
+    public AutoRestoreCommand(PresetType presetType) {
         this.presetType = presetType;
     }
 
@@ -48,7 +48,7 @@ public class UserResettableCommand implements BasicArmCommand {
         }
         Player player = (Player) sender;
 
-        if (!player.hasPermission(Permission.ADMIN_PRESET_USERRESETTABLE)) {
+        if (!player.hasPermission(Permission.ADMIN_PRESET_SET_AUTORESTORE)) {
             throw new InputException(player, Messages.NO_PERMISSION);
         }
 
@@ -63,16 +63,15 @@ public class UserResettableCommand implements BasicArmCommand {
             ActivePresetManager.add(new PresetPlayerPair(player, preset));
         }
 
-        preset.setUserResettable(Boolean.parseBoolean(args[1]));
+        preset.setAutoRestore(Boolean.parseBoolean(args[1]));
         player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
         return true;
-
     }
 
     @Override
     public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
-        if (player.hasPermission(Permission.ADMIN_PRESET_USERRESETTABLE)) {
+        if (player.hasPermission(Permission.ADMIN_PRESET_SET_AUTORESTORE)) {
             if (args.length >= 1) {
                 if (args.length == 1) {
                     if (this.rootCommand.startsWith(args[0])) {

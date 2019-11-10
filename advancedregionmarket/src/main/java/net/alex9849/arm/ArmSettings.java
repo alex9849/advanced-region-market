@@ -1,8 +1,8 @@
 package net.alex9849.arm;
 
 public class ArmSettings {
-    private boolean isAllowSubRegionUserReset = false;
-    private boolean isSubregionBlockReset = false;
+    private boolean isAllowSubRegionUserRestore = false;
+    private boolean isSubregionAutoRestore = false;
     private boolean isSubregionInactivityReset = false;
     private boolean isTeleportAfterSellRegionBought = false;
     private boolean teleportAfterRentRegionBought = false;
@@ -38,16 +38,16 @@ public class ArmSettings {
         this.isAllowTeleportToBuySign = isAllowTeleportToBuySign;
     }
 
-    void setIsAllowSubRegionUserReset(boolean isAllowSubRegionUserReset) {
-        this.isAllowSubRegionUserReset = isAllowSubRegionUserReset;
+    void setIsAllowSubregionUserRestore(boolean isAllowSubRegionUserRestore) {
+        this.isAllowSubRegionUserRestore = isAllowSubRegionUserRestore;
     }
 
     void setIsRegionInfoParticleBorder(boolean isRegionInfoParticleBorder) {
         this.isRegionInfoParticleBorder = isRegionInfoParticleBorder;
     }
 
-    void setIsSubregionBlockReset(boolean isSubregionBlockReset) {
-        this.isSubregionBlockReset = isSubregionBlockReset;
+    void setIsSubregionAutoRestore(boolean isSubregionAutoRestore) {
+        this.isSubregionAutoRestore = isSubregionAutoRestore;
     }
 
     void setIsSubregionInactivityReset(boolean isSubregionInactivityReset) {
@@ -74,12 +74,12 @@ public class ArmSettings {
         this.isSendContractRegionExtendMessage = isSendContractRegionExtendMessage;
     }
 
-    public boolean isAllowSubRegionUserReset() {
-        return isAllowSubRegionUserReset;
+    public boolean isAllowSubRegionUserRestore() {
+        return isAllowSubRegionUserRestore;
     }
 
-    public boolean isSubregionBlockReset() {
-        return isSubregionBlockReset;
+    public boolean isSubregionAutoRestore() {
+        return isSubregionAutoRestore;
     }
 
     public boolean isSubregionInactivityReset() {

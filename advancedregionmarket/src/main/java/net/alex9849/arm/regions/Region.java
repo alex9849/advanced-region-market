@@ -48,11 +48,11 @@ public abstract class Region implements Saveable {
     private long lastLogin;
     private RegionKind regionKind;
     private Location teleportLocation;
-    private boolean isDoBlockReset;
+    private boolean isAutoRestore;
     private List<Region> subregions;
     private int allowedSubregions;
     private Region parentRegion;
-    private boolean isUserResettable;
+    private boolean isUserRestorable;
     private FlagGroup flagGroup;
     private EntityLimitGroup entityLimitGroup;
     private boolean needsSave;
@@ -130,11 +130,11 @@ public abstract class Region implements Saveable {
         variableReplacements.put("%ishotel%", () -> {
             return Messages.convertYesNo(this.isHotel());
         });
-        variableReplacements.put("%isuserresettable%", () -> {
-            return Messages.convertYesNo(this.isUserResettable());
+        variableReplacements.put("%isuserrestorable%", () -> {
+            return Messages.convertYesNo(this.isUserRestorable());
         });
-        variableReplacements.put("%isdoblockreset%", () -> {
-            return Messages.convertYesNo(this.isDoBlockReset());
+        variableReplacements.put("%isautorestore%", () -> {
+            return Messages.convertYesNo(this.isAutoRestore());
         });
         variableReplacements.put("%isinactivityreset%", () -> {
             return Messages.convertYesNo(this.isInactivityResetEnabled());
@@ -212,8 +212,8 @@ public abstract class Region implements Saveable {
     }
 
     public Region(WGRegion region, World regionworld, List<SignData> sellsign, Price price, Boolean sold, Boolean inactivityReset,
-                  Boolean isHotel, Boolean doBlockReset, RegionKind regionKind, FlagGroup flagGroup, Location teleportLoc, long lastreset,
-                  long lastLogin, boolean isUserResettable, List<Region> subregions, int allowedSubregions, EntityLimitGroup entityLimitGroup,
+                  Boolean isHotel, Boolean isAutoRestore, RegionKind regionKind, FlagGroup flagGroup, Location teleportLoc, long lastreset,
+                  long lastLogin, boolean isUserRestorable, List<Region> subregions, int allowedSubregions, EntityLimitGroup entityLimitGroup,
                   HashMap<EntityLimit.LimitableEntityType, Integer> extraEntitys, int boughtExtraTotalEntitys) {
         this.region = region;
         this.sellsign = new ArrayList<SignData>(sellsign);
@@ -223,7 +223,7 @@ public abstract class Region implements Saveable {
         this.regionKind = regionKind;
         this.flagGroup = flagGroup;
         this.inactivityReset = inactivityReset;
-        this.isDoBlockReset = doBlockReset;
+        this.isAutoRestore = isAutoRestore;
         this.lastreset = lastreset;
         this.builtblocks = new HashSet<>();
         this.isHotel = isHotel;
@@ -231,7 +231,7 @@ public abstract class Region implements Saveable {
         this.teleportLocation = teleportLoc;
         this.subregions = subregions;
         this.allowedSubregions = allowedSubregions;
-        this.isUserResettable = isUserResettable;
+        this.isUserRestorable = isUserRestorable;
         this.needsSave = false;
         this.entityLimitGroup = entityLimitGroup;
         this.extraEntitys = extraEntitys;
@@ -288,8 +288,8 @@ public abstract class Region implements Saveable {
         }
     }
 
-    public boolean isUserResettable() {
-        return this.isUserResettable;
+    public boolean isUserRestorable() {
+        return this.isUserRestorable;
     }
 
     public boolean isSubregion() {
@@ -511,8 +511,8 @@ public abstract class Region implements Saveable {
         return true;
     }
 
-    public void setIsUserResettable(boolean bool) {
-        this.isUserResettable = bool;
+    public void setUserRestorable(boolean bool) {
+        this.isUserRestorable = bool;
         this.queueSave();
     }
 
@@ -674,10 +674,10 @@ public abstract class Region implements Saveable {
 
     }
 
-    public void userBlockReset(Player player) {
+    public void userRestore(Player player) {
         try {
             //TODO Add if should log
-            this.resetBlocks(ActionReason.USER_RESET, true);
+            this.resetBlocks(ActionReason.USER_RESTORE, true);
             GregorianCalendar calendar = new GregorianCalendar();
             this.lastreset = calendar.getTimeInMillis();
             this.queueSave();
@@ -754,7 +754,7 @@ public abstract class Region implements Saveable {
      */
     public void automaticResetRegion(ActionReason actionReason, boolean logToConsole) throws SchematicNotFoundException {
         this.unsell(actionReason, logToConsole);
-        if (this.isDoBlockReset()) {
+        if (this.isAutoRestore()) {
             this.extraEntitys.clear();
             this.extraTotalEntitys = 0;
             try {
@@ -814,12 +814,12 @@ public abstract class Region implements Saveable {
         this.queueSave();
     }
 
-    public boolean isDoBlockReset() {
-        return isDoBlockReset;
+    public boolean isAutoRestore() {
+        return isAutoRestore;
     }
 
-    public void setDoBlockReset(Boolean bool) {
-        this.isDoBlockReset = bool;
+    public void setAutoRestore(Boolean bool) {
+        this.isAutoRestore = bool;
         this.queueSave();
     }
 
@@ -1121,9 +1121,9 @@ public abstract class Region implements Saveable {
             yamlConfiguration.set("flagGroup", this.flagGroup.getName());
             yamlConfiguration.set("inactivityReset", this.isInactivityResetEnabled());
             yamlConfiguration.set("entityLimitGroup", this.getEntityLimitGroup().getName());
-            yamlConfiguration.set("doBlockReset", this.isDoBlockReset());
+            yamlConfiguration.set("autorestore", this.isAutoRestore());
             yamlConfiguration.set("allowedSubregions", this.getAllowedSubregions());
-            yamlConfiguration.set("isUserResettable", this.isUserResettable());
+            yamlConfiguration.set("userrestorable", this.isUserRestorable());
             yamlConfiguration.set("boughtExtraTotalEntitys", this.getExtraTotalEntitys());
             List<String> boughtExtraEntitysStringList = new ArrayList<>();
             for (Map.Entry<EntityLimit.LimitableEntityType, Integer> entry : this.getExtraEntitys().entrySet()) {
@@ -1161,7 +1161,7 @@ public abstract class Region implements Saveable {
     }
 
     public static enum ActionReason {
-        USER_SELL, USER_RESET, EXPIRED, INACTIVITY, MANUALLY_BY_ADMIN,
+        USER_SELL, USER_RESTORE, EXPIRED, INACTIVITY, MANUALLY_BY_ADMIN,
         INSUFFICIENT_MONEY, DELETE, NONE, MANUALLY_BY_PARENT_REGION_OWNER;
 
         public String getConvertedMessage(String message) {

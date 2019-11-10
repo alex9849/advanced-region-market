@@ -3,19 +3,19 @@ package net.alex9849.arm;
 import org.bukkit.command.CommandSender;
 
 public class Permission {
-    public static final String ADMIN_CHANGE_INACTIVITYRESET = "arm.admin.changeinactivityreset";
+    public static final String ADMIN_SET_INACTIVITYRESET = "arm.admin.setinactivityreset";
     public static final String ADMIN_CREATE_SELL = "arm.admin.create.sellregion";
     public static final String ADMIN_CREATE_RENT = "arm.admin.create.rentregion";
     public static final String ADMIN_CREATE_CONTRACT = "arm.admin.create.contractregion";
     public static final String ADMIN_REMOVE_SIGN = "arm.admin.remove";
     public static final String ADMIN_BUILDEVERYWHERE = "arm.admin.buildeverywhere";
     public static final String ADMIN_UPDATESCHEMATIC = "arm.admin.updateschematic";
-    public static final String ADMIN_CHANGE_IS_HOTEL = "arm.admin.changeishotel";
-    public static final String ADMIN_CHANGE_DO_BLOCK_RESET = "arm.admin.changedoblockreset";
+    public static final String ADMIN_SET_IS_HOTEL = "arm.admin.setishotel";
+    public static final String ADMIN_SET_AUTORESTORE = "arm.admin.setautorestore";
     public static final String ADMIN_SETREGIONKIND = "arm.admin.setregionkind";
     public static final String ADMIN_LISTREGIONS = "arm.admin.listregions";
     public static final String ADMIN_RESETREGION = "arm.admin.resetregion";
-    public static final String ADMIN_RESETREGIONBLOCKS = "arm.admin.resetregionblocks";
+    public static final String ADMIN_RESTORE = "arm.admin.restore";
     public static final String ADMIN_UNSELL = "arm.admin.unsell";
     public static final String ADMIN_INFO = "arm.admin.info";
     public static final String ADMIN_ADDMEMBER = "arm.admin.addmember";
@@ -34,7 +34,7 @@ public class Permission {
     public static final String ADMIN_PRESET_SET_REGIONKIND = "arm.admin.preset.setregionkind";
     public static final String ADMIN_PRESET_SET_INACTIVITYRESET = "arm.admin.preset.setinactivityreset";
     public static final String ADMIN_PRESET_SET_HOTEL = "arm.admin.preset.sethotel";
-    public static final String ADMIN_PRESET_SET_DOBLOCKRESET = "arm.admin.preset.setdoblockreset";
+    public static final String ADMIN_PRESET_SET_AUTORESTORE = "arm.admin.preset.setautorestore";
     public static final String ADMIN_PRESET_SET_AUTOPRICE = "arm.admin.preset.setautoprice";
     public static final String ADMIN_PRESET_SET_ENTITYLIMIT = "arm.admin.set.entitylimit";
     public static final String ADMIN_PRESET_INFO = "arm.admin.preset.info";
@@ -45,7 +45,7 @@ public class Permission {
     public static final String ADMIN_PRESET_SAVE = "arm.admin.preset.save";
     public static final String ADMIN_PRESET_LIST = "arm.admin.preset.list";
     public static final String ADMIN_PRESET_ADDCOMMAND = "arm.admin.preset.addcommand";
-    public static final String ADMIN_PRESET_USERRESETTABLE = "arm.admin.preset.userresettable";
+    public static final String ADMIN_PRESET_USERRESTORABLE = "arm.admin.preset.userrestorable";
     public static final String ADMIN_PRESET_ALLOWEDSUBREGIONS = "arm.admin.preset.allowedsubregions";
     public static final String ADMIN_PRESET_REMOVECOMMAND = "arm.admin.preset.removecommand";
     public static final String ADMIN_PRESET_SET_EXTEND = "arm.admin.preset.setextend";
@@ -53,7 +53,7 @@ public class Permission {
     public static final String ADMIN_REGION_STATS = "arm.admin.regionstatus";
     public static final String ADMIN_BYPASS_TELEPORTER_COOLDOWN = "arm.admin.bypassteleportercooldown";
     public static final String ADMIN_SET_SUBREGION_LIMIT = "arm.admin.setsubregionlimit";
-    public static final String ADMIN_SET_IS_USERRESETTABLE = "arm.admin.setisuserresettable";
+    public static final String ADMIN_SET_IS_USERRESTORABLE = "arm.admin.setisuserrestorable";
     public static final String ADMIN_LISTAUTOPRICES = "arm.admin.listautoprices";
     public static final String ADMIN_SET_PRICE = "arm.admin.setprice";
     public static final String ADMIN_SIGN_LINK_MODE = "arm.admin.signlinkmode";
@@ -81,10 +81,10 @@ public class Permission {
     public static final String SUBREGION_CREATE_CONTRACT = "arm.subregion.create.contractregion";
     public static final String SUBREGION_DELETE_AVAILABLE = "arm.subregion.delete.available";
     public static final String SUBREGION_DELETE_SOLD = "arm.subregion.delete.sold";
-    public static final String SUBREGION_CHANGE_IS_HOTEL = "arm.subregion.changeishotel";
+    public static final String SUBREGION_SET_IS_HOTEL = "arm.subregion.setishotel";
     public static final String SUBREGION_TP = "arm.subregion.tp";
     public static final String SUBREGION_UNSELL = "arm.subregion.unsell";
-    public static final String SUBREGION_RESETREGIONBLOCKS = "arm.subregion.resetregionblocks";
+    public static final String SUBREGION_RESTORE = "arm.subregion.restore";
     public static final String SUBREGION_HELP = "arm.subregion.help";
 
     public static final String REGIONKIND_CREATE = "arm.admin.regionkind.create";
@@ -100,7 +100,7 @@ public class Permission {
     public static final String REGIONKIND_INFO = "arm.admin.regionkind.info";
     public static final String REGIONKIND_HELP = "arm.admin.regionkind.help";
 
-    public static final String MEMBER_RESETREGIONBLOCKS = "arm.member.resetregionblocks";
+    public static final String MEMBER_RESTORE = "arm.member.restore";
     public static final String MEMBER_SELLBACK = "arm.member.sellregion";
     public static final String MEMBER_INFO = "arm.member.info";
     public static final String MEMBER_ADDMEMBER = "arm.member.addmember";
@@ -140,7 +140,7 @@ public class Permission {
 
     public static boolean hasAnySubregionPermission(CommandSender sender) {
         return hasAnySubregionCreatePermission(sender) || (sender.hasPermission(SUBREGION_TOOL)) || (sender.hasPermission(SUBREGION_DELETE_SOLD)) ||
-                (sender.hasPermission(SUBREGION_CHANGE_IS_HOTEL)) || (sender.hasPermission(SUBREGION_DELETE_AVAILABLE)) || (sender.hasPermission(SUBREGION_TP) ||
-                (sender.hasPermission(SUBREGION_UNSELL)) || (sender.hasPermission(SUBREGION_RESETREGIONBLOCKS)));
+                (sender.hasPermission(SUBREGION_SET_IS_HOTEL)) || (sender.hasPermission(SUBREGION_DELETE_AVAILABLE)) || (sender.hasPermission(SUBREGION_TP) ||
+                (sender.hasPermission(SUBREGION_UNSELL)) || (sender.hasPermission(SUBREGION_RESTORE)));
     }
 }

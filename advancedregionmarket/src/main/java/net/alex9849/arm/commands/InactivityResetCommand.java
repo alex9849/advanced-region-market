@@ -43,7 +43,7 @@ public class InactivityResetCommand implements BasicArmCommand {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Player player = (Player) sender;
-        if (!sender.hasPermission(Permission.ADMIN_CHANGE_INACTIVITYRESET)) {
+        if (!sender.hasPermission(Permission.ADMIN_SET_INACTIVITYRESET)) {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
 
@@ -95,7 +95,7 @@ public class InactivityResetCommand implements BasicArmCommand {
 
         if (args.length >= 1) {
             if (this.rootCommand.startsWith(args[0])) {
-                if (player.hasPermission(Permission.ADMIN_CHANGE_INACTIVITYRESET)) {
+                if (player.hasPermission(Permission.ADMIN_SET_INACTIVITYRESET)) {
                     if (args.length == 1) {
                         returnme.add(this.rootCommand);
                     } else if (args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {

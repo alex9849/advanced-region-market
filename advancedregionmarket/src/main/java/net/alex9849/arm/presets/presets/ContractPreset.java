@@ -36,7 +36,7 @@ public class ContractPreset extends Preset {
         for (String cmd : setupCommands) {
             newsetupCommands.add(cmd);
         }
-        return new ContractPreset(this.name, this.hasPrice, this.price, this.regionKind, this.flagGroup, this.inactivityReset, this.isHotel, this.doBlockReset, this.hasExtend, this.extend, this.isUserResettable, this.allowedSubregions, this.autoPrice, this.entityLimitGroup, newsetupCommands);
+        return new ContractPreset(this.name, this.hasPrice, this.price, this.regionKind, this.flagGroup, this.inactivityReset, this.isHotel, this.autoRestore, this.hasExtend, this.extend, this.isUserRestorable, this.allowedSubregions, this.autoPrice, this.entityLimitGroup, newsetupCommands);
     }
 
     public boolean hasExtend() {
@@ -123,7 +123,7 @@ public class ContractPreset extends Preset {
     @Override
     public Region generateRegion(WGRegion wgRegion, World world, List<SignData> signs) {
 
-        ContractRegion contractRegion = new ContractRegion(wgRegion, world, signs, new ContractPrice(AutoPrice.DEFAULT), false, this.isInactivityReset(), this.isHotel(), this.isDoBlockReset(), this.getRegionKind(), this.getFlagGroup(), null, 0, new GregorianCalendar().getTimeInMillis(), this.isUserResettable(), 1, true, new ArrayList<>(), this.getAllowedSubregions(), this.entityLimitGroup, new HashMap<>(), 0);
+        ContractRegion contractRegion = new ContractRegion(wgRegion, world, signs, new ContractPrice(AutoPrice.DEFAULT), false, this.isInactivityReset(), this.isHotel(), this.isAutoRestore(), this.getRegionKind(), this.getFlagGroup(), null, 0, new GregorianCalendar().getTimeInMillis(), this.isUserRestorable(), 1, true, new ArrayList<>(), this.getAllowedSubregions(), this.entityLimitGroup, new HashMap<>(), 0);
         if (this.hasAutoPrice()) {
             contractRegion.setPrice(new ContractPrice(this.getAutoPrice()));
         } else if (this.hasPrice() && this.hasExtend()) {

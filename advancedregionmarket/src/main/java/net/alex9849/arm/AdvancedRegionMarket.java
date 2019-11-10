@@ -223,8 +223,8 @@ public class AdvancedRegionMarket extends JavaPlugin {
         this.pluginSettings.setIsRegionInfoParticleBorder(getConfig().getBoolean("Other.RegionInfoParticleBorder"));
         this.pluginSettings.setIsAllowTeleportToBuySign(getConfig().getBoolean("Other.AllowRegionfinderTeleportToBuySign"));
         this.pluginSettings.setRemoveEntitiesOnRegionBlockReset(getConfig().getBoolean("Other.RemoveEntitiesOnRegionBlockReset"));
-        this.pluginSettings.setIsAllowSubRegionUserReset(getConfig().getBoolean("Subregions.AllowSubRegionUserReset"));
-        this.pluginSettings.setIsSubregionBlockReset(getConfig().getBoolean("Subregions.SubregionBlockReset"));
+        this.pluginSettings.setIsAllowSubregionUserRestore(getConfig().getBoolean("Subregions.AllowSubregionUserRestore"));
+        this.pluginSettings.setIsSubregionAutoRestore(getConfig().getBoolean("Subregions.SubregionAutoRestore"));
         this.pluginSettings.setIsSubregionInactivityReset(getConfig().getBoolean("Subregions.SubregionInactivityReset"));
         this.pluginSettings.setDeleteSubregionsOnParentRegionBlockReset(getConfig().getBoolean("Subregions.deleteSubregionsOnParentRegionBlockReset"));
         this.pluginSettings.setDeleteSubregionsOnParentRegionUnsell(getConfig().getBoolean("Subregions.deleteSubregionsOnParentRegionUnsell"));
@@ -267,7 +267,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         commands.add(new InactivityResetCommand());
         commands.add(new ContractPresetCommand());
         commands.add(new DeleteCommand());
-        commands.add(new DoBlockResetCommand());
+        commands.add(new SetAutoRestoreCommand());
         commands.add(new ExtendCommand());
         commands.add(new RegionfinderCommand());
         commands.add(new GuiCommand());
@@ -280,7 +280,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         commands.add(new ReloadCommand());
         commands.add(new RemoveMemberCommand());
         commands.add(new RentPresetCommand());
-        commands.add(new ResetBlocksCommand());
+        commands.add(new RestoreCommand());
         commands.add(new ResetCommand());
         commands.add(new SellPresetCommand());
         commands.add(new SetOwnerCommand());
@@ -296,7 +296,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         commands.add(new SellBackCommand());
         commands.add(new SetSubregionLimit());
         commands.add(new SetPriceCommand());
-        commands.add(new SetIsUserResettableCommand());
+        commands.add(new SetIsUserRestorableCommand());
         commands.add(new ListAutoPricesCommand());
         commands.add(new FlageditorCommand());
         commands.add(new SetFlaggroupCommand());
@@ -337,7 +337,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         subRegionCommands.add(new net.alex9849.arm.subregions.commands.CreateCommand());
         subRegionCommands.add(new net.alex9849.arm.subregions.commands.HotelCommand());
         subRegionCommands.add(new net.alex9849.arm.subregions.commands.TPCommand());
-        subRegionCommands.add(new net.alex9849.arm.subregions.commands.ResetBlocksCommand());
+        subRegionCommands.add(new net.alex9849.arm.subregions.commands.RestoreCommand());
         subRegionCommands.add(new net.alex9849.arm.subregions.commands.UnsellCommand());
         subRegionCommands.add(new net.alex9849.arm.subregions.commands.DeleteCommand());
         commands.add(new CommandSplitter("subregion", "(?i)subregion [^;\n]+", subRegionUsage, Permission.SUBREGION_HELP, Messages.SUBREGION_HELP_HEADLINE, subRegionCommands));
@@ -1354,11 +1354,11 @@ public class AdvancedRegionMarket extends JavaPlugin {
                                     List<String> subregionIDS = new ArrayList<>((subregionsection).getKeys(false));
                                     if (subregionIDS != null) {
                                         for (String subregionName : subregionIDS) {
-                                            List<String> subregionsignsloc = subregionsection.getStringList("signs");
+                                            List<String> subregionsignsloc = subregionsection.getStringList(subregionName + ".signs");
                                             for (int i = 0; i < subregionsignsloc.size(); i++) {
                                                 subregionsignsloc.set(i, subregionsignsloc.get(i) + ";NORTH");
                                             }
-                                            subregionsection.set("signs", subregionsignsloc);
+                                            subregionsection.set(subregionName + ".signs", subregionsignsloc);
                                         }
                                     }
                                 }
@@ -1743,7 +1743,35 @@ public class AdvancedRegionMarket extends JavaPlugin {
     }
 
     private void updateTo2p12(FileConfiguration pluginConfig) throws IOException {
+        File regionConfDic = new File(this.getDataFolder() + "/regions.yml");
+        YamlConfiguration regionConf = YamlConfiguration.loadConfiguration(regionConfDic);
+
+        if (regionConf.get("Regions") != null) {
+            ConfigurationSection mainSection = regionConf.getConfigurationSection("Regions");
+            List<String> worlds = new ArrayList<String>(mainSection.getKeys(false));
+            if (worlds != null) {
+                for (String worldString : worlds) {
+                    if (mainSection.get(worldString) != null) {
+                        ConfigurationSection worldSection = mainSection.getConfigurationSection(worldString);
+                        List<String> regions = new ArrayList<String>(worldSection.getKeys(false));
+                        if (regions != null) {
+                            for (String regionname : regions) {
+                                ConfigurationSection regionSection = worldSection.getConfigurationSection(regionname);
+                                regionSection.set("userrestorable", regionSection.getBoolean("isUserResettable"));
+                                regionSection.set("autorestore", regionSection.getBoolean("doBlockReset"));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        regionConf.save(this.getDataFolder() + "/regions.yml");
+
+        UpdateHelpMethods.replaceVariableInMessagesYML("%isuserresettable%", "%isuserrestorable%");
+        UpdateHelpMethods.replaceVariableInMessagesYML( "%isdoblockreset%", "%isautorestore%");
         pluginConfig.set("FlagGroups.enabled", true);
+        pluginConfig.set("Subregions.AllowSubregionUserRestore", pluginConfig.getBoolean("Subregions.AllowSubRegionUserReset"));
+        pluginConfig.set("Subregions.SubregionAutoRestore", pluginConfig.getBoolean("Subregions.SubregionBlockReset"));
         pluginConfig.set("Version", 2.12);
     }
 

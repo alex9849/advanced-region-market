@@ -40,7 +40,7 @@ public class RentPreset extends Preset {
         for (String cmd : setupCommands) {
             newsetupCommands.add(cmd);
         }
-        return new RentPreset(this.name, this.hasPrice, this.price, this.regionKind, this.flagGroup, this.inactivityReset, this.isHotel, this.doBlockReset, this.hasMaxRentTime, this.maxRentTime, this.hasExtendPerClick, this.extendPerClick, this.isUserResettable, this.allowedSubregions, this.autoPrice, this.entityLimitGroup, newsetupCommands);
+        return new RentPreset(this.name, this.hasPrice, this.price, this.regionKind, this.flagGroup, this.inactivityReset, this.isHotel, this.autoRestore, this.hasMaxRentTime, this.maxRentTime, this.hasExtendPerClick, this.extendPerClick, this.isUserRestorable, this.allowedSubregions, this.autoPrice, this.entityLimitGroup, newsetupCommands);
     }
 
     public boolean hasExtendPerClick() {
@@ -159,8 +159,8 @@ public class RentPreset extends Preset {
     @Override
     public Region generateRegion(WGRegion wgRegion, World world, List<SignData> signs) {
 
-        RentRegion rentRegion = new RentRegion(wgRegion, world, signs, new RentPrice(AutoPrice.DEFAULT), false, this.isInactivityReset(), this.isHotel(), this.isDoBlockReset(), this.getRegionKind(), this.getFlagGroup(), null, 0, new GregorianCalendar().getTimeInMillis(),
-                this.isUserResettable(), 1, new ArrayList<>(), this.getAllowedSubregions(), this.entityLimitGroup, new HashMap<>(), 0);
+        RentRegion rentRegion = new RentRegion(wgRegion, world, signs, new RentPrice(AutoPrice.DEFAULT), false, this.isInactivityReset(), this.isHotel(), this.isAutoRestore(), this.getRegionKind(), this.getFlagGroup(), null, 0, new GregorianCalendar().getTimeInMillis(),
+                this.isUserRestorable(), 1, new ArrayList<>(), this.getAllowedSubregions(), this.entityLimitGroup, new HashMap<>(), 0);
         if (this.hasAutoPrice()) {
             rentRegion.setPrice(new RentPrice(this.getAutoPrice()));
         } else if (this.hasPrice() && this.hasExtendPerClick() && this.hasMaxRentTime()) {

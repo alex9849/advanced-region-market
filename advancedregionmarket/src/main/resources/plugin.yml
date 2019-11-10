@@ -19,19 +19,19 @@ permissions:
     default: op
     children:
       arm.inactivityexpiration.unlimited: true
-      arm.admin.changeinactivityreset: true
+      arm.admin.setinactivityreset: true
       arm.admin.create.sellregion: true
       arm.admin.create.rentregion: true
       arm.admin.create.contractregion: true
       arm.admin.remove: true
       arm.admin.buildeverywhere: true
       arm.admin.updateschematic: true
-      arm.admin.changeishotel: true
-      arm.admin.changedoblockreset: true
+      arm.admin.setishotel: true
+      arm.admin.setautorestore: true
       arm.admin.setregionkind: true
       arm.admin.listregions: true
       arm.admin.resetregion: true
-      arm.admin.resetregionblocks: true
+      arm.admin.restore: true
       arm.admin.unsell: true
       arm.admin.info: true
       arm.admin.addmember: true
@@ -50,7 +50,7 @@ permissions:
       arm.admin.preset.setregionkind: true
       arm.admin.preset.setinactivityreset: true
       arm.admin.preset.sethotel: true
-      arm.admin.preset.setdoblockreset: true
+      arm.admin.preset.setautorestore: true
       arm.admin.preset.setautoprice: true
       arm.admin.set.entitylimit: true
       arm.admin.preset.info: true
@@ -61,7 +61,7 @@ permissions:
       arm.admin.preset.save: true
       arm.admin.preset.list: true
       arm.admin.preset.addcommand: true
-      arm.admin.preset.userresettable: true
+      arm.admin.preset.userrestorable: true
       arm.admin.preset.allowedsubregions: true
       arm.admin.preset.removecommand: true
       arm.admin.preset.setextend: true
@@ -69,7 +69,7 @@ permissions:
       arm.admin.regionstatus: true
       arm.admin.bypassteleportercooldown: true
       arm.admin.setsubregionlimit: true
-      arm.admin.setisuserresettable: true
+      arm.admin.setisuserrestorable: true
       arm.admin.listautoprices: true
       arm.admin.setprice: true
       arm.admin.signlinkmode: true
@@ -91,10 +91,10 @@ permissions:
       arm.subregion.create.contractregion: true
       arm.subregion.delete.available: true
       arm.subregion.delete.sold: true
-      arm.subregion.changeishotel: true
+      arm.subregion.setishotel: true
       arm.subregion.tp: true
       arm.subregion.unsell: true
-      arm.subregion.resetregionblocks: true
+      arm.subregion.restore: true
       arm.subregion.help: true
       arm.admin.regionkind.create: true
       arm.admin.regionkind.delete: true
@@ -108,7 +108,7 @@ permissions:
       arm.admin.regionkind.addloreline: true
       arm.admin.regionkind.info: true
       arm.admin.regionkind.help: true
-      arm.member.resetregionblocks: true
+      arm.member.restore: true
       arm.member.sellregion: true
       arm.member.info: true
       arm.member.addmember: true
@@ -132,7 +132,7 @@ permissions:
     description: Give access to all commands for normal players without subregion commands and halp commands
     default: true
     children:
-      arm.member.resetregionblocks: true
+      arm.member.restore: true
       arm.member.sellregion: true
       arm.member.info: true
       arm.member.addmember: true
@@ -155,7 +155,7 @@ permissions:
     description: Give access to all commands for subregions
     default: true
     children:
-      arm.member.resetregionblocks: true
+      arm.member.restore: true
       arm.member.sellregion: true
       arm.member.info: true
       arm.member.addmember: true
@@ -174,7 +174,7 @@ permissions:
       arm.member.entitylimit.buyextra: true
       arm.member.tptofreeregion: true
       arm.member.flageditor: true
-  arm.admin.changeinactivityreset:
+  arm.admin.setinactivityreset:
     description: Allows to enable and disable inactivityreset for specific regions
     default: op
   arm.admin.create.sellregion:
@@ -195,11 +195,11 @@ permissions:
   arm.admin.updateschematic:
     description: Allows update the schematic of a region
     default: op
-  arm.admin.changeishotel:
+  arm.admin.setishotel:
     description: Allows to enable and disable the hotel feature for specific regions
     default: op
-  arm.admin.changedoblockreset:
-    description: Allows to enable and disable the automatic regionrestore after a region got automatically reset
+  arm.admin.setautorestore:
+    description: Allows to enable and disable the automatic region restore after a region got automatically reset
     default: op
   arm.admin.setregionkind:
     description: Allows to change the regionkind of a region
@@ -210,7 +210,7 @@ permissions:
   arm.admin.resetregion:
     description: Allows to reset a region which includes restoring the blocks inside the region
     default: op
-  arm.admin.resetregionblocks:
+  arm.admin.restore:
     description: Allows to reset the blocks inside a region without removing owner or members
     default: op
   arm.admin.unsell:
@@ -270,7 +270,7 @@ permissions:
   arm.admin.preset.sethotel:
     description: Preset permission
     default: op
-  arm.admin.preset.setdoblockreset:
+  arm.admin.preset.setautorestore:
     description: Preset permission
     default: op
   arm.admin.preset.setautoprice:
@@ -300,7 +300,7 @@ permissions:
   arm.admin.preset.addcommand:
     description: Preset permission
     default: op
-  arm.admin.preset.userresettable:
+  arm.admin.preset.userrestorable:
     description: Preset permission
     default: op
   arm.admin.preset.allowedsubregions:
@@ -327,7 +327,7 @@ permissions:
   arm.admin.setsubregionlimit:
     description: Allows set the amount of allowed subregions on a region
     default: op
-  arm.admin.setisuserresettable:
+  arm.admin.setisuserrestorable:
     description: Allows decide of the owner of a region can reset the blocks of the region
     default: op
   arm.admin.listautoprices:
@@ -390,7 +390,7 @@ permissions:
   arm.subregion.delete.sold:
     description: Allows to delete subregions that are sold
     default: op
-  arm.subregion.changeishotel:
+  arm.subregion.setishotel:
     description: Allows to enable or disable the hotelfunction for a subregion
     default: true
   arm.subregion.tp:
@@ -399,7 +399,7 @@ permissions:
   arm.subregion.unsell:
     description: Allows to unsell a subregion
     default: true
-  arm.subregion.resetregionblocks:
+  arm.subregion.restore:
     description: Allows to reset the built blocks inside a subregion
     default: true
   arm.subregion.help:
@@ -441,7 +441,7 @@ permissions:
   arm.admin.regionkind.help:
     description: Allows to display the help page of the arm regionkind command
     default: op
-  arm.member.resetregionblocks:
+  arm.member.restore:
     description: Allows to reset own regions
     default: true
   arm.member.sellregion:

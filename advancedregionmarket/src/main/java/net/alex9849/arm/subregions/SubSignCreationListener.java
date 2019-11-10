@@ -65,7 +65,7 @@ public class SubSignCreationListener implements Listener {
                 }
                 signList.add(signData);
                 Price subregPrice = new Price(price);
-                SellRegion sellRegion = new SellRegion(this.subRegionCreator.getSubRegion(), this.subRegionCreator.getParentRegion().getRegionworld(), signList, subregPrice, false, AdvancedRegionMarket.getInstance().getPluginSettings().isSubregionInactivityReset(), false, AdvancedRegionMarket.getInstance().getPluginSettings().isSubregionBlockReset(), RegionKind.SUBREGION, FlagGroup.SUBREGION, null, 1, new GregorianCalendar().getTimeInMillis(), AdvancedRegionMarket.getInstance().getPluginSettings().isAllowSubRegionUserReset(), new ArrayList<Region>(), 0, EntityLimitGroup.SUBREGION, new HashMap<>(), 0);
+                SellRegion sellRegion = new SellRegion(this.subRegionCreator.getSubRegion(), this.subRegionCreator.getParentRegion().getRegionworld(), signList, subregPrice, false, AdvancedRegionMarket.getInstance().getPluginSettings().isSubregionInactivityReset(), false, AdvancedRegionMarket.getInstance().getPluginSettings().isSubregionAutoRestore(), RegionKind.SUBREGION, FlagGroup.SUBREGION, null, 1, new GregorianCalendar().getTimeInMillis(), AdvancedRegionMarket.getInstance().getPluginSettings().isAllowSubRegionUserRestore(), new ArrayList<Region>(), 0, EntityLimitGroup.SUBREGION, new HashMap<>(), 0);
                 this.subRegionCreator.saveWorldGuardRegion();
                 event.setCancelled(true);
                 this.subRegionCreator.getParentRegion().addSubRegion(sellRegion);
@@ -111,7 +111,7 @@ public class SubSignCreationListener implements Listener {
                 }
                 signList.add(signData);
                 RentPrice rentPrice = new RentPrice(price, extendPerClick, maxRentTime);
-                RentRegion rentRegion = new RentRegion(this.subRegionCreator.getSubRegion(), this.subRegionCreator.getParentRegion().getRegionworld(), signList, rentPrice, false, AdvancedRegionMarket.getInstance().getPluginSettings().isSubregionInactivityReset(), false, AdvancedRegionMarket.getInstance().getPluginSettings().isSubregionBlockReset(), RegionKind.SUBREGION, FlagGroup.SUBREGION, null, 1, new GregorianCalendar().getTimeInMillis(), AdvancedRegionMarket.getInstance().getPluginSettings().isAllowSubRegionUserReset(), 0, new ArrayList<Region>(), 0, EntityLimitGroup.SUBREGION, new HashMap<>(), 0);
+                RentRegion rentRegion = new RentRegion(this.subRegionCreator.getSubRegion(), this.subRegionCreator.getParentRegion().getRegionworld(), signList, rentPrice, false, AdvancedRegionMarket.getInstance().getPluginSettings().isSubregionInactivityReset(), false, AdvancedRegionMarket.getInstance().getPluginSettings().isSubregionAutoRestore(), RegionKind.SUBREGION, FlagGroup.SUBREGION, null, 1, new GregorianCalendar().getTimeInMillis(), AdvancedRegionMarket.getInstance().getPluginSettings().isAllowSubRegionUserRestore(), 0, new ArrayList<Region>(), 0, EntityLimitGroup.SUBREGION, new HashMap<>(), 0);
                 this.subRegionCreator.saveWorldGuardRegion();
                 event.setCancelled(true);
                 this.subRegionCreator.getParentRegion().addSubRegion(rentRegion);
@@ -154,7 +154,7 @@ public class SubSignCreationListener implements Listener {
                 }
                 signList.add(signData);
                 ContractPrice contractPrice = new ContractPrice(price, extendtime);
-                ContractRegion contractRegion = new ContractRegion(this.subRegionCreator.getSubRegion(), this.subRegionCreator.getParentRegion().getRegionworld(), signList, contractPrice, false, AdvancedRegionMarket.getInstance().getPluginSettings().isSubregionInactivityReset(), false, AdvancedRegionMarket.getInstance().getPluginSettings().isSubregionBlockReset(), RegionKind.SUBREGION, FlagGroup.SUBREGION, null, 1, new GregorianCalendar().getTimeInMillis(), AdvancedRegionMarket.getInstance().getPluginSettings().isAllowSubRegionUserReset(), 0, false, new ArrayList<Region>(), 0, EntityLimitGroup.SUBREGION, new HashMap<>(), 0);
+                ContractRegion contractRegion = new ContractRegion(this.subRegionCreator.getSubRegion(), this.subRegionCreator.getParentRegion().getRegionworld(), signList, contractPrice, false, AdvancedRegionMarket.getInstance().getPluginSettings().isSubregionInactivityReset(), false, AdvancedRegionMarket.getInstance().getPluginSettings().isSubregionAutoRestore(), RegionKind.SUBREGION, FlagGroup.SUBREGION, null, 1, new GregorianCalendar().getTimeInMillis(), AdvancedRegionMarket.getInstance().getPluginSettings().isAllowSubRegionUserRestore(), 0, false, new ArrayList<Region>(), 0, EntityLimitGroup.SUBREGION, new HashMap<>(), 0);
                 this.subRegionCreator.saveWorldGuardRegion();
                 event.setCancelled(true);
                 this.subRegionCreator.getParentRegion().addSubRegion(contractRegion);

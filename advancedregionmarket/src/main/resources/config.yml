@@ -184,8 +184,8 @@ SignClickActions:
   LeftClickSneakCmd: "arm flageditor %regionid%"
 
 Subregions:
-  AllowSubRegionUserReset: false
-  SubregionBlockReset: false
+  AllowSubregionUserRestore: false
+  SubregionAutoRestore: false
   SubregionInactivityReset: true
   deleteSubregionsOnParentRegionUnsell: false
   deleteSubregionsOnParentRegionBlockReset: false

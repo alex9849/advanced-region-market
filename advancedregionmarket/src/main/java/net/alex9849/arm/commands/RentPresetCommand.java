@@ -5,7 +5,9 @@ import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.CmdSyntaxException;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.handler.CommandHandler;
+import net.alex9849.arm.presets.commands.AutoRestoreCommand;
 import net.alex9849.arm.presets.commands.InactivityResetResetCommand;
+import net.alex9849.arm.presets.commands.UserRestorableCommand;
 import net.alex9849.arm.presets.presets.PresetType;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -30,7 +32,7 @@ public class RentPresetCommand extends SellPresetCommand {
         commands.add(new net.alex9849.arm.presets.commands.RentPresetExtendPerClickCommand(PresetType.RENTPRESET));
         commands.add(new net.alex9849.arm.presets.commands.RentPresetMaxRentTimeCommand(PresetType.RENTPRESET));
         commands.add(new net.alex9849.arm.presets.commands.DeleteCommand(PresetType.RENTPRESET));
-        commands.add(new net.alex9849.arm.presets.commands.DoBlockResetCommand(PresetType.RENTPRESET));
+        commands.add(new AutoRestoreCommand(PresetType.RENTPRESET));
         commands.add(new net.alex9849.arm.presets.commands.HelpCommand(PresetType.RENTPRESET, this.commandHandler));
         commands.add(new net.alex9849.arm.presets.commands.HotelCommand(PresetType.RENTPRESET));
         commands.add(new net.alex9849.arm.presets.commands.InfoCommand(PresetType.RENTPRESET));
@@ -43,7 +45,7 @@ public class RentPresetCommand extends SellPresetCommand {
         commands.add(new net.alex9849.arm.presets.commands.AddCommandCommand(PresetType.RENTPRESET));
         commands.add(new net.alex9849.arm.presets.commands.RemoveCommandCommand(PresetType.RENTPRESET));
         commands.add(new net.alex9849.arm.presets.commands.AllowedSubregionsCommand(PresetType.RENTPRESET));
-        commands.add(new net.alex9849.arm.presets.commands.UserResettableCommand(PresetType.RENTPRESET));
+        commands.add(new UserRestorableCommand(PresetType.RENTPRESET));
         commands.add(new net.alex9849.arm.presets.commands.SetAutoPriceCommand(PresetType.RENTPRESET));
         commands.add(new net.alex9849.arm.presets.commands.EntityLimitCommand(PresetType.RENTPRESET));
         commands.add(new net.alex9849.arm.presets.commands.FlaggroupCommand(PresetType.RENTPRESET));

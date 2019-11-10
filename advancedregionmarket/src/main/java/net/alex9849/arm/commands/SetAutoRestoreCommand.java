@@ -15,12 +15,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class DoBlockResetCommand implements BasicArmCommand {
+public class SetAutoRestoreCommand implements BasicArmCommand {
 
-    private final String rootCommand = "doblockreset";
-    private final String regex = "(?i)doblockreset [^;\n ]+ (false|true)";
-    private final String regex_massaction = "(?i)doblockreset rk:[^;\n ]+ (false|true)";
-    private final List<String> usage = new ArrayList<>(Arrays.asList("doblockreset [REGION] [true/false]", "doblockreset rk:[REGIONKIND] [true/false]"));
+    private final String rootCommand = "setautorestore";
+    private final String regex = "(?i)setautorestore [^;\n ]+ (false|true)";
+    private final String regex_massaction = "(?i)setautorestore rk:[^;\n ]+ (false|true)";
+    private final List<String> usage = new ArrayList<>(Arrays.asList("setautorestore [REGION] [true/false]", "setautorestore rk:[REGIONKIND] [true/false]"));
 
     @Override
     public boolean matchesRegex(String command) {
@@ -43,7 +43,7 @@ public class DoBlockResetCommand implements BasicArmCommand {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Player player = (Player) sender;
-        if (!player.hasPermission(Permission.ADMIN_CHANGE_DO_BLOCK_RESET)) {
+        if (!player.hasPermission(Permission.ADMIN_SET_AUTORESTORE)) {
             throw new InputException(player, Messages.NO_PERMISSION);
         }
         List<Region> regions = new ArrayList<>();
@@ -77,10 +77,10 @@ public class DoBlockResetCommand implements BasicArmCommand {
         Boolean boolsetting = Boolean.parseBoolean(args[2]);
 
         for (Region region : regions) {
-            region.setDoBlockReset(boolsetting);
+            region.setAutoRestore(boolsetting);
         }
         String sendmessage = Messages.REGION_MODIFIED_BOOLEAN;
-        sendmessage = sendmessage.replace("%option%", "DoBlockReset");
+        sendmessage = sendmessage.replace("%option%", "AutoRestore");
         sendmessage = sendmessage.replace("%state%", Messages.convertEnabledDisabled(boolsetting));
         sendmessage = sendmessage.replace("%selectedregions%", selectedName);
         sender.sendMessage(Messages.PREFIX + sendmessage);
@@ -94,7 +94,7 @@ public class DoBlockResetCommand implements BasicArmCommand {
 
         if (args.length >= 1) {
             if (this.rootCommand.startsWith(args[0])) {
-                if (player.hasPermission(Permission.ADMIN_CHANGE_DO_BLOCK_RESET)) {
+                if (player.hasPermission(Permission.ADMIN_SET_AUTORESTORE)) {
                     if (args.length == 1) {
                         returnme.add(this.rootCommand);
                     } else if (args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {

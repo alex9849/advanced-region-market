@@ -38,7 +38,7 @@ public class HotelCommand implements BasicArmCommand {
 
     @Override
     public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
-        if (!(sender.hasPermission(Permission.SUBREGION_CHANGE_IS_HOTEL))) {
+        if (!(sender.hasPermission(Permission.SUBREGION_SET_IS_HOTEL))) {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
         if (!(sender instanceof Player)) {
@@ -73,7 +73,7 @@ public class HotelCommand implements BasicArmCommand {
 
         if (args.length >= 1) {
             if (this.rootCommand.startsWith(args[0])) {
-                if (player.hasPermission(Permission.SUBREGION_CHANGE_IS_HOTEL)) {
+                if (player.hasPermission(Permission.SUBREGION_SET_IS_HOTEL)) {
                     if (args.length == 1) {
                         returnme.add(this.rootCommand);
                     } else if (args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {

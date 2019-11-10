@@ -26,10 +26,10 @@ public class PresetPatternManager extends YamlFileManager<Preset> {
         String regionKindString = section.getString("regionKind");
         String flagGroupString = section.getString("flaggroup");
         boolean isHotel = section.getBoolean("isHotel");
-        boolean doBlockReset = section.getBoolean("doBlockReset");
+        boolean autorestore = section.getBoolean("autorestore");
         String entityLimitGroupString = section.getString("entityLimitGroup");
         boolean inactivityReset = section.getBoolean("inactivityReset");
-        boolean isUserResettable = section.getBoolean("isUserResettable");
+        boolean userrestorable = section.getBoolean("userrestorable");
         int allowedSubregions = section.getInt("allowedSubregions");
         String autoPriceString = section.getString("autoPrice");
         AutoPrice autoPrice = null;
@@ -57,7 +57,7 @@ public class PresetPatternManager extends YamlFileManager<Preset> {
                 hasprice = false;
                 price = 0;
             }
-            return new SellPreset(name, hasprice, price, regionKind, flagGroup, isHotel, doBlockReset, inactivityReset, isUserResettable, allowedSubregions, autoPrice, entityLimitGroup, setupcommands);
+            return new SellPreset(name, hasprice, price, regionKind, flagGroup, isHotel, autorestore, inactivityReset, userrestorable, allowedSubregions, autoPrice, entityLimitGroup, setupcommands);
         }
         if (presetType == PresetType.RENTPRESET) {
             boolean hasMaxRentTime = section.getBoolean("hasMaxRentTime");
@@ -76,7 +76,7 @@ public class PresetPatternManager extends YamlFileManager<Preset> {
                 maxRentTime = 0;
                 extendPerClick = 0;
             }
-            return new RentPreset(name, hasprice, price, regionKind, flagGroup, isHotel, doBlockReset, inactivityReset, hasMaxRentTime, maxRentTime, hasExtendPerClick, extendPerClick, isUserResettable, allowedSubregions, autoPrice, entityLimitGroup, setupcommands);
+            return new RentPreset(name, hasprice, price, regionKind, flagGroup, isHotel, autorestore, inactivityReset, hasMaxRentTime, maxRentTime, hasExtendPerClick, extendPerClick, userrestorable, allowedSubregions, autoPrice, entityLimitGroup, setupcommands);
         }
         if (presetType == PresetType.CONTRACTPRESET) {
             boolean hasExtend = section.getBoolean("hasExtend");
@@ -91,7 +91,7 @@ public class PresetPatternManager extends YamlFileManager<Preset> {
                 hasExtend = false;
                 extendTime = 0;
             }
-            return new ContractPreset(name, hasprice, price, regionKind, flagGroup, isHotel, doBlockReset, inactivityReset, hasExtend, extendTime, isUserResettable, allowedSubregions, autoPrice, entityLimitGroup, setupcommands);
+            return new ContractPreset(name, hasprice, price, regionKind, flagGroup, isHotel, autorestore, inactivityReset, hasExtend, extendTime, userrestorable, allowedSubregions, autoPrice, entityLimitGroup, setupcommands);
         }
         return null;
     }
@@ -153,11 +153,11 @@ public class PresetPatternManager extends YamlFileManager<Preset> {
         updatedSomething |= this.addDefault(section, "price", 0);
         updatedSomething |= this.addDefault(section, "regionKind", "Default");
         updatedSomething |= this.addDefault(section, "isHotel", false);
-        updatedSomething |= this.addDefault(section, "doBlockReset", true);
+        updatedSomething |= this.addDefault(section, "autorestore", true);
         updatedSomething |= this.addDefault(section, "entityLimitGroup", "Default");
         updatedSomething |= this.addDefault(section, "inactivityReset", true);
         updatedSomething |= this.addDefault(section, "flaggroup", "Default");
-        updatedSomething |= this.addDefault(section, "isUserResettable", true);
+        updatedSomething |= this.addDefault(section, "userrestorable", true);
         updatedSomething |= this.addDefault(section, "allowedSubregions", 0);
         updatedSomething |= this.addDefault(section, "setupcommands", new ArrayList<String>());
         if (presetType == PresetType.RENTPRESET) {

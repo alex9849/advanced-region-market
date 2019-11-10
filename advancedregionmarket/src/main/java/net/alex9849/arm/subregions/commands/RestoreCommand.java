@@ -17,10 +17,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 
-public class ResetBlocksCommand implements BasicArmCommand {
-    private final String rootCommand = "resetblocks";
-    private final String regex = "(?i)resetblocks [^;\n ]+";
-    private final List<String> usage = new ArrayList<>(Arrays.asList("resetblocks [REGION]"));
+public class RestoreCommand implements BasicArmCommand {
+    private final String rootCommand = "restore";
+    private final String regex = "(?i)restore [^;\n ]+";
+    private final List<String> usage = new ArrayList<>(Arrays.asList("restore [REGION]"));
 
     @Override
     public boolean matchesRegex(String command) {
@@ -39,7 +39,7 @@ public class ResetBlocksCommand implements BasicArmCommand {
 
     @Override
     public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
-        if (!sender.hasPermission(Permission.SUBREGION_RESETREGIONBLOCKS)) {
+        if (!sender.hasPermission(Permission.SUBREGION_RESTORE)) {
             throw new InputException(sender, Messages.NO_PERMISSION);
         }
         if (!(sender instanceof Player)) {
@@ -60,7 +60,7 @@ public class ResetBlocksCommand implements BasicArmCommand {
             throw new InputException(sender, Messages.PARENT_REGION_NOT_OWN);
         }
 
-        if (!region.isUserResettable()) {
+        if (!region.isUserRestorable()) {
             throw new InputException(sender, Messages.REGION_NOT_RESETTABLE);
         }
 
@@ -81,7 +81,7 @@ public class ResetBlocksCommand implements BasicArmCommand {
 
         if (args.length >= 1) {
             if (this.rootCommand.startsWith(args[0])) {
-                if (player.hasPermission(Permission.SUBREGION_RESETREGIONBLOCKS)) {
+                if (player.hasPermission(Permission.SUBREGION_RESTORE)) {
                     if (args.length == 1) {
                         returnme.add(this.rootCommand);
                     } else if (args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {

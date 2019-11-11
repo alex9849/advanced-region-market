@@ -73,8 +73,8 @@ public abstract class Preset implements Saveable {
         return this.isUserRestorable;
     }
 
-    public void setUserRestorable(boolean isUserResettable) {
-        this.isUserRestorable = isUserResettable;
+    public void setUserRestorable(boolean isUserRestorable) {
+        this.isUserRestorable = isUserRestorable;
     }
 
     public int getAllowedSubregions() {

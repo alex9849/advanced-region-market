@@ -80,7 +80,7 @@ public class SetIsUserRestorableCommand implements BasicArmCommand {
             region.setUserRestorable(boolsetting);
         }
         String sendmessage = Messages.REGION_MODIFIED_BOOLEAN;
-        sendmessage = sendmessage.replace("%option%", "IsUserResettable");
+        sendmessage = sendmessage.replace("%option%", "IsUserRestorable");
         sendmessage = sendmessage.replace("%state%", Messages.convertEnabledDisabled(boolsetting));
         sendmessage = sendmessage.replace("%selectedregions%", selectedName);
         sender.sendMessage(Messages.PREFIX + sendmessage);

@@ -63,11 +63,11 @@ public abstract class CountdownRegion extends Region {
     public CountdownRegion(WGRegion region, World regionworld, List<SignData> contractsign, ContractPrice contractPrice,
                            Boolean sold, Boolean inactivityReset, Boolean isHotel, Boolean doBlockReset,
                            RegionKind regionKind, FlagGroup flagGroup, Location teleportLoc, long lastreset,
-                           long lastLogin, boolean isUserResettable, long payedTill, List<Region> subregions,
+                           long lastLogin, boolean isUserRestorable, long payedTill, List<Region> subregions,
                            int allowedSubregions, EntityLimitGroup entityLimitGroup,
                            HashMap<EntityLimit.LimitableEntityType, Integer> extraEntitys, int boughtExtraTotalEntitys) {
         super(region, regionworld, contractsign, contractPrice, sold, inactivityReset, isHotel, doBlockReset, regionKind,
-                flagGroup, teleportLoc, lastreset, lastLogin, isUserResettable, subregions, allowedSubregions,
+                flagGroup, teleportLoc, lastreset, lastLogin, isUserRestorable, subregions, allowedSubregions,
                 entityLimitGroup, extraEntitys, boughtExtraTotalEntitys);
         this.payedTill = payedTill;
         this.extendTime = contractPrice.getExtendTime();

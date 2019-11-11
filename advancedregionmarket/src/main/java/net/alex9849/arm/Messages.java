@@ -226,8 +226,8 @@ public class Messages {
     public static String DISABLED = "&cdisabled";
     public static String SOLD = "&csold";
     public static String AVAILABLE = "&aavailable";
-    public static String REGION_INFO_IS_USER_RESTORABLE = "&6UserResettable: ";
-    public static String SUB_REGION_IS_USER_RESETTABLE_ERROR = "&4The selected region is a subregion. You can change the isUserResettable setting for all subregions in the config.yml!";
+    public static String REGION_INFO_IS_USER_RESTORABLE = "";
+    public static String SUB_REGION_IS_USER_RESETTABLE_ERROR = "&4The selected region is a subregion. You can change the isUserRestorable setting for all subregions in the config.yml!";
     public static List<String> GUI_SUBREGION_HOTEL_BUTTON_LORE = new ArrayList<>(Arrays.asList("&6The hotel function allows you to prevent players", "&6from breaking blocks they do not have placed", "&6Status: %hotelfunctionstatus%", "&6Click to enable/disable"));
     public static List<String> GUI_SUBREGION_REGION_INFO_SELL = new ArrayList<>(Arrays.asList("%regionid%", "Selltype: %selltype%", "Status: %soldstatus%", "Price: %price%", "Price per M2: %priceperm2%", "Dimensions: %dimensions%"));
     public static List<String> GUI_SUBREGION_REGION_INFO_RENT = new ArrayList<>(Arrays.asList("%regionid%", "Selltype: %selltype%", "Status: %soldstatus%", "Price: %price%", "Price per M2 (per week): %priceperm2perweek%", "Extend per click: %extendtime%", "Max. extended time: %maxrenttime%", "Dimensions: %dimensions%"));

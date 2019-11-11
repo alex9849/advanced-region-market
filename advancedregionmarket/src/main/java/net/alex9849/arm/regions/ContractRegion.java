@@ -46,10 +46,10 @@ public class ContractRegion extends CountdownRegion {
     }
 
     public ContractRegion(WGRegion region, World regionworld, List<SignData> contractsign, ContractPrice contractPrice, Boolean sold, Boolean inactivityReset,
-                          Boolean isHotel, Boolean doBlockReset, RegionKind regionKind, FlagGroup flagGroup, Location teleportLoc, long lastreset, long lastLogin, boolean isUserResettable,
+                          Boolean isHotel, Boolean doBlockReset, RegionKind regionKind, FlagGroup flagGroup, Location teleportLoc, long lastreset, long lastLogin, boolean isUserRestorable,
                           long payedTill, Boolean terminated, List<Region> subregions, int allowedSubregions, EntityLimitGroup entityLimitGroup,
                           HashMap<EntityLimit.LimitableEntityType, Integer> extraEntitys, int boughtExtraTotalEntitys) {
-        super(region, regionworld, contractsign, contractPrice, sold, inactivityReset, isHotel, doBlockReset, regionKind, flagGroup, teleportLoc, lastreset, lastLogin, isUserResettable,
+        super(region, regionworld, contractsign, contractPrice, sold, inactivityReset, isHotel, doBlockReset, regionKind, flagGroup, teleportLoc, lastreset, lastLogin, isUserRestorable,
                 payedTill, subregions, allowedSubregions, entityLimitGroup, extraEntitys, boughtExtraTotalEntitys);
         this.terminated = terminated;
     }

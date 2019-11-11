@@ -27,8 +27,8 @@ public class RentPreset extends Preset {
     private long extendPerClick = 0;
 
     public RentPreset(String name, boolean hasPrice, double price, RegionKind regionKind, FlagGroup flagGroup, boolean inactivityReset, boolean isHotel, boolean doBlockReset, boolean hasMaxRentTime,
-                      long maxRentTime, boolean hasExtendPerClick, long extendPerClick, boolean isUserResettable, int allowedSubregions, AutoPrice autoPrice, EntityLimitGroup entityLimitGroup, List<String> setupCommands) {
-        super(name, hasPrice, price, regionKind, flagGroup, inactivityReset, isHotel, doBlockReset, isUserResettable, allowedSubregions, autoPrice, entityLimitGroup, setupCommands);
+                      long maxRentTime, boolean hasExtendPerClick, long extendPerClick, boolean isUserRestorable, int allowedSubregions, AutoPrice autoPrice, EntityLimitGroup entityLimitGroup, List<String> setupCommands) {
+        super(name, hasPrice, price, regionKind, flagGroup, inactivityReset, isHotel, doBlockReset, isUserRestorable, allowedSubregions, autoPrice, entityLimitGroup, setupCommands);
         this.hasMaxRentTime = hasMaxRentTime;
         this.maxRentTime = maxRentTime;
         this.hasExtendPerClick = hasExtendPerClick;

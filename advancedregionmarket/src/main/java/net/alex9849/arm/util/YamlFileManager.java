@@ -33,6 +33,7 @@ public abstract class YamlFileManager<ManagedObject extends Saveable> implements
             resourceStream.read(buffer);
             OutputStream output = new FileOutputStream(savepath);
             output.write(buffer);
+            output.flush();
             output.close();
             resourceStream.close();
         } catch (IOException e) {

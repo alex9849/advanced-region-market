@@ -50,7 +50,7 @@ public class FlageditorCommand implements BasicArmCommand {
         }
 
         if(!FlagGroup.isFeatureEnabled()) {
-            throw new InputException(sender, Messages.PREFIX + Messages.FLAGGROUP_FEATURE_DISABLED);
+            throw new InputException(sender, Messages.FLAGGROUP_FEATURE_DISABLED);
         }
 
         Region selRegion;

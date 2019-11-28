@@ -127,8 +127,8 @@ Messages:
    не может быть изменено'
   PosCloudNotBeSetMarkOutsideRegion: '&4Положение не может быть установлено за пределами
    региона'
-  SubRegionAlreadyAtThisPosition: Ваш выбор перекрывается с субрегионом, который уже
-    создан
+  SubRegionAlreadyAtThisPosition: 'Ваш выбор перекрывается с субрегионом, который уже
+    создан'
   SubRegionLimitReached: '&4Вы можете создавать максимально &6%subregionlimit% &4субрегионов'
   SelectionInvalid: '&4Выбор неверен! Нужно выбрать 2 позиции! (Левый/Правый щелчок).
    Введите "&6/arm subregion tool&4", чтобы получить инструмент выделения'
@@ -178,8 +178,8 @@ Messages:
   RegionInfoTerminated: '&6Отменено:&e '
   RegionInfoAutoExtendTime: '&6Время продления:&e '
   ContractRegionInfoRemainingTime: '&6След. продление в:&e '
-  RegionInfoYes: да
-  RegionInfoNo: нет
+  RegionInfoYes: 'да'
+  RegionInfoNo: 'нет'
   RegionInfoAllowedSubregions: '&6Лимит субрегионы:&e '
   RegionInfoSubregions: '&6Субрегионы:&e '
   RegionInfoMultipleRegions: '&6На вашей позиции более одного региона. Пожалуйста,
@@ -198,9 +198,9 @@ Messages:
    потому что он продан. Вы можете попросить владельца или администратора освободить
    его'
   RegionNotASubregion: '&4Регион не субрегион!'
-  RentRegion: Регион в аренду
-  SellRegion: Регион на продажу
-  ContractRegion: Регион по контракту
+  RentRegion: 'Регион в аренду'
+  SellRegion: 'Регион на продажу'
+  ContractRegion: 'Регион по контракту'
   RegionStats: '&6=========[Статистика]========='
   RegionStatsPattern: '&8Используемые регионы (%regionkind%&8):'
   SelltypeNotExist: '&4Выбранный тип продажи не существует!'
@@ -240,24 +240,24 @@ Messages:
   GUIMembersButton: '&6Участники'
   GUITeleportToRegionButton: '&6Телепорт в регион'
   GUITeleportToRegionButtonLore:
-  - Нажмите, для телепорта
-  - в свой регион
+  - 'Нажмите, для телепорта'
+  - 'в свой регион'
   GUIShowInfosButton: '&6Показать инфо'
   GUIMakeOwnerButton: '&aСоздать владельца'
   GUIMakeOwnerButtonLore:
-  - Нажмите, чтобы передать права владельца
-  - выбранному участнику.
+  - 'Нажмите, чтобы передать права владельца'
+  - 'выбранному участнику.'
   - '&4ПРЕДУПРЕЖДЕНИЕ: &cВы потеряете права'
   - '&cвладельца и станете участником'
   GUIRemoveMemberButton: '&4Удалить'
   GUIRemoveMemberButtonLore:
-  - Нажмите, чтобы удалить участника
-  - из вашего региона
+  - 'Нажмите, чтобы удалить участника'
+  - 'из вашего региона'
   GUIWarningYes: '&aДа'
   GUIWarningNo: '&4Нет'
   GUIResetRegionButton: '&4Сбросить регион'
   GUIResetRegionButtonLore:
-  - Нажмите, чтобы сбросить регион
+  - 'Нажмите, чтобы сбросить регион'
   - '&4ПРЕДУПРЕЖДЕНИЕ: &cНевозможно будет отменить!'
   - '&cВаш регион будет сброшен и'
   - '&cвсе на нем будет удалено!'
@@ -284,7 +284,7 @@ Messages:
   - '&aИстекает в &6%remainingtime-countdown-short%'
   GUIUserSellButton: '&4Сбросить и продать регион'
   GUIUserSellButtonLore:
-  - Нажмите, чтобы продать свой регион
+  - 'Нажмите, чтобы продать свой регион'
   - '&4ВНИМАНИЕ: &cНевозможно будет отменить! Ваш регион'
   - '&cбудет освобожден и все блоки на нем будут'
   - '&cсброшены! Вы и все его участники потеряете'
@@ -308,14 +308,14 @@ Messages:
   - '&aСтатус: %status%'
   - '&aЕсли активен, продление находится в:'
   - '&6%remainingtime-countdown-short%'
-  SellregionName: Регион на продажу
-  ContractregionName: Регион по контракту
-  RentregionName: Регион в аренду
+  SellregionName: 'Регион на продажу'
+  ContractregionName: 'Регион по контракту'
+  RentregionName: 'Регион в аренду'
   GUISubregionsButton: '&6Субрегион'
   GUISubregionListMenuName: '&1Субрегионы'
   GUIHotelButton: '&6Функция-Гостиница'
   GUIDeleteRegionButton: '&4Удалить регион'
-  GUITeleportToSignOrRegionButton: Телепорт к табличке или в регион?
+  GUITeleportToSignOrRegionButton: 'Телепорт к табличке или в регион?'
   GUIRegionfinderTeleportToRegionButton: '&6Телепорт в регион!'
   GUIRegionfinderTeleportToSignButton: '&6Телепорт к табличке'
   GUINextPageButton: '&6Следущая страница'

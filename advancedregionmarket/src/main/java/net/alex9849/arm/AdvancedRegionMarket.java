@@ -841,13 +841,13 @@ public class AdvancedRegionMarket extends JavaPlugin {
     }
 
     private void generateConfigs() {
+        this.generatedefaultconfig();
         EntityLimitGroupManager.writeResourceToDisc(new File(this.getDataFolder() + "/entitylimits.yml"), getResource("entitylimits.yml"));
         RegionKindManager.writeResourceToDisc(new File(this.getDataFolder() + "/regionkinds.yml"), getResource("regionkinds.yml"));
         RegionManager.writeResourceToDisc(new File(this.getDataFolder() + "/regions.yml"), getResource("regions.yml"));
         PresetPatternManager.writeResourceToDisc(new File(this.getDataFolder() + "/presets.yml"), getResource("presets.yml"));
         FlagGroupManager.writeResourceToDisc(new File(this.getDataFolder() + "/flaggroups.yml"), getResource("flaggroups.yml"));
-        Messages.generatedefaultConfig();
-        this.generatedefaultconfig();
+        Messages.generatedefaultConfig("en");
     }
 
 }

@@ -1,12 +1,12 @@
 Messages:
-  SecondsSingular: Sekunde
-  MinutesSingular: Minute
-  HoursSingular: Stunde
-  DaysSingular: Tag
-  SecondsPlural: Sekunden
-  MinutesPlural: Minuten
-  HoursPlural: Stunden
-  DaysPlural: Tage
+  SecondsSingular: 'Sekunde'
+  MinutesSingular: 'Minute'
+  HoursSingular: 'Stunde'
+  DaysSingular: 'Tag'
+  SecondsPlural: 'Sekunden'
+  MinutesPlural: 'Minuten'
+  HoursPlural: 'Stunden'
+  DaysPlural: 'Tage'
   SecondsShort: 's'
   MinutesShort: 'm'
   HoursShort: 'h'

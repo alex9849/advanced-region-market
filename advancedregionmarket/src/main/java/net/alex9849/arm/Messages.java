@@ -378,7 +378,6 @@ public class Messages {
     private static YamlConfiguration config;
 
     static void read() {
-        Messages.generatedefaultConfig();
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
         File messagesconfigdic = new File(pluginfolder + "/messages.yml");
         Configuration config = YamlConfiguration.loadConfiguration(messagesconfigdic);
@@ -1177,7 +1176,7 @@ public class Messages {
     }
 
     private static void updateDefauts() {
-        YamlConfiguration modelConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(AdvancedRegionMarket.getInstance().getResource("messages.yml")));
+        YamlConfiguration modelConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(AdvancedRegionMarket.getInstance().getResource("messages_en.yml")));
 
         ConfigurationSection msgSection = modelConfig.getConfigurationSection("Messages");
         if(msgSection == null) {
@@ -1196,17 +1195,24 @@ public class Messages {
         }
     }
 
-    public static void generatedefaultConfig() {
+    public static void generatedefaultConfig(String languageCode) {
         Plugin plugin = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket");
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
         File messagesdic = new File(pluginfolder + "/messages.yml");
         if (!messagesdic.exists()) {
             try {
-                InputStream stream = plugin.getResource("messages.yml");
-                byte[] buffer = new byte[stream.available()];
-                stream.read(buffer);
+                InputStream stream = plugin.getResource("messages_" + languageCode + ".yml");
+                if(stream == null) {
+                    stream = plugin.getResource("messages_en.yml");
+                }
                 OutputStream output = new FileOutputStream(messagesdic);
-                output.write(buffer);
+
+                byte[] buffer = new byte[8 * 1024];
+                int bytesRead;
+                while ((bytesRead = stream.read(buffer)) != -1) {
+                    output.write(buffer, 0, bytesRead);
+                }
+
                 output.flush();
                 output.close();
                 stream.close();

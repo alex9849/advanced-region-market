@@ -28,14 +28,21 @@ public abstract class YamlFileManager<ManagedObject extends Saveable> implements
         if (savepath.exists()) {
             return;
         }
+
         try {
-            byte[] buffer = new byte[resourceStream.available()];
-            resourceStream.read(buffer);
             OutputStream output = new FileOutputStream(savepath);
-            output.write(buffer);
+
+            byte[] buffer = new byte[8 * 1024];
+            int bytesRead;
+            while ((bytesRead = resourceStream.read(buffer)) != -1) {
+                output.write(buffer, 0, bytesRead);
+            }
+
             output.flush();
             output.close();
             resourceStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }

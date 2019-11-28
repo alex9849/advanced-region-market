@@ -40,7 +40,7 @@ DefaultAutoprice:
   autoPriceCalculation: per_m2
 
 FlagGroups:
-  # FlagGroups can be used to automatically assign flags and priorities on.
+  # FlagGroups can be used to automatically assign flags and priorities on
   # regions. You can also define Flags that will only be applied if the region
   # is currently available or only if the region is sold. You could use this
   # for example to allow all players to open doors and to use buttons if a region

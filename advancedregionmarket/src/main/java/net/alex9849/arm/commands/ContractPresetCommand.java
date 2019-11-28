@@ -28,7 +28,7 @@ public class ContractPresetCommand extends SellPresetCommand {
         this.commandHandler = new CommandHandler(this.usage, this.rootCommand);
         List<BasicArmCommand> commands = new ArrayList<>();
         commands.add(new InactivityResetResetCommand(PresetType.CONTRACTPRESET));
-        commands.add(new net.alex9849.arm.presets.commands.ContractPresetExtendCommand(PresetType.CONTRACTPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.ExtendTimeCommand(PresetType.CONTRACTPRESET));
         commands.add(new net.alex9849.arm.presets.commands.DeleteCommand(PresetType.CONTRACTPRESET));
         commands.add(new AutoRestoreCommand(PresetType.CONTRACTPRESET));
         commands.add(new net.alex9849.arm.presets.commands.HelpCommand(PresetType.CONTRACTPRESET, this.commandHandler));

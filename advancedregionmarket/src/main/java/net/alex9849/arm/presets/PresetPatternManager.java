@@ -32,7 +32,16 @@ public class PresetPatternManager extends YamlFileManager<Preset> {
         boolean userrestorable = section.getBoolean("userrestorable");
         int allowedSubregions = section.getInt("allowedSubregions");
         String autoPriceString = section.getString("autoPrice");
+
         AutoPrice autoPrice = null;
+        if(autoPriceString != null) {
+            autoPrice = AutoPrice.getAutoprice(autoPriceString);
+            if(autoPrice == null) {
+                autoPrice = AutoPrice.DEFAULT;
+            }
+            hasprice = false;
+            price = 0;
+        }
 
         List<String> setupcommands = section.getStringList("setupcommands");
         RegionKind regionKind = AdvancedRegionMarket.getInstance().getRegionKindManager().getRegionKind(regionKindString);
@@ -49,50 +58,43 @@ public class PresetPatternManager extends YamlFileManager<Preset> {
             entityLimitGroup = EntityLimitGroup.DEFAULT;
         }
         if (presetType == PresetType.SELLPRESET) {
-            if (autoPriceString != null) {
-                autoPrice = AutoPrice.getAutoprice(autoPriceString);
-                if (autoPrice == null) {
-                    autoPrice = AutoPrice.DEFAULT;
-                }
-                hasprice = false;
-                price = 0;
-            }
-            return new SellPreset(name, hasprice, price, regionKind, flagGroup, isHotel, autorestore, inactivityReset, userrestorable, allowedSubregions, autoPrice, entityLimitGroup, setupcommands);
+            return new SellPreset(name, hasprice, price, regionKind, flagGroup,
+                    isHotel, autorestore, inactivityReset, userrestorable,
+                    allowedSubregions, autoPrice, entityLimitGroup, setupcommands);
         }
-        if (presetType == PresetType.RENTPRESET) {
-            boolean hasMaxRentTime = section.getBoolean("hasMaxRentTime");
-            long maxRentTime = section.getLong("maxRentTime");
-            boolean hasExtendPerClick = section.getBoolean("hasExtendPerClick");
-            long extendPerClick = section.getLong("extendPerClick");
-            if (autoPriceString != null) {
-                autoPrice = AutoPrice.getAutoprice(section.getString("autoPrice"));
-                if (autoPrice == null) {
-                    autoPrice = AutoPrice.DEFAULT;
-                }
-                hasprice = false;
-                price = 0;
-                hasMaxRentTime = false;
-                hasExtendPerClick = false;
-                maxRentTime = 0;
-                extendPerClick = 0;
-            }
-            return new RentPreset(name, hasprice, price, regionKind, flagGroup, isHotel, autorestore, inactivityReset, hasMaxRentTime, maxRentTime, hasExtendPerClick, extendPerClick, userrestorable, allowedSubregions, autoPrice, entityLimitGroup, setupcommands);
-        }
-        if (presetType == PresetType.CONTRACTPRESET) {
-            boolean hasExtend = section.getBoolean("hasExtend");
+
+        if(presetType == PresetType.CONTRACTPRESET || presetType == PresetType.RENTPRESET) {
+            boolean hasExtendTime = section.getBoolean("hasExtendTime");
             long extendTime = section.getLong("extendTime");
-            if (autoPriceString != null) {
-                autoPrice = AutoPrice.getAutoprice(section.getString("autoPrice"));
-                if (autoPrice == null) {
-                    autoPrice = AutoPrice.DEFAULT;
+
+            if (presetType == PresetType.CONTRACTPRESET) {
+                if (autoPrice != null) {
+                    hasExtendTime = false;
+                    extendTime = 0;
                 }
-                hasprice = false;
-                price = 0;
-                hasExtend = false;
-                extendTime = 0;
+                return new ContractPreset(name, hasprice, price, regionKind, flagGroup, isHotel, autorestore,
+                        inactivityReset, hasExtendTime, extendTime, userrestorable, allowedSubregions,
+                        autoPrice, entityLimitGroup, setupcommands);
+
+            } else {
+
+                boolean hasMaxRentTime = section.getBoolean("hasMaxRentTime");
+                long maxRentTime = section.getLong("maxRentTime");
+                if (autoPrice != null) {
+                    hasExtendTime = false;
+                    extendTime = 0;
+                    hasMaxRentTime = false;
+                    maxRentTime = 0;
+                }
+                return new RentPreset(name, hasprice, price, regionKind, flagGroup, isHotel, autorestore,
+                        inactivityReset, hasMaxRentTime, maxRentTime, hasExtendTime, extendTime,
+                        userrestorable, allowedSubregions, autoPrice, entityLimitGroup, setupcommands);
             }
-            return new ContractPreset(name, hasprice, price, regionKind, flagGroup, isHotel, autorestore, inactivityReset, hasExtend, extendTime, userrestorable, allowedSubregions, autoPrice, entityLimitGroup, setupcommands);
+
+
         }
+
+
         return null;
     }
 
@@ -160,15 +162,13 @@ public class PresetPatternManager extends YamlFileManager<Preset> {
         updatedSomething |= this.addDefault(section, "userrestorable", true);
         updatedSomething |= this.addDefault(section, "allowedSubregions", 0);
         updatedSomething |= this.addDefault(section, "setupcommands", new ArrayList<String>());
+        if (presetType == PresetType.CONTRACTPRESET || presetType == PresetType.RENTPRESET) {
+            updatedSomething |= this.addDefault(section, "hasExtendTime", false);
+            updatedSomething |= this.addDefault(section, "extendTime", 0);
+        }
         if (presetType == PresetType.RENTPRESET) {
-            updatedSomething |= this.addDefault(section, "hasMaxRentTime", false);
-            updatedSomething |= this.addDefault(section, "maxRentTime", 0);
             updatedSomething |= this.addDefault(section, "hasExtendPerClick", false);
             updatedSomething |= this.addDefault(section, "extendPerClick", 0);
-        }
-        if (presetType == PresetType.CONTRACTPRESET) {
-            updatedSomething |= this.addDefault(section, "hasExtend", false);
-            updatedSomething |= this.addDefault(section, "extendTime", 0);
         }
         return updatedSomething;
     }

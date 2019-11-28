@@ -6,7 +6,8 @@ import net.alex9849.arm.commands.BasicArmCommand;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.presets.ActivePresetManager;
 import net.alex9849.arm.presets.PresetPlayerPair;
-import net.alex9849.arm.presets.presets.*;
+import net.alex9849.arm.presets.presets.Preset;
+import net.alex9849.arm.presets.presets.PresetType;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -70,7 +71,7 @@ public class PriceCommand implements BasicArmCommand {
         if (allargs.matches(this.regex_set)) {
             preset.setPrice(Double.parseDouble(args[1]));
             player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
-            if (priceLineCanBeLetEmpty(preset)) {
+            if (preset.canPriceLineBeLetEmpty()) {
                 player.sendMessage(Messages.PREFIX + "You can leave the price-line on signs empty now");
             }
             return true;
@@ -105,18 +106,5 @@ public class PriceCommand implements BasicArmCommand {
             }
         }
         return returnme;
-    }
-
-    private boolean priceLineCanBeLetEmpty(Preset preset) {
-        if (preset instanceof SellPreset) {
-            return preset.hasPrice();
-        } else if (preset instanceof ContractPreset) {
-            ContractPreset contractPreset = (ContractPreset) preset;
-            return contractPreset.hasPrice() && contractPreset.hasExtend();
-        } else if (preset instanceof RentPreset) {
-            RentPreset rentPreset = (RentPreset) preset;
-            return rentPreset.hasPrice() && rentPreset.hasExtendPerClick() && rentPreset.hasMaxRentTime();
-        }
-        return false;
     }
 }

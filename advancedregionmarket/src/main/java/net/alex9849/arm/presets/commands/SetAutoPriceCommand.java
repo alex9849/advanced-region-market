@@ -6,7 +6,8 @@ import net.alex9849.arm.commands.BasicArmCommand;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.presets.ActivePresetManager;
 import net.alex9849.arm.presets.PresetPlayerPair;
-import net.alex9849.arm.presets.presets.*;
+import net.alex9849.arm.presets.presets.Preset;
+import net.alex9849.arm.presets.presets.PresetType;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -80,7 +81,7 @@ public class SetAutoPriceCommand implements BasicArmCommand {
             }
             preset.setAutoPrice(autoPrice);
             player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
-            if (priceLineCanBeLetEmpty(preset)) {
+            if (preset.canPriceLineBeLetEmpty()) {
                 player.sendMessage(Messages.PREFIX + "You can leave the price-line on signs empty now");
             }
             return true;
@@ -106,18 +107,5 @@ public class SetAutoPriceCommand implements BasicArmCommand {
             }
         }
         return returnme;
-    }
-
-    private boolean priceLineCanBeLetEmpty(Preset preset) {
-        if (preset instanceof SellPreset) {
-            return (preset.hasPrice() || preset.hasAutoPrice());
-        } else if (preset instanceof ContractPreset) {
-            ContractPreset contractPreset = (ContractPreset) preset;
-            return (contractPreset.hasPrice() && contractPreset.hasExtend()) || preset.hasAutoPrice();
-        } else if (preset instanceof RentPreset) {
-            RentPreset rentPreset = (RentPreset) preset;
-            return (rentPreset.hasPrice() && rentPreset.hasExtendPerClick() && rentPreset.hasMaxRentTime()) || preset.hasAutoPrice();
-        }
-        return false;
     }
 }

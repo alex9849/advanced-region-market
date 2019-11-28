@@ -21,19 +21,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Preset implements Saveable {
-    protected String name = "default";
-    protected boolean hasPrice = false;
-    protected double price = 0;
-    protected RegionKind regionKind = RegionKind.DEFAULT;
-    protected boolean inactivityReset = true;
-    protected boolean isHotel = false;
-    protected boolean autoRestore = true;
-    protected boolean isUserRestorable = true;
-    protected int allowedSubregions = 0;
-    protected FlagGroup flagGroup = FlagGroup.DEFAULT;
-    protected AutoPrice autoPrice;
-    protected EntityLimitGroup entityLimitGroup;
-    protected List<String> setupCommands = new ArrayList<>();
+    private String name = "default";
+    private boolean hasPrice = false;
+    private double price = 0;
+    private RegionKind regionKind = RegionKind.DEFAULT;
+    private boolean inactivityReset = true;
+    private boolean isHotel = false;
+    private boolean autoRestore = true;
+    private boolean isUserRestorable = true;
+    private int allowedSubregions = 0;
+    private FlagGroup flagGroup = FlagGroup.DEFAULT;
+    private AutoPrice autoPrice;
+    private EntityLimitGroup entityLimitGroup;
+    private List<String> setupCommands = new ArrayList<>();
     private boolean needsSave = false;
 
     public Preset(String name, boolean hasPrice, double price, RegionKind regionKind, FlagGroup flagGroup, boolean inactivityReset, boolean isHotel, boolean autoRestore, boolean isUserRestorable, int allowedSubregions, AutoPrice autoPrice, EntityLimitGroup entityLimitGroup, List<String> setupCommands) {

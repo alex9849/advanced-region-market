@@ -29,7 +29,7 @@ public class Permission {
     public static final String ADMIN_RELOAD = "arm.admin.reload";
     public static final String ADMIN_PRESET = "arm.admin.preset";
     public static final String ADMIN_PRESET_SET_PRICE = "arm.admin.preset.setprice";
-    public static final String ADMIN_PRESET_SET_EXTENDPERCLICK = "arm.admin.preset.setextendperclick";
+    public static final String ADMIN_PRESET_SET_EXTENDTIME = "arm.admin.preset.setextendtime";
     public static final String ADMIN_PRESET_SET_MAXRENTTIME = "arm.admin.preset.setmaxrenttime";
     public static final String ADMIN_PRESET_SET_REGIONKIND = "arm.admin.preset.setregionkind";
     public static final String ADMIN_PRESET_SET_INACTIVITYRESET = "arm.admin.preset.setinactivityreset";
@@ -48,7 +48,7 @@ public class Permission {
     public static final String ADMIN_PRESET_USERRESTORABLE = "arm.admin.preset.userrestorable";
     public static final String ADMIN_PRESET_ALLOWEDSUBREGIONS = "arm.admin.preset.allowedsubregions";
     public static final String ADMIN_PRESET_REMOVECOMMAND = "arm.admin.preset.removecommand";
-    public static final String ADMIN_PRESET_SET_EXTEND = "arm.admin.preset.setextend";
+
     public static final String ADMIN_TERMINATE_CONTRACT = "arm.admin.terminatecontract";
     public static final String ADMIN_REGION_STATS = "arm.admin.regionstatus";
     public static final String ADMIN_BYPASS_TELEPORTER_COOLDOWN = "arm.admin.bypassteleportercooldown";

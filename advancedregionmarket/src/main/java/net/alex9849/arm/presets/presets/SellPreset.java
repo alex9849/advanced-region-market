@@ -34,10 +34,13 @@ public class SellPreset extends Preset {
 
     public SellPreset getCopy() {
         List<String> newsetupCommands = new ArrayList<>();
-        for (String cmd : setupCommands) {
+        for (String cmd : getCommands()) {
             newsetupCommands.add(cmd);
         }
-        return new SellPreset(this.name, this.hasPrice, this.price, this.regionKind, this.flagGroup, this.inactivityReset, this.isHotel, this.autoRestore, this.isUserRestorable, this.allowedSubregions, this.autoPrice, this.entityLimitGroup, newsetupCommands);
+        return new SellPreset(this.getName(), this.hasPrice(), this.getPrice(), this.getRegionKind(),
+                this.getFlagGroup(), this.isInactivityReset(), this.isHotel(), this.isAutoRestore(),
+                this.isUserRestorable(), this.getAllowedSubregions(), this.getAutoPrice(),
+                this.getEntityLimitGroup(), newsetupCommands);
     }
 
     @Override
@@ -48,7 +51,12 @@ public class SellPreset extends Preset {
     @Override
     public Region generateRegion(WGRegion wgRegion, World world, List<SignData> signs) {
 
-        SellRegion sellRegion = new SellRegion(wgRegion, world, signs, new Price(AutoPrice.DEFAULT), false, this.isInactivityReset(), this.isHotel(), this.isAutoRestore(), this.getRegionKind(), this.getFlagGroup(), null, 0, new GregorianCalendar().getTimeInMillis(), this.isUserRestorable(), new ArrayList<>(), this.getAllowedSubregions(), this.entityLimitGroup, new HashMap<>(), 0);
+        SellRegion sellRegion = new SellRegion(wgRegion, world, signs, new Price(AutoPrice.DEFAULT),
+                false, this.isInactivityReset(), this.isHotel(), this.isAutoRestore(),
+                this.getRegionKind(), this.getFlagGroup(), null, 0,
+                new GregorianCalendar().getTimeInMillis(), this.isUserRestorable(), new ArrayList<>(),
+                this.getAllowedSubregions(), this.getEntityLimitGroup(), new HashMap<>(), 0);
+
         if (this.hasAutoPrice()) {
             sellRegion.setPrice(new Price(this.getAutoPrice()));
         } else if (this.hasPrice()) {

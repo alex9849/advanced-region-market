@@ -78,7 +78,7 @@ public class RentPresetMaxRentTimeCommand implements BasicArmCommand {
         if (allargs.matches(this.regex_set)) {
             rentPreset.setMaxRentTime(args[1]);
             player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
-            if (rentPreset.hasPrice() && rentPreset.hasMaxRentTime() && rentPreset.hasExtendPerClick()) {
+            if (rentPreset.canPriceLineBeLetEmpty()) {
                 player.sendMessage(Messages.PREFIX + "You can leave the price-line on signs empty now");
             }
             return true;

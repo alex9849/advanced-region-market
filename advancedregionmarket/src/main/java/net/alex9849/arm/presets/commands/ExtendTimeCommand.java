@@ -6,9 +6,9 @@ import net.alex9849.arm.commands.BasicArmCommand;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.presets.ActivePresetManager;
 import net.alex9849.arm.presets.PresetPlayerPair;
+import net.alex9849.arm.presets.presets.ContractPreset;
 import net.alex9849.arm.presets.presets.Preset;
 import net.alex9849.arm.presets.presets.PresetType;
-import net.alex9849.arm.presets.presets.RentPreset;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -17,15 +17,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class RentPresetExtendPerClickCommand implements BasicArmCommand {
+public class ExtendTimeCommand implements BasicArmCommand {
 
-    private final String rootCommand = "extendperclick";
-    private final String regex_set = "(?i)extendperclick ([0-9]+(s|m|h|d))";
-    private final String regex_remove = "(?i)extendperclick (?i)remove";
-    private final List<String> usage = new ArrayList<>(Arrays.asList("extendperclick ([TIME(Example: 10h)]/remove)"));
+    private final String rootCommand = "extendtime";
+    private final String regex_set = "(?i)extendtime ([0-9]+(s|m|h|d))";
+    private final String regex_remove = "(?i)extendtime (?i)remove";
+    private final List<String> usage = new ArrayList<>(Arrays.asList("extendtime ([TIME(Example: 10h)]/remove)"));
     private PresetType presetType;
 
-    public RentPresetExtendPerClickCommand(PresetType presetType) {
+    public ExtendTimeCommand(PresetType presetType) {
         this.presetType = presetType;
     }
 
@@ -55,12 +55,8 @@ public class RentPresetExtendPerClickCommand implements BasicArmCommand {
         }
         Player player = (Player) sender;
 
-        if (!player.hasPermission(Permission.ADMIN_PRESET_SET_EXTENDPERCLICK)) {
+        if (!player.hasPermission(Permission.ADMIN_PRESET_SET_EXTENDTIME)) {
             throw new InputException(player, Messages.NO_PERMISSION);
-        }
-
-        if (presetType != PresetType.RENTPRESET) {
-            return false;
         }
 
         Preset preset = ActivePresetManager.getPreset(player, this.presetType);
@@ -70,20 +66,20 @@ public class RentPresetExtendPerClickCommand implements BasicArmCommand {
             ActivePresetManager.add(new PresetPlayerPair(player, preset));
         }
 
-        if (!(preset instanceof RentPreset)) {
+        if (!(preset instanceof ContractPreset)) {
             return false;
         }
-        RentPreset rentPreset = (RentPreset) preset;
+        ContractPreset contractPreset = (ContractPreset) preset;
 
         if (allargs.matches(this.regex_set)) {
-            rentPreset.setExtendPerClick(args[1]);
+            contractPreset.setExtendTime(args[1]);
             player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
-            if (rentPreset.hasPrice() && rentPreset.hasMaxRentTime() && rentPreset.hasExtendPerClick()) {
+            if (contractPreset.canPriceLineBeLetEmpty()) {
                 player.sendMessage(Messages.PREFIX + "You can leave the price-line on signs empty now");
             }
             return true;
         } else {
-            rentPreset.removeExtendPerClick();
+            contractPreset.removeExtendTime();
             player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
             return true;
         }
@@ -92,7 +88,7 @@ public class RentPresetExtendPerClickCommand implements BasicArmCommand {
     @Override
     public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
-        if (player.hasPermission(Permission.ADMIN_PRESET_SET_EXTENDPERCLICK)) {
+        if (player.hasPermission(Permission.ADMIN_PRESET_SET_EXTENDTIME)) {
             if (args.length >= 1) {
                 if (args.length == 1) {
                     if (this.rootCommand.startsWith(args[0])) {

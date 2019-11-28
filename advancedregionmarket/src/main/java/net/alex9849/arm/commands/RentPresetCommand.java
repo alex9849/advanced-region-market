@@ -6,6 +6,7 @@ import net.alex9849.arm.exceptions.CmdSyntaxException;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.handler.CommandHandler;
 import net.alex9849.arm.presets.commands.AutoRestoreCommand;
+import net.alex9849.arm.presets.commands.ExtendTimeCommand;
 import net.alex9849.arm.presets.commands.InactivityResetResetCommand;
 import net.alex9849.arm.presets.commands.UserRestorableCommand;
 import net.alex9849.arm.presets.presets.PresetType;
@@ -29,7 +30,7 @@ public class RentPresetCommand extends SellPresetCommand {
         this.commandHandler = new CommandHandler(this.usage, this.rootCommand);
         List<BasicArmCommand> commands = new ArrayList<>();
         commands.add(new InactivityResetResetCommand(PresetType.RENTPRESET));
-        commands.add(new net.alex9849.arm.presets.commands.RentPresetExtendPerClickCommand(PresetType.RENTPRESET));
+        commands.add(new ExtendTimeCommand(PresetType.RENTPRESET));
         commands.add(new net.alex9849.arm.presets.commands.RentPresetMaxRentTimeCommand(PresetType.RENTPRESET));
         commands.add(new net.alex9849.arm.presets.commands.DeleteCommand(PresetType.RENTPRESET));
         commands.add(new AutoRestoreCommand(PresetType.RENTPRESET));

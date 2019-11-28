@@ -22,52 +22,55 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class ContractPreset extends Preset {
-    private boolean hasExtend = false;
-    private long extend = 0;
+    private boolean hasExtendTime = false;
+    private long extendTime = 0;
 
     public ContractPreset(String name, boolean hasPrice, double price, RegionKind regionKind, FlagGroup flagGroup, boolean inactivityReset, boolean isHotel, boolean doBlockReset, boolean hasExtend, long extend, boolean isUserRestorable, int allowedSubregions, AutoPrice autoPrice, EntityLimitGroup entityLimitGroup, List<String> setupCommands) {
         super(name, hasPrice, price, regionKind, flagGroup, inactivityReset, isHotel, doBlockReset, isUserRestorable, allowedSubregions, autoPrice, entityLimitGroup, setupCommands);
-        this.hasExtend = hasExtend;
-        this.extend = extend;
+        this.hasExtendTime = hasExtend;
+        this.extendTime = extend;
     }
 
     public ContractPreset getCopy() {
         List<String> newsetupCommands = new ArrayList<>();
-        for (String cmd : setupCommands) {
+        for (String cmd : getCommands()) {
             newsetupCommands.add(cmd);
         }
-        return new ContractPreset(this.name, this.hasPrice, this.price, this.regionKind, this.flagGroup, this.inactivityReset, this.isHotel, this.autoRestore, this.hasExtend, this.extend, this.isUserRestorable, this.allowedSubregions, this.autoPrice, this.entityLimitGroup, newsetupCommands);
+        return new ContractPreset(this.getName(), this.hasPrice(), this.getPrice(), this.getRegionKind(),
+                this.getFlagGroup(), this.isInactivityReset(), this.isHotel(), this.isAutoRestore(),
+                this.hasExtendTime(), this.getExtendTime(), this.isUserRestorable(),
+                this.getAllowedSubregions(), this.getAutoPrice(), this.getEntityLimitGroup(), newsetupCommands);
     }
 
-    public boolean hasExtend() {
-        return hasExtend;
+    public boolean hasExtendTime() {
+        return hasExtendTime;
     }
 
-    public void removeExtend() {
-        this.hasExtend = false;
-        this.extend = 0;
+    public void removeExtendTime() {
+        this.hasExtendTime = false;
+        this.extendTime = 0;
     }
 
-    public long getExtend() {
-        return this.extend;
+    public long getExtendTime() {
+        return this.extendTime;
     }
 
-    public void setExtend(String string) {
-        this.hasExtend = true;
-        this.extend = RentPrice.stringToTime(string);
+    public void setExtendTime(String string) {
+        this.hasExtendTime = true;
+        this.extendTime = RentPrice.stringToTime(string);
         this.removeAutoPrice();
     }
 
     public void setExtend(long time) {
-        this.hasExtend = true;
-        this.extend = time;
+        this.hasExtendTime = true;
+        this.extendTime = time;
         this.removeAutoPrice();
     }
 
     @Override
     public void setAutoPrice(AutoPrice autoPrice) {
         super.setAutoPrice(autoPrice);
-        this.removeExtend();
+        this.removeExtendTime();
     }
 
     private String longToTime(long time) {
@@ -104,8 +107,8 @@ public class ContractPreset extends Preset {
     @Override
     public void getAdditionalInfo(Player player) {
         String extendtime = "not defined";
-        if (this.hasExtend()) {
-            extendtime = longToTime(this.extend);
+        if (this.hasExtendTime()) {
+            extendtime = longToTime(this.extendTime);
         }
         player.sendMessage(Messages.REGION_INFO_AUTO_EXTEND_TIME + extendtime);
     }
@@ -117,17 +120,23 @@ public class ContractPreset extends Preset {
 
     @Override
     public boolean canPriceLineBeLetEmpty() {
-        return (this.hasPrice() && this.hasExtend()) || this.hasAutoPrice();
+        return (this.hasPrice() && this.hasExtendTime()) || this.hasAutoPrice();
     }
 
     @Override
     public Region generateRegion(WGRegion wgRegion, World world, List<SignData> signs) {
 
-        ContractRegion contractRegion = new ContractRegion(wgRegion, world, signs, new ContractPrice(AutoPrice.DEFAULT), false, this.isInactivityReset(), this.isHotel(), this.isAutoRestore(), this.getRegionKind(), this.getFlagGroup(), null, 0, new GregorianCalendar().getTimeInMillis(), this.isUserRestorable(), 1, true, new ArrayList<>(), this.getAllowedSubregions(), this.entityLimitGroup, new HashMap<>(), 0);
+        ContractRegion contractRegion = new ContractRegion(wgRegion, world, signs,
+                new ContractPrice(AutoPrice.DEFAULT), false, this.isInactivityReset(),
+                this.isHotel(), this.isAutoRestore(), this.getRegionKind(), this.getFlagGroup(),
+                null, 0, new GregorianCalendar().getTimeInMillis(),
+                this.isUserRestorable(), 1, true, new ArrayList<>(),
+                this.getAllowedSubregions(), this.getEntityLimitGroup(), new HashMap<>(), 0);
+
         if (this.hasAutoPrice()) {
             contractRegion.setPrice(new ContractPrice(this.getAutoPrice()));
-        } else if (this.hasPrice() && this.hasExtend()) {
-            contractRegion.setPrice(new ContractPrice(this.getPrice(), this.getExtend()));
+        } else if (this.hasPrice() && this.hasExtendTime()) {
+            contractRegion.setPrice(new ContractPrice(this.getPrice(), this.getExtendTime()));
         }
         return contractRegion;
     }
@@ -135,8 +144,8 @@ public class ContractPreset extends Preset {
     @Override
     public ConfigurationSection toConfigurationSection() {
         ConfigurationSection section = super.toConfigurationSection();
-        section.set("hasExtend", this.hasExtend());
-        section.set("extendTime", this.getExtend());
+        section.set("hasExtendTime", this.hasExtendTime());
+        section.set("extendTime", this.getExtendTime());
         return section;
     }
 

@@ -1759,6 +1759,8 @@ public class AdvancedRegionMarket extends JavaPlugin {
                                 ConfigurationSection regionSection = worldSection.getConfigurationSection(regionname);
                                 regionSection.set("userrestorable", regionSection.getBoolean("isUserResettable"));
                                 regionSection.set("autorestore", regionSection.getBoolean("doBlockReset"));
+                                regionSection.set("doBlockReset", null);
+                                regionSection.set("isUserResettable", null);
                             }
                         }
                     }

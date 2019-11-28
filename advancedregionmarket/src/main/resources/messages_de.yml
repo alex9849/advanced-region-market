@@ -199,7 +199,7 @@ Messages:
   RegionInfoNo: '&4Nein'
   RegionInfoAllowedSubregions: '&6Eraubte Unterregionen: '
   RegionInfoExpired: '&4Abgelaufen'
-  RegionSelectedMultipleRegions: '&6Es gibte mehrere Regionen an deiner Position.
+  RegionSelectedMultipleRegions: '&6Es gibt mehrere Regionen an deiner Position.
     Bitte wähle eine aus: &4'
   RentRegionExpirationWarning: '&4WARNUNG! Diese RentRegionen von dir laufen bald
     ab: &c'

@@ -15,11 +15,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class HotelCommand implements BasicArmCommand {
+public class SetHotelCommand implements BasicArmCommand {
 
-    private final String rootCommand = "hotel";
-    private final String regex = "(?i)hotel [^;\n ]+ (false|true)";
-    private final List<String> usage = new ArrayList<>(Arrays.asList("hotel [REGION] [true/false]"));
+    private final String rootCommand = "sethotel";
+    private final String regex = "(?i)sethotel [^;\n ]+ (false|true)";
+    private final List<String> usage = new ArrayList<>(Arrays.asList("sethotel [REGION] [true/false]"));
 
     @Override
     public boolean matchesRegex(String command) {

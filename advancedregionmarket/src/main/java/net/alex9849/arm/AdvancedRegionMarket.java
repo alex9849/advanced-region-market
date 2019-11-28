@@ -265,7 +265,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         List<BasicArmCommand> commands = new ArrayList<>();
         String[] betweencmds = {};
         commands.add(new AddMemberCommand());
-        commands.add(new InactivityResetCommand());
+        commands.add(new SetInactivityResetCommand());
         commands.add(new ContractPresetCommand());
         commands.add(new DeleteCommand());
         commands.add(new SetAutoRestoreCommand());
@@ -273,7 +273,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         commands.add(new RegionfinderCommand());
         commands.add(new GuiCommand());
         commands.add(new HelpCommand(this.commandHandler, Messages.HELP_HEADLINE, betweencmds, Permission.ARM_HELP));
-        commands.add(new HotelCommand());
+        commands.add(new SetHotelCommand());
         commands.add(new InfoCommand());
         commands.add(new LimitCommand());
         commands.add(new OfferCommand());
@@ -336,7 +336,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         List<BasicArmCommand> subRegionCommands = new ArrayList<>();
         subRegionCommands.add(new ToolCommand());
         subRegionCommands.add(new net.alex9849.arm.subregions.commands.CreateCommand());
-        subRegionCommands.add(new net.alex9849.arm.subregions.commands.HotelCommand());
+        subRegionCommands.add(new net.alex9849.arm.subregions.commands.SetHotelCommand());
         subRegionCommands.add(new net.alex9849.arm.subregions.commands.TPCommand());
         subRegionCommands.add(new net.alex9849.arm.subregions.commands.RestoreCommand());
         subRegionCommands.add(new net.alex9849.arm.subregions.commands.UnsellCommand());

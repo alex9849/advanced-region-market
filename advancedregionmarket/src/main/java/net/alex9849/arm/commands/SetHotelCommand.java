@@ -15,12 +15,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class InactivityResetCommand implements BasicArmCommand {
+public class SetHotelCommand implements BasicArmCommand {
 
-    private final String rootCommand = "inactivityreset";
-    private final String regex = "(?i)inactivityreset [^;\n ]+ (false|true)";
-    private final String regex_massaction = "(?i)inactivityreset rk:[^;\n ]+ (false|true)";
-    private final List<String> usage = new ArrayList<>(Arrays.asList("inactivityreset [REGION] [true/false]", "inactivityreset rk:[REGIONKIND] [true/false]"));
+    private final String rootCommand = "sethotel";
+    private final String regex = "(?i)sethotel [^;\n ]+ (false|true)";
+    private final String regex_massaction = "(?i)sethotel rk:[^;\n ]+ (false|true)";
+    private final List<String> usage = new ArrayList<>(Arrays.asList("sethotel [REGION] [true/false]", "sethotel rk:[REGIONKIND] [true/false]"));
 
     @Override
     public boolean matchesRegex(String command) {
@@ -39,13 +39,13 @@ public class InactivityResetCommand implements BasicArmCommand {
 
     @Override
     public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
+        if (!(sender.hasPermission(Permission.ADMIN_SET_IS_HOTEL))) {
+            throw new InputException(sender, Messages.NO_PERMISSION);
+        }
         if (!(sender instanceof Player)) {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
         Player player = (Player) sender;
-        if (!sender.hasPermission(Permission.ADMIN_SET_INACTIVITYRESET)) {
-            throw new InputException(sender, Messages.NO_PERMISSION);
-        }
 
         List<Region> regions = new ArrayList<>();
         String selectedName;
@@ -57,9 +57,6 @@ public class InactivityResetCommand implements BasicArmCommand {
             if (selectedRegionkind == null) {
                 throw new InputException(sender, Messages.REGIONKIND_DOES_NOT_EXIST);
             }
-            if (selectedRegionkind == RegionKind.SUBREGION) {
-                throw new InputException(sender, Messages.SUB_REGION_INACTIVITYRESET_ERROR);
-            }
             regions = AdvancedRegionMarket.getInstance().getRegionManager().getRegionsByRegionKind(selectedRegionkind);
             selectedName = selectedRegionkind.getConvertedMessage(Messages.MASSACTION_SPLITTER);
         } else {
@@ -68,9 +65,6 @@ public class InactivityResetCommand implements BasicArmCommand {
                 throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
             }
 
-            if (selectedRegion.isSubregion()) {
-                throw new InputException(sender, Messages.SUB_REGION_INACTIVITYRESET_ERROR);
-            }
             regions.add(selectedRegion);
             selectedName = selectedRegion.getRegion().getId();
         }
@@ -78,10 +72,10 @@ public class InactivityResetCommand implements BasicArmCommand {
         Boolean boolsetting = Boolean.parseBoolean(args[2]);
 
         for (Region region : regions) {
-            region.setInactivityReset(boolsetting);
+            region.setHotel(boolsetting);
         }
         String sendmessage = Messages.REGION_MODIFIED_BOOLEAN;
-        sendmessage = sendmessage.replace("%option%", "InactivityReset");
+        sendmessage = sendmessage.replace("%option%", "isHotel");
         sendmessage = sendmessage.replace("%state%", Messages.convertEnabledDisabled(boolsetting));
         sendmessage = sendmessage.replace("%selectedregions%", selectedName);
         sender.sendMessage(Messages.PREFIX + sendmessage);
@@ -95,11 +89,11 @@ public class InactivityResetCommand implements BasicArmCommand {
 
         if (args.length >= 1) {
             if (this.rootCommand.startsWith(args[0])) {
-                if (player.hasPermission(Permission.ADMIN_SET_INACTIVITYRESET)) {
+                if (player.hasPermission(Permission.ADMIN_SET_IS_HOTEL)) {
                     if (args.length == 1) {
                         returnme.add(this.rootCommand);
                     } else if (args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                        returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true, false));
+                        returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true, true));
                         if ("rk:".startsWith(args[1])) {
                             returnme.add("rk:");
                         }

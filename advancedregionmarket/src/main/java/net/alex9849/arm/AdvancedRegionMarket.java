@@ -35,6 +35,7 @@ import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.regions.price.RentPrice;
 import net.alex9849.arm.subregions.commands.ToolCommand;
 import net.alex9849.arm.util.MaterialFinder;
+import net.alex9849.arm.util.YamlFileManager;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.inter.WorldEditInterface;
 import net.alex9849.inter.WorldGuardInterface;
@@ -61,7 +62,8 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import javax.net.ssl.HttpsURLConnection;
-import java.io.*;
+import java.io.File;
+import java.io.PrintStream;
 import java.net.InetAddress;
 import java.net.URL;
 import java.text.NumberFormat;
@@ -820,34 +822,15 @@ public class AdvancedRegionMarket extends JavaPlugin {
         }
     }
 
-    public void generatedefaultconfig() {
-        Plugin plugin = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket");
-        File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-        File messagesdic = new File(pluginfolder + "/config.yml");
-        if (!messagesdic.exists()) {
-            try {
-                InputStream stream = plugin.getResource("config.yml");
-                byte[] buffer = new byte[stream.available()];
-                stream.read(buffer);
-                OutputStream output = new FileOutputStream(messagesdic);
-                output.write(buffer);
-                output.close();
-                stream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        this.reloadConfig();
-    }
-
     private void generateConfigs() {
-        this.generatedefaultconfig();
+        YamlFileManager.writeResourceToDisc(new File(this.getDataFolder() + "/config.yml"), this.getResource("config.yml"));
+        this.reloadConfig();
         EntityLimitGroupManager.writeResourceToDisc(new File(this.getDataFolder() + "/entitylimits.yml"), getResource("entitylimits.yml"));
         RegionKindManager.writeResourceToDisc(new File(this.getDataFolder() + "/regionkinds.yml"), getResource("regionkinds.yml"));
         RegionManager.writeResourceToDisc(new File(this.getDataFolder() + "/regions.yml"), getResource("regions.yml"));
         PresetPatternManager.writeResourceToDisc(new File(this.getDataFolder() + "/presets.yml"), getResource("presets.yml"));
         FlagGroupManager.writeResourceToDisc(new File(this.getDataFolder() + "/flaggroups.yml"), getResource("flaggroups.yml"));
-        Messages.generatedefaultConfig("en");
+        Messages.generatedefaultConfig(getConfig().getString("Other.Language"));
     }
 
 }

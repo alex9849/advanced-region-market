@@ -940,6 +940,7 @@ public class Updater {
         pluginConfig.set("Subregions.SubregionAutoRestore", pluginConfig.getBoolean("Subregions.SubregionBlockReset"));
         pluginConfig.set("Subregions.AllowSubRegionUserReset", null);
         pluginConfig.set("Subregions.SubregionBlockReset", null);
+        pluginConfig.set("Other.Language", "en");
         pluginConfig.set("Version", 2.12);
         AdvancedRegionMarket.getInstance().saveConfig();
     }

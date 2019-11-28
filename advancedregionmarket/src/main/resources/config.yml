@@ -174,6 +174,12 @@ Other:
   # of my biggest motivations to continue to develop this plugin. If you disable this plugin or set Sendstats to false and do not start it
   # for 2 weeks, all data from your server will automatically be deleted.
   Sendstats: true
+  #The language of the plugin. Available languages: en, de, fr, ru
+  #You can send me your own translations of the plugin and I'll
+  #include them into the plugin. You have to remove the messages.yml
+  #and reload/restart the plugin if you want that arm regenerates the
+  #messages file in your preferred language.
+  Language: en
 
   #These commands will be executed by the player if the clicks on a sign. "buyaction" means the buyaction of the region will be executed (For example extending the region
   #or teminating the contract) you can use all region-variables in your commands.

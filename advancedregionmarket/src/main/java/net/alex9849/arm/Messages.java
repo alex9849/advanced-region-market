@@ -1196,6 +1196,9 @@ public class Messages {
     }
 
     public static void generatedefaultConfig(String languageCode) {
+        if(languageCode == null) {
+            languageCode = "en";
+        }
         Plugin plugin = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket");
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
         File messagesdic = new File(pluginfolder + "/messages.yml");

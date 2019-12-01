@@ -45,7 +45,6 @@ permissions:
       arm.admin.reload: true
       arm.admin.preset: true
       arm.admin.preset.setprice: true
-      arm.admin.preset.setextendperclick: true
       arm.admin.preset.setmaxrenttime: true
       arm.admin.preset.setregionkind: true
       arm.admin.preset.setinactivityreset: true
@@ -64,7 +63,7 @@ permissions:
       arm.admin.preset.userrestorable: true
       arm.admin.preset.allowedsubregions: true
       arm.admin.preset.removecommand: true
-      arm.admin.preset.setextend: true
+      arm.admin.preset.setextendtime: true
       arm.admin.terminatecontract: true
       arm.admin.regionstatus: true
       arm.admin.bypassteleportercooldown: true
@@ -155,25 +154,17 @@ permissions:
     description: Give access to all commands for subregions
     default: true
     children:
-      arm.member.restore: true
-      arm.member.sellregion: true
-      arm.member.info: true
-      arm.member.addmember: true
-      arm.member.removemember: true
-      arm.member.listregions: true
-      arm.member.gui: true
-      arm.member.tp: true
-      arm.member.limit: true
-      arm.member.offer.create: true
-      arm.member.offer.answer: true
-      arm.member.promote: true
-      arm.member.buy: true
-      arm.member.regionfinder: true
-      arm.member.entitylimit.info: true
-      arm.member.entitylimit.check: true
-      arm.member.entitylimit.buyextra: true
-      arm.member.tptofreeregion: true
-      arm.member.flageditor: true
+      arm.subregion.tool: true
+      arm.subregion.create.sellregion: true
+      arm.subregion.create.rentregion: true
+      arm.subregion.create.contractregion: true
+      arm.subregion.delete.available: true
+      arm.subregion.delete.sold: true
+      arm.subregion.setishotel: true
+      arm.subregion.tp: true
+      arm.subregion.unsell: true
+      arm.subregion.restore: true
+      arm.subregion.help: true
   arm.admin.setinactivityreset:
     description: Allows to enable and disable inactivityreset for specific regions
     default: op
@@ -255,9 +246,6 @@ permissions:
   arm.admin.preset.setprice:
     description: Preset permission
     default: op
-  arm.admin.preset.setextendperclick:
-    description: Preset permission
-    default: op
   arm.admin.preset.setmaxrenttime:
     description: Preset permission
     default: op
@@ -309,7 +297,7 @@ permissions:
   arm.admin.preset.removecommand:
     description: Preset permission
     default: op
-  arm.admin.preset.setextend:
+  arm.admin.preset.setextendtime:
     description: Preset permission
     default: op
   arm.admin.preset.flaggroup:

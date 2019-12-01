@@ -530,8 +530,8 @@ Messages:
   InfoNotCalculated: '&8Awaiting calculation...'
   CouldNotFindOrLoadSchematicLog: '&4Could not find or load schematic for region %region%
     in world %world%! You can regenerate it with /arm updateschematic %region%'
-  RegionSoldBackSuccessfully: '&2Your region &6%regionid% &2has been sold back to
-    the server successfully! &6%paybackmoney%%currency% &2have been added to your
+  RegionSoldBackSuccessfully: '&2Your region &6%regionid% &2has successfully been sold back to
+    the server! &6%paybackmoney%%currency% &2have been added to your
     account!'
   RegionModifiedBoolean: '&6%option% %state% &6for &a%selectedregions%&6!'
   RegionModified: '&6%option% &6modified for %selectedregions%&6!'

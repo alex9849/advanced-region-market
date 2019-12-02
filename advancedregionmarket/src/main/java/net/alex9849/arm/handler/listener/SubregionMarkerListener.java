@@ -53,8 +53,7 @@ public class SubregionMarkerListener implements Listener {
         List<Region> applicableRegions = AdvancedRegionMarket.getInstance().getRegionManager().getRegionsByLocation(event.getClickedBlock().getLocation());
 
         if (applicableRegions.size() == 0) {
-            player.sendMessage(Messages.NO_REGION_AT_PLAYERS_POSITION);
-            return;
+            throw new InputException(event.getPlayer(), Messages.NO_REGION_AT_PLAYERS_POSITION);
         }
 
         for (Region region : applicableRegions) {
@@ -71,18 +70,18 @@ public class SubregionMarkerListener implements Listener {
                 subRegionCreator = new SubRegionCreator(region, player);
 
             } else if (subRegionCreator.getParentRegion() != region) {
-                player.sendMessage(Messages.MARK_IN_OTHER_REGION_REMOVING);
+                player.sendMessage(Messages.PREFIX + Messages.MARK_IN_OTHER_REGION_REMOVING);
                 subRegionCreator = new SubRegionCreator(region, player);
             }
 
             if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
                 subRegionCreator.setPos2(event.getClickedBlock().getLocation());
                 event.setCancelled(true);
-                player.sendMessage(Messages.SECOND_POSITION_SET);
+                player.sendMessage(Messages.PREFIX + Messages.SECOND_POSITION_SET);
             } else if (event.getAction() == Action.LEFT_CLICK_BLOCK) {
                 subRegionCreator.setPos1(event.getClickedBlock().getLocation());
                 event.setCancelled(true);
-                player.sendMessage(Messages.FIRST_POSITION_SET);
+                player.sendMessage(Messages.PREFIX + Messages.FIRST_POSITION_SET);
             }
             return;
         }

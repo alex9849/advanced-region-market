@@ -170,7 +170,7 @@ Messages:
   RegionIsNotAContractRegion: '&4Region ist keine ContractRegion!'
   RegionTeleportMessage: '&7Du wurdest zur region &6%regionid% &7teleportiert'
   RegionNowAviable: '&aRegion is now available!'
-  NoRegionAtPlayersPosition: '&7Konnte keine keine Region an deiner Position finden!'
+  NoRegionAtPlayersPosition: '&7Konnte keine Region an deiner Position finden!'
   RegionAddMemberNotOnline: '&4Der ausgewählte Spieler ist nicht online!'
   RegionAddMemberAdded: '&aDer Spieler wurde zur Region hinzugefügt!'
   RegionRemoveMemberNotAMember: '&4Der ausgewählte Spieler ist kein Mitglied der Region!'

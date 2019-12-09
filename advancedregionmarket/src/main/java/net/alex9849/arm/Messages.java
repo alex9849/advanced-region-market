@@ -383,6 +383,8 @@ public class Messages {
         Configuration config = YamlConfiguration.loadConfiguration(messagesconfigdic);
 
         PREFIX = config.getString("Messages.Prefix") + " ";
+        if (config.getString("Messages.Prefix").equals(""))
+            PREFIX = "";
         REGION_BUYMESSAGE = config.getString("Messages.Buymessage");
         NOT_ENOUGHT_MONEY = config.getString("Messages.NotEnoughtMoney");
         REGION_ALREADY_SOLD = config.getString("Messages.RegionAlreadySold");

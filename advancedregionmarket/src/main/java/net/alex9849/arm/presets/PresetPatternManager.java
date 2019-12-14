@@ -59,7 +59,7 @@ public class PresetPatternManager extends YamlFileManager<Preset> {
         }
         if (presetType == PresetType.SELLPRESET) {
             return new SellPreset(name, hasprice, price, regionKind, flagGroup,
-                    isHotel, autorestore, inactivityReset, userrestorable,
+                    inactivityReset, isHotel, autorestore, userrestorable,
                     allowedSubregions, autoPrice, entityLimitGroup, setupcommands);
         }
 
@@ -72,8 +72,8 @@ public class PresetPatternManager extends YamlFileManager<Preset> {
                     hasExtendTime = false;
                     extendTime = 0;
                 }
-                return new ContractPreset(name, hasprice, price, regionKind, flagGroup, isHotel, autorestore,
-                        inactivityReset, hasExtendTime, extendTime, userrestorable, allowedSubregions,
+                return new ContractPreset(name, hasprice, price, regionKind, flagGroup, inactivityReset, isHotel, autorestore,
+                        hasExtendTime, extendTime, userrestorable, allowedSubregions,
                         autoPrice, entityLimitGroup, setupcommands);
 
             } else {
@@ -86,8 +86,8 @@ public class PresetPatternManager extends YamlFileManager<Preset> {
                     hasMaxRentTime = false;
                     maxRentTime = 0;
                 }
-                return new RentPreset(name, hasprice, price, regionKind, flagGroup, isHotel, autorestore,
-                        inactivityReset, hasMaxRentTime, maxRentTime, hasExtendTime, extendTime,
+                return new RentPreset(name, hasprice, price, regionKind, flagGroup, inactivityReset, isHotel,
+                        autorestore, hasMaxRentTime, maxRentTime, hasExtendTime, extendTime,
                         userrestorable, allowedSubregions, autoPrice, entityLimitGroup, setupcommands);
             }
 

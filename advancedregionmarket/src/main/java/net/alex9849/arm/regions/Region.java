@@ -558,10 +558,12 @@ public abstract class Region implements Saveable {
     }
 
     public void createSchematic() {
-        AdvancedRegionMarket.getInstance().getWorldEditInterface().createSchematic(this.getRegion(), this.getRegionworld(), AdvancedRegionMarket.getInstance().getWorldedit().getWorldEdit());
+        File schematicFolder = new File(AdvancedRegionMarket.getInstance().getDataFolder()+ "/schematics");
+        File regionsSchematicFolder = new File(schematicFolder + "/" + this.getRegionworld().getName());
+        AdvancedRegionMarket.getInstance().getWorldEditInterface().createSchematic(this.getRegion(), this.getRegionworld(), regionsSchematicFolder, this.getRegion().getId());
     }
 
-    public void resetBlocks(ActionReason actionReason, boolean logToConsole) throws SchematicNotFoundException {
+    public void restoreRegion(ActionReason actionReason, boolean logToConsole) throws SchematicNotFoundException {
 
         ResetBlocksEvent resetBlocksEvent = new ResetBlocksEvent(this);
         Bukkit.getServer().getPluginManager().callEvent(resetBlocksEvent);
@@ -573,7 +575,10 @@ public abstract class Region implements Saveable {
             this.killEntitys();
         }
 
-        AdvancedRegionMarket.getInstance().getWorldEditInterface().resetBlocks(this.getRegion(), this.getRegionworld(), AdvancedRegionMarket.getInstance().getWorldedit().getWorldEdit());
+        File schematicFolder = new File(AdvancedRegionMarket.getInstance().getDataFolder()+ "/schematics");
+        File regionsSchematicWithoutFileEnding = new File(schematicFolder + "/" + this.getRegionworld().getName() + "/" + this.getRegion().getId());
+
+        AdvancedRegionMarket.getInstance().getWorldEditInterface().restoreSchematic(this.getRegion(), this.getRegionworld(), regionsSchematicWithoutFileEnding);
 
         if (AdvancedRegionMarket.getInstance().getPluginSettings().isDeleteSubregionsOnParentRegionBlockReset()) {
             for (int i = 0; i < this.getSubregions().size(); i++) {
@@ -677,7 +682,7 @@ public abstract class Region implements Saveable {
     public void userRestore(Player player) {
         try {
             //TODO Add if should log
-            this.resetBlocks(ActionReason.USER_RESTORE, true);
+            this.restoreRegion(ActionReason.USER_RESTORE, true);
             GregorianCalendar calendar = new GregorianCalendar();
             this.lastreset = calendar.getTimeInMillis();
             this.queueSave();
@@ -732,7 +737,7 @@ public abstract class Region implements Saveable {
         this.extraEntitys.clear();
         this.extraTotalEntitys = 0;
         this.queueSave();
-        this.resetBlocks(actionReason, logToConsole);
+        this.restoreRegion(actionReason, logToConsole);
         return;
     }
 
@@ -758,7 +763,7 @@ public abstract class Region implements Saveable {
             this.extraEntitys.clear();
             this.extraTotalEntitys = 0;
             try {
-                this.resetBlocks(actionReason, logToConsole);
+                this.restoreRegion(actionReason, logToConsole);
             } finally {
                 this.queueSave();
             }

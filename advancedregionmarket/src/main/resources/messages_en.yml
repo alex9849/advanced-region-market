@@ -543,6 +543,10 @@ Messages:
     been &areactivated&6! It will automatically be extended in &a%remainingtime-countdown-short% &6if
     you can pay for the rent!'
   TimeUnitSplitter: ' and '
+  BackupCreated: '&aBackup created!'
+  BackupRestored: '&aBackup restored!'
+  CouldNotLoadBackup: '&4Could not load backup! Maybe it does not exist or the file is corrupted!'
+  BackupListHeader: '&6=======[Backups of region %regionid%]======='
   RegionInfoSellregionAdmin:
   - '&6=========[Region Info]========='
   - '&9ID: &e%regionid% &7(Type: &r%selltype%&7)'

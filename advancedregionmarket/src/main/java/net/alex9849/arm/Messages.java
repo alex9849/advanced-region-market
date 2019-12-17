@@ -375,6 +375,10 @@ public class Messages {
     public static String CONTRACTREGION_REACTIVATED = "&aYour contractregion &6%region% &ahas successfully been &4reactivated&a! It will automatically extended in &6%remaining% &aif you can pay for the rent!";
     public static String REGION_INFO_FEATURE_DISABLED = "";
     public static String FLAGGROUP_FEATURE_DISABLED = "";
+    public static String BACKUP_CREATED = "";
+    public static String BACKUP_RESTORED = "";
+    public static String COULD_NOT_LOAD_BACKUP = "";
+    public static String BACKUP_LIST_HEADER = "";
     private static YamlConfiguration config;
 
     static void read() {
@@ -744,6 +748,10 @@ public class Messages {
         CONTRACTREGION_REACTIVATED = config.getString("Messages.ContractRegionReactivated");
         REGION_INFO_FEATURE_DISABLED = config.getString("Messages.RegionInfoFeatureDisabled");
         FLAGGROUP_FEATURE_DISABLED = config.getString("Messages.FlagGroupFeatureDisabled");
+        BACKUP_CREATED = config.getString("Messages.BackupCreated");
+        BACKUP_RESTORED = config.getString("Messages.BackupRestored");
+        COULD_NOT_LOAD_BACKUP = config.getString("Messages.CouldNotLoadBackup");
+        BACKUP_LIST_HEADER = config.getString("Messages.BackupListHeader");
 
         Messages.translateColorCodes();
     }
@@ -1075,6 +1083,10 @@ public class Messages {
         CONTRACTREGION_REACTIVATED = ChatColor.translateAlternateColorCodes('&', CONTRACTREGION_REACTIVATED);
         REGION_INFO_FEATURE_DISABLED = ChatColor.translateAlternateColorCodes('&', REGION_INFO_FEATURE_DISABLED);
         FLAGGROUP_FEATURE_DISABLED = ChatColor.translateAlternateColorCodes('&', FLAGGROUP_FEATURE_DISABLED);
+        BACKUP_CREATED = ChatColor.translateAlternateColorCodes('&', BACKUP_CREATED);
+        BACKUP_RESTORED = ChatColor.translateAlternateColorCodes('&', BACKUP_RESTORED);
+        COULD_NOT_LOAD_BACKUP = ChatColor.translateAlternateColorCodes('&', COULD_NOT_LOAD_BACKUP);
+        BACKUP_LIST_HEADER = ChatColor.translateAlternateColorCodes('&', BACKUP_LIST_HEADER);
 
         for (int i = 0; i < REGION_INFO_SELLREGION.size(); i++) {
             REGION_INFO_SELLREGION.set(i, ChatColor.translateAlternateColorCodes('&', REGION_INFO_SELLREGION.get(i)));

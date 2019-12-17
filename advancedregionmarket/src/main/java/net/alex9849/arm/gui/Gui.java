@@ -676,7 +676,7 @@ public class Gui implements Listener {
                         @Override
                         public void execute(Player player) throws InputException {
                             try {
-                                region.resetBlocks(Region.ActionReason.MANUALLY_BY_PARENT_REGION_OWNER, true);
+                                region.restoreRegion(Region.ActionReason.MANUALLY_BY_PARENT_REGION_OWNER, true, false);
                                 player.sendMessage(Messages.PREFIX + Messages.COMPLETE);
                             } catch (SchematicNotFoundException e) {
                                 AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, region.getConvertedMessage(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
@@ -707,7 +707,7 @@ public class Gui implements Listener {
                     Gui.openWarning(player, Messages.UNSELL_REGION_WARNING_NAME, new ClickAction() {
                         @Override
                         public void execute(Player player) throws InputException {
-                            region.unsell(Region.ActionReason.MANUALLY_BY_PARENT_REGION_OWNER, true);
+                            region.unsell(Region.ActionReason.MANUALLY_BY_PARENT_REGION_OWNER, true, false);
                             player.closeInventory();
                             player.sendMessage(Messages.PREFIX + Messages.REGION_NOW_AVIABLE);
                         }

@@ -7,8 +7,11 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.*;
 import java.util.logging.Level;
+import java.util.regex.Pattern;
 
 public class Updater {
     
@@ -123,6 +126,10 @@ public class Updater {
             if (version < 2.12) {
                 AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 2.1.2..");
                 updateTo2p12(pluginConfig);
+            }
+            if (version < 2.14) {
+                AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 2.1.4..");
+                updateTo2p14(pluginConfig);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -942,6 +949,55 @@ public class Updater {
         pluginConfig.set("Subregions.SubregionBlockReset", null);
         pluginConfig.set("Other.Language", "en");
         pluginConfig.set("Version", 2.12);
+        AdvancedRegionMarket.getInstance().saveConfig();
+    }
+
+    private static void updateTo2p14(FileConfiguration pluginConfig) throws IOException {
+        File schematicDic = new File(AdvancedRegionMarket.getInstance().getDataFolder() + "/schematics");
+        File[] schematicDicContent = schematicDic.listFiles();
+        if(schematicDicContent != null) {
+            List<File> worldFolders = new ArrayList<>();
+            for(File schematicDicFile : schematicDicContent) {
+                if(schematicDicFile.isDirectory()) {
+                    worldFolders.add(schematicDicFile);
+                }
+            }
+
+            for(File worldFolder : worldFolders) {
+                File[] worldFolderContent = worldFolder.listFiles();
+                List<File> schematicFiles = new ArrayList<>();
+
+                for(File worldFolderFile : worldFolderContent) {
+                    if(worldFolderFile.isFile()) {
+                        schematicFiles.add(worldFolderFile);
+                    }
+                }
+                for(File schematicFile : schematicFiles) {
+                    String fileName = schematicFile.getName();
+                    String[] filePaths = fileName.split(Pattern.quote("."));
+                    if(filePaths.length < 2) {
+                        continue;
+                    }
+                    String fileEnding = filePaths[filePaths.length - 1];
+                    String fileWithoutEnding = fileName.replace("." + fileEnding, "");
+                    File schematicFolder = new File(worldFolder + "/" + fileWithoutEnding);
+                    schematicFolder.mkdirs();
+                    Files.copy(schematicFile.getAbsoluteFile().toPath(),
+                            new File(schematicFolder.getAbsolutePath() + "/schematic." + fileEnding).toPath(),
+                            StandardCopyOption.REPLACE_EXISTING);
+                    schematicFile.delete();
+                }
+            }
+
+        }
+
+        pluginConfig.set("Version", 2.14);
+        pluginConfig.set("Other.RemoveEntitiesOnRegionRestore", pluginConfig.getBoolean("Other.RemoveEntitiesOnRegionBlockReset"));
+        pluginConfig.set("Other.RemoveEntitiesOnRegionBlockReset", false);
+        pluginConfig.set("Subregions.deleteSubregionsOnParentRegionRestore", pluginConfig.getBoolean("Subregions.deleteSubregionsOnParentRegionBlockReset"));
+        pluginConfig.set("Subregions.deleteSubregionsOnParentRegionBlockReset", false);
+        pluginConfig.set("Backups.createBackupOnRegionRestore", true);
+        pluginConfig.set("Backups.createBackupOnRegionUnsell", true);
         AdvancedRegionMarket.getInstance().saveConfig();
     }
 

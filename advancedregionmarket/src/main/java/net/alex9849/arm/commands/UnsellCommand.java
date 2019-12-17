@@ -50,8 +50,7 @@ public class UnsellCommand implements BasicArmCommand {
                 region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, args[1]);
             }
 
-            //TODO logToConsole
-            region.unsell(Region.ActionReason.MANUALLY_BY_ADMIN, true);
+            region.unsell(Region.ActionReason.MANUALLY_BY_ADMIN, true, false);
 
             player.sendMessage(Messages.PREFIX + Messages.REGION_NOW_AVIABLE);
             return true;

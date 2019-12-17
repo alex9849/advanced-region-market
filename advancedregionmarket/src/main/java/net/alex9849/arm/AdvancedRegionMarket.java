@@ -223,11 +223,11 @@ public class AdvancedRegionMarket extends JavaPlugin {
         this.pluginSettings.setDateTimeformat(getConfig().getString("Other.DateTimeFormat"));
         this.pluginSettings.setIsRegionInfoParticleBorder(getConfig().getBoolean("Other.RegionInfoParticleBorder"));
         this.pluginSettings.setIsAllowTeleportToBuySign(getConfig().getBoolean("Other.AllowRegionfinderTeleportToBuySign"));
-        this.pluginSettings.setRemoveEntitiesOnRegionBlockReset(getConfig().getBoolean("Other.RemoveEntitiesOnRegionBlockReset"));
+        this.pluginSettings.setRemoveEntitiesOnRegionBlockReset(getConfig().getBoolean("Other.RemoveEntitiesOnRegionRestore"));
         this.pluginSettings.setIsAllowSubregionUserRestore(getConfig().getBoolean("Subregions.AllowSubregionUserRestore"));
         this.pluginSettings.setIsSubregionAutoRestore(getConfig().getBoolean("Subregions.SubregionAutoRestore"));
         this.pluginSettings.setIsSubregionInactivityReset(getConfig().getBoolean("Subregions.SubregionInactivityReset"));
-        this.pluginSettings.setDeleteSubregionsOnParentRegionBlockReset(getConfig().getBoolean("Subregions.deleteSubregionsOnParentRegionBlockReset"));
+        this.pluginSettings.setDeleteSubregionsOnParentRegionBlockReset(getConfig().getBoolean("Subregions.deleteSubregionsOnParentRegionRestore"));
         this.pluginSettings.setDeleteSubregionsOnParentRegionUnsell(getConfig().getBoolean("Subregions.deleteSubregionsOnParentRegionUnsell"));
         this.pluginSettings.setAllowParentRegionOwnersBuildOnSubregions(getConfig().getBoolean("Subregions.allowParentRegionOwnersBuildOnSubregions"));
         this.pluginSettings.setSignRightClickSneakCommand(getConfig().getString("SignClickActions.RightClickSneakCmd"));
@@ -235,7 +235,10 @@ public class AdvancedRegionMarket extends JavaPlugin {
         this.pluginSettings.setSignLeftClickSneakCommand(getConfig().getString("SignClickActions.LeftClickSneakCmd"));
         this.pluginSettings.setSignLeftClickNotSneakCommand(getConfig().getString("SignClickActions.LeftClickNotSneakCmd"));
         this.pluginSettings.setActivateRegionKindPermissions(getConfig().getBoolean("RegionKinds.activateRegionKindPermissions"));
+        this.pluginSettings.setCreateBackupOnRegionRestore(getConfig().getBoolean("Backups.createBackupOnRegionRestore"));
+        this.pluginSettings.setCreateBackupOnRegionUnsell(getConfig().getBoolean("Backups.createBackupOnRegionUnsell"));
         FlagGroup.setFeatureEnabled(getConfig().getBoolean("FlagGroups.enabled"));
+
         try {
             this.pluginSettings.setUserResetCooldown(CountdownRegion.stringToTime(getConfig().getString("Other.userResetCooldown")));
         } catch (IllegalArgumentException e) {
@@ -277,6 +280,9 @@ public class AdvancedRegionMarket extends JavaPlugin {
         commands.add(new InfoCommand());
         commands.add(new LimitCommand());
         commands.add(new OfferCommand());
+        commands.add(new CreateBackupCommand());
+        commands.add(new RestoreBackupCommand());
+        commands.add(new ListBackupsCommand());
         commands.add(new RegionstatsCommand());
         commands.add(new ReloadCommand());
         commands.add(new RemoveMemberCommand());

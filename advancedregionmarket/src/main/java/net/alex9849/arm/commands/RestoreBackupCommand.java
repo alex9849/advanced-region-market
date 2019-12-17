@@ -15,7 +15,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.regex.Pattern;
 
 public class RestoreBackupCommand implements BasicArmCommand {
@@ -55,10 +54,9 @@ public class RestoreBackupCommand implements BasicArmCommand {
         try {
             //TODO logToConsole
             region.loadBackup(args[2]);
-            player.sendMessage(Messages.PREFIX + "Backup restored");
+            player.sendMessage(Messages.PREFIX + Messages.BACKUP_RESTORED);
         } catch (SchematicNotFoundException e) {
-            AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, region.getConvertedMessage(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
-            player.sendMessage(Messages.PREFIX + Messages.SCHEMATIC_NOT_FOUND_ERROR_USER.replace("%regionid%", e.getRegion().getId()));
+            player.sendMessage(Messages.PREFIX + Messages.COULD_NOT_LOAD_BACKUP.replace("%regionid%", e.getRegion().getId()));
         }
         return true;
     }

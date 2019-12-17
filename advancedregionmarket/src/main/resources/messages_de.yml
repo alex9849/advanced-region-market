@@ -583,6 +583,10 @@ Messages:
   RegionModified: '&6%option% &6bearbeitet für %selectedregions%&6!'
   UpdatingSchematic: '&6Update Schematic...'
   SchematicUpdated: '&aSchemtic geupdated!'
+  BackupCreated: '&aBackup erstellt!'
+  BackupRestored: '&aBackup wiederhergestellt!'
+  CouldNotLoadBackup: '&4Konnte Backup nicht laden! Entweder wurde die Datei nicht gefunden, oder sie ist beschädigt!'
+  BackupListHeader: '&6=======[Backups von der Region %regionid%]======='
   RegionInfoSellregionAdmin:
   - '&6=========[Region Info]========='
   - '&9ID: &e%regionid% &7(Typ: &r%selltype%&7)'

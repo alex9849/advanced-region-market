@@ -56,7 +56,7 @@ public class CreateBackupCommand implements BasicArmCommand {
 
         region.createBackup();
         //TODO change message
-        player.sendMessage(Messages.PREFIX + "Backup created!");
+        player.sendMessage(Messages.PREFIX + Messages.BACKUP_CREATED);
         return true;
     }
 

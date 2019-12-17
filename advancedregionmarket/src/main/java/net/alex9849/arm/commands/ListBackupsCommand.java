@@ -77,9 +77,9 @@ public class ListBackupsCommand implements BasicArmCommand {
             }
         }
 
-        //TODO make beautiful
+        player.sendMessage(region.getConvertedMessage(Messages.BACKUP_LIST_HEADER));
         for(String backupID : backupNames) {
-            player.sendMessage(backupID);
+            player.sendMessage("- " + backupID);
         }
 
         return true;

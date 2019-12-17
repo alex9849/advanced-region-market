@@ -992,6 +992,12 @@ public class Updater {
         }
 
         pluginConfig.set("Version", 2.14);
+        pluginConfig.set("Other.RemoveEntitiesOnRegionRestore", pluginConfig.getBoolean("Other.RemoveEntitiesOnRegionBlockReset"));
+        pluginConfig.set("Other.RemoveEntitiesOnRegionBlockReset", false);
+        pluginConfig.set("Subregions.deleteSubregionsOnParentRegionRestore", pluginConfig.getBoolean("Subregions.deleteSubregionsOnParentRegionBlockReset"));
+        pluginConfig.set("Subregions.deleteSubregionsOnParentRegionBlockReset", false);
+        pluginConfig.set("Backups.createBackupOnRegionRestore", true);
+        pluginConfig.set("Backups.createBackupOnRegionUnsell", true);
         AdvancedRegionMarket.getInstance().saveConfig();
     }
 

@@ -136,8 +136,8 @@ public abstract class CountdownRegion extends Region {
     }
 
     @Override
-    public void unsell(ActionReason actionReason, boolean logToConsole) {
-        super.unsell(actionReason, logToConsole);
+    public void unsell(ActionReason actionReason, boolean logToConsole, boolean preventBackup) {
+        super.unsell(actionReason, logToConsole, preventBackup);
         GregorianCalendar actualtime = new GregorianCalendar();
         if (this.getPayedTill() > actualtime.getTimeInMillis()) {
             this.setPayedTill(actualtime.getTimeInMillis());

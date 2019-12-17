@@ -169,7 +169,7 @@ Other:
   # to a sign or the the region
   AllowRegionfinderTeleportToBuySign: true
   # If true all entities will be removed if the region gets resetted
-  RemoveEntitiesOnRegionBlockReset: true
+  RemoveEntitiesOnRegionRestore: true
   # If true the plugin will send me your servers ip address and playercount every 5 minutes. This allows me to visit your server and is one
   # of my biggest motivations to continue to develop this plugin. If you disable this plugin or set Sendstats to false and do not start it
   # for 2 weeks, all data from your server will automatically be deleted.
@@ -189,12 +189,16 @@ SignClickActions:
   LeftClickNotSneakCmd: "arm info %regionid%"
   LeftClickSneakCmd: "arm flageditor %regionid%"
 
+Backups:
+  createBackupOnRegionRestore: true
+  createBackupOnRegionUnsell: true
+
 Subregions:
   AllowSubregionUserRestore: false
   SubregionAutoRestore: false
   SubregionInactivityReset: true
   deleteSubregionsOnParentRegionUnsell: false
-  deleteSubregionsOnParentRegionBlockReset: false
+  deleteSubregionsOnParentRegionRestore: false
   allowParentRegionOwnersBuildOnSubregions: true
 
 Reselling:

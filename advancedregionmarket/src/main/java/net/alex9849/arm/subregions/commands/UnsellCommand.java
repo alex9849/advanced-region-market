@@ -59,7 +59,7 @@ public class UnsellCommand implements BasicArmCommand {
         }
 
         //TODO logToConsole
-        region.unsell(Region.ActionReason.MANUALLY_BY_PARENT_REGION_OWNER, true);
+        region.unsell(Region.ActionReason.MANUALLY_BY_PARENT_REGION_OWNER, true, false);
         player.sendMessage(Messages.PREFIX + Messages.REGION_NOW_AVIABLE);
         return true;
     }

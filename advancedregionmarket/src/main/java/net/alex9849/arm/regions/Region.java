@@ -577,12 +577,16 @@ public abstract class Region implements Saveable {
         AdvancedRegionMarket.getInstance().getWorldEditInterface().createSchematic(this.getRegion(), this.getRegionworld(), regionsSchematicFolder, "schematic");
     }
 
-    public void restoreRegion(ActionReason actionReason, boolean logToConsole) throws SchematicNotFoundException {
+    public void restoreRegion(ActionReason actionReason, boolean logToConsole, boolean preventBackup) throws SchematicNotFoundException {
 
         ResetBlocksEvent resetBlocksEvent = new ResetBlocksEvent(this);
         Bukkit.getServer().getPluginManager().callEvent(resetBlocksEvent);
         if (resetBlocksEvent.isCancelled()) {
             return;
+        }
+
+        if(AdvancedRegionMarket.getInstance().getPluginSettings().isCreateBackupOnRegionRestore() && !preventBackup) {
+            this.createBackup();
         }
 
         if (AdvancedRegionMarket.getInstance().getPluginSettings().isRemoveEntitiesOnRegionBlockReset()) {
@@ -696,7 +700,7 @@ public abstract class Region implements Saveable {
     public void userRestore(Player player) {
         try {
             //TODO Add if should log
-            this.restoreRegion(ActionReason.USER_RESTORE, true);
+            this.restoreRegion(ActionReason.USER_RESTORE, true, false);
             GregorianCalendar calendar = new GregorianCalendar();
             this.lastreset = calendar.getTimeInMillis();
             this.queueSave();
@@ -747,11 +751,11 @@ public abstract class Region implements Saveable {
     }
 
     public void resetRegion(ActionReason actionReason, boolean logToConsole) throws SchematicNotFoundException {
-        this.unsell(actionReason, logToConsole);
+        this.unsell(actionReason, logToConsole, false);
         this.extraEntitys.clear();
         this.extraTotalEntitys = 0;
         this.queueSave();
-        this.restoreRegion(actionReason, logToConsole);
+        this.restoreRegion(actionReason, logToConsole, true);
         return;
     }
 
@@ -772,12 +776,12 @@ public abstract class Region implements Saveable {
      * if the execption gets thrown the region will be unsold
      */
     public void automaticResetRegion(ActionReason actionReason, boolean logToConsole) throws SchematicNotFoundException {
-        this.unsell(actionReason, logToConsole);
+        this.unsell(actionReason, logToConsole, false);
         if (this.isAutoRestore()) {
             this.extraEntitys.clear();
             this.extraTotalEntitys = 0;
             try {
-                this.restoreRegion(actionReason, logToConsole);
+                this.restoreRegion(actionReason, logToConsole, true);
             } finally {
                 this.queueSave();
             }
@@ -801,11 +805,15 @@ public abstract class Region implements Saveable {
         return true;
     }
 
-    public void unsell(ActionReason actionReason, boolean logToConsole) {
+    public void unsell(ActionReason actionReason, boolean logToConsole, boolean preventBackup) {
         UnsellRegionEvent unsellRegionEvent = new UnsellRegionEvent(this);
         Bukkit.getServer().getPluginManager().callEvent(unsellRegionEvent);
         if (unsellRegionEvent.isCancelled()) {
             return;
+        }
+
+        if(AdvancedRegionMarket.getInstance().getPluginSettings().isCreateBackupOnRegionUnsell() && !preventBackup) {
+            this.createBackup();
         }
 
         this.getRegion().deleteMembers();

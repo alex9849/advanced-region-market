@@ -15,6 +15,25 @@ public class ArmSettings {
     private boolean allowParentRegionOwnersBuildOnSubregions = true;
     private boolean removeEntitiesOnRegionBlockReset = true;
     private boolean activateRegionKindPermissions = false;
+    private boolean createBackupOnRegionUnsell = true;
+
+    public boolean isCreateBackupOnRegionUnsell() {
+        return createBackupOnRegionUnsell;
+    }
+
+    public void setCreateBackupOnRegionUnsell(boolean createBackupOnRegionUnsell) {
+        this.createBackupOnRegionUnsell = createBackupOnRegionUnsell;
+    }
+
+    public boolean isCreateBackupOnRegionRestore() {
+        return createBackupOnRegionRestore;
+    }
+
+    public void setCreateBackupOnRegionRestore(boolean createBackupOnRegionRestore) {
+        this.createBackupOnRegionRestore = createBackupOnRegionRestore;
+    }
+
+    private boolean createBackupOnRegionRestore = true;
     private long userResetCooldown = 604800000;
 
     private String signRightClickSneakCommand = "buyaction";

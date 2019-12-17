@@ -30,6 +30,7 @@ import org.bukkit.entity.*;
 import org.bukkit.util.Vector;
 
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.Level;
 
@@ -557,10 +558,23 @@ public abstract class Region implements Saveable {
         this.queueSave();
     }
 
+    public void createBackup() {
+        String fileName = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSSS").format(new Date());
+        File schematicFolder = new File(AdvancedRegionMarket.getInstance().getDataFolder()+ "/schematics");
+        File regionsSchematicFolder = new File(schematicFolder + "/" + this.getRegionworld().getName() + "/" + this.getRegion().getId() + "/Backups");
+        AdvancedRegionMarket.getInstance().getWorldEditInterface().createSchematic(this.getRegion(), this.getRegionworld(), regionsSchematicFolder, fileName);
+    }
+
+    public void loadBackup(String name) throws SchematicNotFoundException {
+        File schematicFolder = new File(AdvancedRegionMarket.getInstance().getDataFolder()+ "/schematics");
+        File regionsSchematicPathWithoutFileEnding = new File(schematicFolder + "/" + this.getRegionworld().getName() + "/" + this.getRegion().getId() + "/Backups/" + name);
+        AdvancedRegionMarket.getInstance().getWorldEditInterface().restoreSchematic(this.getRegion(), this.getRegionworld(), regionsSchematicPathWithoutFileEnding);
+    }
+
     public void createSchematic() {
         File schematicFolder = new File(AdvancedRegionMarket.getInstance().getDataFolder()+ "/schematics");
-        File regionsSchematicFolder = new File(schematicFolder + "/" + this.getRegionworld().getName());
-        AdvancedRegionMarket.getInstance().getWorldEditInterface().createSchematic(this.getRegion(), this.getRegionworld(), regionsSchematicFolder, this.getRegion().getId());
+        File regionsSchematicFolder = new File(schematicFolder + "/" + this.getRegionworld().getName() + "/" + this.getRegion().getId());
+        AdvancedRegionMarket.getInstance().getWorldEditInterface().createSchematic(this.getRegion(), this.getRegionworld(), regionsSchematicFolder, "schematic");
     }
 
     public void restoreRegion(ActionReason actionReason, boolean logToConsole) throws SchematicNotFoundException {
@@ -576,9 +590,9 @@ public abstract class Region implements Saveable {
         }
 
         File schematicFolder = new File(AdvancedRegionMarket.getInstance().getDataFolder()+ "/schematics");
-        File regionsSchematicWithoutFileEnding = new File(schematicFolder + "/" + this.getRegionworld().getName() + "/" + this.getRegion().getId());
+        File regionsSchematicPathWithoutFileEnding = new File(schematicFolder + "/" + this.getRegionworld().getName() + "/" + this.getRegion().getId() + "/schematic");
 
-        AdvancedRegionMarket.getInstance().getWorldEditInterface().restoreSchematic(this.getRegion(), this.getRegionworld(), regionsSchematicWithoutFileEnding);
+        AdvancedRegionMarket.getInstance().getWorldEditInterface().restoreSchematic(this.getRegion(), this.getRegionworld(), regionsSchematicPathWithoutFileEnding);
 
         if (AdvancedRegionMarket.getInstance().getPluginSettings().isDeleteSubregionsOnParentRegionBlockReset()) {
             for (int i = 0; i < this.getSubregions().size(); i++) {

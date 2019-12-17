@@ -18,6 +18,9 @@ permissions:
     description: Give access to all commands of AdvancedRegionMarket
     default: op
     children:
+      arm.admin.listbackups: true
+      arm.admin.restorebackup: true
+      arm.admin.createbackup: true
       arm.inactivityexpiration.unlimited: true
       arm.admin.setinactivityreset: true
       arm.admin.create.sellregion: true
@@ -491,4 +494,13 @@ permissions:
     default: true
   arm.inactivityexpiration.unlimited:
     description: Deactivated InactivityReset for the user
+    default: op
+  arm.admin.listbackups:
+    description: Lists all backups of a region
+    default: op
+  arm.admin.restorebackup:
+    description: restores a backup of a region
+    default: op
+  arm.admin.createbackup:
+    description: creates a backup of a region
     default: op

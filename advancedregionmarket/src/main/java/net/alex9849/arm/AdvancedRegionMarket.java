@@ -277,6 +277,9 @@ public class AdvancedRegionMarket extends JavaPlugin {
         commands.add(new InfoCommand());
         commands.add(new LimitCommand());
         commands.add(new OfferCommand());
+        commands.add(new CreateBackupCommand());
+        commands.add(new RestoreBackupCommand());
+        commands.add(new ListBackupsCommand());
         commands.add(new RegionstatsCommand());
         commands.add(new ReloadCommand());
         commands.add(new RemoveMemberCommand());

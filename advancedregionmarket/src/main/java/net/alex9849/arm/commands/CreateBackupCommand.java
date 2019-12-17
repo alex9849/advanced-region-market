@@ -42,7 +42,6 @@ public class CreateBackupCommand implements BasicArmCommand {
         }
         Player player = (Player) sender;
 
-        //TODO change permissions and stuff
         if (!player.hasPermission(Permission.ADMIN_CREATE_BACKUP)) {
             throw new InputException(player, Messages.NO_PERMISSION);
         }
@@ -55,7 +54,6 @@ public class CreateBackupCommand implements BasicArmCommand {
         }
 
         region.createBackup();
-        //TODO change message
         player.sendMessage(Messages.PREFIX + Messages.BACKUP_CREATED);
         return true;
     }

@@ -44,7 +44,6 @@ public class RestoreBackupCommand implements BasicArmCommand {
         }
         Player player = (Player) sender;
 
-        //TODO change permissions and stuff
         if (!player.hasPermission(Permission.ADMIN_RESTORE_BACKUP)) {
             throw new InputException(player, Messages.NO_PERMISSION);
         }
@@ -52,7 +51,6 @@ public class RestoreBackupCommand implements BasicArmCommand {
         Region region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, args[1]);
 
         try {
-            //TODO logToConsole
             region.loadBackup(args[2]);
             player.sendMessage(Messages.PREFIX + Messages.BACKUP_RESTORED);
         } catch (SchematicNotFoundException e) {

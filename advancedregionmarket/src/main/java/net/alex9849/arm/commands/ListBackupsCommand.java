@@ -44,7 +44,6 @@ public class ListBackupsCommand implements BasicArmCommand {
         }
         Player player = (Player) sender;
 
-        //TODO change permissions and stuff
         if (!player.hasPermission(Permission.ADMIN_LIST_BACKUPS)) {
             throw new InputException(player, Messages.NO_PERMISSION);
         }

@@ -59,7 +59,6 @@ public class RestoreCommand implements BasicArmCommand {
 
         if (player.hasPermission(Permission.ADMIN_RESTORE)) {
             try {
-                //TODO logToConsole
                 resregion.restoreRegion(Region.ActionReason.MANUALLY_BY_ADMIN, true, false);
             } catch (SchematicNotFoundException e) {
                 AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, resregion.getConvertedMessage(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));

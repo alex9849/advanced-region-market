@@ -628,7 +628,7 @@ public abstract class Region implements Saveable {
 
     public void resetBuiltBlocks() {
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-        File builtblocksdic = new File(pluginfolder + "/schematics/" + this.regionworld.getName() + "/" + region.getId() + ".builtblocks");
+        File builtblocksdic = new File(pluginfolder + "/schematics/" + this.regionworld.getName() + "/" + region.getId() + "/builtblocks.builtblocks");
         if (builtblocksdic.exists()) {
             builtblocksdic.delete();
             this.builtblocks = new HashSet<>();

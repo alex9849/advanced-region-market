@@ -979,13 +979,19 @@ public class Updater {
                         continue;
                     }
                     String fileEnding = filePaths[filePaths.length - 1];
-                    String fileWithoutEnding = fileName.replace("." + fileEnding, "");
-                    File schematicFolder = new File(worldFolder + "/" + fileWithoutEnding);
-                    schematicFolder.mkdirs();
+                    String fileNameWithoutEnding = fileName.replace("." + fileEnding, "");
+                    File schematicFileWithoutEnding = new File(worldFolder + "/" + fileNameWithoutEnding);
+                    schematicFileWithoutEnding.mkdirs();
                     Files.copy(schematicFile.getAbsoluteFile().toPath(),
-                            new File(schematicFolder.getAbsolutePath() + "/schematic." + fileEnding).toPath(),
+                            new File(schematicFileWithoutEnding.getAbsolutePath() + "/schematic." + fileEnding).toPath(),
                             StandardCopyOption.REPLACE_EXISTING);
                     schematicFile.delete();
+                    File builtBlocksFile = new File(schematicFileWithoutEnding + ".builtblocks");
+                    if(builtBlocksFile.exists()) {
+                        Files.copy(builtBlocksFile.toPath(), new File(schematicFileWithoutEnding.getAbsolutePath() + "/builtblocks.builtblocks").toPath(),
+                                StandardCopyOption.REPLACE_EXISTING);
+                    }
+
                 }
             }
 

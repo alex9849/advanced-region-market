@@ -14,7 +14,7 @@ import java.util.logging.Level;
 import java.util.regex.Pattern;
 
 public class Updater {
-    
+
     static void updateConfigs() {
         FileConfiguration pluginConfig = AdvancedRegionMarket.getInstance().getConfig();
         Double version = pluginConfig.getDouble("Version");
@@ -906,7 +906,7 @@ public class Updater {
         UpdateHelpMethods.replaceVariableInFlagGroupsYML("%inactivityresetin%", "%inactivityresetin-countdown-short%");
         UpdateHelpMethods.replaceVariableInFlagGroupsYML("%remaininguserresetcooldown%", "%remaininguserresetcooldown-countdown-short%");
         UpdateHelpMethods.setMessageInMessageYML("Messages.SignRemovedFromRegion", "&7Regionsign removed! %remaining% Sign(s) remaining before "
-                +"region gets removed from ARM!");
+                + "region gets removed from ARM!");
         pluginConfig.set("Other.RemainingTimeFormat", null);
         pluginConfig.set("Other.ShortCountdown", null);
         pluginConfig.set("Version", 2.09);
@@ -941,7 +941,7 @@ public class Updater {
         regionConf.save(AdvancedRegionMarket.getInstance().getDataFolder() + "/regions.yml");
 
         UpdateHelpMethods.replaceVariableInMessagesYML("%isuserresettable%", "%isuserrestorable%");
-        UpdateHelpMethods.replaceVariableInMessagesYML( "%isdoblockreset%", "%isautorestore%");
+        UpdateHelpMethods.replaceVariableInMessagesYML("%isdoblockreset%", "%isautorestore%");
         pluginConfig.set("FlagGroups.enabled", true);
         pluginConfig.set("Subregions.AllowSubregionUserRestore", pluginConfig.getBoolean("Subregions.AllowSubRegionUserReset"));
         pluginConfig.set("Subregions.SubregionAutoRestore", pluginConfig.getBoolean("Subregions.SubregionBlockReset"));
@@ -955,36 +955,41 @@ public class Updater {
     private static void updateTo2p14(FileConfiguration pluginConfig) throws IOException {
         File schematicDic = new File(AdvancedRegionMarket.getInstance().getDataFolder() + "/schematics");
         File[] schematicDicContent = schematicDic.listFiles();
-        if(schematicDicContent != null) {
+        if (schematicDicContent != null) {
             List<File> worldFolders = new ArrayList<>();
-            for(File schematicDicFile : schematicDicContent) {
-                if(schematicDicFile.isDirectory()) {
+            for (File schematicDicFile : schematicDicContent) {
+                if (schematicDicFile.isDirectory()) {
                     worldFolders.add(schematicDicFile);
                 }
             }
 
-            for(File worldFolder : worldFolders) {
+            for (File worldFolder : worldFolders) {
                 File[] worldFolderContent = worldFolder.listFiles();
                 List<File> schematicFiles = new ArrayList<>();
 
-                for(File worldFolderFile : worldFolderContent) {
-                    if(worldFolderFile.isFile()) {
+                for (File worldFolderFile : worldFolderContent) {
+                    if (worldFolderFile.isFile()) {
                         schematicFiles.add(worldFolderFile);
                     }
                 }
-                for(File schematicFile : schematicFiles) {
+                for (File schematicFile : schematicFiles) {
                     String fileName = schematicFile.getName();
                     String[] filePaths = fileName.split(Pattern.quote("."));
-                    if(filePaths.length < 2) {
+                    if (filePaths.length < 2) {
                         continue;
                     }
                     String fileEnding = filePaths[filePaths.length - 1];
-                    String fileWithoutEnding = fileName.replace("." + fileEnding, "");
-                    File schematicFolder = new File(worldFolder + "/" + fileWithoutEnding);
-                    schematicFolder.mkdirs();
-                    Files.copy(schematicFile.getAbsoluteFile().toPath(),
-                            new File(schematicFolder.getAbsolutePath() + "/schematic." + fileEnding).toPath(),
-                            StandardCopyOption.REPLACE_EXISTING);
+                    String fileNameWithoutEnding = fileName.replace("." + fileEnding, "");
+                    File schematicFileWithoutEnding = new File(worldFolder + "/" + fileNameWithoutEnding);
+                    schematicFileWithoutEnding.mkdirs();
+                    if (!fileEnding.equals("builtblocks")) {
+                        Files.copy(schematicFile.getAbsoluteFile().toPath(),
+                                new File(schematicFileWithoutEnding.getAbsolutePath() + "/schematic." + fileEnding).toPath(),
+                                StandardCopyOption.REPLACE_EXISTING);
+                    } else {
+                        Files.copy(schematicFile.toPath(), new File(schematicFileWithoutEnding.getAbsolutePath() + "/builtblocks.builtblocks").toPath(),
+                                StandardCopyOption.REPLACE_EXISTING);
+                    }
                     schematicFile.delete();
                 }
             }
@@ -1002,7 +1007,6 @@ public class Updater {
     }
 
     private static class UpdateHelpMethods {
-
 
 
         private static void replaceVariableInMessagesYML(String variable, String replacement) throws IOException {
@@ -1081,5 +1085,5 @@ public class Updater {
         }
 
     }
-    
+
 }

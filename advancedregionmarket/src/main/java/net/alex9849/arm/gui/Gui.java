@@ -2054,17 +2054,27 @@ public class Gui implements Listener {
             try {
                 Object settingsObj = getParsedSettingsObject();
                 Object regionFlagSetting = region.getRegion().getFlagSetting(flag);
-                if (this.parentFlag != null && region.getRegion().getFlagSetting(parentFlag) == null) {
-                    return false;
-                }
-                if (regionFlagSetting == settingsObj) {
-                    return true;
+
+                if(parentFlag == null) {
+                    if(regionFlagSetting == settingsObj) {
+                        return true;
+                    } else {
+                        return false;
+                    }
                 } else {
-                    if (flag.getDefault() == settingsObj && regionFlagSetting == null) {
+                    if(settingsObj == flag.getDefault()
+                            && region.getRegion().getFlagSetting(parentFlag) != null
+                            && regionFlagSetting == null) {
+                        return true;
+                    }
+                    if (regionFlagSetting == settingsObj) {
                         return true;
                     }
                     return false;
                 }
+
+
+
             } catch (InvalidFlagFormat e) {
                 return false;
             }
@@ -2084,11 +2094,7 @@ public class Gui implements Listener {
                     throw new InvalidFlagFormat("");
                 }
                 Object flagSetting = getParsedSettingsObject();
-                if (flag.getDefault() == flagSetting) {
-                    region.getRegion().deleteFlags(flag);
-                } else {
-                    region.getRegion().setFlag(flag, flagSetting);
-                }
+                region.getRegion().setFlag(flag, flagSetting);
                 afterFlagSetAction.execute(player);
                 player.sendMessage(Messages.PREFIX + region.getConvertedMessage(Messages.FLAGEDITOR_FLAG_HAS_BEEN_UPDATED));
             } catch (InvalidFlagFormat invalidFlagFormat) {

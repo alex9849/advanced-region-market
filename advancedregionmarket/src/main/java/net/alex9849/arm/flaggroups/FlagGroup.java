@@ -1,9 +1,6 @@
 package net.alex9849.arm.flaggroups;
 
 import com.sk89q.worldguard.protection.flags.Flag;
-import com.sk89q.worldguard.protection.flags.InvalidFlagFormat;
-import com.sk89q.worldguard.protection.flags.RegionGroup;
-import com.sk89q.worldguard.protection.flags.RegionGroupFlag;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.exceptions.FeatureDisabledException;
@@ -148,56 +145,7 @@ public class FlagGroup implements Saveable {
                 continue;
             }
 
-            if (flagSettings.getSettings() == null || flagSettings.getSettings().isEmpty()
-                    || flagSettings.getSettings().equalsIgnoreCase("remove")) {
-                region.getRegion().deleteFlags(flagSettings.getFlag());
-            } else {
-                RegionGroupFlag groupFlag = flagSettings.getFlag().getRegionGroupFlag();
-                String settings = null;
-                RegionGroup groupFlagSettings = null;
-
-                if (groupFlag == null) {
-                    settings = flagSettings.getSettings();
-                } else {
-                    for (String part : flagSettings.getSettings().split(" ")) {
-                        if (part.startsWith("g:")) {
-                            if (part.length() > 2) {
-                                try {
-                                    groupFlagSettings = AdvancedRegionMarket.getInstance().getWorldGuardInterface().parseFlagInput(groupFlag, part.substring(2));
-                                } catch (InvalidFlagFormat iff) {
-                                    Bukkit.getLogger().info("Could not parse groupflag-settings for groupflag " + groupFlag.getName() + "! Flag will be ignored! Please check your flaggroups.yml");
-                                    continue;
-                                }
-                            }
-                        } else {
-                            if (settings == null) {
-                                settings = part;
-                            } else {
-                                settings += " " + part;
-                            }
-                        }
-                    }
-                }
-
-                if (settings != null) {
-                    try {
-                        Object wgFlagSettings = AdvancedRegionMarket.getInstance().getWorldGuardInterface().parseFlagInput(flagSettings.getFlag(), region.getConvertedMessage(settings));
-                        region.getRegion().setFlag(flagSettings.getFlag(), wgFlagSettings);
-                    } catch (InvalidFlagFormat invalidFlagFormat) {
-                        Bukkit.getLogger().info("Could not parse flag-settings for flag " + flagSettings.getFlag().getName() + "! Flag will be ignored! Please check your flaggroups.yml");
-                        continue;
-                    }
-                }
-                if (groupFlagSettings != null) {
-                    if (groupFlagSettings == groupFlag.getDefault()) {
-                        region.getRegion().deleteFlags(groupFlag);
-                    } else {
-                        region.getRegion().setFlag(groupFlag, groupFlagSettings);
-                    }
-                }
-
-
-            }
+            flagSettings.applyTo(region);
         }
         if (!region.isSubregion()) {
             region.getRegion().setPriority(this.priority);

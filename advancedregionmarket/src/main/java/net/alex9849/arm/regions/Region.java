@@ -391,6 +391,7 @@ public abstract class Region implements Saveable {
             if (this.sellsign.get(i).getLocation().getWorld().getName().equals(loc.getWorld().getName())) {
                 if (this.sellsign.get(i).getLocation().distance(loc) == 0) {
                     this.sellsign.remove(i);
+                    this.queueSave();
                     return true;
                 }
             }

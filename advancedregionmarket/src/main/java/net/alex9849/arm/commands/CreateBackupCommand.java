@@ -4,7 +4,6 @@ import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.InputException;
-import net.alex9849.arm.exceptions.SchematicNotFoundException;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regions.Region;
 import org.bukkit.command.Command;
@@ -14,14 +13,12 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Level;
 
-public class ResetCommand implements BasicArmCommand {
-
-    private final String rootCommand = "reset";
-    private final String regex_with_args = "(?i)reset [^;\n ]+";
-    private final String regex = "(?i)reset";
-    private final List<String> usage = new ArrayList<>(Arrays.asList("reset [REGION]", "reset"));
+public class CreateBackupCommand implements BasicArmCommand {
+    private final String rootCommand = "createbackup";
+    private final String regex_with_args = "(?i)createbackup [^;\n ]+";
+    private final String regex = "(?i)createbackup";
+    private final List<String> usage = new ArrayList<>(Arrays.asList("createbackup [REGION]", "createbackup"));
 
     @Override
     public boolean matchesRegex(String command) {
@@ -45,29 +42,19 @@ public class ResetCommand implements BasicArmCommand {
         }
         Player player = (Player) sender;
 
-        if (!sender.hasPermission(Permission.ADMIN_RESETREGION)) {
-            throw new InputException(sender, Messages.NO_PERMISSION);
+        if (!player.hasPermission(Permission.ADMIN_CREATE_BACKUP)) {
+            throw new InputException(player, Messages.NO_PERMISSION);
         }
 
-        Region resregion;
+        Region region;
         if (allargs.matches(this.regex)) {
-            resregion = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, "");
+            region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, "");
         } else {
-            resregion = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, args[1]);
+            region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, args[1]);
         }
 
-        if (resregion == null) {
-            throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
-        }
-
-        try {
-            resregion.resetRegion(Region.ActionReason.MANUALLY_BY_ADMIN, true);
-        } catch (SchematicNotFoundException e) {
-            AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, resregion.getConvertedMessage(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
-            player.sendMessage(Messages.PREFIX + Messages.SCHEMATIC_NOT_FOUND_ERROR_USER.replace("%regionid%", e.getRegion().getId()));
-        }
-        sender.sendMessage(Messages.PREFIX + Messages.REGION_NOW_AVIABLE);
-
+        region.createBackup();
+        player.sendMessage(Messages.PREFIX + Messages.BACKUP_CREATED);
         return true;
     }
 
@@ -77,7 +64,7 @@ public class ResetCommand implements BasicArmCommand {
 
         if (args.length >= 1) {
             if (this.rootCommand.startsWith(args[0])) {
-                if (player.hasPermission(Permission.ADMIN_RESETREGION)) {
+                if (player.hasPermission(Permission.ADMIN_CREATE_BACKUP)) {
                     if (args.length == 1) {
                         returnme.add(this.rootCommand);
                     } else if (args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {

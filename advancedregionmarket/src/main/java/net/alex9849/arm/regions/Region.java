@@ -30,6 +30,7 @@ import org.bukkit.entity.*;
 import org.bukkit.util.Vector;
 
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.Level;
 
@@ -242,7 +243,7 @@ public abstract class Region implements Saveable {
         }
 
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-        File builtblocksdic = new File(pluginfolder + "/schematics/" + this.regionworld.getName() + "/" + region.getId() + ".builtblocks");
+        File builtblocksdic = new File(pluginfolder + "/schematics/" + this.regionworld.getName() + "/" + region.getId() + "/builtblocks.builtblocks");
         if (builtblocksdic.exists()) {
             try {
                 FileReader filereader = new FileReader(builtblocksdic);
@@ -344,9 +345,9 @@ public abstract class Region implements Saveable {
         if (this.builtblocks.add(loc.hashCode())) {
             try {
                 File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-                File builtblocksdic = new File(pluginfolder + "/schematics/" + this.regionworld.getName() + "/" + region.getId() + ".builtblocks");
+                File builtblocksdic = new File(pluginfolder + "/schematics/" + this.regionworld.getName() + "/" + region.getId() + "/builtblocks.builtblocks");
                 if (!builtblocksdic.exists()) {
-                    File builtblocksfolder = new File(pluginfolder + "/schematics/" + this.regionworld.getName());
+                    File builtblocksfolder = new File(pluginfolder + "/schematics/" + this.regionworld.getName() + "/" + region.getId());
                     builtblocksfolder.mkdirs();
                     builtblocksdic.createNewFile();
                 }
@@ -558,11 +559,26 @@ public abstract class Region implements Saveable {
         this.queueSave();
     }
 
-    public void createSchematic() {
-        AdvancedRegionMarket.getInstance().getWorldEditInterface().createSchematic(this.getRegion(), this.getRegionworld(), AdvancedRegionMarket.getInstance().getWorldedit().getWorldEdit());
+    public void createBackup() {
+        String fileName = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSSS").format(new Date());
+        File schematicFolder = new File(AdvancedRegionMarket.getInstance().getDataFolder()+ "/schematics");
+        File regionsSchematicFolder = new File(schematicFolder + "/" + this.getRegionworld().getName() + "/" + this.getRegion().getId() + "/Backups");
+        AdvancedRegionMarket.getInstance().getWorldEditInterface().createSchematic(this.getRegion(), this.getRegionworld(), regionsSchematicFolder, fileName);
     }
 
-    public void resetBlocks(ActionReason actionReason, boolean logToConsole) throws SchematicNotFoundException {
+    public void loadBackup(String name) throws SchematicNotFoundException {
+        File schematicFolder = new File(AdvancedRegionMarket.getInstance().getDataFolder()+ "/schematics");
+        File regionsSchematicPathWithoutFileEnding = new File(schematicFolder + "/" + this.getRegionworld().getName() + "/" + this.getRegion().getId() + "/Backups/" + name);
+        AdvancedRegionMarket.getInstance().getWorldEditInterface().restoreSchematic(this.getRegion(), this.getRegionworld(), regionsSchematicPathWithoutFileEnding);
+    }
+
+    public void createSchematic() {
+        File schematicFolder = new File(AdvancedRegionMarket.getInstance().getDataFolder()+ "/schematics");
+        File regionsSchematicFolder = new File(schematicFolder + "/" + this.getRegionworld().getName() + "/" + this.getRegion().getId());
+        AdvancedRegionMarket.getInstance().getWorldEditInterface().createSchematic(this.getRegion(), this.getRegionworld(), regionsSchematicFolder, "schematic");
+    }
+
+    public void restoreRegion(ActionReason actionReason, boolean logToConsole, boolean preventBackup) throws SchematicNotFoundException {
 
         ResetBlocksEvent resetBlocksEvent = new ResetBlocksEvent(this);
         Bukkit.getServer().getPluginManager().callEvent(resetBlocksEvent);
@@ -570,11 +586,18 @@ public abstract class Region implements Saveable {
             return;
         }
 
+        if(AdvancedRegionMarket.getInstance().getPluginSettings().isCreateBackupOnRegionRestore() && !preventBackup) {
+            this.createBackup();
+        }
+
         if (AdvancedRegionMarket.getInstance().getPluginSettings().isRemoveEntitiesOnRegionBlockReset()) {
             this.killEntitys();
         }
 
-        AdvancedRegionMarket.getInstance().getWorldEditInterface().resetBlocks(this.getRegion(), this.getRegionworld(), AdvancedRegionMarket.getInstance().getWorldedit().getWorldEdit());
+        File schematicFolder = new File(AdvancedRegionMarket.getInstance().getDataFolder()+ "/schematics");
+        File regionsSchematicPathWithoutFileEnding = new File(schematicFolder + "/" + this.getRegionworld().getName() + "/" + this.getRegion().getId() + "/schematic");
+
+        AdvancedRegionMarket.getInstance().getWorldEditInterface().restoreSchematic(this.getRegion(), this.getRegionworld(), regionsSchematicPathWithoutFileEnding);
 
         if (AdvancedRegionMarket.getInstance().getPluginSettings().isDeleteSubregionsOnParentRegionBlockReset()) {
             for (int i = 0; i < this.getSubregions().size(); i++) {
@@ -606,7 +629,7 @@ public abstract class Region implements Saveable {
 
     public void resetBuiltBlocks() {
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-        File builtblocksdic = new File(pluginfolder + "/schematics/" + this.regionworld.getName() + "/" + region.getId() + ".builtblocks");
+        File builtblocksdic = new File(pluginfolder + "/schematics/" + this.regionworld.getName() + "/" + region.getId() + "/builtblocks.builtblocks");
         if (builtblocksdic.exists()) {
             builtblocksdic.delete();
             this.builtblocks = new HashSet<>();
@@ -678,7 +701,7 @@ public abstract class Region implements Saveable {
     public void userRestore(Player player) {
         try {
             //TODO Add if should log
-            this.resetBlocks(ActionReason.USER_RESTORE, true);
+            this.restoreRegion(ActionReason.USER_RESTORE, true, false);
             GregorianCalendar calendar = new GregorianCalendar();
             this.lastreset = calendar.getTimeInMillis();
             this.queueSave();
@@ -729,11 +752,11 @@ public abstract class Region implements Saveable {
     }
 
     public void resetRegion(ActionReason actionReason, boolean logToConsole) throws SchematicNotFoundException {
-        this.unsell(actionReason, logToConsole);
+        this.unsell(actionReason, logToConsole, false);
         this.extraEntitys.clear();
         this.extraTotalEntitys = 0;
         this.queueSave();
-        this.resetBlocks(actionReason, logToConsole);
+        this.restoreRegion(actionReason, logToConsole, true);
         return;
     }
 
@@ -754,12 +777,12 @@ public abstract class Region implements Saveable {
      * if the execption gets thrown the region will be unsold
      */
     public void automaticResetRegion(ActionReason actionReason, boolean logToConsole) throws SchematicNotFoundException {
-        this.unsell(actionReason, logToConsole);
+        this.unsell(actionReason, logToConsole, false);
         if (this.isAutoRestore()) {
             this.extraEntitys.clear();
             this.extraTotalEntitys = 0;
             try {
-                this.resetBlocks(actionReason, logToConsole);
+                this.restoreRegion(actionReason, logToConsole, true);
             } finally {
                 this.queueSave();
             }
@@ -783,11 +806,15 @@ public abstract class Region implements Saveable {
         return true;
     }
 
-    public void unsell(ActionReason actionReason, boolean logToConsole) {
+    public void unsell(ActionReason actionReason, boolean logToConsole, boolean preventBackup) {
         UnsellRegionEvent unsellRegionEvent = new UnsellRegionEvent(this);
         Bukkit.getServer().getPluginManager().callEvent(unsellRegionEvent);
         if (unsellRegionEvent.isCancelled()) {
             return;
+        }
+
+        if(AdvancedRegionMarket.getInstance().getPluginSettings().isCreateBackupOnRegionUnsell() && !preventBackup) {
+            this.createBackup();
         }
 
         this.getRegion().deleteMembers();

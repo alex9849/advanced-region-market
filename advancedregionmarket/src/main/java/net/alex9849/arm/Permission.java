@@ -28,6 +28,9 @@ public class Permission {
     public static final String ADMIN_EXTEND = "arm.admin.extend";
     public static final String ADMIN_RELOAD = "arm.admin.reload";
     public static final String ADMIN_PRESET = "arm.admin.preset";
+    public static final String ADMIN_LIST_BACKUPS = "arm.admin.listbackups";
+    public static final String ADMIN_RESTORE_BACKUP = "arm.admin.restorebackup";
+    public static final String ADMIN_CREATE_BACKUP = "arm.admin.createbackup";
     public static final String ADMIN_PRESET_SET_PRICE = "arm.admin.preset.setprice";
     public static final String ADMIN_PRESET_SET_EXTENDTIME = "arm.admin.preset.setextendtime";
     public static final String ADMIN_PRESET_SET_MAXRENTTIME = "arm.admin.preset.setmaxrenttime";

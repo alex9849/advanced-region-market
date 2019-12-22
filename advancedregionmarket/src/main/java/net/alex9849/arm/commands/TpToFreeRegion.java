@@ -50,7 +50,6 @@ public class TpToFreeRegion implements BasicArmCommand {
             throw new InputException(player, Messages.REGIONKIND_DOES_NOT_EXIST);
         }
         if (!RegionKind.hasPermission(player, regionKind)) {
-            //TODO Das hier noch ändern!
             throw new InputException(player, Messages.NO_PERMISSION);
         }
         AdvancedRegionMarket.getInstance().getRegionManager().teleportToFreeRegion(regionKind, player);

@@ -676,7 +676,7 @@ public class Gui implements Listener {
                         @Override
                         public void execute(Player player) throws InputException {
                             try {
-                                region.resetBlocks(Region.ActionReason.MANUALLY_BY_PARENT_REGION_OWNER, true);
+                                region.restoreRegion(Region.ActionReason.MANUALLY_BY_PARENT_REGION_OWNER, true, false);
                                 player.sendMessage(Messages.PREFIX + Messages.COMPLETE);
                             } catch (SchematicNotFoundException e) {
                                 AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, region.getConvertedMessage(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
@@ -707,7 +707,7 @@ public class Gui implements Listener {
                     Gui.openWarning(player, Messages.UNSELL_REGION_WARNING_NAME, new ClickAction() {
                         @Override
                         public void execute(Player player) throws InputException {
-                            region.unsell(Region.ActionReason.MANUALLY_BY_PARENT_REGION_OWNER, true);
+                            region.unsell(Region.ActionReason.MANUALLY_BY_PARENT_REGION_OWNER, true, false);
                             player.closeInventory();
                             player.sendMessage(Messages.PREFIX + Messages.REGION_NOW_AVIABLE);
                         }
@@ -2054,17 +2054,27 @@ public class Gui implements Listener {
             try {
                 Object settingsObj = getParsedSettingsObject();
                 Object regionFlagSetting = region.getRegion().getFlagSetting(flag);
-                if (this.parentFlag != null && region.getRegion().getFlagSetting(parentFlag) == null) {
-                    return false;
-                }
-                if (regionFlagSetting == settingsObj) {
-                    return true;
+
+                if(parentFlag == null) {
+                    if(regionFlagSetting == settingsObj) {
+                        return true;
+                    } else {
+                        return false;
+                    }
                 } else {
-                    if (flag.getDefault() == settingsObj && regionFlagSetting == null) {
+                    if(settingsObj == flag.getDefault()
+                            && region.getRegion().getFlagSetting(parentFlag) != null
+                            && regionFlagSetting == null) {
+                        return true;
+                    }
+                    if (regionFlagSetting == settingsObj) {
                         return true;
                     }
                     return false;
                 }
+
+
+
             } catch (InvalidFlagFormat e) {
                 return false;
             }
@@ -2084,11 +2094,7 @@ public class Gui implements Listener {
                     throw new InvalidFlagFormat("");
                 }
                 Object flagSetting = getParsedSettingsObject();
-                if (flag.getDefault() == flagSetting) {
-                    region.getRegion().deleteFlags(flag);
-                } else {
-                    region.getRegion().setFlag(flag, flagSetting);
-                }
+                region.getRegion().setFlag(flag, flagSetting);
                 afterFlagSetAction.execute(player);
                 player.sendMessage(Messages.PREFIX + region.getConvertedMessage(Messages.FLAGEDITOR_FLAG_HAS_BEEN_UPDATED));
             } catch (InvalidFlagFormat invalidFlagFormat) {

@@ -24,6 +24,11 @@
         <module>wg6_2adapter</module>
     </modules>
 
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+
 
     <repositories>
         <repository>

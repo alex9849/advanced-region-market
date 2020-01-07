@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class WorldGuard7 extends WorldGuardInterface {
-    private static HashMap<ProtectedRegion, WG7Region> createdRegions = new HashMap<ProtectedRegion, WG7Region>();
+    private HashMap<ProtectedRegion, WG7Region> createdRegions = new HashMap<ProtectedRegion, WG7Region>();
 
     public RegionManager getRegionManager(World world, WorldGuardPlugin worldGuardPlugin) {
         return WorldGuard.getInstance().getPlatform().getRegionContainer().get(new BukkitWorld(world));

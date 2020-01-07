@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class WorldGuard6_1 extends WorldGuardInterface {
-    private static HashMap<ProtectedRegion, WG6Region> createdRegions = new HashMap<ProtectedRegion, WG6Region>();
+    private HashMap<ProtectedRegion, WG6Region> createdRegions = new HashMap<ProtectedRegion, WG6Region>();
 
     @Override
     public RegionManager getRegionManager(World world, WorldGuardPlugin worldGuardPlugin) {

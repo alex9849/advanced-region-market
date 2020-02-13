@@ -14,4 +14,4 @@ jobs:
       with:
         java-version: 1.8
     - name: Create repo files
-      run: mvn deploy --file pom.xml
+      run: mvn deploy -Dregistry=https://maven.pkg.github.com/alex9849 -Dtoken=GH_TOKEN

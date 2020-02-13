@@ -61,23 +61,21 @@
         </repository>
         <repository>
             <id>maven-central</id>
-            <url>http://central.maven.org/maven2</url>
+            <url>https://repo1.maven.org/maven2/</url>
         </repository>
         <repository>
-            <id>advanced-region-market</id>
-            <url>https://gitlab.com/api/v4/projects/10068588/packages/maven/</url>
+            <id>github</id>
+            <name>GitHub alex9849 Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/alex9849/advanced-region-market</url>
         </repository>
     </repositories>
 
     <distributionManagement>
         <repository>
-            <id>gitlab-maven</id>
-            <url>https://gitlab.com/api/v4/projects/${env.CI_PROJECT_ID}/packages/maven</url>
+            <id>github</id>
+            <name>GitHub alex9849 Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/alex9849/advanced-region-market</url>
         </repository>
-        <snapshotRepository>
-            <id>gitlab-maven</id>
-            <url>https://gitlab.com/api/v4/projects/${env.CI_PROJECT_ID}/packages/maven</url>
-        </snapshotRepository>
     </distributionManagement>
 
 </project>

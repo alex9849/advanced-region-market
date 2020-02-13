@@ -15,5 +15,6 @@ local.properties
 *.launch
 *.iml
 .idea
+.github
 dependency-reduced-pom.xml
 desktop.ini

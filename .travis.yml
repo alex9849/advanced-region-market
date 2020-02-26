@@ -9,7 +9,7 @@ jdk:
   - openjdk8
 
 script:
-  - chmod +x .travis/release.sh
+  - chmod +x .travis/mvn-deploy.sh
   - mvn clean
   - mvn install
 after_success:
@@ -30,7 +30,7 @@ deploy:
       tags: true
     overwrite: true
   - provider: script
-    script: .travis/release.sh
+    script: .travis/mvn-deploy.sh
     skip_cleanup: true
     on:
       tags: true

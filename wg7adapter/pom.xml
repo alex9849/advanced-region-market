@@ -25,17 +25,15 @@
         <dependency>
             <groupId>com.sk89q.worldedit</groupId>
             <artifactId>worldedit-bukkit</artifactId>
-            <scope>system</scope>
-            <version>any</version>
-            <systemPath>${project.basedir}/../lib/plugins/worldedit/worldedit-bukkit-7.0.0-beta-03.jar</systemPath>
+            <scope>provided</scope>
+            <version>7.1.0</version>
         </dependency>
         <!--Worldguard API-->
         <dependency>
-            <groupId>com.sk89q</groupId>
-            <artifactId>worldguard</artifactId>
-            <scope>system</scope>
-            <version>any</version>
-            <systemPath>${project.basedir}/../lib/plugins/worldguard/worldguard-7.0.0-beta-02.jar</systemPath>
+            <groupId>com.sk89q.worldguard</groupId>
+            <artifactId>worldguard-bukkit</artifactId>
+            <scope>provided</scope>
+            <version>7.0.2</version>
         </dependency>
         <!--My interfaces-->
         <dependency>

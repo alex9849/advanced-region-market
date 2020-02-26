@@ -26,15 +26,14 @@
             <groupId>com.sk89q.worldedit</groupId>
             <artifactId>worldedit-bukkit</artifactId>
             <scope>provided</scope>
-            <version>6.1.1-SNAPSHOT</version>
+            <version>6.1.5</version>
         </dependency>
         <!--Worldguard API-->
         <dependency>
-            <groupId>com.sk89q</groupId>
-            <artifactId>worldguard</artifactId>
-            <scope>system</scope>
-            <version>any</version>
-            <systemPath>${project.basedir}/../lib/plugins/worldguard/worldguard-6.2.2.jar</systemPath>
+            <groupId>com.sk89q.worldguard</groupId>
+            <artifactId>worldguard-legacy</artifactId>
+            <scope>provided</scope>
+            <version>6.2</version>
         </dependency>
         <!--My interfaces-->
         <dependency>

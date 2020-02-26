@@ -15,8 +15,6 @@
         <module>wg7adapter</module>
         <module>we7adapter</module>
         <module>we6faweadapter</module>
-        <module>wg7adapter-beta01</module>
-        <module>we7adapter-beta01</module>
         <module>mc1-12adapter</module>
         <module>mc1-13adapter</module>
         <module>mc1-14adapter</module>
@@ -27,6 +25,7 @@
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
 
@@ -36,14 +35,13 @@
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
         <repository>
-            <id>sk89q-snapshots</id>
-            <url>http://maven.sk89q.com/artifactory/repo</url>
+            <id>enginehub</id>
+            <url>https://maven.enginehub.org/repo</url>
             <releases>
                 <enabled>true</enabled> <!-- releases enabled: this specific repository also hosts release versions -->
             </releases>
             <snapshots>
-                <enabled>true
-                </enabled> <!-- snapshots enabled: we declare a SNAPSHOT repository because we need to download a SNAPSHOT dependency -->
+                <enabled>true</enabled> <!-- snapshots enabled: we declare a SNAPSHOT repository because we need to download a SNAPSHOT dependency -->
             </snapshots>
         </repository>
         <repository>
@@ -54,6 +52,11 @@
         <repository>
             <id>fawe-repo</id>
             <url>http://ci.athion.net/job/FastAsyncWorldEdit/ws/mvn/</url>
+        </repository>
+        <!--Vault repository-->
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
         </repository>
         <repository>
             <id>bungeecord-repo</id>

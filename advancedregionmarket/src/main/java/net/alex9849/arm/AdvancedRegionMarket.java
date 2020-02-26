@@ -520,17 +520,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         } else if (this.worldguard.getDescription().getVersion().startsWith("6.2")) {
             version = "6_2";
         } else {
-
             version = "7";
-
-            if ((parseWorldGuardBuildNumber(worldguard) != null) && (parseWorldGuardBuildNumber(worldguard) < 1754)) {
-                version = "7Beta01";
-            }
-           /*
-           if(isFaWeInstalled()) {
-               version = "7FaWe";
-           }
-           */
         }
         try {
             final Class<?> wgClass = Class.forName("net.alex9849.adapters.WorldGuard" + version);
@@ -561,10 +551,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
         } else {
             version = "7";
             hasFaWeHandler = false;
-            if (this.worldedit.getDescription().getVersion().contains("beta-01") || ((parseWorldEditBuildNumber(worldedit) != null) && (parseWorldEditBuildNumber(worldedit) < 3930))) {
-                version = "7Beta01";
-            }
-
         }
 
         if (this.isFaWeInstalled() && hasFaWeHandler) {
@@ -584,48 +570,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
 
 
         return worldedit != null;
-    }
-
-    private Integer parseWorldGuardBuildNumber(WorldGuardPlugin wg) {
-
-        String version = wg.getDescription().getVersion();
-        if (!version.contains("-SNAPSHOT;")) {
-            return null;
-        }
-
-        String buildNumberString = version.substring(version.indexOf("-SNAPSHOT;") + 10);
-
-        if (buildNumberString.contains("-")) {
-            buildNumberString = buildNumberString.substring(0, buildNumberString.indexOf("-"));
-        }
-
-        try {
-            return Integer.parseInt(buildNumberString);
-        } catch (NumberFormatException e) {
-            return null;
-        }
-
-    }
-
-    private Integer parseWorldEditBuildNumber(WorldEditPlugin wg) {
-
-        String version = wg.getDescription().getVersion();
-        if (!version.contains("-SNAPSHOT;")) {
-            return null;
-        }
-
-        String buildNumberString = version.substring(version.indexOf("-SNAPSHOT;") + 10);
-
-        if (buildNumberString.contains("-")) {
-            buildNumberString = buildNumberString.substring(0, buildNumberString.indexOf("-"));
-        }
-
-        try {
-            return Integer.parseInt(buildNumberString);
-        } catch (NumberFormatException e) {
-            return null;
-        }
-
     }
 
     public CommandHandler getCommandHandler() {

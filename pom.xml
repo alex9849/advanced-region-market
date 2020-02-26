@@ -63,19 +63,5 @@
             <id>maven-central</id>
             <url>https://repo1.maven.org/maven2/</url>
         </repository>
-        <repository>
-            <id>github</id>
-            <name>GitHub alex9849 Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/alex9849/advanced-region-market</url>
-        </repository>
     </repositories>
-
-    <distributionManagement>
-        <repository>
-            <id>github</id>
-            <name>GitHub alex9849 Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/alex9849/advanced-region-market</url>
-        </repository>
-    </distributionManagement>
-
 </project>

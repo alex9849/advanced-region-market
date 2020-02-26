@@ -11,7 +11,6 @@ jdk:
 script:
   - mvn clean
   - mvn install
-  - mvn deploy -Dregistry=https://maven.pkg.github.com/alex9849 -Dtoken=$GITHUB_TOKEN
 after_success:
   - mkdir push
   - cp ./advancedregionmarket/target/*.jar ./push
@@ -20,12 +19,17 @@ after_success:
   - rm -f ./push/*-sources.jar
   - mv -f ./push/*-javadoc.jar ./push/JavaDocument.zip
 deploy:
-  skip_cleanup: true
-  provider: releases
-  api_key: $GITHUB_TOKEN
-  file:
-    - ./push/*
-  file_glob: true
-  on:
-    tags: true
-  overwrite: true
+  - provider: releases
+    api_key: $GITHUB_TOKEN
+    file:
+      - ./push/*
+    file_glob: true
+    skip_cleanup: true
+    on:
+      tags: true
+    overwrite: true
+  - provider: script
+    script: "mvn deploy -Dregistry=https://maven.pkg.github.com/alex9849 -Dtoken=$GITHUB_TOKEN"
+    skip_cleanup: true
+    on:
+      tags: true

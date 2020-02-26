@@ -11,6 +11,7 @@ jdk:
 script:
   - mvn clean
   - mvn install
+  - mvn deploy -Dregistry=https://maven.pkg.github.com/alex9849 -Dtoken=$GITHUB_TOKEN
 after_success:
   - mkdir push
   - cp ./advancedregionmarket/target/*.jar ./push

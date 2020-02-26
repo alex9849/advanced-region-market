@@ -233,7 +233,7 @@ Messages:
   SignLinkModeNoPresetSelected: |-
     &cDu hast keinen Preset ausgewählt! Bitte lade oder erstellen zuerst einen! &cDu kannst einen Preset mit Hilfe des Befehls &6/arm sellpreset/rentpreset/contractpreset &cerstellen!
     Klicke hier für weitere Informationen:
-    &6https://goo.gl/3upfAA (Gitlab Wiki)
+    &6https://bit.ly/2HURK0v (Github Wiki)
   SignLinkModeSignBelongsToAnotherRegion: '&4Schild gehört bereits zu einer anderen
     Region!'
   SignLinkModeSignSelected: '&aSchild ausgewählt!'

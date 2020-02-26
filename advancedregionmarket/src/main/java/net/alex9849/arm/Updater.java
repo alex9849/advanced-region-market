@@ -17,60 +17,78 @@ public class Updater {
 
     static void updateConfigs() {
         FileConfiguration pluginConfig = AdvancedRegionMarket.getInstance().getConfig();
-        Double version = pluginConfig.getDouble("Version");
+        String[] versionPartsAsString = pluginConfig.getString("Version").split("\\.");
+        int[] versionParts = Arrays.stream(versionPartsAsString).mapToInt(Integer::parseInt).toArray();
+        Version lastVersion = new Version(versionParts);
+
+        //convert legacy versionNumbers
+        if(versionParts.length > 1) {
+            int major = versionParts[0];
+            int minor = versionParts[1];
+            if(major < 2 || (major == 2 && minor <= 14)) {
+                List<Integer> legacyVersionParts = new ArrayList<>();
+                legacyVersionParts.add(major);
+                for(char c : (minor + "").toCharArray()) {
+                    legacyVersionParts.add(Character.getNumericValue(c));
+                }
+                lastVersion = new Version(legacyVersionParts.stream().mapToInt(x -> x).toArray());
+            }
+        }
+
+
         try {
-            if (version < 1.1) {
+            if (new Version(1, 1).biggerThan(lastVersion)) {
                 AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.1...");
                 updateTo1p1(pluginConfig);
             }
-            if (version < 1.2) {
+            if (new Version(1, 2).biggerThan(lastVersion)) {
                 AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.2...");
                 AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Warning!: ARM uses a new schematic format now! You have to update all region schematics with");
                 AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "/arm updateschematic [REGION] or go back to ARM version 1.1");
                 updateTo1p2(pluginConfig);
             }
-            if (version < 1.21) {
+            if (new Version(1, 2, 1).biggerThan(lastVersion)) {
                 AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.21...");
-                updateTo1p3(pluginConfig);
+                updateTo1p21(pluginConfig);
             }
-            if (version < 1.3) {
+            if (new Version(1, 3).biggerThan(lastVersion)) {
                 AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.3...");
                 updateTo1p3(pluginConfig);
             }
-            if (version < 1.4) {
+            if (new Version(1, 4).biggerThan(lastVersion)) {
                 AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.4...");
                 updateTo1p4(pluginConfig);
             }
-            if (version < 1.41) {
+            if (new Version(1, 4, 1).biggerThan(lastVersion)) {
                 AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.4.1...");
                 pluginConfig.set("Version", 1.41);
                 AdvancedRegionMarket.getInstance().saveConfig();
             }
-            if (version < 1.44) {
+            if (new Version(1, 4, 4).biggerThan(lastVersion)) {
                 AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.4.4...");
                 updateTo1p44(pluginConfig);
             }
-            if (version < 1.5) {
+            if (new Version(1, 5).biggerThan(lastVersion)) {
                 AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.5...");
                 pluginConfig.set("Version", 1.5);
                 pluginConfig.set("Reselling.Offers.OfferTimeOut", 30);
                 AdvancedRegionMarket.getInstance().saveConfig();
             }
-            if (version < 1.52) {
+            if (new Version(1, 5, 2).biggerThan(lastVersion)) {
                 AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.5.2...");
                 updateTo1p52(pluginConfig);
             }
-            if (version < 1.6) {
+            if (new Version(1, 6).biggerThan(lastVersion)) {
                 AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.6...");
                 updateTo1p6(pluginConfig);
             }
-            if (version < 1.7) {
+            if (new Version(1, 7).biggerThan(lastVersion)) {
                 AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.7...");
                 pluginConfig.set("Other.RemoveEntitiesOnRegionBlockReset", true);
                 pluginConfig.set("Version", 1.7);
                 AdvancedRegionMarket.getInstance().saveConfig();
             }
-            if (version < 1.72) {
+            if (new Version(1, 7, 2).biggerThan(lastVersion)) {
                 AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.7.2...");
                 pluginConfig.set("SignClickActions.RightClickNotSneakCmd", "buyaction");
                 pluginConfig.set("SignClickActions.RightClickSneakCmd", "arm sellback %regionid%");
@@ -79,55 +97,55 @@ public class Updater {
                 pluginConfig.set("Version", 1.72);
                 AdvancedRegionMarket.getInstance().saveConfig();
             }
-            if (version < 1.75) {
+            if (new Version(1, 7, 5).biggerThan(lastVersion)) {
                 AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.7.5...");
                 updateTo1p75(pluginConfig);
             }
-            if (version < 1.8) {
+            if (new Version(1, 8).biggerThan(lastVersion)) {
                 AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.8...");
                 updateTo1p8(pluginConfig);
             }
 
-            if (version < 1.81) {
+            if (new Version(1, 8, 1).biggerThan(lastVersion)) {
                 AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.8.1..");
                 updateTo1p81(pluginConfig);
             }
-            if (version < 1.83) {
+            if (new Version(1, 8, 3).biggerThan(lastVersion)) {
                 AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.8.3..");
                 updateTo1p83(pluginConfig);
             }
-            if (version < 1.9) {
+            if (new Version(1, 9).biggerThan(lastVersion)) {
                 AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.9..");
                 updateTo1p9(pluginConfig);
             }
-            if (version < 1.92) {
+            if (new Version(1, 9, 2).biggerThan(lastVersion)) {
                 updateTo1p92(pluginConfig);
             }
-            if (version < 1.95) {
+            if (new Version(1, 9, 5).biggerThan(lastVersion)) {
                 AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.9.5..");
                 updateTo1p95(pluginConfig);
             }
-            if (version < 1.97) {
+            if (new Version(1, 9, 7).biggerThan(lastVersion)) {
                 AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 1.9.7..");
                 updateTo1p97(pluginConfig);
             }
-            if (version < 2.00) {
+            if (new Version(2).biggerThan(lastVersion)) {
                 AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 2.0.0..");
                 updateTo2p00(pluginConfig);
             }
-            if (version < 2.08) {
+            if (new Version(2, 0, 8).biggerThan(lastVersion)) {
                 AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 2.0.8..");
                 updateTo2p08(pluginConfig);
             }
-            if (version < 2.09) {
+            if (new Version(2, 0, 9).biggerThan(lastVersion)) {
                 AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 2.0.9..");
                 updateTo2p09(pluginConfig);
             }
-            if (version < 2.12) {
+            if (new Version(2, 1, 2).biggerThan(lastVersion)) {
                 AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 2.1.2..");
                 updateTo2p12(pluginConfig);
             }
-            if (version < 2.14) {
+            if (new Version(2, 1, 4).biggerThan(lastVersion)) {
                 AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 2.1.4..");
                 updateTo2p14(pluginConfig);
             }
@@ -1086,4 +1104,38 @@ public class Updater {
 
     }
 
+    private static class Version implements Comparable<Version> {
+        private int[] version;
+
+        Version(int... version) {
+            if(version != null) {
+                this.version = version.clone();
+            }
+        }
+
+        public boolean biggerThan(Version other) {
+            return this.compareTo(other) > 0;
+        }
+
+        @Override
+        public int compareTo(Version other) {
+            for(int i = 0; i < this.version.length; i++) {
+                int thisPart = this.version[i];
+                if(other.version.length < i + 1) {
+                    if(thisPart == 0) {
+                        continue;
+                    }
+                    return 1;
+                }
+                int thatPart = other.version[i];
+                if(thisPart > thatPart) {
+                    return 1;
+                }
+                if(thisPart < thatPart) {
+                    return -1;
+                }
+            }
+            return 0;
+        }
+    }
 }

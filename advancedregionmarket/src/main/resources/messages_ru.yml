@@ -212,7 +212,7 @@ Messages:
   SignLinkModeNoPresetSelected: |-
     &cУ вас нет загруженного пресета! Пожалуйста, сначала загрузите или создайте пресет! &cВы можете создать пресет с помощью команд &6/arm sellpreset/rentpreset/contractpreset &c!
     Информация о пресетах здесь:
-    &6https://goo.gl/3upfAA (Gitlab Wiki)
+    &6https://bit.ly/2HURK0v (Github Wiki)
   SignLinkModeSignBelongsToAnotherRegion: '&4Табличка принадлежит другому региону!'
   SignLinkModeSignSelected: '&aТабличка выбрана!'
   SignLinkModeMultipleWgRegionsAtPosition: '&4Не удалось выбрать WG-регион! Доступно

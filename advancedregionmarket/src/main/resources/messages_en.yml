@@ -209,7 +209,7 @@ Messages:
   SignLinkModeNoPresetSelected: |-
     &cYou dont have a preset loaded! Please load or create a preset first! &cYou can create a preset by using the &6/arm sellpreset/rentpreset/contractpreset &ccommands!
     For more &cinformation about presets click here:
-    &6https://goo.gl/3upfAA (Gitlab Wiki)
+    &6https://bit.ly/2HURK0v (Github Wiki)
   SignLinkModeSignBelongsToAnotherRegion: '&4Sign belongs to another region!'
   SignLinkModeSignSelected: '&aSign selected!'
   SignLinkModeMultipleWgRegionsAtPosition: '&4Could not select WorldGuard-Region!

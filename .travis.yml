@@ -9,6 +9,7 @@ jdk:
   - openjdk8
 
 script:
+  - chmod +x .travis/release.sh
   - mvn clean
   - mvn install
 after_success:
@@ -29,7 +30,7 @@ deploy:
       tags: true
     overwrite: true
   - provider: script
-    script: "mvn deploy -Dtoken=$GITHUB_TOKEN"
+    script: .travis/release.sh
     skip_cleanup: true
     on:
       tags: true

@@ -29,7 +29,7 @@ deploy:
       tags: true
     overwrite: true
   - provider: script
-    script: "mvn deploy -Dregistry=https://maven.pkg.github.com/alex9849 -Dtoken=$GITHUB_TOKEN"
+    script: "mvn deploy -Dtoken=$GITHUB_TOKEN"
     skip_cleanup: true
     on:
       tags: true

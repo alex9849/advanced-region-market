@@ -4,6 +4,7 @@ import net.alex9849.arm.Messages;
 import net.alex9849.arm.exceptions.InputException;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -17,7 +18,7 @@ public class GuiChatInputListener implements Listener {
         this.guiInputAction = guiInputAction;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void handleChat(PlayerChatEvent event) {
         if (event.getPlayer().getUniqueId() != this.player.getUniqueId()) {
             return;

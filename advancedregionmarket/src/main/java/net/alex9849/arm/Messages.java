@@ -102,6 +102,7 @@ public class Messages {
     public static String LIMIT_INFO = "";
     public static String GUI_MY_LIMITS_BUTTON = "";
     public static String GUI_MEMBER_INFO_ITEM = "";
+    public static String ADD_MEMBER_MAX_MEMBERS_EXCEEDED = "";
     public static String REGION_IS_NOT_A_RENTREGION = "Region is not a rentregion!";
     public static String REGION_NOT_OWN = "You do not own this region!";
     public static String REGION_NOT_SOLD = "Region not sold!";
@@ -580,6 +581,7 @@ public class Messages {
         SECOND_POSITION_SET = config.getString("Messages.SecondPositionSet");
         MARK_IN_OTHER_REGION_REMOVING = config.getString("Messages.MarkInOtherRegion");
         PARENT_REGION_NOT_OWN = config.getString("Messages.ParentRegionNotOwn");
+        ADD_MEMBER_MAX_MEMBERS_EXCEEDED = config.getString("Messages.AddMemberMaxMembersExceeded");
         NOT_ALLOWED_TO_REMOVE_SUB_REGION_SOLD = config.getString("Messages.SubRegionRemoveNoPermissionBecauseSold");
         NOT_ALLOWED_TO_REMOVE_SUB_REGION_AVAILABLE = config.getString("Messages.SubRegionRemoveNoPermissionBecauseAvailable");
         POSITION_CLOUD_NOT_BE_SET_MARK_OUTSIDE_REGION = config.getString("Messages.PosCloudNotBeSetMarkOutsideRegion");
@@ -800,6 +802,7 @@ public class Messages {
         GUI_MAKE_OWNER_WARNING_NAME = ChatColor.translateAlternateColorCodes('&', GUI_MAKE_OWNER_WARNING_NAME);
         GUI_YES = ChatColor.translateAlternateColorCodes('&', GUI_YES);
         GUI_NO = ChatColor.translateAlternateColorCodes('&', GUI_NO);
+        ADD_MEMBER_MAX_MEMBERS_EXCEEDED = ChatColor.translateAlternateColorCodes('&', ADD_MEMBER_MAX_MEMBERS_EXCEEDED);
         SIGN_REMOVED_FROM_REGION = ChatColor.translateAlternateColorCodes('&', SIGN_REMOVED_FROM_REGION);
         REGION_TELEPORT_MESSAGE = ChatColor.translateAlternateColorCodes('&', REGION_TELEPORT_MESSAGE);
         NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION = ChatColor.translateAlternateColorCodes('&', NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION);

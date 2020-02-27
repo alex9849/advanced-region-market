@@ -265,7 +265,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
             this.getRegionManager().doTick();
         }, 1, 1);
-        this.commandHandler = new CommandHandler(new ArrayList<>(Arrays.asList("help")), "");
+        this.commandHandler = new CommandHandler();
         List<BasicArmCommand> commands = new ArrayList<>();
         String[] betweencmds = {};
         commands.add(new AddMemberCommand());
@@ -323,7 +323,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         entityLimitCommands.add(new CheckCommand());
         entityLimitCommands.add(new SetExtraLimitCommand());
         entityLimitCommands.add(new BuyExtraCommand());
-        commands.add(new CommandSplitter("entitylimit", "(?i)entitylimit [^;\n]+", entityLimtUsage, Permission.ADMIN_ENTITYLIMIT_HELP, Messages.ENTITYLIMIT_HELP_HEADLINE, entityLimitCommands));
+        commands.add(new CommandSplitter("entitylimit", entityLimtUsage, Permission.ADMIN_ENTITYLIMIT_HELP, Messages.ENTITYLIMIT_HELP_HEADLINE, entityLimitCommands));
 
         List<String> regionKindUsage = new ArrayList<>(Arrays.asList("regionkind [SETTING]", "regionkind help"));
         List<BasicArmCommand> regionKindCommands = new ArrayList<>();
@@ -338,7 +338,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         regionKindCommands.add(new RemoveLoreLineCommand());
         regionKindCommands.add(new SetDisplayNameCommand());
         regionKindCommands.add(new SetPaybackPercentage());
-        commands.add(new CommandSplitter("regionkind", "(?i)regionkind [^;\n]+", regionKindUsage, Permission.REGIONKIND_HELP, Messages.REGIONKIND_HELP_HEADLINE, regionKindCommands));
+        commands.add(new CommandSplitter("regionkind", regionKindUsage, Permission.REGIONKIND_HELP, Messages.REGIONKIND_HELP_HEADLINE, regionKindCommands));
 
         List<String> subRegionUsage = new ArrayList<>(Arrays.asList("subregion [SETTING]", "subregion help"));
         List<BasicArmCommand> subRegionCommands = new ArrayList<>();
@@ -349,7 +349,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         subRegionCommands.add(new net.alex9849.arm.subregions.commands.RestoreCommand());
         subRegionCommands.add(new net.alex9849.arm.subregions.commands.UnsellCommand());
         subRegionCommands.add(new net.alex9849.arm.subregions.commands.DeleteCommand());
-        commands.add(new CommandSplitter("subregion", "(?i)subregion [^;\n]+", subRegionUsage, Permission.SUBREGION_HELP, Messages.SUBREGION_HELP_HEADLINE, subRegionCommands));
+        commands.add(new CommandSplitter("subregion", subRegionUsage, Permission.SUBREGION_HELP, Messages.SUBREGION_HELP_HEADLINE, subRegionCommands));
 
         this.commandHandler.addCommands(commands);
 
@@ -749,7 +749,17 @@ public class AdvancedRegionMarket extends JavaPlugin {
         }
         try {
             if (args.length >= 1) {
-                return this.commandHandler.executeCommand(sender, cmd, commandsLabel, args);
+                StringBuilder sb = new StringBuilder();
+                boolean first = true;
+                for(String arg : args) {
+                    if(first) {
+                        first = false;
+                    } else {
+                        sb.append(" ");
+                    }
+                    sb.append(arg);
+                }
+                return this.commandHandler.executeCommand(sender, sb.toString());
             } else {
                 String pluginversion = this.getDescription().getVersion();
                 sender.sendMessage(Messages.ARM_BASIC_COMMAND_MESSAGE.replace("%pluginversion%", pluginversion));

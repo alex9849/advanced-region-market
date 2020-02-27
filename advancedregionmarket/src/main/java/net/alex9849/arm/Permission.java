@@ -131,14 +131,6 @@ public class Permission {
     public static final String ARM_LIMIT = "arm.limit.";
     public static final String ARM_INACTIVITY_EXPIRATION = "arm.inactivityexpiration.";
 
-    private static final String OLD_BUY_SELLREGION = "arm.buy.sellregion";
-    private static final String OLD_BUY_RENTREGION = "arm.buy.rentregion";
-    private static final String OLD_BUY_CONTRACTREGION = "arm.buy.contractregion";
-
-    public static boolean hasAnyBuyPermission(CommandSender sender) {
-        return (sender.hasPermission(MEMBER_BUY) || sender.hasPermission(OLD_BUY_CONTRACTREGION) || sender.hasPermission(OLD_BUY_RENTREGION) || sender.hasPermission(OLD_BUY_SELLREGION));
-    }
-
     public static boolean hasAnySubregionCreatePermission(CommandSender sender) {
         return (sender.hasPermission(SUBREGION_CREATE_SELL)) || (sender.hasPermission(SUBREGION_CREATE_RENT)) || (sender.hasPermission(SUBREGION_CREATE_CONTRACT));
     }

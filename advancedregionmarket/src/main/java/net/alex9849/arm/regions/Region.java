@@ -70,6 +70,9 @@ public abstract class Region implements Saveable {
         variableReplacements.put("%regionid%", () -> {
             return this.getRegion().getId();
         });
+        variableReplacements.put("%maxmembers%", () -> {
+            return (this.getMaxMembers() < 0)? Messages.UNLIMITED : this.getMaxMembers() + "";
+        });
         variableReplacements.put("%region%", () -> {
             return this.getRegion().getId();
         });

@@ -29,9 +29,9 @@ public class SellRegion extends Region {
 
     public SellRegion(WGRegion region, World regionworld, List<SignData> sellsign, Price price, Boolean sold, Boolean inactivityReset, Boolean allowOnlyNewBlocks,
                       Boolean doBlockReset, RegionKind regionKind, FlagGroup flagGroup, Location teleportLoc, long lastreset, long lastLogin, boolean isUserRestorable, List<Region> subregions,
-                      int allowedSubregions, EntityLimitGroup entityLimitGroup, HashMap<EntityLimit.LimitableEntityType, Integer> extraEntitys, int boughtExtraTotalEntitys) {
+                      int allowedSubregions, EntityLimitGroup entityLimitGroup, HashMap<EntityLimit.LimitableEntityType, Integer> extraEntitys, int boughtExtraTotalEntitys, int maxMembers) {
         super(region, regionworld, sellsign, price, sold, inactivityReset, allowOnlyNewBlocks, doBlockReset, regionKind, flagGroup, teleportLoc, lastreset, lastLogin, isUserRestorable,
-                subregions, allowedSubregions, entityLimitGroup, extraEntitys, boughtExtraTotalEntitys);
+                subregions, allowedSubregions, entityLimitGroup, extraEntitys, boughtExtraTotalEntitys, maxMembers);
     }
 
     @Override

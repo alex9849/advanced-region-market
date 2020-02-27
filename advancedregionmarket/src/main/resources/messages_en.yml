@@ -129,6 +129,8 @@ Messages:
     the doBlockReset setting for all subregions in the config.yml!'
   SubregionIsUserResettableError: '&4The selected region is a subregion. You can change
     the isUserResettable setting for all subregions in the config.yml!'
+  SubregionMaxMembersError: '&4The selected region is a subregion. You can change
+    the maxMember setting for all subregions in the config.yml!'
   SubregionRegionkindError: '&4The selected region is a subregion. You can edit the
     regionkind for all subregions in the config.yml!'
   SubRegionRegionkindOnlyForSubregions: '&4Subregion regionkind only for subregions!'

@@ -196,6 +196,7 @@ Backups:
 Subregions:
   AllowSubregionUserRestore: false
   SubregionAutoRestore: false
+  SubregionMaxMembers: -1
   SubregionInactivityReset: true
   deleteSubregionsOnParentRegionUnsell: false
   deleteSubregionsOnParentRegionRestore: false

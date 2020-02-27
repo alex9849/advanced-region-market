@@ -1,6 +1,7 @@
 package net.alex9849.arm.regions;
 
 import net.alex9849.arm.AdvancedRegionMarket;
+import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.entitylimit.EntityLimit;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
@@ -63,6 +64,7 @@ public class RegionManager extends YamlFileManager<Region> {
         boolean autorestore = regionSection.getBoolean("autorestore");
         long lastreset = regionSection.getLong("lastreset");
         long lastLogin = regionSection.getLong("lastLogin");
+        int maxMembers = regionSection.getInt("maxMembers");
         String teleportLocString = regionSection.getString("teleportLoc");
         int allowedSubregions = regionSection.getInt("allowedSubregions");
         int boughtExtraTotalEntitys = regionSection.getInt("boughtExtraTotalEntitys");
@@ -116,7 +118,7 @@ public class RegionManager extends YamlFileManager<Region> {
             }
             long payedtill = regionSection.getLong("payedTill");
             region = new RentRegion(wgRegion, regionWorld, regionsigns, rentPrice, sold, inactivityReset, allowonlynewblocks, autorestore, regionKind, flagGroup, teleportLoc,
-                    lastreset, lastLogin, userrestorable, payedtill, subregions, allowedSubregions, entityLimitGroup, extraEntitysMap, boughtExtraTotalEntitys);
+                    lastreset, lastLogin, userrestorable, payedtill, subregions, allowedSubregions, entityLimitGroup, extraEntitysMap, boughtExtraTotalEntitys, maxMembers);
 
 
         } else if (regiontype.equalsIgnoreCase("contractregion")) {
@@ -136,7 +138,7 @@ public class RegionManager extends YamlFileManager<Region> {
             long payedtill = regionSection.getLong("payedTill");
             Boolean terminated = regionSection.getBoolean("terminated");
             region = new ContractRegion(wgRegion, regionWorld, regionsigns, contractPrice, sold, inactivityReset, allowonlynewblocks, autorestore, regionKind, flagGroup, teleportLoc,
-                    lastreset, lastLogin, userrestorable, payedtill, terminated, subregions, allowedSubregions, entityLimitGroup, extraEntitysMap, boughtExtraTotalEntitys);
+                    lastreset, lastLogin, userrestorable, payedtill, terminated, subregions, allowedSubregions, entityLimitGroup, extraEntitysMap, boughtExtraTotalEntitys, maxMembers);
         } else {
             Price sellPrice;
             if (autoPriceString != null) {
@@ -150,7 +152,7 @@ public class RegionManager extends YamlFileManager<Region> {
                 sellPrice = new Price(price);
             }
             region = new SellRegion(wgRegion, regionWorld, regionsigns, sellPrice, sold, inactivityReset, allowonlynewblocks, autorestore, regionKind, flagGroup, teleportLoc, lastreset,
-                    lastLogin, userrestorable, subregions, allowedSubregions, entityLimitGroup, extraEntitysMap, boughtExtraTotalEntitys);
+                    lastLogin, userrestorable, subregions, allowedSubregions, entityLimitGroup, extraEntitysMap, boughtExtraTotalEntitys, maxMembers);
 
         }
 
@@ -192,27 +194,40 @@ public class RegionManager extends YamlFileManager<Region> {
         long sublastreset = section.getLong("lastreset");
         long sublastLogin = section.getLong("lastLogin");
         List<SignData> subregionsigns = parseRegionsSigns(section);
+        ArmSettings pluginsSettings = AdvancedRegionMarket.getInstance().getPluginSettings();
 
         if (subregionRegiontype.equalsIgnoreCase("rentregion")) {
             long subregpayedtill = section.getLong("payedTill");
             long subregmaxRentTime = section.getLong("maxRentTime");
             long subregextendTime = section.getLong("extendTime");
             RentPrice subPrice = new RentPrice(subregPrice, subregextendTime, subregmaxRentTime);
-            return new RentRegion(subregion, regionWorld, subregionsigns, subPrice, subregIsSold, AdvancedRegionMarket.getInstance().getPluginSettings().isSubregionInactivityReset(), subregIsHotel, AdvancedRegionMarket.getInstance().getPluginSettings().isSubregionAutoRestore(), RegionKind.SUBREGION, FlagGroup.SUBREGION, null,
-                    sublastreset, sublastLogin, AdvancedRegionMarket.getInstance().getPluginSettings().isAllowSubRegionUserRestore(), subregpayedtill, new ArrayList<Region>(), 0, EntityLimitGroup.SUBREGION, new HashMap<>(), 0);
+            return new RentRegion(subregion, regionWorld, subregionsigns, subPrice, subregIsSold,
+                    pluginsSettings.isSubregionInactivityReset(), subregIsHotel,
+                    pluginsSettings.isSubregionAutoRestore(), RegionKind.SUBREGION, FlagGroup.SUBREGION,
+                    null, sublastreset, sublastLogin, pluginsSettings.isAllowSubRegionUserRestore(),
+                    subregpayedtill, new ArrayList<Region>(), 0, EntityLimitGroup.SUBREGION,
+                    new HashMap<>(), 0, pluginsSettings.getMaxSubRegionMembers());
 
         } else if (subregionRegiontype.equalsIgnoreCase("contractregion")) {
             long subregpayedtill = section.getLong("payedTill");
             long subregextendTime = section.getLong("extendTime");
             Boolean subregterminated = section.getBoolean("terminated");
             ContractPrice subPrice = new ContractPrice(subregPrice, subregextendTime);
-            return new ContractRegion(subregion, regionWorld, subregionsigns, subPrice, subregIsSold, AdvancedRegionMarket.getInstance().getPluginSettings().isSubregionInactivityReset(), subregIsHotel, AdvancedRegionMarket.getInstance().getPluginSettings().isSubregionAutoRestore(), RegionKind.SUBREGION, FlagGroup.SUBREGION, null,
-                    sublastreset, sublastLogin, AdvancedRegionMarket.getInstance().getPluginSettings().isAllowSubRegionUserRestore(), subregpayedtill, subregterminated, new ArrayList<Region>(), 0, EntityLimitGroup.SUBREGION, new HashMap<>(), 0);
+            return new ContractRegion(subregion, regionWorld, subregionsigns, subPrice, subregIsSold,
+                    AdvancedRegionMarket.getInstance().getPluginSettings().isSubregionInactivityReset(), subregIsHotel,
+                    AdvancedRegionMarket.getInstance().getPluginSettings().isSubregionAutoRestore(),
+                    RegionKind.SUBREGION, FlagGroup.SUBREGION, null, sublastreset, sublastLogin,
+                    AdvancedRegionMarket.getInstance().getPluginSettings().isAllowSubRegionUserRestore(),
+                    subregpayedtill, subregterminated, new ArrayList<Region>(), 0,
+                    EntityLimitGroup.SUBREGION, new HashMap<>(), 0, pluginsSettings.getMaxSubRegionMembers());
 
         } else {
             Price subPrice = new Price(subregPrice);
-            return new SellRegion(subregion, regionWorld, subregionsigns, subPrice, subregIsSold, AdvancedRegionMarket.getInstance().getPluginSettings().isSubregionInactivityReset(), subregIsHotel, AdvancedRegionMarket.getInstance().getPluginSettings().isSubregionAutoRestore(), RegionKind.SUBREGION, FlagGroup.SUBREGION, null,
-                    sublastreset, sublastLogin, AdvancedRegionMarket.getInstance().getPluginSettings().isAllowSubRegionUserRestore(), new ArrayList<Region>(), 0, EntityLimitGroup.SUBREGION, new HashMap<>(), 0);
+            return new SellRegion(subregion, regionWorld, subregionsigns, subPrice, subregIsSold,
+                    pluginsSettings.isSubregionInactivityReset(), subregIsHotel, pluginsSettings.isSubregionAutoRestore(),
+                    RegionKind.SUBREGION, FlagGroup.SUBREGION, null, sublastreset, sublastLogin,
+                    pluginsSettings.isAllowSubRegionUserRestore(), new ArrayList<Region>(), 0,
+                    EntityLimitGroup.SUBREGION, new HashMap<>(), 0, pluginsSettings.getMaxSubRegionMembers());
         }
     }
 
@@ -444,6 +459,7 @@ public class RegionManager extends YamlFileManager<Region> {
         fileupdated |= this.addDefault(section, "allowedSubregions", 0);
         fileupdated |= this.addDefault(section, "lastLogin", new GregorianCalendar().getTimeInMillis());
         fileupdated |= this.addDefault(section, "userrestorable", true);
+        fileupdated |= this.addDefault(section, "maxMembers", -1);
         fileupdated |= this.addDefault(section, "boughtExtraTotalEntitys", 0);
         fileupdated |= this.addDefault(section, "boughtExtraEntitys", new ArrayList<String>());
         fileupdated |= this.addDefault(section, "regiontype", "sellregion");

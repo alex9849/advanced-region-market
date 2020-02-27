@@ -52,9 +52,9 @@ public class RentRegion extends CountdownRegion {
     public RentRegion(WGRegion region, World regionworld, List<SignData> rentsign, RentPrice rentPrice, Boolean sold, Boolean inactivityReset, Boolean allowOnlyNewBlocks,
                       Boolean doBlockReset, RegionKind regionKind, FlagGroup flagGroup, Location teleportLoc, long lastreset, long lastLogin, boolean isUserRestorable, long payedTill,
                       List<Region> subregions, int allowedSubregions, EntityLimitGroup entityLimitGroup, HashMap<EntityLimit.LimitableEntityType, Integer> extraEntitys,
-                      int boughtExtraTotalEntitys) {
+                      int boughtExtraTotalEntitys, int maxMembers) {
         super(region, regionworld, rentsign, rentPrice, sold, inactivityReset, allowOnlyNewBlocks, doBlockReset, regionKind, flagGroup, teleportLoc, lastreset, lastLogin, isUserRestorable,
-                payedTill, subregions, allowedSubregions, entityLimitGroup, extraEntitys, boughtExtraTotalEntitys);
+                payedTill, subregions, allowedSubregions, entityLimitGroup, extraEntitys, boughtExtraTotalEntitys, maxMembers);
         this.maxRentTime = rentPrice.getMaxRentTime();
         this.updateSigns();
     }

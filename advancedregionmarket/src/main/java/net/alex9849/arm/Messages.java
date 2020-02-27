@@ -228,6 +228,7 @@ public class Messages {
     public static String AVAILABLE = "&aavailable";
     public static String REGION_INFO_IS_USER_RESTORABLE = "";
     public static String SUB_REGION_IS_USER_RESETTABLE_ERROR = "&4The selected region is a subregion. You can change the isUserRestorable setting for all subregions in the config.yml!";
+    public static String SUB_REGION_MAX_MEMBERS_ERROR = "";
     public static List<String> GUI_SUBREGION_HOTEL_BUTTON_LORE = new ArrayList<>(Arrays.asList("&6The hotel function allows you to prevent players", "&6from breaking blocks they do not have placed", "&6Status: %hotelfunctionstatus%", "&6Click to enable/disable"));
     public static List<String> GUI_SUBREGION_REGION_INFO_SELL = new ArrayList<>(Arrays.asList("%regionid%", "Selltype: %selltype%", "Status: %soldstatus%", "Price: %price%", "Price per M2: %priceperm2%", "Dimensions: %dimensions%"));
     public static List<String> GUI_SUBREGION_REGION_INFO_RENT = new ArrayList<>(Arrays.asList("%regionid%", "Selltype: %selltype%", "Status: %soldstatus%", "Price: %price%", "Price per M2 (per week): %priceperm2perweek%", "Extend per click: %extendtime%", "Max. extended time: %maxrenttime%", "Dimensions: %dimensions%"));
@@ -567,6 +568,7 @@ public class Messages {
         SELLBACK_WARNING = config.getString("Messages.SellBackWarning");
         SUB_REGION_INACTIVITYRESET_ERROR = config.getString("Messages.SubregionInactivityResetError");
         SUB_REGION_DO_BLOCKRESET_ERROR = config.getString("Messages.SubregionDoBlockResetError");
+        SUB_REGION_MAX_MEMBERS_ERROR = config.getString("Messages.SubregionMaxMembersError");
         SUB_REGION_IS_USER_RESETTABLE_ERROR = config.getString("Messages.SubregionIsUserResettableError");
         REGION_NOT_RESETTABLE = config.getString("Messages.RegionNotResettable");
         REGION_SELECTED_MULTIPLE_REGIONS = config.getString("Messages.RegionSelectedMultipleRegions");
@@ -941,6 +943,7 @@ public class Messages {
         REGION_CREATED_AND_SAVED = ChatColor.translateAlternateColorCodes('&', REGION_CREATED_AND_SAVED);
         REGION_NOT_A_SUBREGION = ChatColor.translateAlternateColorCodes('&', REGION_NOT_A_SUBREGION);
         REGION_DELETED = ChatColor.translateAlternateColorCodes('&', REGION_DELETED);
+        SUB_REGION_MAX_MEMBERS_ERROR = ChatColor.translateAlternateColorCodes('&', SUB_REGION_MAX_MEMBERS_ERROR);
         SUB_REGION_IS_USER_RESETTABLE_ERROR = ChatColor.translateAlternateColorCodes('&', SUB_REGION_IS_USER_RESETTABLE_ERROR);
         SELLREGION_NAME = ChatColor.translateAlternateColorCodes('&', SELLREGION_NAME);
         CONTRACTREGION_NAME = ChatColor.translateAlternateColorCodes('&', CONTRACTREGION_NAME);

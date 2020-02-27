@@ -60,6 +60,7 @@ public abstract class Region implements Saveable {
     private HashMap<EntityLimit.LimitableEntityType, Integer> extraEntitys;
     private int extraTotalEntitys;
     private StringReplacer stringReplacer;
+    private int maxMembers;
 
     {
         HashMap<String, StringCreator> variableReplacements = new HashMap<>();
@@ -215,7 +216,7 @@ public abstract class Region implements Saveable {
     public Region(WGRegion region, World regionworld, List<SignData> sellsign, Price price, Boolean sold, Boolean inactivityReset,
                   Boolean isHotel, Boolean isAutoRestore, RegionKind regionKind, FlagGroup flagGroup, Location teleportLoc, long lastreset,
                   long lastLogin, boolean isUserRestorable, List<Region> subregions, int allowedSubregions, EntityLimitGroup entityLimitGroup,
-                  HashMap<EntityLimit.LimitableEntityType, Integer> extraEntitys, int boughtExtraTotalEntitys) {
+                  HashMap<EntityLimit.LimitableEntityType, Integer> extraEntitys, int boughtExtraTotalEntitys, int maxMembers) {
         this.region = region;
         this.sellsign = new ArrayList<SignData>(sellsign);
         this.sold = sold;
@@ -237,6 +238,7 @@ public abstract class Region implements Saveable {
         this.entityLimitGroup = entityLimitGroup;
         this.extraEntitys = extraEntitys;
         this.extraTotalEntitys = boughtExtraTotalEntitys;
+        this.maxMembers = maxMembers;
 
         for (Region subregion : subregions) {
             subregion.setParentRegion(this);
@@ -1123,6 +1125,19 @@ public abstract class Region implements Saveable {
 
     protected HashMap<EntityLimit.LimitableEntityType, Integer> getExtraEntitys() {
         return this.extraEntitys;
+    }
+
+    public int getMaxMembers() {
+        return maxMembers;
+    }
+
+    public void setMaxMembers(int maxMembers) {
+        if(maxMembers < -1) {
+            this.maxMembers = 0;
+        } else {
+            this.maxMembers = maxMembers;
+        }
+        this.queueSave();
     }
 
     public ConfigurationSection toConfigurationSection() {

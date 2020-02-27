@@ -3,6 +3,7 @@ package net.alex9849.arm;
 public class ArmSettings {
     private boolean isAllowSubRegionUserRestore = false;
     private boolean isSubregionAutoRestore = false;
+    private int maxSubRegionMembers = -1;
     private boolean isSubregionInactivityReset = false;
     private boolean isTeleportAfterSellRegionBought = false;
     private boolean teleportAfterRentRegionBought = false;
@@ -23,6 +24,14 @@ public class ArmSettings {
 
     public void setCreateBackupOnRegionUnsell(boolean createBackupOnRegionUnsell) {
         this.createBackupOnRegionUnsell = createBackupOnRegionUnsell;
+    }
+
+    public int getMaxSubRegionMembers() {
+        return maxSubRegionMembers;
+    }
+
+    public void setMaxSubRegionMembers(int maxSubRegionMembers) {
+        this.maxSubRegionMembers = maxSubRegionMembers;
     }
 
     public boolean isCreateBackupOnRegionRestore() {

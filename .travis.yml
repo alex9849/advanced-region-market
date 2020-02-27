@@ -29,8 +29,3 @@ deploy:
     on:
       tags: true
     overwrite: true
-  - provider: script
-    script: .travis/mvn-deploy.sh
-    skip_cleanup: true
-    on:
-      tags: true

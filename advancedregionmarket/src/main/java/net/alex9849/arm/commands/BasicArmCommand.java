@@ -51,23 +51,23 @@ public abstract class BasicArmCommand {
     }
 
     public boolean runCommand(CommandSender sender, String command) throws InputException, CmdSyntaxException {
-        if(!this.isConsoleCommand() && sender instanceof ConsoleCommandSender) {
+        if (!this.isConsoleCommand() && sender instanceof ConsoleCommandSender) {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
 
-        if(sender instanceof Player) {
+        if (sender instanceof Player) {
             Player player = (Player) sender;
-            if(!hasPermission(player)) {
+            if (!hasPermission(player)) {
                 throw new InputException(player, Messages.NO_PERMISSION);
             }
         }
 
         boolean hasMinOneRegexMatching = false;
-        for(String regex : this.getRegexList()) {
+        for (String regex : this.getRegexList()) {
             hasMinOneRegexMatching |= command.matches(regex);
         }
 
-        if(!hasMinOneRegexMatching) {
+        if (!hasMinOneRegexMatching) {
             throw new CmdSyntaxException(new ArrayList<>(this.getUsage()));
         }
 
@@ -75,13 +75,27 @@ public abstract class BasicArmCommand {
     }
 
     public List<String> onTabComplete(Player player, String args[]) {
-        if(!hasPermission(player)) {
-            return new ArrayList<>();
+        List<String> returnme = new ArrayList<>();
+        if (!hasPermission(player)) {
+            return returnme;
         }
-        return onTabCompleteLogic(player, args);
+        if (args.length >= 1 && this.getRootCommand().startsWith(args[0])) {
+            if (args.length == 1) {
+                returnme.add(this.getRootCommand());
+            } else if (this.getRootCommand().equalsIgnoreCase(args[0])) {
+                returnme.addAll(onTabCompleteLogic(player, args));
+            }
+        }
+        return returnme;
     }
 
     protected abstract boolean runCommandLogic(CommandSender sender, String command) throws InputException, CmdSyntaxException;
 
+    /**
+     *
+     * @param player Has the permission to execute this command
+     * @param args Has at least a length of 2 & the first arg matches the root command
+     * @return
+     */
     public abstract List<String> onTabCompleteLogic(Player player, String args[]);
 }

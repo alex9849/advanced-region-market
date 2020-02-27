@@ -74,24 +74,21 @@ public class AddMemberCommand extends BasicArmCommand {
     public List<String> onTabCompleteLogic(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
 
-        if (args.length >= 1 && this.getRootCommand().startsWith(args[0])) {
-            if (args.length == 1) {
-                returnme.add(this.getRootCommand());
-
-            } else if (args.length == 2 && args[0].equalsIgnoreCase(this.getRootCommand())) {
-                PlayerRegionRelationship playerRegionRelationship = null;
-                if (player.hasPermission(Permission.ADMIN_ADDMEMBER)) {
-                    playerRegionRelationship = PlayerRegionRelationship.ALL;
-                } else {
-                    playerRegionRelationship = PlayerRegionRelationship.OWNER;
-                }
-                returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], playerRegionRelationship, true, true));
-                returnme.addAll(CommandHandler.tabCompleteOnlinePlayers(args[1]));
-
-            } else if (args.length == 3 && args[0].equalsIgnoreCase(this.getRootCommand())) {
-                returnme.addAll(CommandHandler.tabCompleteOnlinePlayers(args[2]));
+        if (args.length == 2) {
+            PlayerRegionRelationship playerRegionRelationship = null;
+            if (player.hasPermission(Permission.ADMIN_ADDMEMBER)) {
+                playerRegionRelationship = PlayerRegionRelationship.ALL;
+            } else {
+                playerRegionRelationship = PlayerRegionRelationship.OWNER;
             }
+            returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager()
+                    .completeTabRegions(player, args[1], playerRegionRelationship, true, true));
+            returnme.addAll(CommandHandler.tabCompleteOnlinePlayers(args[1]));
+
+        } else if (args.length == 3) {
+            returnme.addAll(CommandHandler.tabCompleteOnlinePlayers(args[2]));
         }
+
         return returnme;
     }
 }

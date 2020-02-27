@@ -9,7 +9,6 @@ import net.alex9849.arm.regions.Region;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -50,17 +49,7 @@ public class BuyCommand extends BasicArmCommand {
 
     @Override
     public List<String> onTabCompleteLogic(Player player, String[] args) {
-        List<String> returnme = new ArrayList<>();
-
-        if (args.length >= 1 && this.getRootCommand().startsWith(args[0])) {
-            if (args.length == 1) {
-                returnme.add(this.getRootCommand());
-
-            } else if (args.length == 2 && (args[0].equalsIgnoreCase(this.getRootCommand()))) {
-                returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().
-                        completeTabRegions(player, args[1], PlayerRegionRelationship.AVAILABLE, true, true));
-            }
-        }
-        return returnme;
+        return AdvancedRegionMarket.getInstance().getRegionManager().
+                completeTabRegions(player, args[1], PlayerRegionRelationship.AVAILABLE, true, true);
     }
 }

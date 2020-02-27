@@ -99,12 +99,4 @@
             </plugin>
         </plugins>
     </build>
-
-    <distributionManagement>
-        <repository>
-            <id>github</id>
-            <name>GitHub alex9849 Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/alex9849/advanced-region-market</url>
-        </repository>
-    </distributionManagement>
 </project>

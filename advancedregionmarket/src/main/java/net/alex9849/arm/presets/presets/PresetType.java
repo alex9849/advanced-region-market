@@ -17,7 +17,9 @@ public enum PresetType {
         }
 
         public SellPreset create() {
-            return new SellPreset("default", false, 0, RegionKind.DEFAULT, FlagGroup.DEFAULT, true, false, true, true, 0, null, EntityLimitGroup.DEFAULT, new ArrayList<>());
+            return new SellPreset("default", false, 0, RegionKind.DEFAULT, FlagGroup.DEFAULT,
+                    true, false, true, true, 0,
+                    null, EntityLimitGroup.DEFAULT, new ArrayList<>(), -1);
         }
 
     }, RENTPRESET {
@@ -30,7 +32,10 @@ public enum PresetType {
         }
 
         public RentPreset create() {
-            return new RentPreset("default", false, 0, RegionKind.DEFAULT, FlagGroup.DEFAULT, true, false, true, false, 0, false, 0, true, 0, null, EntityLimitGroup.DEFAULT, new ArrayList<>());
+            return new RentPreset("default", false, 0, RegionKind.DEFAULT, FlagGroup.DEFAULT,
+                    true, false, true, false, 0,
+                    false, 0, true, 0, null,
+                    EntityLimitGroup.DEFAULT, new ArrayList<>(), -1);
         }
 
     }, CONTRACTPRESET {
@@ -43,7 +48,9 @@ public enum PresetType {
         }
 
         public ContractPreset create() {
-            return new ContractPreset("default", false, 0, RegionKind.DEFAULT, FlagGroup.DEFAULT, true, false, true, false, 0, true, 0, null, EntityLimitGroup.DEFAULT, new ArrayList<>());
+            return new ContractPreset("default", false, 0, RegionKind.DEFAULT, FlagGroup.DEFAULT,
+                    true, false, true, false, 0, true,
+                    0, null, EntityLimitGroup.DEFAULT, new ArrayList<>(), -1);
         }
     };
 

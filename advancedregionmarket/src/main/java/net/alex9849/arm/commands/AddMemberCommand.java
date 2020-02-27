@@ -60,7 +60,9 @@ public class AddMemberCommand implements BasicArmCommand {
             throw new InputException(player, Messages.REGION_ADD_MEMBER_NOT_ONLINE);
         }
 
-        if (region.getRegion().hasOwner(player.getUniqueId()) && player.hasPermission(Permission.MEMBER_ADDMEMBER)) {
+        if (region.getRegion().hasOwner(player.getUniqueId())
+                && player.hasPermission(Permission.MEMBER_ADDMEMBER)
+                && !player.hasPermission(Permission.ADMIN_ADDMEMBER)) {
             if(region.getRegion().getMembers().size() + 1 > region.getMaxMembers()) {
                 throw new InputException(player, region.getConvertedMessage(Messages.ADD_MEMBER_MAX_MEMBERS_EXCEEDED));
             }

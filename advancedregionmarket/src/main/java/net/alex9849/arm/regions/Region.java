@@ -1149,6 +1149,7 @@ public abstract class Region implements Saveable {
         yamlConfiguration.set("isHotel", this.isHotel());
         yamlConfiguration.set("lastreset", this.getLastreset());
         yamlConfiguration.set("lastLogin", this.getLastLogin());
+        yamlConfiguration.set("maxMembers", this.getMaxMembers());
         yamlConfiguration.set("regiontype", this.getSellType().getInternalName());
         if (this.getPriceObject().isAutoPrice()) {
             yamlConfiguration.set("autoprice", this.getPriceObject().getAutoPrice().getName());

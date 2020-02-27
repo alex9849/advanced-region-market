@@ -17,9 +17,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public class SetMaxMembersCommand implements BasicArmCommand {
-    private final String rootCommand = "setmaxmembers";
-    private final String regex_set = "(?i)setmaxmembers ([0-9]+|unlimited)";
-    private final List<String> usage = new ArrayList<>(Arrays.asList("setmaxmembers [NUMBER]"));
+    private final String rootCommand = "maxmembers";
+    private final String regex_set = "(?i)maxmembers ([0-9]+|unlimited)";
+    private final List<String> usage = new ArrayList<>(Arrays.asList("maxmembers [NUMBER]"));
     private PresetType presetType;
 
     public SetMaxMembersCommand(PresetType presetType) {
@@ -63,8 +63,8 @@ public class SetMaxMembersCommand implements BasicArmCommand {
         }
 
         int maxMembers = -1;
-        if(!args[2].equalsIgnoreCase("unlimited")) {
-            maxMembers = Integer.parseInt(args[2]);
+        if(!args[1].equalsIgnoreCase("unlimited")) {
+            maxMembers = Integer.parseInt(args[1]);
         }
         preset.setMaxMembers(maxMembers);
         player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);

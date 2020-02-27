@@ -4,6 +4,7 @@ import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.InputException;
+import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.Region;
 import org.bukkit.command.Command;
@@ -94,7 +95,28 @@ public class SetMaxMembersCommand implements BasicArmCommand {
     public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
 
+        if (args.length >= 1) {
+            if (this.rootCommand.startsWith(args[0])) {
+                if (player.hasPermission(Permission.ADMIN_SET_MAX_MEMBERS)) {
+                    if (args.length == 1) {
+                        returnme.add(this.rootCommand);
+                    } else if (args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
+                        returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true, true));
+                        if ("rk:".startsWith(args[1])) {
+                            returnme.add("rk:");
+                        }
+                        if (args[1].matches("rk:([^;\n]+)?")) {
+                            returnme.addAll(AdvancedRegionMarket.getInstance().getRegionKindManager().completeTabRegionKinds(args[1], "rk:"));
+                        }
 
+                    } else if (args.length == 3 && (args[0].equalsIgnoreCase(this.rootCommand))) {
+                        if ("unlimited".startsWith(args[2])) {
+                            returnme.add("unlimited");
+                        }
+                    }
+                }
+            }
+        }
         return returnme;
     }
 }

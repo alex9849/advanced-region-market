@@ -176,6 +176,7 @@ Messages:
   RegionInfoInactivityReset: '&6InactivityReset: '
   RegionInfoMaxRentTime: '&6Max rent time: '
   RegionInfoExtendPerClick: '&6Extend per click: '
+  RegionInfoMaxMembers: '&6Max. number of members: '
   RegionInfoAutoExtendTime: '&6Extend time: '
   RegionInfoYes: '&2yes'
   RegionInfoNo: '&4no'

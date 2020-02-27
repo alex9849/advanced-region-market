@@ -43,6 +43,7 @@ public class SellPresetCommand implements BasicArmCommand {
         commands.add(new net.alex9849.arm.presets.commands.AddCommandCommand(PresetType.SELLPRESET));
         commands.add(new net.alex9849.arm.presets.commands.RemoveCommandCommand(PresetType.SELLPRESET));
         commands.add(new net.alex9849.arm.presets.commands.AllowedSubregionsCommand(PresetType.SELLPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.SetMaxMembersCommand(PresetType.SELLPRESET));
         commands.add(new UserRestorableCommand(PresetType.SELLPRESET));
         commands.add(new net.alex9849.arm.presets.commands.SetAutoPriceCommand(PresetType.SELLPRESET));
         commands.add(new net.alex9849.arm.presets.commands.EntityLimitCommand(PresetType.SELLPRESET));

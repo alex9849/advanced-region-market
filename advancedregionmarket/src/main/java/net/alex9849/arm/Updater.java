@@ -25,7 +25,7 @@ public class Updater {
         if(versionParts.length > 1) {
             int major = versionParts[0];
             int minor = versionParts[1];
-            if(major < 2 || (major == 2 && minor <= 14)) {
+            if(major < 3) {
                 List<Integer> legacyVersionParts = new ArrayList<>();
                 legacyVersionParts.add(major);
                 for(char c : (minor + "").toCharArray()) {
@@ -148,6 +148,10 @@ public class Updater {
             if (new Version(2, 1, 4).biggerThan(lastVersion)) {
                 AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 2.1.4..");
                 updateTo2p14(pluginConfig);
+            }
+            if (new Version(3).biggerThan(lastVersion)) {
+                AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 3.0...");
+                updateTo3p0(pluginConfig);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -1021,6 +1025,12 @@ public class Updater {
         pluginConfig.set("Subregions.deleteSubregionsOnParentRegionBlockReset", false);
         pluginConfig.set("Backups.createBackupOnRegionRestore", true);
         pluginConfig.set("Backups.createBackupOnRegionUnsell", true);
+        AdvancedRegionMarket.getInstance().saveConfig();
+    }
+
+    private static void updateTo3p0(FileConfiguration pluginConfig) {
+        pluginConfig.set("Subregions.SubregionMaxMembers", -1);
+        pluginConfig.set("Version", 3.0);
         AdvancedRegionMarket.getInstance().saveConfig();
     }
 

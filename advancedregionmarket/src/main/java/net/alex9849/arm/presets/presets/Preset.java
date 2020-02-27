@@ -35,8 +35,12 @@ public abstract class Preset implements Saveable {
     private EntityLimitGroup entityLimitGroup;
     private List<String> setupCommands = new ArrayList<>();
     private boolean needsSave = false;
+    private int maxMembers = -1;
 
-    public Preset(String name, boolean hasPrice, double price, RegionKind regionKind, FlagGroup flagGroup, boolean inactivityReset, boolean isHotel, boolean autoRestore, boolean isUserRestorable, int allowedSubregions, AutoPrice autoPrice, EntityLimitGroup entityLimitGroup, List<String> setupCommands) {
+    public Preset(String name, boolean hasPrice, double price, RegionKind regionKind, FlagGroup flagGroup,
+                  boolean inactivityReset, boolean isHotel, boolean autoRestore, boolean isUserRestorable,
+                  int allowedSubregions, AutoPrice autoPrice, EntityLimitGroup entityLimitGroup,
+                  List<String> setupCommands, int maxMembers) {
         this.name = name;
         this.hasPrice = hasPrice;
         this.price = price;
@@ -51,6 +55,7 @@ public abstract class Preset implements Saveable {
         this.flagGroup = flagGroup;
         this.entityLimitGroup = entityLimitGroup;
         this.needsSave = false;
+        this.maxMembers = maxMembers;
     }
 
     public String getName() {
@@ -153,6 +158,7 @@ public abstract class Preset implements Saveable {
         player.sendMessage(Messages.REGION_INFO_PRICE + price);
         this.getAdditionalInfo(player);
         player.sendMessage(Messages.REGION_INFO_TYPE + regKind.getName());
+        player.sendMessage(Messages.REGION_INFO_MAX_MEMBERS + this.getMaxMembers());
         player.sendMessage(Messages.REGION_INFO_FLAGGROUP + flagGroup.getName());
         player.sendMessage(Messages.REGION_INFO_ENTITYLIMITGROUP + entityLimitGroup.getName());
         player.sendMessage(Messages.REGION_INFO_INACTIVITYRESET + this.isInactivityReset());
@@ -234,6 +240,14 @@ public abstract class Preset implements Saveable {
         this.isHotel = isHotel;
     }
 
+    public int getMaxMembers() {
+        return maxMembers;
+    }
+
+    public void setMaxMembers(int maxMembers) {
+        this.maxMembers = maxMembers;
+    }
+
     public abstract PresetType getPresetType();
 
     public abstract Preset getCopy();
@@ -278,6 +292,7 @@ public abstract class Preset implements Saveable {
         section.set("regionKind", this.getRegionKind().getName());
         section.set("isHotel", this.isHotel());
         section.set("autorestore", this.isAutoRestore());
+        section.set("maxMembers", this.getMaxMembers());
         section.set("flaggroup", this.flagGroup.getName());
         section.set("entityLimitGroup", this.getEntityLimitGroup().getName());
         section.set("inactivityReset", this.isInactivityReset());

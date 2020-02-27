@@ -46,6 +46,7 @@ public class Messages {
     public static String REGION_INFO_EXTEND_PER_CLICK = "";
     public static String REGION_INFO_HOTEL = "";
     public static String REGION_INFO_ALLOWED_SUBREGIONS = "";
+    public static String REGION_INFO_MAX_MEMBERS = "";
     public static String REGION_INFO_EXPIRED = "&6Expired";
     public static String GUI_MAIN_MENU_NAME = "";
     public static String GUI_GO_BACK = "";
@@ -419,6 +420,7 @@ public class Messages {
         REGION_INFO_ALLOWED_SUBREGIONS = config.getString("Messages.RegionInfoAllowedSubregions");
         REGION_INFO_EXPIRED = config.getString("Messages.RegionInfoExpired");
         REGION_INFO_AUTOPRICE = config.getString("Messages.RegionInfoAutoprice");
+        REGION_INFO_MAX_MEMBERS = config.getString("Messages.RegionInfoMaxMembers");
         GUI_MAIN_MENU_NAME = config.getString("Messages.GUIMainMenuName");
         GUI_GO_BACK = config.getString("Messages.GUIGoBack");
         GUI_MY_OWN_REGIONS = config.getString("Messages.GUIMyOwnRegions");
@@ -783,6 +785,7 @@ public class Messages {
         CURRENCY = ChatColor.translateAlternateColorCodes('&', CURRENCY);
         REGION_KIND_SET = ChatColor.translateAlternateColorCodes('&', REGION_KIND_SET);
         REGION_INFO_PRICE = ChatColor.translateAlternateColorCodes('&', REGION_INFO_PRICE);
+        REGION_INFO_MAX_MEMBERS = ChatColor.translateAlternateColorCodes('&', REGION_INFO_MAX_MEMBERS);
         REGION_INFO_TYPE = ChatColor.translateAlternateColorCodes('&', REGION_INFO_TYPE);
         COMMAND_ONLY_INGAME = ChatColor.translateAlternateColorCodes('&', COMMAND_ONLY_INGAME);
         REGION_INFO_INACTIVITYRESET = ChatColor.translateAlternateColorCodes('&', REGION_INFO_INACTIVITYRESET);

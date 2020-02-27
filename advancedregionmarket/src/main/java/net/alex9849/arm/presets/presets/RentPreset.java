@@ -24,9 +24,14 @@ public class RentPreset extends ContractPreset {
     private boolean hasMaxRentTime = false;
     private long maxRentTime = 0;
 
-    public RentPreset(String name, boolean hasPrice, double price, RegionKind regionKind, FlagGroup flagGroup, boolean inactivityReset, boolean isHotel, boolean doBlockReset, boolean hasMaxRentTime,
-                      long maxRentTime, boolean hasExtendPerClick, long extendPerClick, boolean isUserRestorable, int allowedSubregions, AutoPrice autoPrice, EntityLimitGroup entityLimitGroup, List<String> setupCommands) {
-        super(name, hasPrice, price, regionKind, flagGroup, inactivityReset, isHotel, doBlockReset, hasExtendPerClick, extendPerClick, isUserRestorable, allowedSubregions, autoPrice, entityLimitGroup, setupCommands);
+    public RentPreset(String name, boolean hasPrice, double price, RegionKind regionKind, FlagGroup flagGroup,
+                      boolean inactivityReset, boolean isHotel, boolean doBlockReset, boolean hasMaxRentTime,
+                      long maxRentTime, boolean hasExtendPerClick, long extendPerClick, boolean isUserRestorable,
+                      int allowedSubregions, AutoPrice autoPrice, EntityLimitGroup entityLimitGroup,
+                      List<String> setupCommands, int maxMembers) {
+        super(name, hasPrice, price, regionKind, flagGroup, inactivityReset, isHotel, doBlockReset, hasExtendPerClick,
+                extendPerClick, isUserRestorable, allowedSubregions, autoPrice, entityLimitGroup, setupCommands,
+                maxMembers);
         this.hasMaxRentTime = hasMaxRentTime;
         this.maxRentTime = maxRentTime;
     }
@@ -41,7 +46,7 @@ public class RentPreset extends ContractPreset {
                 this.isHotel(), this.isAutoRestore(), this.hasMaxRentTime(),
                 this.getMaxRentTime(), this.hasExtendTime(), this.getExtendTime(),
                 this.isUserRestorable(), this.getAllowedSubregions(),
-                this.getAutoPrice(), this.getEntityLimitGroup(), newsetupCommands);
+                this.getAutoPrice(), this.getEntityLimitGroup(), newsetupCommands, getMaxMembers());
     }
 
     @Override
@@ -136,7 +141,7 @@ public class RentPreset extends ContractPreset {
                 this.getRegionKind(), this.getFlagGroup(), null, 0,
                 new GregorianCalendar().getTimeInMillis(), this.isUserRestorable(),
                 1, new ArrayList<>(), this.getAllowedSubregions(), this.getEntityLimitGroup(),
-                new HashMap<>(), 0);
+                new HashMap<>(), 0, this.getMaxMembers());
 
         if(this.canPriceLineBeLetEmpty()) {
             if(this.hasAutoPrice()) {

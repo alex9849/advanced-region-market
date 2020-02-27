@@ -25,8 +25,12 @@ public class ContractPreset extends Preset {
     private boolean hasExtendTime = false;
     private long extendTime = 0;
 
-    public ContractPreset(String name, boolean hasPrice, double price, RegionKind regionKind, FlagGroup flagGroup, boolean inactivityReset, boolean isHotel, boolean doBlockReset, boolean hasExtend, long extend, boolean isUserRestorable, int allowedSubregions, AutoPrice autoPrice, EntityLimitGroup entityLimitGroup, List<String> setupCommands) {
-        super(name, hasPrice, price, regionKind, flagGroup, inactivityReset, isHotel, doBlockReset, isUserRestorable, allowedSubregions, autoPrice, entityLimitGroup, setupCommands);
+    public ContractPreset(String name, boolean hasPrice, double price, RegionKind regionKind, FlagGroup flagGroup,
+                          boolean inactivityReset, boolean isHotel, boolean doBlockReset, boolean hasExtend,
+                          long extend, boolean isUserRestorable, int allowedSubregions, AutoPrice autoPrice,
+                          EntityLimitGroup entityLimitGroup, List<String> setupCommands, int maxMembers) {
+        super(name, hasPrice, price, regionKind, flagGroup, inactivityReset, isHotel, doBlockReset, isUserRestorable,
+                allowedSubregions, autoPrice, entityLimitGroup, setupCommands, maxMembers);
         this.hasExtendTime = hasExtend;
         this.extendTime = extend;
     }
@@ -39,7 +43,8 @@ public class ContractPreset extends Preset {
         return new ContractPreset(this.getName(), this.hasPrice(), this.getPrice(), this.getRegionKind(),
                 this.getFlagGroup(), this.isInactivityReset(), this.isHotel(), this.isAutoRestore(),
                 this.hasExtendTime(), this.getExtendTime(), this.isUserRestorable(),
-                this.getAllowedSubregions(), this.getAutoPrice(), this.getEntityLimitGroup(), newsetupCommands);
+                this.getAllowedSubregions(), this.getAutoPrice(), this.getEntityLimitGroup(), newsetupCommands,
+                this.getMaxMembers());
     }
 
     public boolean hasExtendTime() {
@@ -131,7 +136,8 @@ public class ContractPreset extends Preset {
                 this.isHotel(), this.isAutoRestore(), this.getRegionKind(), this.getFlagGroup(),
                 null, 0, new GregorianCalendar().getTimeInMillis(),
                 this.isUserRestorable(), 1, true, new ArrayList<>(),
-                this.getAllowedSubregions(), this.getEntityLimitGroup(), new HashMap<>(), 0);
+                this.getAllowedSubregions(), this.getEntityLimitGroup(), new HashMap<>(), 0,
+                getMaxMembers());
 
         if (this.hasAutoPrice()) {
             contractRegion.setPrice(new ContractPrice(this.getAutoPrice()));

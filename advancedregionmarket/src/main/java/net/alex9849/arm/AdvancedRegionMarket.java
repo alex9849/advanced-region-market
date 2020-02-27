@@ -303,6 +303,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         commands.add(new BuyCommand());
         commands.add(new SellBackCommand());
         commands.add(new SetSubregionLimit());
+        commands.add(new SetMaxMembersCommand());
         commands.add(new SetPriceCommand());
         commands.add(new SetIsUserRestorableCommand());
         commands.add(new ListAutoPricesCommand());

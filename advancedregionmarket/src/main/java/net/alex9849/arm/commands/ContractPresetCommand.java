@@ -43,6 +43,7 @@ public class ContractPresetCommand extends SellPresetCommand {
         commands.add(new net.alex9849.arm.presets.commands.AddCommandCommand(PresetType.CONTRACTPRESET));
         commands.add(new net.alex9849.arm.presets.commands.RemoveCommandCommand(PresetType.CONTRACTPRESET));
         commands.add(new net.alex9849.arm.presets.commands.AllowedSubregionsCommand(PresetType.CONTRACTPRESET));
+        commands.add(new net.alex9849.arm.presets.commands.SetMaxMembersCommand(PresetType.CONTRACTPRESET));
         commands.add(new UserRestorableCommand(PresetType.CONTRACTPRESET));
         commands.add(new net.alex9849.arm.presets.commands.SetAutoPriceCommand(PresetType.CONTRACTPRESET));
         commands.add(new net.alex9849.arm.presets.commands.EntityLimitCommand(PresetType.CONTRACTPRESET));

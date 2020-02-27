@@ -32,6 +32,7 @@ public class PresetPatternManager extends YamlFileManager<Preset> {
         boolean userrestorable = section.getBoolean("userrestorable");
         int allowedSubregions = section.getInt("allowedSubregions");
         String autoPriceString = section.getString("autoPrice");
+        int maxMembers = section.getInt("maxMembers");
 
         AutoPrice autoPrice = null;
         if(autoPriceString != null) {
@@ -59,7 +60,8 @@ public class PresetPatternManager extends YamlFileManager<Preset> {
         }
         if (presetType == PresetType.SELLPRESET) {
             return new SellPreset(name, hasprice, price, regionKind, flagGroup, inactivityReset, isHotel,
-                    autorestore, userrestorable, allowedSubregions, autoPrice, entityLimitGroup, setupcommands);
+                    autorestore, userrestorable, allowedSubregions, autoPrice, entityLimitGroup, setupcommands,
+                    maxMembers);
         }
 
         if(presetType == PresetType.CONTRACTPRESET || presetType == PresetType.RENTPRESET) {
@@ -72,8 +74,8 @@ public class PresetPatternManager extends YamlFileManager<Preset> {
                     extendTime = 0;
                 }
                 return new ContractPreset(name, hasprice, price, regionKind, flagGroup, inactivityReset, isHotel,
-                        autorestore, hasExtendTime, extendTime, userrestorable, allowedSubregions,
-                        autoPrice, entityLimitGroup, setupcommands);
+                        autorestore, hasExtendTime, extendTime, userrestorable, allowedSubregions, autoPrice,
+                        entityLimitGroup, setupcommands, maxMembers);
 
             } else {
 
@@ -86,8 +88,8 @@ public class PresetPatternManager extends YamlFileManager<Preset> {
                     maxRentTime = 0;
                 }
                 return new RentPreset(name, hasprice, price, regionKind, flagGroup, inactivityReset, isHotel,
-                        autorestore, hasMaxRentTime, maxRentTime, hasExtendTime, extendTime,
-                        userrestorable, allowedSubregions, autoPrice, entityLimitGroup, setupcommands);
+                        autorestore, hasMaxRentTime, maxRentTime, hasExtendTime, extendTime, userrestorable,
+                        allowedSubregions, autoPrice, entityLimitGroup, setupcommands, maxMembers);
             }
 
 
@@ -160,6 +162,7 @@ public class PresetPatternManager extends YamlFileManager<Preset> {
         updatedSomething |= this.addDefault(section, "flaggroup", "Default");
         updatedSomething |= this.addDefault(section, "userrestorable", true);
         updatedSomething |= this.addDefault(section, "allowedSubregions", 0);
+        updatedSomething |= this.addDefault(section, "maxMembers", -1);
         updatedSomething |= this.addDefault(section, "setupcommands", new ArrayList<String>());
         if (presetType == PresetType.CONTRACTPRESET || presetType == PresetType.RENTPRESET) {
             updatedSomething |= this.addDefault(section, "hasExtendTime", false);

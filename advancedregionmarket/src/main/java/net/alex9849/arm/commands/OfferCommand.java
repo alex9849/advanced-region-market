@@ -9,7 +9,6 @@ import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.minifeatures.selloffer.Offer;
 import net.alex9849.arm.regions.Region;
 import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -17,38 +16,26 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class OfferCommand implements BasicArmCommand {
-
-    private final String rootCommand = "offer";
+public class OfferCommand extends BasicArmCommand {
     private final String regex_new = "(?i)offer [^;\n ]+ [^;\n ]+ ([0-9]+[.])?[0-9]+";
     private final String regex_cancel = "(?i)offer (?i)cancel";
     private final String regex_reject = "(?i)offer (?i)reject";
     private final String regex_accept = "(?i)offer (?i)accept";
-    private final List<String> usage = new ArrayList<>(Arrays.asList("offer [BUYER] [REGION] [PRICE]", "offer accept", "offer reject", "offer cancel"));
 
-    @Override
-    public boolean matchesRegex(String command) {
-        return (command.matches(this.regex_new) || command.matches(this.regex_cancel) || command.matches(this.regex_accept) || command.matches(this.regex_reject));
+    public OfferCommand() {
+        super(false, "offer",
+                Arrays.asList("(?i)offer [^;\n ]+ [^;\n ]+ ([0-9]+[.])?[0-9]+",
+                        "(?i)offer (?i)cancel", "(?i)offer (?i)reject", "(?i)offer (?i)accept"),
+                Arrays.asList("offer [BUYER] [REGION] [PRICE]", "offer accept", "offer reject", "offer cancel"),
+                Arrays.asList(Permission.MEMBER_OFFER_CREATE, Permission.MEMBER_OFFER_ANSWER));
     }
 
     @Override
-    public String getRootCommand() {
-        return this.rootCommand;
-    }
-
-    @Override
-    public List<String> getUsage() {
-        return this.usage;
-    }
-
-    @Override
-    public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
-        if (!(sender instanceof Player)) {
-            throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
-        }
+    protected boolean runCommandLogic(CommandSender sender, String command) throws InputException {
         Player player = (Player) sender;
+        String[] args = command.split(" ");
 
-        if (allargs.matches(regex_new)) {
+        if (command.matches(regex_new)) {
             if (!player.hasPermission(Permission.MEMBER_OFFER_CREATE)) {
                 throw new InputException(player, Messages.NO_PERMISSION);
             }
@@ -80,7 +67,7 @@ public class OfferCommand implements BasicArmCommand {
             return true;
 
 
-        } else if (allargs.matches(regex_accept)) {
+        } else if (command.matches(regex_accept)) {
             if (!player.hasPermission(Permission.MEMBER_OFFER_ANSWER)) {
                 throw new InputException(player, Messages.NO_PERMISSION);
             }
@@ -95,7 +82,7 @@ public class OfferCommand implements BasicArmCommand {
             return true;
 
 
-        } else if (allargs.matches(regex_cancel)) {
+        } else if (command.matches(regex_cancel)) {
             if (player.hasPermission(Permission.MEMBER_OFFER_ANSWER)) {
                 Offer offer = Offer.cancelOffer(player);
                 player.sendMessage(Messages.PREFIX + Messages.OFFER_CANCELED);
@@ -106,7 +93,7 @@ public class OfferCommand implements BasicArmCommand {
             }
 
 
-        } else if (allargs.matches(regex_reject)) {
+        } else if (command.matches(regex_reject)) {
             if (player.hasPermission(Permission.MEMBER_OFFER_CREATE)) {
                 Offer offer = Offer.rejectOffer(player);
                 offer.getSeller().sendMessage(Messages.PREFIX + offer.getConvertedMessage(Messages.OFFER_HAS_BEEN_REJECTED));
@@ -119,42 +106,31 @@ public class OfferCommand implements BasicArmCommand {
     }
 
     @Override
-    public List<String> onTabComplete(Player player, String[] args) {
+    protected List<String> onTabCompleteLogic(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
 
-        if (args.length >= 1) {
-            if (this.rootCommand.startsWith(args[0])) {
-                if (player.hasPermission(Permission.MEMBER_OFFER_CREATE) || player.hasPermission(Permission.MEMBER_OFFER_ANSWER)) {
-                    if (args.length == 1) {
-                        returnme.add(this.rootCommand);
-                    } else if (args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                        if (player.hasPermission(Permission.MEMBER_OFFER_CREATE)) {
-                            returnme.addAll(CommandHandler.tabCompleteOnlinePlayers(args[1]));
-                            if ("cancel".startsWith(args[1])) {
-                                returnme.add("cancel");
-                            }
-                        }
-                        if (player.hasPermission(Permission.MEMBER_OFFER_ANSWER)) {
-                            if ("reject".startsWith(args[1])) {
-                                returnme.add("reject");
-                            }
-                            if ("accept".startsWith(args[1])) {
-                                returnme.add("accept");
-                            }
-                        }
-                    } else if (args.length == 3 && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                        if (player.hasPermission(Permission.MEMBER_OFFER_CREATE)) {
-                            List<String> players = CommandHandler.tabCompleteOnlinePlayers(args[1]);
-                            if (players.size() > 0) {
-                                if (args[1].equalsIgnoreCase(players.get(0))) {
-                                    returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[2], PlayerRegionRelationship.OWNER, true, true));
-                                }
-                            }
-                        }
-                    }
+        if (args.length == 2) {
+            if (player.hasPermission(Permission.MEMBER_OFFER_CREATE)) {
+                returnme.addAll(CommandHandler.tabCompleteOnlinePlayers(args[1]));
+                if ("cancel".startsWith(args[1])) {
+                    returnme.add("cancel");
                 }
             }
+            if (player.hasPermission(Permission.MEMBER_OFFER_ANSWER)) {
+                if ("reject".startsWith(args[1])) {
+                    returnme.add("reject");
+                }
+                if ("accept".startsWith(args[1])) {
+                    returnme.add("accept");
+                }
+            }
+        } else if (args.length == 3) {
+            if (player.hasPermission(Permission.MEMBER_OFFER_CREATE)) {
+                returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager()
+                        .completeTabRegions(player, args[2], PlayerRegionRelationship.OWNER, true, true));
+            }
         }
+
         return returnme;
     }
 }

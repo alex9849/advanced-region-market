@@ -95,7 +95,7 @@ public class Permission {
     public static final String REGIONKIND_CREATE = "arm.admin.regionkind.create";
     public static final String REGIONKIND_DELETE = "arm.admin.regionkind.delete";
     public static final String REGIONKIND_LIST = "arm.admin.regionkind.list";
-    public static final String REGIONKIND_SET_DISPLAY_IN_GUI = "arm.admin.regionkind.setdisplayinregionfinder";
+    public static final String REGIONKIND_SET_DISPLAY_IN_REGIONFINDER = "arm.admin.regionkind.setdisplayinregionfinder";
     public static final String REGIONKIND_SET_DISPLAY_IN_LIMITS = "arm.admin.regionkind.setdisplayinlimits";
     public static final String REGIONKIND_SET_ITEM = "arm.admin.regionkind.setitem";
     public static final String REGIONKIND_SET_PAYBACKPERCENTAGE = "arm.admin.regionkind.setpaybackpercentage";

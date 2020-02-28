@@ -39,7 +39,7 @@ public abstract class OptionModifyCommand<Object, SettingsObj> extends BasicArmC
 
     protected abstract Object getObjectFromCommand(CommandSender sender, String command) throws InputException;
 
-    protected abstract SettingsObj getSettingsFromCommand(CommandSender sender, String name) throws InputException;
+    protected abstract SettingsObj getSettingsFromCommand(CommandSender sender, String command) throws InputException;
 
     protected abstract void applySetting(Object object, SettingsObj setting);
 

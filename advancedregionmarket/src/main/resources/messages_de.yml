@@ -142,8 +142,8 @@ Messages:
     \ &czurückgezahlt"
   SubregionInactivityResetError: '&4Die ausgewählte Region ist eine Subregion. Du
     kannst die InactivityReset Option für alle Subregionen in der config.yml einstellen!'
-  SubregionDoBlockResetError: '&4Die ausgewählte Region ist eine Subregion. Du kannst
-    die DoBlockReset Option für alle Subregionen in der config.yml einstellen!'
+  SubregionAutoRestoreError: '&4Die ausgewählte Region ist eine Subregion. Du kannst
+    die autoRestore Option für alle Subregionen in der config.yml einstellen!'
   SubregionIsUserResettableError: '&4Die ausgewählte Region ist eine Subregion. Du
     kannst die isUserResettable Option für alle Subregionen in der config.yml einstellen!'
   SubregionRegionkindError: '&4Die ausgewählte Region ist eine Subregion. Du kannst

@@ -187,7 +187,7 @@ public class Messages {
     public static String SELLBACK_WARNING = "&4Sell region back to the server: \n&4WARNING: &cThis can not be undone! Your region &6%regionid% &cwill be released and all blocks on it will be resetted! " +
             "You and all members will loose their rights on it. You will get &6%paybackmoney% %currency% &cback";
     public static String SUB_REGION_INACTIVITYRESET_ERROR = "";
-    public static String SUB_REGION_DO_BLOCKRESET_ERROR = "";
+    public static String SUB_REGION_AUTORESTORE_ERROR = "";
     public static String REGION_NOT_RESETTABLE = "";
     public static String REGION_SELECTED_MULTIPLE_REGIONS = "";
     public static String SUB_REGION_REGIONKIND_ERROR = "";
@@ -570,7 +570,7 @@ public class Messages {
         PRICE_CAN_NOT_BE_NEGATIVE = config.getString("Messages.PriceCanNotBeNegative");
         SELLBACK_WARNING = config.getString("Messages.SellBackWarning");
         SUB_REGION_INACTIVITYRESET_ERROR = config.getString("Messages.SubregionInactivityResetError");
-        SUB_REGION_DO_BLOCKRESET_ERROR = config.getString("Messages.SubregionDoBlockResetError");
+        SUB_REGION_AUTORESTORE_ERROR = config.getString("Messages.SubregionAutoRestoreError");
         SUB_REGION_MAX_MEMBERS_ERROR = config.getString("Messages.SubregionMaxMembersError");
         SUB_REGION_IS_USER_RESETTABLE_ERROR = config.getString("Messages.SubregionIsUserResettableError");
         REGION_NOT_RESETTABLE = config.getString("Messages.RegionNotResettable");
@@ -927,7 +927,7 @@ public class Messages {
         PRICE_CAN_NOT_BE_NEGATIVE = ChatColor.translateAlternateColorCodes('&', PRICE_CAN_NOT_BE_NEGATIVE);
         SELLBACK_WARNING = ChatColor.translateAlternateColorCodes('&', SELLBACK_WARNING);
         SUB_REGION_INACTIVITYRESET_ERROR = ChatColor.translateAlternateColorCodes('&', SUB_REGION_INACTIVITYRESET_ERROR);
-        SUB_REGION_DO_BLOCKRESET_ERROR = ChatColor.translateAlternateColorCodes('&', SUB_REGION_DO_BLOCKRESET_ERROR);
+        SUB_REGION_AUTORESTORE_ERROR = ChatColor.translateAlternateColorCodes('&', SUB_REGION_AUTORESTORE_ERROR);
         REGION_NOT_RESETTABLE = ChatColor.translateAlternateColorCodes('&', REGION_NOT_RESETTABLE);
         REGION_SELECTED_MULTIPLE_REGIONS = ChatColor.translateAlternateColorCodes('&', REGION_SELECTED_MULTIPLE_REGIONS);
         SUB_REGION_REGIONKIND_ERROR = ChatColor.translateAlternateColorCodes('&', SUB_REGION_REGIONKIND_ERROR);

@@ -48,9 +48,9 @@ public class ListRegionsCommand extends BasicArmCommand {
                 .getRegionManager().getRegionsByMember(oplayer.getUniqueId());
 
         sender.sendMessage(ChatColor.GOLD + "Owner: " + CommandUtil
-                .getStringList(regionsOwner, x -> x.getRegion().getId()));
+                .getStringList(regionsOwner, x -> x.getRegion().getId(), ", "));
         sender.sendMessage(ChatColor.GOLD + "Member: " + CommandUtil
-                .getStringList(regionsMember, x -> x.getRegion().getId()));
+                .getStringList(regionsMember, x -> x.getRegion().getId(), ", "));
         return true;
     }
 

@@ -44,7 +44,7 @@ public class CreateBackupCommand extends BasicArmCommand {
     }
 
     @Override
-    public List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected List<String> onTabCompleteLogic(Player player, String[] args) {
         return AdvancedRegionMarket.getInstance().getRegionManager()
                 .completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true, true);
     }

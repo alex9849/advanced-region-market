@@ -71,7 +71,7 @@ public class AddMemberCommand extends BasicArmCommand {
     }
 
     @Override
-    public List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected List<String> onTabCompleteLogic(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
 
         if (args.length == 2) {

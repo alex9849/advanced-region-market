@@ -97,5 +97,5 @@ public abstract class BasicArmCommand {
      * @param args Has at least a length of 2 & the first arg matches the root command
      * @return
      */
-    public abstract List<String> onTabCompleteLogic(Player player, String args[]);
+    protected abstract List<String> onTabCompleteLogic(Player player, String args[]);
 }

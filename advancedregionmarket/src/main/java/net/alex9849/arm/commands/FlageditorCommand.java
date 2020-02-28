@@ -8,56 +8,36 @@ import net.alex9849.arm.flaggroups.FlagGroup;
 import net.alex9849.arm.gui.Gui;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regions.Region;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class FlageditorCommand implements BasicArmCommand {
-
-    private final String rootCommand = "flageditor";
+public class FlageditorCommand extends BasicArmCommand {
     private final String regex_with_args = "(?i)flageditor [^;\n ]+";
-    private final String regex = "(?i)flageditor";
-    private final List<String> usage = new ArrayList<>(Arrays.asList("flageditor [REGION]", "flageditor"));
 
-    @Override
-    public boolean matchesRegex(String command) {
-        return command.matches(this.regex) || command.matches(this.regex_with_args);
+    public FlageditorCommand() {
+        super(false, "flageditor",
+                Arrays.asList("(?i)flageditor [^;\n ]+", "(?i)flageditor"),
+                Arrays.asList("flageditor [REGION]", "flageditor"),
+                Arrays.asList(Permission.MEMBER_FLAGEDITOR, Permission.ADMIN_FLAGEDITOR));
     }
 
     @Override
-    public String getRootCommand() {
-        return this.rootCommand;
-    }
-
-    @Override
-    public List<String> getUsage() {
-        return this.usage;
-    }
-
-    @Override
-    public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
-        if (!(sender instanceof Player)) {
-            throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
-        }
-        Player player = (Player) sender;
-
-        if (!(sender.hasPermission(Permission.MEMBER_FLAGEDITOR) || sender.hasPermission(Permission.ADMIN_FLAGEDITOR))) {
-            throw new InputException(sender, Messages.NO_PERMISSION);
-        }
-
+    protected boolean runCommandLogic(CommandSender sender, String command) throws InputException {
         if(!FlagGroup.isFeatureEnabled()) {
             throw new InputException(sender, Messages.FLAGGROUP_FEATURE_DISABLED);
         }
 
+        Player player = (Player) sender;
         Region selRegion;
-        if (allargs.matches(this.regex)) {
-            selRegion = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, "");
+        if (command.matches(this.regex_with_args)) {
+            selRegion = AdvancedRegionMarket.getInstance().getRegionManager()
+                    .getRegionAtPositionOrNameCommand(player, command.split(" ")[1]);
         } else {
-            selRegion = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, args[1]);
+            selRegion = AdvancedRegionMarket.getInstance().getRegionManager()
+                    .getRegionAtPositionOrNameCommand(player, "");
         }
 
         if (selRegion == null) {
@@ -67,33 +47,19 @@ public class FlageditorCommand implements BasicArmCommand {
             throw new InputException(player, Messages.REGION_NOT_OWN);
         }
 
-        Gui.openFlagEditor(player, selRegion, 0, (p) -> {
-            p.closeInventory();
-        });
+        Gui.openFlagEditor(player, selRegion, 0, p -> p.closeInventory());
         return true;
     }
 
     @Override
-    public List<String> onTabComplete(Player player, String[] args) {
-        List<String> returnme = new ArrayList<>();
-
-        if (args.length >= 1) {
-            if (this.rootCommand.startsWith(args[0])) {
-                if (player.hasPermission(Permission.ADMIN_FLAGEDITOR) || player.hasPermission(Permission.MEMBER_FLAGEDITOR)) {
-                    if (args.length == 1) {
-                        returnme.add(this.rootCommand);
-                    } else if (args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                        PlayerRegionRelationship playerRegionRelationship = null;
-                        if (player.hasPermission(Permission.ADMIN_FLAGEDITOR)) {
-                            playerRegionRelationship = PlayerRegionRelationship.ALL;
-                        } else {
-                            playerRegionRelationship = PlayerRegionRelationship.MEMBER_OR_OWNER;
-                        }
-                        returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], playerRegionRelationship, true, true));
-                    }
-                }
-            }
+    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+        PlayerRegionRelationship playerRegionRelationship = null;
+        if (player.hasPermission(Permission.ADMIN_FLAGEDITOR)) {
+            playerRegionRelationship = PlayerRegionRelationship.ALL;
+        } else {
+            playerRegionRelationship = PlayerRegionRelationship.MEMBER_OR_OWNER;
         }
-        return returnme;
+        return AdvancedRegionMarket.getInstance().getRegionManager()
+                .completeTabRegions(player, args[1], playerRegionRelationship, true, true);
     }
 }

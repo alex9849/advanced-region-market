@@ -2,9 +2,9 @@ package net.alex9849.arm.commands;
 
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
+import net.alex9849.arm.exceptions.CmdSyntaxException;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -12,33 +12,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ListAutoPricesCommand implements BasicArmCommand {
+public class ListAutoPricesCommand extends BasicArmCommand {
 
-    private final String rootCommand = "listautoprices";
-    private final String regex = "(?i)listautoprices";
-    private final List<String> usage = new ArrayList<>(Arrays.asList("listautoprices"));
-
-    @Override
-    public boolean matchesRegex(String command) {
-        return command.matches(this.regex);
+    public ListAutoPricesCommand() {
+        super(true, "listautoprices",
+                Arrays.asList("(?i)listautoprices"),
+                Arrays.asList("listautoprices"),
+                Arrays.asList(Permission.ADMIN_LISTAUTOPRICES));
     }
 
     @Override
-    public String getRootCommand() {
-        return this.rootCommand;
-    }
-
-    @Override
-    public List<String> getUsage() {
-        return this.usage;
-    }
-
-    @Override
-    public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
-        if (!sender.hasPermission(Permission.ADMIN_LISTAUTOPRICES)) {
-            throw new InputException(sender, Messages.NO_PERMISSION);
-        }
-
+    protected boolean runCommandLogic(CommandSender sender, String command) throws InputException, CmdSyntaxException {
         sender.sendMessage(Messages.AUTOPRICE_LIST);
         sender.sendMessage("- " + "default");
         for (AutoPrice autoPrice : AutoPrice.getAutoPrices()) {
@@ -48,17 +32,7 @@ public class ListAutoPricesCommand implements BasicArmCommand {
     }
 
     @Override
-    public List<String> onTabComplete(Player player, String[] args) {
-        List<String> returnme = new ArrayList<>();
-
-        if (args.length == 1) {
-            if (this.rootCommand.startsWith(args[0])) {
-                if (player.hasPermission(Permission.ADMIN_LISTAUTOPRICES)) {
-                    returnme.add(this.rootCommand);
-                }
-            }
-        }
-
-        return returnme;
+    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+        return new ArrayList<>();
     }
 }

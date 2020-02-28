@@ -7,15 +7,12 @@ import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.Region;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SetRegionKind extends OptionModifyCommand<RegionKind> {
+public class SetRegionKind extends RegionOptionModifyCommand<RegionKind> {
 
     public SetRegionKind() {
         super("setregionkind", Arrays.asList(Permission.ADMIN_SETREGIONKIND), "RegionKind",

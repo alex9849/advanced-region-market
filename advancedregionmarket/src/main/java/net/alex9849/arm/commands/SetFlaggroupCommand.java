@@ -6,19 +6,13 @@ import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.FeatureDisabledException;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.flaggroups.FlagGroup;
-import net.alex9849.arm.flaggroups.FlagGroupManager;
-import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
-import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.Region;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SetFlaggroupCommand extends OptionModifyCommand<FlagGroup> {
+public class SetFlaggroupCommand extends RegionOptionModifyCommand<FlagGroup> {
 
     public SetFlaggroupCommand() {
         super("setflaggroup", Arrays.asList(Permission.ADMIN_SET_FLAGGROUP),

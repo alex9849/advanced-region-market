@@ -7,7 +7,7 @@ import net.alex9849.arm.regions.Region;
 import java.util.Arrays;
 
 
-public class SetIsUserRestorableCommand extends BooleanOptionModifyCommand {
+public class SetIsUserRestorableCommand extends BooleanRegionOptionModifyCommand {
 
     public SetIsUserRestorableCommand() {
         super("setuserrestorable",

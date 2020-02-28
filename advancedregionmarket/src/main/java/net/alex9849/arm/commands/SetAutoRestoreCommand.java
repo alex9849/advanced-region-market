@@ -6,7 +6,7 @@ import net.alex9849.arm.regions.Region;
 
 import java.util.Arrays;
 
-public class SetAutoRestoreCommand extends BooleanOptionModifyCommand {
+public class SetAutoRestoreCommand extends BooleanRegionOptionModifyCommand {
 
     public SetAutoRestoreCommand() {
         super("setautorestore", Arrays.asList(Permission.ADMIN_SET_AUTORESTORE),

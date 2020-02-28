@@ -13,14 +13,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class OptionModifyCommand<OptionClass> extends BasicArmCommand {
+public abstract class RegionOptionModifyCommand<OptionClass> extends BasicArmCommand {
     private boolean allowSubregions;
     private String subregionModifyErrorMessage;
     private String regex_massaction;
     private String optionName;
 
-    public OptionModifyCommand(String rootCommand, List<String> permissions, String optionName, String optionRegex,
-                               String optionDescriptipn, boolean allowSubregions, String subregionModifyErrorMessage) {
+    public RegionOptionModifyCommand(String rootCommand, List<String> permissions, String optionName, String optionRegex,
+                                     String optionDescriptipn, boolean allowSubregions, String subregionModifyErrorMessage) {
         super(false, rootCommand,
                 Arrays.asList("(?i)" + rootCommand + " [^;\n ]+ " + optionRegex,
                         "(?i)" + rootCommand + " rk:[^;\n ]+ " + optionRegex),
@@ -33,7 +33,7 @@ public abstract class OptionModifyCommand<OptionClass> extends BasicArmCommand {
         this.optionName = optionName;
     }
 
-    public OptionModifyCommand(String rootCommand, List<String> permissions, String optionName, boolean allowSubregions, String subregionModifyErrorMessage) {
+    public RegionOptionModifyCommand(String rootCommand, List<String> permissions, String optionName, boolean allowSubregions, String subregionModifyErrorMessage) {
         super(false, rootCommand,
                 Arrays.asList("(?i)" + rootCommand + " [^;\n ]+",
                         "(?i)" + rootCommand + " rk:[^;\n ]+"),

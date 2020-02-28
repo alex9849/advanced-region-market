@@ -3,77 +3,48 @@ package net.alex9849.arm.commands;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
+import net.alex9849.arm.exceptions.CmdSyntaxException;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regions.Region;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class UnsellCommand implements BasicArmCommand {
-    private final String rootCommand = "unsell";
+public class UnsellCommand extends BasicArmCommand {
     private final String regex_with_args = "(?i)unsell [^;\n ]+";
-    private final String regex = "(?i)unsell";
-    private final List<String> usage = new ArrayList<>(Arrays.asList("unsell [REGION]", "unsell"));
 
-    @Override
-    public boolean matchesRegex(String command) {
-        return command.matches(this.regex) || command.matches(this.regex_with_args);
+    public UnsellCommand() {
+        super(false, "unsell",
+                Arrays.asList("(?i)unsell", "(?i)unsell [^;\n ]+"),
+                Arrays.asList("unsell", "unsell [REGION]"),
+                Arrays.asList(Permission.ADMIN_UNSELL));
     }
 
     @Override
-    public String getRootCommand() {
-        return this.rootCommand;
-    }
+    protected boolean runCommandLogic(CommandSender sender, String command) throws InputException, CmdSyntaxException {
+        Player player = (Player) sender;
 
-    @Override
-    public List<String> getUsage() {
-        return this.usage;
-    }
-
-    @Override
-    public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
-        if (sender.hasPermission(Permission.ADMIN_UNSELL)) {
-            if (!(sender instanceof Player)) {
-                throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
-            }
-            Player player = (Player) sender;
-
-            Region region;
-            if (allargs.matches(this.regex)) {
-                region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, "");
-            } else {
-                region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, args[1]);
-            }
-
-            region.unsell(Region.ActionReason.MANUALLY_BY_ADMIN, true, false);
-
-            player.sendMessage(Messages.PREFIX + Messages.REGION_NOW_AVIABLE);
-            return true;
+        Region region;
+        if (command.matches(this.regex_with_args)) {
+            region = AdvancedRegionMarket.getInstance().getRegionManager()
+                    .getRegionAtPositionOrNameCommand(player, command.split(" ")[1]);
         } else {
-            throw new InputException(sender, Messages.NO_PERMISSION);
+            region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, "");
         }
+
+        region.unsell(Region.ActionReason.MANUALLY_BY_ADMIN, true, false);
+
+        player.sendMessage(Messages.PREFIX + Messages.REGION_NOW_AVIABLE);
+        return true;
     }
 
     @Override
-    public List<String> onTabComplete(Player player, String[] args) {
-        List<String> returnme = new ArrayList<>();
+    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+        return AdvancedRegionMarket.getInstance().getRegionManager()
+                .completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true, true);
 
-        if (args.length >= 1) {
-            if (this.rootCommand.startsWith(args[0])) {
-                if (player.hasPermission(Permission.ADMIN_UNSELL)) {
-                    if (args.length == 1) {
-                        returnme.add(this.rootCommand);
-                    } else if (args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                        returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true, true));
-                    }
-                }
-            }
-        }
-        return returnme;
     }
 }

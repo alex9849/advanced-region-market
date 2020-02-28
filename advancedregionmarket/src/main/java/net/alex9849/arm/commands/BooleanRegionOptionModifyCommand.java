@@ -6,9 +6,9 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class BooleanOptionModifyCommand extends OptionModifyCommand<Boolean> {
+public abstract class BooleanRegionOptionModifyCommand extends RegionOptionModifyCommand<Boolean> {
 
-    public BooleanOptionModifyCommand(String rootCommand, List permissions, String optionName, boolean allowSubregions, String subregionModifyErrorMessage) {
+    public BooleanRegionOptionModifyCommand(String rootCommand, List permissions, String optionName, boolean allowSubregions, String subregionModifyErrorMessage) {
         super(rootCommand, permissions, optionName, "(false|true)",
                 "[true/false]",allowSubregions, subregionModifyErrorMessage);
     }

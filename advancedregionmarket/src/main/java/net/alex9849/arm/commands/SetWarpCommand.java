@@ -1,21 +1,16 @@
 package net.alex9849.arm.commands;
 
-import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
-import net.alex9849.arm.exceptions.InputException;
-import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regions.Region;
 import org.bukkit.Location;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SetWarpCommand extends OptionModifyCommand<Location> {
+public class SetWarpCommand extends RegionOptionModifyCommand<Location> {
 
     public SetWarpCommand() {
         super("setwarp", Arrays.asList(Permission.ADMIN_SETWARP), "teleportLocation",

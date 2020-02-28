@@ -88,13 +88,6 @@ public abstract class RegionOptionModifyCommand<SettingsObj> extends OptionModif
         sender.sendMessage(Messages.PREFIX + sendmessage);
     }
 
-    /**
-     * @param player
-     * @param settingsString
-     * @return Not null
-     */
-    protected abstract SettingsObj getSettingFromString(Player player, String settingsString) throws InputException;
-
     @Override
     protected void applySetting(Tuple<String, List<Region>> tuple, SettingsObj setting) {
         for(Region region : tuple.getValue2()) {
@@ -102,9 +95,9 @@ public abstract class RegionOptionModifyCommand<SettingsObj> extends OptionModif
         }
     }
 
-    protected abstract void applySetting(Region region, SettingsObj setting);
-
-    protected abstract List<String> tabCompleteSettingsObject(Player player, String setting);
+    protected String getOptionName() {
+        return this.optionName;
+    }
 
     @Override
     protected List<String> tabCompleteObject(Player player, String[] args) {
@@ -132,4 +125,15 @@ public abstract class RegionOptionModifyCommand<SettingsObj> extends OptionModif
         }
         return tabCompleteSettingsObject(player, args[2]);
     }
+
+    protected abstract void applySetting(Region region, SettingsObj setting);
+
+    protected abstract List<String> tabCompleteSettingsObject(Player player, String setting);
+
+    /**
+     * @param player
+     * @param settingsString
+     * @return Not null
+     */
+    protected abstract SettingsObj getSettingFromString(Player player, String settingsString) throws InputException;
 }

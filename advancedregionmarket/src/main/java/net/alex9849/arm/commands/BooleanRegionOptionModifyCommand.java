@@ -1,6 +1,9 @@
 package net.alex9849.arm.commands;
 
 import net.alex9849.arm.Messages;
+import net.alex9849.arm.regions.Region;
+import net.alex9849.arm.util.Tuple;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -24,6 +27,15 @@ public abstract class BooleanRegionOptionModifyCommand extends RegionOptionModif
         sendmessage = sendmessage.replace("%state%", Messages.convertEnabledDisabled(setting));
         sendmessage = sendmessage.replace("%selectedregions%", selectedRegions);
         return sendmessage;
+    }
+
+    @Override
+    protected void sendSuccessMessage(CommandSender sender, Tuple<String, List<Region>> obj, Boolean settingsObj) {
+        String sendmessage = Messages.REGION_MODIFIED_BOOLEAN;
+        sendmessage = sendmessage.replace("%option%", getOptionName());
+        sendmessage = sendmessage.replace("%state%", Messages.convertEnabledDisabled(settingsObj));
+        sendmessage = sendmessage.replace("%selectedregions%", obj.getValue1());
+        sender.sendMessage(Messages.PREFIX + sendmessage);
     }
 
     protected List<String> tabCompleteSettingsObject(Player player, String setting) {

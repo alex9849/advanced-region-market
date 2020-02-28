@@ -66,6 +66,9 @@ public class ListBackupsCommand extends BasicArmCommand {
 
     @Override
     protected List<String> onTabCompleteLogic(Player player, String[] args) {
+        if(args.length != 2) {
+            return new ArrayList<>();
+        }
         return AdvancedRegionMarket.getInstance().getRegionManager()
                 .completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true, true);
     }

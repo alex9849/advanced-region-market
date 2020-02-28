@@ -10,6 +10,7 @@ import net.alex9849.arm.regions.Region;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -42,7 +43,10 @@ public class UpdateSchematicCommand extends BasicArmCommand {
 
     @Override
     protected List<String> onTabCompleteLogic(Player player, String[] args) {
-        return AdvancedRegionMarket.getInstance().getRegionManager()
-                .completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true, true);
+        if(args.length == 2) {
+            return AdvancedRegionMarket.getInstance().getRegionManager()
+                    .completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true, true);
+        }
+        return new ArrayList<>();
     }
 }

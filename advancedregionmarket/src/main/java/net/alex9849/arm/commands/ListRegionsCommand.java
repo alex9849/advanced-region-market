@@ -56,9 +56,9 @@ public class ListRegionsCommand extends BasicArmCommand {
 
     @Override
     protected List<String> onTabCompleteLogic(Player player, String[] args) {
-        if (player.hasPermission(Permission.ADMIN_LISTREGIONS)) {
-            return CommandHandler.tabCompleteOnlinePlayers(args[1]);
+        if(args.length != 2) {
+            return new ArrayList<>();
         }
-        return new ArrayList<>();
+        return CommandHandler.tabCompleteOnlinePlayers(args[1]);
     }
 }

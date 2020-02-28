@@ -491,6 +491,7 @@ Messages:
   MassactionSplitter: '&6alle Regionen mit Regionkind &a%regionkind%'
   SubregionEntityLimitError: '&4Die EntiyLimitGruppe kann für Unterregionen nicht
     geändert werden!'
+  SubregionFlagGroupError: '&4Die FlagGroup kann für Unterregionen nicht geändert werden!'
   GUIEntityLimitItemButton: '&6EntityLimits'
   GUIEntityLimitItemLore:
   - '&6Klicke um dir die EntityLimits für'

@@ -32,6 +32,9 @@ public class RegionstatsCommand extends BasicArmCommand {
 
     @Override
     protected List<String> onTabCompleteLogic(Player player, String[] args) {
+        if(args.length != 2) {
+            return new ArrayList<>();
+        }
         List<String> returnme = new ArrayList<>();
         returnme.addAll(AdvancedRegionMarket.getInstance().getRegionKindManager().completeTabRegionKinds(args[1], ""));
         if ("rentregion".startsWith(args[1])) {

@@ -283,6 +283,7 @@ public class Messages {
     public static String ENTITYLIMITGROUP_SUBREGION_GROUP_ONLY_FOR_SUBREGIONS = "&4SubregionEntityLimitGroup only for subregions";
     public static String MASSACTION_SPLITTER = "&6all regions with regionkind &a%regionkind%";
     public static String SUB_REGION_ENTITYLIMITGROUP_ERROR = "&4Could not change EntiyLimitGroup for the region &6%regionid%&4! Region is a Subregion!";
+    public static String SUB_REGION_FLAGGROUP_ERROR = "&4Could not change Flaggroup for the region &6%regionid%&4! Region is a Subregion!";
     public static String GUI_ENTITYLIMIT_ITEM_BUTTON = "&6EntityLimits";
     public static List<String> GUI_ENTITYLIMIT_ITEM_LORE = new ArrayList<>(Arrays.asList("&6Click to display the entity-limits", "&6for this region in chat", "%entityinfopattern%"));
     public static String GUI_ENTITYLIMIT_ITEM_INFO_PATTERN = "&6%entitytype%: &a(&r%actualentities%&a/&r%softlimitentities%&a  %entityextensioninfo%)";
@@ -669,6 +670,7 @@ public class Messages {
         ENTITYLIMITGROUP_SUBREGION_GROUP_ONLY_FOR_SUBREGIONS = config.getString("Messages.SubregionEntityLimitOnlyForSubregions");
         MASSACTION_SPLITTER = config.getString("Messages.MassactionSplitter");
         SUB_REGION_ENTITYLIMITGROUP_ERROR = config.getString("Messages.SubregionEntityLimitError");
+        SUB_REGION_FLAGGROUP_ERROR = config.getString("Messages.SubregionFlagGroupError");
         GUI_ENTITYLIMIT_ITEM_BUTTON = config.getString("Messages.GUIEntityLimitItemButton");
         GUI_ENTITYLIMIT_ITEM_LORE = config.getStringList("Messages.GUIEntityLimitItemLore");
         GUI_ENTITYLIMIT_ITEM_INFO_PATTERN = config.getString("Messages.GUIEntityLimitInfoPattern");
@@ -795,6 +797,7 @@ public class Messages {
         GUI_MY_MEMBER_REGIONS = ChatColor.translateAlternateColorCodes('&', GUI_MY_MEMBER_REGIONS);
         GUI_SEARCH_FREE_REGION = ChatColor.translateAlternateColorCodes('&', GUI_SEARCH_FREE_REGION);
         GUI_OWN_REGIONS_MENU_NAME = ChatColor.translateAlternateColorCodes('&', GUI_OWN_REGIONS_MENU_NAME);
+        SUB_REGION_FLAGGROUP_ERROR = ChatColor.translateAlternateColorCodes('&', SUB_REGION_FLAGGROUP_ERROR);
         GUI_MEMBERS_BUTTON = ChatColor.translateAlternateColorCodes('&', GUI_MEMBERS_BUTTON);
         GUI_TELEPORT_TO_REGION_BUTTON = ChatColor.translateAlternateColorCodes('&', GUI_TELEPORT_TO_REGION_BUTTON);
         GUI_SHOW_INFOS_BUTTON = ChatColor.translateAlternateColorCodes('&', GUI_SHOW_INFOS_BUTTON);

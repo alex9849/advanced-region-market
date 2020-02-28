@@ -69,6 +69,9 @@ public class RestoreCommand extends BasicArmCommand {
 
     @Override
     protected List<String> onTabCompleteLogic(Player player, String[] args) {
+        if(args.length != 2) {
+            return new ArrayList<>();
+        }
         PlayerRegionRelationship playerRegionRelationship = null;
         if (player.hasPermission(Permission.ADMIN_RESTORE)) {
             playerRegionRelationship = PlayerRegionRelationship.ALL;

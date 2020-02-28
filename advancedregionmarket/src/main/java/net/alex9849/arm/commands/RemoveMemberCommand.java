@@ -11,6 +11,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -54,6 +55,9 @@ public class RemoveMemberCommand extends BasicArmCommand {
 
     @Override
     protected List<String> onTabCompleteLogic(Player player, String[] args) {
+        if(args.length != 2) {
+            return new ArrayList<>();
+        }
         PlayerRegionRelationship playerRegionRelationship = null;
         if (player.hasPermission(Permission.ADMIN_REMOVEMEMBER)) {
             playerRegionRelationship = PlayerRegionRelationship.ALL;

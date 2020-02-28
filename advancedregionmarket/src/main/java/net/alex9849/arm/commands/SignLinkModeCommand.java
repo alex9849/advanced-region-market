@@ -84,6 +84,9 @@ public class SignLinkModeCommand extends BasicArmCommand {
 
     @Override
     protected List<String> onTabCompleteLogic(Player player, String[] args) {
+        if(args.length != 2) {
+            return new ArrayList<>();
+        }
         List<String> returnme = new ArrayList<>();
         if (SellType.SELL.getInternalName().toLowerCase().startsWith(args[1]) && player.hasPermission(Permission.ADMIN_CREATE_SELL)) {
             returnme.add(SellType.SELL.getInternalName());

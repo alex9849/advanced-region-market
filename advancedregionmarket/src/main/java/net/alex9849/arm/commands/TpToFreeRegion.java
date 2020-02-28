@@ -5,10 +5,12 @@ import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.CmdSyntaxException;
 import net.alex9849.arm.exceptions.InputException;
+import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regionkind.RegionKind;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -40,6 +42,9 @@ public class TpToFreeRegion extends BasicArmCommand {
 
     @Override
     protected List<String> onTabCompleteLogic(Player player, String[] args) {
-        return AdvancedRegionMarket.getInstance().getRegionKindManager().completeTabRegionKinds(args[1], "", player);
+        if(args.length == 2) {
+            return AdvancedRegionMarket.getInstance().getRegionKindManager().completeTabRegionKinds(args[1], "", player);
+        }
+        return new ArrayList<>();
     }
 }

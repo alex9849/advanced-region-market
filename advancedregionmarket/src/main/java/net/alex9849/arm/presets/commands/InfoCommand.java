@@ -23,8 +23,11 @@ public class InfoCommand extends PresetOptionModifyCommand<Object> {
     }
 
     @Override
-    protected void applySetting(CommandSender sender, Preset object, Object setting) throws InputException {
-        object.getPresetInfo(sender);
+    protected void applySetting(CommandSender sender, Preset object, Object setting) throws InputException {}
+
+    @Override
+    protected void sendSuccessMessage(CommandSender sender, Preset obj, Object o) {
+        obj.getPresetInfo(sender);
     }
 
     @Override

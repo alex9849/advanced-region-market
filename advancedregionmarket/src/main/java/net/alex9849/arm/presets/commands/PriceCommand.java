@@ -1,5 +1,6 @@
 package net.alex9849.arm.presets.commands;
 
+import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.presets.presets.Preset;
@@ -32,6 +33,14 @@ public class PriceCommand extends PresetOptionModifyCommand<Double> {
             object.removePrice();
         } else {
             object.setPrice(setting);
+        }
+    }
+
+    @Override
+    protected void sendSuccessMessage(CommandSender sender, Preset obj, Double aDouble) {
+        super.sendSuccessMessage(sender, obj, aDouble);
+        if(obj.canPriceLineBeLetEmpty()) {
+            sender.sendMessage(Messages.PREFIX + "You can leave the price-line on signs empty now");
         }
     }
 

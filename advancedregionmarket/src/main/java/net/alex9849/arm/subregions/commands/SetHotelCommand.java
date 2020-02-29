@@ -16,10 +16,6 @@ import java.util.List;
 
 public class SetHotelCommand extends OptionModifyCommand<Region, Boolean> {
 
-    private final String rootCommand = "sethotel";
-    private final String regex = "(?i)sethotel [^;\n ]+ (false|true)";
-    private final List<String> usage = new ArrayList<>(Arrays.asList("sethotel [REGION] [true/false]"));
-
     public SetHotelCommand() {
         super(false, true, "sethotel",
                 Arrays.asList("(?i)sethotel [^;\n ]+ (false|true)"),

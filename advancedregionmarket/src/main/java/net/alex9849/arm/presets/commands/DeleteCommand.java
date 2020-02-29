@@ -16,10 +16,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class DeleteCommand extends BasicArmCommand {
-
-    private final String rootCommand = "delete";
-    private final String regex = "(?i)delete [^;\n ]+";
-    private final List<String> usage = new ArrayList<>(Arrays.asList("delete [PRESETNAME]"));
     private PresetType presetType;
 
     public DeleteCommand(PresetType presetType) {

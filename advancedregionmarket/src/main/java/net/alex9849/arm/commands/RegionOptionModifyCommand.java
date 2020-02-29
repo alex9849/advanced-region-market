@@ -117,6 +117,9 @@ public abstract class RegionOptionModifyCommand<SettingsObj> extends OptionModif
 
     @Override
     protected final List<String> tabCompleteSettingsObject(Player player, String[] args) {
+        if(args.length < 3) {
+            return new ArrayList<>();
+        }
         List<String> settingsArgs = new ArrayList<>();
         for(int i = 2; i < args.length; i++) {
             settingsArgs.add(args[i]);

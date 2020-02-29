@@ -21,12 +21,11 @@ public class SaveCommand extends PresetOptionModifyCommand<String> {
     }
 
     @Override
-    protected String getSettingsFromCommand(CommandSender sender, String command) throws InputException {
-        String name = command.split(" ")[1];
-        if (AdvancedRegionMarket.getInstance().getPresetPatternManager().getPreset(name, this.getPresetType()) != null) {
+    protected String getSettingsFromString(CommandSender sender, String setting) throws InputException {
+        if (AdvancedRegionMarket.getInstance().getPresetPatternManager().getPreset(setting, this.getPresetType()) != null) {
             throw new InputException(sender, Messages.PRESET_ALREADY_EXISTS);
         }
-        return name;
+        return setting;
     }
 
     @Override
@@ -42,7 +41,7 @@ public class SaveCommand extends PresetOptionModifyCommand<String> {
     }
 
     @Override
-    protected List<String> tabCompleteSettingsObject(Player player, String[] args) {
+    protected List<String> tabCompleteSettingsObject(Player player, String settings) {
         return new ArrayList<>();
     }
 }

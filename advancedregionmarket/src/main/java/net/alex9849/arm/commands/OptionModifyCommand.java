@@ -23,7 +23,7 @@ public abstract class OptionModifyCommand<Object, SettingsObj> extends BasicArmC
     }
 
     @Override
-    protected boolean runCommandLogic(CommandSender sender, String command, String commandLabel) throws InputException, CmdSyntaxException {
+    protected final boolean runCommandLogic(CommandSender sender, String command, String commandLabel) throws InputException, CmdSyntaxException {
         Object obj = getObjectFromCommand(sender, command);
         if(obj == null) {
             throw new InputException(sender, this.objectNotFoundMsg);
@@ -48,7 +48,7 @@ public abstract class OptionModifyCommand<Object, SettingsObj> extends BasicArmC
     protected abstract void sendSuccessMessage(CommandSender sender, Object obj, SettingsObj settingsObj);
 
     @Override
-    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected final List<String> onTabCompleteLogic(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
         returnme.addAll(tabCompleteObject(player, args));
         returnme.addAll(tabCompleteSettingsObject(player, args));

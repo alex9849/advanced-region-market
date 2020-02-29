@@ -19,12 +19,11 @@ public class PriceCommand extends PresetOptionModifyCommand<Double> {
     }
 
     @Override
-    protected Double getSettingsFromCommand(CommandSender sender, String command) throws InputException {
-        String[] args = command.split(" ");
-        if(args[1].equalsIgnoreCase("remove")) {
+    protected Double getSettingsFromString(CommandSender sender, String setting) throws InputException {
+        if(setting.equalsIgnoreCase("remove")) {
             return Double.NaN;
         }
-        return Double.parseDouble(args[1]);
+        return Double.parseDouble(setting);
     }
 
     @Override
@@ -37,13 +36,10 @@ public class PriceCommand extends PresetOptionModifyCommand<Double> {
     }
 
     @Override
-    protected List<String> tabCompleteSettingsObject(Player player, String[] args) {
-        List<String> returnme = new ArrayList<>();
-        if(args.length == 2) {
-            if ("remove".startsWith(args[1])) {
-                returnme.add("remove");
-            }
+    protected List<String> tabCompleteSettingsObject(Player player, String settings) {
+        if ("remove".startsWith(settings)) {
+            return Arrays.asList("remove");
         }
-        return returnme;
+        return new ArrayList<>();
     }
 }

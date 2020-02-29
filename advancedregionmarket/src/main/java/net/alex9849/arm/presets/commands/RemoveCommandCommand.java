@@ -7,6 +7,7 @@ import net.alex9849.arm.presets.presets.PresetType;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -18,8 +19,8 @@ public class RemoveCommandCommand extends PresetOptionModifyCommand<Integer> {
     }
 
     @Override
-    protected Integer getSettingsFromCommand(CommandSender sender, String command) throws InputException {
-        return Integer.parseInt(command.split(" ")[1]) - 1;
+    protected Integer getSettingsFromString(CommandSender sender, String setting) throws InputException {
+        return Integer.parseInt(setting) - 1;
     }
 
     @Override
@@ -28,7 +29,7 @@ public class RemoveCommandCommand extends PresetOptionModifyCommand<Integer> {
     }
 
     @Override
-    protected List<String> tabCompleteSettingsObject(Player player, String[] args) {
-        return null;
+    protected List<String> tabCompleteSettingsObject(Player player, String settings) {
+        return new ArrayList<>();
     }
 }

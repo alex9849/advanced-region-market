@@ -10,7 +10,6 @@ import net.alex9849.arm.regionkind.RegionKind;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,9 +21,9 @@ public class RegionKindCommand extends PresetOptionModifyCommand<RegionKind> {
     }
 
     @Override
-    protected RegionKind getSettingsFromCommand(CommandSender sender, String command) throws InputException {
+    protected RegionKind getSettingsFromString(CommandSender sender, String setting) throws InputException {
         RegionKind rk = AdvancedRegionMarket.getInstance().getRegionKindManager()
-                .getRegionKind(command.split(" ")[1]);
+                .getRegionKind(setting);
         if(rk == RegionKind.SUBREGION) {
             throw new InputException(sender, Messages.SUB_REGION_REGIONKIND_ONLY_FOR_SUB_REGIONS);
         }
@@ -37,11 +36,8 @@ public class RegionKindCommand extends PresetOptionModifyCommand<RegionKind> {
     }
 
     @Override
-    protected List<String> tabCompleteSettingsObject(Player player, String[] args) {
-        if (args.length == 2) {
-            return new ArrayList<>();
-        }
+    protected List<String> tabCompleteSettingsObject(Player player, String settings) {
         return AdvancedRegionMarket.getInstance().getRegionKindManager()
-                .completeTabRegionKinds(args[1], "");
+                .completeTabRegionKinds(settings, "");
     }
 }

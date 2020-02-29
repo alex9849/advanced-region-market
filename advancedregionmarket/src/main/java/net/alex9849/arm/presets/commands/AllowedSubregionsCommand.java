@@ -19,8 +19,8 @@ public class AllowedSubregionsCommand extends PresetOptionModifyCommand<Integer>
     }
 
     @Override
-    protected Integer getSettingsFromCommand(CommandSender sender, String command) throws InputException {
-        return Integer.parseInt(command.split(" ")[1]);
+    protected Integer getSettingsFromString(CommandSender sender, String setting) throws InputException {
+        return Integer.parseInt(setting);
     }
 
     @Override
@@ -29,7 +29,7 @@ public class AllowedSubregionsCommand extends PresetOptionModifyCommand<Integer>
     }
 
     @Override
-    protected List<String> tabCompleteSettingsObject(Player player, String[] args) {
+    protected List<String> tabCompleteSettingsObject(Player player, String settings) {
         return new ArrayList<>();
     }
 }

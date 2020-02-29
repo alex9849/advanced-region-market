@@ -19,8 +19,8 @@ public class AutoRestoreCommand extends PresetOptionModifyCommand<Boolean> {
     }
 
     @Override
-    protected Boolean getSettingsFromCommand(CommandSender sender, String command) throws InputException {
-        return Boolean.parseBoolean(command.split(" ")[1]);
+    protected Boolean getSettingsFromString(CommandSender sender, String setting) throws InputException {
+        return Boolean.parseBoolean(setting);
     }
 
     @Override
@@ -29,15 +29,13 @@ public class AutoRestoreCommand extends PresetOptionModifyCommand<Boolean> {
     }
 
     @Override
-    protected List<String> tabCompleteSettingsObject(Player player, String[] args) {
+    protected List<String> tabCompleteSettingsObject(Player player, String settings) {
         List<String> returnme = new ArrayList<>();
-        if (args.length == 2) {
-            if ("true".startsWith(args[1])) {
-                returnme.add("true");
-            }
-            if ("false".startsWith(args[1])) {
-                returnme.add("false");
-            }
+        if ("true".startsWith(settings)) {
+            returnme.add("true");
+        }
+        if ("false".startsWith(settings)) {
+            returnme.add("false");
         }
         return returnme;
     }

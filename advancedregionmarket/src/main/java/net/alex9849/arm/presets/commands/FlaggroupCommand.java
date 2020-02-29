@@ -10,7 +10,6 @@ import net.alex9849.arm.presets.presets.PresetType;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,9 +21,9 @@ public class FlaggroupCommand extends PresetOptionModifyCommand<FlagGroup> {
     }
 
     @Override
-    protected FlagGroup getSettingsFromCommand(CommandSender sender, String command) throws InputException {
+    protected FlagGroup getSettingsFromString(CommandSender sender, String setting) throws InputException {
         FlagGroup fg = AdvancedRegionMarket.getInstance().getFlagGroupManager()
-                .getFlagGroup(command.split(" ")[1]);
+                .getFlagGroup(setting);
         if(fg == FlagGroup.SUBREGION) {
             throw new InputException(sender, Messages.ENTITYLIMITGROUP_SUBREGION_GROUP_ONLY_FOR_SUBREGIONS);
         }
@@ -37,11 +36,8 @@ public class FlaggroupCommand extends PresetOptionModifyCommand<FlagGroup> {
     }
 
     @Override
-    protected List<String> tabCompleteSettingsObject(Player player, String[] args) {
-        if (args.length == 2) {
-            return new ArrayList<>();
-        }
+    protected List<String> tabCompleteSettingsObject(Player player, String settings) {
         return AdvancedRegionMarket.getInstance().getFlagGroupManager()
-                .tabCompleteFlaggroup(args[1]);
+                .tabCompleteFlaggroup(settings);
     }
 }

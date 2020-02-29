@@ -20,7 +20,7 @@ public class ResetCommand extends PresetOptionModifyCommand<Object> {
     }
 
     @Override
-    protected Object getSettingsFromCommand(CommandSender sender, String command) throws InputException {
+    protected Object getSettingsFromString(CommandSender sender, String setting) throws InputException {
         return null;
     }
 
@@ -35,7 +35,7 @@ public class ResetCommand extends PresetOptionModifyCommand<Object> {
     }
 
     @Override
-    protected List<String> tabCompleteSettingsObject(Player player, String[] args) {
+    protected List<String> tabCompleteSettingsObject(Player player, String settings) {
         return new ArrayList<>();
     }
 }

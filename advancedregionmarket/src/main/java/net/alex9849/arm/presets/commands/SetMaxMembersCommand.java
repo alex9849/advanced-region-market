@@ -19,11 +19,10 @@ public class SetMaxMembersCommand extends PresetOptionModifyCommand<Integer> {
     }
 
     @Override
-    protected Integer getSettingsFromCommand(CommandSender sender, String command) throws InputException {
+    protected Integer getSettingsFromString(CommandSender sender, String setting) throws InputException {
         int newMaxMembers = -1;
-        String[] args = command.split(" ");
-        if(!args[1].equalsIgnoreCase("unlimited")) {
-            newMaxMembers = Integer.parseInt(args[1]);
+        if(!setting.equalsIgnoreCase("unlimited")) {
+            newMaxMembers = Integer.parseInt(setting);
         }
         return newMaxMembers;
     }
@@ -34,11 +33,9 @@ public class SetMaxMembersCommand extends PresetOptionModifyCommand<Integer> {
     }
 
     @Override
-    protected List<String> tabCompleteSettingsObject(Player player, String[] args) {
-        if(args.length == 2) {
-            if("unlimited".startsWith(args[1])) {
-                return Arrays.asList("unlimited");
-            }
+    protected List<String> tabCompleteSettingsObject(Player player, String settings) {
+        if("unlimited".startsWith(settings)) {
+            return Arrays.asList("unlimited");
         }
         return new ArrayList<>();
     }

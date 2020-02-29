@@ -1,7 +1,6 @@
 package net.alex9849.arm.presets.commands;
 
 import net.alex9849.arm.Permission;
-import net.alex9849.arm.commands.CommandUtil;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.presets.presets.Preset;
 import net.alex9849.arm.presets.presets.PresetType;
@@ -20,14 +19,8 @@ public class AddCommandCommand extends PresetOptionModifyCommand<String> {
     }
 
     @Override
-    protected String getSettingsFromCommand(CommandSender sender, String command) throws InputException {
-        String[] args = command.split(" ");
-        List<String> commandArgs = new ArrayList<>();
-        for(int i = 1; i < args.length; i++) {
-            commandArgs.add(args[i]);
-        }
-
-        return CommandUtil.getStringList(commandArgs, x -> x, " ");
+    protected String getSettingsFromString(CommandSender sender, String setting) throws InputException {
+        return setting;
     }
 
     @Override
@@ -36,7 +29,7 @@ public class AddCommandCommand extends PresetOptionModifyCommand<String> {
     }
 
     @Override
-    protected List<String> tabCompleteSettingsObject(Player player, String[] args) {
+    protected List<String> tabCompleteSettingsObject(Player player, String settings) {
         return new ArrayList<>();
     }
 }

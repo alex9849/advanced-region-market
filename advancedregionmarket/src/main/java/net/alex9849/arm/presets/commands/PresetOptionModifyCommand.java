@@ -1,6 +1,7 @@
 package net.alex9849.arm.presets.commands;
 
 import net.alex9849.arm.Messages;
+import net.alex9849.arm.commands.CommandUtil;
 import net.alex9849.arm.commands.OptionModifyCommand;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.presets.ActivePresetManager;
@@ -34,12 +35,12 @@ public abstract class PresetOptionModifyCommand<SettingsObj> extends OptionModif
         this.presetType = presetType;
     }
 
-    protected PresetType getPresetType() {
+    protected final PresetType getPresetType() {
         return this.presetType;
     }
 
     @Override
-    protected Preset getObjectFromCommand(CommandSender sender, String command) throws InputException {
+    protected final Preset getObjectFromCommand(CommandSender sender, String command) throws InputException {
         Player player = (Player) sender;
         Preset preset = ActivePresetManager.getPreset(player, this.presetType);
         if (preset == null) {
@@ -50,6 +51,18 @@ public abstract class PresetOptionModifyCommand<SettingsObj> extends OptionModif
     }
 
     @Override
+    protected final SettingsObj getSettingsFromCommand(CommandSender sender, String command) throws InputException {
+        String[] args = command.split(" ");
+        List<String> settingsArgs = new ArrayList<>();
+        for(int i = 1; i < args.length; i++) {
+            settingsArgs.add(args[i]);
+        }
+        return getSettingsFromString(sender, CommandUtil.getStringList(settingsArgs, x -> x, " "));
+    }
+
+    protected abstract SettingsObj getSettingsFromString(CommandSender sender, String setting) throws InputException;
+
+    @Override
     protected void sendSuccessMessage(CommandSender sender, Preset obj, SettingsObj settingsObj) {
         sender.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
     }
@@ -58,4 +71,18 @@ public abstract class PresetOptionModifyCommand<SettingsObj> extends OptionModif
     protected List<String> tabCompleteObject(Player player, String[] args) {
         return new ArrayList<>();
     }
+
+    @Override
+    protected final List<String> tabCompleteSettingsObject(Player player, String[] args) {
+        if(args.length < 2) {
+            return new ArrayList<>();
+        }
+        List<String> settingsArgs = new ArrayList<>();
+        for(int i = 1; i < args.length; i++) {
+            settingsArgs.add(args[i]);
+        }
+        return tabCompleteSettingsObject(player, CommandUtil.getStringList(settingsArgs, x -> x, " "));
+    }
+
+    protected abstract List<String> tabCompleteSettingsObject(Player player, String settings);
 }

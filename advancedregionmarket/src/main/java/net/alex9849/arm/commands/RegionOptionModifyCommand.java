@@ -46,7 +46,7 @@ public abstract class RegionOptionModifyCommand<SettingsObj> extends OptionModif
     }
 
     @Override
-    protected Tuple<String, List<Region>> getObjectFromCommand(CommandSender sender, String command) throws InputException {
+    protected final Tuple<String, List<Region>> getObjectFromCommand(CommandSender sender, String command) throws InputException {
         String[] args = command.split(" ");
         Player player = (Player) sender;
 
@@ -76,7 +76,7 @@ public abstract class RegionOptionModifyCommand<SettingsObj> extends OptionModif
     }
 
     @Override
-    protected SettingsObj getSettingsFromCommand(CommandSender sender, String command) throws InputException {
+    protected final SettingsObj getSettingsFromCommand(CommandSender sender, String command) throws InputException {
         List<String> settingsArgs = new ArrayList<>();
         String[] args = command.split(" ");
         for(int i = 2; i < args.length; i++) {
@@ -86,26 +86,18 @@ public abstract class RegionOptionModifyCommand<SettingsObj> extends OptionModif
     }
 
     @Override
-    protected void sendSuccessMessage(CommandSender sender, Tuple<String, List<Region>> obj, SettingsObj settingsObj) {
-        String sendmessage = Messages.REGION_MODIFIED;
-        sendmessage = sendmessage.replace("%option%", optionName);
-        sendmessage = sendmessage.replace("%selectedregions%", obj.getValue1());
-        sender.sendMessage(Messages.PREFIX + sendmessage);
-    }
-
-    @Override
-    protected void applySetting(CommandSender sender, Tuple<String, List<Region>> tuple, SettingsObj setting) {
+    protected final void applySetting(CommandSender sender, Tuple<String, List<Region>> tuple, SettingsObj setting) {
         for(Region region : tuple.getValue2()) {
             applySetting(region, setting);
         }
     }
 
-    protected String getOptionName() {
+    protected final String getOptionName() {
         return this.optionName;
     }
 
     @Override
-    protected List<String> tabCompleteObject(Player player, String[] args) {
+    protected final List<String> tabCompleteObject(Player player, String[] args) {
         if (args.length != 2) {
             return new ArrayList<>();
         }
@@ -124,12 +116,20 @@ public abstract class RegionOptionModifyCommand<SettingsObj> extends OptionModif
     }
 
     @Override
-    protected List<String> tabCompleteSettingsObject(Player player, String[] args) {
+    protected final List<String> tabCompleteSettingsObject(Player player, String[] args) {
         List<String> settingsArgs = new ArrayList<>();
         for(int i = 2; i < args.length; i++) {
             settingsArgs.add(args[i]);
         }
         return tabCompleteSettingsObject(player, CommandUtil.getStringList(settingsArgs, x -> x, " "));
+    }
+
+    @Override
+    protected void sendSuccessMessage(CommandSender sender, Tuple<String, List<Region>> obj, SettingsObj settingsObj) {
+        String sendmessage = Messages.REGION_MODIFIED;
+        sendmessage = sendmessage.replace("%option%", optionName);
+        sendmessage = sendmessage.replace("%selectedregions%", obj.getValue1());
+        sender.sendMessage(Messages.PREFIX + sendmessage);
     }
 
     protected abstract void applySetting(Region region, SettingsObj setting);

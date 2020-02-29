@@ -456,7 +456,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
             public void run() {
                 for (Region region : AdvancedRegionMarket.getInstance().getRegionManager()) {
                     if (region.isInactivityResetEnabled() && region.isInactive()) {
-                        //TODO logToConsole
                         try {
                             region.automaticResetRegion(Region.ActionReason.INACTIVITY, true);
                         } catch (SchematicNotFoundException e) {

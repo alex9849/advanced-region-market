@@ -705,7 +705,6 @@ public abstract class Region implements Saveable {
 
     public void userRestore(Player player) {
         try {
-            //TODO Add if should log
             this.restoreRegion(ActionReason.USER_RESTORE, true, false);
             GregorianCalendar calendar = new GregorianCalendar();
             this.lastreset = calendar.getTimeInMillis();

@@ -21,14 +21,6 @@ public abstract class BooleanRegionOptionModifyCommand extends RegionOptionModif
         return Boolean.parseBoolean(settingsString);
     }
 
-    protected String getSuccessMessage(String selectedRegions, Boolean setting, String optionName) {
-        String sendmessage = Messages.REGION_MODIFIED_BOOLEAN;
-        sendmessage = sendmessage.replace("%option%", optionName);
-        sendmessage = sendmessage.replace("%state%", Messages.convertEnabledDisabled(setting));
-        sendmessage = sendmessage.replace("%selectedregions%", selectedRegions);
-        return sendmessage;
-    }
-
     @Override
     protected void sendSuccessMessage(CommandSender sender, Tuple<String, List<Region>> obj, Boolean settingsObj) {
         String sendmessage = Messages.REGION_MODIFIED_BOOLEAN;

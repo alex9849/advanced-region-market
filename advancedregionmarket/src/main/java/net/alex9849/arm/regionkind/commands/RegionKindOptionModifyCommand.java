@@ -15,9 +15,16 @@ import java.util.List;
 public abstract class RegionKindOptionModifyCommand<SettingsObj> extends OptionModifyCommand<RegionKind, SettingsObj> {
     public RegionKindOptionModifyCommand(String rootCommand, List<String> permissions, String optionRegex,
                                          String optionDescription, String settingNotFoundMsg) {
-        super(true, rootCommand,
+        super(true, true, rootCommand,
                 Arrays.asList("(?i)" + rootCommand + " [^;\n ]+ " + optionRegex),
                 Arrays.asList(rootCommand + " [REGIONKIND] " + optionDescription),
+                permissions, Messages.REGIONKIND_DOES_NOT_EXIST, settingNotFoundMsg);
+    }
+
+    public RegionKindOptionModifyCommand(String rootCommand, List<String> permissions, String settingNotFoundMsg) {
+        super(true, false, rootCommand,
+                Arrays.asList("(?i)" + rootCommand + " [^;\n ]+"),
+                Arrays.asList(rootCommand + " [REGIONKIND]"),
                 permissions, Messages.REGIONKIND_DOES_NOT_EXIST, settingNotFoundMsg);
     }
 
@@ -31,6 +38,12 @@ public abstract class RegionKindOptionModifyCommand<SettingsObj> extends OptionM
         return getSettingsFromString(sender, command.split(" ")[2]);
     }
 
+    /**
+     *
+     * @param sender
+     * @param setting
+     * @return @Nullable
+     */
     protected abstract SettingsObj getSettingsFromString(CommandSender sender, String setting);
 
     @Override

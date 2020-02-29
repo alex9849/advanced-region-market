@@ -22,7 +22,7 @@ public abstract class RegionOptionModifyCommand<SettingsObj> extends OptionModif
 
     public RegionOptionModifyCommand(String rootCommand, List<String> permissions, String optionName, String optionRegex,
                                      String optionDescriptipn, boolean allowSubregions, String subregionModifyErrorMessage) {
-        super(false, rootCommand,
+        super(false, true, rootCommand,
                 Arrays.asList("(?i)" + rootCommand + " [^;\n ]+ " + optionRegex, "(?i)" + rootCommand + " rk:[^;\n ]+ " + optionRegex),
                 Arrays.asList(rootCommand + " [REGION] " + optionDescriptipn, rootCommand + " rk:[REGIONKIND] " + optionDescriptipn),
                 permissions, "", "");
@@ -34,7 +34,7 @@ public abstract class RegionOptionModifyCommand<SettingsObj> extends OptionModif
     }
 
     public RegionOptionModifyCommand(String rootCommand, List<String> permissions, String optionName, boolean allowSubregions, String subregionModifyErrorMessage) {
-        super(false, rootCommand,
+        super(false, false, rootCommand,
                 Arrays.asList("(?i)" + rootCommand + " [^;\n ]+", "(?i)" + rootCommand + " rk:[^;\n ]+"),
                 Arrays.asList(rootCommand + " [REGION]", rootCommand + " rk:[REGIONKIND]"),
                 permissions, "", "");

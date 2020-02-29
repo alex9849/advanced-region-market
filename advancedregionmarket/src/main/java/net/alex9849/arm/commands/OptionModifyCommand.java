@@ -11,13 +11,15 @@ import java.util.List;
 public abstract class OptionModifyCommand<Object, SettingsObj> extends BasicArmCommand {
     private String objectNotFoundMsg;
     private String settingNotFoundMsg;
+    private boolean hasSetting;
 
 
-    public OptionModifyCommand(boolean isConsoleCommand, String rootCommand, List<String> regexList, List<String> usage,
+    public OptionModifyCommand(boolean isConsoleCommand, boolean hasSetting, String rootCommand, List<String> regexList, List<String> usage,
                                List<String> permissions, String objectNotFoundMsg, String settingNotFoundMsg) {
         super(isConsoleCommand, rootCommand, regexList, usage, permissions);
         this.objectNotFoundMsg = objectNotFoundMsg;
         this.settingNotFoundMsg = settingNotFoundMsg;
+        this.hasSetting = hasSetting;
     }
 
     @Override
@@ -28,7 +30,7 @@ public abstract class OptionModifyCommand<Object, SettingsObj> extends BasicArmC
         }
 
         SettingsObj setting = getSettingsFromCommand(sender, command);
-        if(setting == null) {
+        if(setting == null && this.hasSetting) {
             throw new InputException(sender, this.settingNotFoundMsg);
         }
 
@@ -39,6 +41,13 @@ public abstract class OptionModifyCommand<Object, SettingsObj> extends BasicArmC
 
     protected abstract Object getObjectFromCommand(CommandSender sender, String command) throws InputException;
 
+    /**
+     *
+     * @param sender
+     * @param command
+     * @return @Nullable
+     * @throws InputException
+     */
     protected abstract SettingsObj getSettingsFromCommand(CommandSender sender, String command) throws InputException;
 
     protected abstract void applySetting(Object object, SettingsObj setting);

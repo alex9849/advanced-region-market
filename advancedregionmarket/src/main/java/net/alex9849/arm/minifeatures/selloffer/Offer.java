@@ -123,9 +123,6 @@ public class Offer {
 
     public void reject() {
         this.unregister();
-        if (this.seller.isOnline()) {
-            this.seller.sendMessage(Messages.PREFIX + this.getConvertedMessage(Messages.OFFER_HAS_BEEN_REJECTED));
-        }
     }
 
     private void unregister() {

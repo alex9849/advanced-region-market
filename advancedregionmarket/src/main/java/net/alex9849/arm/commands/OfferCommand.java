@@ -96,6 +96,7 @@ public class OfferCommand extends BasicArmCommand {
         } else if (command.matches(regex_reject)) {
             if (player.hasPermission(Permission.MEMBER_OFFER_CREATE)) {
                 Offer offer = Offer.rejectOffer(player);
+                player.sendMessage(Messages.PREFIX + offer.getConvertedMessage(Messages.OFFER_REJECTED));
                 offer.getSeller().sendMessage(Messages.PREFIX + offer.getConvertedMessage(Messages.OFFER_HAS_BEEN_REJECTED));
                 return true;
             } else {

@@ -75,7 +75,7 @@ public abstract class RegionKindOptionModifyCommand<SettingsObj> extends OptionM
      *
      * @param sender The sender of the command.
      * @param setting The part of the string, that containt the settings information, matching to the given optionregex
-     * @return @Nullable
+     * @return If a settings-regex has been given and this method returns null, an exception will be thrown
      */
     protected abstract SettingsObj getSettingsFromString(CommandSender sender, String setting);
 }

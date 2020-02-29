@@ -140,6 +140,7 @@ public abstract class RegionOptionModifyCommand<SettingsObj> extends OptionModif
      * @param player The player that executed the command
      * @param settingsString The part of the command that contains the settings information
      * @return Can return null, if the Method could not find a Settings Object.
+     * @throws InputException If the settings-String is malformed
      */
     protected abstract SettingsObj getSettingFromString(Player player, String settingsString) throws InputException;
 

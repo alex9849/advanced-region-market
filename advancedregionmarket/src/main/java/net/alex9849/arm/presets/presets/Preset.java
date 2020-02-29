@@ -262,6 +262,7 @@ public abstract class Preset implements Saveable {
      * @param world    The world of the WorldGuard region
      * @param sender   The sender that executes the saved commands
      * @param signs    The signs that should be lonked to the region
+     * @return A Region with the given arguments
      */
     public Region generateRegion(WGRegion wgRegion, World world, CommandSender sender, List<SignData> signs) {
         Region region = generateRegion(wgRegion, world, signs);
@@ -277,6 +278,7 @@ public abstract class Preset implements Saveable {
      * @param wgRegion The WorldGuard region
      * @param world    The world of the WorldGuard region
      * @param signs    The signs that should be lonked to the region
+     * @return A Region with the given arguments
      */
     public abstract Region generateRegion(WGRegion wgRegion, World world, List<SignData> signs);
 

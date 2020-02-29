@@ -775,7 +775,8 @@ public abstract class Region implements Saveable {
     }
 
     /**
-     *
+     * @param actionReason An ActionReason
+     * @param logToConsole If true, this will be logged to the console with the give ActionReason
      * @throws SchematicNotFoundException if the schematic file of the region could not be found. Nevertheless
      * if the execption gets thrown the region will be unsold
      */

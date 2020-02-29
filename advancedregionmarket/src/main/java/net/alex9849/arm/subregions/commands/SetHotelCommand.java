@@ -61,7 +61,7 @@ public class SetHotelCommand extends OptionModifyCommand<Region, Boolean> {
 
     @Override
     protected List<String> tabCompleteObject(Player player, String[] args) {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override

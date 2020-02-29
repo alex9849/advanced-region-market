@@ -47,7 +47,8 @@ public abstract class BasicArmCommand {
     }
 
     public boolean hasPermission(Player player) {
-        return this.getPermissions().stream().anyMatch(x -> player.hasPermission(x));
+        return this.getPermissions().isEmpty()
+        || this.getPermissions().stream().anyMatch(x -> player.hasPermission(x));
     }
 
     public boolean runCommand(CommandSender sender, String command, String commandLabel) throws InputException, CmdSyntaxException {

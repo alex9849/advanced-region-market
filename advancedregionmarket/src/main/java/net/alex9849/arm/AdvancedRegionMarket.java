@@ -825,17 +825,8 @@ public class AdvancedRegionMarket extends JavaPlugin {
         }
         try {
             if (args.length >= 1) {
-                StringBuilder sb = new StringBuilder();
-                boolean first = true;
-                for(String arg : args) {
-                    if(first) {
-                        first = false;
-                    } else {
-                        sb.append(" ");
-                    }
-                    sb.append(arg);
-                }
-                return this.commandHandler.executeCommand(sender, sb.toString(), commandsLabel);
+                return this.commandHandler.executeCommand(sender,
+                        CommandUtil.getStringList(Arrays.asList(args), x -> x, " "), commandsLabel);
             } else {
                 String pluginversion = this.getDescription().getVersion();
                 sender.sendMessage(Messages.ARM_BASIC_COMMAND_MESSAGE.replace("%pluginversion%", pluginversion));

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CommandSplitter extends BasicArmCommand {
 
@@ -18,10 +19,11 @@ public class CommandSplitter extends BasicArmCommand {
     public CommandSplitter(String rootCommand, List<String> usage, String helpCommandPermission,
                            String helpCommandHeadline, Collection<BasicArmCommand> commands) {
         super(true, rootCommand, Arrays.asList("(?i)" + rootCommand + " [^;\n]+"),
-                usage, new ArrayList<>());
+                usage, commands.stream().flatMap(x -> x.getPermissions().stream()).collect(Collectors.toList()));
         if (commands != null) {
             this.commandHandler.addCommands(commands);
         }
+        this.getPermissions().add(helpCommandPermission);
         this.commandHandler.addCommand(new HelpCommand(this.commandHandler, helpCommandHeadline,
                 new String[]{rootCommand}, helpCommandPermission));
     }

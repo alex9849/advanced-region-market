@@ -44,8 +44,9 @@ public class CommandHandler implements TabCompleter {
     }
 
     public boolean executeCommand(CommandSender sender, String command, String commandLabel) throws InputException, CmdSyntaxException {
+        String[] args = command.split(" ");
         for (BasicArmCommand armCommand : this.commands) {
-            if (command.startsWith(armCommand.getRootCommand() + " ")) {
+            if (args[0].equalsIgnoreCase(armCommand.getRootCommand())) {
                 return armCommand.runCommand(sender, command, commandLabel);
             }
         }

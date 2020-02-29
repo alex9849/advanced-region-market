@@ -77,7 +77,12 @@ public abstract class RegionOptionModifyCommand<SettingsObj> extends OptionModif
 
     @Override
     protected SettingsObj getSettingsFromCommand(CommandSender sender, String command) throws InputException {
-        return getSettingFromString((Player) sender, command.split(" ")[2]);
+        List<String> settingsArgs = new ArrayList<>();
+        String[] args = command.split(" ");
+        for(int i = 2; i < args.length; i++) {
+            settingsArgs.add(args[i]);
+        }
+        return getSettingFromString((Player) sender, CommandUtil.getStringList(settingsArgs, x -> x, " "));
     }
 
     @Override
@@ -101,7 +106,7 @@ public abstract class RegionOptionModifyCommand<SettingsObj> extends OptionModif
 
     @Override
     protected List<String> tabCompleteObject(Player player, String[] args) {
-        if (args.length == 2) {
+        if (args.length != 2) {
             return new ArrayList<>();
         }
 
@@ -120,20 +125,23 @@ public abstract class RegionOptionModifyCommand<SettingsObj> extends OptionModif
 
     @Override
     protected List<String> tabCompleteSettingsObject(Player player, String[] args) {
-        if (args.length != 3) {
-            return new ArrayList<>();
+        List<String> settingsArgs = new ArrayList<>();
+        for(int i = 2; i < args.length; i++) {
+            settingsArgs.add(args[i]);
         }
-        return tabCompleteSettingsObject(player, args[2]);
+        return tabCompleteSettingsObject(player, CommandUtil.getStringList(settingsArgs, x -> x, " "));
     }
 
     protected abstract void applySetting(Region region, SettingsObj setting);
 
-    protected abstract List<String> tabCompleteSettingsObject(Player player, String setting);
-
     /**
-     * @param player
-     * @param settingsString
-     * @return Not null
+     * Method can be let empty, if no optionregex / optiondescription has been given
+     *
+     * @param player The player that executed the command
+     * @param settingsString The part of the command that contains the settings information
+     * @return Can return null, if the Method could not find a Settings Object.
      */
     protected abstract SettingsObj getSettingFromString(Player player, String settingsString) throws InputException;
+
+    protected abstract List<String> tabCompleteSettingsObject(Player player, String setting);
 }

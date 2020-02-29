@@ -776,8 +776,6 @@ public abstract class Region implements Saveable {
 
     /**
      *
-     * @param actionReason
-     * @param logToConsole
      * @throws SchematicNotFoundException if the schematic file of the region could not be found. Nevertheless
      * if the execption gets thrown the region will be unsold
      */

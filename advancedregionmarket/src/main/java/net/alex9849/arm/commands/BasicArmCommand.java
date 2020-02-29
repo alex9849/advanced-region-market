@@ -93,10 +93,9 @@ public abstract class BasicArmCommand {
     protected abstract boolean runCommandLogic(CommandSender sender, String command, String commandLabel) throws InputException, CmdSyntaxException;
 
     /**
-     *
      * @param player Has the permission to execute this command
-     * @param args Has at least a length of 2 & the first arg matches the root command
-     * @return
+     * @param args Has at least a length of 2 and the first arg matches the root command
+     * @return An ArrayList (not null)
      */
     protected abstract List<String> onTabCompleteLogic(Player player, String args[]);
 }

@@ -41,13 +41,6 @@ public abstract class OptionModifyCommand<Object, SettingsObj> extends BasicArmC
 
     protected abstract Object getObjectFromCommand(CommandSender sender, String command) throws InputException;
 
-    /**
-     *
-     * @param sender
-     * @param command
-     * @return @Nullable
-     * @throws InputException
-     */
     protected abstract SettingsObj getSettingsFromCommand(CommandSender sender, String command) throws InputException;
 
     protected abstract void applySetting(CommandSender sender, Object object, SettingsObj setting) throws InputException;
@@ -58,13 +51,12 @@ public abstract class OptionModifyCommand<Object, SettingsObj> extends BasicArmC
     protected List<String> onTabCompleteLogic(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
         returnme.addAll(tabCompleteObject(player, args));
-        if(this.hasSetting) {
-            returnme.addAll(tabCompleteSettingsObject(player, args));
-        }
+        returnme.addAll(tabCompleteSettingsObject(player, args));
         return returnme;
     }
 
     protected abstract List<String> tabCompleteObject(Player player, String[] args);
 
     protected abstract List<String> tabCompleteSettingsObject(Player player, String[] args);
+
 }

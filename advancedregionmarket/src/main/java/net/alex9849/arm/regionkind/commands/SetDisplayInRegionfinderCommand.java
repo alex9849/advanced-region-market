@@ -29,15 +29,12 @@ public class SetDisplayInRegionfinderCommand extends RegionKindOptionModifyComma
     }
 
     @Override
-    protected List<String> tabCompleteSettingsObject(Player player, String[] args) {
-        if(args.length != 3) {
-            return new ArrayList<>();
-        }
+    protected List<String> tabCompleteSettingsObject(Player player, String setting) {
         List<String> returnme = new ArrayList<>();
-        if ("true".startsWith(args[2])) {
+        if ("true".startsWith(setting)) {
             returnme.add("true");
         }
-        if ("false".startsWith(args[2])) {
+        if ("false".startsWith(setting)) {
             returnme.add("false");
         }
         return returnme;

@@ -10,9 +10,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class SetPaybackPercentage extends RegionKindOptionModifyCommand<Double> {
-    private final String rootCommand = "setpaybackpercentage";
-    private final String regex = "(?i)setpaybackpercentage [^;\n ]+ [0-9]+";
-    private final List<String> usage = new ArrayList<>(Arrays.asList("setpaybackpercentage [REGIONKIND] [Percentage]"));
 
     public SetPaybackPercentage() {
         super("setpaybackpercentage", Arrays.asList(Permission.REGIONKIND_SET_PAYBACKPERCENTAGE),
@@ -30,7 +27,7 @@ public class SetPaybackPercentage extends RegionKindOptionModifyCommand<Double> 
     }
 
     @Override
-    protected List<String> tabCompleteSettingsObject(Player player, String[] args) {
+    protected List<String> tabCompleteSettingsObject(Player player, String setting) {
         return new ArrayList<>();
     }
 }

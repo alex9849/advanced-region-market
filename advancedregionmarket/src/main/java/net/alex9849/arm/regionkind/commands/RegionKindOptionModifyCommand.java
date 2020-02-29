@@ -2,6 +2,7 @@ package net.alex9849.arm.regionkind.commands;
 
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
+import net.alex9849.arm.commands.CommandUtil;
 import net.alex9849.arm.commands.OptionModifyCommand;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.regionkind.RegionKind;
@@ -29,33 +30,52 @@ public abstract class RegionKindOptionModifyCommand<SettingsObj> extends OptionM
     }
 
     @Override
-    protected RegionKind getObjectFromCommand(CommandSender sender, String command) throws InputException {
+    protected final RegionKind getObjectFromCommand(CommandSender sender, String command) throws InputException {
         return AdvancedRegionMarket.getInstance().getRegionKindManager().getRegionKind(command.split(" ")[1]);
     }
 
     @Override
-    protected SettingsObj getSettingsFromCommand(CommandSender sender, String command) throws InputException {
-        return getSettingsFromString(sender, command.split(" ")[2]);
+    protected final SettingsObj getSettingsFromCommand(CommandSender sender, String command) throws InputException {
+        String[] args = command.split(" ");
+        List<String> settingsArgs = new ArrayList<>();
+        for(int i = 2; i < args.length; i++) {
+            settingsArgs.add(args[i]);
+        }
+        return getSettingsFromString(sender, CommandUtil.getStringList(settingsArgs, x -> x, " "));
     }
 
-    /**
-     *
-     * @param sender
-     * @param setting
-     * @return @Nullable
-     */
-    protected abstract SettingsObj getSettingsFromString(CommandSender sender, String setting);
+    @Override
+    protected final List<String> tabCompleteObject(Player player, String[] args) {
+        if(args.length != 2) {
+            return new ArrayList<>();
+        }
+        return AdvancedRegionMarket.getInstance().getRegionKindManager().completeTabRegionKinds(args[1], "");
+    }
+
+    @Override
+    protected final List<String> tabCompleteSettingsObject(Player player, String[] args) {
+        if(args.length > 2) {
+            return new ArrayList<>();
+        }
+        List<String> settingsArgs = new ArrayList<>();
+        for(int i = 2; i < args.length; i++) {
+            settingsArgs.add(args[i]);
+        }
+        return tabCompleteSettingsObject(player, CommandUtil.getStringList(settingsArgs, x -> x, " "));
+    }
 
     @Override
     protected void sendSuccessMessage(CommandSender sender, RegionKind obj, SettingsObj settingsObj) {
         sender.sendMessage(Messages.PREFIX + Messages.REGIONKIND_MODIFIED);
     }
 
-    @Override
-    protected List<String> tabCompleteObject(Player player, String[] args) {
-        if(args.length != 2) {
-            return new ArrayList<>();
-        }
-        return AdvancedRegionMarket.getInstance().getRegionKindManager().completeTabRegionKinds(args[1], "");
-    }
+    protected abstract List<String> tabCompleteSettingsObject(Player player, String setting);
+
+    /**
+     *
+     * @param sender The sender of the command.
+     * @param setting The part of the string, that containt the settings information, matching to the given optionregex
+     * @return @Nullable
+     */
+    protected abstract SettingsObj getSettingsFromString(CommandSender sender, String setting);
 }

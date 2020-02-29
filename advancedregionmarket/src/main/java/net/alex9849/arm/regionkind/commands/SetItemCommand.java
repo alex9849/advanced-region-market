@@ -30,13 +30,11 @@ public class SetItemCommand extends RegionKindOptionModifyCommand<Material> {
     }
 
     @Override
-    protected List<String> tabCompleteSettingsObject(Player player, String[] args) {
+    protected List<String> tabCompleteSettingsObject(Player player, String setting) {
         List<String> returnme = new ArrayList<>();
-        if (args.length == 3) {
-            for (Material material : Material.values()) {
-                if (material.toString().toLowerCase().startsWith(args[2])) {
-                    returnme.add(material.toString());
-                }
+        for (Material material : Material.values()) {
+            if (material.toString().toLowerCase().startsWith(setting)) {
+                returnme.add(material.toString());
             }
         }
         return returnme;

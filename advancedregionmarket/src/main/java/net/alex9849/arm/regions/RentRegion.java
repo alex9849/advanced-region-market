@@ -115,7 +115,7 @@ public class RentRegion extends CountdownRegion {
     @Override
     public void buy(Player player) throws NoPermissionException, AlreadySoldException, OutOfLimitExeption, NotEnoughMoneyException, MaxRentTimeExceededException {
 
-        if (!Permission.hasAnyBuyPermission(player)) {
+        if (!player.hasPermission(Permission.MEMBER_BUY)) {
             throw new NoPermissionException(Messages.NO_PERMISSION);
         }
 

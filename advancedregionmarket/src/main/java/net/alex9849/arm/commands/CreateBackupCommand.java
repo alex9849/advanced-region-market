@@ -17,7 +17,7 @@ import java.util.List;
 public class CreateBackupCommand extends BasicArmCommand {
     private final String regex_with_args = "(?i)createbackup [^;\n ]+";
 
-    public CreateBackupCommand(boolean isConsoleCommand, String rootCommand, List<String> regexList, List<String> usage, List<String> permissions) {
+    public CreateBackupCommand() {
         super(false, "createbackup",
                 Arrays.asList("(?i)createbackup [^;\n ]+", "(?i)createbackup"),
                 Arrays.asList("createbackup [REGION]", "createbackup"),

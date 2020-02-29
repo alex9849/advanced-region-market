@@ -5,10 +5,8 @@ import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.commands.BasicArmCommand;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
-import net.alex9849.arm.exceptions.CmdSyntaxException;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.regions.Region;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -18,7 +16,7 @@ import java.util.List;
 
 public class DeleteCommand extends BasicArmCommand {
 
-    public DeleteCommand(boolean isConsoleCommand, String rootCommand, List<String> regexList, List<String> usage, List<String> permissions) {
+    public DeleteCommand() {
         super(true, "delete",
                 Arrays.asList("(?i)delete [^;\n ]+"),
                 Arrays.asList("delete [GROUPNAME]"),
@@ -26,7 +24,7 @@ public class DeleteCommand extends BasicArmCommand {
     }
 
     @Override
-    protected boolean runCommandLogic(CommandSender sender, String command) throws InputException {
+    protected boolean runCommandLogic(CommandSender sender, String command, String commandLabel) throws InputException {
         EntityLimitGroup entityLimitGroup = AdvancedRegionMarket.getInstance()
                 .getEntityLimitGroupManager().getEntityLimitGroup(command.split(" ")[1]);
         if (entityLimitGroup == null) {

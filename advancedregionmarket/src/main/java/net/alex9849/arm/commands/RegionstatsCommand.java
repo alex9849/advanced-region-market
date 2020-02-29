@@ -22,7 +22,7 @@ public class RegionstatsCommand extends BasicArmCommand {
     }
 
     @Override
-    protected boolean runCommandLogic(CommandSender sender, String command) throws InputException {
+    protected boolean runCommandLogic(CommandSender sender, String command, String commandLabel) throws InputException {
         if (command.matches(regex_with_args)) {
             return Diagram.sendRegionStats(sender, command.split(" ")[1]);
         } else {

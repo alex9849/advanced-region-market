@@ -27,7 +27,7 @@ public class AddMemberCommand extends BasicArmCommand {
     }
 
     @Override
-    protected boolean runCommandLogic(CommandSender sender, String command) throws InputException {
+    protected boolean runCommandLogic(CommandSender sender, String command, String commandLabel) throws InputException {
         //No console command sender must be a player
         Player player = (Player) sender;
         Region region;

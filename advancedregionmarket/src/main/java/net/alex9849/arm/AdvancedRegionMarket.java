@@ -759,7 +759,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
                     }
                     sb.append(arg);
                 }
-                return this.commandHandler.executeCommand(sender, sb.toString());
+                return this.commandHandler.executeCommand(sender, sb.toString(), commandsLabel);
             } else {
                 String pluginversion = this.getDescription().getVersion();
                 sender.sendMessage(Messages.ARM_BASIC_COMMAND_MESSAGE.replace("%pluginversion%", pluginversion));

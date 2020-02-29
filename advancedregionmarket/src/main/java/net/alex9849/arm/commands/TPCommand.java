@@ -25,7 +25,7 @@ public class TPCommand extends BasicArmCommand {
     }
 
     @Override
-    protected boolean runCommandLogic(CommandSender sender, String command) throws InputException {
+    protected boolean runCommandLogic(CommandSender sender, String command, String commandLabel) throws InputException {
         Player player = (Player) sender;
         Region region = AdvancedRegionMarket.getInstance().getRegionManager()
                 .getRegionbyNameAndWorldCommands(command.split(" ")[1], player.getWorld().getName());

@@ -1,22 +1,6 @@
 package net.alex9849.arm.presets.commands;
 
-import net.alex9849.arm.Messages;
-import net.alex9849.arm.Permission;
-import net.alex9849.arm.commands.BasicArmCommand;
-import net.alex9849.arm.exceptions.InputException;
-import net.alex9849.arm.handler.CommandHandler;
-import net.alex9849.arm.presets.presets.PresetType;
-import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
-public class HelpCommand implements BasicArmCommand {
+/*public class HelpCommand implements BasicArmCommand {
 
     private final String rootCommand = "help";
     private final String regex_args = "(?i)help [0-9]+";
@@ -115,3 +99,4 @@ public class HelpCommand implements BasicArmCommand {
         return returnme;
     }
 }
+*/

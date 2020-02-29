@@ -27,7 +27,7 @@ public class ListRegionsCommand extends BasicArmCommand {
     }
 
     @Override
-    protected boolean runCommandLogic(CommandSender sender, String command) throws InputException {
+    protected boolean runCommandLogic(CommandSender sender, String command, String commandLabel) throws InputException {
         String playerName = sender.getName();
         if (command.matches(this.regex_with_args)) {
             String[] args = command.split(" ");

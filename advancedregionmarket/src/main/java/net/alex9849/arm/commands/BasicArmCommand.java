@@ -50,7 +50,7 @@ public abstract class BasicArmCommand {
         return this.getPermissions().stream().anyMatch(x -> player.hasPermission(x));
     }
 
-    public boolean runCommand(CommandSender sender, String command) throws InputException, CmdSyntaxException {
+    public boolean runCommand(CommandSender sender, String command, String commandLabel) throws InputException, CmdSyntaxException {
         if (!this.isConsoleCommand() && sender instanceof ConsoleCommandSender) {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
@@ -71,7 +71,7 @@ public abstract class BasicArmCommand {
             throw new CmdSyntaxException(new ArrayList<>(this.getUsage()));
         }
 
-        return this.runCommandLogic(sender, command);
+        return this.runCommandLogic(sender, command, commandLabel);
     }
 
     public List<String> onTabComplete(Player player, String args[]) {
@@ -89,7 +89,7 @@ public abstract class BasicArmCommand {
         return returnme;
     }
 
-    protected abstract boolean runCommandLogic(CommandSender sender, String command) throws InputException, CmdSyntaxException;
+    protected abstract boolean runCommandLogic(CommandSender sender, String command, String commandLabel) throws InputException, CmdSyntaxException;
 
     /**
      *

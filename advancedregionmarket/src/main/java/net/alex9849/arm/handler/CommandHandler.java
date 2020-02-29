@@ -43,10 +43,10 @@ public class CommandHandler implements TabCompleter {
         this.commands.add(cmd);
     }
 
-    public boolean executeCommand(CommandSender sender, String command) throws InputException, CmdSyntaxException {
+    public boolean executeCommand(CommandSender sender, String command, String commandLabel) throws InputException, CmdSyntaxException {
         for (BasicArmCommand armCommand : this.commands) {
             if (command.startsWith(armCommand.getRootCommand() + " ")) {
-                return armCommand.runCommand(sender, command);
+                return armCommand.runCommand(sender, command, commandLabel);
             }
         }
         return false;

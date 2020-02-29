@@ -337,7 +337,7 @@ public class Gui implements Listener {
                 @Override
                 public void execute(Player player) {
                     openRegionOwnerManager(player, region);
-                    net.alex9849.arm.entitylimit.commands.InfoCommand.sendInfoToPlayer(player, region.getEntityLimitGroup());
+                    net.alex9849.arm.entitylimit.commands.InfoCommand.sendInfoToSender(player, region.getEntityLimitGroup());
                 }
             });
             inv.addIcon(infoicon, getPosition(actitem, itemcounter));
@@ -539,7 +539,7 @@ public class Gui implements Listener {
                 @Override
                 public void execute(Player player) {
                     openRegionMemberManager(player, region);
-                    net.alex9849.arm.entitylimit.commands.InfoCommand.sendInfoToPlayer(player, region.getEntityLimitGroup());
+                    net.alex9849.arm.entitylimit.commands.InfoCommand.sendInfoToSender(player, region.getEntityLimitGroup());
                 }
             });
             inv.addIcon(infoicon, getPosition(actitem, itemcounter));

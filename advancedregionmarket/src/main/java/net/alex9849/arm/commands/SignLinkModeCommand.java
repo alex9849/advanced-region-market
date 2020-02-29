@@ -28,7 +28,7 @@ public class SignLinkModeCommand extends BasicArmCommand {
     }
 
     @Override
-    protected boolean runCommandLogic(CommandSender sender, String command) throws InputException, CmdSyntaxException {
+    protected boolean runCommandLogic(CommandSender sender, String command, String commandLabel) throws InputException, CmdSyntaxException {
         Player player = (Player) sender;
         if (!sender.hasPermission(Permission.ADMIN_SIGN_LINK_MODE)) {
             throw new InputException(sender, Messages.NO_PERMISSION);

@@ -26,7 +26,7 @@ public class CreateCommand extends BasicArmCommand {
     }
 
     @Override
-    protected boolean runCommandLogic(CommandSender sender, String command) throws InputException, CmdSyntaxException {
+    protected boolean runCommandLogic(CommandSender sender, String command, String commandLabel) throws InputException, CmdSyntaxException {
         String[] args = command.split(" ");
         if (AdvancedRegionMarket.getInstance().getRegionKindManager().getRegionKind(args[1]) != null) {
             throw new InputException(sender, Messages.REGIONKIND_ALREADY_EXISTS);

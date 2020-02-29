@@ -12,8 +12,8 @@ import net.alex9849.arm.regions.price.RentPrice;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.signs.SignData;
 import org.bukkit.World;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -110,12 +110,12 @@ public class ContractPreset extends Preset {
     }
 
     @Override
-    public void getAdditionalInfo(Player player) {
+    public void getAdditionalInfo(CommandSender sender) {
         String extendtime = "not defined";
         if (this.hasExtendTime()) {
             extendtime = longToTime(this.extendTime);
         }
-        player.sendMessage(Messages.REGION_INFO_AUTO_EXTEND_TIME + extendtime);
+        sender.sendMessage(Messages.REGION_INFO_AUTO_EXTEND_TIME + extendtime);
     }
 
     @Override

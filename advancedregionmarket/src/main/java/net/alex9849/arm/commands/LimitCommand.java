@@ -19,7 +19,7 @@ public class LimitCommand extends BasicArmCommand {
     }
 
     @Override
-    protected boolean runCommandLogic(CommandSender sender, String command) {
+    protected boolean runCommandLogic(CommandSender sender, String command, String commandLabel) {
         Player player = (Player) sender;
         LimitGroup.getLimitChat(player);
         return true;

@@ -33,6 +33,9 @@ public class SetMaxMembersCommand extends RegionOptionModifyCommand<Integer> {
 
     @Override
     protected List<String> tabCompleteSettingsObject(Player player, String setting) {
+        if("unlimited".startsWith(setting)) {
+            return Arrays.asList("unlimited");
+        }
         return new ArrayList<>();
     }
 }

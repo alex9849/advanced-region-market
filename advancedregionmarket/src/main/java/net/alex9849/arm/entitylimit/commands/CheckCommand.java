@@ -29,7 +29,7 @@ public class CheckCommand extends BasicArmCommand {
     }
 
     @Override
-    protected boolean runCommandLogic(CommandSender sender, String command) throws InputException {
+    protected boolean runCommandLogic(CommandSender sender, String command, String commandLabel) throws InputException {
         String[] args = command.split(" ");
         Player player = (Player) sender;
         Region region = AdvancedRegionMarket.getInstance().getRegionManager()

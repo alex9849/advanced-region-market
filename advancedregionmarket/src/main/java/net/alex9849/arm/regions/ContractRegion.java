@@ -152,7 +152,7 @@ public class ContractRegion extends CountdownRegion {
     @Override
     public void buy(Player player) throws NoPermissionException, AlreadySoldException, OutOfLimitExeption, NotEnoughMoneyException {
 
-        if (!Permission.hasAnyBuyPermission(player)) {
+        if (!player.hasPermission(Permission.MEMBER_BUY)) {
             throw new NoPermissionException(Messages.NO_PERMISSION);
         }
         if (this.isSold()) {

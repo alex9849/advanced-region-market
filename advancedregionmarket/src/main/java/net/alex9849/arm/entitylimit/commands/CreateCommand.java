@@ -24,7 +24,7 @@ public class CreateCommand extends BasicArmCommand {
     }
 
     @Override
-    protected boolean runCommandLogic(CommandSender sender, String command) throws InputException, CmdSyntaxException {
+    protected boolean runCommandLogic(CommandSender sender, String command, String commandLabel) throws InputException, CmdSyntaxException {
         String[] args = command.split(" ");
         if (AdvancedRegionMarket.getInstance().getEntityLimitGroupManager().getEntityLimitGroup(args[1]) != null) {
             throw new InputException(sender, Messages.ENTITYLIMITGROUP_ALREADY_EXISTS);

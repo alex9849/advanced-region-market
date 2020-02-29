@@ -10,7 +10,7 @@ import net.alex9849.arm.regions.price.Price;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.signs.SignData;
 import org.bukkit.World;
-import org.bukkit.entity.Player;
+import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -28,7 +28,7 @@ public class SellPreset extends Preset {
     }
 
     @Override
-    public void getAdditionalInfo(Player player) {
+    public void getAdditionalInfo(CommandSender sender) {
     }
 
     @Override

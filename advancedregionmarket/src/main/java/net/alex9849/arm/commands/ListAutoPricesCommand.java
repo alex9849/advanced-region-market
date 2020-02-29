@@ -22,7 +22,7 @@ public class ListAutoPricesCommand extends BasicArmCommand {
     }
 
     @Override
-    protected boolean runCommandLogic(CommandSender sender, String command) throws InputException, CmdSyntaxException {
+    protected boolean runCommandLogic(CommandSender sender, String command, String commandLabel) throws InputException, CmdSyntaxException {
         sender.sendMessage(Messages.AUTOPRICE_LIST);
         sender.sendMessage("- " + "default");
         for (AutoPrice autoPrice : AutoPrice.getAutoPrices()) {

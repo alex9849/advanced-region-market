@@ -1,23 +1,6 @@
 package net.alex9849.arm.commands;
 
-import net.alex9849.arm.Messages;
-import net.alex9849.arm.Permission;
-import net.alex9849.arm.exceptions.CmdSyntaxException;
-import net.alex9849.arm.exceptions.InputException;
-import net.alex9849.arm.handler.CommandHandler;
-import net.alex9849.arm.presets.commands.AutoRestoreCommand;
-import net.alex9849.arm.presets.commands.InactivityResetResetCommand;
-import net.alex9849.arm.presets.commands.UserRestorableCommand;
-import net.alex9849.arm.presets.presets.PresetType;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-public class ContractPresetCommand extends SellPresetCommand {
+/*public class ContractPresetCommand extends SellPresetCommand {
 
     private final String rootCommand = "contractpreset";
     private final String regex = "(?i)contractpreset [^;\n]+";
@@ -114,3 +97,5 @@ public class ContractPresetCommand extends SellPresetCommand {
     }
 
 }
+*/
+

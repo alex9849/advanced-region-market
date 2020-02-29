@@ -29,7 +29,7 @@ public class DeleteCommand extends BasicArmCommand {
     }
 
     @Override
-    protected boolean runCommandLogic(CommandSender sender, String command) throws InputException, CmdSyntaxException {
+    protected boolean runCommandLogic(CommandSender sender, String command, String commandLabel) throws InputException, CmdSyntaxException {
         Player player = (Player) sender;
         Region region = AdvancedRegionMarket.getInstance().getRegionManager()
                 .getRegionbyNameAndWorldCommands(command.split(" ")[1], player.getWorld().getName());

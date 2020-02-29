@@ -27,7 +27,7 @@ public class ToolCommand extends BasicArmCommand {
     }
 
     @Override
-    protected boolean runCommandLogic(CommandSender sender, String command) throws InputException, CmdSyntaxException {
+    protected boolean runCommandLogic(CommandSender sender, String command, String commandLabel) throws InputException, CmdSyntaxException {
         Player player = (Player) sender;
         for (String msg : Messages.SUBREGION_TOOL_INSTRUCTION) {
             player.sendMessage(msg);

@@ -26,7 +26,7 @@ public class FlageditorCommand extends BasicArmCommand {
     }
 
     @Override
-    protected boolean runCommandLogic(CommandSender sender, String command) throws InputException {
+    protected boolean runCommandLogic(CommandSender sender, String command, String commandLabel) throws InputException {
         if(!FlagGroup.isFeatureEnabled()) {
             throw new InputException(sender, Messages.FLAGGROUP_FEATURE_DISABLED);
         }

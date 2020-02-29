@@ -19,7 +19,7 @@ public class GuiCommand extends BasicArmCommand {
     }
 
     @Override
-    protected boolean runCommandLogic(CommandSender sender, String command) {
+    protected boolean runCommandLogic(CommandSender sender, String command, String commandLabel) {
         Gui.openARMGui((Player) sender);
         return true;
     }

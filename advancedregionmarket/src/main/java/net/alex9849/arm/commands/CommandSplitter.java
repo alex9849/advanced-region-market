@@ -27,7 +27,7 @@ public class CommandSplitter extends BasicArmCommand {
     }
 
     @Override
-    protected boolean runCommandLogic(CommandSender sender, String command) throws InputException, CmdSyntaxException {
+    protected boolean runCommandLogic(CommandSender sender, String command, String commandLabel) throws InputException, CmdSyntaxException {
         String[] args = command.split(" ");
         StringBuilder shorterCommand = new StringBuilder();
 
@@ -48,7 +48,7 @@ public class CommandSplitter extends BasicArmCommand {
         }
 
         try {
-            return this.commandHandler.executeCommand(sender, shorterCommand.toString());
+            return this.commandHandler.executeCommand(sender, shorterCommand.toString(), commandLabel);
         } catch (CmdSyntaxException cse) {
             //Append rootcommand to command syntax
             List<String> syntax = cse.getSyntax();

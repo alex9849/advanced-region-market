@@ -21,7 +21,7 @@ public class RegionfinderCommand extends BasicArmCommand {
     }
 
     @Override
-    protected boolean runCommandLogic(CommandSender sender, String command) throws InputException, CmdSyntaxException {
+    protected boolean runCommandLogic(CommandSender sender, String command, String commandLabel) throws InputException, CmdSyntaxException {
         Gui.openRegionFinder((Player) sender, false);
         return true;
     }

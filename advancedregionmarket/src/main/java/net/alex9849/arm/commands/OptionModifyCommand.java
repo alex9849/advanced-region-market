@@ -23,7 +23,7 @@ public abstract class OptionModifyCommand<Object, SettingsObj> extends BasicArmC
     }
 
     @Override
-    protected boolean runCommandLogic(CommandSender sender, String command) throws InputException, CmdSyntaxException {
+    protected boolean runCommandLogic(CommandSender sender, String command, String commandLabel) throws InputException, CmdSyntaxException {
         Object obj = getObjectFromCommand(sender, command);
         if(obj == null) {
             throw new InputException(sender, this.objectNotFoundMsg);
@@ -50,7 +50,7 @@ public abstract class OptionModifyCommand<Object, SettingsObj> extends BasicArmC
      */
     protected abstract SettingsObj getSettingsFromCommand(CommandSender sender, String command) throws InputException;
 
-    protected abstract void applySetting(CommandSender sender, Object object, SettingsObj setting);
+    protected abstract void applySetting(CommandSender sender, Object object, SettingsObj setting) throws InputException;
 
     protected abstract void sendSuccessMessage(CommandSender sender, Object obj, SettingsObj settingsObj);
 

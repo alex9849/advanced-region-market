@@ -25,7 +25,7 @@ public class SetPaybackPercentage extends RegionKindOptionModifyCommand<Double> 
     }
 
     @Override
-    protected void applySetting(RegionKind object, Double setting) {
+    protected void applySetting(CommandSender sender, RegionKind object, Double setting) {
         object.setPaybackPercentage(setting);
     }
 

@@ -25,7 +25,7 @@ public class SetItemCommand extends RegionKindOptionModifyCommand<Material> {
     }
 
     @Override
-    protected void applySetting(RegionKind object, Material setting) {
+    protected void applySetting(CommandSender sender, RegionKind object, Material setting) {
         object.setItem(setting);
     }
 

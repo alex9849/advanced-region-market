@@ -24,7 +24,7 @@ public class SetDisplayInRegionfinderCommand extends RegionKindOptionModifyComma
     }
 
     @Override
-    protected void applySetting(RegionKind object, Boolean setting) {
+    protected void applySetting(CommandSender sender, RegionKind object, Boolean setting) {
         object.setDisplayInRegionfinder(setting);
     }
 

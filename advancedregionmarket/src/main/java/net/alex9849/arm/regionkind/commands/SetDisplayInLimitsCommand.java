@@ -24,7 +24,7 @@ public class SetDisplayInLimitsCommand extends RegionKindOptionModifyCommand<Boo
     }
 
     @Override
-    protected void applySetting(RegionKind object, Boolean setting) {
+    protected void applySetting(CommandSender sender, RegionKind object, Boolean setting) {
         object.setDisplayInLimits(setting);
     }
 

@@ -34,7 +34,7 @@ public abstract class OptionModifyCommand<Object, SettingsObj> extends BasicArmC
             throw new InputException(sender, this.settingNotFoundMsg);
         }
 
-        applySetting(obj, setting);
+        applySetting(sender, obj, setting);
         sendSuccessMessage(sender, obj, setting);
         return true;
     }
@@ -50,7 +50,7 @@ public abstract class OptionModifyCommand<Object, SettingsObj> extends BasicArmC
      */
     protected abstract SettingsObj getSettingsFromCommand(CommandSender sender, String command) throws InputException;
 
-    protected abstract void applySetting(Object object, SettingsObj setting);
+    protected abstract void applySetting(CommandSender sender, Object object, SettingsObj setting);
 
     protected abstract void sendSuccessMessage(CommandSender sender, Object obj, SettingsObj settingsObj);
 
@@ -58,7 +58,9 @@ public abstract class OptionModifyCommand<Object, SettingsObj> extends BasicArmC
     protected List<String> onTabCompleteLogic(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
         returnme.addAll(tabCompleteObject(player, args));
-        returnme.addAll(tabCompleteSettingsObject(player, args));
+        if(this.hasSetting) {
+            returnme.addAll(tabCompleteSettingsObject(player, args));
+        }
         return returnme;
     }
 

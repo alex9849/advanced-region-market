@@ -3,9 +3,9 @@ package net.alex9849.arm.subregions.commands;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.commands.BasicArmCommand;
+import net.alex9849.arm.exceptions.CmdSyntaxException;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.subregions.SubRegionCreator;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -13,34 +13,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class CreateCommand implements BasicArmCommand {
-    private final String rootCommand = "create";
-    private final String regex = "(?i)create";
-    private final List<String> usage = new ArrayList<>(Arrays.asList("create"));
+public class CreateCommand extends BasicArmCommand {
 
-    @Override
-    public boolean matchesRegex(String command) {
-        return command.matches(this.regex);
+    public CreateCommand() {
+        super(false, "create",
+                Arrays.asList("(?i)create"),
+                Arrays.asList("create"),
+                Arrays.asList(Permission.SUBREGION_CREATE_CONTRACT,
+                        Permission.SUBREGION_CREATE_RENT,
+                        Permission.SUBREGION_CREATE_SELL));
     }
 
     @Override
-    public String getRootCommand() {
-        return this.rootCommand;
-    }
-
-    @Override
-    public List<String> getUsage() {
-        return this.usage;
-    }
-
-    @Override
-    public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
-        if (!Permission.hasAnySubregionCreatePermission(sender)) {
-            throw new InputException(sender, Messages.NO_PERMISSION);
-        }
-        if (!(sender instanceof Player)) {
-            throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
-        }
+    protected boolean runCommandLogic(CommandSender sender, String command) throws InputException, CmdSyntaxException {
         Player player = (Player) sender;
         SubRegionCreator selection = SubRegionCreator.getSubRegioncreator(player);
         if (selection == null) {
@@ -54,16 +39,7 @@ public class CreateCommand implements BasicArmCommand {
     }
 
     @Override
-    public List<String> onTabComplete(Player player, String[] args) {
-        List<String> returnme = new ArrayList<>();
-        if (Permission.hasAnySubregionCreatePermission(player)) {
-            if (args.length == 1) {
-                if (this.rootCommand.startsWith(args[0])) {
-                    returnme.add(this.rootCommand);
-                }
-            }
-        }
-
-        return returnme;
+    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+        return new ArrayList<>();
     }
 }

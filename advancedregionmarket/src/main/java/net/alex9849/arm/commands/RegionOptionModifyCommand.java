@@ -89,7 +89,7 @@ public abstract class RegionOptionModifyCommand<SettingsObj> extends OptionModif
     }
 
     @Override
-    protected void applySetting(Tuple<String, List<Region>> tuple, SettingsObj setting) {
+    protected void applySetting(CommandSender sender, Tuple<String, List<Region>> tuple, SettingsObj setting) {
         for(Region region : tuple.getValue2()) {
             applySetting(region, setting);
         }

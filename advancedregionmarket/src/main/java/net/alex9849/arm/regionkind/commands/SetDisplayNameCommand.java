@@ -35,7 +35,7 @@ public class SetDisplayNameCommand extends RegionKindOptionModifyCommand<String>
     }
 
     @Override
-    protected void applySetting(RegionKind object, String setting) {
+    protected void applySetting(CommandSender sender, RegionKind object, String setting) {
         object.setDisplayName(setting);
     }
 

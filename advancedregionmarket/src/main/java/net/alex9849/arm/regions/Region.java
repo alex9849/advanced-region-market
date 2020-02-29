@@ -705,7 +705,6 @@ public abstract class Region implements Saveable {
 
     public void userRestore(Player player) {
         try {
-            //TODO Add if should log
             this.restoreRegion(ActionReason.USER_RESTORE, true, false);
             GregorianCalendar calendar = new GregorianCalendar();
             this.lastreset = calendar.getTimeInMillis();
@@ -775,9 +774,8 @@ public abstract class Region implements Saveable {
     }
 
     /**
-     *
-     * @param actionReason
-     * @param logToConsole
+     * @param actionReason An ActionReason
+     * @param logToConsole If true, this will be logged to the console with the give ActionReason
      * @throws SchematicNotFoundException if the schematic file of the region could not be found. Nevertheless
      * if the execption gets thrown the region will be unsold
      */

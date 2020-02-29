@@ -115,7 +115,7 @@ public class RentRegion extends CountdownRegion {
     @Override
     public void buy(Player player) throws NoPermissionException, AlreadySoldException, OutOfLimitExeption, NotEnoughMoneyException, MaxRentTimeExceededException {
 
-        if (!Permission.hasAnyBuyPermission(player)) {
+        if (!player.hasPermission(Permission.MEMBER_BUY)) {
             throw new NoPermissionException(Messages.NO_PERMISSION);
         }
 
@@ -198,7 +198,6 @@ public class RentRegion extends CountdownRegion {
         if (this.isSold()) {
             GregorianCalendar actualtime = new GregorianCalendar();
             if (this.getPayedTill() < actualtime.getTimeInMillis()) {
-                //TODO logToConsole
                 try {
                     this.automaticResetRegion(ActionReason.EXPIRED, true);
                 } catch (SchematicNotFoundException e) {

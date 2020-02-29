@@ -95,7 +95,7 @@ public class Permission {
     public static final String REGIONKIND_CREATE = "arm.admin.regionkind.create";
     public static final String REGIONKIND_DELETE = "arm.admin.regionkind.delete";
     public static final String REGIONKIND_LIST = "arm.admin.regionkind.list";
-    public static final String REGIONKIND_SET_DISPLAY_IN_GUI = "arm.admin.regionkind.setdisplayinregionfinder";
+    public static final String REGIONKIND_SET_DISPLAY_IN_REGIONFINDER = "arm.admin.regionkind.setdisplayinregionfinder";
     public static final String REGIONKIND_SET_DISPLAY_IN_LIMITS = "arm.admin.regionkind.setdisplayinlimits";
     public static final String REGIONKIND_SET_ITEM = "arm.admin.regionkind.setitem";
     public static final String REGIONKIND_SET_PAYBACKPERCENTAGE = "arm.admin.regionkind.setpaybackpercentage";
@@ -130,14 +130,6 @@ public class Permission {
     public static final String ARM_BUYKIND = "arm.buykind.";
     public static final String ARM_LIMIT = "arm.limit.";
     public static final String ARM_INACTIVITY_EXPIRATION = "arm.inactivityexpiration.";
-
-    private static final String OLD_BUY_SELLREGION = "arm.buy.sellregion";
-    private static final String OLD_BUY_RENTREGION = "arm.buy.rentregion";
-    private static final String OLD_BUY_CONTRACTREGION = "arm.buy.contractregion";
-
-    public static boolean hasAnyBuyPermission(CommandSender sender) {
-        return (sender.hasPermission(MEMBER_BUY) || sender.hasPermission(OLD_BUY_CONTRACTREGION) || sender.hasPermission(OLD_BUY_RENTREGION) || sender.hasPermission(OLD_BUY_SELLREGION));
-    }
 
     public static boolean hasAnySubregionCreatePermission(CommandSender sender) {
         return (sender.hasPermission(SUBREGION_CREATE_SELL)) || (sender.hasPermission(SUBREGION_CREATE_RENT)) || (sender.hasPermission(SUBREGION_CREATE_CONTRACT));

@@ -187,7 +187,7 @@ public class Messages {
     public static String SELLBACK_WARNING = "&4Sell region back to the server: \n&4WARNING: &cThis can not be undone! Your region &6%regionid% &cwill be released and all blocks on it will be resetted! " +
             "You and all members will loose their rights on it. You will get &6%paybackmoney% %currency% &cback";
     public static String SUB_REGION_INACTIVITYRESET_ERROR = "";
-    public static String SUB_REGION_DO_BLOCKRESET_ERROR = "";
+    public static String SUB_REGION_AUTORESTORE_ERROR = "";
     public static String REGION_NOT_RESETTABLE = "";
     public static String REGION_SELECTED_MULTIPLE_REGIONS = "";
     public static String SUB_REGION_REGIONKIND_ERROR = "";
@@ -283,6 +283,7 @@ public class Messages {
     public static String ENTITYLIMITGROUP_SUBREGION_GROUP_ONLY_FOR_SUBREGIONS = "&4SubregionEntityLimitGroup only for subregions";
     public static String MASSACTION_SPLITTER = "&6all regions with regionkind &a%regionkind%";
     public static String SUB_REGION_ENTITYLIMITGROUP_ERROR = "&4Could not change EntiyLimitGroup for the region &6%regionid%&4! Region is a Subregion!";
+    public static String SUB_REGION_FLAGGROUP_ERROR = "&4Could not change Flaggroup for the region &6%regionid%&4! Region is a Subregion!";
     public static String GUI_ENTITYLIMIT_ITEM_BUTTON = "&6EntityLimits";
     public static List<String> GUI_ENTITYLIMIT_ITEM_LORE = new ArrayList<>(Arrays.asList("&6Click to display the entity-limits", "&6for this region in chat", "%entityinfopattern%"));
     public static String GUI_ENTITYLIMIT_ITEM_INFO_PATTERN = "&6%entitytype%: &a(&r%actualentities%&a/&r%softlimitentities%&a  %entityextensioninfo%)";
@@ -570,7 +571,7 @@ public class Messages {
         PRICE_CAN_NOT_BE_NEGATIVE = config.getString("Messages.PriceCanNotBeNegative");
         SELLBACK_WARNING = config.getString("Messages.SellBackWarning");
         SUB_REGION_INACTIVITYRESET_ERROR = config.getString("Messages.SubregionInactivityResetError");
-        SUB_REGION_DO_BLOCKRESET_ERROR = config.getString("Messages.SubregionDoBlockResetError");
+        SUB_REGION_AUTORESTORE_ERROR = config.getString("Messages.SubregionAutoRestoreError");
         SUB_REGION_MAX_MEMBERS_ERROR = config.getString("Messages.SubregionMaxMembersError");
         SUB_REGION_IS_USER_RESETTABLE_ERROR = config.getString("Messages.SubregionIsUserResettableError");
         REGION_NOT_RESETTABLE = config.getString("Messages.RegionNotResettable");
@@ -669,6 +670,7 @@ public class Messages {
         ENTITYLIMITGROUP_SUBREGION_GROUP_ONLY_FOR_SUBREGIONS = config.getString("Messages.SubregionEntityLimitOnlyForSubregions");
         MASSACTION_SPLITTER = config.getString("Messages.MassactionSplitter");
         SUB_REGION_ENTITYLIMITGROUP_ERROR = config.getString("Messages.SubregionEntityLimitError");
+        SUB_REGION_FLAGGROUP_ERROR = config.getString("Messages.SubregionFlagGroupError");
         GUI_ENTITYLIMIT_ITEM_BUTTON = config.getString("Messages.GUIEntityLimitItemButton");
         GUI_ENTITYLIMIT_ITEM_LORE = config.getStringList("Messages.GUIEntityLimitItemLore");
         GUI_ENTITYLIMIT_ITEM_INFO_PATTERN = config.getString("Messages.GUIEntityLimitInfoPattern");
@@ -795,6 +797,7 @@ public class Messages {
         GUI_MY_MEMBER_REGIONS = ChatColor.translateAlternateColorCodes('&', GUI_MY_MEMBER_REGIONS);
         GUI_SEARCH_FREE_REGION = ChatColor.translateAlternateColorCodes('&', GUI_SEARCH_FREE_REGION);
         GUI_OWN_REGIONS_MENU_NAME = ChatColor.translateAlternateColorCodes('&', GUI_OWN_REGIONS_MENU_NAME);
+        SUB_REGION_FLAGGROUP_ERROR = ChatColor.translateAlternateColorCodes('&', SUB_REGION_FLAGGROUP_ERROR);
         GUI_MEMBERS_BUTTON = ChatColor.translateAlternateColorCodes('&', GUI_MEMBERS_BUTTON);
         GUI_TELEPORT_TO_REGION_BUTTON = ChatColor.translateAlternateColorCodes('&', GUI_TELEPORT_TO_REGION_BUTTON);
         GUI_SHOW_INFOS_BUTTON = ChatColor.translateAlternateColorCodes('&', GUI_SHOW_INFOS_BUTTON);
@@ -927,7 +930,7 @@ public class Messages {
         PRICE_CAN_NOT_BE_NEGATIVE = ChatColor.translateAlternateColorCodes('&', PRICE_CAN_NOT_BE_NEGATIVE);
         SELLBACK_WARNING = ChatColor.translateAlternateColorCodes('&', SELLBACK_WARNING);
         SUB_REGION_INACTIVITYRESET_ERROR = ChatColor.translateAlternateColorCodes('&', SUB_REGION_INACTIVITYRESET_ERROR);
-        SUB_REGION_DO_BLOCKRESET_ERROR = ChatColor.translateAlternateColorCodes('&', SUB_REGION_DO_BLOCKRESET_ERROR);
+        SUB_REGION_AUTORESTORE_ERROR = ChatColor.translateAlternateColorCodes('&', SUB_REGION_AUTORESTORE_ERROR);
         REGION_NOT_RESETTABLE = ChatColor.translateAlternateColorCodes('&', REGION_NOT_RESETTABLE);
         REGION_SELECTED_MULTIPLE_REGIONS = ChatColor.translateAlternateColorCodes('&', REGION_SELECTED_MULTIPLE_REGIONS);
         SUB_REGION_REGIONKIND_ERROR = ChatColor.translateAlternateColorCodes('&', SUB_REGION_REGIONKIND_ERROR);

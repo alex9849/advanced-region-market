@@ -16,12 +16,8 @@ import java.util.List;
 public class CommandHandler implements TabCompleter {
 
     private List<BasicArmCommand> commands;
-    private List<String> usage;
-    private String rootcommand;
 
-    public CommandHandler(List<String> usage, String rootcommand) {
-        this.usage = usage;
-        this.rootcommand = rootcommand;
+    public CommandHandler() {
         this.commands = new ArrayList<>();
     }
 
@@ -33,10 +29,6 @@ public class CommandHandler implements TabCompleter {
             }
         }
         return returnme;
-    }
-
-    public String getRootcommand() {
-        return this.rootcommand;
     }
 
     public List<BasicArmCommand> getCommands() {
@@ -51,51 +43,12 @@ public class CommandHandler implements TabCompleter {
         this.commands.add(cmd);
     }
 
-    public boolean executeCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args) throws InputException, CmdSyntaxException {
-        String allargs = "";
-
-        for (int i = 0; i < args.length; i++) {
-            if (i == 0) {
-                allargs = args[i];
-            } else {
-                allargs = allargs + " " + args[i];
+    public boolean executeCommand(CommandSender sender, String command, String commandLabel) throws InputException, CmdSyntaxException {
+        String[] args = command.split(" ");
+        for (BasicArmCommand armCommand : this.commands) {
+            if (args[0].equalsIgnoreCase(armCommand.getRootCommand())) {
+                return armCommand.runCommand(sender, command, commandLabel);
             }
-        }
-
-        if (args.length >= 1) {
-            for (BasicArmCommand command : this.commands) {
-                if (command.getRootCommand().equalsIgnoreCase(args[0])) {
-                    if (command.matchesRegex(allargs)) {
-
-                        try {
-                            return command.runCommand(sender, cmd, commandsLabel, args, allargs);
-                        } catch (CmdSyntaxException syntaxException) {
-                            List<String> syntax = syntaxException.getSyntax();
-
-                            if (!this.rootcommand.equalsIgnoreCase("")) {
-                                for (int i = 0; i < syntax.size(); i++) {
-                                    syntax.set(i, this.rootcommand + " " + syntax.get(i));
-                                }
-                            }
-                            throw new CmdSyntaxException(syntax);
-                        }
-
-                    } else {
-                        List<String> syntax = new ArrayList<>(command.getUsage());
-
-                        if (!this.rootcommand.equalsIgnoreCase("")) {
-                            for (int i = 0; i < syntax.size(); i++) {
-                                syntax.set(i, this.rootcommand + " " + syntax.get(i));
-                            }
-                        }
-                        throw new CmdSyntaxException(syntax);
-                    }
-                }
-            }
-        }
-        if (this.usage.size() >= 1) {
-            List<String> syntax = new ArrayList<>(this.usage);
-            throw new CmdSyntaxException(syntax);
         }
         return false;
     }

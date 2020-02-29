@@ -142,7 +142,7 @@ public abstract class Preset implements Saveable {
         this.removePrice();
     }
 
-    public void getPresetInfo(Player player) {
+    public void getPresetInfo(CommandSender sender) {
         String price = "not defined";
         String autoPrice = Messages.convertYesNo(this.hasAutoPrice());
         if (this.hasPrice()) {
@@ -153,27 +153,27 @@ public abstract class Preset implements Saveable {
         }
         RegionKind regKind = this.getRegionKind();
 
-        player.sendMessage(ChatColor.GOLD + "=========[Preset INFO]=========");
-        player.sendMessage(Messages.REGION_INFO_AUTOPRICE + autoPrice);
-        player.sendMessage(Messages.REGION_INFO_PRICE + price);
-        this.getAdditionalInfo(player);
-        player.sendMessage(Messages.REGION_INFO_TYPE + regKind.getName());
-        player.sendMessage(Messages.REGION_INFO_MAX_MEMBERS + this.getMaxMembers());
-        player.sendMessage(Messages.REGION_INFO_FLAGGROUP + flagGroup.getName());
-        player.sendMessage(Messages.REGION_INFO_ENTITYLIMITGROUP + entityLimitGroup.getName());
-        player.sendMessage(Messages.REGION_INFO_INACTIVITYRESET + this.isInactivityReset());
-        player.sendMessage(Messages.REGION_INFO_HOTEL + this.isHotel());
-        player.sendMessage(Messages.REGION_INFO_AUTORESTORE + this.isAutoRestore());
-        player.sendMessage(Messages.REGION_INFO_IS_USER_RESTORABLE + this.isUserRestorable());
-        player.sendMessage(Messages.REGION_INFO_ALLOWED_SUBREGIONS + this.getAllowedSubregions());
-        player.sendMessage(Messages.PRESET_SETUP_COMMANDS);
+        sender.sendMessage(ChatColor.GOLD + "=========[Preset INFO]=========");
+        sender.sendMessage(Messages.REGION_INFO_AUTOPRICE + autoPrice);
+        sender.sendMessage(Messages.REGION_INFO_PRICE + price);
+        this.getAdditionalInfo(sender);
+        sender.sendMessage(Messages.REGION_INFO_TYPE + regKind.getName());
+        sender.sendMessage(Messages.REGION_INFO_MAX_MEMBERS + this.getMaxMembers());
+        sender.sendMessage(Messages.REGION_INFO_FLAGGROUP + flagGroup.getName());
+        sender.sendMessage(Messages.REGION_INFO_ENTITYLIMITGROUP + entityLimitGroup.getName());
+        sender.sendMessage(Messages.REGION_INFO_INACTIVITYRESET + this.isInactivityReset());
+        sender.sendMessage(Messages.REGION_INFO_HOTEL + this.isHotel());
+        sender.sendMessage(Messages.REGION_INFO_AUTORESTORE + this.isAutoRestore());
+        sender.sendMessage(Messages.REGION_INFO_IS_USER_RESTORABLE + this.isUserRestorable());
+        sender.sendMessage(Messages.REGION_INFO_ALLOWED_SUBREGIONS + this.getAllowedSubregions());
+        sender.sendMessage(Messages.PRESET_SETUP_COMMANDS);
         for (int i = 0; i < this.setupCommands.size(); i++) {
             String message = (i + 1) + ". /" + this.setupCommands.get(i);
-            player.sendMessage(ChatColor.GOLD + message);
+            sender.sendMessage(ChatColor.GOLD + message);
         }
     }
 
-    public abstract void getAdditionalInfo(Player player);
+    public abstract void getAdditionalInfo(CommandSender sender);
 
     public void removePrice() {
         this.hasPrice = false;
@@ -262,7 +262,7 @@ public abstract class Preset implements Saveable {
      * @param world    The world of the WorldGuard region
      * @param sender   The sender that executes the saved commands
      * @param signs    The signs that should be lonked to the region
-     * @return
+     * @return A Region with the given arguments
      */
     public Region generateRegion(WGRegion wgRegion, World world, CommandSender sender, List<SignData> signs) {
         Region region = generateRegion(wgRegion, world, signs);
@@ -278,7 +278,7 @@ public abstract class Preset implements Saveable {
      * @param wgRegion The WorldGuard region
      * @param world    The world of the WorldGuard region
      * @param signs    The signs that should be lonked to the region
-     * @return
+     * @return A Region with the given arguments
      */
     public abstract Region generateRegion(WGRegion wgRegion, World world, List<SignData> signs);
 

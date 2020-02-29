@@ -8,7 +8,6 @@ import net.alex9849.arm.exceptions.SchematicNotFoundException;
 import net.alex9849.arm.gui.Gui;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regions.Region;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -18,43 +17,25 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.logging.Level;
 
-public class RestoreCommand implements BasicArmCommand {
-    private final String rootCommand = "restore";
+public class RestoreCommand extends BasicArmCommand {
     private final String regex_with_args = "(?i)restore [^;\n ]+";
-    private final String regex = "(?i)restore";
-    private final List<String> usage = new ArrayList<>(Arrays.asList("restore [REGION]", "restore"));
 
-    @Override
-    public boolean matchesRegex(String command) {
-        return command.matches(this.regex) || command.matches(this.regex_with_args);
+    public RestoreCommand() {
+        super(false, "restore",
+                Arrays.asList("(?i)restore", "(?i)restore [^;\n ]+"),
+                Arrays.asList("restore", "restore [REGION]"),
+                Arrays.asList(Permission.ADMIN_RESTORE, Permission.MEMBER_RESTORE));
     }
 
     @Override
-    public String getRootCommand() {
-        return this.rootCommand;
-    }
-
-    @Override
-    public List<String> getUsage() {
-        return this.usage;
-    }
-
-    @Override
-    public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
-        if (!(sender instanceof Player)) {
-            throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
-        }
+    protected boolean runCommandLogic(CommandSender sender, String command, String commandLabel) throws InputException {
         Player player = (Player) sender;
 
-        if (!player.hasPermission(Permission.ADMIN_RESTORE) && !player.hasPermission(Permission.MEMBER_RESTORE)) {
-            throw new InputException(player, Messages.NO_PERMISSION);
-        }
-
         Region resregion;
-        if (allargs.matches(this.regex)) {
-            resregion = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, "");
+        if (command.matches(this.regex_with_args)) {
+            resregion = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, command.split(" ")[1]);
         } else {
-            resregion = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, args[1]);
+            resregion = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, "");
         }
 
         if (player.hasPermission(Permission.ADMIN_RESTORE)) {
@@ -85,26 +66,16 @@ public class RestoreCommand implements BasicArmCommand {
     }
 
     @Override
-    public List<String> onTabComplete(Player player, String[] args) {
-        List<String> returnme = new ArrayList<>();
-
-        if (args.length >= 1) {
-            if (this.rootCommand.startsWith(args[0])) {
-                if (player.hasPermission(Permission.MEMBER_RESTORE) || player.hasPermission(Permission.ADMIN_RESTORE)) {
-                    if (args.length == 1) {
-                        returnme.add(this.rootCommand);
-                    } else if (args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                        PlayerRegionRelationship playerRegionRelationship = null;
-                        if (player.hasPermission(Permission.ADMIN_RESTORE)) {
-                            playerRegionRelationship = PlayerRegionRelationship.ALL;
-                        } else {
-                            playerRegionRelationship = PlayerRegionRelationship.OWNER;
-                        }
-                        returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], playerRegionRelationship, true, true));
-                    }
-                }
-            }
+    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+        if(args.length != 2) {
+            return new ArrayList<>();
         }
-        return returnme;
+        PlayerRegionRelationship playerRegionRelationship = null;
+        if (player.hasPermission(Permission.ADMIN_RESTORE)) {
+            playerRegionRelationship = PlayerRegionRelationship.ALL;
+        } else {
+            playerRegionRelationship = PlayerRegionRelationship.OWNER;
+        }
+        return AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], playerRegionRelationship, true, true);
     }
 }

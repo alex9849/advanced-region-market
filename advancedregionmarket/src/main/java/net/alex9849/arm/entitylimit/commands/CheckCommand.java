@@ -8,7 +8,6 @@ import net.alex9849.arm.entitylimit.EntityLimit;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regions.Region;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -17,36 +16,24 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class CheckCommand implements BasicArmCommand {
+public class CheckCommand extends BasicArmCommand {
     private final String rootCommand = "check";
     private final String regex = "(?i)check [^;\n ]+";
     private final List<String> usage = new ArrayList<>(Arrays.asList("check [REGION]"));
 
-    @Override
-    public boolean matchesRegex(String command) {
-        return command.matches(this.regex);
+    public CheckCommand() {
+        super(false, "check",
+                Arrays.asList("(?i)check [^;\n ]+"),
+                Arrays.asList("check [REGION]"),
+                Arrays.asList(Permission.MEMBER_ENTITYLIMIT_CHECK));
     }
 
     @Override
-    public String getRootCommand() {
-        return this.rootCommand;
-    }
-
-    @Override
-    public List<String> getUsage() {
-        return this.usage;
-    }
-
-    @Override
-    public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
-        if (!(sender instanceof Player)) {
-            throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
-        }
+    protected boolean runCommandLogic(CommandSender sender, String command, String commandLabel) throws InputException {
+        String[] args = command.split(" ");
         Player player = (Player) sender;
-        if (!sender.hasPermission(Permission.MEMBER_ENTITYLIMIT_CHECK)) {
-            throw new InputException(sender, Messages.NO_PERMISSION);
-        }
-        Region region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
+        Region region = AdvancedRegionMarket.getInstance().getRegionManager()
+                .getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
 
         if (region == null) {
             throw new InputException(player, Messages.REGION_DOES_NOT_EXIST);
@@ -81,27 +68,14 @@ public class CheckCommand implements BasicArmCommand {
     }
 
     @Override
-    public List<String> onTabComplete(Player player, String[] args) {
-        List<String> returnme = new ArrayList<>();
-        if (!player.hasPermission(Permission.MEMBER_ENTITYLIMIT_CHECK)) {
-            return returnme;
-        }
-
-        if (args.length >= 1) {
-            if (args.length == 1) {
-                if (this.rootCommand.startsWith(args[0])) {
-                    returnme.add(this.rootCommand);
-                }
-            } else if ((args.length == 2) && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                if (this.rootCommand.startsWith(args[0])) {
-                    if (player.hasPermission(Permission.ADMIN_ENTITYLIMIT_CHECK)) {
-                        returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true, true));
-                    } else {
-                        returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.MEMBER_OR_OWNER, true, true));
-                    }
-                }
+    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+        if (args.length == 2) {
+            if (player.hasPermission(Permission.ADMIN_ENTITYLIMIT_CHECK)) {
+                return AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true, true);
+            } else {
+                return AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.MEMBER_OR_OWNER, true, true);
             }
         }
-        return returnme;
+        return new ArrayList<>();
     }
 }

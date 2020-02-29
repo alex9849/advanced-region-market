@@ -125,8 +125,9 @@ Messages:
     \ get &6%paybackmoney%%currency% &cback"
   SubregionInactivityResetError: '&4The selected region is a subregion. You can change
     the InactivityReset setting for all subregions in the config.yml!'
-  SubregionDoBlockResetError: '&4The selected region is a subregion. You can change
-    the doBlockReset setting for all subregions in the config.yml!'
+  SubregionAutoRestoreError: '&4The selected region is a subregion. You can change
+    the autoRestore setting for all subregions in the config.yml!'
+  SubregionFlagGroupError: '&4Could not change Flaggroup for the region &6%regionid%&4! Region is a Subregion!'
   SubregionIsUserResettableError: '&4The selected region is a subregion. You can change
     the isUserResettable setting for all subregions in the config.yml!'
   SubregionMaxMembersError: '&4The selected region is a subregion. You can change

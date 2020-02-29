@@ -116,8 +116,8 @@ Messages:
    свои права. Вы получите &6%paybackmoney% %currency%'
   SubregionAutoResetError: '&4Регион является субрегионом. Вы можете изменить настройку
    автоматического сброса для всех субрегионов в config.yml!'
-  SubregionDoBlockResetError: '&4Регион является субрегионом. Вы можете изменить настройку
-   doBlockReset для всех субрегионов в config.yml!'
+  SubregionAutoRestoreError: '&4Регион является субрегионом. Вы можете изменить настройку
+   autoRestore для всех субрегионов в config.yml!'
   SubregionIsUserResettableError: '&4Регион является субрегионом. Вы можете изменить
    настройку isUserResettable для всех субрегионов в config.yml!'
   SubregionRegionkindError: '&4Регион является субрегионом. Вы можете редактировать

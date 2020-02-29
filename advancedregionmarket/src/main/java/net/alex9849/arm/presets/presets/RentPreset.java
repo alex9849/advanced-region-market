@@ -11,8 +11,8 @@ import net.alex9849.arm.regions.price.RentPrice;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.signs.SignData;
 import org.bukkit.World;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -114,13 +114,13 @@ public class RentPreset extends ContractPreset {
 
 
     @Override
-    public void getAdditionalInfo(Player player) {
-        super.getAdditionalInfo(player);
+    public void getAdditionalInfo(CommandSender sender) {
+        super.getAdditionalInfo(sender);
         String maxrenttime = "not defined";
         if (this.hasMaxRentTime()) {
             maxrenttime = longToTime(this.getMaxRentTime());
         }
-        player.sendMessage(Messages.REGION_INFO_MAX_RENT_TIME + maxrenttime);
+        sender.sendMessage(Messages.REGION_INFO_MAX_RENT_TIME + maxrenttime);
     }
 
     @Override

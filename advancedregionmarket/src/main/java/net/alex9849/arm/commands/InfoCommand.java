@@ -1,12 +1,10 @@
 package net.alex9849.arm.commands;
 
 import net.alex9849.arm.AdvancedRegionMarket;
-import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regions.Region;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -14,64 +12,38 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class InfoCommand implements BasicArmCommand {
-    private final String rootCommand = "info";
-    private final String regex = "(?i)info";
+public class InfoCommand extends BasicArmCommand {
     private final String regex_with_args = "(?i)info [^;\n ]+";
-    private final List<String> usage = new ArrayList<>(Arrays.asList("info [REGION]", "info"));
 
-    @Override
-    public boolean matchesRegex(String command) {
-        return command.matches(this.regex) || command.matches(this.regex_with_args);
+    public InfoCommand() {
+        super(false, "info",
+                Arrays.asList("(?i)info", "(?i)info [^;\n ]+"),
+                Arrays.asList("info [REGION]", "info"),
+                Arrays.asList(Permission.MEMBER_INFO, Permission.ADMIN_INFO));
     }
 
     @Override
-    public String getRootCommand() {
-        return this.rootCommand;
-    }
-
-    @Override
-    public List<String> getUsage() {
-        return this.usage;
-    }
-
-    @Override
-    public boolean runCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args, String allargs) throws InputException {
-        if (!(sender instanceof Player)) {
-            throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
-        }
+    protected boolean runCommandLogic(CommandSender sender, String command, String commandLabel) throws InputException {
         Player player = (Player) sender;
 
-        if (!player.hasPermission(Permission.MEMBER_INFO) && !player.hasPermission(Permission.ADMIN_INFO)) {
-            throw new InputException(player, Messages.NO_PERMISSION);
-        }
-
         Region selectedRegion;
-        if (allargs.matches(this.regex)) {
-            selectedRegion = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, "");
+        if (command.matches(this.regex_with_args)) {
+            selectedRegion = AdvancedRegionMarket.getInstance().getRegionManager()
+                    .getRegionAtPositionOrNameCommand(player, command.split(" ")[1]);
         } else {
-            selectedRegion = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, args[1]);
+            selectedRegion = AdvancedRegionMarket.getInstance()
+                    .getRegionManager().getRegionAtPositionOrNameCommand(player, "");
         }
         selectedRegion.regionInfo(player);
         return true;
     }
 
     @Override
-    public List<String> onTabComplete(Player player, String[] args) {
-        List<String> returnme = new ArrayList<>();
-
-        if (args.length >= 1) {
-            if (this.rootCommand.startsWith(args[0])) {
-                if (player.hasPermission(Permission.ADMIN_INFO) || player.hasPermission(Permission.MEMBER_INFO)) {
-                    if (args.length == 1) {
-                        returnme.add(this.rootCommand);
-                    } else if (args.length == 2 && (args[0].equalsIgnoreCase(this.rootCommand))) {
-                        returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true, true));
-                    }
-                }
-            }
+    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+        if(args.length != 2) {
+            return new ArrayList<>();
         }
-
-        return returnme;
+        return AdvancedRegionMarket.getInstance().getRegionManager()
+                .completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true, true);
     }
 }

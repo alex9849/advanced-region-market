@@ -17,6 +17,17 @@ public class ArmSettings {
     private boolean removeEntitiesOnRegionBlockReset = true;
     private boolean activateRegionKindPermissions = false;
     private boolean createBackupOnRegionUnsell = true;
+    private int paybackPercentage = 100;
+
+
+    public int getPaybackPercentage() {
+        return paybackPercentage;
+    }
+
+    public void setPaybackPercentage(int paybackPercentage) {
+        this.paybackPercentage = paybackPercentage;
+    }
+
 
     public boolean isCreateBackupOnRegionUnsell() {
         return createBackupOnRegionUnsell;

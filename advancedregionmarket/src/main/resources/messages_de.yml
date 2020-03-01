@@ -146,6 +146,8 @@ Messages:
     die autoRestore Option für alle Subregionen in der config.yml einstellen!'
   SubregionIsUserResettableError: '&4Die ausgewählte Region ist eine Subregion. Du
     kannst die isUserResettable Option für alle Subregionen in der config.yml einstellen!'
+  SubregionPaybackPercentageError: '&4Die ausgewählte Region ist eine Subregion. Du
+    kannst die paybackPercentage Option für alle Subregionen in der config.yml einstellen!'
   SubregionRegionkindError: '&4Die ausgewählte Region ist eine Subregion. Du kannst
     den für Subregionen nicht ändern! Du kannst allerdings den RegionKind editieren
     und umbenennen!'
@@ -535,7 +537,6 @@ Messages:
   RegionKindInfoMaterial: '&6Material: %regionkinditem%'
   RegionKindInfoDisplayInGui: '&6In Regionfinder anzeigen: %regionkinddisplayingui%'
   RegionKindInfoDisplayInLimits: '&6In Limits anzeigen: %regionkinddisplayinlimits%'
-  RegionKindInfoPaybackPercentage: '&6Rückzahlbetrag in %: %paypackpercentage%'
   RegionKindInfoLore: '&6Beschreibung:'
   RegionKindHelpHeadline: |-
     &6=====[AdvancedRegionMarket RegionKind Hilfe ]=====
@@ -602,6 +603,7 @@ Messages:
   - '&9InactivityReset in: &e%inactivityresetin-countdown-short%'
   - '&9Übernahme möglich in: &e%takeoverin-countdown-short%'
   - '&9Rückspielen bei Ablauf: &e%isautorestore% &9Autopreis: &e%autoprice%'
+  - '&9Rückzahlbetrag in %: %paypackpercentage%'
   - '&9Erlaubre Unterregionen: &e%subregionlimit%'
   - '&9Unterregionen: &e%subregions%'
   RegionInfoRentregionAdmin:
@@ -620,6 +622,7 @@ Messages:
   - '&9InactivityReset in: &e%inactivityresetin-countdown-short%'
   - '&9Übernahme möglich in: &e%takeoverin-countdown-short%'
   - '&9Rückspielen bei Ablauf: &e%isautorestore% &9Autopreis: &e%autoprice%'
+  - '&9Rückzahlbetrag in %: %paypackpercentage%'
   - '&9Erlaubre Unterregionen: &e%subregionlimit%'
   - '&9Unterregionen: &e%subregions%'
   RegionInfoContractregionAdmin:
@@ -638,6 +641,7 @@ Messages:
   - '&9InactivityReset in: &e%inactivityresetin-countdown-short%'
   - '&9Übernahme möglich in: &e%takeoverin-countdown-short%'
   - '&9Rückspielen bei Ablauf: &e%isautorestore% &9Autopreis: &e%autoprice%'
+  - '&9Rückzahlbetrag in %: %paypackpercentage%'
   - '&9Erlaubre Unterregionen: &e%subregionlimit%'
   - '&9Unterregionen: &e%subregions%'
   RegionInfoSellregionUser:
@@ -655,6 +659,7 @@ Messages:
   - '&9InactivityReset in: &e%inactivityresetin-countdown-short%'
   - '&9Übernahme möglich in: &e%takeoverin-countdown-short%'
   - '&9Rückspielen bei Ablauf: &e%isautorestore% &9Autopreis: &e%autoprice%'
+  - '&9Rückzahlbetrag in %: %paypackpercentage%'
   - '&9Erlaubre Unterregionen: &e%subregionlimit%'
   - '&9Unterregionen: &e%subregions%'
   RegionInfoRentregionUser:
@@ -673,6 +678,7 @@ Messages:
   - '&9InactivityReset in: &e%inactivityresetin-countdown-short%'
   - '&9Übernahme möglich in: &e%takeoverin-countdown-short%'
   - '&9Rückspielen bei Ablauf: &e%isautorestore% &9Autopreis: &e%autoprice%'
+  - '&9Rückzahlbetrag in %: %paypackpercentage%'
   - '&9Erlaubre Unterregionen: &e%subregionlimit%'
   - '&9Unterregionen: &e%subregions%'
   RegionInfoContractregionUser:
@@ -691,6 +697,7 @@ Messages:
   - '&9InactivityReset in: &e%inactivityresetin-countdown-short%'
   - '&9Übernahme möglich in: &e%takeoverin-countdown-short%'
   - '&9Rückspielen bei Ablauf: &e%isautorestore% &9Autopreis: &e%autoprice%'
+  - '&9Rückzahlbetrag in %: %paypackpercentage%'
   - '&9Erlaubre Unterregionen: &e%subregionlimit%'
   - '&9Unterregionen: &e%subregions%'
   RegionInfoSellregionSubregion:
@@ -708,6 +715,7 @@ Messages:
   - '&9InactivityReset in: &e%inactivityresetin-countdown-short%'
   - '&9Übernahme möglich in: &e%takeoverin-countdown-short%'
   - '&9Rückspielen bei Ablauf: &e%isautorestore% &9Autopreis: &e%autoprice%'
+  - '&9Rückzahlbetrag in %: %paypackpercentage%'
   - '&9Erlaubre Unterregionen: &e%subregionlimit%'
   - '&9Unterregionen: &e%subregions%'
   RegionInfoRentregionSubregion:
@@ -726,6 +734,7 @@ Messages:
   - '&9InactivityReset in: &e%inactivityresetin-countdown-short%'
   - '&9Übernahme möglich in: &e%takeoverin-countdown-short%'
   - '&9Rückspielen bei Ablauf: &e%isautorestore% &9Autopreis: &e%autoprice%'
+  - '&9Rückzahlbetrag in %: %paypackpercentage%'
   RegionInfoContractregionSubregion:
   - '&6=========[Region Info]========='
   - '&9ID: &e%regionid% &7(Typ: &r%selltype%&7, Subregion)'
@@ -742,3 +751,4 @@ Messages:
   - '&9InactivityReset in: &e%inactivityresetin-countdown-short%'
   - '&9Übernahme möglich in: &e%takeoverin-countdown-short%'
   - '&9Rückspielen bei Ablauf: &e%isautorestore% &9Autopreis: &e%autoprice%'
+  - '&9Rückzahlbetrag in %: %paypackpercentage%'

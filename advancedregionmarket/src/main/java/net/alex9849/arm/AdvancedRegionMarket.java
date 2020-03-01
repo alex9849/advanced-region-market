@@ -239,6 +239,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         this.pluginSettings.setCreateBackupOnRegionRestore(getConfig().getBoolean("Backups.createBackupOnRegionRestore"));
         this.pluginSettings.setCreateBackupOnRegionUnsell(getConfig().getBoolean("Backups.createBackupOnRegionUnsell"));
         this.pluginSettings.setMaxSubRegionMembers(getConfig().getInt("Subregions.SubregionMaxMembers"));
+        this.pluginSettings.setMaxSubRegionMembers(getConfig().getInt("Subregions.SubregionPaybackPercentage"));
         FlagGroup.setFeatureEnabled(getConfig().getBoolean("FlagGroups.enabled"));
 
         try {
@@ -291,6 +292,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         commands.add(new ResetCommand());
         commands.add(new SetOwnerCommand());
         commands.add(new SetRegionKind());
+        commands.add(new SetPaybackPercentageCommand());
         commands.add(new SetWarpCommand());
         commands.add(new TerminateCommand());
         commands.add(new ListRegionsCommand());
@@ -335,7 +337,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
         regionKindCommands.add(new net.alex9849.arm.regionkind.commands.InfoCommand());
         regionKindCommands.add(new RemoveLoreLineCommand());
         regionKindCommands.add(new SetDisplayNameCommand());
-        regionKindCommands.add(new SetPaybackPercentage());
         commands.add(new CommandSplitter("regionkind", regionKindUsage, Permission.REGIONKIND_HELP, Messages.REGIONKIND_HELP_HEADLINE, regionKindCommands));
 
         List<String> subRegionUsage = new ArrayList<>(Arrays.asList("subregion [SETTING]", "subregion help"));

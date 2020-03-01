@@ -29,9 +29,10 @@ public class SellRegion extends Region {
 
     public SellRegion(WGRegion region, World regionworld, List<SignData> sellsign, Price price, Boolean sold, Boolean inactivityReset, Boolean allowOnlyNewBlocks,
                       Boolean doBlockReset, RegionKind regionKind, FlagGroup flagGroup, Location teleportLoc, long lastreset, long lastLogin, boolean isUserRestorable, List<Region> subregions,
-                      int allowedSubregions, EntityLimitGroup entityLimitGroup, HashMap<EntityLimit.LimitableEntityType, Integer> extraEntitys, int boughtExtraTotalEntitys, int maxMembers) {
+                      int allowedSubregions, EntityLimitGroup entityLimitGroup, HashMap<EntityLimit.LimitableEntityType, Integer> extraEntitys, int boughtExtraTotalEntitys, int maxMembers,
+                      int paybackPercentage) {
         super(region, regionworld, sellsign, price, sold, inactivityReset, allowOnlyNewBlocks, doBlockReset, regionKind, flagGroup, teleportLoc, lastreset, lastLogin, isUserRestorable,
-                subregions, allowedSubregions, entityLimitGroup, extraEntitys, boughtExtraTotalEntitys, maxMembers);
+                subregions, allowedSubregions, entityLimitGroup, extraEntitys, boughtExtraTotalEntitys, maxMembers, paybackPercentage);
     }
 
     @Override
@@ -126,7 +127,7 @@ public class SellRegion extends Region {
 
     @Override
     public double getPaybackMoney() {
-        double money = (this.getPrice() * this.getRegionKind().getPaybackPercentage()) / 100;
+        double money = (this.getPrice() * this.getPaybackPercentage()) / 100;
         if (money > 0) {
             return money;
         } else {

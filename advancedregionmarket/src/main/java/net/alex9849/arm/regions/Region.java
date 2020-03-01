@@ -61,6 +61,7 @@ public abstract class Region implements Saveable {
     private int extraTotalEntitys;
     private StringReplacer stringReplacer;
     private int maxMembers;
+    private int paybackPercentage;
 
     {
         HashMap<String, StringCreator> variableReplacements = new HashMap<>();
@@ -110,6 +111,9 @@ public abstract class Region implements Saveable {
         });
         variableReplacements.put("%paybackmoney%", () -> {
             return Price.formatPrice(this.getPaybackMoney());
+        });
+        variableReplacements.put("%paypackpercentage%", () -> {
+            return this.getPaybackPercentage() + "";
         });
         variableReplacements.put("%currency%", () -> {
             return Messages.CURRENCY;
@@ -219,7 +223,7 @@ public abstract class Region implements Saveable {
     public Region(WGRegion region, World regionworld, List<SignData> sellsign, Price price, Boolean sold, Boolean inactivityReset,
                   Boolean isHotel, Boolean isAutoRestore, RegionKind regionKind, FlagGroup flagGroup, Location teleportLoc, long lastreset,
                   long lastLogin, boolean isUserRestorable, List<Region> subregions, int allowedSubregions, EntityLimitGroup entityLimitGroup,
-                  HashMap<EntityLimit.LimitableEntityType, Integer> extraEntitys, int boughtExtraTotalEntitys, int maxMembers) {
+                  HashMap<EntityLimit.LimitableEntityType, Integer> extraEntitys, int boughtExtraTotalEntitys, int maxMembers, int paybackPercentage) {
         this.region = region;
         this.sellsign = new ArrayList<SignData>(sellsign);
         this.sold = sold;
@@ -242,6 +246,7 @@ public abstract class Region implements Saveable {
         this.extraEntitys = extraEntitys;
         this.extraTotalEntitys = boughtExtraTotalEntitys;
         this.maxMembers = maxMembers;
+        this.paybackPercentage = paybackPercentage;
 
         for (Region subregion : subregions) {
             subregion.setParentRegion(this);
@@ -403,6 +408,15 @@ public abstract class Region implements Saveable {
             }
         }
         return false;
+    }
+
+    public int getPaybackPercentage() {
+        return paybackPercentage;
+    }
+
+    public void setPaybackPercentage(int paybackPercentage) {
+        this.paybackPercentage = paybackPercentage;
+        this.queueSave();
     }
 
     public WGRegion getRegion() {
@@ -1144,6 +1158,7 @@ public abstract class Region implements Saveable {
     public ConfigurationSection toConfigurationSection() {
         YamlConfiguration yamlConfiguration = new YamlConfiguration();
         yamlConfiguration.set("sold", this.isSold());
+        yamlConfiguration.set("paybackPercentage", this.getPaybackPercentage());
         yamlConfiguration.set("isHotel", this.isHotel());
         yamlConfiguration.set("lastreset", this.getLastreset());
         yamlConfiguration.set("lastLogin", this.getLastLogin());

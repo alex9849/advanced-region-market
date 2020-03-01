@@ -198,6 +198,7 @@ Subregions:
   SubregionAutoRestore: false
   SubregionMaxMembers: -1
   SubregionInactivityReset: true
+  SubregionPaybackPercentage: 0
   deleteSubregionsOnParentRegionUnsell: false
   deleteSubregionsOnParentRegionRestore: false
   allowParentRegionOwnersBuildOnSubregions: true

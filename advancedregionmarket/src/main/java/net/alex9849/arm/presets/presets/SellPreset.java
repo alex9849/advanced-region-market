@@ -22,9 +22,9 @@ public class SellPreset extends Preset {
     public SellPreset(String name, boolean hasPrice, double price, RegionKind regionKind, FlagGroup flagGroup,
                       boolean inactivityReset, boolean isHotel, boolean doBlockReset, boolean isUserRestorable,
                       int allowedSubregions, AutoPrice autoPrice, EntityLimitGroup entityLimitGroup,
-                      List<String> setupCommands, int maxMembers) {
+                      List<String> setupCommands, int maxMembers, int paybackPercentage) {
         super(name, hasPrice, price, regionKind, flagGroup, inactivityReset, isHotel, doBlockReset, isUserRestorable,
-                allowedSubregions, autoPrice, entityLimitGroup, setupCommands, maxMembers);
+                allowedSubregions, autoPrice, entityLimitGroup, setupCommands, maxMembers, paybackPercentage);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class SellPreset extends Preset {
         return new SellPreset(this.getName(), this.hasPrice(), this.getPrice(), this.getRegionKind(),
                 this.getFlagGroup(), this.isInactivityReset(), this.isHotel(), this.isAutoRestore(),
                 this.isUserRestorable(), this.getAllowedSubregions(), this.getAutoPrice(),
-                this.getEntityLimitGroup(), newsetupCommands, this.getMaxMembers());
+                this.getEntityLimitGroup(), newsetupCommands, this.getMaxMembers(), this.getPaybackPercentage());
     }
 
     @Override
@@ -60,7 +60,7 @@ public class SellPreset extends Preset {
                 this.getRegionKind(), this.getFlagGroup(), null, 0,
                 new GregorianCalendar().getTimeInMillis(), this.isUserRestorable(), new ArrayList<>(),
                 this.getAllowedSubregions(), this.getEntityLimitGroup(), new HashMap<>(), 0,
-                this.getMaxMembers());
+                this.getMaxMembers(), this.getPaybackPercentage());
 
         if (this.hasAutoPrice()) {
             sellRegion.setPrice(new Price(this.getAutoPrice()));

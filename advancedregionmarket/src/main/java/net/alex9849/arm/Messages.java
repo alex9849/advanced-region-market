@@ -267,6 +267,7 @@ public class Messages {
     public static String ENTITYTYPE_DOES_NOT_EXIST = "&4The entitytype &6%entitytype% &4 does not exist!";
     public static String ENTITYLIMITGROUP_DOES_NOT_CONTAIN_ENTITYLIMIT = "&4The selected EntityLimitGroup does not contain the selected EntityType";
     public static String ENTITYLIMIT_TOTAL = "Total";
+    public static String SUB_REGION_PAYBACKPERCENTAGE_ERROR = "";
     public static String ENTITYLIMIT_CHECK_HEADLINE = "===[EntityLimitCheck for %regionid%]===";
     public static String ENTITYLIMIT_CHECK_PATTERN = "&6%entitytype%: &a(&r%actualentities%&a/&r%softlimitentities%&a) %entityextensioninfo%";
     public static String ENTITYLIMIT_CHECK_EXTENSION_INFO = "\n&6&o--> Limit extendable up to &r%hardlimitentities% &6entities for &r%priceperextraentity% %currency%&6/entity";
@@ -311,7 +312,6 @@ public class Messages {
     public static String REGIONKIND_INFO_MATERIAL = "&6Material: %regionkinditem%";
     public static String REGIONKIND_INFO_DISPLAY_IN_GUI = "&6DisplayInGui: %regionkinddisplayingui%";
     public static String REGIONKIND_INFO_DISPLAY_IN_LIMITS = "&6DisplayInLimits: %regionkinddisplayinlimits%";
-    public static String REGIONKIND_INFO_PAYBACKPERCENTAGE = "&6PaybackPercentage: %paypackpercentage%";
     public static String REGIONKIND_INFO_LORE = "&6Lore:";
     public static String REGIONKIND_HELP_HEADLINE = "&6=====[AdvancedRegionMarket RegionKind Help ]=====\n&3Page %actualpage% / %maxpage%";
     public static String PLAYER_NOT_FOUND = "&4Could not find selected player!";
@@ -577,6 +577,7 @@ public class Messages {
         REGION_NOT_RESETTABLE = config.getString("Messages.RegionNotResettable");
         REGION_SELECTED_MULTIPLE_REGIONS = config.getString("Messages.RegionSelectedMultipleRegions");
         SUB_REGION_REGIONKIND_ERROR = config.getString("Messages.SubregionRegionkindError");
+        SUB_REGION_PAYBACKPERCENTAGE_ERROR = config.getString("Messages.SubregionPaybackPercentageError");
         SUB_REGION_REGIONKIND_ONLY_FOR_SUB_REGIONS = config.getString("Messages.SubRegionRegionkindOnlyForSubregions");
         SUB_REGION_TELEPORT_LOCATION_ERROR = config.getString("Messages.SubregionTeleportLocationError");
         REGION_NOT_REGISTRED = config.getString("Messages.RegionNotRegistred");
@@ -699,7 +700,6 @@ public class Messages {
         REGIONKIND_INFO_MATERIAL = config.getString("Messages.RegionKindInfoMaterial");
         REGIONKIND_INFO_DISPLAY_IN_GUI = config.getString("Messages.RegionKindInfoDisplayInGui");
         REGIONKIND_INFO_DISPLAY_IN_LIMITS = config.getString("Messages.RegionKindInfoDisplayInLimits");
-        REGIONKIND_INFO_PAYBACKPERCENTAGE = config.getString("Messages.RegionKindInfoPaybackPercentage");
         REGIONKIND_INFO_LORE = config.getString("Messages.RegionKindInfoLore");
         REGIONKIND_HELP_HEADLINE = config.getString("Messages.RegionKindHelpHeadline");
         PLAYER_NOT_FOUND = config.getString("Messages.PlayerNotFound");
@@ -826,6 +826,7 @@ public class Messages {
         RESET_REGION_COOLDOWN_ERROR = ChatColor.translateAlternateColorCodes('&', RESET_REGION_COOLDOWN_ERROR);
         GUI_TAKEOVER_MENU_NAME = ChatColor.translateAlternateColorCodes('&', GUI_TAKEOVER_MENU_NAME);
         REGION_TRANSFER_COMPLETE_MESSAGE = ChatColor.translateAlternateColorCodes('&', REGION_TRANSFER_COMPLETE_MESSAGE);
+        SUB_REGION_PAYBACKPERCENTAGE_ERROR = ChatColor.translateAlternateColorCodes('&', SUB_REGION_PAYBACKPERCENTAGE_ERROR);
         GUI_CLOSE = ChatColor.translateAlternateColorCodes('&', GUI_CLOSE);
         RENT_SIGN1 = ChatColor.translateAlternateColorCodes('&', RENT_SIGN1);
         RENT_SIGN2 = ChatColor.translateAlternateColorCodes('&', RENT_SIGN2);
@@ -1048,7 +1049,6 @@ public class Messages {
         REGIONKIND_INFO_MATERIAL = ChatColor.translateAlternateColorCodes('&', REGIONKIND_INFO_MATERIAL);
         REGIONKIND_INFO_DISPLAY_IN_GUI = ChatColor.translateAlternateColorCodes('&', REGIONKIND_INFO_DISPLAY_IN_GUI);
         REGIONKIND_INFO_DISPLAY_IN_LIMITS = ChatColor.translateAlternateColorCodes('&', REGIONKIND_INFO_DISPLAY_IN_LIMITS);
-        REGIONKIND_INFO_PAYBACKPERCENTAGE = ChatColor.translateAlternateColorCodes('&', REGIONKIND_INFO_PAYBACKPERCENTAGE);
         REGIONKIND_INFO_LORE = ChatColor.translateAlternateColorCodes('&', REGIONKIND_INFO_LORE);
         REGIONKIND_HELP_HEADLINE = ChatColor.translateAlternateColorCodes('&', REGIONKIND_HELP_HEADLINE);
         PLAYER_NOT_FOUND = ChatColor.translateAlternateColorCodes('&', PLAYER_NOT_FOUND);

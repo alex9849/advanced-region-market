@@ -36,11 +36,12 @@ public abstract class Preset implements Saveable {
     private List<String> setupCommands = new ArrayList<>();
     private boolean needsSave = false;
     private int maxMembers = -1;
+    private int paybackPercentage = 50;
 
     public Preset(String name, boolean hasPrice, double price, RegionKind regionKind, FlagGroup flagGroup,
                   boolean inactivityReset, boolean isHotel, boolean autoRestore, boolean isUserRestorable,
                   int allowedSubregions, AutoPrice autoPrice, EntityLimitGroup entityLimitGroup,
-                  List<String> setupCommands, int maxMembers) {
+                  List<String> setupCommands, int maxMembers, int paybackPercentage) {
         this.name = name;
         this.hasPrice = hasPrice;
         this.price = price;
@@ -56,6 +57,15 @@ public abstract class Preset implements Saveable {
         this.entityLimitGroup = entityLimitGroup;
         this.needsSave = false;
         this.maxMembers = maxMembers;
+        this.paybackPercentage = paybackPercentage;
+    }
+
+    public int getPaybackPercentage() {
+        return paybackPercentage;
+    }
+
+    public void setPaybackPercentage(int paybackPercentage) {
+        this.paybackPercentage = paybackPercentage;
     }
 
     public String getName() {
@@ -292,6 +302,7 @@ public abstract class Preset implements Saveable {
         section.set("regionKind", this.getRegionKind().getName());
         section.set("isHotel", this.isHotel());
         section.set("autorestore", this.isAutoRestore());
+        section.set("paybackPercentage", this.getPaybackPercentage());
         section.set("maxMembers", this.getMaxMembers());
         section.set("flaggroup", this.flagGroup.getName());
         section.set("entityLimitGroup", this.getEntityLimitGroup().getName());

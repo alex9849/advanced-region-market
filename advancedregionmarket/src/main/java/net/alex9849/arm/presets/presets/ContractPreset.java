@@ -28,9 +28,10 @@ public class ContractPreset extends Preset {
     public ContractPreset(String name, boolean hasPrice, double price, RegionKind regionKind, FlagGroup flagGroup,
                           boolean inactivityReset, boolean isHotel, boolean doBlockReset, boolean hasExtend,
                           long extend, boolean isUserRestorable, int allowedSubregions, AutoPrice autoPrice,
-                          EntityLimitGroup entityLimitGroup, List<String> setupCommands, int maxMembers) {
+                          EntityLimitGroup entityLimitGroup, List<String> setupCommands, int maxMembers,
+                          int paybackPercentage) {
         super(name, hasPrice, price, regionKind, flagGroup, inactivityReset, isHotel, doBlockReset, isUserRestorable,
-                allowedSubregions, autoPrice, entityLimitGroup, setupCommands, maxMembers);
+                allowedSubregions, autoPrice, entityLimitGroup, setupCommands, maxMembers, paybackPercentage);
         this.hasExtendTime = hasExtend;
         this.extendTime = extend;
     }
@@ -44,7 +45,7 @@ public class ContractPreset extends Preset {
                 this.getFlagGroup(), this.isInactivityReset(), this.isHotel(), this.isAutoRestore(),
                 this.hasExtendTime(), this.getExtendTime(), this.isUserRestorable(),
                 this.getAllowedSubregions(), this.getAutoPrice(), this.getEntityLimitGroup(), newsetupCommands,
-                this.getMaxMembers());
+                this.getMaxMembers(), this.getPaybackPercentage());
     }
 
     public boolean hasExtendTime() {
@@ -137,7 +138,7 @@ public class ContractPreset extends Preset {
                 null, 0, new GregorianCalendar().getTimeInMillis(),
                 this.isUserRestorable(), 1, true, new ArrayList<>(),
                 this.getAllowedSubregions(), this.getEntityLimitGroup(), new HashMap<>(), 0,
-                getMaxMembers());
+                this.getMaxMembers(), this.getPaybackPercentage());
 
         if (this.hasAutoPrice()) {
             contractRegion.setPrice(new ContractPrice(this.getAutoPrice()));

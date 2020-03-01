@@ -14,6 +14,7 @@ public class Permission {
     public static final String ADMIN_SET_MAX_MEMBERS = "arm.admin.setmaxmembers";
     public static final String ADMIN_SET_AUTORESTORE = "arm.admin.setautorestore";
     public static final String ADMIN_SETREGIONKIND = "arm.admin.setregionkind";
+    public static final String ADMIN_SET_PAYBACKPERCENTAGE = "arm.admin.setpaybackpercentage";
     public static final String ADMIN_LISTREGIONS = "arm.admin.listregions";
     public static final String ADMIN_RESETREGION = "arm.admin.resetregion";
     public static final String ADMIN_RESTORE = "arm.admin.restore";
@@ -28,7 +29,6 @@ public class Permission {
     public static final String ADMIN_DELETEREGION = "arm.admin.deleteregion";
     public static final String ADMIN_EXTEND = "arm.admin.extend";
     public static final String ADMIN_RELOAD = "arm.admin.reload";
-    public static final String ADMIN_PRESET = "arm.admin.preset";
     public static final String ADMIN_LIST_BACKUPS = "arm.admin.listbackups";
     public static final String ADMIN_RESTORE_BACKUP = "arm.admin.restorebackup";
     public static final String ADMIN_CREATE_BACKUP = "arm.admin.createbackup";
@@ -66,8 +66,6 @@ public class Permission {
     public static final String ADMIN_SET_FLAGGROUP = "arm.admin.setflaggroup";
     public static final String ADMIN_PRESET_SET_FLAGGROUP = "arm.admin.preset.flaggroup";
     public static final String ADMIN_SUBREGION_CREATE_ON_UNOWNED_REGIONS = "arm.admin.subregion.createonunowned";
-    public static final String ADMIN_FLAGGROUP_CREATE = "arm.admin.flaggroup.create";
-    public static final String ADMIN_FLAGGROUP_DELETE = "arm.admin.flaggroup.delete";
 
     public static final String ADMIN_ENTITYLIMIT_CREATE = "arm.admin.entitylimit.create";
     public static final String ADMIN_ENTITYLIMIT_DELETE = "arm.admin.entitylimit.delete";
@@ -98,7 +96,6 @@ public class Permission {
     public static final String REGIONKIND_SET_DISPLAY_IN_REGIONFINDER = "arm.admin.regionkind.setdisplayinregionfinder";
     public static final String REGIONKIND_SET_DISPLAY_IN_LIMITS = "arm.admin.regionkind.setdisplayinlimits";
     public static final String REGIONKIND_SET_ITEM = "arm.admin.regionkind.setitem";
-    public static final String REGIONKIND_SET_PAYBACKPERCENTAGE = "arm.admin.regionkind.setpaybackpercentage";
     public static final String REGIONKIND_SET_DISPLAYNAME = "arm.admin.regionkind.setdisplayname";
     public static final String REGIONKIND_REMOVE_LORE_LINE = "arm.admin.regionkind.removeloreline";
     public static final String REGIONKIND_ADD_LORE_LINE = "arm.admin.regionkind.addloreline";

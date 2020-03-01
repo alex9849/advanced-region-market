@@ -66,10 +66,10 @@ public abstract class CountdownRegion extends Region {
                            long lastLogin, boolean isUserRestorable, long payedTill, List<Region> subregions,
                            int allowedSubregions, EntityLimitGroup entityLimitGroup,
                            HashMap<EntityLimit.LimitableEntityType, Integer> extraEntitys, int boughtExtraTotalEntitys,
-                           int maxMembers) {
+                           int maxMembers, int paybackPercentage) {
         super(region, regionworld, contractsign, contractPrice, sold, inactivityReset, isHotel, doBlockReset, regionKind,
                 flagGroup, teleportLoc, lastreset, lastLogin, isUserRestorable, subregions, allowedSubregions,
-                entityLimitGroup, extraEntitys, boughtExtraTotalEntitys, maxMembers);
+                entityLimitGroup, extraEntitys, boughtExtraTotalEntitys, maxMembers, paybackPercentage);
         this.payedTill = payedTill;
         this.extendTime = contractPrice.getExtendTime();
         if (this.extendTime < 1000) {
@@ -164,7 +164,7 @@ public abstract class CountdownRegion extends Region {
 
     @Override
     public double getPaybackMoney() {
-        double amount = (this.getPrice() * this.getRegionKind().getPaybackPercentage()) / 100;
+        double amount = (this.getPrice() * this.getPaybackPercentage()) / 100;
         GregorianCalendar acttime = new GregorianCalendar();
         long remaining = this.payedTill - acttime.getTimeInMillis();
         amount = amount * ((double) remaining / (double) extendTime);

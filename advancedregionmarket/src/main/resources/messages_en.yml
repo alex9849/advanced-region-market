@@ -134,6 +134,8 @@ Messages:
     the maxMember setting for all subregions in the config.yml!'
   SubregionRegionkindError: '&4The selected region is a subregion. You can edit the
     regionkind for all subregions in the config.yml!'
+  SubregionPaybackPercentageError: '&4The selected region is a subregion. You can edit the
+    paybackPercentage for all subregions in the config.yml!'
   SubRegionRegionkindOnlyForSubregions: '&4Subregion regionkind only for subregions!'
   SubregionTeleportLocationError: '&4The selected region is a subregion. Teleport
     location can not be changed'
@@ -493,7 +495,6 @@ Messages:
   RegionKindInfoMaterial: '&6Material: %regionkinditem%'
   RegionKindInfoDisplayInGui: '&6DisplayInGui: %regionkinddisplayingui%'
   RegionKindInfoDisplayInLimits: '&6DisplayInLimits: %regionkinddisplayinlimits%'
-  RegionKindInfoPaybackPercentage: '&6PaybackPercentage: %paypackpercentage%'
   RegionKindInfoLore: '&6Lore:'
   RegionKindHelpHeadline: |-
     &6=====[AdvancedRegionMarket RegionKind Help ]=====
@@ -567,6 +568,7 @@ Messages:
   - '&9InactivityReset in: &e%inactivityresetin-countdown-short%'
   - '&9TakeOver possible in: &e%takeoverin-countdown-short%'
   - '&9AutoRestore: &e%isautorestore% &9Autoprice: &e%autoprice%'
+  - '&9PaybackPercentage in %: %paypackpercentage%'
   - '&9Allowed Subregions: &e%subregionlimit%'
   - '&9Subregions: &e%subregions%'
   RegionInfoRentregionAdmin:
@@ -585,6 +587,7 @@ Messages:
   - '&9InactivityReset in: &e%inactivityresetin-countdown-short%'
   - '&9TakeOver possible in: &e%takeoverin-countdown-short%'
   - '&9AutoRestore: &e%isautorestore% &9Autoprice: &e%autoprice%'
+  - '&9PaybackPercentage in %: %paypackpercentage%'
   - '&9Allowed Subregions: &e%subregionlimit%'
   - '&9Subregions: &e%subregions%'
   RegionInfoContractregionAdmin:
@@ -603,6 +606,7 @@ Messages:
   - '&9InactivityReset in: &e%inactivityresetin-countdown-short%'
   - '&9TakeOver possible in: &e%takeoverin-countdown-short%'
   - '&9AutoRestore: &e%isautorestore% &9Autoprice: &e%autoprice%'
+  - '&9PaybackPercentage in %: %paypackpercentage%'
   - '&9Allowed Subregions: &e%subregionlimit%'
   - '&9Subregions: &e%subregions%'
   RegionInfoSellregionUser:
@@ -620,6 +624,7 @@ Messages:
   - '&9InactivityReset in: &e%inactivityresetin-countdown-short%'
   - '&9TakeOver possible in: &e%takeoverin-countdown-short%'
   - '&9AutoRestore: &e%isautorestore% &9Autoprice: &e%autoprice%'
+  - '&9PaybackPercentage in %: %paypackpercentage%'
   - '&9Allowed Subregions: &e%subregionlimit%'
   - '&9Subregions: &e%subregions%'
   RegionInfoRentregionUser:
@@ -638,6 +643,7 @@ Messages:
   - '&9InactivityReset in: &e%inactivityresetin-countdown-short%'
   - '&9TakeOver possible in: &e%takeoverin-countdown-short%'
   - '&9AutoRestore: &e%isautorestore% &9Autoprice: &e%autoprice%'
+  - '&9PaybackPercentage in %: %paypackpercentage%'
   - '&9Allowed Subregions: &e%subregionlimit%'
   - '&9Subregions: &e%subregions%'
   RegionInfoContractregionUser:
@@ -656,6 +662,7 @@ Messages:
   - '&9InactivityReset in: &e%inactivityresetin-countdown-short%'
   - '&9TakeOver possible in: &e%takeoverin-countdown-short%'
   - '&9AutoRestore: &e%isautorestore% &9Autoprice: &e%autoprice%'
+  - '&9PaybackPercentage in %: %paypackpercentage%'
   - '&9Allowed Subregions: &e%subregionlimit%'
   - '&9Subregions: &e%subregions%'
   RegionInfoSellregionSubregion:
@@ -673,6 +680,7 @@ Messages:
   - '&9InactivityReset in: &e%inactivityresetin-countdown-short%'
   - '&9TakeOver possible in: &e%takeoverin-countdown-short%'
   - '&9AutoRestore: &e%isautorestore% &9Autoprice: &e%autoprice%'
+  - '&9PaybackPercentage in %: %paypackpercentage%'
   RegionInfoRentregionSubregion:
   - '&6=========[Region Info]========='
   - '&9ID: &e%regionid% &7(Type: &r%selltype%&7, Subregion)'
@@ -689,6 +697,7 @@ Messages:
   - '&9InactivityReset in: &e%inactivityresetin-countdown-short%'
   - '&9TakeOver possible in: &e%takeoverin-countdown-short%'
   - '&9AutoRestore: &e%isautorestore% &9Autoprice: &e%autoprice%'
+  - '&9PaybackPercentage in %: %paypackpercentage%'
   RegionInfoContractregionSubregion:
   - '&6=========[Region Info]========='
   - '&9ID: &e%regionid% &7(Type: &r%selltype%&7, Subregion)'
@@ -705,3 +714,4 @@ Messages:
   - '&9InactivityReset in: &e%inactivityresetin-countdown-short%'
   - '&9TakeOver possible in: &e%takeoverin-countdown-short%'
   - '&9AutoRestore: &e%isautorestore% &9Autoprice: &e%autoprice%'
+  - '&9PaybackPercentage in %: %paypackpercentage%'

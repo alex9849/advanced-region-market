@@ -18,15 +18,14 @@ import java.util.HashMap;
 import java.util.List;
 
 public class RegionKind implements Saveable {
-    public static RegionKind DEFAULT = new RegionKind("Default", MaterialFinder.getRedBed(), new ArrayList<String>(), "Default", true, true, 50);
-    public static RegionKind SUBREGION = new RegionKind("Subregion", MaterialFinder.getRedBed(), new ArrayList<String>(), "Subregion", false, false, 0);
+    public static RegionKind DEFAULT = new RegionKind("Default", MaterialFinder.getRedBed(), new ArrayList<String>(), "Default", true, true);
+    public static RegionKind SUBREGION = new RegionKind("Subregion", MaterialFinder.getRedBed(), new ArrayList<String>(), "Subregion", false, false);
     private String name;
     private Material material;
     private List<String> lore;
     private String displayName;
     private boolean displayInRegionFinder;
     private boolean displayInLimits;
-    private double paybackPercentage;
     private boolean needsSave;
     private StringReplacer stringReplacer;
 
@@ -41,9 +40,6 @@ public class RegionKind implements Saveable {
         variableReplacements.put("%currency%", () -> {
             return Messages.CURRENCY;
         });
-        variableReplacements.put("%paypackpercentage%", () -> {
-            return this.getPaybackPercentage() + "";
-        });
         variableReplacements.put("%regionkinditem%", () -> {
             return this.getMaterial().toString();
         });
@@ -57,14 +53,13 @@ public class RegionKind implements Saveable {
         this.stringReplacer = new StringReplacer(variableReplacements, 20);
     }
 
-    public RegionKind(String name, Material material, List<String> lore, String displayName, boolean displayInRegionFinder, boolean displayInLimits, double paybackPercentage) {
+    public RegionKind(String name, Material material, List<String> lore, String displayName, boolean displayInRegionFinder, boolean displayInLimits) {
         this.name = name;
         this.material = material;
         this.lore = lore;
         this.displayName = displayName;
         this.displayInRegionFinder = displayInRegionFinder;
         this.displayInLimits = displayInLimits;
-        this.paybackPercentage = paybackPercentage;
         this.needsSave = false;
     }
 
@@ -79,7 +74,7 @@ public class RegionKind implements Saveable {
         }
     }
 
-    public static RegionKind parse(ConfigurationSection confSection, String id) {
+    public static RegionKind parse(ConfigurationSection confSection, String name) {
         Material material = MaterialFinder.getMaterial(confSection.getString("item"));
         if (material == null) {
             material = MaterialFinder.getRedBed();
@@ -87,10 +82,9 @@ public class RegionKind implements Saveable {
         String displayName = confSection.getString("displayName");
         boolean displayInLimits = confSection.getBoolean("displayInLimits");
         boolean displayInRegionfinder = confSection.getBoolean("displayInRegionfinder");
-        double paybackPercentage = confSection.getDouble("paypackPercentage");
         List<String> lore = new ArrayList<>(confSection.getStringList("lore"));
 
-        return new RegionKind(id, material, lore, displayName, displayInRegionfinder, displayInLimits, paybackPercentage);
+        return new RegionKind(name, material, lore, displayName, displayInRegionfinder, displayInLimits);
     }
 
     public String getName() {
@@ -159,15 +153,6 @@ public class RegionKind implements Saveable {
         this.queueSave();
     }
 
-    public double getPaybackPercentage() {
-        return paybackPercentage;
-    }
-
-    public void setPaybackPercentage(double paybackPercentage) {
-        this.paybackPercentage = paybackPercentage;
-        this.queueSave();
-    }
-
     public String getConvertedMessage(String message) {
         return this.stringReplacer.replace(message).toString();
     }
@@ -179,7 +164,6 @@ public class RegionKind implements Saveable {
         confSection.set("displayName", this.getRawDisplayName());
         confSection.set("displayInLimits", this.isDisplayInLimits());
         confSection.set("displayInRegionfinder", this.isDisplayInRegionfinder());
-        confSection.set("paypackPercentage", this.getPaybackPercentage());
         confSection.set("lore", this.getRawLore());
         return confSection;
     }

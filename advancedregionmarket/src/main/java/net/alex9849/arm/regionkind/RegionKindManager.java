@@ -151,7 +151,6 @@ public class RegionKindManager extends YamlFileManager<RegionKind> {
         fileupdated |= this.addDefault(section, "displayName", "Default Displayname");
         fileupdated |= this.addDefault(section, "displayInLimits", true);
         fileupdated |= this.addDefault(section, "displayInGUI", true);
-        fileupdated |= this.addDefault(section, "paypackPercentage", 0d);
         fileupdated |= this.addDefault(section, "lore", new ArrayList<String>(Arrays.asList("Default lore")));
         return fileupdated;
     }

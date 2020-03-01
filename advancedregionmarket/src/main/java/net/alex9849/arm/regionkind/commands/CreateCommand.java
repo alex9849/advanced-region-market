@@ -38,9 +38,8 @@ public class CreateCommand extends BasicArmCommand {
         List<String> lore = new ArrayList<>(Arrays.asList("Default Lore"));
         boolean displayInGui = true;
         boolean displayInLimits = true;
-        double paybackPercentage = 0.5;
 
-        AdvancedRegionMarket.getInstance().getRegionKindManager().add(new RegionKind(internalName, item, lore, displayName, displayInGui, displayInLimits, paybackPercentage));
+        AdvancedRegionMarket.getInstance().getRegionKindManager().add(new RegionKind(internalName, item, lore, displayName, displayInGui, displayInLimits));
         sender.sendMessage(Messages.PREFIX + Messages.REGIONKIND_CREATED);
         return true;
     }

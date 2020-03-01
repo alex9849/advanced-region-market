@@ -73,7 +73,8 @@ public class SubSignCreationListener implements Listener {
                         pluginsSettings.isSubregionAutoRestore(), RegionKind.SUBREGION, FlagGroup.SUBREGION,
                         null, 1, new GregorianCalendar().getTimeInMillis(),
                         pluginsSettings.isAllowSubRegionUserRestore(), new ArrayList<Region>(), 0,
-                        EntityLimitGroup.SUBREGION, new HashMap<>(), 0, pluginsSettings.getMaxSubRegionMembers());
+                        EntityLimitGroup.SUBREGION, new HashMap<>(), 0,
+                        pluginsSettings.getMaxSubRegionMembers(), pluginsSettings.getPaybackPercentage());
                 this.subRegionCreator.saveWorldGuardRegion();
                 event.setCancelled(true);
                 this.subRegionCreator.getParentRegion().addSubRegion(sellRegion);
@@ -126,7 +127,7 @@ public class SubSignCreationListener implements Listener {
                         null, 1, new GregorianCalendar().getTimeInMillis(),
                         pluginsSettings.isAllowSubRegionUserRestore(), 0, new ArrayList<Region>(),
                         0, EntityLimitGroup.SUBREGION, new HashMap<>(), 0,
-                        pluginsSettings.getMaxSubRegionMembers());
+                        pluginsSettings.getMaxSubRegionMembers(), pluginsSettings.getPaybackPercentage());
                 this.subRegionCreator.saveWorldGuardRegion();
                 event.setCancelled(true);
                 this.subRegionCreator.getParentRegion().addSubRegion(rentRegion);
@@ -175,7 +176,8 @@ public class SubSignCreationListener implements Listener {
                         RegionKind.SUBREGION, FlagGroup.SUBREGION, null, 1,
                         new GregorianCalendar().getTimeInMillis(), pluginsSettings.isAllowSubRegionUserRestore(),
                         0, false, new ArrayList<Region>(), 0,
-                        EntityLimitGroup.SUBREGION, new HashMap<>(), 0, pluginsSettings.getMaxSubRegionMembers());
+                        EntityLimitGroup.SUBREGION, new HashMap<>(), 0, pluginsSettings.getMaxSubRegionMembers(),
+                        pluginsSettings.getPaybackPercentage());
                 this.subRegionCreator.saveWorldGuardRegion();
                 event.setCancelled(true);
                 this.subRegionCreator.getParentRegion().addSubRegion(contractRegion);

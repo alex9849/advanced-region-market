@@ -1030,6 +1030,7 @@ public class Updater {
 
     private static void updateTo3p0(FileConfiguration pluginConfig) {
         pluginConfig.set("Subregions.SubregionMaxMembers", -1);
+        pluginConfig.set("Subregions.SubregionPaybackPercentage", 0);
         pluginConfig.set("Version", 3.0);
         AdvancedRegionMarket.getInstance().saveConfig();
     }

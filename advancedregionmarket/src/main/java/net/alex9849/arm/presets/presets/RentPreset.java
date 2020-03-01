@@ -28,10 +28,10 @@ public class RentPreset extends ContractPreset {
                       boolean inactivityReset, boolean isHotel, boolean doBlockReset, boolean hasMaxRentTime,
                       long maxRentTime, boolean hasExtendPerClick, long extendPerClick, boolean isUserRestorable,
                       int allowedSubregions, AutoPrice autoPrice, EntityLimitGroup entityLimitGroup,
-                      List<String> setupCommands, int maxMembers) {
+                      List<String> setupCommands, int maxMembers, int paybackPercentage) {
         super(name, hasPrice, price, regionKind, flagGroup, inactivityReset, isHotel, doBlockReset, hasExtendPerClick,
                 extendPerClick, isUserRestorable, allowedSubregions, autoPrice, entityLimitGroup, setupCommands,
-                maxMembers);
+                maxMembers, paybackPercentage);
         this.hasMaxRentTime = hasMaxRentTime;
         this.maxRentTime = maxRentTime;
     }
@@ -46,7 +46,8 @@ public class RentPreset extends ContractPreset {
                 this.isHotel(), this.isAutoRestore(), this.hasMaxRentTime(),
                 this.getMaxRentTime(), this.hasExtendTime(), this.getExtendTime(),
                 this.isUserRestorable(), this.getAllowedSubregions(),
-                this.getAutoPrice(), this.getEntityLimitGroup(), newsetupCommands, getMaxMembers());
+                this.getAutoPrice(), this.getEntityLimitGroup(), newsetupCommands,
+                this.getMaxMembers(), this.getPaybackPercentage());
     }
 
     @Override
@@ -141,7 +142,7 @@ public class RentPreset extends ContractPreset {
                 this.getRegionKind(), this.getFlagGroup(), null, 0,
                 new GregorianCalendar().getTimeInMillis(), this.isUserRestorable(),
                 1, new ArrayList<>(), this.getAllowedSubregions(), this.getEntityLimitGroup(),
-                new HashMap<>(), 0, this.getMaxMembers());
+                new HashMap<>(), 0, this.getMaxMembers(), this.getPaybackPercentage());
 
         if(this.canPriceLineBeLetEmpty()) {
             if(this.hasAutoPrice()) {

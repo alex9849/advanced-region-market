@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class PaybackPercentage extends PresetOptionModifyCommand<Integer> {
-    public PaybackPercentage(PresetType presetType) {
+public class PaybackPercentageCommand extends PresetOptionModifyCommand<Integer> {
+    public PaybackPercentageCommand(PresetType presetType) {
         super("paybackpercentage",
                 Arrays.asList(Permission.ADMIN_PRESET_SET_PAYBACKPERCENTAGE),
                 "[0-9]+", "[PERCENTAGE]",

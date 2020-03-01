@@ -239,7 +239,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         this.pluginSettings.setCreateBackupOnRegionRestore(getConfig().getBoolean("Backups.createBackupOnRegionRestore"));
         this.pluginSettings.setCreateBackupOnRegionUnsell(getConfig().getBoolean("Backups.createBackupOnRegionUnsell"));
         this.pluginSettings.setMaxSubRegionMembers(getConfig().getInt("Subregions.SubregionMaxMembers"));
-        this.pluginSettings.setMaxSubRegionMembers(getConfig().getInt("Subregions.SubregionPaybackPercentage"));
+        this.pluginSettings.setPaybackPercentage(getConfig().getInt("Subregions.SubregionPaybackPercentage"));
         FlagGroup.setFeatureEnabled(getConfig().getBoolean("FlagGroups.enabled"));
 
         try {

@@ -38,6 +38,7 @@ public class Permission {
     public static final String ADMIN_PRESET_SET_REGIONKIND = "arm.admin.preset.setregionkind";
     public static final String ADMIN_PRESET_SET_INACTIVITYRESET = "arm.admin.preset.setinactivityreset";
     public static final String ADMIN_PRESET_SET_HOTEL = "arm.admin.preset.sethotel";
+    public static final String ADMIN_PRESET_SET_PAYBACKPERCENTAGE = "arm.admin.preset.setpaybackpercentage";
     public static final String ADMIN_PRESET_SET_MAX_MEMBERS = "arm.admin.preset.setmaxmembers";
     public static final String ADMIN_PRESET_SET_AUTORESTORE = "arm.admin.preset.setautorestore";
     public static final String ADMIN_PRESET_SET_AUTOPRICE = "arm.admin.preset.setautoprice";

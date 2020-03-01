@@ -8,6 +8,7 @@ import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.RentRegion;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.price.RentPrice;
+import net.alex9849.arm.util.TimeUtil;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.signs.SignData;
 import org.bukkit.World;
@@ -18,7 +19,6 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class RentPreset extends ContractPreset {
     private boolean hasMaxRentTime = false;
@@ -82,44 +82,13 @@ public class RentPreset extends ContractPreset {
         this.maxRentTime = 0;
     }
 
-    private String longToTime(long time) {
-
-        long remainingDays = TimeUnit.DAYS.convert(time, TimeUnit.MILLISECONDS);
-        time = time - (remainingDays * 1000 * 60 * 60 * 24);
-
-        long remainingHours = TimeUnit.HOURS.convert(time, TimeUnit.MILLISECONDS);
-        time = time - (remainingHours * 1000 * 60 * 60);
-
-        long remainingMinutes = TimeUnit.MINUTES.convert(time, TimeUnit.MILLISECONDS);
-        time = time - (remainingMinutes * 1000 * 60);
-
-        long remainingSeconds = TimeUnit.SECONDS.convert(time, TimeUnit.MILLISECONDS);
-
-
-        String timetoString = "";
-        if (remainingDays != 0) {
-            timetoString = timetoString + remainingDays + "d";
-        }
-        if (remainingHours != 0) {
-            timetoString = timetoString + remainingHours + "h";
-        }
-        if (remainingMinutes != 0) {
-            timetoString = timetoString + remainingMinutes + "m";
-        }
-        if (remainingSeconds != 0) {
-            timetoString = timetoString + remainingSeconds + "s";
-        }
-
-        return timetoString;
-    }
-
 
     @Override
     public void getAdditionalInfo(CommandSender sender) {
         super.getAdditionalInfo(sender);
         String maxrenttime = "not defined";
         if (this.hasMaxRentTime()) {
-            maxrenttime = longToTime(this.getMaxRentTime());
+            maxrenttime = TimeUtil.timeInMsToString(this.getMaxRentTime(), false, false);
         }
         sender.sendMessage(Messages.REGION_INFO_MAX_RENT_TIME + maxrenttime);
     }

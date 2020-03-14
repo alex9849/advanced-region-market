@@ -13,8 +13,6 @@ import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.List;
 
 public class SellPreset extends Preset {
@@ -36,38 +34,22 @@ public class SellPreset extends Preset {
         return PresetType.SELLPRESET;
     }
 
-    public SellPreset getCopy() {
-        List<String> newsetupCommands = new ArrayList<>();
-        for (String cmd : getCommands()) {
-            newsetupCommands.add(cmd);
-        }
-        return new SellPreset(this.getName(), this.hasPrice(), this.getPrice(), this.getRegionKind(),
-                this.getFlagGroup(), this.isInactivityReset(), this.isHotel(), this.isAutoRestore(),
-                this.isUserRestorable(), this.getAllowedSubregions(), this.getAutoPrice(),
-                this.getEntityLimitGroup(), newsetupCommands, this.getMaxMembers(), this.getPaybackPercentage());
-    }
-
     @Override
     public boolean canPriceLineBeLetEmpty() {
         return this.hasPrice() || this.hasAutoPrice();
     }
 
     @Override
-    public Region generateRegion(WGRegion wgRegion, World world, List<SignData> signs) {
+    protected SellRegion generateBasicRegion(WGRegion wgRegion, World world, List<SignData> signs) {
+        return new SellRegion(wgRegion, world, signs, new Price(AutoPrice.DEFAULT), false, new ArrayList<>());
+    }
 
-        SellRegion sellRegion = new SellRegion(wgRegion, world, signs, new Price(AutoPrice.DEFAULT),
-                false, this.isInactivityReset(), this.isHotel(), this.isAutoRestore(),
-                this.getRegionKind(), this.getFlagGroup(), null, 0,
-                new GregorianCalendar().getTimeInMillis(), this.isUserRestorable(), new ArrayList<>(),
-                this.getAllowedSubregions(), this.getEntityLimitGroup(), new HashMap<>(), 0,
-                this.getMaxMembers(), this.getPaybackPercentage());
-
-        if (this.hasAutoPrice()) {
-            sellRegion.setPrice(new Price(this.getAutoPrice()));
-        } else if (this.hasPrice()) {
-            sellRegion.setPrice(new Price(this.getPrice()));
+    @Override
+    public void applyToRegion(Region region) {
+        super.applyToRegion(region);
+        if(this.hasPrice()) {
+            region.setPrice(new Price(this.getPrice()));
         }
-        return sellRegion;
     }
 
 }

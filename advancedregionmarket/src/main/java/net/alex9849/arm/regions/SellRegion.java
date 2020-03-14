@@ -3,11 +3,8 @@ package net.alex9849.arm.regions;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
-import net.alex9849.arm.entitylimit.EntityLimit;
-import net.alex9849.arm.entitylimit.EntityLimitGroup;
 import net.alex9849.arm.events.BuyRegionEvent;
 import net.alex9849.arm.exceptions.*;
-import net.alex9849.arm.flaggroups.FlagGroup;
 import net.alex9849.arm.limitgroups.LimitGroup;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import net.alex9849.arm.regionkind.RegionKind;
@@ -15,24 +12,19 @@ import net.alex9849.arm.regions.price.Price;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.signs.SignData;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
 import java.util.List;
 
 public class SellRegion extends Region {
 
 
-    public SellRegion(WGRegion region, World regionworld, List<SignData> sellsign, Price price, Boolean sold, Boolean inactivityReset, Boolean allowOnlyNewBlocks,
-                      Boolean doBlockReset, RegionKind regionKind, FlagGroup flagGroup, Location teleportLoc, long lastreset, long lastLogin, boolean isUserRestorable, List<Region> subregions,
-                      int allowedSubregions, EntityLimitGroup entityLimitGroup, HashMap<EntityLimit.LimitableEntityType, Integer> extraEntitys, int boughtExtraTotalEntitys, int maxMembers,
-                      int paybackPercentage) {
-        super(region, regionworld, sellsign, price, sold, inactivityReset, allowOnlyNewBlocks, doBlockReset, regionKind, flagGroup, teleportLoc, lastreset, lastLogin, isUserRestorable,
-                subregions, allowedSubregions, entityLimitGroup, extraEntitys, boughtExtraTotalEntitys, maxMembers, paybackPercentage);
+    public SellRegion(WGRegion region, World regionworld, List<SignData> sellsigns, Price price, boolean sold,
+                      List<Region> subregions) {
+        super(region, regionworld, sellsigns, price, sold, subregions);
     }
 
     @Override

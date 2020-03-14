@@ -2,10 +2,6 @@ package net.alex9849.arm.regions;
 
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
-import net.alex9849.arm.entitylimit.EntityLimit;
-import net.alex9849.arm.entitylimit.EntityLimitGroup;
-import net.alex9849.arm.flaggroups.FlagGroup;
-import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.price.ContractPrice;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.util.TimeUtil;
@@ -13,7 +9,6 @@ import net.alex9849.arm.util.stringreplacer.StringCreator;
 import net.alex9849.arm.util.stringreplacer.StringReplacer;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.signs.SignData;
-import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -60,21 +55,10 @@ public abstract class CountdownRegion extends Region {
         this.stringReplacer = new StringReplacer(variableReplacements, 50);
     }
 
-    public CountdownRegion(WGRegion region, World regionworld, List<SignData> contractsign, ContractPrice contractPrice,
-                           Boolean sold, Boolean inactivityReset, Boolean isHotel, Boolean doBlockReset,
-                           RegionKind regionKind, FlagGroup flagGroup, Location teleportLoc, long lastreset,
-                           long lastLogin, boolean isUserRestorable, long payedTill, List<Region> subregions,
-                           int allowedSubregions, EntityLimitGroup entityLimitGroup,
-                           HashMap<EntityLimit.LimitableEntityType, Integer> extraEntitys, int boughtExtraTotalEntitys,
-                           int maxMembers, int paybackPercentage) {
-        super(region, regionworld, contractsign, contractPrice, sold, inactivityReset, isHotel, doBlockReset, regionKind,
-                flagGroup, teleportLoc, lastreset, lastLogin, isUserRestorable, subregions, allowedSubregions,
-                entityLimitGroup, extraEntitys, boughtExtraTotalEntitys, maxMembers, paybackPercentage);
-        this.payedTill = payedTill;
+    public CountdownRegion(WGRegion region, World regionworld, List<SignData> sellsigns, ContractPrice contractPrice,
+                           boolean sold, List<Region> subregions) {
+        super(region, regionworld, sellsigns, contractPrice, sold, subregions);
         this.extendTime = contractPrice.getExtendTime();
-        if (this.extendTime < 1000) {
-            this.extendTime = 1000;
-        }
     }
 
     public static long stringToTime(String stringtime) throws IllegalArgumentException {

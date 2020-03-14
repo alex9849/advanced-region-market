@@ -5,6 +5,11 @@ import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 public class ContractPrice extends Price {
     protected long extendTime;
 
+    /**
+     * Creates a ContractPrice
+     * @param price The price per period
+     * @param extendTime periodlength >= 1000, otherwise it will automatically be set to 1000
+     */
     public ContractPrice(double price, long extendTime) {
         super(price);
         if (extendTime < 1000) {

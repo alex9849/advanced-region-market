@@ -3,11 +3,8 @@ package net.alex9849.arm.regions;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
-import net.alex9849.arm.entitylimit.EntityLimit;
-import net.alex9849.arm.entitylimit.EntityLimitGroup;
 import net.alex9849.arm.events.BuyRegionEvent;
 import net.alex9849.arm.exceptions.*;
-import net.alex9849.arm.flaggroups.FlagGroup;
 import net.alex9849.arm.limitgroups.LimitGroup;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import net.alex9849.arm.regionkind.RegionKind;
@@ -19,7 +16,6 @@ import net.alex9849.arm.util.stringreplacer.StringReplacer;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.signs.SignData;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
@@ -49,14 +45,10 @@ public class RentRegion extends CountdownRegion {
         this.stringReplacer = new StringReplacer(variableReplacements, 50);
     }
 
-    public RentRegion(WGRegion region, World regionworld, List<SignData> rentsign, RentPrice rentPrice, Boolean sold, Boolean inactivityReset, Boolean allowOnlyNewBlocks,
-                      Boolean doBlockReset, RegionKind regionKind, FlagGroup flagGroup, Location teleportLoc, long lastreset, long lastLogin, boolean isUserRestorable, long payedTill,
-                      List<Region> subregions, int allowedSubregions, EntityLimitGroup entityLimitGroup, HashMap<EntityLimit.LimitableEntityType, Integer> extraEntitys,
-                      int boughtExtraTotalEntitys, int maxMembers, int paybackPercentage) {
-        super(region, regionworld, rentsign, rentPrice, sold, inactivityReset, allowOnlyNewBlocks, doBlockReset, regionKind, flagGroup, teleportLoc, lastreset, lastLogin, isUserRestorable,
-                payedTill, subregions, allowedSubregions, entityLimitGroup, extraEntitys, boughtExtraTotalEntitys, maxMembers, paybackPercentage);
+    public RentRegion(WGRegion region, World regionworld, List<SignData> sellsigns, RentPrice rentPrice, boolean sold,
+                      List<Region> subregions) {
+        super(region, regionworld, sellsigns, rentPrice, sold, subregions);
         this.maxRentTime = rentPrice.getMaxRentTime();
-        this.updateSigns();
     }
 
     public static void sendExpirationWarnings(Player player) {

@@ -6,6 +6,7 @@ import net.alex9849.arm.flaggroups.FlagGroup;
 import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
+import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.util.Saveable;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.signs.SignData;
@@ -20,7 +21,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Preset implements Saveable {
+public abstract class Preset implements Saveable, Cloneable {
     private String name = "default";
     private boolean hasPrice = false;
     private double price = 0;
@@ -66,6 +67,18 @@ public abstract class Preset implements Saveable {
 
     public void setPaybackPercentage(int paybackPercentage) {
         this.paybackPercentage = paybackPercentage;
+    }
+
+    public Object clone() throws CloneNotSupportedException {
+        Object obj =  super.clone();
+        if(obj instanceof Preset) {
+            Preset preset = (Preset) obj;
+            preset.setupCommands = new ArrayList<>();
+            for (String cmd : this.getCommands()) {
+                preset.setupCommands.add(cmd);
+            }
+        }
+        return obj;
     }
 
     public String getName() {
@@ -260,8 +273,6 @@ public abstract class Preset implements Saveable {
 
     public abstract PresetType getPresetType();
 
-    public abstract Preset getCopy();
-
     public abstract boolean canPriceLineBeLetEmpty();
 
     /**
@@ -271,26 +282,54 @@ public abstract class Preset implements Saveable {
      * @param wgRegion The WorldGuard region
      * @param world    The world of the WorldGuard region
      * @param sender   The sender that executes the saved commands
-     * @param signs    The signs that should be lonked to the region
+     * @param signs    The signs that should be linked to the region
      * @return A Region with the given arguments
      */
     public Region generateRegion(WGRegion wgRegion, World world, CommandSender sender, List<SignData> signs) {
-        Region region = generateRegion(wgRegion, world, signs);
-        this.executeSavedCommands(sender, region);
+        Region region = generateBasicRegion(wgRegion, world, signs);
+        this.applyToRegion(region, sender);
         return region;
     }
 
     /**
-     * Generates a region with the settings of the preset
-     * without executing the saved commands of the preset.
-     * Does not create a schematic! Does not apply flaggroups!
+     * Generates a region Object, with the type of the preset and with default settings
      *
      * @param wgRegion The WorldGuard region
-     * @param world    The world of the WorldGuard region
-     * @param signs    The signs that should be lonked to the region
-     * @return A Region with the given arguments
+     * @param world The world of the WorldGuard region
+     * @param signs The signs that should be linked to the region
+     * @return The region
      */
-    public abstract Region generateRegion(WGRegion wgRegion, World world, List<SignData> signs);
+    protected abstract Region generateBasicRegion(WGRegion wgRegion, World world, List<SignData> signs);
+
+    /**
+     * Applys all settings of this preset to a region
+     * @param region
+     * @param sender
+     */
+    public void applyToRegion(Region region, CommandSender sender) {
+        applyToRegion(region);
+        this.executeSavedCommands(sender, region);
+    }
+
+    /**
+     * Applies settings of this preset to a region
+     * @param region the region
+     */
+    public void applyToRegion(Region region) {
+        if(this.hasAutoPrice()) {
+            region.setPrice(new Price(this.getAutoPrice()));
+        }
+        region.setInactivityReset(this.isInactivityReset());
+        region.setHotel(this.isHotel());
+        region.setAutoRestore(this.isAutoRestore());
+        region.setRegionKind(this.getRegionKind());
+        region.setFlagGroup(this.getFlagGroup());
+        region.setUserRestorable(this.isUserRestorable());
+        region.setAllowedSubregions(this.getAllowedSubregions());
+        region.setEntityLimitGroup(this.getEntityLimitGroup());
+        region.setMaxMembers(this.getMaxMembers());
+        region.setPaybackPercentage(this.getPaybackPercentage());
+    }
 
     @Override
     public ConfigurationSection toConfigurationSection() {

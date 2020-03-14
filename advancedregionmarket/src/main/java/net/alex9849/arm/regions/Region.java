@@ -40,28 +40,28 @@ public abstract class Region implements Saveable {
     private WGRegion region;
     private World regionworld;
     private ArrayList<SignData> sellsign;
-    private HashSet<Integer> builtblocks;
     private Price price;
     private boolean sold;
-    private boolean inactivityReset;
-    private boolean isHotel;
-    private long lastreset;
-    private long lastLogin;
-    private RegionKind regionKind;
-    private Location teleportLocation;
-    private boolean isAutoRestore;
-    private List<Region> subregions;
-    private int allowedSubregions;
     private Region parentRegion;
-    private boolean isUserRestorable;
-    private FlagGroup flagGroup;
-    private EntityLimitGroup entityLimitGroup;
-    private boolean needsSave;
-    private HashMap<EntityLimit.LimitableEntityType, Integer> extraEntitys;
-    private int extraTotalEntitys;
+    private List<Region> subregions;
+    private Location teleportLocation;
     private StringReplacer stringReplacer;
-    private int maxMembers;
-    private int paybackPercentage;
+    private boolean inactivityReset = true;
+    private boolean isHotel = false;
+    private boolean isUserRestorable = true;
+    private boolean needsSave = false;
+    private boolean isAutoRestore = true;
+    private long lastreset = 0;
+    private long lastLogin = 0;
+    private int maxMembers = -1;
+    private int paybackPercentage = 0;
+    private int extraTotalEntitys = 0;
+    private int allowedSubregions = 0;
+    private RegionKind regionKind = RegionKind.DEFAULT;
+    private FlagGroup flagGroup = FlagGroup.DEFAULT;
+    private EntityLimitGroup entityLimitGroup = EntityLimitGroup.DEFAULT;
+    private HashSet<Integer> builtblocks = new HashSet<>();
+    private HashMap<EntityLimit.LimitableEntityType, Integer> extraEntitys = new HashMap<>();
 
     {
         HashMap<String, StringCreator> variableReplacements = new HashMap<>();
@@ -220,33 +220,14 @@ public abstract class Region implements Saveable {
 
     }
 
-    public Region(WGRegion region, World regionworld, List<SignData> sellsign, Price price, Boolean sold, Boolean inactivityReset,
-                  Boolean isHotel, Boolean isAutoRestore, RegionKind regionKind, FlagGroup flagGroup, Location teleportLoc, long lastreset,
-                  long lastLogin, boolean isUserRestorable, List<Region> subregions, int allowedSubregions, EntityLimitGroup entityLimitGroup,
-                  HashMap<EntityLimit.LimitableEntityType, Integer> extraEntitys, int boughtExtraTotalEntitys, int maxMembers, int paybackPercentage) {
+    public Region(WGRegion region, World regionworld, List<SignData> sellsigns, Price price, boolean sold,
+                  List<Region> subregions) {
         this.region = region;
-        this.sellsign = new ArrayList<SignData>(sellsign);
+        this.sellsign = new ArrayList<>(sellsigns);
         this.sold = sold;
         this.price = price;
         this.regionworld = regionworld;
-        this.regionKind = regionKind;
-        this.flagGroup = flagGroup;
-        this.inactivityReset = inactivityReset;
-        this.isAutoRestore = isAutoRestore;
-        this.lastreset = lastreset;
-        this.builtblocks = new HashSet<>();
-        this.isHotel = isHotel;
-        this.lastLogin = lastLogin;
-        this.teleportLocation = teleportLoc;
-        this.subregions = subregions;
-        this.allowedSubregions = allowedSubregions;
-        this.isUserRestorable = isUserRestorable;
-        this.needsSave = false;
-        this.entityLimitGroup = entityLimitGroup;
-        this.extraEntitys = extraEntitys;
-        this.extraTotalEntitys = boughtExtraTotalEntitys;
-        this.maxMembers = maxMembers;
-        this.paybackPercentage = paybackPercentage;
+        this.subregions = new ArrayList<>(subregions);
 
         for (Region subregion : subregions) {
             subregion.setParentRegion(this);
@@ -762,6 +743,16 @@ public abstract class Region implements Saveable {
 
     public void setLastLogin() {
         this.lastLogin = new GregorianCalendar().getTimeInMillis();
+        this.queueSave();
+    }
+
+    public void setLastLogin(long lastLogin) {
+        this.lastLogin = lastLogin;
+        this.queueSave();
+    }
+
+    public void setLastReset(long lastReset) {
+        this.lastreset = lastReset;
         this.queueSave();
     }
 

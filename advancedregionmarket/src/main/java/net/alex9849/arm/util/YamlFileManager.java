@@ -117,13 +117,13 @@ public abstract class YamlFileManager<ManagedObject extends Saveable> implements
         }
     }
 
-    public abstract List<ManagedObject> loadSavedObjects(YamlConfiguration yamlConfiguration);
+    protected abstract List<ManagedObject> loadSavedObjects(YamlConfiguration yamlConfiguration);
 
     public abstract boolean staticSaveQuenued();
 
-    public abstract void saveObjectToYamlObject(ManagedObject object, YamlConfiguration yamlConfiguration);
+    protected abstract void saveObjectToYamlObject(ManagedObject object, YamlConfiguration yamlConfiguration);
 
-    public abstract void writeStaticSettings(YamlConfiguration yamlConfiguration);
+    protected abstract void writeStaticSettings(YamlConfiguration yamlConfiguration);
 
     public void queueCompleteSave() {
         this.completeSaveQueuned = true;

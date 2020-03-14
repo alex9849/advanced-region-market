@@ -174,8 +174,9 @@ public class SignModifyListener implements Listener {
             } else {
                 List<SignData> signDataList = new ArrayList<>();
                 signDataList.add(signData);
-                Region newArmRegion = preset.generateRegion(wgRegion, regionWorld, signDataList);
-                if (price == null && preset.canPriceLineBeLetEmpty()) {
+                Region newArmRegion = preset.generateRegion(wgRegion, regionWorld, sign.getPlayer(), signDataList);
+
+                if (price == null && !preset.canPriceLineBeLetEmpty()) {
                     sign.getPlayer().sendMessage(Messages.PREFIX + "Price not defined! Using default Autoprice!");
                 } else {
                     newArmRegion.setPrice(price);

@@ -16,11 +16,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.List;
 
-public class RentPreset extends ContractPreset {
+public class RentPreset extends CountdownPreset {
     private boolean hasMaxRentTime = false;
     private long maxRentTime = 0;
 
@@ -34,20 +32,6 @@ public class RentPreset extends ContractPreset {
                 maxMembers, paybackPercentage);
         this.hasMaxRentTime = hasMaxRentTime;
         this.maxRentTime = maxRentTime;
-    }
-
-    public RentPreset getCopy() {
-        List<String> newsetupCommands = new ArrayList<>();
-        for (String cmd : getCommands()) {
-            newsetupCommands.add(cmd);
-        }
-        return new RentPreset(this.getName(), this.hasPrice(), this.getPrice(),
-                this.getRegionKind(), this.getFlagGroup(), this.isInactivityReset(),
-                this.isHotel(), this.isAutoRestore(), this.hasMaxRentTime(),
-                this.getMaxRentTime(), this.hasExtendTime(), this.getExtendTime(),
-                this.isUserRestorable(), this.getAllowedSubregions(),
-                this.getAutoPrice(), this.getEntityLimitGroup(), newsetupCommands,
-                this.getMaxMembers(), this.getPaybackPercentage());
     }
 
     @Override
@@ -104,24 +88,16 @@ public class RentPreset extends ContractPreset {
     }
 
     @Override
-    public Region generateRegion(WGRegion wgRegion, World world, List<SignData> signs) {
+    protected RentRegion generateBasicRegion(WGRegion wgRegion, World world, List<SignData> signs) {
+        return new RentRegion(wgRegion, world, signs, new RentPrice(AutoPrice.DEFAULT), false, new ArrayList<>());
+    }
 
-        RentRegion rentRegion = new RentRegion(wgRegion, world, signs, new RentPrice(AutoPrice.DEFAULT),
-                false, this.isInactivityReset(), this.isHotel(), this.isAutoRestore(),
-                this.getRegionKind(), this.getFlagGroup(), null, 0,
-                new GregorianCalendar().getTimeInMillis(), this.isUserRestorable(),
-                1, new ArrayList<>(), this.getAllowedSubregions(), this.getEntityLimitGroup(),
-                new HashMap<>(), 0, this.getMaxMembers(), this.getPaybackPercentage());
-
-        if(this.canPriceLineBeLetEmpty()) {
-            if(this.hasAutoPrice()) {
-                rentRegion.setPrice(new RentPrice(this.getAutoPrice()));
-            } else {
-                rentRegion.setPrice(new RentPrice(this.getPrice(), this.getExtendTime(), this.getMaxRentTime()));
-            }
+    @Override
+    public void applyToRegion(Region region) {
+        super.applyToRegion(region);
+        if (this.hasPrice() && this.hasExtendTime() && this.hasMaxRentTime()) {
+            region.setPrice(new RentPrice(this.getPrice(), this.getExtendTime(), this.getMaxRentTime()));
         }
-
-        return rentRegion;
     }
 
     @Override

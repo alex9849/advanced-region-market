@@ -38,7 +38,7 @@ public class LoadCommand extends BasicArmCommand {
             throw new InputException(player, Messages.PRESET_NOT_FOUND);
         }
 
-        Preset toAssignCopy = toAssign.getCopy();
+        Preset toAssignCopy = toAssign.clone();
         ActivePresetManager.add(new PresetPlayerPair(player, toAssignCopy));
         player.sendMessage(Messages.PREFIX + Messages.PRESET_LOADED);
         return true;

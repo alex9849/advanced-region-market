@@ -66,6 +66,7 @@ public class SubSignCreationListener implements Listener {
                         false, this.subRegionCreator.getParentRegion());
                 this.subRegionCreator.saveWorldGuardRegion();
                 event.setCancelled(true);
+                sellRegion.updateSigns();
                 sellRegion.createSchematic();
                 try {
                     sellRegion.applyFlagGroup(FlagGroup.ResetMode.COMPLETE, false);
@@ -112,6 +113,7 @@ public class SubSignCreationListener implements Listener {
                         false, this.subRegionCreator.getParentRegion());
                 this.subRegionCreator.saveWorldGuardRegion();
                 event.setCancelled(true);
+                rentRegion.updateSigns();
                 rentRegion.createSchematic();
                 try {
                     rentRegion.applyFlagGroup(FlagGroup.ResetMode.COMPLETE, false);
@@ -155,6 +157,7 @@ public class SubSignCreationListener implements Listener {
                         contractPrice, false, this.subRegionCreator.getParentRegion());
                 this.subRegionCreator.saveWorldGuardRegion();
                 event.setCancelled(true);
+                contractRegion.updateSigns();
                 contractRegion.createSchematic();
                 try {
                     contractRegion.applyFlagGroup(FlagGroup.ResetMode.COMPLETE, false);

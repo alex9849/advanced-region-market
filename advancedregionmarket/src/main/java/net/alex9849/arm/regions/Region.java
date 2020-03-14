@@ -704,6 +704,9 @@ public abstract class Region implements Saveable {
             this.getParentRegion().getSubregions().remove(this);
             this.getParentRegion().queueSave();
         } else {
+            for(Region subregion : this.getSubregions()) {
+                subregion.delete(regionManager);
+            }
             regionManager.remove(this);
         }
     }

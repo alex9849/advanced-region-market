@@ -52,6 +52,108 @@ public class RegionManager extends YamlFileManager<Region> {
         this.updateScheduler = this.new UpdateScheduler(updateTicks);
     }
 
+
+    /*#############################################
+    ######## Parsing and add/remove stuff #########
+    #############################################*/
+
+    @Override
+    public boolean add(Region region) {
+        return this.add(region, false);
+    }
+
+    @Override
+    public boolean add(Region region, boolean unsafe) {
+        if(region.isSubregion()) {
+            return false;
+        }
+        AddRegionEvent addRegionEvent = new AddRegionEvent(region);
+        Bukkit.getServer().getPluginManager().callEvent(addRegionEvent);
+        if (addRegionEvent.isCancelled()) {
+            return false;
+        }
+        if (super.add(region, unsafe)) {
+            this.addToWorldChunkMap(region);
+            this.updateScheduler.rearrangeUpdateQuenue();
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean remove(Region region) {
+        RemoveRegionEvent removeRegionEvent = new RemoveRegionEvent(region);
+        Bukkit.getServer().getPluginManager().callEvent(removeRegionEvent);
+        if (removeRegionEvent.isCancelled()) {
+            return false;
+        }
+
+        if (super.remove(region)) {
+            this.removeFromWorldChunkMap(region);
+            this.updateScheduler.rearrangeUpdateQuenue();
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    protected List<Region> loadSavedObjects(YamlConfiguration yamlConfiguration) {
+        List<Region> loadedRegions = new ArrayList<>();
+        boolean fileupdated = false;
+        yamlConfiguration.options().copyDefaults(true);
+
+        if (yamlConfiguration.get("Regions") != null) {
+            ConfigurationSection mainSection = yamlConfiguration.getConfigurationSection("Regions");
+            List<String> worlds = new ArrayList<String>(mainSection.getKeys(false));
+            if (worlds != null) {
+                for (String worldString : worlds) {
+                    World regionWorld = Bukkit.getWorld(worldString);
+                    if (regionWorld != null) {
+                        if (mainSection.get(worldString) != null) {
+                            ConfigurationSection worldSection = mainSection.getConfigurationSection(worldString);
+                            List<String> regions = new ArrayList<String>(worldSection.getKeys(false));
+                            if (regions != null) {
+                                for (String regionname : regions) {
+                                    ConfigurationSection regionSection = worldSection.getConfigurationSection(regionname);
+                                    WGRegion wgRegion = AdvancedRegionMarket.getInstance().getWorldGuardInterface().getRegion(regionWorld, regionname);
+
+                                    if (wgRegion != null) {
+                                        fileupdated |= updateDefaults(regionSection);
+                                        Region armRegion = parseRegion(regionSection, regionWorld, wgRegion);
+                                        loadedRegions.add(armRegion);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if (fileupdated) {
+            this.saveFile();
+        }
+
+        yamlConfiguration.options().copyDefaults(false);
+
+        return loadedRegions;
+    }
+
+    @Override
+    protected void saveObjectToYamlObject(Region region, YamlConfiguration yamlConfiguration) {
+        yamlConfiguration.set("Regions." + region.getRegionworld().getName() + "." + region.getRegion().getId(), region.toConfigurationSection());
+    }
+
+    @Override
+    protected void writeStaticSettings(YamlConfiguration yamlConfiguration) {
+
+    }
+
+    @Override
+    public boolean staticSaveQuenued() {
+        return false;
+    }
+
     private static Region parseRegion(ConfigurationSection regionSection, World regionWorld, WGRegion wgRegion) {
         boolean sold = regionSection.getBoolean("sold");
         String kind = regionSection.getString("kind");
@@ -147,7 +249,7 @@ public class RegionManager extends YamlFileManager<Region> {
                 for (String subregionName : subregionsection) {
                     WGRegion subWGRegion = AdvancedRegionMarket.getInstance().getWorldGuardInterface().getRegion(regionWorld, subregionName);
                     if (subWGRegion != null) {
-                        parseSubRegion(regionSection.getConfigurationSection("subregions." + subregionName), regionWorld, subWGRegion, region);
+                        parseSubRegion(regionSection.getConfigurationSection("subregions." + subregionName), subWGRegion, region);
                     }
                 }
             }
@@ -202,7 +304,7 @@ public class RegionManager extends YamlFileManager<Region> {
         return region;
     }
 
-    private static Region parseSubRegion(ConfigurationSection section, World regionWorld, WGRegion subregion, Region parentRegion) {
+    private static Region parseSubRegion(ConfigurationSection section, WGRegion subregion, Region parentRegion) {
         double subregPrice = section.getDouble("price");
         boolean subregIsSold = section.getBoolean("sold");
         boolean subregIsHotel = section.getBoolean("isHotel");
@@ -331,138 +433,6 @@ public class RegionManager extends YamlFileManager<Region> {
         return teleportLoc;
     }
 
-    public void setTabCompleteRegions(boolean tabCompleteRegions) {
-        this.tabCompleteRegions = tabCompleteRegions;
-    }
-
-    @Override
-    public boolean add(Region region) {
-        return this.add(region, false);
-    }
-
-    @Override
-    public boolean add(Region region, boolean unsafe) {
-        if(region.isSubregion()) {
-            return false;
-        }
-        AddRegionEvent addRegionEvent = new AddRegionEvent(region);
-        Bukkit.getServer().getPluginManager().callEvent(addRegionEvent);
-        if (addRegionEvent.isCancelled()) {
-            return false;
-        }
-        if (super.add(region, unsafe)) {
-            this.addToWorldChunkMap(region);
-            this.updateScheduler.rearrangeUpdateQuenue();
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public boolean remove(Region region) {
-        RemoveRegionEvent removeRegionEvent = new RemoveRegionEvent(region);
-        Bukkit.getServer().getPluginManager().callEvent(removeRegionEvent);
-        if (removeRegionEvent.isCancelled()) {
-            return false;
-        }
-
-        if (super.remove(region)) {
-            this.removeFromWorldChunkMap(region);
-            this.updateScheduler.rearrangeUpdateQuenue();
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    protected List<Region> loadSavedObjects(YamlConfiguration yamlConfiguration) {
-        List<Region> loadedRegions = new ArrayList<>();
-        boolean fileupdated = false;
-        yamlConfiguration.options().copyDefaults(true);
-
-        if (yamlConfiguration.get("Regions") != null) {
-            ConfigurationSection mainSection = yamlConfiguration.getConfigurationSection("Regions");
-            List<String> worlds = new ArrayList<String>(mainSection.getKeys(false));
-            if (worlds != null) {
-                for (String worldString : worlds) {
-                    World regionWorld = Bukkit.getWorld(worldString);
-                    if (regionWorld != null) {
-                        if (mainSection.get(worldString) != null) {
-                            ConfigurationSection worldSection = mainSection.getConfigurationSection(worldString);
-                            List<String> regions = new ArrayList<String>(worldSection.getKeys(false));
-                            if (regions != null) {
-                                for (String regionname : regions) {
-                                    ConfigurationSection regionSection = worldSection.getConfigurationSection(regionname);
-                                    WGRegion wgRegion = AdvancedRegionMarket.getInstance().getWorldGuardInterface().getRegion(regionWorld, regionname);
-
-                                    if (wgRegion != null) {
-                                        fileupdated |= updateDefaults(regionSection);
-                                        Region armRegion = parseRegion(regionSection, regionWorld, wgRegion);
-                                        loadedRegions.add(armRegion);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        if (fileupdated) {
-            this.saveFile();
-        }
-
-        yamlConfiguration.options().copyDefaults(false);
-
-        return loadedRegions;
-    }
-
-    @Override
-    public boolean staticSaveQuenued() {
-        return false;
-    }
-
-    private void addToWorldChunkMap(Region region) {
-        HashMap<DummyChunk, List<Region>> chunkRegionMap = this.getWorldChunkRegionMap().get(region.getRegionworld());
-        if (chunkRegionMap == null) {
-            chunkRegionMap = new HashMap<>();
-            this.getWorldChunkRegionMap().put(region.getRegionworld(), chunkRegionMap);
-        }
-        Set<DummyChunk> regionChunks = DummyChunk.getChunks(region);
-
-        for (DummyChunk chunk : regionChunks) {
-            List<Region> chunkRegions = chunkRegionMap.get(chunk);
-            if (chunkRegions == null) {
-                chunkRegions = new ArrayList<>();
-                chunkRegionMap.put(chunk, chunkRegions);
-            }
-            chunkRegions.add(region);
-        }
-    }
-
-    private void removeFromWorldChunkMap(Region region) {
-        HashMap<DummyChunk, List<Region>> chunkRegionMap = this.getWorldChunkRegionMap().get(region.getRegionworld());
-        if (chunkRegionMap != null) {
-            Set<DummyChunk> regionChunks = DummyChunk.getChunks(region);
-            for (DummyChunk chunk : regionChunks) {
-                List<Region> regionList = chunkRegionMap.get(chunk);
-                if (regionList != null) {
-                    regionList.remove(region);
-                    if (regionList.isEmpty()) {
-                        chunkRegionMap.remove(chunk);
-                        if (chunkRegionMap.isEmpty()) {
-                            this.getWorldChunkRegionMap().remove(region.getRegionworld());
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private HashMap<World, HashMap<DummyChunk, List<Region>>> getWorldChunkRegionMap() {
-        return this.worldChunkRegionMap;
-    }
-
     private boolean updateDefaults(ConfigurationSection section) {
         boolean fileupdated = false;
 
@@ -518,76 +488,10 @@ public class RegionManager extends YamlFileManager<Region> {
         return fileupdated;
     }
 
-    @Override
-    protected void saveObjectToYamlObject(Region region, YamlConfiguration yamlConfiguration) {
-        yamlConfiguration.set("Regions." + region.getRegionworld().getName() + "." + region.getRegion().getId(), region.toConfigurationSection());
-    }
 
-    @Override
-    protected void writeStaticSettings(YamlConfiguration yamlConfiguration) {
-
-    }
-
-    public List<Region> getRegionsByMember(UUID uuid) {
-        List<Region> returnme = new ArrayList<>();
-        for (Region region : this) {
-            for (Region subregion : region.getSubregions()) {
-                if (subregion.getRegion().hasMember(uuid)) {
-                    returnme.add(subregion);
-                }
-            }
-            if (region.getRegion().hasMember(uuid)) {
-                returnme.add(region);
-            }
-        }
-        return returnme;
-    }
-
-    public List<Region> getRegionsByOwner(UUID uuid) {
-        List<Region> returnme = new ArrayList<>();
-        for (Region region : this) {
-            for (Region subregion : region.getSubregions()) {
-                if (subregion.getRegion().hasOwner(uuid)) {
-                    returnme.add(subregion);
-                }
-            }
-            if (region.getRegion().hasOwner(uuid)) {
-                returnme.add(region);
-            }
-        }
-        return returnme;
-    }
-
-    public List<Region> getRegionsByOwnerOrMember(UUID uuid) {
-        List<Region> returnme = new ArrayList<>();
-        for (Region region : this) {
-            for (Region subregion : region.getSubregions()) {
-                if (subregion.getRegion().hasOwner(uuid) || subregion.getRegion().hasMember(uuid)) {
-                    returnme.add(subregion);
-                }
-            }
-            if (region.getRegion().hasOwner(uuid) || region.getRegion().hasMember(uuid)) {
-                returnme.add(region);
-            }
-        }
-        return returnme;
-    }
-
-    public void teleportToFreeRegion(RegionKind type, Player player) throws InputException {
-        for (Region region : this) {
-
-            if ((!region.isSold()) && (region.getRegionKind() == type)) {
-                try {
-                    String message = region.getConvertedMessage(Messages.REGION_TELEPORT_MESSAGE);
-                    Teleporter.teleport(player, region, Messages.PREFIX + message, true);
-                } catch (NoSaveLocationException e) {
-                    continue;
-                }
-                return;
-            }
-        }
-        throw new InputException(player, Messages.NO_FREE_REGION_WITH_THIS_KIND);
-    }
+    /*##########################
+    ##### Search Methods #######
+    ##########################*/
 
     public boolean checkIfSignExists(Sign sign) {
         for (Region region : this) {
@@ -645,6 +549,38 @@ public class RegionManager extends YamlFileManager<Region> {
             }
         }
         return null;
+    }
+
+    /**
+     * Selectes a region by using the players position or the regionID (regionName)
+     *
+     * @param player     the player
+     * @param regionName The Name of the region. Use null or "" if you want to use the players position instead
+     * @return A region (is never null)
+     * @throws InputException If there are more then 1 or 0 regions at the players position or if the region with the ID regionName does not exist
+     */
+    public Region getRegionAtPositionOrNameCommand(Player player, String regionName) throws InputException {
+        Region selectedRegion;
+        if (regionName == null || regionName.equalsIgnoreCase("")) {
+            List<Region> selectedRegions = this.getRegionsByLocation(player.getLocation());
+            if (selectedRegions.size() == 0) {
+                throw new InputException(player, Messages.NO_REGION_AT_PLAYERS_POSITION);
+            }
+            if (selectedRegions.size() > 1) {
+                String regions = "";
+                for (Region sRegion : selectedRegions) {
+                    regions = regions + sRegion.getRegion().getId() + " ";
+                }
+                throw new InputException(player, Messages.REGION_SELECTED_MULTIPLE_REGIONS + regions);
+            }
+            selectedRegion = selectedRegions.get(0);
+        } else {
+            selectedRegion = this.getRegionbyNameAndWorldCommands(regionName, player.getWorld().getName());
+            if (selectedRegion == null) {
+                throw new InputException(player, Messages.REGION_DOES_NOT_EXIST);
+            }
+        }
+        return selectedRegion;
     }
 
     public Region getRegionbyNameAndWorldCommands(String name, String world) {
@@ -753,6 +689,36 @@ public class RegionManager extends YamlFileManager<Region> {
         return regions;
     }
 
+    public List<Region> getRegionsByMember(UUID uuid) {
+        List<Region> returnme = new ArrayList<>();
+        for (Region region : this) {
+            for (Region subregion : region.getSubregions()) {
+                if (subregion.getRegion().hasMember(uuid)) {
+                    returnme.add(subregion);
+                }
+            }
+            if (region.getRegion().hasMember(uuid)) {
+                returnme.add(region);
+            }
+        }
+        return returnme;
+    }
+
+    public List<Region> getRegionsByOwner(UUID uuid) {
+        List<Region> returnme = new ArrayList<>();
+        for (Region region : this) {
+            for (Region subregion : region.getSubregions()) {
+                if (subregion.getRegion().hasOwner(uuid)) {
+                    returnme.add(subregion);
+                }
+            }
+            if (region.getRegion().hasOwner(uuid)) {
+                returnme.add(region);
+            }
+        }
+        return returnme;
+    }
+
     public boolean containsRegion(Region region) {
 
         for (Region mangerRegion : this) {
@@ -826,40 +792,79 @@ public class RegionManager extends YamlFileManager<Region> {
         return returnme;
     }
 
-    public void doTick() {
-        this.updateScheduler.updateNextGroup();
+
+    /*#############################
+    ##### Other methods ###########
+    #############################*/
+
+    public void setTabCompleteRegions(boolean tabCompleteRegions) {
+        this.tabCompleteRegions = tabCompleteRegions;
     }
 
-    /**
-     * Selectes a region by using the players position or the regionID (regionName)
-     *
-     * @param player     the player
-     * @param regionName The Name of the region. Use null or "" if you want to use the players position instead
-     * @return A region (is never null)
-     * @throws InputException If there are more then 1 or 0 regions at the players position or if the region with the ID regionName does not exist
-     */
-    public Region getRegionAtPositionOrNameCommand(Player player, String regionName) throws InputException {
-        Region selectedRegion;
-        if (regionName == null || regionName.equalsIgnoreCase("")) {
-            List<Region> selectedRegions = this.getRegionsByLocation(player.getLocation());
-            if (selectedRegions.size() == 0) {
-                throw new InputException(player, Messages.NO_REGION_AT_PLAYERS_POSITION);
-            }
-            if (selectedRegions.size() > 1) {
-                String regions = "";
-                for (Region sRegion : selectedRegions) {
-                    regions = regions + sRegion.getRegion().getId() + " ";
+    public void teleportToFreeRegion(RegionKind type, Player player) throws InputException {
+        for (Region region : this) {
+
+            if ((!region.isSold()) && (region.getRegionKind() == type)) {
+                try {
+                    String message = region.getConvertedMessage(Messages.REGION_TELEPORT_MESSAGE);
+                    Teleporter.teleport(player, region, Messages.PREFIX + message, true);
+                } catch (NoSaveLocationException e) {
+                    continue;
                 }
-                throw new InputException(player, Messages.REGION_SELECTED_MULTIPLE_REGIONS + regions);
-            }
-            selectedRegion = selectedRegions.get(0);
-        } else {
-            selectedRegion = this.getRegionbyNameAndWorldCommands(regionName, player.getWorld().getName());
-            if (selectedRegion == null) {
-                throw new InputException(player, Messages.REGION_DOES_NOT_EXIST);
+                return;
             }
         }
-        return selectedRegion;
+        throw new InputException(player, Messages.NO_FREE_REGION_WITH_THIS_KIND);
+    }
+
+
+    /*###########################
+    ####### Inner classes #######
+    ############################*/
+
+    private void addToWorldChunkMap(Region region) {
+        HashMap<DummyChunk, List<Region>> chunkRegionMap = this.getWorldChunkRegionMap().get(region.getRegionworld());
+        if (chunkRegionMap == null) {
+            chunkRegionMap = new HashMap<>();
+            this.getWorldChunkRegionMap().put(region.getRegionworld(), chunkRegionMap);
+        }
+        Set<DummyChunk> regionChunks = DummyChunk.getChunks(region);
+
+        for (DummyChunk chunk : regionChunks) {
+            List<Region> chunkRegions = chunkRegionMap.get(chunk);
+            if (chunkRegions == null) {
+                chunkRegions = new ArrayList<>();
+                chunkRegionMap.put(chunk, chunkRegions);
+            }
+            chunkRegions.add(region);
+        }
+    }
+
+    private void removeFromWorldChunkMap(Region region) {
+        HashMap<DummyChunk, List<Region>> chunkRegionMap = this.getWorldChunkRegionMap().get(region.getRegionworld());
+        if (chunkRegionMap != null) {
+            Set<DummyChunk> regionChunks = DummyChunk.getChunks(region);
+            for (DummyChunk chunk : regionChunks) {
+                List<Region> regionList = chunkRegionMap.get(chunk);
+                if (regionList != null) {
+                    regionList.remove(region);
+                    if (regionList.isEmpty()) {
+                        chunkRegionMap.remove(chunk);
+                        if (chunkRegionMap.isEmpty()) {
+                            this.getWorldChunkRegionMap().remove(region.getRegionworld());
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private HashMap<World, HashMap<DummyChunk, List<Region>>> getWorldChunkRegionMap() {
+        return this.worldChunkRegionMap;
+    }
+
+    public void doTick() {
+        this.updateScheduler.updateNextGroup();
     }
 
     private static class DummyChunk {

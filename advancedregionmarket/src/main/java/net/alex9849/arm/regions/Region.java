@@ -37,7 +37,7 @@ import java.util.*;
 import java.util.logging.Level;
 
 public abstract class Region implements Saveable {
-    Integer m2Amount;
+    private Integer m2Amount;
     private WGRegion region;
     private World regionworld;
     private ArrayList<SignData> sellsign;
@@ -608,10 +608,15 @@ public abstract class Region implements Saveable {
      * @param player The player that should own the region
      */
     public void setSold(OfflinePlayer player) {
-        this.getRegion().setOwner(player);
+        this.setOwner(player);
         this.setSold(true);
         this.queueSave();
         this.updateSigns();
+    }
+
+    public void setOwner(OfflinePlayer oPlayer) {
+        this.getRegion().setOwner(oPlayer);
+        this.setLastLogin();
     }
 
     public void setEntityLimitGroup(EntityLimitGroup entityLimitGroup) {
@@ -989,11 +994,6 @@ public abstract class Region implements Saveable {
         }
 
         this.automaticResetRegion(ActionReason.USER_SELL, true);
-    }
-
-    public void setOwner(OfflinePlayer oPlayer) {
-        this.getRegion().setOwner(oPlayer);
-        this.setLastLogin();
     }
 
     public void resetRegion(ActionReason actionReason, boolean logToConsole) throws SchematicNotFoundException {

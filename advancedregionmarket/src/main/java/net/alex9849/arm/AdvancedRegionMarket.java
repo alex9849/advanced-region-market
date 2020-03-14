@@ -36,6 +36,7 @@ import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.regions.price.RentPrice;
 import net.alex9849.arm.subregions.commands.ToolCommand;
+import net.alex9849.arm.util.ArmUtils;
 import net.alex9849.arm.util.MaterialFinder;
 import net.alex9849.arm.util.YamlFileManager;
 import net.alex9849.inter.WGRegion;
@@ -240,7 +241,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         this.pluginSettings.setCreateBackupOnRegionRestore(getConfig().getBoolean("Backups.createBackupOnRegionRestore"));
         this.pluginSettings.setCreateBackupOnRegionUnsell(getConfig().getBoolean("Backups.createBackupOnRegionUnsell"));
         this.pluginSettings.setMaxSubRegionMembers(getConfig().getInt("Subregions.SubregionMaxMembers"));
-        this.pluginSettings.setPaybackPercentage(getConfig().getInt("Subregions.SubregionPaybackPercentage"));
+        this.pluginSettings.setSubRegionPaybackPercentage(getConfig().getInt("Subregions.SubregionPaybackPercentage"));
         FlagGroup.setFeatureEnabled(getConfig().getBoolean("FlagGroups.enabled"));
 
         try {
@@ -264,7 +265,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         loadInactivityExpirationGroups();
         loadOther();
         this.presetPatternManager = new PresetPatternManager(new File(this.getDataFolder() + "/presets.yml"));
-        Region.setCompleteTabRegions(getConfig().getBoolean("Other.CompleteRegionsOnTabComplete"));
+        this.getRegionManager().setTabCompleteRegions(getConfig().getBoolean("Other.CompleteRegionsOnTabComplete"));
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
             this.getRegionManager().doTick();
         }, 1, 1);
@@ -460,7 +461,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
             @Override
             public void run() {
                 for (Region region : AdvancedRegionMarket.getInstance().getRegionManager()) {
-                    if (region.isInactivityResetEnabled() && region.isInactive()) {
+                    if (region.isInactivityReset() && region.isInactive()) {
                         try {
                             region.automaticResetRegion(Region.ActionReason.INACTIVITY, true);
                         } catch (SchematicNotFoundException e) {
@@ -830,7 +831,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         try {
             if (args.length >= 1) {
                 return this.commandHandler.executeCommand(sender,
-                        CommandUtil.getStringList(Arrays.asList(args), x -> x, " "), commandsLabel);
+                        ArmUtils.getStringList(Arrays.asList(args), x -> x, " "), commandsLabel);
             } else {
                 String pluginversion = this.getDescription().getVersion();
                 sender.sendMessage(Messages.ARM_BASIC_COMMAND_MESSAGE.replace("%pluginversion%", pluginversion));

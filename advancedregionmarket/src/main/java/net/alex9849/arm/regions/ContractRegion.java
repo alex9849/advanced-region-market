@@ -41,9 +41,12 @@ public class ContractRegion extends CountdownRegion {
         this.stringReplacer = new StringReplacer(variableReplacements, 50);
     }
 
-    public ContractRegion(WGRegion region, World regionworld, List<SignData> sellsigns, ContractPrice contractPrice,
-                          boolean sold, List<Region> subregions) {
-        super(region, regionworld, sellsigns, contractPrice, sold, subregions);
+    public ContractRegion(WGRegion region, List<SignData> sellsigns, ContractPrice contractPrice, boolean sold, Region parentRegion) {
+        super(region, sellsigns, contractPrice, sold, parentRegion);
+    }
+
+    public ContractRegion(WGRegion region, World regionworld, List<SignData> sellsigns, ContractPrice contractPrice, boolean sold) {
+        super(region, regionworld, sellsigns, contractPrice, sold);
     }
 
     @Override

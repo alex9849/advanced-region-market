@@ -6,6 +6,7 @@ import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.Region;
+import net.alex9849.arm.util.ArmUtils;
 import net.alex9849.arm.util.Tuple;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -82,7 +83,7 @@ public abstract class RegionOptionModifyCommand<SettingsObj> extends OptionModif
         for(int i = 2; i < args.length; i++) {
             settingsArgs.add(args[i]);
         }
-        return getSettingFromString((Player) sender, CommandUtil.getStringList(settingsArgs, x -> x, " "));
+        return getSettingFromString((Player) sender, ArmUtils.getStringList(settingsArgs, x -> x, " "));
     }
 
     @Override
@@ -124,7 +125,7 @@ public abstract class RegionOptionModifyCommand<SettingsObj> extends OptionModif
         for(int i = 2; i < args.length; i++) {
             settingsArgs.add(args[i]);
         }
-        return tabCompleteSettingsObject(player, CommandUtil.getStringList(settingsArgs, x -> x, " "));
+        return tabCompleteSettingsObject(player, ArmUtils.getStringList(settingsArgs, x -> x, " "));
     }
 
     @Override

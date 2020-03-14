@@ -22,9 +22,12 @@ import java.util.List;
 public class SellRegion extends Region {
 
 
-    public SellRegion(WGRegion region, World regionworld, List<SignData> sellsigns, Price price, boolean sold,
-                      List<Region> subregions) {
-        super(region, regionworld, sellsigns, price, sold, subregions);
+    public SellRegion(WGRegion region, List<SignData> sellsigns, Price price, boolean sold, Region parentRegion) {
+        super(region, sellsigns, price, sold, parentRegion);
+    }
+
+    public SellRegion(WGRegion region, World regionworld, List<SignData> sellsigns, Price price, boolean sold) {
+        super(region, regionworld, sellsigns, price, sold);
     }
 
     @Override

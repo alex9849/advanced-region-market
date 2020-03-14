@@ -1,7 +1,6 @@
 package net.alex9849.arm.regions;
 
 import net.alex9849.arm.AdvancedRegionMarket;
-import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.entitylimit.EntityLimit;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
@@ -38,6 +37,7 @@ import java.util.logging.Level;
 
 public class RegionManager extends YamlFileManager<Region> {
 
+    private boolean tabCompleteRegions = false;
     private final HashMap<World, HashMap<DummyChunk, List<Region>>> worldChunkRegionMap;
     private UpdateScheduler updateScheduler;
 
@@ -85,21 +85,6 @@ public class RegionManager extends YamlFileManager<Region> {
             entityLimitGroup = EntityLimitGroup.DEFAULT;
         }
         List<SignData> regionsigns = parseRegionsSigns(regionSection);
-
-        List<Region> subregions = new ArrayList<>();
-        if (regionSection.getConfigurationSection("subregions") != null) {
-            List<String> subregionsection = new ArrayList<>(regionSection.getConfigurationSection("subregions").getKeys(false));
-            if (subregionsection != null) {
-                for (String subregionName : subregionsection) {
-                    WGRegion subWGRegion = AdvancedRegionMarket.getInstance().getWorldGuardInterface().getRegion(regionWorld, AdvancedRegionMarket.getInstance().getWorldGuard(), subregionName);
-                    if (subWGRegion != null) {
-                        Region armSubRegion = parseSubRegion(regionSection.getConfigurationSection("subregions." + subregionName), regionWorld, subWGRegion);
-                        subregions.add(armSubRegion);
-                    }
-                }
-            }
-        }
-
         Region region;
 
         if (regiontype.equalsIgnoreCase("rentregion")) {
@@ -117,7 +102,7 @@ public class RegionManager extends YamlFileManager<Region> {
                 rentPrice = new RentPrice(price, extendTime, maxRentTime);
             }
             long payedtill = regionSection.getLong("payedTill");
-            RentRegion rentRegion = new RentRegion(wgRegion, regionWorld, regionsigns, rentPrice, sold, subregions);
+            RentRegion rentRegion = new RentRegion(wgRegion, regionWorld, regionsigns, rentPrice, sold);
             rentRegion.setPayedTill(payedtill);
             region = rentRegion;
 
@@ -137,7 +122,7 @@ public class RegionManager extends YamlFileManager<Region> {
             }
             long payedtill = regionSection.getLong("payedTill");
             Boolean terminated = regionSection.getBoolean("terminated");
-            ContractRegion contractRegion = new ContractRegion(wgRegion, regionWorld, regionsigns, contractPrice, sold, subregions);
+            ContractRegion contractRegion = new ContractRegion(wgRegion, regionWorld, regionsigns, contractPrice, sold);
             contractRegion.setTerminated(terminated);
             contractRegion.setPayedTill(payedtill);
             region = contractRegion;
@@ -153,8 +138,19 @@ public class RegionManager extends YamlFileManager<Region> {
                 double price = regionSection.getDouble("price");
                 sellPrice = new Price(price);
             }
-            region = new SellRegion(wgRegion, regionWorld, regionsigns, sellPrice, sold, subregions);
+            region = new SellRegion(wgRegion, regionWorld, regionsigns, sellPrice, sold);
+        }
 
+        if (regionSection.getConfigurationSection("subregions") != null) {
+            List<String> subregionsection = new ArrayList<>(regionSection.getConfigurationSection("subregions").getKeys(false));
+            if (subregionsection != null) {
+                for (String subregionName : subregionsection) {
+                    WGRegion subWGRegion = AdvancedRegionMarket.getInstance().getWorldGuardInterface().getRegion(regionWorld, AdvancedRegionMarket.getInstance().getWorldGuard(), subregionName);
+                    if (subWGRegion != null) {
+                        parseSubRegion(regionSection.getConfigurationSection("subregions." + subregionName), regionWorld, subWGRegion, region);
+                    }
+                }
+            }
         }
 
         region.setRegionKind(regionKind);
@@ -206,7 +202,7 @@ public class RegionManager extends YamlFileManager<Region> {
         return region;
     }
 
-    private static Region parseSubRegion(ConfigurationSection section, World regionWorld, WGRegion subregion) {
+    private static Region parseSubRegion(ConfigurationSection section, World regionWorld, WGRegion subregion, Region parentRegion) {
         double subregPrice = section.getDouble("price");
         boolean subregIsSold = section.getBoolean("sold");
         boolean subregIsHotel = section.getBoolean("isHotel");
@@ -221,7 +217,7 @@ public class RegionManager extends YamlFileManager<Region> {
             long subregmaxRentTime = section.getLong("maxRentTime");
             long subregextendTime = section.getLong("extendTime");
             RentPrice subPrice = new RentPrice(subregPrice, subregextendTime, subregmaxRentTime);
-            RentRegion rentRegion = new RentRegion(subregion, regionWorld, subregionsigns, subPrice, subregIsSold, null);
+            RentRegion rentRegion = new RentRegion(subregion, subregionsigns, subPrice, subregIsSold, parentRegion);
             rentRegion.setPayedTill(subregpayedtill);
             region = rentRegion;
 
@@ -230,28 +226,18 @@ public class RegionManager extends YamlFileManager<Region> {
             long subregextendTime = section.getLong("extendTime");
             Boolean subregterminated = section.getBoolean("terminated");
             ContractPrice subPrice = new ContractPrice(subregPrice, subregextendTime);
-            ContractRegion contractRegion = new ContractRegion(subregion, regionWorld, subregionsigns, subPrice, subregIsSold, null);
+            ContractRegion contractRegion = new ContractRegion(subregion, subregionsigns, subPrice, subregIsSold, parentRegion);
             contractRegion.setPayedTill(subregpayedtill);
             contractRegion.setTerminated(subregterminated);
             region = contractRegion;
 
         } else {
             Price subPrice = new Price(subregPrice);
-            region = new SellRegion(subregion, regionWorld, subregionsigns, subPrice, subregIsSold, null);
+            region = new SellRegion(subregion, subregionsigns, subPrice, subregIsSold, parentRegion);
         }
-        ArmSettings armSettings = AdvancedRegionMarket.getInstance().getPluginSettings();
         region.setHotel(subregIsHotel);
         region.setLastReset(sublastreset);
         region.setLastLogin(sublastLogin);
-        region.setFlagGroup(FlagGroup.SUBREGION);
-        region.setRegionKind(RegionKind.SUBREGION);
-        region.setEntityLimitGroup(EntityLimitGroup.SUBREGION);
-        region.setAllowedSubregions(0);
-        region.setPaybackPercentage(armSettings.getPaybackPercentage());
-        region.setInactivityReset(armSettings.isSubregionInactivityReset());
-        region.setAutoRestore(armSettings.isSubregionAutoRestore());
-        region.setUserRestorable(armSettings.isAllowSubRegionUserRestore());
-        region.setMaxMembers(armSettings.getMaxSubRegionMembers());
         return region;
     }
 
@@ -345,6 +331,10 @@ public class RegionManager extends YamlFileManager<Region> {
         return teleportLoc;
     }
 
+    public void setTabCompleteRegions(boolean tabCompleteRegions) {
+        this.tabCompleteRegions = tabCompleteRegions;
+    }
+
     @Override
     public boolean add(Region region) {
         return this.add(region, false);
@@ -352,6 +342,9 @@ public class RegionManager extends YamlFileManager<Region> {
 
     @Override
     public boolean add(Region region, boolean unsafe) {
+        if(region.isSubregion()) {
+            return false;
+        }
         AddRegionEvent addRegionEvent = new AddRegionEvent(region);
         Bukkit.getServer().getPluginManager().callEvent(addRegionEvent);
         if (addRegionEvent.isCancelled()) {
@@ -773,7 +766,7 @@ public class RegionManager extends YamlFileManager<Region> {
     public List<String> completeTabRegions(Player player, String arg, PlayerRegionRelationship playerRegionRelationship, boolean inculdeNormalRegions, boolean includeSubregions) {
         List<String> returnme = new ArrayList<>();
 
-        if (Region.completeTabRegions) {
+        if (this.tabCompleteRegions) {
             for (Region region : this) {
                 if (inculdeNormalRegions) {
                     if (region.getRegion().getId().toLowerCase().startsWith(arg)) {

@@ -4,13 +4,10 @@ import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
-import net.alex9849.arm.entitylimit.EntityLimitGroup;
 import net.alex9849.arm.exceptions.FeatureDisabledException;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.flaggroups.FlagGroup;
-import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.ContractRegion;
-import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.RentRegion;
 import net.alex9849.arm.regions.SellRegion;
 import net.alex9849.arm.regions.price.ContractPrice;
@@ -23,8 +20,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.List;
 
 public class SubSignCreationListener implements Listener {
@@ -67,17 +62,10 @@ public class SubSignCreationListener implements Listener {
                 }
                 signList.add(signData);
                 Price subregPrice = new Price(price);
-                SellRegion sellRegion = new SellRegion(this.subRegionCreator.getSubRegion(),
-                        this.subRegionCreator.getParentRegion().getRegionworld(), signList, subregPrice, false,
-                        pluginsSettings.isSubregionInactivityReset(), false,
-                        pluginsSettings.isSubregionAutoRestore(), RegionKind.SUBREGION, FlagGroup.SUBREGION,
-                        null, 1, new GregorianCalendar().getTimeInMillis(),
-                        pluginsSettings.isAllowSubRegionUserRestore(), new ArrayList<Region>(), 0,
-                        EntityLimitGroup.SUBREGION, new HashMap<>(), 0,
-                        pluginsSettings.getMaxSubRegionMembers(), pluginsSettings.getPaybackPercentage());
+                SellRegion sellRegion = new SellRegion(this.subRegionCreator.getSubRegion(), signList, subregPrice,
+                        false, this.subRegionCreator.getParentRegion());
                 this.subRegionCreator.saveWorldGuardRegion();
                 event.setCancelled(true);
-                this.subRegionCreator.getParentRegion().addSubRegion(sellRegion);
                 sellRegion.createSchematic();
                 try {
                     sellRegion.applyFlagGroup(FlagGroup.ResetMode.COMPLETE, false);
@@ -120,17 +108,10 @@ public class SubSignCreationListener implements Listener {
                 }
                 signList.add(signData);
                 RentPrice rentPrice = new RentPrice(price, extendPerClick, maxRentTime);
-                RentRegion rentRegion = new RentRegion(this.subRegionCreator.getSubRegion(),
-                        this.subRegionCreator.getParentRegion().getRegionworld(), signList, rentPrice, false,
-                        pluginsSettings.isSubregionInactivityReset(), false,
-                        pluginsSettings.isSubregionAutoRestore(), RegionKind.SUBREGION, FlagGroup.SUBREGION,
-                        null, 1, new GregorianCalendar().getTimeInMillis(),
-                        pluginsSettings.isAllowSubRegionUserRestore(), 0, new ArrayList<Region>(),
-                        0, EntityLimitGroup.SUBREGION, new HashMap<>(), 0,
-                        pluginsSettings.getMaxSubRegionMembers(), pluginsSettings.getPaybackPercentage());
+                RentRegion rentRegion = new RentRegion(this.subRegionCreator.getSubRegion(), signList, rentPrice,
+                        false, this.subRegionCreator.getParentRegion());
                 this.subRegionCreator.saveWorldGuardRegion();
                 event.setCancelled(true);
-                this.subRegionCreator.getParentRegion().addSubRegion(rentRegion);
                 rentRegion.createSchematic();
                 try {
                     rentRegion.applyFlagGroup(FlagGroup.ResetMode.COMPLETE, false);
@@ -170,17 +151,10 @@ public class SubSignCreationListener implements Listener {
                 }
                 signList.add(signData);
                 ContractPrice contractPrice = new ContractPrice(price, extendtime);
-                ContractRegion contractRegion = new ContractRegion(this.subRegionCreator.getSubRegion(),
-                        this.subRegionCreator.getParentRegion().getRegionworld(), signList, contractPrice, false,
-                        pluginsSettings.isSubregionInactivityReset(), false, pluginsSettings.isSubregionAutoRestore(),
-                        RegionKind.SUBREGION, FlagGroup.SUBREGION, null, 1,
-                        new GregorianCalendar().getTimeInMillis(), pluginsSettings.isAllowSubRegionUserRestore(),
-                        0, false, new ArrayList<Region>(), 0,
-                        EntityLimitGroup.SUBREGION, new HashMap<>(), 0, pluginsSettings.getMaxSubRegionMembers(),
-                        pluginsSettings.getPaybackPercentage());
+                ContractRegion contractRegion = new ContractRegion(this.subRegionCreator.getSubRegion(), signList,
+                        contractPrice, false, this.subRegionCreator.getParentRegion());
                 this.subRegionCreator.saveWorldGuardRegion();
                 event.setCancelled(true);
-                this.subRegionCreator.getParentRegion().addSubRegion(contractRegion);
                 contractRegion.createSchematic();
                 try {
                     contractRegion.applyFlagGroup(FlagGroup.ResetMode.COMPLETE, false);

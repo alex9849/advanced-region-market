@@ -1,13 +1,13 @@
 package net.alex9849.arm.presets.commands;
 
 import net.alex9849.arm.Messages;
-import net.alex9849.arm.commands.CommandUtil;
 import net.alex9849.arm.commands.OptionModifyCommand;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.presets.ActivePresetManager;
 import net.alex9849.arm.presets.PresetPlayerPair;
 import net.alex9849.arm.presets.presets.Preset;
 import net.alex9849.arm.presets.presets.PresetType;
+import net.alex9849.arm.util.ArmUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -57,7 +57,7 @@ public abstract class PresetOptionModifyCommand<SettingsObj> extends OptionModif
         for(int i = 1; i < args.length; i++) {
             settingsArgs.add(args[i]);
         }
-        return getSettingsFromString(sender, CommandUtil.getStringList(settingsArgs, x -> x, " "));
+        return getSettingsFromString(sender, ArmUtils.getStringList(settingsArgs, x -> x, " "));
     }
 
     protected abstract SettingsObj getSettingsFromString(CommandSender sender, String setting) throws InputException;
@@ -81,7 +81,7 @@ public abstract class PresetOptionModifyCommand<SettingsObj> extends OptionModif
         for(int i = 1; i < args.length; i++) {
             settingsArgs.add(args[i]);
         }
-        return tabCompleteSettingsObject(player, CommandUtil.getStringList(settingsArgs, x -> x, " "));
+        return tabCompleteSettingsObject(player, ArmUtils.getStringList(settingsArgs, x -> x, " "));
     }
 
     protected abstract List<String> tabCompleteSettingsObject(Player player, String settings);

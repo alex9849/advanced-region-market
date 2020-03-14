@@ -2,10 +2,10 @@ package net.alex9849.arm.regionkind.commands;
 
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
-import net.alex9849.arm.commands.CommandUtil;
 import net.alex9849.arm.commands.OptionModifyCommand;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.regionkind.RegionKind;
+import net.alex9849.arm.util.ArmUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -41,7 +41,7 @@ public abstract class RegionKindOptionModifyCommand<SettingsObj> extends OptionM
         for(int i = 2; i < args.length; i++) {
             settingsArgs.add(args[i]);
         }
-        return getSettingsFromString(sender, CommandUtil.getStringList(settingsArgs, x -> x, " "));
+        return getSettingsFromString(sender, ArmUtils.getStringList(settingsArgs, x -> x, " "));
     }
 
     @Override
@@ -61,7 +61,7 @@ public abstract class RegionKindOptionModifyCommand<SettingsObj> extends OptionM
         for(int i = 2; i < args.length; i++) {
             settingsArgs.add(args[i]);
         }
-        return tabCompleteSettingsObject(player, CommandUtil.getStringList(settingsArgs, x -> x, " "));
+        return tabCompleteSettingsObject(player, ArmUtils.getStringList(settingsArgs, x -> x, " "));
     }
 
     @Override

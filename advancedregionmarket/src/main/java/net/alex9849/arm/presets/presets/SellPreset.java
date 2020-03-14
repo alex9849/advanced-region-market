@@ -12,7 +12,6 @@ import net.alex9849.signs.SignData;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SellPreset extends Preset {
@@ -41,7 +40,7 @@ public class SellPreset extends Preset {
 
     @Override
     protected SellRegion generateBasicRegion(WGRegion wgRegion, World world, List<SignData> signs) {
-        return new SellRegion(wgRegion, world, signs, new Price(AutoPrice.DEFAULT), false, new ArrayList<>());
+        return new SellRegion(wgRegion, world, signs, new Price(AutoPrice.DEFAULT), false);
     }
 
     @Override

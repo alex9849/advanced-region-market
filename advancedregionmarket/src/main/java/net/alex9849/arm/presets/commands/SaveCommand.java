@@ -30,7 +30,12 @@ public class SaveCommand extends PresetOptionModifyCommand<String> {
 
     @Override
     protected void applySetting(CommandSender sender, Preset object, String setting) throws InputException {
-        Preset savePreset = object.clone();
+        Preset savePreset = null;
+        try {
+            savePreset = (Preset) object.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
         savePreset.setName(setting);
         AdvancedRegionMarket.getInstance().getPresetPatternManager().add(savePreset);
     }

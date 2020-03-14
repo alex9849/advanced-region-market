@@ -6,6 +6,7 @@ import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.handler.CommandHandler;
 import net.alex9849.arm.regions.Region;
+import net.alex9849.arm.util.ArmUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -47,9 +48,9 @@ public class ListRegionsCommand extends BasicArmCommand {
         List<Region> regionsMember = AdvancedRegionMarket.getInstance()
                 .getRegionManager().getRegionsByMember(oplayer.getUniqueId());
 
-        sender.sendMessage(ChatColor.GOLD + "Owner: " + CommandUtil
+        sender.sendMessage(ChatColor.GOLD + "Owner: " + ArmUtils
                 .getStringList(regionsOwner, x -> x.getRegion().getId(), ", "));
-        sender.sendMessage(ChatColor.GOLD + "Member: " + CommandUtil
+        sender.sendMessage(ChatColor.GOLD + "Member: " + ArmUtils
                 .getStringList(regionsMember, x -> x.getRegion().getId(), ", "));
         return true;
     }

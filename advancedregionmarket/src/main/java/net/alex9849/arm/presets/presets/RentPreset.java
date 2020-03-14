@@ -15,7 +15,6 @@ import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class RentPreset extends CountdownPreset {
@@ -89,7 +88,7 @@ public class RentPreset extends CountdownPreset {
 
     @Override
     protected RentRegion generateBasicRegion(WGRegion wgRegion, World world, List<SignData> signs) {
-        return new RentRegion(wgRegion, world, signs, new RentPrice(AutoPrice.DEFAULT), false, new ArrayList<>());
+        return new RentRegion(wgRegion, world, signs, new RentPrice(AutoPrice.DEFAULT), false);
     }
 
     @Override

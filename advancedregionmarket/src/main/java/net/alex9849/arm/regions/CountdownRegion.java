@@ -55,9 +55,13 @@ public abstract class CountdownRegion extends Region {
         this.stringReplacer = new StringReplacer(variableReplacements, 50);
     }
 
-    public CountdownRegion(WGRegion region, World regionworld, List<SignData> sellsigns, ContractPrice contractPrice,
-                           boolean sold, List<Region> subregions) {
-        super(region, regionworld, sellsigns, contractPrice, sold, subregions);
+    public CountdownRegion(WGRegion region, List<SignData> sellsigns, ContractPrice contractPrice, boolean sold, Region parentRegion) {
+        super(region, sellsigns, contractPrice, sold, parentRegion);
+        this.extendTime = contractPrice.getExtendTime();
+    }
+
+    public CountdownRegion(WGRegion region, World regionworld, List<SignData> sellsigns, ContractPrice contractPrice, boolean sold) {
+        super(region, regionworld, sellsigns, contractPrice, sold);
         this.extendTime = contractPrice.getExtendTime();
     }
 

@@ -1,11 +1,10 @@
-package net.alex9849.arm.commands;
+package net.alex9849.arm.util;
 
 import java.util.Iterator;
-import java.util.List;
 
-public class CommandUtil {
+public class ArmUtils {
 
-    public static <X> String getStringList(List<X> xList, StringGetter<X> stringGetter, String splitter) {
+    public static <X> String getStringList(Iterable<X> xList, StringGetter<X> stringGetter, String splitter) {
         StringBuilder sb = new StringBuilder();
 
         Iterator<X> iterator = xList.iterator();
@@ -18,7 +17,6 @@ public class CommandUtil {
         }
         return sb.toString();
     }
-
 
     public interface StringGetter<X> {
         String get(X x);

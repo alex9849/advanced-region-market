@@ -45,9 +45,13 @@ public class RentRegion extends CountdownRegion {
         this.stringReplacer = new StringReplacer(variableReplacements, 50);
     }
 
-    public RentRegion(WGRegion region, World regionworld, List<SignData> sellsigns, RentPrice rentPrice, boolean sold,
-                      List<Region> subregions) {
-        super(region, regionworld, sellsigns, rentPrice, sold, subregions);
+    public RentRegion(WGRegion region, List<SignData> sellsigns, RentPrice rentPrice, boolean sold, Region parentRegion) {
+        super(region, sellsigns, rentPrice, sold, parentRegion);
+        this.maxRentTime = rentPrice.getMaxRentTime();
+    }
+
+    public RentRegion(WGRegion region, World regionworld, List<SignData> sellsigns, RentPrice rentPrice, boolean sold) {
+        super(region, regionworld, sellsigns, rentPrice, sold);
         this.maxRentTime = rentPrice.getMaxRentTime();
     }
 

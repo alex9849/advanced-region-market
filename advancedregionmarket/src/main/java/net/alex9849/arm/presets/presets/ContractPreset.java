@@ -10,7 +10,6 @@ import net.alex9849.inter.WGRegion;
 import net.alex9849.signs.SignData;
 import org.bukkit.World;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ContractPreset extends CountdownPreset {
@@ -32,6 +31,6 @@ public class ContractPreset extends CountdownPreset {
 
     @Override
     protected ContractRegion generateBasicRegion(WGRegion wgRegion, World world, List<SignData> signs) {
-        return new ContractRegion(wgRegion, world, signs, new ContractPrice(AutoPrice.DEFAULT), false, new ArrayList<>());
+        return new ContractRegion(wgRegion, world, signs, new ContractPrice(AutoPrice.DEFAULT), false);
     }
 }

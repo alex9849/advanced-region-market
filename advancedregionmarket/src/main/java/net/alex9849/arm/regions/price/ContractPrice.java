@@ -8,7 +8,7 @@ public class ContractPrice extends Price {
     /**
      * Creates a ContractPrice
      * @param price The price per period
-     * @param extendTime periodlength >= 1000, otherwise it will automatically be set to 1000
+     * @param extendTime periodlength needs to be bigger than 1000, otherwise it will automatically be set to 1000
      */
     public ContractPrice(double price, long extendTime) {
         super(price);

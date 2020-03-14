@@ -1336,12 +1336,13 @@ public class Gui implements Listener {
 
         GuiInventory inv = new GuiInventory(invsize, Messages.GUI_TAKEOVER_MENU_NAME);
         for (int i = 0; i < oldRegions.size(); i++) {
-            ItemStack stack = new ItemStack(oldRegions.get(i).getLogo());
+            Region selectedRegion = oldRegions.get(i);
+            ItemStack stack = new ItemStack(selectedRegion.getRegionKind().getMaterial());
             ItemMeta meta = stack.getItemMeta();
-            meta.setDisplayName(oldRegions.get(i).getRegion().getId());
+            meta.setDisplayName(selectedRegion.getRegion().getId());
             List<String> message = new LinkedList<>(Messages.GUI_TAKEOVER_ITEM_LORE);
             for (int j = 0; j < message.size(); j++) {
-                message.set(j, oldRegions.get(i).getConvertedMessage(message.get(j)));
+                message.set(j, selectedRegion.getConvertedMessage(message.get(j)));
             }
             meta.setLore(message);
             stack.setItemMeta(meta);
@@ -1349,13 +1350,11 @@ public class Gui implements Listener {
             ClickItem icon = new ClickItem(stack).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) {
-
-                    Region oldRegion = oldRegions.get(finalI);
-                    WGRegion oldWgRegion = oldRegion.getRegion();
-                    for (UUID oldOwner : oldWgRegion.getOwners()) {
-                        oldWgRegion.addMember(oldOwner);
+                    WGRegion selectedWgRegion = selectedRegion.getRegion();
+                    for (UUID oldOwner : selectedWgRegion.getOwners()) {
+                        selectedWgRegion.addMember(oldOwner);
                     }
-                    oldRegion.setOwner(player);
+                    selectedRegion.setOwner(player);
                     oldRegions.remove(finalI);
                     player.sendMessage(Messages.PREFIX + Messages.REGION_TRANSFER_COMPLETE_MESSAGE);
                     Gui.openOvertakeGUI(player, oldRegions);

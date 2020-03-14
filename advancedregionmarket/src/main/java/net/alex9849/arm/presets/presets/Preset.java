@@ -301,11 +301,6 @@ public abstract class Preset implements Saveable, Cloneable {
      */
     protected abstract Region generateBasicRegion(WGRegion wgRegion, World world, List<SignData> signs);
 
-    /**
-     * Applys all settings of this preset to a region
-     * @param region
-     * @param sender
-     */
     public void applyToRegion(Region region, CommandSender sender) {
         applyToRegion(region);
         this.executeSavedCommands(sender, region);

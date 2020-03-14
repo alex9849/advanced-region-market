@@ -169,6 +169,7 @@ public class SignModifyListener implements Listener {
             if (existingArmRegion != null) {
                 existingArmRegion.addSign(signData);
                 sign.setCancelled(true);
+                existingArmRegion.updateSigns();
                 sign.getPlayer().sendMessage(Messages.PREFIX + Messages.SIGN_ADDED_TO_REGION);
                 return;
             } else {
@@ -176,10 +177,10 @@ public class SignModifyListener implements Listener {
                 signDataList.add(signData);
                 Region newArmRegion = preset.generateRegion(wgRegion, regionWorld, sign.getPlayer(), signDataList);
 
-                if (price == null && !preset.canPriceLineBeLetEmpty()) {
-                    sign.getPlayer().sendMessage(Messages.PREFIX + "Price not defined! Using default Autoprice!");
-                } else {
+                if(price != null) {
                     newArmRegion.setPrice(price);
+                } else if (!preset.canPriceLineBeLetEmpty()) {
+                    sign.getPlayer().sendMessage(Messages.PREFIX + "Price not defined! Using default Autoprice!");
                 }
                 newArmRegion.createSchematic();
                 try {
@@ -188,6 +189,7 @@ public class SignModifyListener implements Listener {
                     //Ignore
                 }
                 AdvancedRegionMarket.getInstance().getRegionManager().add(newArmRegion);
+                newArmRegion.updateSigns();
                 sign.setCancelled(true);
                 sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_ADDED_TO_ARM);
                 return;

@@ -73,7 +73,7 @@ public abstract class Region implements Saveable {
             return this.getRegion().getId();
         });
         variableReplacements.put("%maxmembers%", () -> {
-            return (this.getMaxMembers() < 0)? Messages.UNLIMITED : this.getMaxMembers() + "";
+            return (this.getMaxMembers() < 0) ? Messages.UNLIMITED : this.getMaxMembers() + "";
         });
         variableReplacements.put("%region%", () -> {
             return this.getRegion().getId();
@@ -158,7 +158,7 @@ public abstract class Region implements Saveable {
                     AdvancedRegionMarket.getInstance().getPluginSettings().getDateTimeformat());
         });
         variableReplacements.put("%owner%", () -> {
-            if(this.getRegion().getOwners().size() > 0) {
+            if (this.getRegion().getOwners().size() > 0) {
                 return this.getOwnerName();
             }
             return "";
@@ -223,7 +223,7 @@ public abstract class Region implements Saveable {
     #########################################*/
     public Region(WGRegion region, List<SignData> sellsigns, Price price, boolean sold, Region parentRegion) {
         this(region, parentRegion.getRegionworld(), sellsigns, price, sold);
-        if(parentRegion.isSubregion()) {
+        if (parentRegion.isSubregion()) {
             throw new IllegalArgumentException("Subregions can't be parent regions!");
         }
         ArmSettings pluginsSettings = AdvancedRegionMarket.getInstance().getPluginSettings();
@@ -519,14 +519,14 @@ public abstract class Region implements Saveable {
     }
 
     public void setUserRestorable(boolean bool) {
-        if(this.isSubregion())
+        if (this.isSubregion())
             throw new IllegalArgumentException("Can't change this option for a Subregion!");
         this.isUserRestorable = bool;
         this.queueSave();
     }
 
     public void setAutoRestore(boolean bool) {
-        if(this.isSubregion())
+        if (this.isSubregion())
             throw new IllegalArgumentException("Can't change this option for a Subregion!");
         this.isAutoRestore = bool;
         this.queueSave();
@@ -554,30 +554,30 @@ public abstract class Region implements Saveable {
     }
 
     public void setInactivityReset(boolean state) {
-        if(this.isSubregion())
+        if (this.isSubregion())
             throw new IllegalArgumentException("Can't change this option for a Subregion!");
         this.inactivityReset = state;
         this.queueSave();
     }
 
     public void setAllowedSubregions(int allowedSubregions) {
-        if(this.isSubregion())
+        if (this.isSubregion())
             throw new IllegalArgumentException("Can't change this option for a Subregion!");
         this.allowedSubregions = allowedSubregions;
         this.queueSave();
     }
 
     public void setPaybackPercentage(int paybackPercentage) {
-        if(this.isSubregion())
+        if (this.isSubregion())
             throw new IllegalArgumentException("Can't change this option for a Subregion!");
         this.paybackPercentage = paybackPercentage;
         this.queueSave();
     }
 
     public void setMaxMembers(int maxMembers) {
-        if(this.isSubregion())
+        if (this.isSubregion())
             throw new IllegalArgumentException("Can't change this option for a Subregion!");
-        if(maxMembers < -1) {
+        if (maxMembers < -1) {
             this.maxMembers = 0;
         } else {
             this.maxMembers = maxMembers;
@@ -596,7 +596,7 @@ public abstract class Region implements Saveable {
     }
 
     public void setRegionKind(RegionKind regionKind) {
-        if(this.isSubregion())
+        if (this.isSubregion())
             throw new IllegalArgumentException("Can't change this option for a Subregion!");
         this.regionKind = regionKind;
         this.queueSave();
@@ -620,21 +620,21 @@ public abstract class Region implements Saveable {
     }
 
     public void setEntityLimitGroup(EntityLimitGroup entityLimitGroup) {
-        if(this.isSubregion())
+        if (this.isSubregion())
             throw new IllegalArgumentException("Can't change this option for a Subregion!");
         this.entityLimitGroup = entityLimitGroup;
         this.queueSave();
     }
 
     public void setFlagGroup(FlagGroup flagGroup) {
-        if(this.isSubregion())
+        if (this.isSubregion())
             throw new IllegalArgumentException("Can't change this option for a Subregion!");
         this.flagGroup = flagGroup;
         this.queueSave();
     }
 
     public void setTeleportLocation(Location loc) {
-        if(this.isSubregion())
+        if (this.isSubregion())
             throw new IllegalArgumentException("Can't change this option for a Subregion!");
         this.teleportLocation = loc;
         this.queueSave();
@@ -646,7 +646,7 @@ public abstract class Region implements Saveable {
     }
 
     public void setExtraTotalEntitys(int extraTotalEntitys) {
-        if(this.isSubregion())
+        if (this.isSubregion())
             throw new IllegalArgumentException("Can't change this option for a Subregion!");
         if (extraTotalEntitys < 0) {
             this.extraTotalEntitys = 0;
@@ -658,7 +658,7 @@ public abstract class Region implements Saveable {
     }
 
     public void setExtraEntityAmount(EntityLimit.LimitableEntityType entityType, int amount) {
-        if(this.isSubregion())
+        if (this.isSubregion())
             throw new IllegalArgumentException("Can't change this option for a Subregion!");
         this.extraEntitys.remove(entityType);
         if (amount > 0) {
@@ -700,7 +700,7 @@ public abstract class Region implements Saveable {
             i--;
         }
 
-        if(this.isSubregion()) {
+        if (this.isSubregion()) {
             AdvancedRegionMarket.getInstance().getWorldGuardInterface().removeFromRegionManager(this.getRegion(), this.getRegionworld());
             this.getParentRegion().getSubregions().remove(this);
             this.getParentRegion().queueSave();
@@ -820,7 +820,7 @@ public abstract class Region implements Saveable {
         } else if (ieGroup.isTakeOverDisabled()) {
             return Messages.INFO_DEACTIVATED;
         } else {
-            if(date) {
+            if (date) {
                 return TimeUtil.getDate(ieGroup.getTakeOverAfterMs() + this.getLastLogin(), true,
                         Messages.INFO_NOW, AdvancedRegionMarket.getInstance().getPluginSettings().getDateTimeformat());
             } else {
@@ -848,7 +848,7 @@ public abstract class Region implements Saveable {
         } else if (ieGroup.isResetDisabled()) {
             return Messages.INFO_DEACTIVATED;
         } else {
-            if(date) {
+            if (date) {
                 return TimeUtil.getDate(ieGroup.getResetAfterMs() + this.getLastLogin(), true,
                         Messages.INFO_NOW, AdvancedRegionMarket.getInstance().getPluginSettings().getDateTimeformat());
             } else {
@@ -860,19 +860,19 @@ public abstract class Region implements Saveable {
 
     public void createBackup() {
         String fileName = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSSS").format(new Date());
-        File schematicFolder = new File(AdvancedRegionMarket.getInstance().getDataFolder()+ "/schematics");
+        File schematicFolder = new File(AdvancedRegionMarket.getInstance().getDataFolder() + "/schematics");
         File regionsSchematicFolder = new File(schematicFolder + "/" + this.getRegionworld().getName() + "/" + this.getRegion().getId() + "/Backups");
         AdvancedRegionMarket.getInstance().getWorldEditInterface().createSchematic(this.getRegion(), this.getRegionworld(), regionsSchematicFolder, fileName);
     }
 
     public void loadBackup(String name) throws SchematicNotFoundException {
-        File schematicFolder = new File(AdvancedRegionMarket.getInstance().getDataFolder()+ "/schematics");
+        File schematicFolder = new File(AdvancedRegionMarket.getInstance().getDataFolder() + "/schematics");
         File regionsSchematicPathWithoutFileEnding = new File(schematicFolder + "/" + this.getRegionworld().getName() + "/" + this.getRegion().getId() + "/Backups/" + name);
         AdvancedRegionMarket.getInstance().getWorldEditInterface().restoreSchematic(this.getRegion(), this.getRegionworld(), regionsSchematicPathWithoutFileEnding);
     }
 
     public void createSchematic() {
-        File schematicFolder = new File(AdvancedRegionMarket.getInstance().getDataFolder()+ "/schematics");
+        File schematicFolder = new File(AdvancedRegionMarket.getInstance().getDataFolder() + "/schematics");
         File regionsSchematicFolder = new File(schematicFolder + "/" + this.getRegionworld().getName() + "/" + this.getRegion().getId());
         AdvancedRegionMarket.getInstance().getWorldEditInterface().createSchematic(this.getRegion(), this.getRegionworld(), regionsSchematicFolder, "schematic");
     }
@@ -885,7 +885,7 @@ public abstract class Region implements Saveable {
             return;
         }
 
-        if(AdvancedRegionMarket.getInstance().getPluginSettings().isCreateBackupOnRegionRestore() && !preventBackup) {
+        if (AdvancedRegionMarket.getInstance().getPluginSettings().isCreateBackupOnRegionRestore() && !preventBackup) {
             this.createBackup();
         }
 
@@ -893,7 +893,7 @@ public abstract class Region implements Saveable {
             this.killEntitys();
         }
 
-        File schematicFolder = new File(AdvancedRegionMarket.getInstance().getDataFolder()+ "/schematics");
+        File schematicFolder = new File(AdvancedRegionMarket.getInstance().getDataFolder() + "/schematics");
         File regionsSchematicPathWithoutFileEnding = new File(schematicFolder + "/" + this.getRegionworld().getName() + "/" + this.getRegion().getId() + "/schematic");
 
         AdvancedRegionMarket.getInstance().getWorldEditInterface().restoreSchematic(this.getRegion(), this.getRegionworld(), regionsSchematicPathWithoutFileEnding);
@@ -1009,7 +1009,7 @@ public abstract class Region implements Saveable {
      * @param actionReason An ActionReason
      * @param logToConsole If true, this will be logged to the console with the give ActionReason
      * @throws SchematicNotFoundException if the schematic file of the region could not be found. Nevertheless
-     * if the execption gets thrown the region will be unsold
+     *                                    if the execption gets thrown the region will be unsold
      */
     public void automaticResetRegion(ActionReason actionReason, boolean logToConsole) throws SchematicNotFoundException {
         this.unsell(actionReason, logToConsole, false);
@@ -1039,7 +1039,7 @@ public abstract class Region implements Saveable {
             return;
         }
 
-        if(AdvancedRegionMarket.getInstance().getPluginSettings().isCreateBackupOnRegionUnsell() && !preventBackupCreation) {
+        if (AdvancedRegionMarket.getInstance().getPluginSettings().isCreateBackupOnRegionUnsell() && !preventBackupCreation) {
             this.createBackup();
         }
 

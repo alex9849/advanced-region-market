@@ -1,5 +1,6 @@
 package net.alex9849.arm;
 
+import net.alex9849.arm.util.ArmUtils;
 import net.alex9849.arm.util.YamlFileManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -1286,6 +1287,14 @@ public class Messages {
             return Messages.ENABLED;
         } else {
             return Messages.DISABLED;
+        }
+    }
+
+    public static <X> String getStringValue(X object, ArmUtils.StringGetter<X> stringGetter, String nullString) {
+        if(object != null) {
+            return stringGetter.get(object);
+        } else {
+            return nullString;
         }
     }
 

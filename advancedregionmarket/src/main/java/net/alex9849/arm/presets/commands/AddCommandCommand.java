@@ -1,7 +1,6 @@
 package net.alex9849.arm.presets.commands;
 
 import net.alex9849.arm.Permission;
-import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.presets.presets.Preset;
 import net.alex9849.arm.presets.presets.PresetType;
 import org.bukkit.command.CommandSender;
@@ -15,16 +14,16 @@ public class AddCommandCommand extends PresetOptionModifyCommand<String> {
 
     public AddCommandCommand(PresetType presetType) {
         super("addcommand", Arrays.asList(Permission.ADMIN_PRESET_ADDCOMMAND),
-                "[^;\n]+", "[COMMAND]", "", presetType);
+                false, "[^;\n]+", "[COMMAND]", "", presetType);
     }
 
     @Override
-    protected String getSettingsFromString(CommandSender sender, String setting) throws InputException {
+    protected String getSettingsFromString(CommandSender sender, String setting) {
         return setting;
     }
 
     @Override
-    protected void applySetting(CommandSender sender, Preset object, String setting) throws InputException {
+    protected void applySetting(CommandSender sender, Preset object, String setting) {
         object.addCommand(setting);
     }
 

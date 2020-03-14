@@ -16,24 +16,20 @@ public class PriceCommand extends PresetOptionModifyCommand<Double> {
 
     public PriceCommand(PresetType presetType) {
         super("price", Arrays.asList(Permission.ADMIN_PRESET_SET_PRICE),
-                "(([0-9]+[.])?[0-9]+|(?i)remove)", "[PRICE]", "", presetType);
+                true, "(([0-9]+[.])?[0-9]+|(?i)remove)", "[PRICE]", "", presetType);
     }
 
     @Override
     protected Double getSettingsFromString(CommandSender sender, String setting) throws InputException {
         if(setting.equalsIgnoreCase("remove")) {
-            return Double.NaN;
+            return null;
         }
         return Double.parseDouble(setting);
     }
 
     @Override
     protected void applySetting(CommandSender sender, Preset object, Double setting) {
-        if(setting == Double.NaN) {
-            object.removePrice();
-        } else {
-            object.setPrice(setting);
-        }
+        object.setPrice(setting);
     }
 
     @Override

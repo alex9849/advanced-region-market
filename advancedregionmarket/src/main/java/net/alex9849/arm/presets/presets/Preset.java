@@ -23,51 +23,210 @@ import java.util.List;
 
 public abstract class Preset implements Saveable, Cloneable {
     private String name = "default";
-    private boolean hasPrice = false;
-    private double price = 0;
-    private RegionKind regionKind = RegionKind.DEFAULT;
-    private boolean inactivityReset = true;
-    private boolean isHotel = false;
-    private boolean autoRestore = true;
-    private boolean isUserRestorable = true;
-    private int allowedSubregions = 0;
-    private FlagGroup flagGroup = FlagGroup.DEFAULT;
+    private Boolean inactivityReset;
+    private Boolean isHotel;
+    private Boolean autoRestore;
+    private Boolean isUserRestorable;
+    private Integer allowedSubregions;
+    private Integer maxMembers;
+    private Integer paybackPercentage;
+    private Double price;
     private AutoPrice autoPrice;
+    private RegionKind regionKind;
+    private FlagGroup flagGroup;
     private EntityLimitGroup entityLimitGroup;
     private List<String> setupCommands = new ArrayList<>();
     private boolean needsSave = false;
-    private int maxMembers = -1;
-    private int paybackPercentage = 50;
 
-    public Preset(String name, boolean hasPrice, double price, RegionKind regionKind, FlagGroup flagGroup,
-                  boolean inactivityReset, boolean isHotel, boolean autoRestore, boolean isUserRestorable,
-                  int allowedSubregions, AutoPrice autoPrice, EntityLimitGroup entityLimitGroup,
-                  List<String> setupCommands, int maxMembers, int paybackPercentage) {
-        this.name = name;
-        this.hasPrice = hasPrice;
-        this.price = price;
-        this.regionKind = regionKind;
-        this.inactivityReset = inactivityReset;
-        this.isHotel = isHotel;
-        this.autoRestore = autoRestore;
-        this.isUserRestorable = isUserRestorable;
-        this.allowedSubregions = allowedSubregions;
-        this.setupCommands = setupCommands;
-        this.autoPrice = autoPrice;
-        this.flagGroup = flagGroup;
-        this.entityLimitGroup = entityLimitGroup;
-        this.needsSave = false;
-        this.maxMembers = maxMembers;
-        this.paybackPercentage = paybackPercentage;
+
+    /*#########################
+    ######### Getter ##########
+    #########################*/
+
+    public String getName() {
+        return this.name;
     }
 
-    public int getPaybackPercentage() {
+    public Boolean isUserRestorable() {
+        return this.isUserRestorable;
+    }
+
+    public Boolean isInactivityReset() {
+        return this.inactivityReset;
+    }
+
+    public Boolean isHotel() {
+        return isHotel;
+    }
+
+    public Boolean isAutoRestore() {
+        return autoRestore;
+    }
+
+    public Integer getPaybackPercentage() {
         return paybackPercentage;
     }
 
-    public void setPaybackPercentage(int paybackPercentage) {
+    public Integer getAllowedSubregions() {
+        return this.allowedSubregions;
+    }
+
+    public Integer getMaxMembers() {
+        return maxMembers;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public AutoPrice getAutoPrice() {
+        return this.autoPrice;
+    }
+
+    public List<String> getCommands() {
+        return this.setupCommands;
+    }
+
+    public FlagGroup getFlagGroup() {
+        return this.flagGroup;
+    }
+
+    public EntityLimitGroup getEntityLimitGroup() {
+        return this.entityLimitGroup;
+    }
+
+    public RegionKind getRegionKind() {
+        return regionKind;
+    }
+
+    @Override
+    public boolean needsSave() {
+        return this.needsSave;
+    }
+
+
+    /*##########################
+    ########## Setter ##########
+    ###########################*/
+
+    @Override
+    public void queueSave() {
+        this.needsSave = true;
+    }
+
+    @Override
+    public void setSaved() {
+        this.needsSave = false;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPaybackPercentage(Integer paybackPercentage) {
         this.paybackPercentage = paybackPercentage;
     }
+
+    public void setAllowedSubregions(Integer allowedSubregions) {
+        this.allowedSubregions = allowedSubregions;
+    }
+
+    public void setMaxMembers(Integer maxMembers) {
+        this.maxMembers = maxMembers;
+    }
+
+    public void setUserRestorable(Boolean isUserRestorable) {
+        this.isUserRestorable = isUserRestorable;
+    }
+
+    public void setAutoRestore(Boolean bool) {
+        this.autoRestore = bool;
+    }
+
+    public void setHotel(Boolean isHotel) {
+        this.isHotel = isHotel;
+    }
+
+    public void setInactivityReset(Boolean InactivityReset) {
+        this.inactivityReset = InactivityReset;
+    }
+
+    public void setPrice(Double price) {
+        if(price != null) {
+            this.autoPrice = null;
+            if (price < 0) {
+                price = price * (-1);
+            }
+        }
+        this.price = price;
+    }
+
+    public void setAutoPrice(AutoPrice autoPrice) {
+        this.autoPrice = autoPrice;
+        if(autoPrice != null) {
+            this.price = null;
+        }
+    }
+
+    public void setRegionKind(RegionKind regionKind) {
+        if (regionKind == null) {
+            regionKind = RegionKind.DEFAULT;
+        }
+        this.regionKind = regionKind;
+    }
+
+    public void setFlagGroup(FlagGroup flagGroup) {
+        this.flagGroup = flagGroup;
+    }
+
+    public void setEntityLimitGroup(EntityLimitGroup entityLimitGroup) {
+        this.entityLimitGroup = entityLimitGroup;
+    }
+
+    public void addCommand(String command) {
+        this.setupCommands.add(command);
+    }
+
+    public void addCommand(List<String> command) {
+        this.setupCommands.addAll(command);
+    }
+
+    public void removeCommand(int index) {
+
+        if (index < 0) {
+            return;
+        }
+
+        if (this.setupCommands.size() > index) {
+            this.setupCommands.remove(index);
+        }
+    }
+
+
+    /*##########################
+    ##### Abstract methods #####
+    ##########################*/
+
+    public abstract void getAdditionalInfo(CommandSender sender);
+
+    public abstract PresetType getPresetType();
+
+    public abstract boolean canPriceLineBeLetEmpty();
+
+    /**
+     * Generates a region Object, with the type of the preset and with default settings
+     *
+     * @param wgRegion The WorldGuard region
+     * @param world The world of the WorldGuard region
+     * @param signs The signs that should be linked to the region
+     * @return The region
+     */
+    protected abstract Region generateBasicRegion(WGRegion wgRegion, World world, List<SignData> signs);
+
+
+    /*##########################
+    ####### Other stuff ########
+    ##########################*/
 
     public Object clone() throws CloneNotSupportedException {
         Object obj =  super.clone();
@@ -79,50 +238,6 @@ public abstract class Preset implements Saveable, Cloneable {
             }
         }
         return obj;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public FlagGroup getFlagGroup() {
-        return this.flagGroup;
-    }
-
-    public void setFlagGroup(FlagGroup flagGroup) {
-        this.flagGroup = flagGroup;
-    }
-
-    public boolean isUserRestorable() {
-        return this.isUserRestorable;
-    }
-
-    public void setUserRestorable(boolean isUserRestorable) {
-        this.isUserRestorable = isUserRestorable;
-    }
-
-    public int getAllowedSubregions() {
-        return this.allowedSubregions;
-    }
-
-    public void setAllowedSubregions(int allowedSubregions) {
-        this.allowedSubregions = allowedSubregions;
-    }
-
-    public void addCommand(String command) {
-        this.setupCommands.add(command);
-    }
-
-    public void addCommand(List<String> command) {
-        this.setupCommands.addAll(command);
-    }
-
-    public List<String> getCommands() {
-        return this.setupCommands;
     }
 
     public void executeSavedCommands(CommandSender sender, Region region) {
@@ -137,143 +252,28 @@ public abstract class Preset implements Saveable, Cloneable {
         }
     }
 
-    public void removeCommand(int index) {
-
-        if (index < 0) {
-            return;
-        }
-
-        if (this.setupCommands.size() > index) {
-            this.setupCommands.remove(index);
-        }
-    }
-
-    public void removeAutoPrice() {
-        this.autoPrice = null;
-    }
-
-    public boolean hasAutoPrice() {
-        return this.autoPrice != null;
-    }
-
-    public AutoPrice getAutoPrice() {
-        return this.autoPrice;
-    }
-
-    public void setAutoPrice(AutoPrice autoPrice) {
-        this.autoPrice = autoPrice;
-        this.removePrice();
-    }
-
     public void getPresetInfo(CommandSender sender) {
-        String price = "not defined";
-        String autoPrice = Messages.convertYesNo(this.hasAutoPrice());
-        if (this.hasPrice()) {
-            price = this.getPrice() + "";
-        }
-        if (this.hasAutoPrice()) {
-            autoPrice = this.getAutoPrice().getName();
-        }
-        RegionKind regKind = this.getRegionKind();
+        String notDefined = "not defined";
 
         sender.sendMessage(ChatColor.GOLD + "=========[Preset INFO]=========");
-        sender.sendMessage(Messages.REGION_INFO_AUTOPRICE + autoPrice);
-        sender.sendMessage(Messages.REGION_INFO_PRICE + price);
+        sender.sendMessage(Messages.REGION_INFO_AUTOPRICE + Messages.getStringValue(this.getAutoPrice(), x -> x.getName(), notDefined));
+        sender.sendMessage(Messages.REGION_INFO_PRICE + Messages.getStringValue(this.getPrice(), x -> x.toString(), notDefined));
         this.getAdditionalInfo(sender);
-        sender.sendMessage(Messages.REGION_INFO_TYPE + regKind.getName());
-        sender.sendMessage(Messages.REGION_INFO_MAX_MEMBERS + this.getMaxMembers());
-        sender.sendMessage(Messages.REGION_INFO_FLAGGROUP + flagGroup.getName());
-        sender.sendMessage(Messages.REGION_INFO_ENTITYLIMITGROUP + entityLimitGroup.getName());
-        sender.sendMessage(Messages.REGION_INFO_INACTIVITYRESET + this.isInactivityReset());
-        sender.sendMessage(Messages.REGION_INFO_HOTEL + this.isHotel());
-        sender.sendMessage(Messages.REGION_INFO_AUTORESTORE + this.isAutoRestore());
-        sender.sendMessage(Messages.REGION_INFO_IS_USER_RESTORABLE + this.isUserRestorable());
-        sender.sendMessage(Messages.REGION_INFO_ALLOWED_SUBREGIONS + this.getAllowedSubregions());
+        sender.sendMessage(Messages.REGION_INFO_TYPE + Messages.getStringValue(this.getRegionKind(), x -> x.getName(), notDefined));
+        sender.sendMessage(Messages.REGION_INFO_MAX_MEMBERS + Messages.getStringValue(this.getMaxMembers(), x -> x.toString(), notDefined));
+        sender.sendMessage(Messages.REGION_INFO_FLAGGROUP + Messages.getStringValue(this.getFlagGroup(), x -> x.getName(), notDefined));
+        sender.sendMessage(Messages.REGION_INFO_ENTITYLIMITGROUP + Messages.getStringValue(this.getEntityLimitGroup(), x -> x.getName(), notDefined));
+        sender.sendMessage(Messages.REGION_INFO_INACTIVITYRESET + Messages.getStringValue(this.isInactivityReset(), x -> Messages.convertYesNo(x), notDefined));
+        sender.sendMessage(Messages.REGION_INFO_HOTEL + Messages.getStringValue(this.isHotel(), x -> Messages.convertYesNo(x), notDefined));
+        sender.sendMessage(Messages.REGION_INFO_AUTORESTORE + Messages.getStringValue(this.isAutoRestore(), x -> Messages.convertYesNo(x), notDefined));
+        sender.sendMessage(Messages.REGION_INFO_IS_USER_RESTORABLE + Messages.getStringValue(this.isUserRestorable(), x -> Messages.convertYesNo(x), notDefined));
+        sender.sendMessage(Messages.REGION_INFO_ALLOWED_SUBREGIONS + Messages.getStringValue(this.getAllowedSubregions(), x -> x.toString(), notDefined));
         sender.sendMessage(Messages.PRESET_SETUP_COMMANDS);
         for (int i = 0; i < this.setupCommands.size(); i++) {
             String message = (i + 1) + ". /" + this.setupCommands.get(i);
             sender.sendMessage(ChatColor.GOLD + message);
         }
     }
-
-    public abstract void getAdditionalInfo(CommandSender sender);
-
-    public void removePrice() {
-        this.hasPrice = false;
-        this.price = 0;
-    }
-
-    public boolean hasPrice() {
-        return hasPrice;
-    }
-
-    public EntityLimitGroup getEntityLimitGroup() {
-        return this.entityLimitGroup;
-    }
-
-    public void setEntityLimitGroup(EntityLimitGroup entityLimitGroup) {
-        this.entityLimitGroup = entityLimitGroup;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        if (price < 0) {
-            price = price * (-1);
-        }
-        this.hasPrice = true;
-        this.price = price;
-        this.removeAutoPrice();
-    }
-
-    public RegionKind getRegionKind() {
-        return regionKind;
-    }
-
-    public void setRegionKind(RegionKind regionKind) {
-        if (regionKind == null) {
-            regionKind = RegionKind.DEFAULT;
-        }
-        this.regionKind = regionKind;
-    }
-
-    public boolean isInactivityReset() {
-        return this.inactivityReset;
-    }
-
-    public void setInactivityReset(Boolean InactivityReset) {
-        this.inactivityReset = InactivityReset;
-    }
-
-    public boolean isAutoRestore() {
-        return autoRestore;
-    }
-
-    public void setAutoRestore(Boolean bool) {
-        this.autoRestore = bool;
-    }
-
-    public boolean isHotel() {
-        return isHotel;
-    }
-
-    public void setHotel(Boolean isHotel) {
-        this.isHotel = isHotel;
-    }
-
-    public int getMaxMembers() {
-        return maxMembers;
-    }
-
-    public void setMaxMembers(int maxMembers) {
-        this.maxMembers = maxMembers;
-    }
-
-    public abstract PresetType getPresetType();
-
-    public abstract boolean canPriceLineBeLetEmpty();
 
     /**
      * Generates a region with the settings of the preset
@@ -291,18 +291,8 @@ public abstract class Preset implements Saveable, Cloneable {
         return region;
     }
 
-    /**
-     * Generates a region Object, with the type of the preset and with default settings
-     *
-     * @param wgRegion The WorldGuard region
-     * @param world The world of the WorldGuard region
-     * @param signs The signs that should be linked to the region
-     * @return The region
-     */
-    protected abstract Region generateBasicRegion(WGRegion wgRegion, World world, List<SignData> signs);
-
     public void applyToRegion(Region region, CommandSender sender) {
-        applyToRegion(region);
+        this.applyToRegion(region);
         this.executeSavedCommands(sender, region);
     }
 
@@ -311,57 +301,52 @@ public abstract class Preset implements Saveable, Cloneable {
      * @param region the region
      */
     public void applyToRegion(Region region) {
-        if(this.hasAutoPrice()) {
+        if(this.autoPrice != null)
             region.setPrice(new Price(this.getAutoPrice()));
-        }
-        region.setInactivityReset(this.isInactivityReset());
-        region.setHotel(this.isHotel());
-        region.setAutoRestore(this.isAutoRestore());
-        region.setRegionKind(this.getRegionKind());
-        region.setFlagGroup(this.getFlagGroup());
-        region.setUserRestorable(this.isUserRestorable());
-        region.setAllowedSubregions(this.getAllowedSubregions());
-        region.setEntityLimitGroup(this.getEntityLimitGroup());
-        region.setMaxMembers(this.getMaxMembers());
-        region.setPaybackPercentage(this.getPaybackPercentage());
+        if(this.inactivityReset != null)
+            region.setInactivityReset(this.isInactivityReset());
+        if(this.isHotel != null)
+            region.setHotel(this.isHotel());
+        if(this.autoRestore != null)
+            region.setAutoRestore(this.isAutoRestore());
+        if(this.regionKind != null)
+            region.setRegionKind(this.getRegionKind());
+        if(this.flagGroup != null)
+            region.setFlagGroup(this.getFlagGroup());
+        if(this.isUserRestorable != null)
+            region.setUserRestorable(this.isUserRestorable());
+        if(this.allowedSubregions != null)
+            region.setAllowedSubregions(this.getAllowedSubregions());
+        if(this.entityLimitGroup != null)
+            region.setEntityLimitGroup(this.getEntityLimitGroup());
+        if(this.maxMembers != null)
+            region.setMaxMembers(this.getMaxMembers());
+        if(this.paybackPercentage != null)
+            region.setPaybackPercentage(this.getPaybackPercentage());
     }
 
     @Override
     public ConfigurationSection toConfigurationSection() {
         ConfigurationSection section = new YamlConfiguration();
-        section.set("hasPrice", this.hasPrice());
         section.set("price", this.getPrice());
         section.set("userrestorable", this.isUserRestorable());
         section.set("allowedSubregions", this.getAllowedSubregions());
-        section.set("regionKind", this.getRegionKind().getName());
         section.set("isHotel", this.isHotel());
         section.set("autorestore", this.isAutoRestore());
         section.set("paybackPercentage", this.getPaybackPercentage());
         section.set("maxMembers", this.getMaxMembers());
-        section.set("flaggroup", this.flagGroup.getName());
-        section.set("entityLimitGroup", this.getEntityLimitGroup().getName());
         section.set("inactivityReset", this.isInactivityReset());
-        if (this.hasAutoPrice()) {
+        if(this.getFlagGroup() != null)
+            section.set("flaggroup", this.getFlagGroup().getName());
+        if(this.getRegionKind() != null)
+            section.set("regionKind", this.getRegionKind().getName());
+        if(this.getEntityLimitGroup() != null)
+            section.set("entityLimitGroup", this.getEntityLimitGroup().getName());
+        if (this.autoPrice != null) {
             section.set("autoPrice", this.getAutoPrice().getName());
-        } else {
-            section.set("autoPrice", null);
         }
         section.set("setupcommands", this.getCommands());
         return section;
     }
 
-    @Override
-    public void queueSave() {
-        this.needsSave = true;
-    }
-
-    @Override
-    public void setSaved() {
-        this.needsSave = false;
-    }
-
-    @Override
-    public boolean needsSave() {
-        return this.needsSave;
-    }
 }

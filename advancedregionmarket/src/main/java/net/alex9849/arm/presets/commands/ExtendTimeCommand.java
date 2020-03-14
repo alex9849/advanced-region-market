@@ -7,7 +7,7 @@ import net.alex9849.arm.exceptions.CmdSyntaxException;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.presets.ActivePresetManager;
 import net.alex9849.arm.presets.PresetPlayerPair;
-import net.alex9849.arm.presets.presets.ContractPreset;
+import net.alex9849.arm.presets.presets.CountdownPreset;
 import net.alex9849.arm.presets.presets.Preset;
 import net.alex9849.arm.presets.presets.PresetType;
 import org.bukkit.command.CommandSender;
@@ -40,13 +40,13 @@ public class ExtendTimeCommand extends BasicArmCommand {
             ActivePresetManager.add(new PresetPlayerPair(player, preset));
         }
 
-        if (!(preset instanceof ContractPreset)) {
+        if (!(preset instanceof CountdownPreset)) {
             return false;
         }
-        ContractPreset contractPreset = (ContractPreset) preset;
+        CountdownPreset contractPreset = (CountdownPreset) preset;
 
         if (command.matches(this.regex_remove)) {
-            contractPreset.removeExtendTime();
+            contractPreset.setExtendTime((Long) null);
             player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
         } else {
             contractPreset.setExtendTime(command.split(" ")[1]);

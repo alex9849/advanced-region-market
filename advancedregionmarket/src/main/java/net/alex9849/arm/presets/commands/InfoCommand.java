@@ -1,7 +1,6 @@
 package net.alex9849.arm.presets.commands;
 
 import net.alex9849.arm.Permission;
-import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.presets.presets.Preset;
 import net.alex9849.arm.presets.presets.PresetType;
 import org.bukkit.command.CommandSender;
@@ -18,12 +17,12 @@ public class InfoCommand extends PresetOptionModifyCommand<Object> {
     }
 
     @Override
-    protected Object getSettingsFromString(CommandSender sender, String setting) throws InputException {
+    protected Object getSettingsFromString(CommandSender sender, String setting) {
         return null;
     }
 
     @Override
-    protected void applySetting(CommandSender sender, Preset object, Object setting) throws InputException {}
+    protected void applySetting(CommandSender sender, Preset object, Object setting) {}
 
     @Override
     protected void sendSuccessMessage(CommandSender sender, Preset obj, Object o) {

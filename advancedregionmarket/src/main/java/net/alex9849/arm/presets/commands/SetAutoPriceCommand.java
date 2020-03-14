@@ -41,21 +41,19 @@ public class SetAutoPriceCommand extends BasicArmCommand {
         }
 
         if (command.matches(this.regex_remove)) {
-            preset.removeAutoPrice();
-            player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
-            return true;
+            preset.setAutoPrice(null);
         } else {
             AutoPrice autoPrice = AutoPrice.getAutoprice(command.split(" ")[1]);
             if (autoPrice == null) {
                 throw new InputException(sender, ChatColor.RED + "AutoPrice does not exist!");
             }
             preset.setAutoPrice(autoPrice);
-            player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
             if (preset.canPriceLineBeLetEmpty()) {
                 player.sendMessage(Messages.PREFIX + "You can leave the price-line on signs empty now");
             }
-            return true;
         }
+        player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
+        return true;
     }
 
     @Override

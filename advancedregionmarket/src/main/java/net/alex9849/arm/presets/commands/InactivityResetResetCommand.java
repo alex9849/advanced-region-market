@@ -1,7 +1,6 @@
 package net.alex9849.arm.presets.commands;
 
 import net.alex9849.arm.Permission;
-import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.presets.presets.Preset;
 import net.alex9849.arm.presets.presets.PresetType;
 import org.bukkit.command.CommandSender;
@@ -15,11 +14,14 @@ public class InactivityResetResetCommand extends PresetOptionModifyCommand<Boole
 
     public InactivityResetResetCommand(PresetType presetType) {
         super("inactivityreset", Arrays.asList(Permission.ADMIN_PRESET_SET_INACTIVITYRESET),
-                "(false|true)", "(true/false)", "", presetType);
+                true, "(false|true|(?i)remove)", "(true/false/remove)", "", presetType);
     }
 
     @Override
-    protected Boolean getSettingsFromString(CommandSender sender, String setting) throws InputException {
+    protected Boolean getSettingsFromString(CommandSender sender, String setting) {
+        if(setting.equalsIgnoreCase("remove")) {
+            return null;
+        }
         return Boolean.parseBoolean(setting);
     }
 
@@ -36,6 +38,9 @@ public class InactivityResetResetCommand extends PresetOptionModifyCommand<Boole
         }
         if ("false".startsWith(settings)) {
             returnme.add("false");
+        }
+        if ("remove".startsWith(settings)) {
+            returnme.add("remove");
         }
         return returnme;
     }

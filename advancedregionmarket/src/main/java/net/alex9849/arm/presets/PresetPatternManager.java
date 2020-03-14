@@ -21,160 +21,105 @@ public class PresetPatternManager extends YamlFileManager<Preset> {
     }
 
     private static Preset generatePresetObject(ConfigurationSection section, String name, PresetType presetType) {
-        boolean hasprice = section.getBoolean("hasPrice");
-        double price = section.getDouble("price");
+        Boolean isHotel = section.getObject("isHotel", Boolean.class);
+        Boolean autorestore = section.getObject("autorestore", Boolean.class);
+        Boolean inactivityReset = section.getObject("inactivityReset", Boolean.class);
+        Boolean userrestorable = section.getObject("userrestorable", Boolean.class);
+        Integer paybackPercentage = section.getObject("paybackPercentage", Integer.class);
+        Integer allowedSubregions = section.getObject("allowedSubregions", Integer.class);
+        Integer maxMembers = section.getObject("maxMembers", Integer.class);
+        Double price = section.getObject("price", Double.class);
         String regionKindString = section.getString("regionKind");
         String flagGroupString = section.getString("flaggroup");
-        boolean isHotel = section.getBoolean("isHotel");
-        boolean autorestore = section.getBoolean("autorestore");
         String entityLimitGroupString = section.getString("entityLimitGroup");
-        boolean inactivityReset = section.getBoolean("inactivityReset");
-        boolean userrestorable = section.getBoolean("userrestorable");
-        int paybackPercentage = section.getInt("paybackPercentage");
-        int allowedSubregions = section.getInt("allowedSubregions");
         String autoPriceString = section.getString("autoPrice");
-        int maxMembers = section.getInt("maxMembers");
+        List<String> setupcommands = section.getStringList("setupcommands");
 
         AutoPrice autoPrice = null;
         if(autoPriceString != null) {
             autoPrice = AutoPrice.getAutoprice(autoPriceString);
-            if(autoPrice == null) {
-                autoPrice = AutoPrice.DEFAULT;
-            }
-            hasprice = false;
-            price = 0;
+        }
+        RegionKind regionKind = null;
+        if (regionKindString != null) {
+            regionKind = AdvancedRegionMarket.getInstance().getRegionKindManager().getRegionKind(regionKindString);
+        }
+        FlagGroup flagGroup = null;
+        if (flagGroupString == null) {
+            flagGroup = AdvancedRegionMarket.getInstance().getFlagGroupManager().getFlagGroup(flagGroupString);
+        }
+        EntityLimitGroup entityLimitGroup = null;
+        if (entityLimitGroupString == null) {
+            entityLimitGroup = AdvancedRegionMarket.getInstance().getEntityLimitGroupManager().getEntityLimitGroup(entityLimitGroupString);
         }
 
-        List<String> setupcommands = section.getStringList("setupcommands");
-        RegionKind regionKind = AdvancedRegionMarket.getInstance().getRegionKindManager().getRegionKind(regionKindString);
-        if (regionKind == null) {
-            regionKind = RegionKind.DEFAULT;
-        }
-        FlagGroup flagGroup = AdvancedRegionMarket.getInstance().getFlagGroupManager().getFlagGroup(flagGroupString);
-        if (flagGroup == null) {
-            flagGroup = FlagGroup.DEFAULT;
-        }
-
-        EntityLimitGroup entityLimitGroup = AdvancedRegionMarket.getInstance().getEntityLimitGroupManager().getEntityLimitGroup(entityLimitGroupString);
-        if (entityLimitGroup == null) {
-            entityLimitGroup = EntityLimitGroup.DEFAULT;
-        }
+        Preset preset = null;
         if (presetType == PresetType.SELLPRESET) {
-            return new SellPreset(name, hasprice, price, regionKind, flagGroup, inactivityReset, isHotel,
-                    autorestore, userrestorable, allowedSubregions, autoPrice, entityLimitGroup, setupcommands,
-                    maxMembers, paybackPercentage);
-        }
+            preset = new SellPreset();
 
-        if(presetType == PresetType.CONTRACTPRESET || presetType == PresetType.RENTPRESET) {
-            boolean hasExtendTime = section.getBoolean("hasExtendTime");
-            long extendTime = section.getLong("extendTime");
-
+        } else if(presetType == PresetType.CONTRACTPRESET || presetType == PresetType.RENTPRESET) {
+            Long extendTime = section.getLong("extendTime");
+            CountdownPreset countdownPreset;
             if (presetType == PresetType.CONTRACTPRESET) {
-                if (autoPrice != null) {
-                    hasExtendTime = false;
-                    extendTime = 0;
-                }
-                return new ContractPreset(name, hasprice, price, regionKind, flagGroup, inactivityReset, isHotel,
-                        autorestore, hasExtendTime, extendTime, userrestorable, allowedSubregions, autoPrice,
-                        entityLimitGroup, setupcommands, maxMembers, paybackPercentage);
-
+                countdownPreset = new ContractPreset();
             } else {
-
-                boolean hasMaxRentTime = section.getBoolean("hasMaxRentTime");
                 long maxRentTime = section.getLong("maxRentTime");
-                if (autoPrice != null) {
-                    hasExtendTime = false;
-                    extendTime = 0;
-                    hasMaxRentTime = false;
-                    maxRentTime = 0;
-                }
-                return new RentPreset(name, hasprice, price, regionKind, flagGroup, inactivityReset, isHotel,
-                        autorestore, hasMaxRentTime, maxRentTime, hasExtendTime, extendTime, userrestorable,
-                        allowedSubregions, autoPrice, entityLimitGroup, setupcommands, maxMembers, paybackPercentage);
+                RentPreset rentPreset = new RentPreset();
+                rentPreset.setMaxRentTime(maxRentTime);
+                countdownPreset = rentPreset;
             }
-
-
+            countdownPreset.setExtendTime(extendTime);
+            preset = countdownPreset;
         }
 
-
-        return null;
+        preset.setHotel(isHotel);
+        preset.setAutoRestore(autorestore);
+        preset.setInactivityReset(inactivityReset);
+        preset.setUserRestorable(userrestorable);
+        preset.setPaybackPercentage(paybackPercentage);
+        preset.setAllowedSubregions(allowedSubregions);
+        preset.setMaxMembers(maxMembers);
+        preset.setPrice(price);
+        preset.setAutoPrice(autoPrice);
+        preset.setRegionKind(regionKind);
+        preset.setFlagGroup(flagGroup);
+        preset.setEntityLimitGroup(entityLimitGroup);
+        preset.setName(name);
+        preset.addCommand(setupcommands);
+        return preset;
     }
 
     @Override
     public List<Preset> loadSavedObjects(YamlConfiguration yamlConfiguration) {
         List<Preset> presetList = new ArrayList<>();
-        boolean fileupdated = false;
-        yamlConfiguration.options().copyDefaults(true);
 
         ConfigurationSection sellPresetsection = yamlConfiguration.getConfigurationSection(PresetType.SELLPRESET.getName());
         if (sellPresetsection != null) {
-            ArrayList<String> presets = new ArrayList<String>(yamlConfiguration.getConfigurationSection(PresetType.SELLPRESET.getName()).getKeys(false));
-            if (presets != null) {
-                for (String presetName : presets) {
-                    ConfigurationSection presetSection = yamlConfiguration.getConfigurationSection(PresetType.SELLPRESET.getName() + "." + presetName);
-                    fileupdated |= updateDefaults(presetSection, PresetType.SELLPRESET);
-                    presetList.add(generatePresetObject(presetSection, presetName, PresetType.SELLPRESET));
-                }
+            ArrayList<String> presets = new ArrayList<String>(sellPresetsection.getKeys(false));
+            for (String presetName : presets) {
+                ConfigurationSection presetSection = sellPresetsection.getConfigurationSection(presetName);
+                presetList.add(generatePresetObject(presetSection, presetName, PresetType.SELLPRESET));
             }
         }
 
         ConfigurationSection rentPresetsection = yamlConfiguration.getConfigurationSection(PresetType.RENTPRESET.getName());
         if (rentPresetsection != null) {
-            ArrayList<String> presets = new ArrayList<String>(yamlConfiguration.getConfigurationSection(PresetType.RENTPRESET.getName()).getKeys(false));
-            if (presets != null) {
-                for (String presetName : presets) {
-                    ConfigurationSection presetSection = yamlConfiguration.getConfigurationSection(PresetType.RENTPRESET.getName() + "." + presetName);
-                    fileupdated |= updateDefaults(presetSection, PresetType.RENTPRESET);
-                    presetList.add(generatePresetObject(presetSection, presetName, PresetType.RENTPRESET));
-                }
+            ArrayList<String> presets = new ArrayList<String>(rentPresetsection.getKeys(false));
+            for (String presetName : presets) {
+                ConfigurationSection presetSection = rentPresetsection.getConfigurationSection(presetName);
+                presetList.add(generatePresetObject(presetSection, presetName, PresetType.RENTPRESET));
             }
         }
 
         ConfigurationSection contractPresetsection = yamlConfiguration.getConfigurationSection(PresetType.CONTRACTPRESET.getName());
         if (contractPresetsection != null) {
-            ArrayList<String> presets = new ArrayList<String>(yamlConfiguration.getConfigurationSection(PresetType.CONTRACTPRESET.getName()).getKeys(false));
-            if (presets != null) {
-                for (String presetName : presets) {
-                    ConfigurationSection presetSection = yamlConfiguration.getConfigurationSection(PresetType.CONTRACTPRESET.getName() + "." + presetName);
-                    fileupdated |= updateDefaults(presetSection, PresetType.CONTRACTPRESET);
-                    presetList.add(generatePresetObject(presetSection, presetName, PresetType.CONTRACTPRESET));
-                }
+            ArrayList<String> presets = new ArrayList<String>(contractPresetsection.getKeys(false));
+            for (String presetName : presets) {
+                ConfigurationSection presetSection = contractPresetsection.getConfigurationSection(presetName);
+                presetList.add(generatePresetObject(presetSection, presetName, PresetType.CONTRACTPRESET));
             }
         }
 
-        if (fileupdated) {
-            this.saveFile();
-        }
-
-        yamlConfiguration.options().copyDefaults(false);
-
         return presetList;
-    }
-
-    private boolean updateDefaults(ConfigurationSection section, PresetType presetType) {
-        boolean updatedSomething = false;
-        updatedSomething |= this.addDefault(section, "hasPrice", false);
-        updatedSomething |= this.addDefault(section, "price", 0);
-        updatedSomething |= this.addDefault(section, "regionKind", "Default");
-        updatedSomething |= this.addDefault(section, "paybackPercentage", 50);
-        updatedSomething |= this.addDefault(section, "isHotel", false);
-        updatedSomething |= this.addDefault(section, "autorestore", true);
-        updatedSomething |= this.addDefault(section, "entityLimitGroup", "Default");
-        updatedSomething |= this.addDefault(section, "inactivityReset", true);
-        updatedSomething |= this.addDefault(section, "flaggroup", "Default");
-        updatedSomething |= this.addDefault(section, "userrestorable", true);
-        updatedSomething |= this.addDefault(section, "allowedSubregions", 0);
-        updatedSomething |= this.addDefault(section, "maxMembers", -1);
-        updatedSomething |= this.addDefault(section, "setupcommands", new ArrayList<String>());
-        if (presetType == PresetType.CONTRACTPRESET || presetType == PresetType.RENTPRESET) {
-            updatedSomething |= this.addDefault(section, "hasExtendTime", false);
-            updatedSomething |= this.addDefault(section, "extendTime", 0);
-        }
-        if (presetType == PresetType.RENTPRESET) {
-            updatedSomething |= this.addDefault(section, "hasExtendPerClick", false);
-            updatedSomething |= this.addDefault(section, "extendPerClick", 0);
-        }
-        return updatedSomething;
     }
 
     @Override

@@ -10,6 +10,7 @@ import net.alex9849.arm.presets.presets.PresetType;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -17,11 +18,14 @@ public class FlaggroupCommand extends PresetOptionModifyCommand<FlagGroup> {
 
     public FlaggroupCommand(PresetType presetType) {
         super("flaggroup", Arrays.asList(Permission.ADMIN_PRESET_SET_FLAGGROUP),
-                "[^;\n ]+", "[FLAGGROUP]", Messages.FLAGGROUP_DOES_NOT_EXIST, presetType);
+                true, "[^;\n ]+", "[FLAGGROUP/remove]", Messages.FLAGGROUP_DOES_NOT_EXIST, presetType);
     }
 
     @Override
     protected FlagGroup getSettingsFromString(CommandSender sender, String setting) throws InputException {
+        if(setting.equalsIgnoreCase("remove")) {
+            return null;
+        }
         FlagGroup fg = AdvancedRegionMarket.getInstance().getFlagGroupManager()
                 .getFlagGroup(setting);
         if(fg == FlagGroup.SUBREGION) {
@@ -37,7 +41,12 @@ public class FlaggroupCommand extends PresetOptionModifyCommand<FlagGroup> {
 
     @Override
     protected List<String> tabCompleteSettingsObject(Player player, String settings) {
-        return AdvancedRegionMarket.getInstance().getFlagGroupManager()
-                .tabCompleteFlaggroup(settings);
+        List<String> returnme = new ArrayList<>();
+        returnme.addAll(AdvancedRegionMarket.getInstance().getFlagGroupManager()
+                .tabCompleteFlaggroup(settings));
+        if ("remove".startsWith(settings)) {
+            returnme.add("remove");
+        }
+        return returnme;
     }
 }

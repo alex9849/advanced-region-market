@@ -15,7 +15,7 @@ public class RemoveCommandCommand extends PresetOptionModifyCommand<Integer> {
 
     public RemoveCommandCommand(PresetType presetType) {
         super("removecommand", Arrays.asList(Permission.ADMIN_PRESET_REMOVECOMMAND),
-                "[0-9]+", "ID", "", presetType);
+                false, "[0-9]+", "ID", "", presetType);
     }
 
     @Override

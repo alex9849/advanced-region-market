@@ -17,11 +17,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class RentPresetMaxRentTimeCommand extends BasicArmCommand {
+public class MaxRentTimeCommand extends BasicArmCommand {
     private final String regex_remove = "(?i)maxrenttime (?i)remove";
     private PresetType presetType;
 
-    public RentPresetMaxRentTimeCommand(PresetType presetType) {
+    public MaxRentTimeCommand(PresetType presetType) {
         super(false, "maxrenttime",
                 Arrays.asList("(?i)maxrenttime ([0-9]+(s|m|h|d))", "(?i)maxrenttime (?i)remove"),
                 Arrays.asList("maxrenttime ([TIME(Example: 10h)]/remove)"),
@@ -50,7 +50,7 @@ public class RentPresetMaxRentTimeCommand extends BasicArmCommand {
         RentPreset rentPreset = (RentPreset) preset;
 
         if (command.matches(this.regex_remove)) {
-            rentPreset.removeMaxRentTime();
+            rentPreset.setMaxRentTime((Long) null);
             player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
         } else {
             rentPreset.setMaxRentTime(command.split(" ")[1]);

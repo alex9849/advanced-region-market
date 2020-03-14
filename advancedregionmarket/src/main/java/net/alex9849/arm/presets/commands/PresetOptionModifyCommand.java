@@ -18,9 +18,9 @@ import java.util.List;
 public abstract class PresetOptionModifyCommand<SettingsObj> extends OptionModifyCommand<Preset, SettingsObj> {
     private PresetType presetType;
 
-    public PresetOptionModifyCommand(String rootCommand, List<String> permissions, String optionRegex,
+    public PresetOptionModifyCommand(String rootCommand, List<String> permissions, boolean allowNullValueSetting, String optionRegex,
                                      String optionDescription, String settingNotFoundMsg, PresetType presetType) {
-        super(false, true, rootCommand,
+        super(false, !allowNullValueSetting, rootCommand,
                 Arrays.asList("(?i)" + rootCommand + " " + optionRegex),
                 Arrays.asList(rootCommand + " " + optionDescription),
                 permissions, "", settingNotFoundMsg);

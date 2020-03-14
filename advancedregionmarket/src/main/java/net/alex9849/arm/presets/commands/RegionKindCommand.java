@@ -10,6 +10,7 @@ import net.alex9849.arm.regionkind.RegionKind;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -17,11 +18,14 @@ public class RegionKindCommand extends PresetOptionModifyCommand<RegionKind> {
 
     public RegionKindCommand(PresetType presetType) {
         super("regionkind", Arrays.asList(Permission.ADMIN_PRESET_SET_REGIONKIND),
-                "[^;\n ]+", "[REGIONKIND]", Messages.REGIONKIND_DOES_NOT_EXIST, presetType);
+                true, "[^;\n ]+", "[REGIONKIND]", Messages.REGIONKIND_DOES_NOT_EXIST, presetType);
     }
 
     @Override
     protected RegionKind getSettingsFromString(CommandSender sender, String setting) throws InputException {
+        if(setting.equalsIgnoreCase("remove")) {
+            return null;
+        }
         RegionKind rk = AdvancedRegionMarket.getInstance().getRegionKindManager()
                 .getRegionKind(setting);
         if(rk == RegionKind.SUBREGION) {
@@ -37,7 +41,12 @@ public class RegionKindCommand extends PresetOptionModifyCommand<RegionKind> {
 
     @Override
     protected List<String> tabCompleteSettingsObject(Player player, String settings) {
-        return AdvancedRegionMarket.getInstance().getRegionKindManager()
-                .completeTabRegionKinds(settings, "");
+        List<String> returnme = new ArrayList<>();
+        returnme.addAll(AdvancedRegionMarket.getInstance().getRegionKindManager()
+                .completeTabRegionKinds(settings, ""));
+        if ("remove".startsWith(settings)) {
+            returnme.add("remove");
+        }
+        return returnme;
     }
 }

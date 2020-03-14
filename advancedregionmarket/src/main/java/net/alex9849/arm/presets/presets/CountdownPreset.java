@@ -1,9 +1,6 @@
 package net.alex9849.arm.presets.presets;
 
 import net.alex9849.arm.Messages;
-import net.alex9849.arm.entitylimit.EntityLimitGroup;
-import net.alex9849.arm.flaggroups.FlagGroup;
-import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.price.ContractPrice;
@@ -12,58 +9,36 @@ import net.alex9849.arm.util.TimeUtil;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 
-import java.util.List;
-
 public abstract class CountdownPreset extends Preset {
-    private boolean hasExtendTime = false;
-    private long extendTime = 0;
+    private Long extendTime;
 
-    public CountdownPreset(String name, boolean hasPrice, double price, RegionKind regionKind, FlagGroup flagGroup,
-                          boolean inactivityReset, boolean isHotel, boolean doBlockReset, boolean hasExtend,
-                          long extend, boolean isUserRestorable, int allowedSubregions, AutoPrice autoPrice,
-                          EntityLimitGroup entityLimitGroup, List<String> setupCommands, int maxMembers,
-                          int paybackPercentage) {
-        super(name, hasPrice, price, regionKind, flagGroup, inactivityReset, isHotel, doBlockReset, isUserRestorable,
-                allowedSubregions, autoPrice, entityLimitGroup, setupCommands, maxMembers, paybackPercentage);
-        this.hasExtendTime = hasExtend;
-        this.extendTime = extend;
-    }
-
-    public boolean hasExtendTime() {
-        return hasExtendTime;
-    }
-
-    public void removeExtendTime() {
-        this.hasExtendTime = false;
-        this.extendTime = 0;
-    }
-
-    public long getExtendTime() {
+    public Long getExtendTime() {
         return this.extendTime;
     }
 
     public void setExtendTime(String string) {
-        this.hasExtendTime = true;
-        this.extendTime = RentPrice.stringToTime(string);
-        this.removeAutoPrice();
+        this.setExtendTime(RentPrice.stringToTime(string));
     }
 
-    public void setExtend(long time) {
-        this.hasExtendTime = true;
+    public void setExtendTime(Long time) {
         this.extendTime = time;
-        this.removeAutoPrice();
+        if(time != null) {
+            this.setAutoPrice(null);
+        }
     }
 
     @Override
     public void setAutoPrice(AutoPrice autoPrice) {
         super.setAutoPrice(autoPrice);
-        this.removeExtendTime();
+        if(autoPrice != null) {
+            this.extendTime = null;
+        }
     }
 
     @Override
     public void getAdditionalInfo(CommandSender sender) {
         String extendtime = "not defined";
-        if (this.hasExtendTime()) {
+        if (this.extendTime != null) {
             extendtime = TimeUtil.timeInMsToString(this.extendTime, false, false);
         }
         sender.sendMessage(Messages.REGION_INFO_AUTO_EXTEND_TIME + extendtime);
@@ -71,13 +46,13 @@ public abstract class CountdownPreset extends Preset {
 
     @Override
     public boolean canPriceLineBeLetEmpty() {
-        return (this.hasPrice() && this.hasExtendTime()) || this.hasAutoPrice();
+        return (this.getPrice() != null && this.getExtendTime() != null) || this.getAutoPrice() != null;
     }
 
     @Override
     public void applyToRegion(Region region) {
         super.applyToRegion(region);
-        if (this.hasPrice() && this.hasExtendTime()) {
+        if (this.getPrice() != null && this.getExtendTime() != null) {
             region.setPrice(new ContractPrice(this.getPrice(), this.getExtendTime()));
         }
     }
@@ -85,7 +60,6 @@ public abstract class CountdownPreset extends Preset {
     @Override
     public ConfigurationSection toConfigurationSection() {
         ConfigurationSection section = super.toConfigurationSection();
-        section.set("hasExtendTime", this.hasExtendTime());
         section.set("extendTime", this.getExtendTime());
         return section;
     }

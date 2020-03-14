@@ -77,9 +77,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
     private Boolean faWeInstalled = null;
     private Economy econ = null;
     private net.milkbowl.vault.permission.Permission vaultPerms = null;
-    private WorldGuardPlugin worldguard = null;
     private WorldGuardInterface worldGuardInterface = null;
-    private WorldEditPlugin worldedit = null;
     private WorldEditInterface worldEditInterface = null;
     private CommandHandler commandHandler = null;
     private RegionKindManager regionKindManager = null;
@@ -481,8 +479,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
         this.getFlagGroupManager().updateFile();
         this.econ = null;
         this.vaultPerms = null;
-        this.worldguard = null;
-        this.worldedit = null;
         LimitGroup.Reset();
         InactivityExpirationGroup.reset();
         AutoPrice.reset();
@@ -596,11 +592,11 @@ public class AdvancedRegionMarket extends JavaPlugin {
         if (plugin == null || !(plugin instanceof WorldGuardPlugin)) {
             return false;
         }
-        this.worldguard = (WorldGuardPlugin) plugin;
+        WorldGuardPlugin worldguard = (WorldGuardPlugin) plugin;
         String version = "notSupported";
-        if (this.worldguard.getDescription().getVersion().startsWith("6.1")) {
+        if (worldguard.getDescription().getVersion().startsWith("6.1")) {
             version = "6_1";
-        } else if (this.worldguard.getDescription().getVersion().startsWith("6.2")) {
+        } else if (worldguard.getDescription().getVersion().startsWith("6.2")) {
             version = "6_2";
         } else {
             version = "7";
@@ -625,11 +621,11 @@ public class AdvancedRegionMarket extends JavaPlugin {
         if (plugin == null || !(plugin instanceof WorldEditPlugin)) {
             return false;
         }
-        this.worldedit = (WorldEditPlugin) plugin;
+        WorldEditPlugin worldedit = (WorldEditPlugin) plugin;
         String version = "notSupported";
         Boolean hasFaWeHandler = true;
 
-        if (this.worldedit.getDescription().getVersion().startsWith("6.")) {
+        if (worldedit.getDescription().getVersion().startsWith("6.")) {
             version = "6";
         } else {
             version = "7";
@@ -657,10 +653,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
 
     public CommandHandler getCommandHandler() {
         return this.commandHandler;
-    }
-
-    public WorldGuardPlugin getWorldGuard() {
-        return this.worldguard;
     }
 
     public WorldGuardInterface getWorldGuardInterface() {
@@ -805,7 +797,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
             }
 
             for (String regionName : regionNames) {
-                WGRegion wgRegion = this.getWorldGuardInterface().getRegion(world, this.getWorldGuard(), regionName);
+                WGRegion wgRegion = this.getWorldGuardInterface().getRegion(world, regionName);
                 if (wgRegion == null) {
                     continue;
                 }
@@ -817,10 +809,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
 
     public Economy getEcon() {
         return this.econ;
-    }
-
-    public WorldEditPlugin getWorldedit() {
-        return this.worldedit;
     }
 
     @Override

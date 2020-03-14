@@ -145,7 +145,7 @@ public class RegionManager extends YamlFileManager<Region> {
             List<String> subregionsection = new ArrayList<>(regionSection.getConfigurationSection("subregions").getKeys(false));
             if (subregionsection != null) {
                 for (String subregionName : subregionsection) {
-                    WGRegion subWGRegion = AdvancedRegionMarket.getInstance().getWorldGuardInterface().getRegion(regionWorld, AdvancedRegionMarket.getInstance().getWorldGuard(), subregionName);
+                    WGRegion subWGRegion = AdvancedRegionMarket.getInstance().getWorldGuardInterface().getRegion(regionWorld, subregionName);
                     if (subWGRegion != null) {
                         parseSubRegion(regionSection.getConfigurationSection("subregions." + subregionName), regionWorld, subWGRegion, region);
                     }
@@ -393,7 +393,7 @@ public class RegionManager extends YamlFileManager<Region> {
                             if (regions != null) {
                                 for (String regionname : regions) {
                                     ConfigurationSection regionSection = worldSection.getConfigurationSection(regionname);
-                                    WGRegion wgRegion = AdvancedRegionMarket.getInstance().getWorldGuardInterface().getRegion(regionWorld, AdvancedRegionMarket.getInstance().getWorldGuard(), regionname);
+                                    WGRegion wgRegion = AdvancedRegionMarket.getInstance().getWorldGuardInterface().getRegion(regionWorld, regionname);
 
                                     if (wgRegion != null) {
                                         fileupdated |= updateDefaults(regionSection);

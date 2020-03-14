@@ -1,6 +1,5 @@
 package net.alex9849.inter;
 
-import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.flags.Flag;
 import com.sk89q.worldguard.protection.flags.InvalidFlagFormat;
 import com.sk89q.worldguard.protection.flags.RegionGroup;
@@ -14,19 +13,19 @@ import java.util.List;
 
 public abstract class WorldGuardInterface {
 
-    public abstract RegionManager getRegionManager(World world, WorldGuardPlugin worldGuardPlugin);
+    public abstract RegionManager getRegionManager(World world);
 
-    public abstract WGRegion getRegion(World world, WorldGuardPlugin worldGuardPlugin, String regionID);
+    public abstract WGRegion getRegion(World world, String regionID);
 
-    public abstract boolean canBuild(Player player, Location location, WorldGuardPlugin worldGuardPlugin);
+    public abstract boolean canBuild(Player player, Location location);
 
-    public abstract WGRegion createRegion(String regionID, Location pos1, Location pos2, WorldGuardPlugin worldGuardPlugin);
+    public abstract WGRegion createRegion(String regionID, Location pos1, Location pos2);
 
-    public abstract List<WGRegion> getApplicableRegions(World world, Location loc, WorldGuardPlugin worldGuardPlugin);
+    public abstract List<WGRegion> getApplicableRegions(World world, Location loc);
 
-    public abstract void addToRegionManager(WGRegion region, World world, WorldGuardPlugin worldGuardPlugin);
+    public abstract void addToRegionManager(WGRegion region, World world);
 
-    public abstract void removeFromRegionManager(WGRegion region, World world, WorldGuardPlugin worldGuardPlugin);
+    public abstract void removeFromRegionManager(WGRegion region, World world);
 
     public abstract <V> V parseFlagInput(Flag<V> flag, String input) throws InvalidFlagFormat;
 

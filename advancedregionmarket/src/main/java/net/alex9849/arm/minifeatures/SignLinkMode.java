@@ -119,7 +119,7 @@ public class SignLinkMode implements Listener {
                 if (clicklocation == null) {
                     return;
                 }
-                List<WGRegion> regions = AdvancedRegionMarket.getInstance().getWorldGuardInterface().getApplicableRegions(clicklocation.getWorld(), clicklocation, AdvancedRegionMarket.getInstance().getWorldGuard());
+                List<WGRegion> regions = AdvancedRegionMarket.getInstance().getWorldGuardInterface().getApplicableRegions(clicklocation.getWorld(), clicklocation);
                 regions.removeAll(SignLinkMode.blacklistedRegions);
                 if (regions.size() > 1) {
                     throw new InputException(event.getPlayer(), Messages.SIGN_LINK_MODE_COULD_NOT_SELECT_REGION_MULTIPLE_WG_REGIONS);

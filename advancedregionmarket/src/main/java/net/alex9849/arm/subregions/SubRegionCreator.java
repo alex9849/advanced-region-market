@@ -161,7 +161,7 @@ public class SubRegionCreator {
                 }
             }
         } while (inUse);
-        this.subRegion = AdvancedRegionMarket.getInstance().getWorldGuardInterface().createRegion(this.parentRegion.getRegion().getId() + "-sub" + subregionID, this.pos1, this.pos2, AdvancedRegionMarket.getInstance().getWorldGuard());
+        this.subRegion = AdvancedRegionMarket.getInstance().getWorldGuardInterface().createRegion(this.parentRegion.getRegion().getId() + "-sub" + subregionID, this.pos1, this.pos2);
         if (AdvancedRegionMarket.getInstance().getPluginSettings().isAllowParentRegionOwnersBuildOnSubregions()) {
             this.subRegion.setParent(this.parentRegion.getRegion());
         } else {
@@ -191,7 +191,7 @@ public class SubRegionCreator {
         if (this.subRegion == null) {
             throw new NullPointerException("Subregion not created!");
         }
-        AdvancedRegionMarket.getInstance().getWorldGuardInterface().addToRegionManager(this.subRegion, this.parentRegion.getRegionworld(), AdvancedRegionMarket.getInstance().getWorldGuard());
+        AdvancedRegionMarket.getInstance().getWorldGuardInterface().addToRegionManager(this.subRegion, this.parentRegion.getRegionworld());
     }
 
     public Region getParentRegion() {

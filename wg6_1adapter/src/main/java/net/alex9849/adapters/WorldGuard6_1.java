@@ -20,12 +20,12 @@ public class WorldGuard6_1 extends WorldGuardInterface {
     private HashMap<ProtectedRegion, WG6Region> createdRegions = new HashMap<ProtectedRegion, WG6Region>();
 
     @Override
-    public RegionManager getRegionManager(World world, WorldGuardPlugin worldGuardPlugin) {
-        return worldGuardPlugin.getRegionManager(world);
+    public RegionManager getRegionManager(World world) {
+        return WorldGuardPlugin.inst().getRegionManager(world);
     }
 
-    public WG6Region getRegion(World world, WorldGuardPlugin worldGuardPlugin, String regionID) {
-        RegionManager regionManager = this.getRegionManager(world, worldGuardPlugin);
+    public WG6Region getRegion(World world, String regionID) {
+        RegionManager regionManager = this.getRegionManager(world);
         if (regionManager == null) {
             return null;
         }
@@ -38,20 +38,20 @@ public class WorldGuard6_1 extends WorldGuardInterface {
         return getUniqueRegion(region);
     }
 
-    public boolean canBuild(Player player, Location location, WorldGuardPlugin worldGuardPlugin) {
-        return worldGuardPlugin.canBuild(player, location);
+    public boolean canBuild(Player player, Location location) {
+        return WorldGuardPlugin.inst().canBuild(player, location);
     }
 
     @Override
-    public WGRegion createRegion(String regionID, Location pos1, Location pos2, WorldGuardPlugin worldGuardPlugin) {
+    public WGRegion createRegion(String regionID, Location pos1, Location pos2) {
         ProtectedRegion protectedRegion = new ProtectedCuboidRegion(regionID, new BlockVector(pos1.getBlockX(), pos1.getBlockY(), pos1.getBlockZ()), new BlockVector(pos2.getBlockX(), pos2.getBlockY(), pos2.getBlockZ()));
         WG6Region returnRegion = getUniqueRegion(protectedRegion);
         return returnRegion;
     }
 
     @Override
-    public List<WGRegion> getApplicableRegions(World world, Location loc, WorldGuardPlugin worldGuardPlugin) {
-        List<ProtectedRegion> protectedRegions = new ArrayList<ProtectedRegion>(worldGuardPlugin.getRegionManager(world).getApplicableRegions(loc).getRegions());
+    public List<WGRegion> getApplicableRegions(World world, Location loc) {
+        List<ProtectedRegion> protectedRegions = new ArrayList<ProtectedRegion>(WorldGuardPlugin.inst().getRegionManager(world).getApplicableRegions(loc).getRegions());
         List<WGRegion> wg6Regions = new ArrayList<WGRegion>();
         for (ProtectedRegion pRegion : protectedRegions) {
             wg6Regions.add(getUniqueRegion(pRegion));
@@ -60,15 +60,15 @@ public class WorldGuard6_1 extends WorldGuardInterface {
     }
 
     @Override
-    public void addToRegionManager(WGRegion region, World world, WorldGuardPlugin worldGuardPlugin) {
+    public void addToRegionManager(WGRegion region, World world) {
         WG6Region wg6Region = (WG6Region) region;
-        getRegionManager(world, worldGuardPlugin).addRegion(wg6Region.getRegion());
+        getRegionManager(world).addRegion(wg6Region.getRegion());
     }
 
     @Override
-    public void removeFromRegionManager(WGRegion region, World world, WorldGuardPlugin worldGuardPlugin) {
+    public void removeFromRegionManager(WGRegion region, World world) {
         WG6Region wg6Region = (WG6Region) region;
-        getRegionManager(world, worldGuardPlugin).removeRegion(wg6Region.getRegion().getId());
+        getRegionManager(world).removeRegion(wg6Region.getRegion().getId());
     }
 
     private WG6Region getUniqueRegion(ProtectedRegion protectedRegion) {

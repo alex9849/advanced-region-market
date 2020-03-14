@@ -154,7 +154,7 @@ public class SignModifyListener implements Listener {
             }
 
             //Get region
-            WGRegion wgRegion = AdvancedRegionMarket.getInstance().getWorldGuardInterface().getRegion(regionWorld, AdvancedRegionMarket.getInstance().getWorldGuard(), sign.getLine(2));
+            WGRegion wgRegion = AdvancedRegionMarket.getInstance().getWorldGuardInterface().getRegion(regionWorld, sign.getLine(2));
             if (wgRegion == null) {
                 throw new InputException(sign.getPlayer(), Messages.REGION_DOES_NOT_EXIST);
             }

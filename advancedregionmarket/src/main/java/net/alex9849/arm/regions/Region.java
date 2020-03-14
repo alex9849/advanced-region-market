@@ -519,11 +519,15 @@ public abstract class Region implements Saveable {
     }
 
     public void setUserRestorable(boolean bool) {
+        if(this.isSubregion())
+            throw new IllegalArgumentException("Can't change this option for a Subregion!");
         this.isUserRestorable = bool;
         this.queueSave();
     }
 
     public void setAutoRestore(boolean bool) {
+        if(this.isSubregion())
+            throw new IllegalArgumentException("Can't change this option for a Subregion!");
         this.isAutoRestore = bool;
         this.queueSave();
     }
@@ -550,21 +554,29 @@ public abstract class Region implements Saveable {
     }
 
     public void setInactivityReset(boolean state) {
+        if(this.isSubregion())
+            throw new IllegalArgumentException("Can't change this option for a Subregion!");
         this.inactivityReset = state;
         this.queueSave();
     }
 
     public void setAllowedSubregions(int allowedSubregions) {
+        if(this.isSubregion())
+            throw new IllegalArgumentException("Can't change this option for a Subregion!");
         this.allowedSubregions = allowedSubregions;
         this.queueSave();
     }
 
     public void setPaybackPercentage(int paybackPercentage) {
+        if(this.isSubregion())
+            throw new IllegalArgumentException("Can't change this option for a Subregion!");
         this.paybackPercentage = paybackPercentage;
         this.queueSave();
     }
 
     public void setMaxMembers(int maxMembers) {
+        if(this.isSubregion())
+            throw new IllegalArgumentException("Can't change this option for a Subregion!");
         if(maxMembers < -1) {
             this.maxMembers = 0;
         } else {
@@ -584,6 +596,8 @@ public abstract class Region implements Saveable {
     }
 
     public void setRegionKind(RegionKind regionKind) {
+        if(this.isSubregion())
+            throw new IllegalArgumentException("Can't change this option for a Subregion!");
         this.regionKind = regionKind;
         this.queueSave();
     }
@@ -601,16 +615,22 @@ public abstract class Region implements Saveable {
     }
 
     public void setEntityLimitGroup(EntityLimitGroup entityLimitGroup) {
+        if(this.isSubregion())
+            throw new IllegalArgumentException("Can't change this option for a Subregion!");
         this.entityLimitGroup = entityLimitGroup;
         this.queueSave();
     }
 
     public void setFlagGroup(FlagGroup flagGroup) {
+        if(this.isSubregion())
+            throw new IllegalArgumentException("Can't change this option for a Subregion!");
         this.flagGroup = flagGroup;
         this.queueSave();
     }
 
     public void setTeleportLocation(Location loc) {
+        if(this.isSubregion())
+            throw new IllegalArgumentException("Can't change this option for a Subregion!");
         this.teleportLocation = loc;
         this.queueSave();
     }
@@ -621,6 +641,8 @@ public abstract class Region implements Saveable {
     }
 
     public void setExtraTotalEntitys(int extraTotalEntitys) {
+        if(this.isSubregion())
+            throw new IllegalArgumentException("Can't change this option for a Subregion!");
         if (extraTotalEntitys < 0) {
             this.extraTotalEntitys = 0;
         } else {
@@ -631,6 +653,8 @@ public abstract class Region implements Saveable {
     }
 
     public void setExtraEntityAmount(EntityLimit.LimitableEntityType entityType, int amount) {
+        if(this.isSubregion())
+            throw new IllegalArgumentException("Can't change this option for a Subregion!");
         this.extraEntitys.remove(entityType);
         if (amount > 0) {
             this.extraEntitys.put(entityType, amount);
@@ -672,7 +696,7 @@ public abstract class Region implements Saveable {
         }
 
         if(this.isSubregion()) {
-            AdvancedRegionMarket.getInstance().getWorldGuardInterface().removeFromRegionManager(this.getRegion(), this.getRegionworld(), AdvancedRegionMarket.getInstance().getWorldGuard());
+            AdvancedRegionMarket.getInstance().getWorldGuardInterface().removeFromRegionManager(this.getRegion(), this.getRegionworld());
             this.getParentRegion().getSubregions().remove(this);
             this.getParentRegion().queueSave();
         } else {
@@ -1008,14 +1032,14 @@ public abstract class Region implements Saveable {
         return true;
     }
 
-    public void unsell(ActionReason actionReason, boolean logToConsole, boolean preventBackup) {
+    public void unsell(ActionReason actionReason, boolean logToConsole, boolean preventBackupCreation) {
         UnsellRegionEvent unsellRegionEvent = new UnsellRegionEvent(this);
         Bukkit.getServer().getPluginManager().callEvent(unsellRegionEvent);
         if (unsellRegionEvent.isCancelled()) {
             return;
         }
 
-        if(AdvancedRegionMarket.getInstance().getPluginSettings().isCreateBackupOnRegionUnsell() && !preventBackup) {
+        if(AdvancedRegionMarket.getInstance().getPluginSettings().isCreateBackupOnRegionUnsell() && !preventBackupCreation) {
             this.createBackup();
         }
 

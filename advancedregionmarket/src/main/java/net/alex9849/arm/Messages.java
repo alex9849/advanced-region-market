@@ -1,6 +1,5 @@
 package net.alex9849.arm;
 
-import net.alex9849.arm.util.ArmUtils;
 import net.alex9849.arm.util.YamlFileManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -10,10 +9,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class Messages {
 
@@ -1290,7 +1286,25 @@ public class Messages {
         }
     }
 
-    public static <X> String getStringValue(X object, ArmUtils.StringGetter<X> stringGetter, String nullString) {
+    public static <X> String getStringList(Iterable<X> xList, StringGetter<X> stringGetter, String splitter) {
+        StringBuilder sb = new StringBuilder();
+
+        Iterator<X> iterator = xList.iterator();
+        while (iterator.hasNext()) {
+            X x = iterator.next();
+            sb.append(stringGetter.get(x));
+            if (iterator.hasNext()) {
+                sb.append(splitter);
+            }
+        }
+        return sb.toString();
+    }
+
+    public interface StringGetter<X> {
+        String get(X x);
+    }
+
+    public static <X> String getStringValue(X object, StringGetter<X> stringGetter, String nullString) {
         if(object != null) {
             return stringGetter.get(object);
         } else {

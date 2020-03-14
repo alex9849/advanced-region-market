@@ -16,7 +16,6 @@ import net.alex9849.arm.minifeatures.ParticleBorder;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.price.Price;
-import net.alex9849.arm.util.ArmUtils;
 import net.alex9849.arm.util.Saveable;
 import net.alex9849.arm.util.TimeUtil;
 import net.alex9849.arm.util.stringreplacer.StringCreator;
@@ -170,7 +169,7 @@ public abstract class Region implements Saveable {
             return Messages.convertYesNo(this.getPriceObject().isAutoPrice());
         });
         variableReplacements.put("%subregions%", () -> {
-            return ArmUtils.getStringList(this.subregions, x -> x.getRegion().getId(), ", ");
+            return Messages.getStringList(this.subregions, x -> x.getRegion().getId(), ", ");
         });
         variableReplacements.put("%members%", () -> {
             String membersInfo = "";

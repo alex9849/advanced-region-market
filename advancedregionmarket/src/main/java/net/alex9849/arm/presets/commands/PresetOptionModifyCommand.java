@@ -7,7 +7,6 @@ import net.alex9849.arm.presets.ActivePresetManager;
 import net.alex9849.arm.presets.PresetPlayerPair;
 import net.alex9849.arm.presets.presets.Preset;
 import net.alex9849.arm.presets.presets.PresetType;
-import net.alex9849.arm.util.ArmUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -57,7 +56,7 @@ public abstract class PresetOptionModifyCommand<SettingsObj> extends OptionModif
         for(int i = 1; i < args.length; i++) {
             settingsArgs.add(args[i]);
         }
-        return getSettingsFromString(sender, ArmUtils.getStringList(settingsArgs, x -> x, " "));
+        return getSettingsFromString(sender, Messages.getStringList(settingsArgs, x -> x, " "));
     }
 
     protected abstract SettingsObj getSettingsFromString(CommandSender sender, String setting) throws InputException;
@@ -81,7 +80,7 @@ public abstract class PresetOptionModifyCommand<SettingsObj> extends OptionModif
         for(int i = 1; i < args.length; i++) {
             settingsArgs.add(args[i]);
         }
-        return tabCompleteSettingsObject(player, ArmUtils.getStringList(settingsArgs, x -> x, " "));
+        return tabCompleteSettingsObject(player, Messages.getStringList(settingsArgs, x -> x, " "));
     }
 
     protected abstract List<String> tabCompleteSettingsObject(Player player, String settings);

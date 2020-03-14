@@ -37,7 +37,6 @@ import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.regions.price.RentPrice;
 import net.alex9849.arm.subregions.commands.ToolCommand;
-import net.alex9849.arm.util.ArmUtils;
 import net.alex9849.arm.util.MaterialFinder;
 import net.alex9849.arm.util.YamlFileManager;
 import net.alex9849.inter.WGRegion;
@@ -820,7 +819,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         try {
             if (args.length >= 1) {
                 return this.commandHandler.executeCommand(sender,
-                        ArmUtils.getStringList(Arrays.asList(args), x -> x, " "), commandsLabel);
+                        Messages.getStringList(Arrays.asList(args), x -> x, " "), commandsLabel);
             } else {
                 String pluginversion = this.getDescription().getVersion();
                 sender.sendMessage(Messages.ARM_BASIC_COMMAND_MESSAGE.replace("%pluginversion%", pluginversion));

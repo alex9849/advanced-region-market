@@ -233,9 +233,7 @@ public abstract class Preset implements Saveable, Cloneable {
         if(obj instanceof Preset) {
             Preset preset = (Preset) obj;
             preset.setupCommands = new ArrayList<>();
-            for (String cmd : this.getCommands()) {
-                preset.setupCommands.add(cmd);
-            }
+            preset.setupCommands.addAll(this.getCommands());
         }
         return obj;
     }

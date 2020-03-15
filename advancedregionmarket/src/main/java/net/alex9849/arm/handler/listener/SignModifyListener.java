@@ -125,14 +125,14 @@ public class SignModifyListener implements Listener {
                 if (!sign.getPlayer().hasPermission(Permission.ADMIN_CREATE_CONTRACT))
                     throw new InputException(sign.getPlayer(), Messages.NO_PERMISSION);
                 if (!sign.getLine(3).equalsIgnoreCase("")) {
-                    price = this.parseRentPrice(sign.getLine(3), sign.getPlayer());
+                    price = parseRentPrice(sign.getLine(3), sign.getPlayer());
                 }
             } else if (sign.getLine(0).equalsIgnoreCase("[ARM-Contract]")) {
                 presetType = PresetType.CONTRACTPRESET;
                 if (!sign.getPlayer().hasPermission(Permission.ADMIN_CREATE_CONTRACT))
                     throw new InputException(sign.getPlayer(), Messages.NO_PERMISSION);
                 if (!sign.getLine(3).equalsIgnoreCase("")) {
-                    price = this.parseContractPrice(sign.getLine(3), sign.getPlayer());
+                    price = parseContractPrice(sign.getLine(3), sign.getPlayer());
                 }
             } else {
                 return;

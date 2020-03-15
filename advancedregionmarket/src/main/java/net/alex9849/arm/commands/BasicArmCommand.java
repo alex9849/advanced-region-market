@@ -75,7 +75,7 @@ public abstract class BasicArmCommand {
         return this.runCommandLogic(sender, command, commandLabel);
     }
 
-    public List<String> onTabComplete(Player player, String args[]) {
+    public List<String> onTabComplete(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
         if (!hasPermission(player)) {
             return returnme;
@@ -97,5 +97,5 @@ public abstract class BasicArmCommand {
      * @param args Has at least a length of 2 and the first arg matches the root command
      * @return An ArrayList (not null)
      */
-    protected abstract List<String> onTabCompleteLogic(Player player, String args[]);
+    protected abstract List<String> onTabCompleteLogic(Player player, String[] args);
 }

@@ -93,9 +93,7 @@ public class FlagGroup implements Saveable {
             }
 
             if (guiDescriptionList != null) {
-                for (String msg : guiDescriptionList) {
-                    guidescription.add(msg);
-                }
+                guidescription.addAll(guiDescriptionList);
             }
 
 
@@ -122,7 +120,7 @@ public class FlagGroup implements Saveable {
      * @throws FeatureDisabledException if the FlagGroup-feature is disabled
      */
     public void applyToRegion(Region region, ResetMode resetMode, boolean forceApply) throws FeatureDisabledException {
-        if (!(this.isFeatureEnabled() || forceApply)) {
+        if (!(isFeatureEnabled() || forceApply)) {
             throw new FeatureDisabledException();
         }
         if (region.isSold()) {

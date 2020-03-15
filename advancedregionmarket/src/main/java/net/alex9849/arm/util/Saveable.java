@@ -4,11 +4,11 @@ import org.bukkit.configuration.ConfigurationSection;
 
 public interface Saveable {
 
-    public ConfigurationSection toConfigurationSection();
+    ConfigurationSection toConfigurationSection();
 
-    public void queueSave();
+    void queueSave();
 
-    public void setSaved();
+    void setSaved();
 
-    public boolean needsSave();
+    boolean needsSave();
 }

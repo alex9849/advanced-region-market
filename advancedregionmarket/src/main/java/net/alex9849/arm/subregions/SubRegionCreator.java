@@ -247,9 +247,6 @@ public class SubRegionCreator {
         if ((maxX < parentMinX) || (maxY < parentMinY) || (maxZ < parentMinZ)) {
             return false;
         }
-        if ((minX > parentMaxX) || (minY > parentMaxY) || (minZ > parentMaxZ)) {
-            return false;
-        }
-        return true;
+        return (minX <= parentMaxX) && (minY <= parentMaxY) && (minZ <= parentMaxZ);
     }
 }

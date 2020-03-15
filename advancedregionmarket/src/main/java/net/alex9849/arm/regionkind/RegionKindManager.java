@@ -121,10 +121,7 @@ public class RegionKindManager extends YamlFileManager<RegionKind> {
         if (kind.equalsIgnoreCase("subregion")) {
             return true;
         }
-        if (kind.equalsIgnoreCase(RegionKind.SUBREGION.getDisplayName())) {
-            return true;
-        }
-        return false;
+        return kind.equalsIgnoreCase(RegionKind.SUBREGION.getDisplayName());
     }
 
     public RegionKind getRegionKind(String name) {
@@ -146,12 +143,12 @@ public class RegionKindManager extends YamlFileManager<RegionKind> {
 
     private boolean updateDefaults(ConfigurationSection section) {
         boolean fileupdated = false;
-        fileupdated |= this.addDefault(section, "item", "RED_BED");
-        fileupdated |= this.addDefault(section, "displayName", "Default Displayname");
-        fileupdated |= this.addDefault(section, "displayName", "Default Displayname");
-        fileupdated |= this.addDefault(section, "displayInLimits", true);
-        fileupdated |= this.addDefault(section, "displayInGUI", true);
-        fileupdated |= this.addDefault(section, "lore", new ArrayList<String>(Arrays.asList("Default lore")));
+        fileupdated |= addDefault(section, "item", "RED_BED");
+        fileupdated |= addDefault(section, "displayName", "Default Displayname");
+        fileupdated |= addDefault(section, "displayName", "Default Displayname");
+        fileupdated |= addDefault(section, "displayInLimits", true);
+        fileupdated |= addDefault(section, "displayInGUI", true);
+        fileupdated |= addDefault(section, "lore", new ArrayList<String>(Arrays.asList("Default lore")));
         return fileupdated;
     }
 

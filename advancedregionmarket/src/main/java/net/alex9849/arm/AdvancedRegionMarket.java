@@ -247,7 +247,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
                         try {
                             region.automaticResetRegion(Region.ActionReason.INACTIVITY, true);
                         } catch (SchematicNotFoundException e) {
-                            AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, region.getConvertedMessage(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
+                            AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, region.replaceVariables(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
                         }
                     }
                 }

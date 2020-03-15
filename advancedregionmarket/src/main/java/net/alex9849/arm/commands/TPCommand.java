@@ -43,7 +43,7 @@ public class TPCommand extends BasicArmCommand {
         try {
             Teleporter.teleport(player, region);
         } catch (NoSaveLocationException e) {
-            throw new InputException(player, region.getConvertedMessage(Messages.TELEPORTER_NO_SAVE_LOCATION_FOUND));
+            throw new InputException(player, region.replaceVariables(Messages.TELEPORTER_NO_SAVE_LOCATION_FOUND));
         }
         return true;
     }

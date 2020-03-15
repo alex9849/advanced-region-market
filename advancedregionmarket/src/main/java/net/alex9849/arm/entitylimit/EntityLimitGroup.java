@@ -217,11 +217,11 @@ public class EntityLimitGroup implements Saveable {
         this.queueSave();
     }
 
-    public String getConvertedMessage(String message, List<Entity> entities, int entityExpansion) {
+    public String replaceVariables(String message, List<Entity> entities, int entityExpansion) {
         String result = message;
         result = result.replace("%softlimitentities%", EntityLimitGroup.intToLimitString(this.getSoftLimit(entityExpansion)));
         result = result.replace("%actualentities%", entities.size() + "");
-        result = getConvertedMessage(result);
+        result = replaceVariables(result);
         return result;
     }
 
@@ -277,7 +277,7 @@ public class EntityLimitGroup implements Saveable {
         return confSection;
     }
 
-    public String getConvertedMessage(String message) {
+    public String replaceVariables(String message) {
         return this.stringReplacer.replace(message).toString();
     }
 }

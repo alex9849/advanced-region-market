@@ -156,7 +156,7 @@ public class LimitGroup {
 
         if (RegionKind.DEFAULT.isDisplayInLimits()) {
             syntaxtotal = Messages.LIMIT_INFO;
-            syntaxtotal = RegionKind.DEFAULT.getConvertedMessage(syntaxtotal);
+            syntaxtotal = RegionKind.DEFAULT.replaceVariables(syntaxtotal);
             syntaxtotal = syntaxtotal.replace("%playerownedkind%", LimitGroup.getOwnedRegions(player, RegionKind.DEFAULT) + "");
             limit = LimitGroup.getLimit(player, RegionKind.DEFAULT) + "";
             if (LimitGroup.getLimit(player, RegionKind.DEFAULT) == Integer.MAX_VALUE) {
@@ -169,7 +169,7 @@ public class LimitGroup {
 
         if (RegionKind.SUBREGION.isDisplayInLimits()) {
             syntaxtotal = Messages.LIMIT_INFO;
-            syntaxtotal = RegionKind.SUBREGION.getConvertedMessage(syntaxtotal);
+            syntaxtotal = RegionKind.SUBREGION.replaceVariables(syntaxtotal);
             syntaxtotal = syntaxtotal.replace("%playerownedkind%", LimitGroup.getOwnedRegions(player, RegionKind.SUBREGION) + "");
             limit = LimitGroup.getLimit(player, RegionKind.SUBREGION) + "";
             if (LimitGroup.getLimit(player, RegionKind.SUBREGION) == Integer.MAX_VALUE) {
@@ -184,7 +184,7 @@ public class LimitGroup {
             if (RegionKind.hasPermission(player, regionKind) && regionKind.isDisplayInLimits()) {
 
                 syntaxtotal = Messages.LIMIT_INFO;
-                syntaxtotal = regionKind.getConvertedMessage(syntaxtotal);
+                syntaxtotal = regionKind.replaceVariables(syntaxtotal);
                 syntaxtotal = syntaxtotal.replace("%playerownedkind%", LimitGroup.getOwnedRegions(player, regionKind) + "");
                 limit = LimitGroup.getLimit(player, regionKind) + "";
                 if (LimitGroup.getLimit(player, regionKind) == Integer.MAX_VALUE) {
@@ -213,7 +213,7 @@ public class LimitGroup {
         message = message.replace("%limitkind%", limitkindS);
         message = message.replace("%playerownedtotal%", LimitGroup.getOwnedRegions(player) + "");
         message = message.replace("%limittotal%", limittotalS);
-        message = regionKind.getConvertedMessage(message);
+        message = regionKind.replaceVariables(message);
         return message;
     }
 

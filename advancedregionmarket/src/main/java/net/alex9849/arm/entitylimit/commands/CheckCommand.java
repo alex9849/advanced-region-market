@@ -46,19 +46,19 @@ public class CheckCommand extends BasicArmCommand {
                 true, true, true, true, false,
                 false, false);
 
-        player.sendMessage(region.getConvertedMessage(Messages.ENTITYLIMIT_CHECK_HEADLINE));
-        String totalstatus = region.getEntityLimitGroup().getConvertedMessage(Messages.ENTITYLIMIT_CHECK_PATTERN, entities, region.getExtraTotalEntitys());
+        player.sendMessage(region.replaceVariables(Messages.ENTITYLIMIT_CHECK_HEADLINE));
+        String totalstatus = region.getEntityLimitGroup().replaceVariables(Messages.ENTITYLIMIT_CHECK_PATTERN, entities, region.getExtraTotalEntitys());
 
         if ((region.getEntityLimitGroup().getSoftLimit(region.getExtraTotalEntitys()) < region.getEntityLimitGroup().getHardLimit()) && !region.isSubregion()) {
-            totalstatus = totalstatus.replace("%entityextensioninfo%", region.getEntityLimitGroup().getConvertedMessage(Messages.ENTITYLIMIT_CHECK_EXTENSION_INFO, entities, region.getExtraTotalEntitys()));
+            totalstatus = totalstatus.replace("%entityextensioninfo%", region.getEntityLimitGroup().replaceVariables(Messages.ENTITYLIMIT_CHECK_EXTENSION_INFO, entities, region.getExtraTotalEntitys()));
         } else {
             totalstatus = totalstatus.replace("%entityextensioninfo%", "");
         }
         player.sendMessage(totalstatus);
         for (EntityLimit entityLimit : region.getEntityLimitGroup().getEntityLimits()) {
-            String entitystatus = entityLimit.getConvertedMessage(Messages.ENTITYLIMIT_CHECK_PATTERN, entities, region.getExtraEntityAmount(entityLimit.getLimitableEntityType()));
+            String entitystatus = entityLimit.replaceVariables(Messages.ENTITYLIMIT_CHECK_PATTERN, entities, region.getExtraEntityAmount(entityLimit.getLimitableEntityType()));
             if ((entityLimit.getSoftLimit(region.getExtraEntityAmount(entityLimit.getLimitableEntityType())) < entityLimit.getHardLimit()) && !region.isSubregion()) {
-                entitystatus = entitystatus.replace("%entityextensioninfo%", entityLimit.getConvertedMessage(Messages.ENTITYLIMIT_CHECK_EXTENSION_INFO, entities, region.getExtraEntityAmount(entityLimit.getLimitableEntityType())));
+                entitystatus = entitystatus.replace("%entityextensioninfo%", entityLimit.replaceVariables(Messages.ENTITYLIMIT_CHECK_EXTENSION_INFO, entities, region.getExtraEntityAmount(entityLimit.getLimitableEntityType())));
             } else {
                 entitystatus = entitystatus.replace("%entityextensioninfo%", "");
             }

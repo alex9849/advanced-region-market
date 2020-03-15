@@ -42,7 +42,7 @@ public class RestoreCommand extends BasicArmCommand {
             try {
                 resregion.restoreRegion(Region.ActionReason.MANUALLY_BY_ADMIN, true, false);
             } catch (SchematicNotFoundException e) {
-                AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, resregion.getConvertedMessage(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
+                AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, resregion.replaceVariables(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
                 player.sendMessage(Messages.PREFIX + Messages.SCHEMATIC_NOT_FOUND_ERROR_USER.replace("%regionid%", e.getRegion().getId()));
             }
             player.sendMessage(Messages.PREFIX + Messages.RESET_COMPLETE);
@@ -56,7 +56,7 @@ public class RestoreCommand extends BasicArmCommand {
                     Gui.openRegionResetWarning(player, resregion, false);
                     return true;
                 } else {
-                    String message = resregion.getConvertedMessage(Messages.RESET_REGION_COOLDOWN_ERROR);
+                    String message = resregion.replaceVariables(Messages.RESET_REGION_COOLDOWN_ERROR);
                     throw new InputException(player, message);
                 }
             } else {

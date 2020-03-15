@@ -26,7 +26,7 @@ public class SubRegionCreator {
 
     public SubRegionCreator(Region parentRegion, Player creator) throws InputException {
         if (!parentRegion.isAllowSubregions()) {
-            throw new InputException(creator, parentRegion.getConvertedMessage(Messages.SUB_REGION_LIMIT_REACHED));
+            throw new InputException(creator, parentRegion.replaceVariables(Messages.SUB_REGION_LIMIT_REACHED));
         }
         this.parentRegion = parentRegion;
         this.creator = creator;
@@ -147,7 +147,7 @@ public class SubRegionCreator {
             }
         }
         if (this.getParentRegion().getSubregions().size() >= this.getParentRegion().getAllowedSubregions()) {
-            throw new InputException(this.getCreator(), this.getParentRegion().getConvertedMessage(Messages.SUB_REGION_LIMIT_REACHED));
+            throw new InputException(this.getCreator(), this.getParentRegion().replaceVariables(Messages.SUB_REGION_LIMIT_REACHED));
         }
 
         int subregionID = 1;

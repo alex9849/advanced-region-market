@@ -49,7 +49,7 @@ public class SetPriceCommand extends BasicArmCommand {
                 throw new InputException(sender, Messages.REGIONKIND_DOES_NOT_EXIST);
             }
             selectedregions = AdvancedRegionMarket.getInstance().getRegionManager().getRegionsByRegionKind(selectedRegionkind);
-            selectedName = selectedRegionkind.getConvertedMessage(Messages.MASSACTION_SPLITTER);
+            selectedName = selectedRegionkind.replaceVariables(Messages.MASSACTION_SPLITTER);
         } else {
             Region selectedRegion = AdvancedRegionMarket.getInstance().getRegionManager()
                     .getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());

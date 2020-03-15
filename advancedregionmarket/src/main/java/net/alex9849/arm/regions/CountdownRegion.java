@@ -193,8 +193,8 @@ public abstract class CountdownRegion extends Region {
         return pricePerM2PerWeek / (this.getRegion().getMaxPoint().getBlockY() - this.getRegion().getMinPoint().getBlockY());
     }
 
-    public String getConvertedMessage(String message) {
-        message = super.getConvertedMessage(message);
+    public String replaceVariables(String message) {
+        message = super.replaceVariables(message);
         return this.stringReplacer.replace(message).toString();
     }
 

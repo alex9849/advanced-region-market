@@ -125,7 +125,7 @@ public class Teleporter {
                 abort = !inRegionOneTime;
             }
 
-            throw new NoSaveLocationException(region.getConvertedMessage(Messages.TELEPORTER_NO_SAVE_LOCATION_FOUND));
+            throw new NoSaveLocationException(region.replaceVariables(Messages.TELEPORTER_NO_SAVE_LOCATION_FOUND));
 
         } else {
             teleport(player, region.getTeleportLocation(), message, useCountdown);

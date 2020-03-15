@@ -39,7 +39,7 @@ public class SellBackCommand extends BasicArmCommand {
         if (!region.isSold()) {
             throw new InputException(player, Messages.REGION_NOT_SOLD);
         }
-        String confirmQuestion = region.getConvertedMessage(Messages.SELLBACK_WARNING);
+        String confirmQuestion = region.replaceVariables(Messages.SELLBACK_WARNING);
         player.sendMessage(Messages.PREFIX + confirmQuestion);
         Gui.openSellWarning(player, region, false);
         return true;

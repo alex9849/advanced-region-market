@@ -65,7 +65,7 @@ public class ContractRegion extends CountdownRegion {
         }
 
         for (String s : msg) {
-            sender.sendMessage(this.getConvertedMessage(s));
+            sender.sendMessage(this.replaceVariables(s));
         }
     }
 
@@ -99,7 +99,7 @@ public class ContractRegion extends CountdownRegion {
                                         }
                                         this.extend();
                                         if (oplayer.isOnline() && AdvancedRegionMarket.getInstance().getPluginSettings().isSendContractRegionExtendMessage()) {
-                                            String sendmessage = this.getConvertedMessage(Messages.CONTRACT_REGION_EXTENDED);
+                                            String sendmessage = this.replaceVariables(Messages.CONTRACT_REGION_EXTENDED);
                                             oplayer.getPlayer().sendMessage(Messages.PREFIX + sendmessage);
                                         }
                                     }
@@ -110,7 +110,7 @@ public class ContractRegion extends CountdownRegion {
                 }
             }
         } catch (SchematicNotFoundException e) {
-            AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, this.getConvertedMessage(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
+            AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, this.replaceVariables(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
         }
 
         super.updateRegion();
@@ -127,17 +127,17 @@ public class ContractRegion extends CountdownRegion {
     protected void updateSignText(SignData signData) {
         if (this.isSold()) {
             String[] lines = new String[4];
-            lines[0] = this.getConvertedMessage(Messages.CONTRACT_SOLD_SIGN1);
-            lines[1] = this.getConvertedMessage(Messages.CONTRACT_SOLD_SIGN2);
-            lines[2] = this.getConvertedMessage(Messages.CONTRACT_SOLD_SIGN3);
-            lines[3] = this.getConvertedMessage(Messages.CONTRACT_SOLD_SIGN4);
+            lines[0] = this.replaceVariables(Messages.CONTRACT_SOLD_SIGN1);
+            lines[1] = this.replaceVariables(Messages.CONTRACT_SOLD_SIGN2);
+            lines[2] = this.replaceVariables(Messages.CONTRACT_SOLD_SIGN3);
+            lines[3] = this.replaceVariables(Messages.CONTRACT_SOLD_SIGN4);
             signData.writeLines(lines);
         } else {
             String[] lines = new String[4];
-            lines[0] = this.getConvertedMessage(Messages.CONTRACT_SIGN1);
-            lines[1] = this.getConvertedMessage(Messages.CONTRACT_SIGN2);
-            lines[2] = this.getConvertedMessage(Messages.CONTRACT_SIGN3);
-            lines[3] = this.getConvertedMessage(Messages.CONTRACT_SIGN4);
+            lines[0] = this.replaceVariables(Messages.CONTRACT_SIGN1);
+            lines[1] = this.replaceVariables(Messages.CONTRACT_SIGN2);
+            lines[2] = this.replaceVariables(Messages.CONTRACT_SIGN3);
+            lines[3] = this.replaceVariables(Messages.CONTRACT_SIGN4);
             signData.writeLines(lines);
         }
     }
@@ -157,14 +157,14 @@ public class ContractRegion extends CountdownRegion {
             }
         }
         if (!RegionKind.hasPermission(player, this.getRegionKind())) {
-            throw new NoPermissionException(this.getConvertedMessage(Messages.NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION));
+            throw new NoPermissionException(this.replaceVariables(Messages.NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION));
         }
 
         if (!LimitGroup.isCanBuyAnother(player, this)) {
             throw new OutOfLimitExeption(LimitGroup.getRegionBuyOutOfLimitMessage(player, this.getRegionKind()));
         }
         if (AdvancedRegionMarket.getInstance().getEcon().getBalance(player) < this.getPrice()) {
-            throw new NotEnoughMoneyException(this.getConvertedMessage(Messages.NOT_ENOUGHT_MONEY));
+            throw new NotEnoughMoneyException(this.replaceVariables(Messages.NOT_ENOUGHT_MONEY));
         }
         BuyRegionEvent buyRegionEvent = new BuyRegionEvent(this, player);
         Bukkit.getServer().getPluginManager().callEvent(buyRegionEvent);
@@ -211,7 +211,7 @@ public class ContractRegion extends CountdownRegion {
             } else {
                 sendmessage = Messages.CONTRACTREGION_REACTIVATED;
             }
-            player.sendMessage(Messages.PREFIX + this.getConvertedMessage(sendmessage));
+            player.sendMessage(Messages.PREFIX + this.replaceVariables(sendmessage));
         }
     }
 
@@ -249,9 +249,9 @@ public class ContractRegion extends CountdownRegion {
         return (msPerWeek / this.getExtendTime()) * pricePerM2;
     }
 
-    public String getConvertedMessage(String message) {
+    public String replaceVariables(String message) {
         message = this.stringReplacer.replace(message).toString();
-        return super.getConvertedMessage(message);
+        return super.replaceVariables(message);
     }
 
     public SellType getSellType() {

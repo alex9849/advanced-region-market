@@ -32,12 +32,12 @@ public class InfoCommand extends BasicArmCommand {
 
         List<String> lore = regionKind.getLore();
 
-        sender.sendMessage(regionKind.getConvertedMessage(Messages.REGIONKIND_INFO_HEADLINE));
-        sender.sendMessage(regionKind.getConvertedMessage(Messages.REGIONKIND_INFO_INTERNAL_NAME));
-        sender.sendMessage(regionKind.getConvertedMessage(Messages.REGIONKIND_INFO_DISPLAY_NAME));
-        sender.sendMessage(regionKind.getConvertedMessage(Messages.REGIONKIND_INFO_MATERIAL));
-        sender.sendMessage(regionKind.getConvertedMessage(Messages.REGIONKIND_INFO_DISPLAY_IN_GUI));
-        sender.sendMessage(regionKind.getConvertedMessage(Messages.REGIONKIND_INFO_DISPLAY_IN_LIMITS));
+        sender.sendMessage(regionKind.replaceVariables(Messages.REGIONKIND_INFO_HEADLINE));
+        sender.sendMessage(regionKind.replaceVariables(Messages.REGIONKIND_INFO_INTERNAL_NAME));
+        sender.sendMessage(regionKind.replaceVariables(Messages.REGIONKIND_INFO_DISPLAY_NAME));
+        sender.sendMessage(regionKind.replaceVariables(Messages.REGIONKIND_INFO_MATERIAL));
+        sender.sendMessage(regionKind.replaceVariables(Messages.REGIONKIND_INFO_DISPLAY_IN_GUI));
+        sender.sendMessage(regionKind.replaceVariables(Messages.REGIONKIND_INFO_DISPLAY_IN_LIMITS));
         sender.sendMessage(Messages.REGIONKIND_INFO_LORE);
 
         for (int i = 0; i < lore.size(); i++) {

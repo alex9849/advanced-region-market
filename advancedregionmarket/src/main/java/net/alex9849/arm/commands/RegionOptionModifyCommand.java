@@ -60,7 +60,7 @@ public abstract class RegionOptionModifyCommand<SettingsObj> extends OptionModif
             if (!this.allowSubregions && selectedRegionkind == RegionKind.SUBREGION) {
                 throw new InputException(sender, this.subregionModifyErrorMessage);
             }
-            String selectedName = selectedRegionkind.getConvertedMessage(Messages.MASSACTION_SPLITTER);
+            String selectedName = selectedRegionkind.replaceVariables(Messages.MASSACTION_SPLITTER);
             return new Tuple<>(selectedName, AdvancedRegionMarket.getInstance().getRegionManager().getRegionsByRegionKind(selectedRegionkind));
         } else {
             Region selectedRegion = AdvancedRegionMarket.getInstance().getRegionManager().getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());

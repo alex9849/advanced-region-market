@@ -153,7 +153,7 @@ public class RegionKind implements Saveable {
         this.queueSave();
     }
 
-    public String getConvertedMessage(String message) {
+    public String replaceVariables(String message) {
         return this.stringReplacer.replace(message).toString();
     }
 

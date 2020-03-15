@@ -806,7 +806,7 @@ public class RegionManager extends YamlFileManager<Region> {
 
             if ((!region.isSold()) && (region.getRegionKind() == type)) {
                 try {
-                    String message = region.getConvertedMessage(Messages.REGION_TELEPORT_MESSAGE);
+                    String message = region.replaceVariables(Messages.REGION_TELEPORT_MESSAGE);
                     Teleporter.teleport(player, region, Messages.PREFIX + message, true);
                 } catch (NoSaveLocationException e) {
                     continue;

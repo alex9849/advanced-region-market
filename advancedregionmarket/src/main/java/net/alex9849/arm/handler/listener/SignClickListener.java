@@ -77,7 +77,7 @@ public class SignClickListener implements Listener {
         } else if (cmd.equalsIgnoreCase("")) {
             return;
         } else {
-            cmd = region.getConvertedMessage(cmd);
+            cmd = region.replaceVariables(cmd);
             player.performCommand(cmd);
         }
     }

@@ -240,7 +240,7 @@ public abstract class Preset implements Saveable, Cloneable {
 
     public void executeSavedCommands(CommandSender sender, Region region) {
         for (String command : this.setupCommands) {
-            String cmd = region.getConvertedMessage(command);
+            String cmd = region.replaceVariables(command);
 
             if (sender instanceof Player) {
                 ((Player) sender).performCommand(cmd);

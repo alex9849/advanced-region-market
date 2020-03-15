@@ -34,17 +34,17 @@ public class SellRegion extends Region {
     protected void updateSignText(SignData signData) {
         if (this.isSold()) {
             String[] lines = new String[4];
-            lines[0] = this.getConvertedMessage(Messages.SOLD_SIGN1);
-            lines[1] = this.getConvertedMessage(Messages.SOLD_SIGN2);
-            lines[2] = this.getConvertedMessage(Messages.SOLD_SIGN3);
-            lines[3] = this.getConvertedMessage(Messages.SOLD_SIGN4);
+            lines[0] = this.replaceVariables(Messages.SOLD_SIGN1);
+            lines[1] = this.replaceVariables(Messages.SOLD_SIGN2);
+            lines[2] = this.replaceVariables(Messages.SOLD_SIGN3);
+            lines[3] = this.replaceVariables(Messages.SOLD_SIGN4);
             signData.writeLines(lines);
         } else {
             String[] lines = new String[4];
-            lines[0] = this.getConvertedMessage(Messages.SELL_SIGN1);
-            lines[1] = this.getConvertedMessage(Messages.SELL_SIGN2);
-            lines[2] = this.getConvertedMessage(Messages.SELL_SIGN3);
-            lines[3] = this.getConvertedMessage(Messages.SELL_SIGN4);
+            lines[0] = this.replaceVariables(Messages.SELL_SIGN1);
+            lines[1] = this.replaceVariables(Messages.SELL_SIGN2);
+            lines[2] = this.replaceVariables(Messages.SELL_SIGN3);
+            lines[3] = this.replaceVariables(Messages.SELL_SIGN4);
             signData.writeLines(lines);
         }
 
@@ -54,13 +54,13 @@ public class SellRegion extends Region {
     public void buy(Player player) throws NoPermissionException, OutOfLimitExeption, NotEnoughMoneyException, AlreadySoldException {
 
         if (!player.hasPermission(Permission.MEMBER_BUY)) {
-            throw new NoPermissionException(this.getConvertedMessage(Messages.NO_PERMISSION));
+            throw new NoPermissionException(this.replaceVariables(Messages.NO_PERMISSION));
         }
         if (this.isSold()) {
-            throw new AlreadySoldException(this.getConvertedMessage(Messages.REGION_ALREADY_SOLD));
+            throw new AlreadySoldException(this.replaceVariables(Messages.REGION_ALREADY_SOLD));
         }
         if (!RegionKind.hasPermission(player, this.getRegionKind())) {
-            throw new NoPermissionException(this.getConvertedMessage(Messages.NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION));
+            throw new NoPermissionException(this.replaceVariables(Messages.NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION));
         }
 
         if (!LimitGroup.isCanBuyAnother(player, this)) {
@@ -68,7 +68,7 @@ public class SellRegion extends Region {
         }
 
         if (AdvancedRegionMarket.getInstance().getEcon().getBalance(player) < this.getPrice()) {
-            throw new NotEnoughMoneyException(this.getConvertedMessage(Messages.NOT_ENOUGHT_MONEY));
+            throw new NotEnoughMoneyException(this.replaceVariables(Messages.NOT_ENOUGHT_MONEY));
         }
         BuyRegionEvent buyRegionEvent = new BuyRegionEvent(this, player);
         Bukkit.getServer().getPluginManager().callEvent(buyRegionEvent);
@@ -83,7 +83,7 @@ public class SellRegion extends Region {
             try {
                 Teleporter.teleport(player, this, "", AdvancedRegionMarket.getInstance().getConfig().getBoolean("Other.TeleportAfterRegionBoughtCountdown"));
             } catch (NoSaveLocationException e) {
-                player.sendMessage(Messages.PREFIX + this.getConvertedMessage(Messages.TELEPORTER_NO_SAVE_LOCATION_FOUND));
+                player.sendMessage(Messages.PREFIX + this.replaceVariables(Messages.TELEPORTER_NO_SAVE_LOCATION_FOUND));
             }
         }
         player.sendMessage(Messages.PREFIX + Messages.REGION_BUYMESSAGE);
@@ -116,7 +116,7 @@ public class SellRegion extends Region {
         }
 
         for (String s : msg) {
-            sender.sendMessage(this.getConvertedMessage(s));
+            sender.sendMessage(this.replaceVariables(s));
         }
     }
 

@@ -42,7 +42,7 @@ public class EntitySpawnListener implements Listener {
                 for (Player player : Bukkit.getOnlinePlayers()) {
                     Location playerLoc = player.getLocation();
                     if (region.getRegion().contains(playerLoc.getBlockX(), playerLoc.getBlockY(), playerLoc.getBlockZ())) {
-                        player.getPlayer().sendMessage(Messages.PREFIX + region.getConvertedMessage(Messages.ENTITYLIMITGROUP_COULD_NOT_SPAWN_ENTITY));
+                        player.getPlayer().sendMessage(Messages.PREFIX + region.replaceVariables(Messages.ENTITYLIMITGROUP_COULD_NOT_SPAWN_ENTITY));
                     }
                 }
             }
@@ -72,7 +72,7 @@ public class EntitySpawnListener implements Listener {
                 for (Player player : Bukkit.getOnlinePlayers()) {
                     Location playerLoc = player.getLocation();
                     if (region.getRegion().contains(playerLoc.getBlockX(), playerLoc.getBlockY(), playerLoc.getBlockZ())) {
-                        player.getPlayer().sendMessage(Messages.PREFIX + region.getConvertedMessage(Messages.ENTITYLIMITGROUP_COULD_NOT_SPAWN_ENTITY));
+                        player.getPlayer().sendMessage(Messages.PREFIX + region.replaceVariables(Messages.ENTITYLIMITGROUP_COULD_NOT_SPAWN_ENTITY));
                     }
                 }
             }

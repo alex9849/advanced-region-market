@@ -56,7 +56,7 @@ public class ListBackupsCommand extends BasicArmCommand {
             }
         }
 
-        player.sendMessage(region.getConvertedMessage(Messages.BACKUP_LIST_HEADER));
+        player.sendMessage(region.replaceVariables(Messages.BACKUP_LIST_HEADER));
         for(String backupID : backupNames) {
             player.sendMessage("- " + backupID);
         }

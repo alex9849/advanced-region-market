@@ -93,12 +93,12 @@ public class Offer {
     public void accept() throws RegionNotOwnException, NoPermissionException, OutOfLimitExeption, NotEnoughMoneyException {
         if (!region.isSold() || !region.getRegion().hasOwner(seller.getUniqueId())) {
             this.reject();
-            throw new RegionNotOwnException(this.getConvertedMessage(Messages.SELLER_DOES_NOT_LONGER_OWN_REGION));
+            throw new RegionNotOwnException(this.replaceVariables(Messages.SELLER_DOES_NOT_LONGER_OWN_REGION));
         }
 
         if (!RegionKind.hasPermission(buyer, this.region.getRegionKind())) {
             this.reject();
-            throw new NoPermissionException(this.getConvertedMessage(Messages.NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION));
+            throw new NoPermissionException(this.replaceVariables(Messages.NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION));
         }
 
         if (!LimitGroup.isCanBuyAnother(buyer, region)) {
@@ -110,7 +110,7 @@ public class Offer {
 
         if (econ.getBalance(buyer) < price) {
             this.reject();
-            throw new NotEnoughMoneyException(this.getConvertedMessage(Messages.NOT_ENOUGHT_MONEY));
+            throw new NotEnoughMoneyException(this.replaceVariables(Messages.NOT_ENOUGHT_MONEY));
         }
         econ.depositPlayer(seller, price);
         econ.withdrawPlayer(buyer, price);
@@ -146,7 +146,7 @@ public class Offer {
         this.offerListener.activateCancelTimer(ticks);
     }
 
-    public String getConvertedMessage(String message) {
+    public String replaceVariables(String message) {
         message = message.replace("%seller%", this.seller.getDisplayName());
         message = message.replace("%buyer%", this.buyer.getDisplayName());
         message = message.replace("%region%", this.region.getRegion().getId());
@@ -155,7 +155,7 @@ public class Offer {
         message = message.replace("%price%", this.price + "");
         message = message.replace("%currency%", Messages.CURRENCY);
         if (this.region != null) {
-            message = this.region.getConvertedMessage(message);
+            message = this.region.replaceVariables(message);
         }
         return message;
     }

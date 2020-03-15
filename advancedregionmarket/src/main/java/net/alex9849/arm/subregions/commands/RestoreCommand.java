@@ -52,7 +52,7 @@ public class RestoreCommand extends BasicArmCommand {
             sender.sendMessage(Messages.PREFIX + Messages.COMPLETE);
         } catch (SchematicNotFoundException e) {
             AdvancedRegionMarket.getInstance().getLogger()
-                    .log(Level.WARNING, region.getConvertedMessage(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
+                    .log(Level.WARNING, region.replaceVariables(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
             player.sendMessage(Messages.PREFIX + Messages.SCHEMATIC_NOT_FOUND_ERROR_USER.replace("%regionid%", e.getRegion().getId()));
         }
         return true;

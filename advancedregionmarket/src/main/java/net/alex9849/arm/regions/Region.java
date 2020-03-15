@@ -907,7 +907,7 @@ public abstract class Region implements Saveable {
         //TODO Add to messages.yml
         if (logToConsole) {
             AdvancedRegionMarket.getInstance().getLogger().log(Level.INFO,
-                    actionReason.getConvertedMessage(this.getConvertedMessage("Region %region% has been restored! Reason: %resetreason%")));
+                    actionReason.replaceVariables(this.replaceVariables("Region %region% has been restored! Reason: %resetreason%")));
         }
 
         return;
@@ -968,7 +968,7 @@ public abstract class Region implements Saveable {
             player.sendMessage(Messages.PREFIX + Messages.RESET_COMPLETE);
         } catch (SchematicNotFoundException e) {
             player.sendMessage(Messages.PREFIX + Messages.SCHEMATIC_NOT_FOUND_ERROR_USER.replace("%regionid%", e.getRegion().getId()));
-            AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, this.getConvertedMessage(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
+            AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, this.replaceVariables(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
         }
     }
 
@@ -1053,18 +1053,18 @@ public abstract class Region implements Saveable {
 
         if (logToConsole) {
             AdvancedRegionMarket.getInstance().getLogger().log(Level.INFO,
-                    actionReason.getConvertedMessage(this.getConvertedMessage("Region %region% has been unsold! Reason: %resetreason%")));
+                    actionReason.replaceVariables(this.replaceVariables("Region %region% has been unsold! Reason: %resetreason%")));
         }
 
         this.updateSigns();
         this.queueSave();
     }
 
-    public String getConvertedMessage(String message) {
+    public String replaceVariables(String message) {
         message = this.stringReplacer.replace(message).toString();
-        message = this.getRegionKind().getConvertedMessage(message).toString();
-        message = this.getEntityLimitGroup().getConvertedMessage(message).toString();
-        return this.getFlagGroup().getConvertedMessage(message).toString();
+        message = this.getRegionKind().replaceVariables(message).toString();
+        message = this.getEntityLimitGroup().replaceVariables(message).toString();
+        return this.getFlagGroup().replaceVariables(message).toString();
     }
 
     public List<Entity> getInsideEntities(boolean includePlayers) {
@@ -1227,7 +1227,7 @@ public abstract class Region implements Saveable {
         USER_SELL, USER_RESTORE, EXPIRED, INACTIVITY, MANUALLY_BY_ADMIN,
         INSUFFICIENT_MONEY, DELETE, NONE, MANUALLY_BY_PARENT_REGION_OWNER;
 
-        public String getConvertedMessage(String message) {
+        public String replaceVariables(String message) {
             String conMessage = message;
             if (conMessage.contains("%resetreason%")) conMessage = conMessage.replace("%resetreason%", this.name());
             return conMessage;

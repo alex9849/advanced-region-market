@@ -59,9 +59,9 @@ public class OfferCommand extends BasicArmCommand {
             try {
                 Offer offer = Offer.createOffer(region, price, player, buyer);
                 player.sendMessage(Messages.PREFIX + Messages.OFFER_SENT);
-                buyer.sendMessage(Messages.PREFIX + offer.getConvertedMessage(Messages.INCOMING_OFFER));
+                buyer.sendMessage(Messages.PREFIX + offer.replaceVariables(Messages.INCOMING_OFFER));
             } catch (DublicateException | IllegalArgumentException e) {
-                player.sendMessage(Messages.PREFIX + region.getConvertedMessage(e.getMessage()));
+                player.sendMessage(Messages.PREFIX + region.replaceVariables(e.getMessage()));
             }
 
             return true;
@@ -74,8 +74,8 @@ public class OfferCommand extends BasicArmCommand {
 
             try {
                 Offer offer = Offer.acceptOffer(player);
-                player.sendMessage(Messages.PREFIX + offer.getConvertedMessage(Messages.OFFER_ACCEPTED_BUYER));
-                offer.getSeller().sendMessage(Messages.PREFIX + offer.getConvertedMessage(Messages.OFFER_ACCEPTED_SELLER));
+                player.sendMessage(Messages.PREFIX + offer.replaceVariables(Messages.OFFER_ACCEPTED_BUYER));
+                offer.getSeller().sendMessage(Messages.PREFIX + offer.replaceVariables(Messages.OFFER_ACCEPTED_SELLER));
             } catch (RegionNotOwnException | NoPermissionException | OutOfLimitExeption | NotEnoughMoneyException e) {
                 if (e.hasMessage()) player.sendMessage(Messages.PREFIX + e.getMessage());
             }
@@ -86,7 +86,7 @@ public class OfferCommand extends BasicArmCommand {
             if (player.hasPermission(Permission.MEMBER_OFFER_ANSWER)) {
                 Offer offer = Offer.cancelOffer(player);
                 player.sendMessage(Messages.PREFIX + Messages.OFFER_CANCELED);
-                offer.getBuyer().sendMessage(Messages.PREFIX + offer.getConvertedMessage(Messages.OFFER_HAS_BEEN_CANCELLED));
+                offer.getBuyer().sendMessage(Messages.PREFIX + offer.replaceVariables(Messages.OFFER_HAS_BEEN_CANCELLED));
                 return true;
             } else {
                 throw new InputException(player, Messages.NO_PERMISSION);
@@ -96,8 +96,8 @@ public class OfferCommand extends BasicArmCommand {
         } else if (command.matches(regex_reject)) {
             if (player.hasPermission(Permission.MEMBER_OFFER_CREATE)) {
                 Offer offer = Offer.rejectOffer(player);
-                player.sendMessage(Messages.PREFIX + offer.getConvertedMessage(Messages.OFFER_REJECTED));
-                offer.getSeller().sendMessage(Messages.PREFIX + offer.getConvertedMessage(Messages.OFFER_HAS_BEEN_REJECTED));
+                player.sendMessage(Messages.PREFIX + offer.replaceVariables(Messages.OFFER_REJECTED));
+                offer.getSeller().sendMessage(Messages.PREFIX + offer.replaceVariables(Messages.OFFER_HAS_BEEN_REJECTED));
                 return true;
             } else {
                 throw new InputException(player, Messages.NO_PERMISSION);

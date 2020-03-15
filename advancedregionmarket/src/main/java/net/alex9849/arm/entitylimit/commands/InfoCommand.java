@@ -39,18 +39,18 @@ public class InfoCommand extends BasicArmCommand {
     public static void sendInfoToSender(CommandSender sender, EntityLimitGroup entityLimitGroup) {
         sender.sendMessage(Messages.ENTITYLIMITGROUP_INFO_HEADLINE);
         sender.sendMessage(Messages.ENTITYLIMITGROUP_INFO_GROUPNAME + entityLimitGroup.getName());
-        String totalstatus = entityLimitGroup.getConvertedMessage(Messages.ENTITYLIMITGROUP_INFO_PATTERN, new ArrayList<>(), 0);
+        String totalstatus = entityLimitGroup.replaceVariables(Messages.ENTITYLIMITGROUP_INFO_PATTERN, new ArrayList<>(), 0);
         if (entityLimitGroup.getSoftLimit(0) < entityLimitGroup.getHardLimit()) {
-            totalstatus = totalstatus.replace("%entityextensioninfo%", entityLimitGroup.getConvertedMessage(Messages.ENTITYLIMITGROUP_INFO_EXTENSION_INFO, new ArrayList<>(), 0));
+            totalstatus = totalstatus.replace("%entityextensioninfo%", entityLimitGroup.replaceVariables(Messages.ENTITYLIMITGROUP_INFO_EXTENSION_INFO, new ArrayList<>(), 0));
         } else {
             totalstatus = totalstatus.replace("%entityextensioninfo%", "");
         }
         sender.sendMessage(totalstatus);
 
         for (EntityLimit entityLimit : entityLimitGroup.getEntityLimits()) {
-            String entitystatus = entityLimit.getConvertedMessage(Messages.ENTITYLIMITGROUP_INFO_PATTERN, new ArrayList<>(), 0);
+            String entitystatus = entityLimit.replaceVariables(Messages.ENTITYLIMITGROUP_INFO_PATTERN, new ArrayList<>(), 0);
             if (entityLimit.getSoftLimit(0) < entityLimit.getHardLimit()) {
-                entitystatus = entitystatus.replace("%entityextensioninfo%", entityLimit.getConvertedMessage(Messages.ENTITYLIMITGROUP_INFO_EXTENSION_INFO, new ArrayList<>(), 0));
+                entitystatus = entitystatus.replace("%entityextensioninfo%", entityLimit.replaceVariables(Messages.ENTITYLIMITGROUP_INFO_EXTENSION_INFO, new ArrayList<>(), 0));
             } else {
                 entitystatus = entitystatus.replace("%entityextensioninfo%", "");
             }

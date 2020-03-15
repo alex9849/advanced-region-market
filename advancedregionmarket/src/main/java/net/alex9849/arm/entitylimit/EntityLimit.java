@@ -136,7 +136,7 @@ public class EntityLimit {
         return affected;
     }
 
-    public String getConvertedMessage(String message, List<Entity> entities, int entityExpansion) {
+    public String replaceVariables(String message, List<Entity> entities, int entityExpansion) {
         String result = message;
         if (result.contains("%entitytype%"))
             result = result.replace("%entitytype%", this.getLimitableEntityType().getName());

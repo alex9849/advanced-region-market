@@ -103,7 +103,7 @@ public class FlagSettings {
 
             if (settings != null) {
                 try {
-                    Object wgFlagSettings = AdvancedRegionMarket.getInstance().getWorldGuardInterface().parseFlagInput(this.getFlag(), region.getConvertedMessage(settings));
+                    Object wgFlagSettings = AdvancedRegionMarket.getInstance().getWorldGuardInterface().parseFlagInput(this.getFlag(), region.replaceVariables(settings));
                     region.getRegion().setFlag(this.getFlag(), wgFlagSettings);
                 } catch (InvalidFlagFormat invalidFlagFormat) {
                     Bukkit.getLogger().info("Could not parse flag-settings for flag " + this.getFlag().getName() + "! Flag will be ignored! Please check your flaggroups.yml");

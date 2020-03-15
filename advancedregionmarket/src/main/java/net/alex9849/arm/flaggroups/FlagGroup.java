@@ -208,7 +208,7 @@ public class FlagGroup implements Saveable {
         return this.name;
     }
 
-    public String getConvertedMessage(String message) {
+    public String replaceVariables(String message) {
         return this.stringReplacer.replace(message).toString();
     }
 

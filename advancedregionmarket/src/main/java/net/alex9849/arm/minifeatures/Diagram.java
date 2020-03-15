@@ -73,7 +73,7 @@ public class Diagram {
                 }
             }
         }
-        sender.sendMessage(regionKind.getConvertedMessage(Messages.REGION_STATS_PATTERN));
+        sender.sendMessage(regionKind.replaceVariables(Messages.REGION_STATS_PATTERN));
         sender.sendMessage(generateDiagramm(soldregions, regions));
     }
 

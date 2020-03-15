@@ -251,7 +251,7 @@ public class Gui implements Listener {
                     if ((new GregorianCalendar().getTimeInMillis()) >= AdvancedRegionMarket.getInstance().getPluginSettings().getUserResetCooldown() + region.getLastreset()) {
                         Gui.openRegionResetWarning(player, region, true);
                     } else {
-                        String message = region.getConvertedMessage(Messages.RESET_REGION_COOLDOWN_ERROR);
+                        String message = region.replaceVariables(Messages.RESET_REGION_COOLDOWN_ERROR);
                         throw new InputException(player, message);
                     }
                 }
@@ -264,7 +264,7 @@ public class Gui implements Listener {
         if (player.hasPermission(Permission.MEMBER_SELLBACK)) {
             List<String> message = new ArrayList<>(Messages.GUI_USER_SELL_BUTTON_LORE);
             for (int i = 0; i < message.size(); i++) {
-                message.set(i, region.getConvertedMessage(message.get(i)));
+                message.set(i, region.replaceVariables(message.get(i)));
             }
             ClickItem reseticon = new ClickItem(new ItemStack(Gui.SELL_REGION_ITEM), Messages.GUI_USER_SELL_BUTTON, message).addClickAction(new ClickAction() {
                 @Override
@@ -278,7 +278,7 @@ public class Gui implements Listener {
         }
 
         if (player.hasPermission(Permission.MEMBER_FLAGEDITOR) && FlagGroup.isFeatureEnabled()) {
-            ClickItem flagEditorItem = new ClickItem(new ItemStack(Gui.FLAGEDITOR_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_BUTTON)).addClickAction(new ClickAction() {
+            ClickItem flagEditorItem = new ClickItem(new ItemStack(Gui.FLAGEDITOR_ITEM), region.replaceVariables(Messages.GUI_FLAGEDITOR_BUTTON)).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
                     Gui.openFlagEditor(player, region, 0, (p) -> {
@@ -293,7 +293,7 @@ public class Gui implements Listener {
         if (region instanceof RentRegion) {
             List<String> extendmessage = new ArrayList<>(Messages.GUI_EXTEND_BUTTON_LORE);
             for (int i = 0; i < extendmessage.size(); i++) {
-                extendmessage.set(i, region.getConvertedMessage(extendmessage.get(i)));
+                extendmessage.set(i, region.replaceVariables(extendmessage.get(i)));
             }
             ClickItem extendicon = new ClickItem(new ItemStack(Gui.EXTEND_ITEM), Messages.GUI_EXTEND_BUTTON, extendmessage).addClickAction(new ClickAction() {
                 @Override
@@ -315,7 +315,7 @@ public class Gui implements Listener {
             ContractRegion cregion = (ContractRegion) region;
             List<String> extendmessage = new ArrayList<>(Messages.GUI_CONTRACT_ITEM_LORE);
             for (int i = 0; i < extendmessage.size(); i++) {
-                extendmessage.set(i, region.getConvertedMessage(extendmessage.get(i)));
+                extendmessage.set(i, region.replaceVariables(extendmessage.get(i)));
             }
             ClickItem extendicon = new ClickItem(new ItemStack(Gui.CONTRACT_ITEM), Messages.GUI_CONTRACT_ITEM, extendmessage).addClickAction(new ClickAction() {
                 @Override
@@ -397,7 +397,7 @@ public class Gui implements Listener {
         });
 
         int invsize = ((flagSettingsList.size() * 9) - (start * 9) < 54) ? ((flagSettingsList.size() - start) * 9 + 9) : 54;
-        GuiInventory guiInventory = new GuiInventory(invsize, region.getConvertedMessage(Messages.GUI_FLAGEDITOR_MENU_NAME));
+        GuiInventory guiInventory = new GuiInventory(invsize, region.replaceVariables(Messages.GUI_FLAGEDITOR_MENU_NAME));
 
         for (int i = start; (i - start) * 9 < (invsize - 9); i++) {
             FlagSettings flagSettings = flagSettingsList.get(i);
@@ -406,7 +406,7 @@ public class Gui implements Listener {
 
             List<String> flagSettingsDescription = flagSettings.getGuidescription();
             for (int j = 0; j < flagSettingsDescription.size(); j++) {
-                flagSettingsDescription.set(j, region.getConvertedMessage(flagSettingsDescription.get(j)));
+                flagSettingsDescription.set(j, region.replaceVariables(flagSettingsDescription.get(j)));
             }
             ClickItem flagItem = new ClickItem(new ItemStack(Gui.FLAG_ITEM), rgFlag.getName(), flagSettingsDescription);
             guiInventory.addIcon(flagItem, invIndex);
@@ -422,10 +422,10 @@ public class Gui implements Listener {
                 guiInventory.addIcon(flagStateButtons[1], invIndex + 2);
             }
 
-            ClickItem deleteButton = new ClickItem(new ItemStack(Gui.FLAG_REMOVE_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_DELETE_FLAG_BUTTON)).addClickAction((pl -> {
+            ClickItem deleteButton = new ClickItem(new ItemStack(Gui.FLAG_REMOVE_ITEM), region.replaceVariables(Messages.GUI_FLAGEDITOR_DELETE_FLAG_BUTTON)).addClickAction((pl -> {
                 region.getRegion().deleteFlags(rgFlag);
                 openFlagEditor(pl, region, start, goBackAction);
-                pl.sendMessage(Messages.PREFIX + region.getConvertedMessage(Messages.FlAGEDITOR_FLAG_HAS_BEEN_DELETED));
+                pl.sendMessage(Messages.PREFIX + region.replaceVariables(Messages.FlAGEDITOR_FLAG_HAS_BEEN_DELETED));
             }));
             guiInventory.addIcon(deleteButton, invIndex + 3);
 
@@ -435,27 +435,27 @@ public class Gui implements Listener {
 
             FlagSetter gfsAllButton = new FlagSetter(region, rgFlag.getRegionGroupFlag(), rgFlag, "all", afterFlagSetAction);
             ClickItem allButton = new ClickItem(gfsAllButton.isInputSelected() ? new ItemStack(Gui.FLAG_GROUP_SELECTED_ITEM) :
-                    new ItemStack(Gui.FLAG_GROUP_NOT_SELECTED_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_SET_FLAG_GROUP_ALL_BUTTON)).addClickAction(gfsAllButton);
+                    new ItemStack(Gui.FLAG_GROUP_NOT_SELECTED_ITEM), region.replaceVariables(Messages.GUI_FLAGEDITOR_SET_FLAG_GROUP_ALL_BUTTON)).addClickAction(gfsAllButton);
             guiInventory.addIcon(allButton, invIndex + 4);
 
             FlagSetter gfsMembersButton = new FlagSetter(region, rgFlag.getRegionGroupFlag(), rgFlag, "members", afterFlagSetAction);
             ClickItem membersButton = new ClickItem(gfsMembersButton.isInputSelected() ? new ItemStack(Gui.FLAG_GROUP_SELECTED_ITEM) :
-                    new ItemStack(Gui.FLAG_GROUP_NOT_SELECTED_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_SET_FLAG_GROUP_MEMBERS_BUTTON)).addClickAction(gfsMembersButton);
+                    new ItemStack(Gui.FLAG_GROUP_NOT_SELECTED_ITEM), region.replaceVariables(Messages.GUI_FLAGEDITOR_SET_FLAG_GROUP_MEMBERS_BUTTON)).addClickAction(gfsMembersButton);
             guiInventory.addIcon(membersButton, invIndex + 5);
 
             FlagSetter gfsOwnersButton = new FlagSetter(region, rgFlag.getRegionGroupFlag(), rgFlag, "owners", afterFlagSetAction);
             ClickItem ownersButton = new ClickItem(gfsOwnersButton.isInputSelected() ? new ItemStack(Gui.FLAG_GROUP_SELECTED_ITEM) :
-                    new ItemStack(Gui.FLAG_GROUP_NOT_SELECTED_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_SET_FLAG_GROUP_OWNERS_BUTTON)).addClickAction(gfsOwnersButton);
+                    new ItemStack(Gui.FLAG_GROUP_NOT_SELECTED_ITEM), region.replaceVariables(Messages.GUI_FLAGEDITOR_SET_FLAG_GROUP_OWNERS_BUTTON)).addClickAction(gfsOwnersButton);
             guiInventory.addIcon(ownersButton, invIndex + 6);
 
             FlagSetter gfsNonMembersButton = new FlagSetter(region, rgFlag.getRegionGroupFlag(), rgFlag, "non_members", afterFlagSetAction);
             ClickItem nonMembersButton = new ClickItem(gfsNonMembersButton.isInputSelected() ? new ItemStack(Gui.FLAG_GROUP_SELECTED_ITEM) :
-                    new ItemStack(Gui.FLAG_GROUP_NOT_SELECTED_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_SET_FLAG_GROUP_NON_MEMBERS_BUTTON)).addClickAction(gfsNonMembersButton);
+                    new ItemStack(Gui.FLAG_GROUP_NOT_SELECTED_ITEM), region.replaceVariables(Messages.GUI_FLAGEDITOR_SET_FLAG_GROUP_NON_MEMBERS_BUTTON)).addClickAction(gfsNonMembersButton);
             guiInventory.addIcon(nonMembersButton, invIndex + 7);
 
             FlagSetter gfsNonOwnersButton = new FlagSetter(region, rgFlag.getRegionGroupFlag(), rgFlag, "non_owners", afterFlagSetAction);
             ClickItem nonOwnersButton = new ClickItem(gfsNonOwnersButton.isInputSelected() ? new ItemStack(Gui.FLAG_GROUP_SELECTED_ITEM) :
-                    new ItemStack(Gui.FLAG_GROUP_NOT_SELECTED_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_SET_FLAG_GROUP_NON_OWNERS_BUTTON)).addClickAction(gfsNonOwnersButton);
+                    new ItemStack(Gui.FLAG_GROUP_NOT_SELECTED_ITEM), region.replaceVariables(Messages.GUI_FLAGEDITOR_SET_FLAG_GROUP_NON_OWNERS_BUTTON)).addClickAction(gfsNonOwnersButton);
             guiInventory.addIcon(nonOwnersButton, invIndex + 8);
         }
 
@@ -468,14 +468,14 @@ public class Gui implements Listener {
             guiInventory.addIcon(prevButton, guiInventory.getSize() - 9);
         }
 
-        ClickItem resetButton = new ClickItem(new ItemStack(Gui.FLAGEDITOR_RESET_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_RESET_BUTTON)).addClickAction((p) -> {
+        ClickItem resetButton = new ClickItem(new ItemStack(Gui.FLAGEDITOR_RESET_ITEM), region.replaceVariables(Messages.GUI_FLAGEDITOR_RESET_BUTTON)).addClickAction((p) -> {
             try {
                 //Force apply, because menu can only be opened if the flagGroups feature is enabled
                 region.applyFlagGroup(FlagGroup.ResetMode.COMPLETE, true);
             } catch (FeatureDisabledException e) {
                 //Exception can't be thrown. Ignore
             }
-            player.sendMessage(Messages.PREFIX + region.getConvertedMessage(Messages.FLAGEDITOR_FLAG_HAS_BEEN_UPDATED));
+            player.sendMessage(Messages.PREFIX + region.replaceVariables(Messages.FLAGEDITOR_FLAG_HAS_BEEN_UPDATED));
             openFlagEditor(player, region, start, goBackAction);
         });
         guiInventory.addIcon(resetButton, guiInventory.getSize() - 7);
@@ -524,7 +524,7 @@ public class Gui implements Listener {
             teleporteritemmeta.setDisplayName(Messages.GUI_TELEPORT_TO_REGION_BUTTON);
             List<String> lore = new ArrayList<>(Messages.GUI_TELEPORT_TO_REGION_BUTTON_LORE);
             for (String lorestring : lore) {
-                lorestring = region.getConvertedMessage(lorestring);
+                lorestring = region.replaceVariables(lorestring);
             }
             teleporteritemmeta.setLore(lore);
             teleporteritem.setItemMeta(teleporteritemmeta);
@@ -636,7 +636,7 @@ public class Gui implements Listener {
         if (player.hasPermission(Permission.SUBREGION_SET_IS_HOTEL)) {
             List<String> message = new ArrayList<>(Messages.GUI_SUBREGION_HOTEL_BUTTON_LORE);
             for (int j = 0; j < message.size(); j++) {
-                message.set(j, region.getConvertedMessage(message.get(j)));
+                message.set(j, region.replaceVariables(message.get(j)));
             }
             ClickItem isHotelItem = new ClickItem(new ItemStack(Gui.HOTEL_SETTING_ITEM), Messages.GUI_SUBREGION_HOTEL_BUTTON, message);
             isHotelItem = isHotelItem.addClickAction(new ClickAction() {
@@ -679,7 +679,7 @@ public class Gui implements Listener {
                                 region.restoreRegion(Region.ActionReason.MANUALLY_BY_PARENT_REGION_OWNER, true, false);
                                 player.sendMessage(Messages.PREFIX + Messages.COMPLETE);
                             } catch (SchematicNotFoundException e) {
-                                AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, region.getConvertedMessage(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
+                                AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, region.replaceVariables(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
                                 player.sendMessage(Messages.PREFIX + Messages.SCHEMATIC_NOT_FOUND_ERROR_USER.replace("%regionid%", e.getRegion().getId()));
                             }
                             player.closeInventory();
@@ -698,7 +698,7 @@ public class Gui implements Listener {
         if (player.hasPermission(Permission.SUBREGION_UNSELL)) {
             List<String> sendmsg = new ArrayList<>(Messages.UNSELL_REGION_BUTTON_LORE);
             for (int i = 0; i < sendmsg.size(); i++) {
-                sendmsg.set(i, region.getConvertedMessage(sendmsg.get(i)));
+                sendmsg.set(i, region.replaceVariables(sendmsg.get(i)));
             }
             ClickItem unsellItem = new ClickItem(new ItemStack(Gui.UNSELL_ITEM), Messages.UNSELL_REGION_BUTTON, sendmsg);
             unsellItem = unsellItem.addClickAction(new ClickAction() {
@@ -801,7 +801,7 @@ public class Gui implements Listener {
         int itempos = 0;
         if (RegionKind.DEFAULT.isDisplayInRegionfinder()) {
             String displayName = Messages.GUI_REGIONFINDER_REGIONKIND_NAME;
-            displayName = RegionKind.DEFAULT.getConvertedMessage(displayName);
+            displayName = RegionKind.DEFAULT.replaceVariables(displayName);
             Material material = RegionKind.DEFAULT.getMaterial();
             ItemStack stack = new ItemStack(material);
             ItemMeta meta = stack.getItemMeta();
@@ -825,7 +825,7 @@ public class Gui implements Listener {
 
         if (RegionKind.SUBREGION.isDisplayInRegionfinder() && RegionKind.hasPermission(player, RegionKind.SUBREGION)) {
             String displayName = Messages.GUI_REGIONFINDER_REGIONKIND_NAME;
-            displayName = RegionKind.SUBREGION.getConvertedMessage(displayName);
+            displayName = RegionKind.SUBREGION.replaceVariables(displayName);
             Material material = RegionKind.SUBREGION.getMaterial();
             ItemStack stack = new ItemStack(material);
             ItemMeta meta = stack.getItemMeta();
@@ -851,7 +851,7 @@ public class Gui implements Listener {
         for (RegionKind regionKind : AdvancedRegionMarket.getInstance().getRegionKindManager()) {
             if (regionKind.isDisplayInRegionfinder()) {
                 String displayName = Messages.GUI_REGIONFINDER_REGIONKIND_NAME;
-                displayName = regionKind.getConvertedMessage(displayName);
+                displayName = regionKind.replaceVariables(displayName);
                 Material material = regionKind.getMaterial();
                 if (RegionKind.hasPermission(player, regionKind)) {
                     ItemStack stack = new ItemStack(material);
@@ -1036,7 +1036,7 @@ public class Gui implements Listener {
                     region.teleport(player, true);
                     player.closeInventory();
                 } catch (NoSaveLocationException e) {
-                    player.sendMessage(Messages.PREFIX + region.getConvertedMessage(Messages.TELEPORTER_NO_SAVE_LOCATION_FOUND));
+                    player.sendMessage(Messages.PREFIX + region.replaceVariables(Messages.TELEPORTER_NO_SAVE_LOCATION_FOUND));
                 }
             }
         });
@@ -1138,7 +1138,7 @@ public class Gui implements Listener {
             infoMeta.setDisplayName(Messages.GUI_OWNER_MEMBER_INFO_ITEM);
             List<String> lore = new ArrayList<>(Messages.GUI_OWNER_MEMBER_INFO_LORE);
             for (int i = 0; i < lore.size(); i++) {
-                lore.set(i, region.getConvertedMessage(lore.get(i)));
+                lore.set(i, region.replaceVariables(lore.get(i)));
             }
             infoMeta.setLore(lore);
             info.setItemMeta(infoMeta);
@@ -1174,7 +1174,7 @@ public class Gui implements Listener {
             makeOwnerItemMeta.setDisplayName(Messages.GUI_MAKE_OWNER_BUTTON);
             List<String> lore = new ArrayList<>(Messages.GUI_MAKE_OWNER_BUTTON_LORE);
             for (String lorestring : lore) {
-                lorestring = region.getConvertedMessage(lorestring);
+                lorestring = region.replaceVariables(lorestring);
             }
             makeOwnerItemMeta.setLore(lore);
             makeOwnerItem.setItemMeta(makeOwnerItemMeta);
@@ -1195,7 +1195,7 @@ public class Gui implements Listener {
             removeItemMeta.setDisplayName(Messages.GUI_REMOVE_MEMBER_BUTTON);
             List<String> lore = new ArrayList<>(Messages.GUI_REMOVE_MEMBER_BUTTON_LORE);
             for (String lorestring : lore) {
-                lorestring = region.getConvertedMessage(lorestring);
+                lorestring = region.replaceVariables(lorestring);
             }
             removeItemMeta.setLore(lore);
             removeItem.setItemMeta(removeItemMeta);
@@ -1342,7 +1342,7 @@ public class Gui implements Listener {
             meta.setDisplayName(selectedRegion.getRegion().getId());
             List<String> message = new LinkedList<>(Messages.GUI_TAKEOVER_ITEM_LORE);
             for (int j = 0; j < message.size(); j++) {
-                message.set(j, selectedRegion.getConvertedMessage(message.get(j)));
+                message.set(j, selectedRegion.replaceVariables(message.get(j)));
             }
             meta.setLore(message);
             stack.setItemMeta(meta);
@@ -1433,11 +1433,11 @@ public class Gui implements Listener {
             public void execute(Player player) throws InputException {
                 player.closeInventory();
                 if (region.getRegion().hasOwner(player.getUniqueId())) {
-                    String soldSuccessfullyMessage = region.getConvertedMessage(Messages.REGION_SOLD_BACK_SUCCESSFULLY);
+                    String soldSuccessfullyMessage = region.replaceVariables(Messages.REGION_SOLD_BACK_SUCCESSFULLY);
                     try {
                         region.userSell(player);
                     } catch (SchematicNotFoundException e) {
-                        AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, region.getConvertedMessage(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
+                        AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, region.replaceVariables(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
                         player.sendMessage(Messages.PREFIX + Messages.SCHEMATIC_NOT_FOUND_ERROR_USER.replace("%regionid%", e.getRegion().getId()));
                     }
                     player.sendMessage(Messages.PREFIX + soldSuccessfullyMessage);
@@ -1484,8 +1484,8 @@ public class Gui implements Listener {
 
     private static ItemStack getRegionDisplayItem(Region region, List<String> rentLore, List<String> sellLore, List<String> contractLore) {
         String regionDisplayName = Messages.GUI_REGION_ITEM_NAME;
-        regionDisplayName = region.getConvertedMessage(regionDisplayName);
-        regionDisplayName = region.getRegionKind().getConvertedMessage(regionDisplayName);
+        regionDisplayName = region.replaceVariables(regionDisplayName);
+        regionDisplayName = region.getRegionKind().replaceVariables(regionDisplayName);
 
         ItemStack stack = new ItemStack(region.getRegionKind().getMaterial());
         ItemMeta meta = stack.getItemMeta();
@@ -1502,7 +1502,7 @@ public class Gui implements Listener {
         }
 
         for (int j = 0; j < regionLore.size(); j++) {
-            regionLore.set(j, region.getConvertedMessage(regionLore.get(j)));
+            regionLore.set(j, region.replaceVariables(regionLore.get(j)));
         }
         meta.setLore(regionLore);
         stack.setItemMeta(meta);
@@ -1857,9 +1857,9 @@ public class Gui implements Listener {
         List<String> lore = new ArrayList<>(Messages.GUI_ENTITYLIMIT_ITEM_LORE);
         List<String> limitlist = new ArrayList<>();
 
-        String totalstatus = region.getEntityLimitGroup().getConvertedMessage(Messages.GUI_ENTITYLIMIT_ITEM_INFO_PATTERN, new ArrayList<>(), region.getExtraTotalEntitys());
+        String totalstatus = region.getEntityLimitGroup().replaceVariables(Messages.GUI_ENTITYLIMIT_ITEM_INFO_PATTERN, new ArrayList<>(), region.getExtraTotalEntitys());
         if (region.getEntityLimitGroup().getSoftLimit(region.getExtraTotalEntitys()) < region.getEntityLimitGroup().getHardLimit()) {
-            totalstatus = totalstatus.replace("%entityextensioninfo%", region.getEntityLimitGroup().getConvertedMessage(Messages.GUI_ENTITYLIMIT_ITEM_INFO_EXTENSION_INFO, new ArrayList<>(), region.getExtraTotalEntitys()));
+            totalstatus = totalstatus.replace("%entityextensioninfo%", region.getEntityLimitGroup().replaceVariables(Messages.GUI_ENTITYLIMIT_ITEM_INFO_EXTENSION_INFO, new ArrayList<>(), region.getExtraTotalEntitys()));
         } else {
             totalstatus = totalstatus.replace("%entityextensioninfo%", "");
         }
@@ -1867,9 +1867,9 @@ public class Gui implements Listener {
         limitlist.add(totalstatus);
 
         for (EntityLimit entityLimit : region.getEntityLimitGroup().getEntityLimits()) {
-            String entitystatus = entityLimit.getConvertedMessage(Messages.GUI_ENTITYLIMIT_ITEM_INFO_PATTERN, new ArrayList<>(), region.getExtraEntityAmount(entityLimit.getLimitableEntityType()));
+            String entitystatus = entityLimit.replaceVariables(Messages.GUI_ENTITYLIMIT_ITEM_INFO_PATTERN, new ArrayList<>(), region.getExtraEntityAmount(entityLimit.getLimitableEntityType()));
             if ((entityLimit.getSoftLimit(region.getExtraEntityAmount(entityLimit.getLimitableEntityType())) < entityLimit.getHardLimit()) && !region.isSubregion()) {
-                entitystatus = entitystatus.replace("%entityextensioninfo%", entityLimit.getConvertedMessage(Messages.GUI_ENTITYLIMIT_ITEM_INFO_EXTENSION_INFO, new ArrayList<>(), region.getExtraEntityAmount(entityLimit.getLimitableEntityType())));
+                entitystatus = entitystatus.replace("%entityextensioninfo%", entityLimit.replaceVariables(Messages.GUI_ENTITYLIMIT_ITEM_INFO_EXTENSION_INFO, new ArrayList<>(), region.getExtraEntityAmount(entityLimit.getLimitableEntityType())));
             } else {
                 entitystatus = entitystatus.replace("%entityextensioninfo%", "");
             }
@@ -1877,7 +1877,7 @@ public class Gui implements Listener {
         }
 
         for (int i = 0; i < lore.size(); i++) {
-            lore.set(i, region.getConvertedMessage(lore.get(i)));
+            lore.set(i, region.replaceVariables(lore.get(i)));
             if (lore.get(i).contains("%entityinfopattern%")) {
                 lore.remove(i);
                 lore.addAll(i, limitlist);
@@ -1895,29 +1895,29 @@ public class Gui implements Listener {
             clickItems = new ClickItem[2];
             FlagSetter fs0 = new FlagSetter(region, flag, null, "allow", afterFlagSetAction);
             clickItems[0] = new ClickItem(fs0.isInputSelected() ? new ItemStack(Gui.FLAG_SETTING_SELECTED_ITEM) :
-                    new ItemStack(Gui.FLAG_SETTING_NOT_SELECTED_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_SET_STATEFLAG_ALLOW_BUTTON)).addClickAction(fs0);
+                    new ItemStack(Gui.FLAG_SETTING_NOT_SELECTED_ITEM), region.replaceVariables(Messages.GUI_FLAGEDITOR_SET_STATEFLAG_ALLOW_BUTTON)).addClickAction(fs0);
             FlagSetter fs1 = new FlagSetter(region, flag, null, "deny", afterFlagSetAction);
             clickItems[1] = new ClickItem(fs1.isInputSelected() ? new ItemStack(Gui.FLAG_SETTING_SELECTED_ITEM) :
-                    new ItemStack(Gui.FLAG_SETTING_NOT_SELECTED_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_SET_STATEFLAG_DENY_BUTTON)).addClickAction(fs1);
+                    new ItemStack(Gui.FLAG_SETTING_NOT_SELECTED_ITEM), region.replaceVariables(Messages.GUI_FLAGEDITOR_SET_STATEFLAG_DENY_BUTTON)).addClickAction(fs1);
 
         } else if (flag instanceof BooleanFlag) {
             clickItems = new ClickItem[2];
             FlagSetter fs0 = new FlagSetter(region, flag, null, "true", afterFlagSetAction);
             clickItems[0] = new ClickItem(fs0.isInputSelected() ? new ItemStack(Gui.FLAG_SETTING_SELECTED_ITEM) :
-                    new ItemStack(Gui.FLAG_SETTING_NOT_SELECTED_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_SET_BOOLEANFLAG_TRUE_BUTTON)).addClickAction(fs0);
+                    new ItemStack(Gui.FLAG_SETTING_NOT_SELECTED_ITEM), region.replaceVariables(Messages.GUI_FLAGEDITOR_SET_BOOLEANFLAG_TRUE_BUTTON)).addClickAction(fs0);
             FlagSetter fs1 = new FlagSetter(region, flag, null, "false", afterFlagSetAction);
             clickItems[1] = new ClickItem(fs1.isInputSelected() ? new ItemStack(Gui.FLAG_SETTING_SELECTED_ITEM) :
-                    new ItemStack(Gui.FLAG_SETTING_NOT_SELECTED_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_SET_BOOLEANFLAG_FALSE_BUTTON)).addClickAction(fs1);
+                    new ItemStack(Gui.FLAG_SETTING_NOT_SELECTED_ITEM), region.replaceVariables(Messages.GUI_FLAGEDITOR_SET_BOOLEANFLAG_FALSE_BUTTON)).addClickAction(fs1);
 
         } else if (flag instanceof StringFlag) {
             clickItems = new ClickItem[1];
             final FlagSetter flagSetter = new FlagSetter(region, flag, null, "", afterFlagSetAction);
-            clickItems[0] = new ClickItem(new ItemStack(Gui.FLAG_USER_INPUT_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_SET_STRINGFLAG_SET_MESSAGE_BUTTON)).addClickAction((new ClickAction() {
+            clickItems[0] = new ClickItem(new ItemStack(Gui.FLAG_USER_INPUT_ITEM), region.replaceVariables(Messages.GUI_FLAGEDITOR_SET_STRINGFLAG_SET_MESSAGE_BUTTON)).addClickAction((new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
 
                     player.closeInventory();
-                    player.sendMessage(region.getConvertedMessage(Messages.FLAGEDITOR_STRINGFLAG_SET_MESSAGE_INFO));
+                    player.sendMessage(region.replaceVariables(Messages.FLAGEDITOR_STRINGFLAG_SET_MESSAGE_INFO));
                     GuiChatInputListener gcil = new GuiChatInputListener(player, (s) -> {
                         flagSetter.setInput(s);
                         flagSetter.execute(player);
@@ -1930,11 +1930,11 @@ public class Gui implements Listener {
 
             clickItems = new ClickItem[1];
             final FlagSetter flagSetter = new FlagSetter(region, flag, null, "", afterFlagSetAction);
-            clickItems[0] = new ClickItem(new ItemStack(Gui.FLAG_USER_INPUT_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_SET_INTEGERFLAG_SET_INTEGER_BUTTON)).addClickAction((new ClickAction() {
+            clickItems[0] = new ClickItem(new ItemStack(Gui.FLAG_USER_INPUT_ITEM), region.replaceVariables(Messages.GUI_FLAGEDITOR_SET_INTEGERFLAG_SET_INTEGER_BUTTON)).addClickAction((new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
                     player.closeInventory();
-                    player.sendMessage(region.getConvertedMessage(Messages.FLAGEDITOR_INTEGERFLAG_SET_NUMBER_INFO));
+                    player.sendMessage(region.replaceVariables(Messages.FLAGEDITOR_INTEGERFLAG_SET_NUMBER_INFO));
                     GuiChatInputListener gcil = new GuiChatInputListener(player, (s) -> {
                         flagSetter.setInput(s);
                         flagSetter.execute(player);
@@ -1946,11 +1946,11 @@ public class Gui implements Listener {
 
             clickItems = new ClickItem[1];
             final FlagSetter flagSetter = new FlagSetter(region, flag, null, "", afterFlagSetAction);
-            clickItems[0] = new ClickItem(new ItemStack(Gui.FLAG_USER_INPUT_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_SET_DOUBLEFLAG_SET_DOUBLE_BUTTON)).addClickAction((new ClickAction() {
+            clickItems[0] = new ClickItem(new ItemStack(Gui.FLAG_USER_INPUT_ITEM), region.replaceVariables(Messages.GUI_FLAGEDITOR_SET_DOUBLEFLAG_SET_DOUBLE_BUTTON)).addClickAction((new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
                     player.closeInventory();
-                    player.sendMessage(region.getConvertedMessage(Messages.FLAGEDITOR_DOUBLEFLAG_SET_NUMBER_INFO));
+                    player.sendMessage(region.replaceVariables(Messages.FLAGEDITOR_DOUBLEFLAG_SET_NUMBER_INFO));
                     GuiChatInputListener gcil = new GuiChatInputListener(player, (s) -> {
                         flagSetter.setInput(s);
                         flagSetter.execute(player);
@@ -1961,11 +1961,11 @@ public class Gui implements Listener {
         } else {
             clickItems = new ClickItem[1];
             final FlagSetter flagSetter = new FlagSetter(region, flag, null, "", afterFlagSetAction);
-            clickItems[0] = new ClickItem(new ItemStack(Gui.FLAG_USER_INPUT_ITEM), region.getConvertedMessage(Messages.GUI_FLAGEDITOR_UNKNOWNFLAG_SET_PROPERTIES_BUTTON)).addClickAction((new ClickAction() {
+            clickItems[0] = new ClickItem(new ItemStack(Gui.FLAG_USER_INPUT_ITEM), region.replaceVariables(Messages.GUI_FLAGEDITOR_UNKNOWNFLAG_SET_PROPERTIES_BUTTON)).addClickAction((new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
                     player.closeInventory();
-                    player.sendMessage(region.getConvertedMessage(Messages.FLAGEDITOR_UNKNOWNFLAG_SET_PROPERTIES_INFO));
+                    player.sendMessage(region.replaceVariables(Messages.FLAGEDITOR_UNKNOWNFLAG_SET_PROPERTIES_INFO));
                     GuiChatInputListener gcil = new GuiChatInputListener(player, (s) -> {
                         flagSetter.setInput(s);
                         flagSetter.execute(player);
@@ -2022,7 +2022,7 @@ public class Gui implements Listener {
                 Teleporter.teleport(player, this.region);
                 player.closeInventory();
             } catch (NoSaveLocationException e) {
-                player.sendMessage(Messages.PREFIX + this.region.getConvertedMessage(Messages.TELEPORTER_NO_SAVE_LOCATION_FOUND));
+                player.sendMessage(Messages.PREFIX + this.region.replaceVariables(Messages.TELEPORTER_NO_SAVE_LOCATION_FOUND));
             }
         }
     }
@@ -2080,7 +2080,7 @@ public class Gui implements Listener {
         }
 
         private Object getParsedSettingsObject() throws InvalidFlagFormat {
-            return AdvancedRegionMarket.getInstance().getWorldGuardInterface().parseFlagInput(flag, region.getConvertedMessage(this.input));
+            return AdvancedRegionMarket.getInstance().getWorldGuardInterface().parseFlagInput(flag, region.replaceVariables(this.input));
         }
 
         @Override
@@ -2095,7 +2095,7 @@ public class Gui implements Listener {
                 Object flagSetting = getParsedSettingsObject();
                 region.getRegion().setFlag(flag, flagSetting);
                 afterFlagSetAction.execute(player);
-                player.sendMessage(Messages.PREFIX + region.getConvertedMessage(Messages.FLAGEDITOR_FLAG_HAS_BEEN_UPDATED));
+                player.sendMessage(Messages.PREFIX + region.replaceVariables(Messages.FLAGEDITOR_FLAG_HAS_BEEN_UPDATED));
             } catch (InvalidFlagFormat invalidFlagFormat) {
                 String flagname = "";
                 if (flag != null) {

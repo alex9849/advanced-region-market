@@ -74,7 +74,6 @@ import java.util.*;
 import java.util.logging.Level;
 
 public class AdvancedRegionMarket extends JavaPlugin {
-    private Boolean faWeInstalled = null;
     private Economy econ = null;
     private net.milkbowl.vault.permission.Permission vaultPerms = null;
     private WorldGuardInterface worldGuardInterface = null;
@@ -88,6 +87,10 @@ public class AdvancedRegionMarket extends JavaPlugin {
     private FlagGroupManager flagGroupManager = null;
     private ArmSettings pluginSettings = null;
 
+
+    /*#########################################
+    ######### Startup / Shutdown stuff ########
+    #########################################*/
     public static AdvancedRegionMarket getInstance() {
         Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("AdvancedRegionMarket");
         if (plugin instanceof AdvancedRegionMarket) {
@@ -97,64 +100,11 @@ public class AdvancedRegionMarket extends JavaPlugin {
         }
     }
 
-    private static void sendStats(Plugin plugin, boolean isPing, int playerCount) {
-        Server server = Bukkit.getServer();
-        String ip = server.getIp();
-        int port = server.getPort();
-        String hoststring = "";
-
-        try {
-            hoststring = InetAddress.getLocalHost().toString();
-        } catch (Exception e) {
-            hoststring = "";
-        }
-
-        Boolean allowStart = true;
-
-        try {
-            final String userAgent = "Alex9849 Plugin";
-            String str = null;
-            String str1 = null;
-            URL url;
-
-            if (isPing) {
-                url = new URL("https://mcplug.alex9849.net/mcplug3.php?startup=1");
-            } else {
-                url = new URL("https://mcplug.alex9849.net/mcplug3.php?startup=0");
-            }
-
-            HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
-            con.setInstanceFollowRedirects(true);
-            con.setConnectTimeout(2000);
-            con.setReadTimeout(2000);
-            con.addRequestProperty("User-Agent", userAgent);
-            con.setDoOutput(true);
-            PrintStream ps = new PrintStream(con.getOutputStream());
-
-            ps.print("plugin=arm");
-            ps.print("&host=" + hoststring);
-            ps.print("&ip=" + ip);
-            ps.print("&port=" + port);
-            ps.print("&playercount=" + playerCount);
-            ps.print("&pversion=" + plugin.getDescription().getVersion());
-
-            con.connect();
-            con.getInputStream();
-            ps.close();
-            con.disconnect();
-
-        } catch (Throwable e) {
-            return;
-        }
-    }
-
     public void onEnable() {
 
         //Enable bStats
         BStatsAnalytics bStatsAnalytics = new BStatsAnalytics();
         bStatsAnalytics.register(this);
-
-        this.faWeInstalled = setupFaWe();
 
         //Check if Worldguard is installed
         if (!setupWorldGuard()) {
@@ -267,6 +217,77 @@ public class AdvancedRegionMarket extends JavaPlugin {
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
             this.getRegionManager().doTick();
         }, 1, 1);
+
+        this.loadCommands();
+
+        getLogger().log(Level.INFO, "Programmed by Alex9849");
+        getLogger().log(Level.INFO, "I'm always searching for better translations of AdvancedRegionMarket. "
+                + "If you've translated the plugin it would be very nice if you would send me your translation via "
+                + "spigot private message! :)");
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+            @Override
+            public void run() {
+                AdvancedRegionMarket.getInstance().getRegionManager().updateFile();
+                AdvancedRegionMarket.getInstance().getEntityLimitGroupManager().updateFile();
+                AdvancedRegionMarket.getInstance().getRegionKindManager().updateFile();
+                AdvancedRegionMarket.getInstance().getFlagGroupManager().updateFile();
+            }
+        }, 0, 60);
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+            @Override
+            public void run() {
+                PlayerInactivityGroupMapper.updateMapAscync();
+            }
+        }, 900, 6000);
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+            @Override
+            public void run() {
+                for (Region region : AdvancedRegionMarket.getInstance().getRegionManager()) {
+                    if (region.isInactivityReset() && region.isInactive()) {
+                        try {
+                            region.automaticResetRegion(Region.ActionReason.INACTIVITY, true);
+                        } catch (SchematicNotFoundException e) {
+                            AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, region.getConvertedMessage(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
+                        }
+                    }
+                }
+            }
+        }, 1800, 6000);
+    }
+
+    public void onDisable() {
+        this.getPresetPatternManager().updateFile();
+        this.getRegionManager().updateFile();
+        this.getRegionKindManager().updateFile();
+        this.getEntityLimitGroupManager().updateFile();
+        this.getFlagGroupManager().updateFile();
+        this.econ = null;
+        this.vaultPerms = null;
+        LimitGroup.Reset();
+        InactivityExpirationGroup.reset();
+        AutoPrice.reset();
+        SignLinkMode.reset();
+        ActivePresetManager.reset();
+        Offer.reset();
+        PlayerInactivityGroupMapper.reset();
+        getServer().getServicesManager().unregisterAll(this);
+        SignChangeEvent.getHandlerList().unregister(this);
+        InventoryClickEvent.getHandlerList().unregister(this);
+        BlockBreakEvent.getHandlerList().unregister(this);
+        PlayerInteractEvent.getHandlerList().unregister(this);
+        BlockPlaceEvent.getHandlerList().unregister(this);
+        BlockPhysicsEvent.getHandlerList().unregister(this);
+        PlayerJoinEvent.getHandlerList().unregister(this);
+        PlayerQuitEvent.getHandlerList().unregister(this);
+        BlockExplodeEvent.getHandlerList().unregister(this);
+        EntitySpawnEvent.getHandlerList().unregister(this);
+        VehicleCreateEvent.getHandlerList().unregister(this);
+        PlayerChatEvent.getHandlerList().unregister(this);
+        getServer().getScheduler().cancelTasks(this);
+        HandlerList.unregisterAll(this);
+    }
+
+    private void loadCommands() {
         this.commandHandler = new CommandHandler();
         List<BasicArmCommand> commands = new ArrayList<>();
         String[] betweencmds = {};
@@ -430,130 +451,8 @@ public class AdvancedRegionMarket extends JavaPlugin {
         commands.add(new CommandSplitter("rentpreset", rentPresetUsage, Permission.ADMIN_PRESET_HELP,
                 "&6=====[AdvancedRegionMarket rentpreset help ]=====\n&3Page %actualpage% / %maxpage%",
                 rentPresetCommands));
-
         this.commandHandler.addCommands(commands);
-
         getCommand("arm").setTabCompleter(this.commandHandler);
-
-
-        getLogger().log(Level.INFO, "Programmed by Alex9849");
-        getLogger().log(Level.INFO, "I'm always searching for better translations of AdvancedRegionMarket. "
-                +"If you've translated the plugin it would be very nice if you would send me your translation via "
-                + "spigot private message! :)");
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
-            @Override
-            public void run() {
-                AdvancedRegionMarket.getInstance().getRegionManager().updateFile();
-                AdvancedRegionMarket.getInstance().getEntityLimitGroupManager().updateFile();
-                AdvancedRegionMarket.getInstance().getRegionKindManager().updateFile();
-                AdvancedRegionMarket.getInstance().getFlagGroupManager().updateFile();
-            }
-        }, 0, 60);
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
-            @Override
-            public void run() {
-                PlayerInactivityGroupMapper.updateMapAscync();
-            }
-        }, 900, 6000);
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
-            @Override
-            public void run() {
-                for (Region region : AdvancedRegionMarket.getInstance().getRegionManager()) {
-                    if (region.isInactivityReset() && region.isInactive()) {
-                        try {
-                            region.automaticResetRegion(Region.ActionReason.INACTIVITY, true);
-                        } catch (SchematicNotFoundException e) {
-                            AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, region.getConvertedMessage(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
-                        }
-                    }
-                }
-            }
-        }, 1800, 6000);
-    }
-
-    public void onDisable() {
-        this.getPresetPatternManager().updateFile();
-        this.getRegionManager().updateFile();
-        this.getRegionKindManager().updateFile();
-        this.getEntityLimitGroupManager().updateFile();
-        this.getFlagGroupManager().updateFile();
-        this.econ = null;
-        this.vaultPerms = null;
-        LimitGroup.Reset();
-        InactivityExpirationGroup.reset();
-        AutoPrice.reset();
-        SignLinkMode.reset();
-        ActivePresetManager.reset();
-        Offer.reset();
-        PlayerInactivityGroupMapper.reset();
-        getServer().getServicesManager().unregisterAll(this);
-        SignChangeEvent.getHandlerList().unregister(this);
-        InventoryClickEvent.getHandlerList().unregister(this);
-        BlockBreakEvent.getHandlerList().unregister(this);
-        PlayerInteractEvent.getHandlerList().unregister(this);
-        BlockPlaceEvent.getHandlerList().unregister(this);
-        BlockPhysicsEvent.getHandlerList().unregister(this);
-        PlayerJoinEvent.getHandlerList().unregister(this);
-        PlayerQuitEvent.getHandlerList().unregister(this);
-        BlockExplodeEvent.getHandlerList().unregister(this);
-        EntitySpawnEvent.getHandlerList().unregister(this);
-        VehicleCreateEvent.getHandlerList().unregister(this);
-        PlayerChatEvent.getHandlerList().unregister(this);
-        getServer().getScheduler().cancelTasks(this);
-        HandlerList.unregisterAll(this);
-    }
-
-    public ArmSettings getPluginSettings() {
-        return this.pluginSettings;
-    }
-
-    public FlagGroupManager getFlagGroupManager() {
-        return this.flagGroupManager;
-    }
-
-    public PresetPatternManager getPresetPatternManager() {
-        return this.presetPatternManager;
-    }
-
-    public SignDataFactory getSignDataFactory() {
-        return this.signDataFactory;
-    }
-
-    private void setupSignDataFactory() {
-        String classVersion = "";
-        String serverVersion = Bukkit.getServer().getVersion();
-        if (serverVersion.equalsIgnoreCase("1.12") || serverVersion.contains("1.12")) {
-            classVersion = "112";
-            getLogger().log(Level.INFO, "Using MC 1.12 sign adapter");
-        } else if (serverVersion.equalsIgnoreCase("1.13") || serverVersion.contains("1.13")) {
-            classVersion = "113";
-            getLogger().log(Level.INFO, "Using MC 1.13 sign adapter");
-        } else {
-            classVersion = "114";
-            getLogger().log(Level.INFO, "Using MC 1.14 sign adapter");
-        }
-
-        try {
-            Class<?> signDataFactoryClass = Class.forName("net.alex9849.signs.SignDataFactory" + classVersion);
-            if (SignDataFactory.class.isAssignableFrom(signDataFactoryClass)) {
-                this.signDataFactory = (SignDataFactory) signDataFactoryClass.newInstance();
-            }
-        } catch (Exception e) {
-            getLogger().log(Level.WARNING, "Could not setup SignDataFactory! (Is your server compatible? Compatible versions: 1.12, 1.13, 1.14)");
-        }
-
-    }
-
-    public RegionKindManager getRegionKindManager() {
-        return this.regionKindManager;
-    }
-
-    public EntityLimitGroupManager getEntityLimitGroupManager() {
-        return this.entityLimitGroupManager;
-    }
-
-    public RegionManager getRegionManager() {
-        return this.regionManager;
     }
 
     private boolean setupEconomy() {
@@ -577,7 +476,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         return this.vaultPerms != null;
     }
 
-    private boolean setupFaWe() {
+    private boolean isFaWeInstalled() {
         Plugin plugin = getServer().getPluginManager().getPlugin("FastAsyncWorldEdit");
 
         if (plugin == null) {
@@ -651,20 +550,29 @@ public class AdvancedRegionMarket extends JavaPlugin {
         return worldedit != null;
     }
 
-    public CommandHandler getCommandHandler() {
-        return this.commandHandler;
-    }
+    private void setupSignDataFactory() {
+        String classVersion = "";
+        String serverVersion = Bukkit.getServer().getVersion();
+        if (serverVersion.equalsIgnoreCase("1.12") || serverVersion.contains("1.12")) {
+            classVersion = "112";
+            getLogger().log(Level.INFO, "Using MC 1.12 sign adapter");
+        } else if (serverVersion.equalsIgnoreCase("1.13") || serverVersion.contains("1.13")) {
+            classVersion = "113";
+            getLogger().log(Level.INFO, "Using MC 1.13 sign adapter");
+        } else {
+            classVersion = "114";
+            getLogger().log(Level.INFO, "Using MC 1.14 sign adapter");
+        }
 
-    public WorldGuardInterface getWorldGuardInterface() {
-        return this.worldGuardInterface;
-    }
+        try {
+            Class<?> signDataFactoryClass = Class.forName("net.alex9849.signs.SignDataFactory" + classVersion);
+            if (SignDataFactory.class.isAssignableFrom(signDataFactoryClass)) {
+                this.signDataFactory = (SignDataFactory) signDataFactoryClass.newInstance();
+            }
+        } catch (Exception e) {
+            getLogger().log(Level.WARNING, "Could not setup SignDataFactory! (Is your server compatible? Compatible versions: 1.12, 1.13, 1.14)");
+        }
 
-    public WorldEditInterface getWorldEditInterface() {
-        return this.worldEditInterface;
-    }
-
-    private Boolean isFaWeInstalled() {
-        return this.faWeInstalled;
     }
 
     private void loadAutoPrice() {
@@ -726,10 +634,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
         Gui.setFlagRemoveItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.FlagRemoveItem")));
         Gui.setFlagUserInputItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.FlagUserInputItem")));
         Gui.setFlageditorResetItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.FlageditorResetItem")));
-    }
-
-    public net.milkbowl.vault.permission.Permission getVaultPerms() {
-        return this.vaultPerms;
     }
 
     private void loadGroups() {
@@ -807,8 +711,120 @@ public class AdvancedRegionMarket extends JavaPlugin {
         SignLinkMode.setBlacklistedRegions(wgRegions);
     }
 
+    private void generateConfigs() {
+        YamlFileManager.writeResourceToDisc(new File(this.getDataFolder() + "/config.yml"), this.getResource("config.yml"));
+        this.reloadConfig();
+        EntityLimitGroupManager.writeResourceToDisc(new File(this.getDataFolder() + "/entitylimits.yml"), getResource("entitylimits.yml"));
+        RegionKindManager.writeResourceToDisc(new File(this.getDataFolder() + "/regionkinds.yml"), getResource("regionkinds.yml"));
+        RegionManager.writeResourceToDisc(new File(this.getDataFolder() + "/regions.yml"), getResource("regions.yml"));
+        PresetPatternManager.writeResourceToDisc(new File(this.getDataFolder() + "/presets.yml"), getResource("presets.yml"));
+        FlagGroupManager.writeResourceToDisc(new File(this.getDataFolder() + "/flaggroups.yml"), getResource("flaggroups.yml"));
+        Messages.generatedefaultConfig(getConfig().getString("Other.Language"));
+    }
+
+
+    /*###############################
+    ############ Getter #############
+    ###############################*/
+
+    public ArmSettings getPluginSettings() {
+        return this.pluginSettings;
+    }
+
+    public FlagGroupManager getFlagGroupManager() {
+        return this.flagGroupManager;
+    }
+
+    public PresetPatternManager getPresetPatternManager() {
+        return this.presetPatternManager;
+    }
+
+    public SignDataFactory getSignDataFactory() {
+        return this.signDataFactory;
+    }
+
+    public RegionKindManager getRegionKindManager() {
+        return this.regionKindManager;
+    }
+
+    public EntityLimitGroupManager getEntityLimitGroupManager() {
+        return this.entityLimitGroupManager;
+    }
+
+    public RegionManager getRegionManager() {
+        return this.regionManager;
+    }
+
+    public CommandHandler getCommandHandler() {
+        return this.commandHandler;
+    }
+
+    public WorldGuardInterface getWorldGuardInterface() {
+        return this.worldGuardInterface;
+    }
+
+    public WorldEditInterface getWorldEditInterface() {
+        return this.worldEditInterface;
+    }
+
+    public net.milkbowl.vault.permission.Permission getVaultPerms() {
+        return this.vaultPerms;
+    }
+
     public Economy getEcon() {
         return this.econ;
+    }
+
+
+    /*#####################################
+    ############# Other stuff #############
+    #####################################*/
+
+    private static void sendStats(Plugin plugin, boolean isPing, int playerCount) {
+        Server server = Bukkit.getServer();
+        String ip = server.getIp();
+        int port = server.getPort();
+        String hoststring = "";
+
+        try {
+            hoststring = InetAddress.getLocalHost().toString();
+        } catch (Exception e) {
+            hoststring = "";
+        }
+
+        try {
+            final String userAgent = "Alex9849 Plugin";
+
+            URL url;
+            if (isPing) {
+                url = new URL("https://mcplug.alex9849.net/mcplug3.php?startup=1");
+            } else {
+                url = new URL("https://mcplug.alex9849.net/mcplug3.php?startup=0");
+            }
+
+            HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
+            con.setInstanceFollowRedirects(true);
+            con.setConnectTimeout(2000);
+            con.setReadTimeout(2000);
+            con.addRequestProperty("User-Agent", userAgent);
+            con.setDoOutput(true);
+            PrintStream ps = new PrintStream(con.getOutputStream());
+
+            ps.print("plugin=arm");
+            ps.print("&host=" + hoststring);
+            ps.print("&ip=" + ip);
+            ps.print("&port=" + port);
+            ps.print("&playercount=" + playerCount);
+            ps.print("&pversion=" + plugin.getDescription().getVersion());
+
+            con.connect();
+            con.getInputStream();
+            ps.close();
+            con.disconnect();
+
+        } catch (Throwable e) {
+            return;
+        }
     }
 
     @Override
@@ -842,17 +858,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
             }
             return true;
         }
-    }
-
-    private void generateConfigs() {
-        YamlFileManager.writeResourceToDisc(new File(this.getDataFolder() + "/config.yml"), this.getResource("config.yml"));
-        this.reloadConfig();
-        EntityLimitGroupManager.writeResourceToDisc(new File(this.getDataFolder() + "/entitylimits.yml"), getResource("entitylimits.yml"));
-        RegionKindManager.writeResourceToDisc(new File(this.getDataFolder() + "/regionkinds.yml"), getResource("regionkinds.yml"));
-        RegionManager.writeResourceToDisc(new File(this.getDataFolder() + "/regions.yml"), getResource("regions.yml"));
-        PresetPatternManager.writeResourceToDisc(new File(this.getDataFolder() + "/presets.yml"), getResource("presets.yml"));
-        FlagGroupManager.writeResourceToDisc(new File(this.getDataFolder() + "/flaggroups.yml"), getResource("flaggroups.yml"));
-        Messages.generatedefaultConfig(getConfig().getString("Other.Language"));
     }
 
 }

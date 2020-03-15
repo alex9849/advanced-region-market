@@ -26,7 +26,7 @@ public class InfoCommand extends PresetOptionModifyCommand<Object> {
 
     @Override
     protected void sendSuccessMessage(CommandSender sender, Preset obj, Object o) {
-        obj.getPresetInfo(sender);
+        obj.sendPresetInfo(sender);
     }
 
     @Override

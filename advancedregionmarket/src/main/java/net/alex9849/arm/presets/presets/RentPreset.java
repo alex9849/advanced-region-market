@@ -6,22 +6,40 @@ import net.alex9849.arm.regions.RentRegion;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.price.RentPrice;
 import net.alex9849.arm.util.TimeUtil;
+import net.alex9849.arm.util.stringreplacer.StringCreator;
+import net.alex9849.arm.util.stringreplacer.StringReplacer;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.signs.SignData;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class RentPreset extends CountdownPreset {
     private Long maxRentTime;
+    private StringReplacer stringReplacer;
+
+    {
+        HashMap<String, StringCreator> variableReplacements = new HashMap<>();
+        variableReplacements.put("%maxrenttime%", () -> Messages.getStringValue(this.getMaxRentTime(), x ->
+                TimeUtil.timeInMsToString(x, false, false), Messages.NOT_DEFINED));
+        this.stringReplacer = new StringReplacer(variableReplacements, 50);
+    }
 
     @Override
     public void setAutoPrice(AutoPrice autoPrice) {
         super.setAutoPrice(autoPrice);
         if(autoPrice != null) {
             this.maxRentTime = null;
+        }
+    }
+
+    @Override
+    public void sendPresetInfo(CommandSender sender) {
+        for(String msg : Messages.PRESET_INFO_RENTREGION) {
+            sender.sendMessage(this.replaceVariables(msg));
         }
     }
 
@@ -38,17 +56,6 @@ public class RentPreset extends CountdownPreset {
         if(time != null) {
             this.setAutoPrice(null);
         }
-    }
-
-
-    @Override
-    public void getAdditionalInfo(CommandSender sender) {
-        super.getAdditionalInfo(sender);
-        String maxrenttime = "not defined";
-        if (this.maxRentTime != null) {
-            maxrenttime = TimeUtil.timeInMsToString(this.getMaxRentTime(), false, false);
-        }
-        sender.sendMessage(Messages.REGION_INFO_MAX_RENT_TIME + maxrenttime);
     }
 
     @Override
@@ -79,6 +86,11 @@ public class RentPreset extends CountdownPreset {
         ConfigurationSection section = super.toConfigurationSection();
         section.set("maxRentTime", this.getMaxRentTime());
         return section;
+    }
+
+    public String replaceVariables(String message) {
+        String replacedMessge = super.replaceVariables(message);
+        return this.stringReplacer.replace(replacedMessge).toString();
     }
 
 }

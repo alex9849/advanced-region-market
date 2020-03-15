@@ -180,6 +180,10 @@ public class Messages {
     public static String BAD_SYNTAX_SPLITTER = "&7or &8%command%";
     public static String HELP_HEADLINE = "&6=====[AdvancedRegionMarket Help ]=====\n&3Page %actualpage% / %maxpage%";
     public static String PRESET_SETUP_COMMANDS = "&6Setup commands:";
+    public static List<String> PRESET_INFO_SELLREGION = new ArrayList<>();
+    public static List<String> PRESET_INFO_CONTRACTREGION = new ArrayList<>();
+    public static List<String> PRESET_INFO_RENTREGION = new ArrayList<>();
+    public static String NOT_DEFINED = "";
     public static String PRICE_CAN_NOT_BE_NEGATIVE = "&4Price can not be negative!";
     public static String SELLBACK_WARNING = "&4Sell region back to the server: \n&4WARNING: &cThis can not be undone! Your region &6%regionid% &cwill be released and all blocks on it will be resetted! " +
             "You and all members will loose their rights on it. You will get &6%paybackmoney% %currency% &cback";
@@ -757,6 +761,10 @@ public class Messages {
         BACKUP_RESTORED = config.getString("Messages.BackupRestored");
         COULD_NOT_LOAD_BACKUP = config.getString("Messages.CouldNotLoadBackup");
         BACKUP_LIST_HEADER = config.getString("Messages.BackupListHeader");
+        PRESET_INFO_SELLREGION = config.getStringList("Messages.PresetInfoSellregion");
+        PRESET_INFO_CONTRACTREGION = config.getStringList("Messages.PresetInfoContractregion");
+        PRESET_INFO_RENTREGION = config.getStringList("Messages.PresetInfoRentregion");
+        NOT_DEFINED = config.getString("Messages.NotDefined");
 
         Messages.translateColorCodes();
     }
@@ -1096,6 +1104,7 @@ public class Messages {
         BACKUP_RESTORED = ChatColor.translateAlternateColorCodes('&', BACKUP_RESTORED);
         COULD_NOT_LOAD_BACKUP = ChatColor.translateAlternateColorCodes('&', COULD_NOT_LOAD_BACKUP);
         BACKUP_LIST_HEADER = ChatColor.translateAlternateColorCodes('&', BACKUP_LIST_HEADER);
+        NOT_DEFINED = ChatColor.translateAlternateColorCodes('&', NOT_DEFINED);
 
         for (int i = 0; i < REGION_INFO_SELLREGION.size(); i++) {
             REGION_INFO_SELLREGION.set(i, ChatColor.translateAlternateColorCodes('&', REGION_INFO_SELLREGION.get(i)));
@@ -1195,6 +1204,15 @@ public class Messages {
         }
         for (int i = 0; i < UNSELL_REGION_BUTTON_LORE.size(); i++) {
             UNSELL_REGION_BUTTON_LORE.set(i, ChatColor.translateAlternateColorCodes('&', UNSELL_REGION_BUTTON_LORE.get(i)));
+        }
+        for (int i = 0; i < PRESET_INFO_SELLREGION.size(); i++) {
+            PRESET_INFO_SELLREGION.set(i, ChatColor.translateAlternateColorCodes('&', PRESET_INFO_SELLREGION.get(i)));
+        }
+        for (int i = 0; i < PRESET_INFO_CONTRACTREGION.size(); i++) {
+            PRESET_INFO_CONTRACTREGION.set(i, ChatColor.translateAlternateColorCodes('&', PRESET_INFO_CONTRACTREGION.get(i)));
+        }
+        for (int i = 0; i < PRESET_INFO_RENTREGION.size(); i++) {
+            PRESET_INFO_RENTREGION.set(i, ChatColor.translateAlternateColorCodes('&', PRESET_INFO_RENTREGION.get(i)));
         }
     }
 

@@ -16,7 +16,7 @@ public class SetEntityLimitCommand extends RegionOptionModifyCommand<EntityLimit
     public SetEntityLimitCommand() {
         super("setentitylimit", Arrays.asList(Permission.ADMIN_SET_ENTITYLIMIT),
                 "EntityLimitGroup", "[^;\n ]+", "[ENTITYTYPE]",
-                false, Messages.SUB_REGION_ENTITYLIMITGROUP_ERROR);
+                false, Messages.SUBREGION_ENTITYLIMITGROUP_ERROR);
     }
 
     @Override

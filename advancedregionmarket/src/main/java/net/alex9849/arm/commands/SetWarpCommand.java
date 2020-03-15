@@ -14,7 +14,7 @@ public class SetWarpCommand extends RegionOptionModifyCommand<Location> {
 
     public SetWarpCommand() {
         super("setwarp", Arrays.asList(Permission.ADMIN_SETWARP), "teleportLocation",
-                false, Messages.SUB_REGION_TELEPORT_LOCATION_ERROR);
+                false, Messages.SUBREGION_TELEPORT_LOCATION_ERROR);
     }
 
     @Override

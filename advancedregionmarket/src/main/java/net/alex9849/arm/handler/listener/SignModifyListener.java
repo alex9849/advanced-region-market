@@ -240,7 +240,7 @@ public class SignModifyListener implements Listener {
                                 return;
                             } else {
                                 block.setCancelled(true);
-                                throw new InputException(block.getPlayer(), Messages.NOT_ALLOWED_TO_REMOVE_SUB_REGION_SOLD);
+                                throw new InputException(block.getPlayer(), Messages.NOT_ALLOWED_TO_REMOVE_SUBREGION_SOLD);
                             }
                         } else {
                             if (block.getPlayer().hasPermission(Permission.SUBREGION_DELETE_AVAILABLE)) {
@@ -248,7 +248,7 @@ public class SignModifyListener implements Listener {
                                 return;
                             } else {
                                 block.setCancelled(true);
-                                throw new InputException(block.getPlayer(), Messages.NOT_ALLOWED_TO_REMOVE_SUB_REGION_AVAILABLE);
+                                throw new InputException(block.getPlayer(), Messages.NOT_ALLOWED_TO_REMOVE_SUBREGION_AVAILABLE);
                             }
                         }
                     } else {

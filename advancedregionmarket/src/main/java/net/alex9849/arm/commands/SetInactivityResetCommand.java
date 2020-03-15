@@ -10,7 +10,7 @@ public class SetInactivityResetCommand extends BooleanRegionOptionModifyCommand 
 
     public SetInactivityResetCommand() {
         super("setinactivityreset", Arrays.asList(Permission.ADMIN_SET_INACTIVITYRESET),
-                "InactivityReset", false, Messages.SUB_REGION_INACTIVITYRESET_ERROR);
+                "InactivityReset", false, Messages.SUBREGION_INACTIVITYRESET_ERROR);
     }
 
     @Override

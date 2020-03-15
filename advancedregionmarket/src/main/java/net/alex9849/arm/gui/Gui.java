@@ -728,10 +728,10 @@ public class Gui implements Listener {
                 @Override
                 public void execute(Player player) throws InputException {
                     if (region.isSold() && (!player.hasPermission(Permission.SUBREGION_DELETE_SOLD))) {
-                        throw new InputException(player, Messages.NOT_ALLOWED_TO_REMOVE_SUB_REGION_SOLD);
+                        throw new InputException(player, Messages.NOT_ALLOWED_TO_REMOVE_SUBREGION_SOLD);
                     }
                     if ((!region.isSold()) && (!player.hasPermission(Permission.SUBREGION_DELETE_AVAILABLE))) {
-                        throw new InputException(player, Messages.NOT_ALLOWED_TO_REMOVE_SUB_REGION_AVAILABLE);
+                        throw new InputException(player, Messages.NOT_ALLOWED_TO_REMOVE_SUBREGION_AVAILABLE);
                     }
                     Gui.openWarning(player, Messages.DELETE_REGION_WARNING_NAME, new ClickAction() {
                         @Override

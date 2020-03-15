@@ -50,7 +50,7 @@ public class RestoreCommand extends BasicArmCommand {
         } else {
             if (resregion.getRegion().hasOwner(player.getUniqueId())) {
                 if (!resregion.isUserRestorable()) {
-                    throw new InputException(player, Messages.REGION_NOT_RESETTABLE);
+                    throw new InputException(player, Messages.REGION_NOT_RESTORABLE);
                 }
                 if ((new GregorianCalendar().getTimeInMillis()) >= AdvancedRegionMarket.getInstance().getPluginSettings().getUserResetCooldown() + resregion.getLastreset()) {
                     Gui.openRegionResetWarning(player, resregion, false);

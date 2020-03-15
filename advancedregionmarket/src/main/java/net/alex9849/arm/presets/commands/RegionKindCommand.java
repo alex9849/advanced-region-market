@@ -29,7 +29,7 @@ public class RegionKindCommand extends PresetOptionModifyCommand<RegionKind> {
         RegionKind rk = AdvancedRegionMarket.getInstance().getRegionKindManager()
                 .getRegionKind(setting);
         if(rk == RegionKind.SUBREGION) {
-            throw new InputException(sender, Messages.SUB_REGION_REGIONKIND_ONLY_FOR_SUB_REGIONS);
+            throw new InputException(sender, Messages.SUBREGION_REGIONKIND_ONLY_FOR_SUBREGIONS);
         }
         return rk;
     }

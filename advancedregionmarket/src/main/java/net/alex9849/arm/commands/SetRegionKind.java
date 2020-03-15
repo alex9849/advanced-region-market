@@ -17,7 +17,7 @@ public class SetRegionKind extends RegionOptionModifyCommand<RegionKind> {
     public SetRegionKind() {
         super("setregionkind", Arrays.asList(Permission.ADMIN_SETREGIONKIND), "RegionKind",
                 "[^;\n ]+", "[REGIONKIND]", false,
-                Messages.SUB_REGION_REGIONKIND_ERROR);
+                Messages.SUBREGION_REGIONKIND_ERROR);
     }
 
     @Override
@@ -32,7 +32,7 @@ public class SetRegionKind extends RegionOptionModifyCommand<RegionKind> {
             throw new InputException(player, Messages.REGIONKIND_DOES_NOT_EXIST);
         }
         if (regionKind == RegionKind.SUBREGION) {
-            throw new InputException(player, Messages.SUB_REGION_REGIONKIND_ONLY_FOR_SUB_REGIONS);
+            throw new InputException(player, Messages.SUBREGION_REGIONKIND_ONLY_FOR_SUBREGIONS);
         }
         return regionKind;
     }

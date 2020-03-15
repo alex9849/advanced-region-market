@@ -10,7 +10,7 @@ public class SetAutoRestoreCommand extends BooleanRegionOptionModifyCommand {
 
     public SetAutoRestoreCommand() {
         super("setautorestore", Arrays.asList(Permission.ADMIN_SET_AUTORESTORE),
-                "AutoRestore", false, Messages.SUB_REGION_AUTORESTORE_ERROR);
+                "AutoRestore", false, Messages.SUBREGION_AUTORESTORE_ERROR);
     }
 
     @Override

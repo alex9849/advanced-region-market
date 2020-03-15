@@ -14,7 +14,7 @@ public class SetPaybackPercentageCommand extends RegionOptionModifyCommand<Integ
     public SetPaybackPercentageCommand() {
         super("setpaybackpercentage", Arrays.asList(Permission.ADMIN_SET_PAYBACKPERCENTAGE),
                 "paybackPercentage", "[0-9]+", "[PERCENTAGE]",
-                false, Messages.SUB_REGION_PAYBACKPERCENTAGE_ERROR);
+                false, Messages.SUBREGION_PAYBACKPERCENTAGE_ERROR);
     }
 
     @Override

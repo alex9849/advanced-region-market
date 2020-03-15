@@ -26,7 +26,7 @@ public class SubRegionCreator {
 
     public SubRegionCreator(Region parentRegion, Player creator) throws InputException {
         if (!parentRegion.isAllowSubregions()) {
-            throw new InputException(creator, parentRegion.replaceVariables(Messages.SUB_REGION_LIMIT_REACHED));
+            throw new InputException(creator, parentRegion.replaceVariables(Messages.SUBREGION_LIMIT_REACHED));
         }
         this.parentRegion = parentRegion;
         this.creator = creator;
@@ -111,7 +111,7 @@ public class SubRegionCreator {
         }
         for (Region subregion : this.parentRegion.getSubregions()) {
             if (subregion.getRegion().contains(pos.getBlockX(), pos.getBlockY(), pos.getBlockZ())) {
-                throw new InputException(this.creator, Messages.ALREADY_SUB_REGION_AT_THIS_POSITION);
+                throw new InputException(this.creator, Messages.ALREADY_SUBREGION_AT_THIS_POSITION);
             }
         }
     }
@@ -143,11 +143,11 @@ public class SubRegionCreator {
         }
         for (Region region : this.getParentRegion().getSubregions()) {
             if (this.checkOverlap(region)) {
-                throw new InputException(this.creator, Messages.ALREADY_SUB_REGION_AT_THIS_POSITION);
+                throw new InputException(this.creator, Messages.ALREADY_SUBREGION_AT_THIS_POSITION);
             }
         }
         if (this.getParentRegion().getSubregions().size() >= this.getParentRegion().getAllowedSubregions()) {
-            throw new InputException(this.getCreator(), this.getParentRegion().replaceVariables(Messages.SUB_REGION_LIMIT_REACHED));
+            throw new InputException(this.getCreator(), this.getParentRegion().replaceVariables(Messages.SUBREGION_LIMIT_REACHED));
         }
 
         int subregionID = 1;

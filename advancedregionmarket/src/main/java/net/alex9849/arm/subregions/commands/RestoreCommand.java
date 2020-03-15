@@ -45,7 +45,7 @@ public class RestoreCommand extends BasicArmCommand {
         }
 
         if (!region.isUserRestorable()) {
-            throw new InputException(sender, Messages.REGION_NOT_RESETTABLE);
+            throw new InputException(sender, Messages.REGION_NOT_RESTORABLE);
         }
         try {
             region.restoreRegion(Region.ActionReason.MANUALLY_BY_PARENT_REGION_OWNER, true, false);

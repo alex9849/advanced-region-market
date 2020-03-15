@@ -13,7 +13,7 @@ public class SetIsUserRestorableCommand extends BooleanRegionOptionModifyCommand
         super("setuserrestorable",
                 Arrays.asList(Permission.ADMIN_SET_IS_USERRESTORABLE),
                 "IsUserRestorable",
-                false, Messages.SUB_REGION_IS_USER_RESETTABLE_ERROR);
+                false, Messages.SUBREGION_IS_USER_RESETTABLE_ERROR);
     }
 
     @Override

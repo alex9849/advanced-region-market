@@ -17,7 +17,7 @@ public class SetFlaggroupCommand extends RegionOptionModifyCommand<FlagGroup> {
     public SetFlaggroupCommand() {
         super("setflaggroup", Arrays.asList(Permission.ADMIN_SET_FLAGGROUP),
                 "FlagGroup", "[^;\n ]+", "[FLAGGROUP]",
-                false, Messages.SUB_REGION_FLAGGROUP_ERROR);
+                false, Messages.SUBREGION_FLAGGROUP_ERROR);
     }
 
     @Override

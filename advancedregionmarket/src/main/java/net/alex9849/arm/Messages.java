@@ -46,8 +46,6 @@ public class Messages {
     public static String SIGN_ADDED_TO_REGION;
     @SerialzedName(name = "SignRemovedFromRegion")
     public static String SIGN_REMOVED_FROM_REGION;
-    @SerialzedName(name = "UseANumberAsPrice")
-    public static String PLEASE_USE_A_NUMBER_AS_PRICE;
     @SerialzedName(name = "RegionRemovedFromARM")
     public static String REGION_REMOVED_FROM_ARM;
     @SerialzedName(name = "SellSign1")
@@ -68,26 +66,8 @@ public class Messages {
     public static String SOLD_SIGN4;
     @SerialzedName(name = "Currency")
     public static String CURRENCY;
-    @SerialzedName(name = "RegionKindSet")
-    public static String REGION_KIND_SET;
     @SerialzedName(name = "CommandOnlyIngame")
     public static String COMMAND_ONLY_INGAME;
-    @SerialzedName(name = "RegionInfoPrice")
-    public static String REGION_INFO_PRICE;
-    @SerialzedName(name = "RegionInfoType")
-    public static String REGION_INFO_TYPE;
-    @SerialzedName(name = "RegionInfoInactivityReset")
-    public static String REGION_INFO_INACTIVITYRESET;
-    @SerialzedName(name = "RegionInfoMaxRentTime")
-    public static String REGION_INFO_MAX_RENT_TIME;
-    @SerialzedName(name = "RegionInfoExtendPerClick")
-    public static String REGION_INFO_EXTEND_PER_CLICK;
-    @SerialzedName(name = "isHotel")
-    public static String REGION_INFO_HOTEL;
-    @SerialzedName(name = "RegionInfoAllowedSubregions")
-    public static String REGION_INFO_ALLOWED_SUBREGIONS;
-    @SerialzedName(name = "RegionInfoMaxMembers")
-    public static String REGION_INFO_MAX_MEMBERS;
     @SerialzedName(name = "RegionInfoExpired")
     public static String REGION_INFO_EXPIRED;
     @SerialzedName(name = "GUIMainMenuName")
@@ -212,8 +192,6 @@ public class Messages {
     public static String PRESET_REMOVED;
     @SerialzedName(name = "PresetSet")
     public static String PRESET_SET;
-    @SerialzedName(name = "RegionInfoAutoRestore")
-    public static String REGION_INFO_AUTORESTORE;
     @SerialzedName(name = "PresetSaved")
     public static String PRESET_SAVED;
     @SerialzedName(name = "PresetAlreadyExists")
@@ -254,10 +232,6 @@ public class Messages {
     public static String CONTRACT_REGION_EXTENDED;
     @SerialzedName(name = "GUIContractItem")
     public static String GUI_CONTRACT_ITEM;
-    @SerialzedName(name = "RegionInfoAutoExtendTime")
-    public static String REGION_INFO_AUTO_EXTEND_TIME;
-    @SerialzedName(name = "RegionInfoAutoprice")
-    public static String REGION_INFO_AUTOPRICE;
     @SerialzedName(name = "ContractRegionStatusActive")
     public static String CONTRACT_REGION_STATUS_ACTIVE;
     @SerialzedName(name = "ContractRegionStatusTerminated")
@@ -308,12 +282,6 @@ public class Messages {
     public static String REGION_STATS;
     @SerialzedName(name = "RegionStatsPattern")
     public static String REGION_STATS_PATTERN;
-    @SerialzedName(name = "RentRegion")
-    public static String RENT_REGION;
-    @SerialzedName(name = "SellRegion")
-    public static String SELL_REGION;
-    @SerialzedName(name = "ContractRegion")
-    public static String CONTRACT_REGION;
     @SerialzedName(name = "TeleporterNoSaveLocation")
     public static String TELEPORTER_NO_SAVE_LOCATION_FOUND;
     @SerialzedName(name = "TeleporterDontMove")
@@ -358,8 +326,6 @@ public class Messages {
     public static String BAD_SYNTAX_SPLITTER;
     @SerialzedName(name = "HelpHeadline")
     public static String HELP_HEADLINE;
-    @SerialzedName(name = "PresetSetupCommands")
-    public static String PRESET_SETUP_COMMANDS;
     @SerialzedName(name = "PresetInfoSellregion")
     public static List<String> PRESET_INFO_SELLREGION;
     @SerialzedName(name = "PresetInfoContractregion")
@@ -456,8 +422,6 @@ public class Messages {
     public static String SOLD;
     @SerialzedName(name = "Available")
     public static String AVAILABLE;
-    @SerialzedName(name = "RegionInfoIsUserRestorable")
-    public static String REGION_INFO_IS_USER_RESTORABLE;
     @SerialzedName(name = "SubregionIsUserResettableError")
     public static String SUBREGION_IS_USER_RESETTABLE_ERROR;
     @SerialzedName(name = "SubregionMaxMembersError")
@@ -516,8 +480,6 @@ public class Messages {
     public static String SIGN_LINK_MODE_REGION_SELECTED;
     @SerialzedName(name = "SchematicNotFoundErrorUser")
     public static String SCHEMATIC_NOT_FOUND_ERROR_USER;
-    @SerialzedName(name = "SchematicNotFoundErrorAdmin")
-    public static String SCHEMATIC_NOT_FOUND_ERROR_ADMIN;
     @SerialzedName(name = "EntityLimitHelpHeadline")
     public static String ENTITYLIMIT_HELP_HEADLINE;
     @SerialzedName(name = "EntityLimitGroupNotExist")
@@ -558,8 +520,6 @@ public class Messages {
     public static String ENTITYLIMITGROUP_INFO_EXTENSION_INFO;
     @SerialzedName(name = "EntityLimitGroupListHeadline")
     public static String ENTITYLIMITGROUP_LIST_HEADLINE;
-    @SerialzedName(name = "RegionInfoEntityLimit")
-    public static String REGION_INFO_ENTITYLIMITGROUP;
     @SerialzedName(name = "SubregionEntityLimitOnlyForSubregions")
     public static String ENTITYLIMITGROUP_SUBREGION_GROUP_ONLY_FOR_SUBREGIONS;
     @SerialzedName(name = "MassactionSplitter")
@@ -698,8 +658,6 @@ public class Messages {
     public static String FLAGGROUP_DOES_NOT_EXIST;
     @SerialzedName(name = "SubregionFlaggroupOnlyForSubregions")
     public static String SUBREGION_FLAGGROUP_ONLY_FOR_SUBREGIONS;
-    @SerialzedName(name = "RegionInfoFlaggroup")
-    public static String REGION_INFO_FLAGGROUP;
     @SerialzedName(name = "GUITeleportToRegionButtonLore")
     public static List<String> GUI_TELEPORT_TO_REGION_BUTTON_LORE;
     @SerialzedName(name = "GUIMakeOwnerButtonLore")
@@ -762,10 +720,9 @@ public class Messages {
     public static String COULD_NOT_LOAD_BACKUP;
     @SerialzedName(name = "BackupListHeader")
     public static String BACKUP_LIST_HEADER;
-
     private static YamlConfiguration config;
 
-    static void read() {
+    static void load() {
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
         File messagesconfigdic = new File(pluginfolder + "/messages.yml");
         Configuration config = YamlConfiguration.loadConfiguration(messagesconfigdic);

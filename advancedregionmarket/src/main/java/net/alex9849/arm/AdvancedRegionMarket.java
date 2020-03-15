@@ -131,7 +131,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         this.generateConfigs();
         Updater.updateConfigs();
 
-        Messages.read();
+        Messages.load();
         BlockModifyListener blockModifyListener = new BlockModifyListener();
         getServer().getPluginManager().registerEvents(blockModifyListener, this);
         EntitySpawnListener entitySpawnListener = new EntitySpawnListener();

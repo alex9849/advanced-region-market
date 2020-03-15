@@ -737,16 +737,12 @@ public abstract class Region implements Saveable {
     }
 
     protected void giveParentRegionOwnerMoney(double amount) {
-        if (this.isSubregion()) {
-            if (this.getParentRegion() != null) {
-                if (this.getParentRegion().isSold()) {
-                    List<UUID> parentRegionOwners = this.getParentRegion().getRegion().getOwners();
-                    for (UUID uuid : parentRegionOwners) {
-                        OfflinePlayer subRegionOwner = Bukkit.getOfflinePlayer(uuid);
-                        if (subRegionOwner != null) {
-                            AdvancedRegionMarket.getInstance().getEcon().depositPlayer(subRegionOwner, amount);
-                        }
-                    }
+        if (this.isSubregion() && this.getParentRegion().isSold()) {
+            List<UUID> parentRegionOwners = this.getParentRegion().getRegion().getOwners();
+            for (UUID uuid : parentRegionOwners) {
+                OfflinePlayer subRegionOwner = Bukkit.getOfflinePlayer(uuid);
+                if (subRegionOwner != null) {
+                    AdvancedRegionMarket.getInstance().getEcon().depositPlayer(subRegionOwner, amount);
                 }
             }
         }
@@ -765,13 +761,12 @@ public abstract class Region implements Saveable {
     }
 
     public boolean removeSign(Location loc) {
-        for (int i = 0; i < this.sellsign.size(); i++) {
-            if (this.sellsign.get(i).getLocation().getWorld().getName().equals(loc.getWorld().getName())) {
-                if (this.sellsign.get(i).getLocation().distance(loc) == 0) {
-                    this.sellsign.remove(i);
-                    this.queueSave();
-                    return true;
-                }
+        for(SignData sd : this.sellsign) {
+            if (sd.getLocation().getWorld().getName().equals(loc.getWorld().getName())
+                    && sd.getLocation().distance(loc) == 0) {
+                this.sellsign.remove(sd);
+                this.queueSave();
+                return true;
             }
         }
         return false;
@@ -794,11 +789,10 @@ public abstract class Region implements Saveable {
     }
 
     public boolean hasSign(Sign sign) {
-        for (int i = 0; i < this.sellsign.size(); i++) {
-            if (this.sellsign.get(i).getLocation().getWorld().getName().equalsIgnoreCase(sign.getWorld().getName())) {
-                if (this.sellsign.get(i).getLocation().distance(sign.getLocation()) == 0) {
-                    return true;
-                }
+        for(SignData sd : this.sellsign) {
+            if (sd.getLocation().getWorld().getName().equalsIgnoreCase(sign.getWorld().getName())
+                    && sd.getLocation().distance(sign.getLocation()) == 0) {
+                return true;
             }
         }
         return false;
@@ -936,15 +930,14 @@ public abstract class Region implements Saveable {
     }
 
     public void regionInfo(CommandSender sender) {
-        if (sender instanceof Player) {
-            if (AdvancedRegionMarket.getInstance().getPluginSettings().isRegionInfoParticleBorder()) {
-                Player player = (Player) sender;
-                new ParticleBorder(this.getRegion().getPoints(), this.getRegion().getMinPoint().getBlockY(), this.getRegion().getMaxPoint().getBlockY(), player, this.getRegionworld()).createParticleBorder(20 * 30);
-                for (Region subregion : this.getSubregions()) {
-                    Location lpos1 = new Location(subregion.getRegionworld(), subregion.getRegion().getMinPoint().getX(), subregion.getRegion().getMinPoint().getY(), subregion.getRegion().getMinPoint().getZ());
-                    Location lPos2 = new Location(subregion.getRegionworld(), subregion.getRegion().getMaxPoint().getX(), subregion.getRegion().getMaxPoint().getY(), subregion.getRegion().getMaxPoint().getZ());
-                    new ParticleBorder(lpos1.toVector(), lPos2.toVector(), player, subregion.getRegionworld()).createParticleBorder(20 * 30);
-                }
+        if (sender instanceof Player
+                && AdvancedRegionMarket.getInstance().getPluginSettings().isRegionInfoParticleBorder()) {
+            Player player = (Player) sender;
+            new ParticleBorder(this.getRegion().getPoints(), this.getRegion().getMinPoint().getBlockY(), this.getRegion().getMaxPoint().getBlockY(), player, this.getRegionworld()).createParticleBorder(20 * 30);
+            for (Region subregion : this.getSubregions()) {
+                Location lpos1 = new Location(subregion.getRegionworld(), subregion.getRegion().getMinPoint().getX(), subregion.getRegion().getMinPoint().getY(), subregion.getRegion().getMinPoint().getZ());
+                Location lPos2 = new Location(subregion.getRegionworld(), subregion.getRegion().getMaxPoint().getX(), subregion.getRegion().getMaxPoint().getY(), subregion.getRegion().getMaxPoint().getZ());
+                new ParticleBorder(lpos1.toVector(), lPos2.toVector(), player, subregion.getRegionworld()).createParticleBorder(20 * 30);
             }
         }
     }
@@ -1004,7 +997,6 @@ public abstract class Region implements Saveable {
         this.extraTotalEntitys = 0;
         this.queueSave();
         this.restoreRegion(actionReason, logToConsole, true);
-        return;
     }
 
     /**
@@ -1224,10 +1216,8 @@ public abstract class Region implements Saveable {
         List<UUID> uuidList = this.getRegion().getMembers();
         for (UUID uuids : uuidList) {
             OfflinePlayer oplayer = Bukkit.getOfflinePlayer(uuids);
-            if (oplayer != null) {
-                if (oplayer.getName().toLowerCase().startsWith(args)) {
-                    returnme.add(oplayer.getName());
-                }
+            if (oplayer != null && oplayer.getName().toLowerCase().startsWith(args)) {
+                returnme.add(oplayer.getName());
             }
         }
         return returnme;
@@ -1238,8 +1228,9 @@ public abstract class Region implements Saveable {
         INSUFFICIENT_MONEY, DELETE, NONE, MANUALLY_BY_PARENT_REGION_OWNER;
 
         public String getConvertedMessage(String message) {
-            if (message.contains("%resetreason%")) message = message.replace("%resetreason%", this.name());
-            return message;
+            String conMessage = message;
+            if (conMessage.contains("%resetreason%")) conMessage = conMessage.replace("%resetreason%", this.name());
+            return conMessage;
         }
     }
 }

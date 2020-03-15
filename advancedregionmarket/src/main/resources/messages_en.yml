@@ -162,7 +162,7 @@ Messages:
   RegionRemoveMemberRemoved: '&aMember has been removed!'
   RegionBuyOutOfLimit: '&4Out of Limit! You have &7%playerownedkind%/%limitkind% &4%regionkind%-regions
     and &7%playerownedtotal%/%limittotal% &4Regions total!'
-  Unlimited: Unlimited
+  Unlimited: unlimited
   AutopriceList: '&6=========[Autoprices]========='
   SubregionHelpHeadline: |-
     &6=====[AdvancedRegionMarket Subregion Help]=====
@@ -529,9 +529,9 @@ Messages:
   FlaggroupDoesNotExist: '&4Flaggroup does not exist!'
   SubregionFlaggroupOnlyForSubregions: '&4Subregion flaggroup only for subregions'
   RegionInfoFlaggroup: '&6FlagGroup: '
-  InfoDeactivated: '&4Deactivated'
+  InfoDeactivated: '&4deactivated'
   InfoNotSold: '&4Region not sold!'
-  InfoNow: '&2Now'
+  InfoNow: '&2now'
   InfoNotCalculated: '&8Awaiting calculation...'
   CouldNotFindOrLoadSchematicLog: '&4Could not find or load schematic for region %region%
     in world %world%! You can regenerate it with /arm updateschematic %region%'

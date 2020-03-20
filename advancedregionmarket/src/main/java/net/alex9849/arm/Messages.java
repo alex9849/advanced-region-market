@@ -684,6 +684,12 @@ public class Messages {
     public static List<String> GUI_OWNER_MEMBER_INFO_LORE;
     @SerialzedName(name = "GUISubregionManagerNoSubregionItemLore")
     public static List<String> GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM_LORE;
+    @SerialzedName(name = "SellPresetHelpHeadline")
+    public static String SELLPRESET_HELP_HEADLINE;
+    @SerialzedName(name = "ContractPresetHelpHeadline")
+    public static String CONTRACTPRESET_HELP_HEADLINE;
+    @SerialzedName(name = "RentPresetHelpHeadline")
+    public static String RENTPRESET_HELP_HEADLINE;
     @SerialzedName(name = "InfoDeactivated")
     public static String INFO_DEACTIVATED;
     @SerialzedName(name = "InfoNotSold")

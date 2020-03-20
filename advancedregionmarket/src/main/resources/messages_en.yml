@@ -170,6 +170,15 @@ Messages:
   SubregionHelpHeadline: |-
     &6=====[AdvancedRegionMarket Subregion Help]=====
     &3Page %actualpage% / %maxpage%
+  SellPresetHelpHeadline: |-
+    &6=====[AdvancedRegionMarket SellPreset Help]=====
+    &3Page %actualpage% / %maxpage%
+  ContractPresetHelpHeadline: |-
+    &6=====[AdvancedRegionMarket ContractPreset Help]=====
+    &3Page %actualpage% / %maxpage%
+  RentPresetHelpHeadline: |-
+    &6=====[AdvancedRegionMarket RentPreset Help]=====
+    &3Page %actualpage% / %maxpage%
   LimitInfoTop: '&6=========[Limit Info]========='
   LimitInfoTotal: '&6Total'
   LimitInfo: '&6%regionkind%: %playerownedkind%/%limitkind%'

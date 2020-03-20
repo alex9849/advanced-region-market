@@ -394,8 +394,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         sellPresetCommands.add(new net.alex9849.arm.presets.commands.EntityLimitCommand(PresetType.SELLPRESET));
         sellPresetCommands.add(new net.alex9849.arm.presets.commands.FlaggroupCommand(PresetType.SELLPRESET));
         commands.add(new CommandSplitter("sellpreset", sellPresetUsage, Permission.ADMIN_PRESET_HELP,
-                "&6=====[AdvancedRegionMarket sellpreset help ]=====\n&3Page %actualpage% / %maxpage%",
-                sellPresetCommands));
+                Messages.SELLPRESET_HELP_HEADLINE, sellPresetCommands));
 
         List<String> constractPresetUsage = new ArrayList<>(Arrays.asList("contractpreset [SETTING]", "contractpreset help"));
         List<BasicArmCommand> contractPresetCommands = new ArrayList<>();
@@ -421,8 +420,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         contractPresetCommands.add(new net.alex9849.arm.presets.commands.EntityLimitCommand(PresetType.CONTRACTPRESET));
         contractPresetCommands.add(new net.alex9849.arm.presets.commands.FlaggroupCommand(PresetType.CONTRACTPRESET));
         commands.add(new CommandSplitter("contractpreset", constractPresetUsage, Permission.ADMIN_PRESET_HELP,
-                "&6=====[AdvancedRegionMarket contractpreset help ]=====\n&3Page %actualpage% / %maxpage%",
-                contractPresetCommands));
+                Messages.CONTRACTPRESET_HELP_HEADLINE, contractPresetCommands));
 
         List<String> rentPresetUsage = new ArrayList<>(Arrays.asList("rentpreset [SETTING]", "rentpreset help"));
         List<BasicArmCommand> rentPresetCommands = new ArrayList<>();
@@ -449,8 +447,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         rentPresetCommands.add(new net.alex9849.arm.presets.commands.EntityLimitCommand(PresetType.RENTPRESET));
         rentPresetCommands.add(new net.alex9849.arm.presets.commands.FlaggroupCommand(PresetType.RENTPRESET));
         commands.add(new CommandSplitter("rentpreset", rentPresetUsage, Permission.ADMIN_PRESET_HELP,
-                "&6=====[AdvancedRegionMarket rentpreset help ]=====\n&3Page %actualpage% / %maxpage%",
-                rentPresetCommands));
+                Messages.RENTPRESET_HELP_HEADLINE, rentPresetCommands));
         this.commandHandler.addCommands(commands);
         getCommand("arm").setTabCompleter(this.commandHandler);
     }

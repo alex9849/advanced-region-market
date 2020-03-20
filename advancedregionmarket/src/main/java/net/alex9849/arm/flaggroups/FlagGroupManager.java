@@ -16,7 +16,7 @@ public class FlagGroupManager extends YamlFileManager<FlagGroup> {
     }
 
     @Override
-    public List loadSavedObjects(YamlConfiguration yamlConfiguration) {
+    protected List<FlagGroup> loadSavedObjects(YamlConfiguration yamlConfiguration) {
         if (yamlConfiguration.get("DefaultFlagGroup") != null) {
             ConfigurationSection defaultRkConfig = yamlConfiguration.getConfigurationSection("DefaultFlagGroup");
             FlagGroup.DEFAULT = FlagGroup.parse(defaultRkConfig, "Default");
@@ -51,12 +51,12 @@ public class FlagGroupManager extends YamlFileManager<FlagGroup> {
     }
 
     @Override
-    public void saveObjectToYamlObject(FlagGroup flagGroup, YamlConfiguration yamlConfiguration) {
+    protected void saveObjectToYamlObject(FlagGroup flagGroup, YamlConfiguration yamlConfiguration) {
         yamlConfiguration.set("FlagGroups." + flagGroup.getName(), flagGroup.toConfigurationSection());
     }
 
     @Override
-    public void writeStaticSettings(YamlConfiguration yamlConfiguration) {
+    protected void writeStaticSettings(YamlConfiguration yamlConfiguration) {
         yamlConfiguration.set("DefaultFlagGroup", FlagGroup.DEFAULT.toConfigurationSection());
         FlagGroup.DEFAULT.setSaved();
         yamlConfiguration.set("SubregionFlagGroup", FlagGroup.SUBREGION.toConfigurationSection());

@@ -17,7 +17,7 @@ public class RegionKindManager extends YamlFileManager<RegionKind> {
     }
 
     @Override
-    public List<RegionKind> loadSavedObjects(YamlConfiguration yamlConfiguration) {
+    protected List<RegionKind> loadSavedObjects(YamlConfiguration yamlConfiguration) {
         List<RegionKind> regionKindList = new ArrayList<>();
         boolean fileupdated = false;
 
@@ -64,12 +64,12 @@ public class RegionKindManager extends YamlFileManager<RegionKind> {
     }
 
     @Override
-    public void saveObjectToYamlObject(RegionKind regionKind, YamlConfiguration yamlConfiguration) {
+    protected void saveObjectToYamlObject(RegionKind regionKind, YamlConfiguration yamlConfiguration) {
         yamlConfiguration.set("RegionKinds." + regionKind.getName(), regionKind.toConfigurationSection());
     }
 
     @Override
-    public void writeStaticSettings(YamlConfiguration yamlConfiguration) {
+    protected void writeStaticSettings(YamlConfiguration yamlConfiguration) {
         yamlConfiguration.set("DefaultRegionKind", RegionKind.DEFAULT.toConfigurationSection());
         RegionKind.DEFAULT.setSaved();
         yamlConfiguration.set("SubregionRegionKind", RegionKind.SUBREGION.toConfigurationSection());

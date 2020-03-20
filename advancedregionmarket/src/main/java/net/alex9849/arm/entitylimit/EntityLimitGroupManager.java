@@ -63,7 +63,7 @@ public class EntityLimitGroupManager extends YamlFileManager<EntityLimitGroup> {
     }
 
     @Override
-    public List<EntityLimitGroup> loadSavedObjects(YamlConfiguration yamlConfiguration) {
+    protected List<EntityLimitGroup> loadSavedObjects(YamlConfiguration yamlConfiguration) {
         ArrayList<EntityLimitGroup> entityLimitGroups = new ArrayList<>();
         yamlConfiguration.options().copyDefaults(true);
         boolean fileupdated = false;
@@ -108,12 +108,12 @@ public class EntityLimitGroupManager extends YamlFileManager<EntityLimitGroup> {
     }
 
     @Override
-    public void saveObjectToYamlObject(EntityLimitGroup entityLimitGroup, YamlConfiguration yamlConfiguration) {
+    protected void saveObjectToYamlObject(EntityLimitGroup entityLimitGroup, YamlConfiguration yamlConfiguration) {
         yamlConfiguration.set("EntityLimits." + entityLimitGroup.getName(), entityLimitGroup.toConfigurationSection());
     }
 
     @Override
-    public void writeStaticSettings(YamlConfiguration yamlConfiguration) {
+    protected void writeStaticSettings(YamlConfiguration yamlConfiguration) {
         yamlConfiguration.set("DefaultEntityLimit", EntityLimitGroup.DEFAULT.toConfigurationSection());
         EntityLimitGroup.DEFAULT.setSaved();
         yamlConfiguration.set("SubregionEntityLimit", EntityLimitGroup.SUBREGION.toConfigurationSection());

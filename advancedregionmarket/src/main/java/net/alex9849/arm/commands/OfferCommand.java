@@ -60,7 +60,7 @@ public class OfferCommand extends BasicArmCommand {
                 Offer offer = Offer.createOffer(region, price, player, buyer);
                 player.sendMessage(Messages.PREFIX + Messages.OFFER_SENT);
                 buyer.sendMessage(Messages.PREFIX + offer.replaceVariables(Messages.INCOMING_OFFER));
-            } catch (DublicateException | IllegalArgumentException e) {
+            } catch (DuplicateException | IllegalArgumentException e) {
                 player.sendMessage(Messages.PREFIX + region.replaceVariables(e.getMessage()));
             }
 

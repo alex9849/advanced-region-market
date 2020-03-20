@@ -117,9 +117,9 @@ public abstract class YamlFileManager<ManagedObject extends Saveable> implements
         }
     }
 
-    protected abstract List<ManagedObject> loadSavedObjects(YamlConfiguration yamlConfiguration);
-
     public abstract boolean staticSaveQuenued();
+
+    protected abstract List<ManagedObject> loadSavedObjects(YamlConfiguration yamlConfiguration);
 
     protected abstract void saveObjectToYamlObject(ManagedObject object, YamlConfiguration yamlConfiguration);
 

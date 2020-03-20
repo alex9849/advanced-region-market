@@ -31,13 +31,13 @@ public class Offer {
         this.offerListener = new OfferListener(seller, buyer, this);
     }
 
-    public static Offer createOffer(Region region, double price, Player seller, Player buyer) throws DublicateException, IllegalArgumentException {
+    public static Offer createOffer(Region region, double price, Player seller, Player buyer) throws DuplicateException, IllegalArgumentException {
         for (Offer offer : offerList) {
             if (offer.getBuyer().getUniqueId() == buyer.getUniqueId()) {
-                throw new DublicateException(Messages.BUYER_ALREADY_GOT_AN_OFFER);
+                throw new DuplicateException(Messages.BUYER_ALREADY_GOT_AN_OFFER);
             }
             if (offer.getSeller().getUniqueId() == seller.getUniqueId()) {
-                throw new DublicateException(Messages.SELLER_ALREADY_CREATED_AN_OFFER);
+                throw new DuplicateException(Messages.SELLER_ALREADY_CREATED_AN_OFFER);
             }
         }
 

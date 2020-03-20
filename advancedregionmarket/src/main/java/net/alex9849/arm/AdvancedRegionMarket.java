@@ -189,8 +189,8 @@ public class AdvancedRegionMarket extends JavaPlugin {
         this.pluginSettings.setCreateBackupOnRegionUnsell(getConfig().getBoolean("Backups.createBackupOnRegionUnsell"));
         this.pluginSettings.setMaxSubRegionMembers(getConfig().getInt("Subregions.SubregionMaxMembers"));
         this.pluginSettings.setSubRegionPaybackPercentage(getConfig().getInt("Subregions.SubregionPaybackPercentage"));
-        this.pluginSettings.setSendExpirationWarning(getConfig().getBoolean("Other.SendRentRegionExpirationWarning"));
-        this.pluginSettings.setExpirationWarningTime(RentPrice.stringToTime(getConfig().getString("Other.RentRegionExpirationWarningTime")));
+        this.pluginSettings.setSendRentRegionExpirationWarning(getConfig().getBoolean("Other.SendRentRegionExpirationWarning"));
+        this.pluginSettings.setRentRegionExpirationWarningTime(RentPrice.stringToTime(getConfig().getString("Other.RentRegionExpirationWarningTime")));
         FlagGroup.setFeatureEnabled(getConfig().getBoolean("FlagGroups.enabled"));
 
         try {

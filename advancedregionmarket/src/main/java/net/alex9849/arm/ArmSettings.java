@@ -3,7 +3,7 @@ package net.alex9849.arm;
 public class ArmSettings {
     private boolean isAllowSubRegionUserRestore = false;
     private boolean isSubregionAutoRestore = false;
-    private boolean sendExpirationWarning = true;
+    private boolean sendRentRegionExpirationWarning = true;
     private int maxSubRegionMembers = -1;
     private int subRegionPaybackPercentage = 100;
     private boolean isSubregionInactivityReset = false;
@@ -22,7 +22,7 @@ public class ArmSettings {
     private boolean createBackupOnRegionRestore = true;
     private boolean isAllowTeleportToBuySign = true;
     private long userResetCooldown = 604800000;
-    private long expirationWarningTime = 2 * 24 * 60 * 60 * 1000;
+    private long rentRegionExpirationWarningTime = 2 * 24 * 60 * 60 * 1000;
     private String signRightClickSneakCommand = "buyaction";
     private String signRightClickNotSneakCommand = "buyaction";
     private String signLeftClickSneakCommand = "buyaction";
@@ -110,12 +110,12 @@ public class ArmSettings {
         return this.removeEntitiesOnRegionBlockReset;
     }
 
-    public boolean isSendExpirationWarning() {
-        return sendExpirationWarning;
+    public boolean isSendRentRegionExpirationWarning() {
+        return sendRentRegionExpirationWarning;
     }
 
-    public long getExpirationWarningTime() {
-        return expirationWarningTime;
+    public long getRentRegionExpirationWarningTime() {
+        return rentRegionExpirationWarningTime;
     }
 
     public long getUserResetCooldown() {
@@ -227,12 +227,12 @@ public class ArmSettings {
         this.userResetCooldown = userResetCooldown;
     }
 
-    public void setSendExpirationWarning(boolean sendExpirationWarning) {
-        this.sendExpirationWarning = sendExpirationWarning;
+    public void setSendRentRegionExpirationWarning(boolean sendRentRegionExpirationWarning) {
+        this.sendRentRegionExpirationWarning = sendRentRegionExpirationWarning;
     }
 
-    public void setExpirationWarningTime(long expirationWarningTime) {
-        this.expirationWarningTime = expirationWarningTime;
+    public void setRentRegionExpirationWarningTime(long rentRegionExpirationWarningTime) {
+        this.rentRegionExpirationWarningTime = rentRegionExpirationWarningTime;
     }
 
     public void setSignRightClickNotSneakCommand(String signRightClickNotSneakCommand) {

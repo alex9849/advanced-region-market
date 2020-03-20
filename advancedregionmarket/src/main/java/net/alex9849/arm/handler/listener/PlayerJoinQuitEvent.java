@@ -52,7 +52,7 @@ public class PlayerJoinQuitEvent implements Listener {
             }
         }, 40L);
 
-        if (plugin.getPluginSettings().isSendExpirationWarning()) {
+        if (plugin.getPluginSettings().isSendRentRegionExpirationWarning()) {
             Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
                 @Override
                 public void run() {
@@ -76,7 +76,7 @@ public class PlayerJoinQuitEvent implements Listener {
         for (Region region : plugin.getRegionManager().getRegionsByOwner(player.getUniqueId())) {
             if (region instanceof RentRegion) {
                 RentRegion rentRegion = (RentRegion) region;
-                if ((rentRegion.getPayedTill() - (new GregorianCalendar().getTimeInMillis())) <= plugin.getPluginSettings().getExpirationWarningTime()) {
+                if ((rentRegion.getPayedTill() - (new GregorianCalendar().getTimeInMillis())) <= plugin.getPluginSettings().getRentRegionExpirationWarningTime()) {
                     expiringRentRegions.add(rentRegion);
                 }
             }

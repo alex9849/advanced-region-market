@@ -1,6 +1,7 @@
 package net.alex9849.arm.handler.listener;
 
 import net.alex9849.arm.AdvancedRegionMarket;
+import net.alex9849.arm.Messages;
 import net.alex9849.arm.gui.Gui;
 import net.alex9849.arm.presets.ActivePresetManager;
 import net.alex9849.arm.regions.Region;
@@ -12,9 +13,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class PlayerJoinQuitEvent implements Listener {
@@ -36,8 +37,9 @@ public class PlayerJoinQuitEvent implements Listener {
     @EventHandler
     public void setLastLoginAndOpenOvertake(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        List<Region> regions = AdvancedRegionMarket.getInstance().getRegionManager().getRegionsByOwner(player.getUniqueId());
-        Plugin plugin = AdvancedRegionMarket.getInstance();
+        AdvancedRegionMarket plugin = AdvancedRegionMarket.getInstance();
+        List<Region> regions = plugin.getRegionManager().getRegionsByOwner(player.getUniqueId());
+
 
         for (Region region : regions) {
             region.setLastLogin();
@@ -50,11 +52,11 @@ public class PlayerJoinQuitEvent implements Listener {
             }
         }, 40L);
 
-        if (RentRegion.isSendExpirationWarning()) {
+        if (plugin.getPluginSettings().isSendExpirationWarning()) {
             Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
                 @Override
                 public void run() {
-                    RentRegion.sendExpirationWarnings(player);
+                    sendExpirationWarnings(player);
                 }
             }, 40L);
         }
@@ -65,6 +67,23 @@ public class PlayerJoinQuitEvent implements Listener {
     public void onPlayerQuit(PlayerQuitEvent event) {
         ActivePresetManager.deletePreset(event.getPlayer());
         SubRegionCreator.removeSubRegioncreator(event.getPlayer());
+    }
+
+    private static void sendExpirationWarnings(Player player) {
+        AdvancedRegionMarket plugin = AdvancedRegionMarket.getInstance();
+        List<RentRegion> expiringRentRegions = new ArrayList<>();
+
+        for (Region region : plugin.getRegionManager().getRegionsByOwner(player.getUniqueId())) {
+            if (region instanceof RentRegion) {
+                RentRegion rentRegion = (RentRegion) region;
+                if ((rentRegion.getPayedTill() - (new GregorianCalendar().getTimeInMillis())) <= plugin.getPluginSettings().getExpirationWarningTime()) {
+                    expiringRentRegions.add(rentRegion);
+                }
+            }
+        }
+        if (expiringRentRegions.size() > 0) {
+            player.sendMessage(Messages.PREFIX + Messages.RENTREGION_EXPIRATION_WARNING + Messages.getStringList(expiringRentRegions, x -> x.getRegion().getId(), ", "));
+        }
     }
 
 }

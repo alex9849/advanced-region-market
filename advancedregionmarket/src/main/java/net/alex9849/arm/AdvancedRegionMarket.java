@@ -32,7 +32,6 @@ import net.alex9849.arm.regionkind.commands.*;
 import net.alex9849.arm.regions.CountdownRegion;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.RegionManager;
-import net.alex9849.arm.regions.RentRegion;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.regions.price.RentPrice;
@@ -190,6 +189,8 @@ public class AdvancedRegionMarket extends JavaPlugin {
         this.pluginSettings.setCreateBackupOnRegionUnsell(getConfig().getBoolean("Backups.createBackupOnRegionUnsell"));
         this.pluginSettings.setMaxSubRegionMembers(getConfig().getInt("Subregions.SubregionMaxMembers"));
         this.pluginSettings.setSubRegionPaybackPercentage(getConfig().getInt("Subregions.SubregionPaybackPercentage"));
+        this.pluginSettings.setSendExpirationWarning(getConfig().getBoolean("Other.SendRentRegionExpirationWarning"));
+        this.pluginSettings.setExpirationWarningTime(RentPrice.stringToTime(getConfig().getString("Other.RentRegionExpirationWarningTime")));
         FlagGroup.setFeatureEnabled(getConfig().getBoolean("FlagGroups.enabled"));
 
         try {
@@ -211,12 +212,9 @@ public class AdvancedRegionMarket extends JavaPlugin {
 
         loadSignLinkingModeRegions();
         loadInactivityExpirationGroups();
-        loadOther();
         this.presetPatternManager = new PresetPatternManager(new File(this.getDataFolder() + "/presets.yml"));
         this.getRegionManager().setTabCompleteRegions(getConfig().getBoolean("Other.CompleteRegionsOnTabComplete"));
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
-            this.getRegionManager().doTick();
-        }, 1, 1);
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> this.getRegionManager().doTick(), 1, 1);
 
         this.loadCommands();
 
@@ -622,7 +620,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
         Gui.setHotelSettingItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.HotelSettingItem")));
         Gui.setUnsellItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.UnsellItem")));
         Gui.setFlageditorItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.FlageditorItem")));
-        ;
         Gui.setFlagItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.FlagItem")));
         Gui.setFlagSettingSelectedItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.FlagSettingsSelectedItem")));
         Gui.setFlagSettingNotSelectedItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.FlagSettingsNotSelectedItem")));
@@ -658,18 +655,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
         for (String groupname : groups) {
             ConfigurationSection groupSection = getConfig().getConfigurationSection("InactivityExpiration." + groupname);
             InactivityExpirationGroup.add(InactivityExpirationGroup.parse(groupSection, groupname));
-        }
-    }
-
-    private void loadOther() {
-
-        try {
-            RentRegion.setExpirationWarningTime(RentPrice.stringToTime(getConfig().getString("Other.RentRegionExpirationWarningTime")));
-            RentRegion.setSendExpirationWarning(getConfig().getBoolean("Other.SendRentRegionExpirationWarning"));
-        } catch (IllegalArgumentException | NullPointerException e) {
-            getLogger().log(Level.INFO, "Warning! Bad syntax of time format \"RentRegionExpirationWarningTime\" disabling it...");
-            RentRegion.setExpirationWarningTime(0);
-            RentRegion.setSendExpirationWarning(false);
         }
     }
 

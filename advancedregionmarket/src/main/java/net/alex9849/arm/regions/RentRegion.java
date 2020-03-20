@@ -21,15 +21,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 
 public class RentRegion extends CountdownRegion {
-    private static long expirationWarningTime;
-    private static Boolean sendExpirationWarning;
     private long maxRentTime;
     private StringReplacer stringReplacer;
 
@@ -53,39 +50,6 @@ public class RentRegion extends CountdownRegion {
     public RentRegion(WGRegion region, World regionworld, List<SignData> sellsigns, RentPrice rentPrice, boolean sold) {
         super(region, regionworld, sellsigns, rentPrice, sold);
         this.maxRentTime = rentPrice.getMaxRentTime();
-    }
-
-    public static void sendExpirationWarnings(Player player) {
-        List<Region> regions = AdvancedRegionMarket.getInstance().getRegionManager().getRegionsByOwner(player.getUniqueId());
-        List<RentRegion> rentRegions = new ArrayList<>();
-        for (int i = 0; i < regions.size(); i++) {
-            if (regions.get(i) instanceof RentRegion) {
-                RentRegion rentRegion = (RentRegion) regions.get(i);
-                if ((rentRegion.getPayedTill() - (new GregorianCalendar().getTimeInMillis())) <= RentRegion.expirationWarningTime) {
-                    rentRegions.add(rentRegion);
-                }
-            }
-        }
-        String regionWarnings = "";
-        for (int i = 0; i < rentRegions.size() - 1; i++) {
-            regionWarnings = regionWarnings + rentRegions.get(i).getRegion().getId() + ", ";
-        }
-        if (rentRegions.size() > 0) {
-            regionWarnings = regionWarnings + rentRegions.get(rentRegions.size() - 1).getRegion().getId();
-            player.sendMessage(Messages.PREFIX + Messages.RENTREGION_EXPIRATION_WARNING + regionWarnings);
-        }
-    }
-
-    public static void setExpirationWarningTime(long time) {
-        RentRegion.expirationWarningTime = time;
-    }
-
-    public static void setSendExpirationWarning(Boolean bool) {
-        RentRegion.sendExpirationWarning = bool;
-    }
-
-    public static Boolean isSendExpirationWarning() {
-        return RentRegion.sendExpirationWarning;
     }
 
     @Override

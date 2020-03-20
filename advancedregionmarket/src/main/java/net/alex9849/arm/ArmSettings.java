@@ -3,6 +3,7 @@ package net.alex9849.arm;
 public class ArmSettings {
     private boolean isAllowSubRegionUserRestore = false;
     private boolean isSubregionAutoRestore = false;
+    private boolean sendExpirationWarning = true;
     private int maxSubRegionMembers = -1;
     private int subRegionPaybackPercentage = 100;
     private boolean isSubregionInactivityReset = false;
@@ -21,6 +22,7 @@ public class ArmSettings {
     private boolean createBackupOnRegionRestore = true;
     private boolean isAllowTeleportToBuySign = true;
     private long userResetCooldown = 604800000;
+    private long expirationWarningTime = 2 * 24 * 60 * 60 * 1000;
     private String signRightClickSneakCommand = "buyaction";
     private String signRightClickNotSneakCommand = "buyaction";
     private String signLeftClickSneakCommand = "buyaction";
@@ -36,12 +38,12 @@ public class ArmSettings {
         return subRegionPaybackPercentage;
     }
 
-    public boolean isCreateBackupOnRegionUnsell() {
-        return createBackupOnRegionUnsell;
-    }
-
     public int getMaxSubRegionMembers() {
         return maxSubRegionMembers;
+    }
+
+    public boolean isCreateBackupOnRegionUnsell() {
+        return createBackupOnRegionUnsell;
     }
 
     public boolean isCreateBackupOnRegionRestore() {
@@ -84,10 +86,6 @@ public class ArmSettings {
         return isSendContractRegionExtendMessage;
     }
 
-    public String getDateTimeformat() {
-        return DATE_TIMEFORMAT;
-    }
-
     public boolean isRegionInfoParticleBorder() {
         return isRegionInfoParticleBorder;
     }
@@ -112,6 +110,18 @@ public class ArmSettings {
         return this.removeEntitiesOnRegionBlockReset;
     }
 
+    public boolean isSendExpirationWarning() {
+        return sendExpirationWarning;
+    }
+
+    public long getExpirationWarningTime() {
+        return expirationWarningTime;
+    }
+
+    public long getUserResetCooldown() {
+        return userResetCooldown;
+    }
+
     public String getSignRightClickSneakCommand() {
         return signRightClickSneakCommand;
     }
@@ -128,6 +138,10 @@ public class ArmSettings {
         return signLeftClickNotSneakCommand;
     }
 
+    public String getDateTimeformat() {
+        return DATE_TIMEFORMAT;
+    }
+
 
     /*#####################################
     ############### Setter ################
@@ -137,20 +151,16 @@ public class ArmSettings {
         this.subRegionPaybackPercentage = subRegionPaybackPercentage;
     }
 
-    public void setCreateBackupOnRegionUnsell(boolean createBackupOnRegionUnsell) {
-        this.createBackupOnRegionUnsell = createBackupOnRegionUnsell;
-    }
-
     public void setMaxSubRegionMembers(int maxSubRegionMembers) {
         this.maxSubRegionMembers = maxSubRegionMembers;
     }
 
-    public void setCreateBackupOnRegionRestore(boolean createBackupOnRegionRestore) {
-        this.createBackupOnRegionRestore = createBackupOnRegionRestore;
+    public void setCreateBackupOnRegionUnsell(boolean createBackupOnRegionUnsell) {
+        this.createBackupOnRegionUnsell = createBackupOnRegionUnsell;
     }
 
-    public void setDateTimeformat(String dateTimeformat) {
-        DATE_TIMEFORMAT = dateTimeformat;
+    public void setCreateBackupOnRegionRestore(boolean createBackupOnRegionRestore) {
+        this.createBackupOnRegionRestore = createBackupOnRegionRestore;
     }
 
     public void setDeleteSubregionsOnParentRegionUnsell(boolean deleteSubregionsOnParentRegionUnsell) {
@@ -167,30 +177,6 @@ public class ArmSettings {
 
     public void setAllowParentRegionOwnersBuildOnSubregions(boolean allowParentRegionOwnersBuildOnSubregions) {
         this.allowParentRegionOwnersBuildOnSubregions = allowParentRegionOwnersBuildOnSubregions;
-    }
-
-    public void setSignRightClickNotSneakCommand(String signRightClickNotSneakCommand) {
-        this.signRightClickNotSneakCommand = signRightClickNotSneakCommand;
-    }
-
-    public void setSignRightClickSneakCommand(String signRightClickSneakCommand) {
-        this.signRightClickSneakCommand = signRightClickSneakCommand;
-    }
-
-    public void setSignLeftClickNotSneakCommand(String signLeftClickNotSneakCommand) {
-        this.signLeftClickNotSneakCommand = signLeftClickNotSneakCommand;
-    }
-
-    public void setSignLeftClickSneakCommand(String signLeftClickSneakCommand) {
-        this.signLeftClickSneakCommand = signLeftClickSneakCommand;
-    }
-
-    public long getUserResetCooldown() {
-        return userResetCooldown;
-    }
-
-    public void setUserResetCooldown(long userResetCooldown) {
-        this.userResetCooldown = userResetCooldown;
     }
 
     public void setActivateRegionKindPermissions(boolean activateRegionKindPermissions) {
@@ -235,6 +221,38 @@ public class ArmSettings {
 
     public void setIsSendContractRegionExtendMessage(boolean isSendContractRegionExtendMessage) {
         this.isSendContractRegionExtendMessage = isSendContractRegionExtendMessage;
+    }
+
+    public void setUserResetCooldown(long userResetCooldown) {
+        this.userResetCooldown = userResetCooldown;
+    }
+
+    public void setSendExpirationWarning(boolean sendExpirationWarning) {
+        this.sendExpirationWarning = sendExpirationWarning;
+    }
+
+    public void setExpirationWarningTime(long expirationWarningTime) {
+        this.expirationWarningTime = expirationWarningTime;
+    }
+
+    public void setSignRightClickNotSneakCommand(String signRightClickNotSneakCommand) {
+        this.signRightClickNotSneakCommand = signRightClickNotSneakCommand;
+    }
+
+    public void setSignRightClickSneakCommand(String signRightClickSneakCommand) {
+        this.signRightClickSneakCommand = signRightClickSneakCommand;
+    }
+
+    public void setSignLeftClickNotSneakCommand(String signLeftClickNotSneakCommand) {
+        this.signLeftClickNotSneakCommand = signLeftClickNotSneakCommand;
+    }
+
+    public void setSignLeftClickSneakCommand(String signLeftClickSneakCommand) {
+        this.signLeftClickSneakCommand = signLeftClickSneakCommand;
+    }
+
+    public void setDateTimeformat(String dateTimeformat) {
+        DATE_TIMEFORMAT = dateTimeformat;
     }
 
 }

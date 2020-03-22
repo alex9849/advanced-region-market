@@ -299,10 +299,10 @@ public class Gui implements Listener {
                 @Override
                 public void execute(Player player) throws InputException {
                     try {
-                        region.buy(player);
+                        ((RentRegion) region).extendNoteMaxRentTime(player);
                         Gui.openRegionOwnerManager(player, region);
-                    } catch (NoPermissionException | OutOfLimitExeption | NotEnoughMoneyException |
-                            AlreadySoldException | MaxRentTimeExceededException e) {
+                    } catch (NoPermissionException | NotEnoughMoneyException | MaxRentTimeExceededException
+                            | RegionNotOwnException | NotSoldException e) {
                         if (e.hasMessage()) player.sendMessage(Messages.PREFIX + e.getMessage());
                     }
                 }
@@ -323,7 +323,7 @@ public class Gui implements Listener {
                     try {
                         cregion.changeTerminated(player);
                         Gui.openRegionOwnerManager(player, region);
-                    } catch (OutOfLimitExeption e) {
+                    } catch (OutOfLimitExeption | NoPermissionException | NotSoldException | RegionNotOwnException e) {
                         if (e.hasMessage()) player.sendMessage(Messages.PREFIX + e.getMessage());
                     }
                 }

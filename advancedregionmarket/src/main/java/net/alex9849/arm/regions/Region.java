@@ -1062,6 +1062,14 @@ public abstract class Region implements Saveable {
         this.queueSave();
     }
 
+    public List<String> replaceVariables(List<String> messages) {
+        List<String> aList = new ArrayList<>();
+        for(String message : messages) {
+            aList.add(replaceVariables(message));
+        }
+        return aList;
+    }
+
     public String replaceVariables(String message) {
         message = this.stringReplacer.replace(message).toString();
         message = this.getRegionKind().replaceVariables(message).toString();

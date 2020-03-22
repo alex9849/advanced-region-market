@@ -33,7 +33,7 @@ public class ContractRegion extends CountdownRegion {
     {
         HashMap<String, StringCreator> variableReplacements = new HashMap<>();
         variableReplacements.put("%status%", () -> {
-            return this.getTerminationString();
+            return this.terminated? Messages.CONTRACT_REGION_STATUS_TERMINATED : Messages.CONTRACT_REGION_STATUS_ACTIVE;
         });
         variableReplacements.put("%isterminated%", () -> {
             return Messages.convertYesNo(this.isTerminated());
@@ -212,14 +212,6 @@ public class ContractRegion extends CountdownRegion {
                 sendmessage = Messages.CONTRACTREGION_REACTIVATED;
             }
             player.sendMessage(Messages.PREFIX + this.replaceVariables(sendmessage));
-        }
-    }
-
-    public String getTerminationString() {
-        if (this.terminated) {
-            return Messages.CONTRACT_REGION_STATUS_TERMINATED;
-        } else {
-            return Messages.CONTRACT_REGION_STATUS_ACTIVE;
         }
     }
 

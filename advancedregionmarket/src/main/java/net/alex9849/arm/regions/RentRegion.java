@@ -52,24 +52,45 @@ public class RentRegion extends CountdownRegion {
         this.maxRentTime = rentPrice.getMaxRentTime();
     }
 
-    @Override
-    protected void updateSignText(SignData signData) {
-
-        if (this.isSold()) {
-            String[] lines = new String[4];
-            lines[0] = this.replaceVariables(Messages.RENTED_SIGN1);
-            lines[1] = this.replaceVariables(Messages.RENTED_SIGN2);
-            lines[2] = this.replaceVariables(Messages.RENTED_SIGN3);
-            lines[3] = this.replaceVariables(Messages.RENTED_SIGN4);
-            signData.writeLines(lines);
+    public void signClickAction(Player player) throws OutOfLimitExeption, AlreadySoldException, NotSoldException, NoPermissionException, NotEnoughMoneyException, RegionNotOwnException, MaxRentTimeExceededException {
+        if(this.isSold()) {
+            this.extendNoteMaxRentTime(player);
         } else {
-            String[] lines = new String[4];
-            lines[0] = this.replaceVariables(Messages.RENT_SIGN1);
-            lines[1] = this.replaceVariables(Messages.RENT_SIGN2);
-            lines[2] = this.replaceVariables(Messages.RENT_SIGN3);
-            lines[3] = this.replaceVariables(Messages.RENT_SIGN4);
-            signData.writeLines(lines);
+            this.buy(player);
         }
+    }
+
+    public void extendNoteMaxRentTime(Player player) throws MaxRentTimeExceededException, NotEnoughMoneyException, RegionNotOwnException, NotSoldException, NoPermissionException {
+        if (!player.hasPermission(Permission.MEMBER_BUY)) {
+            throw new NoPermissionException(Messages.NO_PERMISSION);
+        }
+
+        if(!this.isSold()) {
+            throw new NotSoldException(Messages.REGION_NOT_SOLD);
+        }
+
+        if(!this.getRegion().hasOwner(player.getUniqueId()) && !player.hasPermission(Permission.ADMIN_EXTEND)) {
+            throw new RegionNotOwnException(Messages.REGION_NOT_OWN);
+        }
+
+        if (AdvancedRegionMarket.getInstance().getEcon().getBalance(player) < this.getPrice()) {
+            throw new NotEnoughMoneyException(this.replaceVariables(Messages.NOT_ENOUGHT_MONEY));
+        }
+
+        this.extendNoteMaxRentTime();
+        if (AdvancedRegionMarket.getInstance().getPluginSettings().isTeleportAfterRentRegionExtend()) {
+            try {
+                Teleporter.teleport(player, this, "", AdvancedRegionMarket.getInstance().getConfig().getBoolean("Other.TeleportAfterRegionBoughtCountdown"));
+            } catch (NoSaveLocationException e) {
+                if (e.hasMessage()) {
+                    player.sendMessage(Messages.PREFIX + e.getMessage());
+                }
+            }
+        }
+        AdvancedRegionMarket.getInstance().getEcon().withdrawPlayer(player, this.getPrice());
+        this.giveParentRegionOwnerMoney(this.getPrice());
+
+        player.sendMessage(Messages.PREFIX + this.replaceVariables(Messages.RENT_EXTEND_MESSAGE));
     }
 
     @Override
@@ -79,7 +100,7 @@ public class RentRegion extends CountdownRegion {
             throw new NoPermissionException(Messages.NO_PERMISSION);
         }
 
-        if (this.isSold() && !this.getRegion().hasOwner(player.getUniqueId()) && !player.hasPermission(Permission.ADMIN_EXTEND)) {
+        if (this.isSold()) {
             throw new AlreadySoldException(Messages.REGION_ALREADY_SOLD);
         }
 
@@ -87,7 +108,7 @@ public class RentRegion extends CountdownRegion {
             throw new NoPermissionException(this.replaceVariables(Messages.NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION));
         }
 
-        if (!this.isSold() && !LimitGroup.isCanBuyAnother(player, this)) {
+        if (!LimitGroup.isCanBuyAnother(player, this)) {
             throw new OutOfLimitExeption(LimitGroup.getRegionBuyOutOfLimitMessage(player, this.getRegionKind()));
         }
 
@@ -101,36 +122,20 @@ public class RentRegion extends CountdownRegion {
             return;
         }
 
-        if (this.isSold()) {
-            this.extendNoteMaxRentTime();
-            if (AdvancedRegionMarket.getInstance().getPluginSettings().isTeleportAfterRentRegionExtend()) {
-                try {
-                    Teleporter.teleport(player, this, "", AdvancedRegionMarket.getInstance().getConfig().getBoolean("Other.TeleportAfterRegionBoughtCountdown"));
-                } catch (NoSaveLocationException e) {
-                    if (e.hasMessage()) {
-                        player.sendMessage(Messages.PREFIX + e.getMessage());
-                    }
+        this.setSold(player);
+        if (AdvancedRegionMarket.getInstance().getPluginSettings().isTeleportAfterRentRegionBought()) {
+            try {
+                Teleporter.teleport(player, this, "", AdvancedRegionMarket.getInstance().getConfig().getBoolean("Other.TeleportAfterRegionBoughtCountdown"));
+            } catch (NoSaveLocationException e) {
+                if (e.hasMessage()) {
+                    player.sendMessage(Messages.PREFIX + e.getMessage());
                 }
             }
-
-            player.sendMessage(Messages.PREFIX + this.replaceVariables(Messages.RENT_EXTEND_MESSAGE));
-        } else {
-            this.setSold(player);
-            if (AdvancedRegionMarket.getInstance().getPluginSettings().isTeleportAfterRentRegionBought()) {
-                try {
-                    Teleporter.teleport(player, this, "", AdvancedRegionMarket.getInstance().getConfig().getBoolean("Other.TeleportAfterRegionBoughtCountdown"));
-                } catch (NoSaveLocationException e) {
-                    if (e.hasMessage()) {
-                        player.sendMessage(Messages.PREFIX + e.getMessage());
-                    }
-                }
-            }
-            player.sendMessage(Messages.PREFIX + Messages.REGION_BUYMESSAGE);
         }
+        player.sendMessage(Messages.PREFIX + Messages.REGION_BUYMESSAGE);
 
         AdvancedRegionMarket.getInstance().getEcon().withdrawPlayer(player, this.getPrice());
         this.giveParentRegionOwnerMoney(this.getPrice());
-        this.queueSave();
     }
 
     @Override
@@ -189,7 +194,6 @@ public class RentRegion extends CountdownRegion {
         return this.maxRentTime;
     }
 
-
     public String replaceVariables(String message) {
         message = super.replaceVariables(message);
         return this.stringReplacer.replace(message).toString();
@@ -197,6 +201,26 @@ public class RentRegion extends CountdownRegion {
 
     public SellType getSellType() {
         return SellType.RENT;
+    }
+
+    @Override
+    protected void updateSignText(SignData signData) {
+
+        if (this.isSold()) {
+            String[] lines = new String[4];
+            lines[0] = this.replaceVariables(Messages.RENTED_SIGN1);
+            lines[1] = this.replaceVariables(Messages.RENTED_SIGN2);
+            lines[2] = this.replaceVariables(Messages.RENTED_SIGN3);
+            lines[3] = this.replaceVariables(Messages.RENTED_SIGN4);
+            signData.writeLines(lines);
+        } else {
+            String[] lines = new String[4];
+            lines[0] = this.replaceVariables(Messages.RENT_SIGN1);
+            lines[1] = this.replaceVariables(Messages.RENT_SIGN2);
+            lines[2] = this.replaceVariables(Messages.RENT_SIGN3);
+            lines[3] = this.replaceVariables(Messages.RENT_SIGN4);
+            signData.writeLines(lines);
+        }
     }
 
     public ConfigurationSection toConfigurationSection() {

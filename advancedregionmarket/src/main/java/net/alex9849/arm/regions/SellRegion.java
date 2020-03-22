@@ -31,23 +31,8 @@ public class SellRegion extends Region {
     }
 
     @Override
-    protected void updateSignText(SignData signData) {
-        if (this.isSold()) {
-            String[] lines = new String[4];
-            lines[0] = this.replaceVariables(Messages.SOLD_SIGN1);
-            lines[1] = this.replaceVariables(Messages.SOLD_SIGN2);
-            lines[2] = this.replaceVariables(Messages.SOLD_SIGN3);
-            lines[3] = this.replaceVariables(Messages.SOLD_SIGN4);
-            signData.writeLines(lines);
-        } else {
-            String[] lines = new String[4];
-            lines[0] = this.replaceVariables(Messages.SELL_SIGN1);
-            lines[1] = this.replaceVariables(Messages.SELL_SIGN2);
-            lines[2] = this.replaceVariables(Messages.SELL_SIGN3);
-            lines[3] = this.replaceVariables(Messages.SELL_SIGN4);
-            signData.writeLines(lines);
-        }
-
+    public void signClickAction(Player player) throws OutOfLimitExeption, AlreadySoldException, NotEnoughMoneyException, NoPermissionException {
+        this.buy(player);
     }
 
     @Override
@@ -120,6 +105,22 @@ public class SellRegion extends Region {
         }
     }
 
+    public void setPrice(Price price) {
+        super.setPrice(price);
+        this.updateSigns();
+        this.queueSave();
+    }
+
+    @Override
+    public double getPricePerM2PerWeek() {
+        return this.getPricePerM2();
+    }
+
+    @Override
+    public double getPricePerM3PerWeek() {
+        return this.getPricePerM2();
+    }
+
     @Override
     public double getPaybackMoney() {
         double money = (this.getPrice() * this.getPaybackPercentage()) / 100;
@@ -131,19 +132,23 @@ public class SellRegion extends Region {
     }
 
     @Override
-    public double getPricePerM2PerWeek() {
-        return this.getPricePerM2();
-    }
+    protected void updateSignText(SignData signData) {
+        if (this.isSold()) {
+            String[] lines = new String[4];
+            lines[0] = this.replaceVariables(Messages.SOLD_SIGN1);
+            lines[1] = this.replaceVariables(Messages.SOLD_SIGN2);
+            lines[2] = this.replaceVariables(Messages.SOLD_SIGN3);
+            lines[3] = this.replaceVariables(Messages.SOLD_SIGN4);
+            signData.writeLines(lines);
+        } else {
+            String[] lines = new String[4];
+            lines[0] = this.replaceVariables(Messages.SELL_SIGN1);
+            lines[1] = this.replaceVariables(Messages.SELL_SIGN2);
+            lines[2] = this.replaceVariables(Messages.SELL_SIGN3);
+            lines[3] = this.replaceVariables(Messages.SELL_SIGN4);
+            signData.writeLines(lines);
+        }
 
-    public void setPrice(Price price) {
-        super.setPrice(price);
-        this.updateSigns();
-        this.queueSave();
-    }
-
-    @Override
-    public double getPricePerM3PerWeek() {
-        return this.getPricePerM2();
     }
 
     public SellType getSellType() {

@@ -142,19 +142,21 @@ public class ContractRegion extends CountdownRegion {
         }
     }
 
+    public void signClickAction(Player player) throws OutOfLimitExeption, AlreadySoldException, NotSoldException, NoPermissionException, NotEnoughMoneyException, RegionNotOwnException {
+        if(this.isSold()) {
+            this.changeTerminated(player);
+        } else {
+            this.buy(player);
+        }
+    }
+
     @Override
     public void buy(Player player) throws NoPermissionException, AlreadySoldException, OutOfLimitExeption, NotEnoughMoneyException {
-
         if (!player.hasPermission(Permission.MEMBER_BUY)) {
             throw new NoPermissionException(Messages.NO_PERMISSION);
         }
         if (this.isSold()) {
-            if (this.getRegion().hasOwner(player.getUniqueId()) || player.hasPermission(Permission.ADMIN_TERMINATE_CONTRACT)) {
-                this.changeTerminated(player);
-                return;
-            } else {
-                throw new AlreadySoldException(Messages.REGION_ALREADY_SOLD);
-            }
+            throw new AlreadySoldException(Messages.REGION_ALREADY_SOLD);
         }
         if (!RegionKind.hasPermission(player, this.getRegionKind())) {
             throw new NoPermissionException(this.replaceVariables(Messages.NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION));
@@ -189,7 +191,19 @@ public class ContractRegion extends CountdownRegion {
 
     }
 
-    public void changeTerminated(Player player) throws OutOfLimitExeption {
+    public void changeTerminated(Player player) throws OutOfLimitExeption, NoPermissionException, NotSoldException, RegionNotOwnException {
+        if (!player.hasPermission(Permission.MEMBER_BUY)) {
+            throw new NoPermissionException(Messages.NO_PERMISSION);
+        }
+
+        if(!this.isSold()) {
+            throw new NotSoldException(Messages.REGION_NOT_SOLD);
+        }
+
+        if(!this.getRegion().hasOwner(player.getUniqueId()) && !player.hasPermission(Permission.ADMIN_TERMINATE_CONTRACT)) {
+            throw new RegionNotOwnException(Messages.REGION_NOT_OWN);
+        }
+
         if (this.isTerminated()) {
             if (!LimitGroup.isInLimit(player, this)) {
                 throw new OutOfLimitExeption(LimitGroup.getRegionBuyOutOfLimitMessage(player, this.getRegionKind()));

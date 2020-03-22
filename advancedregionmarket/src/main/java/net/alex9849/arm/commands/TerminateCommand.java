@@ -3,9 +3,7 @@ package net.alex9849.arm.commands;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
-import net.alex9849.arm.exceptions.CmdSyntaxException;
-import net.alex9849.arm.exceptions.InputException;
-import net.alex9849.arm.limitgroups.LimitGroup;
+import net.alex9849.arm.exceptions.*;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regions.ContractRegion;
 import net.alex9849.arm.regions.Region;
@@ -45,22 +43,12 @@ public class TerminateCommand extends BasicArmCommand {
             throw new InputException(sender, Messages.REGION_IS_NOT_A_CONTRACT_REGION);
         }
 
-        if (!region.isSold()) {
-            throw new InputException(sender, Messages.REGION_NOT_SOLD);
+        try {
+            ((ContractRegion) region).changeTerminated(player);
+        } catch (OutOfLimitExeption | NoPermissionException | NotSoldException | RegionNotOwnException e) {
+            e.printStackTrace();
         }
 
-        if (!region.getRegion().hasOwner(player.getUniqueId())
-                && !player.hasPermission(Permission.ADMIN_TERMINATE_CONTRACT)) {
-            throw new InputException(sender, Messages.REGION_NOT_OWN);
-        }
-
-        ContractRegion contractRegion = (ContractRegion) region;
-
-        if (!termination && !LimitGroup.isInLimit(player, contractRegion)) {
-            throw new InputException(player, LimitGroup.getRegionBuyOutOfLimitMessage(player, contractRegion.getRegionKind()));
-        }
-
-        contractRegion.setTerminated(termination, player);
         return true;
     }
 

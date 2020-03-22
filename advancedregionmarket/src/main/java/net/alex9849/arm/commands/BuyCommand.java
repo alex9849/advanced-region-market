@@ -34,15 +34,11 @@ public class BuyCommand extends BasicArmCommand {
             region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, null);
         }
 
-        if (!region.isSold()) {
-            try {
-                region.buy(player);
-            } catch (NoPermissionException | OutOfLimitExeption | NotEnoughMoneyException |
-                    AlreadySoldException | MaxRentTimeExceededException e) {
-                if (e.hasMessage()) player.sendMessage(Messages.PREFIX + e.getMessage());
-            }
-        } else {
-            throw new InputException(sender, Messages.REGION_ALREADY_SOLD);
+        try {
+            region.buy(player);
+        } catch (NoPermissionException | OutOfLimitExeption | NotEnoughMoneyException |
+                AlreadySoldException | MaxRentTimeExceededException e) {
+            if (e.hasMessage()) player.sendMessage(Messages.PREFIX + e.getMessage());
         }
 
         return true;

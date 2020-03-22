@@ -670,6 +670,8 @@ public abstract class Region implements Saveable {
     ####### Abstract Methods ###########
     ##################################*/
 
+    public abstract void signClickAction(Player player) throws OutOfLimitExeption, AlreadySoldException, NotSoldException, NoPermissionException, NotEnoughMoneyException, RegionNotOwnException, MaxRentTimeExceededException;
+
     public abstract double getPricePerM2PerWeek();
 
     public abstract double getPricePerM3PerWeek();

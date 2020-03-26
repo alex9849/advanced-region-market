@@ -41,11 +41,11 @@ public abstract class Region implements Saveable {
     private World regionworld;
     private ArrayList<SignData> sellsign;
     private Price price;
-    private boolean sold;
     private Region parentRegion;
     private Set<Region> subregions;
     private Location teleportLocation;
     private StringReplacer stringReplacer;
+    private boolean sold;
     private boolean inactivityReset = true;
     private boolean isHotel = false;
     private boolean isUserRestorable = true;

@@ -148,9 +148,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
 
         if (getConfig().getBoolean("Other.Sendstats")) {
             final int playercount = Bukkit.getOnlinePlayers().size();
-            Thread sendStartup = new Thread(() -> {
-                AdvancedRegionMarket.sendStats(this, false, playercount);
-            });
+            Thread sendStartup = new Thread(() -> AdvancedRegionMarket.sendStats(this, false, playercount));
             sendStartup.start();
 
             Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {

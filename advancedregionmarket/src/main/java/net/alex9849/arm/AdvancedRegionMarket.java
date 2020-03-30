@@ -44,7 +44,6 @@ import net.alex9849.inter.WorldGuardInterface;
 import net.alex9849.signs.SignDataFactory;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
-import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -63,11 +62,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import javax.net.ssl.HttpsURLConnection;
 import java.io.File;
-import java.io.PrintStream;
-import java.net.InetAddress;
-import java.net.URL;
 import java.text.NumberFormat;
 import java.util.*;
 import java.util.logging.Level;
@@ -104,6 +99,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         //Enable bStats
         BStatsAnalytics bStatsAnalytics = new BStatsAnalytics();
         bStatsAnalytics.register(this);
+        new Analytics(this);
 
         //Check if Worldguard is installed
         if (!setupWorldGuard()) {
@@ -146,7 +142,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         Gui guilistener = new Gui();
         getServer().getPluginManager().registerEvents(guilistener, this);
 
-        if (getConfig().getBoolean("Other.Sendstats")) {
+        /*if (getConfig().getBoolean("Other.Sendstats")) {
             final int playercount = Bukkit.getOnlinePlayers().size();
             Thread sendStartup = new Thread(() -> AdvancedRegionMarket.sendStats(this, false, playercount));
             sendStartup.start();
@@ -159,7 +155,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
                 });
                 sendPing.start();
             }, 6000, 6000);
-        }
+        } */
 
 
         this.pluginSettings = new ArmSettings();
@@ -759,53 +755,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
     /*#####################################
     ############# Other stuff #############
     #####################################*/
-
-    private static void sendStats(Plugin plugin, boolean isPing, int playerCount) {
-        Server server = Bukkit.getServer();
-        String ip = server.getIp();
-        int port = server.getPort();
-        String hoststring = "";
-
-        try {
-            hoststring = InetAddress.getLocalHost().toString();
-        } catch (Exception e) {
-            hoststring = "";
-        }
-
-        try {
-            final String userAgent = "Alex9849 Plugin";
-
-            URL url;
-            if (isPing) {
-                url = new URL("https://mcplug.alex9849.net/mcplug3.php?startup=1");
-            } else {
-                url = new URL("https://mcplug.alex9849.net/mcplug3.php?startup=0");
-            }
-
-            HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
-            con.setInstanceFollowRedirects(true);
-            con.setConnectTimeout(2000);
-            con.setReadTimeout(2000);
-            con.addRequestProperty("User-Agent", userAgent);
-            con.setDoOutput(true);
-            PrintStream ps = new PrintStream(con.getOutputStream());
-
-            ps.print("plugin=arm");
-            ps.print("&host=" + hoststring);
-            ps.print("&ip=" + ip);
-            ps.print("&port=" + port);
-            ps.print("&playercount=" + playerCount);
-            ps.print("&pversion=" + plugin.getDescription().getVersion());
-
-            con.connect();
-            con.getInputStream();
-            ps.close();
-            con.disconnect();
-
-        } catch (Throwable e) {
-            return;
-        }
-    }
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandsLabel, String[] args) {

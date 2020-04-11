@@ -8,7 +8,9 @@ import net.alex9849.arm.exceptions.*;
 import net.alex9849.arm.limitgroups.LimitGroup;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import net.alex9849.arm.regionkind.RegionKind;
+import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.price.ContractPrice;
+import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.util.stringreplacer.StringCreator;
 import net.alex9849.arm.util.stringreplacer.StringReplacer;
 import net.alex9849.inter.WGRegion;
@@ -27,6 +29,7 @@ import java.util.UUID;
 import java.util.logging.Level;
 
 public class ContractRegion extends CountdownRegion {
+    private ContractPrice contractPrice;
     private boolean terminated = false;
     private StringReplacer stringReplacer;
 
@@ -42,11 +45,13 @@ public class ContractRegion extends CountdownRegion {
     }
 
     public ContractRegion(WGRegion region, List<SignData> sellsigns, ContractPrice contractPrice, boolean sold, Region parentRegion) {
-        super(region, sellsigns, contractPrice, sold, parentRegion);
+        super(region, sellsigns, sold, parentRegion);
+        this.contractPrice = contractPrice;
     }
 
     public ContractRegion(WGRegion region, World regionworld, List<SignData> sellsigns, ContractPrice contractPrice, boolean sold) {
-        super(region, regionworld, sellsigns, contractPrice, sold);
+        super(region, regionworld, sellsigns, sold);
+        this.contractPrice = contractPrice;
     }
 
     @Override
@@ -90,12 +95,12 @@ public class ContractRegion extends CountdownRegion {
                                 this.extend();
                             } else {
                                 if (AdvancedRegionMarket.getInstance().getEcon().hasAccount(oplayer)) {
-                                    if (AdvancedRegionMarket.getInstance().getEcon().getBalance(oplayer) < this.getPrice()) {
+                                    if (AdvancedRegionMarket.getInstance().getEcon().getBalance(oplayer) < this.getPricePerPeriod()) {
                                         this.automaticResetRegion(ActionReason.INSUFFICIENT_MONEY, true);
                                     } else {
-                                        AdvancedRegionMarket.getInstance().getEcon().withdrawPlayer(oplayer, this.getPrice());
+                                        AdvancedRegionMarket.getInstance().getEcon().withdrawPlayer(oplayer, this.getPricePerPeriod());
                                         if (this.isSubregion()) {
-                                            this.giveParentRegionOwnerMoney(this.getPrice());
+                                            this.giveParentRegionOwnerMoney(this.getPricePerPeriod());
                                         }
                                         this.extend();
                                         if (oplayer.isOnline() && AdvancedRegionMarket.getInstance().getPluginSettings().isSendContractRegionExtendMessage()) {
@@ -114,6 +119,17 @@ public class ContractRegion extends CountdownRegion {
         }
 
         super.updateRegion();
+    }
+
+    @Override
+    public Price getPriceObject() {
+        return this.contractPrice;
+    }
+
+    public void setContractPrice(ContractPrice contractPrice) {
+        this.contractPrice = contractPrice;
+        this.queueSave();
+        this.updateSigns();
     }
 
     @Override
@@ -165,7 +181,7 @@ public class ContractRegion extends CountdownRegion {
         if (!LimitGroup.isCanBuyAnother(player, this)) {
             throw new OutOfLimitExeption(LimitGroup.getRegionBuyOutOfLimitMessage(player, this.getRegionKind()));
         }
-        if (AdvancedRegionMarket.getInstance().getEcon().getBalance(player) < this.getPrice()) {
+        if (AdvancedRegionMarket.getInstance().getEcon().getBalance(player) < this.getPricePerPeriod()) {
             throw new NotEnoughMoneyException(this.replaceVariables(Messages.NOT_ENOUGHT_MONEY));
         }
         BuyRegionEvent buyRegionEvent = new BuyRegionEvent(this, player);
@@ -173,9 +189,9 @@ public class ContractRegion extends CountdownRegion {
         if (buyRegionEvent.isCancelled()) {
             return;
         }
-        AdvancedRegionMarket.getInstance().getEcon().withdrawPlayer(player, this.getPrice());
+        AdvancedRegionMarket.getInstance().getEcon().withdrawPlayer(player, this.getPricePerPeriod());
         if (this.isSubregion()) {
-            this.giveParentRegionOwnerMoney(this.getPrice());
+            this.giveParentRegionOwnerMoney(this.getPricePerPeriod());
         }
         this.setSold(player);
         if (AdvancedRegionMarket.getInstance().getPluginSettings().isTeleportAfterContractRegionBought()) {
@@ -237,6 +253,11 @@ public class ContractRegion extends CountdownRegion {
         this.setTerminated(bool, null);
     }
 
+    @Override
+    public long getExtendTime() {
+        return this.contractPrice.getExtendTime();
+    }
+
     public double getPricePerM2PerWeek() {
         if (this.getExtendTime() == 0) {
             return Integer.MAX_VALUE;
@@ -262,6 +283,11 @@ public class ContractRegion extends CountdownRegion {
 
     public SellType getSellType() {
         return SellType.CONTRACT;
+    }
+
+    @Override
+    public void setAutoPrice(AutoPrice autoPrice) {
+        this.contractPrice = new ContractPrice(autoPrice);
     }
 
     public ConfigurationSection toConfigurationSection() {

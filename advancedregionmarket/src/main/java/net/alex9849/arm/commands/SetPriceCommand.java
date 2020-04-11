@@ -7,7 +7,10 @@ import net.alex9849.arm.exceptions.CmdSyntaxException;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regionkind.RegionKind;
+import net.alex9849.arm.regions.ContractRegion;
 import net.alex9849.arm.regions.Region;
+import net.alex9849.arm.regions.RentRegion;
+import net.alex9849.arm.regions.SellRegion;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.price.RentPrice;
 import org.bukkit.ChatColor;
@@ -67,7 +70,15 @@ public class SetPriceCommand extends BasicArmCommand {
 
             for (Region region : selectedregions) {
                 price = new RentPrice(priceint, extend, maxrenttime);
-                region.setPrice(price);
+                if(region instanceof SellRegion) {
+                    ((SellRegion) region).setSellPrice(price);
+                } else if(region instanceof ContractRegion) {
+                    ((ContractRegion) region).setContractPrice(price);
+                } else if(region instanceof RentRegion) {
+                    ((RentRegion) region).setRentPrice(price);
+                } else {
+                    throw new RuntimeException("This is a bug! SetPriceCommand doesn't know hot to set the price for " + region.getClass().getName());
+                }
             }
         } else {
             AutoPrice selectedAutoprice = AutoPrice.getAutoprice(args[2]);
@@ -75,8 +86,7 @@ public class SetPriceCommand extends BasicArmCommand {
                 throw new InputException(sender, ChatColor.RED + "Autoprice does not exist!");
             }
             for (Region region : selectedregions) {
-                price = new RentPrice(selectedAutoprice);
-                region.setPrice(price);
+                region.setAutoPrice(selectedAutoprice);
             }
         }
 

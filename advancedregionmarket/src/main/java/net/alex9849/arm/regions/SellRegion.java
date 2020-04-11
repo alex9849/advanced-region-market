@@ -8,6 +8,7 @@ import net.alex9849.arm.exceptions.*;
 import net.alex9849.arm.limitgroups.LimitGroup;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import net.alex9849.arm.regionkind.RegionKind;
+import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.signs.SignData;
@@ -20,14 +21,17 @@ import org.bukkit.entity.Player;
 import java.util.List;
 
 public class SellRegion extends Region {
+    private Price price;
 
 
     public SellRegion(WGRegion region, List<SignData> sellsigns, Price price, boolean sold, Region parentRegion) {
-        super(region, sellsigns, price, sold, parentRegion);
+        super(region, sellsigns, sold, parentRegion);
+        this.price = price;
     }
 
     public SellRegion(WGRegion region, World regionworld, List<SignData> sellsigns, Price price, boolean sold) {
-        super(region, regionworld, sellsigns, price, sold);
+        super(region, regionworld, sellsigns, sold);
+        this.price = price;
     }
 
     @Override
@@ -52,7 +56,7 @@ public class SellRegion extends Region {
             throw new OutOfLimitExeption(LimitGroup.getRegionBuyOutOfLimitMessage(player, this.getRegionKind()));
         }
 
-        if (AdvancedRegionMarket.getInstance().getEcon().getBalance(player) < this.getPrice()) {
+        if (AdvancedRegionMarket.getInstance().getEcon().getBalance(player) < this.getPricePerPeriod()) {
             throw new NotEnoughMoneyException(this.replaceVariables(Messages.NOT_ENOUGHT_MONEY));
         }
         BuyRegionEvent buyRegionEvent = new BuyRegionEvent(this, player);
@@ -61,8 +65,8 @@ public class SellRegion extends Region {
             return;
         }
 
-        AdvancedRegionMarket.getInstance().getEcon().withdrawPlayer(player, this.getPrice());
-        this.giveParentRegionOwnerMoney(this.getPrice());
+        AdvancedRegionMarket.getInstance().getEcon().withdrawPlayer(player, this.getPricePerPeriod());
+        this.giveParentRegionOwnerMoney(this.getPricePerPeriod());
         this.setSold(player);
         if (AdvancedRegionMarket.getInstance().getPluginSettings().isTeleportAfterSellRegionBought()) {
             try {
@@ -72,6 +76,11 @@ public class SellRegion extends Region {
             }
         }
         player.sendMessage(Messages.PREFIX + Messages.REGION_BUYMESSAGE);
+    }
+
+    @Override
+    public Price getPriceObject() {
+        return this.price;
     }
 
     @Override
@@ -105,10 +114,10 @@ public class SellRegion extends Region {
         }
     }
 
-    public void setPrice(Price price) {
-        super.setPrice(price);
-        this.updateSigns();
+    public void setSellPrice(Price price) {
+        this.price = price;
         this.queueSave();
+        this.updateSigns();
     }
 
     @Override
@@ -123,7 +132,7 @@ public class SellRegion extends Region {
 
     @Override
     public double getPaybackMoney() {
-        double money = (this.getPrice() * this.getPaybackPercentage()) / 100;
+        double money = (this.getPricePerPeriod() * this.getPaybackPercentage()) / 100;
         if (money > 0) {
             return money;
         } else {
@@ -153,5 +162,10 @@ public class SellRegion extends Region {
 
     public SellType getSellType() {
         return SellType.SELL;
+    }
+
+    @Override
+    public void setAutoPrice(AutoPrice autoPrice) {
+        this.price = new Price(autoPrice);
     }
 }

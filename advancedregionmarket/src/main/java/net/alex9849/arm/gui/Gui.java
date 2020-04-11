@@ -902,10 +902,10 @@ public class Gui implements Listener {
         regions.sort(new Comparator<Region>() {
             @Override
             public int compare(Region o1, Region o2) {
-                if (o1.getPrice() > o2.getPrice()) {
+                if (o1.getPricePerPeriod() > o2.getPricePerPeriod()) {
                     return 1;
                 }
-                if (o1.getPrice() == o2.getPrice()) {
+                if (o1.getPricePerPeriod() == o2.getPricePerPeriod()) {
                     return 0;
                 }
                 return -1;

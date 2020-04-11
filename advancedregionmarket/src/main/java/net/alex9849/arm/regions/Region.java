@@ -15,6 +15,7 @@ import net.alex9849.arm.inactivityexpiration.PlayerInactivityGroupMapper;
 import net.alex9849.arm.minifeatures.ParticleBorder;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import net.alex9849.arm.regionkind.RegionKind;
+import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.util.Saveable;
 import net.alex9849.arm.util.TimeUtil;
@@ -40,7 +41,6 @@ public abstract class Region implements Saveable {
     private WGRegion region;
     private World regionworld;
     private ArrayList<SignData> sellsign;
-    private Price price;
     private Region parentRegion;
     private Set<Region> subregions;
     private Location teleportLocation;
@@ -78,7 +78,7 @@ public abstract class Region implements Saveable {
             return this.getRegion().getId();
         });
         variableReplacements.put("%price%", () -> {
-            return Price.formatPrice(this.getPrice());
+            return Price.formatPrice(this.getPricePerPeriod());
         });
         variableReplacements.put("%dimensions%", () -> {
             return this.getDimensions();
@@ -220,8 +220,8 @@ public abstract class Region implements Saveable {
     /* ######################################
     ############### Constructors ############
     #########################################*/
-    public Region(WGRegion region, List<SignData> sellsigns, Price price, boolean sold, Region parentRegion) {
-        this(region, parentRegion.getRegionworld(), sellsigns, price, sold);
+    public Region(WGRegion region, List<SignData> sellsigns, boolean sold, Region parentRegion) {
+        this(region, parentRegion.getRegionworld(), sellsigns, sold);
         if (parentRegion.isSubregion()) {
             throw new IllegalArgumentException("Subregions can't be parent regions!");
         }
@@ -239,11 +239,10 @@ public abstract class Region implements Saveable {
         parentRegion.addSubRegion(this);
     }
 
-    public Region(WGRegion region, World regionworld, List<SignData> sellsigns, Price price, boolean sold) {
+    public Region(WGRegion region, World regionworld, List<SignData> sellsigns, boolean sold) {
         this.region = region;
         this.sellsign = new ArrayList<>(sellsigns);
         this.sold = sold;
-        this.price = price;
         this.regionworld = regionworld;
         this.subregions = new HashSet<>();
 
@@ -410,13 +409,13 @@ public abstract class Region implements Saveable {
         return this.lastreset;
     }
 
-    public double getPrice() {
-        return this.price.calcPrice(this.getRegion());
+    public double getPricePerPeriod() {
+        return this.getPriceObject().calcPrice(this.getRegion());
     }
 
     public double getPricePerM2() {
         double m2 = this.getM2Amount();
-        return this.price.calcPrice(this.getRegion()) / m2;
+        return this.getPriceObject().calcPrice(this.getRegion()) / m2;
     }
 
     public double getPricePerM3() {
@@ -458,9 +457,7 @@ public abstract class Region implements Saveable {
         return this.teleportLocation;
     }
 
-    public Price getPriceObject() {
-        return this.price;
-    }
+    public abstract Price getPriceObject();
 
     public EntityLimitGroup getEntityLimitGroup() {
         return this.entityLimitGroup;
@@ -639,11 +636,6 @@ public abstract class Region implements Saveable {
         this.queueSave();
     }
 
-    public void setPrice(Price price) {
-        this.price = price;
-        this.queueSave();
-    }
-
     public void setExtraTotalEntitys(int extraTotalEntitys) {
         if (this.isSubregion())
             throw new IllegalArgumentException("Can't change this option for a Subregion!");
@@ -683,6 +675,8 @@ public abstract class Region implements Saveable {
     public abstract double getPaybackMoney();
 
     public abstract SellType getSellType();
+
+    public abstract void setAutoPrice(AutoPrice autoPrice);
 
     /*##################################
     ######### Other Methods ############
@@ -1183,7 +1177,7 @@ public abstract class Region implements Saveable {
             yamlConfiguration.set("autoprice", this.getPriceObject().getAutoPrice().getName());
             yamlConfiguration.set("price", null);
         } else {
-            yamlConfiguration.set("price", this.getPrice());
+            yamlConfiguration.set("price", this.getPricePerPeriod());
         }
         List<String> signs = new ArrayList<>();
         for (SignData signData : this.getSellSigns()) {

@@ -76,8 +76,9 @@ public class RentPreset extends CountdownPreset {
     @Override
     public void applyToRegion(Region region) {
         super.applyToRegion(region);
-        if (this.getPrice() != null && this.getExtendTime() != null && this.getMaxRentTime() != null) {
-            region.setPrice(new RentPrice(this.getPrice(), this.getExtendTime(), this.getMaxRentTime()));
+        if (this.getPrice() != null && this.getExtendTime() != null
+                && this.getMaxRentTime() != null && region instanceof RentRegion) {
+            ((RentRegion) region).setRentPrice(new RentPrice(this.getPrice(), this.getExtendTime(), this.getMaxRentTime()));
         }
     }
 

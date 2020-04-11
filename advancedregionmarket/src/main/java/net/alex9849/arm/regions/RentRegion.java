@@ -8,6 +8,7 @@ import net.alex9849.arm.exceptions.*;
 import net.alex9849.arm.limitgroups.LimitGroup;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import net.alex9849.arm.regionkind.RegionKind;
+import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.regions.price.RentPrice;
 import net.alex9849.arm.util.TimeUtil;
@@ -27,7 +28,7 @@ import java.util.List;
 import java.util.logging.Level;
 
 public class RentRegion extends CountdownRegion {
-    private long maxRentTime;
+    private RentPrice rentPrice;
     private StringReplacer stringReplacer;
 
     {
@@ -43,13 +44,18 @@ public class RentRegion extends CountdownRegion {
     }
 
     public RentRegion(WGRegion region, List<SignData> sellsigns, RentPrice rentPrice, boolean sold, Region parentRegion) {
-        super(region, sellsigns, rentPrice, sold, parentRegion);
-        this.maxRentTime = rentPrice.getMaxRentTime();
+        super(region, sellsigns, sold, parentRegion);
+        this.rentPrice = rentPrice;
     }
 
     public RentRegion(WGRegion region, World regionworld, List<SignData> sellsigns, RentPrice rentPrice, boolean sold) {
-        super(region, regionworld, sellsigns, rentPrice, sold);
-        this.maxRentTime = rentPrice.getMaxRentTime();
+        super(region, regionworld, sellsigns, sold);
+        this.rentPrice = rentPrice;
+    }
+
+    @Override
+    public Price getPriceObject() {
+        return this.rentPrice;
     }
 
     public void signClickAction(Player player) throws OutOfLimitExeption, AlreadySoldException, NotSoldException, NoPermissionException, NotEnoughMoneyException, RegionNotOwnException, MaxRentTimeExceededException {
@@ -73,7 +79,7 @@ public class RentRegion extends CountdownRegion {
             throw new RegionNotOwnException(Messages.REGION_NOT_OWN);
         }
 
-        if (AdvancedRegionMarket.getInstance().getEcon().getBalance(player) < this.getPrice()) {
+        if (AdvancedRegionMarket.getInstance().getEcon().getBalance(player) < this.getPricePerPeriod()) {
             throw new NotEnoughMoneyException(this.replaceVariables(Messages.NOT_ENOUGHT_MONEY));
         }
 
@@ -87,8 +93,8 @@ public class RentRegion extends CountdownRegion {
                 }
             }
         }
-        AdvancedRegionMarket.getInstance().getEcon().withdrawPlayer(player, this.getPrice());
-        this.giveParentRegionOwnerMoney(this.getPrice());
+        AdvancedRegionMarket.getInstance().getEcon().withdrawPlayer(player, this.getPricePerPeriod());
+        this.giveParentRegionOwnerMoney(this.getPricePerPeriod());
 
         player.sendMessage(Messages.PREFIX + this.replaceVariables(Messages.RENT_EXTEND_MESSAGE));
     }
@@ -112,7 +118,7 @@ public class RentRegion extends CountdownRegion {
             throw new OutOfLimitExeption(LimitGroup.getRegionBuyOutOfLimitMessage(player, this.getRegionKind()));
         }
 
-        if (AdvancedRegionMarket.getInstance().getEcon().getBalance(player) < this.getPrice()) {
+        if (AdvancedRegionMarket.getInstance().getEcon().getBalance(player) < this.getPricePerPeriod()) {
             throw new NotEnoughMoneyException(this.replaceVariables(Messages.NOT_ENOUGHT_MONEY));
         }
 
@@ -134,8 +140,8 @@ public class RentRegion extends CountdownRegion {
         }
         player.sendMessage(Messages.PREFIX + Messages.REGION_BUYMESSAGE);
 
-        AdvancedRegionMarket.getInstance().getEcon().withdrawPlayer(player, this.getPrice());
-        this.giveParentRegionOwnerMoney(this.getPrice());
+        AdvancedRegionMarket.getInstance().getEcon().withdrawPlayer(player, this.getPricePerPeriod());
+        this.giveParentRegionOwnerMoney(this.getPricePerPeriod());
     }
 
     @Override
@@ -180,18 +186,19 @@ public class RentRegion extends CountdownRegion {
         this.extend();
     }
 
-    public void setPrice(Price price) {
-        super.setPrice(price);
-
-        if (price instanceof RentPrice) {
-            this.maxRentTime = ((RentPrice) price).getMaxRentTime();
-        }
-        this.updateSigns();
+    public void setRentPrice(RentPrice rentPrice) {
+        this.rentPrice = rentPrice;
         this.queueSave();
+        this.updateSigns();
     }
 
     public long getMaxRentTime() {
-        return this.maxRentTime;
+        return this.rentPrice.getMaxRentTime();
+    }
+
+    @Override
+    public long getExtendTime() {
+        return this.rentPrice.getExtendTime();
     }
 
     public String replaceVariables(String message) {
@@ -201,6 +208,11 @@ public class RentRegion extends CountdownRegion {
 
     public SellType getSellType() {
         return SellType.RENT;
+    }
+
+    @Override
+    public void setAutoPrice(AutoPrice autoPrice) {
+        this.rentPrice = new RentPrice(autoPrice);
     }
 
     @Override

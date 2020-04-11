@@ -39,8 +39,8 @@ public class SellPreset extends Preset {
     @Override
     public void applyToRegion(Region region) {
         super.applyToRegion(region);
-        if(this.getPrice() != null)
-            region.setPrice(new Price(this.getPrice()));
+        if(this.getPrice() != null && region instanceof SellRegion)
+            ((SellRegion) region).setSellPrice(new Price(this.getPrice()));
     }
 
 }

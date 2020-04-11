@@ -2,7 +2,6 @@ package net.alex9849.arm.regions;
 
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
-import net.alex9849.arm.regions.price.ContractPrice;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.util.TimeUtil;
 import net.alex9849.arm.util.stringreplacer.StringCreator;
@@ -18,7 +17,6 @@ import java.util.List;
 
 public abstract class CountdownRegion extends Region {
     private long payedTill;
-    private long extendTime;
     private StringReplacer stringReplacer;
 
     {
@@ -55,14 +53,12 @@ public abstract class CountdownRegion extends Region {
         this.stringReplacer = new StringReplacer(variableReplacements, 50);
     }
 
-    public CountdownRegion(WGRegion region, List<SignData> sellsigns, ContractPrice contractPrice, boolean sold, Region parentRegion) {
-        super(region, sellsigns, contractPrice, sold, parentRegion);
-        this.extendTime = contractPrice.getExtendTime();
+    public CountdownRegion(WGRegion region, List<SignData> sellsigns, boolean sold, Region parentRegion) {
+        super(region, sellsigns, sold, parentRegion);
     }
 
-    public CountdownRegion(WGRegion region, World regionworld, List<SignData> sellsigns, ContractPrice contractPrice, boolean sold) {
-        super(region, regionworld, sellsigns, contractPrice, sold);
-        this.extendTime = contractPrice.getExtendTime();
+    public CountdownRegion(WGRegion region, World regionworld, List<SignData> sellsigns, boolean sold) {
+        super(region, regionworld, sellsigns, sold);
     }
 
     public static long stringToTime(String stringtime) throws IllegalArgumentException {
@@ -87,9 +83,7 @@ public abstract class CountdownRegion extends Region {
         return time;
     }
 
-    public long getExtendTime() {
-        return this.extendTime;
-    }
+    public abstract long getExtendTime();
 
     public long getPayedTill() {
         return this.payedTill;
@@ -152,10 +146,10 @@ public abstract class CountdownRegion extends Region {
 
     @Override
     public double getPaybackMoney() {
-        double amount = (this.getPrice() * this.getPaybackPercentage()) / 100;
+        double amount = (this.getPricePerPeriod() * this.getPaybackPercentage()) / 100;
         GregorianCalendar acttime = new GregorianCalendar();
         long remaining = this.payedTill - acttime.getTimeInMillis();
-        amount = amount * ((double) remaining / (double) extendTime);
+        amount = amount * ((double) remaining / (double) this.getExtendTime());
         amount = amount * 10;
         amount = Math.round(amount);
         amount = amount / 10d;
@@ -164,16 +158,6 @@ public abstract class CountdownRegion extends Region {
             return 0;
         }
         return amount;
-    }
-
-    @Override
-    public void setPrice(Price price) {
-        super.setPrice(price);
-        if (price instanceof ContractPrice) {
-            this.extendTime = ((ContractPrice) price).getExtendTime();
-        }
-        this.updateSigns();
-        this.queueSave();
     }
 
     public double getPricePerM2PerWeek() {

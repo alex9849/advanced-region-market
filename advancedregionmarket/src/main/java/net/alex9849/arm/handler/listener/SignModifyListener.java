@@ -9,7 +9,10 @@ import net.alex9849.arm.flaggroups.FlagGroup;
 import net.alex9849.arm.presets.ActivePresetManager;
 import net.alex9849.arm.presets.presets.Preset;
 import net.alex9849.arm.presets.presets.PresetType;
+import net.alex9849.arm.regions.ContractRegion;
 import net.alex9849.arm.regions.Region;
+import net.alex9849.arm.regions.RentRegion;
+import net.alex9849.arm.regions.SellRegion;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.price.ContractPrice;
 import net.alex9849.arm.regions.price.Price;
@@ -112,31 +115,22 @@ public class SignModifyListener implements Listener {
         try {
             //Pick the right preset, parse price and check permissions
             PresetType presetType;
-            Price price = null;
             if (sign.getLine(0).equalsIgnoreCase("[ARM-Sell]")) {
                 presetType = PresetType.SELLPRESET;
                 if (!sign.getPlayer().hasPermission(Permission.ADMIN_CREATE_SELL))
                     throw new InputException(sign.getPlayer(), Messages.NO_PERMISSION);
-                if (!sign.getLine(3).equalsIgnoreCase("")) {
-                    price = parseSellPrice(sign.getLine(3), sign.getPlayer());
-                }
             } else if (sign.getLine(0).equalsIgnoreCase("[ARM-Rent]")) {
                 presetType = PresetType.RENTPRESET;
                 if (!sign.getPlayer().hasPermission(Permission.ADMIN_CREATE_RENT))
                     throw new InputException(sign.getPlayer(), Messages.NO_PERMISSION);
-                if (!sign.getLine(3).equalsIgnoreCase("")) {
-                    price = parseRentPrice(sign.getLine(3), sign.getPlayer());
-                }
             } else if (sign.getLine(0).equalsIgnoreCase("[ARM-Contract]")) {
                 presetType = PresetType.CONTRACTPRESET;
                 if (!sign.getPlayer().hasPermission(Permission.ADMIN_CREATE_CONTRACT))
                     throw new InputException(sign.getPlayer(), Messages.NO_PERMISSION);
-                if (!sign.getLine(3).equalsIgnoreCase("")) {
-                    price = parseContractPrice(sign.getLine(3), sign.getPlayer());
-                }
             } else {
                 return;
             }
+            String priceLine = sign.getLine(3);
 
             Preset preset = ActivePresetManager.getPreset(sign.getPlayer(), presetType);
             if (preset == null) {
@@ -177,8 +171,18 @@ public class SignModifyListener implements Listener {
                 signDataList.add(signData);
                 Region newArmRegion = preset.generateRegion(wgRegion, regionWorld, sign.getPlayer(), signDataList);
 
-                if(price != null) {
-                    newArmRegion.setPrice(price);
+                //Apply Price
+                if(!priceLine.isEmpty()) {
+                    if(newArmRegion instanceof SellRegion) {
+                        ((SellRegion) newArmRegion).setSellPrice(parseSellPrice(priceLine, sign.getPlayer()));
+                    } else if (newArmRegion instanceof ContractRegion) {
+                        ((ContractRegion) newArmRegion).setContractPrice(parseContractPrice(priceLine, sign.getPlayer()));
+                    } else if (newArmRegion instanceof RentRegion) {
+                        ((RentRegion) newArmRegion).setRentPrice(parseRentPrice(priceLine, sign.getPlayer()));
+                    } else {
+                        throw new RuntimeException("This is a bug! SignModifyListener does not know how to set the " +
+                                "Price in region-class " + newArmRegion.getClass().getName() + "!");
+                    }
                 } else if (!preset.canPriceLineBeLetEmpty()) {
                     sign.getPlayer().sendMessage(Messages.PREFIX + "Price not defined! Using default Autoprice!");
                 }

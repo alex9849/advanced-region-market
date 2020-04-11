@@ -6,7 +6,6 @@ import net.alex9849.arm.flaggroups.FlagGroup;
 import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
-import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.util.Saveable;
 import net.alex9849.arm.util.stringreplacer.StringCreator;
 import net.alex9849.arm.util.stringreplacer.StringReplacer;
@@ -45,18 +44,18 @@ public abstract class Preset implements Saveable, Cloneable {
     {
         HashMap<String, StringCreator> variableReplacements = new HashMap<>();
         variableReplacements.put("%presetname%", this::getName);
-        variableReplacements.put("%presetinactivityreset%", () -> Messages.getStringValue(this.isInactivityReset(), x -> Messages.convertYesNo(x), Messages.NOT_DEFINED));
-        variableReplacements.put("%presetishotel%", () -> Messages.getStringValue(this.isHotel(), x -> Messages.convertYesNo(x), Messages.NOT_DEFINED));
-        variableReplacements.put("%presetautorestore%", () -> Messages.getStringValue(this.isAutoRestore(), x -> Messages.convertYesNo(x), Messages.NOT_DEFINED));
-        variableReplacements.put("%presetisuserrestorable%", () -> Messages.getStringValue(this.isUserRestorable(), x -> Messages.convertYesNo(x), Messages.NOT_DEFINED));
-        variableReplacements.put("%presetallowedsubregions%", () -> Messages.getStringValue(this.getAllowedSubregions(), x -> x.toString(), Messages.NOT_DEFINED));
-        variableReplacements.put("%presetmaxmembers%", () -> Messages.getStringValue(this.getMaxMembers(), x -> x.toString(), Messages.NOT_DEFINED));
-        variableReplacements.put("%presetpaybackpercentage%", () -> Messages.getStringValue(this.getPaybackPercentage(), x -> x.toString(), Messages.NOT_DEFINED));
-        variableReplacements.put("%presetprice%", () -> Messages.getStringValue(this.getPrice(), x -> x.toString(), Messages.NOT_DEFINED));
-        variableReplacements.put("%presetautoprice%", () -> Messages.getStringValue(this.getAutoPrice(), x -> x.getName(), Messages.NOT_DEFINED));
-        variableReplacements.put("%presetregionkind%", () -> Messages.getStringValue(this.getRegionKind(), x -> x.getName(), Messages.NOT_DEFINED));
-        variableReplacements.put("%presetflaggroup%", () -> Messages.getStringValue(this.getFlagGroup(), x -> x.getName(), Messages.NOT_DEFINED));
-        variableReplacements.put("%presetentitylimitgroup%", () -> Messages.getStringValue(this.getEntityLimitGroup(), x -> x.getName(), Messages.NOT_DEFINED));
+        variableReplacements.put("%presetinactivityreset%", () -> Messages.getStringValue(this.isInactivityReset(), Messages::convertYesNo, Messages.NOT_DEFINED));
+        variableReplacements.put("%presetishotel%", () -> Messages.getStringValue(this.isHotel(), Messages::convertYesNo, Messages.NOT_DEFINED));
+        variableReplacements.put("%presetautorestore%", () -> Messages.getStringValue(this.isAutoRestore(), Messages::convertYesNo, Messages.NOT_DEFINED));
+        variableReplacements.put("%presetisuserrestorable%", () -> Messages.getStringValue(this.isUserRestorable(), Messages::convertYesNo, Messages.NOT_DEFINED));
+        variableReplacements.put("%presetallowedsubregions%", () -> Messages.getStringValue(this.getAllowedSubregions(), Object::toString, Messages.NOT_DEFINED));
+        variableReplacements.put("%presetmaxmembers%", () -> Messages.getStringValue(this.getMaxMembers(), Object::toString, Messages.NOT_DEFINED));
+        variableReplacements.put("%presetpaybackpercentage%", () -> Messages.getStringValue(this.getPaybackPercentage(), Object::toString, Messages.NOT_DEFINED));
+        variableReplacements.put("%presetprice%", () -> Messages.getStringValue(this.getPrice(), Object::toString, Messages.NOT_DEFINED));
+        variableReplacements.put("%presetautoprice%", () -> Messages.getStringValue(this.getAutoPrice(), AutoPrice::getName, Messages.NOT_DEFINED));
+        variableReplacements.put("%presetregionkind%", () -> Messages.getStringValue(this.getRegionKind(), RegionKind::getName, Messages.NOT_DEFINED));
+        variableReplacements.put("%presetflaggroup%", () -> Messages.getStringValue(this.getFlagGroup(), FlagGroup::getName, Messages.NOT_DEFINED));
+        variableReplacements.put("%presetentitylimitgroup%", () -> Messages.getStringValue(this.getEntityLimitGroup(), EntityLimitGroup::getName, Messages.NOT_DEFINED));
         variableReplacements.put("%presetsetupcommands%", () -> Messages.getStringList(this.setupCommands.stream()
                 .map(x -> (this.setupCommands.indexOf(x) + 1) + ". /" + x).collect(Collectors.toList()), x -> x, "\n"));
         this.stringReplacer = new StringReplacer(variableReplacements, 50);
@@ -301,7 +300,7 @@ public abstract class Preset implements Saveable, Cloneable {
      */
     public void applyToRegion(Region region) {
         if(this.autoPrice != null)
-            region.setPrice(new Price(this.getAutoPrice()));
+            region.setAutoPrice(this.getAutoPrice());
         if(this.inactivityReset != null)
             region.setInactivityReset(this.isInactivityReset());
         if(this.isHotel != null)

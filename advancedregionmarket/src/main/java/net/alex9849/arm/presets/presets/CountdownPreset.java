@@ -1,6 +1,7 @@
 package net.alex9849.arm.presets.presets;
 
 import net.alex9849.arm.Messages;
+import net.alex9849.arm.regions.ContractRegion;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.price.ContractPrice;
@@ -54,8 +55,9 @@ public abstract class CountdownPreset extends Preset {
     @Override
     public void applyToRegion(Region region) {
         super.applyToRegion(region);
-        if (this.getPrice() != null && this.getExtendTime() != null) {
-            region.setPrice(new ContractPrice(this.getPrice(), this.getExtendTime()));
+        if (this.getPrice() != null && this.getExtendTime() != null
+                && region instanceof ContractRegion) {
+            ((ContractRegion) region).setContractPrice(new ContractPrice(this.getPrice(), this.getExtendTime()));
         }
     }
 

@@ -85,9 +85,7 @@ public class AutoPrice {
 
         List<String> autoPrices = new ArrayList<>(section.getKeys(false));
         for (String autoPriceName : autoPrices) {
-            ConfigurationSection autoPriceSection = section.getConfigurationSection(autoPriceName);
-            addDefaults(autoPriceSection);
-            AutoPrice.autoPrices.add(loadAutoPrice(section, autoPriceName));
+            AutoPrice.autoPrices.add(loadAutoPrice(section.getConfigurationSection(autoPriceName), autoPriceName));
         }
     }
 
@@ -99,6 +97,7 @@ public class AutoPrice {
     }
 
     private static AutoPrice loadAutoPrice(ConfigurationSection section, String autoPriceName) {
+        addDefaults(section);
         double price = section.getDouble("price");
         long extendTime = ContractPrice.stringToTime(section.getString("extendTime"));
         long maxrenttime = ContractPrice.stringToTime(section.getString("maxRentTime"));

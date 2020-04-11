@@ -234,7 +234,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         bStatsAnalytics.register(this);
         //Enable own analytics
         try {
-            this.analytics = Analytics.genInstance(this, new URL("http://mc-analytics.alex9849.net"), () -> {
+            this.analytics = Analytics.genInstance(this, new URL("https://mc-analytics.alex9849.net"), () -> {
                 Map<String, String> pluginSpecificData = new LinkedHashMap<>();
                 BStatsAnalytics.RegionStatistics rs = BStatsAnalytics.getRegionStatistics();
                 int totalRegions = rs.getAvailableContractRegions();

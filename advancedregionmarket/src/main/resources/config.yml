@@ -170,10 +170,6 @@ Other:
   AllowRegionfinderTeleportToBuySign: true
   # If true all entities will be removed if the region gets resetted
   RemoveEntitiesOnRegionRestore: true
-  # If true the plugin will send me your servers ip address and playercount every 5 minutes. This allows me to visit your server and is one
-  # of my biggest motivations to continue to develop this plugin. If you disable this plugin or set Sendstats to false and do not start it
-  # for 2 weeks, all data from your server will automatically be deleted.
-  Sendstats: true
   #The language of the plugin. Available languages: en, de, fr, ru
   #You can send me your own translations of the plugin and I'll
   #include them into the plugin. You have to remove the messages.yml

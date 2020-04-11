@@ -15,7 +15,7 @@ import java.util.logging.Level;
 
 public class BStatsAnalytics {
 
-    private static RegionStatistics getRegionStatistics() {
+    public static RegionStatistics getRegionStatistics() {
         RegionStatistics regionStatistics = new RegionStatistics();
 
         for (Region region : AdvancedRegionMarket.getInstance().getRegionManager()) {
@@ -113,12 +113,62 @@ public class BStatsAnalytics {
         }
     }
 
-    private static class RegionStatistics {
+    public static class RegionStatistics {
         private int availableSellRegions = 0;
         private int soldSellRegions = 0;
         private int availableRentRegions = 0;
         private int soldRentRegions = 0;
         private int availableContractRegions = 0;
         private int soldContractRegions = 0;
+
+        private RegionStatistics() {}
+
+        public int getAvailableSellRegions() {
+            return availableSellRegions;
+        }
+
+        public void setAvailableSellRegions(int availableSellRegions) {
+            this.availableSellRegions = availableSellRegions;
+        }
+
+        public int getSoldSellRegions() {
+            return soldSellRegions;
+        }
+
+        public void setSoldSellRegions(int soldSellRegions) {
+            this.soldSellRegions = soldSellRegions;
+        }
+
+        public int getAvailableRentRegions() {
+            return availableRentRegions;
+        }
+
+        public void setAvailableRentRegions(int availableRentRegions) {
+            this.availableRentRegions = availableRentRegions;
+        }
+
+        public int getSoldRentRegions() {
+            return soldRentRegions;
+        }
+
+        public void setSoldRentRegions(int soldRentRegions) {
+            this.soldRentRegions = soldRentRegions;
+        }
+
+        public int getAvailableContractRegions() {
+            return availableContractRegions;
+        }
+
+        public void setAvailableContractRegions(int availableContractRegions) {
+            this.availableContractRegions = availableContractRegions;
+        }
+
+        public int getSoldContractRegions() {
+            return soldContractRegions;
+        }
+
+        public void setSoldContractRegions(int soldContractRegions) {
+            this.soldContractRegions = soldContractRegions;
+        }
     }
 }

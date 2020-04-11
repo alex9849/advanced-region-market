@@ -55,6 +55,10 @@
                             <pattern>org.bstats</pattern>
                             <shadedPattern>net.alex9849.arm.bstats</shadedPattern>
                         </relocation>
+                        <relocation>
+                            <pattern>net.alex9849.pluginstats.client</pattern>
+                            <shadedPattern>net.alex9849.arm.analytics</shadedPattern>
+                        </relocation>
                     </relocations>
                 </configuration>
                 <executions>
@@ -114,6 +118,12 @@
             <artifactId>fawe-api</artifactId>
             <version>latest</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.alex9849.Minecraft-Plugin-Serverlist</groupId>
+            <artifactId>client</artifactId>
+            <version>1.0</version>
+            <scope>compile</scope>
         </dependency>
         <!--My Data-->
         <dependency>

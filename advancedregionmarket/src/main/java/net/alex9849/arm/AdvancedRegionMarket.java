@@ -41,6 +41,7 @@ import net.alex9849.arm.util.YamlFileManager;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.inter.WorldEditInterface;
 import net.alex9849.inter.WorldGuardInterface;
+import net.alex9849.pluginstats.client.Analytics;
 import net.alex9849.signs.SignDataFactory;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
@@ -63,6 +64,8 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.NumberFormat;
 import java.util.*;
 import java.util.logging.Level;
@@ -80,6 +83,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
     private SignDataFactory signDataFactory = null;
     private FlagGroupManager flagGroupManager = null;
     private ArmSettings pluginSettings = null;
+    private Analytics analytics = null;
 
 
     /*#########################################
@@ -95,11 +99,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
     }
 
     public void onEnable() {
-
-        //Enable bStats
-        BStatsAnalytics bStatsAnalytics = new BStatsAnalytics();
-        bStatsAnalytics.register(this);
-        new Analytics(this);
 
         //Check if Worldguard is installed
         if (!setupWorldGuard()) {
@@ -141,22 +140,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
         getServer().getPluginManager().registerEvents(subregionMarkerListener, this);
         Gui guilistener = new Gui();
         getServer().getPluginManager().registerEvents(guilistener, this);
-
-        /*if (getConfig().getBoolean("Other.Sendstats")) {
-            final int playercount = Bukkit.getOnlinePlayers().size();
-            Thread sendStartup = new Thread(() -> AdvancedRegionMarket.sendStats(this, false, playercount));
-            sendStartup.start();
-
-            Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
-                Plugin armPlugin = AdvancedRegionMarket.getInstance();
-                final int onlineplayers = Bukkit.getOnlinePlayers().size();
-                Thread sendPing = new Thread(() -> {
-                    AdvancedRegionMarket.sendStats(armPlugin, true, onlineplayers);
-                });
-                sendPing.start();
-            }, 6000, 6000);
-        } */
-
 
         this.pluginSettings = new ArmSettings();
         this.pluginSettings.setIsTeleportAfterRentRegionBought(getConfig().getBoolean("Other.TeleportAfterRentRegionBought"));
@@ -245,6 +228,31 @@ public class AdvancedRegionMarket extends JavaPlugin {
                 }
             }
         }, 1800, 6000);
+
+        //Enable bStats
+        BStatsAnalytics bStatsAnalytics = new BStatsAnalytics();
+        bStatsAnalytics.register(this);
+        //Enable own analytics
+        try {
+            this.analytics = Analytics.genInstance(this, new URL("http://mc-analytics.alex9849.net"), () -> {
+                Map<String, String> pluginSpecificData = new LinkedHashMap<>();
+                BStatsAnalytics.RegionStatistics rs = BStatsAnalytics.getRegionStatistics();
+                int totalRegions = rs.getAvailableContractRegions();
+                totalRegions += rs.getAvailableRentRegions();
+                totalRegions += rs.getAvailableSellRegions();
+                totalRegions += rs.getSoldContractRegions();
+                totalRegions += rs.getSoldRentRegions();
+                totalRegions += rs.getSoldSellRegions();
+                pluginSpecificData.put("regionsTotal", totalRegions+ "");
+                pluginSpecificData.put("regionsSell", (rs.getAvailableSellRegions() + rs.getSoldSellRegions()) + "");
+                pluginSpecificData.put("regionsRent", (rs.getAvailableRentRegions() + rs.getSoldRentRegions())+ "");
+                pluginSpecificData.put("regionsContract", (rs.getAvailableContractRegions() + rs.getSoldContractRegions())+ "");
+                return pluginSpecificData;
+            });
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void onDisable() {
@@ -262,6 +270,8 @@ public class AdvancedRegionMarket extends JavaPlugin {
         ActivePresetManager.reset();
         Offer.reset();
         PlayerInactivityGroupMapper.reset();
+        if(this.analytics != null)
+            this.analytics.shutdown();
         getServer().getServicesManager().unregisterAll(this);
         SignChangeEvent.getHandlerList().unregister(this);
         InventoryClickEvent.getHandlerList().unregister(this);

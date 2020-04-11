@@ -14,9 +14,7 @@ public class Price {
 
     public Price(double price) {
         if (price < 0) {
-            this.price = (-1) * price;
-        } else {
-            this.price = price;
+            throw new IllegalArgumentException("Price needs to be positive!");
         }
         this.calcedAutoPrice = 0;
         this.autoPrice = null;

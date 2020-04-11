@@ -12,11 +12,9 @@ public class ContractPrice extends Price {
      */
     public ContractPrice(double price, long extendTime) {
         super(price);
-        if (extendTime < 1000) {
-            this.extendTime = 1000;
-        } else {
-            this.extendTime = extendTime;
-        }
+        if (extendTime < 1000)
+            throw new IllegalArgumentException("ExtendTime needs to be at least one second!");
+        this.extendTime = extendTime;
     }
 
     public ContractPrice(AutoPrice autoPrice) {

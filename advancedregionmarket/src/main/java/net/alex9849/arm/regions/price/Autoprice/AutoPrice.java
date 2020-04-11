@@ -3,11 +3,12 @@ package net.alex9849.arm.regions.price.Autoprice;
 import net.alex9849.arm.regions.price.ContractPrice;
 import org.bukkit.configuration.ConfigurationSection;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
 public class AutoPrice {
-    public static AutoPrice DEFAULT = new AutoPrice("default", 0, 0, 0, AutoPriceCalculation.STATIC);
+    public static AutoPrice DEFAULT = new AutoPrice("default", 0, 1000, 1000, AutoPriceCalculation.STATIC);
     private static List<AutoPrice> autoPrices = new ArrayList<>();
     private AutoPriceCalculation autoPriceCalculation;
     private double price;
@@ -15,21 +16,54 @@ public class AutoPrice {
     private long maxrenttime;
     private String name;
 
-    public AutoPrice(String name, double price, long extendtime, long maxrenttime, AutoPriceCalculation autoPriceCalculation) {
+    public AutoPrice(@Nonnull String name, double price, long extendtime, long maxrenttime,
+                     @Nonnull AutoPriceCalculation autoPriceCalculation) {
+        if(price < 0)
+            throw new IllegalArgumentException("Price needs to be positive!");
+        if(extendtime < 1000)
+            throw new IllegalArgumentException("ExtendTime needs to be at least one second!");
+        if(maxrenttime < 1000)
+            throw new IllegalArgumentException("MaxRentTime needs to be at least one second!");
         this.price = price;
         this.name = name;
         this.extendtime = extendtime;
         this.maxrenttime = maxrenttime;
-        if (autoPriceCalculation == null) {
-            this.autoPriceCalculation = AutoPriceCalculation.STATIC;
+        this.autoPriceCalculation = autoPriceCalculation;
+    }
+
+    public double getPrice() {
+        return this.price;
+    }
+
+    public long getExtendtime() {
+        return this.extendtime;
+    }
+
+    public long getMaxrenttime() {
+        return this.maxrenttime;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public double getCalculatedPrice(int m2, int m3) {
+        if (this.autoPriceCalculation == AutoPriceCalculation.STATIC) {
+            return price;
+        }
+        if (this.autoPriceCalculation == AutoPriceCalculation.PER_M2) {
+            return price * m2;
+        }
+        if (this.autoPriceCalculation == AutoPriceCalculation.PER_M3) {
+            return price * m3;
         } else {
-            this.autoPriceCalculation = autoPriceCalculation;
+            throw new RuntimeException("Calculationmethod for AutoPriceCalculation " + this.autoPriceCalculation.name() + " not found!");
         }
     }
 
     public static AutoPrice getAutoprice(String name) {
         for (AutoPrice autoPrice : autoPrices) {
-            if (autoPrice.equals(name)) {
+            if (autoPrice.getName().equals(name)) {
                 return autoPrice;
             }
         }
@@ -50,23 +84,10 @@ public class AutoPrice {
         }
 
         List<String> autoPrices = new ArrayList<>(section.getKeys(false));
-        if (autoPrices != null) {
-            for (String autoPriceName : autoPrices) {
-                addDefaults(section.getConfigurationSection(autoPriceName));
-                String name = autoPriceName;
-                double price = section.getDouble(autoPriceName + ".price");
-                String extendTimeString = section.getString(autoPriceName + ".extendTime");
-                String maxRentTimeString = section.getString(autoPriceName + ".maxRentTime");
-                long extendTime = ContractPrice.stringToTime(extendTimeString);
-                long maxrenttime = ContractPrice.stringToTime(maxRentTimeString);
-                AutoPriceCalculation autoPriceCalculation = AutoPriceCalculation.getAutoPriceType(section.getString(autoPriceName + ".autoPriceCalculation"));
-                if (autoPriceCalculation == null) {
-                    autoPriceCalculation = AutoPriceCalculation.STATIC;
-                }
-
-                AutoPrice.autoPrices.add(new AutoPrice(name, price, extendTime, maxrenttime, autoPriceCalculation));
-
-            }
+        for (String autoPriceName : autoPrices) {
+            ConfigurationSection autoPriceSection = section.getConfigurationSection(autoPriceName);
+            addDefaults(autoPriceSection);
+            AutoPrice.autoPrices.add(loadAutoPrice(section, autoPriceName));
         }
     }
 
@@ -74,14 +95,18 @@ public class AutoPrice {
         if (section == null) {
             return;
         }
-        AutoPrice.DEFAULT.setPrice(section.getDouble("price"));
-        AutoPrice.DEFAULT.setExtendtime(section.getLong("extendTime"));
-        AutoPrice.DEFAULT.setMaxrenttime(section.getLong("maxRentTime"));
+        AutoPrice.DEFAULT = loadAutoPrice(section, "default");
+    }
+
+    private static AutoPrice loadAutoPrice(ConfigurationSection section, String autoPriceName) {
+        double price = section.getDouble("price");
+        long extendTime = ContractPrice.stringToTime(section.getString("extendTime"));
+        long maxrenttime = ContractPrice.stringToTime(section.getString("maxRentTime"));
         AutoPriceCalculation autoPriceCalculation = AutoPriceCalculation.getAutoPriceType(section.getString("autoPriceCalculation"));
         if (autoPriceCalculation == null) {
             autoPriceCalculation = AutoPriceCalculation.STATIC;
         }
-        AutoPrice.DEFAULT.setAutoPriceCalculation(autoPriceCalculation);
+        return new AutoPrice(autoPriceName, price, extendTime, maxrenttime, autoPriceCalculation);
     }
 
     private static void addDefaults(ConfigurationSection section) {
@@ -103,58 +128,5 @@ public class AutoPrice {
             }
         }
         return returnme;
-    }
-
-    public boolean equals(String name) {
-        return this.name.equalsIgnoreCase(name);
-    }
-
-    public double getPrice() {
-        return this.price;
-    }
-
-    private void setPrice(double price) {
-        this.price = price;
-    }
-
-    public double getCalculatedPrice(int m2, int m3) {
-        if (this.autoPriceCalculation == AutoPriceCalculation.STATIC) {
-            return price;
-        }
-        if (this.autoPriceCalculation == AutoPriceCalculation.PER_M2) {
-            return price * m2;
-        }
-        if (this.autoPriceCalculation == AutoPriceCalculation.PER_M3) {
-            return price * m3;
-        }
-        return 0;
-    }
-
-    public long getExtendtime() {
-        return this.extendtime;
-    }
-
-    private void setExtendtime(long extendtime) {
-        this.extendtime = extendtime;
-    }
-
-    public long getMaxrenttime() {
-        return this.maxrenttime;
-    }
-
-    private void setMaxrenttime(long maxrenttime) {
-        this.maxrenttime = maxrenttime;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    private void setAutoPriceCalculation(AutoPriceCalculation autoPriceCalculation) {
-        if (autoPriceCalculation == null) {
-            this.autoPriceCalculation = AutoPriceCalculation.STATIC;
-        } else {
-            this.autoPriceCalculation = autoPriceCalculation;
-        }
     }
 }

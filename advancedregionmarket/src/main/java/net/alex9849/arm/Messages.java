@@ -1,12 +1,8 @@
 package net.alex9849.arm;
 
-import net.alex9849.arm.util.YamlFileManager;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.Plugin;
 
 import java.io.*;
 import java.lang.annotation.ElementType;
@@ -16,14 +12,27 @@ import java.lang.annotation.Target;
 import java.lang.reflect.Field;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 public class Messages {
+    public enum MessageLocale {
+        EN("en"), DE("de"), FR("fr"), RU("ru");
+        private String code;
+
+        MessageLocale(String code) {
+            this.code = code;
+        }
+
+        String code() {
+            return code;
+        }
+    }
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.FIELD)
     public @interface SerialzedName {
         public String name();
+
+        public int version() default 0;
     }
 
     @SerialzedName(name = "Prefix")
@@ -726,12 +735,85 @@ public class Messages {
     public static String COULD_NOT_LOAD_BACKUP;
     @SerialzedName(name = "BackupListHeader")
     public static String BACKUP_LIST_HEADER;
-    private static YamlConfiguration config;
 
-    static void load() {
-        File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-        File messagesconfigdic = new File(pluginfolder + "/messages.yml");
-        Configuration config = YamlConfiguration.loadConfiguration(messagesconfigdic);
+    public Messages(File savePath, MessageLocale locale) {
+        YamlConfiguration config = writeConfigFile(savePath, locale);
+        updateDefauts(config, locale, savePath);
+        load(config);
+    }
+
+    private static YamlConfiguration writeConfigFile(File savePath, MessageLocale locale) {
+        if(!savePath.exists()) {
+            try {
+                InputStream stream = AdvancedRegionMarket
+                        .getInstance().getResource("messages_" + locale.code() + ".yml");
+                OutputStream output = new FileOutputStream(savePath);
+                byte[] buffer = new byte[8 * 1024];
+                int bytesRead;
+                while ((bytesRead = stream.read(buffer)) != -1) {
+                    output.write(buffer, 0, bytesRead);
+                }
+                output.flush();
+                output.close();
+                stream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return YamlConfiguration.loadConfiguration(savePath);
+    }
+
+    private void updateDefauts(YamlConfiguration config, MessageLocale locale, File savePath) {
+        int configVersion = config.getInt("FileVersion");
+        int newConfigVersion = configVersion;
+        YamlConfiguration localeConfig = YamlConfiguration.loadConfiguration(
+                new InputStreamReader(AdvancedRegionMarket.getInstance().getResource("messages_" + locale.code() + ".yml")));
+        int localeFileVersion = localeConfig.getInt("FileVersion");
+
+        ConfigurationSection configMessages = config.getConfigurationSection("Messages");
+        if (configMessages == null) {
+            return;
+        }
+        ConfigurationSection localeconfigMessages = localeConfig.getConfigurationSection("Messages");
+        if (localeconfigMessages == null) {
+            return;
+        }
+        boolean fileUpdated = false;
+        for(Field field : Messages.class.getDeclaredFields()) {
+            if (!field.isAnnotationPresent(SerialzedName.class)) {
+                continue;
+            }
+            int requestedVersion = getRequestedVersion(field);
+            String serializedKey =  getSerializedKey(field);
+            if((configVersion >= requestedVersion) && configMessages.get(serializedKey) != null) {
+                continue;
+            }
+            Object replaceMessage = localeconfigMessages.get(serializedKey);
+            if(replaceMessage == null || localeFileVersion < requestedVersion) {
+                try {
+                    replaceMessage = field.get(this);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+            configMessages.set(serializedKey, replaceMessage);
+            newConfigVersion = Math.max(newConfigVersion, requestedVersion);
+            fileUpdated = true;
+        }
+
+        if(fileUpdated) {
+            config.set("FileVersion", newConfigVersion);
+            config.set("Messages", configMessages);
+            config.options().copyDefaults(true);
+            try {
+                config.save(savePath);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void load(YamlConfiguration config) {
         ConfigurationSection cs = config.getConfigurationSection("Messages");
         if (cs == null) {
             return;
@@ -752,10 +834,12 @@ public class Messages {
                     parsedOption = ChatColor.translateAlternateColorCodes('&', (String) parsedOption);
                 }
 
-                try {
-                    field.set(field.getType(), parsedOption);
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
+                if(parsedOption != null && field.getType().isAssignableFrom(parsedOption.getClass())) {
+                    try {
+                        field.set(this, parsedOption);
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
                 }
                 field.setAccessible(false);
             }
@@ -770,86 +854,8 @@ public class Messages {
         return annotationValue;
     }
 
-    public static void readOld() {
-        File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-        File messagesconfigdic = new File(pluginfolder + "/messages.yml");
-        Configuration config = YamlConfiguration.loadConfiguration(messagesconfigdic);
-
-        //PREFIX = config.getString("Messages.Prefix") + " ";
-        //if (config.getString("Messages.Prefix").equals(""))
-        //    PREFIX = "";
-    }
-
-    private static void updateDefauts() {
-        YamlConfiguration modelConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(AdvancedRegionMarket.getInstance().getResource("messages_en.yml")));
-
-        ConfigurationSection msgSection = modelConfig.getConfigurationSection("Messages");
-        if (msgSection == null) {
-            return;
-        }
-        Set<String> msgKeys = msgSection.getKeys(false);
-
-        boolean fileUpdated = false;
-        for (String key : msgKeys) {
-            fileUpdated |= YamlFileManager.addDefault(config, "Messages." + key, msgSection.get(key));
-        }
-
-        if (fileUpdated) {
-            config.options().copyDefaults(true);
-            saveConfig();
-        }
-    }
-
-    public static void generatedefaultConfig(String languageCode) {
-        if (languageCode == null) {
-            languageCode = "en";
-        }
-        Plugin plugin = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket");
-        File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-        File messagesdic = new File(pluginfolder + "/messages.yml");
-        if (!messagesdic.exists()) {
-            try {
-                InputStream stream = plugin.getResource("messages_" + languageCode + ".yml");
-                if (stream == null) {
-                    stream = plugin.getResource("messages_en.yml");
-                }
-                OutputStream output = new FileOutputStream(messagesdic);
-
-                byte[] buffer = new byte[8 * 1024];
-                int bytesRead;
-                while ((bytesRead = stream.read(buffer)) != -1) {
-                    output.write(buffer, 0, bytesRead);
-                }
-
-                output.flush();
-                output.close();
-                stream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        setConfig();
-        updateDefauts();
-    }
-
-    public static YamlConfiguration getConfig() {
-        return Messages.config;
-    }
-
-    public static void setConfig() {
-        File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-        File messagesconfigdic = new File(pluginfolder + "/messages.yml");
-        Messages.config = YamlConfiguration.loadConfiguration(messagesconfigdic);
-    }
-
-    public static void saveConfig() {
-        File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-        File messagesconfigdic = new File(pluginfolder + "/messages.yml");
-        try {
-            Messages.config.save(messagesconfigdic);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private static int getRequestedVersion(Field field) {
+        return field.getAnnotation(SerialzedName.class).version();
     }
 
     public static String convertYesNo(Boolean bool) {

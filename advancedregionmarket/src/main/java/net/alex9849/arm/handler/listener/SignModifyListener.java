@@ -115,14 +115,14 @@ public class SignModifyListener implements Listener {
             Price price = null;
             if (sign.getLine(0).equalsIgnoreCase("[ARM-Sell]")) {
                 presetType = PresetType.SELLPRESET;
-                if (!sign.getPlayer().hasPermission(Permission.ADMIN_CREATE_CONTRACT))
+                if (!sign.getPlayer().hasPermission(Permission.ADMIN_CREATE_SELL))
                     throw new InputException(sign.getPlayer(), Messages.NO_PERMISSION);
                 if (!sign.getLine(3).equalsIgnoreCase("")) {
                     price = parseSellPrice(sign.getLine(3), sign.getPlayer());
                 }
             } else if (sign.getLine(0).equalsIgnoreCase("[ARM-Rent]")) {
                 presetType = PresetType.RENTPRESET;
-                if (!sign.getPlayer().hasPermission(Permission.ADMIN_CREATE_CONTRACT))
+                if (!sign.getPlayer().hasPermission(Permission.ADMIN_CREATE_RENT))
                     throw new InputException(sign.getPlayer(), Messages.NO_PERMISSION);
                 if (!sign.getLine(3).equalsIgnoreCase("")) {
                     price = parseRentPrice(sign.getLine(3), sign.getPlayer());

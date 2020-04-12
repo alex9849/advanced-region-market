@@ -51,7 +51,7 @@ public class SignModifyListener implements Listener {
             if (!priceLine.matches(SELLPRICE_LINE_REGEX)) {
                 throw new InputException(sender, ChatColor.DARK_RED + "Please write a positive number as price or an AutoPrice at line 4");
             }
-            price = new Price(Integer.parseInt(priceLine));
+            price = new Price(Double.parseDouble(priceLine));
         }
         if (price.getPrice() < 0) {
             throw new InputException(sender, ChatColor.DARK_RED + "Price must be positive!");
@@ -71,7 +71,7 @@ public class SignModifyListener implements Listener {
                         "<Price>;<Extendtime (ex.: 5d)>");
             }
             String[] priceSegments = priceLine.split("(;|:)");
-            int moneyAmount = Integer.parseInt(priceSegments[0]);
+            double moneyAmount = Double.parseDouble(priceSegments[0]);
             long extendTime = ContractPrice.stringToTime(priceSegments[1]);
 
             price = new ContractPrice(moneyAmount, extendTime);
@@ -94,7 +94,7 @@ public class SignModifyListener implements Listener {
                         "<Price>;<Extend per Click (ex.: 5d)>;<Max rent Time (ex.: 10d)>");
             }
             String[] priceSegments = priceLine.split("(;|:)");
-            int moneyAmount = Integer.parseInt(priceSegments[0]);
+            double moneyAmount = Double.parseDouble(priceSegments[0]);
             long extendPerClick = RentPrice.stringToTime(priceSegments[1]);
             long maxRentTime = RentPrice.stringToTime(priceSegments[2]);
 

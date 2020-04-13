@@ -110,7 +110,7 @@ public class Offer {
 
         if (econ.getBalance(buyer) < price) {
             this.reject();
-            throw new NotEnoughMoneyException(this.replaceVariables(Messages.NOT_ENOUGHT_MONEY));
+            throw new NotEnoughMoneyException(this.replaceVariables(Messages.NOT_ENOUGH_MONEY));
         }
         econ.depositPlayer(seller, price);
         econ.withdrawPlayer(buyer, price);

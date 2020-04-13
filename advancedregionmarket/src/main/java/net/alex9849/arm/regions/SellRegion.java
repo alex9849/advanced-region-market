@@ -57,7 +57,7 @@ public class SellRegion extends Region {
         }
 
         if (AdvancedRegionMarket.getInstance().getEcon().getBalance(player) < this.getPricePerPeriod()) {
-            throw new NotEnoughMoneyException(this.replaceVariables(Messages.NOT_ENOUGHT_MONEY));
+            throw new NotEnoughMoneyException(this.replaceVariables(Messages.NOT_ENOUGH_MONEY));
         }
         BuyRegionEvent buyRegionEvent = new BuyRegionEvent(this, player);
         Bukkit.getServer().getPluginManager().callEvent(buyRegionEvent);

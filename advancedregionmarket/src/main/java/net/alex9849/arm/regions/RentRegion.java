@@ -80,7 +80,7 @@ public class RentRegion extends CountdownRegion {
         }
 
         if (AdvancedRegionMarket.getInstance().getEcon().getBalance(player) < this.getPricePerPeriod()) {
-            throw new NotEnoughMoneyException(this.replaceVariables(Messages.NOT_ENOUGHT_MONEY));
+            throw new NotEnoughMoneyException(this.replaceVariables(Messages.NOT_ENOUGH_MONEY));
         }
 
         this.extendNoteMaxRentTime();
@@ -119,7 +119,7 @@ public class RentRegion extends CountdownRegion {
         }
 
         if (AdvancedRegionMarket.getInstance().getEcon().getBalance(player) < this.getPricePerPeriod()) {
-            throw new NotEnoughMoneyException(this.replaceVariables(Messages.NOT_ENOUGHT_MONEY));
+            throw new NotEnoughMoneyException(this.replaceVariables(Messages.NOT_ENOUGH_MONEY));
         }
 
         BuyRegionEvent buyRegionEvent = new BuyRegionEvent(this, player);

@@ -46,7 +46,7 @@ public class ResetCommand extends BasicArmCommand {
             AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, resregion.replaceVariables(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
             player.sendMessage(Messages.PREFIX + Messages.SCHEMATIC_NOT_FOUND_ERROR_USER.replace("%regionid%", e.getRegion().getId()));
         }
-        sender.sendMessage(Messages.PREFIX + Messages.REGION_NOW_AVIABLE);
+        sender.sendMessage(Messages.PREFIX + Messages.REGION_NOW_AVAILABLE);
         return true;
     }
 

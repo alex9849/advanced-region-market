@@ -1,7 +1,7 @@
 Messages:
   Prefix: '&b[ARM]&r '
   NoPermission: '&4Недостаточно прав!'
-  NotEnoughtMoney: '&4Недостаточно денег!'
+  NotEnoughMoney: '&4Недостаточно денег!'
   RegionAlreadySold: '&4Регион уже продан!'
   WorldDoesNotExist: '&4Выбранный мир не существует!'
   RegionDoesNotExist: '&4Выбранный регион не существует в этом (или выбранном) мире!'
@@ -107,7 +107,7 @@ Messages:
    отмените его!'
   SellerDoesNotLongerOwnRegion: '&4%seller% &4больше не владеет этим регионом. Его
    предложение было отменено'
-  IncommingOffer: '&c%seller% &6предлагает вам регион &c%regionid% &6в мире &c%world%
+  IncomingOffer: '&c%seller% &6предлагает вам регион &c%regionid% &6в мире &c%world%
    &6за &c%price% %currency%&6! Вы можете принять его предложение &c/arm offer accept
    &6или отклонить &c/arm offer reject'
   OfferTimedOut: '&4Воемя предложения истекло!'
@@ -141,7 +141,7 @@ Messages:
   RegionTeleportMessage: '&7Вы телепортированы в %regionid%'
   RegionKinds: '&6Виды регионов:'
   ResetRegionResetingBlocks: '&7Сброс блоков...'
-  RegionNowAviable: '&aРегион теперь доступен!'
+  RegionNowAvailable: '&aРегион теперь доступен!'
   HaveToStandOnRegionToShowInfo: '&7Вы должны находится в регионе, чтобы посмотреть
    информацию'
   RegionAddMemberNotOnline: '&4Выбранный игрок не онлайн!'

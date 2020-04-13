@@ -26,6 +26,15 @@ public class Messages {
         String code() {
             return code;
         }
+
+        public static MessageLocale byCode(String code) {
+            for(MessageLocale locale : MessageLocale.values()) {
+                if(locale.code().equalsIgnoreCase(code)) {
+                    return locale;
+                }
+            }
+            return null;
+        }
     }
 
     @Retention(RetentionPolicy.RUNTIME)
@@ -1086,7 +1095,7 @@ public class Messages {
 
         boolean fileUpdated = false;
         for(Field field : Messages.class.getDeclaredFields()) {
-            if (!field.isAnnotationPresent(SerialzedString.class) && field.isAnnotationPresent(SerialzedStringList.class)) {
+            if (!field.isAnnotationPresent(SerialzedString.class) && !field.isAnnotationPresent(SerialzedStringList.class)) {
                 continue;
             }
             int requestedVersion = getRequestedVersion(field);
@@ -1130,13 +1139,16 @@ public class Messages {
         for (Field field : Messages.class.getDeclaredFields()) {
             if (field.isAnnotationPresent(SerialzedString.class) || field.isAnnotationPresent(SerialzedStringList.class)) {
                 field.setAccessible(true);
-                Object parsedOption = cs.get(getSerializedKey(field), field.getType());
+                Object parsedOption = cs.get(getSerializedKey(field));
                 if (parsedOption instanceof String) {
                     parsedOption = ChatColor.translateAlternateColorCodes('&', (String) parsedOption);
-                } else if (parsedOption.getClass().isArray()) {
+
+                } else if (parsedOption instanceof List<?>) {
                     List<String> parsedOptionList = new ArrayList<>();
-                    for(String parsedString : (String[]) parsedOption) {
-                        parsedOptionList.add(ChatColor.translateAlternateColorCodes('&', parsedString));
+                    for(Object listElement : (List<?>) parsedOption) {
+                        if(listElement instanceof String) {
+                            parsedOptionList.add(ChatColor.translateAlternateColorCodes('&', (String) listElement));
+                        }
                     }
                     parsedOption = parsedOptionList;
                 }
@@ -1162,18 +1174,20 @@ public class Messages {
     }
 
     private static String getSerializedKey(Field field) {
+        String annotationValue = null;
         if(field.isAnnotationPresent(SerialzedString.class)) {
-            String annotationValue = field.getAnnotation(SerialzedString.class).name();
+            annotationValue = field.getAnnotation(SerialzedString.class).name();
             if(annotationValue.isEmpty()) {
-                return field.getName();
+                annotationValue = field.getName();
             }
+            return annotationValue;
         } else if (field.isAnnotationPresent(SerialzedStringList.class)) {
-            String annotationValue = field.getAnnotation(SerialzedStringList.class).name();
+            annotationValue = field.getAnnotation(SerialzedStringList.class).name();
             if(annotationValue.isEmpty()) {
-                return field.getName();
+                annotationValue = field.getName();
             }
         }
-        return null;
+        return annotationValue;
     }
 
     private static int getRequestedVersion(Field field) {

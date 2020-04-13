@@ -126,10 +126,9 @@ public class AdvancedRegionMarket extends JavaPlugin {
 
         //TODO get locale from config
         String localeString = getConfig().getString("Other.Language");
-        Messages.MessageLocale messageLocale = Messages.MessageLocale.EN;
-        try {
-            messageLocale = Messages.MessageLocale.valueOf(localeString);
-        } catch (IllegalArgumentException e) {
+        Messages.MessageLocale messageLocale = Messages.MessageLocale.byCode(localeString);
+        if(messageLocale == null) {
+            messageLocale = Messages.MessageLocale.EN;
             getLogger().log(Level.WARNING, "Could not file Message locale \"" + localeString + "\"! Using English as fallback!");
         }
         Messages.reload(new File(getDataFolder() + "/messages.yml"), messageLocale);

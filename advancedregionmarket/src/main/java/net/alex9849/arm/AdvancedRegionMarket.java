@@ -713,10 +713,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
     ############ Getter #############
     ###############################*/
 
-    public Messages getMessages() {
-        return this.messages;
-    }
-
     public ArmSettings getPluginSettings() {
         return this.pluginSettings;
     }

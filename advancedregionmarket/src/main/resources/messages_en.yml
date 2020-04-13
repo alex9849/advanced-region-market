@@ -5,7 +5,7 @@ Messages:
     &6Download: &3https://bit.ly/2CfO3An
     &6Get a list with all commands with &3/arm help
   NoPermission: '&4You do not have permission!'
-  NotEnoughtMoney: '&4You do not have enough money!'
+  NotEnoughMoney: '&4You do not have enough money!'
   HelpHeadline: |-
     &6=====[AdvancedRegionMarket Help ]=====
     &3Page %actualpage% / %maxpage%
@@ -19,7 +19,7 @@ Messages:
   CommandOnlyIngame: '&4This command can only be executed ingame!'
   RentExtendMaxRentTimeExceeded: '&4You can not pay this region for more than &6%maxrenttime-writtenout%
     &4in advance!'
-  RegionErrorCanNotBuildHere: '&4You only allowed to break blocks you placed here!'
+  RegionErrorCanNotBuildHere: '&4You are only allowed to break blocks you placed here!'
   NoFreeRegionWithThisKind: '&7No free region with this type found :('
   RegionkindDoesNotExist: '&4The selected regionkind does not exist!'
   NoPermissionsToBuyThisKindOfRegion: '&4You do not have permission to buy this kind
@@ -118,7 +118,7 @@ Messages:
     an answer or cancel it first!'
   SellerDoesNotLongerOwnRegion: '&4%seller% &4does not longer own this region. His
     offer has been cancelled'
-  IncommingOffer: '&c%seller% &6offers you his region &c%regionid% &6in the world
+  IncomingOffer: '&c%seller% &6offers you his region &c%regionid% &6in the world
     &c%world% &6for &c%price%%currency%&6! You can accept his offer with &c/arm offer
     accept &6or reject it &c/arm offer reject'
   OfferTimedOut: '&4Offer timed out!'
@@ -157,7 +157,7 @@ Messages:
   RegionIsNotARentregion: '&4Region is not a rentregion!'
   RegionIsNotAContractRegion: '&4Region is not a contractregion!'
   RegionTeleportMessage: '&7You have been teleported to %regionid%'
-  RegionNowAviable: '&aRegion is now available!'
+  RegionNowAvailable: '&aRegion is now available!'
   NoRegionAtPlayersPosition: '&7Could not find a region at your position!'
   RegionAddMemberNotOnline: '&4The selected player is not online!'
   RegionAddMemberAdded: '&aMember has been added!'
@@ -246,7 +246,7 @@ Messages:
   GUIMemberListMenuName: '&1ARM - Members of %regionid%'
   GUIOwnRegionsMenuName: '&1ARM - My regions (Owner)'
   GUIRegionItemName: '%regionid% (%regionkinddisplay%)'
-  GUIMakeOwnerWarningName: '&4&lAre you shure?'
+  GUIMakeOwnerWarningName: '&4&lAre you sure?'
   GUIMemberRegionsMenuName: '&1ARM - My regions (Member)'
   GUIResetRegionWarningName: '&4&lReset your region?'
   GUIRegionTakeOverMenuName: '&4Region take-over'

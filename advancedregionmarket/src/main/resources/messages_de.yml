@@ -19,7 +19,7 @@ Messages:
     &6Nutze &3/arm help &6um dir eine Liste mit allen verfügbaren
     &6Befehlen anzeigen zu lassen
   NoPermission: '&4Du hast keine Berechtigung für diesen Befehl'
-  NotEnoughtMoney: '&4Du hast nicht genug Geld!'
+  NotEnoughMoney: '&4Du hast nicht genug Geld!'
   RegionAlreadySold: '&4Diese Region ist bereits verkauft!'
   WorldDoesNotExist: '&4Die ausgewählte Welt existiert nicht!'
   RegionDoesNotExist: '&4Die ausgewähle Region existiert nicht in dieser (oder in
@@ -131,7 +131,7 @@ Messages:
     auf eine Antwort oder ziehe das Angebot zurück!'
   SellerDoesNotLongerOwnRegion: '&4%seller% &4besitzt diese Region nicht länger! Der
     Kauf wurde abgebrochen!'
-  IncommingOffer: '&c%seller% &6bietet dir seine Region &c%regionid% &6in der Welt
+  IncomingOffer: '&c%seller% &6bietet dir seine Region &c%regionid% &6in der Welt
     &c%world% &6für &c%price% %currency%&6 an! Du kannst sein Angebot mit &c/arm offer
     accept &6akzeptieren oder mit &c/arm offer reject &6ablehnen'
   OfferTimedOut: '&4Anfrage abgelaufen!'
@@ -171,7 +171,7 @@ Messages:
   RegionIsNotARentregion: '&4Region ist keine RentRegion!'
   RegionIsNotAContractRegion: '&4Region ist keine ContractRegion!'
   RegionTeleportMessage: '&7Du wurdest zur region &6%regionid% &7teleportiert'
-  RegionNowAviable: '&aRegion is now available!'
+  RegionNowAvailable: '&aRegion ist jetzt verfügbar!!'
   NoRegionAtPlayersPosition: '&7Konnte keine Region an deiner Position finden!'
   RegionAddMemberNotOnline: '&4Der ausgewählte Spieler ist nicht online!'
   RegionAddMemberAdded: '&aDer Spieler wurde zur Region hinzugefügt!'

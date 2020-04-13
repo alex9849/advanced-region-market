@@ -58,7 +58,7 @@ public class BuyExtraCommand extends BasicArmCommand {
                 throw new InputException(player, region.getEntityLimitGroup().replaceVariables(Messages.ENTITYLIMITGROUP_EXTRA_ENTITIES_HARDLIMIT_REACHED, entities, region.getExtraTotalEntitys()));
             }
             if (AdvancedRegionMarket.getInstance().getEcon().getBalance(player) < region.getEntityLimitGroup().getPricePerExtraEntity()) {
-                throw new InputException(player, Messages.NOT_ENOUGHT_MONEY);
+                throw new InputException(player, Messages.NOT_ENOUGH_MONEY);
             }
             AdvancedRegionMarket.getInstance().getEcon().withdrawPlayer(player, region.getEntityLimitGroup().getPricePerExtraEntity());
             region.setExtraTotalEntitys(region.getExtraTotalEntitys() + 1);
@@ -78,7 +78,7 @@ public class BuyExtraCommand extends BasicArmCommand {
                 throw new InputException(player, entityLimit.replaceVariables(Messages.ENTITYLIMITGROUP_EXTRA_ENTITIES_HARDLIMIT_REACHED, entities, region.getExtraEntityAmount(limitableEntityType)));
             }
             if (AdvancedRegionMarket.getInstance().getEcon().getBalance(player) < region.getEntityLimitGroup().getPricePerExtraEntity(limitableEntityType)) {
-                throw new InputException(player, Messages.NOT_ENOUGHT_MONEY);
+                throw new InputException(player, Messages.NOT_ENOUGH_MONEY);
             }
             AdvancedRegionMarket.getInstance().getEcon().withdrawPlayer(player, region.getEntityLimitGroup().getPricePerExtraEntity(limitableEntityType));
             region.setExtraEntityAmount(limitableEntityType, region.getExtraEntityAmount(limitableEntityType) + 1);

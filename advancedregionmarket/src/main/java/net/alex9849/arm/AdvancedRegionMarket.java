@@ -114,7 +114,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
         }
 
         setupPermissions();
-
         setupSignDataFactory();
 
         File schematicdic = new File(getDataFolder() + "/schematics");
@@ -126,7 +125,14 @@ public class AdvancedRegionMarket extends JavaPlugin {
         Updater.updateConfigs();
 
         //TODO get locale from config
-        Messages.reload(new File(getDataFolder() + "/messages.yml"), Messages.MessageLocale.EN);
+        String localeString = getConfig().getString("Other.Language");
+        Messages.MessageLocale messageLocale = Messages.MessageLocale.EN;
+        try {
+            messageLocale = Messages.MessageLocale.valueOf(localeString);
+        } catch (IllegalArgumentException e) {
+            getLogger().log(Level.WARNING, "Could not file Message locale \"" + localeString + "\"! Using English as fallback!");
+        }
+        Messages.reload(new File(getDataFolder() + "/messages.yml"), messageLocale);
         BlockModifyListener blockModifyListener = new BlockModifyListener();
         getServer().getPluginManager().registerEvents(blockModifyListener, this);
         EntitySpawnListener entitySpawnListener = new EntitySpawnListener();
@@ -244,10 +250,10 @@ public class AdvancedRegionMarket extends JavaPlugin {
                 totalRegions += rs.getSoldContractRegions();
                 totalRegions += rs.getSoldRentRegions();
                 totalRegions += rs.getSoldSellRegions();
-                pluginSpecificData.put("regionsTotal", totalRegions+ "");
+                pluginSpecificData.put("regionsTotal", totalRegions + "");
                 pluginSpecificData.put("regionsSell", (rs.getAvailableSellRegions() + rs.getSoldSellRegions()) + "");
-                pluginSpecificData.put("regionsRent", (rs.getAvailableRentRegions() + rs.getSoldRentRegions())+ "");
-                pluginSpecificData.put("regionsContract", (rs.getAvailableContractRegions() + rs.getSoldContractRegions())+ "");
+                pluginSpecificData.put("regionsRent", (rs.getAvailableRentRegions() + rs.getSoldRentRegions()) + "");
+                pluginSpecificData.put("regionsContract", (rs.getAvailableContractRegions() + rs.getSoldContractRegions()) + "");
                 return pluginSpecificData;
             });
         } catch (MalformedURLException e) {
@@ -271,7 +277,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         ActivePresetManager.reset();
         Offer.reset();
         PlayerInactivityGroupMapper.reset();
-        if(this.analytics != null)
+        if (this.analytics != null)
             this.analytics.shutdown();
         getServer().getServicesManager().unregisterAll(this);
         SignChangeEvent.getHandlerList().unregister(this);

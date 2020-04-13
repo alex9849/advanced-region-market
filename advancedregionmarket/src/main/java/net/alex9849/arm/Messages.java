@@ -4,14 +4,15 @@ import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.Field;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class Messages {
     public enum MessageLocale {
@@ -1055,66 +1056,52 @@ public class Messages {
     @SerialzedString(name = "BackupListHeader", message = "&6=======[Backups of region %regionid%]=======")
     public static String BACKUP_LIST_HEADER;
 
-    public Messages(File savePath, MessageLocale locale) {
-        YamlConfiguration config = writeConfigFile(savePath, locale);
-        updateDefauts(config, locale, savePath);
+    public static void reload(File savePath, MessageLocale locale) {
+        YamlConfiguration config = updateAndWriteConfig(locale, savePath);
         load(config);
     }
 
-    private static YamlConfiguration writeConfigFile(File savePath, MessageLocale locale) {
-        if(!savePath.exists()) {
-            try {
-                InputStream stream = AdvancedRegionMarket
-                        .getInstance().getResource("messages_" + locale.code() + ".yml");
-                OutputStream output = new FileOutputStream(savePath);
-                byte[] buffer = new byte[8 * 1024];
-                int bytesRead;
-                while ((bytesRead = stream.read(buffer)) != -1) {
-                    output.write(buffer, 0, bytesRead);
-                }
-                output.flush();
-                output.close();
-                stream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    private static YamlConfiguration updateAndWriteConfig(MessageLocale locale, File savePath) {
+        YamlConfiguration config;
+        if(savePath.exists()) {
+            config = YamlConfiguration.loadConfiguration(savePath);
+        } else {
+            config = new YamlConfiguration();
         }
-        return YamlConfiguration.loadConfiguration(savePath);
-    }
-
-    private void updateDefauts(YamlConfiguration config, MessageLocale locale, File savePath) {
         int configVersion = config.getInt("FileVersion");
         int newConfigVersion = configVersion;
-        YamlConfiguration localeConfig = YamlConfiguration.loadConfiguration(
-                new InputStreamReader(AdvancedRegionMarket.getInstance().getResource("messages_" + locale.code() + ".yml")));
-        int localeFileVersion = localeConfig.getInt("FileVersion");
+        ConfigurationSection localeconfigMessages = null;
+        int localeFileVersion = 0;
+        if(MessageLocale.EN != locale) {
+            YamlConfiguration localeConfig = YamlConfiguration.loadConfiguration(
+                    new InputStreamReader(AdvancedRegionMarket.getInstance().getResource("messages_" + locale.code() + ".yml")));
+            localeFileVersion = localeConfig.getInt("FileVersion");
+            localeconfigMessages = localeConfig.getConfigurationSection("Messages");
+        }
 
         ConfigurationSection configMessages = config.getConfigurationSection("Messages");
         if (configMessages == null) {
-            return;
+            configMessages = new YamlConfiguration();
         }
-        ConfigurationSection localeconfigMessages = localeConfig.getConfigurationSection("Messages");
-        if (localeconfigMessages == null) {
-            return;
-        }
+
         boolean fileUpdated = false;
         for(Field field : Messages.class.getDeclaredFields()) {
-            if (!field.isAnnotationPresent(SerialzedString.class)) {
+            if (!field.isAnnotationPresent(SerialzedString.class) && field.isAnnotationPresent(SerialzedStringList.class)) {
                 continue;
             }
             int requestedVersion = getRequestedVersion(field);
-            String serializedKey =  getSerializedKey(field);
+            String serializedKey = getSerializedKey(field);
             if((configVersion >= requestedVersion) && configMessages.get(serializedKey) != null) {
                 continue;
             }
-            Object replaceMessage = localeconfigMessages.get(serializedKey);
-            if(replaceMessage == null || localeFileVersion < requestedVersion) {
-                try {
-                    replaceMessage = field.get(this);
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
+            Object replaceMessage = getMessage(field);
+            if(localeconfigMessages != null) {
+                Object localeConfigMessage = localeconfigMessages.get(serializedKey);
+                if(localeConfigMessage != null && localeFileVersion >= requestedVersion) {
+                    replaceMessage = localeConfigMessage;
                 }
             }
+
             configMessages.set(serializedKey, replaceMessage);
             newConfigVersion = Math.max(newConfigVersion, requestedVersion);
             fileUpdated = true;
@@ -1130,32 +1117,32 @@ public class Messages {
                 e.printStackTrace();
             }
         }
+        return config;
     }
 
-    private void load(YamlConfiguration config) {
+    private static void load(YamlConfiguration config) {
         ConfigurationSection cs = config.getConfigurationSection("Messages");
         if (cs == null) {
             return;
         }
 
+        Map<String, Field> keyToField = new HashMap<>();
         for (Field field : Messages.class.getDeclaredFields()) {
-            if (field.isAnnotationPresent(SerialzedString.class)) {
+            if (field.isAnnotationPresent(SerialzedString.class) || field.isAnnotationPresent(SerialzedStringList.class)) {
                 field.setAccessible(true);
                 Object parsedOption = cs.get(getSerializedKey(field), field.getType());
-                if (parsedOption instanceof List) {
-                    List stringList = (List) parsedOption;
-                    for (int i = 0; i < stringList.size(); i++) {
-                        if (stringList.get(i) instanceof String) {
-                            stringList.set(i, ChatColor.translateAlternateColorCodes('&', (String) stringList.get(i)));
-                        }
-                    }
-                } else if (parsedOption instanceof String) {
+                if (parsedOption instanceof String) {
                     parsedOption = ChatColor.translateAlternateColorCodes('&', (String) parsedOption);
+                } else if (parsedOption.getClass().isArray()) {
+                    List<String> parsedOptionList = new ArrayList<>();
+                    for(String parsedString : (String[]) parsedOption) {
+                        parsedOptionList.add(ChatColor.translateAlternateColorCodes('&', parsedString));
+                    }
+                    parsedOption = parsedOptionList;
                 }
-
-                if(parsedOption != null && field.getType().isAssignableFrom(parsedOption.getClass())) {
+                if(field.getType().isAssignableFrom(parsedOption.getClass())) {
                     try {
-                        field.set(this, parsedOption);
+                        field.set(Messages.class, parsedOption);
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     }
@@ -1165,16 +1152,37 @@ public class Messages {
         }
     }
 
-    private static String getSerializedKey(Field field) {
-        String annotationValue = field.getAnnotation(SerialzedString.class).name();
-        if (annotationValue.isEmpty()) {
-            return field.getName();
+    private static Object getMessage(Field field) {
+        if(field.isAnnotationPresent(SerialzedString.class)) {
+            return field.getAnnotation(SerialzedString.class).message();
+        } else if (field.isAnnotationPresent(SerialzedStringList.class)) {
+            return field.getAnnotation(SerialzedStringList.class).message();
         }
-        return annotationValue;
+        return null;
+    }
+
+    private static String getSerializedKey(Field field) {
+        if(field.isAnnotationPresent(SerialzedString.class)) {
+            String annotationValue = field.getAnnotation(SerialzedString.class).name();
+            if(annotationValue.isEmpty()) {
+                return field.getName();
+            }
+        } else if (field.isAnnotationPresent(SerialzedStringList.class)) {
+            String annotationValue = field.getAnnotation(SerialzedStringList.class).name();
+            if(annotationValue.isEmpty()) {
+                return field.getName();
+            }
+        }
+        return null;
     }
 
     private static int getRequestedVersion(Field field) {
-        return field.getAnnotation(SerialzedString.class).version();
+        if(field.isAnnotationPresent(SerialzedString.class)) {
+            return field.getAnnotation(SerialzedString.class).version();
+        } else if (field.isAnnotationPresent(SerialzedStringList.class)) {
+            return field.getAnnotation(SerialzedStringList.class).version();
+        }
+        return 0;
     }
 
     public static String convertYesNo(Boolean bool) {

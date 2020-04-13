@@ -84,7 +84,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
     private FlagGroupManager flagGroupManager = null;
     private ArmSettings pluginSettings = null;
     private Analytics analytics = null;
-    private Messages messages;
 
 
     /*#########################################
@@ -127,7 +126,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         Updater.updateConfigs();
 
         //TODO get locale from config
-        this.messages = new Messages(new File(getDataFolder() + "/messages.yml"), Messages.MessageLocale.EN);
+        Messages.reload(new File(getDataFolder() + "/messages.yml"), Messages.MessageLocale.EN);
         BlockModifyListener blockModifyListener = new BlockModifyListener();
         getServer().getPluginManager().registerEvents(blockModifyListener, this);
         EntitySpawnListener entitySpawnListener = new EntitySpawnListener();

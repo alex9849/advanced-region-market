@@ -9,23 +9,22 @@ public class Price {
     private static NumberFormat priceFormater;
     protected AutoPrice autoPrice;
     protected double price;
-    protected boolean hasPriceBeenCalced;
-    protected double calcedAutoPrice;
+    protected Double cachedAutoPrice;
+    private WGRegion cachedWgRegion = null;
 
     public Price(double price) {
         if (price < 0) {
             throw new IllegalArgumentException("Price needs to be positive!");
         }
-        this.calcedAutoPrice = 0;
+        this.price = price;
+        this.cachedAutoPrice = null;
         this.autoPrice = null;
-        this.hasPriceBeenCalced = false;
     }
 
     public Price(AutoPrice autoPrice) {
         this.autoPrice = autoPrice;
-        this.calcedAutoPrice = 0;
+        this.cachedAutoPrice = null;
         this.price = 0;
-        this.hasPriceBeenCalced = false;
     }
 
     public static void setPriceFormater(NumberFormat formater) {
@@ -37,23 +36,18 @@ public class Price {
     }
 
     public double calcPrice(WGRegion wgRegion) {
+        if(this.cachedWgRegion == null || this.cachedWgRegion != wgRegion) {
+            this.cachedWgRegion = wgRegion;
+            this.cachedAutoPrice = null;
+        }
         if (this.isAutoPrice()) {
-            if (this.hasPriceBeenCalced) {
-                return this.calcedAutoPrice;
+            if (this.cachedAutoPrice != null) {
+                return this.cachedAutoPrice;
             } else {
                 int m2 = wgRegion.getVolume() / ((wgRegion.getMaxPoint().getBlockY() - wgRegion.getMinPoint().getBlockY()) + 1);
-                this.calcedAutoPrice = this.autoPrice.getCalculatedPrice(m2, wgRegion.getVolume());
-                this.hasPriceBeenCalced = true;
-                return this.calcedAutoPrice;
+                this.cachedAutoPrice = this.autoPrice.getCalculatedPrice(m2, wgRegion.getVolume());
+                return this.cachedAutoPrice;
             }
-        } else {
-            return this.price;
-        }
-    }
-
-    public double getPrice() {
-        if (this.isAutoPrice()) {
-            return this.autoPrice.getPrice();
         } else {
             return this.price;
         }
@@ -66,13 +60,4 @@ public class Price {
     public AutoPrice getAutoPrice() {
         return this.autoPrice;
     }
-
-    /*
-    public static double roundPrice(double price) {
-        double rounded = price;
-        rounded = rounded * 100;
-        rounded = (int) rounded;
-        return rounded / 100;
-    }
-    */
 }

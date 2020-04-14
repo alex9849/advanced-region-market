@@ -53,9 +53,6 @@ public class SignModifyListener implements Listener {
             }
             price = new Price(Double.parseDouble(priceLine));
         }
-        if (price.getPrice() < 0) {
-            throw new InputException(sender, ChatColor.DARK_RED + "Price must be positive!");
-        }
         return price;
     }
 
@@ -75,9 +72,6 @@ public class SignModifyListener implements Listener {
             long extendTime = ContractPrice.stringToTime(priceSegments[1]);
 
             price = new ContractPrice(moneyAmount, extendTime);
-        }
-        if (price.getPrice() < 0) {
-            throw new InputException(sender, ChatColor.DARK_RED + "Price must be positive!");
         }
         return price;
     }
@@ -99,9 +93,6 @@ public class SignModifyListener implements Listener {
             long maxRentTime = RentPrice.stringToTime(priceSegments[2]);
 
             price = new RentPrice(moneyAmount, extendPerClick, maxRentTime);
-        }
-        if (price.getPrice() < 0) {
-            throw new InputException(sender, ChatColor.DARK_RED + "Price must be positive!");
         }
         return price;
     }

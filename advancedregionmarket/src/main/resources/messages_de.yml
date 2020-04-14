@@ -1,3 +1,4 @@
+FileVersion: 1
 Messages:
   SecondsSingular: 'Sekunde'
   MinutesSingular: 'Minute'
@@ -167,7 +168,7 @@ Messages:
   RegionCreatedAndSaved: '&aRegion erstellt und gespeichert!'
   RegionNotOwn: '&4Dir gehört diese Region nicht!'
   RegionNotSold: '&4Region nicht verkauft!'
-  RegionNotResettable: '&4Diese Region kann nicht zurückgesetzt werden!'
+  RegionNotRestoreable: '&4Diese Region kann nicht zurückgesetzt werden!'
   RegionIsNotARentregion: '&4Region ist keine RentRegion!'
   RegionIsNotAContractRegion: '&4Region ist keine ContractRegion!'
   RegionTeleportMessage: '&7Du wurdest zur region &6%regionid% &7teleportiert'

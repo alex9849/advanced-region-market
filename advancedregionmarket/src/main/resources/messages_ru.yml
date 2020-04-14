@@ -1,3 +1,4 @@
+FileVersion: 1
 Messages:
   Prefix: '&b[ARM]&r '
   NoPermission: '&4Недостаточно прав!'
@@ -135,7 +136,7 @@ Messages:
   RegionCreatedAndSaved: '&aРегион создан и сохранен!'
   RegionNotOwn: '&4Вы не владеете этим регионом!'
   RegionNotSold: '&4Регион не продан!'
-  RegionNotResettable: '&4Регион не сбрасывается!'
+  RegionNotRestoreable: '&4Регион не сбрасывается!'
   RegionIsNotARentregion: '&4Регион не арендуемый!'
   RegionIsNotAContractRegion: '&4Регион не контрактный!'
   RegionTeleportMessage: '&7Вы телепортированы в %regionid%'

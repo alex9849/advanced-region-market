@@ -1,855 +1,1193 @@
 package net.alex9849.arm;
 
-import net.alex9849.arm.util.YamlFileManager;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.Plugin;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.Field;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 public class Messages {
+    public enum MessageLocale {
+        EN("en"), DE("de"), FR("fr"), RU("ru");
+        private String code;
+
+        MessageLocale(String code) {
+            this.code = code;
+        }
+
+        String code() {
+            return code;
+        }
+
+        public static MessageLocale byCode(String code) {
+            for(MessageLocale locale : MessageLocale.values()) {
+                if(locale.code().equalsIgnoreCase(code)) {
+                    return locale;
+                }
+            }
+            return null;
+        }
+    }
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.FIELD)
-    public @interface SerialzedName {
+    public @interface Message {
         public String name();
+        public String[] message();
+        public int version() default 0;
     }
 
-    @SerialzedName(name = "Prefix")
+    //Current version = 1
+    @Message(name = "Prefix", message = "&b[ARM]&r ", version = 1)
     public static String PREFIX;
-    @SerialzedName(name = "Buymessage")
+    @Message(name = "Buymessage", message = "&aRegion successfully bought!")
     public static String REGION_BUYMESSAGE;
-    @SerialzedName(name = "NotEnoughtMoney")
-    public static String NOT_ENOUGHT_MONEY;
-    @SerialzedName(name = "RegionAlreadySold")
+    @Message(name = "NotEnoughMoney", message = "&4You do not have enough money!")
+    public static String NOT_ENOUGH_MONEY;
+    @Message(name = "RegionAlreadySold", message = "&4Region already Sold!")
     public static String REGION_ALREADY_SOLD;
-    @SerialzedName(name = "NoPermission")
+    @Message(name = "NoPermission", message = "&4You do not have permission!")
     public static String NO_PERMISSION;
-    @SerialzedName(name = "WorldDoesNotExist")
+    @Message(name = "WorldDoesNotExist", message = "&4The selected world does not exist!")
     public static String WORLD_DOES_NOT_EXIST;
-    @SerialzedName(name = "RegionDoesNotExist")
+    @Message(name = "RegionDoesNotExist", message = "&4The selected region does not exist in this (or the selected) world!")
     public static String REGION_DOES_NOT_EXIST;
-    @SerialzedName(name = "RegionAddedToARM")
+    @Message(name = "RegionAddedToARM", message = "&7Regionsign has been created and region has been added to ARM!")
     public static String REGION_ADDED_TO_ARM;
-    @SerialzedName(name = "SignAddedToRegion")
+    @Message(name = "SignAddedToRegion", message = "&7Region already exists! The sign has been added to the region!")
     public static String SIGN_ADDED_TO_REGION;
-    @SerialzedName(name = "SignRemovedFromRegion")
+    @Message(name = "SignRemovedFromRegion", message = "&7Regionsign removed! %remaining% Sign(s) remaining before region gets removed from ARM!")
     public static String SIGN_REMOVED_FROM_REGION;
-    @SerialzedName(name = "RegionRemovedFromARM")
+    @Message(name = "RegionRemovedFromARM", message = "&7The region has been removed from ARM!")
     public static String REGION_REMOVED_FROM_ARM;
-    @SerialzedName(name = "SellSign1")
+    @Message(name = "SellSign1", message = "&2For Sale")
     public static String SELL_SIGN1;
-    @SerialzedName(name = "SellSign2")
+    @Message(name = "SellSign2", message = "%regionid%")
     public static String SELL_SIGN2;
-    @SerialzedName(name = "SellSign3")
+    @Message(name = "SellSign3", message = "%price%%currency%")
     public static String SELL_SIGN3;
-    @SerialzedName(name = "SellSign4")
+    @Message(name = "SellSign4", message = "%dimensions%")
     public static String SELL_SIGN4;
-    @SerialzedName(name = "SoldSign1")
+    @Message(name = "SoldSign1", message = "&4Sold")
     public static String SOLD_SIGN1;
-    @SerialzedName(name = "SoldSign2")
+    @Message(name = "SoldSign2", message = "%regionid%")
     public static String SOLD_SIGN2;
-    @SerialzedName(name = "SoldSign3")
+    @Message(name = "SoldSign3", message = "")
     public static String SOLD_SIGN3;
-    @SerialzedName(name = "SoldSign4")
+    @Message(name = "SoldSign4", message = "%owner%")
     public static String SOLD_SIGN4;
-    @SerialzedName(name = "Currency")
+    @Message(name = "Currency", message = "$")
     public static String CURRENCY;
-    @SerialzedName(name = "CommandOnlyIngame")
+    @Message(name = "CommandOnlyIngame", message = "&4This command can only be executed ingame!")
     public static String COMMAND_ONLY_INGAME;
-    @SerialzedName(name = "RegionInfoExpired")
+    @Message(name = "RegionInfoExpired", message = "&4Expired")
     public static String REGION_INFO_EXPIRED;
-    @SerialzedName(name = "GUIMainMenuName")
+    @Message(name = "GUIMainMenuName", message = "&1ARM - Menu")
     public static String GUI_MAIN_MENU_NAME;
-    @SerialzedName(name = "GUIGoBack")
+    @Message(name = "GUIGoBack", message = "&6Go back")
     public static String GUI_GO_BACK;
-    @SerialzedName(name = "GUIMyOwnRegions")
+    @Message(name = "GUIMyOwnRegions", message = "&6My regions (Owner)")
     public static String GUI_MY_OWN_REGIONS;
-    @SerialzedName(name = "GUIMemberRegionsMenuName")
+    @Message(name = "GUIMemberRegionsMenuName", message = "&1ARM - My regions (Member)")
     public static String GUI_MEMBER_REGIONS_MENU_NAME;
-    @SerialzedName(name = "GUIMyMemberRegions")
+    @Message(name = "GUIMyMemberRegions", message = "&6My regions (Member)")
     public static String GUI_MY_MEMBER_REGIONS;
-    @SerialzedName(name = "GUISearchFreeRegion")
+    @Message(name = "GUISearchFreeRegion", message = "&6Search free region")
     public static String GUI_SEARCH_FREE_REGION;
-    @SerialzedName(name = "GUIOwnRegionsMenuName")
+    @Message(name = "GUIOwnRegionsMenuName", message = "&1ARM - My regions (Owner)")
     public static String GUI_OWN_REGIONS_MENU_NAME;
-    @SerialzedName(name = "GUIMembersButton")
+    @Message(name = "GUIMembersButton", message = "&6Members")
     public static String GUI_MEMBERS_BUTTON;
-    @SerialzedName(name = "GUIShowInfosButton")
+    @Message(name = "GUIShowInfosButton", message = "&6Show infos")
     public static String GUI_SHOW_INFOS_BUTTON;
-    @SerialzedName(name = "GUITeleportToRegionButton")
+    @Message(name = "GUITeleportToRegionButton", message = "&6Teleport to region")
     public static String GUI_TELEPORT_TO_REGION_BUTTON;
-    @SerialzedName(name = "GUIRegionFinderMenuName")
+    @Message(name = "GUIRegionFinderMenuName", message = "&1ARM - Regionfinder")
     public static String GUI_REGION_FINDER_MENU_NAME;
-    @SerialzedName(name = "GUIMemberListMenuName")
+    @Message(name = "GUIMemberListMenuName", message = "&1ARM - Members of %regionid%")
     public static String GUI_MEMBER_LIST_MENU_NAME;
-    @SerialzedName(name = "GUIMakeOwnerButton")
+    @Message(name = "GUIMakeOwnerButton", message = "&aMake owner")
     public static String GUI_MAKE_OWNER_BUTTON;
-    @SerialzedName(name = "GUIRemoveMemberButton")
+    @Message(name = "GUIRemoveMemberButton", message = "&4Remove")
     public static String GUI_REMOVE_MEMBER_BUTTON;
-    @SerialzedName(name = "GUIMakeOwnerWarningName")
+    @Message(name = "GUIMakeOwnerWarningName", message = "&4&lAre you sure?")
     public static String GUI_MAKE_OWNER_WARNING_NAME;
-    @SerialzedName(name = "GUIWarningYes")
+    @Message(name = "GUIWarningYes", message = "&aYes")
     public static String GUI_YES;
-    @SerialzedName(name = "GUIWarningNo")
+    @Message(name = "GUIWarningNo", message = "&4No")
     public static String GUI_NO;
-    @SerialzedName(name = "RegionTeleportMessage")
+    @Message(name = "RegionTeleportMessage", message = "&7You have been teleported to %regionid%")
     public static String REGION_TELEPORT_MESSAGE;
-    @SerialzedName(name = "NoPermissionsToBuyThisKindOfRegion")
+    @Message(name = "NoPermissionsToBuyThisKindOfRegion", message = "&4You do not have permission to buy this kind of region (You need the permission &6arm.buykind.%regionkind%&4)")
     public static String NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION;
-    @SerialzedName(name = "NoFreeRegionWithThisKind")
+    @Message(name = "NoFreeRegionWithThisKind", message = "&7No free region with this type found :(")
     public static String NO_FREE_REGION_WITH_THIS_KIND;
-    @SerialzedName(name = "RegionkindDoesNotExist")
+    @Message(name = "RegionkindDoesNotExist", message = "&4The selected regionkind does not exist!")
     public static String REGIONKIND_DOES_NOT_EXIST;
-    @SerialzedName(name = "RegionNowAviable")
-    public static String REGION_NOW_AVIABLE;
-    @SerialzedName(name = "NoRegionAtPlayersPosition")
+    @Message(name = "RegionNowAvailable", message = "&aRegion is now available!")
+    public static String REGION_NOW_AVAILABLE;
+    @Message(name = "NoRegionAtPlayersPosition", message = "&7Could not find a region at your position!")
     public static String NO_REGION_AT_PLAYERS_POSITION;
-    @SerialzedName(name = "RegionAddMemberNotOnline")
+    @Message(name = "RegionAddMemberNotOnline", message = "&4The selected player is not online!")
     public static String REGION_ADD_MEMBER_NOT_ONLINE;
-    @SerialzedName(name = "RegionAddMemberAdded")
+    @Message(name = "RegionAddMemberAdded", message = "&aMember has been added!")
     public static String REGION_ADD_MEMBER_ADDED;
-    @SerialzedName(name = "RegionRemoveMemberNotAMember")
+    @Message(name = "RegionRemoveMemberNotAMember", message = "&4The selected player is not a member of the region")
     public static String REGION_REMOVE_MEMBER_NOT_A_MEMBER;
-    @SerialzedName(name = "RegionRemoveMemberRemoved")
+    @Message(name = "RegionRemoveMemberRemoved", message = "&aMember has been removed!")
     public static String REGION_REMOVE_MEMBER_REMOVED;
-    @SerialzedName(name = "GUIResetRegionButton")
+    @Message(name = "GUIResetRegionButton", message = "&4Reset region")
     public static String GUI_RESET_REGION_BUTTON;
-    @SerialzedName(name = "GUIResetRegionWarningName")
+    @Message(name = "GUIResetRegionWarningName", message = "&4&lReset your region?")
     public static String GUI_RESET_REGION_WARNING_NAME;
-    @SerialzedName(name = "ResetComplete")
+    @Message(name = "ResetComplete", message = "&aReset complete!")
     public static String RESET_COMPLETE;
-    @SerialzedName(name = "ResetRegionCooldownError")
+    @Message(name = "ResetRegionCooldownError", message = "&7You have to wait&6 %remaininguserresetcooldown-countdown-writtenout% &7till you can reset your region again")
     public static String RESET_REGION_COOLDOWN_ERROR;
-    @SerialzedName(name = "GUIRegionTakeOverMenuName")
+    @Message(name = "GUIRegionTakeOverMenuName", message = "&4Region take-over")
     public static String GUI_TAKEOVER_MENU_NAME;
-    @SerialzedName(name = "RegionTransferCompleteMessage")
+    @Message(name = "RegionTransferCompleteMessage", message = "&aTransfer complete!")
     public static String REGION_TRANSFER_COMPLETE_MESSAGE;
-    @SerialzedName(name = "GUICloseWindow")
+    @Message(name = "GUICloseWindow", message = "&6Close window")
     public static String GUI_CLOSE;
-    @SerialzedName(name = "RentSign1")
+    @Message(name = "RentSign1", message = "&2For Rent")
     public static String RENT_SIGN1;
-    @SerialzedName(name = "RentSign2")
+    @Message(name = "RentSign2", message = "%regionid%")
     public static String RENT_SIGN2;
-    @SerialzedName(name = "RentSign3")
+    @Message(name = "RentSign3", message = "%price%%currency%/%extendtime-short%")
     public static String RENT_SIGN3;
-    @SerialzedName(name = "RentSign4")
+    @Message(name = "RentSign4", message = "Max.: %maxrenttime-writtenout%")
     public static String RENT_SIGN4;
-    @SerialzedName(name = "RentedSign1")
+    @Message(name = "RentedSign1", message = "&4Rented")
     public static String RENTED_SIGN1;
-    @SerialzedName(name = "RentedSign2")
+    @Message(name = "RentedSign2", message = "%regionid%/%owner%")
     public static String RENTED_SIGN2;
-    @SerialzedName(name = "RentedSign3")
+    @Message(name = "RentedSign3", message = "%price%%currency%/%extendtime-short%")
     public static String RENTED_SIGN3;
-    @SerialzedName(name = "RentedSign4")
+    @Message(name = "RentedSign4", message = "%remainingtime-countdown-short%")
     public static String RENTED_SIGN4;
-    @SerialzedName(name = "RentExtendMessage")
+    @Message(name = "RentExtendMessage", message = "&aRegion extended for &6%extendtime-writtenout%&a (For %price%%currency%. Remaining time: &6%remainingtime-countdown-short%")
     public static String RENT_EXTEND_MESSAGE;
-    @SerialzedName(name = "RentExtendMaxRentTimeExceeded")
+    @Message(name = "RentExtendMaxRentTimeExceeded", message = "&4You can not pay this region for more than &6%maxrenttime-writtenout% &4in advance!")
     public static String RENT_EXTEND_MAX_RENT_TIME_EXCEEDED;
-    @SerialzedName(name = "GUIExtendRentRegionButton")
+    @Message(name = "GUIExtendRentRegionButton", message = "&1Extend region")
     public static String GUI_EXTEND_BUTTON;
-    @SerialzedName(name = "Complete")
+    @Message(name = "Complete", message = "&aComplete!")
     public static String COMPLETE;
-    @SerialzedName(name = "RegionBuyOutOfLimit")
+    @Message(name = "RegionBuyOutOfLimit", message = "&4Out of Limit! You have &7%playerownedkind%/%limitkind% &4%regionkind%-regions and &7%playerownedtotal%/%limittotal% &4Regions total!")
     public static String REGION_BUY_OUT_OF_LIMIT;
-    @SerialzedName(name = "RegionErrorCanNotBuildHere")
+    @Message(name = "RegionErrorCanNotBuildHere", message = "&4You are only allowed to break blocks you placed here!")
     public static String REGION_ERROR_CAN_NOT_BUILD_HERE;
-    @SerialzedName(name = "Unlimited")
+    @Message(name = "Unlimited", message = "unlimited")
     public static String UNLIMITED;
-    @SerialzedName(name = "GUIUserSellButton")
+    @Message(name = "GUIUserSellButton", message = "&4Reset and sell Region")
     public static String GUI_USER_SELL_BUTTON;
-    @SerialzedName(name = "GUIUserSellWarning")
+    @Message(name = "GUIUserSellWarning", message = "&4&lSell your region?")
     public static String GUI_USER_SELL_WARNING;
-    @SerialzedName(name = "LimitInfoTop")
+    @Message(name = "LimitInfoTop", message = "&6=========[Limit Info]=========")
     public static String LIMIT_INFO_TOP;
-    @SerialzedName(name = "LimitInfo")
+    @Message(name = "LimitInfo", message = "&6%regionkind%: %playerownedkind%/%limitkind%")
     public static String LIMIT_INFO;
-    @SerialzedName(name = "GUILimitButton")
+    @Message(name = "GUILimitButton", message = "&6My limits")
     public static String GUI_MY_LIMITS_BUTTON;
-    @SerialzedName(name = "MemberlistInfo")
+    @Message(name = "MemberlistInfo", message = "&6How to become a Member:")
     public static String GUI_MEMBER_INFO_ITEM;
-    @SerialzedName(name = "AddMemberMaxMembersExceeded")
+    @Message(name = "AddMemberMaxMembersExceeded", message = "&4Cloud not add member to region! You can only have %maxmembers% members on this region!")
     public static String ADD_MEMBER_MAX_MEMBERS_EXCEEDED;
-    @SerialzedName(name = "RegionIsNotARentregion")
+    @Message(name = "RegionIsNotARentregion", message = "&4Region is not a rentregion!")
     public static String REGION_IS_NOT_A_RENTREGION;
-    @SerialzedName(name = "RegionNotOwn")
+    @Message(name = "RegionNotOwn", message = "&4You do not own this region!")
     public static String REGION_NOT_OWN;
-    @SerialzedName(name = "RegionNotSold")
+    @Message(name = "RegionNotSold", message = "&4Region not sold!")
     public static String REGION_NOT_SOLD;
-    @SerialzedName(name = "PresetRemoved")
+    @Message(name = "PresetRemoved", message = "&aPreset removed!")
     public static String PRESET_REMOVED;
-    @SerialzedName(name = "PresetSet")
+    @Message(name = "PresetSet", message = "&aPreset set!")
     public static String PRESET_SET;
-    @SerialzedName(name = "PresetSaved")
+    @Message(name = "PresetSaved", message = "&aPreset saved!")
     public static String PRESET_SAVED;
-    @SerialzedName(name = "PresetAlreadyExists")
+    @Message(name = "PresetAlreadyExists", message = "&4A preset with this name already exists!")
     public static String PRESET_ALREADY_EXISTS;
-    @SerialzedName(name = "PresetPlayerDontHasPreset")
+    @Message(name = "PresetPlayerDontHasPreset", message = "&4You do not have a preset!")
     public static String PRESET_PLAYER_DONT_HAS_PRESET;
-    @SerialzedName(name = "PresetDeleted")
+    @Message(name = "PresetDeleted", message = "&aPreset deleted!")
     public static String PRESET_DELETED;
-    @SerialzedName(name = "PresetNotFound")
+    @Message(name = "PresetNotFound", message = "&4No preset with this name found!")
     public static String PRESET_NOT_FOUND;
-    @SerialzedName(name = "PresetLoaded")
+    @Message(name = "PresetLoaded", message = "&aPreset loaded!")
     public static String PRESET_LOADED;
-    @SerialzedName(name = "LimitInfoTotal")
+    @Message(name = "LimitInfoTotal", message = "&6Total")
     public static String LIMIT_INFO_TOTAL;
-    @SerialzedName(name = "GUIRegionItemName")
+    @Message(name = "GUIRegionItemName", message = "%regionid% (%regionkinddisplay%)")
     public static String GUI_REGION_ITEM_NAME;
-    @SerialzedName(name = "GUIRegionFinderRegionKindName")
+    @Message(name = "GUIRegionFinderRegionKindName", message = "&a&l%regionkinddisplay%")
     public static String GUI_REGIONFINDER_REGIONKIND_NAME;
-    @SerialzedName(name = "RentRegionExpirationWarning")
+    @Message(name = "RentRegionExpirationWarning", message = "&4WARNING! This RentRegion(s) will expire soon: &c")
     public static String RENTREGION_EXPIRATION_WARNING;
-    @SerialzedName(name = "ContractSign1")
+    @Message(name = "ContractSign1", message = "&2Contract")
     public static String CONTRACT_SIGN1;
-    @SerialzedName(name = "ContractSign2")
+    @Message(name = "ContractSign2", message = "&2available")
     public static String CONTRACT_SIGN2;
-    @SerialzedName(name = "ContractSign3")
+    @Message(name = "ContractSign3", message = "%regionid%")
     public static String CONTRACT_SIGN3;
-    @SerialzedName(name = "ContractSign4")
+    @Message(name = "ContractSign4", message = "%price%%currency%/%extendtime-short%")
     public static String CONTRACT_SIGN4;
-    @SerialzedName(name = "ContractSoldSign1")
+    @Message(name = "ContractSoldSign1", message = "&4Contract in use")
     public static String CONTRACT_SOLD_SIGN1;
-    @SerialzedName(name = "ContractSoldSign2")
+    @Message(name = "ContractSoldSign2", message = "%regionid%/%owner%")
     public static String CONTRACT_SOLD_SIGN2;
-    @SerialzedName(name = "ContractSoldSign3")
+    @Message(name = "ContractSoldSign3", message = "%price%%currency%/%extendtime-short%")
     public static String CONTRACT_SOLD_SIGN3;
-    @SerialzedName(name = "ContractSoldSign4")
+    @Message(name = "ContractSoldSign4", message = "%remainingtime-countdown-short%")
     public static String CONTRACT_SOLD_SIGN4;
-    @SerialzedName(name = "ContractRegionExtended")
+    @Message(name = "ContractRegionExtended", message = "&aYour contract region %regionid% has been extended for %extendtime-writtenout%. (For %price%%currency%.)")
     public static String CONTRACT_REGION_EXTENDED;
-    @SerialzedName(name = "GUIContractItem")
+    @Message(name = "GUIContractItem", message = "&6Manage contract")
     public static String GUI_CONTRACT_ITEM;
-    @SerialzedName(name = "ContractRegionStatusActive")
+    @Message(name = "ContractRegionStatusActive", message = "&aActive")
     public static String CONTRACT_REGION_STATUS_ACTIVE;
-    @SerialzedName(name = "ContractRegionStatusTerminated")
+    @Message(name = "ContractRegionStatusTerminated", message = "&4Terminated")
     public static String CONTRACT_REGION_STATUS_TERMINATED;
-    @SerialzedName(name = "RegionIsNotAContractRegion")
+    @Message(name = "RegionIsNotAContractRegion", message = "&4Region is not a contractregion!")
     public static String REGION_IS_NOT_A_CONTRACT_REGION;
-    @SerialzedName(name = "OwnerMemberlistInfo")
+    @Message(name = "OwnerMemberlistInfo", message = "&6Adding members:")
     public static String GUI_OWNER_MEMBER_INFO_ITEM;
-    @SerialzedName(name = "RegiontransferMemberNotOnline")
+    @Message(name = "RegiontransferMemberNotOnline", message = "&4Member not online!")
     public static String REGION_TRANSFER_MEMBER_NOT_ONLINE;
-    @SerialzedName(name = "RegiontransferLimitError")
+    @Message(name = "RegiontransferLimitError", message = "&4Transfer aborted! (Region would exceed players limit)")
     public static String REGION_TRANSFER_LIMIT_ERROR;
-    @SerialzedName(name = "SecondsSingular")
+    @Message(name = "SecondsSingular", message = "second")
     public static String TIME_SECONDS_SINGULAR;
-    @SerialzedName(name = "MinutesSingular")
+    @Message(name = "MinutesSingular", message = "minute")
     public static String TIME_MINUTES_SINGULAR;
-    @SerialzedName(name = "HoursSingular")
+    @Message(name = "HoursSingular", message = "hour")
     public static String TIME_HOURS_SINGULAR;
-    @SerialzedName(name = "DaysSingular")
+    @Message(name = "DaysSingular", message = "day")
     public static String TIME_DAYS_SINGULAR;
-    @SerialzedName(name = "SecondsPlural")
+    @Message(name = "SecondsPlural", message = "seconds")
     public static String TIME_SECONDS_PLURAL;
-    @SerialzedName(name = "MinutesPlural")
+    @Message(name = "MinutesPlural", message = "minutes")
     public static String TIME_MINUTES_PLURAL;
-    @SerialzedName(name = "HoursPlural")
+    @Message(name = "HoursPlural", message = "hours")
     public static String TIME_HOURS_PLURAL;
-    @SerialzedName(name = "DaysPlural")
+    @Message(name = "DaysPlural", message = "days")
     public static String TIME_DAYS_PLURAL;
-    @SerialzedName(name = "SecondsShort")
+    @Message(name = "SecondsShort", message = "s")
     public static String TIME_SECONDS_SHORT;
-    @SerialzedName(name = "MinutesShort")
+    @Message(name = "MinutesShort", message = "m")
     public static String TIME_MINUTES_SHORT;
-    @SerialzedName(name = "HoursShort")
+    @Message(name = "HoursShort", message = "h")
     public static String TIME_HOURS_SHORT;
-    @SerialzedName(name = "DaysShort")
+    @Message(name = "DaysShort", message = "d")
     public static String TIME_DAYS_SHORT;
-    @SerialzedName(name = "TimeUnitSplitter")
+    @Message(name = "TimeUnitSplitter", message = " and ")
     public static String TIME_UNIT_SPLITTER;
-    @SerialzedName(name = "TimeUnitSplitterShort")
+    @Message(name = "TimeUnitSplitterShort", message = ":")
     public static String TIME_UNIT_SPLITTER_SHORT;
-    @SerialzedName(name = "UserNotAMemberOrOwner")
+    @Message(name = "UserNotAMemberOrOwner", message = "&4You are not a member or owner of this region!")
     public static String NOT_A_MEMBER_OR_OWNER;
-    @SerialzedName(name = "RegionInfoYes")
+    @Message(name = "RegionInfoYes", message = "&2yes")
     public static String YES;
-    @SerialzedName(name = "RegionInfoNo")
+    @Message(name = "RegionInfoNo", message = "&4no")
     public static String NO;
-    @SerialzedName(name = "RegionStats")
+    @Message(name = "RegionStats", message = "&6=========[Region stats]=========")
     public static String REGION_STATS;
-    @SerialzedName(name = "RegionStatsPattern")
+    @Message(name = "RegionStatsPattern", message = "&8Used regions (%regionkind%&8):")
     public static String REGION_STATS_PATTERN;
-    @SerialzedName(name = "TeleporterNoSaveLocation")
+    @Message(name = "TeleporterNoSaveLocation", message = "&4Could not find a save teleport location")
     public static String TELEPORTER_NO_SAVE_LOCATION_FOUND;
-    @SerialzedName(name = "TeleporterDontMove")
+    @Message(name = "TeleporterDontMove", message = "&6Teleportation will commence in &c%time% Seconds&6. Do not move!")
     public static String TELEPORTER_DONT_MOVE;
-    @SerialzedName(name = "TeleporterTeleportationAborded")
+    @Message(name = "TeleporterTeleportationAborded", message = "&4Teleportation aborded!")
     public static String TELEPORTER_TELEPORTATION_ABORDED;
-    @SerialzedName(name = "OfferSent")
+    @Message(name = "OfferSent", message = "&aYour offer has been sent")
     public static String OFFER_SENT;
-    @SerialzedName(name = "OfferAcceptedSeller")
+    @Message(name = "OfferAcceptedSeller", message = "&a%buyer% &aaccepted your offer")
     public static String OFFER_ACCEPTED_SELLER;
-    @SerialzedName(name = "OfferAcceptedBuyer")
+    @Message(name = "OfferAcceptedBuyer", message = "&aOffer accepted! You are now the owner of &c%regionid%")
     public static String OFFER_ACCEPTED_BUYER;
-    @SerialzedName(name = "NoOfferToAnswer")
+    @Message(name = "NoOfferToAnswer", message = "&4You dont have an offer to answer")
     public static String NO_OFFER_TO_ANSWER;
-    @SerialzedName(name = "OfferRejected")
+    @Message(name = "OfferRejected", message = "&aOffer rejected!")
     public static String OFFER_REJECTED;
-    @SerialzedName(name = "OfferHasBeenRejected")
+    @Message(name = "OfferHasBeenRejected", message = "&4%buyer% &4rejected your offer!")
     public static String OFFER_HAS_BEEN_REJECTED;
-    @SerialzedName(name = "NoOfferToReject")
+    @Message(name = "NoOfferToReject", message = "&4You do not have an offer to reject")
     public static String NO_OFFER_TO_REJECT;
-    @SerialzedName(name = "OfferCancelled")
+    @Message(name = "OfferCancelled", message = "&aYour offer has been cancelled!")
     public static String OFFER_CANCELED;
-    @SerialzedName(name = "OfferHasBeenCancelled")
+    @Message(name = "OfferHasBeenCancelled", message = "&4%seller% &4cancelled his offer!")
     public static String OFFER_HAS_BEEN_CANCELLED;
-    @SerialzedName(name = "NoOfferToCancel")
+    @Message(name = "NoOfferToCancel", message = "&4You do not have an offer to cancel")
     public static String NO_OFFER_TO_CANCEL;
-    @SerialzedName(name = "BuyerAlreadyGotAnOffer")
+    @Message(name = "BuyerAlreadyGotAnOffer", message = "&4The selected buyer already got an offer that he has to answer first!")
     public static String BUYER_ALREADY_GOT_AN_OFFER;
-    @SerialzedName(name = "SellerAlreadyCreatedAnOffer")
+    @Message(name = "SellerAlreadyCreatedAnOffer", message = "&4You have already created an offer! Please wait for an answer or cancel it first!")
     public static String SELLER_ALREADY_CREATED_AN_OFFER;
-    @SerialzedName(name = "SellerDoesNotLongerOwnRegion")
+    @Message(name = "SellerDoesNotLongerOwnRegion", message = "&4%seller% &4does not longer own this region. His offer has been cancelled")
     public static String SELLER_DOES_NOT_LONGER_OWN_REGION;
-    @SerialzedName(name = "IncommingOffer")
+    @Message(name = "IncomingOffer", message = "&c%seller% &6offers you his region &c%regionid% &6in the world &c%world% &6for &c%price%%currency%&6! You can accept his offer with &c/arm offer accept &6or reject it &c/arm offer reject")
     public static String INCOMING_OFFER;
-    @SerialzedName(name = "SelectedPlayerIsNotOnline")
+    @Message(name = "SelectedPlayerIsNotOnline", message = "&4The selected player is not online")
     public static String SELECTED_PLAYER_NOT_ONLINE;
-    @SerialzedName(name = "OfferTimedOut")
+    @Message(name = "OfferTimedOut", message = "&4Offer timed out!")
     public static String OFFER_TIMED_OUT;
-    @SerialzedName(name = "BadSyntax")
+    @Message(name = "BadSyntax", message = "&7Bad syntax! Please use: &8%command%")
     public static String BAD_SYNTAX;
-    @SerialzedName(name = "BadSyntaxSplitter")
+    @Message(name = "BadSyntaxSplitter", message = "\n&7or &8%command%")
     public static String BAD_SYNTAX_SPLITTER;
-    @SerialzedName(name = "HelpHeadline")
+    @Message(name = "HelpHeadline", message = "&6=====[AdvancedRegionMarket Help ]=====\n" +
+            "&3Page %actualpage% / %maxpage%")
     public static String HELP_HEADLINE;
-    @SerialzedName(name = "PresetInfoSellregion")
+    @Message(name = "PresetInfoSellregion", message = {"&6=========[Region Info]=========",
+            "&9Autoprice: &e%presetautoprice%",
+            "&9Price: &e%presetprice%",
+            "&9PaybackPercentage: &e%presetpaybackpercentage%",
+            "&9Regionkind: &e%presetregionkind%",
+            "&9FlagGroup: &e%presetflaggroup%",
+            "&9EntitylimitGroup: &e%presetentitylimitgroup%",
+            "&9InactivityReset: &e%presetinactivityreset%",
+            "&9isHotel: &e%presetishotel%",
+            "&9AutoRestore: &e%presetautorestore%",
+            "&9UserRestorable: &e%presetisuserrestorable%",
+            "&9Max. number of members: &e%presetmaxmembers%",
+            "&9AllowedSubregions: &e%presetallowedsubregions%",
+            "&9Setup commands:",
+            "%presetsetupcommands%"})
     public static List<String> PRESET_INFO_SELLREGION;
-    @SerialzedName(name = "PresetInfoContractregion")
+    @Message(name = "PresetInfoContractregion", message = {"&6=========[Region Info]=========",
+            "&9Autoprice: &e%presetautoprice%",
+            "&9Price: &e%presetprice%",
+            "&9ExtendTime: &e%extendtime%",
+            "&9PaybackPercentage: &e%presetpaybackpercentage%",
+            "&9Regionkind: &e%presetregionkind%",
+            "&9FlagGroup: &e%presetflaggroup%",
+            "&9EntitylimitGroup: &e%presetentitylimitgroup%",
+            "&9InactivityReset: &e%presetinactivityreset%",
+            "&9isHotel: &e%presetishotel%",
+            "&9AutoRestore: &e%presetautorestore%",
+            "&9UserRestorable: &e%presetisuserrestorable%",
+            "&9Max. number of members: &e%presetmaxmembers%",
+            "&9AllowedSubregions: &e%presetallowedsubregions%",
+            "&9Setup commands:",
+            "%presetsetupcommands%"})
     public static List<String> PRESET_INFO_CONTRACTREGION;
-    @SerialzedName(name = "PresetInfoRentregion")
+    @Message(name = "PresetInfoRentregion", message = {"&6=========[Region Info]=========",
+            "&9Autoprice: &e%presetautoprice%",
+            "&9Price: &e%presetprice%",
+            "&9ExtendTime: &e%extendtime%",
+            "&9MaxRentTime: &e%maxrenttime%",
+            "&9PaybackPercentage: &e%presetpaybackpercentage%",
+            "&9Regionkind: &e%presetregionkind%",
+            "&9FlagGroup: &e%presetflaggroup%",
+            "&9EntitylimitGroup: &e%presetentitylimitgroup%",
+            "&9InactivityReset: &e%presetinactivityreset%",
+            "&9isHotel: &e%presetishotel%",
+            "&9AutoRestore: &e%presetautorestore%",
+            "&9UserRestorable: &e%presetisuserrestorable%",
+            "&9Max. number of members: &e%presetmaxmembers%",
+            "&9AllowedSubregions: &e%presetallowedsubregions%",
+            "&9Setup commands:",
+            "%presetsetupcommands%"})
     public static List<String> PRESET_INFO_RENTREGION;
-    @SerialzedName(name = "NotDefined")
+    @Message(name = "NotDefined", message = "&8&onot defined")
     public static String NOT_DEFINED;
-    @SerialzedName(name = "PriceCanNotBeNegative")
+    @Message(name = "PriceCanNotBeNegative", message = "&4Price can not be negative!")
     public static String PRICE_CAN_NOT_BE_NEGATIVE;
-    @SerialzedName(name = "SellBackWarning")
+    @Message(name = "SellBackWarning", message = "&4Sell region back to the server:\n" +
+            "&4WARNING: &cThis can not be undone! \n" +
+            "Your region &6%regionid% &cwill be released and all blocks on it\n" +
+            "will be resetted! You and all members will loose their rights on it.\n" +
+            "You will get &6%paybackmoney%%currency% &cback")
     public static String SELLBACK_WARNING;
-    @SerialzedName(name = "SubregionInactivityResetError")
+    @Message(name = "SubregionInactivityResetError", message = "&4The selected region is a subregion. You can change the InactivityReset setting for all subregions in the config.yml!")
     public static String SUBREGION_INACTIVITYRESET_ERROR;
-    @SerialzedName(name = "SubregionAutoRestoreError")
+    @Message(name = "SubregionAutoRestoreError", message = "&4The selected region is a subregion. You can change the autoRestore setting for all subregions in the config.yml!")
     public static String SUBREGION_AUTORESTORE_ERROR;
-    @SerialzedName(name = "RegionNotRestoreable")
+    @Message(name = "RegionNotRestoreable", message = "&4Region not restorable!")
     public static String REGION_NOT_RESTORABLE;
-    @SerialzedName(name = "RegionSelectedMultipleRegions")
+    @Message(name = "RegionSelectedMultipleRegions", message = "&6There is more than one region at your position. Please select one: &4")
     public static String REGION_SELECTED_MULTIPLE_REGIONS;
-    @SerialzedName(name = "SubregionRegionkindError")
+    @Message(name = "SubregionRegionkindError", message = "&4The selected region is a subregion. You can edit the regionkind for all subregions in the config.yml!")
     public static String SUBREGION_REGIONKIND_ERROR;
-    @SerialzedName(name = "SubRegionRegionkindOnlyForSubregions")
+    @Message(name = "SubRegionRegionkindOnlyForSubregions", message = "&4Subregion regionkind only for subregions!")
     public static String SUBREGION_REGIONKIND_ONLY_FOR_SUBREGIONS;
-    @SerialzedName(name = "SubregionTeleportLocationError")
+    @Message(name = "SubregionTeleportLocationError", message = "&4The selected region is a subregion. Teleport location can not be changed")
     public static String SUBREGION_TELEPORT_LOCATION_ERROR;
-    @SerialzedName(name = "RegionNotRegistred")
+    @Message(name = "RegionNotRegistred", message = "&4Region not registred")
     public static String REGION_NOT_REGISTRED;
-    @SerialzedName(name = "FirstPositionSet")
+    @Message(name = "FirstPositionSet", message = "&aFirst position set!")
     public static String FIRST_POSITION_SET;
-    @SerialzedName(name = "SecondPositionSet")
+    @Message(name = "SecondPositionSet", message = "&aSecond position set!")
     public static String SECOND_POSITION_SET;
-    @SerialzedName(name = "MarkInOtherRegion")
+    @Message(name = "MarkInOtherRegion", message = "&4Mark in other Region. Removing old mark")
     public static String MARK_IN_OTHER_REGION_REMOVING;
-    @SerialzedName(name = "ParentRegionNotOwn")
+    @Message(name = "ParentRegionNotOwn", message = "&4You don not own the parent region!")
     public static String PARENT_REGION_NOT_OWN;
-    @SerialzedName(name = "SubRegionRemoveNoPermissionBecauseSold")
+    @Message(name = "SubRegionRemoveNoPermissionBecauseSold", message = "&4You are not allowed to remove this region. Please ask an admin if you believe this is an error")
     public static String NOT_ALLOWED_TO_REMOVE_SUBREGION_SOLD;
-    @SerialzedName(name = "SubRegionRemoveNoPermissionBecauseAvailable")
+    @Message(name = "SubRegionRemoveNoPermissionBecauseAvailable", message = "&4You are not allowed to remove this region, because it is sold. You may ask the owner or an admin to release it")
     public static String NOT_ALLOWED_TO_REMOVE_SUBREGION_AVAILABLE;
-    @SerialzedName(name = "PosCloudNotBeSetMarkOutsideRegion")
+    @Message(name = "PosCloudNotBeSetMarkOutsideRegion", message = "&4Position could not be set! Position outside region")
     public static String POSITION_CLOUD_NOT_BE_SET_MARK_OUTSIDE_REGION;
-    @SerialzedName(name = "SubRegionAlreadyAtThisPosition")
+    @Message(name = "SubRegionAlreadyAtThisPosition", message = "&4Your selection would overlap with a subregion that already has been created")
     public static String ALREADY_SUBREGION_AT_THIS_POSITION;
-    @SerialzedName(name = "SubRegionLimitReached")
+    @Message(name = "SubRegionLimitReached", message = "&4Subregion limit reached! You are not allowed to create more than &6%subregionlimit% &4subregions")
     public static String SUBREGION_LIMIT_REACHED;
-    @SerialzedName(name = "SelectionInvalid")
+    @Message(name = "SelectionInvalid", message = "&4Selection invalid! You need to select 2 positions! (Left/Right click) Type \"&6/arm subregion tool&4\" to get the selection tool")
     public static String SELECTION_INVALID;
-    @SerialzedName(name = "RegionCreatedAndSaved")
+    @Message(name = "RegionCreatedAndSaved", message = "&aRegion created and saved!")
     public static String REGION_CREATED_AND_SAVED;
-    @SerialzedName(name = "RegionNotASubregion")
+    @Message(name = "RegionNotASubregion", message = "&4Region not a subregion!")
     public static String REGION_NOT_A_SUBREGION;
-    @SerialzedName(name = "RegionDeleted")
+    @Message(name = "RegionDeleted", message = "&aRegion deleted!")
     public static String REGION_DELETED;
-    @SerialzedName(name = "DeleteRegionWarningName")
+    @Message(name = "DeleteRegionWarningName", message = "&4&lDelete region?")
     public static String DELETE_REGION_WARNING_NAME;
-    @SerialzedName(name = "UnsellRegionButton")
+    @Message(name = "UnsellRegionButton", message = "&4Unsell region")
     public static String UNSELL_REGION_BUTTON;
-    @SerialzedName(name = "UnsellRegionButtonLore")
+    @Message(name = "UnsellRegionButtonLore", message = {"&4Click to unsell your subregion and",
+            "&4kick the players of it"})
     public static List<String> UNSELL_REGION_BUTTON_LORE;
-    @SerialzedName(name = "UnsellRegionWarningName")
+    @Message(name = "UnsellRegionWarningName", message = "&4&lUnsell region?")
     public static String UNSELL_REGION_WARNING_NAME;
-    @SerialzedName(name = "SubregionHelpHeadline")
+    @Message(name = "SubregionHelpHeadline", message = "&6=====[AdvancedRegionMarket Subregion Help]=====\n" +
+            "&3Page %actualpage% / %maxpage%")
     public static String SUBREGION_HELP_HEADLINE;
-    @SerialzedName(name = "SellregionName")
+    @Message(name = "SellregionName", message = "Sellregion")
     public static String SELLREGION_NAME;
-    @SerialzedName(name = "ContractregionName")
+    @Message(name = "ContractregionName", message = "Contractregion")
     public static String CONTRACTREGION_NAME;
-    @SerialzedName(name = "RentregionName")
+    @Message(name = "RentregionName", message = "Rentregion")
     public static String RENTREGION_NAME;
-    @SerialzedName(name = "GUISubregionsButton")
+    @Message(name = "GUISubregionsButton", message = "&6Subregions")
     public static String GUI_SUBREGION_ITEM_BUTTON;
-    @SerialzedName(name = "GUISubregionListMenuName")
+    @Message(name = "GUISubregionListMenuName", message = "&1Subregions")
     public static String GUI_SUBREGION_LIST_MENU_NAME;
-    @SerialzedName(name = "GUIHotelButton")
+    @Message(name = "GUIHotelButton", message = "&6Hotel-function")
     public static String GUI_SUBREGION_HOTEL_BUTTON;
-    @SerialzedName(name = "GUIDeleteRegionButton")
+    @Message(name = "GUIDeleteRegionButton", message = "&4Delete region")
     public static String GUI_SUBREGION_DELETE_REGION_BUTTON;
-    @SerialzedName(name = "GUITeleportToSignOrRegionButton")
+    @Message(name = "GUITeleportToSignOrRegionButton", message = "Teleport to sign or region?")
     public static String GUI_TELEPORT_TO_SIGN_OR_REGION;
-    @SerialzedName(name = "GUIRegionfinderTeleportToSignButton")
+    @Message(name = "GUIRegionfinderTeleportToSignButton", message = "&6Teleport to buy sign!")
     public static String GUI_TELEPORT_TO_SIGN;
-    @SerialzedName(name = "GUIRegionfinderTeleportToRegionButton")
+    @Message(name = "GUIRegionfinderTeleportToRegionButton", message = "&6Teleport to region!")
     public static String GUI_TELEPORT_TO_REGION;
-    @SerialzedName(name = "GUINextPageButton")
+    @Message(name = "GUINextPageButton", message = "&6Next page")
     public static String GUI_NEXT_PAGE;
-    @SerialzedName(name = "GUIPrevPageButton")
+    @Message(name = "GUIPrevPageButton", message = "&6Prev page")
     public static String GUI_PREV_PAGE;
-    @SerialzedName(name = "Enabled")
+    @Message(name = "Enabled", message = "&aenabled")
     public static String ENABLED;
-    @SerialzedName(name = "Disabled")
+    @Message(name = "Disabled", message = "&cdisabled")
     public static String DISABLED;
-    @SerialzedName(name = "Sold")
+    @Message(name = "Sold", message = "&csold")
     public static String SOLD;
-    @SerialzedName(name = "Available")
+    @Message(name = "Available", message = "&aavailable")
     public static String AVAILABLE;
-    @SerialzedName(name = "SubregionIsUserResettableError")
+    @Message(name = "SubregionIsUserResettableError", message = "&4The selected region is a subregion. You can change the isUserResettable setting for all subregions in the config.yml!")
     public static String SUBREGION_IS_USER_RESETTABLE_ERROR;
-    @SerialzedName(name = "SubregionMaxMembersError")
+    @Message(name = "SubregionMaxMembersError", message = "&4The selected region is a subregion. You can change the maxMember setting for all subregions in the config.yml!")
     public static String SUBREGION_MAX_MEMBERS_ERROR;
-    @SerialzedName(name = "GUIHotelButtonLore")
+    @Message(name = "GUIHotelButtonLore", message = {"&6The hotel function allows you to prevent players",
+            "&6from breaking blocks they do not have placed",
+            "&6Status: %hotelfunctionstatus%",
+            "&6Click to enable/disable"})
     public static List<String> GUI_SUBREGION_HOTEL_BUTTON_LORE;
-    @SerialzedName(name = "GUISubregionInfoSell")
+    @Message(name = "GUISubregionInfoSell", message = {"&6Selltype: %selltype%",
+            "&6Status: %soldstatus%",
+            "&6Price: %price%",
+            "&6Price per M2: %priceperm2%",
+            "&6Dimensions: %dimensions%"})
     public static List<String> GUI_SUBREGION_REGION_INFO_SELL;
-    @SerialzedName(name = "GUISubregionInfoRent")
+    @Message(name = "GUISubregionInfoRent", message = {"&6Selltype: %selltype%",
+            "&6Status: %soldstatus%",
+            "&6Price: %price%",
+            "&6Price per M2 (per week): %priceperm2perweek%",
+            "&6Extend per click: %extendtime-writtenout%",
+            "&6Max. extended time: %maxrenttime-writtenout%",
+            "&6Dimensions: %dimensions%"})
     public static List<String> GUI_SUBREGION_REGION_INFO_RENT;
-    @SerialzedName(name = "GUISubregionInfoContract")
+    @Message(name = "GUISubregionInfoContract", message = {"&6Selltype: %selltype%",
+            "&6Status: %soldstatus%",
+            "&6Price: %price%",
+            "&6Price per M2 (per week): %priceperm2perweek%",
+            "&6Automatic extend time: %extendtime-writtenout%",
+            "&6Dimensions: %dimensions%"})
     public static List<String> GUI_SUBREGION_REGION_INFO_CONTRACT;
-    @SerialzedName(name = "GUIRegionfinderInfoSell")
+    @Message(name = "GUIRegionfinderInfoSell", message = {"&6Price: %price%",
+            "&6Price per M2: %priceperm2%",
+            "&6Dimensions: %dimensions%",
+            "&6World: %world%"})
     public static List<String> GUI_REGIONFINDER_REGION_INFO_SELL;
-    @SerialzedName(name = "GUIRegionfinderInfoRent")
+    @Message(name = "GUIRegionfinderInfoRent", message = {"&6Price: %price%",
+            "&6Price per M2 (per week): %priceperm2perweek%",
+            "&6Extend per click: %extendtime-writtenout%",
+            "&6Max. extended time: %maxrenttime-writtenout%",
+            "&6Dimensions: %dimensions%",
+            "&6World: %world%"})
     public static List<String> GUI_REGIONFINDER_REGION_INFO_RENT;
-    @SerialzedName(name = "GUIRegionfinderInfoContract")
+    @Message(name = "GUIRegionfinderInfoContract", message = {"&6Price: %price%",
+            "&6Price per M2 (per week): %priceperm2perweek%",
+            "&6Automatic extend time: %extendtime-writtenout%",
+            "&6Dimensions: %dimensions%",
+            "&6World: %world%"})
     public static List<String> GUI_REGIONFINDER_REGION_INFO_CONTRACT;
-    @SerialzedName(name = "SubregionCreationCreateSignInfo")
+    @Message(name = "SubregionCreationCreateSignInfo", message = {"&aYour selection has been saved! You can now create a sign to sell the region.",
+            "&aCreate a Sell-Region:",
+            "&6First line: &b[sub-sell]",
+            "&6Last line: &bprice",
+            "",
+            "&aCreate a Rent-Region:",
+            "&6First line: &b[sub-rent]",
+            "&6Last line: &bPricePerPeriod&6;&bExtendPerClick&6;&bMaxExtendTime",
+            "&6example for ExtendPerClick/MaxExtendTime: 5d (5 days)",
+            "",
+            "&aCreate a Contract-Region:",
+            "&6First line: &b[sub-contract]",
+            "&6Last line: &bPricePerPeriod&6;&bExtendTime",
+            "&6example for ExtendTime: 12h (12 hours)",
+            "&4We would strongly recommend to not place the sign within the subregion!"})
     public static List<String> SELECTION_SAVED_CREATE_SIGN;
-    @SerialzedName(name = "SubregionCreationSelectAreaInfo")
+    @Message(name = "SubregionCreationSelectAreaInfo", message = {"&aYou got a tool in your inventory (feather) to select 2 points of your region that will mark the corners of your new subregion.",
+            "&aLeft click to select pos1",
+            "&aRight click to select pos2",
+            "&aType \"&6/arm subregion create\" &aif you are done"})
     public static List<String> SUBREGION_TOOL_INSTRUCTION;
-    @SerialzedName(name = "SubregionToolAlreadyOwned")
+    @Message(name = "SubregionToolAlreadyOwned", message = "&4You already own a Subregion Tool. Please use that instead of a new one!")
     public static String SUBREGION_TOOL_ALREADY_OWNED;
-    @SerialzedName(name = "AutopriceList")
+    @Message(name = "AutopriceList", message = "&6=========[Autoprices]=========")
     public static String AUTOPRICE_LIST;
-    @SerialzedName(name = "GUISubregionManagerNoSubregionItem")
+    @Message(name = "GUISubregionManagerNoSubregionItem", message = "&6Info")
     public static String GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM;
-    @SerialzedName(name = "SelltypeNotExist")
+    @Message(name = "SelltypeNotExist", message = "&4The selected selltype does not exist!")
     public static String SELLTYPE_NOT_EXIST;
-    @SerialzedName(name = "SignLinkModeActivated")
+    @Message(name = "SignLinkModeActivated", message = "&aSign-Link-Mode activated! Click into a region and afterwards click on a sign. ARM will automatically create a region (or will just add the sign if the region already exists) with the settings of your preset")
     public static String SIGN_LINK_MODE_ACTIVATED;
-    @SerialzedName(name = "SignLinkModeDeactivated")
+    @Message(name = "SignLinkModeDeactivated", message = "&aSign-Link-Mode deactivated!")
     public static String SIGN_LINK_MODE_DEACTIVATED;
-    @SerialzedName(name = "SignLinkModeAlreadyDeactivated")
+    @Message(name = "SignLinkModeAlreadyDeactivated", message = "&4Sign-Link-Mode is already deactivated!")
     public static String SIGN_LINK_MODE_ALREADY_DEACTIVATED;
-    @SerialzedName(name = "SignLinkModePresetNotPriceready")
+    @Message(name = "SignLinkModePresetNotPriceready", message = "&cThe selected preset is not price-ready! All regions you will create now will be created with the default autoprice")
     public static String SIGN_LINK_MODE_PRESET_NOT_PRICEREADY;
-    @SerialzedName(name = "SignLinkModeNoPresetSelected")
+    @Message(name = "SignLinkModeNoPresetSelected", message = "&cYou dont have a preset loaded! Please load or create a preset first! &cYou can create a preset by using the &6/arm sellpreset/rentpreset/contractpreset &ccommands!\n" +
+            "For more &cinformation about presets click here:\n" +
+            "&6https://bit.ly/2HURK0v (Github Wiki)")
     public static String SIGN_LINK_MODE_NO_PRESET_SELECTED;
-    @SerialzedName(name = "SignLinkModeSignBelongsToAnotherRegion")
+    @Message(name = "SignLinkModeSignBelongsToAnotherRegion", message = "&4Sign belongs to another region!")
     public static String SIGN_LINK_MODE_SIGN_BELONGS_TO_ANOTHER_REGION;
-    @SerialzedName(name = "SignLinkModeSignSelected")
+    @Message(name = "SignLinkModeSignSelected", message = "&aSign selected!")
     public static String SIGN_LINK_MODE_SIGN_SELECTED;
-    @SerialzedName(name = "SignLinkModeMultipleWgRegionsAtPosition")
+    @Message(name = "SignLinkModeMultipleWgRegionsAtPosition", message = "&4Could not select WorldGuard-Region!" +
+            "There is more than one region available! You can add unwanted regions to the ignore-list" +
+            "located in the config.yml, if you want ARM to ignore that regions!")
     public static String SIGN_LINK_MODE_COULD_NOT_SELECT_REGION_MULTIPLE_WG_REGIONS;
-    @SerialzedName(name = "SignLinkModeNoWgRegionAtPosition")
+    @Message(name = "SignLinkModeNoWgRegionAtPosition", message = "&4Could not select WorldGuard-Region! There is no region at your position!")
     public static String SIGN_LINK_MODE_COULD_NOT_SELECT_REGION_NO_WG_REGION;
-    @SerialzedName(name = "SignLinkModeCouldNotIdentifyWorld")
+    @Message(name = "SignLinkModeCouldNotIdentifyWorld", message = "&4Could not identify world! Please select the WorldGuard-Region again!")
     public static String SIGN_LINK_MODE_COULD_NOT_IDENTIFY_WORLD;
-    @SerialzedName(name = "SignLinkModeNoSignSelected")
+    @Message(name = "SignLinkModeNoSignSelected", message = "&4You have not selected a sign")
     public static String SIGN_LINK_MODE_NO_SIGN_SELECTED;
-    @SerialzedName(name = "SignLinkModeNoWgRegionSelected")
+    @Message(name = "SignLinkModeNoWgRegionSelected", message = "&4You have not selected a WorldGuard-Region")
     public static String SIGN_LINK_MODE_NO_WG_REGION_SELECTED;
-    @SerialzedName(name = "SignLinkModeSelectedRegion")
+    @Message(name = "SignLinkModeSelectedRegion", message = "&aSelected region: %regionid%")
     public static String SIGN_LINK_MODE_REGION_SELECTED;
-    @SerialzedName(name = "SchematicNotFoundErrorUser")
+    @Message(name = "SchematicNotFoundErrorUser", message = "&4It seems like the schematic of your region %regionid% has not been created. Please contact an admin!")
     public static String SCHEMATIC_NOT_FOUND_ERROR_USER;
-    @SerialzedName(name = "EntityLimitHelpHeadline")
+    @Message(name = "EntityLimitHelpHeadline", message = "&6=====[AdvancedRegionMarket EntityLimit Help ]=====\n" +
+            "&3Page %actualpage% / %maxpage%")
     public static String ENTITYLIMIT_HELP_HEADLINE;
-    @SerialzedName(name = "EntityLimitGroupNotExist")
+    @Message(name = "EntityLimitGroupNotExist", message = "&4EntityLimitGroup does not exist!")
     public static String ENTITYLIMITGROUP_DOES_NOT_EXIST;
-    @SerialzedName(name = "EntityLimitSet")
+    @Message(name = "EntityLimitSet", message = "&aEntityLimit has been set!")
     public static String ENTITYLIMIT_SET;
-    @SerialzedName(name = "EntityLimitRemoved")
+    @Message(name = "EntityLimitRemoved", message = "&aEntityLimit has been removed!")
     public static String ENTITYLIMIT_REMOVED;
-    @SerialzedName(name = "EntityTypeDoesNotExist")
+    @Message(name = "EntityTypeDoesNotExist", message = "&4The entitytype &6%entitytype% &4does not exist!")
     public static String ENTITYTYPE_DOES_NOT_EXIST;
-    @SerialzedName(name = "EntityLimitGroupNotContainEntityLimit")
+    @Message(name = "EntityLimitGroupNotContainEntityLimit", message = "&4The selected EntityLimitGroup does not contain the selected EntityType")
     public static String ENTITYLIMITGROUP_DOES_NOT_CONTAIN_ENTITYLIMIT;
-    @SerialzedName(name = "EntityLimitTotal")
+    @Message(name = "EntityLimitTotal", message = "Total")
     public static String ENTITYLIMIT_TOTAL;
-    @SerialzedName(name = "SubregionPaybackPercentageError")
+    @Message(name = "SubregionPaybackPercentageError", message = "&4The selected region is a subregion. You can edit the paybackPercentage for all subregions in the config.yml!")
     public static String SUBREGION_PAYBACKPERCENTAGE_ERROR;
-    @SerialzedName(name = "EntityLimitCheckHeadline")
+    @Message(name = "EntityLimitCheckHeadline", message = "&6===[EntityLimitCheck for %regionid%]===")
     public static String ENTITYLIMIT_CHECK_HEADLINE;
-    @SerialzedName(name = "EntityLimitCheckPattern")
+    @Message(name = "EntityLimitCheckPattern", message = "&6%entitytype%: &a(&r%actualentities%&a/&r%softlimitentities%&a) %entityextensioninfo%")
     public static String ENTITYLIMIT_CHECK_PATTERN;
-    @SerialzedName(name = "EntityLimitCheckExtensionInfo")
+    @Message(name = "EntityLimitCheckExtensionInfo", message = "\n&6&o--> Limit extendable up to &r%hardlimitentities% &6entities for &r%priceperextraentity%%currency%&6/entity")
     public static String ENTITYLIMIT_CHECK_EXTENSION_INFO;
-    @SerialzedName(name = "EntityLimitGroupAlreadyExists")
+    @Message(name = "EntityLimitGroupAlreadyExists", message = "&4Group already exists!")
     public static String ENTITYLIMITGROUP_ALREADY_EXISTS;
-    @SerialzedName(name = "EntityLimitGroupCreated")
+    @Message(name = "EntityLimitGroupCreated", message = "&aEntitylimitgroup has been created!")
     public static String ENTITYLIMITGROUP_CREATED;
-    @SerialzedName(name = "EntityLimitGroupCanNotRemoveSystem")
+    @Message(name = "EntityLimitGroupCanNotRemoveSystem", message = "&4You can not remove a system-EntityLimitGroup!")
     public static String ENTITYLIMITGROUP_CAN_NOT_REMOVE_SYSTEM;
-    @SerialzedName(name = "EntityLimitGroupDeleted")
+    @Message(name = "EntityLimitGroupDeleted", message = "&aEntitylimitgroup has been deleted!")
     public static String ENTITYLIMITGROUP_DELETED;
-    @SerialzedName(name = "EntityLimitGroupInfoHeadline")
+    @Message(name = "EntityLimitGroupInfoHeadline", message = "&6======[Entitylimitgroup Info]======")
     public static String ENTITYLIMITGROUP_INFO_HEADLINE;
-    @SerialzedName(name = "EntityLimitGroupInfoGroupname")
+    @Message(name = "EntityLimitGroupInfoGroupname", message = "&6Groupname: ")
     public static String ENTITYLIMITGROUP_INFO_GROUPNAME;
-    @SerialzedName(name = "EntityLimitGroupInfoPattern")
+    @Message(name = "EntityLimitGroupInfoPattern", message = "&6%entitytype%: &r%softlimitentities% %entityextensioninfo%")
     public static String ENTITYLIMITGROUP_INFO_PATTERN;
-    @SerialzedName(name = "EntityLimitInfoExtensionInfo")
+    @Message(name = "EntityLimitInfoExtensionInfo", message = "\n&6&o--> Limit extendable up to &r%hardlimitentities% &6entities for &r%priceperextraentity%%currency%&6/entity")
     public static String ENTITYLIMITGROUP_INFO_EXTENSION_INFO;
-    @SerialzedName(name = "EntityLimitGroupListHeadline")
+    @Message(name = "EntityLimitGroupListHeadline", message = "&6EntityLimitGroups:")
     public static String ENTITYLIMITGROUP_LIST_HEADLINE;
-    @SerialzedName(name = "SubregionEntityLimitOnlyForSubregions")
+    @Message(name = "SubregionEntityLimitOnlyForSubregions", message = "&4SubregionEntityLimitGroup only for subregions")
     public static String ENTITYLIMITGROUP_SUBREGION_GROUP_ONLY_FOR_SUBREGIONS;
-    @SerialzedName(name = "MassactionSplitter")
+    @Message(name = "MassactionSplitter", message = "&6all regions with regionkind &a%regionkind%")
     public static String MASSACTION_SPLITTER;
-    @SerialzedName(name = "SubregionEntityLimitError")
+    @Message(name = "SubregionEntityLimitError", message = "&4Could not change EntiyLimitGroup for the region &6%regionid%&4! Region is a Subregion!")
     public static String SUBREGION_ENTITYLIMITGROUP_ERROR;
-    @SerialzedName(name = "SubregionFlagGroupError")
+    @Message(name = "SubregionFlagGroupError", message = "&4Could not change Flaggroup for the region &6%regionid%&4! Region is a Subregion!")
     public static String SUBREGION_FLAGGROUP_ERROR;
-    @SerialzedName(name = "GUIEntityLimitItemButton")
+    @Message(name = "GUIEntityLimitItemButton", message = "&6EntityLimits")
     public static String GUI_ENTITYLIMIT_ITEM_BUTTON;
-    @SerialzedName(name = "GUIEntityLimitItemLore")
+    @Message(name = "GUIEntityLimitItemLore", message = {"&6Click to display the entity-limits",
+            "&6for this region in chat",
+            "%entityinfopattern%",
+            "",
+            "You can expand your entity-limit with:",
+            "&6/arm entitylimit buyextra %regionid% [ENTITYTYPE/total]"})
     public static List<String> GUI_ENTITYLIMIT_ITEM_LORE;
-    @SerialzedName(name = "GUIEntityLimitInfoPattern")
+    @Message(name = "GUIEntityLimitInfoPattern", message = "&6%entitytype%: &a(&r%actualentities%&a/&r%softlimitentities%&a) %entityextensioninfo%")
     public static String GUI_ENTITYLIMIT_ITEM_INFO_PATTERN;
-    @SerialzedName(name = "GUIEntityLimitInfoExtensionInfo")
+    @Message(name = "GUIEntityLimitInfoExtensionInfo", message = "&6&oMax. &r%hardlimitentities% &6for &r%priceperextraentity%%currency%&6/entity")
     public static String GUI_ENTITYLIMIT_ITEM_INFO_EXTENSION_INFO;
-    @SerialzedName(name = "EntityLimitGroupEntityLimitAlreadyUnlimited")
+    @Message(name = "EntityLimitGroupEntityLimitAlreadyUnlimited", message = "&4EntityLimit for the selected entity and region is already unlimited!")
     public static String ENTITYLIMITGROUP_ENTITYLIMIT_ALREADY_UNLIMITED;
-    @SerialzedName(name = "EntityLimitGroupExtraEntitiesSet")
+    @Message(name = "EntityLimitGroupExtraEntitiesSet", message = "&aExtra-Entities have been set!")
     public static String ENTITYLIMITGROUP_EXTRA_ENTITIES_SET;
-    @SerialzedName(name = "EntityLimitGroupExtraEntitiesExpandSuccess")
+    @Message(name = "EntityLimitGroupExtraEntitiesExpandSuccess", message = "&aYou have sucessfully expanded the entitylimit to &6%softlimitentities% &aentities! (For &6%priceperextraentity%%currency%&a)")
     public static String ENTITYLIMITGROUP_EXTRA_ENTITIES_EXPAND_SUCCESS;
-    @SerialzedName(name = "EntityLimitGroupExtraEntitiesHardlimitReached")
+    @Message(name = "EntityLimitGroupExtraEntitiesHardlimitReached", message = "&4Can not buy another entity-expansion! Hardlimit has been reached!")
     public static String ENTITYLIMITGROUP_EXTRA_ENTITIES_HARDLIMIT_REACHED;
-    @SerialzedName(name = "EntityLimitGroupExtraEntitiesSetSubregionError")
+    @Message(name = "EntityLimitGroupExtraEntitiesSetSubregionError", message = "&4Can not change entitylimit! Region is a Subregion")
     public static String ENTITYLIMITGROUP_EXTRA_ENTITIES_SET_SUBREGION_ERROR;
-    @SerialzedName(name = "EntityLimitGroupExtraEntitiesBuySubregionError")
+    @Message(name = "EntityLimitGroupExtraEntitiesBuySubregionError", message = "&4Can not expand entitylimit! Region is a Subregion")
     public static String ENTITYLIMITGROUP_EXTRA_ENTITIES_BUY_SUBREGION_ERROR;
-    @SerialzedName(name = "EntityLimitGroupCouldNotspawnEntity")
+    @Message(name = "EntityLimitGroupCouldNotspawnEntity", message = "&4Could not spawn entity on region &6%region%&4!\n" +
+            "The not spawned entity would exceed the region\'s entitylimit. For more information type &6/arm entitylimit check %region%&4!\n" +
+            "Everybody on region %region% received this message! If you are not a member of this region, you can ignore this message.")
     public static String ENTITYLIMITGROUP_COULD_NOT_SPAWN_ENTITY;
-    @SerialzedName(name = "ArmBasicCommandMessage")
+    @Message(name = "ArmBasicCommandMessage", message = "&6AdvancedRegionMarket v%pluginversion% by Alex9849\n" +
+            "&6Download: &3https://bit.ly/2CfO3An\n" +
+            "&6Get a list with all commands with &3/arm help")
     public static String ARM_BASIC_COMMAND_MESSAGE;
-    @SerialzedName(name = "RegionKindCreated")
+    @Message(name = "RegionKindCreated", message = "&aRegionKind created!")
     public static String REGIONKIND_CREATED;
-    @SerialzedName(name = "RegionKindAlreadyExists")
+    @Message(name = "RegionKindAlreadyExists", message = "&4RegionKind already exists!")
     public static String REGIONKIND_ALREADY_EXISTS;
-    @SerialzedName(name = "RegionKindDeleted")
+    @Message(name = "RegionKindDeleted", message = "&aRegionKind deleted!")
     public static String REGIONKIND_DELETED;
-    @SerialzedName(name = "RegionKindCanNotRemoveSystem")
+    @Message(name = "RegionKindCanNotRemoveSystem", message = "&4You can not remove a system-RegionKind!")
     public static String REGIONKIND_CAN_NOT_REMOVE_SYSTEM;
-    @SerialzedName(name = "RegionKindListHeadline")
+    @Message(name = "RegionKindListHeadline", message = "&6Regionkinds:")
     public static String REGIONKIND_LIST_HEADLINE;
-    @SerialzedName(name = "RegionKindModified")
+    @Message(name = "RegionKindModified", message = "&aRegionKind modified!")
     public static String REGIONKIND_MODIFIED;
-    @SerialzedName(name = "MaterialNotFound")
+    @Message(name = "MaterialNotFound", message = "&4Material not found!")
     public static String MATERIAL_NOT_FOUND;
-    @SerialzedName(name = "RegionKindLoreLineNotExist")
+    @Message(name = "RegionKindLoreLineNotExist", message = "&aThe selected lore-line does not exist!")
     public static String REGIONKIND_LORE_LINE_NOT_EXIST;
-    @SerialzedName(name = "RegionKindInfoHeadline")
+    @Message(name = "RegionKindInfoHeadline", message = "&6=========[Regionkind info]=========")
     public static String REGIONKIND_INFO_HEADLINE;
-    @SerialzedName(name = "RegionKindInfoInternalName")
+    @Message(name = "RegionKindInfoInternalName", message = "&6Internal name: %regionkind%")
     public static String REGIONKIND_INFO_INTERNAL_NAME;
-    @SerialzedName(name = "RegionKindInfoDisplayName")
+    @Message(name = "RegionKindInfoDisplayName", message = "&6Displayname: %regionkinddisplay%")
     public static String REGIONKIND_INFO_DISPLAY_NAME;
-    @SerialzedName(name = "RegionKindInfoMaterial")
+    @Message(name = "RegionKindInfoMaterial", message = "&6Material: %regionkinditem%")
     public static String REGIONKIND_INFO_MATERIAL;
-    @SerialzedName(name = "RegionKindInfoDisplayInGui")
+    @Message(name = "RegionKindInfoDisplayInGui", message = "&6DisplayInGui: %regionkinddisplayingui%")
     public static String REGIONKIND_INFO_DISPLAY_IN_GUI;
-    @SerialzedName(name = "RegionKindInfoDisplayInLimits")
+    @Message(name = "RegionKindInfoDisplayInLimits", message = "&6DisplayInLimits: %regionkinddisplayinlimits%")
     public static String REGIONKIND_INFO_DISPLAY_IN_LIMITS;
-    @SerialzedName(name = "RegionKindInfoLore")
+    @Message(name = "RegionKindInfoLore", message = "&6Lore:")
     public static String REGIONKIND_INFO_LORE;
-    @SerialzedName(name = "RegionKindHelpHeadline")
+    @Message(name = "RegionKindHelpHeadline", message = "&6=====[AdvancedRegionMarket RegionKind Help ]=====\n" +
+            "&3Page %actualpage% / %maxpage%")
     public static String REGIONKIND_HELP_HEADLINE;
-    @SerialzedName(name = "PlayerNotFound")
+    @Message(name = "PlayerNotFound", message = "&4Could not find selected player!")
     public static String PLAYER_NOT_FOUND;
-    @SerialzedName(name = "RegionInfoSellregionUser")
+    @Message(name = "RegionInfoSellregionUser", version = 1, message = {"&6=========[Region Info]=========",
+            "&9ID: &e%regionid% &7(Type: &r%selltype%&7)",
+            "&9Sold: &e%issold%",
+            "&9Price: &e%price%",
+            "&9Owner: &e%owner%",
+            "&9Members: &e%members%",
+            "&9Max. number of members: &e%maxmembers%",
+            "&9Regionkind: &e%regionkinddisplay% &9FlagGroup: &e%flaggroup%",
+            "&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%",
+            "&9UserRestorable: &e%isuserrestorable% &9InactivityResetEnabled: &e%isinactivityreset%",
+            "&9Owners last login: &e%lastownerlogin%",
+            "&9InactivityReset in: &e%inactivityresetin-countdown-short%",
+            "&9TakeOver possible in: &e%takeoverin-countdown-short%",
+            "&9AutoRestore: &e%isautorestore% &9Autoprice: &e%autoprice%",
+            "&9PaybackPercentage in %: %paypackpercentage%",
+            "&9Allowed Subregions: &e%subregionlimit%",
+            "&9Subregions: &e%subregions%"})
     public static List<String> REGION_INFO_SELLREGION;
-    @SerialzedName(name = "RegionInfoRentregionUser")
+    @Message(name = "RegionInfoRentregionUser", version = 1, message = {"&6=========[Region Info]=========",
+            "&9ID: &e%regionid% &7(Type: &r%selltype%&7)",
+            "&9Sold: &e%issold%",
+            "&9Price: &e%price% &7per &e%extendtime-writtenout% &7max.: &e%maxrenttime-writtenout%",
+            "&9Remaining time: &e%remainingtime-countdown-short%",
+            "&9Owner: &e%owner%",
+            "&9Members: &e%members%",
+            "&9Max. number of members: &e%maxmembers%",
+            "&9Regionkind: &e%regionkinddisplay% &9FlagGroup: &e%flaggroup%",
+            "&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%",
+            "&9UserRestorable: &e%isuserrestorable% &9InactivityResetEnabled: &e%isinactivityreset%",
+            "&9Owners last login: &e%lastownerlogin%",
+            "&9InactivityReset in: &e%inactivityresetin-countdown-short%",
+            "&9TakeOver possible in: &e%takeoverin-countdown-short%",
+            "&9AutoRestore: &e%isautorestore% &9Autoprice: &e%autoprice%",
+            "&9PaybackPercentage in %: %paypackpercentage%",
+            "&9Allowed Subregions: &e%subregionlimit%",
+            "&9Subregions: &e%subregions%"})
     public static List<String> REGION_INFO_RENTREGION;
-    @SerialzedName(name = "RegionInfoContractregionUser")
+    @Message(name = "RegionInfoContractregionUser", version = 1, message = {"&6=========[Region Info]=========" +
+            "&9ID: &e%regionid% &7(Type: &r%selltype%&7)",
+            "&9Sold: &e%issold%",
+            "&9Price: &e%price% &7per &e%extendtime-writtenout% &7(auto extend)",
+            "&9Next extend in: &e%remainingtime-countdown-short%",
+            "&9Owner: &e%owner%",
+            "&9Members: &e%members%",
+            "&9Max. number of members: &e%maxmembers%",
+            "&9Regionkind: &e%regionkinddisplay% &9FlagGroup: &e%flaggroup%",
+            "&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%",
+            "&9UserRestorable: &e%isuserrestorable% &9InactivityResetEnabled: &e%isinactivityreset%",
+            "&9Owners last login: &e%lastownerlogin%",
+            "&9InactivityReset in: &e%inactivityresetin-countdown-short%",
+            "&9TakeOver possible in: &e%takeoverin-countdown-short%",
+            "&9AutoRestore: &e%isautorestore% &9Autoprice: &e%autoprice%",
+            "&9PaybackPercentage in %: %paypackpercentage%",
+            "&9Allowed Subregions: &e%subregionlimit%",
+            "&9Subregions: &e%subregions%"})
     public static List<String> REGION_INFO_CONTRACTREGION;
-    @SerialzedName(name = "RegionInfoSellregionAdmin")
+    @Message(name = "RegionInfoSellregionAdmin", version = 1, message = {"&6=========[Region Info]=========",
+            "&9ID: &e%regionid% &7(Type: &r%selltype%&7)",
+            "&9Sold: &e%issold%",
+            "&9Price: &e%price%",
+            "&9Owner: &e%owner%",
+            "&9Members: &e%members%",
+            "&9Max. number of members: &e%maxmembers%",
+            "&9Regionkind: &e%regionkinddisplay% &9FlagGroup: &e%flaggroup%",
+            "&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%",
+            "&9UserRestorable: &e%isuserrestorable% &9InactivityResetEnabled: &e%isinactivityreset%",
+            "&9Owners last login: &e%lastownerlogin%",
+            "&9InactivityReset in: &e%inactivityresetin-countdown-short%",
+            "&9TakeOver possible in: &e%takeoverin-countdown-short%",
+            "&9AutoRestore: &e%isautorestore% &9Autoprice: &e%autoprice%",
+            "&9PaybackPercentage in %: %paypackpercentage%",
+            "&9Allowed Subregions: &e%subregionlimit%",
+            "&9Subregions: &e%subregions%"})
     public static List<String> REGION_INFO_SELLREGION_ADMIN;
-    @SerialzedName(name = "RegionInfoRentregionAdmin")
+    @Message(name = "RegionInfoRentregionAdmin", version = 1, message = {"&6=========[Region Info]=========",
+            "&9ID: &e%regionid% &7(Type: &r%selltype%&7)",
+            "&9Sold: &e%issold%",
+            "&9Price: &e%price% &7per &e%extendtime-writtenout% &7max.: &e%maxrenttime-writtenout%",
+            "&9Remaining time: &e%remainingtime-countdown-short%",
+            "&9Owner: &e%owner%",
+            "&9Members: &e%members%",
+            "&9Max. number of members: &e%maxmembers%",
+            "&9Regionkind: &e%regionkinddisplay% &9FlagGroup: &e%flaggroup%",
+            "&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%",
+            "&9UserRestorable: &e%isuserrestorable% &9InactivityResetEnabled: &e%isinactivityreset%",
+            "&9Owners last login: &e%lastownerlogin%",
+            "&9InactivityReset in: &e%inactivityresetin-countdown-short%",
+            "&9TakeOver possible in: &e%takeoverin-countdown-short%",
+            "&9AutoRestore: &e%isautorestore% &9Autoprice: &e%autoprice%",
+            "&9PaybackPercentage in %: %paypackpercentage%",
+            "&9Allowed Subregions: &e%subregionlimit%",
+            "&9Subregions: &e%subregions%"})
     public static List<String> REGION_INFO_RENTREGION_ADMIN;
-    @SerialzedName(name = "RegionInfoContractregionAdmin")
+    @Message(name = "RegionInfoContractregionAdmin", version = 1, message = {"&6=========[Region Info]=========",
+            "&9ID: &e%regionid% &7(Type: &r%selltype%&7)",
+            "&9Sold: &e%issold%",
+            "&9Price: &e%price% &7per &e%extendtime-writtenout% &7(auto extend)",
+            "&9Next extend in: &e%remainingtime-countdown-short%",
+            "&9Owner: &e%owner%",
+            "&9Members: &e%members%",
+            "&9Max. number of members: &e%maxmembers%",
+            "&9Regionkind: &e%regionkinddisplay% &9FlagGroup: &e%flaggroup%",
+            "&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%",
+            "&9UserRestorable: &e%isuserrestorable% &9InactivityResetEnabled: &e%isinactivityreset%",
+            "&9Owners last login: &e%lastownerlogin%",
+            "&9InactivityReset in: &e%inactivityresetin-countdown-short%",
+            "&9TakeOver possible in: &e%takeoverin-countdown-short%",
+            "&9AutoRestore: &e%isautorestore% &9Autoprice: &e%autoprice%",
+            "&9PaybackPercentage in %: %paypackpercentage%",
+            "&9Allowed Subregions: &e%subregionlimit%",
+            "&9Subregions: &e%subregions%'"})
     public static List<String> REGION_INFO_CONTRACTREGION_ADMIN;
-    @SerialzedName(name = "RegionInfoSellregionSubregion")
+    @Message(name = "RegionInfoSellregionSubregion", version = 1, message = {"&6=========[Region Info]=========",
+            "&9ID: &e%regionid% &7(Type: &r%selltype%&7, Subregion)",
+            "&9Sold: &e%issold%",
+            "&9Price: &e%price%",
+            "&9Owner: &e%owner%",
+            "&9Members: &e%members%",
+            "&9Max. number of members: &e%maxmembers%",
+            "&9Regionkind: &e%regionkinddisplay% &9FlagGroup: &e%flaggroup%",
+            "&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%",
+            "&9UserRestorable: &e%isuserrestorable% &9InactivityResetEnabled: &e%isinactivityreset%",
+            "&9Owners last login: &e%lastownerlogin%",
+            "&9InactivityReset in: &e%inactivityresetin-countdown-short%",
+            "&9TakeOver possible in: &e%takeoverin-countdown-short%",
+            "&9AutoRestore: &e%isautorestore% &9Autoprice: &e%autoprice%",
+            "&9PaybackPercentage in %: %paypackpercentage%"})
     public static List<String> REGION_INFO_SELLREGION_SUBREGION;
-    @SerialzedName(name = "RegionInfoRentregionSubregion")
+    @Message(name = "RegionInfoRentregionSubregion", version = 1, message = {"&6=========[Region Info]=========",
+            "&9ID: &e%regionid% &7(Type: &r%selltype%&7, Subregion)",
+            "&9Sold: &e%issold%",
+            "&9Price: &e%price% &7per &e%extendtime-writtenout% &7max.: &e%maxrenttime-writtenout%",
+            "&9Remaining time: &e%remainingtime-countdown-short%",
+            "&9Owner: &e%owner%",
+            "&9Members: &e%members%",
+            "&9Max. number of members: &e%maxmembers%",
+            "&9Regionkind: &e%regionkinddisplay% &9FlagGroup: &e%flaggroup%",
+            "&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%",
+            "&9UserRestorable: &e%isuserrestorable% &9InactivityResetEnabled: &e%isinactivityreset%",
+            "&9Owners last login: &e%lastownerlogin%",
+            "&9InactivityReset in: &e%inactivityresetin-countdown-short%",
+            "&9TakeOver possible in: &e%takeoverin-countdown-short%",
+            "&9AutoRestore: &e%isautorestore% &9Autoprice: &e%autoprice%",
+            "&9PaybackPercentage in %: %paypackpercentage%"})
     public static List<String> REGION_INFO_RENTREGION_SUBREGION;
-    @SerialzedName(name = "RegionInfoContractregionSubregion")
+    @Message(name = "RegionInfoContractregionSubregion", version = 1, message = {"&6=========[Region Info]=========",
+            "&9ID: &e%regionid% &7(Type: &r%selltype%&7, Subregion)",
+            "&9Sold: &e%issold%",
+            "&9Price: &e%price% &7per &e%extendtime-writtenout% &7(auto extend)",
+            "&9Next extend in: &e%remainingtime-countdown-short%",
+            "&9Owner: &e%owner%",
+            "&9Members: &e%members%",
+            "&9Max. number of members: &e%maxmembers%",
+            "&9Regionkind: &e%regionkinddisplay% &9FlagGroup: &e%flaggroup%",
+            "&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%",
+            "&9UserRestorable: &e%isuserrestorable% &9InactivityResetEnabled: &e%isinactivityreset%",
+            "&9Owners last login: &e%lastownerlogin%",
+            "&9InactivityReset in: &e%inactivityresetin-countdown-short%",
+            "&9TakeOver possible in: &e%takeoverin-countdown-short%",
+            "&9AutoRestore: &e%isautorestore% &9Autoprice: &e%autoprice%",
+            "&9PaybackPercentage in %: %paypackpercentage%"})
     public static List<String> REGION_INFO_CONTRACTREGION_SUBREGION;
-    @SerialzedName(name = "GUIFlageditorButton")
+    @Message(name = "GUIFlageditorButton", message = "&6FlagEditor")
     public static String GUI_FLAGEDITOR_BUTTON;
-    @SerialzedName(name = "GUIFlageditorMenuName")
+    @Message(name = "GUIFlageditorMenuName", message = "&1FlagEditor (%region%)")
     public static String GUI_FLAGEDITOR_MENU_NAME;
-    @SerialzedName(name = "GUIFlageditorDeleteFlagButton")
+    @Message(name = "GUIFlageditorDeleteFlagButton", message = "&4Delete flag")
     public static String GUI_FLAGEDITOR_DELETE_FLAG_BUTTON;
-    @SerialzedName(name = "GUIFlageditorSetFlagGroupAllButton")
+    @Message(name = "GUIFlageditorSetFlagGroupAllButton", message = "&9Set for everyone")
     public static String GUI_FLAGEDITOR_SET_FLAG_GROUP_ALL_BUTTON;
-    @SerialzedName(name = "GUIFlageditorSetFlagGroupMembersButton")
+    @Message(name = "GUIFlageditorSetFlagGroupMembersButton", message = "&9Set for members and owners")
     public static String GUI_FLAGEDITOR_SET_FLAG_GROUP_MEMBERS_BUTTON;
-    @SerialzedName(name = "GUIFlageditorSetFlagGroupOwnersButton")
+    @Message(name = "GUIFlageditorSetFlagGroupOwnersButton", message = "&9Set for owners")
     public static String GUI_FLAGEDITOR_SET_FLAG_GROUP_OWNERS_BUTTON;
-    @SerialzedName(name = "GUIFlageditorSetFlagGroupNonMembersButton")
+    @Message(name = "GUIFlageditorSetFlagGroupNonMembersButton", message = "&9Set for non members and non owners")
     public static String GUI_FLAGEDITOR_SET_FLAG_GROUP_NON_MEMBERS_BUTTON;
-    @SerialzedName(name = "GUIFlageditorSetFlagGroupNonOwnersButton")
+    @Message(name = "GUIFlageditorSetFlagGroupNonOwnersButton", message = "&9Set for non owners")
     public static String GUI_FLAGEDITOR_SET_FLAG_GROUP_NON_OWNERS_BUTTON;
-    @SerialzedName(name = "GUIFlageditorSetStateflagAllowButton")
+    @Message(name = "GUIFlageditorSetStateflagAllowButton", message = "&2Allow")
     public static String GUI_FLAGEDITOR_SET_STATEFLAG_ALLOW_BUTTON;
-    @SerialzedName(name = "GUIFlageditorSetStateflagDenyButton")
+    @Message(name = "GUIFlageditorSetStateflagDenyButton", message = "&4Deny")
     public static String GUI_FLAGEDITOR_SET_STATEFLAG_DENY_BUTTON;
-    @SerialzedName(name = "GUIFlageditorSetBooleanflagTrueButton")
+    @Message(name = "GUIFlageditorSetBooleanflagTrueButton", message = "&2Yes")
     public static String GUI_FLAGEDITOR_SET_BOOLEANFLAG_TRUE_BUTTON;
-    @SerialzedName(name = "GUIFlageditorSetBooleanflagFalseButton")
+    @Message(name = "GUIFlageditorSetBooleanflagFalseButton", message = "&4No")
     public static String GUI_FLAGEDITOR_SET_BOOLEANFLAG_FALSE_BUTTON;
-    @SerialzedName(name = "GUIFlageditorSetStringflagSetMessageButton")
+    @Message(name = "GUIFlageditorSetStringflagSetMessageButton", message = "&2Set message")
     public static String GUI_FLAGEDITOR_SET_STRINGFLAG_SET_MESSAGE_BUTTON;
-    @SerialzedName(name = "GUIFlageditorSetIntegerflagSetIntegerButton")
+    @Message(name = "GUIFlageditorSetIntegerflagSetIntegerButton", message = "&2Set number")
     public static String GUI_FLAGEDITOR_SET_INTEGERFLAG_SET_INTEGER_BUTTON;
-    @SerialzedName(name = "GUIFlageditorSetDoubleflagSetDoubleButton")
+    @Message(name = "GUIFlageditorSetDoubleflagSetDoubleButton", message = "&2Set number")
     public static String GUI_FLAGEDITOR_SET_DOUBLEFLAG_SET_DOUBLE_BUTTON;
-    @SerialzedName(name = "FlageditorFlagNotActivated")
+    @Message(name = "FlageditorFlagNotActivated", message = "&4Flag not activated!")
     public static String FlAGEDITOR_FLAG_NOT_ACTIVATED;
-    @SerialzedName(name = "FlageditorFlagHasBeenDeleted")
+    @Message(name = "FlageditorFlagHasBeenDeleted", message = "&2Flag has been deleted!")
     public static String FlAGEDITOR_FLAG_HAS_BEEN_DELETED;
-    @SerialzedName(name = "FlageditorFlagHasBeenUpdated")
+    @Message(name = "FlageditorFlagHasBeenUpdated", message = "&2Flag has been updated!")
     public static String FLAGEDITOR_FLAG_HAS_BEEN_UPDATED;
-    @SerialzedName(name = "FlageditorFlagCouldNotBeUpdated")
+    @Message(name = "FlageditorFlagCouldNotBeUpdated", message = "Could not modify flag %flag%!")
     public static String FLAGEDITOR_FLAG_COULD_NOT_BE_MODIFIED;
-    @SerialzedName(name = "FlageditorStringflagSetMessageInfo")
+    @Message(name = "FlageditorStringflagSetMessageInfo", message = "&9Please write down a message:")
     public static String FLAGEDITOR_STRINGFLAG_SET_MESSAGE_INFO;
-    @SerialzedName(name = "FlageditorIntegerflagSetMessageInfo")
+    @Message(name = "FlageditorIntegerflagSetMessageInfo", message = "&9Please write down a number that does not have decimals:")
     public static String FLAGEDITOR_INTEGERFLAG_SET_NUMBER_INFO;
-    @SerialzedName(name = "FlageditorDoubleflagSetMessageInfo")
+    @Message(name = "FlageditorDoubleflagSetMessageInfo", message = "&9Please write down a number:")
     public static String FLAGEDITOR_DOUBLEFLAG_SET_NUMBER_INFO;
-    @SerialzedName(name = "GUIFlageditorResetButton")
+    @Message(name = "GUIFlageditorResetButton", message = "&4Reset all Flags to default settings")
     public static String GUI_FLAGEDITOR_RESET_BUTTON;
-    @SerialzedName(name = "GUIFlageditorUnknownFlagSetPropertiesButton")
+    @Message(name = "GUIFlageditorUnknownFlagSetPropertiesButton", message = "&2Set properties")
     public static String GUI_FLAGEDITOR_UNKNOWNFLAG_SET_PROPERTIES_BUTTON;
-    @SerialzedName(name = "GUIFlageditorUnknownFlagSetPropertiesInfo")
+    @Message(name = "GUIFlageditorUnknownFlagSetPropertiesInfo", message = "&9Please write down your new flag properties: FlaggroupDoesNotExist: '&4Flaggroup does not exist!")
     public static String FLAGEDITOR_UNKNOWNFLAG_SET_PROPERTIES_INFO;
-    @SerialzedName(name = "FlaggroupDoesNotExist")
+    @Message(name = "FlaggroupDoesNotExist", message = "&4Flaggroup does not exist!")
     public static String FLAGGROUP_DOES_NOT_EXIST;
-    @SerialzedName(name = "SubregionFlaggroupOnlyForSubregions")
+    @Message(name = "SubregionFlaggroupOnlyForSubregions", message = "&4Subregion flaggroup only for subregions")
     public static String SUBREGION_FLAGGROUP_ONLY_FOR_SUBREGIONS;
-    @SerialzedName(name = "GUITeleportToRegionButtonLore")
+    @Message(name = "GUITeleportToRegionButtonLore", message = {"Click to teleport you to",
+            "your region"})
     public static List<String> GUI_TELEPORT_TO_REGION_BUTTON_LORE;
-    @SerialzedName(name = "GUIMakeOwnerButtonLore")
+    @Message(name = "GUIMakeOwnerButtonLore", message = {"Click to transfer your owner rights",
+            "to the selected member.",
+            "&4WARNING: &cYou will lose your owner",
+            "&crights and become a member'"})
     public static List<String> GUI_MAKE_OWNER_BUTTON_LORE;
-    @SerialzedName(name = "GUIRemoveMemberButtonLore")
+    @Message(name = "GUIRemoveMemberButtonLore", message = {"Click to remove the selected member",
+            "from your region"})
     public static List<String> GUI_REMOVE_MEMBER_BUTTON_LORE;
-    @SerialzedName(name = "GUIResetRegionButtonLore")
+    @Message(name = "GUIResetRegionButtonLore", message = {"Click to reset your region",
+            "&4WARNING: &cThis can not be undone! Your region",
+            "&cwill be resetted and everything on it will",
+            "&cbe deleted!",
+            "",
+            "&cYou can only reset you region once every %userresetcooldown%",
+            "&2You and all members keep their rights on the region"})
     public static List<String> GUI_RESET_REGION_BUTTON_LORE;
-    @SerialzedName(name = "TakeOverItemLore")
+    @Message(name = "TakeOverItemLore", message = {"&aYou are a member of this region.",
+            "&aThe owner of it hasn''''t been",
+            "&aonline for a long time. You",
+            "&acan transfer the owner rights to your",
+            "&aaccount for free. The actual owner",
+            "&aof it will become a member of the region.",
+            "&cIf the region does not get transferred",
+            "&cor the owner does not come online",
+            "&cwithin &7%inactivityresetin-countdown-short% &cthe",
+            "&cregion will be resetted and everybody on it",
+            "&cwill lose their rights.",
+            "&cAfterwards it will go back for sale!"})
     public static List<String> GUI_TAKEOVER_ITEM_LORE;
-    @SerialzedName(name = "GUIExtendRentRegionButtonLore")
+    @Message(name = "GUIExtendRentRegionButtonLore", message = {"&aClick to extend your region for &6%extendtime-writtenout%",
+            "&athis will cost you &6%price%%currency%&a!",
+            "&aThis region will expire in &6%remainingtime-countdown-short%&a.",
+            "&aYou can extend your region up to &6%maxrenttime-writtenout%&a."})
     public static List<String> GUI_EXTEND_BUTTON_LORE;
-    @SerialzedName(name = "GUIRentRegionLore")
+    @Message(name = "GUIRentRegionLore", message = {"&aExpires in &6%remainingtime-countdown-short%"})
     public static List<String> GUI_RENT_REGION_LORE;
-    @SerialzedName(name = "GUIUserSellButtonLore")
+    @Message(name = "GUIUserSellButtonLore", message = {"Click to sell your region",
+            "&4WARNING: &cThis can not be undone! Your region",
+            "&cwill be released and all blocks on it will be",
+            "&cresetted! You and all members of it will loose",
+            "&ctheir rights on it.",
+            "&cYou will get &6%paybackmoney%%currency% &cback"})
     public static List<String> GUI_USER_SELL_BUTTON_LORE;
-    @SerialzedName(name = "MemberlistInfoLore")
+    @Message(name = "MemberlistInfoLore", message = {"&aYou can be added as a member to",
+            "&athe region of someone else in order",
+            "&ato build with him together",
+            "&aJust ask a region owner to add you with:",
+            "&6/arm addmember REGIONID USERNAME",
+            "&aYou need to be online for this"})
     public static List<String> GUI_MEMBER_INFO_LORE;
-    @SerialzedName(name = "GUIContractItemLore")
+    @Message(name = "GUIContractItemLore", message = {"&aStatus: %status%",
+            "&aIf active the next extend is in:",
+            "&6%remainingtime-countdown-short%"})
     public static List<String> GUI_CONTRACT_ITEM_LORE;
-    @SerialzedName(name = "GUIContractItemRegionLore")
+    @Message(name = "GUIContractItemRegionLore", message = {"&aStatus: %status%",
+            "&aIf active the next extend is in:",
+            "&6%remainingtime-countdown-short%"})
     public static List<String> GUI_CONTRACT_REGION_LORE;
-    @SerialzedName(name = "OwnerMemberlistInfoLore")
+    @Message(name = "OwnerMemberlistInfoLore", message = {"&aYou can add members to your region",
+            "&ain order to build with them together",
+            "&aYou can add members with:",
+            "&6/arm addmember %regionid% USERNAME",
+            "&aMembers need to be online to add them"})
     public static List<String> GUI_OWNER_MEMBER_INFO_LORE;
-    @SerialzedName(name = "GUISubregionManagerNoSubregionItemLore")
+    @Message(name = "GUISubregionManagerNoSubregionItemLore", message = {"&aYou do not have any subregions on your region.",
+            "&aYou can create a new subregion, that you",
+            "&acan sell to other players by typing",
+            "&6/arm subregion tool &aand following displayed the steps"})
     public static List<String> GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM_LORE;
-    @SerialzedName(name = "SellPresetHelpHeadline")
+    @Message(name = "SellPresetHelpHeadline", message = "&6=====[AdvancedRegionMarket SellPreset Help]=====\n" +
+            "&3Page %actualpage% / %maxpage%")
     public static String SELLPRESET_HELP_HEADLINE;
-    @SerialzedName(name = "ContractPresetHelpHeadline")
+    @Message(name = "ContractPresetHelpHeadline", message = "&6=====[AdvancedRegionMarket ContractPreset Help]=====\n" +
+            "&3Page %actualpage% / %maxpage%")
     public static String CONTRACTPRESET_HELP_HEADLINE;
-    @SerialzedName(name = "RentPresetHelpHeadline")
+    @Message(name = "RentPresetHelpHeadline", message = "&6=====[AdvancedRegionMarket RentPreset Help]=====\n" +
+            "&3Page %actualpage% / %maxpage%")
     public static String RENTPRESET_HELP_HEADLINE;
-    @SerialzedName(name = "InfoDeactivated")
+    @Message(name = "InfoDeactivated", message = "&4deactivated")
     public static String INFO_DEACTIVATED;
-    @SerialzedName(name = "InfoNotSold")
+    @Message(name = "InfoNotSold", message = "&4Region not sold!")
     public static String INFO_REGION_NOT_SOLD;
-    @SerialzedName(name = "InfoNow")
+    @Message(name = "InfoNow", message = "&2now")
     public static String INFO_NOW;
-    @SerialzedName(name = "InfoNotCalculated")
+    @Message(name = "InfoNotCalculated", message = "&8Awaiting calculation...")
     public static String INFO_NOT_CALCULATED;
-    @SerialzedName(name = "CouldNotFindOrLoadSchematicLog")
+    @Message(name = "CouldNotFindOrLoadSchematicLog", message = "&4Could not find or load schematic for region %region% in world %world%! You can regenerate it with /arm updateschematic %region%")
     public static String COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG;
-    @SerialzedName(name = "RegionSoldBackSuccessfully")
+    @Message(name = "RegionSoldBackSuccessfully", message = "&2Your region &6%regionid% &2has successfully been sold back to the server! " +
+            "&6%paybackmoney%%currency% &2have been added to your account!")
     public static String REGION_SOLD_BACK_SUCCESSFULLY;
-    @SerialzedName(name = "RegionModifiedBoolean")
+    @Message(name = "RegionModifiedBoolean", message = "&6%option% %state% &6for &a%selectedregions%&6!")
     public static String REGION_MODIFIED_BOOLEAN;
-    @SerialzedName(name = "RegionModified")
+    @Message(name = "RegionModified", message = "&6%option% &6modified for %selectedregions%&6!")
     public static String REGION_MODIFIED;
-    @SerialzedName(name = "UpdatingSchematic")
+    @Message(name = "UpdatingSchematic", message = "&8Updating schematic...")
     public static String UPDATING_SCHEMATIC;
-    @SerialzedName(name = "SchematicUpdated")
+    @Message(name = "SchematicUpdated", message = "&aSchematic updated!")
     public static String SCHEMATIC_UPDATED;
-    @SerialzedName(name = "ContractRegionTerminated")
+    @Message(name = "ContractRegionTerminated", message = "&6Your contractregion &a%region% &6has successfully been " +
+            "&4terminated&6! It will be resetted in &a%remainingtime-countdown-short% &6except it gets reactivated!")
     public static String CONTRACTREGION_TERMINATED;
-    @SerialzedName(name = "ContractRegionReactivated")
+    @Message(name = "ContractRegionReactivated", message = "&6Your contractregion &a%region% &6has successfully " +
+            "been &areactivated&6! It will automatically be extended in &a%remainingtime-countdown-short% &6if " +
+            "you can pay for the rent!")
     public static String CONTRACTREGION_REACTIVATED;
-    @SerialzedName(name = "RegionInfoFeatureDisabled")
+    @Message(name = "RegionInfoFeatureDisabled", message = "&4Feature disbaled!")
     public static String REGION_INFO_FEATURE_DISABLED;
-    @SerialzedName(name = "FlagGroupFeatureDisabled")
+    @Message(name = "FlagGroupFeatureDisabled", message = "&4FlagGroups are currently disabled! You can activate them in the config.yml!")
     public static String FLAGGROUP_FEATURE_DISABLED;
-    @SerialzedName(name = "BackupCreated")
+    @Message(name = "BackupCreated", message = "&aBackup created!")
     public static String BACKUP_CREATED;
-    @SerialzedName(name = "BackupRestored")
+    @Message(name = "BackupRestored", message = "&aBackup restored!")
     public static String BACKUP_RESTORED;
-    @SerialzedName(name = "CouldNotLoadBackup")
+    @Message(name = "CouldNotLoadBackup", message = "&4Could not load backup! Maybe it does not exist or the file is corrupted!")
     public static String COULD_NOT_LOAD_BACKUP;
-    @SerialzedName(name = "BackupListHeader")
+    @Message(name = "BackupListHeader", message = "&6=======[Backups of region %regionid%]=======")
     public static String BACKUP_LIST_HEADER;
-    private static YamlConfiguration config;
 
-    static void load() {
-        File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-        File messagesconfigdic = new File(pluginfolder + "/messages.yml");
-        Configuration config = YamlConfiguration.loadConfiguration(messagesconfigdic);
+    public static void reload(File savePath, MessageLocale locale) {
+        YamlConfiguration config = updateAndWriteConfig(locale, savePath);
+        load(config);
+    }
+
+    private static YamlConfiguration updateAndWriteConfig(MessageLocale locale, File savePath) {
+        YamlConfiguration config;
+        if(savePath.exists()) {
+            config = YamlConfiguration.loadConfiguration(savePath);
+        } else {
+            config = new YamlConfiguration();
+        }
+        int configVersion = config.getInt("FileVersion");
+        int newConfigVersion = configVersion;
+        ConfigurationSection localeconfigMessages = null;
+        int localeFileVersion = 0;
+        if(MessageLocale.EN != locale) {
+            InputStreamReader reader = new InputStreamReader(AdvancedRegionMarket.getInstance()
+                    .getResource("messages_" + locale.code() + ".yml"), Charset.forName("UTF-8"));
+            YamlConfiguration localeConfig = YamlConfiguration.loadConfiguration(reader);
+            localeFileVersion = localeConfig.getInt("FileVersion");
+            localeconfigMessages = localeConfig.getConfigurationSection("Messages");
+        }
+
+        ConfigurationSection configMessages = config.getConfigurationSection("Messages");
+        if (configMessages == null) {
+            configMessages = new YamlConfiguration();
+        }
+
+        boolean fileUpdated = false;
+        for(Field field : Messages.class.getDeclaredFields()) {
+            if (!field.isAnnotationPresent(Message.class)) {
+                continue;
+            }
+            int requestedVersion = getRequestedVersion(field);
+            String serializedKey = getSerializedKey(field);
+            if((configVersion >= requestedVersion) && configMessages.get(serializedKey) != null) {
+                continue;
+            }
+            Object replaceMessage = getMessage(field);
+            if(localeconfigMessages != null) {
+                Object localeConfigMessage = localeconfigMessages.get(serializedKey);
+                if(localeConfigMessage != null && localeFileVersion >= requestedVersion) {
+                    replaceMessage = localeConfigMessage;
+                }
+            }
+
+            configMessages.set(serializedKey, replaceMessage);
+            newConfigVersion = Math.max(newConfigVersion, requestedVersion);
+            fileUpdated = true;
+        }
+
+        if(fileUpdated) {
+            config.set("FileVersion", newConfigVersion);
+            config.set("Messages", configMessages);
+            config.options().copyDefaults(true);
+            try {
+                config.save(savePath);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return config;
+    }
+
+    private static void load(YamlConfiguration config) {
         ConfigurationSection cs = config.getConfigurationSection("Messages");
         if (cs == null) {
             return;
         }
 
         for (Field field : Messages.class.getDeclaredFields()) {
-            if (field.isAnnotationPresent(SerialzedName.class)) {
+            if (field.isAnnotationPresent(Message.class)) {
                 field.setAccessible(true);
-                Object parsedOption = cs.get(getSerializedKey(field), field.getType());
-                if (parsedOption instanceof List) {
-                    List stringList = (List) parsedOption;
-                    for (int i = 0; i < stringList.size(); i++) {
-                        if (stringList.get(i) instanceof String) {
-                            stringList.set(i, ChatColor.translateAlternateColorCodes('&', (String) stringList.get(i)));
+                Object parsedOption = cs.get(getSerializedKey(field));
+                if (parsedOption instanceof String) {
+                    parsedOption = ChatColor.translateAlternateColorCodes('&', (String) parsedOption);
+
+                } else if (parsedOption instanceof List<?>) {
+                    List<String> parsedOptionList = new ArrayList<>();
+                    for(Object listElement : (List<?>) parsedOption) {
+                        if(listElement instanceof String) {
+                            parsedOptionList.add(ChatColor.translateAlternateColorCodes('&', (String) listElement));
                         }
                     }
-                } else if (parsedOption instanceof String) {
-                    parsedOption = ChatColor.translateAlternateColorCodes('&', (String) parsedOption);
+                    parsedOption = parsedOptionList;
                 }
-
-                try {
-                    field.set(field.getType(), parsedOption);
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
+                if(field.getType().isAssignableFrom(parsedOption.getClass())) {
+                    try {
+                        field.set(Messages.class, parsedOption);
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
                 }
                 field.setAccessible(false);
             }
         }
     }
 
+    private static Object getMessage(Field field) {
+        if(!field.isAnnotationPresent(Message.class)) {
+            return null;
+        }
+        String[] messageArr = field.getAnnotation(Message.class).message();
+        if(messageArr.length == 1) {
+            return messageArr[0];
+        }
+        return Arrays.asList(messageArr);
+    }
+
     private static String getSerializedKey(Field field) {
-        String annotationValue = field.getAnnotation(SerialzedName.class).name();
-        if (annotationValue.isEmpty()) {
-            return field.getName();
-        }
-        return annotationValue;
-    }
-
-    public static void readOld() {
-        File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-        File messagesconfigdic = new File(pluginfolder + "/messages.yml");
-        Configuration config = YamlConfiguration.loadConfiguration(messagesconfigdic);
-
-        //PREFIX = config.getString("Messages.Prefix") + " ";
-        //if (config.getString("Messages.Prefix").equals(""))
-        //    PREFIX = "";
-    }
-
-    private static void updateDefauts() {
-        YamlConfiguration modelConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(AdvancedRegionMarket.getInstance().getResource("messages_en.yml")));
-
-        ConfigurationSection msgSection = modelConfig.getConfigurationSection("Messages");
-        if (msgSection == null) {
-            return;
-        }
-        Set<String> msgKeys = msgSection.getKeys(false);
-
-        boolean fileUpdated = false;
-        for (String key : msgKeys) {
-            fileUpdated |= YamlFileManager.addDefault(config, "Messages." + key, msgSection.get(key));
-        }
-
-        if (fileUpdated) {
-            config.options().copyDefaults(true);
-            saveConfig();
-        }
-    }
-
-    public static void generatedefaultConfig(String languageCode) {
-        if (languageCode == null) {
-            languageCode = "en";
-        }
-        Plugin plugin = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket");
-        File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-        File messagesdic = new File(pluginfolder + "/messages.yml");
-        if (!messagesdic.exists()) {
-            try {
-                InputStream stream = plugin.getResource("messages_" + languageCode + ".yml");
-                if (stream == null) {
-                    stream = plugin.getResource("messages_en.yml");
-                }
-                OutputStream output = new FileOutputStream(messagesdic);
-
-                byte[] buffer = new byte[8 * 1024];
-                int bytesRead;
-                while ((bytesRead = stream.read(buffer)) != -1) {
-                    output.write(buffer, 0, bytesRead);
-                }
-
-                output.flush();
-                output.close();
-                stream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+        if(field.isAnnotationPresent(Message.class)) {
+            String annotationValue = field.getAnnotation(Message.class).name();
+            if(annotationValue.isEmpty()) {
+                annotationValue = field.getName();
             }
+            return annotationValue;
         }
-        setConfig();
-        updateDefauts();
+        return null;
     }
 
-    public static YamlConfiguration getConfig() {
-        return Messages.config;
-    }
-
-    public static void setConfig() {
-        File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-        File messagesconfigdic = new File(pluginfolder + "/messages.yml");
-        Messages.config = YamlConfiguration.loadConfiguration(messagesconfigdic);
-    }
-
-    public static void saveConfig() {
-        File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-        File messagesconfigdic = new File(pluginfolder + "/messages.yml");
-        try {
-            Messages.config.save(messagesconfigdic);
-        } catch (IOException e) {
-            e.printStackTrace();
+    private static int getRequestedVersion(Field field) {
+        if(field.isAnnotationPresent(Message.class)) {
+            return field.getAnnotation(Message.class).version();
         }
+        return 0;
     }
 
     public static String convertYesNo(Boolean bool) {

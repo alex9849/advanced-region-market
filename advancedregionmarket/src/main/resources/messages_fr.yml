@@ -1,7 +1,8 @@
+FileVersion: 1
 Messages:
   Prefix: '&b[ARM]&r '
   NoPermission: '&4Vous n''avez pas la permission !'
-  NotEnoughtMoney: '&4Vous n''avez pas assez d''argent !'
+  NotEnoughMoney: '&4Vous n''avez pas assez d''argent !'
   RegionAlreadySold: '&4Région déjà vendu !'
   WorldDoesNotExist: '&4Le monde sélectionné n''éxiste pas !'
   RegionDoesNotExist: '&4La région sélectionné n''éxiste pas dans ce monde (ou celui sélectionné) !'
@@ -103,7 +104,7 @@ Messages:
     an answer or cancel it first!'
   SellerDoesNotLongerOwnRegion: '&4%seller% &4does not longer own this region. His
     offer has been cancelled'
-  IncommingOffer: '&c%seller% &6offers you his region &c%region% &6in the world &c%world%
+  IncomingOffer: '&c%seller% &6offers you his region &c%region% &6in the world &c%world%
     &6for &c%price% %currency%&6! You can accept his offer with &c/arm offer accept
     &6or reject it &c/arm offer reject'
   OfferTimedOut: '&4Offer timed out!'
@@ -114,7 +115,7 @@ Messages:
   RegionTeleportMessage: '&7Vous avez été téléporté vers %regionid%'
   RegionKinds: '&6Types de régions :'
   ResetRegionResetingBlocks: '&7Réinitialisation des blocks...'
-  RegionNowAviable: '&aLa région est maintenant disponible !'
+  RegionNowAvailable: '&aLa région est maintenant disponible !'
   HaveToStandOnRegionToShowInfo: '&7Vous devez être sur la région pour afficher ses
     informations'
   RegionAddMemberNotOnline: '&4Le joueur sélectionné n''est pas en ligne !'

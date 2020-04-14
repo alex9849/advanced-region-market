@@ -22,7 +22,6 @@
                 <includes>
                     <include>plugin.yml</include>
                     <include>config.yml</include>
-                    <include>messages_en.yml</include>
                     <include>messages_de.yml</include>
                     <include>messages_fr.yml</include>
                     <include>messages_ru.yml</include>

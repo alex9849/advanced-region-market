@@ -678,7 +678,7 @@ public class Gui implements Listener {
                         public void execute(Player player) throws InputException {
                             region.unsell(Region.ActionReason.MANUALLY_BY_PARENT_REGION_OWNER, true, false);
                             player.closeInventory();
-                            player.sendMessage(Messages.PREFIX + Messages.REGION_NOW_AVIABLE);
+                            player.sendMessage(Messages.PREFIX + Messages.REGION_NOW_AVAILABLE);
                         }
                     }, new ClickAction() {
                         @Override

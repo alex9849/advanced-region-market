@@ -38,7 +38,7 @@ public class UnsellCommand extends BasicArmCommand {
 
         region.unsell(Region.ActionReason.MANUALLY_BY_ADMIN, true, false);
 
-        player.sendMessage(Messages.PREFIX + Messages.REGION_NOW_AVIABLE);
+        player.sendMessage(Messages.PREFIX + Messages.REGION_NOW_AVAILABLE);
         return true;
     }
 

@@ -13,7 +13,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.Field;
 import java.nio.charset.Charset;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 public class Messages {
     public enum MessageLocale {
@@ -41,14 +44,6 @@ public class Messages {
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.FIELD)
     public @interface SerialzedString {
-        public String name();
-        public String message();
-        public int version() default 0;
-    }
-
-    @Retention(RetentionPolicy.RUNTIME)
-    @Target(ElementType.FIELD)
-    public @interface SerialzedStringList {
         public String name();
         public String[] message();
         public int version() default 0;
@@ -355,7 +350,7 @@ public class Messages {
     @SerialzedString(name = "HelpHeadline", message = "&6=====[AdvancedRegionMarket Help ]=====\n" +
             "&3Page %actualpage% / %maxpage%")
     public static String HELP_HEADLINE;
-    @SerialzedStringList(name = "PresetInfoSellregion", message = {"&6=========[Region Info]=========",
+    @SerialzedString(name = "PresetInfoSellregion", message = {"&6=========[Region Info]=========",
             "&9Autoprice: &e%presetautoprice%",
             "&9Price: &e%presetprice%",
             "&9PaybackPercentage: &e%presetpaybackpercentage%",
@@ -371,7 +366,7 @@ public class Messages {
             "&9Setup commands:",
             "%presetsetupcommands%"})
     public static List<String> PRESET_INFO_SELLREGION;
-    @SerialzedStringList(name = "PresetInfoContractregion", message = {"&6=========[Region Info]=========",
+    @SerialzedString(name = "PresetInfoContractregion", message = {"&6=========[Region Info]=========",
             "&9Autoprice: &e%presetautoprice%",
             "&9Price: &e%presetprice%",
             "&9ExtendTime: &e%extendtime%",
@@ -388,7 +383,7 @@ public class Messages {
             "&9Setup commands:",
             "%presetsetupcommands%"})
     public static List<String> PRESET_INFO_CONTRACTREGION;
-    @SerialzedStringList(name = "PresetInfoRentregion", message = {"&6=========[Region Info]=========",
+    @SerialzedString(name = "PresetInfoRentregion", message = {"&6=========[Region Info]=========",
             "&9Autoprice: &e%presetautoprice%",
             "&9Price: &e%presetprice%",
             "&9ExtendTime: &e%extendtime%",
@@ -462,7 +457,7 @@ public class Messages {
     public static String DELETE_REGION_WARNING_NAME;
     @SerialzedString(name = "UnsellRegionButton", message = "&4Unsell region")
     public static String UNSELL_REGION_BUTTON;
-    @SerialzedStringList(name = "UnsellRegionButtonLore", message = {"&4Click to unsell your subregion and",
+    @SerialzedString(name = "UnsellRegionButtonLore", message = {"&4Click to unsell your subregion and",
             "&4kick the players of it"})
     public static List<String> UNSELL_REGION_BUTTON_LORE;
     @SerialzedString(name = "UnsellRegionWarningName", message = "&4&lUnsell region?")
@@ -506,18 +501,18 @@ public class Messages {
     public static String SUBREGION_IS_USER_RESETTABLE_ERROR;
     @SerialzedString(name = "SubregionMaxMembersError", message = "&4The selected region is a subregion. You can change the maxMember setting for all subregions in the config.yml!")
     public static String SUBREGION_MAX_MEMBERS_ERROR;
-    @SerialzedStringList(name = "GUIHotelButtonLore", message = {"&6The hotel function allows you to prevent players",
+    @SerialzedString(name = "GUIHotelButtonLore", message = {"&6The hotel function allows you to prevent players",
             "&6from breaking blocks they do not have placed",
             "&6Status: %hotelfunctionstatus%",
             "&6Click to enable/disable"})
     public static List<String> GUI_SUBREGION_HOTEL_BUTTON_LORE;
-    @SerialzedStringList(name = "GUISubregionInfoSell", message = {"&6Selltype: %selltype%",
+    @SerialzedString(name = "GUISubregionInfoSell", message = {"&6Selltype: %selltype%",
             "&6Status: %soldstatus%",
             "&6Price: %price%",
             "&6Price per M2: %priceperm2%",
             "&6Dimensions: %dimensions%"})
     public static List<String> GUI_SUBREGION_REGION_INFO_SELL;
-    @SerialzedStringList(name = "GUISubregionInfoRent", message = {"&6Selltype: %selltype%",
+    @SerialzedString(name = "GUISubregionInfoRent", message = {"&6Selltype: %selltype%",
             "&6Status: %soldstatus%",
             "&6Price: %price%",
             "&6Price per M2 (per week): %priceperm2perweek%",
@@ -525,32 +520,32 @@ public class Messages {
             "&6Max. extended time: %maxrenttime-writtenout%",
             "&6Dimensions: %dimensions%"})
     public static List<String> GUI_SUBREGION_REGION_INFO_RENT;
-    @SerialzedStringList(name = "GUISubregionInfoContract", message = {"&6Selltype: %selltype%",
+    @SerialzedString(name = "GUISubregionInfoContract", message = {"&6Selltype: %selltype%",
             "&6Status: %soldstatus%",
             "&6Price: %price%",
             "&6Price per M2 (per week): %priceperm2perweek%",
             "&6Automatic extend time: %extendtime-writtenout%",
             "&6Dimensions: %dimensions%"})
     public static List<String> GUI_SUBREGION_REGION_INFO_CONTRACT;
-    @SerialzedStringList(name = "GUIRegionfinderInfoSell", message = {"&6Price: %price%",
+    @SerialzedString(name = "GUIRegionfinderInfoSell", message = {"&6Price: %price%",
             "&6Price per M2: %priceperm2%",
             "&6Dimensions: %dimensions%",
             "&6World: %world%"})
     public static List<String> GUI_REGIONFINDER_REGION_INFO_SELL;
-    @SerialzedStringList(name = "GUIRegionfinderInfoRent", message = {"&6Price: %price%",
+    @SerialzedString(name = "GUIRegionfinderInfoRent", message = {"&6Price: %price%",
             "&6Price per M2 (per week): %priceperm2perweek%",
             "&6Extend per click: %extendtime-writtenout%",
             "&6Max. extended time: %maxrenttime-writtenout%",
             "&6Dimensions: %dimensions%",
             "&6World: %world%"})
     public static List<String> GUI_REGIONFINDER_REGION_INFO_RENT;
-    @SerialzedStringList(name = "GUIRegionfinderInfoContract", message = {"&6Price: %price%",
+    @SerialzedString(name = "GUIRegionfinderInfoContract", message = {"&6Price: %price%",
             "&6Price per M2 (per week): %priceperm2perweek%",
             "&6Automatic extend time: %extendtime-writtenout%",
             "&6Dimensions: %dimensions%",
             "&6World: %world%"})
     public static List<String> GUI_REGIONFINDER_REGION_INFO_CONTRACT;
-    @SerialzedStringList(name = "SubregionCreationCreateSignInfo", message = {"&aYour selection has been saved! You can now create a sign to sell the region.",
+    @SerialzedString(name = "SubregionCreationCreateSignInfo", message = {"&aYour selection has been saved! You can now create a sign to sell the region.",
             "&aCreate a Sell-Region:",
             "&6First line: &b[sub-sell]",
             "&6Last line: &bprice",
@@ -566,7 +561,7 @@ public class Messages {
             "&6example for ExtendTime: 12h (12 hours)",
             "&4We would strongly recommend to not place the sign within the subregion!"})
     public static List<String> SELECTION_SAVED_CREATE_SIGN;
-    @SerialzedStringList(name = "SubregionCreationSelectAreaInfo", message = {"&aYou got a tool in your inventory (feather) to select 2 points of your region that will mark the corners of your new subregion.",
+    @SerialzedString(name = "SubregionCreationSelectAreaInfo", message = {"&aYou got a tool in your inventory (feather) to select 2 points of your region that will mark the corners of your new subregion.",
             "&aLeft click to select pos1",
             "&aRight click to select pos2",
             "&aType \"&6/arm subregion create\" &aif you are done"})
@@ -662,7 +657,7 @@ public class Messages {
     public static String SUBREGION_FLAGGROUP_ERROR;
     @SerialzedString(name = "GUIEntityLimitItemButton", message = "&6EntityLimits")
     public static String GUI_ENTITYLIMIT_ITEM_BUTTON;
-    @SerialzedStringList(name = "GUIEntityLimitItemLore", message = {"&6Click to display the entity-limits",
+    @SerialzedString(name = "GUIEntityLimitItemLore", message = {"&6Click to display the entity-limits",
             "&6for this region in chat",
             "%entityinfopattern%",
             "",
@@ -728,7 +723,7 @@ public class Messages {
     public static String REGIONKIND_HELP_HEADLINE;
     @SerialzedString(name = "PlayerNotFound", message = "&4Could not find selected player!")
     public static String PLAYER_NOT_FOUND;
-    @SerialzedStringList(name = "RegionInfoSellregionUser", message = {"&6=========[Region Info]=========",
+    @SerialzedString(name = "RegionInfoSellregionUser", message = {"&6=========[Region Info]=========",
             "&9ID: &e%regionid% &7(Type: &r%selltype%&7)",
             "&9Sold: &e%issold%",
             "&9Price: &e%price%",
@@ -746,7 +741,7 @@ public class Messages {
             "&9Allowed Subregions: &e%subregionlimit%",
             "&9Subregions: &e%subregions%"})
     public static List<String> REGION_INFO_SELLREGION;
-    @SerialzedStringList(name = "RegionInfoRentregionUser", message = {"&6=========[Region Info]=========",
+    @SerialzedString(name = "RegionInfoRentregionUser", message = {"&6=========[Region Info]=========",
             "&9ID: &e%regionid% &7(Type: &r%selltype%&7)",
             "&9Sold: &e%issold%",
             "&9Price: &e%price% &7per &e%extendtime-writtenout% &7max.: &e%maxrenttime-writtenout%",
@@ -765,7 +760,7 @@ public class Messages {
             "&9Allowed Subregions: &e%subregionlimit%",
             "&9Subregions: &e%subregions%"})
     public static List<String> REGION_INFO_RENTREGION;
-    @SerialzedStringList(name = "RegionInfoContractregionUser", message = {"&6=========[Region Info]=========" +
+    @SerialzedString(name = "RegionInfoContractregionUser", message = {"&6=========[Region Info]=========" +
             "&9ID: &e%regionid% &7(Type: &r%selltype%&7)",
             "&9Sold: &e%issold%",
             "&9Price: &e%price% &7per &e%extendtime-writtenout% &7(auto extend)",
@@ -784,7 +779,7 @@ public class Messages {
             "&9Allowed Subregions: &e%subregionlimit%",
             "&9Subregions: &e%subregions%"})
     public static List<String> REGION_INFO_CONTRACTREGION;
-    @SerialzedStringList(name = "RegionInfoSellregionAdmin", message = {"&6=========[Region Info]=========",
+    @SerialzedString(name = "RegionInfoSellregionAdmin", message = {"&6=========[Region Info]=========",
             "&9ID: &e%regionid% &7(Type: &r%selltype%&7)",
             "&9Sold: &e%issold%",
             "&9Price: &e%price%",
@@ -802,7 +797,7 @@ public class Messages {
             "&9Allowed Subregions: &e%subregionlimit%",
             "&9Subregions: &e%subregions%"})
     public static List<String> REGION_INFO_SELLREGION_ADMIN;
-    @SerialzedStringList(name = "RegionInfoRentregionAdmin", message = {"&6=========[Region Info]=========",
+    @SerialzedString(name = "RegionInfoRentregionAdmin", message = {"&6=========[Region Info]=========",
             "&9ID: &e%regionid% &7(Type: &r%selltype%&7)",
             "&9Sold: &e%issold%",
             "&9Price: &e%price% &7per &e%extendtime-writtenout% &7max.: &e%maxrenttime-writtenout%",
@@ -821,7 +816,7 @@ public class Messages {
             "&9Allowed Subregions: &e%subregionlimit%",
             "&9Subregions: &e%subregions%"})
     public static List<String> REGION_INFO_RENTREGION_ADMIN;
-    @SerialzedStringList(name = "RegionInfoContractregionAdmin", message = {"&6=========[Region Info]=========",
+    @SerialzedString(name = "RegionInfoContractregionAdmin", message = {"&6=========[Region Info]=========",
             "&9ID: &e%regionid% &7(Type: &r%selltype%&7)",
             "&9Sold: &e%issold%",
             "&9Price: &e%price% &7per &e%extendtime-writtenout% &7(auto extend)",
@@ -840,7 +835,7 @@ public class Messages {
             "&9Allowed Subregions: &e%subregionlimit%",
             "&9Subregions: &e%subregions%'"})
     public static List<String> REGION_INFO_CONTRACTREGION_ADMIN;
-    @SerialzedStringList(name = "RegionInfoSellregionSubregion", message = {"&6=========[Region Info]=========",
+    @SerialzedString(name = "RegionInfoSellregionSubregion", message = {"&6=========[Region Info]=========",
             "&9ID: &e%regionid% &7(Type: &r%selltype%&7, Subregion)",
             "&9Sold: &e%issold%",
             "&9Price: &e%price%",
@@ -856,7 +851,7 @@ public class Messages {
             "&9AutoRestore: &e%isautorestore% &9Autoprice: &e%autoprice%",
             "&9PaybackPercentage in %: %paypackpercentage%"})
     public static List<String> REGION_INFO_SELLREGION_SUBREGION;
-    @SerialzedStringList(name = "RegionInfoRentregionSubregion", message = {"&6=========[Region Info]=========",
+    @SerialzedString(name = "RegionInfoRentregionSubregion", message = {"&6=========[Region Info]=========",
             "&9ID: &e%regionid% &7(Type: &r%selltype%&7, Subregion)",
             "&9Sold: &e%issold%",
             "&9Price: &e%price% &7per &e%extendtime-writtenout% &7max.: &e%maxrenttime-writtenout%",
@@ -873,7 +868,7 @@ public class Messages {
             "&9AutoRestore: &e%isautorestore% &9Autoprice: &e%autoprice%",
             "&9PaybackPercentage in %: %paypackpercentage%"})
     public static List<String> REGION_INFO_RENTREGION_SUBREGION;
-    @SerialzedStringList(name = "RegionInfoContractregionSubregion", message = {"&6=========[Region Info]=========",
+    @SerialzedString(name = "RegionInfoContractregionSubregion", message = {"&6=========[Region Info]=========",
             "&9ID: &e%regionid% &7(Type: &r%selltype%&7, Subregion)",
             "&9Sold: &e%issold%",
             "&9Price: &e%price% &7per &e%extendtime-writtenout% &7(auto extend)",
@@ -944,18 +939,18 @@ public class Messages {
     public static String FLAGGROUP_DOES_NOT_EXIST;
     @SerialzedString(name = "SubregionFlaggroupOnlyForSubregions", message = "&4Subregion flaggroup only for subregions")
     public static String SUBREGION_FLAGGROUP_ONLY_FOR_SUBREGIONS;
-    @SerialzedStringList(name = "GUITeleportToRegionButtonLore", message = {"Click to teleport you to",
+    @SerialzedString(name = "GUITeleportToRegionButtonLore", message = {"Click to teleport you to",
             "your region"})
     public static List<String> GUI_TELEPORT_TO_REGION_BUTTON_LORE;
-    @SerialzedStringList(name = "GUIMakeOwnerButtonLore", message = {"Click to transfer your owner rights",
+    @SerialzedString(name = "GUIMakeOwnerButtonLore", message = {"Click to transfer your owner rights",
             "to the selected member.",
             "&4WARNING: &cYou will lose your owner",
             "&crights and become a member'"})
     public static List<String> GUI_MAKE_OWNER_BUTTON_LORE;
-    @SerialzedStringList(name = "GUIRemoveMemberButtonLore", message = {"Click to remove the selected member",
+    @SerialzedString(name = "GUIRemoveMemberButtonLore", message = {"Click to remove the selected member",
             "from your region"})
     public static List<String> GUI_REMOVE_MEMBER_BUTTON_LORE;
-    @SerialzedStringList(name = "GUIResetRegionButtonLore", message = {"Click to reset your region",
+    @SerialzedString(name = "GUIResetRegionButtonLore", message = {"Click to reset your region",
             "&4WARNING: &cThis can not be undone! Your region",
             "&cwill be resetted and everything on it will",
             "&cbe deleted!",
@@ -963,7 +958,7 @@ public class Messages {
             "&cYou can only reset you region once every %userresetcooldown%",
             "&2You and all members keep their rights on the region"})
     public static List<String> GUI_RESET_REGION_BUTTON_LORE;
-    @SerialzedStringList(name = "TakeOverItemLore", message = {"&aYou are a member of this region.",
+    @SerialzedString(name = "TakeOverItemLore", message = {"&aYou are a member of this region.",
             "&aThe owner of it hasn''''t been",
             "&aonline for a long time. You",
             "&acan transfer the owner rights to your",
@@ -976,42 +971,42 @@ public class Messages {
             "&cwill lose their rights.",
             "&cAfterwards it will go back for sale!"})
     public static List<String> GUI_TAKEOVER_ITEM_LORE;
-    @SerialzedStringList(name = "GUIExtendRentRegionButtonLore", message = {"&aClick to extend your region for &6%extendtime-writtenout%",
+    @SerialzedString(name = "GUIExtendRentRegionButtonLore", message = {"&aClick to extend your region for &6%extendtime-writtenout%",
             "&athis will cost you &6%price%%currency%&a!",
             "&aThis region will expire in &6%remainingtime-countdown-short%&a.",
             "&aYou can extend your region up to &6%maxrenttime-writtenout%&a."})
     public static List<String> GUI_EXTEND_BUTTON_LORE;
-    @SerialzedStringList(name = "GUIRentRegionLore", message = {"&aExpires in &6%remainingtime-countdown-short%"})
+    @SerialzedString(name = "GUIRentRegionLore", message = {"&aExpires in &6%remainingtime-countdown-short%"})
     public static List<String> GUI_RENT_REGION_LORE;
-    @SerialzedStringList(name = "GUIUserSellButtonLore", message = {"Click to sell your region",
+    @SerialzedString(name = "GUIUserSellButtonLore", message = {"Click to sell your region",
             "&4WARNING: &cThis can not be undone! Your region",
             "&cwill be released and all blocks on it will be",
             "&cresetted! You and all members of it will loose",
             "&ctheir rights on it.",
             "&cYou will get &6%paybackmoney%%currency% &cback"})
     public static List<String> GUI_USER_SELL_BUTTON_LORE;
-    @SerialzedStringList(name = "MemberlistInfoLore", message = {"&aYou can be added as a member to",
+    @SerialzedString(name = "MemberlistInfoLore", message = {"&aYou can be added as a member to",
             "&athe region of someone else in order",
             "&ato build with him together",
             "&aJust ask a region owner to add you with:",
             "&6/arm addmember REGIONID USERNAME",
             "&aYou need to be online for this"})
     public static List<String> GUI_MEMBER_INFO_LORE;
-    @SerialzedStringList(name = "GUIContractItemLore", message = {"&aStatus: %status%",
+    @SerialzedString(name = "GUIContractItemLore", message = {"&aStatus: %status%",
             "&aIf active the next extend is in:",
             "&6%remainingtime-countdown-short%"})
     public static List<String> GUI_CONTRACT_ITEM_LORE;
-    @SerialzedStringList(name = "GUIContractItemRegionLore", message = {"&aStatus: %status%",
+    @SerialzedString(name = "GUIContractItemRegionLore", message = {"&aStatus: %status%",
             "&aIf active the next extend is in:",
             "&6%remainingtime-countdown-short%"})
     public static List<String> GUI_CONTRACT_REGION_LORE;
-    @SerialzedStringList(name = "OwnerMemberlistInfoLore", message = {"&aYou can add members to your region",
+    @SerialzedString(name = "OwnerMemberlistInfoLore", message = {"&aYou can add members to your region",
             "&ain order to build with them together",
             "&aYou can add members with:",
             "&6/arm addmember %regionid% USERNAME",
             "&aMembers need to be online to add them"})
     public static List<String> GUI_OWNER_MEMBER_INFO_LORE;
-    @SerialzedStringList(name = "GUISubregionManagerNoSubregionItemLore", message = {"&aYou do not have any subregions on your region.",
+    @SerialzedString(name = "GUISubregionManagerNoSubregionItemLore", message = {"&aYou do not have any subregions on your region.",
             "&aYou can create a new subregion, that you",
             "&acan sell to other players by typing",
             "&6/arm subregion tool &aand following displayed the steps"})
@@ -1097,7 +1092,7 @@ public class Messages {
 
         boolean fileUpdated = false;
         for(Field field : Messages.class.getDeclaredFields()) {
-            if (!field.isAnnotationPresent(SerialzedString.class) && !field.isAnnotationPresent(SerialzedStringList.class)) {
+            if (!field.isAnnotationPresent(SerialzedString.class)) {
                 continue;
             }
             int requestedVersion = getRequestedVersion(field);
@@ -1137,9 +1132,8 @@ public class Messages {
             return;
         }
 
-        Map<String, Field> keyToField = new HashMap<>();
         for (Field field : Messages.class.getDeclaredFields()) {
-            if (field.isAnnotationPresent(SerialzedString.class) || field.isAnnotationPresent(SerialzedStringList.class)) {
+            if (field.isAnnotationPresent(SerialzedString.class)) {
                 field.setAccessible(true);
                 Object parsedOption = cs.get(getSerializedKey(field));
                 if (parsedOption instanceof String) {
@@ -1167,36 +1161,30 @@ public class Messages {
     }
 
     private static Object getMessage(Field field) {
-        if(field.isAnnotationPresent(SerialzedString.class)) {
-            return field.getAnnotation(SerialzedString.class).message();
-        } else if (field.isAnnotationPresent(SerialzedStringList.class)) {
-            return field.getAnnotation(SerialzedStringList.class).message();
+        if(!field.isAnnotationPresent(SerialzedString.class)) {
+            return null;
         }
-        return null;
+        String[] messageArr = field.getAnnotation(SerialzedString.class).message();
+        if(messageArr.length == 1) {
+            return messageArr[0];
+        }
+        return Arrays.asList(messageArr);
     }
 
     private static String getSerializedKey(Field field) {
-        String annotationValue = null;
         if(field.isAnnotationPresent(SerialzedString.class)) {
-            annotationValue = field.getAnnotation(SerialzedString.class).name();
+            String annotationValue = field.getAnnotation(SerialzedString.class).name();
             if(annotationValue.isEmpty()) {
                 annotationValue = field.getName();
             }
             return annotationValue;
-        } else if (field.isAnnotationPresent(SerialzedStringList.class)) {
-            annotationValue = field.getAnnotation(SerialzedStringList.class).name();
-            if(annotationValue.isEmpty()) {
-                annotationValue = field.getName();
-            }
         }
-        return annotationValue;
+        return null;
     }
 
     private static int getRequestedVersion(Field field) {
         if(field.isAnnotationPresent(SerialzedString.class)) {
             return field.getAnnotation(SerialzedString.class).version();
-        } else if (field.isAnnotationPresent(SerialzedStringList.class)) {
-            return field.getAnnotation(SerialzedStringList.class).version();
         }
         return 0;
     }

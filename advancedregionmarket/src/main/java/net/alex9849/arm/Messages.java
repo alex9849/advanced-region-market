@@ -12,6 +12,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.Field;
+import java.nio.charset.Charset;
 import java.util.*;
 
 public class Messages {
@@ -1082,8 +1083,9 @@ public class Messages {
         ConfigurationSection localeconfigMessages = null;
         int localeFileVersion = 0;
         if(MessageLocale.EN != locale) {
-            YamlConfiguration localeConfig = YamlConfiguration.loadConfiguration(
-                    new InputStreamReader(AdvancedRegionMarket.getInstance().getResource("messages_" + locale.code() + ".yml")));
+            InputStreamReader reader = new InputStreamReader(AdvancedRegionMarket.getInstance()
+                    .getResource("messages_" + locale.code() + ".yml"), Charset.forName("UTF-8"));
+            YamlConfiguration localeConfig = YamlConfiguration.loadConfiguration(reader);
             localeFileVersion = localeConfig.getInt("FileVersion");
             localeconfigMessages = localeConfig.getConfigurationSection("Messages");
         }

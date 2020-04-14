@@ -195,13 +195,22 @@ public class RegionManager extends YamlFileManager<Region> {
                 if (AutoPrice.getAutoprice(autoPriceString) != null) {
                     rentPrice = new RentPrice(AutoPrice.getAutoprice(autoPriceString));
                 } else {
+                    AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Could not find Autoprice '"
+                            + autoPriceString + "' for region + '" + wgRegion.getId() + "'! Using Default Autpprice!");
                     rentPrice = new RentPrice(AutoPrice.DEFAULT);
                 }
             } else {
                 double price = regionSection.getDouble("price");
                 long maxRentTime = regionSection.getLong("maxRentTime");
                 long extendTime = regionSection.getLong("extendTime");
-                rentPrice = new RentPrice(price, extendTime, maxRentTime);
+                try {
+                    rentPrice = new RentPrice(price, extendTime, maxRentTime);
+                } catch (IllegalArgumentException e) {
+                    AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "'RentPrice for region '"
+                            + wgRegion.getId() + "' has an extendTime of maxRentTime smaller than 1 second! Replacing it with "
+                            + "if an extendTime and maxRentTime of one second!");
+                    rentPrice = new RentPrice(price, 1000, 1000);
+                }
             }
             long payedtill = regionSection.getLong("payedTill");
             RentRegion rentRegion = new RentRegion(wgRegion, regionWorld, regionsigns, rentPrice, sold);
@@ -220,7 +229,14 @@ public class RegionManager extends YamlFileManager<Region> {
             } else {
                 double price = regionSection.getDouble("price");
                 long extendTime = regionSection.getLong("extendTime");
-                contractPrice = new ContractPrice(price, extendTime);
+                try {
+                    contractPrice = new ContractPrice(price, extendTime);
+                } catch (IllegalArgumentException e) {
+                    AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "ContractPrice for region '"
+                            + wgRegion.getId() + "' has an extendTime smaller than 1 second! Replacing it with "
+                            + "if an extendTime of one second!");
+                    contractPrice = new ContractPrice(price, 1000);
+                }
             }
             long payedtill = regionSection.getLong("payedTill");
             Boolean terminated = regionSection.getBoolean("terminated");

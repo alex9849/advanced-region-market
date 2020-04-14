@@ -169,6 +169,8 @@ public class SubSignCreationListener implements Listener {
             }
         } catch (InputException e) {
             e.sendMessages(Messages.PREFIX);
+        } catch (IllegalArgumentException e) {
+            event.getPlayer().sendMessage(Messages.PREFIX + e.getMessage());
         }
     }
 

@@ -19,11 +19,11 @@ public class AutoPrice {
     public AutoPrice(@Nonnull String name, double price, long extendtime, long maxrenttime,
                      @Nonnull AutoPriceCalculation autoPriceCalculation) {
         if(price < 0)
-            throw new IllegalArgumentException("Price needs to be positive!");
+            throw new IllegalArgumentException("AutoPrice price needs to be positive!");
         if(extendtime < 1000)
-            throw new IllegalArgumentException("ExtendTime needs to be at least one second!");
+            throw new IllegalArgumentException("AutoPrice extendTime needs to be at least one second!");
         if(maxrenttime < 1000)
-            throw new IllegalArgumentException("MaxRentTime needs to be at least one second!");
+            throw new IllegalArgumentException("AutoPrice maxRentTime needs to be at least one second!");
         this.price = price;
         this.name = name;
         this.extendtime = extendtime;

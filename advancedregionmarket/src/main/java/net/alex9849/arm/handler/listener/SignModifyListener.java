@@ -193,6 +193,8 @@ public class SignModifyListener implements Listener {
 
         } catch (InputException inputException) {
             inputException.sendMessages(Messages.PREFIX);
+        } catch (IllegalArgumentException e) {
+            sign.getPlayer().sendMessage(Messages.PREFIX + e.getMessage());
         }
     }
 

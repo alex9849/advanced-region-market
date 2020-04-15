@@ -30,9 +30,9 @@ public class UpdateSchematicCommand extends BasicArmCommand {
 
         Region region;
         if (command.matches(this.regex_with_args)) {
-            region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, "");
-        } else {
             region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, command.split(" ")[1]);
+        } else {
+            region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, "");
         }
 
         player.sendMessage(Messages.PREFIX + Messages.UPDATING_SCHEMATIC);

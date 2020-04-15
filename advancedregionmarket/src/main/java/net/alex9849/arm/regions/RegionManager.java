@@ -196,7 +196,7 @@ public class RegionManager extends YamlFileManager<Region> {
                     rentPrice = new RentPrice(AutoPrice.getAutoprice(autoPriceString));
                 } else {
                     AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Could not find Autoprice '"
-                            + autoPriceString + "' for region + '" + wgRegion.getId() + "'! Using Default Autpprice!");
+                            + autoPriceString + "' for region + '" + wgRegion.getId() + "'! Using Default Autoprice!");
                     rentPrice = new RentPrice(AutoPrice.DEFAULT);
                 }
             } else {
@@ -224,6 +224,8 @@ public class RegionManager extends YamlFileManager<Region> {
                 if (AutoPrice.getAutoprice(autoPriceString) != null) {
                     contractPrice = new ContractPrice(AutoPrice.getAutoprice(autoPriceString));
                 } else {
+                    AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Could not find Autoprice '"
+                            + autoPriceString + "' for region + '" + wgRegion.getId() + "'! Using Default Autoprice!");
                     contractPrice = new ContractPrice(AutoPrice.DEFAULT);
                 }
             } else {
@@ -250,6 +252,8 @@ public class RegionManager extends YamlFileManager<Region> {
                 if (AutoPrice.getAutoprice(autoPriceString) != null) {
                     sellPrice = new Price(AutoPrice.getAutoprice(autoPriceString));
                 } else {
+                    AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Could not find Autoprice '"
+                            + autoPriceString + "' for region + '" + wgRegion.getId() + "'! Using Default Autoprice!");
                     sellPrice = new Price(AutoPrice.DEFAULT);
                 }
             } else {

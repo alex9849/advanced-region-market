@@ -12,9 +12,13 @@ public class Price {
     protected Double cachedAutoPrice;
     private WGRegion cachedWgRegion = null;
 
+    /**
+     * Creates a price Object, that can be used for SellRegions
+     * @param price the price. Needs to be positive. If negative price will automatically be negated!
+     */
     public Price(double price) {
         if (price < 0) {
-            throw new IllegalArgumentException("Price needs to be positive!");
+            price = -1 * price;
         }
         this.price = price;
         this.cachedAutoPrice = null;

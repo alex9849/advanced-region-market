@@ -3,15 +3,17 @@ package net.alex9849.adapters;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.WorldEdit;
+import com.sk89q.worldedit.WorldEditException;
 import com.sk89q.worldedit.bukkit.BukkitWorld;
-import com.sk89q.worldedit.extent.Extent;
 import com.sk89q.worldedit.extent.clipboard.BlockArrayClipboard;
 import com.sk89q.worldedit.extent.clipboard.Clipboard;
 import com.sk89q.worldedit.extent.clipboard.io.*;
 import com.sk89q.worldedit.function.operation.ForwardExtentCopy;
+import com.sk89q.worldedit.function.operation.Operation;
 import com.sk89q.worldedit.function.operation.Operations;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.regions.CuboidRegion;
+import com.sk89q.worldedit.session.ClipboardHolder;
 import com.sk89q.worldedit.util.io.Closer;
 import net.alex9849.arm.exceptions.SchematicNotFoundException;
 import net.alex9849.inter.WGRegion;
@@ -97,16 +99,15 @@ public class WorldEdit7 extends WorldEditInterface {
             ClipboardFormat clipboardFormat = ClipboardFormats.findByFile(schematicPath);
             ClipboardReader reader = clipboardFormat.getReader(bufferedInputStream);
             clipboard = reader.read();
-            Extent source = clipboard;
-            Extent destination = WorldEdit.getInstance().getEditSessionFactory().getEditSession(world, Integer.MAX_VALUE);
-            ForwardExtentCopy copy = new ForwardExtentCopy(source, clipboard.getRegion(), clipboard.getOrigin(), destination, minPoint);
-
-            Operations.completeLegacy(copy);
-            ((EditSession) destination).flushSession();
+            EditSession editSession = WorldEdit.getInstance().getEditSessionFactory().getEditSession(world, -1);
+            Operation operation = new ClipboardHolder(clipboard)
+                    .createPaste(editSession).to(minPoint).build();
+            Operations.complete(operation);
+            editSession.flushSession();
             closer.close();
+        } catch (WorldEditException e) {
+            e.printStackTrace();
         } catch (IOException e) {
-            throw new SchematicNotFoundException(region);
-        } catch (MaxChangedBlocksException e) {
             throw new SchematicNotFoundException(region);
         }
     }

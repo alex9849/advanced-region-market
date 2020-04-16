@@ -1,0 +1,706 @@
+FileVersion: 1
+Messages:
+  Prefix: '&b[ARM]&r'
+  ArmBasicCommandMessage: |-
+    &6AdvancedRegionMarket v%pluginversion% desarrollado por Alex9849
+    &6Descarga: &3https://bit.ly/2CfO3An
+    &6Para ver una lista de comandos completa, escribe &3/arm help
+  NoPermission: '&4¡No tienes permisos!'
+  NotEnoughMoney: '&4¡No tienes suficiente dinero!'
+  FlagGroupFeatureDisabled: '&4¡El Grupo de opciones está desactivado! Lo puedes activar
+    en el config.yml'
+  RegionInfoFeatureDisabled: '&4¡Característica deshabilitada!'
+  RegionAlreadySold: '&4¡La región ya ha sido vendida!'
+  WorldDoesNotExist: '&4¡El mundo seleccionado no existe!'
+  RegionDoesNotExist: '&4La parcela seleccionada no existe o no está seleccionada
+    en el mundo!'
+  priceCanNotBeNegative: '&4¡El price no puede ser negativo!'
+  CommandOnlyIngame: '&4¡Este comando sólo puede ser ejecutado en el juego!'
+  RentExtendMaxRentTimeExceeded: '&4¡No puedes pagar esta parcela por más de &6%maxrenttime-writtenout%
+    &4en adelante!'
+  RegionErrorCanNotBuildHere: '&4¡Solo tienes permitido poner los bloques que has puesto aquí!'
+  NoFreeRegionWithThisKind: '&7No se encontró ninguna parcela gratis por este tipo :('
+  RegionkindDoesNotExist: '&4La parcela Kind seleccionada no existe'
+  NoPermissionsToBuyThisKindOfRegion: '&4No tienes permiso para comprar este tipo
+    de parcela (Necesitas el permiso &6arm.buykind.%regionkind%&4)'
+  UserNotAMemberOrowner: '&4¡No eres ni un miembro ni el dueño de esta parcela!'
+  SelectedPlayerIsNotOnline: '&4El jugador seleccionado no está conectado'
+  BadSyntax: '&7¡Sintaxis incorrecta! Por favor, usa: &8%command%'
+  BadSyntaxSplitter: |2-
+
+    &7o &8%command%
+  SchematicNotFoundErrorUser: '&4Parece que el esquema de tu parcela %regionid%
+    no ha sido creado. Por favor, ¡contacta con un Admin!'
+  SchematicNotFoundErrorAdmin: '&4No se pudo encontrar un esquema para la parcela %regionid%'
+  RentExtendMessage: '&aEl alquiler de la parcela fue extendido hasta &6%extendtime-writtenout%&a (por %price%%currency%.
+    Tiempo restante: &6%remainingtime-countdown-short%'
+  Buymessage: '&a¡Parcela adquirida correctamente!'
+  RegionAddedToARM: '&7El cartel de la parcela se ha creado y la parcela ha sido añadida a ARM!'
+  SignRemovedFromRegion: '&7¡El cartel de la parcela ha sido eliminado! %remaining% Cartel(es) pendientes antes
+    de que la parcela fuese eliminada por ARM!'
+  SignAddedToRegion: '&7¡La parcela ya existe! ¡El cartel ha sido añadido a la parcela!'
+  UseANumberAsprice: '&4¡Por favor utiliza un número como precio para la línea 4!'
+  RegionRemovedFromARM: '&7¡La parcela ha sido eliminada de ARM!'
+  RegionKindSet: '&aLa parcela Kind ha sido establecida!'
+  ResetComplete: '&a¡Borrado completado!'
+  Complete: '&a¡Completado!'
+  ResetRegionCooldownerror: '&7Tienes que esperar&6 %remaininguserresetcooldown-countdown-writtenout%
+    &7hasta que puedas borrar tu parcela otra vez'
+  Currency: $
+  SellSign1: '&2Se vende'
+  SellSign2: '%regionid%'
+  SellSign3: '%price%%currency%'
+  SellSign4: '%dimensions%'
+  SoldSign1: '&4Vendida'
+  SoldSign2: '%regionid%'
+  SoldSign3: ''
+  SoldSign4: '%owner%'
+  RentSign1: '&2Se alquila'
+  RentSign2: '%regionid%'
+  RentSign3: '%price%%currency%/%extendtime-short%'
+  RentSign4: 'Max.: %maxrenttime-writtenout%'
+  RentedSign1: '&4Alquilado'
+  RentedSign2: '%regionid%/%owner%'
+  RentedSign3: '%price%%currency%/%extendtime-short%'
+  RentedSign4: '%remainingtime-countdown-short%'
+  ContractSign1: '&2Contrato'
+  ContractSign2: '&2disponible'
+  ContractSign3: '%regionid%'
+  ContractSign4: '%price%%currency%/%extendtime-short%'
+  ContractSoldSign1: '&4Contrato en vigor'
+  ContractSoldSign2: '%regionid%/%owner%'
+  ContractSoldSign3: '%price%%currency%/%extendtime-short%'
+  ContractSoldSign4: '%remainingtime-countdown-short%'
+  SecondsSingular: segundo
+  MinutesSingular: minuto
+  HoursSingular: hora
+  DaysSingular: día
+  SecondsPlural: segundos
+  MinutesPlural: minutos
+  HoursPlural: horas
+  DaysPlural: días
+  SecondsShort: s
+  MinutesShort: m
+  HoursShort: h
+  DaysShort: d
+  TimeUnitSplitterShort: ':'
+  TeleporterNoSaveLocation: '&4No se encontró una posición segura de teletransporte'
+  TeleporterDontMove: '&6El teletransporte comenzará en &c%time% segundos&6. ¡No te
+    muevas!'
+  TeleporterTeleportationAborded: '&4¡Teletransporte cancelado!'
+  ContractRegionExtended: '&aTu contrato de la parcela %regionid% ha sido renovado por
+    %extendtime-writtenout%. (por %price%%currency%.)'
+  ContractRegionStatusActive: '&aActivo'
+  ContractRegionStatusTerminated: '&4Terminado'
+  PresetRemoved: '&a¡Programación eliminada!'
+  PresetSet: '&a¡Programación establecida!'
+  PresetSaved: '&a¡Programación guardada!'
+  PresetAlreadyExists: '&4¡Ya existe una programación con este nombre!'
+  PresetPlayerDontHasPreset: '&4¡No tienes una programación!'
+  PresetDeleted: '&a¡Programación eliminada!'
+  PresetNotFound: '&4¡No se encontró ninguna programación con este nombre!'
+  PresetLoaded: '&a¡Programación cargada!'
+  PresetSetupCommands: '&6Configuración de comandos:'
+  OfferSent: '&aTu oferta ha sido enviada'
+  OfferAcceptedSeller: '&a%buyer% &aha aceptado tu oferta'
+  OfferAcceptedBuyer: '&a¡Oferta aceptada! Ahora eres el dueño de la parcela &c%regionid%'
+  NoOfferToAnswer: '&4No tienes ninguna oferta pendiente que responder'
+  OfferRejected: '&a¡Oferta rechazada!'
+  OfferHasBeenRejected: '&4¡%buyer% &4ha rechazado tu oferta!'
+  NoOfferToReject: '&4No tienes ninguna oferta pendiente que rechazar'
+  OfferCancelled: '&a¡Tu oferta ha sido cancelada!'
+  OfferHasBeenCancelled: '&4¡%seller% &4ha cancelado tu oferta!'
+  NoOfferToCancel: '&4No tienes ninguna oferta pendiente que cancelar'
+  BuyerAlreadyGotAnOffer: '&4¡El comprador seleccionado ya tiene una oferta pendiente que tiene
+    que responder primero!'
+  SellerAlreadyCreatedAnOffer: '&4¡Ya has creado una oferta! Por favor, espera
+    una respuesta o cancela esta primero'
+  SellerDoesNotLongerOwnRegion: '&4%seller% &4ya no es dueño de esta parcela. Su
+    oferta ha sido cancelada'
+  IncomingOffer: '&c¡%seller% &6te ofrece su parcela &c%regionid% &6en el mundo
+    &c%world% &6por &c%price%%currency%&6! Puedes aceptar su oferta escribiendo &c/arm offer
+    accept &6o rechazarla &c/arm offer reject'
+  OfferTimedOut: '&4¡La oferta ha caducado!'
+  SellBackWarning: "&4Parcela devuelta al Servidor: \n&4ATENCIÓN: &c¡Esta opción no\
+    \ tiene vuelta atrás! ¡Tu parcela &6%regionid% &cserá eliminada y todos los bloques que\
+    \ estén se borrarán! Tú y todos los miembros perderéis los permisos. Obtendrás\
+    \ una devolución de &6%paybackmoney%%currency%"
+  SubregionInactivityResetError: '&4La parcela seleccionada es una subparcela. Puedes editar
+    el borrado por inactividad establecido para todas las regiones en el config.yml!'
+  SubregionDoBlockResetError: '&4La parcela seleccionada es una subparcela. Puedes editar
+    el borrado de bloques establecido para todas las regiones en el config.yml!'
+  SubregionIsUserResettableError: '&4La parcela seleccionada es una subparcela. Puedes editar
+    el borrado de usuarios establecido para todas las regiones en el config.yml!'
+  SubregionRegionkindError: '&4La parcela seleccionada es una subparcela. Puedes editar
+    la parcela Kind establecida para todas las regiones en el config.yml!'
+  SubRegionRegionkindOnlyForSubregions: '&4Subparcela parcela Kind solo para subregiones!'
+  SubregionTeleportLocationError: '&4La parcela seleccionada es una subparcela. La posición
+    de teletransporte no puede ser cambiada'
+  PosCloudNotBeSetMarkOutsideRegion: '&4¡La posición no estaba establecida! Posición fuera
+    de la parcela'
+  SubRegionAlreadyAtThisPosition: '&4Tu selección se pisaría con una subparcela
+    que ya ha sido creada'
+  SubRegionLimitReached: '&4¡Límite de subregiones alcanzado! No tienes permitido crear
+    más de &6%subregionlimit% &4subregiones'
+  SelectionInvalid: '&4¡Selección inválida! ¡Tienes que seleccionar 2 posiciones! (Clic
+    izquierdo/derecho) escribe "&6/arm subregion tool&4" para obtener una herramienta de selección'
+  RegionCreatedAndSaved: '&a¡La parcela ha sido creada y guardada!'
+  RegionNotOwn: '&4¡No eres el dueño de esta parcela!'
+  RegionNotSold: '&4¡Parcela no vendida!'
+  RegionNotRestoreable: '&4¡Parcela no borrada!'
+  RegionIsNotARentregion: '&4¡La parcela no es de alquiler!'
+  RegionIsNotAContractRegion: '&4¡La parcela no es de contrato!'
+  RegionTeleportMessage: '&7Has sido teletransportado a la parcela %regionid%'
+  RegionNowAvailable: '&a¡La parcela ya está disponible!'
+  NoRegionAtPlayersPosition: '&7¡No se pudo encontrar una parcela en tu posición!'
+  RegionAddMemberNotOnline: '&4¡El jugador seleccionado no está conectado!'
+  RegionAddMemberAdded: '&a¡El miembro ha sido añadido!'
+  RegionRemoveMemberNotAMember: '&4El jugador seleccionado no es un miembro de la parcela'
+  RegionRemoveMemberRemoved: '&a¡El miembro ha sido eliminado!'
+  RegionBuyOutOfLimit: '&4¡Has alcanzado el límite! Tienes &7%playerownedkind%/%limitkind% &4%regionkind%-regiones
+    y &7%playerownedtotal%/%limittotal% &4regiones totales!'
+  Unlimited: Ilimitado
+  AutopriceList: '&6=========[Autoprecios]========='
+  SubregionHelpHeadline: |-
+    &6=====[Ayuda de AdvancedRegionMarket Subparcela]=====
+    &3Página %actualpage% / %maxpage%
+  LimitInfoTop: '&6=========[Información del límite]========='
+  LimitInfoTotal: '&6Total'
+  LimitInfo: '&6%regionkind%: %playerownedkind%/%limitkind%'
+  RegionInfoprice: '&6precio: '
+  RegionInfotipo: '&6tipo: '
+  RegionInfoAutoRestore: '&6Autoborrado: '
+  RegionInfoIsUserRestorable: '&6Borrado de usuarios: '
+  RegionInfoAutoprice: '&6Autoprecio: '
+  isHotel: '&6es Hotel: '
+  RegionInfoInactivityReset: '&6Borrado por inactividad: '
+  RegionInfoMaxRentTime: '&6Tiempo máximo de alquiler: '
+  RegionInfoExtendPerClick: '&6Clic por renovación: '
+  RegionInfoAutoExtendTime: '&6Tiempo de renovación añadido: '
+  RegionInfoYes: '&2sí'
+  RegionInfoNo: '&4no'
+  RegionInfoAllowedSubregions: '&6Subregiones permitidas: '
+  RegionInfoExpired: '&4Caducada'
+  RegionSelectedMultipleRegions: '&6Hay más de una parcela en tu posición.
+    Por favor seleccionada una: &4'
+  RentRegionExpirationWarning: '&4¡ATENCIÓN! Este alquiler(es) va a caducar pronto: &c'
+  RegionDeleted: '&a¡Parcela eliminada!'
+  RegionNotRegistred: '&4Parcela no registrada'
+  FirstPositionSet: '&a¡Primera posición establecida!'
+  SecondPositionSet: '&a¡Segunda posición establecida!'
+  MarkInOtherRegion: '&4Marca en otra parcela. Eliminando anterior marca'
+  ParentRegionNotOwn: '&4¡No eres el dueño de la parcela principal!'
+  SubRegionRemoveNoPermissionBecauseSold: '&4No tienes permitido eliminar esta parcela.
+    Por favor, pregunta a un Admin si crees que es un error'
+  SubRegionRemoveNoPermissionBecauseAvailable: '&4No tienes permitido borrar esta
+    parcela, porque ya está vendida. Puedes preguntar al vendedor o a un Admin'
+  RegionNotASubregion: '&4¡La parcela no es una subparcela!'
+  RentRegion: Parcela en alquiler
+  SellRegion: Parcela en venta
+  ContractRegion: Parcela en contrato
+  RegionStats: '&6=========[Estado de la parcela]========='
+  RegionStatsPattern: '&8regiones en uso (%regionkind%&8):'
+  SelltipoNotExist: '&4¡El tipo de venta seleccionado no existe!'
+  SignLinkModeActivated: '&a¡Modo-Enlace del Cartel activado! Haz clic en una parcela y después
+    haz clic en el cartel. ARM creará automáticamente una parcela (o simplemente añadirá
+    un cartel a la parcela que ya actualmente existe) con tu configuración establecida'
+  SignLinkModeDeactivated: '&a¡Modo-Enlace del Cartel desactivado!'
+  SignLinkModeAlreadyDeactivated: '&4¡Modo-Enlace del Cartel ya estaba activado!'
+  SignLinkModePresetNotpriceready: '&c¡Tienes que poner el precio! Todas las
+    regiones que crees, van a ser configuradas con el autoprecio por defecto'
+  SignLinkModeNoPresetSelected: |-
+    &c¡No tienes ninguna programación cargada! ¡Por favor, carga o crea una programación primero! &cPuedes crear una, usando los comandos &6/arm sellpreset/rentpreset/contractpreset&c!
+    Para más &cinformación sobre programación, haz clic aquí:
+    &6https://goo.gl/3upfAA (Gitlab Wiki)
+  SignLinkModeSignBelongsToAnotherRegion: '&4¡El cartel pertenece a otra parcela!'
+  SignLinkModeSignSelected: '&a¡Cartel seleccionado!'
+  SignLinkModeMultipleWgRegionsAtPosition: '&4¡No se pudo seleccionar una región WorldGuard!
+    ¡Hay más de una región disponible! ¡Puedes añadir regiones que no quieras a la lista que
+    que hay en el config.yml, si quieres que ARM ignore estas regiones!'
+  SignLinkModeNoWgRegionAtPosition: '&4¡No se puso seleccionar una región WorldGuard! ¡No hay
+    ninguna región en tu posición!'
+  SignLinkModeCouldNotIdentifyWorld: '&4¡No se pudo identificar el mundo! ¡Por favor selecciona
+    la región de WorldGuard otra vez!'
+  SignLinkModeNoSignSelected: '&4No has seleccionado un cartel'
+  SignLinkModeNoWgRegionSelected: '&4No has seleccionado una región de WorldGuard'
+  SignLinkModeSelectedRegion: '&aRegión seleccionada: %regionid%'
+  GUIMainMenuName: '&1ARM - Menú'
+  GUIRegionFinderMenuName: '&1ARM - Buscador de regiones'
+  GUIRegionFinderRegionKindName: '&a&l%regionkinddisplay%'
+  GUIMemberListMenuName: '&1ARM - Miembros de %regionid%'
+  GUIOwnRegionsMenuName: '&1ARM - Mis regiones (dueño)'
+  GUIRegionItemName: '%regionid% (%regionkinddisplay%)'
+  GUIMakeownerWarningName: '&4&l¿Estás seguro?'
+  GUIMemberRegionsMenuName: '&1ARM - Mis regiones (miembro)'
+  GUIResetRegionWarningName: '&4&l¿Vas a restaurar de fábrica tu parcela?'
+  GUIRegionTakeOverMenuName: '&4Toma de control de la parcela'
+  GUIGoBack: '&6Ir atrás'
+  GUIMyOwnRegions: '&6Mis regiones (dueño)'
+  GUIMyMemberRegions: '&6Mis regiones (miembro)'
+  GUISearchFreeRegion: '&6Buscar regiones gratis'
+  GUIMembersButton: '&6Miembros'
+  GUITeleportToRegionButton: '&6Teletransporte a la parcela'
+  GUITeleportToRegionButtonLore:
+    - Clic aquí para teletransportarte a
+    - a tu parcela
+  GUIShowInfosButton: '&6Muestra info'
+  GUIMakeownerButton: '&aHacer dueño'
+  GUIMakeownerButtonLore:
+    - Clic aquí para transferir tus permisos de dueño
+    - al miembro seleccionado.
+    - '&4ATENCIÓN: &cVas a perder tus permisos'
+    - '&cde dueño y te convertirás en miembro'
+  GUIRemoveMemberButton: '&4Eliminar'
+  GUIRemoveMemberButtonLore:
+    - Clic aquí para eliminar al miembro seleccionado
+    - de tu parcela.
+  GUIWarningYes: '&aSí'
+  GUIWarningNo: '&4No'
+  GUIResetRegionButton: '&4Restaurar tu parcela'
+  GUIResetRegionButtonLore:
+    - Clic aquí para restaurar º tu parcela
+    - '&4ATENCIÓN: &c¡Esta opción no tiene vuelta atrás! ¡Tu parcela'
+    - '&cserá restaurada y todo lo que haya dentro'
+    - '&cserá eliminado!'
+    - '&cSolo puedes restaurar tu parcela una vez cada %userresetcooldown%'
+    - '&2Tú y todos los miembros mantenéis los permisos en la parcela'
+  RegionTransferCompleteMessage: '&a¡Transferencia completada!'
+  RegiontransferMemberNotOnline: '&4¡El miembro no está conectado!'
+  RegiontransferLimitError: '&4¡Transferencia abortada! (la parcela excedería el límite máximo de jugadores)'
+  GUICloseWindow: '&6Cerrar ventana'
+  TakeOverItemLore:
+    - '&aEres miembro de esta parcela.'
+    - '&aEl dueño de esta parcela lleva sin'
+    - '&aconectarse durante mucho tiempo. Tú'
+    - '&apuedes transferir los permisos de dueño'
+    - '&aa tu cuenta gratis. El actual dueño'
+    - '&ade esta en un miembro de esta parcela.'
+    - '&cSi la parcela no es transferida'
+    - '&co el dueño no se conecta'
+    - '&cen un tiempo de &7%inactivityresetin-countdown-short% &cla'
+    - '&cla parcela será restaurada de fábrica y todos'
+    - '&cperderán sus permisos en esta.'
+    - '&cY finalmente, ¡saldrá a la venta!'
+  ownerMemberlistInfo: '&6Añadiendo miembros:'
+  ownerMemberlistInfoLore:
+    - '&aPuedes añadir miembros a tu parcela'
+    - '&apara construir juntos esta'
+    - '&aPuedes añadir miembros escribiendo:'
+    - '&6/arm addmember %regionid% USUARIO'
+    - '&aLos miembros tienen que estar conectados para añadirlos'
+  GUIExtendRentRegionButton: '&1Parcela renovada'
+  GUIExtendRentRegionButtonLore:
+    - '&aClic para renovar tu parcela por &6%extendtime-writtenout%'
+    - '&a¡esto te costara &6%price%%currency%&a!'
+    - '&aEsta parcela caducará en &6%remainingtime-countdown-short%&a.'
+    - '&aPuedes renovar tu tiempo un máximo de &6%maxrenttime-writtenout%&a.'
+  GUIRentRegionLore:
+    - '&aCaduca en &6%remainingtime-countdown-short%'
+  GUIUserSellButton: '&4Restaura y vende la parcela'
+  GUIUserSellButtonLore:
+    - Clic aquí para vender tu parcela
+    - '&4ATENCIÓN: &c¡Esta opción no tiene vuelta atrás! Tu parcela'
+    - '&cserá eliminada y todos los bloques que estén se borrarán!'
+    - '&cTú y todos los miembros perderéis todos los'
+    - '&cderechos en esta.'
+    - '&cObtendrás una devolución de &6%paybackmoney%%currency%'
+  GUIUserSellWarning: '&4&l¿Vas a vender la parcela?'
+  GUILimitButton: '&6Mis límites'
+  MemberlistInfo: '&6Como convertirse en un miembro'
+  MemberlistInfoLore:
+    - '&aTú también puedes ser añadido como miembro'
+    - '&ade la parcela de alguien para'
+    - '&aconstruir con él juntos'
+    - '&aSimplemente pregunta si algún dueño de una parcela te quiere añadir escribiendo:'
+    - '&6/arm addmember IDPARCELA USUARIO'
+    - '&aTienes que estar conectado para esto'
+  GUIContractItem: '&6Administrar contrato'
+  GUIContractItemLore:
+    - '&aEstado: %status%'
+    - '&aSi está activo, la próxima renovación será en:'
+    - '&6%remainingtime-countdown-short%'
+  GUIContractItemRegionLore:
+    - '&aEstado: %status%'
+    - '&aSi está activo, la próxima renovación será en:'
+    - '&6%remainingtime-countdown-short%'
+  SellregionName: Parcelaventa
+  ContractregionName: Parcelacontrato
+  RentregionName: Parcelaalquiler
+  GUISubregionsButton: '&6Subregiones'
+  GUISubregionListMenuName: '&1Subregiones'
+  GUIHotelButton: '&6Función Hotel'
+  GUIDeleteRegionButton: '&4Eliminar parcela'
+  GUITeleportToSignOrRegionButton: ¿Te teletransportas al cartel o a la parcela?
+  GUIRegionfinderTeleportToRegionButton: '&6¡Teletransporte a la parcela!'
+  GUIRegionfinderTeleportToSignButton: '&6¡Teletransporte al cartel de compra!'
+  GUINextPageButton: '&6Siguiente página'
+  GUIPrevPageButton: '&6Página anterior'
+  Enabled: '&aactivado'
+  Disabled: '&cdesactivado'
+  Sold: '&cvendida'
+  Available: '&adisponible'
+  DeleteRegionWarningName: '&4&l¿Vas a eliminar la parcela?'
+  UnsellRegionButton: '&4Deshacer la venta de la parcela'
+  UnsellRegionButtonLore:
+    - '&4Clic aquí para deshacer la venta de la subparcela'
+    - '&4se echará a todos los jugadores'
+  UnsellRegionWarningName: '&4&l¿Vas a deshacer la venta de la parcela?'
+  GUISubregionManagerNoSubregionItem: '&6Info'
+  GUIHotelButtonLore:
+    - '&6La función Hotel permite que los jugadores no puedan'
+    - '&6romper bloques que no hayan puesto'
+    - '&6Estado: %hotelfunctionstatus%'
+    - '&6Clic aquí para activar/desactivar'
+  GUISubregionInfoSell:
+    - '&6Tipo de venta: %selltipo%'
+    - '&6Estado: %soldstatus%'
+    - '&6Precio: %price%'
+    - '&6Precio por M2: %priceperm2%'
+    - '&6Dimensiones: %dimensions%'
+  GUISubregionInfoRent:
+    - '&6Tipo de venta: %selltipo%'
+    - '&6Estado: %soldstatus%'
+    - '&6Precio: %price%'
+    - '&6Precio per M2 (per week): %priceperm2perweek%'
+    - '&6Renovación por clic: %extendtime-writtenout%'
+    - '&6Max. tiempo de renovación: %maxrenttime-writtenout%'
+    - '&6Dimensiones: %dimensions%'
+  GUISubregionInfoContract:
+    - '&6Tipo de venta: %selltipo%'
+    - '&6Estado: %soldstatus%'
+    - '&6Precio: %price%'
+    - '&6Precio por M2 (por semana): %priceperm2perweek%'
+    - '&6Renovación de tiempo automática: %extendtime-writtenout%'
+    - '&6Dimensiones: %dimensions%'
+  GUIRegionfinderInfoSell:
+    - '&6Precio: %price%'
+    - '&6Precio por M2: %priceperm2%'
+    - '&6Dimensiones: %dimensions%'
+    - '&6Mundo: %world%'
+  GUIRegionfinderInfoRent:
+    - '&6Precio: %price%'
+    - '&6Precio por M2 (por semana): %priceperm2perweek%'
+    - '&6Renovación por clic: %extendtime-writtenout%'
+    - '&6Max. tiempo de renovación: %maxrenttime-writtenout%'
+    - '&6Dimensiones: %dimensions%'
+    - '&6Mundo: %world%'
+  GUIRegionfinderInfoContract:
+    - '&6Precio: %price%'
+    - '&6Precio por M2 (por semana): %priceperm2perweek%'
+    - '&6Renovación de tiempo automática: %extendtime-writtenout%'
+    - '&6Dimensiones: %dimensions%'
+    - '&6Mundo: %world%'
+  SubregionCreationCreateSignInfo:
+    - '&a¡Tu selección se ha guardado! Ahora puedes crear un cartel para vender tu parcela.'
+    - '&aCrear una parcela de venta:'
+    - '&6Primera línea: &b[sub-sell]'
+    - '&6Última línea: &bprecio'
+    - ''
+    - '&aCrear una parcela de alquiler:'
+    - '&6Primera línea: &b[sub-rent]'
+    - '&6Última línea: &bprecioporperíodo&6;&bClicporrenovación&6;&bTiempomáximoderenovación'
+    - '&6ejemplo para Renovación por clic/Tiempo máximo de renovación: 5d (5 días)'
+    - ''
+    - '&aCrear una parcela de contrato:'
+    - '&6Primera línea: &b[sub-contract]'
+    - '&6Última línea: &bprecioporperíodo&6;&bTiempoderenovación'
+    - '&6ejemplo para TiempoRenovación: 12h (12 horas)'
+    - '&4¡Te recomedamos encarecidamente que no pusieses el cartel en la subparcela!'
+  SubregionCreationSelectAreaInfo:
+    - '&aHas recibido una herramienta en tu inventario (pluma) para seleccionar 2 puntos en tu parcela
+    que marcarán las esquinas de tu nueva subparcela.'
+    - '&aClic izquierdo para seleccionar posición 1'
+    - '&aClic derecho para seleccionar posición 2'
+    - '&aescribe "&6/arm subregion create" &asi estás listo'
+  SubregionToolAlreadyOwned: '&4Ya tienes una herramienta de subregiones. Por favor, ¡úsala
+    en vez de pedir una nueva!'
+  GUISubregionManagerNoSubregionItemLore:
+    - '&aNo tienes ninguna subparcela en tu parcela.'
+    - '&aPuedes crear una nueva subparcela que podrás'
+    - '&avender a otros jugadores, escribiendo'
+    - '&6/arm subregion tool &ay siguiendo los pasos indicados'
+  EntityLimitHelpHeadline: |-
+    &6=====[Ayuda AdvancedRegionMarket Límite de Entidades ]=====
+    &3Página %actualpage% / %maxpage%
+  EntityLimitGroupNotExist: '&4El Grupo de Límite de Entidades seleccionado no existe!'
+  EntityLimitSet: '&a¡Se ha establecido el límite de entidades!'
+  EntityLimitRemoved: '&a¡El límite de entidades ha sido eliminado!'
+  EntitytipoDoesNotExist: '&4¡El tipo de entidad &6%entitytipo% &4no existe!'
+  EntityLimitGroupNotContainEntityLimit: '&4El Grupo de Límite de Entidades no
+    contiene el límite de entidades seleccionado'
+  EntityLimitTotal: Total
+  EntityLimitCheckHeadline: '&6===[Chequeo de límite de entidades para %regionid%]==='
+  EntityLimitCheckPattern: '&6%entitytipo%: &a(&r%actualentities%&a/&r%softlimitentities%&a)
+    %entityextensioninfo%'
+  EntityLimitGroupAlreadyExists: '&4¡El grupo ya exiswte!'
+  EntityLimitGroupCreated: '&aEl Grupo de Límite de Entidades ha sido creado!'
+  EntityLimitGroupCanNotRemoveSystem: '&4No puedes eliminar un sistema de Grupo de Límite de Entidades!'
+  EntityLimitGroupDeleted: '&a¡El Grupo de Límite de Entidades ha sido eliminado!'
+  EntityLimitGroupInfoHeadline: '&6======[Info Grupo de Límite de Entidades]======'
+  EntityLimitGroupInfoGroupname: '&6Nombre del grupo: '
+  EntityLimitGroupInfoPattern: '&6%entitytipo%: &r%softlimitentities% %entityextensioninfo%'
+  EntityLimitGroupListHeadline: '&6Grupos de Límite de Entidades:'
+  EntityLimitGroupCouldNotspawnEntity: "&4No se pudo spawnear una entidad en la región &6%region%&4!\
+    \ La entidad no spawneada podría exceder los límites de entidad de la región. Para más información\
+    \ escribe &6/arm entitylimit check %region%&4 \n¡Todo el mundo en la región %region% ha recibido\
+    \ este mensaje! Si no eres miembro de esta región, puedes ignorar este mensaje."
+  RegionInfoEntityLimit: '&6Grupo de Límite de Entidades: '
+  SubregionEntityLimitOnlyForSubregions: '&4Subregión Grupo de Límite de Entidades only para subregiones'
+  MassactionSplitter: '&6todas las regiones con Región Kind &a%regionkind%'
+  SubregionEntityLimitError: '&4¡No se pudo cambiar el Grupo de Límite de Entidades para la región &6%regionid%&4!
+    ¡La región es una subregión!!'
+  GUIEntityLimitItemButton: '&6Límite de Entidades'
+  GUIEntityLimitItemLore:
+    - '&6Clic aquí para mostrar el límite de entidades'
+    - '&6para esta región en el chat'
+    - '%entityinfopattern%'
+    - ''
+    - 'Puedes ampliar tu límite de entidades con:'
+    - '&6/arm entitylimit buyextra %regionid% [tipoENTIDAD/total]'
+  GUIEntityLimitInfoPattern: '&6%entitytipo%: &a(&r%actualentities%&a/&r%softlimitentities%&a)
+    %entityextensioninfo%'
+  EntityLimitCheckExtensionInfo: |2-
+
+    &6&o--> Limitación extendible hasta &r%hardlimitentities% &6entidades por &r%priceperextraentity%%currency%&6/entidad
+  GUIEntityLimitInfoExtensionInfo: '&6&oMax. &r%hardlimitentities% &6por &r%priceperextraentity%%currency%&6/entidad'
+  EntityLimitInfoExtensionInfo: |2-
+
+    &6&o--> Limitación extendible a &r%hardlimitentities% &6entidades por &r%priceperextraentity%%currency%&6/entidad
+  EntityLimitGroupEntityLimitAlreadyUnlimited: '&4El límite de entidad para la entidad seleccionada
+    y la región ya son ilimitadas!'
+  EntityLimitGroupExtraEntitiesSet: '&a¡Las entidades extras han sido establecidas!'
+  EntityLimitGroupExtraEntitiesExpandSuccess: '&aHas ampliado satisfactoriamente el
+    límite de entidad para &6%softlimitentities% &aentidades! (por &6%priceperextraentity%%currency%&a)'
+  EntityLimitGroupExtraEntitiesHardlimitReached: '&4¡No puedes comprar otra expansión de la entidad!
+    ¡Has llegado al límite!'
+  EntityLimitGroupExtraEntitiesSetSubregionError: '&4¡No se puede cambiar el límite de entidades! La región
+    es una subregión'
+  EntityLimitGroupExtraEntitiesBuySubregionError: '&4¡No se puede ampliar el límite de entidades! La región
+    es una subregión'
+  RegionKindCreated: '&a¡La Región Kind ha sido creada!'
+  RegionKindAlreadyExists: '&4La Región Kind ya existe!'
+  RegionKindDeleted: '&a¡La Región Kind ha sido eliminada!'
+  RegionKindCanNotRemoveSystem: '&4No puedes eliminar una Región Kind del sistema!'
+  RegionKindListHeadline: '&6Regiones Kinds:'
+  RegionKindModified: '&aLa región Kind ha sido modificada!'
+  MaterialNotFound: '&4¡Material no encontrado!'
+  RegionKindLoreLineNotExist: '&a¡El lore seleccionado no existe!'
+  RegionKindInfoHeadline: '&6=========[Info para Regiones Kind]========='
+  RegionKindInfoInternalName: '&6Nombre interno: %regionkind%'
+  RegionKindInfoDisplayName: '&6Nombre que se muestra: %regionkinddisplay%'
+  RegionKindInfoMaterial: '&6Material: %regionkinditem%'
+  RegionKindInfoDisplayInGui: '&6Menú que se muestra: %regionkinddisplayingui%'
+  RegionKindInfoDisplayInLimits: '&6Límites que se muestran: %regionkinddisplayinlimits%'
+  RegionKindInfoPaybackPercentage: '&6Porcentaje de pago de vuelta: %paypackpercentage%'
+  RegionKindInfoLore: '&6Lore:'
+  RegionKindHelpHeadline: |-
+    &6=====[Ayuda de AdvancedRegionMarket Regiones Kind ]=====
+    &3Página %actualpage% / %maxpage%
+  PlayerNotFound: '&4¡No se pudo encontrar el jugador seleccionado!'
+  GUIFlageditorButton: '&6Editor de Opciones'
+  GUIFlageditorMenuName: '&1Editor de Opciones (%region%)'
+  GUIFlageditorDeleteFlagButton: '&4Eliminar opción'
+  GUIFlageditorSetFlagGroupAllButton: '&9Establecer para todos'
+  GUIFlageditorSetFlagGroupMembersButton: '&9Establecer para miembros y dueños'
+  GUIFlageditorSetFlagGroupownersButton: '&9Establecer para dueños'
+  GUIFlageditorSetFlagGroupNonMembersButton: '&9Establecer para no-miembros y no-dueños'
+  GUIFlageditorSetFlagGroupNonownersButton: '&9Establecer para no-dueños'
+  GUIFlageditorSetStateflagAllowButton: '&2Permitir'
+  GUIFlageditorSetStateflagDenyButton: '&4Prohibir'
+  GUIFlageditorSetBooleanflagTrueButton: '&2Sí'
+  GUIFlageditorSetBooleanflagFalseButton: '&4No'
+  GUIFlageditorSetStringflagSetMessageButton: '&2Establecer mensaje'
+  GUIFlageditorSetIntegerflagSetIntegerButton: '&2Establecer número'
+  GUIFlageditorSetDoubleflagSetDoubleButton: '&2Establecer número'
+  FlageditorFlagNotActivated: '&4¡Opciones no activadas!'
+  FlageditorFlagHasBeenUpdated: '&2¡El editor ha sido actualizado!'
+  FlageditorFlagCouldNotBeUpdated: No se pudo modificar la opción %flag%!
+  FlageditorFlagHasBeenDeleted: '&2¡La opción ha sido eliminada!'
+  FlageditorStringflagSetMessageInfo: '&9Por favor, escribe un mensaje:'
+  FlageditorIntegerflagSetMessageInfo: '&9Por favor, escribe un número que no
+    tenga decimales:'
+  FlageditorDoubleflagSetMessageInfo: '&9Por favor, escribe un número:'
+  GUIFlageditorResetButton: '&4Restaura todas las opciones de configuración por defecto'
+  GUIFlageditorUnknownFlagSetPropertiesButton: '&2Establecer propiedades'
+  GUIFlageditorUnknownFlagSetPropertiesInfo: '&9Por favor, escribe las nuevas propiedades de las opciones:'
+  FlaggroupDoesNotExist: '&4¡El grupo de opciones no existe!'
+  SubregionFlaggroupOnlyForSubregions: '&4El grupo de opciones de subregiones solo para las subregiones'
+  RegionInfoFlaggroup: '&6Grupo de opciones: '
+  InfoDeactivated: '&4Desactivado'
+  InfoNotSold: '&4¡Parcela no vendida!'
+  InfoNow: '&2Ahora'
+  InfoNotCalculated: '&8Esperando cálculo...'
+  CouldNotFindOrLoadSchematicLog: '&4¡No se pudo buscar o carga un esquema para la región %region%
+    en el mundo %world%! Lo puedes regenerar con /arm updateschematic %region%'
+  RegionSoldBackSuccessfully: '&2¡Tu región &6%regionid% &2ha sido correctamente
+    devuelta al Servidor! &6¡%paybackmoney%%currency% &2ha sido añadido a tu
+    cuenta!'
+  RegionModifiedBoolean: '&6%option% %state% &6para &a%selectedregions%&6!'
+  RegionModified: '&6%option% &6modificada para %selectedregions%&6!'
+  UpdatingSchematic: '&8Actualizando esquema...'
+  SchematicUpdated: '&a¡Esquema actualizado!'
+  ContractRegionTerminated: '&6¡Tu contrato de la parcela &a%region% &6ha sido finalizado
+    &4correctamente&6! Esta será restaurada de fábrica en  &a%remainingtime-countdown-short% &6¡excepto
+    si el contrato se activa de nuevo!'
+  ContractRegionReactivated: '&6¡El contrato de la parcela &a%region% &6ha sido correctamente
+    &areactivada&6! ¡Esta será automáticamente renovada en &a%remainingtime-countdown-short%
+    &6si puedes en ese momento seguir pagando el contrato!'
+  TimeUnitSplitter: ' y '
+  BackupCreated: '&a¡Copia de seguridad creada!'
+  BackupRestored: '&a¡Copia de seguridad restaurada!'
+  CouldNotLoadBackup: '&4¡No se pudo cargar la copia de seguridad! ¡Puede que no exista o que el archivo
+    esté corrupto!'
+  BackupListHeader: '&6=======[Copias de seguridad de la región %regionid%]======='
+  RegionInfoSellregionAdmin:
+    - '&6=========[Información de la parcela]========='
+    - '&9ID: &e%regionid% &7(tipo: &r%selltipo%&7)'
+    - '&9Vendida: &e%issold%'
+    - '&9Precio: &e%price%'
+    - '&9Dueño: &e%owner%'
+    - '&9Miembros: &e%members%'
+    - '&9Número máximo de miembros: &e%maxmembers%'
+    - '&9Región Kind: &e%regionkinddisplay% &9Grupo de opciones: &e%flaggroup%'
+    - '&9Límite de Entidades de Grupos: &e%entitylimitgroup% &9es Hotel: &e%ishotel%'
+    - '&9Borrado de usuarios: &e%isuserrestorable% &9está Borrado por inactividad: &e%isinactivityreset%'
+    - '&9Último inicio de sesión del dueño: &e%lastownerlogin%'
+    - '&9Borrado por inactividad en: &e%inactivityresetin-countdown-short%'
+    - '&9Toma de control posible en: &e%takeoverin-countdown-short%'
+    - '&9Autoborrado: &e%isautorestore% &9Autoprecio: &e%autoprice%'
+    - '&9Subregiones permitidas: &e%subregionlimit%'
+    - '&9Subregiones: &e%subregions%'
+  RegionInfoRentregionAdmin:
+    - '&6=========[Información de la parcela]========='
+    - '&9ID: &e%regionid% &7(tipo: &r%selltipo%&7)'
+    - '&9Vendida: &e%issold%'
+    - '&9Precio: &e%price% &7per &e%extendtime-writtenout% &7max.: &e%maxrenttime-writtenout%'
+    - '&9Tiempo restante: &e%remainingtime-countdown-short%'
+    - '&9Dueño: &e%owner%'
+    - '&9Miembros: &e%members%'
+    - '&9Número máximo de miembros: &e%maxmembers%'
+    - '&9Región Kind: &e%regionkinddisplay% &9Grupo de opciones: &e%flaggroup%'
+    - '&9Límite de Entidades de Grupos: &e%entitylimitgroup% &9esHotel: &e%ishotel%'
+    - '&9Borrado de usuarios: &e%isuserrestorable% &9BorradoInactividadActivado: &e%isinactivityreset%'
+    - '&9Último inicio de sesión del dueño: &e%lastownerlogin%'
+    - '&9Borrado por inactividad en: &e%inactivityresetin-countdown-short%'
+    - '&9Toma de control posible en: &e%takeoverin-countdown-short%'
+    - '&9Autoborrado: &e%isautorestore% &9Autoprecio: &e%autoprice%'
+    - '&9Subregiones permitidas: &e%subregionlimit%'
+    - '&9Subregiones: &e%subregions%'
+  RegionInfoContractregionAdmin:
+    - '&6=========[Información de la parcela]========='
+    - '&9ID: &e%regionid% &7(tipo: &r%selltipo%&7)'
+    - '&9Vendida: &e%issold%'
+    - '&9Precio: &e%price% &7per &e%extendtime-writtenout% &7(auto extend)'
+    - '&9Próxima renovación en: &e%remainingtime-countdown-short%'
+    - '&9Dueño: &e%owner%'
+    - '&9Miembros: &e%members%'
+    - '&9Número máximo de miembros: &e%maxmembers%'
+    - '&9Región Kind: &e%regionkinddisplay% &9Grupo de opciones: &e%flaggroup%'
+    - '&9Límite de Entidades de Grupos: &e%entitylimitgroup% &9esHotel: &e%ishotel%'
+    - '&9Borrado de usuarios: &e%isuserrestorable% &9BorradoInactividadActivado: &e%isinactivityreset%'
+    - '&9Último inicio de sesión del dueño: &e%lastownerlogin%'
+    - '&9Borrado por inactividad en: &e%inactivityresetin-countdown-short%'
+    - '&9Toma de control posible en: &e%takeoverin-countdown-short%'
+    - '&9Autoborrado: &e%isautorestore% &9Autoprecio: &e%autoprice%'
+    - '&9Subregiones permitidas: &e%subregionlimit%'
+    - '&9Subregiones: &e%subregions%'
+  RegionInfoSellregionUser:
+    - '&6=========[Información de la parcela]========='
+    - '&9ID: &e%regionid% &7(tipo: &r%selltipo%&7)'
+    - '&9Vendida: &e%issold%'
+    - '&9Precio: &e%price%'
+    - '&9Dueño: &e%owner%'
+    - '&9Miembros: &e%members%'
+    - '&9Número máximo de miembros: &e%maxmembers%'
+    - '&9Región Kind: &e%regionkinddisplay% &9Grupo de opciones: &e%flaggroup%'
+    - '&9Límite de Entidades de Grupos: &e%entitylimitgroup% &9esHotel: &e%ishotel%'
+    - '&9Borrado de usuarios: &e%isuserrestorable% &9BorradoInactividadActivado: &e%isinactivityreset%'
+    - '&9Último inicio de sesión del dueño: &e%lastownerlogin%'
+    - '&9Borrado por inactividad en: &e%inactivityresetin-countdown-short%'
+    - '&9Toma de control posible en: &e%takeoverin-countdown-short%'
+    - '&9Autoborrado: &e%isautorestore% &9Autoprecio: &e%autoprice%'
+    - '&9Subregiones permitidas: &e%subregionlimit%'
+    - '&9Subregiones: &e%subregions%'
+  RegionInfoRentregionUser:
+    - '&6=========[Información de la parcela]========='
+    - '&9ID: &e%regionid% &7(tipo: &r%selltipo%&7)'
+    - '&9Vendida: &e%issold%'
+    - '&9Precio: &e%price% &7per &e%extendtime-writtenout% &7max.: &e%maxrenttime-writtenout%'
+    - '&9Tiempo restante: &e%remainingtime-countdown-short%'
+    - '&9Dueño: &e%owner%'
+    - '&9Miembros: &e%members%'
+    - '&9Número máximo de miembros: &e%maxmembers%'
+    - '&9Región Kind: &e%regionkinddisplay% &9Grupo de opciones: &e%flaggroup%'
+    - '&9Límite de Entidades de Grupos: &e%entitylimitgroup% &9esHotel: &e%ishotel%'
+    - '&9Borrado de usuarios: &e%isuserrestorable% &9BorradoInactividadActivado: &e%isinactivityreset%'
+    - '&9Último inicio de sesión del dueño: &e%lastownerlogin%'
+    - '&9Borrado por inactividad en: &e%inactivityresetin-countdown-short%'
+    - '&9Toma de control posible en: &e%takeoverin-countdown-short%'
+    - '&9Autoborrado: &e%isautorestore% &9Autoprecio: &e%autoprice%'
+    - '&9Subregiones permitidas: &e%subregionlimit%'
+    - '&9Subregiones: &e%subregions%'
+  RegionInfoContractregionUser:
+    - '&6=========[Información de la parcela]========='
+    - '&9ID: &e%regionid% &7(tipo: &r%selltipo%&7)'
+    - '&9Vendida: &e%issold%'
+    - '&9Precio: &e%price% &7per &e%extendtime-writtenout% &7(auto extend)'
+    - '&9Próxima renovación en: &e%remainingtime-countdown-short%'
+    - '&9Dueño: &e%owner%'
+    - '&9Miembros: &e%members%'
+    - '&9Número máximo de miembros: &e%maxmembers%'
+    - '&9Región Kind: &e%regionkinddisplay% &9Grupo de opciones: &e%flaggroup%'
+    - '&9Límite de Entidades de Grupos: &e%entitylimitgroup% &9esHotel: &e%ishotel%'
+    - '&9Borrado de usuarios: &e%isuserrestorable% &9BorradoInactividadActivado: &e%isinactivityreset%'
+    - '&9Último inicio de sesión del dueño: &e%lastownerlogin%'
+    - '&9Borrado por inactividad en: &e%inactivityresetin-countdown-short%'
+    - '&9Toma de control posible en: &e%takeoverin-countdown-short%'
+    - '&9Autoborrado: &e%isautorestore% &9Autoprecio: &e%autoprice%'
+    - '&9Subregiones permitidas: &e%subregionlimit%'
+    - '&9Subregiones: &e%subregions%'
+  RegionInfoSellregionSubregion:
+    - '&6=========[Información de la parcela]========='
+    - '&9ID: &e%regionid% &7(tipo: &r%selltipo%&7, Subregion)'
+    - '&9Vendida: &e%issold%'
+    - '&9Precio: &e%price%'
+    - '&9Dueño: &e%owner%'
+    - '&9Miembros: &e%members%'
+    - '&9Número máximo de miembros: &e%maxmembers%'
+    - '&9Región Kind: &e%regionkinddisplay% &9Grupo de opciones: &e%flaggroup%'
+    - '&9Límite de Entidades de Grupos: &e%entitylimitgroup% &9esHotel: &e%ishotel%'
+    - '&9Borrado de usuarios: &e%isuserrestorable% &9BorradoInactividadActivado: &e%isinactivityreset%'
+    - '&9Último inicio de sesión del dueño: &e%lastownerlogin%'
+    - '&9Borrado por inactividad en: &e%inactivityresetin-countdown-short%'
+    - '&9Toma de control posible en: &e%takeoverin-countdown-short%'
+    - '&9Autoborrado: &e%isautorestore% &9Autoprecio: &e%autoprice%'
+  RegionInfoRentregionSubregion:
+    - '&6=========[Información de la parcela]========='
+    - '&9ID: &e%regionid% &7(tipo: &r%selltipo%&7, Subregion)'
+    - '&9Vendida: &e%issold%'
+    - '&9Precio: &e%price% &7per &e%extendtime-writtenout% &7max.: &e%maxrenttime-writtenout%'
+    - '&9Tiempo restante: &e%remainingtime-countdown-short%'
+    - '&9Dueño: &e%owner%'
+    - '&9Miembros: &e%members%'
+    - '&9Número máximo de miembros: &e%maxmembers%'
+    - '&9Región Kind: &e%regionkinddisplay% &9Grupo de opciones: &e%flaggroup%'
+    - '&9Límite de Entidades de Grupos: &e%entitylimitgroup% &9esHotel: &e%ishotel%'
+    - '&9Borrado de usuarios: &e%isuserrestorable% &9BorradoInactividadActivado: &e%isinactivityreset%'
+    - '&9Último inicio de sesión del dueño: &e%lastownerlogin%'
+    - '&9Borrado por inactividad en: &e%inactivityresetin-countdown-short%'
+    - '&9Toma de control posible en: &e%takeoverin-countdown-short%'
+    - '&9Autoborrado: &e%isautorestore% &9Autoprecio: &e%autoprice%'
+  RegionInfoContractregionSubregion:
+    - '&6=========[Información de la parcela]========='
+    - '&9ID: &e%regionid% &7(tipo: &r%selltipo%&7, Subregion)'
+    - '&9Vendida: &e%issold%'
+    - '&9Precio: &e%price% &7per &e%extendtime-writtenout% &7(auto extend)'
+    - '&9Next extend in: &e%remainingtime-countdown-short%'
+    - '&9Dueño: &e%owner%'
+    - '&9Miembros: &e%members%'
+    - '&9Número máximo de miembros: &e%maxmembers%'
+    - '&9Región Kind: &e%regionkinddisplay% &9Grupo de opciones: &e%flaggroup%'
+    - '&9Límite de Entidades de Grupos: &e%entitylimitgroup% &9esHotel: &e%ishotel%'
+    - '&9Borrado de usuarios: &e%isuserrestorable% &9BorradoInactividadActivado: &e%isinactivityreset%'
+    - '&9Último inicio de sesión del dueño: &e%lastownerlogin%'
+    - '&9Borrado por inactividad en: &e%inactivityresetin-countdown-short%'
+    - '&9Toma de control posible en: &e%takeoverin-countdown-short%'
+    - '&9Autoborrado: &e%isautorestore% &9Autoprecio: &e%autoprice%'

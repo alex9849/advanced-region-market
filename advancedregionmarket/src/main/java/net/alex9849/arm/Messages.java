@@ -20,7 +20,7 @@ import java.util.List;
 
 public class Messages {
     public enum MessageLocale {
-        EN("en"), DE("de"), FR("fr"), RU("ru");
+        EN("en"), DE("de"), FR("fr"), RU("ru"), ES("es");
         private String code;
 
         MessageLocale(String code) {

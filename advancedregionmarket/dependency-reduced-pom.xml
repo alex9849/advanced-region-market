@@ -17,6 +17,7 @@
           <include>plugin.yml</include>
           <include>config.yml</include>
           <include>messages_de.yml</include>
+          <include>messages_es.yml</include>
           <include>messages_fr.yml</include>
           <include>messages_ru.yml</include>
           <include>regions.yml</include>

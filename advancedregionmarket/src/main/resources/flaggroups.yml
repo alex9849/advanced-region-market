@@ -1,6 +1,7 @@
 FlagGroups:
   examplegroup:
     priority: 20
+    overwriteParent: true
     available:
       0:
         setting: 'allow g:members'
@@ -83,6 +84,7 @@ FlagGroups:
 
 DefaultFlagGroup:
   priority: 20
+  overwriteParent: true
   available:
     0:
       setting: 'allow g:members'
@@ -198,6 +200,7 @@ SubregionFlagGroup:
   # Pritority will be ignored for Subregions.
   # ARM will automatically select the priority based on your settings for subregions!
   priority: 0
+  overwriteParent: false
   available:
     0:
       setting: 'allow g:members'

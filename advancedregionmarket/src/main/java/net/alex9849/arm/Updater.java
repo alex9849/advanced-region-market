@@ -153,6 +153,10 @@ public class Updater {
                 AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 3.0...");
                 updateTo3p0(pluginConfig);
             }
+            if (new Version(3, 0, 1).biggerThan(lastVersion)) {
+                AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 3.0.1...");
+                updateTo3p0p1(pluginConfig);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -1036,6 +1040,12 @@ public class Updater {
         AdvancedRegionMarket.getInstance().saveConfig();
     }
 
+    private static void updateTo3p0p1(FileConfiguration pluginConfig) {
+        UpdateHelpMethods.addFlagGroupVariable("overwriteParent", true, true, false);
+        pluginConfig.set("Version", "3.0.1");
+        AdvancedRegionMarket.getInstance().saveConfig();
+    }
+
     private static class UpdateHelpMethods {
 
 
@@ -1112,6 +1122,25 @@ public class Updater {
             flagUpdater.updateFlagGroup(flaggroupsConf.getConfigurationSection("DefaultFlagGroup"));
             flagUpdater.updateFlagGroup(flaggroupsConf.getConfigurationSection("SubregionFlagGroup"));
             flaggroupsConf.save(flaggroupsConfDic);
+        }
+
+        private static void addFlagGroupVariable(String key, Object value, Object defaultFgVar, Object subregFgVar) {
+            File flaggroupsConfDic = new File(AdvancedRegionMarket.getInstance().getDataFolder() + "/flaggroups.yml");
+            YamlConfiguration flaggroupsConf = YamlConfiguration.loadConfiguration(flaggroupsConfDic);
+            ConfigurationSection groupsSection = flaggroupsConf.getConfigurationSection("FlagGroups");
+            if(groupsSection != null) {
+                Set<String> keys = groupsSection.getKeys(false);
+                for(String fgName : keys) {
+                    groupsSection.set(fgName + "." + key, value);
+                }
+            }
+            flaggroupsConf.set("DefaultFlagGroup." + key, defaultFgVar);
+            flaggroupsConf.set("SubregionFlagGroup." + key, subregFgVar);
+            try {
+                flaggroupsConf.save(AdvancedRegionMarket.getInstance().getDataFolder() + "/flaggroups.yml");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
     }

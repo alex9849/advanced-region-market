@@ -5,9 +5,9 @@ import net.alex9849.arm.regions.Region;
 /**
  * Is called if the blocks of a region are getting resetted
  */
-public class ResetBlocksEvent extends RegionEvent {
+public class RestoreRegionEvent extends RegionEvent {
 
-    public ResetBlocksEvent(Region region) {
+    public RestoreRegionEvent(Region region) {
         super(region);
     }
 

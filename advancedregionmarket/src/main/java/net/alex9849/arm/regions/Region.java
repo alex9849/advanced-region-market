@@ -5,7 +5,7 @@ import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.entitylimit.EntityLimit;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
-import net.alex9849.arm.events.ResetBlocksEvent;
+import net.alex9849.arm.events.RestoreRegionEvent;
 import net.alex9849.arm.events.UnsellRegionEvent;
 import net.alex9849.arm.events.UpdateRegionEvent;
 import net.alex9849.arm.exceptions.*;
@@ -871,7 +871,7 @@ public abstract class Region implements Saveable {
 
     public void restoreRegion(ActionReason actionReason, boolean logToConsole, boolean preventBackup) throws SchematicNotFoundException {
 
-        ResetBlocksEvent resetBlocksEvent = new ResetBlocksEvent(this);
+        RestoreRegionEvent resetBlocksEvent = new RestoreRegionEvent(this);
         Bukkit.getServer().getPluginManager().callEvent(resetBlocksEvent);
         if (resetBlocksEvent.isCancelled()) {
             return;

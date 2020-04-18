@@ -32,8 +32,8 @@ public class Messages {
         }
 
         public static MessageLocale byCode(String code) {
-            for(MessageLocale locale : MessageLocale.values()) {
-                if(locale.code().equalsIgnoreCase(code)) {
+            for (MessageLocale locale : MessageLocale.values()) {
+                if (locale.code().equalsIgnoreCase(code)) {
                     return locale;
                 }
             }
@@ -45,7 +45,9 @@ public class Messages {
     @Target(ElementType.FIELD)
     public @interface Message {
         public String name();
+
         public String[] message();
+
         public int version() default 0;
     }
 
@@ -1069,7 +1071,7 @@ public class Messages {
 
     private static YamlConfiguration updateAndWriteConfig(MessageLocale locale, File savePath) {
         YamlConfiguration config;
-        if(savePath.exists()) {
+        if (savePath.exists()) {
             config = YamlConfiguration.loadConfiguration(savePath);
         } else {
             config = new YamlConfiguration();
@@ -1078,7 +1080,7 @@ public class Messages {
         int newConfigVersion = configVersion;
         ConfigurationSection localeconfigMessages = null;
         int localeFileVersion = 0;
-        if(MessageLocale.EN != locale) {
+        if (MessageLocale.EN != locale) {
             InputStreamReader reader = new InputStreamReader(AdvancedRegionMarket.getInstance()
                     .getResource("messages_" + locale.code() + ".yml"), Charset.forName("UTF-8"));
             YamlConfiguration localeConfig = YamlConfiguration.loadConfiguration(reader);
@@ -1092,19 +1094,22 @@ public class Messages {
         }
 
         boolean fileUpdated = false;
-        for(Field field : Messages.class.getDeclaredFields()) {
+        for (Field field : Messages.class.getDeclaredFields()) {
             if (!field.isAnnotationPresent(Message.class)) {
                 continue;
             }
             int requestedVersion = getRequestedVersion(field);
             String serializedKey = getSerializedKey(field);
-            if((configVersion >= requestedVersion) && configMessages.get(serializedKey) != null) {
+            if ((configVersion >= requestedVersion)
+                    && configMessages.get(serializedKey) != null
+                    && field.getType().isAssignableFrom(configMessages.get(serializedKey).getClass())) {
                 continue;
             }
             Object replaceMessage = getMessage(field);
-            if(localeconfigMessages != null) {
+            if (localeconfigMessages != null) {
                 Object localeConfigMessage = localeconfigMessages.get(serializedKey);
-                if(localeConfigMessage != null && localeFileVersion >= requestedVersion) {
+                if (localeConfigMessage != null && localeFileVersion >= requestedVersion
+                        && field.getType().isAssignableFrom(localeConfigMessage.getClass())) {
                     replaceMessage = localeConfigMessage;
                 }
             }
@@ -1114,7 +1119,7 @@ public class Messages {
             fileUpdated = true;
         }
 
-        if(fileUpdated) {
+        if (fileUpdated) {
             config.set("FileVersion", newConfigVersion);
             config.set("Messages", configMessages);
             config.options().copyDefaults(true);
@@ -1142,19 +1147,20 @@ public class Messages {
 
                 } else if (parsedOption instanceof List<?>) {
                     List<String> parsedOptionList = new ArrayList<>();
-                    for(Object listElement : (List<?>) parsedOption) {
-                        if(listElement instanceof String) {
+                    for (Object listElement : (List<?>) parsedOption) {
+                        if (listElement instanceof String) {
                             parsedOptionList.add(ChatColor.translateAlternateColorCodes('&', (String) listElement));
                         }
                     }
                     parsedOption = parsedOptionList;
                 }
-                if(field.getType().isAssignableFrom(parsedOption.getClass())) {
-                    try {
+
+                try {
+                    if (field.getType().isAssignableFrom(parsedOption.getClass())) {
                         field.set(Messages.class, parsedOption);
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
                     }
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
                 }
                 field.setAccessible(false);
             }
@@ -1162,20 +1168,20 @@ public class Messages {
     }
 
     private static Object getMessage(Field field) {
-        if(!field.isAnnotationPresent(Message.class)) {
+        if (!field.isAnnotationPresent(Message.class)) {
             return null;
         }
-        String[] messageArr = field.getAnnotation(Message.class).message();
-        if(messageArr.length == 1) {
-            return messageArr[0];
+        List<String> messageList = Arrays.asList(field.getAnnotation(Message.class).message());
+        if (field.getType().isAssignableFrom(String.class)) {
+            return getStringList(messageList, x -> x, "\n");
         }
-        return Arrays.asList(messageArr);
+        return messageList;
     }
 
     private static String getSerializedKey(Field field) {
-        if(field.isAnnotationPresent(Message.class)) {
+        if (field.isAnnotationPresent(Message.class)) {
             String annotationValue = field.getAnnotation(Message.class).name();
-            if(annotationValue.isEmpty()) {
+            if (annotationValue.isEmpty()) {
                 annotationValue = field.getName();
             }
             return annotationValue;
@@ -1184,7 +1190,7 @@ public class Messages {
     }
 
     private static int getRequestedVersion(Field field) {
-        if(field.isAnnotationPresent(Message.class)) {
+        if (field.isAnnotationPresent(Message.class)) {
             return field.getAnnotation(Message.class).version();
         }
         return 0;

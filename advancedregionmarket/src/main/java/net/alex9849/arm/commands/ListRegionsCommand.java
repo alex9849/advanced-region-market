@@ -31,7 +31,7 @@ public class ListRegionsCommand extends BasicArmCommand {
         String playerName = sender.getName();
         if (command.matches(this.regex_with_args)) {
             String[] args = command.split(" ");
-            if(!sender.getName().equalsIgnoreCase(args[1]) && sender.hasPermission(Permission.ADMIN_LISTREGIONS)) {
+            if(!sender.getName().equalsIgnoreCase(args[1]) && !sender.hasPermission(Permission.ADMIN_LISTREGIONS)) {
                 throw new InputException(sender, Messages.NO_PERMISSION);
             }
             playerName = args[1];

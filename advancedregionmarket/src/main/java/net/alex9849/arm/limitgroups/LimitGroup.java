@@ -1,231 +1,41 @@
 package net.alex9849.arm.limitgroups;
 
-import net.alex9849.arm.AdvancedRegionMarket;
-import net.alex9849.arm.Messages;
-import net.alex9849.arm.Permission;
 import net.alex9849.arm.regionkind.RegionKind;
-import net.alex9849.arm.regions.Region;
-import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 public class LimitGroup {
-    private static List<LimitGroup> groupList = new ArrayList<>();
-    Integer total;
-    private List<RegionKindLimit> regionKindLimits = new ArrayList<>();
+    private Integer total = -1;
+    private HashMap<RegionKind, Integer> regionKindLimits = new HashMap<>();
     private String name;
 
     public LimitGroup(String name) {
         this.name = name;
-        FileConfiguration config = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getConfig();
-        List<String> regionKindStrings = new ArrayList<String>(config.getConfigurationSection("Limits." + name).getKeys(false));
-        for (int i = 0; i < regionKindStrings.size(); i++) {
-            int limit = config.getInt("Limits." + name + "." + regionKindStrings.get(i));
-            if (limit == -1) {
-                limit = Integer.MAX_VALUE;
-            }
-            RegionKind kind = AdvancedRegionMarket.getInstance().getRegionKindManager().getRegionKind(regionKindStrings.get(i));
-            if (regionKindStrings.get(i).equals("total")) {
-                this.total = limit;
-            } else {
-                if (kind != null) {
-                    regionKindLimits.add(new RegionKindLimit(kind, limit));
-                }
-            }
-        }
-        if (this.total == null) {
-            this.total = Integer.MAX_VALUE;
-        }
     }
 
-    public static void Reset() {
-        groupList = new ArrayList<>();
+    public int getTotalLimit() {
+        return this.total;
     }
 
-    public static List<LimitGroup> getGroupList() {
-        return groupList;
+    public void setTotalLimit(int total) {
+        if(total < -1) {
+            total = 0;
+        }
+        this.total = total;
     }
 
-    public static boolean isCanBuyAnother(Player player, Region region) {
-        if (player.hasPermission(Permission.ADMIN_LIMIT_BYPASS)) {
-            return true;
+    public void addLimit(RegionKind regionKind, int limit) {
+        if(limit < -1) {
+            limit = 0;
         }
-
-        int ownedregions = getOwnedRegions(player);
-        int ownedregionswiththistype = getOwnedRegions(player, region.getRegionKind());
-
-        if (ownedregions < getLimit(player) && ownedregionswiththistype < getLimit(player, region.getRegionKind())) {
-            return true;
-        } else {
-            return false;
-        }
+        regionKindLimits.put(regionKind, limit);
     }
 
-    public static boolean isInLimit(Player player, Region region) {
-        if (player.hasPermission(Permission.ADMIN_LIMIT_BYPASS)) {
-            return true;
-        }
-
-        int ownedregions = getOwnedRegions(player);
-        int ownedregionswiththistype = getOwnedRegions(player, region.getRegionKind());
-
-        if (ownedregions <= getLimit(player) && ownedregionswiththistype <= getLimit(player, region.getRegionKind())) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public static int getLimit(Player player, RegionKind regionkind) {
-        if (player.hasPermission(Permission.ADMIN_LIMIT_BYPASS)) {
-            return Integer.MAX_VALUE;
-        }
-
-        int maxregionswiththistype = -1;
-
-        for (int i = 0; i < groupList.size(); i++) {
-            if (player.hasPermission(Permission.ARM_LIMIT + groupList.get(i).getName())) {
-                for (int y = 0; y < groupList.get(i).getRegionKindLimits().size(); y++) {
-                    if (groupList.get(i).getRegionKindLimits().get(y).getRegionKind() == regionkind) {
-                        if (maxregionswiththistype < groupList.get(i).getRegionKindLimits().get(y).getLimit()) {
-                            maxregionswiththistype = groupList.get(i).getRegionKindLimits().get(y).getLimit();
-                        }
-                    }
-                }
-            }
-        }
-
-        if (maxregionswiththistype == -1) {
-            maxregionswiththistype = Integer.MAX_VALUE;
-        }
-
-        return maxregionswiththistype;
-    }
-
-    public static int getLimit(Player player) {
-        if (player.hasPermission(Permission.ADMIN_LIMIT_BYPASS)) {
-            return Integer.MAX_VALUE;
-        }
-
-        int maxtotal = -1;
-
-        for (int i = 0; i < groupList.size(); i++) {
-            if (player.hasPermission(Permission.ARM_LIMIT + groupList.get(i).getName())) {
-                if (maxtotal < groupList.get(i).getTotal()) {
-                    maxtotal = groupList.get(i).getTotal();
-                }
-            }
-        }
-        if (maxtotal == -1) {
-            maxtotal = Integer.MAX_VALUE;
-        }
-        return maxtotal;
-    }
-
-    public static int getOwnedRegions(Player player, RegionKind regionkind) {
-        List<Region> regions = AdvancedRegionMarket.getInstance().getRegionManager().getRegionsByOwner(player.getUniqueId());
-        int ownedregionswiththistype = 0;
-        for (int i = 0; i < regions.size(); i++) {
-            if (regionkind == regions.get(i).getRegionKind()) {
-                ownedregionswiththistype++;
-            }
-        }
-        return ownedregionswiththistype;
-    }
-
-    public static int getOwnedRegions(Player player) {
-        return AdvancedRegionMarket.getInstance().getRegionManager().getRegionsByOwner(player.getUniqueId()).size();
-    }
-
-    public static void getLimitChat(Player player) {
-        player.sendMessage(Messages.LIMIT_INFO_TOP);
-        String syntaxtotal = Messages.LIMIT_INFO;
-        syntaxtotal = syntaxtotal.replace("%regionkind%", Messages.LIMIT_INFO_TOTAL);
-        syntaxtotal = syntaxtotal.replace("%regionkinddisplay%", Messages.LIMIT_INFO_TOTAL);
-        syntaxtotal = syntaxtotal.replace("%playerownedkind%", LimitGroup.getOwnedRegions(player) + "");
-        String limit = LimitGroup.getLimit(player) + "";
-        if (LimitGroup.getLimit(player) == Integer.MAX_VALUE) {
-            limit = Messages.UNLIMITED;
-        }
-        syntaxtotal = syntaxtotal.replace("%limitkind%", limit);
-
-        player.sendMessage(syntaxtotal);
-
-        if (RegionKind.DEFAULT.isDisplayInLimits()) {
-            syntaxtotal = Messages.LIMIT_INFO;
-            syntaxtotal = RegionKind.DEFAULT.replaceVariables(syntaxtotal);
-            syntaxtotal = syntaxtotal.replace("%playerownedkind%", LimitGroup.getOwnedRegions(player, RegionKind.DEFAULT) + "");
-            limit = LimitGroup.getLimit(player, RegionKind.DEFAULT) + "";
-            if (LimitGroup.getLimit(player, RegionKind.DEFAULT) == Integer.MAX_VALUE) {
-                limit = Messages.UNLIMITED;
-            }
-            syntaxtotal = syntaxtotal.replace("%limitkind%", limit);
-
-            player.sendMessage(syntaxtotal);
-        }
-
-        if (RegionKind.SUBREGION.isDisplayInLimits()) {
-            syntaxtotal = Messages.LIMIT_INFO;
-            syntaxtotal = RegionKind.SUBREGION.replaceVariables(syntaxtotal);
-            syntaxtotal = syntaxtotal.replace("%playerownedkind%", LimitGroup.getOwnedRegions(player, RegionKind.SUBREGION) + "");
-            limit = LimitGroup.getLimit(player, RegionKind.SUBREGION) + "";
-            if (LimitGroup.getLimit(player, RegionKind.SUBREGION) == Integer.MAX_VALUE) {
-                limit = Messages.UNLIMITED;
-            }
-            syntaxtotal = syntaxtotal.replace("%limitkind%", limit);
-
-            player.sendMessage(syntaxtotal);
-        }
-
-        for (RegionKind regionKind : AdvancedRegionMarket.getInstance().getRegionKindManager()) {
-            if (RegionKind.hasPermission(player, regionKind) && regionKind.isDisplayInLimits()) {
-
-                syntaxtotal = Messages.LIMIT_INFO;
-                syntaxtotal = regionKind.replaceVariables(syntaxtotal);
-                syntaxtotal = syntaxtotal.replace("%playerownedkind%", LimitGroup.getOwnedRegions(player, regionKind) + "");
-                limit = LimitGroup.getLimit(player, regionKind) + "";
-                if (LimitGroup.getLimit(player, regionKind) == Integer.MAX_VALUE) {
-                    limit = Messages.UNLIMITED;
-                }
-                syntaxtotal = syntaxtotal.replace("%limitkind%", limit);
-                player.sendMessage(syntaxtotal);
-            }
-        }
-    }
-
-    public static String getRegionBuyOutOfLimitMessage(Player player, RegionKind regionKind) {
-        int limittotal = LimitGroup.getLimit(player);
-        int limitkind = LimitGroup.getLimit(player, regionKind);
-        String limittotalS = "" + limittotal;
-        String limitkindS = "" + limitkind;
-
-        if (limitkind == Integer.MAX_VALUE) {
-            limitkindS = Messages.UNLIMITED;
-        }
-        if (limittotal == Integer.MAX_VALUE) {
-            limittotalS = Messages.UNLIMITED;
-        }
-        String message = Messages.REGION_BUY_OUT_OF_LIMIT;
-        message = message.replace("%playerownedkind%", LimitGroup.getOwnedRegions(player, regionKind) + "");
-        message = message.replace("%limitkind%", limitkindS);
-        message = message.replace("%playerownedtotal%", LimitGroup.getOwnedRegions(player) + "");
-        message = message.replace("%limittotal%", limittotalS);
-        message = regionKind.replaceVariables(message);
-        return message;
+    public HashMap<RegionKind, Integer> getLimits() {
+        return new HashMap<>(this.regionKindLimits);
     }
 
     public String getName() {
         return this.name;
-    }
-
-    public int getTotal() {
-        return this.total;
-    }
-
-    public List<RegionKindLimit> getRegionKindLimits() {
-        return regionKindLimits;
     }
 }

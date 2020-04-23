@@ -19,7 +19,7 @@ import net.alex9849.arm.handler.CommandHandler;
 import net.alex9849.arm.handler.listener.*;
 import net.alex9849.arm.inactivityexpiration.InactivityExpirationGroup;
 import net.alex9849.arm.inactivityexpiration.PlayerInactivityGroupMapper;
-import net.alex9849.arm.limitgroups.LimitGroup;
+import net.alex9849.arm.limitgroups.LimitGroupManager;
 import net.alex9849.arm.minifeatures.SignLinkMode;
 import net.alex9849.arm.minifeatures.selloffer.Offer;
 import net.alex9849.arm.presets.ActivePresetManager;
@@ -82,6 +82,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
     private PresetPatternManager presetPatternManager = null;
     private SignDataFactory signDataFactory = null;
     private FlagGroupManager flagGroupManager = null;
+    private LimitGroupManager limitGroupManager = null;
     private ArmSettings pluginSettings = null;
     private Analytics analytics = null;
 
@@ -187,7 +188,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         this.regionKindManager = new RegionKindManager(new File(this.getDataFolder() + "/regionkinds.yml"));
         this.entityLimitGroupManager = new EntityLimitGroupManager(new File(this.getDataFolder() + "/entitylimits.yml"));
         loadAutoPrice();
-        loadGroups();
+        loadLimits();
         loadGUI();
         this.flagGroupManager = new FlagGroupManager(new File(this.getDataFolder() + "/flaggroups.yml"));
         this.regionManager = new RegionManager(new File(this.getDataFolder() + "/regions.yml"), 20 * getConfig().getInt("Other.SignAndResetUpdateInterval"));
@@ -269,7 +270,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
         this.getFlagGroupManager().updateFile();
         this.econ = null;
         this.vaultPerms = null;
-        LimitGroup.Reset();
         InactivityExpirationGroup.reset();
         AutoPrice.reset();
         SignLinkMode.reset();
@@ -640,14 +640,11 @@ public class AdvancedRegionMarket extends JavaPlugin {
         Gui.setFlageditorResetItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.FlageditorResetItem")));
     }
 
-    private void loadGroups() {
-        if (getConfig().get("Limits") != null) {
-            List<String> groups = new ArrayList<>(getConfig().getConfigurationSection("Limits").getKeys(false));
-            if (groups != null) {
-                for (int i = 0; i < groups.size(); i++) {
-                    LimitGroup.getGroupList().add(new LimitGroup(groups.get(i)));
-                }
-            }
+    private void loadLimits() {
+        this.limitGroupManager = new LimitGroupManager();
+        ConfigurationSection limitsection = getConfig().getConfigurationSection("Limits");
+        if(limitsection != null) {
+            this.limitGroupManager.load(limitsection);
         }
     }
 
@@ -744,6 +741,10 @@ public class AdvancedRegionMarket extends JavaPlugin {
 
     public RegionManager getRegionManager() {
         return this.regionManager;
+    }
+
+    public LimitGroupManager getLimitGroupManager() {
+        return this.limitGroupManager;
     }
 
     public CommandHandler getCommandHandler() {

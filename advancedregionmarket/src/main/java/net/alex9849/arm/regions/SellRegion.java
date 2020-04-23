@@ -5,7 +5,6 @@ import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.events.BuyRegionEvent;
 import net.alex9849.arm.exceptions.*;
-import net.alex9849.arm.limitgroups.LimitGroup;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
@@ -52,8 +51,9 @@ public class SellRegion extends Region {
             throw new NoPermissionException(this.replaceVariables(Messages.NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION));
         }
 
-        if (!LimitGroup.isCanBuyAnother(player, this)) {
-            throw new OutOfLimitExeption(LimitGroup.getRegionBuyOutOfLimitMessage(player, this.getRegionKind()));
+        if (!AdvancedRegionMarket.getInstance().getLimitGroupManager().isCanBuyAnother(player, this)) {
+            throw new OutOfLimitExeption(AdvancedRegionMarket.getInstance().getLimitGroupManager()
+                    .getRegionBuyOutOfLimitMessage(player, this.getRegionKind()));
         }
 
         if (AdvancedRegionMarket.getInstance().getEcon().getBalance(player) < this.getPricePerPeriod()) {

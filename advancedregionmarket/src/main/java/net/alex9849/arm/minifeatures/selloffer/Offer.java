@@ -3,7 +3,6 @@ package net.alex9849.arm.minifeatures.selloffer;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.exceptions.*;
-import net.alex9849.arm.limitgroups.LimitGroup;
 import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.Region;
 import net.milkbowl.vault.economy.Economy;
@@ -101,9 +100,10 @@ public class Offer {
             throw new NoPermissionException(this.replaceVariables(Messages.NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION));
         }
 
-        if (!LimitGroup.isCanBuyAnother(buyer, region)) {
+        if (!AdvancedRegionMarket.getInstance().getLimitGroupManager().isCanBuyAnother(buyer, region)) {
             this.reject();
-            throw new OutOfLimitExeption(LimitGroup.getRegionBuyOutOfLimitMessage(buyer, region.getRegionKind()));
+            throw new OutOfLimitExeption(AdvancedRegionMarket.getInstance().getLimitGroupManager()
+                    .getRegionBuyOutOfLimitMessage(buyer, region.getRegionKind()));
         }
 
         Economy econ = AdvancedRegionMarket.getInstance().getEcon();

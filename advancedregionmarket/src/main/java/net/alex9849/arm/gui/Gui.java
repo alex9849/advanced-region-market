@@ -9,7 +9,6 @@ import net.alex9849.arm.exceptions.*;
 import net.alex9849.arm.flaggroups.FlagGroup;
 import net.alex9849.arm.flaggroups.FlagSettings;
 import net.alex9849.arm.gui.chathandler.GuiChatInputListener;
-import net.alex9849.arm.limitgroups.LimitGroup;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.ContractRegion;
@@ -855,7 +854,7 @@ public class Gui implements Listener {
             ClickItem gobackButton = new ClickItem(goBack).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) {
-                    LimitGroup.getLimitChat(player);
+                    AdvancedRegionMarket.getInstance().getLimitGroupManager().printLimitInChat(player);
                 }
             });
             int pos = 1;
@@ -1183,7 +1182,7 @@ public class Gui implements Listener {
                 if (onlinemember == null) {
                     throw new InputException(player, Messages.REGION_TRANSFER_MEMBER_NOT_ONLINE);
                 }
-                if (LimitGroup.isCanBuyAnother(onlinemember, region)) {
+                if (AdvancedRegionMarket.getInstance().getLimitGroupManager().isCanBuyAnother(onlinemember, region)) {
                     WGRegion wgRegion = region.getRegion();
                     for (UUID oldOwner : wgRegion.getOwners()) {
                         wgRegion.addMember(oldOwner);

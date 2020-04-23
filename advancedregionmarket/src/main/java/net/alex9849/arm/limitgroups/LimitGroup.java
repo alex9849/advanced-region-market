@@ -3,6 +3,7 @@ package net.alex9849.arm.limitgroups;
 import net.alex9849.arm.regionkind.RegionKind;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class LimitGroup {
     private Integer total = -1;
@@ -31,7 +32,7 @@ public class LimitGroup {
         regionKindLimits.put(regionKind, limit);
     }
 
-    public HashMap<RegionKind, Integer> getLimits() {
+    public Map<RegionKind, Integer> getLimits() {
         return new HashMap<>(this.regionKindLimits);
     }
 

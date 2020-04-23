@@ -121,25 +121,25 @@ public class LimitGroupManager {
         String syntaxtotal = Messages.LIMIT_INFO;
         syntaxtotal = syntaxtotal.replace("%regionkind%", Messages.LIMIT_INFO_TOTAL);
         syntaxtotal = syntaxtotal.replace("%regionkinddisplay%", Messages.LIMIT_INFO_TOTAL);
-        syntaxtotal = syntaxtotal.replace("%playerownedkind%", getOwnedRegions(player) + "");
+        syntaxtotal = syntaxtotal.replace("%playerownedkind%", Integer.toString(getOwnedRegions(player)));
         int limitTotal = getLimitTotal(player);
         if (limitTotal == -1) {
             syntaxtotal = syntaxtotal.replace("%limitkind%", Messages.UNLIMITED);
         } else {
-            syntaxtotal = syntaxtotal.replace("%limitkind%", limitTotal + "");
+            syntaxtotal = syntaxtotal.replace("%limitkind%", Integer.toString(limitTotal));
         }
         player.sendMessage(syntaxtotal);
-        printLimitInChat(player, Messages.LIMIT_INFO_TOTAL, getOwnedRegions(player), limitTotal == -1 ? Messages.UNLIMITED:limitTotal + "");
+        printLimitInChat(player, Messages.LIMIT_INFO_TOTAL, getOwnedRegions(player), limitTotal == -1 ? Messages.UNLIMITED:Integer.toString(limitTotal));
 
         if (RegionKind.DEFAULT.isDisplayInLimits()) {
             syntaxtotal = Messages.LIMIT_INFO;
             syntaxtotal = RegionKind.DEFAULT.replaceVariables(syntaxtotal);
-            syntaxtotal = syntaxtotal.replace("%playerownedkind%", getOwnedRegions(player, RegionKind.DEFAULT) + "");
+            syntaxtotal = syntaxtotal.replace("%playerownedkind%", Integer.toString(getOwnedRegions(player, RegionKind.DEFAULT)));
             int limit = getLimit(player, RegionKind.DEFAULT);
             if (limit == -1) {
                 syntaxtotal = syntaxtotal.replace("%limitkind%", Messages.UNLIMITED);
             } else {
-                syntaxtotal = syntaxtotal.replace("%limitkind%", limit + "");
+                syntaxtotal = syntaxtotal.replace("%limitkind%", Integer.toString(limit));
             }
             player.sendMessage(syntaxtotal);
         }
@@ -147,12 +147,12 @@ public class LimitGroupManager {
         if (RegionKind.SUBREGION.isDisplayInLimits()) {
             syntaxtotal = Messages.LIMIT_INFO;
             syntaxtotal = RegionKind.SUBREGION.replaceVariables(syntaxtotal);
-            syntaxtotal = syntaxtotal.replace("%playerownedkind%", getOwnedRegions(player, RegionKind.SUBREGION) + "");
+            syntaxtotal = syntaxtotal.replace("%playerownedkind%", Integer.toString(getOwnedRegions(player, RegionKind.SUBREGION)));
             int limit = getLimit(player, RegionKind.SUBREGION);
             if (limit == -1) {
                 syntaxtotal = syntaxtotal.replace("%limitkind%", Messages.UNLIMITED);
             } else {
-                syntaxtotal = syntaxtotal.replace("%limitkind%", limit + "");
+                syntaxtotal = syntaxtotal.replace("%limitkind%", Integer.toString(limit));
             }
             player.sendMessage(syntaxtotal);
         }
@@ -161,12 +161,12 @@ public class LimitGroupManager {
             if (RegionKind.hasPermission(player, regionKind) && regionKind.isDisplayInLimits()) {
                 syntaxtotal = Messages.LIMIT_INFO;
                 syntaxtotal = regionKind.replaceVariables(syntaxtotal);
-                syntaxtotal = syntaxtotal.replace("%playerownedkind%", getOwnedRegions(player, regionKind) + "");
+                syntaxtotal = syntaxtotal.replace("%playerownedkind%", Integer.toString(getOwnedRegions(player, regionKind)));
                 int limit = getLimit(player, regionKind);
                 if (limit == -1) {
                     syntaxtotal = syntaxtotal.replace("%limitkind%", Messages.UNLIMITED);
                 } else {
-                    syntaxtotal = syntaxtotal.replace("%limitkind%", limit + "");
+                    syntaxtotal = syntaxtotal.replace("%limitkind%", Integer.toString(limit));
                 }
                 player.sendMessage(syntaxtotal);
             }
@@ -177,7 +177,7 @@ public class LimitGroupManager {
         String massage = Messages.LIMIT_INFO;
         massage = massage.replace("%regionkind%", regionKindName);
         massage = massage.replace("%regionkinddisplay%", regionKindName);
-        massage = massage.replace("%playerownedkind%", ownedRegions + "");
+        massage = massage.replace("%playerownedkind%", Integer.toString(ownedRegions));
         massage = massage.replace("%limitkind%", limit);
         player.sendMessage(massage);
     }

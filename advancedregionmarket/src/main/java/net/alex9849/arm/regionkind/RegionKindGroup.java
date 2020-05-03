@@ -4,6 +4,7 @@ import net.alex9849.arm.Messages;
 import net.alex9849.arm.util.Saveable;
 import net.alex9849.arm.util.stringreplacer.StringCreator;
 import net.alex9849.arm.util.stringreplacer.StringReplacer;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -24,7 +25,7 @@ public class RegionKindGroup implements Iterable<RegionKind>, Saveable {
     {
         HashMap<String, StringCreator> variableReplacements = new HashMap<>();
         variableReplacements.put("%regionkindgroupdisplay%", () -> {
-            return this.getDisplayName();
+            return ChatColor.translateAlternateColorCodes('&', this.getDisplayName());
         });
         variableReplacements.put("%regionkindgroup%", () -> {
             return this.getName();
@@ -103,7 +104,7 @@ public class RegionKindGroup implements Iterable<RegionKind>, Saveable {
     public ConfigurationSection toConfigurationSection() {
         ConfigurationSection confSection = new YamlConfiguration();
         confSection.set("displayName", this.displayName);
-        confSection.set("displayInLimits", this.displayName);
+        confSection.set("displayInLimits", this.displayInLimits);
         confSection.set("regionKinds", this.regionKinds.stream().map(x -> x.getName()).collect(Collectors.toList()));
         return confSection;
     }

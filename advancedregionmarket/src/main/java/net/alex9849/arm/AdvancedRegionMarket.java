@@ -213,6 +213,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
             @Override
             public void run() {
                 AdvancedRegionMarket.getInstance().getRegionManager().updateFile();
+                AdvancedRegionMarket.getInstance().getRegionKindGroupManager().updateFile();
                 AdvancedRegionMarket.getInstance().getEntityLimitGroupManager().updateFile();
                 AdvancedRegionMarket.getInstance().getRegionKindManager().updateFile();
                 AdvancedRegionMarket.getInstance().getFlagGroupManager().updateFile();

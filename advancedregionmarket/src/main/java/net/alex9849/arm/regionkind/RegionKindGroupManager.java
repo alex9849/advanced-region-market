@@ -25,6 +25,8 @@ public class RegionKindGroupManager extends YamlFileManager<RegionKindGroup> {
     @Override
     protected List<RegionKindGroup> loadSavedObjects(YamlConfiguration yamlConfiguration) {
         List<RegionKindGroup> loadedGroups = new ArrayList<>();
+        boolean fileupdated = false;
+        yamlConfiguration.options().copyDefaults(true);
         ConfigurationSection allGroupsSection = yamlConfiguration.getConfigurationSection("RegionkindGroups");
         if(allGroupsSection == null) {
             return loadedGroups;
@@ -34,6 +36,7 @@ public class RegionKindGroupManager extends YamlFileManager<RegionKindGroup> {
             if(groupSection == null) {
                 continue;
             }
+            fileupdated |= updateDefaults(groupSection);
             RegionKindGroup rkg = new RegionKindGroup(groupName);
             rkg.setDisplayName(groupSection.getString("displayName"));
             rkg.setDisplayInLimits(groupSection.getBoolean("displayInLimits"));
@@ -44,7 +47,11 @@ public class RegionKindGroupManager extends YamlFileManager<RegionKindGroup> {
                 }
                 rkg.addRegionKind(regionKind);
             }
+            loadedGroups.add(rkg);
             rkg.setSaved();
+        }
+        if (fileupdated) {
+            this.saveFile();
         }
         return loadedGroups;
     }
@@ -57,6 +64,14 @@ public class RegionKindGroupManager extends YamlFileManager<RegionKindGroup> {
     @Override
     protected void writeStaticSettings(YamlConfiguration yamlConfiguration) {
 
+    }
+
+    private boolean updateDefaults(ConfigurationSection section) {
+        boolean fileupdated = false;
+        fileupdated |= addDefault(section, "displayName", "Default Displayname");
+        fileupdated |= addDefault(section, "displayInLimits", true);
+        fileupdated |= addDefault(section, "regionKinds", new ArrayList<String>());
+        return fileupdated;
     }
 
     void notifyRegionKindDelete(RegionKind regionKind) {

@@ -11,9 +11,19 @@ import java.util.Arrays;
 import java.util.List;
 
 public class RegionKindManager extends YamlFileManager<RegionKind> {
+    private RegionKindGroupManager regionKindGroupManager = null;
 
     public RegionKindManager(File savepath) {
         super(savepath);
+    }
+
+    @Override
+    public boolean remove(RegionKind regionKind) {
+        if(super.remove(regionKind) && regionKindGroupManager != null) {
+            regionKindGroupManager.notifyRegionKindDelete(regionKind);
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -152,4 +162,7 @@ public class RegionKindManager extends YamlFileManager<RegionKind> {
         return fileupdated;
     }
 
+    public void setRegionKindGroupManager(RegionKindGroupManager regionKindGroupManger) {
+        this.regionKindGroupManager = regionKindGroupManger;
+    }
 }

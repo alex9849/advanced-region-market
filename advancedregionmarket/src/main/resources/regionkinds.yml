@@ -3,8 +3,6 @@
 # You can also describe your regionkind by writing the information in the lore.
 # If you don't want to write a lore just write "- ''"
 # (List of all Materials: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html)
-# To search and buy a region with a regionkind the user needs to have the permission 'arm.buyregion.REGIONKIND'
-# (for example 'arm.buykind.examplekind1')
 RegionKinds:
   starter:
     item: WOODEN_SHOVEL
@@ -57,7 +55,6 @@ DefaultRegionKind:
   displayInRegionfinder: false
 
 # RegionKind for subregions
-# Permission: arm.buykind.subregion
 SubregionRegionKind:
   displayName: Subregion
   item: PLAYER_HEAD

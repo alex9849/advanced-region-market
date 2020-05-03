@@ -30,6 +30,7 @@
                     <include>presets.yml</include>
                     <include>entitylimits.yml</include>
                     <include>regionkinds.yml</include>
+                    <include>regionkindgroups.yml</include>
                     <include>flaggroups.yml</include>
                 </includes>
             </resource>

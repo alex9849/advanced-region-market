@@ -27,6 +27,7 @@ import net.alex9849.arm.presets.PresetPatternManager;
 import net.alex9849.arm.presets.commands.MaxRentTimeCommand;
 import net.alex9849.arm.presets.commands.PaybackPercentageCommand;
 import net.alex9849.arm.presets.presets.PresetType;
+import net.alex9849.arm.regionkind.RegionKindGroupManager;
 import net.alex9849.arm.regionkind.RegionKindManager;
 import net.alex9849.arm.regionkind.commands.*;
 import net.alex9849.arm.regions.CountdownRegion;
@@ -77,6 +78,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
     private WorldEditInterface worldEditInterface = null;
     private CommandHandler commandHandler = null;
     private RegionKindManager regionKindManager = null;
+    private RegionKindGroupManager regionKindGroupManager = null;
     private EntityLimitGroupManager entityLimitGroupManager = null;
     private RegionManager regionManager = null;
     private PresetPatternManager presetPatternManager = null;
@@ -186,6 +188,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
 
 
         this.regionKindManager = new RegionKindManager(new File(this.getDataFolder() + "/regionkinds.yml"));
+        this.regionKindGroupManager = new RegionKindGroupManager(new File(this.getDataFolder() + "/regionkindgroups.yml"), this.regionKindManager);
         this.entityLimitGroupManager = new EntityLimitGroupManager(new File(this.getDataFolder() + "/entitylimits.yml"));
         loadAutoPrice();
         loadLimits();
@@ -708,6 +711,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         RegionManager.writeResourceToDisc(new File(this.getDataFolder() + "/regions.yml"), getResource("regions.yml"));
         PresetPatternManager.writeResourceToDisc(new File(this.getDataFolder() + "/presets.yml"), getResource("presets.yml"));
         FlagGroupManager.writeResourceToDisc(new File(this.getDataFolder() + "/flaggroups.yml"), getResource("flaggroups.yml"));
+        RegionKindGroupManager.writeResourceToDisc(new File(this.getDataFolder() + "/regionkindgroups.yml"), getResource("regionkindgroups.yml"));
     }
 
 

@@ -380,6 +380,8 @@ public class AdvancedRegionMarket extends JavaPlugin {
         regionkindGroupCommands.add(new net.alex9849.arm.regionkind.regionkindgroupcommands.ListCommand());
         regionkindGroupCommands.add(new net.alex9849.arm.regionkind.regionkindgroupcommands.SetDisplayInLimitsCommand());
         regionkindGroupCommands.add(new net.alex9849.arm.regionkind.regionkindgroupcommands.SetDisplayNameCommand());
+        regionkindGroupCommands.add(new net.alex9849.arm.regionkind.regionkindgroupcommands.AddRegionkindCommand());
+        regionkindGroupCommands.add(new net.alex9849.arm.regionkind.regionkindgroupcommands.RemoveRegionkindCommand());
         commands.add(new CommandSplitter("regionkindgroup", regionkindGroupUsage, Permission.REGIONKINDGROUP_HELP, Messages.REGIONKINDGROUP_HELP_HEADLINE, regionkindGroupCommands));
 
         List<String> subRegionUsage = new ArrayList<>(Arrays.asList("subregion [SETTING]", "subregion help"));

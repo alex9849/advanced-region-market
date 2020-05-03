@@ -30,18 +30,9 @@ public class InfoCommand extends BasicArmCommand {
             throw new InputException(sender, Messages.REGIONKIND_DOES_NOT_EXIST);
         }
 
-        List<String> lore = regionKind.getLore();
-
-        sender.sendMessage(regionKind.replaceVariables(Messages.REGIONKIND_INFO_HEADLINE));
-        sender.sendMessage(regionKind.replaceVariables(Messages.REGIONKIND_INFO_INTERNAL_NAME));
-        sender.sendMessage(regionKind.replaceVariables(Messages.REGIONKIND_INFO_DISPLAY_NAME));
-        sender.sendMessage(regionKind.replaceVariables(Messages.REGIONKIND_INFO_MATERIAL));
-        sender.sendMessage(regionKind.replaceVariables(Messages.REGIONKIND_INFO_DISPLAY_IN_GUI));
-        sender.sendMessage(regionKind.replaceVariables(Messages.REGIONKIND_INFO_DISPLAY_IN_LIMITS));
-        sender.sendMessage(Messages.REGIONKIND_INFO_LORE);
-
-        for (int i = 0; i < lore.size(); i++) {
-            sender.sendMessage((i + 1) + ". " + lore.get(i));
+        List<String> messages = new ArrayList<>(Messages.REGIONKIND_INFO);
+        for(String msg : messages) {
+            sender.sendMessage(regionKind.replaceVariables(msg));
         }
         return true;
     }

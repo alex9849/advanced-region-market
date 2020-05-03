@@ -49,6 +49,17 @@ public class RegionKind implements Saveable {
         variableReplacements.put("%regionkinddisplayingui%", () -> {
             return Messages.convertYesNo(this.isDisplayInRegionfinder());
         });
+        variableReplacements.put("%regionkindlore%", () -> {
+            return Messages.getStringList(this.getLore(), x -> ChatColor.translateAlternateColorCodes('&', x), "\n");
+        });
+        variableReplacements.put("%regionkindlorelist%", () -> {
+            return Messages.getStringList(this.getLore(), x -> ChatColor.translateAlternateColorCodes('&', "&r- " + x), "\n");
+        });
+        variableReplacements.put("%regionkindregionkindgroups%", () -> {
+            return Messages.getStringList(AdvancedRegionMarket.getInstance()
+                    .getRegionKindGroupManager().getRegionKindGroupsForRegionKind(this),
+                    x -> x.getName(), ", ");
+        });
 
         this.stringReplacer = new StringReplacer(variableReplacements, 20);
     }

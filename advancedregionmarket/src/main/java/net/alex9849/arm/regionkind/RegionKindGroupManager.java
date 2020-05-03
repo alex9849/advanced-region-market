@@ -1,5 +1,6 @@
 package net.alex9849.arm.regionkind;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.util.YamlFileManager;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -9,12 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RegionKindGroupManager extends YamlFileManager<RegionKindGroup> {
-    private RegionKindManager regionkindManager;
 
     public RegionKindGroupManager(File savepath, RegionKindManager regionKindManager) {
         super(savepath);
-        this.regionkindManager = regionKindManager;
-        this.regionkindManager.setRegionKindGroupManager(this);
+        regionKindManager.setRegionKindGroupManager(this);
     }
 
     @Override
@@ -41,7 +40,7 @@ public class RegionKindGroupManager extends YamlFileManager<RegionKindGroup> {
             rkg.setDisplayName(groupSection.getString("displayName"));
             rkg.setDisplayInLimits(groupSection.getBoolean("displayInLimits"));
             for(String regionkindName : groupSection.getStringList("regionKinds")) {
-                RegionKind regionKind = this.regionkindManager.getRegionKind(regionkindName);
+                RegionKind regionKind = AdvancedRegionMarket.getInstance().getRegionKindManager().getRegionKind(regionkindName);
                 if(regionKind == null) {
                     continue;
                 }
@@ -97,5 +96,15 @@ public class RegionKindGroupManager extends YamlFileManager<RegionKindGroup> {
             }
         }
         return completions;
+    }
+
+    public List<RegionKindGroup> getRegionKindGroupsForRegionKind(RegionKind regionKind) {
+        List<RegionKindGroup> result = new ArrayList<>();
+        for(RegionKindGroup rkg : this) {
+            if(rkg.contains(regionKind)) {
+                result.add(rkg);
+            }
+        }
+        return result;
     }
 }

@@ -742,6 +742,16 @@ public class Messages {
     public static String REGIONKIND_INFO_DISPLAY_IN_LIMITS;
     @Message(name = "RegionKindInfoLore", message = "&6Lore:")
     public static String REGIONKIND_INFO_LORE;
+    @Message(name = "RegionkindInfo", message = {"&6======[Regionkind Info]======",
+            "&9Name: &e%regionkind%",
+            "&9DisplayName: &r%regionkinddisplay%",
+            "&9Item: &e%regionkinditem%",
+            "&9Display in limits: &e%regionkinddisplayinlimits%",
+            "&9Display in gui: &e%regionkinddisplayingui%",
+            "&9Member of this RegionkindGroups: &e%regionkindregionkindgroups%",
+            "&9Lore:",
+            "%regionkindlorelist%"})
+    public static List<String> REGIONKIND_INFO;
     @Message(name = "RegionKindHelpHeadline", message = "&6=====[AdvancedRegionMarket RegionKind Help ]=====\n" +
             "&3Page %actualpage% / %maxpage%")
     public static String REGIONKIND_HELP_HEADLINE;

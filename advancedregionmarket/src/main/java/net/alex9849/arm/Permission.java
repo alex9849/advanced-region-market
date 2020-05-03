@@ -110,6 +110,8 @@ public class Permission {
     public static final String REGIONKINDGROUP_LIST = "arm.admin.regionkindgroup.list";
     public static final String REGIONKINDGROUP_INFO = "arm.admin.regionkindgroup.info";
     public static final String REGIONKINDGROUP_HELP = "arm.admin.regionkindgroup.help";
+    public static final String REGIONKINDGROUP_ADDREGIONKIND = "arm.admin.regionkindgroup.addregionkind";
+    public static final String REGIONKINDGROUP_REMOVEREGIONKIND = "arm.admin.regionkindgroup.removeregionkind";
 
     public static final String MEMBER_RESTORE = "arm.member.restore";
     public static final String MEMBER_SELLBACK = "arm.member.sellregion";

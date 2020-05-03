@@ -1,0 +1,16 @@
+RegionkindGroups:
+  regionkindgroup1:
+    displayName: regionkindgroup1
+    displayInLimits: true
+    regionKinds:
+      - medium
+      - large
+      - small
+  regionkindgroup2:
+    displayName: regionkindgroup2
+    displayInLimits: true
+    regionKinds:
+      - Default
+      - shop
+      - medium
+      - starter

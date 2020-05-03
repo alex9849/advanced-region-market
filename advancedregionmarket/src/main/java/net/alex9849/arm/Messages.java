@@ -748,7 +748,7 @@ public class Messages {
             "&9Item: &e%regionkinditem%",
             "&9Display in limits: &e%regionkinddisplayinlimits%",
             "&9Display in gui: &e%regionkinddisplayingui%",
-            "&9Member of this RegionkindGroups: &e%regionkindregionkindgroups%",
+            "&9In RegionkindGroups: &e%regionkindregionkindgroups%",
             "&9Lore:",
             "%regionkindlorelist%"})
     public static List<String> REGIONKIND_INFO;

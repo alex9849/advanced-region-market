@@ -1,4 +1,4 @@
-package net.alex9849.arm.regionkind.commands;
+package net.alex9849.arm.regionkind.regionkindcommands;
 
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.regionkind.RegionKind;
@@ -9,12 +9,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SetDisplayInRegionfinderCommand extends RegionKindOptionModifyCommand<Boolean> {
+public class SetDisplayInLimitsCommand extends RegionKindOptionModifyCommand<Boolean> {
 
 
-    public SetDisplayInRegionfinderCommand() {
-        super("setdisplayinregionfinder",
-                Arrays.asList(Permission.REGIONKIND_SET_DISPLAY_IN_REGIONFINDER), "(false|true)",
+    public SetDisplayInLimitsCommand() {
+        super("setdisplayinlimits",
+                Arrays.asList(Permission.REGIONKIND_SET_DISPLAY_IN_LIMITS), "(false|true)",
                 "[true/false]", "");
     }
 
@@ -25,7 +25,7 @@ public class SetDisplayInRegionfinderCommand extends RegionKindOptionModifyComma
 
     @Override
     protected void applySetting(CommandSender sender, RegionKind object, Boolean setting) {
-        object.setDisplayInRegionfinder(setting);
+        object.setDisplayInLimits(setting);
     }
 
     @Override
@@ -40,4 +40,3 @@ public class SetDisplayInRegionfinderCommand extends RegionKindOptionModifyComma
         return returnme;
     }
 }
-

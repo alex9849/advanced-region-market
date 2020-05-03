@@ -138,6 +138,27 @@ public class Messages {
     public static String NO_FREE_REGION_WITH_THIS_KIND;
     @Message(name = "RegionkindDoesNotExist", message = "&4The selected regionkind does not exist!")
     public static String REGIONKIND_DOES_NOT_EXIST;
+    @Message(name = "RegionkindgroupNotExists", message = "&4The selected regionkindgroup does not exist!")
+    public static String REGIONKINDGROUP_NOT_EXISTS;
+    @Message(name = "RegionkindgroupModified", message = "&aRegionkindGroup modified!")
+    public static String REGIONKINDGROUP_MODIFIED;
+    @Message(name = "RegionkindgroupListHeadline", message = "&6Regionkindgroups:")
+    public static String REGIONKINDGROUP_LIST_HEADLINE;
+    @Message(name = "RegionkindgroupAlreadyExists", message = "&4RegionKindGroup already exists!")
+    public static String REGIONKINDGROUP_ALREADY_EXISTS;
+    @Message(name = "RegionkindgroupCreated", message = "&aRegionKindgroup created!")
+    public static String REGIONKINDGROUP_CREATED;
+    @Message(name = "RegionkindgroupDeleted", message = "&aRegionkindgroup deleted!")
+    public static String REGIONKINDGROUP_DELETED;
+    @Message(name = "RegionkindgroupHelpHeadline", message = "&6==[AdvancedRegionMarket RegionkindGroup Help]==\n" +
+            "&3Page %actualpage% / %maxpage%")
+    public static String REGIONKINDGROUP_HELP_HEADLINE;
+    @Message(name = "RegionkindgroupInfo", message = {"&6======[RegionkindGroup Info]======",
+    "&9Name: &e%regionkindgroup%",
+    "&9DisplayName: &r%regionkindgroupdisplay%",
+    "&9Display in limits: &e%regionkindgroupdisplayinlimits%",
+    "&9Member Regionkinds: &e%regionkindgroupmembers%"})
+    public static List<String> REGIONKINDGROUP_INFO;
     @Message(name = "RegionNowAvailable", message = "&aRegion is now available!")
     public static String REGION_NOW_AVAILABLE;
     @Message(name = "NoRegionAtPlayersPosition", message = "&7Could not find a region at your position!")
@@ -742,7 +763,7 @@ public class Messages {
             "&9AutoRestore: &e%isautorestore% &9Autoprice: &e%autoprice%",
             "&9PaybackPercentage in %: %paypackpercentage%",
             "&9Allowed Subregions: &e%subregionlimit%",
-            "&9Subregions: &e%subregions%"})
+            "&9Subregions: &e&e%subregions%"})
     public static List<String> REGION_INFO_SELLREGION;
     @Message(name = "RegionInfoRentregionUser", version = 1, message = {"&6=========[Region Info]=========",
             "&9ID: &e%regionid% &7(Type: &r%selltype%&7)",
@@ -852,7 +873,7 @@ public class Messages {
             "&9InactivityReset in: &e%inactivityresetin-countdown-short%",
             "&9TakeOver possible in: &e%takeoverin-countdown-short%",
             "&9AutoRestore: &e%isautorestore% &9Autoprice: &e%autoprice%",
-            "&9PaybackPercentage in %: %paypackpercentage%"})
+            "&9PaybackPercentage in %: &e%paypackpercentage%"})
     public static List<String> REGION_INFO_SELLREGION_SUBREGION;
     @Message(name = "RegionInfoRentregionSubregion", version = 1, message = {"&6=========[Region Info]=========",
             "&9ID: &e%regionid% &7(Type: &r%selltype%&7, Subregion)",
@@ -869,7 +890,7 @@ public class Messages {
             "&9InactivityReset in: &e%inactivityresetin-countdown-short%",
             "&9TakeOver possible in: &e%takeoverin-countdown-short%",
             "&9AutoRestore: &e%isautorestore% &9Autoprice: &e%autoprice%",
-            "&9PaybackPercentage in %: %paypackpercentage%"})
+            "&9PaybackPercentage in %: &e%paypackpercentage%"})
     public static List<String> REGION_INFO_RENTREGION_SUBREGION;
     @Message(name = "RegionInfoContractregionSubregion", version = 1, message = {"&6=========[Region Info]=========",
             "&9ID: &e%regionid% &7(Type: &r%selltype%&7, Subregion)",
@@ -886,7 +907,7 @@ public class Messages {
             "&9InactivityReset in: &e%inactivityresetin-countdown-short%",
             "&9TakeOver possible in: &e%takeoverin-countdown-short%",
             "&9AutoRestore: &e%isautorestore% &9Autoprice: &e%autoprice%",
-            "&9PaybackPercentage in %: %paypackpercentage%"})
+            "&9PaybackPercentage in %: &e%paypackpercentage%"})
     public static List<String> REGION_INFO_CONTRACTREGION_SUBREGION;
     @Message(name = "GUIFlageditorButton", message = "&6FlagEditor")
     public static String GUI_FLAGEDITOR_BUTTON;

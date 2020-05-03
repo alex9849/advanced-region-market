@@ -1,4 +1,4 @@
-package net.alex9849.arm.regionkind.commands;
+package net.alex9849.arm.regionkind.regionkindcommands;
 
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
@@ -7,6 +7,7 @@ import net.alex9849.arm.commands.BasicArmCommand;
 import net.alex9849.arm.exceptions.CmdSyntaxException;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.regionkind.RegionKind;
+import net.alex9849.arm.regions.Region;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -14,13 +15,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class AddLoreLineCommand extends BasicArmCommand {
+public class DeleteCommand extends BasicArmCommand {
 
-    public AddLoreLineCommand() {
-        super(true, "addloreline",
-                Arrays.asList("(?i)addloreline [^;\n ]+ [^;\n]+"),
-                Arrays.asList("addloreline [REGIONKIND] [loreline]"),
-                Arrays.asList(Permission.REGIONKIND_ADD_LORE_LINE));
+    public DeleteCommand() {
+        super(true, "delete",
+                Arrays.asList("(?i)delete [^;\n ]+"),
+                Arrays.asList("delete [REGIONKIND]"),
+                Arrays.asList(Permission.REGIONKIND_DELETE));
     }
 
     @Override
@@ -30,21 +31,27 @@ public class AddLoreLineCommand extends BasicArmCommand {
         if (regionKind == null) {
             throw new InputException(sender, Messages.REGIONKIND_DOES_NOT_EXIST);
         }
-
-        List<String> loreLine = new ArrayList<>();
-        for (int i = 2; i < args.length; i++) {
-            loreLine.add(args[i]);
+        if (regionKind == RegionKind.DEFAULT) {
+            throw new InputException(sender, Messages.REGIONKIND_CAN_NOT_REMOVE_SYSTEM);
         }
-        regionKind.getRawLore().add(Messages.getStringList(loreLine, x -> x, " "));
-        regionKind.queueSave();
+        if (regionKind == RegionKind.SUBREGION) {
+            throw new InputException(sender, Messages.REGIONKIND_CAN_NOT_REMOVE_SYSTEM);
+        }
 
-        sender.sendMessage(Messages.PREFIX + Messages.REGIONKIND_MODIFIED);
+        AdvancedRegionMarket.getInstance().getRegionKindManager().remove(regionKind);
+
+        for (Region region : AdvancedRegionMarket.getInstance().getRegionManager()) {
+            if (region.getRegionKind() == regionKind) {
+                region.setRegionKind(RegionKind.DEFAULT);
+            }
+        }
+        sender.sendMessage(Messages.PREFIX + Messages.REGIONKIND_DELETED);
         return true;
     }
 
     @Override
     protected List<String> onTabCompleteLogic(Player player, String[] args) {
-        if (args.length != 2) {
+        if(args.length != 2) {
             return new ArrayList<>();
         }
         return AdvancedRegionMarket.getInstance().getRegionKindManager().completeTabRegionKinds(args[1], "");

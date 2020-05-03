@@ -1,9 +1,13 @@
 package net.alex9849.arm.regionkind;
 
+import net.alex9849.arm.Messages;
 import net.alex9849.arm.util.Saveable;
+import net.alex9849.arm.util.stringreplacer.StringCreator;
+import net.alex9849.arm.util.stringreplacer.StringReplacer;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -15,6 +19,28 @@ public class RegionKindGroup implements Iterable<RegionKind>, Saveable {
     private boolean displayInLimits = true;
     private Set<RegionKind> regionKinds = new HashSet<>();
     private boolean needsSave = false;
+    private StringReplacer stringReplacer;
+
+    {
+        HashMap<String, StringCreator> variableReplacements = new HashMap<>();
+        variableReplacements.put("%regionkindgroupdisplay%", () -> {
+            return this.getDisplayName();
+        });
+        variableReplacements.put("%regionkindgroup%", () -> {
+            return this.getName();
+        });
+        variableReplacements.put("%currency%", () -> {
+            return Messages.CURRENCY;
+        });
+        variableReplacements.put("%regionkindgroupdisplayinlimits%", () -> {
+            return Messages.convertYesNo(this.isDisplayInLimits());
+        });
+        variableReplacements.put("%regionkindgroupmembers%", () -> {
+            return Messages.getStringList(this.regionKinds, x -> x.getName(), ", ");
+        });
+
+        this.stringReplacer = new StringReplacer(variableReplacements, 20);
+    }
 
     public RegionKindGroup(String name) {
         this.name = name;
@@ -95,5 +121,9 @@ public class RegionKindGroup implements Iterable<RegionKind>, Saveable {
     @Override
     public boolean needsSave() {
         return this.needsSave;
+    }
+
+    public String replaceVariables(String msg) {
+        return this.stringReplacer.replace(msg).toString();
     }
 }

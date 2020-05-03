@@ -103,6 +103,14 @@ public class Permission {
     public static final String REGIONKIND_INFO = "arm.admin.regionkind.info";
     public static final String REGIONKIND_HELP = "arm.admin.regionkind.help";
 
+    public static final String REGIONKINDGROUP_CREATE = "arm.admin.regionkindgroup.create";
+    public static final String REGIONKINDGROUP_DELETE = "arm.admin.regionkindgroup.delete";
+    public static final String REGIONKINDGROUP_SET_DISPLAY_IN_LIMITS = "arm.admin.regionkindgroup.setdisplayinlimits";
+    public static final String REGIONKINDGROUP_SET_DISPLAYNAME = "arm.admin.regionkindgroup.setdisplayname";
+    public static final String REGIONKINDGROUP_LIST = "arm.admin.regionkindgroup.list";
+    public static final String REGIONKINDGROUP_INFO = "arm.admin.regionkindgroup.info";
+    public static final String REGIONKINDGROUP_HELP = "arm.admin.regionkindgroup.help";
+
     public static final String MEMBER_RESTORE = "arm.member.restore";
     public static final String MEMBER_SELLBACK = "arm.member.sellregion";
     public static final String MEMBER_INFO = "arm.member.info";

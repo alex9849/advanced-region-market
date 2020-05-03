@@ -1,4 +1,4 @@
-package net.alex9849.arm.regionkind.commands;
+package net.alex9849.arm.regionkind.regionkindcommands;
 
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;

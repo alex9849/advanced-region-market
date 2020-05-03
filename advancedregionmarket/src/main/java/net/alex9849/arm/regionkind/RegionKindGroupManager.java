@@ -64,4 +64,23 @@ public class RegionKindGroupManager extends YamlFileManager<RegionKindGroup> {
             rkg.removeRegionKind(regionKind);
         }
     }
+
+    public RegionKindGroup getRegionKindGroup(String name) {
+        for(RegionKindGroup rkg : this) {
+            if(rkg.getName().equalsIgnoreCase(name)) {
+                return rkg;
+            }
+        }
+        return null;
+    }
+
+    public List<String> tabCompleteRegionKindGroups(String name) {
+        List<String> completions = new ArrayList<>();
+        for(RegionKindGroup rkg : this) {
+            if(rkg.getName().toLowerCase().startsWith(name)) {
+                completions.add(rkg.getName());
+            }
+        }
+        return completions;
+    }
 }

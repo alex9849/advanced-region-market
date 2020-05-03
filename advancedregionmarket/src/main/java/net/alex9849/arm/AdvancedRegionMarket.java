@@ -29,7 +29,7 @@ import net.alex9849.arm.presets.commands.PaybackPercentageCommand;
 import net.alex9849.arm.presets.presets.PresetType;
 import net.alex9849.arm.regionkind.RegionKindGroupManager;
 import net.alex9849.arm.regionkind.RegionKindManager;
-import net.alex9849.arm.regionkind.commands.*;
+import net.alex9849.arm.regionkind.regionkindcommands.*;
 import net.alex9849.arm.regions.CountdownRegion;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.RegionManager;
@@ -359,17 +359,27 @@ public class AdvancedRegionMarket extends JavaPlugin {
 
         List<String> regionKindUsage = new ArrayList<>(Arrays.asList("regionkind [SETTING]", "regionkind help"));
         List<BasicArmCommand> regionKindCommands = new ArrayList<>();
-        regionKindCommands.add(new net.alex9849.arm.regionkind.commands.CreateCommand());
-        regionKindCommands.add(new net.alex9849.arm.regionkind.commands.DeleteCommand());
-        regionKindCommands.add(new net.alex9849.arm.regionkind.commands.ListCommand());
+        regionKindCommands.add(new net.alex9849.arm.regionkind.regionkindcommands.CreateCommand());
+        regionKindCommands.add(new net.alex9849.arm.regionkind.regionkindcommands.DeleteCommand());
+        regionKindCommands.add(new net.alex9849.arm.regionkind.regionkindcommands.ListCommand());
         regionKindCommands.add(new SetDisplayInRegionfinderCommand());
         regionKindCommands.add(new SetDisplayInLimitsCommand());
         regionKindCommands.add(new SetItemCommand());
         regionKindCommands.add(new AddLoreLineCommand());
-        regionKindCommands.add(new net.alex9849.arm.regionkind.commands.InfoCommand());
+        regionKindCommands.add(new net.alex9849.arm.regionkind.regionkindcommands.InfoCommand());
         regionKindCommands.add(new RemoveLoreLineCommand());
         regionKindCommands.add(new SetDisplayNameCommand());
         commands.add(new CommandSplitter("regionkind", regionKindUsage, Permission.REGIONKIND_HELP, Messages.REGIONKIND_HELP_HEADLINE, regionKindCommands));
+
+        List<String> regionkindGroupUsage = Arrays.asList("regionkindgroup [SETTING]", "regionkindgroup help");
+        List<BasicArmCommand> regionkindGroupCommands = new ArrayList<>();
+        regionkindGroupCommands.add(new net.alex9849.arm.regionkind.regionkindgroupcommands.CreateCommand());
+        regionkindGroupCommands.add(new net.alex9849.arm.regionkind.regionkindgroupcommands.DeleteCommand());
+        regionkindGroupCommands.add(new net.alex9849.arm.regionkind.regionkindgroupcommands.InfoCommand());
+        regionkindGroupCommands.add(new net.alex9849.arm.regionkind.regionkindgroupcommands.ListCommand());
+        regionkindGroupCommands.add(new net.alex9849.arm.regionkind.regionkindgroupcommands.SetDisplayInLimitsCommand());
+        regionkindGroupCommands.add(new net.alex9849.arm.regionkind.regionkindgroupcommands.SetDisplayNameCommand());
+        commands.add(new CommandSplitter("regionkindgroup", regionkindGroupUsage, Permission.REGIONKINDGROUP_HELP, Messages.REGIONKINDGROUP_HELP_HEADLINE, regionkindGroupCommands));
 
         List<String> subRegionUsage = new ArrayList<>(Arrays.asList("subregion [SETTING]", "subregion help"));
         List<BasicArmCommand> subRegionCommands = new ArrayList<>();
@@ -745,6 +755,10 @@ public class AdvancedRegionMarket extends JavaPlugin {
 
     public RegionManager getRegionManager() {
         return this.regionManager;
+    }
+
+    public RegionKindGroupManager getRegionKindGroupManager() {
+        return this.regionKindGroupManager;
     }
 
     public LimitGroupManager getLimitGroupManager() {

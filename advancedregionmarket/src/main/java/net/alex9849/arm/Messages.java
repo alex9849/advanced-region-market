@@ -51,7 +51,7 @@ public class Messages {
         public int version() default 0;
     }
 
-    //Current version = 1
+    //Current version = 2
     @Message(name = "Prefix", message = "&b[ARM]&r ", version = 1)
     public static String PREFIX;
     @Message(name = "Buymessage", message = "&aRegion successfully bought!")
@@ -757,14 +757,15 @@ public class Messages {
     public static String REGIONKIND_HELP_HEADLINE;
     @Message(name = "PlayerNotFound", message = "&4Could not find selected player!")
     public static String PLAYER_NOT_FOUND;
-    @Message(name = "RegionInfoSellregionUser", version = 1, message = {"&6=========[Region Info]=========",
+    @Message(name = "RegionInfoSellregionUser", version = 2, message = {"&6=========[Region Info]=========",
             "&9ID: &e%regionid% &7(Type: &r%selltype%&7)",
             "&9Sold: &e%issold%",
             "&9Price: &e%price%",
             "&9Owner: &e%owner%",
             "&9Members: &e%members%",
             "&9Max. number of members: &e%maxmembers%",
-            "&9Regionkind: &e%regionkinddisplay% &9FlagGroup: &e%flaggroup%",
+            "&9Regionkind: &e%regionkinddisplay% &7%regionkindregionkindgroupsdisplaywithbrackets%",
+            "&9FlagGroup: &e%flaggroup%",
             "&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%",
             "&9UserRestorable: &e%isuserrestorable% &9InactivityResetEnabled: &e%isinactivityreset%",
             "&9Owners last login: &e%lastownerlogin%",
@@ -775,7 +776,7 @@ public class Messages {
             "&9Allowed Subregions: &e%subregionlimit%",
             "&9Subregions: &e&e%subregions%"})
     public static List<String> REGION_INFO_SELLREGION;
-    @Message(name = "RegionInfoRentregionUser", version = 1, message = {"&6=========[Region Info]=========",
+    @Message(name = "RegionInfoRentregionUser", version = 2, message = {"&6=========[Region Info]=========",
             "&9ID: &e%regionid% &7(Type: &r%selltype%&7)",
             "&9Sold: &e%issold%",
             "&9Price: &e%price% &7per &e%extendtime-writtenout% &7max.: &e%maxrenttime-writtenout%",
@@ -783,7 +784,8 @@ public class Messages {
             "&9Owner: &e%owner%",
             "&9Members: &e%members%",
             "&9Max. number of members: &e%maxmembers%",
-            "&9Regionkind: &e%regionkinddisplay% &9FlagGroup: &e%flaggroup%",
+            "&9Regionkind: &e%regionkinddisplay% &7%regionkindregionkindgroupsdisplaywithbrackets%",
+            "&9FlagGroup: &e%flaggroup%",
             "&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%",
             "&9UserRestorable: &e%isuserrestorable% &9InactivityResetEnabled: &e%isinactivityreset%",
             "&9Owners last login: &e%lastownerlogin%",
@@ -794,7 +796,7 @@ public class Messages {
             "&9Allowed Subregions: &e%subregionlimit%",
             "&9Subregions: &e%subregions%"})
     public static List<String> REGION_INFO_RENTREGION;
-    @Message(name = "RegionInfoContractregionUser", version = 1, message = {"&6=========[Region Info]=========" +
+    @Message(name = "RegionInfoContractregionUser", version = 2, message = {"&6=========[Region Info]=========" +
             "&9ID: &e%regionid% &7(Type: &r%selltype%&7)",
             "&9Sold: &e%issold%",
             "&9Price: &e%price% &7per &e%extendtime-writtenout% &7(auto extend)",
@@ -802,7 +804,8 @@ public class Messages {
             "&9Owner: &e%owner%",
             "&9Members: &e%members%",
             "&9Max. number of members: &e%maxmembers%",
-            "&9Regionkind: &e%regionkinddisplay% &9FlagGroup: &e%flaggroup%",
+            "&9Regionkind: &e%regionkinddisplay% &7%regionkindregionkindgroupsdisplaywithbrackets%",
+            "&9FlagGroup: &e%flaggroup%",
             "&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%",
             "&9UserRestorable: &e%isuserrestorable% &9InactivityResetEnabled: &e%isinactivityreset%",
             "&9Owners last login: &e%lastownerlogin%",
@@ -813,14 +816,15 @@ public class Messages {
             "&9Allowed Subregions: &e%subregionlimit%",
             "&9Subregions: &e%subregions%"})
     public static List<String> REGION_INFO_CONTRACTREGION;
-    @Message(name = "RegionInfoSellregionAdmin", version = 1, message = {"&6=========[Region Info]=========",
+    @Message(name = "RegionInfoSellregionAdmin", version = 2, message = {"&6=========[Region Info]=========",
             "&9ID: &e%regionid% &7(Type: &r%selltype%&7)",
             "&9Sold: &e%issold%",
             "&9Price: &e%price%",
             "&9Owner: &e%owner%",
             "&9Members: &e%members%",
             "&9Max. number of members: &e%maxmembers%",
-            "&9Regionkind: &e%regionkinddisplay% &9FlagGroup: &e%flaggroup%",
+            "&9Regionkind: &e%regionkinddisplay% &7%regionkindregionkindgroupsdisplaywithbrackets%",
+            "&9FlagGroup: &e%flaggroup%",
             "&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%",
             "&9UserRestorable: &e%isuserrestorable% &9InactivityResetEnabled: &e%isinactivityreset%",
             "&9Owners last login: &e%lastownerlogin%",
@@ -831,7 +835,7 @@ public class Messages {
             "&9Allowed Subregions: &e%subregionlimit%",
             "&9Subregions: &e%subregions%"})
     public static List<String> REGION_INFO_SELLREGION_ADMIN;
-    @Message(name = "RegionInfoRentregionAdmin", version = 1, message = {"&6=========[Region Info]=========",
+    @Message(name = "RegionInfoRentregionAdmin", version = 2, message = {"&6=========[Region Info]=========",
             "&9ID: &e%regionid% &7(Type: &r%selltype%&7)",
             "&9Sold: &e%issold%",
             "&9Price: &e%price% &7per &e%extendtime-writtenout% &7max.: &e%maxrenttime-writtenout%",
@@ -839,7 +843,8 @@ public class Messages {
             "&9Owner: &e%owner%",
             "&9Members: &e%members%",
             "&9Max. number of members: &e%maxmembers%",
-            "&9Regionkind: &e%regionkinddisplay% &9FlagGroup: &e%flaggroup%",
+            "&9Regionkind: &e%regionkinddisplay% &7%regionkindregionkindgroupsdisplaywithbrackets%",
+            "&9FlagGroup: &e%flaggroup%",
             "&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%",
             "&9UserRestorable: &e%isuserrestorable% &9InactivityResetEnabled: &e%isinactivityreset%",
             "&9Owners last login: &e%lastownerlogin%",
@@ -850,7 +855,7 @@ public class Messages {
             "&9Allowed Subregions: &e%subregionlimit%",
             "&9Subregions: &e%subregions%"})
     public static List<String> REGION_INFO_RENTREGION_ADMIN;
-    @Message(name = "RegionInfoContractregionAdmin", version = 1, message = {"&6=========[Region Info]=========",
+    @Message(name = "RegionInfoContractregionAdmin", version = 2, message = {"&6=========[Region Info]=========",
             "&9ID: &e%regionid% &7(Type: &r%selltype%&7)",
             "&9Sold: &e%issold%",
             "&9Price: &e%price% &7per &e%extendtime-writtenout% &7(auto extend)",
@@ -858,7 +863,8 @@ public class Messages {
             "&9Owner: &e%owner%",
             "&9Members: &e%members%",
             "&9Max. number of members: &e%maxmembers%",
-            "&9Regionkind: &e%regionkinddisplay% &9FlagGroup: &e%flaggroup%",
+            "&9Regionkind: &e%regionkinddisplay% &7%regionkindregionkindgroupsdisplaywithbrackets%",
+            "&9FlagGroup: &e%flaggroup%",
             "&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%",
             "&9UserRestorable: &e%isuserrestorable% &9InactivityResetEnabled: &e%isinactivityreset%",
             "&9Owners last login: &e%lastownerlogin%",
@@ -867,16 +873,17 @@ public class Messages {
             "&9AutoRestore: &e%isautorestore% &9Autoprice: &e%autoprice%",
             "&9PaybackPercentage in %: %paypackpercentage%",
             "&9Allowed Subregions: &e%subregionlimit%",
-            "&9Subregions: &e%subregions%'"})
+            "&9Subregions: &e%subregions%"})
     public static List<String> REGION_INFO_CONTRACTREGION_ADMIN;
-    @Message(name = "RegionInfoSellregionSubregion", version = 1, message = {"&6=========[Region Info]=========",
+    @Message(name = "RegionInfoSellregionSubregion", version = 2, message = {"&6=========[Region Info]=========",
             "&9ID: &e%regionid% &7(Type: &r%selltype%&7, Subregion)",
             "&9Sold: &e%issold%",
             "&9Price: &e%price%",
             "&9Owner: &e%owner%",
             "&9Members: &e%members%",
             "&9Max. number of members: &e%maxmembers%",
-            "&9Regionkind: &e%regionkinddisplay% &9FlagGroup: &e%flaggroup%",
+            "&9Regionkind: &e%regionkinddisplay% &7%regionkindregionkindgroupsdisplaywithbrackets%",
+            "&9FlagGroup: &e%flaggroup%",
             "&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%",
             "&9UserRestorable: &e%isuserrestorable% &9InactivityResetEnabled: &e%isinactivityreset%",
             "&9Owners last login: &e%lastownerlogin%",
@@ -885,7 +892,7 @@ public class Messages {
             "&9AutoRestore: &e%isautorestore% &9Autoprice: &e%autoprice%",
             "&9PaybackPercentage in %: &e%paypackpercentage%"})
     public static List<String> REGION_INFO_SELLREGION_SUBREGION;
-    @Message(name = "RegionInfoRentregionSubregion", version = 1, message = {"&6=========[Region Info]=========",
+    @Message(name = "RegionInfoRentregionSubregion", version = 2, message = {"&6=========[Region Info]=========",
             "&9ID: &e%regionid% &7(Type: &r%selltype%&7, Subregion)",
             "&9Sold: &e%issold%",
             "&9Price: &e%price% &7per &e%extendtime-writtenout% &7max.: &e%maxrenttime-writtenout%",
@@ -893,7 +900,8 @@ public class Messages {
             "&9Owner: &e%owner%",
             "&9Members: &e%members%",
             "&9Max. number of members: &e%maxmembers%",
-            "&9Regionkind: &e%regionkinddisplay% &9FlagGroup: &e%flaggroup%",
+            "&9Regionkind: &e%regionkinddisplay% &7%regionkindregionkindgroupsdisplaywithbrackets%",
+            "&9FlagGroup: &e%flaggroup%",
             "&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%",
             "&9UserRestorable: &e%isuserrestorable% &9InactivityResetEnabled: &e%isinactivityreset%",
             "&9Owners last login: &e%lastownerlogin%",
@@ -902,7 +910,7 @@ public class Messages {
             "&9AutoRestore: &e%isautorestore% &9Autoprice: &e%autoprice%",
             "&9PaybackPercentage in %: &e%paypackpercentage%"})
     public static List<String> REGION_INFO_RENTREGION_SUBREGION;
-    @Message(name = "RegionInfoContractregionSubregion", version = 1, message = {"&6=========[Region Info]=========",
+    @Message(name = "RegionInfoContractregionSubregion", version = 2, message = {"&6=========[Region Info]=========",
             "&9ID: &e%regionid% &7(Type: &r%selltype%&7, Subregion)",
             "&9Sold: &e%issold%",
             "&9Price: &e%price% &7per &e%extendtime-writtenout% &7(auto extend)",
@@ -910,7 +918,8 @@ public class Messages {
             "&9Owner: &e%owner%",
             "&9Members: &e%members%",
             "&9Max. number of members: &e%maxmembers%",
-            "&9Regionkind: &e%regionkinddisplay% &9FlagGroup: &e%flaggroup%",
+            "&9Regionkind: &e%regionkinddisplay% &7%regionkindregionkindgroupsdisplaywithbrackets%",
+            "&9FlagGroup: &e%flaggroup%",
             "&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%",
             "&9UserRestorable: &e%isuserrestorable% &9InactivityResetEnabled: &e%isinactivityreset%",
             "&9Owners last login: &e%lastownerlogin%",

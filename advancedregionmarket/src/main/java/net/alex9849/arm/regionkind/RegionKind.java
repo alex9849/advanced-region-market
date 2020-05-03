@@ -60,6 +60,17 @@ public class RegionKind implements Saveable {
                     .getRegionKindGroupManager().getRegionKindGroupsForRegionKind(this),
                     x -> x.getName(), ", ");
         });
+        variableReplacements.put("%regionkindregionkindgroupsdisplay%", () -> {
+            return Messages.getStringList(AdvancedRegionMarket.getInstance()
+                            .getRegionKindGroupManager().getRegionKindGroupsForRegionKind(this),
+                    x -> x.getDisplayName(), ", ");
+        });
+        variableReplacements.put("%regionkindregionkindgroupsdisplaywithbrackets%", () -> {
+            String msg =  Messages.getStringList(AdvancedRegionMarket.getInstance()
+                            .getRegionKindGroupManager().getRegionKindGroupsForRegionKind(this),
+                    x -> x.getDisplayName(), ", ");
+            return msg.isEmpty() ? "" : "(" + msg + ")";
+        });
 
         this.stringReplacer = new StringReplacer(variableReplacements, 20);
     }

@@ -1,16 +1,9 @@
 RegionkindGroups:
-  regionkindgroup1:
-    displayName: regionkindgroup1
+  citybuild-plot:
+    displayName: 'Citybuild-Plot'
     displayInLimits: true
     regionKinds:
+      - starter
+      - small
       - medium
       - large
-      - small
-  regionkindgroup2:
-    displayName: regionkindgroup2
-    displayInLimits: true
-    regionKinds:
-      - Default
-      - shop
-      - medium
-      - starter

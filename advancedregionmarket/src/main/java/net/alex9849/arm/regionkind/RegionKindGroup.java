@@ -39,6 +39,9 @@ public class RegionKindGroup implements Iterable<RegionKind>, Saveable {
         variableReplacements.put("%regionkindgroupmembers%", () -> {
             return Messages.getStringList(this.regionKinds, x -> x.getName(), ", ");
         });
+        variableReplacements.put("%regionkindgroupmembersdisplay%", () -> {
+            return Messages.getStringList(this.regionKinds, x -> x.getDisplayName(), ", ");
+        });
 
         this.stringReplacer = new StringReplacer(variableReplacements, 20);
     }

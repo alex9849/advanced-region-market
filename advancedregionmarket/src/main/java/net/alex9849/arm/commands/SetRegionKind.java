@@ -4,7 +4,6 @@ import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.InputException;
-import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.Region;
 import org.bukkit.entity.Player;
@@ -39,7 +38,7 @@ public class SetRegionKind extends RegionOptionModifyCommand<RegionKind> {
 
     @Override
     protected List<String> tabCompleteSettingsObject(Player player, String setting) {
-        return AdvancedRegionMarket.getInstance().getRegionManager()
-                .completeTabRegions(player, setting, PlayerRegionRelationship.ALL, true, false);
+        return AdvancedRegionMarket.getInstance().getRegionKindManager()
+                .completeTabRegionKinds(setting, "");
     }
 }

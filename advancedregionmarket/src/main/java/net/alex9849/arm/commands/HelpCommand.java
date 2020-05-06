@@ -38,7 +38,9 @@ public class HelpCommand extends BasicArmCommand {
         List<String> usages = new ArrayList<>();
 
         for (BasicArmCommand armCommand : commands) {
-            usages.addAll(armCommand.getUsage());
+            if(armCommand.getPermissions().stream().anyMatch(p -> sender.hasPermission(p))) {
+                usages.addAll(armCommand.getUsage());
+            }
         }
 
         Collections.sort(usages);

@@ -8,18 +8,22 @@ import com.sk89q.worldedit.bukkit.BukkitWorld;
 import com.sk89q.worldedit.extent.clipboard.BlockArrayClipboard;
 import com.sk89q.worldedit.extent.clipboard.Clipboard;
 import com.sk89q.worldedit.extent.clipboard.io.*;
+import com.sk89q.worldedit.function.mask.Mask;
+import com.sk89q.worldedit.function.mask.Mask2D;
 import com.sk89q.worldedit.function.operation.ForwardExtentCopy;
 import com.sk89q.worldedit.function.operation.Operation;
 import com.sk89q.worldedit.function.operation.Operations;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.session.ClipboardHolder;
+import com.sk89q.worldedit.session.PasteBuilder;
 import com.sk89q.worldedit.util.io.Closer;
 import net.alex9849.arm.exceptions.SchematicNotFoundException;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.inter.WorldEditInterface;
 import org.bukkit.World;
 
+import javax.annotation.Nullable;
 import java.io.*;
 
 public class WorldEdit7 extends WorldEditInterface {
@@ -100,8 +104,22 @@ public class WorldEdit7 extends WorldEditInterface {
             ClipboardReader reader = clipboardFormat.getReader(bufferedInputStream);
             clipboard = reader.read();
             EditSession editSession = WorldEdit.getInstance().getEditSessionFactory().getEditSession(world, -1);
-            Operation operation = new ClipboardHolder(clipboard)
-                    .createPaste(editSession).to(minPoint).build();
+            PasteBuilder pasteBuilder = new ClipboardHolder(clipboard).createPaste(editSession).to(minPoint);
+            if(!region.isCuboid()) {
+                pasteBuilder.maskSource(new Mask() {
+                    @Override
+                    public boolean test(BlockVector3 v) {
+                        return region.contains(v.getX(), v.getY(), v.getZ());
+                    }
+
+                    @Nullable
+                    @Override
+                    public Mask2D toMask2D() {
+                        return null;
+                    }
+                });
+            }
+            Operation operation = pasteBuilder.build();
             Operations.complete(operation);
             editSession.flushSession();
             closer.close();

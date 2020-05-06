@@ -59,4 +59,6 @@ public abstract class WGRegion {
     public abstract void deleteAllFlags();
 
     public abstract Object getFlagSetting(Flag flag);
+
+    public abstract boolean isCuboid();
 }

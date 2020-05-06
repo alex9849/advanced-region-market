@@ -6,6 +6,7 @@ import com.sk89q.worldguard.domains.DefaultDomain;
 import com.sk89q.worldguard.protection.flags.Flag;
 import com.sk89q.worldguard.protection.flags.RegionGroupFlag;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import com.sk89q.worldguard.protection.regions.RegionType;
 import net.alex9849.inter.WGRegion;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.util.Vector;
@@ -169,5 +170,9 @@ public class WG6Region extends WGRegion {
 
     public Object getFlagSetting(Flag flag) {
         return this.region.getFlag(flag);
+    }
+
+    public boolean isCuboid() {
+        return this.region.getType() == RegionType.CUBOID;
     }
 }

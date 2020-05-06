@@ -1,15 +1,14 @@
 package net.alex9849.adapters;
 
-import com.sk89q.worldedit.BlockVector;
-import com.sk89q.worldedit.EditSession;
-import com.sk89q.worldedit.MaxChangedBlocksException;
-import com.sk89q.worldedit.WorldEdit;
+import com.sk89q.worldedit.*;
 import com.sk89q.worldedit.bukkit.BukkitWorld;
 import com.sk89q.worldedit.extent.Extent;
 import com.sk89q.worldedit.extent.clipboard.BlockArrayClipboard;
 import com.sk89q.worldedit.extent.clipboard.Clipboard;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardWriter;
+import com.sk89q.worldedit.function.mask.Mask;
+import com.sk89q.worldedit.function.mask.Mask2D;
 import com.sk89q.worldedit.function.operation.ForwardExtentCopy;
 import com.sk89q.worldedit.function.operation.Operations;
 import com.sk89q.worldedit.regions.CuboidRegion;
@@ -20,6 +19,7 @@ import net.alex9849.inter.WGRegion;
 import net.alex9849.inter.WorldEditInterface;
 import org.bukkit.World;
 
+import javax.annotation.Nullable;
 import java.io.*;
 
 public class WorldEdit6 extends WorldEditInterface {
@@ -97,6 +97,20 @@ public class WorldEdit6 extends WorldEditInterface {
             Extent source = clipboard;
             Extent destination = WorldEdit.getInstance().getEditSessionFactory().getEditSession(world, Integer.MAX_VALUE);
             ForwardExtentCopy copy = new ForwardExtentCopy(source, clipboard.getRegion(), clipboard.getOrigin(), destination, minPoint);
+            if(!region.isCuboid()) {
+                copy.setSourceMask(new Mask() {
+                    @Override
+                    public boolean test(Vector vector) {
+                        return region.contains(vector.getBlockX(), vector.getBlockY(), vector.getBlockZ());
+                    }
+
+                    @Nullable
+                    @Override
+                    public Mask2D toMask2D() {
+                        return null;
+                    }
+                });
+            }
             copy.setRemovingEntities(false);
 
             Operations.completeLegacy(copy);

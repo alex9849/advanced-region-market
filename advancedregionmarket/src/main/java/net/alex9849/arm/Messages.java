@@ -213,7 +213,7 @@ public class Messages {
     public static String REGION_BUY_OUT_OF_LIMIT;
     @Message(name = "RegionErrorCanNotBuildHere", message = "&4You are only allowed to break blocks you placed here!")
     public static String REGION_ERROR_CAN_NOT_BUILD_HERE;
-    @Message(name = "Unlimited", message = "unlimited")
+    @Message(name = "Unlimited", message = "∞")
     public static String UNLIMITED;
     @Message(name = "GUIUserSellButton", message = "&4Reset and sell Region")
     public static String GUI_USER_SELL_BUTTON;
@@ -778,7 +778,7 @@ public class Messages {
             "&9InactivityReset in: &e%inactivityresetin-countdown-short%",
             "&9TakeOver possible in: &e%takeoverin-countdown-short%",
             "&9AutoRestore: &e%isautorestore% &9Autoprice: &e%autoprice%",
-            "&9PaybackPercentage in %: %paypackpercentage%",
+            "&9PaybackPercentage in %: &e%paypackpercentage%",
             "&9Allowed Subregions: &e%subregionlimit%",
             "&9Subregions: &e&e%subregions%"})
     public static List<String> REGION_INFO_SELLREGION;
@@ -798,11 +798,11 @@ public class Messages {
             "&9InactivityReset in: &e%inactivityresetin-countdown-short%",
             "&9TakeOver possible in: &e%takeoverin-countdown-short%",
             "&9AutoRestore: &e%isautorestore% &9Autoprice: &e%autoprice%",
-            "&9PaybackPercentage in %: %paypackpercentage%",
+            "&9PaybackPercentage in %: &e%paypackpercentage%",
             "&9Allowed Subregions: &e%subregionlimit%",
             "&9Subregions: &e%subregions%"})
     public static List<String> REGION_INFO_RENTREGION;
-    @Message(name = "RegionInfoContractregionUser", version = 2, message = {"&6=========[Region Info]=========" +
+    @Message(name = "RegionInfoContractregionUser", version = 2, message = {"&6=========[Region Info]=========",
             "&9ID: &e%regionid% &7(Type: &r%selltype%&7)",
             "&9Sold: &e%issold%",
             "&9Price: &e%price% &7per &e%extendtime-writtenout% &7(auto extend)",
@@ -818,7 +818,7 @@ public class Messages {
             "&9InactivityReset in: &e%inactivityresetin-countdown-short%",
             "&9TakeOver possible in: &e%takeoverin-countdown-short%",
             "&9AutoRestore: &e%isautorestore% &9Autoprice: &e%autoprice%",
-            "&9PaybackPercentage in %: %paypackpercentage%",
+            "&9PaybackPercentage in %: &e%paypackpercentage%",
             "&9Allowed Subregions: &e%subregionlimit%",
             "&9Subregions: &e%subregions%"})
     public static List<String> REGION_INFO_CONTRACTREGION;
@@ -837,7 +837,7 @@ public class Messages {
             "&9InactivityReset in: &e%inactivityresetin-countdown-short%",
             "&9TakeOver possible in: &e%takeoverin-countdown-short%",
             "&9AutoRestore: &e%isautorestore% &9Autoprice: &e%autoprice%",
-            "&9PaybackPercentage in %: %paypackpercentage%",
+            "&9PaybackPercentage in %: &e%paypackpercentage%",
             "&9Allowed Subregions: &e%subregionlimit%",
             "&9Subregions: &e%subregions%"})
     public static List<String> REGION_INFO_SELLREGION_ADMIN;
@@ -857,7 +857,7 @@ public class Messages {
             "&9InactivityReset in: &e%inactivityresetin-countdown-short%",
             "&9TakeOver possible in: &e%takeoverin-countdown-short%",
             "&9AutoRestore: &e%isautorestore% &9Autoprice: &e%autoprice%",
-            "&9PaybackPercentage in %: %paypackpercentage%",
+            "&9PaybackPercentage in %: &e%paypackpercentage%",
             "&9Allowed Subregions: &e%subregionlimit%",
             "&9Subregions: &e%subregions%"})
     public static List<String> REGION_INFO_RENTREGION_ADMIN;
@@ -877,7 +877,7 @@ public class Messages {
             "&9InactivityReset in: &e%inactivityresetin-countdown-short%",
             "&9TakeOver possible in: &e%takeoverin-countdown-short%",
             "&9AutoRestore: &e%isautorestore% &9Autoprice: &e%autoprice%",
-            "&9PaybackPercentage in %: %paypackpercentage%",
+            "&9PaybackPercentage in %: &e%paypackpercentage%",
             "&9Allowed Subregions: &e%subregionlimit%",
             "&9Subregions: &e%subregions%"})
     public static List<String> REGION_INFO_CONTRACTREGION_ADMIN;

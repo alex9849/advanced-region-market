@@ -695,6 +695,7 @@ public abstract class Region implements Saveable {
             i--;
         }
 
+        this.getRegion().deleteAllFlags();
         if (this.isSubregion()) {
             AdvancedRegionMarket.getInstance().getWorldGuardInterface().removeFromRegionManager(this.getRegion(), this.getRegionworld());
             this.getParentRegion().getSubregions().remove(this);

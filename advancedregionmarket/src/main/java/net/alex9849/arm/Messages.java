@@ -223,11 +223,11 @@ public class Messages {
     public static String LIMIT_INFO_TOP;
     @Message(name = "LimitInfoLimitReachedColorCode", message = "&r&4")
     public static String LIMIT_REACHED_COLOR_CODE;
-    @Message(name = "LimitInfoTotal", version = 2, message = "&6Total: %limitreachedcolor%%playerownedkind%/%limitkind%")
+    @Message(name = "LimitInfoTotal", version = 2, message = "&6- Total: (&a%limitreachedcolor%%playerownedkind%/%limitkind%&6)")
     public static String LIMIT_INFO_TOTAL;
-    @Message(name = "LimitInfoRegionkind", version = 2, message = "&6%regionkinddisplay%: %limitreachedcolor%%playerownedkind%/%limitkind%")
+    @Message(name = "LimitInfoRegionkind", version = 2, message = "&6- %regionkinddisplay%: (&a%limitreachedcolor%%playerownedkind%/%limitkind%&6)")
     public static String LIMIT_INFO_REGIONKIND;
-    @Message(name = "LimitInfoRegionkindGroup", version = 2, message = "&6%regionkindgroupdisplay%: %limitreachedcolor%%playerownedkind%/%limitkind%")
+    @Message(name = "LimitInfoRegionkindGroup", version = 2, message = "&6- %regionkindgroupdisplay%: (&a%limitreachedcolor%%playerownedkind%/%limitkind%&6)")
     public static String LIMIT_INFO_REGIONKINDGROUP;
     @Message(name = "GUILimitButton", message = "&6My limits")
     public static String GUI_MY_LIMITS_BUTTON;

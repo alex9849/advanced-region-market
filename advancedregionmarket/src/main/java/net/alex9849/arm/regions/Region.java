@@ -157,10 +157,10 @@ public abstract class Region implements Saveable {
                     AdvancedRegionMarket.getInstance().getPluginSettings().getDateTimeformat());
         });
         variableReplacements.put("%owner%", () -> {
-            if (this.getRegion().getOwners().size() > 0) {
-                return this.getOwnerName();
+            if(this.getRegion().getOwners().isEmpty()) {
+                return "";
             }
-            return "";
+            return Messages.getStringValue(Bukkit.getOfflinePlayer(this.getRegion().getOwners().get(0)).getName(), x -> x, Messages.UNKNOWN_UUID);
         });
         variableReplacements.put("%autoprice%", () -> {
             if (this.getPriceObject().isAutoPrice()) {
@@ -172,15 +172,7 @@ public abstract class Region implements Saveable {
             return Messages.getStringList(this.subregions, x -> x.getRegion().getId(), ", ");
         });
         variableReplacements.put("%members%", () -> {
-            String membersInfo = "";
-            List<UUID> memberslist = this.getRegion().getMembers();
-            for (int i = 0; i < memberslist.size() - 1; i++) {
-                membersInfo = membersInfo + Bukkit.getOfflinePlayer(memberslist.get(i)).getName() + ", ";
-            }
-            if (memberslist.size() != 0) {
-                membersInfo = membersInfo + Bukkit.getOfflinePlayer(memberslist.get(memberslist.size() - 1)).getName();
-            }
-            return membersInfo;
+            return Messages.getStringList(this.getRegion().getMembers(), x -> Messages.getStringValue(Bukkit.getOfflinePlayer(x).getName(), y -> y, Messages.UNKNOWN_UUID), ", ");
         });
         variableReplacements.put("%takeoverin-date%", () -> {
             return this.getTakeoverCountdown(true, false, false);
@@ -422,22 +414,6 @@ public abstract class Region implements Saveable {
         double pricePerM2 = this.getPricePerM2();
         double hight = ((this.getRegion().getMaxPoint().getBlockY() - this.getRegion().getMinPoint().getBlockY()) + 1);
         return pricePerM2 / hight;
-    }
-
-    private String getOwnerName() {
-        List<UUID> ownerlist = this.getRegion().getOwners();
-        String ownername;
-        if (ownerlist.size() < 1) {
-            ownername = "Unknown";
-        } else {
-            OfflinePlayer owner = Bukkit.getOfflinePlayer(ownerlist.get(0));
-            ownername = owner.getName();
-
-            if (ownername == null) {
-                ownername = "Unknown";
-            }
-        }
-        return ownername;
     }
 
     public String getDimensions() {

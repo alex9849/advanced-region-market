@@ -329,6 +329,8 @@ public class Messages {
     public static String YES;
     @Message(name = "RegionInfoNo", message = "&4no")
     public static String NO;
+    @Message(name = "UnknownUUID", message = "Unknown UUID")
+    public static String UNKNOWN_UUID;
     @Message(name = "RegionStats", message = "&6=========[Region stats]=========")
     public static String REGION_STATS;
     @Message(name = "RegionStatsPattern", message = "&8Used regions (%regionkind%&8):")

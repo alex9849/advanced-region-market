@@ -161,25 +161,4 @@ public class LimitGroupManager {
         replaced = replaced.replace("%limitreachedcolor%", (ownedRegions >= limit && limit > -1) ? Messages.LIMIT_REACHED_COLOR_CODE:"");
         player.sendMessage(replaced);
     }
-
-    public String getRegionBuyOutOfLimitMessage(Player player, RegionKind regionKind) {
-        int limittotal = getLimitTotal(player);
-        int limitkind = getLimit(player, regionKind);
-        String limittotalS = "" + limittotal;
-        String limitkindS = "" + limitkind;
-
-        if (limitkind == -1) {
-            limitkindS = Messages.UNLIMITED;
-        }
-        if (limittotal == -1) {
-            limittotalS = Messages.UNLIMITED;
-        }
-        String message = Messages.REGION_BUY_OUT_OF_LIMIT;
-        message = message.replace("%playerownedkind%", getOwnedRegions(player, regionKind) + "");
-        message = message.replace("%limitkind%", limitkindS);
-        message = message.replace("%playerownedtotal%", getOwnedRegions(player) + "");
-        message = message.replace("%limittotal%", limittotalS);
-        message = regionKind.replaceVariables(message);
-        return message;
-    }
 }

@@ -209,7 +209,7 @@ public class Messages {
     public static String GUI_EXTEND_BUTTON;
     @Message(name = "Complete", message = "&aComplete!")
     public static String COMPLETE;
-    @Message(name = "RegionBuyOutOfLimit", message = "&4Out of Limit! You have &7%playerownedkind%/%limitkind% &4%regionkind%-regions and &7%playerownedtotal%/%limittotal% &4Regions total!")
+    @Message(name = "RegionBuyOutOfLimit", version = 2, message = "&4Out of Limit! You can see your current limits by executing &6/arm limit&4!")
     public static String REGION_BUY_OUT_OF_LIMIT;
     @Message(name = "RegionErrorCanNotBuildHere", message = "&4You are only allowed to break blocks you placed here!")
     public static String REGION_ERROR_CAN_NOT_BUILD_HERE;

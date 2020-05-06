@@ -102,8 +102,7 @@ public class Offer {
 
         if (!AdvancedRegionMarket.getInstance().getLimitGroupManager().isCanBuyAnother(buyer, region.getRegionKind())) {
             this.reject();
-            throw new OutOfLimitExeption(AdvancedRegionMarket.getInstance().getLimitGroupManager()
-                    .getRegionBuyOutOfLimitMessage(buyer, region.getRegionKind()));
+            throw new OutOfLimitExeption(replaceVariables(region.replaceVariables(Messages.REGION_BUY_OUT_OF_LIMIT)));
         }
 
         Economy econ = AdvancedRegionMarket.getInstance().getEcon();

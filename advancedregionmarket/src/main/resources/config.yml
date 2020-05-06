@@ -73,20 +73,24 @@ Limits:
       citybuild-plot: 4
   examplegroup2:
     total: 10
-    Default: -1
-    starter: 1
-    small: 2
-    medium: 1
-    large: 1
-    shop: 1
+    regionkinds:
+      Default: -1
+      starter: 1
+      small: 2
+      medium: 1
+      large: 1
+      shop: 1
+    regionkindgroups: {}
   examplegroup3:
     total: -1
-    Default: -1
-    starter: 1
-    small: 2
-    medium: 2
-    large: 2
-    shop: 2
+    regionkinds:
+      Default: -1
+      starter: 1
+      small: 2
+      medium: 2
+      large: 2
+      shop: 2
+    regionkindgroups: {}
 
 
 # InactivityExpirationGroups can be assigned to players by giving them the permission arm.inactivityexpiration.INACTIVITYEXPIRATIONGROUP

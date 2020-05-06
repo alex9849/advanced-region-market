@@ -178,7 +178,7 @@ public class ContractRegion extends CountdownRegion {
         }
 
         if (!AdvancedRegionMarket.getInstance().getLimitGroupManager().isCanBuyAnother(player, this.getRegionKind())) {
-            throw new OutOfLimitExeption(AdvancedRegionMarket.getInstance().getLimitGroupManager().getRegionBuyOutOfLimitMessage(player, this.getRegionKind()));
+            throw new OutOfLimitExeption(this.replaceVariables(Messages.REGION_BUY_OUT_OF_LIMIT));
         }
         if (AdvancedRegionMarket.getInstance().getEcon().getBalance(player) < this.getPricePerPeriod()) {
             throw new NotEnoughMoneyException(this.replaceVariables(Messages.NOT_ENOUGH_MONEY));
@@ -221,7 +221,7 @@ public class ContractRegion extends CountdownRegion {
 
         if (this.isTerminated()) {
             if (!AdvancedRegionMarket.getInstance().getLimitGroupManager().isInLimit(player, this.getRegionKind())) {
-                throw new OutOfLimitExeption(AdvancedRegionMarket.getInstance().getLimitGroupManager().getRegionBuyOutOfLimitMessage(player, this.getRegionKind()));
+                throw new OutOfLimitExeption(this.replaceVariables(Messages.REGION_BUY_OUT_OF_LIMIT));
             } else {
                 this.setTerminated(false, player);
             }

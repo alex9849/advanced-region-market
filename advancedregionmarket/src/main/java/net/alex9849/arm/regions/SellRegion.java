@@ -52,8 +52,7 @@ public class SellRegion extends Region {
         }
 
         if (!AdvancedRegionMarket.getInstance().getLimitGroupManager().isCanBuyAnother(player, this.getRegionKind())) {
-            throw new OutOfLimitExeption(AdvancedRegionMarket.getInstance().getLimitGroupManager()
-                    .getRegionBuyOutOfLimitMessage(player, this.getRegionKind()));
+            throw new OutOfLimitExeption(this.replaceVariables(Messages.REGION_BUY_OUT_OF_LIMIT));
         }
 
         if (AdvancedRegionMarket.getInstance().getEcon().getBalance(player) < this.getPricePerPeriod()) {

@@ -1183,7 +1183,7 @@ public abstract class Region implements Saveable {
         yamlConfiguration.set("signs", signs);
 
         if (!this.isSubregion()) {
-            yamlConfiguration.set("landlord", this.getLandlord());
+            yamlConfiguration.set("landlord", this.getLandlord() == null? null : this.getLandlord().toString());
             yamlConfiguration.set("kind", this.getRegionKind().getName());
             yamlConfiguration.set("flagGroup", this.flagGroup.getName());
             yamlConfiguration.set("inactivityReset", this.isInactivityReset());

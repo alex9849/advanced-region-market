@@ -14,8 +14,8 @@ import java.util.UUID;
 public class SetLandLord extends RegionOptionModifyCommand<UUID> {
     public SetLandLord() {
         super("setlandlord", Arrays.asList(Permission.ADMIN_SET_LANDLORD),
-                "Landlord", "[^;\n ]+", "[PLAYER/SERVER]",
-                false, Messages.SUBREGION_LANDLORD_ERROR);
+                false, "Landlord", "[^;\n ]+", "[PLAYER/SERVER]",
+                false, Messages.SUBREGION_LANDLORD_ERROR, "");
     }
 
     @Override
@@ -26,7 +26,7 @@ public class SetLandLord extends RegionOptionModifyCommand<UUID> {
     @Override
     protected UUID getSettingFromString(Player player, String settingsString) {
         if(settingsString.equalsIgnoreCase("server")) {
-            return ;
+            return null;
         }
         return Bukkit.getOfflinePlayer(settingsString).getUniqueId();
     }

@@ -13,8 +13,8 @@ public class SetSubregionLimit extends RegionOptionModifyCommand<Integer> {
 
     public SetSubregionLimit() {
         super("setsubregionlimit", Arrays.asList(Permission.ADMIN_SET_SUBREGION_LIMIT),
-                "setsubregionlimit", "[0-9]+", "[AMOUNT]", false,
-                ChatColor.RED + "Subregions can not have subregions");
+                true, "setsubregionlimit", "[0-9]+", "[AMOUNT]", false,
+                ChatColor.RED + "Subregions can not have subregions", "");
     }
 
     @Override

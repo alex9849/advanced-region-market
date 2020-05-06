@@ -12,9 +12,9 @@ import java.util.List;
 public class SetMaxMembersCommand extends RegionOptionModifyCommand<Integer> {
 
     public SetMaxMembersCommand() {
-        super("setmaxmembers", Arrays.asList(Permission.ADMIN_SET_MAX_MEMBERS), "maxMembers",
+        super("setmaxmembers", Arrays.asList(Permission.ADMIN_SET_MAX_MEMBERS), true, "maxMembers",
                 "([0-9]+|unlimited)", "[AMOUNT/UNLIMITED]", false,
-                Messages.SUBREGION_MAX_MEMBERS_ERROR);
+                Messages.SUBREGION_MAX_MEMBERS_ERROR, "");
     }
 
     @Override

@@ -15,8 +15,8 @@ public class SetEntityLimitCommand extends RegionOptionModifyCommand<EntityLimit
 
     public SetEntityLimitCommand() {
         super("setentitylimit", Arrays.asList(Permission.ADMIN_SET_ENTITYLIMIT),
-                "EntityLimitGroup", "[^;\n ]+", "[ENTITYTYPE]",
-                false, Messages.SUBREGION_ENTITYLIMITGROUP_ERROR);
+                true, "EntityLimitGroup", "[^;\n ]+", "[ENTITYTYPE]",
+                false, Messages.SUBREGION_ENTITYLIMITGROUP_ERROR, Messages.ENTITYLIMITGROUP_DOES_NOT_EXIST);
     }
 
     @Override
@@ -28,10 +28,6 @@ public class SetEntityLimitCommand extends RegionOptionModifyCommand<EntityLimit
     protected EntityLimitGroup getSettingFromString(Player player, String settingsString) throws InputException {
         EntityLimitGroup entityLimitGroup = AdvancedRegionMarket.getInstance()
                 .getEntityLimitGroupManager().getEntityLimitGroup(settingsString);
-
-        if (entityLimitGroup == null) {
-            throw new InputException(player, Messages.ENTITYLIMITGROUP_DOES_NOT_EXIST);
-        }
 
         if (entityLimitGroup == EntityLimitGroup.SUBREGION) {
             throw new InputException(player, Messages.ENTITYLIMITGROUP_SUBREGION_GROUP_ONLY_FOR_SUBREGIONS);

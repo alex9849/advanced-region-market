@@ -162,6 +162,7 @@ public class RegionManager extends YamlFileManager<Region> {
         boolean inactivityReset = regionSection.getBoolean("inactivityReset");
         String regiontype = regionSection.getString("regiontype");
         String entityLimitGroupString = regionSection.getString("entityLimitGroup");
+        String landlordString = regionSection.getString("landlord");
         boolean isHotel = regionSection.getBoolean("isHotel");
         boolean autorestore = regionSection.getBoolean("autorestore");
         long lastreset = regionSection.getLong("lastreset");
@@ -176,6 +177,10 @@ public class RegionManager extends YamlFileManager<Region> {
         Location teleportLoc = parseTpLocation(teleportLocString);
         RegionKind regionKind = AdvancedRegionMarket.getInstance().getRegionKindManager().getRegionKind(kind);
         FlagGroup flagGroup = AdvancedRegionMarket.getInstance().getFlagGroupManager().getFlagGroup(flagGroupString);
+        UUID landlord = null;
+        if(landlordString != null) {
+            landlord = UUID.fromString(landlordString);
+        }
         if (flagGroup == null) {
             flagGroup = FlagGroup.DEFAULT;
         }
@@ -285,6 +290,7 @@ public class RegionManager extends YamlFileManager<Region> {
         region.setPaybackPercentage(paybackPercentage);
         region.setAllowedSubregions(allowedSubregions);
         region.setExtraTotalEntitys(boughtExtraTotalEntitys);
+        region.setLandlord(landlord);
         for(Map.Entry<EntityLimit.LimitableEntityType, Integer> entry : parseBoughtExtraEntitys(boughtExtraEntitys).entrySet()) {
             region.setExtraEntityAmount(entry.getKey(), entry.getValue());
         }

@@ -13,8 +13,8 @@ import java.util.List;
 public class SetPaybackPercentageCommand extends RegionOptionModifyCommand<Integer> {
     public SetPaybackPercentageCommand() {
         super("setpaybackpercentage", Arrays.asList(Permission.ADMIN_SET_PAYBACKPERCENTAGE),
-                "paybackPercentage", "[0-9]+", "[PERCENTAGE]",
-                false, Messages.SUBREGION_PAYBACKPERCENTAGE_ERROR);
+                true, "paybackPercentage", "[0-9]+", "[PERCENTAGE]",
+                false, Messages.SUBREGION_PAYBACKPERCENTAGE_ERROR, "");
     }
 
     @Override

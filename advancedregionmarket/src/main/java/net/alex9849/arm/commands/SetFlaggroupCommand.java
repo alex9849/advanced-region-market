@@ -16,8 +16,8 @@ public class SetFlaggroupCommand extends RegionOptionModifyCommand<FlagGroup> {
 
     public SetFlaggroupCommand() {
         super("setflaggroup", Arrays.asList(Permission.ADMIN_SET_FLAGGROUP),
-                "FlagGroup", "[^;\n ]+", "[FLAGGROUP]",
-                false, Messages.SUBREGION_FLAGGROUP_ERROR);
+                true, "FlagGroup", "[^;\n ]+", "[FLAGGROUP]",
+                false, Messages.SUBREGION_FLAGGROUP_ERROR, Messages.FLAGGROUP_DOES_NOT_EXIST);
     }
 
     @Override
@@ -33,10 +33,6 @@ public class SetFlaggroupCommand extends RegionOptionModifyCommand<FlagGroup> {
     @Override
     protected FlagGroup getSettingFromString(Player player, String settingsString) throws InputException {
         FlagGroup flagGroup = AdvancedRegionMarket.getInstance().getFlagGroupManager().getFlagGroup(settingsString);
-
-        if (flagGroup == null) {
-            throw new InputException(player, Messages.FLAGGROUP_DOES_NOT_EXIST);
-        }
 
         if (flagGroup == FlagGroup.SUBREGION) {
             throw new InputException(player, Messages.SUBREGION_FLAGGROUP_ONLY_FOR_SUBREGIONS);

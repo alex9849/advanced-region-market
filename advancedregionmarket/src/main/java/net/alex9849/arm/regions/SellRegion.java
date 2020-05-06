@@ -65,7 +65,7 @@ public class SellRegion extends Region {
         }
 
         AdvancedRegionMarket.getInstance().getEcon().withdrawPlayer(player, this.getPricePerPeriod());
-        this.giveParentRegionOwnerMoney(this.getPricePerPeriod());
+        this.giveLandlordMoney(this.getPricePerPeriod());
         this.setSold(player);
         if (AdvancedRegionMarket.getInstance().getPluginSettings().isTeleportAfterSellRegionBought()) {
             try {

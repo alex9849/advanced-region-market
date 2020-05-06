@@ -375,6 +375,8 @@ public class Messages {
     public static String OFFER_TIMED_OUT;
     @Message(name = "BadSyntax", message = "&7Bad syntax! Please use: &8%command%")
     public static String BAD_SYNTAX;
+    @Message(name = "LandlordServer", message = "Server")
+    public static String LANDLORD_SERVER;
     @Message(name = "BadSyntaxSplitter", message = "\n&7or &8%command%")
     public static String BAD_SYNTAX_SPLITTER;
     @Message(name = "HelpHeadline", message = "&6=====[AdvancedRegionMarket Help ]=====\n" +
@@ -445,6 +447,8 @@ public class Messages {
     public static String SUBREGION_INACTIVITYRESET_ERROR;
     @Message(name = "SubregionAutoRestoreError", message = "&4The selected region is a subregion. You can change the autoRestore setting for all subregions in the config.yml!")
     public static String SUBREGION_AUTORESTORE_ERROR;
+    @Message(name = "SubregionSetLandlordError", message = "&4The selected region is a subregion. The landlord is always the owner of the surrounding region!")
+    public static String SUBREGION_LANDLORD_ERROR;
     @Message(name = "RegionNotRestoreable", message = "&4Region not restorable!")
     public static String REGION_NOT_RESTORABLE;
     @Message(name = "RegionSelectedMultipleRegions", message = "&6There is more than one region at your position. Please select one: &4")
@@ -772,6 +776,7 @@ public class Messages {
             "&9Max. number of members: &e%maxmembers%",
             "&9Regionkind: &e%regionkinddisplay% &7%regionkindregionkindgroupsdisplaywithbrackets%",
             "&9FlagGroup: &e%flaggroup%",
+            "&9Landlord: &e%landlord% &7(Gets the money)",
             "&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%",
             "&9UserRestorable: &e%isuserrestorable% &9InactivityResetEnabled: &e%isinactivityreset%",
             "&9Owners last login: &e%lastownerlogin%",
@@ -792,6 +797,7 @@ public class Messages {
             "&9Max. number of members: &e%maxmembers%",
             "&9Regionkind: &e%regionkinddisplay% &7%regionkindregionkindgroupsdisplaywithbrackets%",
             "&9FlagGroup: &e%flaggroup%",
+            "&9Landlord: &e%landlord% &7(Gets the money)",
             "&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%",
             "&9UserRestorable: &e%isuserrestorable% &9InactivityResetEnabled: &e%isinactivityreset%",
             "&9Owners last login: &e%lastownerlogin%",
@@ -812,6 +818,7 @@ public class Messages {
             "&9Max. number of members: &e%maxmembers%",
             "&9Regionkind: &e%regionkinddisplay% &7%regionkindregionkindgroupsdisplaywithbrackets%",
             "&9FlagGroup: &e%flaggroup%",
+            "&9Landlord: &e%landlord% &7(Gets the money)",
             "&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%",
             "&9UserRestorable: &e%isuserrestorable% &9InactivityResetEnabled: &e%isinactivityreset%",
             "&9Owners last login: &e%lastownerlogin%",
@@ -831,6 +838,7 @@ public class Messages {
             "&9Max. number of members: &e%maxmembers%",
             "&9Regionkind: &e%regionkinddisplay% &7%regionkindregionkindgroupsdisplaywithbrackets%",
             "&9FlagGroup: &e%flaggroup%",
+            "&9Landlord: &e%landlord% &7(Gets the money)",
             "&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%",
             "&9UserRestorable: &e%isuserrestorable% &9InactivityResetEnabled: &e%isinactivityreset%",
             "&9Owners last login: &e%lastownerlogin%",
@@ -851,6 +859,7 @@ public class Messages {
             "&9Max. number of members: &e%maxmembers%",
             "&9Regionkind: &e%regionkinddisplay% &7%regionkindregionkindgroupsdisplaywithbrackets%",
             "&9FlagGroup: &e%flaggroup%",
+            "&9Landlord: &e%landlord% &7(Gets the money)",
             "&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%",
             "&9UserRestorable: &e%isuserrestorable% &9InactivityResetEnabled: &e%isinactivityreset%",
             "&9Owners last login: &e%lastownerlogin%",
@@ -871,6 +880,7 @@ public class Messages {
             "&9Max. number of members: &e%maxmembers%",
             "&9Regionkind: &e%regionkinddisplay% &7%regionkindregionkindgroupsdisplaywithbrackets%",
             "&9FlagGroup: &e%flaggroup%",
+            "&9Landlord: &e%landlord% &7(Gets the money)",
             "&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%",
             "&9UserRestorable: &e%isuserrestorable% &9InactivityResetEnabled: &e%isinactivityreset%",
             "&9Owners last login: &e%lastownerlogin%",
@@ -890,6 +900,7 @@ public class Messages {
             "&9Max. number of members: &e%maxmembers%",
             "&9Regionkind: &e%regionkinddisplay% &7%regionkindregionkindgroupsdisplaywithbrackets%",
             "&9FlagGroup: &e%flaggroup%",
+            "&9Landlord: &e%landlord% &7(Gets the money)",
             "&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%",
             "&9UserRestorable: &e%isuserrestorable% &9InactivityResetEnabled: &e%isinactivityreset%",
             "&9Owners last login: &e%lastownerlogin%",
@@ -908,6 +919,7 @@ public class Messages {
             "&9Max. number of members: &e%maxmembers%",
             "&9Regionkind: &e%regionkinddisplay% &7%regionkindregionkindgroupsdisplaywithbrackets%",
             "&9FlagGroup: &e%flaggroup%",
+            "&9Landlord: &e%landlord% &7(Gets the money)",
             "&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%",
             "&9UserRestorable: &e%isuserrestorable% &9InactivityResetEnabled: &e%isinactivityreset%",
             "&9Owners last login: &e%lastownerlogin%",
@@ -926,6 +938,7 @@ public class Messages {
             "&9Max. number of members: &e%maxmembers%",
             "&9Regionkind: &e%regionkinddisplay% &7%regionkindregionkindgroupsdisplaywithbrackets%",
             "&9FlagGroup: &e%flaggroup%",
+            "&9Landlord: &e%landlord% &7(Gets the money)",
             "&9EntityLimitGroup: &e%entitylimitgroup% &9isHotel: &e%ishotel%",
             "&9UserRestorable: &e%isuserrestorable% &9InactivityResetEnabled: &e%isinactivityreset%",
             "&9Owners last login: &e%lastownerlogin%",

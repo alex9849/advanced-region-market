@@ -57,6 +57,7 @@ public abstract class Region implements Saveable {
     private int paybackPercentage = 0;
     private int extraTotalEntitys = 0;
     private int allowedSubregions = 0;
+    private UUID landlord = null;
     private RegionKind regionKind = RegionKind.DEFAULT;
     private FlagGroup flagGroup = FlagGroup.DEFAULT;
     private EntityLimitGroup entityLimitGroup = EntityLimitGroup.DEFAULT;
@@ -151,6 +152,9 @@ public abstract class Region implements Saveable {
         });
         variableReplacements.put("%isinactivityreset%", () -> {
             return Messages.convertYesNo(this.isInactivityReset());
+        });
+        variableReplacements.put("%landlord%", () -> {
+            return Messages.getStringValue(this.getLandlord(), x -> Messages.getStringValue(Bukkit.getOfflinePlayer(x).getName(), y -> y, Messages.UNKNOWN_UUID), Messages.LANDLORD_SERVER);
         });
         variableReplacements.put("%lastownerlogin%", () -> {
             return TimeUtil.getDate(this.getLastLogin(), false, "",
@@ -282,7 +286,7 @@ public abstract class Region implements Saveable {
     }
 
     public boolean isSubregion() {
-        return (this.parentRegion != null);
+        return this.parentRegion != null;
     }
 
     public boolean isInactivityReset() {
@@ -366,6 +370,17 @@ public abstract class Region implements Saveable {
 
     public int getPaybackPercentage() {
         return paybackPercentage;
+    }
+
+    public UUID getLandlord() {
+        if(this.isSubregion()) {
+            if(this.getParentRegion().getRegion().getOwners().isEmpty()) {
+                return null;
+            } else {
+                return this.getParentRegion().getRegion().getOwners().get(0);
+            }
+        }
+        return landlord;
     }
 
     public int getExtraEntityAmount(EntityLimit.LimitableEntityType entityType) {
@@ -546,6 +561,13 @@ public abstract class Region implements Saveable {
         this.queueSave();
     }
 
+    public void setLandlord(UUID landlord) {
+        if (this.isSubregion())
+            throw new IllegalArgumentException("Can't change this option for a Subregion!");
+        this.landlord = landlord;
+        this.queueSave();
+    }
+
     public void setMaxMembers(int maxMembers) {
         if (this.isSubregion())
             throw new IllegalArgumentException("Can't change this option for a Subregion!");
@@ -710,16 +732,13 @@ public abstract class Region implements Saveable {
         }
     }
 
-    protected void giveParentRegionOwnerMoney(double amount) {
-        if (this.isSubregion() && this.getParentRegion().isSold()) {
-            List<UUID> parentRegionOwners = this.getParentRegion().getRegion().getOwners();
-            for (UUID uuid : parentRegionOwners) {
-                OfflinePlayer subRegionOwner = Bukkit.getOfflinePlayer(uuid);
-                if (subRegionOwner != null) {
-                    AdvancedRegionMarket.getInstance().getEcon().depositPlayer(subRegionOwner, amount);
-                }
-            }
+    protected void giveLandlordMoney(double amount) {
+        UUID landlordUUID = this.getLandlord();
+        if(landlordUUID == null) {
+            return;
         }
+        OfflinePlayer subRegionOwner = Bukkit.getOfflinePlayer(landlordUUID);
+        AdvancedRegionMarket.getInstance().getEcon().depositPlayer(subRegionOwner, amount);
     }
 
     public void addSign(SignData signData) {
@@ -1164,6 +1183,7 @@ public abstract class Region implements Saveable {
         yamlConfiguration.set("signs", signs);
 
         if (!this.isSubregion()) {
+            yamlConfiguration.set("landlord", this.getLandlord());
             yamlConfiguration.set("kind", this.getRegionKind().getName());
             yamlConfiguration.set("flagGroup", this.flagGroup.getName());
             yamlConfiguration.set("inactivityReset", this.isInactivityReset());

@@ -62,6 +62,7 @@ public class Permission {
     public static final String ADMIN_SET_IS_USERRESTORABLE = "arm.admin.setisuserrestorable";
     public static final String ADMIN_LISTAUTOPRICES = "arm.admin.listautoprices";
     public static final String ADMIN_SET_PRICE = "arm.admin.setprice";
+    public static final String ADMIN_SET_LANDLORD = "arm.admin.setlandlord";
     public static final String ADMIN_SIGN_LINK_MODE = "arm.admin.signlinkmode";
     public static final String ADMIN_FLAGEDITOR = "arm.admin.flageditor";
     public static final String ADMIN_SET_FLAGGROUP = "arm.admin.setflaggroup";

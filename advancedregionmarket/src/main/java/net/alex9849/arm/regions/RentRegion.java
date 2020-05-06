@@ -93,7 +93,7 @@ public class RentRegion extends CountdownRegion {
             }
         }
         AdvancedRegionMarket.getInstance().getEcon().withdrawPlayer(player, this.getPricePerPeriod());
-        this.giveParentRegionOwnerMoney(this.getPricePerPeriod());
+        this.giveLandlordMoney(this.getPricePerPeriod());
 
         player.sendMessage(Messages.PREFIX + this.replaceVariables(Messages.RENT_EXTEND_MESSAGE));
     }
@@ -140,7 +140,7 @@ public class RentRegion extends CountdownRegion {
         player.sendMessage(Messages.PREFIX + Messages.REGION_BUYMESSAGE);
 
         AdvancedRegionMarket.getInstance().getEcon().withdrawPlayer(player, this.getPricePerPeriod());
-        this.giveParentRegionOwnerMoney(this.getPricePerPeriod());
+        this.giveLandlordMoney(this.getPricePerPeriod());
     }
 
     @Override

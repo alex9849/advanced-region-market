@@ -1,6 +1,5 @@
 package net.alex9849.arm.commands;
 
-import net.alex9849.arm.exceptions.CmdSyntaxException;
 import net.alex9849.arm.exceptions.InputException;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -11,26 +10,26 @@ import java.util.List;
 public abstract class OptionModifyCommand<Object, SettingsObj> extends BasicArmCommand {
     private String objectNotFoundMsg;
     private String settingNotFoundMsg;
-    private boolean hasSetting;
+    private boolean forbidNullSetting;
 
 
-    public OptionModifyCommand(boolean isConsoleCommand, boolean hasSetting, String rootCommand, List<String> regexList, List<String> usage,
+    public OptionModifyCommand(boolean isConsoleCommand, boolean forbidNullSetting, String rootCommand, List<String> regexList, List<String> usage,
                                List<String> permissions, String objectNotFoundMsg, String settingNotFoundMsg) {
         super(isConsoleCommand, rootCommand, regexList, usage, permissions);
         this.objectNotFoundMsg = objectNotFoundMsg;
         this.settingNotFoundMsg = settingNotFoundMsg;
-        this.hasSetting = hasSetting;
+        this.forbidNullSetting = forbidNullSetting;
     }
 
     @Override
-    protected final boolean runCommandLogic(CommandSender sender, String command, String commandLabel) throws InputException, CmdSyntaxException {
+    protected final boolean runCommandLogic(CommandSender sender, String command, String commandLabel) throws InputException {
         Object obj = getObjectFromCommand(sender, command);
         if(obj == null) {
             throw new InputException(sender, this.objectNotFoundMsg);
         }
 
         SettingsObj setting = getSettingsFromCommand(sender, command);
-        if(setting == null && this.hasSetting) {
+        if(setting == null && this.forbidNullSetting) {
             throw new InputException(sender, this.settingNotFoundMsg);
         }
 

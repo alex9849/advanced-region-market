@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class RegionKind implements Saveable {
+public class RegionKind implements LimitGroupElement, Saveable {
     public static RegionKind DEFAULT = new RegionKind("Default", MaterialFinder.getRedBed(), new ArrayList<String>(), "Default", true, true);
     public static RegionKind SUBREGION = new RegionKind("Subregion", MaterialFinder.getRedBed(), new ArrayList<String>(), "Subregion", false, false);
     private String name;

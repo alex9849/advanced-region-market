@@ -14,7 +14,7 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class RegionKindGroup implements Iterable<RegionKind>, Saveable {
+public class RegionKindGroup implements Iterable<RegionKind>, LimitGroupElement, Saveable {
     private String name;
     private String displayName;
     private boolean displayInLimits = true;
@@ -53,11 +53,6 @@ public class RegionKindGroup implements Iterable<RegionKind>, Saveable {
 
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-        this.queueSave();
     }
 
     public String getDisplayName() {

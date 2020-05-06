@@ -1182,7 +1182,7 @@ public class Gui implements Listener {
                 if (onlinemember == null) {
                     throw new InputException(player, Messages.REGION_TRANSFER_MEMBER_NOT_ONLINE);
                 }
-                if (AdvancedRegionMarket.getInstance().getLimitGroupManager().isCanBuyAnother(onlinemember, region)) {
+                if (AdvancedRegionMarket.getInstance().getLimitGroupManager().isCanBuyAnother(onlinemember, region.getRegionKind())) {
                     WGRegion wgRegion = region.getRegion();
                     for (UUID oldOwner : wgRegion.getOwners()) {
                         wgRegion.addMember(oldOwner);

@@ -221,8 +221,14 @@ public class Messages {
     public static String GUI_USER_SELL_WARNING;
     @Message(name = "LimitInfoTop", message = "&6=========[Limit Info]=========")
     public static String LIMIT_INFO_TOP;
-    @Message(name = "LimitInfo", message = "&6%regionkind%: %playerownedkind%/%limitkind%")
-    public static String LIMIT_INFO;
+    @Message(name = "LimitInfoLimitReachedColorCode", message = "&r&4")
+    public static String LIMIT_REACHED_COLOR_CODE;
+    @Message(name = "LimitInfoTotal", version = 2, message = "&6Total: %limitreachedcolor%%playerownedkind%/%limitkind%")
+    public static String LIMIT_INFO_TOTAL;
+    @Message(name = "LimitInfoRegionkind", version = 2, message = "&6%regionkinddisplay%: %limitreachedcolor%%playerownedkind%/%limitkind%")
+    public static String LIMIT_INFO_REGIONKIND;
+    @Message(name = "LimitInfoRegionkindGroup", version = 2, message = "&6%regionkindgroupdisplay%: %limitreachedcolor%%playerownedkind%/%limitkind%")
+    public static String LIMIT_INFO_REGIONKINDGROUP;
     @Message(name = "GUILimitButton", message = "&6My limits")
     public static String GUI_MY_LIMITS_BUTTON;
     @Message(name = "MemberlistInfo", message = "&6How to become a Member:")
@@ -251,8 +257,6 @@ public class Messages {
     public static String PRESET_NOT_FOUND;
     @Message(name = "PresetLoaded", message = "&aPreset loaded!")
     public static String PRESET_LOADED;
-    @Message(name = "LimitInfoTotal", message = "&6Total")
-    public static String LIMIT_INFO_TOTAL;
     @Message(name = "GUIRegionItemName", message = "%regionid% (%regionkinddisplay%)")
     public static String GUI_REGION_ITEM_NAME;
     @Message(name = "GUIRegionFinderRegionKindName", message = "&a&l%regionkinddisplay%")

@@ -100,7 +100,7 @@ public class Offer {
             throw new NoPermissionException(this.replaceVariables(Messages.NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION));
         }
 
-        if (!AdvancedRegionMarket.getInstance().getLimitGroupManager().isCanBuyAnother(buyer, region)) {
+        if (!AdvancedRegionMarket.getInstance().getLimitGroupManager().isCanBuyAnother(buyer, region.getRegionKind())) {
             this.reject();
             throw new OutOfLimitExeption(AdvancedRegionMarket.getInstance().getLimitGroupManager()
                     .getRegionBuyOutOfLimitMessage(buyer, region.getRegionKind()));

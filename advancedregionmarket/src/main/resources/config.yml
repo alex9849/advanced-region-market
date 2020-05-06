@@ -62,12 +62,15 @@ FlagGroups:
 Limits:
   examplegroup1:
     total: 2
-    Default: -1
-    starter: 1
-    small: 1
-    medium: 0
-    large: 0
-    shop: 1
+    regionkinds:
+      Default: -1
+      starter: 1
+      small: 3
+      medium: 5
+      large: 0
+      shop: 1
+    regionkindgroups:
+      citybuild-plot: 4
   examplegroup2:
     total: 10
     Default: -1

@@ -177,7 +177,7 @@ public class ContractRegion extends CountdownRegion {
             throw new NoPermissionException(this.replaceVariables(Messages.NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION));
         }
 
-        if (!AdvancedRegionMarket.getInstance().getLimitGroupManager().isCanBuyAnother(player, this)) {
+        if (!AdvancedRegionMarket.getInstance().getLimitGroupManager().isCanBuyAnother(player, this.getRegionKind())) {
             throw new OutOfLimitExeption(AdvancedRegionMarket.getInstance().getLimitGroupManager().getRegionBuyOutOfLimitMessage(player, this.getRegionKind()));
         }
         if (AdvancedRegionMarket.getInstance().getEcon().getBalance(player) < this.getPricePerPeriod()) {
@@ -220,7 +220,7 @@ public class ContractRegion extends CountdownRegion {
         }
 
         if (this.isTerminated()) {
-            if (!AdvancedRegionMarket.getInstance().getLimitGroupManager().isInLimit(player, this)) {
+            if (!AdvancedRegionMarket.getInstance().getLimitGroupManager().isInLimit(player, this.getRegionKind())) {
                 throw new OutOfLimitExeption(AdvancedRegionMarket.getInstance().getLimitGroupManager().getRegionBuyOutOfLimitMessage(player, this.getRegionKind()));
             } else {
                 this.setTerminated(false, player);

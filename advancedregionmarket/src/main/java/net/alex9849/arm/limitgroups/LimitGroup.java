@@ -1,13 +1,12 @@
 package net.alex9849.arm.limitgroups;
 
-import net.alex9849.arm.regionkind.RegionKind;
+import net.alex9849.arm.regionkind.LimitGroupElement;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class LimitGroup {
     private Integer total = -1;
-    private HashMap<RegionKind, Integer> regionKindLimits = new HashMap<>();
+    private HashMap<LimitGroupElement, Integer> regionKindLimits = new HashMap<>();
     private String name;
 
     public LimitGroup(String name) {
@@ -25,15 +24,15 @@ public class LimitGroup {
         this.total = total;
     }
 
-    public void addLimit(RegionKind regionKind, int limit) {
+    public void addLimit(LimitGroupElement element, int limit) {
         if(limit < -1) {
             limit = 0;
         }
-        regionKindLimits.put(regionKind, limit);
+        regionKindLimits.put(element, limit);
     }
 
-    public Map<RegionKind, Integer> getLimits() {
-        return new HashMap<>(this.regionKindLimits);
+    public Integer getLimit(LimitGroupElement element) {
+        return this.regionKindLimits.get(element);
     }
 
     public String getName() {

@@ -3,14 +3,15 @@ package net.alex9849.arm.limitgroups;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
+import net.alex9849.arm.regionkind.LimitGroupElement;
 import net.alex9849.arm.regionkind.RegionKind;
+import net.alex9849.arm.regionkind.RegionKindGroup;
 import net.alex9849.arm.regions.Region;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class LimitGroupManager {
     private HashMap<String, LimitGroup> limitGroups = new HashMap<>();
@@ -20,49 +21,58 @@ public class LimitGroupManager {
         for(String groupName : groupNames) {
             LimitGroup limitGroup = new LimitGroup(groupName);
             ConfigurationSection groupSection = section.getConfigurationSection(groupName);
-            Set<String> groupLimits = groupSection.getKeys(true);
-            for(String groupLimit : groupLimits) {
-                if(groupLimit.equalsIgnoreCase("total")) {
-                    limitGroup.setTotalLimit(groupSection.getInt(groupLimit));
-                } else {
-                    RegionKind regionKind = AdvancedRegionMarket.getInstance().getRegionKindManager().getRegionKind(groupLimit);
-                    if(regionKind == null) {
-                        continue;
+            Set<String> groupSectionKeys = groupSection.getKeys(false);
+            for(String groupKey : groupSectionKeys) {
+                if(groupKey.equalsIgnoreCase("total")) {
+                    limitGroup.setTotalLimit(groupSection.getInt(groupKey));
+
+                } else if (groupKey.equalsIgnoreCase("regionkinds")) {
+                    ConfigurationSection regionKindLimitSection = groupSection.getConfigurationSection(groupKey);
+                    Set<String> regionKinds = regionKindLimitSection.getKeys(false);
+                    for(String regionkind : regionKinds) {
+                        RegionKind regionKind = AdvancedRegionMarket.getInstance().getRegionKindManager().getRegionKind(regionkind);
+                        if(regionKind != null)
+                            limitGroup.addLimit(regionKind, regionKindLimitSection.getInt(regionkind));
                     }
-                    limitGroup.addLimit(regionKind, groupSection.getInt(groupLimit));
+
+                } else if (groupKey.equalsIgnoreCase("regionkindgroups")) {
+                    ConfigurationSection rkGroupLimitSection = groupSection.getConfigurationSection(groupKey);
+                    Set<String> rkGroups = rkGroupLimitSection.getKeys(false);
+                    for(String rkGroup : rkGroups) {
+                        RegionKindGroup rkg = AdvancedRegionMarket.getInstance().getRegionKindGroupManager().getRegionKindGroup(rkGroup);
+                        if(rkg != null)
+                            limitGroup.addLimit(rkg, rkGroupLimitSection.getInt(rkGroup));
+                    }
                 }
             }
             this.limitGroups.put(limitGroup.getName(), limitGroup);
         }
     }
 
-    public boolean isCanBuyAnother(Player player, Region region) {
-        if (player.hasPermission(Permission.ADMIN_LIMIT_BYPASS)) {
-            return true;
-        }
-        int ownedRegions = getOwnedRegions(player) + 1;
-        int ownedRegionsWithType = getOwnedRegions(player, region.getRegionKind()) + 1;
-
-        return isInLimit(getLimitTotal(player), ownedRegions)
-                && isInLimit(getLimit(player, region.getRegionKind()), ownedRegionsWithType);
+    public boolean isCanBuyAnother(Player player, RegionKind regionKind) {
+        return isInLimit(player, regionKind, 1);
     }
 
-    public boolean isInLimit(Player player, Region region) {
+    public boolean isInLimit(Player player, RegionKind regionKind) {
+        return isInLimit(player, regionKind, 0);
+    }
+
+    private boolean isInLimit(Player player, RegionKind regionKind, int addOwnedRegionsNumber) {
         if (player.hasPermission(Permission.ADMIN_LIMIT_BYPASS)) {
             return true;
         }
-        int ownedRegions = getOwnedRegions(player);
-        int ownedRegionsWithType = getOwnedRegions(player, region.getRegionKind());
-
-        return isInLimit(getLimitTotal(player), ownedRegions)
-                && isInLimit(getLimit(player, region.getRegionKind()), ownedRegionsWithType);
+        boolean totalRegionsOk = isInLimit(getLimitTotal(player), getOwnedRegions(player) + addOwnedRegionsNumber);
+        boolean regionsWithRegionKindOk = isInLimit(getLimit(player, regionKind), getOwnedRegions(player, regionKind) + addOwnedRegionsNumber);
+        boolean regionsWithRegionGroupOK = AdvancedRegionMarket.getInstance().getRegionKindGroupManager().getRegionKindGroupsForRegionKind(regionKind)
+                                                .stream().allMatch(x -> isInLimit(getLimit(player, x), getOwnedRegions(player, x) + addOwnedRegionsNumber));
+        return totalRegionsOk && regionsWithRegionKindOk && regionsWithRegionGroupOK;
     }
 
     public boolean isInLimit(int limit, int numberOfRegions) {
         return numberOfRegions <= limit || limit == -1;
     }
 
-    public int getLimit(Player player, RegionKind regionkind) {
+    public int getLimit(Player player, LimitGroupElement limitGroupElement) {
         if (player.hasPermission(Permission.ADMIN_LIMIT_BYPASS)) {
             return -1;
         }
@@ -70,7 +80,7 @@ public class LimitGroupManager {
         int maxregionswiththistype = -1;
         for (LimitGroup limitGroup : this.limitGroups.values()) {
             if (player.hasPermission(Permission.ARM_LIMIT + limitGroup.getName())) {
-                Integer limit = limitGroup.getLimits().get(regionkind);
+                Integer limit = limitGroup.getLimit(limitGroupElement);
                 if(limit == null) {
                     continue;
                 }
@@ -101,15 +111,18 @@ public class LimitGroupManager {
         return maxtotal;
     }
 
-    public static int getOwnedRegions(Player player, RegionKind regionkind) {
+    public static int getOwnedRegions(Player player, LimitGroupElement lge) {
         List<Region> regions = AdvancedRegionMarket.getInstance().getRegionManager().getRegionsByOwner(player.getUniqueId());
-        int ownedregionswiththistype = 0;
-        for (Region region : regions) {
-            if (regionkind == region.getRegionKind()) {
-                ownedregionswiththistype++;
-            }
+        Set<RegionKind> checkRegionKinds = new HashSet<>();
+        if(lge instanceof RegionKind) {
+            checkRegionKinds.add((RegionKind) lge);
+        } else if (lge instanceof RegionKindGroup) {
+            RegionKindGroup rkg = (RegionKindGroup) lge;
+            rkg.forEach(checkRegionKinds::add);
+        } else {
+            throw new RuntimeException(lge.getClass() + " is not supported here!");
         }
-        return ownedregionswiththistype;
+        return regions.stream().filter(region -> checkRegionKinds.contains(region.getRegionKind())).collect(Collectors.toList()).size();
     }
 
     public static int getOwnedRegions(Player player) {
@@ -118,68 +131,35 @@ public class LimitGroupManager {
 
     public void printLimitInChat(Player player) {
         player.sendMessage(Messages.LIMIT_INFO_TOP);
-        String syntaxtotal = Messages.LIMIT_INFO;
-        syntaxtotal = syntaxtotal.replace("%regionkind%", Messages.LIMIT_INFO_TOTAL);
-        syntaxtotal = syntaxtotal.replace("%regionkinddisplay%", Messages.LIMIT_INFO_TOTAL);
-        syntaxtotal = syntaxtotal.replace("%playerownedkind%", Integer.toString(getOwnedRegions(player)));
-        int limitTotal = getLimitTotal(player);
-        if (limitTotal == -1) {
-            syntaxtotal = syntaxtotal.replace("%limitkind%", Messages.UNLIMITED);
-        } else {
-            syntaxtotal = syntaxtotal.replace("%limitkind%", Integer.toString(limitTotal));
-        }
-        player.sendMessage(syntaxtotal);
-        printLimitInChat(player, Messages.LIMIT_INFO_TOTAL, getOwnedRegions(player), limitTotal == -1 ? Messages.UNLIMITED:Integer.toString(limitTotal));
+        printLimitInChat(player, Messages.LIMIT_INFO_TOTAL, getOwnedRegions(player), getLimitTotal(player));
 
-        if (RegionKind.DEFAULT.isDisplayInLimits()) {
-            syntaxtotal = Messages.LIMIT_INFO;
-            syntaxtotal = RegionKind.DEFAULT.replaceVariables(syntaxtotal);
-            syntaxtotal = syntaxtotal.replace("%playerownedkind%", Integer.toString(getOwnedRegions(player, RegionKind.DEFAULT)));
-            int limit = getLimit(player, RegionKind.DEFAULT);
-            if (limit == -1) {
-                syntaxtotal = syntaxtotal.replace("%limitkind%", Messages.UNLIMITED);
-            } else {
-                syntaxtotal = syntaxtotal.replace("%limitkind%", Integer.toString(limit));
-            }
-            player.sendMessage(syntaxtotal);
-        }
+        List<LimitGroupElement> limitGroupElements = new ArrayList<>();
+        AdvancedRegionMarket.getInstance().getRegionKindGroupManager().forEach(limitGroupElements::add);
+        AdvancedRegionMarket.getInstance().getRegionKindManager().forEach(limitGroupElements::add);
+        limitGroupElements.add(RegionKind.DEFAULT);
+        limitGroupElements.add(RegionKind.SUBREGION);
 
-        if (RegionKind.SUBREGION.isDisplayInLimits()) {
-            syntaxtotal = Messages.LIMIT_INFO;
-            syntaxtotal = RegionKind.SUBREGION.replaceVariables(syntaxtotal);
-            syntaxtotal = syntaxtotal.replace("%playerownedkind%", Integer.toString(getOwnedRegions(player, RegionKind.SUBREGION)));
-            int limit = getLimit(player, RegionKind.SUBREGION);
-            if (limit == -1) {
-                syntaxtotal = syntaxtotal.replace("%limitkind%", Messages.UNLIMITED);
-            } else {
-                syntaxtotal = syntaxtotal.replace("%limitkind%", Integer.toString(limit));
-            }
-            player.sendMessage(syntaxtotal);
-        }
-
-        for (RegionKind regionKind : AdvancedRegionMarket.getInstance().getRegionKindManager()) {
-            if (RegionKind.hasPermission(player, regionKind) && regionKind.isDisplayInLimits()) {
-                syntaxtotal = Messages.LIMIT_INFO;
-                syntaxtotal = regionKind.replaceVariables(syntaxtotal);
-                syntaxtotal = syntaxtotal.replace("%playerownedkind%", Integer.toString(getOwnedRegions(player, regionKind)));
-                int limit = getLimit(player, regionKind);
-                if (limit == -1) {
-                    syntaxtotal = syntaxtotal.replace("%limitkind%", Messages.UNLIMITED);
+        for (LimitGroupElement lge : limitGroupElements) {
+            if (lge.isDisplayInLimits()) {
+                String sendmessage;
+                if(lge instanceof RegionKind) {
+                    sendmessage = Messages.LIMIT_INFO_REGIONKIND;
+                } else if(lge instanceof RegionKindGroup) {
+                    sendmessage = Messages.LIMIT_INFO_REGIONKINDGROUP;
                 } else {
-                    syntaxtotal = syntaxtotal.replace("%limitkind%", Integer.toString(limit));
+                    throw new RuntimeException(lge.getClass() + " is not supported here!");
                 }
-                player.sendMessage(syntaxtotal);
+                sendmessage = lge.replaceVariables(sendmessage);
+                printLimitInChat(player, sendmessage, getOwnedRegions(player, lge), getLimit(player, lge));
             }
         }
     }
 
-    private void printLimitInChat(Player player, String regionKindName, int ownedRegions, String limit) {
-        String massage = Messages.LIMIT_INFO;
-        massage = massage.replace("%regionkind%", regionKindName);
-        massage = massage.replace("%regionkinddisplay%", regionKindName);
-        massage = massage.replace("%playerownedkind%", Integer.toString(ownedRegions));
-        massage = massage.replace("%limitkind%", limit);
-        player.sendMessage(massage);
+    private void printLimitInChat(Player player, String message, int ownedRegions, int limit) {
+        String replaced = message.replace("%playerownedkind%", Integer.toString(ownedRegions));
+        replaced = replaced.replace("%limitkind%", limit == -1 ? Messages.UNLIMITED:Integer.toString(limit));
+        replaced = replaced.replace("%limitreachedcolor%", (ownedRegions >= limit && limit > -1) ? Messages.LIMIT_REACHED_COLOR_CODE:"");
+        player.sendMessage(replaced);
     }
 
     public String getRegionBuyOutOfLimitMessage(Player player, RegionKind regionKind) {

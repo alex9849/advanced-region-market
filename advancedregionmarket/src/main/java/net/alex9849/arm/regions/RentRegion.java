@@ -113,7 +113,7 @@ public class RentRegion extends CountdownRegion {
             throw new NoPermissionException(this.replaceVariables(Messages.NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION));
         }
 
-        if (!AdvancedRegionMarket.getInstance().getLimitGroupManager().isCanBuyAnother(player, this)) {
+        if (!AdvancedRegionMarket.getInstance().getLimitGroupManager().isCanBuyAnother(player, this.getRegionKind())) {
             throw new OutOfLimitExeption(AdvancedRegionMarket.getInstance().getLimitGroupManager()
                     .getRegionBuyOutOfLimitMessage(player, this.getRegionKind()));
         }

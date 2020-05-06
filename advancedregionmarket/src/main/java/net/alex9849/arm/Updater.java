@@ -157,6 +157,10 @@ public class Updater {
                 AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 3.0.1...");
                 updateTo3p0p1(pluginConfig);
             }
+            if(new Version(3, 1).biggerThan(lastVersion)) {
+                AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 3.1...");
+                updateTo3p1(pluginConfig);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -1043,6 +1047,20 @@ public class Updater {
     private static void updateTo3p0p1(FileConfiguration pluginConfig) {
         UpdateHelpMethods.addFlagGroupVariable("overwriteParent", true, true, false);
         pluginConfig.set("Version", "3.0.1");
+        AdvancedRegionMarket.getInstance().saveConfig();
+    }
+
+    private static void updateTo3p1(FileConfiguration pluginConfig) {
+        ConfigurationSection cs = pluginConfig.getConfigurationSection("Limits");
+        for(String group : cs.getKeys(false)) {
+            ConfigurationSection rKs = cs.getConfigurationSection(group);
+            cs.set(group, null);
+            rKs.set("total", null);
+            cs.set(group + ".regionkinds", rKs);
+            cs.set(group + ".total", rKs.get("total"));
+            cs.createSection(group + ".regionkindgroups");
+        }
+        pluginConfig.set("Version", "3.1");
         AdvancedRegionMarket.getInstance().saveConfig();
     }
 

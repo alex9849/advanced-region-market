@@ -558,6 +558,8 @@ public abstract class Region implements Saveable {
         if (this.isSubregion())
             throw new IllegalArgumentException("Can't change this option for a Subregion!");
         this.paybackPercentage = paybackPercentage;
+        if(this.paybackPercentage != 0)
+            this.setLandlord(null);
         this.queueSave();
     }
 
@@ -565,6 +567,8 @@ public abstract class Region implements Saveable {
         if (this.isSubregion())
             throw new IllegalArgumentException("Can't change this option for a Subregion!");
         this.landlord = landlord;
+        if(landlord != null)
+            this.setPaybackPercentage(0);
         this.queueSave();
     }
 

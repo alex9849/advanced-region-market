@@ -15,10 +15,11 @@ import java.util.Arrays;
 import java.util.List;
 
 public class SellBackCommand extends BasicArmCommand {
+    private final String regex_nomoney = "(?i)sellback [^;\n ]+ (?i)nomoney";
 
     public SellBackCommand() {
         super(false, "sellback",
-                Arrays.asList("(?i)sellback [^;\n ]+"),
+                Arrays.asList("(?i)sellback [^;\n ]+", "(?i)sellback [^;\n ]+ (?i)nomoney"),
                 Arrays.asList("sellback [REGION]"),
                 Arrays.asList(Permission.MEMBER_SELLBACK));
     }
@@ -26,6 +27,7 @@ public class SellBackCommand extends BasicArmCommand {
     @Override
     protected boolean runCommandLogic(CommandSender sender, String command, String commandLabel) throws InputException {
         Player player = (Player) sender;
+        boolean noMoney = false;
 
         Region region = AdvancedRegionMarket.getInstance().getRegionManager()
                 .getRegionbyNameAndWorldCommands(command.split(" ")[1], player.getLocation().getWorld().getName());
@@ -39,18 +41,28 @@ public class SellBackCommand extends BasicArmCommand {
         if (!region.isSold()) {
             throw new InputException(player, Messages.REGION_NOT_SOLD);
         }
-        String confirmQuestion = region.replaceVariables(Messages.SELLBACK_WARNING);
+        String confirmQuestion = Messages.SELLBACK_WARNING;
+        if(command.matches(this.regex_nomoney)) {
+            confirmQuestion = confirmQuestion.replace("%paybackmoney%", Double.toString(0));
+            noMoney = true;
+        }
+        confirmQuestion = region.replaceVariables(confirmQuestion);
         player.sendMessage(Messages.PREFIX + confirmQuestion);
-        Gui.openSellWarning(player, region, false);
+        Gui.openSellWarning(player, region, noMoney, false);
         return true;
     }
 
     @Override
     protected List<String> onTabCompleteLogic(Player player, String[] args) {
-        if(args.length != 2) {
-            return new ArrayList<>();
+        List<String> returnme = new ArrayList<>();
+        if(args.length == 2) {
+            returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager()
+                    .completeTabRegions(player, args[1], PlayerRegionRelationship.OWNER, true, true));
+        } else if(args.length == 3) {
+            if("nomoney".toLowerCase().startsWith(args[2])) {
+                returnme.add("nomoney");
+            }
         }
-        return AdvancedRegionMarket.getInstance().getRegionManager()
-                .completeTabRegions(player, args[1], PlayerRegionRelationship.OWNER, true, true);
+        return returnme;
     }
 }

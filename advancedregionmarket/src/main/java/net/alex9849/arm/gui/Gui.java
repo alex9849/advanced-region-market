@@ -268,7 +268,7 @@ public class Gui implements Listener {
             ClickItem reseticon = new ClickItem(new ItemStack(Gui.SELL_REGION_ITEM), Messages.GUI_USER_SELL_BUTTON, message).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) {
-                    Gui.openSellWarning(player, region, true);
+                    Gui.openSellWarning(player, region, false,true);
                 }
             });
             inv.addIcon(reseticon, getPosition(actitem, itemcounter));
@@ -1315,7 +1315,7 @@ public class Gui implements Listener {
         player.openInventory(inv.getInventory());
     }
 
-    public static void openSellWarning(Player player, Region region, Boolean goBack) {
+    public static void openSellWarning(Player player, Region region, boolean noMoney, boolean goBack) {
         GuiInventory inv = new GuiInventory(9, Messages.GUI_USER_SELL_WARNING);
 
         ClickItem yesButton = new ClickItem(new ItemStack(Gui.WARNING_YES_ITEM), Messages.GUI_YES)
@@ -1324,14 +1324,19 @@ public class Gui implements Listener {
             public void execute(Player player) throws InputException {
                 player.closeInventory();
                 if (region.getRegion().hasOwner(player.getUniqueId())) {
-                    String soldSuccessfullyMessage = region.replaceVariables(Messages.REGION_SOLD_BACK_SUCCESSFULLY);
+                    String soldSuccessfullyMessage = Messages.REGION_SOLD_BACK_SUCCESSFULLY;
+                    if(noMoney)
+                        soldSuccessfullyMessage = soldSuccessfullyMessage.replace("%paybackmoney%", Double.toString(0));
+                    soldSuccessfullyMessage = region.replaceVariables(soldSuccessfullyMessage);
                     try {
-                        region.userSell(player);
+                        region.userSell(player, noMoney);
+                        player.sendMessage(Messages.PREFIX + soldSuccessfullyMessage);
                     } catch (SchematicNotFoundException e) {
                         AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, region.replaceVariables(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
                         player.sendMessage(Messages.PREFIX + Messages.SCHEMATIC_NOT_FOUND_ERROR_USER.replace("%regionid%", e.getRegion().getId()));
+                    } catch (NotEnoughMoneyException e) {
+                        player.sendMessage(Messages.PREFIX + e.getMessage());
                     }
-                    player.sendMessage(Messages.PREFIX + soldSuccessfullyMessage);
 
                 } else {
                     throw new InputException(player, Messages.REGION_NOT_OWN);

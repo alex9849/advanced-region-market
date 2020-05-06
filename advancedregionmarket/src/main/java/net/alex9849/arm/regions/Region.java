@@ -558,8 +558,6 @@ public abstract class Region implements Saveable {
         if (this.isSubregion())
             throw new IllegalArgumentException("Can't change this option for a Subregion!");
         this.paybackPercentage = paybackPercentage;
-        if(this.paybackPercentage != 0)
-            this.setLandlord(null);
         this.queueSave();
     }
 
@@ -567,8 +565,6 @@ public abstract class Region implements Saveable {
         if (this.isSubregion())
             throw new IllegalArgumentException("Can't change this option for a Subregion!");
         this.landlord = landlord;
-        if(landlord != null)
-            this.setPaybackPercentage(0);
         this.queueSave();
     }
 
@@ -975,14 +971,27 @@ public abstract class Region implements Saveable {
         }
     }
 
-    public void userSell(Player player) throws SchematicNotFoundException {
+    public UUID getOwner() {
+        if(this.getRegion().getOwners().isEmpty()) {
+            return null;
+        }
+        return this.getRegion().getOwners().get(0);
+    }
+
+    public void userSell(Player player, boolean noMoney) throws SchematicNotFoundException, NotEnoughMoneyException {
         List<UUID> owners = this.getRegion().getOwners();
         double amount = this.getPaybackMoney();
+        UUID owner = getOwner();
+        UUID landlord = getLandlord();
 
-        if (amount > 0) {
-            for (UUID owner : owners) {
-                AdvancedRegionMarket.getInstance().getEcon().depositPlayer(Bukkit.getOfflinePlayer(owner), amount);
+        if (!noMoney && amount > 0 && owner != null) {
+            if(landlord != null) {
+                if(AdvancedRegionMarket.getInstance().getEcon().getBalance(Bukkit.getOfflinePlayer(landlord)) < amount) {
+                    throw new NotEnoughMoneyException(this.replaceVariables(Messages.SELLBACK_LANDLORD_NOT_ENOUGH_MONEY));
+                }
+                AdvancedRegionMarket.getInstance().getEcon().withdrawPlayer(Bukkit.getOfflinePlayer(landlord), amount);
             }
+            AdvancedRegionMarket.getInstance().getEcon().depositPlayer(Bukkit.getOfflinePlayer(owner), amount);
         }
 
         this.automaticResetRegion(ActionReason.USER_SELL, true);

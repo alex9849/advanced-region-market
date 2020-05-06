@@ -499,6 +499,8 @@ public class Messages {
     @Message(name = "SubregionHelpHeadline", message = "&6=====[AdvancedRegionMarket Subregion Help]=====\n" +
             "&3Page %actualpage% / %maxpage%")
     public static String SUBREGION_HELP_HEADLINE;
+    @Message(name = "SellbackLandlordNotEnoughMoney", message = "&4The landlord of this region doesn't have enough money! If you want to give the region back without getting money back use &7/arm sellback %region% nomoney&4!")
+    public static String SELLBACK_LANDLORD_NOT_ENOUGH_MONEY;
     @Message(name = "SellregionName", message = "Sellregion")
     public static String SELLREGION_NAME;
     @Message(name = "ContractregionName", message = "Contractregion")

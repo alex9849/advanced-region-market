@@ -16,7 +16,7 @@ import java.util.List;
 public class SaveCommand extends PresetOptionModifyCommand<String> {
 
     public SaveCommand(PresetType presetType) {
-        super("save", Arrays.asList(Permission.ADMIN_PRESET_SAVE), false, "[^;\n ]+",
+        super("save", Arrays.asList(Permission.ADMIN_PRESET_SAVE), false, "[^;\n\\. ]+",
                 "[PRESETNAME]", Messages.PRESET_PLAYER_DONT_HAS_PRESET, presetType);
     }
 

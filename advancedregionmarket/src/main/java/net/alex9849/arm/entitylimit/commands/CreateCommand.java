@@ -18,7 +18,7 @@ public class CreateCommand extends BasicArmCommand {
 
     public CreateCommand() {
         super(true, "create",
-                Arrays.asList("(?i)create [^;\n ]+"),
+                Arrays.asList("(?i)create [^;\n\\. ]+"),
                 Arrays.asList("create [GROUPNAME]"),
                 Arrays.asList(Permission.ADMIN_ENTITYLIMIT_CREATE));
     }

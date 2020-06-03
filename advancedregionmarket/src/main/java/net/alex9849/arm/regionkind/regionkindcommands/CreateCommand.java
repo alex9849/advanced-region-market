@@ -20,7 +20,7 @@ public class CreateCommand extends BasicArmCommand {
 
     public CreateCommand() {
         super(true, "create",
-                Arrays.asList("(?i)create [^;\n ]+"),
+                Arrays.asList("(?i)create [^;\n\\. ]+"),
                 Arrays.asList("create [REGIONKINDNAME]"),
                 Arrays.asList(Permission.REGIONKIND_CREATE));
     }

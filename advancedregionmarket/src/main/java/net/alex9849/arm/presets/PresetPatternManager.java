@@ -21,14 +21,14 @@ public class PresetPatternManager extends YamlFileManager<Preset> {
     }
 
     private static Preset generatePresetObject(ConfigurationSection section, String name, PresetType presetType) {
-        Boolean isHotel = section.getObject("isHotel", Boolean.class);
-        Boolean autorestore = section.getObject("autorestore", Boolean.class);
-        Boolean inactivityReset = section.getObject("inactivityReset", Boolean.class);
-        Boolean userrestorable = section.getObject("userrestorable", Boolean.class);
-        Integer paybackPercentage = section.getObject("paybackPercentage", Integer.class);
-        Integer allowedSubregions = section.getObject("allowedSubregions", Integer.class);
-        Integer maxMembers = section.getObject("maxMembers", Integer.class);
-        Double price = section.getObject("price", Double.class);
+        Boolean isHotel = (Boolean) section.get("isHotel");
+        Boolean autorestore = (Boolean) section.get("autorestore");
+        Boolean inactivityReset = (Boolean) section.get("inactivityReset");
+        Boolean userrestorable = (Boolean) section.get("userrestorable");
+        Integer paybackPercentage = (Integer) section.get("paybackPercentage");
+        Integer allowedSubregions = (Integer) section.get("allowedSubregions");
+        Integer maxMembers = (Integer) section.get("maxMembers");
+        Double price = (Double) section.get("price");
         String regionKindString = section.getString("regionKind");
         String flagGroupString = section.getString("flaggroup");
         String entityLimitGroupString = section.getString("entityLimitGroup");

@@ -192,9 +192,6 @@ public abstract class Preset implements Saveable, Cloneable {
     }
 
     public void setRegionKind(RegionKind regionKind) {
-        if (regionKind == null) {
-            regionKind = RegionKind.DEFAULT;
-        }
         this.regionKind = regionKind;
     }
 

@@ -912,10 +912,28 @@ public class Gui implements Listener {
 
         for (Region region : regions) {
             ItemStack itemStack = getRegionDisplayItem(region, Messages.GUI_REGIONFINDER_REGION_INFO_RENT, Messages.GUI_REGIONFINDER_REGION_INFO_SELL, Messages.GUI_REGIONFINDER_REGION_INFO_CONTRACT);
+            boolean tpToRegionPermission = player.hasPermission(Permission.MEMBER_REGIONFINDER_TP_TO_REGION);
+            boolean tpToSignPermission = player.hasPermission(Permission.MEMBER_REGIONFINDER_TP_TO_SIGN);
             ClickItem clickItem = new ClickItem(itemStack).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
-                    Gui.openRegionFinderTeleportLocationSeceltor(player, region);
+                    if(tpToRegionPermission && tpToSignPermission) {
+                        Gui.openRegionFinderTeleportLocationSeceltor(player, region);
+                        return;
+                    }
+                    if (tpToRegionPermission) {
+                        new TeleportToRegionClickAction(region).execute(player);
+
+                    }
+                    if (tpToSignPermission) {
+                        try {
+                            region.teleport(player, true);
+                            player.closeInventory();
+                        } catch (NoSaveLocationException e) {
+                            player.sendMessage(Messages.PREFIX + region.replaceVariables(Messages.TELEPORTER_NO_SAVE_LOCATION_FOUND));
+                        }
+                        return;
+                    }
                 }
             });
             if (region instanceof SellRegion) {
@@ -988,11 +1006,6 @@ public class Gui implements Listener {
     }
 
     public static void openRegionFinderTeleportLocationSeceltor(Player player, Region region) throws InputException {
-        if (!AdvancedRegionMarket.getInstance().getPluginSettings().isAllowTeleportToBuySign()) {
-            new TeleportToRegionClickAction(region).execute(player);
-            return;
-        }
-
         GuiInventory inv = new GuiInventory(9, Messages.GUI_TELEPORT_TO_SIGN_OR_REGION);
         ClickItem clickSign = new ClickItem(new ItemStack(Gui.TELEPORT_TO_SIGN_ITEM), Messages.GUI_TELEPORT_TO_SIGN);
         clickSign.addClickAction(new ClickAction() {

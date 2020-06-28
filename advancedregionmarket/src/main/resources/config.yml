@@ -167,9 +167,6 @@ Other:
   TeleporterTimer: 0
   # If you execute /arm info arm will display the region borders of the region (only for the player who executes the command)
   RegionInfoParticleBorder: true
-  # The regionfinder can teleport the player to a sign of the region or the region itself. If you set this setting to true, the player can decide if he wants to get teleported
-  # to a sign or the the region
-  AllowRegionfinderTeleportToBuySign: true
   # If true all entities will be removed if the region gets resetted
   RemoveEntitiesOnRegionRestore: true
   #The language of the plugin. Available languages: en, de, fr, ru, es

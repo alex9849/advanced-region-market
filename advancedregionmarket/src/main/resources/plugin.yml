@@ -111,7 +111,7 @@ permissions:
       arm.admin.regionkind.info: true
       arm.admin.regionkind.help: true
       arm.member.restore: true
-      arm.member.sellregion: true
+      arm.member.sellback: true
       arm.member.info: true
       arm.member.addmember: true
       arm.member.removemember: true
@@ -124,6 +124,8 @@ permissions:
       arm.member.promote: true
       arm.member.buy: true
       arm.member.regionfinder: true
+      arm.member.regionfinder.tptoregion: true
+      arm.member.regionfinder.tptosign: true
       arm.member.entitylimit.info: true
       arm.member.entitylimit.check: true
       arm.member.entitylimit.buyextra: true
@@ -135,7 +137,7 @@ permissions:
     default: true
     children:
       arm.member.restore: true
-      arm.member.sellregion: true
+      arm.member.sellback: true
       arm.member.info: true
       arm.member.addmember: true
       arm.member.removemember: true
@@ -148,6 +150,8 @@ permissions:
       arm.member.promote: true
       arm.member.buy: true
       arm.member.regionfinder: true
+      arm.member.regionfinder.tptoregion: true
+      arm.member.regionfinder.tptosign: true
       arm.member.entitylimit.info: true
       arm.member.entitylimit.check: true
       arm.member.entitylimit.buyextra: true
@@ -435,7 +439,7 @@ permissions:
   arm.member.restore:
     description: Allows to reset own regions
     default: true
-  arm.member.sellregion:
+  arm.member.sellback:
     description: Allows to sell a region back to the server
     default: true
   arm.member.info:
@@ -473,6 +477,12 @@ permissions:
     default: true
   arm.member.regionfinder:
     description: Allows to use the regionfinder
+    default: true
+  arm.member.regionfinder.tptoregion:
+    description: Allows to teleport to regions using the regionfinder
+    default: true
+  arm.member.regionfinder.tptosign:
+    description: Allows to teleport to signs using the regionfinder
     default: true
   arm.member.entitylimit.info:
     description: Allows to display information about an entitylimit

@@ -115,7 +115,7 @@ public class Permission {
     public static final String REGIONKINDGROUP_REMOVEREGIONKIND = "arm.admin.regionkindgroup.removeregionkind";
 
     public static final String MEMBER_RESTORE = "arm.member.restore";
-    public static final String MEMBER_SELLBACK = "arm.member.sellregion";
+    public static final String MEMBER_SELLBACK = "arm.member.sellback";
     public static final String MEMBER_INFO = "arm.member.info";
     public static final String MEMBER_ADDMEMBER = "arm.member.addmember";
     public static final String MEMBER_REMOVEMEMBER = "arm.member.removemember";
@@ -128,15 +128,17 @@ public class Permission {
     public static final String MEMBER_PROMOTE = "arm.member.promote";
     public static final String MEMBER_BUY = "arm.member.buy";
     public static final String MEMBER_REGIONFINDER = "arm.member.regionfinder";
+    public static final String MEMBER_REGIONFINDER_TP_TO_REGION = "arm.member.regionfinder.tptoregion";
+    public static final String MEMBER_REGIONFINDER_TP_TO_SIGN = "arm.member.regionfinder.tptosign";
     public static final String MEMBER_ENTITYLIMIT_INFO = "arm.member.entitylimit.info";
     public static final String MEMBER_ENTITYLIMIT_CHECK = "arm.member.entitylimit.check";
     public static final String MEMBER_ENTITYLIMIT_BUY_EXTRA = "arm.member.entitylimit.buyextra";
+
     //TODO ADD TO WIKI
     public static final String MEMBER_TP_TO_FREE_REGION = "arm.member.tptofreeregion";
     public static final String MEMBER_FLAGEDITOR = "arm.member.flageditor";
 
     public static final String ARM_HELP = "arm.help";
-    public static final String ARM_BUYKIND = "arm.buykind.";
     public static final String ARM_LIMIT = "arm.limit.";
     public static final String ARM_INACTIVITY_EXPIRATION = "arm.inactivityexpiration.";
 

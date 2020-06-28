@@ -19,7 +19,6 @@ public class ArmSettings {
     private boolean removeEntitiesOnRegionBlockReset = true;
     private boolean createBackupOnRegionUnsell = true;
     private boolean createBackupOnRegionRestore = true;
-    private boolean isAllowTeleportToBuySign = true;
     private long userResetCooldown = 604800000;
     private long rentRegionExpirationWarningTime = 2 * 24 * 60 * 60 * 1000;
     private String signRightClickSneakCommand = "buyaction";
@@ -91,10 +90,6 @@ public class ArmSettings {
 
     public boolean isDeleteSubregionsOnParentRegionBlockReset() {
         return deleteSubregionsOnParentRegionBlockReset;
-    }
-
-    public boolean isAllowTeleportToBuySign() {
-        return isAllowTeleportToBuySign;
     }
 
     public boolean isAllowParentRegionOwnersBuildOnSubregions() {
@@ -172,10 +167,6 @@ public class ArmSettings {
 
     public void setAllowParentRegionOwnersBuildOnSubregions(boolean allowParentRegionOwnersBuildOnSubregions) {
         this.allowParentRegionOwnersBuildOnSubregions = allowParentRegionOwnersBuildOnSubregions;
-    }
-
-    public void setIsAllowTeleportToBuySign(boolean isAllowTeleportToBuySign) {
-        this.isAllowTeleportToBuySign = isAllowTeleportToBuySign;
     }
 
     public void setIsAllowSubregionUserRestore(boolean isAllowSubRegionUserRestore) {

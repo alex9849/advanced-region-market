@@ -3,7 +3,6 @@ package net.alex9849.arm.minifeatures.selloffer;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.exceptions.*;
-import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.Region;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.entity.Player;
@@ -93,11 +92,6 @@ public class Offer {
         if (!region.isSold() || !region.getRegion().hasOwner(seller.getUniqueId())) {
             this.reject();
             throw new RegionNotOwnException(this.replaceVariables(Messages.SELLER_DOES_NOT_LONGER_OWN_REGION));
-        }
-
-        if (!RegionKind.hasPermission(buyer, this.region.getRegionKind())) {
-            this.reject();
-            throw new NoPermissionException(this.replaceVariables(Messages.NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION));
         }
 
         if (!AdvancedRegionMarket.getInstance().getLimitGroupManager().isCanBuyAnother(buyer, region.getRegionKind())) {

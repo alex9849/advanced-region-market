@@ -6,7 +6,6 @@ import net.alex9849.arm.Permission;
 import net.alex9849.arm.events.BuyRegionEvent;
 import net.alex9849.arm.exceptions.*;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
-import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.price.ContractPrice;
 import net.alex9849.arm.regions.price.Price;
@@ -170,9 +169,6 @@ public class ContractRegion extends CountdownRegion {
         }
         if (this.isSold()) {
             throw new AlreadySoldException(Messages.REGION_ALREADY_SOLD);
-        }
-        if (!RegionKind.hasPermission(player, this.getRegionKind())) {
-            throw new NoPermissionException(this.replaceVariables(Messages.NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION));
         }
 
         if (!AdvancedRegionMarket.getInstance().getLimitGroupManager().isCanBuyAnother(player, this.getRegionKind())) {

@@ -749,7 +749,7 @@ public class Gui implements Listener {
             itemcounter++;
         }
 
-        if (RegionKind.SUBREGION.isDisplayInRegionfinder() && RegionKind.hasPermission(player, RegionKind.SUBREGION)) {
+        if (RegionKind.SUBREGION.isDisplayInRegionfinder()) {
             itemcounter++;
         }
 
@@ -791,7 +791,7 @@ public class Gui implements Listener {
             itempos++;
         }
 
-        if (RegionKind.SUBREGION.isDisplayInRegionfinder() && RegionKind.hasPermission(player, RegionKind.SUBREGION)) {
+        if (RegionKind.SUBREGION.isDisplayInRegionfinder()) {
             String displayName = Messages.GUI_REGIONFINDER_REGIONKIND_NAME;
             displayName = RegionKind.SUBREGION.replaceVariables(displayName);
             Material material = RegionKind.SUBREGION.getMaterial();
@@ -821,26 +821,24 @@ public class Gui implements Listener {
                 String displayName = Messages.GUI_REGIONFINDER_REGIONKIND_NAME;
                 displayName = regionKind.replaceVariables(displayName);
                 Material material = regionKind.getMaterial();
-                if (RegionKind.hasPermission(player, regionKind)) {
-                    ItemStack stack = new ItemStack(material);
-                    ItemMeta meta = stack.getItemMeta();
-                    meta.setDisplayName(displayName);
-                    meta.setLore(regionKind.getLore());
-                    stack.setItemMeta(meta);
-                    ClickItem icon = new ClickItem(stack).addClickAction(new ClickAction() {
-                        @Override
-                        public void execute(Player player) throws InputException {
-                            Gui.openRegionFinderSellTypeSelector(player, AdvancedRegionMarket.getInstance().getRegionManager().getFreeRegions(regionKind), new ClickAction() {
-                                @Override
-                                public void execute(Player player) throws InputException {
-                                    Gui.openRegionFinder(player, withGoBack);
-                                }
-                            });
-                        }
-                    });
-                    inv.addIcon(icon, itempos);
-                    itempos++;
-                }
+                ItemStack stack = new ItemStack(material);
+                ItemMeta meta = stack.getItemMeta();
+                meta.setDisplayName(displayName);
+                meta.setLore(regionKind.getLore());
+                stack.setItemMeta(meta);
+                ClickItem icon = new ClickItem(stack).addClickAction(new ClickAction() {
+                    @Override
+                    public void execute(Player player) throws InputException {
+                        Gui.openRegionFinderSellTypeSelector(player, AdvancedRegionMarket.getInstance().getRegionManager().getFreeRegions(regionKind), new ClickAction() {
+                            @Override
+                            public void execute(Player player) throws InputException {
+                                Gui.openRegionFinder(player, withGoBack);
+                            }
+                        });
+                    }
+                });
+                inv.addIcon(icon, itempos);
+                itempos++;
             }
 
         }

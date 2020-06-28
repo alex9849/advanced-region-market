@@ -17,7 +17,6 @@ public class ArmSettings {
     private boolean deleteSubregionsOnParentRegionBlockReset = false;
     private boolean allowParentRegionOwnersBuildOnSubregions = true;
     private boolean removeEntitiesOnRegionBlockReset = true;
-    private boolean activateRegionKindPermissions = false;
     private boolean createBackupOnRegionUnsell = true;
     private boolean createBackupOnRegionRestore = true;
     private boolean isAllowTeleportToBuySign = true;
@@ -48,10 +47,6 @@ public class ArmSettings {
 
     public boolean isCreateBackupOnRegionRestore() {
         return createBackupOnRegionRestore;
-    }
-
-    public boolean isActivateRegionKindPermissions() {
-        return this.activateRegionKindPermissions;
     }
 
     public boolean isAllowSubRegionUserRestore() {
@@ -177,10 +172,6 @@ public class ArmSettings {
 
     public void setAllowParentRegionOwnersBuildOnSubregions(boolean allowParentRegionOwnersBuildOnSubregions) {
         this.allowParentRegionOwnersBuildOnSubregions = allowParentRegionOwnersBuildOnSubregions;
-    }
-
-    public void setActivateRegionKindPermissions(boolean activateRegionKindPermissions) {
-        this.activateRegionKindPermissions = activateRegionKindPermissions;
     }
 
     public void setIsAllowTeleportToBuySign(boolean isAllowTeleportToBuySign) {

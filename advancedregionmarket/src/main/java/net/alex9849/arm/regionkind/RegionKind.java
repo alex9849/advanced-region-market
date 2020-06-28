@@ -2,14 +2,12 @@ package net.alex9849.arm.regionkind;
 
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
-import net.alex9849.arm.Permission;
 import net.alex9849.arm.util.MaterialFinder;
 import net.alex9849.arm.util.Saveable;
 import net.alex9849.arm.util.stringreplacer.StringCreator;
 import net.alex9849.arm.util.stringreplacer.StringReplacer;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -83,17 +81,6 @@ public class RegionKind implements LimitGroupElement, Saveable {
         this.displayInRegionFinder = displayInRegionFinder;
         this.displayInLimits = displayInLimits;
         this.needsSave = false;
-    }
-
-    public static boolean hasPermission(CommandSender sender, RegionKind regionKind) {
-        if (!AdvancedRegionMarket.getInstance().getPluginSettings().isActivateRegionKindPermissions()) {
-            return true;
-        }
-        if (regionKind == RegionKind.DEFAULT) {
-            return true;
-        } else {
-            return sender.hasPermission(Permission.ARM_BUYKIND + regionKind.getName());
-        }
     }
 
     public static RegionKind parse(ConfigurationSection confSection, String name) {

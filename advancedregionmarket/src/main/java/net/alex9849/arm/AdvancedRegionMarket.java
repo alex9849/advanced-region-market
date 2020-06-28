@@ -170,7 +170,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
         this.pluginSettings.setSignRightClickNotSneakCommand(getConfig().getString("SignClickActions.RightClickNotSneakCmd"));
         this.pluginSettings.setSignLeftClickSneakCommand(getConfig().getString("SignClickActions.LeftClickSneakCmd"));
         this.pluginSettings.setSignLeftClickNotSneakCommand(getConfig().getString("SignClickActions.LeftClickNotSneakCmd"));
-        this.pluginSettings.setActivateRegionKindPermissions(getConfig().getBoolean("RegionKinds.activateRegionKindPermissions"));
         this.pluginSettings.setCreateBackupOnRegionRestore(getConfig().getBoolean("Backups.createBackupOnRegionRestore"));
         this.pluginSettings.setCreateBackupOnRegionUnsell(getConfig().getBoolean("Backups.createBackupOnRegionUnsell"));
         this.pluginSettings.setMaxSubRegionMembers(getConfig().getInt("Subregions.SubregionMaxMembers"));

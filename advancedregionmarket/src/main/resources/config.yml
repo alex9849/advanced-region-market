@@ -117,11 +117,6 @@ DefaultInactivityExpiration:
   resetAfter: 'none'
   takeOverAfter: 'none'
 
-RegionKinds:
-  # If true players need the permission 'arm.buykind.REGIONKIND_INTERNAL_NAME' to see the regionkind in the regionfinder
-  # and to be able to buy them. Replace REGIONKIND_INTERNAL_NAME with the internal name of the regionkind
-  activateRegionKindPermissions: false
-
 SignLinkingMode:
   # The regions listed below will automatically be ignored if you try to select a region via SignLinkingMode
   regionblacklist:

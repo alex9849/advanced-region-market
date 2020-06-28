@@ -94,21 +94,15 @@ public class RegionKindManager extends YamlFileManager<RegionKind> {
         List<String> returnme = new ArrayList<>();
 
         for (RegionKind regionkind : this) {
-            if (player == null || RegionKind.hasPermission(player, regionkind)) {
-                if ((returnPrefix + regionkind.getName()).toLowerCase().startsWith(arg)) {
-                    returnme.add(returnPrefix + regionkind.getName());
-                }
+            if ((returnPrefix + regionkind.getName()).toLowerCase().startsWith(arg)) {
+                returnme.add(returnPrefix + regionkind.getName());
             }
         }
         if ((returnPrefix + "default").startsWith(arg)) {
-            if (player == null || RegionKind.hasPermission(player, RegionKind.DEFAULT)) {
-                returnme.add(returnPrefix + "default");
-            }
+            returnme.add(returnPrefix + "default");
         }
         if ((returnPrefix + "subregion").startsWith(arg)) {
-            if (player == null || RegionKind.hasPermission(player, RegionKind.SUBREGION)) {
-                returnme.add(returnPrefix + "subregion");
-            }
+            returnme.add(returnPrefix + "subregion");
         }
 
         return returnme;

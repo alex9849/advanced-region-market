@@ -69,16 +69,12 @@
     <dependency>
       <groupId>org.spigotmc</groupId>
       <artifactId>spigot-api</artifactId>
-      <version>1.12.2-R0.1-SNAPSHOT</version>
+      <version>1.16.1-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
       <exclusions>
         <exclusion>
           <artifactId>commons-lang</artifactId>
           <groupId>commons-lang</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>json-simple</artifactId>
-          <groupId>com.googlecode.json-simple</groupId>
         </exclusion>
         <exclusion>
           <artifactId>guava</artifactId>
@@ -87,38 +83,10 @@
         <exclusion>
           <artifactId>gson</artifactId>
           <groupId>com.google.code.gson</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>snakeyaml</artifactId>
-          <groupId>org.yaml</groupId>
         </exclusion>
         <exclusion>
           <artifactId>bungeecord-chat</artifactId>
           <groupId>net.md-5</groupId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>org.bukkit</groupId>
-      <artifactId>bukkit</artifactId>
-      <version>1.12.2-R0.1-SNAPSHOT</version>
-      <scope>provided</scope>
-      <exclusions>
-        <exclusion>
-          <artifactId>commons-lang</artifactId>
-          <groupId>commons-lang</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>json-simple</artifactId>
-          <groupId>com.googlecode.json-simple</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>guava</artifactId>
-          <groupId>com.google.guava</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>gson</artifactId>
-          <groupId>com.google.code.gson</groupId>
         </exclusion>
         <exclusion>
           <artifactId>snakeyaml</artifactId>
@@ -129,44 +97,52 @@
     <dependency>
       <groupId>com.sk89q.worldedit</groupId>
       <artifactId>worldedit-bukkit</artifactId>
-      <version>6.1.1-SNAPSHOT</version>
+      <version>7.2.0-SNAPSHOT</version>
       <scope>provided</scope>
       <exclusions>
-        <exclusion>
-          <artifactId>dummypermscompat</artifactId>
-          <groupId>com.sk89q</groupId>
-        </exclusion>
         <exclusion>
           <artifactId>worldedit-core</artifactId>
           <groupId>com.sk89q.worldedit</groupId>
         </exclusion>
         <exclusion>
-          <artifactId>bukkit-classloader-check</artifactId>
-          <groupId>org.sk89q.bukkit</groupId>
+          <artifactId>bukkit</artifactId>
+          <groupId>com.sk89q.worldedit.worldedit-libs</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>bukkit</artifactId>
+          <groupId>org.bukkit</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>paperlib</artifactId>
+          <groupId>io.papermc</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>log4j-slf4j-impl</artifactId>
+          <groupId>org.apache.logging.log4j</groupId>
         </exclusion>
       </exclusions>
     </dependency>
     <dependency>
-      <groupId>com.sk89q</groupId>
-      <artifactId>worldguard</artifactId>
-      <version>6.1</version>
+      <groupId>com.sk89q.worldguard</groupId>
+      <artifactId>worldguard-bukkit</artifactId>
+      <version>7.0.3</version>
       <scope>provided</scope>
       <exclusions>
         <exclusion>
-          <artifactId>worldedit</artifactId>
-          <groupId>com.sk89q</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>bukkit-classloader-check</artifactId>
-          <groupId>com.sk89q.spigot</groupId>
+          <artifactId>worldguard-core</artifactId>
+          <groupId>com.sk89q.worldguard</groupId>
         </exclusion>
         <exclusion>
           <artifactId>commandbook</artifactId>
           <groupId>com.sk89q</groupId>
         </exclusion>
         <exclusion>
-          <artifactId>jsr305</artifactId>
-          <groupId>com.google.code.findbugs</groupId>
+          <artifactId>bukkit</artifactId>
+          <groupId>org.bukkit</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>paperlib</artifactId>
+          <groupId>io.papermc</groupId>
         </exclusion>
       </exclusions>
     </dependency>
@@ -175,12 +151,12 @@
       <artifactId>VaultAPI</artifactId>
       <version>1.7</version>
       <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.boydti</groupId>
-      <artifactId>fawe-api</artifactId>
-      <version>latest</version>
-      <scope>provided</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>bukkit</artifactId>
+          <groupId>org.bukkit</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
   </dependencies>
 </project>

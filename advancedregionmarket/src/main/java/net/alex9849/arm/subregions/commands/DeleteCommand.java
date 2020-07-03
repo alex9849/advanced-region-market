@@ -53,7 +53,7 @@ public class DeleteCommand extends BasicArmCommand {
             throw new InputException(player, Messages.NOT_ALLOWED_TO_REMOVE_SUBREGION_AVAILABLE);
         }
 
-        region.delete(AdvancedRegionMarket.getInstance().getRegionManager());
+        region.delete();
         player.sendMessage(Messages.PREFIX + Messages.REGION_DELETED);
         return true;
     }

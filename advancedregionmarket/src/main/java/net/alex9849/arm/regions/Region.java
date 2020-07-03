@@ -685,14 +685,23 @@ public abstract class Region implements Saveable {
         this.queueSave();
     }
 
-    public void delete(RegionManager regionManager) {
+    public void deleteSigns() {
         for (int i = 0; i < this.sellsign.size(); i++) {
             Location loc = this.sellsign.get(i).getLocation();
             loc.getBlock().setType(Material.AIR);
             this.removeSign(loc);
             i--;
         }
+    }
 
+    /**
+     * This will remove all signs, flags ans subregions from the region
+     * If the region is registred in a regionManager, it still need to be removed from
+     * there in order to be deleted completly
+     * @param regionManager
+     */
+    public void delete() {
+        this.deleteSigns();
         if(FlagGroup.isFeatureEnabled())
             this.getRegion().deleteAllFlags();
         if (this.isSubregion()) {
@@ -701,9 +710,8 @@ public abstract class Region implements Saveable {
             this.getParentRegion().queueSave();
         } else {
             for(Region subregion : this.getSubregions()) {
-                subregion.delete(regionManager);
+                subregion.delete();
             }
-            regionManager.remove(this);
         }
     }
 
@@ -892,7 +900,7 @@ public abstract class Region implements Saveable {
             while (subRegions.hasNext()) {
                 Region subRegion = subRegions.next();
                 subRegions.remove();
-                subRegion.delete(null);
+                subRegion.delete();
             }
         }
         this.resetBuiltBlocks();
@@ -1053,7 +1061,7 @@ public abstract class Region implements Saveable {
             while (subRegions.hasNext()) {
                 Region subRegion = subRegions.next();
                 subRegions.remove();
-                subRegion.delete(null);
+                subRegion.delete();
             }
         }
 

@@ -264,7 +264,8 @@ public class SignModifyListener implements Listener {
         String message = Messages.SIGN_REMOVED_FROM_REGION.replace("%remaining%", region.getNumberOfSigns() + "");
         player.sendMessage(Messages.PREFIX + message);
         if(region.getNumberOfSigns() == 0) {
-            region.delete(AdvancedRegionMarket.getInstance().getRegionManager());
+            region.delete();
+            AdvancedRegionMarket.getInstance().getRegionManager().remove(region);
             player.sendMessage(Messages.PREFIX + Messages.REGION_REMOVED_FROM_ARM);
         }
     }

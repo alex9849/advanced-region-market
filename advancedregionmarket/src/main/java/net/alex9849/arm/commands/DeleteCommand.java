@@ -34,7 +34,8 @@ public class DeleteCommand extends BasicArmCommand {
         }
 
         region.unsell(Region.ActionReason.DELETE, false, true);
-        region.delete(AdvancedRegionMarket.getInstance().getRegionManager());
+        region.delete();
+        AdvancedRegionMarket.getInstance().getRegionManager().remove(region);
 
         player.sendMessage(Messages.PREFIX + region.getRegion().getId() + " deleted!");
         return true;

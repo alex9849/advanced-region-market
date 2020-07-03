@@ -253,7 +253,7 @@ public class Messages {
     public static String PRESET_SAVED;
     @Message(name = "PresetAlreadyExists", message = "&4A preset with this name already exists!")
     public static String PRESET_ALREADY_EXISTS;
-    @Message(name = "PresetPlayerDontHasPreset", message = "&4You do not have a preset!")
+    @Message(name = "PresetPlayerDontHasPreset", message = "&4You do not have a preset loaded!")
     public static String PRESET_PLAYER_DONT_HAS_PRESET;
     @Message(name = "PresetDeleted", message = "&aPreset deleted!")
     public static String PRESET_DELETED;
@@ -722,6 +722,8 @@ public class Messages {
     public static String ENTITYLIMITGROUP_EXTRA_ENTITIES_SET_SUBREGION_ERROR;
     @Message(name = "EntityLimitGroupExtraEntitiesBuySubregionError", message = "&4Can not expand entitylimit! Region is a Subregion")
     public static String ENTITYLIMITGROUP_EXTRA_ENTITIES_BUY_SUBREGION_ERROR;
+    @Message(name = "ApplyPresetSubregionError", message = "&4Can not apply preset! Region is a subregion")
+    public static String APPLY_PRESET_SUBREGION_ERROR;
     @Message(name = "EntityLimitGroupCouldNotspawnEntity", message = "&4Could not spawn entity on region &6%region%&4!\n" +
             "The not spawned entity would exceed the region\'s entitylimit. For more information type &6/arm entitylimit check %region%&4!\n" +
             "Everybody on region %region% received this message! If you are not a member of this region, you can ignore this message.")

@@ -303,6 +303,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         List<BasicArmCommand> commands = new ArrayList<>();
         String[] betweencmds = {};
         commands.add(new AddMemberCommand());
+        commands.add(new ApplyPresetCommand());
         commands.add(new SetInactivityResetCommand());
         commands.add(new DeleteCommand());
         commands.add(new AddCommand());

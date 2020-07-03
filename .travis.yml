@@ -9,7 +9,6 @@ jdk:
   - openjdk8
 
 script:
-  - "mvn versions:set -DnewVersion=$TRAVIS_TAG"
   - mvn clean
   - mvn install
 after_success:

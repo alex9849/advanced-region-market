@@ -3,6 +3,7 @@ package net.alex9849.arm.handler;
 import net.alex9849.arm.commands.BasicArmCommand;
 import net.alex9849.arm.exceptions.CmdSyntaxException;
 import net.alex9849.arm.exceptions.InputException;
+import net.alex9849.arm.exceptions.NoPermissionException;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -43,7 +44,7 @@ public class CommandHandler implements TabCompleter {
         this.commands.add(cmd);
     }
 
-    public boolean executeCommand(CommandSender sender, String command, String commandLabel) throws InputException, CmdSyntaxException {
+    public boolean executeCommand(CommandSender sender, String command, String commandLabel) throws InputException, CmdSyntaxException, NoPermissionException {
         String[] args = command.split(" ");
         for (BasicArmCommand armCommand : this.commands) {
             if (args[0].equalsIgnoreCase(armCommand.getRootCommand())) {

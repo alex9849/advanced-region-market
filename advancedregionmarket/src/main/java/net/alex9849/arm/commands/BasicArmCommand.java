@@ -3,6 +3,7 @@ package net.alex9849.arm.commands;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.exceptions.CmdSyntaxException;
 import net.alex9849.arm.exceptions.InputException;
+import net.alex9849.arm.exceptions.NoPermissionException;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
@@ -51,7 +52,7 @@ public abstract class BasicArmCommand {
         || this.getPermissions().stream().anyMatch(x -> player.hasPermission(x));
     }
 
-    public boolean runCommand(CommandSender sender, String command, String commandLabel) throws InputException, CmdSyntaxException {
+    public boolean runCommand(CommandSender sender, String command, String commandLabel) throws InputException, CmdSyntaxException, NoPermissionException {
         if (!this.isConsoleCommand() && sender instanceof ConsoleCommandSender) {
             throw new InputException(sender, Messages.COMMAND_ONLY_INGAME);
         }
@@ -59,7 +60,7 @@ public abstract class BasicArmCommand {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (!hasPermission(player)) {
-                throw new InputException(player, Messages.NO_PERMISSION);
+                throw new NoPermissionException(Messages.NO_PERMISSION);
             }
         }
 
@@ -90,7 +91,7 @@ public abstract class BasicArmCommand {
         return returnme;
     }
 
-    protected abstract boolean runCommandLogic(CommandSender sender, String command, String commandLabel) throws InputException, CmdSyntaxException;
+    protected abstract boolean runCommandLogic(CommandSender sender, String command, String commandLabel) throws InputException, CmdSyntaxException, NoPermissionException;
 
     /**
      * @param player Has the permission to execute this command

@@ -17,6 +17,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class WorldGuard7 extends WorldGuardInterface {
     private HashMap<ProtectedRegion, WG7Region> createdRegions = new HashMap<ProtectedRegion, WG7Region>();
@@ -105,6 +106,18 @@ public class WorldGuard7 extends WorldGuardInterface {
     @Override
     public RegionGroup parseFlagInput(RegionGroupFlag flag, String input) throws InvalidFlagFormat {
         return flag.parseInput(FlagContext.create().setInput(input).build());
+    }
+
+    @Override
+    public List<String> tabCompleteRegions(String regionName, World world) {
+        Map<String, ProtectedRegion> regions = this.getRegionManager(world).getRegions();
+        List<String> regionIds = new ArrayList<>();
+        for(Map.Entry<String, ProtectedRegion> entry : regions.entrySet()) {
+            if(entry.getKey().toLowerCase().startsWith(regionName.toLowerCase())) {
+                regionIds.add(entry.getValue().getId());
+            }
+        }
+        return regionIds;
     }
 
 }

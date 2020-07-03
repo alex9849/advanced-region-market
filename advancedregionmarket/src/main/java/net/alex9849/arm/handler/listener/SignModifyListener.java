@@ -186,7 +186,7 @@ public class SignModifyListener implements Listener {
                 AdvancedRegionMarket.getInstance().getRegionManager().add(newArmRegion);
                 newArmRegion.updateSigns();
                 sign.setCancelled(true);
-                sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_ADDED_TO_ARM);
+                sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_AND_SIGN_ADDED_TO_ARM);
                 return;
             }
 
@@ -264,9 +264,7 @@ public class SignModifyListener implements Listener {
         String message = Messages.SIGN_REMOVED_FROM_REGION.replace("%remaining%", region.getNumberOfSigns() + "");
         player.sendMessage(Messages.PREFIX + message);
         if(region.getNumberOfSigns() == 0) {
-            region.delete();
-            AdvancedRegionMarket.getInstance().getRegionManager().remove(region);
-            player.sendMessage(Messages.PREFIX + Messages.REGION_REMOVED_FROM_ARM);
+            player.sendMessage(Messages.PREFIX + region.replaceVariables(Messages.REGION_ZERO_SIGNS_REACHED));
         }
     }
 

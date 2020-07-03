@@ -51,7 +51,7 @@ public class Messages {
         public int version() default 0;
     }
 
-    //Current version = 2
+    //Current version = 3
     @Message(name = "Prefix", message = "&b[ARM]&r ", version = 1)
     public static String PREFIX;
     @Message(name = "Buymessage", message = "&aRegion successfully bought!")
@@ -66,14 +66,18 @@ public class Messages {
     public static String WORLD_DOES_NOT_EXIST;
     @Message(name = "RegionDoesNotExist", message = "&4The selected region does not exist in this (or the selected) world!")
     public static String REGION_DOES_NOT_EXIST;
-    @Message(name = "RegionAddedToARM", message = "&7Regionsign has been created and region has been added to ARM!")
+    @Message(name = "WGRegionNotFound", message = "&4Could not find region! Make sure to execute this command in the same world in that the region exists! Some versions of WorldGuard require a case-sensitive region name!")
+    public static String WGREGION_NOT_FOUND;
+    @Message(name = "RegionAddedToARM", message = "&7Region has been created and added to ARM!", version = 3)
     public static String REGION_ADDED_TO_ARM;
+    @Message(name = "RegionAndSignAddedToARM", message = "&7Regionsign has been created and region has been added to ARM!")
+    public static String REGION_AND_SIGN_ADDED_TO_ARM;
     @Message(name = "SignAddedToRegion", message = "&7Region already exists! The sign has been added to the region!")
     public static String SIGN_ADDED_TO_REGION;
-    @Message(name = "SignRemovedFromRegion", message = "&7Regionsign removed! %remaining% Sign(s) remaining before region gets removed from ARM!")
+    @Message(name = "SignRemovedFromRegion", message = "&7Regionsign removed! %remaining% Sign(s) remaining!", version = 3)
     public static String SIGN_REMOVED_FROM_REGION;
-    @Message(name = "RegionRemovedFromARM", message = "&7The region has been removed from ARM!")
-    public static String REGION_REMOVED_FROM_ARM;
+    @Message(name = "RegionZeroSignsReached", message = "&7You've deleted the last sign of this region! Please note that this region has &4&l&nNOT BEEN REMOVED FROM ARM!!&r &7If you want to unregister this region execute &6/arm delete %regionid%&7!")
+    public static String REGION_ZERO_SIGNS_REACHED;
     @Message(name = "SellSign1", message = "&2For Sale")
     public static String SELL_SIGN1;
     @Message(name = "SellSign2", message = "%regionid%")
@@ -329,6 +333,8 @@ public class Messages {
     public static String YES;
     @Message(name = "RegionInfoNo", message = "&4no")
     public static String NO;
+    @Message(name = "RegionAleadyRegistred", message = "&4Region already registered! &c(If you want to delete and re-add it. Delete it first with &6/arm delete [REGION-ID]&c!)")
+    public static String REGION_ALREADY_REGISTERED;
     @Message(name = "UnknownUUID", message = "Unknown UUID")
     public static String UNKNOWN_UUID;
     @Message(name = "RegionStats", message = "&6=========[Region stats]=========")

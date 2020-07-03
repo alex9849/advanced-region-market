@@ -11,6 +11,7 @@ import net.alex9849.arm.entitylimit.commands.ListCommand;
 import net.alex9849.arm.entitylimit.commands.*;
 import net.alex9849.arm.exceptions.CmdSyntaxException;
 import net.alex9849.arm.exceptions.InputException;
+import net.alex9849.arm.exceptions.NoPermissionException;
 import net.alex9849.arm.exceptions.SchematicNotFoundException;
 import net.alex9849.arm.flaggroups.FlagGroup;
 import net.alex9849.arm.flaggroups.FlagGroupManager;
@@ -304,6 +305,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         commands.add(new AddMemberCommand());
         commands.add(new SetInactivityResetCommand());
         commands.add(new DeleteCommand());
+        commands.add(new AddCommand());
         commands.add(new SetAutoRestoreCommand());
         commands.add(new ExtendCommand());
         commands.add(new RegionfinderCommand());
@@ -821,6 +823,9 @@ public class AdvancedRegionMarket extends JavaPlugin {
                 }
                 sender.sendMessage(Messages.PREFIX + message);
             }
+            return true;
+        } catch (NoPermissionException e) {
+            sender.sendMessage(Messages.PREFIX + e.getMessage());
             return true;
         }
     }

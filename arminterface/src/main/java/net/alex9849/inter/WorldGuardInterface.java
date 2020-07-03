@@ -31,5 +31,7 @@ public abstract class WorldGuardInterface {
 
     public abstract RegionGroup parseFlagInput(RegionGroupFlag flag, String input) throws InvalidFlagFormat;
 
+    public abstract List<String> tabCompleteRegions(String regionName, World world);
+
     public abstract Flag fuzzyMatchFlag(String id);
 }

@@ -12,7 +12,6 @@
         <module>arminterface</module>
         <module>advancedregionmarket</module>
         <module>we6adapter</module>
-        <module>wg7adapter</module>
         <module>we7adapter</module>
         <module>we6faweadapter</module>
         <module>mc1-12adapter</module>
@@ -20,6 +19,7 @@
         <module>mc1-14adapter</module>
         <module>wg6_1adapter</module>
         <module>wg6_2adapter</module>
+        <module>wg7adapter</module>
     </modules>
 
     <properties>

@@ -695,10 +695,9 @@ public abstract class Region implements Saveable {
     }
 
     /**
-     * This will remove all signs, flags ans subregions from the region
-     * If the region is registred in a regionManager, it still need to be removed from
-     * there in order to be deleted completly
-     * @param regionManager
+     * This will remove all signs, flags and subregions from the region
+     * If the region is registred in a regionManager, it still needs to be removed from
+     * there in order to be deleted completely
      */
     public void delete() {
         this.deleteSigns();

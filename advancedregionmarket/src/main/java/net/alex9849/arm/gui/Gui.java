@@ -914,10 +914,11 @@ public class Gui implements Listener {
             ItemStack itemStack = getRegionDisplayItem(region, Messages.GUI_REGIONFINDER_REGION_INFO_RENT, Messages.GUI_REGIONFINDER_REGION_INFO_SELL, Messages.GUI_REGIONFINDER_REGION_INFO_CONTRACT);
             boolean tpToRegionPermission = player.hasPermission(Permission.MEMBER_REGIONFINDER_TP_TO_REGION);
             boolean tpToSignPermission = player.hasPermission(Permission.MEMBER_REGIONFINDER_TP_TO_SIGN);
+            boolean hasSign = region.getNumberOfSigns() != 0;
             ClickItem clickItem = new ClickItem(itemStack).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
-                    if(tpToRegionPermission && tpToSignPermission) {
+                    if(tpToRegionPermission && tpToSignPermission && hasSign) {
                         Gui.openRegionFinderTeleportLocationSeceltor(player, region);
                         return;
                     }
@@ -925,7 +926,7 @@ public class Gui implements Listener {
                         new TeleportToRegionClickAction(region).execute(player);
 
                     }
-                    if (tpToSignPermission) {
+                    if (tpToSignPermission && hasSign) {
                         try {
                             region.teleport(player, true);
                             player.closeInventory();

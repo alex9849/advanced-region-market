@@ -20,6 +20,7 @@ permissions:
     children:
       arm.admin.listbackups: true
       arm.admin.restorebackup: true
+      arm.admin.preset.apply: true
       arm.admin.createbackup: true
       arm.inactivityexpiration.unlimited: true
       arm.admin.setinactivityreset: true
@@ -180,6 +181,9 @@ permissions:
     default: op
   arm.admin.create.rentregion:
     description: Allow to create rentregions
+    default: op
+  arm.admin.preset.apply:
+    description: Allows to manually apply a preset to a region
     default: op
   arm.admin.create.contractregion:
     description: Allow to create contractregions

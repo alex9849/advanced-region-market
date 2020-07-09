@@ -51,7 +51,7 @@ public class Messages {
         public int version() default 0;
     }
 
-    //Current version = 3
+    //Current version = 4
     @Message(name = "Prefix", message = "&b[ARM]&r ", version = 1)
     public static String PREFIX;
     @Message(name = "Buymessage", message = "&aRegion successfully bought!")
@@ -265,7 +265,7 @@ public class Messages {
     public static String GUI_REGION_ITEM_NAME;
     @Message(name = "GUIRegionFinderRegionKindName", message = "&a&l%regionkinddisplay%")
     public static String GUI_REGIONFINDER_REGIONKIND_NAME;
-    @Message(name = "RentRegionExpirationWarning", message = "&4WARNING! This RentRegion(s) will expire soon: &c")
+    @Message(name = "RentRegionExpirationWarning", version = 4, message = "&4&lWARNING! &r&4Your RentRegion &6%regionid% &4will expire in about &6%remainingtime-countdown-writtenout%&4!")
     public static String RENTREGION_EXPIRATION_WARNING;
     @Message(name = "ContractSign1", message = "&2Contract")
     public static String CONTRACT_SIGN1;

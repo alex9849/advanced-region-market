@@ -71,18 +71,14 @@ public class PlayerJoinQuitEvent implements Listener {
 
     private static void sendExpirationWarnings(Player player) {
         AdvancedRegionMarket plugin = AdvancedRegionMarket.getInstance();
-        List<RentRegion> expiringRentRegions = new ArrayList<>();
 
         for (Region region : plugin.getRegionManager().getRegionsByOwner(player.getUniqueId())) {
             if (region instanceof RentRegion) {
                 RentRegion rentRegion = (RentRegion) region;
                 if ((rentRegion.getPayedTill() - (new GregorianCalendar().getTimeInMillis())) <= plugin.getPluginSettings().getRentRegionExpirationWarningTime()) {
-                    expiringRentRegions.add(rentRegion);
+                    player.sendMessage(rentRegion.replaceVariables(Messages.PREFIX + Messages.RENTREGION_EXPIRATION_WARNING));
                 }
             }
-        }
-        if (expiringRentRegions.size() > 0) {
-            player.sendMessage(Messages.PREFIX + Messages.RENTREGION_EXPIRATION_WARNING + Messages.getStringList(expiringRentRegions, x -> x.getRegion().getId(), ", "));
         }
     }
 

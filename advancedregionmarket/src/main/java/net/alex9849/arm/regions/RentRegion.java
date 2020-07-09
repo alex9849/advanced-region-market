@@ -37,6 +37,15 @@ public class RentRegion extends CountdownRegion {
         variableReplacements.put("%maxrenttime-writtenout%", () -> {
             return TimeUtil.timeInMsToString(this.getMaxRentTime(), true, false);
         });
+        variableReplacements.put("%extendtime-current-writtenout%", () -> {
+            return TimeUtil.timeInMsToString(this.getCurrentExtendTime(), true, false);
+        });
+        variableReplacements.put("%extendtime-current-short%", () -> {
+            return TimeUtil.timeInMsToString(this.getCurrentExtendTime(), false, false);
+        });
+        variableReplacements.put("%price-current%", () -> {
+            return Price.formatPrice(this.getCurrentExtendPrice());
+        });
 
         this.stringReplacer = new StringReplacer(variableReplacements, 50);
     }
@@ -56,15 +65,34 @@ public class RentRegion extends CountdownRegion {
         return this.rentPrice;
     }
 
-    public void signClickAction(Player player) throws OutOfLimitExeption, AlreadySoldException, NotSoldException, NoPermissionException, NotEnoughMoneyException, RegionNotOwnException, MaxRentTimeExceededException {
+    public void signClickAction(Player player) throws OutOfLimitExeption, AlreadySoldException, NotSoldException, NoPermissionException, NotEnoughMoneyException, RegionNotOwnException {
         if(this.isSold()) {
-            this.extendNoteMaxRentTime(player);
+            this.extend(player);
         } else {
             this.buy(player);
         }
     }
 
-    public void extendNoteMaxRentTime(Player player) throws MaxRentTimeExceededException, NotEnoughMoneyException, RegionNotOwnException, NotSoldException, NoPermissionException {
+    /**
+     * The amount of time the region would be extended if a player would try to extend it now.
+     * @return A number larger or equal to 0 and smaller or equal to the ExtendTime
+     */
+    public long getCurrentExtendTime() {
+        long actualTime = new GregorianCalendar().getTimeInMillis();
+        long remainingTime = this.getPayedTill() - actualTime;
+        //Calculate the extend time. The minimal value will not exceed the MaxRentTime
+        return Math.min(this.getExtendTime(), Math.max(0, this.getMaxRentTime() - remainingTime));
+    }
+
+    public double getCurrentExtendPrice() {
+        return this.getPricePerPeriod() * this.getCurrentExtendTime() / this.getExtendTime();
+    }
+
+    public void extend() {
+        this.extend(getCurrentExtendTime());
+    }
+
+    public void extend(Player player) throws NotEnoughMoneyException, RegionNotOwnException, NotSoldException, NoPermissionException {
         if (!player.hasPermission(Permission.MEMBER_BUY)) {
             throw new NoPermissionException(Messages.NO_PERMISSION);
         }
@@ -77,11 +105,12 @@ public class RentRegion extends CountdownRegion {
             throw new RegionNotOwnException(Messages.REGION_NOT_OWN);
         }
 
-        if (AdvancedRegionMarket.getInstance().getEcon().getBalance(player) < this.getPricePerPeriod()) {
+        if (AdvancedRegionMarket.getInstance().getEcon().getBalance(player) < this.getCurrentExtendPrice()) {
             throw new NotEnoughMoneyException(this.replaceVariables(Messages.NOT_ENOUGH_MONEY));
         }
 
-        this.extendNoteMaxRentTime();
+        String successMessage = Messages.PREFIX + this.replaceVariables(Messages.RENT_EXTEND_MESSAGE);
+        this.extend();
         if (AdvancedRegionMarket.getInstance().getPluginSettings().isTeleportAfterRentRegionExtend()) {
             try {
                 Teleporter.teleport(player, this, "", AdvancedRegionMarket.getInstance().getConfig().getBoolean("Other.TeleportAfterRegionBoughtCountdown"));
@@ -91,14 +120,13 @@ public class RentRegion extends CountdownRegion {
                 }
             }
         }
-        AdvancedRegionMarket.getInstance().getEcon().withdrawPlayer(player, this.getPricePerPeriod());
-        this.giveLandlordMoney(this.getPricePerPeriod());
-
-        player.sendMessage(Messages.PREFIX + this.replaceVariables(Messages.RENT_EXTEND_MESSAGE));
+        AdvancedRegionMarket.getInstance().getEcon().withdrawPlayer(player, this.getCurrentExtendPrice());
+        this.giveLandlordMoney(this.getCurrentExtendPrice());
+        player.sendMessage(successMessage);
     }
 
     @Override
-    public void buy(Player player) throws NoPermissionException, AlreadySoldException, OutOfLimitExeption, NotEnoughMoneyException, MaxRentTimeExceededException {
+    public void buy(Player player) throws NoPermissionException, AlreadySoldException, OutOfLimitExeption, NotEnoughMoneyException {
 
         if (!player.hasPermission(Permission.MEMBER_BUY)) {
             throw new NoPermissionException(Messages.NO_PERMISSION);
@@ -170,14 +198,6 @@ public class RentRegion extends CountdownRegion {
             }
         }
         super.updateRegion();
-    }
-
-    public void extendNoteMaxRentTime() throws MaxRentTimeExceededException {
-        long actualTime = new GregorianCalendar().getTimeInMillis();
-        if ((this.getPayedTill() + this.getExtendTime()) - actualTime > this.getMaxRentTime()) {
-            throw new MaxRentTimeExceededException(this.replaceVariables(Messages.RENT_EXTEND_MAX_RENT_TIME_EXCEEDED));
-        }
-        this.extend();
     }
 
     public void setRentPrice(RentPrice rentPrice) {

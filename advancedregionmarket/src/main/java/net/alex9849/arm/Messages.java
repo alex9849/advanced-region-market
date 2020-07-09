@@ -205,10 +205,8 @@ public class Messages {
     public static String RENTED_SIGN3;
     @Message(name = "RentedSign4", message = "%remainingtime-countdown-short%")
     public static String RENTED_SIGN4;
-    @Message(name = "RentExtendMessage", message = "&aRegion extended for &6%extendtime-writtenout%&a (For %price%%currency%. Remaining time: &6%remainingtime-countdown-short%")
+    @Message(name = "RentExtendMessage", version = 4, message = "&aRegion extended for &6%extendtime-current-writtenout%&a (For %price-current%%currency%. Remaining time: &6%remainingtime-countdown-short%")
     public static String RENT_EXTEND_MESSAGE;
-    @Message(name = "RentExtendMaxRentTimeExceeded", message = "&4You can not pay this region for more than &6%maxrenttime-writtenout% &4in advance!")
-    public static String RENT_EXTEND_MAX_RENT_TIME_EXCEEDED;
     @Message(name = "GUIExtendRentRegionButton", message = "&1Extend region")
     public static String GUI_EXTEND_BUTTON;
     @Message(name = "Complete", message = "&aComplete!")
@@ -1043,8 +1041,8 @@ public class Messages {
             "&cwill lose their rights.",
             "&cAfterwards it will go back for sale!"})
     public static List<String> GUI_TAKEOVER_ITEM_LORE;
-    @Message(name = "GUIExtendRentRegionButtonLore", message = {"&aClick to extend your region for &6%extendtime-writtenout%",
-            "&athis will cost you &6%price%%currency%&a!",
+    @Message(name = "GUIExtendRentRegionButtonLore", version = 4, message = {"&aClick to extend your region for &6%extendtime-current-writtenout%",
+            "&athis will cost you &6%price-current%%currency%&a!",
             "&aThis region will expire in &6%remainingtime-countdown-short%&a.",
             "&aYou can extend your region up to &6%maxrenttime-writtenout%&a."})
     public static List<String> GUI_EXTEND_BUTTON_LORE;

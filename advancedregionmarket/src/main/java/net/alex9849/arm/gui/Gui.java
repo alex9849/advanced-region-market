@@ -295,9 +295,9 @@ public class Gui implements Listener {
                 @Override
                 public void execute(Player player) throws InputException {
                     try {
-                        ((RentRegion) region).extendNoteMaxRentTime(player);
+                        ((RentRegion) region).extend(player);
                         Gui.openRegionOwnerManager(player, region);
-                    } catch (NoPermissionException | NotEnoughMoneyException | MaxRentTimeExceededException
+                    } catch (NoPermissionException | NotEnoughMoneyException
                             | RegionNotOwnException | NotSoldException e) {
                         if (e.hasMessage()) player.sendMessage(Messages.PREFIX + e.getMessage());
                     }

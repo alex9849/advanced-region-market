@@ -63,7 +63,7 @@ public class SignClickListener implements Listener {
             try {
                 region.signClickAction(player);
             } catch (NoPermissionException | OutOfLimitExeption | NotEnoughMoneyException | AlreadySoldException
-                    | MaxRentTimeExceededException | NotSoldException | RegionNotOwnException e) {
+                    | NotSoldException | RegionNotOwnException e) {
                 if (e.hasMessage()) player.sendMessage(Messages.PREFIX + e.getMessage());
             }
 

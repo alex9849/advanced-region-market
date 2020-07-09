@@ -42,8 +42,8 @@ public class ExtendCommand extends BasicArmCommand {
         }
 
         try {
-            ((RentRegion) region).extendNoteMaxRentTime(player);
-        } catch (NoPermissionException | NotEnoughMoneyException | MaxRentTimeExceededException
+            ((RentRegion) region).extend(player);
+        } catch (NoPermissionException | NotEnoughMoneyException
                 | RegionNotOwnException | NotSoldException e) {
             if (e.hasMessage()) player.sendMessage(Messages.PREFIX + e.getMessage());
         }

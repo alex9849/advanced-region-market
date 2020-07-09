@@ -135,11 +135,15 @@ public abstract class CountdownRegion extends Region {
      * Doesn't set the region to bought!
      */
     public void extend() {
+        this.extend(this.getExtendTime());
+    }
+
+    public void extend(long time) {
         long actualTime = new GregorianCalendar().getTimeInMillis();
         if (this.payedTill < actualTime) {
             this.payedTill = actualTime;
         }
-        this.payedTill += this.getExtendTime();
+        this.payedTill += time;
         this.queueSave();
         this.updateSigns();
     }

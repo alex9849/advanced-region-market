@@ -15,6 +15,7 @@ import net.alex9849.arm.regions.ContractRegion;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.RentRegion;
 import net.alex9849.arm.regions.SellRegion;
+import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.util.MaterialFinder;
 import net.alex9849.arm.util.TimeUtil;
 import net.alex9849.inter.WGRegion;
@@ -268,7 +269,7 @@ public class Gui implements Listener {
             ClickItem reseticon = new ClickItem(new ItemStack(Gui.SELL_REGION_ITEM), Messages.GUI_USER_SELL_BUTTON, message).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) {
-                    Gui.openSellWarning(player, region, false,true);
+                    Gui.openSellWarning(player, region, false, true);
                 }
             });
             inv.addIcon(reseticon, getPosition(actitem, itemcounter));
@@ -533,12 +534,12 @@ public class Gui implements Listener {
         if (player.hasPermission(Permission.MEMBER_INFO)) {
             ClickItem infoicon = new ClickItem(new ItemStack(Gui.INFO_ITEM), Messages.GUI_SHOW_INFOS_BUTTON)
                     .addClickAction(new ClickAction() {
-                @Override
-                public void execute(Player player) {
-                    region.regionInfo(player);
-                    player.closeInventory();
-                }
-            });
+                        @Override
+                        public void execute(Player player) {
+                            region.regionInfo(player);
+                            player.closeInventory();
+                        }
+                    });
             inv.addIcon(infoicon, getPosition(actitem, itemcounter));
             actitem++;
         }
@@ -642,28 +643,20 @@ public class Gui implements Listener {
         if (player.hasPermission(Permission.SUBREGION_RESTORE) && region.isUserRestorable()) {
             ClickItem resetItem = new ClickItem(new ItemStack(Gui.RESET_ITEM), Messages.GUI_RESET_REGION_BUTTON)
                     .addClickAction(new ClickAction() {
-                @Override
-                public void execute(Player player) throws InputException {
-                    Gui.openWarning(player, Messages.GUI_RESET_REGION_WARNING_NAME, new ClickAction() {
                         @Override
                         public void execute(Player player) throws InputException {
-                            try {
-                                region.restoreRegion(Region.ActionReason.MANUALLY_BY_PARENT_REGION_OWNER, true, false);
-                                player.sendMessage(Messages.PREFIX + Messages.COMPLETE);
-                            } catch (SchematicNotFoundException e) {
-                                AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, region.replaceVariables(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
-                                player.sendMessage(Messages.PREFIX + Messages.SCHEMATIC_NOT_FOUND_ERROR_USER.replace("%regionid%", e.getRegion().getId()));
+                            //TODO yesAction
+                            if(!((new GregorianCalendar().getTimeInMillis()) >= AdvancedRegionMarket.getInstance().getPluginSettings().getUserResetCooldown() + region.getLastreset())) {
+                                String message = region.replaceVariables(Messages.RESET_REGION_COOLDOWN_ERROR);
+                                throw new InputException(player, message);
                             }
-                            player.closeInventory();
-                        }
-                    }, new ClickAction() {
-                        @Override
-                        public void execute(Player player) throws InputException {
-                            Gui.openSubregionManager(player, region, parentRegion);
+                            Gui.openWarning(player,
+                                    p -> region.userRestore(player),
+                                    p -> Gui.openSubregionManager(player, region, parentRegion),
+                                    Messages.GUI_RESET_REGION_WARNING_NAME,
+                                    new ArrayList<>(), new ArrayList<>());
                         }
                     });
-                }
-            });
             inv.addIcon(resetItem, getPosition(actitem, itemcounter));
             actitem++;
         }
@@ -672,19 +665,13 @@ public class Gui implements Listener {
                     region.replaceVariables(Messages.UNSELL_REGION_BUTTON_LORE)).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
-                    Gui.openWarning(player, Messages.UNSELL_REGION_WARNING_NAME, new ClickAction() {
-                        @Override
-                        public void execute(Player player) throws InputException {
-                            region.unsell(Region.ActionReason.MANUALLY_BY_PARENT_REGION_OWNER, true, false);
-                            player.closeInventory();
-                            player.sendMessage(Messages.PREFIX + Messages.REGION_NOW_AVAILABLE);
-                        }
-                    }, new ClickAction() {
-                        @Override
-                        public void execute(Player player) throws InputException {
-                            Gui.openSubregionManager(player, region, parentRegion);
-                        }
-                    });
+                    Gui.openWarning(player, p -> {
+                        region.unsell(Region.ActionReason.MANUALLY_BY_PARENT_REGION_OWNER, true, false);
+                        player.closeInventory();
+                        player.sendMessage(Messages.PREFIX + Messages.REGION_NOW_AVAILABLE);
+                    }, p -> {
+                        Gui.openSubregionManager(player, region, parentRegion);
+                    }, Messages.UNSELL_REGION_WARNING_NAME, new ArrayList<>(), new ArrayList<>());
                 }
             });
             inv.addIcon(unsellItem, getPosition(actitem, itemcounter));
@@ -693,29 +680,22 @@ public class Gui implements Listener {
         if (player.hasPermission(Permission.SUBREGION_DELETE_AVAILABLE) || player.hasPermission(Permission.SUBREGION_DELETE_SOLD)) {
             ClickItem deleteItem = new ClickItem(new ItemStack(Gui.DELETE_ITEM), Messages.GUI_SUBREGION_DELETE_REGION_BUTTON)
                     .addClickAction(new ClickAction() {
-                @Override
-                public void execute(Player player) throws InputException {
-                    if (region.isSold() && (!player.hasPermission(Permission.SUBREGION_DELETE_SOLD))) {
-                        throw new InputException(player, Messages.NOT_ALLOWED_TO_REMOVE_SUBREGION_SOLD);
-                    }
-                    if ((!region.isSold()) && (!player.hasPermission(Permission.SUBREGION_DELETE_AVAILABLE))) {
-                        throw new InputException(player, Messages.NOT_ALLOWED_TO_REMOVE_SUBREGION_AVAILABLE);
-                    }
-                    Gui.openWarning(player, Messages.DELETE_REGION_WARNING_NAME, new ClickAction() {
                         @Override
                         public void execute(Player player) throws InputException {
-                            region.delete();
-                            player.closeInventory();
-                            player.sendMessage(Messages.PREFIX + Messages.REGION_DELETED);
-                        }
-                    }, new ClickAction() {
-                        @Override
-                        public void execute(Player player) throws InputException {
-                            Gui.openSubregionManager(player, region, parentRegion);
+                            if (region.isSold() && (!player.hasPermission(Permission.SUBREGION_DELETE_SOLD))) {
+                                throw new InputException(player, Messages.NOT_ALLOWED_TO_REMOVE_SUBREGION_SOLD);
+                            }
+                            if ((!region.isSold()) && (!player.hasPermission(Permission.SUBREGION_DELETE_AVAILABLE))) {
+                                throw new InputException(player, Messages.NOT_ALLOWED_TO_REMOVE_SUBREGION_AVAILABLE);
+                            }
+                            Gui.openWarning(player, p -> {
+                                        region.delete();
+                                        player.closeInventory();
+                                        player.sendMessage(Messages.PREFIX + Messages.REGION_DELETED);
+                                    }, p -> Gui.openSubregionManager(player, region, parentRegion)
+                                    , Messages.DELETE_REGION_WARNING_NAME, new ArrayList<>(), new ArrayList<>());
                         }
                     });
-                }
-            });
             inv.addIcon(deleteItem, getPosition(actitem, itemcounter));
             actitem++;
         }
@@ -918,7 +898,7 @@ public class Gui implements Listener {
             ClickItem clickItem = new ClickItem(itemStack).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
-                    if(tpToRegionPermission && tpToSignPermission && hasSign) {
+                    if (tpToRegionPermission && tpToSignPermission && hasSign) {
                         Gui.openRegionFinderTeleportLocationSeceltor(player, region);
                         return;
                     }
@@ -1144,11 +1124,11 @@ public class Gui implements Listener {
             ClickItem makeOwnerMenu = new ClickItem(new ItemStack(Gui.PROMOTE_MEMBER_TO_OWNER_ITEM),
                     Messages.GUI_MAKE_OWNER_BUTTON, region.replaceVariables(Messages.GUI_MAKE_OWNER_BUTTON_LORE))
                     .addClickAction(new ClickAction() {
-                @Override
-                public void execute(Player player) {
-                    Gui.openMakeOwnerWarning(player, region, member, true);
-                }
-            });
+                        @Override
+                        public void execute(Player player) {
+                            Gui.openMakeOwnerWarning(player, region, member, true);
+                        }
+                    });
             inv.addIcon(makeOwnerMenu, getPosition(actitem, itemcounter));
             actitem++;
         }
@@ -1184,45 +1164,47 @@ public class Gui implements Listener {
     }
 
     public static void openMakeOwnerWarning(Player player, Region region, OfflinePlayer member, Boolean goback) {
-        GuiInventory inv = new GuiInventory(9, Messages.GUI_MAKE_OWNER_WARNING_NAME);
-
         Player onlinemember = Bukkit.getPlayer(member.getUniqueId());
-        ClickItem yesButton = new ClickItem(new ItemStack(Gui.WARNING_YES_ITEM), Messages.GUI_YES).addClickAction(new ClickAction() {
-            @Override
-            public void execute(Player player) throws InputException {
-                player.closeInventory();
-                if (onlinemember == null) {
-                    throw new InputException(player, Messages.REGION_TRANSFER_MEMBER_NOT_ONLINE);
-                }
-                if (AdvancedRegionMarket.getInstance().getLimitGroupManager().isCanBuyAnother(onlinemember, region.getRegionKind())) {
-                    WGRegion wgRegion = region.getRegion();
-                    for (UUID oldOwner : wgRegion.getOwners()) {
-                        wgRegion.addMember(oldOwner);
-                    }
-                    region.setOwner(onlinemember);
-                    player.sendMessage(Messages.PREFIX + Messages.REGION_TRANSFER_COMPLETE_MESSAGE);
-                } else {
-                    throw new InputException(player, Messages.REGION_TRANSFER_LIMIT_ERROR);
-                }
+
+        openWarning(player, p -> {
+            player.closeInventory();
+            if (onlinemember == null) {
+                throw new InputException(player, Messages.REGION_TRANSFER_MEMBER_NOT_ONLINE);
             }
-        });
+            if (AdvancedRegionMarket.getInstance().getLimitGroupManager().isCanBuyAnother(onlinemember, region.getRegionKind())) {
+                WGRegion wgRegion = region.getRegion();
+                for (UUID oldOwner : wgRegion.getOwners()) {
+                    wgRegion.addMember(oldOwner);
+                }
+                region.setOwner(onlinemember);
+                player.sendMessage(Messages.PREFIX + Messages.REGION_TRANSFER_COMPLETE_MESSAGE);
+            } else {
+                throw new InputException(player, Messages.REGION_TRANSFER_LIMIT_ERROR);
+            }
+        }, p -> {
+            if (goback) {
+                Gui.openMemberManager(player, region, member);
+            } else {
+                player.closeInventory();
+            }
+        }, Messages.GUI_MAKE_OWNER_WARNING_NAME, new ArrayList<>(), new ArrayList<>());
+    }
+
+    public static void openWarning(Player player, ClickAction yesAction, ClickAction noAction, String title, List<String> yesLore, List<String> noLore) {
+        GuiInventory inv = new GuiInventory(9, title);
+        ClickItem yesButton = new ClickItem(new ItemStack(Gui.WARNING_YES_ITEM), Messages.GUI_YES, yesLore);
+        if (yesAction != null) {
+            yesButton.addClickAction(yesAction);
+        }
         inv.addIcon(yesButton, 0);
 
-        ClickItem noButton = new ClickItem(new ItemStack(Gui.WARNING_NO_ITEM), Messages.GUI_NO).addClickAction(new ClickAction() {
-            @Override
-            public void execute(Player player) {
-                if (goback) {
-                    Gui.openMemberManager(player, region, member);
-                } else {
-                    player.closeInventory();
-                }
-
-            }
-        });
+        ClickItem noButton = new ClickItem(new ItemStack(Gui.WARNING_NO_ITEM), Messages.GUI_NO, noLore);
+        if (yesAction != null) {
+            noButton.addClickAction(noAction);
+        }
         inv.addIcon(noButton, 8);
 
         inv = Gui.placeFillItems(inv);
-
         player.openInventory(inv.getInventory());
     }
 
@@ -1298,89 +1280,48 @@ public class Gui implements Listener {
     }
 
     public static void openRegionResetWarning(Player player, Region region, Boolean goBack) {
-        GuiInventory inv = new GuiInventory(9, Messages.GUI_RESET_REGION_WARNING_NAME);
-
-        ClickItem yesButton = new ClickItem(new ItemStack(Gui.WARNING_YES_ITEM), Messages.GUI_YES).addClickAction(new ClickAction() {
-            @Override
-            public void execute(Player player) {
-                player.closeInventory();
-                region.userRestore(player);
-            }
-        });
-        inv.addIcon(yesButton, 0);
-
-        ClickItem noButton = new ClickItem(new ItemStack(Gui.WARNING_NO_ITEM), Messages.GUI_NO).addClickAction(new ClickAction() {
-            @Override
-            public void execute(Player player) {
-                if (goBack) {
-                    Gui.openRegionOwnerManager(player, region);
-                } else {
+        Gui.openWarning(player, p -> {
                     player.closeInventory();
-                }
-
-            }
-        });
-        inv.addIcon(noButton, 8);
-
-        inv = Gui.placeFillItems(inv);
-
-        player.openInventory(inv.getInventory());
+                    region.userRestore(player);
+                }, p -> {
+                    if (goBack) {
+                        Gui.openRegionOwnerManager(player, region);
+                    } else {
+                        player.closeInventory();
+                    }
+                }, Messages.GUI_RESET_REGION_WARNING_NAME,
+                new ArrayList<>(), new ArrayList<>());
     }
 
     public static void openSellWarning(Player player, Region region, boolean noMoney, boolean goBack) {
-        GuiInventory inv = new GuiInventory(9, Messages.GUI_USER_SELL_WARNING);
-
-        ClickItem yesButton = new ClickItem(new ItemStack(Gui.WARNING_YES_ITEM), Messages.GUI_YES)
-                .addClickAction(new ClickAction() {
-            @Override
-            public void execute(Player player) throws InputException {
-                player.closeInventory();
-                if (region.getRegion().hasOwner(player.getUniqueId())) {
-                    String soldSuccessfullyMessage = Messages.REGION_SOLD_BACK_SUCCESSFULLY;
-                    if(noMoney)
-                        soldSuccessfullyMessage = soldSuccessfullyMessage.replace("%paybackmoney%", Double.toString(0));
-                    soldSuccessfullyMessage = region.replaceVariables(soldSuccessfullyMessage);
-                    try {
-                        region.userSell(player, noMoney);
-                        player.sendMessage(Messages.PREFIX + soldSuccessfullyMessage);
-                    } catch (SchematicNotFoundException e) {
-                        AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, region.replaceVariables(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
-                        player.sendMessage(Messages.PREFIX + Messages.SCHEMATIC_NOT_FOUND_ERROR_USER.replace("%regionid%", e.getRegion().getId()));
-                    } catch (NotEnoughMoneyException e) {
-                        player.sendMessage(Messages.PREFIX + e.getMessage());
-                    }
-
-                } else {
-                    throw new InputException(player, Messages.REGION_NOT_OWN);
-                }
-            }
-        });
-        inv.addIcon(yesButton, 0);
-
-        ClickItem noButton = new ClickItem(new ItemStack(Gui.WARNING_NO_ITEM), Messages.GUI_NO).addClickAction(new ClickAction() {
-            @Override
-            public void execute(Player player) {
-                if (goBack) {
-                    Gui.openRegionOwnerManager(player, region);
-                } else {
+        Gui.openWarning(player, p -> {
                     player.closeInventory();
-                }
+                    if (region.getRegion().hasOwner(player.getUniqueId())) {
+                        String soldSuccessfullyMessage = Messages.REGION_SOLD_BACK_SUCCESSFULLY;
+                        if (noMoney)
+                            soldSuccessfullyMessage = soldSuccessfullyMessage.replace("%paybackmoney%", Price.formatPrice(0));
+                        soldSuccessfullyMessage = region.replaceVariables(soldSuccessfullyMessage);
+                        try {
+                            region.userSell(player, noMoney);
+                            player.sendMessage(Messages.PREFIX + soldSuccessfullyMessage);
+                        } catch (SchematicNotFoundException e) {
+                            AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, region.replaceVariables(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
+                            player.sendMessage(Messages.PREFIX + Messages.SCHEMATIC_NOT_FOUND_ERROR_USER.replace("%regionid%", e.getRegion().getId()));
+                        } catch (NotEnoughMoneyException e) {
+                            player.sendMessage(Messages.PREFIX + e.getMessage());
+                        }
 
-            }
-        });
-        inv.addIcon(noButton, 8);
-        inv = Gui.placeFillItems(inv);
-        player.openInventory(inv.getInventory());
-    }
-
-    public static void openWarning(Player player, String warning, ClickAction yesAction, ClickAction noAction) {
-        GuiInventory inv = new GuiInventory(9, warning);
-        ClickItem yesItem = new ClickItem(new ItemStack(Gui.WARNING_YES_ITEM), Messages.GUI_YES).addClickAction(yesAction);
-        inv.addIcon(yesItem, 0);
-        ClickItem noItem = new ClickItem(new ItemStack(Gui.WARNING_NO_ITEM), Messages.GUI_NO).addClickAction(noAction);
-        inv.addIcon(noItem, 8);
-        inv = Gui.placeFillItems(inv);
-        player.openInventory(inv.getInventory());
+                    } else {
+                        throw new InputException(player, Messages.REGION_NOT_OWN);
+                    }
+                }, p -> {
+                    if (goBack) {
+                        Gui.openRegionOwnerManager(player, region);
+                    } else {
+                        player.closeInventory();
+                    }
+                }, Messages.GUI_USER_SELL_WARNING,
+                new ArrayList<>(), new ArrayList<>());
     }
 
     private static ItemStack getRegionDisplayItem(Region region, List<String> rentLore, List<String> sellLore, List<String> contractLore) {
@@ -1888,7 +1829,7 @@ public class Gui implements Listener {
 
                 GuiInventory customHolder = (GuiInventory) event.getView().getTopInventory().getHolder();
 
-                if(customHolder.getSize() <= event.getRawSlot()) {
+                if (customHolder.getSize() <= event.getRawSlot()) {
                     return;
                 }
 
@@ -1950,14 +1891,14 @@ public class Gui implements Listener {
                 Object settingsObj = getParsedSettingsObject();
                 Object regionFlagSetting = region.getRegion().getFlagSetting(flag);
 
-                if(parentFlag == null) {
-                    if(regionFlagSetting == settingsObj) {
+                if (parentFlag == null) {
+                    if (regionFlagSetting == settingsObj) {
                         return true;
                     } else {
                         return false;
                     }
                 } else {
-                    if(settingsObj == flag.getDefault()
+                    if (settingsObj == flag.getDefault()
                             && region.getRegion().getFlagSetting(parentFlag) != null
                             && regionFlagSetting == null) {
                         return true;
@@ -1967,7 +1908,6 @@ public class Gui implements Listener {
                     }
                     return false;
                 }
-
 
 
             } catch (InvalidFlagFormat e) {

@@ -645,7 +645,6 @@ public class Gui implements Listener {
                     .addClickAction(new ClickAction() {
                         @Override
                         public void execute(Player player) throws InputException {
-                            //TODO yesAction
                             if(!((new GregorianCalendar().getTimeInMillis()) >= AdvancedRegionMarket.getInstance().getPluginSettings().getUserResetCooldown() + region.getLastreset())) {
                                 String message = region.replaceVariables(Messages.RESET_REGION_COOLDOWN_ERROR);
                                 throw new InputException(player, message);

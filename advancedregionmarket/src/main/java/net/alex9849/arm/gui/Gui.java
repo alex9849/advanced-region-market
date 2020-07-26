@@ -207,7 +207,7 @@ public class Gui implements Listener {
 
         ItemStack membersitem = new ItemStack(MaterialFinder.getPlayerHead(), 1, (short) 3);
         SkullMeta membersitemmeta = (SkullMeta) membersitem.getItemMeta();
-        membersitemmeta.setOwner(player.getDisplayName());
+        membersitemmeta.setOwningPlayer(player);
         membersitemmeta.setDisplayName(Messages.GUI_MEMBERS_BUTTON);
         membersitem.setItemMeta(membersitemmeta);
         ClickItem membersicon = new ClickItem(membersitem).addClickAction(new ClickAction() {
@@ -1073,19 +1073,19 @@ public class Gui implements Listener {
 
         String invname = Messages.GUI_MEMBER_LIST_MENU_NAME.replaceAll("%regionid%", region.getRegion().getId());
 
-        for (int i = 0; i < members.size(); i++) {
+        for (UUID memberUUID : members) {
             ItemStack membersitem = new ItemStack(MaterialFinder.getPlayerHead(), 1, (short) 3);
             SkullMeta membersitemmeta = (SkullMeta) membersitem.getItemMeta();
-            if (Bukkit.getOfflinePlayer(members.get(i)).getName() != null) {
-                membersitemmeta.setOwner(Bukkit.getOfflinePlayer(members.get(i)).getName());
-                membersitemmeta.setDisplayName(Bukkit.getOfflinePlayer(members.get(i)).getName());
+            OfflinePlayer memberPlayer = Bukkit.getOfflinePlayer(memberUUID);
+            if (memberPlayer != null) {
+                membersitemmeta.setOwningPlayer(memberPlayer);
+                membersitemmeta.setDisplayName(memberPlayer.getName());
             }
             membersitem.setItemMeta(membersitemmeta);
-            int finalI = i;
             ClickItem membersicon = new ClickItem(membersitem).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) {
-                    Gui.openMemberManager(player, region, Bukkit.getOfflinePlayer(members.get(finalI)));
+                    Gui.openMemberManager(player, region, memberPlayer);
                 }
             });
             clickItems.add(membersicon);

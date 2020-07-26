@@ -166,7 +166,7 @@ public class SignLinkMode implements Listener {
             existingRegion.queueSave();
             this.player.sendMessage(Messages.PREFIX + Messages.SIGN_ADDED_TO_REGION);
         } else {
-            Region newRegion = this.preset.generateRegion(this.wgRegion, this.world, this.player, signs);
+            Region newRegion = this.preset.generateRegion(this.wgRegion, this.world, this.player, false, signs);
             newRegion.createSchematic();
             try {
                 newRegion.applyFlagGroup(FlagGroup.ResetMode.COMPLETE, false);
@@ -174,6 +174,7 @@ public class SignLinkMode implements Listener {
                 //Ignore
             }
             AdvancedRegionMarket.getInstance().getRegionManager().add(newRegion);
+            this.preset.executeSetupCommands(this.player, newRegion);
             this.player.sendMessage(Messages.PREFIX + Messages.REGION_ADDED_TO_ARM);
         }
         this.sign = null;

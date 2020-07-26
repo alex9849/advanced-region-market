@@ -60,7 +60,7 @@ public class AddCommand extends BasicArmCommand {
         if(preset == null) {
             preset = presetType.create();
         }
-        Region region = preset.generateRegion(wgRegion, player.getWorld(), sender, new ArrayList<>());
+        Region region = preset.generateRegion(wgRegion, player.getWorld(), sender, false, new ArrayList<>());
         region.createSchematic();
         try {
             region.applyFlagGroup(FlagGroup.ResetMode.COMPLETE, false);
@@ -68,6 +68,7 @@ public class AddCommand extends BasicArmCommand {
             //Ignore
         }
         AdvancedRegionMarket.getInstance().getRegionManager().add(region);
+        preset.executeSetupCommands(player, region);
         region.updateSigns();
         player.sendMessage(Messages.REGION_ADDED_TO_ARM);
         return true;

@@ -160,7 +160,7 @@ public class SignModifyListener implements Listener {
             } else {
                 List<SignData> signDataList = new ArrayList<>();
                 signDataList.add(signData);
-                Region newArmRegion = preset.generateRegion(wgRegion, regionWorld, sign.getPlayer(), signDataList);
+                Region newArmRegion = preset.generateRegion(wgRegion, regionWorld, sign.getPlayer(), false, signDataList);
 
                 //Apply Price
                 if(!priceLine.isEmpty()) {
@@ -185,6 +185,7 @@ public class SignModifyListener implements Listener {
                 }
                 AdvancedRegionMarket.getInstance().getRegionManager().add(newArmRegion);
                 newArmRegion.updateSigns();
+                preset.executeSetupCommands(sign.getPlayer(), newArmRegion);
                 sign.setCancelled(true);
                 sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_AND_SIGN_ADDED_TO_ARM);
                 return;

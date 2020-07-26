@@ -258,7 +258,7 @@ public abstract class Preset implements Saveable, Cloneable {
         return obj;
     }
 
-    public void executeSavedCommands(CommandSender sender, Region region) {
+    public void executeSetupCommands(CommandSender sender, Region region) {
         for (String command : this.setupCommands) {
             String cmd = region.replaceVariables(command);
 
@@ -280,15 +280,17 @@ public abstract class Preset implements Saveable, Cloneable {
      * @param signs    The signs that should be linked to the region
      * @return A Region with the given arguments
      */
-    public Region generateRegion(WGRegion wgRegion, World world, CommandSender sender, List<SignData> signs) {
+    public Region generateRegion(WGRegion wgRegion, World world, CommandSender sender, boolean withSetupCommands, List<SignData> signs) {
         Region region = generateBasicRegion(wgRegion, world, signs);
-        this.applyToRegion(region, sender);
+        this.applyToRegion(region, sender, withSetupCommands);
         return region;
     }
 
-    public void applyToRegion(Region region, CommandSender sender) {
+    public void applyToRegion(Region region, CommandSender sender, boolean withSetupCommands) {
         this.applyToRegion(region);
-        this.executeSavedCommands(sender, region);
+        if(withSetupCommands) {
+            this.executeSetupCommands(sender, region);
+        }
     }
 
     /**

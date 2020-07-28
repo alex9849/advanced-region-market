@@ -109,8 +109,14 @@ public class RentRegion extends CountdownRegion {
             throw new NotEnoughMoneyException(this.replaceVariables(Messages.NOT_ENOUGH_MONEY));
         }
 
-        String successMessage = Messages.PREFIX + this.replaceVariables(Messages.RENT_EXTEND_MESSAGE);
+        //The local stringreplacer only replaces stuff like the current extend
+        // time and the current price, but not the remaining time, that
+        // we want to replace after the extension. So we first replace
+        // with the local replacer and after successful extension we
+        // replace with the normal replace method.
+        String successMessage = Messages.PREFIX + this.stringReplacer.replace(Messages.RENT_EXTEND_MESSAGE);
         this.extend();
+        successMessage = this.replaceVariables(successMessage);
         if (AdvancedRegionMarket.getInstance().getPluginSettings().isTeleportAfterRentRegionExtend()) {
             try {
                 Teleporter.teleport(player, this, "", AdvancedRegionMarket.getInstance().getConfig().getBoolean("Other.TeleportAfterRegionBoughtCountdown"));

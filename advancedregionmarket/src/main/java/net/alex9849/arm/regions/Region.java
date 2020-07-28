@@ -157,6 +157,9 @@ public abstract class Region implements Saveable {
             return Messages.getStringValue(this.getLandlord(), x -> Messages.getStringValue(Bukkit.getOfflinePlayer(x).getName(), y -> y, Messages.UNKNOWN_UUID), Messages.LANDLORD_SERVER);
         });
         variableReplacements.put("%lastownerlogin%", () -> {
+            if(this.getLastLogin() == 0) {
+                return Messages.NEVER;
+            }
             return TimeUtil.getDate(this.getLastLogin(), false, "",
                     AdvancedRegionMarket.getInstance().getPluginSettings().getDateTimeformat());
         });
@@ -1053,7 +1056,8 @@ public abstract class Region implements Saveable {
         this.getRegion().deleteMembers();
         this.getRegion().deleteOwners();
         this.setSold(false);
-        this.lastreset = 1;
+        this.lastreset = 0;
+        this.lastLogin = 0;
 
         if (AdvancedRegionMarket.getInstance().getPluginSettings().isDeleteSubregionsOnParentRegionUnsell()) {
             Iterator<Region> subRegions = this.subregions.iterator();

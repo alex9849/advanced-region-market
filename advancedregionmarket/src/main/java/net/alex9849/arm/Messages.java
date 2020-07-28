@@ -331,6 +331,8 @@ public class Messages {
     public static String YES;
     @Message(name = "RegionInfoNo", message = "&4no")
     public static String NO;
+    @Message(name = "RegionInfoNever", message = "&4Never")
+    public static String NEVER;
     @Message(name = "RegionAleadyRegistred", message = "&4Region already registered! &c(If you want to delete and re-add it. Delete it first with &6/arm delete [REGION-ID]&c!)")
     public static String REGION_ALREADY_REGISTERED;
     @Message(name = "UnknownUUID", message = "Unknown UUID")

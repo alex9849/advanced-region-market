@@ -161,6 +161,10 @@ public class Updater {
                 AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 3.1...");
                 updateTo3p1(pluginConfig);
             }
+            if(new Version(3, 2, 2).biggerThan(lastVersion)) {
+                AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 3.2.2...");
+                updateTo3p2p2(pluginConfig);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -1061,6 +1065,12 @@ public class Updater {
             cs.createSection(group + ".regionkindgroups");
         }
         pluginConfig.set("Version", "3.1");
+        AdvancedRegionMarket.getInstance().saveConfig();
+    }
+
+    private static void updateTo3p2p2(FileConfiguration pluginConfig) {
+        pluginConfig.set("GUI.DisplayPlayerSkins", false);
+        pluginConfig.set("Version", "3.2.2");
         AdvancedRegionMarket.getInstance().saveConfig();
     }
 

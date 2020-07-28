@@ -70,8 +70,7 @@ public class Gui implements Listener {
 
     public static void openARMGui(Player player) {
         GuiInventory menu = new GuiInventory(9, Messages.GUI_MAIN_MENU_NAME);
-        FileConfiguration config = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getConfig();
-
+        FileConfiguration config = AdvancedRegionMarket.getInstance().getConfig();
         int itemcounter = 0;
         int actitem = 1;
 
@@ -207,7 +206,10 @@ public class Gui implements Listener {
 
         ItemStack membersitem = new ItemStack(MaterialFinder.getPlayerHead(), 1, (short) 3);
         SkullMeta membersitemmeta = (SkullMeta) membersitem.getItemMeta();
-        membersitemmeta.setOwningPlayer(player);
+        FileConfiguration config = AdvancedRegionMarket.getInstance().getConfig();
+        if(config.getBoolean("GUI.DisplayPlayerSkins")) {
+            membersitemmeta.setOwningPlayer(player);
+        }
         membersitemmeta.setDisplayName(Messages.GUI_MEMBERS_BUTTON);
         membersitem.setItemMeta(membersitemmeta);
         ClickItem membersicon = new ClickItem(membersitem).addClickAction(new ClickAction() {
@@ -1072,13 +1074,17 @@ public class Gui implements Listener {
         List<ClickItem> clickItems = new ArrayList<>();
 
         String invname = Messages.GUI_MEMBER_LIST_MENU_NAME.replaceAll("%regionid%", region.getRegion().getId());
+        FileConfiguration config = AdvancedRegionMarket.getInstance().getConfig();
+        boolean showPlayerSkins = config.getBoolean("GUI.DisplayPlayerSkins");
 
         for (UUID memberUUID : members) {
             ItemStack membersitem = new ItemStack(MaterialFinder.getPlayerHead(), 1, (short) 3);
             SkullMeta membersitemmeta = (SkullMeta) membersitem.getItemMeta();
             OfflinePlayer memberPlayer = Bukkit.getOfflinePlayer(memberUUID);
             if (memberPlayer != null) {
-                membersitemmeta.setOwningPlayer(memberPlayer);
+                if(showPlayerSkins) {
+                    membersitemmeta.setOwningPlayer(player);
+                }
                 membersitemmeta.setDisplayName(memberPlayer.getName());
             }
             membersitem.setItemMeta(membersitemmeta);

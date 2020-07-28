@@ -242,6 +242,8 @@ GUI:
   DisplayRegionOwnerButton: true
   DisplayRegionMemberButton: true
   DisplayRegionFinderButton: true
+# Can cause lags, because skins need to be fetched from Mojang-Server
+  DisplayPlayerSkins: false
 
 #Do not change this
 Version: ${project.version}

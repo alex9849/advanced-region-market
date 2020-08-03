@@ -114,6 +114,7 @@ public class RentRegion extends CountdownRegion {
         // we want to replace after the extension. So we first replace
         // with the local replacer and after successful extension we
         // replace with the normal replace method.
+        double extensionCost = this.getCurrentExtendPrice();
         String successMessage = Messages.PREFIX + this.stringReplacer.replace(Messages.RENT_EXTEND_MESSAGE);
         this.extend();
         successMessage = this.replaceVariables(successMessage);
@@ -126,8 +127,8 @@ public class RentRegion extends CountdownRegion {
                 }
             }
         }
-        AdvancedRegionMarket.getInstance().getEcon().withdrawPlayer(player, this.getCurrentExtendPrice());
-        this.giveLandlordMoney(this.getCurrentExtendPrice());
+        AdvancedRegionMarket.getInstance().getEcon().withdrawPlayer(player, extensionCost);
+        this.giveLandlordMoney(extensionCost);
         player.sendMessage(successMessage);
     }
 

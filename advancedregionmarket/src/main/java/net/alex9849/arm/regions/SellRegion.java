@@ -161,6 +161,6 @@ public class SellRegion extends Region {
 
     @Override
     public void setAutoPrice(AutoPrice autoPrice) {
-        this.price = new Price(autoPrice);
+        this.setSellPrice(new Price(autoPrice));
     }
 }

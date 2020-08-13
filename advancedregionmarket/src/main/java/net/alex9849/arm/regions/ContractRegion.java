@@ -278,7 +278,7 @@ public class ContractRegion extends CountdownRegion {
 
     @Override
     public void setAutoPrice(AutoPrice autoPrice) {
-        this.contractPrice = new ContractPrice(autoPrice);
+        this.setContractPrice(new ContractPrice(autoPrice));
     }
 
     public ConfigurationSection toConfigurationSection() {

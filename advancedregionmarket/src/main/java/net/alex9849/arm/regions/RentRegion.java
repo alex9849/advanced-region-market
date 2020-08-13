@@ -233,7 +233,7 @@ public class RentRegion extends CountdownRegion {
 
     @Override
     public void setAutoPrice(AutoPrice autoPrice) {
-        this.rentPrice = new RentPrice(autoPrice);
+        this.setRentPrice(new RentPrice(autoPrice));
     }
 
     @Override

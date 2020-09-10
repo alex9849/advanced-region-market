@@ -49,10 +49,14 @@ public class ExtendTimeCommand extends BasicArmCommand {
             contractPreset.setExtendTime((Long) null);
             player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
         } else {
-            contractPreset.setExtendTime(command.split(" ")[1]);
-            player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
-            if (contractPreset.canPriceLineBeLetEmpty()) {
-                player.sendMessage(Messages.PREFIX + "You can leave the price-line on signs empty now");
+            try {
+                contractPreset.setExtendTime(command.split(" ")[1]);
+                player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
+                if (contractPreset.canPriceLineBeLetEmpty()) {
+                    player.sendMessage(Messages.PREFIX + "You can leave the price-line on signs empty now");
+                }
+            } catch (IllegalArgumentException e) {
+                throw new InputException(sender, e.getMessage());
             }
         }
         return true;

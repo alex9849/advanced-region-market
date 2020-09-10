@@ -68,18 +68,23 @@ public class SetPriceCommand extends BasicArmCommand {
             long extend = RentPrice.stringToTime(args[3]);
             long maxrenttime = RentPrice.stringToTime(args[4]);
 
-            for (Region region : selectedregions) {
-                price = new RentPrice(priceint, extend, maxrenttime);
-                if(region instanceof SellRegion) {
-                    ((SellRegion) region).setSellPrice(price);
-                } else if(region instanceof ContractRegion) {
-                    ((ContractRegion) region).setContractPrice(price);
-                } else if(region instanceof RentRegion) {
-                    ((RentRegion) region).setRentPrice(price);
-                } else {
-                    throw new RuntimeException("This is a bug! SetPriceCommand doesn't know hot to set the price for " + region.getClass().getName());
+            try {
+                for (Region region : selectedregions) {
+                    price = new RentPrice(priceint, extend, maxrenttime);
+                    if(region instanceof SellRegion) {
+                        ((SellRegion) region).setSellPrice(price);
+                    } else if(region instanceof ContractRegion) {
+                        ((ContractRegion) region).setContractPrice(price);
+                    } else if(region instanceof RentRegion) {
+                        ((RentRegion) region).setRentPrice(price);
+                    } else {
+                        throw new RuntimeException("This is a bug! SetPriceCommand doesn't know hot to set the price for " + region.getClass().getName());
+                    }
                 }
+            } catch (IllegalArgumentException e) {
+                throw new InputException(sender, e.getMessage());
             }
+
         } else {
             AutoPrice selectedAutoprice = AutoPrice.getAutoprice(args[2]);
             if (selectedAutoprice == null) {

@@ -33,10 +33,15 @@ public abstract class CountdownPreset extends Preset {
     }
 
     public void setExtendTime(Long time) {
-        this.extendTime = time;
-        if(time != null) {
-            this.setAutoPrice(null);
+        if(time == null) {
+            this.extendTime = null;
+            return;
         }
+        if (time < 1000) {
+            throw new IllegalArgumentException("MaxRentTime needs to be at least one second!");
+        }
+        this.extendTime = time;
+        this.setAutoPrice(null);
     }
 
     @Override

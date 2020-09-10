@@ -53,11 +53,16 @@ public class MaxRentTimeCommand extends BasicArmCommand {
             rentPreset.setMaxRentTime((Long) null);
             player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
         } else {
-            rentPreset.setMaxRentTime(command.split(" ")[1]);
-            player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
-            if (rentPreset.canPriceLineBeLetEmpty()) {
-                player.sendMessage(Messages.PREFIX + "You can leave the price-line on signs empty now");
+            try {
+                rentPreset.setMaxRentTime(command.split(" ")[1]);
+                player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
+                if (rentPreset.canPriceLineBeLetEmpty()) {
+                    player.sendMessage(Messages.PREFIX + "You can leave the price-line on signs empty now");
+                }
+            } catch (IllegalArgumentException e) {
+                throw new InputException(sender, e.getMessage());
             }
+
         }
         return true;
     }

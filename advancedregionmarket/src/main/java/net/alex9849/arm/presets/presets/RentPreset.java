@@ -52,10 +52,15 @@ public class RentPreset extends CountdownPreset {
     }
 
     public void setMaxRentTime(Long time) {
-        this.maxRentTime = time;
-        if(time != null) {
-            this.setAutoPrice(null);
+        if(time == null) {
+            this.maxRentTime = null;
+            return;
         }
+        if (time < 1000) {
+            throw new IllegalArgumentException("MaxRentTime needs to be at least one second!");
+        }
+        this.maxRentTime = time;
+        this.setAutoPrice(null);
     }
 
     @Override

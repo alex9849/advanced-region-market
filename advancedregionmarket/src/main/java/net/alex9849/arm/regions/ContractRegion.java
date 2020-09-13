@@ -3,9 +3,8 @@ package net.alex9849.arm.regions;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
-import net.alex9849.arm.events.BuyRegionEvent;
+import net.alex9849.arm.events.PreExtendRegionEvent;
 import net.alex9849.arm.exceptions.*;
-import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.price.ContractPrice;
 import net.alex9849.arm.regions.price.Price;
@@ -84,25 +83,29 @@ public class ContractRegion extends CountdownRegion {
                     if (this.isTerminated()) {
                         this.automaticResetRegion(ActionReason.EXPIRED, true);
                     } else {
-                        List<UUID> owners = this.getRegion().getOwners();
-                        if (owners.size() == 0) {
+                        UUID owner = this.getOwner();
+                        if (owner == null) {
                             this.extend();
                         } else {
-                            OfflinePlayer oplayer = Bukkit.getOfflinePlayer(owners.get(0));
-                            if (oplayer == null) {
-                                this.extend();
-                            } else {
-                                if (AdvancedRegionMarket.getInstance().getEcon().hasAccount(oplayer)) {
-                                    if (AdvancedRegionMarket.getInstance().getEcon().getBalance(oplayer) < this.getPricePerPeriod()) {
-                                        this.automaticResetRegion(ActionReason.INSUFFICIENT_MONEY, true);
-                                    } else {
+                            OfflinePlayer oplayer = Bukkit.getOfflinePlayer(owner);
+                            if (AdvancedRegionMarket.getInstance().getEcon().hasAccount(oplayer)) {
+                                PreExtendRegionEvent preExtendEvent = new PreExtendRegionEvent(this);
+                                Bukkit.getServer().getPluginManager().callEvent(preExtendEvent);
+                                if(preExtendEvent.isCancelled()) {
+                                    return;
+                                }
+                                boolean isNoMoneyTransfer = preExtendEvent.isNoMoneyTransfer();
+                                if (!isNoMoneyTransfer && AdvancedRegionMarket.getInstance().getEcon().getBalance(oplayer) < this.getPricePerPeriod()) {
+                                    this.automaticResetRegion(ActionReason.INSUFFICIENT_MONEY, true);
+                                } else {
+                                    if(!isNoMoneyTransfer) {
                                         AdvancedRegionMarket.getInstance().getEcon().withdrawPlayer(oplayer, this.getPricePerPeriod());
                                         this.giveLandlordMoney(this.getPricePerPeriod());
-                                        this.extend();
-                                        if (oplayer.isOnline() && AdvancedRegionMarket.getInstance().getPluginSettings().isSendContractRegionExtendMessage()) {
-                                            String sendmessage = this.replaceVariables(Messages.CONTRACT_REGION_EXTENDED);
-                                            oplayer.getPlayer().sendMessage(Messages.PREFIX + sendmessage);
-                                        }
+                                    }
+                                    this.extend();
+                                    if (oplayer.isOnline() && AdvancedRegionMarket.getInstance().getPluginSettings().isSendContractRegionExtendMessage()) {
+                                        String sendmessage = this.replaceVariables(Messages.CONTRACT_REGION_EXTENDED);
+                                        oplayer.getPlayer().sendMessage(Messages.PREFIX + sendmessage);
                                     }
                                 }
                             }
@@ -160,42 +163,6 @@ public class ContractRegion extends CountdownRegion {
         } else {
             this.buy(player);
         }
-    }
-
-    @Override
-    public void buy(Player player) throws NoPermissionException, AlreadySoldException, OutOfLimitExeption, NotEnoughMoneyException {
-        if (!player.hasPermission(Permission.MEMBER_BUY)) {
-            throw new NoPermissionException(Messages.NO_PERMISSION);
-        }
-        if (this.isSold()) {
-            throw new AlreadySoldException(Messages.REGION_ALREADY_SOLD);
-        }
-
-        if (!AdvancedRegionMarket.getInstance().getLimitGroupManager().isCanBuyAnother(player, this.getRegionKind())) {
-            throw new OutOfLimitExeption(this.replaceVariables(Messages.REGION_BUY_OUT_OF_LIMIT));
-        }
-        if (AdvancedRegionMarket.getInstance().getEcon().getBalance(player) < this.getPricePerPeriod()) {
-            throw new NotEnoughMoneyException(this.replaceVariables(Messages.NOT_ENOUGH_MONEY));
-        }
-        BuyRegionEvent buyRegionEvent = new BuyRegionEvent(this, player);
-        Bukkit.getServer().getPluginManager().callEvent(buyRegionEvent);
-        if (buyRegionEvent.isCancelled()) {
-            return;
-        }
-        AdvancedRegionMarket.getInstance().getEcon().withdrawPlayer(player, this.getPricePerPeriod());
-        this.giveLandlordMoney(this.getPricePerPeriod());
-        this.setSold(player);
-        if (AdvancedRegionMarket.getInstance().getPluginSettings().isTeleportAfterContractRegionBought()) {
-            try {
-                Teleporter.teleport(player, this, "", AdvancedRegionMarket.getInstance().getConfig().getBoolean("Other.TeleportAfterRegionBoughtCountdown"));
-            } catch (NoSaveLocationException e) {
-                if (e.hasMessage()) {
-                    player.sendMessage(Messages.PREFIX + e.getMessage());
-                }
-            }
-        }
-        player.sendMessage(Messages.PREFIX + Messages.REGION_BUYMESSAGE);
-
     }
 
     public void changeTerminated(Player player) throws OutOfLimitExeption, NoPermissionException, NotSoldException, RegionNotOwnException {

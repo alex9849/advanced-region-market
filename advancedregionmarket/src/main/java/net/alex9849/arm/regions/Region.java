@@ -3,11 +3,10 @@ package net.alex9849.arm.regions;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.ArmSettings;
 import net.alex9849.arm.Messages;
+import net.alex9849.arm.Permission;
 import net.alex9849.arm.entitylimit.EntityLimit;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
-import net.alex9849.arm.events.RestoreRegionEvent;
-import net.alex9849.arm.events.UnsellRegionEvent;
-import net.alex9849.arm.events.UpdateRegionEvent;
+import net.alex9849.arm.events.*;
 import net.alex9849.arm.exceptions.*;
 import net.alex9849.arm.flaggroups.FlagGroup;
 import net.alex9849.arm.inactivityexpiration.InactivityExpirationGroup;
@@ -671,8 +670,6 @@ public abstract class Region implements Saveable {
 
     protected abstract void updateSignText(SignData signData);
 
-    public abstract void buy(Player player) throws NoPermissionException, OutOfLimitExeption, NotEnoughMoneyException, AlreadySoldException;
-
     public abstract double getPaybackMoney();
 
     public abstract SellType getSellType();
@@ -682,6 +679,56 @@ public abstract class Region implements Saveable {
     /*##################################
     ######### Other Methods ############
     ##################################*/
+
+    public void buy(Player player) throws NoPermissionException, OutOfLimitExeption, NotEnoughMoneyException, AlreadySoldException {
+        if (!player.hasPermission(Permission.MEMBER_BUY)) {
+            throw new NoPermissionException(Messages.NO_PERMISSION);
+        }
+
+        if (this.isSold()) {
+            throw new AlreadySoldException(Messages.REGION_ALREADY_SOLD);
+        }
+
+        boolean isPlayerInLimit = AdvancedRegionMarket.getInstance().getLimitGroupManager().isCanBuyAnother(player, this.getRegionKind());
+        PreBuyEvent preBuyEvent = new PreBuyEvent(this, player, isPlayerInLimit);
+        Bukkit.getServer().getPluginManager().callEvent(preBuyEvent);
+        if(preBuyEvent.isCancelled()) {
+            return;
+        }
+        isPlayerInLimit = preBuyEvent.isPlayerInLimit();
+        boolean isNoMoneyTransfer = preBuyEvent.isNoMoneyTransfer();
+
+        if (!isPlayerInLimit) {
+            throw new OutOfLimitExeption(this.replaceVariables(Messages.REGION_BUY_OUT_OF_LIMIT));
+        }
+
+        if (!isNoMoneyTransfer && AdvancedRegionMarket.getInstance().getEcon().getBalance(player) < this.getPricePerPeriod()) {
+            throw new NotEnoughMoneyException(this.replaceVariables(Messages.NOT_ENOUGH_MONEY));
+        }
+
+        BuyRegionEvent buyRegionEvent = new BuyRegionEvent(this, player);
+        Bukkit.getServer().getPluginManager().callEvent(buyRegionEvent);
+        if (buyRegionEvent.isCancelled()) {
+            return;
+        }
+
+        this.setSold(player);
+        if (AdvancedRegionMarket.getInstance().getPluginSettings().isTeleportAfterRentRegionBought()) {
+            try {
+                Teleporter.teleport(player, this, "", AdvancedRegionMarket.getInstance().getConfig().getBoolean("Other.TeleportAfterRegionBoughtCountdown"));
+            } catch (NoSaveLocationException e) {
+                if (e.hasMessage()) {
+                    player.sendMessage(Messages.PREFIX + e.getMessage());
+                }
+            }
+        }
+        player.sendMessage(Messages.PREFIX + Messages.REGION_BUYMESSAGE);
+
+        if(!isNoMoneyTransfer) {
+            AdvancedRegionMarket.getInstance().getEcon().withdrawPlayer(player, this.getPricePerPeriod());
+            this.giveLandlordMoney(this.getPricePerPeriod());
+        }
+    }
 
     private void addSubRegion(Region region) {
         this.subregions.add(region);

@@ -1,7 +1,7 @@
 package net.alex9849.arm.events;
 
 import net.alex9849.arm.regions.Region;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 
 /**
  * Will be called in the following cases:
@@ -10,14 +10,14 @@ import org.bukkit.OfflinePlayer;
  * Someone starts renting a ContractRegion
  */
 public class BuyRegionEvent extends RegionEvent {
-    private OfflinePlayer buyer;
+    private Player buyer;
 
-    public BuyRegionEvent(Region region, OfflinePlayer buyer) {
+    public BuyRegionEvent(Region region, Player buyer) {
         super(region);
         this.buyer = buyer;
     }
 
-    public OfflinePlayer getBuyer() {
+    public Player getBuyer() {
         return this.buyer;
     }
 }

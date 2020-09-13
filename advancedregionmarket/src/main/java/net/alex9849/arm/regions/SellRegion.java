@@ -1,16 +1,15 @@
 package net.alex9849.arm.regions;
 
-import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
-import net.alex9849.arm.events.BuyRegionEvent;
-import net.alex9849.arm.exceptions.*;
-import net.alex9849.arm.minifeatures.teleporter.Teleporter;
+import net.alex9849.arm.exceptions.AlreadySoldException;
+import net.alex9849.arm.exceptions.NoPermissionException;
+import net.alex9849.arm.exceptions.NotEnoughMoneyException;
+import net.alex9849.arm.exceptions.OutOfLimitExeption;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.signs.SignData;
-import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -35,42 +34,6 @@ public class SellRegion extends Region {
     @Override
     public void signClickAction(Player player) throws OutOfLimitExeption, AlreadySoldException, NotEnoughMoneyException, NoPermissionException {
         this.buy(player);
-    }
-
-    @Override
-    public void buy(Player player) throws NoPermissionException, OutOfLimitExeption, NotEnoughMoneyException, AlreadySoldException {
-
-        if (!player.hasPermission(Permission.MEMBER_BUY)) {
-            throw new NoPermissionException(this.replaceVariables(Messages.NO_PERMISSION));
-        }
-        if (this.isSold()) {
-            throw new AlreadySoldException(this.replaceVariables(Messages.REGION_ALREADY_SOLD));
-        }
-
-        if (!AdvancedRegionMarket.getInstance().getLimitGroupManager().isCanBuyAnother(player, this.getRegionKind())) {
-            throw new OutOfLimitExeption(this.replaceVariables(Messages.REGION_BUY_OUT_OF_LIMIT));
-        }
-
-        if (AdvancedRegionMarket.getInstance().getEcon().getBalance(player) < this.getPricePerPeriod()) {
-            throw new NotEnoughMoneyException(this.replaceVariables(Messages.NOT_ENOUGH_MONEY));
-        }
-        BuyRegionEvent buyRegionEvent = new BuyRegionEvent(this, player);
-        Bukkit.getServer().getPluginManager().callEvent(buyRegionEvent);
-        if (buyRegionEvent.isCancelled()) {
-            return;
-        }
-
-        AdvancedRegionMarket.getInstance().getEcon().withdrawPlayer(player, this.getPricePerPeriod());
-        this.giveLandlordMoney(this.getPricePerPeriod());
-        this.setSold(player);
-        if (AdvancedRegionMarket.getInstance().getPluginSettings().isTeleportAfterSellRegionBought()) {
-            try {
-                Teleporter.teleport(player, this, "", AdvancedRegionMarket.getInstance().getConfig().getBoolean("Other.TeleportAfterRegionBoughtCountdown"));
-            } catch (NoSaveLocationException e) {
-                player.sendMessage(Messages.PREFIX + this.replaceVariables(Messages.TELEPORTER_NO_SAVE_LOCATION_FOUND));
-            }
-        }
-        player.sendMessage(Messages.PREFIX + Messages.REGION_BUYMESSAGE);
     }
 
     @Override

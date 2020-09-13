@@ -17,7 +17,7 @@ public class TpToFreeRegion extends BasicArmCommand {
 
     public TpToFreeRegion() {
         super(false, "tptofreeregion",
-                Arrays.asList("(?i)tptofreeregion [^;\n ]+ ?(-buy)"),
+                Arrays.asList("(?i)tptofreeregion [^;\n ]+( -buy)?"),
                 Arrays.asList("tptofreeregion [REGIONKIND] (-buy)"),
                 Arrays.asList(Permission.MEMBER_TP_TO_FREE_REGION));
     }

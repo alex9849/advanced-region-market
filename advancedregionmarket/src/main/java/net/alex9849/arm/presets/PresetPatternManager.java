@@ -57,12 +57,20 @@ public class PresetPatternManager extends YamlFileManager<Preset> {
             preset = new SellPreset();
 
         } else if(presetType == PresetType.CONTRACTPRESET || presetType == PresetType.RENTPRESET) {
-            Long extendTime = section.getLong("extendTime");
+            long cfgExtendTime = section.getLong("extendTime");
+            Long extendTime = null;
+            if(cfgExtendTime >= 1000) {
+                extendTime = cfgExtendTime;
+            }
             CountdownPreset countdownPreset;
             if (presetType == PresetType.CONTRACTPRESET) {
                 countdownPreset = new ContractPreset();
             } else {
-                long maxRentTime = section.getLong("maxRentTime");
+                long cfgMaxRentTime = section.getLong("maxRentTime");
+                Long maxRentTime = null;
+                if(cfgMaxRentTime >= 1000) {
+                    maxRentTime = cfgMaxRentTime;
+                }
                 RentPreset rentPreset = new RentPreset();
                 rentPreset.setMaxRentTime(maxRentTime);
                 countdownPreset = rentPreset;

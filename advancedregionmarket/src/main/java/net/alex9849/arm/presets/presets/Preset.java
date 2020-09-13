@@ -278,6 +278,7 @@ public abstract class Preset implements Saveable, Cloneable {
      * @param world    The world of the WorldGuard region
      * @param sender   The sender that executes the saved commands
      * @param signs    The signs that should be linked to the region
+     * @param withSetupCommands If true setupcommands will be executed for the newly generated region
      * @return A Region with the given arguments
      */
     public Region generateRegion(WGRegion wgRegion, World world, CommandSender sender, boolean withSetupCommands, List<SignData> signs) {

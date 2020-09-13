@@ -825,7 +825,7 @@ public class RegionManager extends YamlFileManager<Region> {
         this.tabCompleteRegions = tabCompleteRegions;
     }
 
-    public void teleportToFreeRegion(RegionKind type, Player player) throws InputException {
+    public Region teleportToFreeRegion(RegionKind type, Player player) throws InputException {
         for (Region region : this) {
 
             if ((!region.isSold()) && (region.getRegionKind() == type)) {
@@ -835,7 +835,7 @@ public class RegionManager extends YamlFileManager<Region> {
                 } catch (NoSaveLocationException e) {
                     continue;
                 }
-                return;
+                return region;
             }
         }
         throw new InputException(player, Messages.NO_FREE_REGION_WITH_THIS_KIND);

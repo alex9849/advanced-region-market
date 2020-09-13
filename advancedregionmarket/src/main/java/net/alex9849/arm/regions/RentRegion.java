@@ -3,7 +3,7 @@ package net.alex9849.arm.regions;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
-import net.alex9849.arm.events.PreExtendRegionEvent;
+import net.alex9849.arm.events.PreExtendEvent;
 import net.alex9849.arm.exceptions.*;
 import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
@@ -105,7 +105,7 @@ public class RentRegion extends CountdownRegion {
             throw new RegionNotOwnException(Messages.REGION_NOT_OWN);
         }
 
-        PreExtendRegionEvent preExtendEvent = new PreExtendRegionEvent(this);
+        PreExtendEvent preExtendEvent = new PreExtendEvent(this);
         Bukkit.getServer().getPluginManager().callEvent(preExtendEvent);
         if(preExtendEvent.isCancelled()) {
             return;

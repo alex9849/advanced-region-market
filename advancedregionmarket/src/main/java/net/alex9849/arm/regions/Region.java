@@ -6,7 +6,10 @@ import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.entitylimit.EntityLimit;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
-import net.alex9849.arm.events.*;
+import net.alex9849.arm.events.PreBuyEvent;
+import net.alex9849.arm.events.RestoreRegionEvent;
+import net.alex9849.arm.events.UnsellRegionEvent;
+import net.alex9849.arm.events.UpdateRegionEvent;
 import net.alex9849.arm.exceptions.*;
 import net.alex9849.arm.flaggroups.FlagGroup;
 import net.alex9849.arm.inactivityexpiration.InactivityExpirationGroup;
@@ -704,12 +707,6 @@ public abstract class Region implements Saveable {
 
         if (!isNoMoneyTransfer && AdvancedRegionMarket.getInstance().getEcon().getBalance(player) < this.getPricePerPeriod()) {
             throw new NotEnoughMoneyException(this.replaceVariables(Messages.NOT_ENOUGH_MONEY));
-        }
-
-        BuyRegionEvent buyRegionEvent = new BuyRegionEvent(this, player);
-        Bukkit.getServer().getPluginManager().callEvent(buyRegionEvent);
-        if (buyRegionEvent.isCancelled()) {
-            return;
         }
 
         this.setSold(player);

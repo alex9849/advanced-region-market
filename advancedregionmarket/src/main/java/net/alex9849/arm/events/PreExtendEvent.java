@@ -2,10 +2,10 @@ package net.alex9849.arm.events;
 
 import net.alex9849.arm.regions.Region;
 
-public class PreExtendRegionEvent extends RegionEvent {
+public class PreExtendEvent extends RegionEvent {
     private boolean isNoMoneyTransfer;
 
-    public PreExtendRegionEvent(Region region) {
+    public PreExtendEvent(Region region) {
         super(region);
     }
 

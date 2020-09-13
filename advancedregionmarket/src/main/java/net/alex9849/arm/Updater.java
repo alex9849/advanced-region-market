@@ -165,6 +165,10 @@ public class Updater {
                 AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 3.2.2...");
                 updateTo3p2p2(pluginConfig);
             }
+            if(new Version(3, 2, 6).biggerThan(lastVersion)) {
+                AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 3.2.6...");
+                updateTo3p2p6(pluginConfig);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -1074,8 +1078,40 @@ public class Updater {
         AdvancedRegionMarket.getInstance().saveConfig();
     }
 
-    private static class UpdateHelpMethods {
+    private static void updateTo3p2p6(FileConfiguration pluginConfig) throws IOException {
+        UpdateHelpMethods.applyToAllPresets((presetSection, presetName, presetType) -> {
+            if(presetSection.get("extendTime") != null && presetSection.getInt("extendTime") < 1000) {
+                presetSection.set("extendTime", 1000);
+            }
+            if(presetSection.get("maxRentTime") != null && presetSection.getInt("maxRentTime") < 1000) {
+                presetSection.set("maxRentTime", 1000);
+            }
+        });
+        pluginConfig.set("Version", "3.2.6");
+        AdvancedRegionMarket.getInstance().saveConfig();
+    }
 
+    private static class UpdateHelpMethods {
+        interface PresetApplier {
+            void apply(ConfigurationSection presetSection, String presetName, String presetType);
+        }
+
+        private static void applyToAllPresets(PresetApplier presetApplier) throws IOException {
+            File presetsConfDic = new File(AdvancedRegionMarket.getInstance().getDataFolder() + "/presets.yml");
+            YamlConfiguration presetsConf = YamlConfiguration.loadConfiguration(presetsConfDic);
+            for(String presetType : presetsConf.getKeys(false)) {
+                ConfigurationSection presetTypeSection = presetsConf.getConfigurationSection(presetType);
+                if(presetTypeSection == null)
+                    continue;
+                for(String presetName : presetTypeSection.getKeys(false)) {
+                    ConfigurationSection presetNameSection = presetTypeSection.getConfigurationSection(presetName);
+                    if(presetNameSection == null)
+                        continue;
+                    presetApplier.apply(presetNameSection, presetName, presetType);
+                }
+            }
+            presetsConf.save(presetsConfDic);
+        }
 
         private static void replaceVariableInMessagesYML(String variable, String replacement) throws IOException {
             File messagesConfDic = new File(AdvancedRegionMarket.getInstance().getDataFolder() + "/messages.yml");

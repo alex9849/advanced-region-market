@@ -6,7 +6,7 @@ import net.alex9849.arm.commands.BasicArmCommand;
 import net.alex9849.arm.exceptions.CmdSyntaxException;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.presets.ActivePresetManager;
-import net.alex9849.arm.presets.PresetPlayerPair;
+import net.alex9849.arm.presets.PresetSenderPair;
 import net.alex9849.arm.presets.presets.CountdownPreset;
 import net.alex9849.arm.presets.presets.Preset;
 import net.alex9849.arm.presets.presets.PresetType;
@@ -22,7 +22,7 @@ public class ExtendTimeCommand extends BasicArmCommand {
     private PresetType presetType;
 
     public ExtendTimeCommand(PresetType presetType) {
-        super(false, "extendtime",
+        super(true, "extendtime",
                 Arrays.asList("(?i)extendtime ([0-9]+(s|m|h|d))", "(?i)extendtime (?i)remove"),
                 Arrays.asList("extendtime ([TIME(Example: 10h)]/remove)"),
                 Arrays.asList(Permission.ADMIN_PRESET_SET_EXTENDTIME));
@@ -31,13 +31,10 @@ public class ExtendTimeCommand extends BasicArmCommand {
 
     @Override
     protected boolean runCommandLogic(CommandSender sender, String command, String commandLabel) throws InputException, CmdSyntaxException {
-        Player player = (Player) sender;
-
-        Preset preset = ActivePresetManager.getPreset(player, this.presetType);
-
+        Preset preset = ActivePresetManager.getPreset(sender, this.presetType);
         if (preset == null) {
             preset = this.presetType.create();
-            ActivePresetManager.add(new PresetPlayerPair(player, preset));
+            ActivePresetManager.add(new PresetSenderPair(sender, preset));
         }
 
         if (!(preset instanceof CountdownPreset)) {
@@ -47,13 +44,13 @@ public class ExtendTimeCommand extends BasicArmCommand {
 
         if (command.matches(this.regex_remove)) {
             contractPreset.setExtendTime((Long) null);
-            player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
+            sender.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
         } else {
             try {
                 contractPreset.setExtendTime(command.split(" ")[1]);
-                player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
+                sender.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
                 if (contractPreset.canPriceLineBeLetEmpty()) {
-                    player.sendMessage(Messages.PREFIX + "You can leave the price-line on signs empty now");
+                    sender.sendMessage(Messages.PREFIX + "You can leave the price-line on signs empty now");
                 }
             } catch (IllegalArgumentException e) {
                 throw new InputException(sender, e.getMessage());

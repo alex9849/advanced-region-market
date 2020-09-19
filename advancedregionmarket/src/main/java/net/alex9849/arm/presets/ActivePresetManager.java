@@ -2,47 +2,47 @@ package net.alex9849.arm.presets;
 
 import net.alex9849.arm.presets.presets.Preset;
 import net.alex9849.arm.presets.presets.PresetType;
-import org.bukkit.entity.Player;
+import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ActivePresetManager {
-    private static List<PresetPlayerPair> presetPlayerPairList = new ArrayList();
+    private static List<PresetSenderPair> presetSenderPairList = new ArrayList();
 
-    public static Preset getPreset(Player player, PresetType presetType) {
-        for (PresetPlayerPair ppp : presetPlayerPairList) {
-            if ((ppp.getPlayer().getUniqueId() == player.getUniqueId()) && (ppp.getPreset().getPresetType() == presetType)) {
+    public static Preset getPreset(CommandSender sender, PresetType presetType) {
+        for (PresetSenderPair ppp : presetSenderPairList) {
+            if ((ppp.getSender() == sender) && (ppp.getPreset().getPresetType() == presetType)) {
                 return ppp.getPreset();
             }
         }
         return null;
     }
 
-    public static void add(PresetPlayerPair ppp) {
-        deletePreset(ppp.getPlayer(), ppp.getPreset().getPresetType());
-        presetPlayerPairList.add(ppp);
+    public static void add(PresetSenderPair ppp) {
+        deletePreset(ppp.getSender(), ppp.getPreset().getPresetType());
+        presetSenderPairList.add(ppp);
     }
 
-    public static void deletePreset(Player player) {
-        for (int i = 0; i < presetPlayerPairList.size(); i++) {
-            if (presetPlayerPairList.get(i).getPlayer().getUniqueId() == player.getUniqueId()) {
-                presetPlayerPairList.remove(i);
+    public static void deletePreset(CommandSender sender) {
+        for (int i = 0; i < presetSenderPairList.size(); i++) {
+            if (presetSenderPairList.get(i).getSender()== sender) {
+                presetSenderPairList.remove(i);
                 i--;
             }
         }
     }
 
-    public static void deletePreset(Player player, PresetType presetType) {
-        for (int i = 0; i < presetPlayerPairList.size(); i++) {
-            if ((presetPlayerPairList.get(i).getPlayer().getUniqueId() == player.getUniqueId()) && presetPlayerPairList.get(i).getPreset().getPresetType() == presetType) {
-                presetPlayerPairList.remove(i);
+    public static void deletePreset(CommandSender sender, PresetType presetType) {
+        for (int i = 0; i < presetSenderPairList.size(); i++) {
+            if ((presetSenderPairList.get(i).getSender() == sender) && presetSenderPairList.get(i).getPreset().getPresetType() == presetType) {
+                presetSenderPairList.remove(i);
                 i--;
             }
         }
     }
 
     public static void reset() {
-        ActivePresetManager.presetPlayerPairList = new ArrayList<>();
+        ActivePresetManager.presetSenderPairList = new ArrayList<>();
     }
 }

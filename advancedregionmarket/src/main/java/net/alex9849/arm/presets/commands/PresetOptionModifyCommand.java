@@ -4,7 +4,7 @@ import net.alex9849.arm.Messages;
 import net.alex9849.arm.commands.OptionModifyCommand;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.presets.ActivePresetManager;
-import net.alex9849.arm.presets.PresetPlayerPair;
+import net.alex9849.arm.presets.PresetSenderPair;
 import net.alex9849.arm.presets.presets.Preset;
 import net.alex9849.arm.presets.presets.PresetType;
 import org.bukkit.command.CommandSender;
@@ -19,7 +19,7 @@ public abstract class PresetOptionModifyCommand<SettingsObj> extends OptionModif
 
     public PresetOptionModifyCommand(String rootCommand, List<String> permissions, boolean allowNullValueSetting, String optionRegex,
                                      String optionDescription, String settingNotFoundMsg, PresetType presetType) {
-        super(false, !allowNullValueSetting, rootCommand,
+        super(true, !allowNullValueSetting, rootCommand,
                 Arrays.asList("(?i)" + rootCommand + " " + optionRegex),
                 Arrays.asList(rootCommand + " " + optionDescription),
                 permissions, "", settingNotFoundMsg);
@@ -27,7 +27,7 @@ public abstract class PresetOptionModifyCommand<SettingsObj> extends OptionModif
     }
 
     public PresetOptionModifyCommand(String rootCommand, List<String> permissions, PresetType presetType) {
-        super(false, false, rootCommand,
+        super(true, false, rootCommand,
                 Arrays.asList("(?i)" + rootCommand),
                 Arrays.asList(rootCommand),
                 permissions, "", "");
@@ -40,11 +40,10 @@ public abstract class PresetOptionModifyCommand<SettingsObj> extends OptionModif
 
     @Override
     protected final Preset getObjectFromCommand(CommandSender sender, String command) throws InputException {
-        Player player = (Player) sender;
-        Preset preset = ActivePresetManager.getPreset(player, this.presetType);
+        Preset preset = ActivePresetManager.getPreset(sender, this.presetType);
         if (preset == null) {
             preset = this.presetType.create();
-            ActivePresetManager.add(new PresetPlayerPair(player, preset));
+            ActivePresetManager.add(new PresetSenderPair(sender, preset));
         }
         return preset;
     }

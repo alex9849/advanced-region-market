@@ -7,7 +7,7 @@ import net.alex9849.arm.commands.BasicArmCommand;
 import net.alex9849.arm.exceptions.CmdSyntaxException;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.presets.ActivePresetManager;
-import net.alex9849.arm.presets.PresetPlayerPair;
+import net.alex9849.arm.presets.PresetSenderPair;
 import net.alex9849.arm.presets.presets.Preset;
 import net.alex9849.arm.presets.presets.PresetType;
 import org.bukkit.command.CommandSender;
@@ -21,7 +21,7 @@ public class LoadCommand extends BasicArmCommand {
     private PresetType presetType;
 
     public LoadCommand(PresetType presetType) {
-        super(false, "load",
+        super(true, "load",
                 Arrays.asList("(?i)load [^;\n ]+"),
                 Arrays.asList("load [PRESETNAME]"),
                 Arrays.asList(Permission.ADMIN_PRESET_LOAD));
@@ -30,12 +30,11 @@ public class LoadCommand extends BasicArmCommand {
 
     @Override
     protected boolean runCommandLogic(CommandSender sender, String command, String commandLabel) throws InputException, CmdSyntaxException {
-        Player player = (Player) sender;
         Preset toAssign = AdvancedRegionMarket.getInstance().getPresetPatternManager()
                 .getPreset(command.split(" ")[1], this.presetType);
 
         if (toAssign == null) {
-            throw new InputException(player, Messages.PRESET_NOT_FOUND);
+            throw new InputException(sender, Messages.PRESET_NOT_FOUND);
         }
 
         Preset toAssignCopy = null;
@@ -44,8 +43,8 @@ public class LoadCommand extends BasicArmCommand {
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
-        ActivePresetManager.add(new PresetPlayerPair(player, toAssignCopy));
-        player.sendMessage(Messages.PREFIX + Messages.PRESET_LOADED);
+        ActivePresetManager.add(new PresetSenderPair(sender, toAssignCopy));
+        sender.sendMessage(Messages.PREFIX + Messages.PRESET_LOADED);
         return true;
     }
 

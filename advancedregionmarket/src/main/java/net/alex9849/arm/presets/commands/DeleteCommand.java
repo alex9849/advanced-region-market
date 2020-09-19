@@ -19,7 +19,7 @@ public class DeleteCommand extends BasicArmCommand {
     private PresetType presetType;
 
     public DeleteCommand(PresetType presetType) {
-        super(false, "delete",
+        super(true, "delete",
                 Arrays.asList("(?i)delete [^;\n ]+"),
                 Arrays.asList("delete [PRESETNAME]"),
                 Arrays.asList(Permission.ADMIN_PRESET_DELETE));

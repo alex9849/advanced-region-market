@@ -20,7 +20,7 @@ public class ListCommand extends BasicArmCommand {
     private PresetType presetType;
 
     public ListCommand(PresetType presetType) {
-        super(false, "list",
+        super(true, "list",
                 Arrays.asList("(?i)list"),
                 Arrays.asList("list"),
                 Arrays.asList(Permission.ADMIN_PRESET_LIST));

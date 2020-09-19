@@ -6,7 +6,7 @@ import net.alex9849.arm.commands.BasicArmCommand;
 import net.alex9849.arm.exceptions.CmdSyntaxException;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.presets.ActivePresetManager;
-import net.alex9849.arm.presets.PresetPlayerPair;
+import net.alex9849.arm.presets.PresetSenderPair;
 import net.alex9849.arm.presets.presets.Preset;
 import net.alex9849.arm.presets.presets.PresetType;
 import net.alex9849.arm.presets.presets.RentPreset;
@@ -22,7 +22,7 @@ public class MaxRentTimeCommand extends BasicArmCommand {
     private PresetType presetType;
 
     public MaxRentTimeCommand(PresetType presetType) {
-        super(false, "maxrenttime",
+        super(true, "maxrenttime",
                 Arrays.asList("(?i)maxrenttime ([0-9]+(s|m|h|d))", "(?i)maxrenttime (?i)remove"),
                 Arrays.asList("maxrenttime ([TIME(Example: 10h)]/remove)"),
                 Arrays.asList(Permission.ADMIN_PRESET_SET_MAXRENTTIME));
@@ -31,17 +31,15 @@ public class MaxRentTimeCommand extends BasicArmCommand {
 
     @Override
     protected boolean runCommandLogic(CommandSender sender, String command, String commandLabel) throws InputException, CmdSyntaxException {
-        Player player = (Player) sender;
-
         if (presetType != PresetType.RENTPRESET) {
             return false;
         }
 
-        Preset preset = ActivePresetManager.getPreset(player, this.presetType);
+        Preset preset = ActivePresetManager.getPreset(sender, this.presetType);
 
         if (preset == null) {
             preset = this.presetType.create();
-            ActivePresetManager.add(new PresetPlayerPair(player, preset));
+            ActivePresetManager.add(new PresetSenderPair(sender, preset));
         }
 
         if (!(preset instanceof RentPreset)) {
@@ -51,13 +49,13 @@ public class MaxRentTimeCommand extends BasicArmCommand {
 
         if (command.matches(this.regex_remove)) {
             rentPreset.setMaxRentTime((Long) null);
-            player.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
+            sender.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
         } else {
             try {
                 rentPreset.setMaxRentTime(command.split(" ")[1]);
-                player.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
+                sender.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
                 if (rentPreset.canPriceLineBeLetEmpty()) {
-                    player.sendMessage(Messages.PREFIX + "You can leave the price-line on signs empty now");
+                    sender.sendMessage(Messages.PREFIX + "You can leave the price-line on signs empty now");
                 }
             } catch (IllegalArgumentException e) {
                 throw new InputException(sender, e.getMessage());

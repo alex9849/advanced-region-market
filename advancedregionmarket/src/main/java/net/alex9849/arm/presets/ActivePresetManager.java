@@ -26,7 +26,7 @@ public class ActivePresetManager {
 
     public static void deletePreset(CommandSender sender) {
         for (int i = 0; i < presetSenderPairList.size(); i++) {
-            if (presetSenderPairList.get(i).getSender()== sender) {
+            if (presetSenderPairList.get(i).getSender() == sender) {
                 presetSenderPairList.remove(i);
                 i--;
             }

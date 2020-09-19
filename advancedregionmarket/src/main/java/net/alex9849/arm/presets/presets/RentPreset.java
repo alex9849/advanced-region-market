@@ -7,7 +7,6 @@ import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.price.RentPrice;
 import net.alex9849.arm.util.TimeUtil;
 import net.alex9849.arm.util.stringreplacer.StringCreator;
-import net.alex9849.arm.util.stringreplacer.StringReplacer;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.signs.SignData;
 import org.bukkit.World;
@@ -19,14 +18,6 @@ import java.util.List;
 
 public class RentPreset extends CountdownPreset {
     private Long maxRentTime;
-    private StringReplacer stringReplacer;
-
-    {
-        HashMap<String, StringCreator> variableReplacements = new HashMap<>();
-        variableReplacements.put("%maxrenttime%", () -> Messages.getStringValue(this.getMaxRentTime(), x ->
-                TimeUtil.timeInMsToString(x, false, false), Messages.NOT_DEFINED));
-        this.stringReplacer = new StringReplacer(variableReplacements, 50);
-    }
 
     @Override
     public void setAutoPrice(AutoPrice autoPrice) {
@@ -88,15 +79,18 @@ public class RentPreset extends CountdownPreset {
     }
 
     @Override
+    public HashMap<String, StringCreator> getVariableReplacements() {
+        HashMap<String, StringCreator> variableReplacements = super.getVariableReplacements();
+        variableReplacements.put("%maxrenttime%", () -> Messages.getStringValue(this.getMaxRentTime(), x ->
+                TimeUtil.timeInMsToString(x, false, false), Messages.NOT_DEFINED));
+        return variableReplacements;
+    }
+
+    @Override
     public ConfigurationSection toConfigurationSection() {
         ConfigurationSection section = super.toConfigurationSection();
         section.set("maxRentTime", this.getMaxRentTime());
         return section;
-    }
-
-    public String replaceVariables(String message) {
-        String replacedMessge = super.replaceVariables(message);
-        return this.stringReplacer.replace(replacedMessge).toString();
     }
 
 }

@@ -8,21 +8,12 @@ import net.alex9849.arm.regions.price.ContractPrice;
 import net.alex9849.arm.regions.price.RentPrice;
 import net.alex9849.arm.util.TimeUtil;
 import net.alex9849.arm.util.stringreplacer.StringCreator;
-import net.alex9849.arm.util.stringreplacer.StringReplacer;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.HashMap;
 
 public abstract class CountdownPreset extends Preset {
     private Long extendTime;
-    private StringReplacer stringReplacer;
-
-    {
-        HashMap<String, StringCreator> variableReplacements = new HashMap<>();
-        variableReplacements.put("%extendtime%", () -> Messages.getStringValue(this.getExtendTime(), x ->
-                TimeUtil.timeInMsToString(x, false, false), Messages.NOT_DEFINED));
-        this.stringReplacer = new StringReplacer(variableReplacements, 50);
-    }
 
     public Long getExtendTime() {
         return this.extendTime;
@@ -67,15 +58,18 @@ public abstract class CountdownPreset extends Preset {
     }
 
     @Override
+    public HashMap<String, StringCreator> getVariableReplacements() {
+        HashMap<String, StringCreator> variableReplacements = super.getVariableReplacements();
+        variableReplacements.put("%extendtime%", () -> Messages.getStringValue(this.getExtendTime(), x ->
+                TimeUtil.timeInMsToString(x, false, false), Messages.NOT_DEFINED));
+        return variableReplacements;
+    }
+
+    @Override
     public ConfigurationSection toConfigurationSection() {
         ConfigurationSection section = super.toConfigurationSection();
         section.set("extendTime", this.getExtendTime());
         return section;
-    }
-
-    public String replaceVariables(String message) {
-        String replacedMessge = super.replaceVariables(message);
-        return this.stringReplacer.replace(replacedMessge).toString();
     }
 
 }

@@ -1097,7 +1097,7 @@ public class Gui implements Listener {
             clickItems.add(membersicon);
         }
 
-        if (members.size() == 0) {
+        if (members.size() < region.getMaxMembers() || region.getMaxMembers() == -1) {
             ClickItem infoButton = new ClickItem(new ItemStack(Gui.INFO_ITEM), Messages.GUI_OWNER_MEMBER_INFO_ITEM,
                     region.replaceVariables(Messages.GUI_OWNER_MEMBER_INFO_LORE));
             clickItems.add(infoButton);

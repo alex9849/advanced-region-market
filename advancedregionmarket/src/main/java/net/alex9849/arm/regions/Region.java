@@ -365,6 +365,10 @@ public abstract class Region implements Saveable {
         return (this.getLastLogin() + ieGroup.getTakeOverAfterMs() < actualTime);
     }
 
+    /**
+     *
+     * @return -1 means infinite
+     */
     public int getMaxMembers() {
         return maxMembers;
     }
@@ -573,6 +577,10 @@ public abstract class Region implements Saveable {
         this.queueSave();
     }
 
+    /**
+     *
+     * @param maxMembers -1 means infinite. Smaller values than -1 will set the limit to 0 automatically
+     */
     public void setMaxMembers(int maxMembers) {
         if (this.isSubregion())
             throw new IllegalArgumentException("Can't change this option for a Subregion!");

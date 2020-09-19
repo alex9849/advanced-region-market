@@ -54,6 +54,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.block.*;
+import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerChatEvent;
@@ -294,6 +295,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         EntitySpawnEvent.getHandlerList().unregister(this);
         VehicleCreateEvent.getHandlerList().unregister(this);
         PlayerChatEvent.getHandlerList().unregister(this);
+        EntityChangeBlockEvent.getHandlerList().unregister(this);
         getServer().getScheduler().cancelTasks(this);
         HandlerList.unregisterAll(this);
     }

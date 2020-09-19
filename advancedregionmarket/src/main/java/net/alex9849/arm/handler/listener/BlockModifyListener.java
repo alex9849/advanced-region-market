@@ -5,11 +5,15 @@ import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.regions.Region;
+import org.bukkit.Location;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.FallingBlock;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityChangeBlockEvent;
 
 import java.util.List;
 
@@ -42,6 +46,25 @@ public class BlockModifyListener implements Listener {
             return;
         }
         this.breakblockCheckHotel(event);
+    }
+
+    @EventHandler(priority = EventPriority.HIGH)
+    public void blockPhysicsHotel(EntityChangeBlockEvent event) {
+        if(event.isCancelled()) {
+            return;
+        }
+        Entity s = event.getEntity();
+        if (!(s instanceof FallingBlock)) {
+            return;
+        }
+        Location blockLocation = event.getBlock().getLocation();
+        List<Region> regions = AdvancedRegionMarket.getInstance().getRegionManager().getRegionsByLocation(blockLocation);
+        for(Region region : regions) {
+            if(region.isHotel() && region.isSold()) {
+                region.addBuiltBlock(blockLocation);
+            }
+        }
+
     }
 
     private void breakblockCheckHotel(BlockBreakEvent event) {

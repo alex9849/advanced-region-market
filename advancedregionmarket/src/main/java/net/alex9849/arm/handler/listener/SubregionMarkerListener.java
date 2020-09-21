@@ -45,8 +45,10 @@ public class SubregionMarkerListener implements Listener {
         if ((event.getItem().getType() != Material.FEATHER) || ((event.getAction() != Action.RIGHT_CLICK_BLOCK) && (event.getAction() != Action.LEFT_CLICK_BLOCK))) {
             return;
         }
-
-        if (!event.getItem().getItemMeta().getDisplayName().equals("Subregion Tool")) {
+        
+        if (event.getItem().hasItemMeta() && 
+            event.getItem().getItemMeta().hasDisplayName() &&
+            !event.getItem().getItemMeta().getDisplayName().equals("Subregion Tool")) {
             return;
         }
 

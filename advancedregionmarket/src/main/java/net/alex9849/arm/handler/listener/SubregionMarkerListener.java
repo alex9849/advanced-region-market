@@ -46,8 +46,8 @@ public class SubregionMarkerListener implements Listener {
             return;
         }
         
-        if (event.getItem().hasItemMeta() && 
-            event.getItem().getItemMeta().hasDisplayName() &&
+        if (!event.getItem().hasItemMeta() || 
+            !event.getItem().getItemMeta().hasDisplayName() ||
             !event.getItem().getItemMeta().getDisplayName().equals("Subregion Tool")) {
             return;
         }

@@ -1,8 +1,8 @@
 name: AdvancedRegionMarket
 version: ${project.version}
 main: net.alex9849.arm.AdvancedRegionMarket
-depend: [WorldGuard, WorldEdit, Vault]
-softdepend: [MultiWorld, Multiverse-Core, FastAsyncWorldEdit, LuckPerms]
+depend: ['WorldGuard', 'WorldEdit', 'Vault']
+softdepend: ['MultiWorld', 'Multiverse-Core', 'FastAsyncWorldEdit', 'LuckPerms']
 authors:
   - alex9849
 api-version: 1.13

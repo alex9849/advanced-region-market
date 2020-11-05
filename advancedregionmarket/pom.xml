@@ -60,6 +60,10 @@
                             <pattern>net.alex9849.pluginstats.client</pattern>
                             <shadedPattern>net.alex9849.arm.analytics</shadedPattern>
                         </relocation>
+                        <relocation>
+                            <pattern>org.ahocorasick</pattern>
+                            <shadedPattern>net.alex9849.arm.ahocorasick</shadedPattern>
+                        </relocation>
                     </relocations>
                 </configuration>
                 <executions>

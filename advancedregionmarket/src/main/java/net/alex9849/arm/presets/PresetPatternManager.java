@@ -44,19 +44,17 @@ public class PresetPatternManager extends YamlFileManager<Preset> {
             regionKind = AdvancedRegionMarket.getInstance().getRegionKindManager().getRegionKind(regionKindString);
         }
         FlagGroup flagGroup = null;
-        if (flagGroupString == null) {
+        if (flagGroupString != null) {
             flagGroup = AdvancedRegionMarket.getInstance().getFlagGroupManager().getFlagGroup(flagGroupString);
         }
         EntityLimitGroup entityLimitGroup = null;
-        if (entityLimitGroupString == null) {
+        if (entityLimitGroupString != null) {
             entityLimitGroup = AdvancedRegionMarket.getInstance().getEntityLimitGroupManager().getEntityLimitGroup(entityLimitGroupString);
         }
 
-        Preset preset = null;
-        if (presetType == PresetType.SELLPRESET) {
-            preset = new SellPreset();
+        Preset preset = new SellPreset();
 
-        } else if(presetType == PresetType.CONTRACTPRESET || presetType == PresetType.RENTPRESET) {
+        if(presetType == PresetType.CONTRACTPRESET || presetType == PresetType.RENTPRESET) {
             long cfgExtendTime = section.getLong("extendTime");
             Long extendTime = null;
             if(cfgExtendTime >= 1000) {

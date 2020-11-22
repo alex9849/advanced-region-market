@@ -2,6 +2,8 @@ package net.alex9849.arm.regions;
 
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
+import net.alex9849.arm.exceptions.FeatureDisabledException;
+import net.alex9849.arm.flaggroups.FlagGroup;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.util.TimeUtil;
 import net.alex9849.arm.util.stringreplacer.StringCreator;
@@ -106,7 +108,6 @@ public abstract class CountdownRegion extends Region {
      */
     @Override
     public void setSold(boolean sold) {
-        super.setSold(sold);
         long actualTime = new GregorianCalendar().getTimeInMillis();
         if (sold) {
             if (this.getPayedTill() < actualTime) {
@@ -115,6 +116,7 @@ public abstract class CountdownRegion extends Region {
         } else {
             this.payedTill = actualTime;
         }
+        super.setSold(sold);
         this.queueSave();
     }
 
@@ -146,6 +148,11 @@ public abstract class CountdownRegion extends Region {
         this.payedTill += time;
         this.queueSave();
         this.updateSigns();
+        try {
+            this.applyFlagGroup(FlagGroup.ResetMode.NON_EDITABLE, false);
+        } catch (FeatureDisabledException e) {
+            //Ignore
+        }
     }
 
     @Override

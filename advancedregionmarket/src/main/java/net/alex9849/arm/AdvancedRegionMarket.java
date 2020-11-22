@@ -112,6 +112,9 @@ public class AdvancedRegionMarket extends JavaPlugin {
             doStartupWorkaround |= plugin != null && !plugin.isEnabled();
         }
         if(doStartupWorkaround) {
+            getLogger().log(Level.WARNING, "It looks like one of these plugins is installed, but not loaded yet:\n" +
+                    String.join(", ", softdependCheckPlugins) + "\n" +
+                    "In order to keep ARM working it scheduled its own enabling code to the end of the startup process as fallback!\n");
             Bukkit.getScheduler().scheduleSyncDelayedTask(this, this::startup, 1);
         } else {
             startup();

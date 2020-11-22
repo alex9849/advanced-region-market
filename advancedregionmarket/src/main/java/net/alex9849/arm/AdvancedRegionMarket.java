@@ -104,6 +104,21 @@ public class AdvancedRegionMarket extends JavaPlugin {
     }
 
     public void onEnable() {
+        //This is a workaround to make shure that this plugin is loaded after the last world has been loaded.
+        boolean doStartupWorkaround = false;
+        List<String> softdependCheckPlugins = Arrays.asList("MultiWorld", "Multiverse-Core");
+        for(String pluginName : softdependCheckPlugins) {
+            Plugin plugin = Bukkit.getPluginManager().getPlugin(pluginName);
+            doStartupWorkaround |= plugin != null && !plugin.isEnabled();
+        }
+        if(doStartupWorkaround) {
+            Bukkit.getScheduler().scheduleSyncDelayedTask(this, this::startup, 1);
+        } else {
+            startup();
+        }
+    }
+
+    public void startup() {
 
         //Check if Worldguard is installed
         if (!setupWorldGuard()) {

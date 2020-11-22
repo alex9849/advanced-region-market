@@ -25,7 +25,7 @@ public class ReloadCommand extends BasicArmCommand {
         sender.sendMessage(Messages.PREFIX + "Reloading...");
         AdvancedRegionMarket.getInstance().onDisable();
         Bukkit.getServer().getPluginManager().getPlugin("AdvancedRegionMarket").reloadConfig();
-        AdvancedRegionMarket.getInstance().onEnable();
+        AdvancedRegionMarket.getInstance().startup();
         sender.sendMessage(Messages.PREFIX + "Complete!");
         return true;
     }

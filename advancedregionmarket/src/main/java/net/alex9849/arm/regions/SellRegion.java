@@ -10,7 +10,6 @@ import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.signs.SignData;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -39,17 +38,6 @@ public class SellRegion extends Region {
     @Override
     public Price getPriceObject() {
         return this.price;
-    }
-
-    @Override
-    public void setSold(OfflinePlayer player) {
-        this.setSold(true);
-        this.getRegion().deleteMembers();
-        this.getRegion().setOwner(player);
-        this.setLastLogin();
-
-        this.updateSigns();
-        this.queueSave();
     }
 
     @Override

@@ -16,6 +16,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class ToolCommand extends BasicArmCommand {
 
@@ -56,7 +57,7 @@ public class ToolCommand extends BasicArmCommand {
     private boolean checkFeather(Player player) {
         for (int i = 0; i < 36; i++) {
             ItemStack item = player.getInventory().getItem(i);
-            if (item != null && item.getItemMeta() != null && item.getItemMeta().getDisplayName().equals("Subregion Tool")) {
+            if (item != null && item.getItemMeta() != null && Objects.equals("Subregion Tool", item.getItemMeta().getDisplayName())) {
                 return true;
             }
         }

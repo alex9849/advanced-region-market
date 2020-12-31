@@ -20,23 +20,23 @@ AutoPrice:
   example1:
     price: 200.0
     extendTime: 2d
-    maxRentTime: 7d
+    maxExtendTime: 7d
     autoPriceCalculation: static
   example2:
     price: 2.0
     extendTime: 12h
-    maxRentTime: 2d
+    maxExtendTime: 2d
     autoPriceCalculation: per_m2
   example3:
     price: 0.05
     extendTime: 7d
-    maxRentTime: 30d
+    maxExtendTime: 30d
     autoPriceCalculation: per_m3
 
 DefaultAutoprice:
   price: 2.0
   extendTime: 1d
-  maxRentTime: 7d
+  maxExtendTime: 7d
   autoPriceCalculation: per_m2
 
 FlagGroups:

@@ -17,13 +17,13 @@ import java.util.HashMap;
 import java.util.List;
 
 public class RentPreset extends CountdownPreset {
-    private Long maxRentTime;
+    private Long maxExtendTime;
 
     @Override
     public void setAutoPrice(AutoPrice autoPrice) {
         super.setAutoPrice(autoPrice);
         if(autoPrice != null) {
-            this.maxRentTime = null;
+            this.maxExtendTime = null;
         }
     }
 
@@ -34,23 +34,23 @@ public class RentPreset extends CountdownPreset {
         }
     }
 
-    public Long getMaxRentTime() {
-        return this.maxRentTime;
+    public Long getMaxExtendTime() {
+        return this.maxExtendTime;
     }
 
-    public void setMaxRentTime(String string) {
-        this.setMaxRentTime(RentPrice.stringToTime(string));
+    public void setMaxExtendTime(String string) {
+        this.setMaxExtendTime(RentPrice.stringToTime(string));
     }
 
-    public void setMaxRentTime(Long time) {
+    public void setMaxExtendTime(Long time) {
         if(time == null) {
-            this.maxRentTime = null;
+            this.maxExtendTime = null;
             return;
         }
         if (time < 1000) {
-            throw new IllegalArgumentException("MaxRentTime needs to be at least one second!");
+            throw new IllegalArgumentException("MaxExtendTime needs to be at least one second!");
         }
-        this.maxRentTime = time;
+        this.maxExtendTime = time;
         this.setAutoPrice(null);
     }
 
@@ -61,7 +61,7 @@ public class RentPreset extends CountdownPreset {
 
     @Override
     public boolean canPriceLineBeLetEmpty() {
-        return (super.canPriceLineBeLetEmpty() && this.maxRentTime != null) || this.getAutoPrice() != null;
+        return (super.canPriceLineBeLetEmpty() && this.maxExtendTime != null) || this.getAutoPrice() != null;
     }
 
     @Override
@@ -73,15 +73,15 @@ public class RentPreset extends CountdownPreset {
     public void applyToRegion(Region region) {
         super.applyToRegion(region);
         if (this.getPrice() != null && this.getExtendTime() != null
-                && this.getMaxRentTime() != null && region instanceof RentRegion) {
-            ((RentRegion) region).setRentPrice(new RentPrice(this.getPrice(), this.getExtendTime(), this.getMaxRentTime()));
+                && this.getMaxExtendTime() != null && region instanceof RentRegion) {
+            ((RentRegion) region).setRentPrice(new RentPrice(this.getPrice(), this.getExtendTime(), this.getMaxExtendTime()));
         }
     }
 
     @Override
     public HashMap<String, StringCreator> getVariableReplacements() {
         HashMap<String, StringCreator> variableReplacements = super.getVariableReplacements();
-        variableReplacements.put("%maxrenttime%", () -> Messages.getStringValue(this.getMaxRentTime(), x ->
+        variableReplacements.put("%maxextendtime%", () -> Messages.getStringValue(this.getMaxExtendTime(), x ->
                 TimeUtil.timeInMsToString(x, false, false), Messages.NOT_DEFINED));
         return variableReplacements;
     }
@@ -89,7 +89,7 @@ public class RentPreset extends CountdownPreset {
     @Override
     public ConfigurationSection toConfigurationSection() {
         ConfigurationSection section = super.toConfigurationSection();
-        section.set("maxRentTime", this.getMaxRentTime());
+        section.set("maxExtendTime", this.getMaxExtendTime());
         return section;
     }
 

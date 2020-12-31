@@ -34,7 +34,7 @@ public class Permission {
     public static final String ADMIN_CREATE_BACKUP = "arm.admin.createbackup";
     public static final String ADMIN_PRESET_SET_PRICE = "arm.admin.preset.setprice";
     public static final String ADMIN_PRESET_SET_EXTENDTIME = "arm.admin.preset.setextendtime";
-    public static final String ADMIN_PRESET_SET_MAXRENTTIME = "arm.admin.preset.setmaxrenttime";
+    public static final String ADMIN_PRESET_SET_MAXEXTENDTIME = "arm.admin.preset.setmaxextendtime";
     public static final String ADMIN_PRESET_SET_REGIONKIND = "arm.admin.preset.setregionkind";
     public static final String ADMIN_PRESET_SET_INACTIVITYRESET = "arm.admin.preset.setinactivityreset";
     public static final String ADMIN_PRESET_SET_HOTEL = "arm.admin.preset.sethotel";

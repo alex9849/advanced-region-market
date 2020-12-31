@@ -80,16 +80,16 @@ public class SubSignCreationListener implements Listener {
                     throw new InputException(event.getPlayer(), Messages.NO_PERMISSION);
                 }
                 double price = 0;
-                long maxRentTime = 0;
+                long maxExtendTime = 0;
                 long extendPerClick = 0;
 
                 try {
                     String[] priceline = event.getLine(3).split("(;|:)", 3);
                     String pricestring = priceline[0];
                     String extendPerClickString = priceline[1];
-                    String maxRentTimeString = priceline[2];
+                    String maxExtendTimeString = priceline[2];
                     extendPerClick = RentPrice.stringToTime(extendPerClickString);
-                    maxRentTime = RentPrice.stringToTime(maxRentTimeString);
+                    maxExtendTime = RentPrice.stringToTime(maxExtendTimeString);
                     price = Integer.parseInt(pricestring);
                 } catch (ArrayIndexOutOfBoundsException e) {
                     event.getPlayer().sendMessage(Messages.PREFIX + "Please write your price in line 4 in the following pattern:");
@@ -108,7 +108,7 @@ public class SubSignCreationListener implements Listener {
                     throw new InputException(event.getPlayer(), "Could not import sign!");
                 }
                 signList.add(signData);
-                RentPrice rentPrice = new RentPrice(price, extendPerClick, maxRentTime);
+                RentPrice rentPrice = new RentPrice(price, extendPerClick, maxExtendTime);
                 RentRegion rentRegion = new RentRegion(this.subRegionCreator.getSubRegion(), signList, rentPrice,
                         false, this.subRegionCreator.getParentRegion());
                 this.subRegionCreator.saveWorldGuardRegion();

@@ -31,8 +31,8 @@ public class SetPriceCommand extends BasicArmCommand {
         super(false, "setprice",
                 Arrays.asList("(?i)setprice [^;\n ]+ [^;\n ]+", "(?i)setprice [^;\n ]+ [0-9]+ [0-9]+(s|m|h|d) [0-9]+(s|m|h|d)",
                         "(?i)setprice rk:[^;\n ]+ [^;\n ]+", "(?i)setprice rk:[^;\n ]+ [0-9]+ [0-9]+(s|m|h|d) [0-9]+(s|m|h|d)"),
-                Arrays.asList("setprice [REGION] [AUTOPRICE]", "setprice [REGION] [PRICE] [EXTENDTIME] [MAXRENTTIME]",
-                        "setprice rk:[REGION] [AUTOPRICE]", "setprice rk:[REGION] [PRICE] [EXTENDTIME] [MAXRENTTIME]"),
+                Arrays.asList("setprice [REGION] [AUTOPRICE]", "setprice [REGION] [PRICE] [EXTENDTIME] [MAXEXTENDTIME]",
+                        "setprice rk:[REGION] [AUTOPRICE]", "setprice rk:[REGION] [PRICE] [EXTENDTIME] [MAXEXTENDTIME]"),
                 Arrays.asList(Permission.ADMIN_SET_PRICE));
     }
 
@@ -66,11 +66,11 @@ public class SetPriceCommand extends BasicArmCommand {
         if (command.matches(this.regex_price) || command.matches(this.regex_price_massaction)) {
             int priceint = Integer.parseInt(args[2]);
             long extend = RentPrice.stringToTime(args[3]);
-            long maxrenttime = RentPrice.stringToTime(args[4]);
+            long maxextendtime = RentPrice.stringToTime(args[4]);
 
             try {
                 for (Region region : selectedregions) {
-                    price = new RentPrice(priceint, extend, maxrenttime);
+                    price = new RentPrice(priceint, extend, maxextendtime);
                     if(region instanceof SellRegion) {
                         ((SellRegion) region).setSellPrice(price);
                     } else if(region instanceof ContractRegion) {

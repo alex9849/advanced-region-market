@@ -195,7 +195,7 @@ public class Messages {
     public static String RENT_SIGN2;
     @Message(name = "RentSign3", message = "%price%%currency%/%extendtime-short%")
     public static String RENT_SIGN3;
-    @Message(name = "RentSign4", message = "Max.: %maxrenttime-writtenout%")
+    @Message(name = "RentSign4", version = 5, message = "Max.: %maxextendtime-writtenout%")
     public static String RENT_SIGN4;
     @Message(name = "RentedSign1", message = "&4Rented")
     public static String RENTED_SIGN1;
@@ -421,11 +421,11 @@ public class Messages {
             "&9Setup commands:",
             "%presetsetupcommands%"})
     public static List<String> PRESET_INFO_CONTRACTREGION;
-    @Message(name = "PresetInfoRentregion", message = {"&6=========[Region Info]=========",
+    @Message(name = "PresetInfoRentregion", version = 5, message = {"&6=========[Region Info]=========",
             "&9Autoprice: &e%presetautoprice%",
             "&9Price: &e%presetprice%",
             "&9ExtendTime: &e%extendtime%",
-            "&9MaxRentTime: &e%maxrenttime%",
+            "&9MaxExtendTime: &e%maxextendtime%",
             "&9PaybackPercentage: &e%presetpaybackpercentage%",
             "&9Regionkind: &e%presetregionkind%",
             "&9FlagGroup: &e%presetflaggroup%",
@@ -554,12 +554,12 @@ public class Messages {
             "&6Price per M2: %priceperm2%",
             "&6Dimensions: %dimensions%"})
     public static List<String> GUI_SUBREGION_REGION_INFO_SELL;
-    @Message(name = "GUISubregionInfoRent", message = {"&6Selltype: %selltype%",
+    @Message(name = "GUISubregionInfoRent", version = 5, message = {"&6Selltype: %selltype%",
             "&6Status: %soldstatus%",
             "&6Price: %price%",
             "&6Price per M2 (per week): %priceperm2perweek%",
             "&6Extend per click: %extendtime-writtenout%",
-            "&6Max. extended time: %maxrenttime-writtenout%",
+            "&6Max. extended time: %maxextendtime-writtenout%",
             "&6Dimensions: %dimensions%"})
     public static List<String> GUI_SUBREGION_REGION_INFO_RENT;
     @Message(name = "GUISubregionInfoContract", message = {"&6Selltype: %selltype%",
@@ -574,10 +574,10 @@ public class Messages {
             "&6Dimensions: %dimensions%",
             "&6World: %world%"})
     public static List<String> GUI_REGIONFINDER_REGION_INFO_SELL;
-    @Message(name = "GUIRegionfinderInfoRent", message = {"&6Price: %price%",
+    @Message(name = "GUIRegionfinderInfoRent", version = 5, message = {"&6Price: %price%",
             "&6Price per M2 (per week): %priceperm2perweek%",
             "&6Extend per click: %extendtime-writtenout%",
-            "&6Max. extended time: %maxrenttime-writtenout%",
+            "&6Max. extended time: %maxextendtime-writtenout%",
             "&6Dimensions: %dimensions%",
             "&6World: %world%"})
     public static List<String> GUI_REGIONFINDER_REGION_INFO_RENT;
@@ -797,10 +797,10 @@ public class Messages {
             "&9Allowed Subregions: &e%subregionlimit%",
             "&9Subregions: &e&e%subregions%"})
     public static List<String> REGION_INFO_SELLREGION;
-    @Message(name = "RegionInfoRentregionUser", version = 2, message = {"&6=========[Region Info]=========",
+    @Message(name = "RegionInfoRentregionUser", version = 5, message = {"&6=========[Region Info]=========",
             "&9ID: &e%regionid% &7(Type: &r%selltype%&7)",
             "&9Sold: &e%issold%",
-            "&9Price: &e%price% &7per &e%extendtime-writtenout% &7max.: &e%maxrenttime-writtenout%",
+            "&9Price: &e%price% &7per &e%extendtime-writtenout% &7max.: &e%maxextendtime-writtenout%",
             "&9Remaining time: &e%remainingtime-countdown-short%",
             "&9Owner: &e%owner%",
             "&9Members: &e%members%",
@@ -859,10 +859,10 @@ public class Messages {
             "&9Allowed Subregions: &e%subregionlimit%",
             "&9Subregions: &e%subregions%"})
     public static List<String> REGION_INFO_SELLREGION_ADMIN;
-    @Message(name = "RegionInfoRentregionAdmin", version = 2, message = {"&6=========[Region Info]=========",
+    @Message(name = "RegionInfoRentregionAdmin", version = 5, message = {"&6=========[Region Info]=========",
             "&9ID: &e%regionid% &7(Type: &r%selltype%&7)",
             "&9Sold: &e%issold%",
-            "&9Price: &e%price% &7per &e%extendtime-writtenout% &7max.: &e%maxrenttime-writtenout%",
+            "&9Price: &e%price% &7per &e%extendtime-writtenout% &7max.: &e%maxextendtime-writtenout%",
             "&9Remaining time: &e%remainingtime-countdown-short%",
             "&9Owner: &e%owner%",
             "&9Members: &e%members%",
@@ -919,10 +919,10 @@ public class Messages {
             "&9AutoRestore: &e%isautorestore% &9Autoprice: &e%autoprice%",
             "&9PaybackPercentage in %: &e%paypackpercentage%"})
     public static List<String> REGION_INFO_SELLREGION_SUBREGION;
-    @Message(name = "RegionInfoRentregionSubregion", version = 2, message = {"&6=========[Region Info]=========",
+    @Message(name = "RegionInfoRentregionSubregion", version = 5, message = {"&6=========[Region Info]=========",
             "&9ID: &e%regionid% &7(Type: &r%selltype%&7, Subregion)",
             "&9Sold: &e%issold%",
-            "&9Price: &e%price% &7per &e%extendtime-writtenout% &7max.: &e%maxrenttime-writtenout%",
+            "&9Price: &e%price% &7per &e%extendtime-writtenout% &7max.: &e%maxextendtime-writtenout%",
             "&9Remaining time: &e%remainingtime-countdown-short%",
             "&9Owner: &e%owner%",
             "&9Members: &e%members%",
@@ -1043,10 +1043,10 @@ public class Messages {
             "&cwill lose their rights.",
             "&cAfterwards it will go back for sale!"})
     public static List<String> GUI_TAKEOVER_ITEM_LORE;
-    @Message(name = "GUIExtendRentRegionButtonLore", version = 4, message = {"&aClick to extend your region for &6%extendtime-current-writtenout%",
+    @Message(name = "GUIExtendRentRegionButtonLore", version = 5, message = {"&aClick to extend your region for &6%extendtime-current-writtenout%",
             "&athis will cost you &6%price-current%%currency%&a!",
             "&aThis region will expire in &6%remainingtime-countdown-short%&a.",
-            "&aYou can extend your region up to &6%maxrenttime-writtenout%&a."})
+            "&aYou can extend your region up to &6%maxextendtime-writtenout%&a."})
     public static List<String> GUI_EXTEND_BUTTON_LORE;
     @Message(name = "GUIRentRegionLore", message = {"&aExpires in &6%remainingtime-countdown-short%"})
     public static List<String> GUI_RENT_REGION_LORE;

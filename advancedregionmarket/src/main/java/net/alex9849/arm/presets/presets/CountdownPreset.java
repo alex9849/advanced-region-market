@@ -29,7 +29,7 @@ public abstract class CountdownPreset extends Preset {
             return;
         }
         if (time < 1000) {
-            throw new IllegalArgumentException("MaxRentTime needs to be at least one second!");
+            throw new IllegalArgumentException("MaxExtendTime needs to be at least one second!");
         }
         this.extendTime = time;
         this.setAutoPrice(null);

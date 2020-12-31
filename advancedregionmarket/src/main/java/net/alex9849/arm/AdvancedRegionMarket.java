@@ -25,7 +25,7 @@ import net.alex9849.arm.minifeatures.SignLinkMode;
 import net.alex9849.arm.minifeatures.selloffer.Offer;
 import net.alex9849.arm.presets.ActivePresetManager;
 import net.alex9849.arm.presets.PresetPatternManager;
-import net.alex9849.arm.presets.commands.MaxRentTimeCommand;
+import net.alex9849.arm.presets.commands.MaxExtendTimeCommand;
 import net.alex9849.arm.presets.commands.PaybackPercentageCommand;
 import net.alex9849.arm.presets.presets.PresetType;
 import net.alex9849.arm.regionkind.RegionKindGroupManager;
@@ -472,7 +472,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         List<BasicArmCommand> rentPresetCommands = new ArrayList<>();
         rentPresetCommands.add(new net.alex9849.arm.presets.commands.InactivityResetResetCommand(PresetType.RENTPRESET));
         rentPresetCommands.add(new net.alex9849.arm.presets.commands.ExtendTimeCommand(PresetType.RENTPRESET));
-        rentPresetCommands.add(new MaxRentTimeCommand(PresetType.RENTPRESET));
+        rentPresetCommands.add(new MaxExtendTimeCommand(PresetType.RENTPRESET));
         rentPresetCommands.add(new net.alex9849.arm.presets.commands.DeleteCommand(PresetType.RENTPRESET));
         rentPresetCommands.add(new net.alex9849.arm.presets.commands.AutoRestoreCommand(PresetType.RENTPRESET));
         rentPresetCommands.add(new net.alex9849.arm.presets.commands.HotelCommand(PresetType.RENTPRESET));

@@ -206,14 +206,14 @@ public class RegionManager extends YamlFileManager<Region> {
                 }
             } else {
                 double price = regionSection.getDouble("price");
-                long maxRentTime = regionSection.getLong("maxRentTime");
+                long maxExtendTime = regionSection.getLong("maxExtendTime");
                 long extendTime = regionSection.getLong("extendTime");
                 try {
-                    rentPrice = new RentPrice(price, extendTime, maxRentTime);
+                    rentPrice = new RentPrice(price, extendTime, maxExtendTime);
                 } catch (IllegalArgumentException e) {
                     AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "'RentPrice for region '"
-                            + wgRegion.getId() + "' has an extendTime of maxRentTime smaller than 1 second! Replacing it with "
-                            + "if an extendTime and maxRentTime of one second!");
+                            + wgRegion.getId() + "' has an extendTime or maxExtendTime smaller than 1 second! Replacing it with "
+                            + "if an extendTime and maxExtendTime of one second!");
                     rentPrice = new RentPrice(price, 1000, 1000);
                 }
             }
@@ -340,9 +340,9 @@ public class RegionManager extends YamlFileManager<Region> {
 
         if (subregionRegiontype.equalsIgnoreCase("rentregion")) {
             long subregpayedtill = section.getLong("payedTill");
-            long subregmaxRentTime = section.getLong("maxRentTime");
+            long subregmaxExtendTime = section.getLong("maxExtendTime");
             long subregextendTime = section.getLong("extendTime");
-            RentPrice subPrice = new RentPrice(subregPrice, subregextendTime, subregmaxRentTime);
+            RentPrice subPrice = new RentPrice(subregPrice, subregextendTime, subregmaxExtendTime);
             RentRegion rentRegion = new RentRegion(subregion, subregionsigns, subPrice, subregIsSold, parentRegion);
             rentRegion.setPayedTill(subregpayedtill);
             region = rentRegion;
@@ -478,7 +478,7 @@ public class RegionManager extends YamlFileManager<Region> {
         fileupdated |= addDefault(section, "flagGroup", "default");
         if (section.getString("regiontype").equalsIgnoreCase("rentregion")) {
             fileupdated |= addDefault(section, "payedTill", 0);
-            fileupdated |= addDefault(section, "maxRentTime", 1000);
+            fileupdated |= addDefault(section, "maxExtendTime", 1000);
             fileupdated |= addDefault(section, "extendTime", 1000);
         }
         if (section.getString("regiontype").equalsIgnoreCase("contractregion")) {
@@ -502,7 +502,7 @@ public class RegionManager extends YamlFileManager<Region> {
                     }
                     if (section.getString("subregions." + subregionID + ".regiontype").equalsIgnoreCase("rentregion")) {
                         fileupdated |= addDefault(section, "subregions." + subregionID + ".payedTill", 0);
-                        fileupdated |= addDefault(section, "subregions." + subregionID + ".maxRentTime", 1000);
+                        fileupdated |= addDefault(section, "subregions." + subregionID + ".maxExtendTime", 1000);
                         fileupdated |= addDefault(section, "subregions." + subregionID + ".extendTime", 1000);
                     }
                 }

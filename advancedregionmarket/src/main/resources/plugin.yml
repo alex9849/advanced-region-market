@@ -49,7 +49,7 @@ permissions:
       arm.admin.reload: true
       arm.admin.preset: true
       arm.admin.preset.setprice: true
-      arm.admin.preset.setmaxrenttime: true
+      arm.admin.preset.setmaxextendtime: true
       arm.admin.preset.setregionkind: true
       arm.admin.preset.setinactivityreset: true
       arm.admin.preset.sethotel: true
@@ -257,7 +257,7 @@ permissions:
   arm.admin.preset.setprice:
     description: Preset permission
     default: op
-  arm.admin.preset.setmaxrenttime:
+  arm.admin.preset.setmaxextendtime:
     description: Preset permission
     default: op
   arm.admin.preset.setregionkind:

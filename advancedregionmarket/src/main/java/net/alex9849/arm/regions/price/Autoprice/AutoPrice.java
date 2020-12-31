@@ -13,21 +13,21 @@ public class AutoPrice {
     private AutoPriceCalculation autoPriceCalculation;
     private double price;
     private long extendtime;
-    private long maxrenttime;
+    private long maxextendtime;
     private String name;
 
-    public AutoPrice(@Nonnull String name, double price, long extendtime, long maxrenttime,
+    public AutoPrice(@Nonnull String name, double price, long extendtime, long maxextendtime,
                      @Nonnull AutoPriceCalculation autoPriceCalculation) {
         if(price < 0)
             throw new IllegalArgumentException("AutoPrice price needs to be positive!");
         if(extendtime < 1000)
             throw new IllegalArgumentException("AutoPrice extendTime needs to be at least one second!");
-        if(maxrenttime < 1000)
-            throw new IllegalArgumentException("AutoPrice maxRentTime needs to be at least one second!");
+        if(maxextendtime < 1000)
+            throw new IllegalArgumentException("AutoPrice maxExtendTime needs to be at least one second!");
         this.price = price;
         this.name = name;
         this.extendtime = extendtime;
-        this.maxrenttime = maxrenttime;
+        this.maxextendtime = maxextendtime;
         this.autoPriceCalculation = autoPriceCalculation;
     }
 
@@ -39,8 +39,8 @@ public class AutoPrice {
         return this.extendtime;
     }
 
-    public long getMaxrenttime() {
-        return this.maxrenttime;
+    public long getMaxExtendtime() {
+        return this.maxextendtime;
     }
 
     public String getName() {
@@ -100,18 +100,18 @@ public class AutoPrice {
         addDefaults(section);
         double price = section.getDouble("price");
         long extendTime = ContractPrice.stringToTime(section.getString("extendTime"));
-        long maxrenttime = ContractPrice.stringToTime(section.getString("maxRentTime"));
+        long maxextendtime = ContractPrice.stringToTime(section.getString("maxExtendTime"));
         AutoPriceCalculation autoPriceCalculation = AutoPriceCalculation.getAutoPriceType(section.getString("autoPriceCalculation"));
         if (autoPriceCalculation == null) {
             autoPriceCalculation = AutoPriceCalculation.STATIC;
         }
-        return new AutoPrice(autoPriceName, price, extendTime, maxrenttime, autoPriceCalculation);
+        return new AutoPrice(autoPriceName, price, extendTime, maxextendtime, autoPriceCalculation);
     }
 
     private static void addDefaults(ConfigurationSection section) {
         section.addDefault("price", 0);
         section.addDefault("extendTime", 0);
-        section.addDefault("maxrenttime", 0);
+        section.addDefault("maxExtendTime", 0);
         section.addDefault("autoPriceCalculation", "static");
     }
 

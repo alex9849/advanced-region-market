@@ -165,6 +165,10 @@ public class Updater {
                 AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 3.2.2...");
                 updateTo3p2p2(pluginConfig);
             }
+            if(new Version(3, 3).biggerThan(lastVersion)) {
+                AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 3.3...");
+                updateTo3p3(pluginConfig);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -1072,6 +1076,59 @@ public class Updater {
         pluginConfig.set("GUI.DisplayPlayerSkins", false);
         pluginConfig.set("Version", "3.2.2");
         AdvancedRegionMarket.getInstance().saveConfig();
+    }
+
+
+    private static void updateTo3p3(FileConfiguration pluginConfig) throws IOException {
+        ConfigurationSection autopriceSecion = pluginConfig.getConfigurationSection("AutoPrice");
+        if(autopriceSecion != null) {
+            for(String key : autopriceSecion.getKeys(false)) {
+                pluginConfig.set("AutoPrice." + key + ".maxExtendTime", autopriceSecion.get(key + ".maxRentTime"));
+                pluginConfig.set("AutoPrice." + key + ".maxRentTime", null);
+            }
+        }
+        pluginConfig.set("DefaultAutoprice.maxExtendTime", pluginConfig.get("DefaultAutoprice.maxRentTime"));
+        pluginConfig.set("DefaultAutoprice.maxRentTime", null);
+        pluginConfig.set("Version", "3.3");
+        AdvancedRegionMarket.getInstance().saveConfig();
+        UpdateHelpMethods.replaceVariableInFlagGroupsYML("%maxrenttime-short%", "%maxextendtime-short%");
+        UpdateHelpMethods.replaceVariableInFlagGroupsYML("%maxrenttime-writtenout%", "%maxextendtime-writtenout%");
+        File regionsConfDic = new File(AdvancedRegionMarket.getInstance().getDataFolder() + "/regions.yml");
+        YamlConfiguration regionsConf = YamlConfiguration.loadConfiguration(regionsConfDic);
+        ConfigurationSection mainSection;
+        if((mainSection = regionsConf.getConfigurationSection("Regions")) != null) {
+            for (String worldString : mainSection.getKeys(false)) {
+                ConfigurationSection worldSection;
+                if ((worldSection = mainSection.getConfigurationSection(worldString)) != null) {
+                    for (String regionname : worldSection.getKeys(false)) {
+                        ConfigurationSection regionSection;
+                        if((regionSection = worldSection.getConfigurationSection(regionname)) != null) {
+                            regionSection.set("maxExtendTime", regionSection.get("maxRentTime"));
+                            regionSection.set("maxRentTime", null);
+                            ConfigurationSection subRegionSection;
+                            if((subRegionSection = regionSection.getConfigurationSection("subregions")) != null) {
+                                for(String subRegId : subRegionSection.getKeys(false)) {
+                                    subRegionSection.set(subRegId + ".maxExtendTime", subRegionSection.get(subRegId + ".maxRentTime"));
+                                    subRegionSection.set(subRegId + ".maxRentTime", null);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        regionsConf.save(regionsConfDic);
+
+        File presetsConfDic = new File(AdvancedRegionMarket.getInstance().getDataFolder() + "/presets.yml");
+        YamlConfiguration presetsConf = YamlConfiguration.loadConfiguration(presetsConfDic);
+        ConfigurationSection rentSection = presetsConf.getConfigurationSection("rentpreset");
+        if(rentSection != null) {
+            for(String presetName : rentSection.getKeys(false)) {
+                rentSection.set(presetName + ".maxExtendTime", rentSection.get(presetName + ".maxRentTime"));
+                rentSection.set(presetName + ".maxRentTime", null);
+            }
+        }
+        presetsConf.save(presetsConfDic);
     }
 
     private static class UpdateHelpMethods {

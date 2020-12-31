@@ -64,13 +64,13 @@ public class PresetPatternManager extends YamlFileManager<Preset> {
             if (presetType == PresetType.CONTRACTPRESET) {
                 countdownPreset = new ContractPreset();
             } else {
-                long cfgMaxRentTime = section.getLong("maxRentTime");
-                Long maxRentTime = null;
-                if(cfgMaxRentTime >= 1000) {
-                    maxRentTime = cfgMaxRentTime;
+                long cfgMaxExtendTime = section.getLong("maxExtendTime");
+                Long maxExtendTime = null;
+                if(cfgMaxExtendTime >= 1000) {
+                    maxExtendTime = cfgMaxExtendTime;
                 }
                 RentPreset rentPreset = new RentPreset();
-                rentPreset.setMaxRentTime(maxRentTime);
+                rentPreset.setMaxExtendTime(maxExtendTime);
                 countdownPreset = rentPreset;
             }
             countdownPreset.setExtendTime(extendTime);

@@ -17,15 +17,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MaxRentTimeCommand extends BasicArmCommand {
-    private final String regex_remove = "(?i)maxrenttime (?i)remove";
+public class MaxExtendTimeCommand extends BasicArmCommand {
+    private final String regex_remove = "(?i)maxextendtime (?i)remove";
     private PresetType presetType;
 
-    public MaxRentTimeCommand(PresetType presetType) {
-        super(true, "maxrenttime",
-                Arrays.asList("(?i)maxrenttime ([0-9]+(s|m|h|d))", "(?i)maxrenttime (?i)remove"),
-                Arrays.asList("maxrenttime ([TIME(Example: 10h)]/remove)"),
-                Arrays.asList(Permission.ADMIN_PRESET_SET_MAXRENTTIME));
+    public MaxExtendTimeCommand(PresetType presetType) {
+        super(true, "maxextendtime",
+                Arrays.asList("(?i)maxextendtime ([0-9]+(s|m|h|d))", "(?i)maxextendtime (?i)remove"),
+                Arrays.asList("maxextendtime ([TIME(Example: 10h)]/remove)"),
+                Arrays.asList(Permission.ADMIN_PRESET_SET_MAXEXTENDTIME));
         this.presetType = presetType;
     }
 
@@ -48,11 +48,11 @@ public class MaxRentTimeCommand extends BasicArmCommand {
         RentPreset rentPreset = (RentPreset) preset;
 
         if (command.matches(this.regex_remove)) {
-            rentPreset.setMaxRentTime((Long) null);
+            rentPreset.setMaxExtendTime((Long) null);
             sender.sendMessage(Messages.PREFIX + Messages.PRESET_REMOVED);
         } else {
             try {
-                rentPreset.setMaxRentTime(command.split(" ")[1]);
+                rentPreset.setMaxExtendTime(command.split(" ")[1]);
                 sender.sendMessage(Messages.PREFIX + Messages.PRESET_SET);
                 if (rentPreset.canPriceLineBeLetEmpty()) {
                     sender.sendMessage(Messages.PREFIX + "You can leave the price-line on signs empty now");

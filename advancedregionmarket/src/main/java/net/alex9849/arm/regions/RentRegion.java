@@ -31,11 +31,11 @@ public class RentRegion extends CountdownRegion {
 
     {
         HashMap<String, StringCreator> variableReplacements = new HashMap<>();
-        variableReplacements.put("%maxrenttime-short%", () -> {
-            return TimeUtil.timeInMsToString(this.getMaxRentTime(), false, false);
+        variableReplacements.put("%maxextendtime-short%", () -> {
+            return TimeUtil.timeInMsToString(this.getMaxExtendTime(), false, false);
         });
-        variableReplacements.put("%maxrenttime-writtenout%", () -> {
-            return TimeUtil.timeInMsToString(this.getMaxRentTime(), true, false);
+        variableReplacements.put("%maxextendtime-writtenout%", () -> {
+            return TimeUtil.timeInMsToString(this.getMaxExtendTime(), true, false);
         });
         variableReplacements.put("%extendtime-current-writtenout%", () -> {
             return TimeUtil.timeInMsToString(this.getCurrentExtendTime(), true, false);
@@ -80,8 +80,8 @@ public class RentRegion extends CountdownRegion {
     public long getCurrentExtendTime() {
         long actualTime = new GregorianCalendar().getTimeInMillis();
         long remainingTime = this.getPayedTill() - actualTime;
-        //Calculate the extend time. The minimal value will not exceed the MaxRentTime
-        return Math.min(this.getExtendTime(), Math.max(0, this.getMaxRentTime() - remainingTime));
+        //Calculate the extend time. The minimal value will not exceed the MaxExtendTime
+        return Math.min(this.getExtendTime(), Math.max(0, this.getMaxExtendTime() - remainingTime));
     }
 
     public double getCurrentExtendPrice() {
@@ -181,8 +181,8 @@ public class RentRegion extends CountdownRegion {
         this.updateSigns();
     }
 
-    public long getMaxRentTime() {
-        return this.rentPrice.getMaxRentTime();
+    public long getMaxExtendTime() {
+        return this.rentPrice.getMaxExtendTime();
     }
 
     @Override
@@ -227,9 +227,9 @@ public class RentRegion extends CountdownRegion {
     public ConfigurationSection toConfigurationSection() {
         ConfigurationSection yamlConfiguration = super.toConfigurationSection();
         if (this.getPriceObject().isAutoPrice()) {
-            yamlConfiguration.set("maxRentTime", null);
+            yamlConfiguration.set("maxExtendTime", null);
         } else {
-            yamlConfiguration.set("maxRentTime", this.getMaxRentTime());
+            yamlConfiguration.set("maxExtendTime", this.getMaxExtendTime());
         }
         return yamlConfiguration;
     }

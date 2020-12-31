@@ -90,9 +90,9 @@ public class SignModifyListener implements Listener {
             String[] priceSegments = priceLine.split("(;|:)");
             double moneyAmount = Double.parseDouble(priceSegments[0]);
             long extendPerClick = RentPrice.stringToTime(priceSegments[1]);
-            long maxRentTime = RentPrice.stringToTime(priceSegments[2]);
+            long maxExtendTime = RentPrice.stringToTime(priceSegments[2]);
 
-            price = new RentPrice(moneyAmount, extendPerClick, maxRentTime);
+            price = new RentPrice(moneyAmount, extendPerClick, maxExtendTime);
         }
         return price;
     }

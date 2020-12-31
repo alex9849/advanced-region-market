@@ -1,4 +1,4 @@
-FileVersion: 1
+FileVersion: 5
 Messages:
   SecondsSingular: 'Sekunde'
   MinutesSingular: 'Minute'
@@ -29,8 +29,6 @@ Messages:
   RegionInfoFeatureDisabled: '&4Feature deaktiviert!'
   PriceCanNotBeNegative: '&4Der Preis darf nicht negativ sein!'
   CommandOnlyIngame: '&4Dieser Befehl ist nur ingame ausführbar!'
-  RentExtendMaxRentTimeExceeded: '&4Du kannst deine Region für maximal &6%maxrenttime-writtenout%
-    &4im Vorraus bezahlen!'
   RegionErrorCanNotBuildHere: '&4Du kannst innerhalb dieser Region nur Blöcke abbauen,
     welche von einem Spieler gesetzt wurden!'
   NoFreeRegionWithThisKind: '&7Es wurde keine freie Region mit dem ausgewählten Typ
@@ -77,7 +75,7 @@ Messages:
   RentSign1: '&2Zu Vermieten'
   RentSign2: '%regionid%'
   RentSign3: '%price%%currency%/%extendtime-short%'
-  RentSign4: 'Max.: %maxrenttime-writtenout%'
+  RentSign4: 'Max.: %maxextendtime-writtenout%'
   RentedSign1: '&4Vermietet'
   RentedSign2: '%regionid%/%owner%'
   RentedSign3: '%price%%currency%/%extendtime-short%'
@@ -188,16 +186,6 @@ Messages:
   LimitInfoTop: '&6=========[Limit Info]========='
   LimitInfoTotal: '&6Insgesamt'
   LimitInfo: '&6%regionkind%: %playerownedkind%/%limitkind%'
-  RegionInfoPrice: '&6Preis: '
-  RegionInfoType: '&6Typ: '
-  RegionInfoAutoRestore: '&6Wiederherstellen: '
-  RegionInfoIsUserRestorable: '&6Vom Owner zurücksetzbar: '
-  RegionInfoAutoprice: '&6Autopreis: '
-  isHotel: '&6Hotelregion: '
-  RegionInfoInactivityReset: '&6InaktivitätsReset: '
-  RegionInfoMaxRentTime: '&6Max. verlängerbar auf: '
-  RegionInfoExtendPerClick: '&6Verlängerungszeit: '
-  RegionInfoAutoExtendTime: '&6Verlängerungszeit: '
   RegionInfoYes: '&2Ja'
   RegionInfoNo: '&4Nein'
   RegionInfoAllowedSubregions: '&6Eraubte Unterregionen: '
@@ -322,7 +310,7 @@ Messages:
   - '&afür &6%price%%currency%&a zu verlängern!'
   - '&aDiese Region läuft in &6%remainingtime-countdown-short% &aab.'
   - '&aDu kannst deine Region auf bis zu'
-  - '&6%maxrenttime-writtenout% &averlängern.'
+  - '&6%maxextendtime-writtenout% &averlängern.'
   GUIRentRegionLore:
   - '&aVerbleibende Zeit: &6%remainingtime-countdown-short%'
   GUIUserSellButton: '&4Zurücksetzen und verkaufen'
@@ -399,7 +387,7 @@ Messages:
   - '&6Preis: %price%'
   - '&6Preis pro Quadratmeter (pro Woche): %priceperm2perweek%'
   - '&6Verlängerungszeit: %extendtime-writtenout%'
-  - '&6Max. vorrauszahlbar: %maxrenttime-writtenout%'
+  - '&6Max. vorrauszahlbar: %maxextendtime-writtenout%'
   - '&6Abmessungen: %dimensions%'
   GUISubregionInfoContract:
   - '&6Verkaufstyp: %selltype%'
@@ -417,7 +405,7 @@ Messages:
   - '&6Preis: %price%%currency%'
   - '&6Preis pro Quadratmeter (Pro Woche): %priceperm2perweek%%currency%'
   - '&6Verlängerungszeit: %extendtime-writtenout%'
-  - '&6Max. vorrauszahlbar: %maxrenttime-writtenout%'
+  - '&6Max. vorrauszahlbar: %maxextendtime-writtenout%'
   - '&6Abmessungen: %dimensions%'
   - '&6Welt: %world%'
   GUIRegionfinderInfoContract:
@@ -611,7 +599,7 @@ Messages:
   - '&6=========[Region Info]========='
   - '&9ID: &e%regionid% &7(Typ: &r%selltype%&7)'
   - '&9Verkauft: &e%issold%'
-  - '&9Preis: &e%price% &7pro &e%extendtime-writtenout% &7Max.: &e%maxrenttime-writtenout%'
+  - '&9Preis: &e%price% &7pro &e%extendtime-writtenout% &7Max.: &e%maxextendtime-writtenout%'
   - '&9Verbleibende Zeit: &e%remainingtime-countdown-short%'
   - '&9Besitzer: &e%owner%'
   - '&9Mitglieder: &e%members%'
@@ -667,7 +655,7 @@ Messages:
   - '&6=========[Region Info]========='
   - '&9ID: &e%regionid% &7(Typ: &r%selltype%&7)'
   - '&9Verkauft: &e%issold%'
-  - '&9Preis: &e%price% &7pro &e%extendtime-writtenout% &7Max.: &e%maxrenttime-writtenout%'
+  - '&9Preis: &e%price% &7pro &e%extendtime-writtenout% &7Max.: &e%maxextendtime-writtenout%'
   - '&9Verbleibende Zeit: &e%remainingtime-countdown-short%'
   - '&9Besitzer: &e%owner%'
   - '&9Mitglieder: &e%members%'
@@ -723,7 +711,7 @@ Messages:
   - '&6=========[Region Info]========='
   - '&9ID: &e%regionid% &7(Typ: &r%selltype%&7, Subregion)'
   - '&9Verkauft: &e%issold%'
-  - '&9Preis: &e%price% &7pro &e%extendtime-writtenout% &7Max.: &e%maxrenttime-writtenout%'
+  - '&9Preis: &e%price% &7pro &e%extendtime-writtenout% &7Max.: &e%maxextendtime-writtenout%'
   - '&9Verbleibende Zeit: &e%remainingtime-countdown-short%'
   - '&9Besitzer: &e%owner%'
   - '&9Mitglieder: &e%members%'

@@ -172,6 +172,7 @@ public class RegionManager extends YamlFileManager<Region> {
         String teleportLocString = regionSection.getString("teleportLoc");
         int allowedSubregions = regionSection.getInt("allowedSubregions");
         int boughtExtraTotalEntitys = regionSection.getInt("boughtExtraTotalEntitys");
+        boolean isProtectionOfContinuance = regionSection.getBoolean("isprotectionofcontinuance");
         List<String> boughtExtraEntitys = regionSection.getStringList("boughtExtraEntitys");
         boolean userrestorable = regionSection.getBoolean("userrestorable");
         Location teleportLoc = parseTpLocation(teleportLocString);
@@ -291,6 +292,7 @@ public class RegionManager extends YamlFileManager<Region> {
         region.setAllowedSubregions(allowedSubregions);
         region.setExtraTotalEntitys(boughtExtraTotalEntitys);
         region.setLandlord(landlord);
+        region.setProtectionOfContinuance(isProtectionOfContinuance);
         for(Map.Entry<EntityLimit.LimitableEntityType, Integer> entry : parseBoughtExtraEntitys(boughtExtraEntitys).entrySet()) {
             region.setExtraEntityAmount(entry.getKey(), entry.getValue());
         }
@@ -379,9 +381,6 @@ public class RegionManager extends YamlFileManager<Region> {
                 Double yy = Double.parseDouble(locsplit[2]);
                 Double z = Double.parseDouble(locsplit[3]);
                 Location loc = new Location(world, x, yy, z);
-                //Location locminone = new Location(world, x, yy - 1, z);
-
-                //boolean isWallSign = false;
 
                 SignAttachment signAttachment = SignAttachment.GROUND_SIGN;
                 if (locsplit[4].equalsIgnoreCase("WALL")) {
@@ -395,23 +394,6 @@ public class RegionManager extends YamlFileManager<Region> {
                 } catch (IllegalArgumentException e) {
                     facing = BlockFace.NORTH;
                 }
-
-                /*
-                if (!MaterialFinder.getSignMaterials().contains(loc.getBlock().getType())){
-                    if(!isWallSign){
-                        if(locminone.getBlock().getType() == Material.AIR || locminone.getBlock().getType() == Material.LAVA || locminone.getBlock().getType() == Material.WATER
-                                || locminone.getBlock().getType() == Material.LAVA || locminone.getBlock().getType() == Material.WATER) {
-                            locminone.getBlock().setType(Material.STONE);
-                        }
-                    }
-
-                    if(isWallSign) {
-                        loc.getBlock().setType(MaterialFinder.getWallSign(), false);
-                    } else {
-                        loc.getBlock().setType(MaterialFinder.getSign(), false);
-                    }
-                }
-                */
 
                 SignDataFactory signDataFactory = AdvancedRegionMarket.getInstance().getSignDataFactory();
                 SignData signData = signDataFactory.generateSignData(loc, signAttachment, facing);
@@ -473,6 +455,7 @@ public class RegionManager extends YamlFileManager<Region> {
         fileupdated |= addDefault(section, "userrestorable", true);
         fileupdated |= addDefault(section, "maxMembers", -1);
         fileupdated |= addDefault(section, "boughtExtraTotalEntitys", 0);
+        fileupdated |= addDefault(section, "isprotectionofcontinuance", false);
         fileupdated |= addDefault(section, "boughtExtraEntitys", new ArrayList<String>());
         fileupdated |= addDefault(section, "regiontype", "sellregion");
         fileupdated |= addDefault(section, "flagGroup", "default");

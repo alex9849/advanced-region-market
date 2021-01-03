@@ -11,6 +11,7 @@ public class Permission {
     public static final String ADMIN_BUILDEVERYWHERE = "arm.admin.buildeverywhere";
     public static final String ADMIN_UPDATESCHEMATIC = "arm.admin.updateschematic";
     public static final String ADMIN_SET_IS_HOTEL = "arm.admin.setishotel";
+    public static final String ADMIN_SET_PROTECTION_OF_CONTINUANCE = "arm.admin.setprotectionofcontinuance";
     public static final String ADMIN_SET_MAX_MEMBERS = "arm.admin.setmaxmembers";
     public static final String ADMIN_SET_AUTORESTORE = "arm.admin.setautorestore";
     public static final String ADMIN_SETREGIONKIND = "arm.admin.setregionkind";

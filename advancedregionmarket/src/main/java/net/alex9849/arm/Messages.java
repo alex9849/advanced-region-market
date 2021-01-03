@@ -449,6 +449,8 @@ public class Messages {
             "will be resetted! You and all members will loose their rights on it.\n" +
             "You will get &6%paybackmoney%%currency% &cback")
     public static String SELLBACK_WARNING;
+    @Message(name = "SubregionProtectionOfContinuanceError", message = "&4The selected region is a subregion! Protection of continuance can't be activated")
+    public static String SUBREGION_PROTECTION_OF_CONTINUANCE_ERROR;
     @Message(name = "SubregionInactivityResetError", message = "&4The selected region is a subregion. You can change the InactivityReset setting for all subregions in the config.yml!")
     public static String SUBREGION_INACTIVITYRESET_ERROR;
     @Message(name = "SubregionAutoRestoreError", message = "&4The selected region is a subregion. You can change the autoRestore setting for all subregions in the config.yml!")
@@ -777,7 +779,7 @@ public class Messages {
     public static String REGIONKIND_HELP_HEADLINE;
     @Message(name = "PlayerNotFound", message = "&4Could not find selected player!")
     public static String PLAYER_NOT_FOUND;
-    @Message(name = "RegionInfoSellregionUser", version = 2, message = {"&6=========[Region Info]=========",
+    @Message(name = "RegionInfoSellregionUser", version = 5, message = {"&6=========[Region Info]=========",
             "&9ID: &e%regionid% &7(Type: &r%selltype%&7)",
             "&9Sold: &e%issold%",
             "&9Price: &e%price%",
@@ -794,6 +796,7 @@ public class Messages {
             "&9TakeOver possible in: &e%takeoverin-countdown-short%",
             "&9AutoRestore: &e%isautorestore% &9Autoprice: &e%autoprice%",
             "&9PaybackPercentage in %: &e%paypackpercentage%",
+            "&9Protection of Continuance: &e%isprotectionofcontinuance%",
             "&9Allowed Subregions: &e%subregionlimit%",
             "&9Subregions: &e&e%subregions%"})
     public static List<String> REGION_INFO_SELLREGION;
@@ -815,10 +818,11 @@ public class Messages {
             "&9TakeOver possible in: &e%takeoverin-countdown-short%",
             "&9AutoRestore: &e%isautorestore% &9Autoprice: &e%autoprice%",
             "&9PaybackPercentage in %: &e%paypackpercentage%",
+            "&9Protection of Continuance: &e%isprotectionofcontinuance%",
             "&9Allowed Subregions: &e%subregionlimit%",
             "&9Subregions: &e%subregions%"})
     public static List<String> REGION_INFO_RENTREGION;
-    @Message(name = "RegionInfoContractregionUser", version = 2, message = {"&6=========[Region Info]=========",
+    @Message(name = "RegionInfoContractregionUser", version = 5, message = {"&6=========[Region Info]=========",
             "&9ID: &e%regionid% &7(Type: &r%selltype%&7)",
             "&9Sold: &e%issold%",
             "&9Price: &e%price% &7per &e%extendtime-writtenout% &7(auto extend)",
@@ -836,10 +840,11 @@ public class Messages {
             "&9TakeOver possible in: &e%takeoverin-countdown-short%",
             "&9AutoRestore: &e%isautorestore% &9Autoprice: &e%autoprice%",
             "&9PaybackPercentage in %: &e%paypackpercentage%",
+            "&9Protection of Continuance: &e%isprotectionofcontinuance%",
             "&9Allowed Subregions: &e%subregionlimit%",
             "&9Subregions: &e%subregions%"})
     public static List<String> REGION_INFO_CONTRACTREGION;
-    @Message(name = "RegionInfoSellregionAdmin", version = 2, message = {"&6=========[Region Info]=========",
+    @Message(name = "RegionInfoSellregionAdmin", version = 5, message = {"&6=========[Region Info]=========",
             "&9ID: &e%regionid% &7(Type: &r%selltype%&7)",
             "&9Sold: &e%issold%",
             "&9Price: &e%price%",
@@ -856,6 +861,7 @@ public class Messages {
             "&9TakeOver possible in: &e%takeoverin-countdown-short%",
             "&9AutoRestore: &e%isautorestore% &9Autoprice: &e%autoprice%",
             "&9PaybackPercentage in %: &e%paypackpercentage%",
+            "&9Protection of Continuance: &e%isprotectionofcontinuance%",
             "&9Allowed Subregions: &e%subregionlimit%",
             "&9Subregions: &e%subregions%"})
     public static List<String> REGION_INFO_SELLREGION_ADMIN;
@@ -877,10 +883,11 @@ public class Messages {
             "&9TakeOver possible in: &e%takeoverin-countdown-short%",
             "&9AutoRestore: &e%isautorestore% &9Autoprice: &e%autoprice%",
             "&9PaybackPercentage in %: &e%paypackpercentage%",
+            "&9Protection of Continuance: &e%isprotectionofcontinuance%",
             "&9Allowed Subregions: &e%subregionlimit%",
             "&9Subregions: &e%subregions%"})
     public static List<String> REGION_INFO_RENTREGION_ADMIN;
-    @Message(name = "RegionInfoContractregionAdmin", version = 2, message = {"&6=========[Region Info]=========",
+    @Message(name = "RegionInfoContractregionAdmin", version = 5, message = {"&6=========[Region Info]=========",
             "&9ID: &e%regionid% &7(Type: &r%selltype%&7)",
             "&9Sold: &e%issold%",
             "&9Price: &e%price% &7per &e%extendtime-writtenout% &7(auto extend)",
@@ -898,6 +905,7 @@ public class Messages {
             "&9TakeOver possible in: &e%takeoverin-countdown-short%",
             "&9AutoRestore: &e%isautorestore% &9Autoprice: &e%autoprice%",
             "&9PaybackPercentage in %: &e%paypackpercentage%",
+            "&9Protection of Continuance: &e%isprotectionofcontinuance%",
             "&9Allowed Subregions: &e%subregionlimit%",
             "&9Subregions: &e%subregions%"})
     public static List<String> REGION_INFO_CONTRACTREGION_ADMIN;

@@ -592,7 +592,7 @@ Messages:
   - '&9InactivityReset in: &e%inactivityresetin-countdown-short%'
   - '&9Übernahme möglich in: &e%takeoverin-countdown-short%'
   - '&9Rückspielen bei Ablauf: &e%isautorestore% &9Autopreis: &e%autoprice%'
-  - '&9Rückzahlbetrag in %: %paypackpercentage%'
+  - '&9Rückzahlbetrag in %: %paypackpercentage% &9Bestandsschutz: %isprotectionofcontinuance%'
   - '&9Erlaubre Unterregionen: &e%subregionlimit%'
   - '&9Unterregionen: &e%subregions%'
   RegionInfoRentregionAdmin:
@@ -611,7 +611,7 @@ Messages:
   - '&9InactivityReset in: &e%inactivityresetin-countdown-short%'
   - '&9Übernahme möglich in: &e%takeoverin-countdown-short%'
   - '&9Rückspielen bei Ablauf: &e%isautorestore% &9Autopreis: &e%autoprice%'
-  - '&9Rückzahlbetrag in %: %paypackpercentage%'
+  - '&9Rückzahlbetrag in %: %paypackpercentage% &9Bestandsschutz: %isprotectionofcontinuance%'
   - '&9Erlaubre Unterregionen: &e%subregionlimit%'
   - '&9Unterregionen: &e%subregions%'
   RegionInfoContractregionAdmin:
@@ -630,7 +630,7 @@ Messages:
   - '&9InactivityReset in: &e%inactivityresetin-countdown-short%'
   - '&9Übernahme möglich in: &e%takeoverin-countdown-short%'
   - '&9Rückspielen bei Ablauf: &e%isautorestore% &9Autopreis: &e%autoprice%'
-  - '&9Rückzahlbetrag in %: %paypackpercentage%'
+  - '&9Rückzahlbetrag in %: %paypackpercentage% &9Bestandsschutz: %isprotectionofcontinuance%'
   - '&9Erlaubre Unterregionen: &e%subregionlimit%'
   - '&9Unterregionen: &e%subregions%'
   RegionInfoSellregionUser:
@@ -648,7 +648,7 @@ Messages:
   - '&9InactivityReset in: &e%inactivityresetin-countdown-short%'
   - '&9Übernahme möglich in: &e%takeoverin-countdown-short%'
   - '&9Rückspielen bei Ablauf: &e%isautorestore% &9Autopreis: &e%autoprice%'
-  - '&9Rückzahlbetrag in %: %paypackpercentage%'
+  - '&9Rückzahlbetrag in %: %paypackpercentage% &9Bestandsschutz: %isprotectionofcontinuance%'
   - '&9Erlaubre Unterregionen: &e%subregionlimit%'
   - '&9Unterregionen: &e%subregions%'
   RegionInfoRentregionUser:
@@ -667,7 +667,7 @@ Messages:
   - '&9InactivityReset in: &e%inactivityresetin-countdown-short%'
   - '&9Übernahme möglich in: &e%takeoverin-countdown-short%'
   - '&9Rückspielen bei Ablauf: &e%isautorestore% &9Autopreis: &e%autoprice%'
-  - '&9Rückzahlbetrag in %: %paypackpercentage%'
+  - '&9Rückzahlbetrag in %: %paypackpercentage% &9Bestandsschutz: %isprotectionofcontinuance%'
   - '&9Erlaubre Unterregionen: &e%subregionlimit%'
   - '&9Unterregionen: &e%subregions%'
   RegionInfoContractregionUser:
@@ -686,7 +686,7 @@ Messages:
   - '&9InactivityReset in: &e%inactivityresetin-countdown-short%'
   - '&9Übernahme möglich in: &e%takeoverin-countdown-short%'
   - '&9Rückspielen bei Ablauf: &e%isautorestore% &9Autopreis: &e%autoprice%'
-  - '&9Rückzahlbetrag in %: %paypackpercentage%'
+  - '&9Rückzahlbetrag in %: %paypackpercentage% &9Bestandsschutz: %isprotectionofcontinuance%'
   - '&9Erlaubre Unterregionen: &e%subregionlimit%'
   - '&9Unterregionen: &e%subregions%'
   RegionInfoSellregionSubregion:

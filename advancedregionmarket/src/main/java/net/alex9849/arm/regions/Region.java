@@ -49,6 +49,7 @@ public abstract class Region implements Saveable {
     private StringReplacer stringReplacer;
     private boolean sold;
     private boolean inactivityReset = true;
+    private boolean isProtectionOfContinuance = false;
     private boolean isHotel = false;
     private boolean isUserRestorable = true;
     private boolean needsSave = false;
@@ -145,6 +146,9 @@ public abstract class Region implements Saveable {
         });
         variableReplacements.put("%ishotel%", () -> {
             return Messages.convertYesNo(this.isHotel());
+        });
+        variableReplacements.put("%isprotectionofcontinuance%", () -> {
+            return Messages.convertYesNo(this.isProtectionOfContinuance());
         });
         variableReplacements.put("%isuserrestorable%", () -> {
             return Messages.convertYesNo(this.isUserRestorable());
@@ -475,6 +479,10 @@ public abstract class Region implements Saveable {
         return regionworld;
     }
 
+    public boolean isProtectionOfContinuance() {
+        return this.isProtectionOfContinuance;
+    }
+
     public WGRegion getRegion() {
         return region;
     }
@@ -510,13 +518,22 @@ public abstract class Region implements Saveable {
         }
     }
 
+    public void setProtectionOfContinuance(boolean setting) {
+        if (this.isSubregion()) {
+            throw new IllegalArgumentException("Can't change this option for a Subregion!");
+        }
+        this.isProtectionOfContinuance = setting;
+        this.queueSave();
+    }
+
     public void setLastLogin() {
         this.setLastLogin(new GregorianCalendar().getTimeInMillis());
     }
 
     public void setUserRestorable(boolean bool) {
-        if (this.isSubregion())
+        if (this.isSubregion()) {
             throw new IllegalArgumentException("Can't change this option for a Subregion!");
+        }
         this.isUserRestorable = bool;
         this.queueSave();
     }
@@ -1268,6 +1285,7 @@ public abstract class Region implements Saveable {
             yamlConfiguration.set("allowedSubregions", this.getAllowedSubregions());
             yamlConfiguration.set("userrestorable", this.isUserRestorable());
             yamlConfiguration.set("boughtExtraTotalEntitys", this.getExtraTotalEntitys());
+            yamlConfiguration.set("isprotectionofcontinuance", this.isProtectionOfContinuance());
             List<String> boughtExtraEntitysStringList = new ArrayList<>();
             for (Map.Entry<EntityLimit.LimitableEntityType, Integer> entry : this.getExtraEntitys().entrySet()) {
                 boughtExtraEntitysStringList.add(entry.getKey().getName() + ": " + entry.getValue());

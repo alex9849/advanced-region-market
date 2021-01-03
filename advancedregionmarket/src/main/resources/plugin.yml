@@ -18,11 +18,12 @@ permissions:
     description: Give access to all commands of AdvancedRegionMarket
     default: op
     children:
+      arm.inactivityexpiration.unlimited: true
       arm.admin.listbackups: true
       arm.admin.restorebackup: true
       arm.admin.preset.apply: true
       arm.admin.createbackup: true
-      arm.inactivityexpiration.unlimited: true
+      arm.admin.setprotectionofcontinuance: true
       arm.admin.setinactivityreset: true
       arm.admin.create.sellregion: true
       arm.admin.create.rentregion: true
@@ -137,6 +138,7 @@ permissions:
     description: Give access to all commands for normal players without subregion commands and halp commands
     default: true
     children:
+      arm.member.restoreprotectionofcontinuance: true
       arm.member.restore: true
       arm.member.sellback: true
       arm.member.info: true
@@ -175,6 +177,9 @@ permissions:
       arm.subregion.help: true
   arm.admin.setinactivityreset:
     description: Allows to enable and disable inactivityreset for specific regions
+    default: op
+  arm.admin.setprotectionofcontinuance:
+    description: Allows to enable the protection of continuance for specific regions
     default: op
   arm.admin.create.sellregion:
     description: Allow to create sellregions
@@ -469,6 +474,9 @@ permissions:
     default: true
   arm.member.offer.create:
     description: Allows to send a selloffer to a player
+    default: true
+  arm.member.restoreprotectionofcontinuance:
+    description: Allows region-owners to restore own regions even if protection of continuance is enabled
     default: true
   arm.member.offer.answer:
     description: Allows to answer a selloffer

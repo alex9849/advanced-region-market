@@ -4,6 +4,7 @@ import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.InputException;
+import net.alex9849.arm.exceptions.ProtectionOfContinuanceException;
 import net.alex9849.arm.exceptions.SchematicNotFoundException;
 import net.alex9849.arm.gui.Gui;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
@@ -43,7 +44,9 @@ public class RestoreCommand extends BasicArmCommand {
                 resregion.restoreRegion(Region.ActionReason.MANUALLY_BY_ADMIN, true, false);
             } catch (SchematicNotFoundException e) {
                 AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, resregion.replaceVariables(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
-                player.sendMessage(Messages.PREFIX + Messages.SCHEMATIC_NOT_FOUND_ERROR_USER.replace("%regionid%", e.getRegion().getId()));
+                throw new InputException(sender, Messages.SCHEMATIC_NOT_FOUND_ERROR_USER.replace("%regionid%", e.getRegion().getId()));
+            } catch (ProtectionOfContinuanceException e) {
+                throw new InputException(sender, Messages.REGION_RESTORE_PROTECTION_OF_CONTINUANCE_ERROR);
             }
             player.sendMessage(Messages.PREFIX + Messages.RESET_COMPLETE);
             return true;
@@ -52,8 +55,11 @@ public class RestoreCommand extends BasicArmCommand {
                 if (!resregion.isUserRestorable()) {
                     throw new InputException(player, Messages.REGION_NOT_RESTORABLE);
                 }
+                if(resregion.isProtectionOfContinuance() && !player.hasPermission(Permission.MEMBER_RESTORE_PROTECTION_OF_CONTINUANCE)) {
+                    throw new InputException(sender, Messages.REGION_RESTORE_PROTECTION_OF_CONTINUANCE_ERROR);
+                }
                 if ((new GregorianCalendar().getTimeInMillis()) >= AdvancedRegionMarket.getInstance().getPluginSettings().getUserResetCooldown() + resregion.getLastreset()) {
-                    Gui.openRegionResetWarning(player, resregion, false);
+                    Gui.openRegionRestoreWarning(player, resregion, false);
                     return true;
                 } else {
                     String message = resregion.replaceVariables(Messages.RESET_REGION_COOLDOWN_ERROR);

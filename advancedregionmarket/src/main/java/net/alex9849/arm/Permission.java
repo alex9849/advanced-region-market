@@ -117,6 +117,7 @@ public class Permission {
     public static final String REGIONKINDGROUP_REMOVEREGIONKIND = "arm.admin.regionkindgroup.removeregionkind";
 
     public static final String MEMBER_RESTORE = "arm.member.restore";
+    public static final String MEMBER_RESTORE_PROTECTION_OF_CONTINUANCE = "arm.member.restoreprotectionofcontinuance";
     public static final String MEMBER_SELLBACK = "arm.member.sellback";
     public static final String MEMBER_INFO = "arm.member.info";
     public static final String MEMBER_ADDMEMBER = "arm.member.addmember";

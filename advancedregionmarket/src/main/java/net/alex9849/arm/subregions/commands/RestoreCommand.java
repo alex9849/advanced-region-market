@@ -6,6 +6,7 @@ import net.alex9849.arm.Permission;
 import net.alex9849.arm.commands.BasicArmCommand;
 import net.alex9849.arm.exceptions.CmdSyntaxException;
 import net.alex9849.arm.exceptions.InputException;
+import net.alex9849.arm.exceptions.ProtectionOfContinuanceException;
 import net.alex9849.arm.exceptions.SchematicNotFoundException;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regions.Region;
@@ -47,13 +48,20 @@ public class RestoreCommand extends BasicArmCommand {
         if (!region.isUserRestorable()) {
             throw new InputException(sender, Messages.REGION_NOT_RESTORABLE);
         }
+        if (region.isProtectionOfContinuance() && !player.hasPermission(Permission.MEMBER_RESTORE_PROTECTION_OF_CONTINUANCE)) {
+            throw new InputException(sender, Messages.REGION_RESTORE_PROTECTION_OF_CONTINUANCE_ERROR);
+        }
+
         try {
+            region.setProtectionOfContinuance(false);
             region.restoreRegion(Region.ActionReason.MANUALLY_BY_PARENT_REGION_OWNER, true, false);
             sender.sendMessage(Messages.PREFIX + Messages.COMPLETE);
         } catch (SchematicNotFoundException e) {
             AdvancedRegionMarket.getInstance().getLogger()
                     .log(Level.WARNING, region.replaceVariables(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
-            player.sendMessage(Messages.PREFIX + Messages.SCHEMATIC_NOT_FOUND_ERROR_USER.replace("%regionid%", e.getRegion().getId()));
+            throw new InputException(sender, Messages.SCHEMATIC_NOT_FOUND_ERROR_USER.replace("%regionid%", e.getRegion().getId()));
+        } catch (ProtectionOfContinuanceException e) {
+            throw new InputException(sender, Messages.REGION_RESTORE_PROTECTION_OF_CONTINUANCE_ERROR);
         }
         return true;
     }

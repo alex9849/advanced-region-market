@@ -174,7 +174,8 @@ public class Gui implements Listener {
         if (player.hasPermission(Permission.MEMBER_SELLBACK)) {
             itemcounter++;
         }
-        if (player.hasPermission(Permission.MEMBER_RESTORE) && region.isUserRestorable()) {
+        if (player.hasPermission(Permission.MEMBER_RESTORE) && region.isUserRestorable()
+                && (!region.isProtectionOfContinuance() || player.hasPermission(Permission.MEMBER_RESTORE_PROTECTION_OF_CONTINUANCE))) {
             itemcounter++;
         }
         if (player.hasPermission(Permission.MEMBER_ENTITYLIMIT_CHECK)) {
@@ -241,7 +242,8 @@ public class Gui implements Listener {
             actitem++;
         }
 
-        if (player.hasPermission(Permission.MEMBER_RESTORE) && region.isUserRestorable()) {
+        if (player.hasPermission(Permission.MEMBER_RESTORE) && region.isUserRestorable()
+                && (!region.isProtectionOfContinuance() || player.hasPermission(Permission.MEMBER_RESTORE_PROTECTION_OF_CONTINUANCE))) {
             List<String> message = new ArrayList<>(Messages.GUI_RESET_REGION_BUTTON_LORE);
             for (int i = 0; i < message.size(); i++) {
                 message.set(i, message.get(i).replace("%userresetcooldown%", TimeUtil.timeInMsToString(AdvancedRegionMarket.getInstance().getPluginSettings().getUserResetCooldown(), true, false)));
@@ -251,7 +253,7 @@ public class Gui implements Listener {
                 @Override
                 public void execute(Player player) throws InputException {
                     if ((new GregorianCalendar().getTimeInMillis()) >= AdvancedRegionMarket.getInstance().getPluginSettings().getUserResetCooldown() + region.getLastreset()) {
-                        Gui.openRegionResetWarning(player, region, true);
+                        Gui.openRegionRestoreWarning(player, region, true);
                     } else {
                         String message = region.replaceVariables(Messages.RESET_REGION_COOLDOWN_ERROR);
                         throw new InputException(player, message);
@@ -602,7 +604,8 @@ public class Gui implements Listener {
         if (player.hasPermission(Permission.MEMBER_INFO)) {
             itemcounter++;
         }
-        if (player.hasPermission(Permission.SUBREGION_RESTORE) && region.isUserRestorable()) {
+        if (player.hasPermission(Permission.SUBREGION_RESTORE) && region.isUserRestorable()
+                && (!region.isProtectionOfContinuance() || player.hasPermission(Permission.MEMBER_RESTORE_PROTECTION_OF_CONTINUANCE))) {
             itemcounter++;
         }
         if (player.hasPermission(Permission.SUBREGION_UNSELL)) {
@@ -642,7 +645,8 @@ public class Gui implements Listener {
             inv.addIcon(infoItem, getPosition(actitem, itemcounter));
             actitem++;
         }
-        if (player.hasPermission(Permission.SUBREGION_RESTORE) && region.isUserRestorable()) {
+        if (player.hasPermission(Permission.SUBREGION_RESTORE) && region.isUserRestorable()
+                && (!region.isProtectionOfContinuance() || player.hasPermission(Permission.MEMBER_RESTORE_PROTECTION_OF_CONTINUANCE))) {
             ClickItem resetItem = new ClickItem(new ItemStack(Gui.RESET_ITEM), Messages.GUI_RESET_REGION_BUTTON)
                     .addClickAction(new ClickAction() {
                         @Override
@@ -654,11 +658,16 @@ public class Gui implements Listener {
                             Gui.openWarning(player,
                                     p -> {
                                         try {
+                                            if(player.hasPermission(Permission.MEMBER_RESTORE_PROTECTION_OF_CONTINUANCE)) {
+                                                region.setProtectionOfContinuance(false);
+                                            }
                                             region.userRestore(player);
                                             player.sendMessage(Messages.PREFIX + Messages.RESET_COMPLETE);
                                         } catch (SchematicNotFoundException e) {
                                             player.sendMessage(Messages.PREFIX + Messages.SCHEMATIC_NOT_FOUND_ERROR_USER.replace("%regionid%", e.getRegion().getId()));
                                             AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, region.replaceVariables(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
+                                        } catch (ProtectionOfContinuanceException e) {
+                                            player.sendMessage(Messages.PREFIX + Messages.REGION_RESTORE_PROTECTION_OF_CONTINUANCE_ERROR);
                                         }
                                     },
                                     p -> Gui.openSubregionManager(player, region, parentRegion),
@@ -1292,15 +1301,20 @@ public class Gui implements Listener {
         player.openInventory(inv.getInventory());
     }
 
-    public static void openRegionResetWarning(Player player, Region region, Boolean goBack) {
+    public static void openRegionRestoreWarning(Player player, Region region, Boolean goBack) {
         Gui.openWarning(player, p -> {
                     player.closeInventory();
                     try {
+                        if(player.hasPermission(Permission.MEMBER_RESTORE_PROTECTION_OF_CONTINUANCE)) {
+                            region.setProtectionOfContinuance(false);
+                        }
                         region.userRestore(player);
                         player.sendMessage(Messages.PREFIX + Messages.RESET_COMPLETE);
                     } catch (SchematicNotFoundException e) {
                         player.sendMessage(Messages.PREFIX + Messages.SCHEMATIC_NOT_FOUND_ERROR_USER.replace("%regionid%", e.getRegion().getId()));
                         AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, region.replaceVariables(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
+                    } catch (ProtectionOfContinuanceException e) {
+                        player.sendMessage(Messages.PREFIX + Messages.REGION_RESTORE_PROTECTION_OF_CONTINUANCE_ERROR);
                     }
                 }, p -> {
                     if (goBack) {

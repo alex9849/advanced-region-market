@@ -954,7 +954,10 @@ public abstract class Region implements Saveable {
         AdvancedRegionMarket.getInstance().getWorldEditInterface().createSchematic(this.getRegion(), this.getRegionworld(), regionsSchematicFolder, "schematic");
     }
 
-    public void restoreRegion(ActionReason actionReason, boolean logToConsole, boolean preventBackup) throws SchematicNotFoundException {
+    public void restoreRegion(ActionReason actionReason, boolean logToConsole, boolean preventBackup) throws SchematicNotFoundException, ProtectionOfContinuanceException {
+        if(this.isProtectionOfContinuance()) {
+            throw new ProtectionOfContinuanceException();
+        }
 
         RestoreRegionEvent resetBlocksEvent = new RestoreRegionEvent(this);
         Bukkit.getServer().getPluginManager().callEvent(resetBlocksEvent);
@@ -984,7 +987,6 @@ public abstract class Region implements Saveable {
             }
         }
         this.resetBuiltBlocks();
-        this.setProtectionOfContinuance(false);
 
         if (logToConsole) {
             AdvancedRegionMarket.getInstance().getLogger().log(Level.INFO,
@@ -1040,7 +1042,7 @@ public abstract class Region implements Saveable {
         }
     }
 
-    public void userRestore(Player player) throws SchematicNotFoundException {
+    public void userRestore(Player player) throws SchematicNotFoundException, ProtectionOfContinuanceException {
         this.restoreRegion(ActionReason.USER_RESTORE, true, false);
         GregorianCalendar calendar = new GregorianCalendar();
         this.lastreset = calendar.getTimeInMillis();
@@ -1079,12 +1081,12 @@ public abstract class Region implements Saveable {
         this.automaticResetRegion(ActionReason.USER_SELL, true);
     }
 
-    public void resetRegion(ActionReason actionReason, boolean logToConsole) throws SchematicNotFoundException {
-        this.unsell(actionReason, logToConsole, false);
+    public void resetRegion(ActionReason actionReason, boolean logToConsole) throws SchematicNotFoundException, ProtectionOfContinuanceException {
+        this.restoreRegion(actionReason, logToConsole, false);
+        this.unsell(actionReason, logToConsole, true);
         this.extraEntitys.clear();
         this.extraTotalEntitys = 0;
         this.queueSave();
-        this.restoreRegion(actionReason, logToConsole, true);
     }
 
     /**
@@ -1100,6 +1102,9 @@ public abstract class Region implements Saveable {
             this.extraTotalEntitys = 0;
             try {
                 this.restoreRegion(actionReason, logToConsole, true);
+            } catch (ProtectionOfContinuanceException e) {
+                //Can't happen because checked before
+                e.printStackTrace();
             } finally {
                 this.queueSave();
             }

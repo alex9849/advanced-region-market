@@ -173,6 +173,8 @@ Messages:
   RegionBuyProtectionOfContinuance: '&4Konnte Region nicht kaufen! Region steht unter Bestandsschutz!'
   RegionNotRestoreable: '&4Diese Region kann nicht zurückgesetzt werden!'
   RegionIsNotARentregion: '&4Region ist keine RentRegion!'
+  RegionRestoreProtectionOfContinuanceError: '&4Region kann nicht zurückgesetzt werden! Region steht unter Bestandsschutz!'
+  RegionResetProtectionOfContinuanceError: '&4Region kann nicht zurückgesetzt werden! Region steht unter Bestandsschutz!'
   RegionIsNotAContractRegion: '&4Region ist keine ContractRegion!'
   RegionTeleportMessage: '&7Du wurdest zur region &6%regionid% &7teleportiert'
   RegionNowAvailable: '&aRegion ist jetzt verfügbar!!'

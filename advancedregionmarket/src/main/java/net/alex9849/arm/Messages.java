@@ -744,6 +744,10 @@ public class Messages {
     public static String ARM_BASIC_COMMAND_MESSAGE;
     @Message(name = "RegionBuyProtectionOfContinuance", message = "&4Can't buy region! Region is unter protection of continuance and won't be for sale again!")
     public static String REGION_BUY_PROTECTION_OF_CONTINUANCE;
+    @Message(name = "RegionResetProtectionOfContinuanceError", message = "&4Can't reset region! Region is unter protection of continuance!")
+    public static String REGION_RESET_PROTECTION_OF_CONTINUANCE_ERROR;
+    @Message(name = "RegionRestoreProtectionOfContinuanceError", message = "&4Can't restore region! Region is unter protection of continuance!")
+    public static String REGION_RESTORE_PROTECTION_OF_CONTINUANCE_ERROR;
     @Message(name = "RegionKindCreated", message = "&aRegionKind created!")
     public static String REGIONKIND_CREATED;
     @Message(name = "RegionKindAlreadyExists", message = "&4RegionKind already exists!")

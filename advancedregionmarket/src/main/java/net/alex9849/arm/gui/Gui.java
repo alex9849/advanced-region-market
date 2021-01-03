@@ -652,7 +652,15 @@ public class Gui implements Listener {
                                 throw new InputException(player, message);
                             }
                             Gui.openWarning(player,
-                                    p -> region.userRestore(player),
+                                    p -> {
+                                        try {
+                                            region.userRestore(player);
+                                            player.sendMessage(Messages.PREFIX + Messages.RESET_COMPLETE);
+                                        } catch (SchematicNotFoundException e) {
+                                            player.sendMessage(Messages.PREFIX + Messages.SCHEMATIC_NOT_FOUND_ERROR_USER.replace("%regionid%", e.getRegion().getId()));
+                                            AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, region.replaceVariables(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
+                                        }
+                                    },
                                     p -> Gui.openSubregionManager(player, region, parentRegion),
                                     Messages.GUI_RESET_REGION_WARNING_NAME,
                                     new ArrayList<>(), new ArrayList<>());
@@ -760,7 +768,7 @@ public class Gui implements Listener {
             ClickItem icon = new ClickItem(stack).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
-                    Gui.openRegionFinderSellTypeSelector(player, AdvancedRegionMarket.getInstance().getRegionManager().getFreeRegions(RegionKind.DEFAULT), new ClickAction() {
+                    Gui.openRegionFinderSellTypeSelector(player, AdvancedRegionMarket.getInstance().getRegionManager().getBuyableRegions(RegionKind.DEFAULT), new ClickAction() {
                         @Override
                         public void execute(Player player) throws InputException {
                             Gui.openRegionFinder(player, withGoBack);
@@ -784,7 +792,7 @@ public class Gui implements Listener {
             ClickItem icon = new ClickItem(stack).addClickAction(new ClickAction() {
                 @Override
                 public void execute(Player player) throws InputException {
-                    Gui.openRegionFinderSellTypeSelector(player, AdvancedRegionMarket.getInstance().getRegionManager().getFreeRegions(RegionKind.SUBREGION), new ClickAction() {
+                    Gui.openRegionFinderSellTypeSelector(player, AdvancedRegionMarket.getInstance().getRegionManager().getBuyableRegions(RegionKind.SUBREGION), new ClickAction() {
                         @Override
                         public void execute(Player player) throws InputException {
                             Gui.openRegionFinder(player, withGoBack);
@@ -810,7 +818,7 @@ public class Gui implements Listener {
                 ClickItem icon = new ClickItem(stack).addClickAction(new ClickAction() {
                     @Override
                     public void execute(Player player) throws InputException {
-                        Gui.openRegionFinderSellTypeSelector(player, AdvancedRegionMarket.getInstance().getRegionManager().getFreeRegions(regionKind), new ClickAction() {
+                        Gui.openRegionFinderSellTypeSelector(player, AdvancedRegionMarket.getInstance().getRegionManager().getBuyableRegions(regionKind), new ClickAction() {
                             @Override
                             public void execute(Player player) throws InputException {
                                 Gui.openRegionFinder(player, withGoBack);
@@ -1287,7 +1295,13 @@ public class Gui implements Listener {
     public static void openRegionResetWarning(Player player, Region region, Boolean goBack) {
         Gui.openWarning(player, p -> {
                     player.closeInventory();
-                    region.userRestore(player);
+                    try {
+                        region.userRestore(player);
+                        player.sendMessage(Messages.PREFIX + Messages.RESET_COMPLETE);
+                    } catch (SchematicNotFoundException e) {
+                        player.sendMessage(Messages.PREFIX + Messages.SCHEMATIC_NOT_FOUND_ERROR_USER.replace("%regionid%", e.getRegion().getId()));
+                        AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, region.replaceVariables(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
+                    }
                 }, p -> {
                     if (goBack) {
                         Gui.openRegionOwnerManager(player, region);

@@ -499,6 +499,10 @@ public abstract class Region implements Saveable {
         return this.extraEntitys;
     }
 
+    public boolean isBuyable() {
+        return !this.isSold() && !this.isProtectionOfContinuance();
+    }
+
     /*#############################
     ########### Setter ############
     #############################*/
@@ -523,6 +527,7 @@ public abstract class Region implements Saveable {
             throw new IllegalArgumentException("Can't change this option for a Subregion!");
         }
         this.isProtectionOfContinuance = setting;
+        this.updateSigns();
         this.queueSave();
     }
 
@@ -690,7 +695,7 @@ public abstract class Region implements Saveable {
     ####### Abstract Methods ###########
     ##################################*/
 
-    public abstract void signClickAction(Player player) throws OutOfLimitExeption, AlreadySoldException, NotSoldException, NoPermissionException, NotEnoughMoneyException, RegionNotOwnException;
+    public abstract void signClickAction(Player player) throws OutOfLimitExeption, AlreadySoldException, NotSoldException, NoPermissionException, NotEnoughMoneyException, RegionNotOwnException, ProtectionOfContinuanceException;
 
     public abstract double getPricePerM2PerWeek();
 
@@ -708,13 +713,17 @@ public abstract class Region implements Saveable {
     ######### Other Methods ############
     ##################################*/
 
-    public void buy(Player player) throws NoPermissionException, OutOfLimitExeption, NotEnoughMoneyException, AlreadySoldException {
+    public void buy(Player player) throws NoPermissionException, OutOfLimitExeption, NotEnoughMoneyException, AlreadySoldException, ProtectionOfContinuanceException {
         if (!player.hasPermission(Permission.MEMBER_BUY)) {
             throw new NoPermissionException(Messages.NO_PERMISSION);
         }
 
         if (this.isSold()) {
             throw new AlreadySoldException(Messages.REGION_ALREADY_SOLD);
+        }
+
+        if(this.isProtectionOfContinuance()) {
+            throw new ProtectionOfContinuanceException(Messages.REGION_BUY_PROTECTION_OF_CONTINUANCE);
         }
 
         boolean isPlayerInLimit = AdvancedRegionMarket.getInstance().getLimitGroupManager().isCanBuyAnother(player, this.getRegionKind());
@@ -975,8 +984,8 @@ public abstract class Region implements Saveable {
             }
         }
         this.resetBuiltBlocks();
+        this.setProtectionOfContinuance(false);
 
-        //TODO Add to messages.yml
         if (logToConsole) {
             AdvancedRegionMarket.getInstance().getLogger().log(Level.INFO,
                     actionReason.replaceVariables(this.replaceVariables("Region %region% has been restored! Reason: %resetreason%")));
@@ -1031,17 +1040,11 @@ public abstract class Region implements Saveable {
         }
     }
 
-    public void userRestore(Player player) {
-        try {
-            this.restoreRegion(ActionReason.USER_RESTORE, true, false);
-            GregorianCalendar calendar = new GregorianCalendar();
-            this.lastreset = calendar.getTimeInMillis();
-            this.queueSave();
-            player.sendMessage(Messages.PREFIX + Messages.RESET_COMPLETE);
-        } catch (SchematicNotFoundException e) {
-            player.sendMessage(Messages.PREFIX + Messages.SCHEMATIC_NOT_FOUND_ERROR_USER.replace("%regionid%", e.getRegion().getId()));
-            AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, this.replaceVariables(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
-        }
+    public void userRestore(Player player) throws SchematicNotFoundException {
+        this.restoreRegion(ActionReason.USER_RESTORE, true, false);
+        GregorianCalendar calendar = new GregorianCalendar();
+        this.lastreset = calendar.getTimeInMillis();
+        this.queueSave();
     }
 
     public void writeSigns() {
@@ -1092,7 +1095,7 @@ public abstract class Region implements Saveable {
      */
     public void automaticResetRegion(ActionReason actionReason, boolean logToConsole) throws SchematicNotFoundException {
         this.unsell(actionReason, logToConsole, false);
-        if (this.isAutoRestore()) {
+        if (this.isAutoRestore() && !this.isProtectionOfContinuance()) {
             this.extraEntitys.clear();
             this.extraTotalEntitys = 0;
             try {

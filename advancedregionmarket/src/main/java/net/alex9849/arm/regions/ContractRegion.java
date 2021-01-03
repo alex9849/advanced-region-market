@@ -140,24 +140,30 @@ public class ContractRegion extends CountdownRegion {
 
     @Override
     protected void updateSignText(SignData signData) {
+        String[] lines = new String[4];
+
         if (this.isSold()) {
-            String[] lines = new String[4];
             lines[0] = this.replaceVariables(Messages.CONTRACT_SOLD_SIGN1);
             lines[1] = this.replaceVariables(Messages.CONTRACT_SOLD_SIGN2);
             lines[2] = this.replaceVariables(Messages.CONTRACT_SOLD_SIGN3);
             lines[3] = this.replaceVariables(Messages.CONTRACT_SOLD_SIGN4);
-            signData.writeLines(lines);
+
+        } else if(this.isProtectionOfContinuance()) {
+            lines[0] = this.replaceVariables(Messages.PROTECTION_OF_CONTINUANCE_SIGN1);
+            lines[1] = this.replaceVariables(Messages.PROTECTION_OF_CONTINUANCE_SIGN2);
+            lines[2] = this.replaceVariables(Messages.PROTECTION_OF_CONTINUANCE_SIGN3);
+            lines[3] = this.replaceVariables(Messages.PROTECTION_OF_CONTINUANCE_SIGN4);
+
         } else {
-            String[] lines = new String[4];
             lines[0] = this.replaceVariables(Messages.CONTRACT_SIGN1);
             lines[1] = this.replaceVariables(Messages.CONTRACT_SIGN2);
             lines[2] = this.replaceVariables(Messages.CONTRACT_SIGN3);
             lines[3] = this.replaceVariables(Messages.CONTRACT_SIGN4);
-            signData.writeLines(lines);
         }
+        signData.writeLines(lines);
     }
 
-    public void signClickAction(Player player) throws OutOfLimitExeption, AlreadySoldException, NotSoldException, NoPermissionException, NotEnoughMoneyException, RegionNotOwnException {
+    public void signClickAction(Player player) throws OutOfLimitExeption, AlreadySoldException, NotSoldException, NoPermissionException, NotEnoughMoneyException, RegionNotOwnException, ProtectionOfContinuanceException {
         if(this.isSold()) {
             this.changeTerminated(player);
         } else {

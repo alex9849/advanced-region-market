@@ -94,6 +94,14 @@ public class Messages {
     public static String SOLD_SIGN3;
     @Message(name = "SoldSign4", message = "%owner%")
     public static String SOLD_SIGN4;
+    @Message(name = "ProtectionOfContinuanceSign1", message = "&4Not for sale!")
+    public static String PROTECTION_OF_CONTINUANCE_SIGN1;
+    @Message(name = "ProtectionOfContinuanceSign2", message = "Region is under")
+    public static String PROTECTION_OF_CONTINUANCE_SIGN2;
+    @Message(name = "ProtectionOfContinuanceSign3", message = "protection of")
+    public static String PROTECTION_OF_CONTINUANCE_SIGN3;
+    @Message(name = "ProtectionOfContinuanceSign4", message = "continuance!")
+    public static String PROTECTION_OF_CONTINUANCE_SIGN4;
     @Message(name = "Currency", message = "$")
     public static String CURRENCY;
     @Message(name = "CommandOnlyIngame", message = "&4This command can only be executed ingame!")
@@ -734,6 +742,8 @@ public class Messages {
             "&6Download: &3https://bit.ly/2CfO3An\n" +
             "&6Get a list with all commands with &3/arm help")
     public static String ARM_BASIC_COMMAND_MESSAGE;
+    @Message(name = "RegionBuyProtectionOfContinuance", message = "&4Can't buy region! Region is unter protection of continuance and won't be for sale again!")
+    public static String REGION_BUY_PROTECTION_OF_CONTINUANCE;
     @Message(name = "RegionKindCreated", message = "&aRegionKind created!")
     public static String REGIONKIND_CREATED;
     @Message(name = "RegionKindAlreadyExists", message = "&4RegionKind already exists!")

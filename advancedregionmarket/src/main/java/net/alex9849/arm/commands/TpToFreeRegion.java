@@ -32,12 +32,12 @@ public class TpToFreeRegion extends BasicArmCommand {
         if (regionKind == null) {
             throw new InputException(player, Messages.REGIONKIND_DOES_NOT_EXIST);
         }
-        Region tpRegion = AdvancedRegionMarket.getInstance().getRegionManager().teleportToFreeRegion(regionKind, player);
+        Region tpRegion = AdvancedRegionMarket.getInstance().getRegionManager().teleportToBuyableRegion(regionKind, player);
         if(commandParts[commandParts.length - 1].equalsIgnoreCase("-buy")) {
             try {
                 tpRegion.buy(player);
-            } catch (NoPermissionException | OutOfLimitExeption | NotEnoughMoneyException |
-                    AlreadySoldException e) {
+            } catch (NoPermissionException | OutOfLimitExeption | NotEnoughMoneyException
+                    | AlreadySoldException | ProtectionOfContinuanceException e) {
                 if (e.hasMessage()) player.sendMessage(Messages.PREFIX + e.getMessage());
             }
         }

@@ -88,6 +88,10 @@ Messages:
   ContractSoldSign2: '%regionid%/%owner%'
   ContractSoldSign3: '%price%%currency%/%extendtime-short%'
   ContractSoldSign4: '%remainingtime-countdown-short%'
+  ProtectionOfContinuanceSign1: '&4Nicht zu'
+  ProtectionOfContinuanceSign2: '&4verkaufen!'
+  ProtectionOfContinuanceSign3: 'Region unter'
+  ProtectionOfContinuanceSign4: 'Bestandsschutz!'
   Seconds: s
   Minutes: m
   Hours: h
@@ -166,6 +170,7 @@ Messages:
   RegionCreatedAndSaved: '&aRegion erstellt und gespeichert!'
   RegionNotOwn: '&4Dir gehört diese Region nicht!'
   RegionNotSold: '&4Region nicht verkauft!'
+  RegionBuyProtectionOfContinuance: '&4Konnte Region nicht kaufen! Region steht unter Bestandsschutz!'
   RegionNotRestoreable: '&4Diese Region kann nicht zurückgesetzt werden!'
   RegionIsNotARentregion: '&4Region ist keine RentRegion!'
   RegionIsNotAContractRegion: '&4Region ist keine ContractRegion!'

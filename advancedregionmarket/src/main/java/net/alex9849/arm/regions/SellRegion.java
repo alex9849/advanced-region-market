@@ -2,10 +2,7 @@ package net.alex9849.arm.regions;
 
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
-import net.alex9849.arm.exceptions.AlreadySoldException;
-import net.alex9849.arm.exceptions.NoPermissionException;
-import net.alex9849.arm.exceptions.NotEnoughMoneyException;
-import net.alex9849.arm.exceptions.OutOfLimitExeption;
+import net.alex9849.arm.exceptions.*;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.inter.WGRegion;
@@ -31,7 +28,7 @@ public class SellRegion extends Region {
     }
 
     @Override
-    public void signClickAction(Player player) throws OutOfLimitExeption, AlreadySoldException, NotEnoughMoneyException, NoPermissionException {
+    public void signClickAction(Player player) throws OutOfLimitExeption, AlreadySoldException, NotEnoughMoneyException, NoPermissionException, ProtectionOfContinuanceException {
         this.buy(player);
     }
 
@@ -88,22 +85,27 @@ public class SellRegion extends Region {
 
     @Override
     protected void updateSignText(SignData signData) {
+        String[] lines = new String[4];
+
         if (this.isSold()) {
-            String[] lines = new String[4];
             lines[0] = this.replaceVariables(Messages.SOLD_SIGN1);
             lines[1] = this.replaceVariables(Messages.SOLD_SIGN2);
             lines[2] = this.replaceVariables(Messages.SOLD_SIGN3);
             lines[3] = this.replaceVariables(Messages.SOLD_SIGN4);
-            signData.writeLines(lines);
+
+        } else if(this.isProtectionOfContinuance()) {
+            lines[0] = this.replaceVariables(Messages.PROTECTION_OF_CONTINUANCE_SIGN1);
+            lines[1] = this.replaceVariables(Messages.PROTECTION_OF_CONTINUANCE_SIGN2);
+            lines[2] = this.replaceVariables(Messages.PROTECTION_OF_CONTINUANCE_SIGN3);
+            lines[3] = this.replaceVariables(Messages.PROTECTION_OF_CONTINUANCE_SIGN4);
+
         } else {
-            String[] lines = new String[4];
             lines[0] = this.replaceVariables(Messages.SELL_SIGN1);
             lines[1] = this.replaceVariables(Messages.SELL_SIGN2);
             lines[2] = this.replaceVariables(Messages.SELL_SIGN3);
             lines[3] = this.replaceVariables(Messages.SELL_SIGN4);
-            signData.writeLines(lines);
         }
-
+        signData.writeLines(lines);
     }
 
     public SellType getSellType() {

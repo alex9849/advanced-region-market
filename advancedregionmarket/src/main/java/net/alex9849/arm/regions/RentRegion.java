@@ -65,7 +65,7 @@ public class RentRegion extends CountdownRegion {
         return this.rentPrice;
     }
 
-    public void signClickAction(Player player) throws OutOfLimitExeption, AlreadySoldException, NotSoldException, NoPermissionException, NotEnoughMoneyException, RegionNotOwnException {
+    public void signClickAction(Player player) throws OutOfLimitExeption, AlreadySoldException, NotSoldException, NoPermissionException, NotEnoughMoneyException, RegionNotOwnException, ProtectionOfContinuanceException {
         if(this.isSold()) {
             this.extend(player);
         } else {
@@ -206,22 +206,27 @@ public class RentRegion extends CountdownRegion {
 
     @Override
     protected void updateSignText(SignData signData) {
+        String[] lines = new String[4];
 
         if (this.isSold()) {
-            String[] lines = new String[4];
             lines[0] = this.replaceVariables(Messages.RENTED_SIGN1);
             lines[1] = this.replaceVariables(Messages.RENTED_SIGN2);
             lines[2] = this.replaceVariables(Messages.RENTED_SIGN3);
             lines[3] = this.replaceVariables(Messages.RENTED_SIGN4);
-            signData.writeLines(lines);
+
+        } else if(this.isProtectionOfContinuance()) {
+            lines[0] = this.replaceVariables(Messages.PROTECTION_OF_CONTINUANCE_SIGN1);
+            lines[1] = this.replaceVariables(Messages.PROTECTION_OF_CONTINUANCE_SIGN2);
+            lines[2] = this.replaceVariables(Messages.PROTECTION_OF_CONTINUANCE_SIGN3);
+            lines[3] = this.replaceVariables(Messages.PROTECTION_OF_CONTINUANCE_SIGN4);
+
         } else {
-            String[] lines = new String[4];
             lines[0] = this.replaceVariables(Messages.RENT_SIGN1);
             lines[1] = this.replaceVariables(Messages.RENT_SIGN2);
             lines[2] = this.replaceVariables(Messages.RENT_SIGN3);
             lines[3] = this.replaceVariables(Messages.RENT_SIGN4);
-            signData.writeLines(lines);
         }
+        signData.writeLines(lines);
     }
 
     public ConfigurationSection toConfigurationSection() {

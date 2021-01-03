@@ -676,18 +676,18 @@ public class RegionManager extends YamlFileManager<Region> {
         return regions;
     }
 
-    public List<Region> getFreeRegions(RegionKind regionKind) {
+    public List<Region> getBuyableRegions(RegionKind regionKind) {
         List<Region> regions = new ArrayList<>();
 
         for (Region region : this) {
             if (region.getRegionKind() == regionKind) {
-                if (!region.isSold()) {
+                if (region.isBuyable()) {
                     regions.add(region);
                 }
             }
             for (Region subregion : region.getSubregions()) {
                 if (subregion.getRegionKind() == regionKind) {
-                    if (!subregion.isSold()) {
+                    if (subregion.isBuyable()) {
                         regions.add(subregion);
                     }
                 }
@@ -808,10 +808,10 @@ public class RegionManager extends YamlFileManager<Region> {
         this.tabCompleteRegions = tabCompleteRegions;
     }
 
-    public Region teleportToFreeRegion(RegionKind type, Player player) throws InputException {
+    public Region teleportToBuyableRegion(RegionKind type, Player player) throws InputException {
         for (Region region : this) {
 
-            if ((!region.isSold()) && (region.getRegionKind() == type)) {
+            if ((region.isBuyable()) && (region.getRegionKind() == type)) {
                 try {
                     String message = region.replaceVariables(Messages.REGION_TELEPORT_MESSAGE);
                     Teleporter.teleport(player, region, Messages.PREFIX + message, true);

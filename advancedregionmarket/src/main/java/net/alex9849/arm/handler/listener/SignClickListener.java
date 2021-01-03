@@ -62,11 +62,13 @@ public class SignClickListener implements Listener {
         if (cmd.equalsIgnoreCase("buyaction")) {
             try {
                 region.signClickAction(player);
-            } catch (NoPermissionException | OutOfLimitExeption | NotEnoughMoneyException | AlreadySoldException
-                    | NotSoldException | RegionNotOwnException e) {
-                if (e.hasMessage()) player.sendMessage(Messages.PREFIX + e.getMessage());
+            } catch (NoPermissionException | OutOfLimitExeption | NotEnoughMoneyException
+                    | AlreadySoldException | NotSoldException | RegionNotOwnException
+                    | ProtectionOfContinuanceException e) {
+                if (e.hasMessage()) {
+                    player.sendMessage(Messages.PREFIX + e.getMessage());
+                }
             }
-
             return;
         } else if (cmd.equalsIgnoreCase("")) {
             return;

@@ -47,7 +47,7 @@ public class Diagram {
 
         for (Region region : AdvancedRegionMarket.getInstance().getRegionManager()) {
             allRegions++;
-            if (region.isBuyable()) {
+            if (!region.isBuyable()) {
                 allSoldRegions++;
             }
         }
@@ -67,7 +67,7 @@ public class Diagram {
         for (Region region : AdvancedRegionMarket.getInstance().getRegionManager().getRegionsByRegionKind(regionKind)) {
             if (region.getRegionKind() == regionKind) {
                 regions++;
-                if (region.isBuyable()) {
+                if (!region.isBuyable()) {
                     soldregions++;
                 }
             }
@@ -82,7 +82,7 @@ public class Diagram {
 
         for (Region region : AdvancedRegionMarket.getInstance().getRegionManager().getRegionsBySelltype(sellType)) {
             regions++;
-            if (region.isBuyable()) {
+            if (!region.isBuyable()) {
                 soldregions++;
             }
         }

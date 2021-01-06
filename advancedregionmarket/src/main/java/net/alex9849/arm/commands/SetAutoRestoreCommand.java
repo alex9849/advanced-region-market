@@ -1,5 +1,6 @@
 package net.alex9849.arm.commands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.regions.Region;
@@ -8,8 +9,8 @@ import java.util.Arrays;
 
 public class SetAutoRestoreCommand extends BooleanRegionOptionModifyCommand {
 
-    public SetAutoRestoreCommand() {
-        super("setautorestore", Arrays.asList(Permission.ADMIN_SET_AUTORESTORE),
+    public SetAutoRestoreCommand(AdvancedRegionMarket plugin) {
+        super("setautorestore", plugin, Arrays.asList(Permission.ADMIN_SET_AUTORESTORE),
                 "AutoRestore", false, Messages.SUBREGION_AUTORESTORE_ERROR);
     }
 

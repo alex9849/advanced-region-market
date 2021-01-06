@@ -1,5 +1,6 @@
 package net.alex9849.arm.commands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.CmdSyntaxException;
@@ -20,8 +21,8 @@ public class SignLinkModeCommand extends BasicArmCommand {
     private final String regex_start = "(?i)signlinkmode [^;\n ]+";
     private final String regex_disable = "(?i)signlinkmode (?i)disable";
 
-    public SignLinkModeCommand() {
-        super(false, "signlinkmode",
+    public SignLinkModeCommand(AdvancedRegionMarket plugin) {
+        super(false, plugin, "signlinkmode",
                 Arrays.asList("(?i)signlinkmode [^;\n ]+", "(?i)signlinkmode (?i)disable"),
                 Arrays.asList("signlinkmode [selltype]", "signlinkmode disable"),
                 Arrays.asList(Permission.ADMIN_SIGN_LINK_MODE));
@@ -83,7 +84,7 @@ public class SignLinkModeCommand extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected List<String> onTabCompleteArguements(Player player, String[] args) {
         if(args.length != 2) {
             return new ArrayList<>();
         }

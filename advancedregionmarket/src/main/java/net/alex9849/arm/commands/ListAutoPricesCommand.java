@@ -1,5 +1,6 @@
 package net.alex9849.arm.commands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.CmdSyntaxException;
@@ -14,8 +15,8 @@ import java.util.List;
 
 public class ListAutoPricesCommand extends BasicArmCommand {
 
-    public ListAutoPricesCommand() {
-        super(true, "listautoprices",
+    public ListAutoPricesCommand(AdvancedRegionMarket plugin) {
+        super(true, plugin, "listautoprices",
                 Arrays.asList("(?i)listautoprices"),
                 Arrays.asList("listautoprices"),
                 Arrays.asList(Permission.ADMIN_LISTAUTOPRICES));
@@ -32,7 +33,7 @@ public class ListAutoPricesCommand extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected List<String> onTabCompleteArguements(Player player, String[] args) {
         return new ArrayList<>();
     }
 }

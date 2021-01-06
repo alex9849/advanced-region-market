@@ -19,8 +19,8 @@ import java.util.logging.Level;
 public class ResetCommand extends BasicArmCommand {
     private final String regex_with_args = "(?i)reset [^;\n ]+";
 
-    public ResetCommand() {
-        super(false, "reset",
+    public ResetCommand(AdvancedRegionMarket plugin) {
+        super(false, plugin, "reset",
                 Arrays.asList("(?i)reset [^;\n ]+", "(?i)reset"),
                 Arrays.asList("reset [REGION]", "reset"),
                 Arrays.asList(Permission.ADMIN_RESETREGION));
@@ -54,7 +54,7 @@ public class ResetCommand extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected List<String> onTabCompleteArguements(Player player, String[] args) {
         if(args.length != 2) {
             return new ArrayList<>();
         }

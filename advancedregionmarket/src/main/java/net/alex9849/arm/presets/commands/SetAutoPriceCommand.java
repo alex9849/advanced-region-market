@@ -1,5 +1,6 @@
 package net.alex9849.arm.presets.commands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.commands.BasicArmCommand;
@@ -22,8 +23,8 @@ public class SetAutoPriceCommand extends BasicArmCommand {
     private final String regex_remove = "(?i)autoprice (?i)remove";
     private PresetType presetType;
 
-    public SetAutoPriceCommand(PresetType presetType) {
-        super(true, "autoprice",
+    public SetAutoPriceCommand(PresetType presetType, AdvancedRegionMarket plugin) {
+        super(true, plugin, "autoprice",
                 Arrays.asList("(?i)autoprice [^;\n ]+", "(?i)autoprice (?i)remove"),
                 Arrays.asList("autoprice [AUTOPRICE]", "autoprice remove"),
                 Arrays.asList(Permission.ADMIN_PRESET_SET_AUTOPRICE));
@@ -56,7 +57,7 @@ public class SetAutoPriceCommand extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected List<String> onTabCompleteArguements(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
         if (args.length == 2) {
             if ("remove".startsWith(args[1])) {

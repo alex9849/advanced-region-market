@@ -1,5 +1,6 @@
 package net.alex9849.arm.regionkind.regionkindcommands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.regionkind.RegionKind;
@@ -14,9 +15,9 @@ import java.util.List;
 
 public class SetItemCommand extends RegionKindOptionModifyCommand<Material> {
 
-    public SetItemCommand() {
+    public SetItemCommand(AdvancedRegionMarket plugin) {
         super("setitem", Arrays.asList(Permission.REGIONKIND_SET_ITEM),
-                "[^;\n ]+", "[ITEM]", Messages.MATERIAL_NOT_FOUND);
+                "[^;\n ]+", "[ITEM]", Messages.MATERIAL_NOT_FOUND, plugin);
     }
 
     @Override

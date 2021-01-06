@@ -1,5 +1,6 @@
 package net.alex9849.arm.commands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.exceptions.CmdSyntaxException;
 import net.alex9849.arm.exceptions.InputException;
@@ -12,19 +13,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class BasicArmCommand {
-    private String rootCommand;
-    private boolean isConsoleCommand;
-    private List<String> regexList;
-    private List<String> permissions;
-    private List<String> usage;
+    private final String rootCommand;
+    private final boolean isConsoleCommand;
+    private final List<String> regexList;
+    private final List<String> permissions;
+    private final List<String> usage;
+    private final AdvancedRegionMarket plugin;
 
-    public BasicArmCommand(boolean isConsoleCommand, String rootCommand, List<String> regexList, List<String> usage,
+    public BasicArmCommand(boolean isConsoleCommand, AdvancedRegionMarket plugin, String rootCommand, List<String> regexList, List<String> usage,
                            List<String> permissions) {
         this.isConsoleCommand = isConsoleCommand;
         this.rootCommand = rootCommand;
         this.permissions = permissions;
         this.regexList = regexList;
         this.usage = usage;
+        this.plugin = plugin;
+    }
+
+    public AdvancedRegionMarket getPlugin() {
+        return plugin;
     }
 
     public boolean isConsoleCommand() {
@@ -85,7 +92,7 @@ public abstract class BasicArmCommand {
             if (args.length == 1) {
                 returnme.add(this.getRootCommand());
             } else if (this.getRootCommand().equalsIgnoreCase(args[0])) {
-                returnme.addAll(onTabCompleteLogic(player, args));
+                returnme.addAll(onTabCompleteArguements(player, args));
             }
         }
         return returnme;
@@ -98,5 +105,5 @@ public abstract class BasicArmCommand {
      * @param args Has at least a length of 2 and the first arg matches the root command
      * @return An ArrayList (not null)
      */
-    protected abstract List<String> onTabCompleteLogic(Player player, String[] args);
+    protected abstract List<String> onTabCompleteArguements(Player player, String[] args);
 }

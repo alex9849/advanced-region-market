@@ -18,8 +18,8 @@ import java.util.List;
 public class DeleteCommand extends BasicArmCommand {
     private PresetType presetType;
 
-    public DeleteCommand(PresetType presetType) {
-        super(true, "delete",
+    public DeleteCommand(PresetType presetType, AdvancedRegionMarket plugin) {
+        super(true, plugin, "delete",
                 Arrays.asList("(?i)delete [^;\n ]+"),
                 Arrays.asList("delete [PRESETNAME]"),
                 Arrays.asList(Permission.ADMIN_PRESET_DELETE));
@@ -41,7 +41,7 @@ public class DeleteCommand extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected List<String> onTabCompleteArguements(Player player, String[] args) {
         if (args.length != 2) {
             return new ArrayList<>();
         }

@@ -17,8 +17,8 @@ import java.util.List;
 public class TerminateCommand extends BasicArmCommand {
     private final String regex_with_args = "(?i)terminate [^;\n ]+ (false|true)";
 
-    public TerminateCommand() {
-        super(false, "terminate",
+    public TerminateCommand(AdvancedRegionMarket plugin) {
+        super(false, plugin, "terminate",
                 Arrays.asList("(?i)terminate [^;\n ]+ (false|true)", "(?i)terminate (false|true)"),
                 Arrays.asList("terminate [REGION] [true/false]", "terminate [true/false]"),
                 Arrays.asList(Permission.MEMBER_BUY, Permission.ADMIN_TERMINATE_CONTRACT));
@@ -53,7 +53,7 @@ public class TerminateCommand extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected List<String> onTabCompleteArguements(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
         if (args.length == 2) {
             PlayerRegionRelationship playerRegionRelationship = null;

@@ -16,8 +16,8 @@ import java.util.List;
 public class BuyCommand extends BasicArmCommand {
     private final String regex_with_args = "(?i)buy [^;\n ]+";
 
-    public BuyCommand() {
-        super(false, "buy",
+    public BuyCommand(AdvancedRegionMarket plugin) {
+        super(false, plugin, "buy",
                 Arrays.asList("(?i)buy", "(?i)buy [^;\n ]+"),
                 Arrays.asList("buy [REGION]", "buy"),
                 Arrays.asList(Permission.MEMBER_BUY));
@@ -45,7 +45,7 @@ public class BuyCommand extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected List<String> onTabCompleteArguements(Player player, String[] args) {
         if(args.length != 2) {
             return new ArrayList<>();
         }

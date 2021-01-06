@@ -22,8 +22,8 @@ public class OfferCommand extends BasicArmCommand {
     private final String regex_reject = "(?i)offer (?i)reject";
     private final String regex_accept = "(?i)offer (?i)accept";
 
-    public OfferCommand() {
-        super(false, "offer",
+    public OfferCommand(AdvancedRegionMarket plugin) {
+        super(false, plugin, "offer",
                 Arrays.asList("(?i)offer [^;\n ]+ [^;\n ]+ ([0-9]+[.])?[0-9]+",
                         "(?i)offer (?i)cancel", "(?i)offer (?i)reject", "(?i)offer (?i)accept"),
                 Arrays.asList("offer [BUYER] [REGION] [PRICE]", "offer accept", "offer reject", "offer cancel"),
@@ -107,7 +107,7 @@ public class OfferCommand extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected List<String> onTabCompleteArguements(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
 
         if (args.length == 2) {

@@ -1,5 +1,6 @@
 package net.alex9849.arm.presets.commands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.InputException;
@@ -15,8 +16,8 @@ import java.util.List;
 
 public class ResetCommand extends PresetOptionModifyCommand<Object> {
 
-    public ResetCommand(PresetType presetType) {
-        super("reset", Arrays.asList(Permission.ADMIN_PRESET_RESET), presetType);
+    public ResetCommand(PresetType presetType, AdvancedRegionMarket plugin) {
+        super("reset", plugin, Arrays.asList(Permission.ADMIN_PRESET_RESET), presetType);
     }
 
     @Override

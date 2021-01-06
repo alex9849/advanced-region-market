@@ -1,5 +1,6 @@
 package net.alex9849.arm.regionkind.regionkindcommands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.regionkind.RegionKind;
 import org.bukkit.command.CommandSender;
@@ -12,10 +13,10 @@ import java.util.List;
 public class SetDisplayInLimitsCommand extends RegionKindOptionModifyCommand<Boolean> {
 
 
-    public SetDisplayInLimitsCommand() {
+    public SetDisplayInLimitsCommand(AdvancedRegionMarket plugin) {
         super("setdisplayinlimits",
                 Arrays.asList(Permission.REGIONKIND_SET_DISPLAY_IN_LIMITS), "(false|true)",
-                "[true/false]", "");
+                "[true/false]", "", plugin);
     }
 
     @Override

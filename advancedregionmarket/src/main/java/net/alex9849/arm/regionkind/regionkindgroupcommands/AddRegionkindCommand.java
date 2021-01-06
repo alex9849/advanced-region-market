@@ -13,8 +13,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class AddRegionkindCommand extends RegionKindGroupOptionModifyCommand<RegionKind> {
-    public AddRegionkindCommand() {
-        super("addregionkind", Arrays.asList(Permission.REGIONKINDGROUP_ADDREGIONKIND),
+    public AddRegionkindCommand(AdvancedRegionMarket plugin) {
+        super("addregionkind", plugin, Arrays.asList(Permission.REGIONKINDGROUP_ADDREGIONKIND),
                 "[^;\n ]+", "[REGIONKIND]", Messages.REGIONKIND_DOES_NOT_EXIST);
     }
 

@@ -22,8 +22,8 @@ public class BuyExtraCommand extends BasicArmCommand {
     private final String regex = "(?i)buyextra [^;\n ]+ [^;\n ]+";
     private final List<String> usage = new ArrayList<>(Arrays.asList("buyextra [REGION] [ENTITYTYPE]"));
 
-    public BuyExtraCommand() {
-        super(false, "buyextra",
+    public BuyExtraCommand(AdvancedRegionMarket plugin) {
+        super(false, plugin, "buyextra",
                 Arrays.asList("(?i)buyextra [^;\n ]+ [^;\n ]+"),
                 Arrays.asList("buyextra [REGION] [ENTITYTYPE]"),
                 Arrays.asList(Permission.MEMBER_ENTITYLIMIT_BUY_EXTRA));
@@ -89,7 +89,7 @@ public class BuyExtraCommand extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected List<String> onTabCompleteArguements(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
         if ((args.length == 2)) {
             if (this.rootCommand.startsWith(args[0])) {

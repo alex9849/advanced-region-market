@@ -1,5 +1,6 @@
 package net.alex9849.arm.presets.commands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.presets.presets.Preset;
 import net.alex9849.arm.presets.presets.PresetType;
@@ -12,8 +13,8 @@ import java.util.List;
 
 public class AllowedSubregionsCommand extends PresetOptionModifyCommand<Integer> {
 
-    public AllowedSubregionsCommand(PresetType presetType) {
-        super("allowedsubregions", Arrays.asList(Permission.ADMIN_PRESET_ALLOWEDSUBREGIONS),
+    public AllowedSubregionsCommand(PresetType presetType, AdvancedRegionMarket plugin) {
+        super("allowedsubregions", plugin, Arrays.asList(Permission.ADMIN_PRESET_ALLOWEDSUBREGIONS),
                 true, "([0-9]+|(?i)remove)", "[NUMBER/remove]", "", presetType);
     }
 

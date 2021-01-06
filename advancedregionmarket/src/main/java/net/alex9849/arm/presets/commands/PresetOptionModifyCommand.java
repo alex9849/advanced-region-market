@@ -1,5 +1,6 @@
 package net.alex9849.arm.presets.commands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.commands.OptionModifyCommand;
 import net.alex9849.arm.exceptions.InputException;
@@ -17,17 +18,17 @@ import java.util.List;
 public abstract class PresetOptionModifyCommand<SettingsObj> extends OptionModifyCommand<Preset, SettingsObj> {
     private PresetType presetType;
 
-    public PresetOptionModifyCommand(String rootCommand, List<String> permissions, boolean allowNullValueSetting, String optionRegex,
+    public PresetOptionModifyCommand(String rootCommand, AdvancedRegionMarket plugin, List<String> permissions, boolean allowNullValueSetting, String optionRegex,
                                      String optionDescription, String settingNotFoundMsg, PresetType presetType) {
-        super(true, !allowNullValueSetting, rootCommand,
+        super(true, plugin, !allowNullValueSetting, rootCommand,
                 Arrays.asList("(?i)" + rootCommand + " " + optionRegex),
                 Arrays.asList(rootCommand + " " + optionDescription),
                 permissions, "", settingNotFoundMsg);
         this.presetType = presetType;
     }
 
-    public PresetOptionModifyCommand(String rootCommand, List<String> permissions, PresetType presetType) {
-        super(true, false, rootCommand,
+    public PresetOptionModifyCommand(String rootCommand, AdvancedRegionMarket plugin, List<String> permissions, PresetType presetType) {
+        super(true, plugin, false, rootCommand,
                 Arrays.asList("(?i)" + rootCommand),
                 Arrays.asList(rootCommand),
                 permissions, "", "");

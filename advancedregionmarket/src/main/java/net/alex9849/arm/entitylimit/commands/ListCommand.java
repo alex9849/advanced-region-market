@@ -16,8 +16,8 @@ import java.util.List;
 
 public class ListCommand extends BasicArmCommand {
 
-    public ListCommand() {
-        super(true, "list",
+    public ListCommand(AdvancedRegionMarket plugin) {
+        super(true, plugin, "list",
                 Arrays.asList("(?i)list"),
                 Arrays.asList("list"),
                 Arrays.asList(Permission.ADMIN_ENTITYLIMIT_LIST));
@@ -33,7 +33,7 @@ public class ListCommand extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected List<String> onTabCompleteArguements(Player player, String[] args) {
         return new ArrayList<>();
     }
 }

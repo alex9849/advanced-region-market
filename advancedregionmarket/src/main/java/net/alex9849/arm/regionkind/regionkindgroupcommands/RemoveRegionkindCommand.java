@@ -13,8 +13,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class RemoveRegionkindCommand extends RegionKindGroupOptionModifyCommand<RegionKind> {
-    public RemoveRegionkindCommand() {
-        super("removeregionkind", Arrays.asList(Permission.REGIONKINDGROUP_REMOVEREGIONKIND),
+    public RemoveRegionkindCommand(AdvancedRegionMarket plugin) {
+        super("removeregionkind", plugin, Arrays.asList(Permission.REGIONKINDGROUP_REMOVEREGIONKIND),
                 "[^;\n ]+", "[REGIONKIND]", Messages.REGIONKIND_DOES_NOT_EXIST);
     }
 

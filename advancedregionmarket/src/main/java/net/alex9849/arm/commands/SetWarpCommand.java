@@ -1,5 +1,6 @@
 package net.alex9849.arm.commands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.regions.Region;
@@ -12,8 +13,8 @@ import java.util.List;
 
 public class SetWarpCommand extends RegionOptionModifyCommand<Location> {
 
-    public SetWarpCommand() {
-        super("setwarp", Arrays.asList(Permission.ADMIN_SETWARP), "teleportLocation",
+    public SetWarpCommand(AdvancedRegionMarket plugin) {
+        super("setwarp", plugin, Arrays.asList(Permission.ADMIN_SETWARP), "teleportLocation",
                 false, Messages.SUBREGION_TELEPORT_LOCATION_ERROR);
     }
 

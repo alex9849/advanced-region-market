@@ -21,8 +21,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class AddCommand extends BasicArmCommand {
-    public AddCommand() {
-        super(false, "add", Arrays.asList("(?i)add [^;\n]+ (?i)(SELL|RENT|CONTRACT)"),
+    public AddCommand(AdvancedRegionMarket plugin) {
+        super(false, plugin, "add", Arrays.asList("(?i)add [^;\n]+ (?i)(SELL|RENT|CONTRACT)"),
                 Arrays.asList("add [REGIONID] [SELL/RENT/CONTRACT]"),
                 Arrays.asList(Permission.ADMIN_CREATE_SELL, Permission.ADMIN_CREATE_RENT, Permission.ADMIN_CREATE_CONTRACT));
     }
@@ -75,7 +75,7 @@ public class AddCommand extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected List<String> onTabCompleteArguements(Player player, String[] args) {
         if(args.length < 2) {
             return new ArrayList<>();
         }

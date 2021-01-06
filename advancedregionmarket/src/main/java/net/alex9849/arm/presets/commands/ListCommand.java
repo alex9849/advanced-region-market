@@ -19,8 +19,8 @@ import java.util.List;
 public class ListCommand extends BasicArmCommand {
     private PresetType presetType;
 
-    public ListCommand(PresetType presetType) {
-        super(true, "list",
+    public ListCommand(PresetType presetType, AdvancedRegionMarket plugin) {
+        super(true, plugin, "list",
                 Arrays.asList("(?i)list"),
                 Arrays.asList("list"),
                 Arrays.asList(Permission.ADMIN_PRESET_LIST));
@@ -40,7 +40,7 @@ public class ListCommand extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected List<String> onTabCompleteArguements(Player player, String[] args) {
         return new ArrayList<>();
     }
 }

@@ -1,5 +1,6 @@
 package net.alex9849.arm.subregions.commands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.commands.BasicArmCommand;
@@ -15,8 +16,8 @@ import java.util.List;
 
 public class CreateCommand extends BasicArmCommand {
 
-    public CreateCommand() {
-        super(false, "create",
+    public CreateCommand(AdvancedRegionMarket plugin) {
+        super(false, plugin, "create",
                 Arrays.asList("(?i)create"),
                 Arrays.asList("create"),
                 Arrays.asList(Permission.SUBREGION_CREATE_CONTRACT,
@@ -39,7 +40,7 @@ public class CreateCommand extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected List<String> onTabCompleteArguements(Player player, String[] args) {
         return new ArrayList<>();
     }
 }

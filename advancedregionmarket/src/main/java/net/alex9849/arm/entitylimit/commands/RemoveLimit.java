@@ -17,8 +17,8 @@ import java.util.List;
 
 public class RemoveLimit extends BasicArmCommand {
 
-    public RemoveLimit() {
-        super(true, "removelimit",
+    public RemoveLimit(AdvancedRegionMarket plugin) {
+        super(true, plugin, "removelimit",
                 Arrays.asList("(?i)removelimit [^;\n ]+ [^;\n ]+"),
                 Arrays.asList("removelimit [GROUPNAME] [ENTITYTYPE]"),
                 Arrays.asList(Permission.ADMIN_ENTITYLIMIT_REMOVE_LIMIT));
@@ -57,7 +57,7 @@ public class RemoveLimit extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected List<String> onTabCompleteArguements(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
         if (args.length == 2) {
             returnme.addAll(AdvancedRegionMarket.getInstance().getEntityLimitGroupManager().tabCompleteEntityLimitGroups(args[1]));

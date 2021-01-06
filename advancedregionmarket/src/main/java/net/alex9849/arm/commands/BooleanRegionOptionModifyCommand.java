@@ -1,5 +1,6 @@
 package net.alex9849.arm.commands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.util.Tuple;
@@ -11,8 +12,8 @@ import java.util.List;
 
 public abstract class BooleanRegionOptionModifyCommand extends RegionOptionModifyCommand<Boolean> {
 
-    public BooleanRegionOptionModifyCommand(String rootCommand, List permissions, String optionName, boolean allowSubregions, String subregionModifyErrorMessage) {
-        super(rootCommand, permissions, true, optionName, "(false|true)",
+    public BooleanRegionOptionModifyCommand(String rootCommand, AdvancedRegionMarket plugin, List permissions, String optionName, boolean allowSubregions, String subregionModifyErrorMessage) {
+        super(rootCommand, plugin, permissions, true, optionName, "(false|true)",
                 "[true/false]",allowSubregions, subregionModifyErrorMessage, "");
     }
 

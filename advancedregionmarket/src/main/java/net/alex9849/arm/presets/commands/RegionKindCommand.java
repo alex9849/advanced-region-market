@@ -16,8 +16,8 @@ import java.util.List;
 
 public class RegionKindCommand extends PresetOptionModifyCommand<RegionKind> {
 
-    public RegionKindCommand(PresetType presetType) {
-        super("regionkind", Arrays.asList(Permission.ADMIN_PRESET_SET_REGIONKIND),
+    public RegionKindCommand(PresetType presetType, AdvancedRegionMarket plugin) {
+        super("regionkind", plugin, Arrays.asList(Permission.ADMIN_PRESET_SET_REGIONKIND),
                 true, "[^;\n ]+", "[REGIONKIND]", Messages.REGIONKIND_DOES_NOT_EXIST, presetType);
     }
 

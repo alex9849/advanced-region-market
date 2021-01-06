@@ -17,8 +17,8 @@ import java.util.List;
 import java.util.function.Predicate;
 
 public class AddLimitCommand extends BasicArmCommand {
-    public AddLimitCommand() {
-        super(true, "addlimit",
+    public AddLimitCommand(AdvancedRegionMarket plugin) {
+        super(true, plugin, "addlimit",
                 Arrays.asList("(?i)addlimit [^;\n ]+ [^;\n ]+ ([0-9]+|(?i)unlimited) ([0-9]+|(?i)unlimited) [0-9]+"),
                 Arrays.asList("addlimit [GROUPNAME] [ENTITYTYPE] [SOFTLIMIT] [HARDLIMIT] [PRICE PER EXTRA-ENTITY]"),
                 Arrays.asList(Permission.ADMIN_ENTITYLIMIT_ADD_LIMIT));
@@ -80,7 +80,7 @@ public class AddLimitCommand extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected List<String> onTabCompleteArguements(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
         if ((args.length == 2)) {
             returnme.addAll(AdvancedRegionMarket.getInstance().getEntityLimitGroupManager().tabCompleteEntityLimitGroups(args[1]));

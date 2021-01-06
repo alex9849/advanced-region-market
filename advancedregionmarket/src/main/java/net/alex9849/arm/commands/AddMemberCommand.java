@@ -19,8 +19,8 @@ public class AddMemberCommand extends BasicArmCommand {
 
     private final String regex_with_args = "(?i)addmember [^;\n ]+ [^;\n ]+";
 
-    public AddMemberCommand() {
-        super(false, "addmember",
+    public AddMemberCommand(AdvancedRegionMarket plugin) {
+        super(false, plugin, "addmember",
                 Arrays.asList("(?i)addmember [^;\n ]+ [^;\n ]+", "(?i)addmember [^;\n ]+"),
                 Arrays.asList("addmember [REGION] [NEWMEMBER]", "addmember [NEWMEMBER]"),
                 Arrays.asList(Permission.MEMBER_ADDMEMBER, Permission.ADMIN_ADDMEMBER));
@@ -71,7 +71,7 @@ public class AddMemberCommand extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected List<String> onTabCompleteArguements(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
 
         if (args.length == 2) {

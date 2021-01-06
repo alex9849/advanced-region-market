@@ -1,5 +1,6 @@
 package net.alex9849.arm.commands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.gui.Gui;
 import org.bukkit.command.CommandSender;
@@ -11,8 +12,8 @@ import java.util.List;
 
 public class GuiCommand extends BasicArmCommand {
 
-    public GuiCommand() {
-        super(false, "gui",
+    public GuiCommand(AdvancedRegionMarket plugin) {
+        super(false, plugin, "gui",
                 Arrays.asList("(?i)gui"),
                 Arrays.asList("gui"),
                 Arrays.asList(Permission.MEMBER_GUI));
@@ -25,7 +26,7 @@ public class GuiCommand extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected List<String> onTabCompleteArguements(Player player, String[] args) {
         return new ArrayList<>();
     }
 }

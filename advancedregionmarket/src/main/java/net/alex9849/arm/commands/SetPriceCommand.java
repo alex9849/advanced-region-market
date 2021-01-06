@@ -27,8 +27,8 @@ public class SetPriceCommand extends BasicArmCommand {
     private final String regex_price_massaction = "(?i)setprice rk:[^;\n ]+ [0-9]+ [0-9]+(s|m|h|d) [0-9]+(s|m|h|d)";
     private final String regex_price_autoprice_massaction = "(?i)setprice rk:[^;\n ]+ [^;\n ]+";
 
-    public SetPriceCommand() {
-        super(false, "setprice",
+    public SetPriceCommand(AdvancedRegionMarket plugin) {
+        super(false, plugin, "setprice",
                 Arrays.asList("(?i)setprice [^;\n ]+ [^;\n ]+", "(?i)setprice [^;\n ]+ [0-9]+ [0-9]+(s|m|h|d) [0-9]+(s|m|h|d)",
                         "(?i)setprice rk:[^;\n ]+ [^;\n ]+", "(?i)setprice rk:[^;\n ]+ [0-9]+ [0-9]+(s|m|h|d) [0-9]+(s|m|h|d)"),
                 Arrays.asList("setprice [REGION] [AUTOPRICE]", "setprice [REGION] [PRICE] [EXTENDTIME] [MAXEXTENDTIME]",
@@ -104,7 +104,7 @@ public class SetPriceCommand extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected List<String> onTabCompleteArguements(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
         if (args.length == 2) {
             returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true, true));

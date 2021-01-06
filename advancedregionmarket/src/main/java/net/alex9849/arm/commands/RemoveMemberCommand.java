@@ -18,8 +18,8 @@ import java.util.List;
 public class RemoveMemberCommand extends BasicArmCommand {
     private final String regex_with_args = "(?i)removemember [^;\n ]+ [^;\n ]+";
 
-    public RemoveMemberCommand() {
-        super(false, "removemember",
+    public RemoveMemberCommand(AdvancedRegionMarket plugin) {
+        super(false, plugin, "removemember",
                 Arrays.asList("(?i)removemember [^;\n ]+", "(?i)removemember [^;\n ]+ [^;\n ]+"),
                 Arrays.asList("removemember [MEMBER]", "removemember [REGION] [MEMBER]"),
                 Arrays.asList(Permission.MEMBER_REMOVEMEMBER, Permission.ADMIN_REMOVEMEMBER));
@@ -54,7 +54,7 @@ public class RemoveMemberCommand extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected List<String> onTabCompleteArguements(Player player, String[] args) {
         if(args.length != 2) {
             return new ArrayList<>();
         }

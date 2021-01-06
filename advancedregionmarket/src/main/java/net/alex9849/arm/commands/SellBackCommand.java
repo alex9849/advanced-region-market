@@ -17,8 +17,8 @@ import java.util.List;
 public class SellBackCommand extends BasicArmCommand {
     private final String regex_nomoney = "(?i)sellback [^;\n ]+ (?i)nomoney";
 
-    public SellBackCommand() {
-        super(false, "sellback",
+    public SellBackCommand(AdvancedRegionMarket plugin) {
+        super(false, plugin, "sellback",
                 Arrays.asList("(?i)sellback [^;\n ]+", "(?i)sellback [^;\n ]+ (?i)nomoney"),
                 Arrays.asList("sellback [REGION]"),
                 Arrays.asList(Permission.MEMBER_SELLBACK));
@@ -53,7 +53,7 @@ public class SellBackCommand extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected List<String> onTabCompleteArguements(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
         if(args.length == 2) {
             returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager()

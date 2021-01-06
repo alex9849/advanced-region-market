@@ -19,8 +19,8 @@ import java.util.List;
 
 public class TPCommand extends BasicArmCommand {
 
-    public TPCommand() {
-        super(false, "tp",
+    public TPCommand(AdvancedRegionMarket plugin) {
+        super(false, plugin, "tp",
                 Arrays.asList("(?i)tp [^;\n ]+"),
                 Arrays.asList("tp [REGION]"),
                 Arrays.asList(Permission.SUBREGION_TP));
@@ -53,7 +53,7 @@ public class TPCommand extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected List<String> onTabCompleteArguements(Player player, String[] args) {
         if(args.length != 2) {
             return new ArrayList<>();
         }

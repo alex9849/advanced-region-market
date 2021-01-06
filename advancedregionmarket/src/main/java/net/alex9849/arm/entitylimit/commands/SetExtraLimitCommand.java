@@ -18,8 +18,8 @@ import java.util.List;
 
 public class SetExtraLimitCommand extends BasicArmCommand {
 
-    public SetExtraLimitCommand() {
-        super(false, "setextralimit",
+    public SetExtraLimitCommand(AdvancedRegionMarket plugin) {
+        super(false, plugin, "setextralimit",
                 Arrays.asList("(?i)setextralimit [^;\n ]+ [^;\n ]+ [0-9]+"),
                 Arrays.asList("setextralimit [REGION] [ENTITYTYPE] [AMOUNT]"),
                 Arrays.asList(Permission.ADMIN_ENTITYLIMIT_SET_EXTRA));
@@ -65,7 +65,7 @@ public class SetExtraLimitCommand extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected List<String> onTabCompleteArguements(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
         if (args.length == 2) {
             returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager()

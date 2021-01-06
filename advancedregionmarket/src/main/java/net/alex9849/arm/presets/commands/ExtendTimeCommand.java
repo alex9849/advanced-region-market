@@ -1,5 +1,6 @@
 package net.alex9849.arm.presets.commands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.commands.BasicArmCommand;
@@ -21,8 +22,8 @@ public class ExtendTimeCommand extends BasicArmCommand {
     private final String regex_remove = "(?i)extendtime (?i)remove";
     private PresetType presetType;
 
-    public ExtendTimeCommand(PresetType presetType) {
-        super(true, "extendtime",
+    public ExtendTimeCommand(PresetType presetType, AdvancedRegionMarket plugin) {
+        super(true, plugin, "extendtime",
                 Arrays.asList("(?i)extendtime ([0-9]+(s|m|h|d))", "(?i)extendtime (?i)remove"),
                 Arrays.asList("extendtime ([TIME(Example: 10h)]/remove)"),
                 Arrays.asList(Permission.ADMIN_PRESET_SET_EXTENDTIME));
@@ -60,7 +61,7 @@ public class ExtendTimeCommand extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected List<String> onTabCompleteArguements(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
         if (args.length == 2) {
             if ("remove".startsWith(args[1])) {

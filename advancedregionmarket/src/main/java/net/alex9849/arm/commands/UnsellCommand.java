@@ -17,8 +17,8 @@ import java.util.List;
 public class UnsellCommand extends BasicArmCommand {
     private final String regex_with_args = "(?i)unsell [^;\n ]+";
 
-    public UnsellCommand() {
-        super(false, "unsell",
+    public UnsellCommand(AdvancedRegionMarket plugin) {
+        super(false, plugin, "unsell",
                 Arrays.asList("(?i)unsell", "(?i)unsell [^;\n ]+"),
                 Arrays.asList("unsell", "unsell [REGION]"),
                 Arrays.asList(Permission.ADMIN_UNSELL));
@@ -43,7 +43,7 @@ public class UnsellCommand extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected List<String> onTabCompleteArguements(Player player, String[] args) {
         if(args.length == 2) {
             return AdvancedRegionMarket.getInstance().getRegionManager()
                     .completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true, true);

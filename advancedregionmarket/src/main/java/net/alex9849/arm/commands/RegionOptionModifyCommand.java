@@ -20,9 +20,9 @@ public abstract class RegionOptionModifyCommand<SettingsObj> extends OptionModif
     private String regex_massaction;
     private String optionName;
 
-    public RegionOptionModifyCommand(String rootCommand, List<String> permissions, boolean forbidNullSetting, String optionName, String optionRegex,
+    public RegionOptionModifyCommand(String rootCommand, AdvancedRegionMarket plugin, List<String> permissions, boolean forbidNullSetting, String optionName, String optionRegex,
                                      String optionDescriptipn, boolean allowSubregions, String subregionModifyErrorMessage, String settingNotFoundMsg) {
-        super(false, forbidNullSetting, rootCommand,
+        super(false, plugin, forbidNullSetting, rootCommand,
                 Arrays.asList("(?i)" + rootCommand + " [^;\n ]+ " + optionRegex, "(?i)" + rootCommand + " rk:[^;\n ]+ " + optionRegex),
                 Arrays.asList(rootCommand + " [REGION] " + optionDescriptipn, rootCommand + " rk:[REGIONKIND] " + optionDescriptipn),
                 permissions, "", settingNotFoundMsg);
@@ -33,8 +33,8 @@ public abstract class RegionOptionModifyCommand<SettingsObj> extends OptionModif
         this.optionName = optionName;
     }
 
-    public RegionOptionModifyCommand(String rootCommand, List<String> permissions, String optionName, boolean allowSubregions, String subregionModifyErrorMessage) {
-        super(false, false, rootCommand,
+    public RegionOptionModifyCommand(String rootCommand, AdvancedRegionMarket plugin, List<String> permissions, String optionName, boolean allowSubregions, String subregionModifyErrorMessage) {
+        super(false, plugin, false, rootCommand,
                 Arrays.asList("(?i)" + rootCommand + " [^;\n ]+", "(?i)" + rootCommand + " rk:[^;\n ]+"),
                 Arrays.asList(rootCommand + " [REGION]", rootCommand + " rk:[REGIONKIND]"),
                 permissions, "", "");

@@ -16,8 +16,8 @@ import java.util.List;
 
 public class RemoveLoreLineCommand extends BasicArmCommand {
 
-    public RemoveLoreLineCommand() {
-        super(true, "removeloreline",
+    public RemoveLoreLineCommand(AdvancedRegionMarket plugin) {
+        super(true, plugin, "removeloreline",
                 Arrays.asList("(?i)removeloreline [^;\n ]+ [0-9]+"),
                 Arrays.asList("removeloreline [REGIONKIND] [Lore-line]"),
                 Arrays.asList(Permission.REGIONKIND_REMOVE_LORE_LINE));
@@ -46,7 +46,7 @@ public class RemoveLoreLineCommand extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected List<String> onTabCompleteArguements(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
         if (args.length == 2) {
             return AdvancedRegionMarket.getInstance().getRegionKindManager().completeTabRegionKinds(args[1], "");

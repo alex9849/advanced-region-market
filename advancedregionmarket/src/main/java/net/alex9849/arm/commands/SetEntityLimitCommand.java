@@ -13,8 +13,8 @@ import java.util.List;
 
 public class SetEntityLimitCommand extends RegionOptionModifyCommand<EntityLimitGroup> {
 
-    public SetEntityLimitCommand() {
-        super("setentitylimit", Arrays.asList(Permission.ADMIN_SET_ENTITYLIMIT),
+    public SetEntityLimitCommand(AdvancedRegionMarket plugin) {
+        super("setentitylimit", plugin, Arrays.asList(Permission.ADMIN_SET_ENTITYLIMIT),
                 true, "EntityLimitGroup", "[^;\n ]+", "[ENTITYTYPE]",
                 false, Messages.SUBREGION_ENTITYLIMITGROUP_ERROR, Messages.ENTITYLIMITGROUP_DOES_NOT_EXIST);
     }

@@ -1,5 +1,6 @@
 package net.alex9849.arm.subregions.commands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.commands.BasicArmCommand;
@@ -20,8 +21,8 @@ import java.util.Objects;
 
 public class ToolCommand extends BasicArmCommand {
 
-    public ToolCommand() {
-        super(false, "tool",
+    public ToolCommand(AdvancedRegionMarket plugin) {
+        super(false, plugin, "tool",
                 Arrays.asList("(?i)tool"),
                 Arrays.asList("tool"),
                 Arrays.asList(Permission.SUBREGION_TOOL));
@@ -65,7 +66,7 @@ public class ToolCommand extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected List<String> onTabCompleteArguements(Player player, String[] args) {
         return new ArrayList<>();
     }
 }

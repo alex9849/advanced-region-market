@@ -1,5 +1,6 @@
 package net.alex9849.arm.presets.commands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.presets.presets.Preset;
 import net.alex9849.arm.presets.presets.PresetType;
@@ -12,8 +13,8 @@ import java.util.List;
 
 public class UserRestorableCommand extends PresetOptionModifyCommand<Boolean> {
 
-    public UserRestorableCommand(PresetType presetType) {
-        super("userrestorable", Arrays.asList(Permission.ADMIN_PRESET_USERRESTORABLE),
+    public UserRestorableCommand(PresetType presetType, AdvancedRegionMarket plugin) {
+        super("userrestorable", plugin, Arrays.asList(Permission.ADMIN_PRESET_USERRESTORABLE),
                 true, "(false|true|(?i)remove)", "(true/false/remove)", "", presetType);
     }
 

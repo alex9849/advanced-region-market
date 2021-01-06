@@ -1,5 +1,6 @@
 package net.alex9849.arm.commands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.exceptions.CmdSyntaxException;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.exceptions.NoPermissionException;
@@ -17,13 +18,11 @@ public class CommandSplitter extends BasicArmCommand {
 
     private CommandHandler commandHandler = new CommandHandler();
 
-    public CommandSplitter(String rootCommand, List<String> usage, String helpCommandPermission,
+    public CommandSplitter(String rootCommand, AdvancedRegionMarket plugin, List<String> usage, String helpCommandPermission,
                            String helpCommandHeadline, Collection<BasicArmCommand> commands) {
-        super(true, rootCommand, Arrays.asList("(?i)" + rootCommand + " [^;\n]+"),
+        super(true, plugin, rootCommand, Arrays.asList("(?i)" + rootCommand + " [^;\n]+"),
                 usage, commands.stream().flatMap(x -> x.getPermissions().stream()).collect(Collectors.toList()));
-        if (commands != null) {
-            this.commandHandler.addCommands(commands);
-        }
+        this.commandHandler.addCommands(commands);
         this.getPermissions().add(helpCommandPermission);
         this.commandHandler.addCommand(new HelpCommand(this.commandHandler, helpCommandHeadline,
                 new String[]{rootCommand}, helpCommandPermission));
@@ -63,7 +62,7 @@ public class CommandSplitter extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected List<String> onTabCompleteArguements(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
 
         String[] newargs = new String[args.length - 1];

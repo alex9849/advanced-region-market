@@ -1,5 +1,6 @@
 package net.alex9849.arm.commands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.exceptions.InputException;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -8,14 +9,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class OptionModifyCommand<Object, SettingsObj> extends BasicArmCommand {
-    private String objectNotFoundMsg;
-    private String settingNotFoundMsg;
-    private boolean forbidNullSetting;
+    private final String objectNotFoundMsg;
+    private final String settingNotFoundMsg;
+    private final boolean forbidNullSetting;
 
 
-    public OptionModifyCommand(boolean isConsoleCommand, boolean forbidNullSetting, String rootCommand, List<String> regexList, List<String> usage,
+    public OptionModifyCommand(boolean isConsoleCommand, AdvancedRegionMarket plugin, boolean forbidNullSetting, String rootCommand, List<String> regexList, List<String> usage,
                                List<String> permissions, String objectNotFoundMsg, String settingNotFoundMsg) {
-        super(isConsoleCommand, rootCommand, regexList, usage, permissions);
+        super(isConsoleCommand, plugin, rootCommand, regexList, usage, permissions);
         this.objectNotFoundMsg = objectNotFoundMsg;
         this.settingNotFoundMsg = settingNotFoundMsg;
         this.forbidNullSetting = forbidNullSetting;
@@ -47,7 +48,7 @@ public abstract class OptionModifyCommand<Object, SettingsObj> extends BasicArmC
     protected abstract void sendSuccessMessage(CommandSender sender, Object obj, SettingsObj settingsObj);
 
     @Override
-    protected final List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected final List<String> onTabCompleteArguements(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
         returnme.addAll(tabCompleteObject(player, args));
         returnme.addAll(tabCompleteSettingsObject(player, args));

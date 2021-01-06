@@ -19,8 +19,8 @@ import java.util.List;
 public class ListRegionsCommand extends BasicArmCommand {
     private final String regex_with_args = "(?i)listregions [^;\n ]+";
 
-    public ListRegionsCommand() {
-        super(true, "listregions",
+    public ListRegionsCommand(AdvancedRegionMarket plugin) {
+        super(true, plugin, "listregions",
                 Arrays.asList("(?i)listregions", "(?i)listregions [^;\n ]+"),
                 Arrays.asList("listregions", "listregions [PLAYER]"),
                 Arrays.asList(Permission.MEMBER_LISTREGIONS, Permission.ADMIN_LISTREGIONS));
@@ -55,7 +55,7 @@ public class ListRegionsCommand extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected List<String> onTabCompleteArguements(Player player, String[] args) {
         if(args.length != 2) {
             return new ArrayList<>();
         }

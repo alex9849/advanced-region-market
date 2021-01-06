@@ -1,5 +1,6 @@
 package net.alex9849.arm.commands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.InputException;
@@ -11,8 +12,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class SetPaybackPercentageCommand extends RegionOptionModifyCommand<Integer> {
-    public SetPaybackPercentageCommand() {
-        super("setpaybackpercentage", Arrays.asList(Permission.ADMIN_SET_PAYBACKPERCENTAGE),
+    public SetPaybackPercentageCommand(AdvancedRegionMarket plugin) {
+        super("setpaybackpercentage", plugin, Arrays.asList(Permission.ADMIN_SET_PAYBACKPERCENTAGE),
                 true, "paybackPercentage", "[0-9]+", "[PERCENTAGE]",
                 false, Messages.SUBREGION_PAYBACKPERCENTAGE_ERROR, "");
     }

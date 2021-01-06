@@ -15,8 +15,8 @@ import java.util.List;
 
 public class TpToFreeRegion extends BasicArmCommand {
 
-    public TpToFreeRegion() {
-        super(false, "tptofreeregion",
+    public TpToFreeRegion(AdvancedRegionMarket plugin) {
+        super(false, plugin, "tptofreeregion",
                 Arrays.asList("(?i)tptofreeregion [^;\n ]+( -buy)?"),
                 Arrays.asList("tptofreeregion [REGIONKIND] (-buy)"),
                 Arrays.asList(Permission.MEMBER_TP_TO_FREE_REGION));
@@ -45,7 +45,7 @@ public class TpToFreeRegion extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected List<String> onTabCompleteArguements(Player player, String[] args) {
         if(args.length == 2) {
             return AdvancedRegionMarket.getInstance().getRegionKindManager().completeTabRegionKinds(args[1], "");
         }

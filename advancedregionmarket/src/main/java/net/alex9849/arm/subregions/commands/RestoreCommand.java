@@ -20,8 +20,8 @@ import java.util.logging.Level;
 
 public class RestoreCommand extends BasicArmCommand {
 
-    public RestoreCommand() {
-        super(true, "restore",
+    public RestoreCommand(AdvancedRegionMarket plugin) {
+        super(true, plugin, "restore",
                 Arrays.asList("(?i)restore [^;\n ]+"),
                 Arrays.asList("restore [REGION]"),
                 Arrays.asList(Permission.SUBREGION_RESTORE));
@@ -67,7 +67,7 @@ public class RestoreCommand extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected List<String> onTabCompleteArguements(Player player, String[] args) {
         if(args.length != 2) {
             return new ArrayList<>();
         }

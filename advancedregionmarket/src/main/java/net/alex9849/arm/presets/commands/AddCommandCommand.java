@@ -1,5 +1,6 @@
 package net.alex9849.arm.presets.commands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.presets.presets.Preset;
 import net.alex9849.arm.presets.presets.PresetType;
@@ -12,8 +13,8 @@ import java.util.List;
 
 public class AddCommandCommand extends PresetOptionModifyCommand<String> {
 
-    public AddCommandCommand(PresetType presetType) {
-        super("addcommand", Arrays.asList(Permission.ADMIN_PRESET_ADDCOMMAND),
+    public AddCommandCommand(PresetType presetType, AdvancedRegionMarket plugin) {
+        super("addcommand", plugin, Arrays.asList(Permission.ADMIN_PRESET_ADDCOMMAND),
                 false, "[^;\n]+", "[COMMAND]", "", presetType);
     }
 

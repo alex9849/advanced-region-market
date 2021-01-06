@@ -16,8 +16,8 @@ import java.util.List;
 
 public class SetHotelCommand extends OptionModifyCommand<Region, Boolean> {
 
-    public SetHotelCommand() {
-        super(false, true, "sethotel",
+    public SetHotelCommand(AdvancedRegionMarket plugin) {
+        super(false, plugin, true, "sethotel",
                 Arrays.asList("(?i)sethotel [^;\n ]+ (false|true)"),
                 Arrays.asList("sethotel [REGION] [true/false]"),
                 Arrays.asList(Permission.SUBREGION_SET_IS_HOTEL), Messages.REGION_DOES_NOT_EXIST, "");

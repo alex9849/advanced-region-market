@@ -15,8 +15,8 @@ import java.util.List;
 public class InfoCommand extends BasicArmCommand {
     private final String regex_with_args = "(?i)info [^;\n ]+";
 
-    public InfoCommand() {
-        super(false, "info",
+    public InfoCommand(AdvancedRegionMarket plugin) {
+        super(false, plugin, "info",
                 Arrays.asList("(?i)info", "(?i)info [^;\n ]+"),
                 Arrays.asList("info [REGION]", "info"),
                 Arrays.asList(Permission.MEMBER_INFO, Permission.ADMIN_INFO));
@@ -39,7 +39,7 @@ public class InfoCommand extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected List<String> onTabCompleteArguements(Player player, String[] args) {
         if(args.length != 2) {
             return new ArrayList<>();
         }

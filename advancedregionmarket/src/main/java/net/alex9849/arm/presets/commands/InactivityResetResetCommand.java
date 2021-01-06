@@ -1,5 +1,6 @@
 package net.alex9849.arm.presets.commands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.presets.presets.Preset;
 import net.alex9849.arm.presets.presets.PresetType;
@@ -12,8 +13,8 @@ import java.util.List;
 
 public class InactivityResetResetCommand extends PresetOptionModifyCommand<Boolean> {
 
-    public InactivityResetResetCommand(PresetType presetType) {
-        super("inactivityreset", Arrays.asList(Permission.ADMIN_PRESET_SET_INACTIVITYRESET),
+    public InactivityResetResetCommand(PresetType presetType, AdvancedRegionMarket plugin) {
+        super("inactivityreset", plugin, Arrays.asList(Permission.ADMIN_PRESET_SET_INACTIVITYRESET),
                 true, "(false|true|(?i)remove)", "(true/false/remove)", "", presetType);
     }
 

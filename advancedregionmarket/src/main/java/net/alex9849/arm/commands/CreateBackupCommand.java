@@ -17,8 +17,8 @@ import java.util.List;
 public class CreateBackupCommand extends BasicArmCommand {
     private final String regex_with_args = "(?i)createbackup [^;\n ]+";
 
-    public CreateBackupCommand() {
-        super(false, "createbackup",
+    public CreateBackupCommand(AdvancedRegionMarket plugin) {
+        super(false, plugin, "createbackup",
                 Arrays.asList("(?i)createbackup [^;\n ]+", "(?i)createbackup"),
                 Arrays.asList("createbackup [REGION]", "createbackup"),
                 Arrays.asList(Permission.ADMIN_CREATE_BACKUP));
@@ -45,7 +45,7 @@ public class CreateBackupCommand extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected List<String> onTabCompleteArguements(Player player, String[] args) {
         if(args.length != 2) {
             return new ArrayList<>();
         }

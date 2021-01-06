@@ -19,8 +19,8 @@ import java.util.List;
 
 public class SetOwnerCommand extends BasicArmCommand {
 
-    public SetOwnerCommand() {
-        super(false, "setowner",
+    public SetOwnerCommand(AdvancedRegionMarket plugin) {
+        super(false, plugin, "setowner",
                 Arrays.asList("(?i)setowner [^;\n ]+ [^;\n ]+"),
                 Arrays.asList("setowner [REGION] [PLAYER]"),
                 Arrays.asList(Permission.ADMIN_SETOWNER));
@@ -48,7 +48,7 @@ public class SetOwnerCommand extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected List<String> onTabCompleteArguements(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
         if (args.length == 2) {
             PlayerRegionRelationship playerRegionRelationship = null;

@@ -16,8 +16,8 @@ import java.util.List;
 
 public class CreateCommand extends BasicArmCommand {
 
-    public CreateCommand() {
-        super(true, "create",
+    public CreateCommand(AdvancedRegionMarket plugin) {
+        super(true, plugin, "create",
                 Arrays.asList("(?i)create [^;\n\\. ]+"),
                 Arrays.asList("create [REGIONKINDGROUPNAME]"),
                 Arrays.asList(Permission.REGIONKINDGROUP_CREATE));
@@ -35,7 +35,7 @@ public class CreateCommand extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected List<String> onTabCompleteArguements(Player player, String[] args) {
         return new ArrayList<>();
     }
 }

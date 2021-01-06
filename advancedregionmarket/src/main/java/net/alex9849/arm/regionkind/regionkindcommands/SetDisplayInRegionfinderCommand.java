@@ -1,5 +1,6 @@
 package net.alex9849.arm.regionkind.regionkindcommands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.regionkind.RegionKind;
 import org.bukkit.command.CommandSender;
@@ -12,10 +13,10 @@ import java.util.List;
 public class SetDisplayInRegionfinderCommand extends RegionKindOptionModifyCommand<Boolean> {
 
 
-    public SetDisplayInRegionfinderCommand() {
+    public SetDisplayInRegionfinderCommand(AdvancedRegionMarket plugin) {
         super("setdisplayinregionfinder",
                 Arrays.asList(Permission.REGIONKIND_SET_DISPLAY_IN_REGIONFINDER), "(false|true)",
-                "[true/false]", "");
+                "[true/false]", "", plugin);
     }
 
     @Override

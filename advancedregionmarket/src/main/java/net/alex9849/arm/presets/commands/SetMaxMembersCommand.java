@@ -1,5 +1,6 @@
 package net.alex9849.arm.presets.commands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.presets.presets.Preset;
 import net.alex9849.arm.presets.presets.PresetType;
@@ -12,8 +13,8 @@ import java.util.List;
 
 public class SetMaxMembersCommand extends PresetOptionModifyCommand<Integer> {
 
-    public SetMaxMembersCommand(PresetType presetType) {
-        super("maxmembers", Arrays.asList(Permission.ADMIN_PRESET_SET_MAX_MEMBERS),
+    public SetMaxMembersCommand(PresetType presetType, AdvancedRegionMarket plugin) {
+        super("maxmembers", plugin, Arrays.asList(Permission.ADMIN_PRESET_SET_MAX_MEMBERS),
                 true, "([0-9]+|(?i)unlimited|(?i)remove)", "[AMOUNT/unlimited/remove]", "", presetType);
     }
 

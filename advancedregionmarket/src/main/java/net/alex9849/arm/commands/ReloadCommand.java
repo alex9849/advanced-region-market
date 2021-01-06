@@ -13,8 +13,8 @@ import java.util.List;
 
 public class ReloadCommand extends BasicArmCommand {
 
-    public ReloadCommand() {
-        super(true, "reload",
+    public ReloadCommand(AdvancedRegionMarket plugin) {
+        super(true, plugin, "reload",
                 Arrays.asList("(?i)reload"),
                 Arrays.asList("reload"),
                 Arrays.asList(Permission.ADMIN_RELOAD));
@@ -31,7 +31,7 @@ public class ReloadCommand extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected List<String> onTabCompleteArguements(Player player, String[] args) {
         return new ArrayList<>();
     }
 }

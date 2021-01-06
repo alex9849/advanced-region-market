@@ -1,5 +1,6 @@
 package net.alex9849.arm.regionkind.regionkindgroupcommands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.regionkind.RegionKindGroup;
@@ -11,9 +12,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public class SetDisplayNameCommand extends RegionKindGroupOptionModifyCommand<String> {
-    public SetDisplayNameCommand() {
+    public SetDisplayNameCommand(AdvancedRegionMarket plugin) {
         super("setdisplayname",
-                Arrays.asList(Permission.REGIONKINDGROUP_SET_DISPLAYNAME), "[^;\n]+",
+                plugin, Arrays.asList(Permission.REGIONKINDGROUP_SET_DISPLAYNAME), "[^;\n]+",
                 "[Displayname]", "");
     }
 

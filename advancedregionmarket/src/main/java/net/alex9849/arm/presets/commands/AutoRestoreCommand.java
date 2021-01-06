@@ -1,5 +1,6 @@
 package net.alex9849.arm.presets.commands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.presets.presets.Preset;
 import net.alex9849.arm.presets.presets.PresetType;
@@ -12,8 +13,8 @@ import java.util.List;
 
 public class AutoRestoreCommand extends PresetOptionModifyCommand<Boolean> {
 
-    public AutoRestoreCommand(PresetType presetType) {
-        super("autorestore", Arrays.asList(Permission.ADMIN_PRESET_SET_AUTORESTORE),
+    public AutoRestoreCommand(PresetType presetType, AdvancedRegionMarket plugin) {
+        super("autorestore", plugin, Arrays.asList(Permission.ADMIN_PRESET_SET_AUTORESTORE),
                 true, "(false|true|(?i)remove)", "(true/false/remove)", "", presetType);
     }
 

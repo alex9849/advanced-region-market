@@ -1,5 +1,6 @@
 package net.alex9849.arm.commands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.exceptions.CmdSyntaxException;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.handler.CommandHandler;
@@ -19,8 +20,8 @@ public class HelpCommand extends BasicArmCommand {
     private String headline;
     private String[] betweenCmds;
 
-    public HelpCommand(CommandHandler cmdHandler, String headline, String[] betweenCmds, String permission) {
-        super(true, "help", Arrays.asList("(?i)help [0-9]+", "(?i)help"),
+    public HelpCommand(CommandHandler cmdHandler, AdvancedRegionMarket plugin, String headline, String[] betweenCmds, String permission) {
+        super(true, plugin, "help", Arrays.asList("(?i)help [0-9]+", "(?i)help"),
                 Arrays.asList("help", "help [page]"), Arrays.asList(permission));
         this.cmdHandler = cmdHandler;
         this.headline = headline;
@@ -76,7 +77,7 @@ public class HelpCommand extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected List<String> onTabCompleteArguements(Player player, String[] args) {
         return new ArrayList<>();
     }
 

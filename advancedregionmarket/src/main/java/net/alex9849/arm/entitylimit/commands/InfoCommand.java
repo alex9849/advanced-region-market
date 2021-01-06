@@ -17,8 +17,8 @@ import java.util.List;
 
 public class InfoCommand extends BasicArmCommand {
 
-    public InfoCommand() {
-        super(true, "info",
+    public InfoCommand(AdvancedRegionMarket plugin) {
+        super(true, plugin, "info",
                 Arrays.asList("(?i)info [^;\n ]+"),
                 Arrays.asList("info [GROUPNAME]"),
                 Arrays.asList(Permission.MEMBER_ENTITYLIMIT_INFO));
@@ -59,7 +59,7 @@ public class InfoCommand extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected List<String> onTabCompleteArguements(Player player, String[] args) {
         if(args.length == 2) {
             return AdvancedRegionMarket.getInstance().getEntityLimitGroupManager().tabCompleteEntityLimitGroups(args[1]);
         }

@@ -18,8 +18,8 @@ import java.util.List;
 public class FlageditorCommand extends BasicArmCommand {
     private final String regex_with_args = "(?i)flageditor [^;\n ]+";
 
-    public FlageditorCommand() {
-        super(false, "flageditor",
+    public FlageditorCommand(AdvancedRegionMarket plugin) {
+        super(false, plugin, "flageditor",
                 Arrays.asList("(?i)flageditor [^;\n ]+", "(?i)flageditor"),
                 Arrays.asList("flageditor [REGION]", "flageditor"),
                 Arrays.asList(Permission.MEMBER_FLAGEDITOR, Permission.ADMIN_FLAGEDITOR));
@@ -53,7 +53,7 @@ public class FlageditorCommand extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected List<String> onTabCompleteArguements(Player player, String[] args) {
         if(args.length != 2) {
             return new ArrayList<>();
         }

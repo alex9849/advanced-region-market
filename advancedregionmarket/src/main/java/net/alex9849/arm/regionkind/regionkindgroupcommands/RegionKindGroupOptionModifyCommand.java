@@ -13,9 +13,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public abstract class RegionKindGroupOptionModifyCommand<SettingsObj> extends OptionModifyCommand<RegionKindGroup, SettingsObj> {
-    public RegionKindGroupOptionModifyCommand(String rootCommand, List<String> permissions, String optionRegex,
+    public RegionKindGroupOptionModifyCommand(String rootCommand, AdvancedRegionMarket plugin, List<String> permissions, String optionRegex,
                                               String optionDescription, String settingNotFoundMsg) {
-        super(true, true, rootCommand,
+        super(true, plugin, true, rootCommand,
                 Arrays.asList("(?i)" + rootCommand + " [^;\n ]+ " + optionRegex),
                 Arrays.asList(rootCommand + " [REGIONKINDGROUP] " + optionDescription),
                 permissions, Messages.REGIONKINDGROUP_NOT_EXISTS, settingNotFoundMsg);

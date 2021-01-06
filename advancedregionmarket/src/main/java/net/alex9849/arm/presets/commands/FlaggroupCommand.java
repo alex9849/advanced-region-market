@@ -16,8 +16,8 @@ import java.util.List;
 
 public class FlaggroupCommand extends PresetOptionModifyCommand<FlagGroup> {
 
-    public FlaggroupCommand(PresetType presetType) {
-        super("flaggroup", Arrays.asList(Permission.ADMIN_PRESET_SET_FLAGGROUP),
+    public FlaggroupCommand(PresetType presetType, AdvancedRegionMarket plugin) {
+        super("flaggroup", plugin, Arrays.asList(Permission.ADMIN_PRESET_SET_FLAGGROUP),
                 true, "[^;\n ]+", "[FLAGGROUP/remove]", Messages.FLAGGROUP_DOES_NOT_EXIST, presetType);
     }
 

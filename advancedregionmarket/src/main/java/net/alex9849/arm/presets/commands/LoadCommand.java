@@ -20,8 +20,8 @@ import java.util.List;
 public class LoadCommand extends BasicArmCommand {
     private PresetType presetType;
 
-    public LoadCommand(PresetType presetType) {
-        super(true, "load",
+    public LoadCommand(PresetType presetType, AdvancedRegionMarket plugin) {
+        super(true, plugin, "load",
                 Arrays.asList("(?i)load [^;\n ]+"),
                 Arrays.asList("load [PRESETNAME]"),
                 Arrays.asList(Permission.ADMIN_PRESET_LOAD));
@@ -49,7 +49,7 @@ public class LoadCommand extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected List<String> onTabCompleteArguements(Player player, String[] args) {
         if (args.length != 2) {
             return new ArrayList<>();
         }

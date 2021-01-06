@@ -21,8 +21,8 @@ public class CheckCommand extends BasicArmCommand {
     private final String regex = "(?i)check [^;\n ]+";
     private final List<String> usage = new ArrayList<>(Arrays.asList("check [REGION]"));
 
-    public CheckCommand() {
-        super(false, "check",
+    public CheckCommand(AdvancedRegionMarket plugin) {
+        super(false, plugin, "check",
                 Arrays.asList("(?i)check [^;\n ]+"),
                 Arrays.asList("check [REGION]"),
                 Arrays.asList(Permission.MEMBER_ENTITYLIMIT_CHECK));
@@ -68,7 +68,7 @@ public class CheckCommand extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected List<String> onTabCompleteArguements(Player player, String[] args) {
         if (args.length == 2) {
             if (player.hasPermission(Permission.ADMIN_ENTITYLIMIT_CHECK)) {
                 return AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true, true);

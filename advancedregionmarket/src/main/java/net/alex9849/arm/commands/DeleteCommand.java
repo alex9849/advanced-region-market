@@ -16,8 +16,8 @@ import java.util.List;
 public class DeleteCommand extends BasicArmCommand {
     private final String regex_with_args = "(?i)delete [^;\n ]+";
 
-    public DeleteCommand() {
-        super(false, "delete",
+    public DeleteCommand(AdvancedRegionMarket plugin) {
+        super(false, plugin, "delete",
                 Arrays.asList("(?i)delete [^;\n ]+", "(?i)delete"),
                 Arrays.asList("delete [REGION]"),
                 Arrays.asList(Permission.ADMIN_DELETEREGION));
@@ -42,7 +42,7 @@ public class DeleteCommand extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected List<String> onTabCompleteArguements(Player player, String[] args) {
         if(args.length != 2) {
             return new ArrayList<>();
         }

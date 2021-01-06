@@ -17,8 +17,8 @@ import java.util.List;
 public class ExtendCommand extends BasicArmCommand {
     private final String regex_with_args = "(?i)extend [^;\n ]+";
 
-    public ExtendCommand() {
-        super(false, "extend",
+    public ExtendCommand(AdvancedRegionMarket plugin) {
+        super(false, plugin, "extend",
                 Arrays.asList("(?i)extend [^;\n ]+", "(?i)extend"),
                 Arrays.asList("extend [REGION]", "extend"),
                 Arrays.asList(Permission.MEMBER_BUY));
@@ -52,7 +52,7 @@ public class ExtendCommand extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected List<String> onTabCompleteArguements(Player player, String[] args) {
         if(args.length != 2) {
             return new ArrayList<>();
         }

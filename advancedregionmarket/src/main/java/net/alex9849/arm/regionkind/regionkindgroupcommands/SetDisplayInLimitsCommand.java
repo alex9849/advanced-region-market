@@ -1,5 +1,6 @@
 package net.alex9849.arm.regionkind.regionkindgroupcommands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.regionkind.RegionKindGroup;
@@ -11,8 +12,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class SetDisplayInLimitsCommand extends RegionKindGroupOptionModifyCommand<Boolean> {
-    public SetDisplayInLimitsCommand() {
-        super("setdisplayinlimits", Arrays.asList(Permission.REGIONKINDGROUP_SET_DISPLAY_IN_LIMITS), "(true|false)", "[true/false]", "");
+    public SetDisplayInLimitsCommand(AdvancedRegionMarket plugin) {
+        super("setdisplayinlimits", plugin, Arrays.asList(Permission.REGIONKINDGROUP_SET_DISPLAY_IN_LIMITS), "(true|false)", "[true/false]", "");
     }
 
     @Override

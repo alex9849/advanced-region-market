@@ -1,5 +1,6 @@
 package net.alex9849.arm.commands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.InputException;
@@ -15,8 +16,8 @@ import java.util.List;
 
 public class ApplyPresetCommand extends RegionOptionModifyCommand<Preset> {
 
-    public ApplyPresetCommand() {
-        super("applypreset", Arrays.asList(Permission.ADMIN_PRESET_APPLY), true,
+    public ApplyPresetCommand(AdvancedRegionMarket plugin) {
+        super("applypreset", plugin, Arrays.asList(Permission.ADMIN_PRESET_APPLY), true,
                 "preset", "(?i)(sellpreset|rentpreset|contractpreset)", "[PRESETTYPE]", false,
                 Messages.APPLY_PRESET_SUBREGION_ERROR, Messages.PRESET_PLAYER_DONT_HAS_PRESET);
     }

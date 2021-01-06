@@ -14,15 +14,15 @@ import java.util.List;
 
 public abstract class RegionKindOptionModifyCommand<SettingsObj> extends OptionModifyCommand<RegionKind, SettingsObj> {
     public RegionKindOptionModifyCommand(String rootCommand, List<String> permissions, String optionRegex,
-                                         String optionDescription, String settingNotFoundMsg) {
-        super(true, true, rootCommand,
+                                         String optionDescription, String settingNotFoundMsg, AdvancedRegionMarket plugin) {
+        super(true, plugin, true, rootCommand,
                 Arrays.asList("(?i)" + rootCommand + " [^;\n ]+ " + optionRegex),
                 Arrays.asList(rootCommand + " [REGIONKIND] " + optionDescription),
                 permissions, Messages.REGIONKIND_DOES_NOT_EXIST, settingNotFoundMsg);
     }
 
-    public RegionKindOptionModifyCommand(String rootCommand, List<String> permissions, String settingNotFoundMsg) {
-        super(true, false, rootCommand,
+    public RegionKindOptionModifyCommand(String rootCommand, AdvancedRegionMarket plugin, List<String> permissions, String settingNotFoundMsg) {
+        super(true, plugin, false, rootCommand,
                 Arrays.asList("(?i)" + rootCommand + " [^;\n ]+"),
                 Arrays.asList(rootCommand + " [REGIONKIND]"),
                 permissions, Messages.REGIONKIND_DOES_NOT_EXIST, settingNotFoundMsg);

@@ -14,8 +14,8 @@ import java.util.List;
 
 public class SetFlaggroupCommand extends RegionOptionModifyCommand<FlagGroup> {
 
-    public SetFlaggroupCommand() {
-        super("setflaggroup", Arrays.asList(Permission.ADMIN_SET_FLAGGROUP),
+    public SetFlaggroupCommand(AdvancedRegionMarket plugin) {
+        super("setflaggroup", plugin, Arrays.asList(Permission.ADMIN_SET_FLAGGROUP),
                 true, "FlagGroup", "[^;\n ]+", "[FLAGGROUP]",
                 false, Messages.SUBREGION_FLAGGROUP_ERROR, Messages.FLAGGROUP_DOES_NOT_EXIST);
     }

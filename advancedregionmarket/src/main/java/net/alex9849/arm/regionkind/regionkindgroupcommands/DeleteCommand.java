@@ -15,8 +15,8 @@ import java.util.List;
 
 public class DeleteCommand extends BasicArmCommand {
 
-    public DeleteCommand() {
-        super(true, "delete",
+    public DeleteCommand(AdvancedRegionMarket plugin) {
+        super(true, plugin, "delete",
                 Arrays.asList("(?i)delete [^;\n ]+"),
                 Arrays.asList("delete [REGIONKINDGROUP]"),
                 Arrays.asList(Permission.REGIONKINDGROUP_DELETE));
@@ -37,7 +37,7 @@ public class DeleteCommand extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected List<String> onTabCompleteArguements(Player player, String[] args) {
         if(args.length != 2) {
             return new ArrayList<>();
         }

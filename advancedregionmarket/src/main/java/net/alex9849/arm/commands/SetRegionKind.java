@@ -13,8 +13,9 @@ import java.util.List;
 
 public class SetRegionKind extends RegionOptionModifyCommand<RegionKind> {
 
-    public SetRegionKind() {
-        super("setregionkind", Arrays.asList(Permission.ADMIN_SETREGIONKIND), true, "RegionKind",
+    public SetRegionKind(AdvancedRegionMarket plugin) {
+        super("setregionkind", plugin, Arrays.asList(Permission.ADMIN_SETREGIONKIND),
+                true, "RegionKind",
                 "[^;\n ]+", "[REGIONKIND]", false,
                 Messages.SUBREGION_REGIONKIND_ERROR, Messages.REGIONKIND_DOES_NOT_EXIST);
     }

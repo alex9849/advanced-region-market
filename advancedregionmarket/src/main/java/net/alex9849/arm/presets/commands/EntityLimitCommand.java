@@ -16,8 +16,8 @@ import java.util.List;
 
 public class EntityLimitCommand extends PresetOptionModifyCommand<EntityLimitGroup> {
 
-    public EntityLimitCommand(PresetType presetType) {
-        super("entitylimit", Arrays.asList(Permission.ADMIN_PRESET_SET_ENTITYLIMIT),
+    public EntityLimitCommand(PresetType presetType, AdvancedRegionMarket plugin) {
+        super("entitylimit", plugin, Arrays.asList(Permission.ADMIN_PRESET_SET_ENTITYLIMIT),
                 true, "[^;\n ]+", "[ENTITYLIMIT/remove]",
                 Messages.ENTITYLIMITGROUP_DOES_NOT_EXIST, presetType);
     }

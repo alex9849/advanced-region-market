@@ -1,5 +1,6 @@
 package net.alex9849.arm.presets.commands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.InputException;
@@ -14,8 +15,8 @@ import java.util.List;
 
 public class PriceCommand extends PresetOptionModifyCommand<Double> {
 
-    public PriceCommand(PresetType presetType) {
-        super("price", Arrays.asList(Permission.ADMIN_PRESET_SET_PRICE),
+    public PriceCommand(PresetType presetType, AdvancedRegionMarket plugin) {
+        super("price", plugin, Arrays.asList(Permission.ADMIN_PRESET_SET_PRICE),
                 true, "(([0-9]+[.])?[0-9]+|(?i)remove)", "[PRICE]", "", presetType);
     }
 

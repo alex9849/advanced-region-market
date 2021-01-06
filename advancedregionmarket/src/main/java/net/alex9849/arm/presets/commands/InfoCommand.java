@@ -1,5 +1,6 @@
 package net.alex9849.arm.presets.commands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.presets.presets.Preset;
 import net.alex9849.arm.presets.presets.PresetType;
@@ -12,8 +13,8 @@ import java.util.List;
 
 public class InfoCommand extends PresetOptionModifyCommand<Object> {
 
-    public InfoCommand(PresetType presetType) {
-        super("info", Arrays.asList(Permission.ADMIN_PRESET_INFO), presetType);
+    public InfoCommand(PresetType presetType, AdvancedRegionMarket plugin) {
+        super("info", plugin, Arrays.asList(Permission.ADMIN_PRESET_INFO), presetType);
     }
 
     @Override

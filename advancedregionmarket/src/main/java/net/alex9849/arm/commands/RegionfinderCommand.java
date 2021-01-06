@@ -16,8 +16,8 @@ import java.util.List;
 public class RegionfinderCommand extends BasicArmCommand {
     private final String regex_with_args = "(?i)regionfinder [^;\n ]+";
 
-    public RegionfinderCommand() {
-        super(false, "regionfinder",
+    public RegionfinderCommand(AdvancedRegionMarket plugin) {
+        super(false, plugin, "regionfinder",
                 Arrays.asList("(?i)regionfinder", "(?i)regionfinder [^;\n ]+"),
                 Arrays.asList("regionfinder", "regionfinder [REGIONKIND]"),
                 Arrays.asList(Permission.MEMBER_REGIONFINDER));
@@ -38,7 +38,7 @@ public class RegionfinderCommand extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected List<String> onTabCompleteArguements(Player player, String[] args) {
         if(args.length != 2) {
             return new ArrayList<>();
         }

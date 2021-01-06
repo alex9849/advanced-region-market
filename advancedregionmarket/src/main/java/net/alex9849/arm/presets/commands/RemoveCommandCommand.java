@@ -1,5 +1,6 @@
 package net.alex9849.arm.presets.commands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.presets.presets.Preset;
@@ -13,8 +14,8 @@ import java.util.List;
 
 public class RemoveCommandCommand extends PresetOptionModifyCommand<Integer> {
 
-    public RemoveCommandCommand(PresetType presetType) {
-        super("removecommand", Arrays.asList(Permission.ADMIN_PRESET_REMOVECOMMAND),
+    public RemoveCommandCommand(PresetType presetType, AdvancedRegionMarket plugin) {
+        super("removecommand", plugin, Arrays.asList(Permission.ADMIN_PRESET_REMOVECOMMAND),
                 false, "[0-9]+", "ID", "", presetType);
     }
 

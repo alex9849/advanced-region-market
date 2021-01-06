@@ -18,8 +18,8 @@ import java.util.regex.Pattern;
 public class ListBackupsCommand extends BasicArmCommand {
     private String regex_with_args = "(?i)listbackups [^;\n ]+";
 
-    public ListBackupsCommand() {
-        super(false, "listbackups",
+    public ListBackupsCommand(AdvancedRegionMarket plugin) {
+        super(false, plugin, "listbackups",
                 Arrays.asList("(?i)listbackups [^;\n ]+", "(?i)listbackups"),
                 Arrays.asList("listbackups [REGION]", "listbackups"),
                 Arrays.asList(Permission.ADMIN_LIST_BACKUPS));
@@ -65,7 +65,7 @@ public class ListBackupsCommand extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected List<String> onTabCompleteArguements(Player player, String[] args) {
         if(args.length != 2) {
             return new ArrayList<>();
         }

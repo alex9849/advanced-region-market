@@ -1,5 +1,6 @@
 package net.alex9849.arm.commands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.regions.Region;
@@ -11,8 +12,8 @@ import java.util.List;
 
 public class SetMaxMembersCommand extends RegionOptionModifyCommand<Integer> {
 
-    public SetMaxMembersCommand() {
-        super("setmaxmembers", Arrays.asList(Permission.ADMIN_SET_MAX_MEMBERS), true, "maxMembers",
+    public SetMaxMembersCommand(AdvancedRegionMarket plugin) {
+        super("setmaxmembers", plugin, Arrays.asList(Permission.ADMIN_SET_MAX_MEMBERS), true, "maxMembers",
                 "([0-9]+|unlimited)", "[AMOUNT/UNLIMITED]", false,
                 Messages.SUBREGION_MAX_MEMBERS_ERROR, "");
     }

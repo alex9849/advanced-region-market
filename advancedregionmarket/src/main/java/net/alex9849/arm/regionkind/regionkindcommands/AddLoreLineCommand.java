@@ -16,8 +16,8 @@ import java.util.List;
 
 public class AddLoreLineCommand extends BasicArmCommand {
 
-    public AddLoreLineCommand() {
-        super(true, "addloreline",
+    public AddLoreLineCommand(AdvancedRegionMarket plugin) {
+        super(true, plugin, "addloreline",
                 Arrays.asList("(?i)addloreline [^;\n ]+ [^;\n]+"),
                 Arrays.asList("addloreline [REGIONKIND] [loreline]"),
                 Arrays.asList(Permission.REGIONKIND_ADD_LORE_LINE));
@@ -43,7 +43,7 @@ public class AddLoreLineCommand extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected List<String> onTabCompleteArguements(Player player, String[] args) {
         if (args.length != 2) {
             return new ArrayList<>();
         }

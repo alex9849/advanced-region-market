@@ -1,5 +1,6 @@
 package net.alex9849.arm.regionkind.regionkindcommands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.regionkind.RegionKind;
 import org.bukkit.command.CommandSender;
@@ -11,10 +12,10 @@ import java.util.List;
 
 public class SetDisplayNameCommand extends RegionKindOptionModifyCommand<String> {
 
-    public SetDisplayNameCommand() {
+    public SetDisplayNameCommand(AdvancedRegionMarket plugin) {
         super("setdisplayname",
                 Arrays.asList(Permission.REGIONKIND_SET_DISPLAYNAME), "[^;\n]+",
-                "[Displayname]", "");
+                "[Displayname]", "", plugin);
     }
 
     @Override

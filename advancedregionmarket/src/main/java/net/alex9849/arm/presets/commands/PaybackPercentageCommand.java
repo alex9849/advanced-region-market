@@ -1,5 +1,6 @@
 package net.alex9849.arm.presets.commands;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.presets.presets.Preset;
 import net.alex9849.arm.presets.presets.PresetType;
@@ -11,9 +12,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public class PaybackPercentageCommand extends PresetOptionModifyCommand<Integer> {
-    public PaybackPercentageCommand(PresetType presetType) {
+    public PaybackPercentageCommand(PresetType presetType, AdvancedRegionMarket plugin) {
         super("paybackpercentage",
-                Arrays.asList(Permission.ADMIN_PRESET_SET_PAYBACKPERCENTAGE),
+                plugin, Arrays.asList(Permission.ADMIN_PRESET_SET_PAYBACKPERCENTAGE),
                 true, "([0-9]+|(?i)remove)", "[PERCENTAGE/remove]",
                 "", presetType);
     }

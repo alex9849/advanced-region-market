@@ -18,8 +18,8 @@ import java.util.regex.Pattern;
 
 public class RestoreBackupCommand extends BasicArmCommand {
 
-    public RestoreBackupCommand() {
-        super(false, "restorebackup",
+    public RestoreBackupCommand(AdvancedRegionMarket plugin) {
+        super(false, plugin, "restorebackup",
                 Arrays.asList("(?i)restorebackup [^;\n ]+ [^;\n ]+"),
                 Arrays.asList("restorebackup [REGION] [ID]"),
                 Arrays.asList(Permission.ADMIN_RESTORE_BACKUP));
@@ -44,7 +44,7 @@ public class RestoreBackupCommand extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteLogic(Player player, String[] args) {
+    protected List<String> onTabCompleteArguements(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
         if (args.length == 2) {
             returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager()

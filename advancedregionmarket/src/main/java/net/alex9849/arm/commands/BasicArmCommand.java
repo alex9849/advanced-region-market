@@ -10,6 +10,7 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public abstract class BasicArmCommand {
@@ -24,9 +25,9 @@ public abstract class BasicArmCommand {
                            List<String> permissions) {
         this.isConsoleCommand = isConsoleCommand;
         this.rootCommand = rootCommand;
-        this.permissions = permissions;
-        this.regexList = regexList;
-        this.usage = usage;
+        this.permissions = Collections.unmodifiableList(new ArrayList<>(permissions));
+        this.regexList = Collections.unmodifiableList(new ArrayList<>(regexList));
+        this.usage = Collections.unmodifiableList(new ArrayList<>(usage));
         this.plugin = plugin;
     }
 
@@ -56,7 +57,7 @@ public abstract class BasicArmCommand {
 
     public boolean hasPermission(Player player) {
         return this.getPermissions().isEmpty()
-        || this.getPermissions().stream().anyMatch(x -> player.hasPermission(x));
+        || this.getPermissions().stream().anyMatch(player::hasPermission);
     }
 
     public boolean runCommand(CommandSender sender, String command, String commandLabel) throws InputException, CmdSyntaxException, NoPermissionException {

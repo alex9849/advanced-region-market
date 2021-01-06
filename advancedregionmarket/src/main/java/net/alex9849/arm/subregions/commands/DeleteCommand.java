@@ -31,7 +31,7 @@ public class DeleteCommand extends BasicArmCommand {
     @Override
     protected boolean runCommandLogic(CommandSender sender, String command, String commandLabel) throws InputException, CmdSyntaxException {
         Player player = (Player) sender;
-        Region region = AdvancedRegionMarket.getInstance().getRegionManager()
+        Region region = getPlugin().getRegionManager()
                 .getRegionbyNameAndWorldCommands(command.split(" ")[1], player.getWorld().getName());
 
         if (region == null) {
@@ -63,7 +63,7 @@ public class DeleteCommand extends BasicArmCommand {
         if (args.length != 2) {
             return new ArrayList<>();
         }
-        return AdvancedRegionMarket.getInstance().getRegionManager()
+        return getPlugin().getRegionManager()
                 .completeTabRegions(player, args[1], PlayerRegionRelationship.PARENTREGION_OWNER, false, true);
     }
 }

@@ -30,9 +30,9 @@ public class UpdateSchematicCommand extends BasicArmCommand {
 
         Region region;
         if (command.matches(this.regex_with_args)) {
-            region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, command.split(" ")[1]);
+            region = getPlugin().getRegionManager().getRegionAtPositionOrNameCommand(player, command.split(" ")[1]);
         } else {
-            region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, "");
+            region = getPlugin().getRegionManager().getRegionAtPositionOrNameCommand(player, "");
         }
 
         player.sendMessage(Messages.PREFIX + Messages.UPDATING_SCHEMATIC);
@@ -44,7 +44,7 @@ public class UpdateSchematicCommand extends BasicArmCommand {
     @Override
     protected List<String> onTabCompleteArguements(Player player, String[] args) {
         if(args.length == 2) {
-            return AdvancedRegionMarket.getInstance().getRegionManager()
+            return getPlugin().getRegionManager()
                     .completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true, true);
         }
         return new ArrayList<>();

@@ -26,7 +26,7 @@ public class SetHotelCommand extends OptionModifyCommand<Region, Boolean> {
     @Override
     protected Region getObjectFromCommand(CommandSender sender, String command) throws InputException {
         Player player = (Player) sender;
-        Region region = AdvancedRegionMarket.getInstance().getRegionManager()
+        Region region = getPlugin().getRegionManager()
                 .getRegionbyNameAndWorldCommands(command.split(" ")[1], player.getWorld().getName());
         if (region == null) {
             throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
@@ -68,7 +68,7 @@ public class SetHotelCommand extends OptionModifyCommand<Region, Boolean> {
     protected List<String> tabCompleteSettingsObject(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
         if (args.length == 2) {
-            returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager()
+            returnme.addAll(getPlugin().getRegionManager()
                     .completeTabRegions(player, args[1], PlayerRegionRelationship.PARENTREGION_OWNER, false, true));
 
         } else if (args.length == 3) {

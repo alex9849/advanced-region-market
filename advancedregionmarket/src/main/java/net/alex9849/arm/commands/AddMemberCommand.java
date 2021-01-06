@@ -35,10 +35,10 @@ public class AddMemberCommand extends BasicArmCommand {
         String[] args = command.split(" ");
 
         if (command.matches(this.regex_with_args)) {
-            region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, args[1]);
+            region = getPlugin().getRegionManager().getRegionAtPositionOrNameCommand(player, args[1]);
             addPlayer = Bukkit.getPlayer(args[2]);
         } else {
-            region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, "");
+            region = getPlugin().getRegionManager().getRegionAtPositionOrNameCommand(player, "");
             addPlayer = Bukkit.getPlayer(args[1]);
         }
 
@@ -81,7 +81,7 @@ public class AddMemberCommand extends BasicArmCommand {
             } else {
                 playerRegionRelationship = PlayerRegionRelationship.OWNER;
             }
-            returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager()
+            returnme.addAll(getPlugin().getRegionManager()
                     .completeTabRegions(player, args[1], playerRegionRelationship, true, true));
             returnme.addAll(CommandHandler.tabCompleteOnlinePlayers(args[1]));
 

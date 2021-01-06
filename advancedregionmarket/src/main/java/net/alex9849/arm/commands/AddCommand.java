@@ -49,11 +49,11 @@ public class AddCommand extends BasicArmCommand {
             }
             presetType = PresetType.CONTRACTPRESET;
         }
-        WGRegion wgRegion = AdvancedRegionMarket.getInstance().getWorldGuardInterface().getRegion(player.getWorld(), args[1]);
+        WGRegion wgRegion = getPlugin().getWorldGuardInterface().getRegion(player.getWorld(), args[1]);
         if(wgRegion == null) {
             throw new InputException(player, Messages.WGREGION_NOT_FOUND);
         }
-        if(AdvancedRegionMarket.getInstance().getRegionManager().getRegion(wgRegion) != null) {
+        if(getPlugin().getRegionManager().getRegion(wgRegion) != null) {
             throw new InputException(player, Messages.REGION_ALREADY_REGISTERED);
         }
         Preset preset = ActivePresetManager.getPreset(player, presetType);
@@ -67,7 +67,7 @@ public class AddCommand extends BasicArmCommand {
         } catch (FeatureDisabledException e) {
             //Ignore
         }
-        AdvancedRegionMarket.getInstance().getRegionManager().add(region);
+        getPlugin().getRegionManager().add(region);
         preset.executeSetupCommands(player, region);
         region.updateSigns();
         player.sendMessage(Messages.REGION_ADDED_TO_ARM);
@@ -81,7 +81,7 @@ public class AddCommand extends BasicArmCommand {
         }
         List<String> returnMe = new ArrayList<>();
         if(args.length == 2) {
-            returnMe.addAll(AdvancedRegionMarket.getInstance().getWorldGuardInterface().tabCompleteRegions(args[1], player.getWorld()));
+            returnMe.addAll(getPlugin().getWorldGuardInterface().tabCompleteRegions(args[1], player.getWorld()));
         }
         else if(args.length == 3) {
             if("rent".startsWith(args[2].toLowerCase())) {

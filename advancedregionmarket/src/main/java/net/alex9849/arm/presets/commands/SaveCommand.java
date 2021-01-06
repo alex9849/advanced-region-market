@@ -22,7 +22,7 @@ public class SaveCommand extends PresetOptionModifyCommand<String> {
 
     @Override
     protected String getSettingsFromString(CommandSender sender, String setting) throws InputException {
-        if (AdvancedRegionMarket.getInstance().getPresetPatternManager().getPreset(setting, this.getPresetType()) != null) {
+        if (getPlugin().getPresetPatternManager().getPreset(setting, this.getPresetType()) != null) {
             throw new InputException(sender, Messages.PRESET_ALREADY_EXISTS);
         }
         return setting;
@@ -37,7 +37,7 @@ public class SaveCommand extends PresetOptionModifyCommand<String> {
             e.printStackTrace();
         }
         savePreset.setName(setting);
-        AdvancedRegionMarket.getInstance().getPresetPatternManager().add(savePreset);
+        getPlugin().getPresetPatternManager().add(savePreset);
     }
 
     @Override

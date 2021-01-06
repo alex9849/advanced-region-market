@@ -26,7 +26,7 @@ public class SetEntityLimitCommand extends RegionOptionModifyCommand<EntityLimit
 
     @Override
     protected EntityLimitGroup getSettingFromString(Player player, String settingsString) throws InputException {
-        EntityLimitGroup entityLimitGroup = AdvancedRegionMarket.getInstance()
+        EntityLimitGroup entityLimitGroup = getPlugin()
                 .getEntityLimitGroupManager().getEntityLimitGroup(settingsString);
 
         if (entityLimitGroup == EntityLimitGroup.SUBREGION) {
@@ -37,6 +37,6 @@ public class SetEntityLimitCommand extends RegionOptionModifyCommand<EntityLimit
 
     @Override
     protected List<String> tabCompleteSettingsObject(Player player, String setting) {
-        return AdvancedRegionMarket.getInstance().getEntityLimitGroupManager().tabCompleteEntityLimitGroups(setting);
+        return getPlugin().getEntityLimitGroupManager().tabCompleteEntityLimitGroups(setting);
     }
 }

@@ -29,9 +29,9 @@ public class BuyCommand extends BasicArmCommand {
         Region region;
 
         if (command.matches(this.regex_with_args)) {
-            region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, command.split(" ")[1]);
+            region = getPlugin().getRegionManager().getRegionAtPositionOrNameCommand(player, command.split(" ")[1]);
         } else {
-            region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, null);
+            region = getPlugin().getRegionManager().getRegionAtPositionOrNameCommand(player, null);
         }
 
         try {
@@ -49,7 +49,7 @@ public class BuyCommand extends BasicArmCommand {
         if(args.length != 2) {
             return new ArrayList<>();
         }
-        return AdvancedRegionMarket.getInstance().getRegionManager().
+        return getPlugin().getRegionManager().
                 completeTabRegions(player, args[1], PlayerRegionRelationship.AVAILABLE, true, true);
     }
 }

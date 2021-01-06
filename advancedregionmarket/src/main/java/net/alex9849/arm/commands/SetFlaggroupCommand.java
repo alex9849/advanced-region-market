@@ -32,7 +32,7 @@ public class SetFlaggroupCommand extends RegionOptionModifyCommand<FlagGroup> {
 
     @Override
     protected FlagGroup getSettingFromString(Player player, String settingsString) throws InputException {
-        FlagGroup flagGroup = AdvancedRegionMarket.getInstance().getFlagGroupManager().getFlagGroup(settingsString);
+        FlagGroup flagGroup = getPlugin().getFlagGroupManager().getFlagGroup(settingsString);
 
         if (flagGroup == FlagGroup.SUBREGION) {
             throw new InputException(player, Messages.SUBREGION_FLAGGROUP_ONLY_FOR_SUBREGIONS);
@@ -42,6 +42,6 @@ public class SetFlaggroupCommand extends RegionOptionModifyCommand<FlagGroup> {
 
     @Override
     protected List<String> tabCompleteSettingsObject(Player player, String setting) {
-        return AdvancedRegionMarket.getInstance().getFlagGroupManager().tabCompleteFlaggroup(setting);
+        return getPlugin().getFlagGroupManager().tabCompleteFlaggroup(setting);
     }
 }

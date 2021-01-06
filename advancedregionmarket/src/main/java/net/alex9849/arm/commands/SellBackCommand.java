@@ -29,7 +29,7 @@ public class SellBackCommand extends BasicArmCommand {
         Player player = (Player) sender;
         boolean noMoney = false;
 
-        Region region = AdvancedRegionMarket.getInstance().getRegionManager()
+        Region region = getPlugin().getRegionManager()
                 .getRegionbyNameAndWorldCommands(command.split(" ")[1], player.getLocation().getWorld().getName());
 
         if (region == null) {
@@ -56,7 +56,7 @@ public class SellBackCommand extends BasicArmCommand {
     protected List<String> onTabCompleteArguements(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
         if(args.length == 2) {
-            returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager()
+            returnme.addAll(getPlugin().getRegionManager()
                     .completeTabRegions(player, args[1], PlayerRegionRelationship.OWNER, true, true));
         } else if(args.length == 3) {
             if("nomoney".toLowerCase().startsWith(args[2])) {

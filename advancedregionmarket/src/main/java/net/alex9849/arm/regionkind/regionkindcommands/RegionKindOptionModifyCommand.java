@@ -30,7 +30,7 @@ public abstract class RegionKindOptionModifyCommand<SettingsObj> extends OptionM
 
     @Override
     protected final RegionKind getObjectFromCommand(CommandSender sender, String command) throws InputException {
-        return AdvancedRegionMarket.getInstance().getRegionKindManager().getRegionKind(command.split(" ")[1]);
+        return getPlugin().getRegionKindManager().getRegionKind(command.split(" ")[1]);
     }
 
     @Override
@@ -48,7 +48,7 @@ public abstract class RegionKindOptionModifyCommand<SettingsObj> extends OptionM
         if(args.length != 2) {
             return new ArrayList<>();
         }
-        return AdvancedRegionMarket.getInstance().getRegionKindManager().completeTabRegionKinds(args[1], "");
+        return getPlugin().getRegionKindManager().completeTabRegionKinds(args[1], "");
     }
 
     @Override

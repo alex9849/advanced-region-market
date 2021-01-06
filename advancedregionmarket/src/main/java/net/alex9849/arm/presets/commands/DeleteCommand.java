@@ -28,14 +28,14 @@ public class DeleteCommand extends BasicArmCommand {
 
     @Override
     protected boolean runCommandLogic(CommandSender sender, String command, String commandLabel) throws InputException, CmdSyntaxException {
-        Preset toDeletePreset = AdvancedRegionMarket.getInstance().getPresetPatternManager()
+        Preset toDeletePreset = getPlugin().getPresetPatternManager()
                 .getPreset(command.split(" ")[1], this.presetType);
 
         if (toDeletePreset == null) {
             throw new InputException(sender, Messages.PRESET_NOT_FOUND);
         }
 
-        AdvancedRegionMarket.getInstance().getPresetPatternManager().remove(toDeletePreset);
+        getPlugin().getPresetPatternManager().remove(toDeletePreset);
         sender.sendMessage(Messages.PREFIX + Messages.PRESET_DELETED);
         return true;
     }
@@ -45,7 +45,7 @@ public class DeleteCommand extends BasicArmCommand {
         if (args.length != 2) {
             return new ArrayList<>();
         }
-        return AdvancedRegionMarket.getInstance().getPresetPatternManager()
+        return getPlugin().getPresetPatternManager()
                 .onTabCompleteCompleteSavedPresets(this.presetType, args[1]);
     }
 }

@@ -30,10 +30,10 @@ public class UnsellCommand extends BasicArmCommand {
 
         Region region;
         if (command.matches(this.regex_with_args)) {
-            region = AdvancedRegionMarket.getInstance().getRegionManager()
+            region = getPlugin().getRegionManager()
                     .getRegionAtPositionOrNameCommand(player, command.split(" ")[1]);
         } else {
-            region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, "");
+            region = getPlugin().getRegionManager().getRegionAtPositionOrNameCommand(player, "");
         }
 
         region.unsell(Region.ActionReason.MANUALLY_BY_ADMIN, true, false);
@@ -45,7 +45,7 @@ public class UnsellCommand extends BasicArmCommand {
     @Override
     protected List<String> onTabCompleteArguements(Player player, String[] args) {
         if(args.length == 2) {
-            return AdvancedRegionMarket.getInstance().getRegionManager()
+            return getPlugin().getRegionManager()
                     .completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true, true);
         }
         return new ArrayList<>();

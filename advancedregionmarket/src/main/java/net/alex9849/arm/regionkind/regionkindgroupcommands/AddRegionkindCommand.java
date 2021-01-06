@@ -20,12 +20,12 @@ public class AddRegionkindCommand extends RegionKindGroupOptionModifyCommand<Reg
 
     @Override
     protected List<String> tabCompleteSettingsObject(Player player, String setting) {
-        return AdvancedRegionMarket.getInstance().getRegionKindManager().completeTabRegionKinds(setting, "");
+        return getPlugin().getRegionKindManager().completeTabRegionKinds(setting, "");
     }
 
     @Override
     protected RegionKind getSettingsFromString(CommandSender sender, String setting) {
-        return AdvancedRegionMarket.getInstance().getRegionKindManager().getRegionKind(setting);
+        return getPlugin().getRegionKindManager().getRegionKind(setting);
     }
 
     @Override

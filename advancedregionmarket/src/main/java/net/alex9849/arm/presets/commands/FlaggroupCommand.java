@@ -26,7 +26,7 @@ public class FlaggroupCommand extends PresetOptionModifyCommand<FlagGroup> {
         if(setting.equalsIgnoreCase("remove")) {
             return null;
         }
-        FlagGroup fg = AdvancedRegionMarket.getInstance().getFlagGroupManager()
+        FlagGroup fg = getPlugin().getFlagGroupManager()
                 .getFlagGroup(setting);
         if(fg == FlagGroup.SUBREGION) {
             throw new InputException(sender, Messages.ENTITYLIMITGROUP_SUBREGION_GROUP_ONLY_FOR_SUBREGIONS);
@@ -42,7 +42,7 @@ public class FlaggroupCommand extends PresetOptionModifyCommand<FlagGroup> {
     @Override
     protected List<String> tabCompleteSettingsObject(Player player, String settings) {
         List<String> returnme = new ArrayList<>();
-        returnme.addAll(AdvancedRegionMarket.getInstance().getFlagGroupManager()
+        returnme.addAll(getPlugin().getFlagGroupManager()
                 .tabCompleteFlaggroup(settings));
         if ("remove".startsWith(settings)) {
             returnme.add("remove");

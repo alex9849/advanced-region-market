@@ -28,10 +28,10 @@ public class InfoCommand extends BasicArmCommand {
 
         Region selectedRegion;
         if (command.matches(this.regex_with_args)) {
-            selectedRegion = AdvancedRegionMarket.getInstance().getRegionManager()
+            selectedRegion = getPlugin().getRegionManager()
                     .getRegionAtPositionOrNameCommand(player, command.split(" ")[1]);
         } else {
-            selectedRegion = AdvancedRegionMarket.getInstance()
+            selectedRegion = getPlugin()
                     .getRegionManager().getRegionAtPositionOrNameCommand(player, "");
         }
         selectedRegion.regionInfo(player);
@@ -43,7 +43,7 @@ public class InfoCommand extends BasicArmCommand {
         if(args.length != 2) {
             return new ArrayList<>();
         }
-        return AdvancedRegionMarket.getInstance().getRegionManager()
+        return getPlugin().getRegionManager()
                 .completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true, true);
     }
 }

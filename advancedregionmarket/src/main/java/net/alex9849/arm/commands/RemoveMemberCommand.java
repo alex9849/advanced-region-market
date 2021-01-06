@@ -33,10 +33,10 @@ public class RemoveMemberCommand extends BasicArmCommand {
         Region region;
         OfflinePlayer removemember;
         if (command.matches(this.regex_with_args)) {
-            region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, args[1]);
+            region = getPlugin().getRegionManager().getRegionAtPositionOrNameCommand(player, args[1]);
             removemember = Bukkit.getOfflinePlayer(args[2]);
         } else {
-            region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, "");
+            region = getPlugin().getRegionManager().getRegionAtPositionOrNameCommand(player, "");
             removemember = Bukkit.getOfflinePlayer(args[1]);
         }
 
@@ -64,7 +64,7 @@ public class RemoveMemberCommand extends BasicArmCommand {
         } else {
             playerRegionRelationship = PlayerRegionRelationship.OWNER;
         }
-        return AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], playerRegionRelationship, true, true);
+        return getPlugin().getRegionManager().completeTabRegions(player, args[1], playerRegionRelationship, true, true);
 
     }
 }

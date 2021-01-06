@@ -32,9 +32,9 @@ public class ResetCommand extends BasicArmCommand {
 
         Region resregion;
         if (command.matches(this.regex_with_args)) {
-            resregion = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, command.split(" ")[1]);
+            resregion = getPlugin().getRegionManager().getRegionAtPositionOrNameCommand(player, command.split(" ")[1]);
         } else {
-            resregion = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, "");
+            resregion = getPlugin().getRegionManager().getRegionAtPositionOrNameCommand(player, "");
         }
 
         if (resregion == null) {
@@ -44,7 +44,7 @@ public class ResetCommand extends BasicArmCommand {
         try {
             resregion.resetRegion(Region.ActionReason.MANUALLY_BY_ADMIN, true);
         } catch (SchematicNotFoundException e) {
-            AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, resregion.replaceVariables(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
+            getPlugin().getLogger().log(Level.WARNING, resregion.replaceVariables(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
             player.sendMessage(Messages.PREFIX + Messages.SCHEMATIC_NOT_FOUND_ERROR_USER.replace("%regionid%", e.getRegion().getId()));
         } catch (ProtectionOfContinuanceException e) {
             throw new InputException(sender, Messages.REGION_RESET_PROTECTION_OF_CONTINUANCE_ERROR);
@@ -58,7 +58,7 @@ public class ResetCommand extends BasicArmCommand {
         if(args.length != 2) {
             return new ArrayList<>();
         }
-        return AdvancedRegionMarket.getInstance().getRegionManager()
+        return getPlugin().getRegionManager()
                 .completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true, true);
     }
 }

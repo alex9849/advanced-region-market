@@ -34,16 +34,16 @@ public class RestoreCommand extends BasicArmCommand {
 
         Region resregion;
         if (command.matches(this.regex_with_args)) {
-            resregion = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, command.split(" ")[1]);
+            resregion = getPlugin().getRegionManager().getRegionAtPositionOrNameCommand(player, command.split(" ")[1]);
         } else {
-            resregion = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, "");
+            resregion = getPlugin().getRegionManager().getRegionAtPositionOrNameCommand(player, "");
         }
 
         if (player.hasPermission(Permission.ADMIN_RESTORE)) {
             try {
                 resregion.restoreRegion(Region.ActionReason.MANUALLY_BY_ADMIN, true, false);
             } catch (SchematicNotFoundException e) {
-                AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, resregion.replaceVariables(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
+                getPlugin().getLogger().log(Level.WARNING, resregion.replaceVariables(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
                 throw new InputException(sender, Messages.SCHEMATIC_NOT_FOUND_ERROR_USER.replace("%regionid%", e.getRegion().getId()));
             } catch (ProtectionOfContinuanceException e) {
                 throw new InputException(sender, Messages.REGION_RESTORE_PROTECTION_OF_CONTINUANCE_ERROR);
@@ -58,7 +58,7 @@ public class RestoreCommand extends BasicArmCommand {
                 if(resregion.isProtectionOfContinuance() && !player.hasPermission(Permission.MEMBER_RESTORE_PROTECTION_OF_CONTINUANCE)) {
                     throw new InputException(sender, Messages.REGION_RESTORE_PROTECTION_OF_CONTINUANCE_ERROR);
                 }
-                if ((new GregorianCalendar().getTimeInMillis()) >= AdvancedRegionMarket.getInstance().getPluginSettings().getUserResetCooldown() + resregion.getLastreset()) {
+                if ((new GregorianCalendar().getTimeInMillis()) >= getPlugin().getPluginSettings().getUserResetCooldown() + resregion.getLastreset()) {
                     Gui.openRegionRestoreWarning(player, resregion, false);
                     return true;
                 } else {
@@ -82,6 +82,6 @@ public class RestoreCommand extends BasicArmCommand {
         } else {
             playerRegionRelationship = PlayerRegionRelationship.OWNER;
         }
-        return AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], playerRegionRelationship, true, true);
+        return getPlugin().getRegionManager().completeTabRegions(player, args[1], playerRegionRelationship, true, true);
     }
 }

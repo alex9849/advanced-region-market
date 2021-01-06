@@ -26,10 +26,10 @@ public class CreateCommand extends BasicArmCommand {
     @Override
     protected boolean runCommandLogic(CommandSender sender, String command, String commandLabel) throws InputException, CmdSyntaxException {
         String[] args = command.split(" ");
-        if (AdvancedRegionMarket.getInstance().getRegionKindGroupManager().getRegionKindGroup(args[1]) != null) {
+        if (getPlugin().getRegionKindGroupManager().getRegionKindGroup(args[1]) != null) {
             throw new InputException(sender, Messages.REGIONKINDGROUP_ALREADY_EXISTS);
         }
-        AdvancedRegionMarket.getInstance().getRegionKindGroupManager().add(new RegionKindGroup(args[1]));
+        getPlugin().getRegionKindGroupManager().add(new RegionKindGroup(args[1]));
         sender.sendMessage(Messages.PREFIX + Messages.REGIONKINDGROUP_CREATED);
         return true;
     }

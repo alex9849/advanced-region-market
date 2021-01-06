@@ -30,7 +30,7 @@ public class RestoreBackupCommand extends BasicArmCommand {
         Player player = (Player) sender;
         String[] args = command.split(" ");
 
-        Region region = AdvancedRegionMarket.getInstance().getRegionManager()
+        Region region = getPlugin().getRegionManager()
                 .getRegionAtPositionOrNameCommand(player, args[1]);
 
         try {
@@ -47,14 +47,14 @@ public class RestoreBackupCommand extends BasicArmCommand {
     protected List<String> onTabCompleteArguements(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
         if (args.length == 2) {
-            returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager()
+            returnme.addAll(getPlugin().getRegionManager()
                     .completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true, true));
 
         } else if (args.length == 3) {
             String regionname = args[1];
-            Region region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionbyNameAndWorldCommands(regionname, player.getWorld().getName());
+            Region region = getPlugin().getRegionManager().getRegionbyNameAndWorldCommands(regionname, player.getWorld().getName());
             if (region != null) {
-                File backupDirectory = new File(AdvancedRegionMarket.getInstance().getDataFolder()
+                File backupDirectory = new File(getPlugin().getDataFolder()
                         + "/schematics/"
                         + region.getRegionworld().getName() + "/"
                         + region.getRegion().getId() + "/Backups");

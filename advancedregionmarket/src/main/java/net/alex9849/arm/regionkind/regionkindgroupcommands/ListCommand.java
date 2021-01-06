@@ -26,7 +26,7 @@ public class ListCommand extends BasicArmCommand {
     @Override
     protected boolean runCommandLogic(CommandSender sender, String command, String commandLabel) throws InputException, CmdSyntaxException {
         sender.sendMessage(Messages.REGIONKINDGROUP_LIST_HEADLINE);
-        for (RegionKindGroup rkg : AdvancedRegionMarket.getInstance().getRegionKindGroupManager()) {
+        for (RegionKindGroup rkg : getPlugin().getRegionKindGroupManager()) {
             sender.sendMessage("- " + rkg.getName());
         }
         return true;

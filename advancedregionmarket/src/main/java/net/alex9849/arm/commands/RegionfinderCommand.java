@@ -27,9 +27,9 @@ public class RegionfinderCommand extends BasicArmCommand {
     protected boolean runCommandLogic(CommandSender sender, String command, String commandLabel) throws InputException, CmdSyntaxException {
         Player player = (Player) sender;
         if(command.matches(regex_with_args)) {
-            RegionKind regionKind = AdvancedRegionMarket.getInstance()
+            RegionKind regionKind = getPlugin()
                     .getRegionKindManager().getRegionKind(command.split(" ")[1]);
-            Gui.openRegionFinderSellTypeSelector(player, AdvancedRegionMarket.getInstance()
+            Gui.openRegionFinderSellTypeSelector(player, getPlugin()
                     .getRegionManager().getBuyableRegions(regionKind), null);
         } else {
             Gui.openRegionFinder(player, false);
@@ -42,6 +42,6 @@ public class RegionfinderCommand extends BasicArmCommand {
         if(args.length != 2) {
             return new ArrayList<>();
         }
-        return AdvancedRegionMarket.getInstance().getRegionKindManager().completeTabRegionKinds(args[1], "");
+        return getPlugin().getRegionKindManager().completeTabRegionKinds(args[1], "");
     }
 }

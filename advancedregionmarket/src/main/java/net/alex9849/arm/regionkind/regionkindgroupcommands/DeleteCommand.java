@@ -25,12 +25,12 @@ public class DeleteCommand extends BasicArmCommand {
     @Override
     protected boolean runCommandLogic(CommandSender sender, String command, String commandLabel) throws InputException {
         String[] args = command.split(" ");
-        RegionKindGroup regionKind = AdvancedRegionMarket.getInstance().getRegionKindGroupManager().getRegionKindGroup(args[1]);
+        RegionKindGroup regionKind = getPlugin().getRegionKindGroupManager().getRegionKindGroup(args[1]);
         if (regionKind == null) {
             throw new InputException(sender, Messages.REGIONKINDGROUP_NOT_EXISTS);
         }
 
-        AdvancedRegionMarket.getInstance().getRegionKindGroupManager().remove(regionKind);
+        getPlugin().getRegionKindGroupManager().remove(regionKind);
 
         sender.sendMessage(Messages.PREFIX + Messages.REGIONKINDGROUP_DELETED);
         return true;
@@ -41,6 +41,6 @@ public class DeleteCommand extends BasicArmCommand {
         if(args.length != 2) {
             return new ArrayList<>();
         }
-        return AdvancedRegionMarket.getInstance().getRegionKindGroupManager().tabCompleteRegionKindGroups(args[1]);
+        return getPlugin().getRegionKindGroupManager().tabCompleteRegionKindGroups(args[1]);
     }
 }

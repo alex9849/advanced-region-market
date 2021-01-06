@@ -25,7 +25,7 @@ public class InfoCommand extends BasicArmCommand {
 
     @Override
     protected boolean runCommandLogic(CommandSender sender, String command, String commandLabel) throws InputException, CmdSyntaxException {
-        RegionKind regionKind = AdvancedRegionMarket.getInstance().getRegionKindManager().getRegionKind(command.split(" ")[1]);
+        RegionKind regionKind = getPlugin().getRegionKindManager().getRegionKind(command.split(" ")[1]);
         if (regionKind == null) {
             throw new InputException(sender, Messages.REGIONKIND_DOES_NOT_EXIST);
         }
@@ -42,6 +42,6 @@ public class InfoCommand extends BasicArmCommand {
         if(args.length != 2) {
             return new ArrayList<>();
         }
-        return AdvancedRegionMarket.getInstance().getRegionKindManager().completeTabRegionKinds(args[1], "");
+        return getPlugin().getRegionKindManager().completeTabRegionKinds(args[1], "");
     }
 }

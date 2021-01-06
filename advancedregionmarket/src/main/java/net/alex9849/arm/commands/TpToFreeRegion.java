@@ -27,12 +27,12 @@ public class TpToFreeRegion extends BasicArmCommand {
         Player player = (Player) sender;
         String[] commandParts = command.split(" ");
 
-        RegionKind regionKind = AdvancedRegionMarket.getInstance().getRegionKindManager()
+        RegionKind regionKind = getPlugin().getRegionKindManager()
                 .getRegionKind(commandParts[1]);
         if (regionKind == null) {
             throw new InputException(player, Messages.REGIONKIND_DOES_NOT_EXIST);
         }
-        Region tpRegion = AdvancedRegionMarket.getInstance().getRegionManager().teleportToBuyableRegion(regionKind, player);
+        Region tpRegion = getPlugin().getRegionManager().teleportToBuyableRegion(regionKind, player);
         if(commandParts[commandParts.length - 1].equalsIgnoreCase("-buy")) {
             try {
                 tpRegion.buy(player);
@@ -47,7 +47,7 @@ public class TpToFreeRegion extends BasicArmCommand {
     @Override
     protected List<String> onTabCompleteArguements(Player player, String[] args) {
         if(args.length == 2) {
-            return AdvancedRegionMarket.getInstance().getRegionKindManager().completeTabRegionKinds(args[1], "");
+            return getPlugin().getRegionKindManager().completeTabRegionKinds(args[1], "");
         }
         if(args.length == 3 && "-buy".startsWith(args[2].toLowerCase())) {
             return Arrays.asList("-buy");

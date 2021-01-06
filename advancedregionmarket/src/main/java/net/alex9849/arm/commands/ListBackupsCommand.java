@@ -30,12 +30,12 @@ public class ListBackupsCommand extends BasicArmCommand {
         Player player = (Player) sender;
         Region region;
         if (command.matches(this.regex_with_args)) {
-            region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, command.split(" ")[1]);
+            region = getPlugin().getRegionManager().getRegionAtPositionOrNameCommand(player, command.split(" ")[1]);
         } else {
-            region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, "");
+            region = getPlugin().getRegionManager().getRegionAtPositionOrNameCommand(player, "");
         }
 
-        File backupDirectory = new File(AdvancedRegionMarket.getInstance().getDataFolder()
+        File backupDirectory = new File(getPlugin().getDataFolder()
                 + "/schematics/"
                 + region.getRegionworld().getName() + "/"
                 + region.getRegion().getId() + "/Backups");
@@ -69,7 +69,7 @@ public class ListBackupsCommand extends BasicArmCommand {
         if(args.length != 2) {
             return new ArrayList<>();
         }
-        return AdvancedRegionMarket.getInstance().getRegionManager()
+        return getPlugin().getRegionManager()
                 .completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true, true);
     }
 }

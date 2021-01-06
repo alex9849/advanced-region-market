@@ -23,7 +23,7 @@ public abstract class RegionKindGroupOptionModifyCommand<SettingsObj> extends Op
 
     @Override
     protected RegionKindGroup getObjectFromCommand(CommandSender sender, String command) throws InputException {
-        return AdvancedRegionMarket.getInstance().getRegionKindGroupManager().getRegionKindGroup(command.split(" ")[1]);
+        return getPlugin().getRegionKindGroupManager().getRegionKindGroup(command.split(" ")[1]);
     }
 
     @Override
@@ -46,7 +46,7 @@ public abstract class RegionKindGroupOptionModifyCommand<SettingsObj> extends Op
         if(args.length != 2) {
             return new ArrayList<>();
         }
-        return AdvancedRegionMarket.getInstance().getRegionKindGroupManager().tabCompleteRegionKindGroups(args[1]);
+        return getPlugin().getRegionKindGroupManager().tabCompleteRegionKindGroups(args[1]);
     }
 
     @Override

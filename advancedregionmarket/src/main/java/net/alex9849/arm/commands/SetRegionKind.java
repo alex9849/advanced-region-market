@@ -27,7 +27,7 @@ public class SetRegionKind extends RegionOptionModifyCommand<RegionKind> {
 
     @Override
     protected RegionKind getSettingFromString(Player player, String settingsString) throws InputException {
-        RegionKind regionKind = AdvancedRegionMarket.getInstance().getRegionKindManager().getRegionKind(settingsString);
+        RegionKind regionKind = getPlugin().getRegionKindManager().getRegionKind(settingsString);
         if (regionKind == RegionKind.SUBREGION) {
             throw new InputException(player, Messages.SUBREGION_REGIONKIND_ONLY_FOR_SUBREGIONS);
         }
@@ -36,7 +36,7 @@ public class SetRegionKind extends RegionOptionModifyCommand<RegionKind> {
 
     @Override
     protected List<String> tabCompleteSettingsObject(Player player, String setting) {
-        return AdvancedRegionMarket.getInstance().getRegionKindManager()
+        return getPlugin().getRegionKindManager()
                 .completeTabRegionKinds(setting, "");
     }
 }

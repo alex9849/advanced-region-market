@@ -34,10 +34,10 @@ public class FlageditorCommand extends BasicArmCommand {
         Player player = (Player) sender;
         Region selRegion;
         if (command.matches(this.regex_with_args)) {
-            selRegion = AdvancedRegionMarket.getInstance().getRegionManager()
+            selRegion = getPlugin().getRegionManager()
                     .getRegionAtPositionOrNameCommand(player, command.split(" ")[1]);
         } else {
-            selRegion = AdvancedRegionMarket.getInstance().getRegionManager()
+            selRegion = getPlugin().getRegionManager()
                     .getRegionAtPositionOrNameCommand(player, "");
         }
 
@@ -63,7 +63,7 @@ public class FlageditorCommand extends BasicArmCommand {
         } else {
             playerRegionRelationship = PlayerRegionRelationship.MEMBER_OR_OWNER;
         }
-        return AdvancedRegionMarket.getInstance().getRegionManager()
+        return getPlugin().getRegionManager()
                 .completeTabRegions(player, args[1], playerRegionRelationship, true, true);
     }
 }

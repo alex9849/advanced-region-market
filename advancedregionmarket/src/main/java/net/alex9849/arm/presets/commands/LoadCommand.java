@@ -30,7 +30,7 @@ public class LoadCommand extends BasicArmCommand {
 
     @Override
     protected boolean runCommandLogic(CommandSender sender, String command, String commandLabel) throws InputException, CmdSyntaxException {
-        Preset toAssign = AdvancedRegionMarket.getInstance().getPresetPatternManager()
+        Preset toAssign = getPlugin().getPresetPatternManager()
                 .getPreset(command.split(" ")[1], this.presetType);
 
         if (toAssign == null) {
@@ -53,7 +53,7 @@ public class LoadCommand extends BasicArmCommand {
         if (args.length != 2) {
             return new ArrayList<>();
         }
-        return AdvancedRegionMarket.getInstance().getPresetPatternManager()
+        return getPlugin().getPresetPatternManager()
                 .onTabCompleteCompleteSavedPresets(this.presetType, args[1]);
     }
 }

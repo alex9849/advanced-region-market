@@ -36,7 +36,7 @@ public class RegionstatsCommand extends BasicArmCommand {
             return new ArrayList<>();
         }
         List<String> returnme = new ArrayList<>();
-        returnme.addAll(AdvancedRegionMarket.getInstance().getRegionKindManager().completeTabRegionKinds(args[1], ""));
+        returnme.addAll(getPlugin().getRegionKindManager().completeTabRegionKinds(args[1], ""));
         if ("rentregion".startsWith(args[1])) {
             returnme.add("rentregion");
         }

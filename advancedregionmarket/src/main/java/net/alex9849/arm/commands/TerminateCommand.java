@@ -32,10 +32,10 @@ public class TerminateCommand extends BasicArmCommand {
         boolean termination;
 
         if (command.matches(regex_with_args)) {
-            region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, args[1]);
+            region = getPlugin().getRegionManager().getRegionAtPositionOrNameCommand(player, args[1]);
             termination = Boolean.parseBoolean(args[2]);
         } else {
-            region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, "");
+            region = getPlugin().getRegionManager().getRegionAtPositionOrNameCommand(player, "");
             termination = Boolean.parseBoolean(args[1]);
         }
 
@@ -62,7 +62,7 @@ public class TerminateCommand extends BasicArmCommand {
             } else {
                 playerRegionRelationship = PlayerRegionRelationship.OWNER;
             }
-            returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager()
+            returnme.addAll(getPlugin().getRegionManager()
                     .completeTabRegions(player, args[1], playerRegionRelationship, true, true));
             if ("true".startsWith(args[1])) {
                 returnme.add("true");

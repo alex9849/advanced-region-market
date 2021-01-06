@@ -47,14 +47,14 @@ public class SetPriceCommand extends BasicArmCommand {
 
         if (command.matches(this.regex_price_massaction) || command.matches(this.regex_price_autoprice_massaction)) {
             String[] splittedRegionKindArg = args[1].split(":", 2);
-            RegionKind selectedRegionkind = AdvancedRegionMarket.getInstance().getRegionKindManager().getRegionKind(splittedRegionKindArg[1]);
+            RegionKind selectedRegionkind = getPlugin().getRegionKindManager().getRegionKind(splittedRegionKindArg[1]);
             if (selectedRegionkind == null) {
                 throw new InputException(sender, Messages.REGIONKIND_DOES_NOT_EXIST);
             }
-            selectedregions = AdvancedRegionMarket.getInstance().getRegionManager().getRegionsByRegionKind(selectedRegionkind);
+            selectedregions = getPlugin().getRegionManager().getRegionsByRegionKind(selectedRegionkind);
             selectedName = selectedRegionkind.replaceVariables(Messages.MASSACTION_SPLITTER);
         } else {
-            Region selectedRegion = AdvancedRegionMarket.getInstance().getRegionManager()
+            Region selectedRegion = getPlugin().getRegionManager()
                     .getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
             if (selectedRegion == null) {
                 throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
@@ -107,12 +107,12 @@ public class SetPriceCommand extends BasicArmCommand {
     protected List<String> onTabCompleteArguements(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
         if (args.length == 2) {
-            returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true, true));
+            returnme.addAll(getPlugin().getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true, true));
             if ("rk:".startsWith(args[1])) {
                 returnme.add("rk:");
             }
             if (args[1].matches("rk:([^;\n]+)?")) {
-                returnme.addAll(AdvancedRegionMarket.getInstance().getRegionKindManager().completeTabRegionKinds(args[1], "rk:"));
+                returnme.addAll(getPlugin().getRegionKindManager().completeTabRegionKinds(args[1], "rk:"));
             }
 
         } else if (args.length == 3) {

@@ -53,7 +53,7 @@ public abstract class RegionOptionModifyCommand<SettingsObj> extends OptionModif
         if (command.matches(regex_massaction)) {
             String[] splittedRegionKindArg = args[1].split(":", 2);
 
-            RegionKind selectedRegionkind = AdvancedRegionMarket.getInstance().getRegionKindManager().getRegionKind(splittedRegionKindArg[1]);
+            RegionKind selectedRegionkind = getPlugin().getRegionKindManager().getRegionKind(splittedRegionKindArg[1]);
             if (selectedRegionkind == null) {
                 throw new InputException(sender, Messages.REGIONKIND_DOES_NOT_EXIST);
             }
@@ -61,9 +61,9 @@ public abstract class RegionOptionModifyCommand<SettingsObj> extends OptionModif
                 throw new InputException(sender, this.subregionModifyErrorMessage);
             }
             String selectedName = selectedRegionkind.replaceVariables(Messages.MASSACTION_SPLITTER);
-            return new Tuple<>(selectedName, AdvancedRegionMarket.getInstance().getRegionManager().getRegionsByRegionKind(selectedRegionkind));
+            return new Tuple<>(selectedName, getPlugin().getRegionManager().getRegionsByRegionKind(selectedRegionkind));
         } else {
-            Region selectedRegion = AdvancedRegionMarket.getInstance().getRegionManager().getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
+            Region selectedRegion = getPlugin().getRegionManager().getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
             if (selectedRegion == null) {
                 throw new InputException(sender, Messages.REGION_DOES_NOT_EXIST);
             }
@@ -103,13 +103,13 @@ public abstract class RegionOptionModifyCommand<SettingsObj> extends OptionModif
         }
 
         List<String> returnme = new ArrayList<>();
-        returnme.addAll(AdvancedRegionMarket.getInstance()
+        returnme.addAll(getPlugin()
                 .getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true, false));
         if ("rk:".startsWith(args[1])) {
             returnme.add("rk:");
         }
         if (args[1].matches("rk:([^;\n]+)?")) {
-            returnme.addAll(AdvancedRegionMarket.getInstance()
+            returnme.addAll(getPlugin()
                     .getRegionKindManager().completeTabRegionKinds(args[1], "rk:"));
         }
         return returnme;

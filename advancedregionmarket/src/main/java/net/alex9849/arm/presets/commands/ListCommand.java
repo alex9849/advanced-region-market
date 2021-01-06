@@ -29,7 +29,7 @@ public class ListCommand extends BasicArmCommand {
 
     @Override
     protected boolean runCommandLogic(CommandSender sender, String command, String commandLabel) throws InputException, CmdSyntaxException {
-        List<Preset> patterns = AdvancedRegionMarket.getInstance().getPresetPatternManager().getPresets(this.presetType);
+        List<Preset> patterns = getPlugin().getPresetPatternManager().getPresets(this.presetType);
 
         sender.sendMessage(Messages.PREFIX + ChatColor.GOLD + this.presetType.getMajorityName() + ":");
         for (int i = 0; i < patterns.size(); i++) {

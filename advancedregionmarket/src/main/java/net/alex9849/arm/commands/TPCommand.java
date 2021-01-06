@@ -27,7 +27,7 @@ public class TPCommand extends BasicArmCommand {
     @Override
     protected boolean runCommandLogic(CommandSender sender, String command, String commandLabel) throws InputException {
         Player player = (Player) sender;
-        Region region = AdvancedRegionMarket.getInstance().getRegionManager()
+        Region region = getPlugin().getRegionManager()
                 .getRegionbyNameAndWorldCommands(command.split(" ")[1], player.getWorld().getName());
 
         if (region == null) {
@@ -59,7 +59,7 @@ public class TPCommand extends BasicArmCommand {
         } else {
             playerRegionRelationship = PlayerRegionRelationship.MEMBER_OR_OWNER;
         }
-        return AdvancedRegionMarket.getInstance().getRegionManager()
+        return getPlugin().getRegionManager()
                 .completeTabRegions(player, args[1], playerRegionRelationship, true, true);
     }
 }

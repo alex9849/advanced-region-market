@@ -27,7 +27,7 @@ public class EntityLimitCommand extends PresetOptionModifyCommand<EntityLimitGro
         if(setting.equalsIgnoreCase("remove")) {
             return null;
         }
-        EntityLimitGroup elg = AdvancedRegionMarket.getInstance().getEntityLimitGroupManager()
+        EntityLimitGroup elg = getPlugin().getEntityLimitGroupManager()
                 .getEntityLimitGroup(setting);
         if(elg == EntityLimitGroup.SUBREGION) {
             throw new InputException(sender, Messages.ENTITYLIMITGROUP_SUBREGION_GROUP_ONLY_FOR_SUBREGIONS);
@@ -43,7 +43,7 @@ public class EntityLimitCommand extends PresetOptionModifyCommand<EntityLimitGro
     @Override
     protected List<String> tabCompleteSettingsObject(Player player, String settings) {
         List<String> returnme = new ArrayList<>();
-        returnme.addAll(AdvancedRegionMarket.getInstance().getEntityLimitGroupManager()
+        returnme.addAll(getPlugin().getEntityLimitGroupManager()
                 .tabCompleteEntityLimitGroups(settings));
         if ("remove".startsWith(settings)) {
             returnme.add("remove");

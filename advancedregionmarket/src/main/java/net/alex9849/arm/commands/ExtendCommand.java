@@ -30,10 +30,10 @@ public class ExtendCommand extends BasicArmCommand {
         Region region;
 
         if (command.matches(this.regex_with_args)) {
-            region = AdvancedRegionMarket.getInstance().getRegionManager()
+            region = getPlugin().getRegionManager()
                     .getRegionAtPositionOrNameCommand(player, command.split(" ")[1]);
         } else {
-            region = AdvancedRegionMarket.getInstance().getRegionManager()
+            region = getPlugin().getRegionManager()
                     .getRegionAtPositionOrNameCommand(player, null);
         }
 
@@ -63,7 +63,7 @@ public class ExtendCommand extends BasicArmCommand {
         } else {
             playerRegionRelationship = PlayerRegionRelationship.OWNER;
         }
-        return AdvancedRegionMarket.getInstance().getRegionManager()
+        return getPlugin().getRegionManager()
                 .completeTabRegions(player, args[1], playerRegionRelationship, true, true);
     }
 }

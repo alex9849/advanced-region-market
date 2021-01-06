@@ -30,7 +30,7 @@ public class RestoreCommand extends BasicArmCommand {
     @Override
     protected boolean runCommandLogic(CommandSender sender, String command, String commandLabel) throws InputException, CmdSyntaxException {
         Player player = (Player) sender;
-        Region region = AdvancedRegionMarket.getInstance().getRegionManager()
+        Region region = getPlugin().getRegionManager()
                 .getRegionbyNameAndWorldCommands(command.split(" ")[1], player.getWorld().getName());
 
         if (region == null) {
@@ -57,7 +57,7 @@ public class RestoreCommand extends BasicArmCommand {
             region.restoreRegion(Region.ActionReason.MANUALLY_BY_PARENT_REGION_OWNER, true, false);
             sender.sendMessage(Messages.PREFIX + Messages.COMPLETE);
         } catch (SchematicNotFoundException e) {
-            AdvancedRegionMarket.getInstance().getLogger()
+            getPlugin().getLogger()
                     .log(Level.WARNING, region.replaceVariables(Messages.COULD_NOT_FIND_OR_LOAD_SCHEMATIC_LOG));
             throw new InputException(sender, Messages.SCHEMATIC_NOT_FOUND_ERROR_USER.replace("%regionid%", e.getRegion().getId()));
         } catch (ProtectionOfContinuanceException e) {
@@ -71,7 +71,7 @@ public class RestoreCommand extends BasicArmCommand {
         if(args.length != 2) {
             return new ArrayList<>();
         }
-        return AdvancedRegionMarket.getInstance().getRegionManager()
+        return getPlugin().getRegionManager()
                 .completeTabRegions(player, args[1], PlayerRegionRelationship.PARENTREGION_OWNER, false, true);
     }
 }

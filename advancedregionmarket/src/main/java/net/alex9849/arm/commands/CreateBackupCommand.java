@@ -32,10 +32,10 @@ public class CreateBackupCommand extends BasicArmCommand {
         Region region;
         if (command.matches(this.regex_with_args)) {
             String[] args = command.split(" ");
-            region = AdvancedRegionMarket.getInstance().getRegionManager()
+            region = getPlugin().getRegionManager()
                     .getRegionAtPositionOrNameCommand(player, args[1]);
         } else {
-            region = AdvancedRegionMarket.getInstance().getRegionManager()
+            region = getPlugin().getRegionManager()
                     .getRegionAtPositionOrNameCommand(player, "");
         }
 
@@ -49,7 +49,7 @@ public class CreateBackupCommand extends BasicArmCommand {
         if(args.length != 2) {
             return new ArrayList<>();
         }
-        return AdvancedRegionMarket.getInstance().getRegionManager()
+        return getPlugin().getRegionManager()
                 .completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true, true);
     }
 }

@@ -26,7 +26,7 @@ public class RemoveLoreLineCommand extends BasicArmCommand {
     @Override
     protected boolean runCommandLogic(CommandSender sender, String command, String commandLabel) throws InputException, CmdSyntaxException {
         String[] args = command.split(" ");
-        RegionKind regionKind = AdvancedRegionMarket.getInstance().getRegionKindManager().getRegionKind(args[1]);
+        RegionKind regionKind = getPlugin().getRegionKindManager().getRegionKind(args[1]);
         if (regionKind == null) {
             throw new InputException(sender, Messages.REGIONKIND_DOES_NOT_EXIST);
         }
@@ -49,9 +49,9 @@ public class RemoveLoreLineCommand extends BasicArmCommand {
     protected List<String> onTabCompleteArguements(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
         if (args.length == 2) {
-            return AdvancedRegionMarket.getInstance().getRegionKindManager().completeTabRegionKinds(args[1], "");
+            return getPlugin().getRegionKindManager().completeTabRegionKinds(args[1], "");
         } else if (args.length == 3) {
-            RegionKind regionKind = AdvancedRegionMarket.getInstance().getRegionKindManager().getRegionKind(args[2]);
+            RegionKind regionKind = getPlugin().getRegionKindManager().getRegionKind(args[2]);
             if (regionKind == null) {
                 return returnme;
             } else {

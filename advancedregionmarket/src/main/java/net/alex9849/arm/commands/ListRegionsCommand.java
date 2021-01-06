@@ -42,9 +42,9 @@ public class ListRegionsCommand extends BasicArmCommand {
             throw new InputException(sender, Messages.PLAYER_NOT_FOUND);
         }
 
-        List<Region> regionsOwner = AdvancedRegionMarket.getInstance()
+        List<Region> regionsOwner = getPlugin()
                 .getRegionManager().getRegionsByOwner(oplayer.getUniqueId());
-        List<Region> regionsMember = AdvancedRegionMarket.getInstance()
+        List<Region> regionsMember = getPlugin()
                 .getRegionManager().getRegionsByMember(oplayer.getUniqueId());
 
         sender.sendMessage(ChatColor.GOLD + "Owner: " + Messages

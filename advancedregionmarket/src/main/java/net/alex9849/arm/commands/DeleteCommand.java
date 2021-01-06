@@ -28,14 +28,14 @@ public class DeleteCommand extends BasicArmCommand {
         Player player = (Player) sender;
         Region region;
         if (command.matches(this.regex_with_args)) {
-            region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, command.split(" ")[1]);
+            region = getPlugin().getRegionManager().getRegionAtPositionOrNameCommand(player, command.split(" ")[1]);
         } else {
-            region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionAtPositionOrNameCommand(player, "");
+            region = getPlugin().getRegionManager().getRegionAtPositionOrNameCommand(player, "");
         }
 
         region.unsell(Region.ActionReason.DELETE, false, true);
         region.delete();
-        AdvancedRegionMarket.getInstance().getRegionManager().remove(region);
+        getPlugin().getRegionManager().remove(region);
 
         player.sendMessage(Messages.PREFIX + region.getRegion().getId() + " deleted!");
         return true;
@@ -46,7 +46,7 @@ public class DeleteCommand extends BasicArmCommand {
         if(args.length != 2) {
             return new ArrayList<>();
         }
-        return AdvancedRegionMarket.getInstance().getRegionManager()
+        return getPlugin().getRegionManager()
                 .completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true, true);
     }
 }

@@ -40,7 +40,7 @@ public class OfferCommand extends BasicArmCommand {
                 throw new InputException(player, Messages.NO_PERMISSION);
             }
 
-            Region region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionbyNameAndWorldCommands(args[2], player.getLocation().getWorld().getName());
+            Region region = getPlugin().getRegionManager().getRegionbyNameAndWorldCommands(args[2], player.getLocation().getWorld().getName());
             if (region == null) {
                 throw new InputException(player, Messages.REGION_DOES_NOT_EXIST);
             }
@@ -127,7 +127,7 @@ public class OfferCommand extends BasicArmCommand {
             }
         } else if (args.length == 3) {
             if (player.hasPermission(Permission.MEMBER_OFFER_CREATE)) {
-                returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager()
+                returnme.addAll(getPlugin().getRegionManager()
                         .completeTabRegions(player, args[2], PlayerRegionRelationship.OWNER, true, true));
             }
         }

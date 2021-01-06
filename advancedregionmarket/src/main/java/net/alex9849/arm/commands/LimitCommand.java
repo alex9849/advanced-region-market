@@ -21,7 +21,7 @@ public class LimitCommand extends BasicArmCommand {
     @Override
     protected boolean runCommandLogic(CommandSender sender, String command, String commandLabel) {
         Player player = (Player) sender;
-        AdvancedRegionMarket.getInstance().getLimitGroupManager().printLimitInChat(player);
+        getPlugin().getLimitGroupManager().printLimitInChat(player);
         return true;
     }
 

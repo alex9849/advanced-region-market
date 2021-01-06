@@ -26,7 +26,7 @@ public class RegionKindCommand extends PresetOptionModifyCommand<RegionKind> {
         if(setting.equalsIgnoreCase("remove")) {
             return null;
         }
-        RegionKind rk = AdvancedRegionMarket.getInstance().getRegionKindManager()
+        RegionKind rk = getPlugin().getRegionKindManager()
                 .getRegionKind(setting);
         if(rk == RegionKind.SUBREGION) {
             throw new InputException(sender, Messages.SUBREGION_REGIONKIND_ONLY_FOR_SUBREGIONS);
@@ -42,7 +42,7 @@ public class RegionKindCommand extends PresetOptionModifyCommand<RegionKind> {
     @Override
     protected List<String> tabCompleteSettingsObject(Player player, String settings) {
         List<String> returnme = new ArrayList<>();
-        returnme.addAll(AdvancedRegionMarket.getInstance().getRegionKindManager()
+        returnme.addAll(getPlugin().getRegionKindManager()
                 .completeTabRegionKinds(settings, ""));
         if ("remove".startsWith(settings)) {
             returnme.add("remove");

@@ -24,7 +24,7 @@ public class CommandSplitter extends BasicArmCommand {
                 usage, commands.stream().flatMap(x -> x.getPermissions().stream()).collect(Collectors.toList()));
         this.commandHandler.addCommands(commands);
         this.getPermissions().add(helpCommandPermission);
-        this.commandHandler.addCommand(new HelpCommand(this.commandHandler, helpCommandHeadline,
+        this.commandHandler.addCommand(new HelpCommand(this.commandHandler, plugin, helpCommandHeadline,
                 new String[]{rootCommand}, helpCommandPermission));
     }
 

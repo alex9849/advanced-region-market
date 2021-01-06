@@ -12,7 +12,7 @@ import java.util.List;
 
 public abstract class BooleanRegionOptionModifyCommand extends RegionOptionModifyCommand<Boolean> {
 
-    public BooleanRegionOptionModifyCommand(String rootCommand, AdvancedRegionMarket plugin, List permissions, String optionName, boolean allowSubregions, String subregionModifyErrorMessage) {
+    public BooleanRegionOptionModifyCommand(String rootCommand, AdvancedRegionMarket plugin, List<String> permissions, String optionName, boolean allowSubregions, String subregionModifyErrorMessage) {
         super(rootCommand, plugin, permissions, true, optionName, "(false|true)",
                 "[true/false]",allowSubregions, subregionModifyErrorMessage, "");
     }

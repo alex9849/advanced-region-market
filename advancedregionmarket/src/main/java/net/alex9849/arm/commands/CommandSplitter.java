@@ -13,17 +13,17 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class CommandSplitter extends BasicArmCommand {
 
-    private CommandHandler commandHandler = new CommandHandler();
+    private final CommandHandler commandHandler = new CommandHandler();
 
     public CommandSplitter(String rootCommand, AdvancedRegionMarket plugin, List<String> usage, String helpCommandPermission,
                            String helpCommandHeadline, Collection<BasicArmCommand> commands) {
         super(true, plugin, rootCommand, Arrays.asList("(?i)" + rootCommand + " [^;\n]+"),
-                usage, commands.stream().flatMap(x -> x.getPermissions().stream()).collect(Collectors.toList()));
+                usage, Stream.concat(Stream.of(helpCommandPermission), commands.stream().flatMap(x -> x.getPermissions().stream())).collect(Collectors.toList()));
         this.commandHandler.addCommands(commands);
-        this.getPermissions().add(helpCommandPermission);
         this.commandHandler.addCommand(new HelpCommand(this.commandHandler, plugin, helpCommandHeadline,
                 new String[]{rootCommand}, helpCommandPermission));
     }

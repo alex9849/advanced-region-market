@@ -26,7 +26,7 @@ public class InfoCommand extends BasicArmCommand {
 
     @Override
     protected boolean runCommandLogic(CommandSender sender, String command, String commandLabel) throws InputException, CmdSyntaxException {
-        EntityLimitGroup entityLimitGroup = AdvancedRegionMarket.getInstance()
+        EntityLimitGroup entityLimitGroup = getPlugin()
                 .getEntityLimitGroupManager().getEntityLimitGroup(command.split(" ")[1]);
         if (entityLimitGroup == null) {
             throw new InputException(sender, Messages.ENTITYLIMITGROUP_DOES_NOT_EXIST);
@@ -61,7 +61,7 @@ public class InfoCommand extends BasicArmCommand {
     @Override
     protected List<String> onTabCompleteArguements(Player player, String[] args) {
         if(args.length == 2) {
-            return AdvancedRegionMarket.getInstance().getEntityLimitGroupManager().tabCompleteEntityLimitGroups(args[1]);
+            return getPlugin().getEntityLimitGroupManager().tabCompleteEntityLimitGroups(args[1]);
         }
         return new ArrayList<>();
     }

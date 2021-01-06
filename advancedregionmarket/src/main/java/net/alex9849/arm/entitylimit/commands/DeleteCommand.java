@@ -25,7 +25,7 @@ public class DeleteCommand extends BasicArmCommand {
 
     @Override
     protected boolean runCommandLogic(CommandSender sender, String command, String commandLabel) throws InputException {
-        EntityLimitGroup entityLimitGroup = AdvancedRegionMarket.getInstance()
+        EntityLimitGroup entityLimitGroup = getPlugin()
                 .getEntityLimitGroupManager().getEntityLimitGroup(command.split(" ")[1]);
         if (entityLimitGroup == null) {
             throw new InputException(sender, Messages.ENTITYLIMITGROUP_DOES_NOT_EXIST);
@@ -37,9 +37,9 @@ public class DeleteCommand extends BasicArmCommand {
             throw new InputException(sender, Messages.ENTITYLIMITGROUP_CAN_NOT_REMOVE_SYSTEM);
         }
 
-        AdvancedRegionMarket.getInstance().getEntityLimitGroupManager().remove(entityLimitGroup);
+        getPlugin().getEntityLimitGroupManager().remove(entityLimitGroup);
 
-        for (Region region : AdvancedRegionMarket.getInstance().getRegionManager()) {
+        for (Region region : getPlugin().getRegionManager()) {
             if (region.getEntityLimitGroup() == entityLimitGroup) {
                 region.setEntityLimitGroup(EntityLimitGroup.DEFAULT);
             }
@@ -52,7 +52,7 @@ public class DeleteCommand extends BasicArmCommand {
     @Override
     protected List<String> onTabCompleteArguements(Player player, String[] args) {
         if(args.length == 2) {
-            return AdvancedRegionMarket.getInstance().getEntityLimitGroupManager().tabCompleteEntityLimitGroups(args[1]);
+            return getPlugin().getEntityLimitGroupManager().tabCompleteEntityLimitGroups(args[1]);
         }
         return new ArrayList<>();
     }

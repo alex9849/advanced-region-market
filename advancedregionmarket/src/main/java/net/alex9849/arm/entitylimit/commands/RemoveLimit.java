@@ -27,7 +27,7 @@ public class RemoveLimit extends BasicArmCommand {
     @Override
     protected boolean runCommandLogic(CommandSender sender, String command, String commandLabel) throws InputException, CmdSyntaxException {
         String[] args = command.split(" ");
-        EntityLimitGroup entityLimitGroup = AdvancedRegionMarket.getInstance().getEntityLimitGroupManager().getEntityLimitGroup(args[1]);
+        EntityLimitGroup entityLimitGroup = getPlugin().getEntityLimitGroupManager().getEntityLimitGroup(args[1]);
         if (entityLimitGroup == null) {
             throw new InputException(sender, Messages.ENTITYLIMITGROUP_DOES_NOT_EXIST);
         }
@@ -60,10 +60,10 @@ public class RemoveLimit extends BasicArmCommand {
     protected List<String> onTabCompleteArguements(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
         if (args.length == 2) {
-            returnme.addAll(AdvancedRegionMarket.getInstance().getEntityLimitGroupManager().tabCompleteEntityLimitGroups(args[1]));
+            returnme.addAll(getPlugin().getEntityLimitGroupManager().tabCompleteEntityLimitGroups(args[1]));
 
         } else if (args.length == 3) {
-            EntityLimitGroup entityLimitGroup = AdvancedRegionMarket.getInstance().getEntityLimitGroupManager().getEntityLimitGroup(args[1]);
+            EntityLimitGroup entityLimitGroup = getPlugin().getEntityLimitGroupManager().getEntityLimitGroup(args[1]);
             if (entityLimitGroup == null) {
                 return returnme;
             }

@@ -32,7 +32,7 @@ public class CheckCommand extends BasicArmCommand {
     protected boolean runCommandLogic(CommandSender sender, String command, String commandLabel) throws InputException {
         String[] args = command.split(" ");
         Player player = (Player) sender;
-        Region region = AdvancedRegionMarket.getInstance().getRegionManager()
+        Region region = getPlugin().getRegionManager()
                 .getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
 
         if (region == null) {
@@ -71,9 +71,9 @@ public class CheckCommand extends BasicArmCommand {
     protected List<String> onTabCompleteArguements(Player player, String[] args) {
         if (args.length == 2) {
             if (player.hasPermission(Permission.ADMIN_ENTITYLIMIT_CHECK)) {
-                return AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true, true);
+                return getPlugin().getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true, true);
             } else {
-                return AdvancedRegionMarket.getInstance().getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.MEMBER_OR_OWNER, true, true);
+                return getPlugin().getRegionManager().completeTabRegions(player, args[1], PlayerRegionRelationship.MEMBER_OR_OWNER, true, true);
             }
         }
         return new ArrayList<>();

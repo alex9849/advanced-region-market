@@ -30,7 +30,7 @@ public class SetExtraLimitCommand extends BasicArmCommand {
         String[] args = command.split(" ");
         Player player = (Player) sender;
 
-        Region region = AdvancedRegionMarket.getInstance().getRegionManager().getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
+        Region region = getPlugin().getRegionManager().getRegionbyNameAndWorldCommands(args[1], player.getWorld().getName());
 
         if (region == null) {
             throw new InputException(player, Messages.REGION_DOES_NOT_EXIST);
@@ -68,7 +68,7 @@ public class SetExtraLimitCommand extends BasicArmCommand {
     protected List<String> onTabCompleteArguements(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
         if (args.length == 2) {
-            returnme.addAll(AdvancedRegionMarket.getInstance().getRegionManager()
+            returnme.addAll(getPlugin().getRegionManager()
                     .completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true, false));
         } else if (args.length == 3) {
             for (EntityLimit.LimitableEntityType entityType : EntityLimit.entityTypes) {

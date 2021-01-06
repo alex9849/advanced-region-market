@@ -26,7 +26,7 @@ public class ListCommand extends BasicArmCommand {
     @Override
     protected boolean runCommandLogic(CommandSender sender, String command, String commandLabel) throws InputException, CmdSyntaxException {
         sender.sendMessage(Messages.ENTITYLIMITGROUP_LIST_HEADLINE);
-        for (EntityLimitGroup entityLimitGroup : AdvancedRegionMarket.getInstance().getEntityLimitGroupManager()) {
+        for (EntityLimitGroup entityLimitGroup : getPlugin().getEntityLimitGroupManager()) {
             sender.sendMessage("- " + entityLimitGroup.getName());
         }
         return true;

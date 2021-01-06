@@ -3,7 +3,6 @@ package net.alex9849.arm.regionkind;
 import net.alex9849.arm.util.YamlFileManager;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -87,10 +86,6 @@ public class RegionKindManager extends YamlFileManager<RegionKind> {
     }
 
     public List<String> completeTabRegionKinds(String arg, String returnPrefix) {
-        return completeTabRegionKinds(arg, returnPrefix, null);
-    }
-
-    public List<String> completeTabRegionKinds(String arg, String returnPrefix, Player player) {
         List<String> returnme = new ArrayList<>();
 
         for (RegionKind regionkind : this) {

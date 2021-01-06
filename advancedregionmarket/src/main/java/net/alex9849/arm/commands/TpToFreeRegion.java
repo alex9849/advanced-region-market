@@ -47,7 +47,7 @@ public class TpToFreeRegion extends BasicArmCommand {
     @Override
     protected List<String> onTabCompleteLogic(Player player, String[] args) {
         if(args.length == 2) {
-            return AdvancedRegionMarket.getInstance().getRegionKindManager().completeTabRegionKinds(args[1], "", player);
+            return AdvancedRegionMarket.getInstance().getRegionKindManager().completeTabRegionKinds(args[1], "");
         }
         if(args.length == 3 && "-buy".startsWith(args[2].toLowerCase())) {
             return Arrays.asList("-buy");

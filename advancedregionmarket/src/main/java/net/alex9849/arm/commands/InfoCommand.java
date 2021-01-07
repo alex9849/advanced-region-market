@@ -13,11 +13,12 @@ import java.util.Arrays;
 import java.util.List;
 
 public class InfoCommand extends BasicArmCommand {
-    private final String regex_with_args = "(?i)info [^;\n ]+";
+    private static final String regex = "(?)info";
+    private static final String regex_with_args = "(?i)info [^;\n ]+";
 
     public InfoCommand(AdvancedRegionMarket plugin) {
         super(false, plugin, "info",
-                Arrays.asList("(?i)info", "(?i)info [^;\n ]+"),
+                Arrays.asList(regex, regex_with_args),
                 Arrays.asList("info [REGION]", "info"),
                 Arrays.asList(Permission.MEMBER_INFO, Permission.ADMIN_INFO));
     }
@@ -27,7 +28,7 @@ public class InfoCommand extends BasicArmCommand {
         Player player = (Player) sender;
 
         Region selectedRegion;
-        if (command.matches(this.regex_with_args)) {
+        if (command.matches(regex_with_args)) {
             selectedRegion = getPlugin().getRegionManager()
                     .getRegionAtPositionOrNameCommand(player, command.split(" ")[1]);
         } else {
@@ -39,7 +40,7 @@ public class InfoCommand extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteArguements(Player player, String[] args) {
+    protected List<String> onTabCompleteArguments(Player player, String[] args) {
         if(args.length != 2) {
             return new ArrayList<>();
         }

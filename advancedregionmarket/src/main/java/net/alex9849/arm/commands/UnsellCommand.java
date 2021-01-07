@@ -43,7 +43,7 @@ public class UnsellCommand extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteArguements(Player player, String[] args) {
+    protected List<String> onTabCompleteArguments(Player player, String[] args) {
         if(args.length == 2) {
             return getPlugin().getRegionManager()
                     .completeTabRegions(player, args[1], PlayerRegionRelationship.ALL, true, true);

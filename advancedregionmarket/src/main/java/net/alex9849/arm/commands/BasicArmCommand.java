@@ -93,7 +93,7 @@ public abstract class BasicArmCommand {
             if (args.length == 1) {
                 returnme.add(this.getRootCommand());
             } else if (this.getRootCommand().equalsIgnoreCase(args[0])) {
-                returnme.addAll(onTabCompleteArguements(player, args));
+                returnme.addAll(onTabCompleteArguments(player, args));
             }
         }
         return returnme;
@@ -106,5 +106,5 @@ public abstract class BasicArmCommand {
      * @param args Has at least a length of 2 and the first arg matches the root command
      * @return An ArrayList (not null)
      */
-    protected abstract List<String> onTabCompleteArguements(Player player, String[] args);
+    protected abstract List<String> onTabCompleteArguments(Player player, String[] args);
 }

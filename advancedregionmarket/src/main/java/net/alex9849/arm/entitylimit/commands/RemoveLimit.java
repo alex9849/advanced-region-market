@@ -57,7 +57,7 @@ public class RemoveLimit extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteArguements(Player player, String[] args) {
+    protected List<String> onTabCompleteArguments(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
         if (args.length == 2) {
             returnme.addAll(getPlugin().getEntityLimitGroupManager().tabCompleteEntityLimitGroups(args[1]));

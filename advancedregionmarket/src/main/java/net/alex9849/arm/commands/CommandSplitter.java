@@ -62,7 +62,7 @@ public class CommandSplitter extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteArguements(Player player, String[] args) {
+    protected List<String> onTabCompleteArguments(Player player, String[] args) {
         List<String> returnme = new ArrayList<>();
 
         String[] newargs = new String[args.length - 1];

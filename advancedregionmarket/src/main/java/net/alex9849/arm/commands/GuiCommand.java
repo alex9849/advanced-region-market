@@ -26,7 +26,7 @@ public class GuiCommand extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteArguements(Player player, String[] args) {
+    protected List<String> onTabCompleteArguments(Player player, String[] args) {
         return new ArrayList<>();
     }
 }

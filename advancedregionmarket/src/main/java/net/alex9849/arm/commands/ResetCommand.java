@@ -54,7 +54,7 @@ public class ResetCommand extends BasicArmCommand {
     }
 
     @Override
-    protected List<String> onTabCompleteArguements(Player player, String[] args) {
+    protected List<String> onTabCompleteArguments(Player player, String[] args) {
         if(args.length != 2) {
             return new ArrayList<>();
         }

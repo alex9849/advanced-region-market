@@ -22,15 +22,15 @@ import java.util.Arrays;
 import java.util.List;
 
 public class SetPriceCommand extends BasicArmCommand {
-    private final String regex_price = "(?i)setprice [^;\n ]+ [0-9]+ [0-9]+(s|m|h|d) [0-9]+(s|m|h|d)";
-    private final String regex_price_autoprice = "(?i)setprice [^;\n ]+ [^;\n ]+";
-    private final String regex_price_massaction = "(?i)setprice rk:[^;\n ]+ [0-9]+ [0-9]+(s|m|h|d) [0-9]+(s|m|h|d)";
-    private final String regex_price_autoprice_massaction = "(?i)setprice rk:[^;\n ]+ [^;\n ]+";
+    private static final String regex_price = "(?i)setprice [^;\n ]+ [0-9]+";
+    private static final String regex_price_autoprice = "(?i)setprice [^;\n ]+ [^;\n ]+";
+    private static final String regex_price_massaction = "(?i)setprice rk:[^;\n ]+ [0-9]+ [0-9]+(s|m|h|d) [0-9]+(s|m|h|d)";
+    private static final String regex_price_autoprice_massaction = "(?i)setprice rk:[^;\n ]+ [^;\n ]+";
 
     public SetPriceCommand(AdvancedRegionMarket plugin) {
         super(false, plugin, "setprice",
-                Arrays.asList("(?i)setprice [^;\n ]+ [^;\n ]+", "(?i)setprice [^;\n ]+ [0-9]+ [0-9]+(s|m|h|d) [0-9]+(s|m|h|d)",
-                        "(?i)setprice rk:[^;\n ]+ [^;\n ]+", "(?i)setprice rk:[^;\n ]+ [0-9]+ [0-9]+(s|m|h|d) [0-9]+(s|m|h|d)"),
+                Arrays.asList(regex_price_autoprice, regex_price,
+                        regex_price_autoprice_massaction, regex_price_massaction),
                 Arrays.asList("setprice [REGION] [AUTOPRICE]", "setprice [REGION] [PRICE] [EXTENDTIME] [MAXEXTENDTIME]",
                         "setprice rk:[REGION] [AUTOPRICE]", "setprice rk:[REGION] [PRICE] [EXTENDTIME] [MAXEXTENDTIME]"),
                 Arrays.asList(Permission.ADMIN_SET_PRICE));
@@ -45,7 +45,7 @@ public class SetPriceCommand extends BasicArmCommand {
         RentPrice price;
         String selectedName;
 
-        if (command.matches(this.regex_price_massaction) || command.matches(this.regex_price_autoprice_massaction)) {
+        if (command.matches(regex_price_massaction) || command.matches(regex_price_autoprice_massaction)) {
             String[] splittedRegionKindArg = args[1].split(":", 2);
             RegionKind selectedRegionkind = getPlugin().getRegionKindManager().getRegionKind(splittedRegionKindArg[1]);
             if (selectedRegionkind == null) {
@@ -63,7 +63,7 @@ public class SetPriceCommand extends BasicArmCommand {
             selectedName = selectedRegion.getRegion().getId();
         }
 
-        if (command.matches(this.regex_price) || command.matches(this.regex_price_massaction)) {
+        if (command.matches(regex_price) || command.matches(regex_price_massaction)) {
             int priceint = Integer.parseInt(args[2]);
             long extend = RentPrice.stringToTime(args[3]);
             long maxextendtime = RentPrice.stringToTime(args[4]);

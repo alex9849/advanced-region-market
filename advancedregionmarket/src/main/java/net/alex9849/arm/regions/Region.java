@@ -782,8 +782,9 @@ public abstract class Region implements Saveable {
      */
     public void delete() {
         this.deleteSigns();
-        if(FlagGroup.isFeatureEnabled())
+        if(FlagGroup.isFeatureEnabled()) {
             this.getRegion().deleteAllFlags();
+        }
         if (this.isSubregion()) {
             AdvancedRegionMarket.getInstance().getWorldGuardInterface().removeFromRegionManager(this.getRegion(), this.getRegionworld());
             this.getParentRegion().getSubregions().remove(this);
@@ -937,21 +938,22 @@ public abstract class Region implements Saveable {
 
     public void createBackup() {
         String fileName = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSSS").format(new Date());
-        File schematicFolder = new File(AdvancedRegionMarket.getInstance().getDataFolder() + "/schematics");
-        File regionsSchematicFolder = new File(schematicFolder + "/" + this.getRegionworld().getName() + "/" + this.getRegion().getId() + "/Backups");
+        File regionsSchematicFolder = new File(getRegionSchematicFolder() + "/Backups");
         AdvancedRegionMarket.getInstance().getWorldEditInterface().createSchematic(this.getRegion(), this.getRegionworld(), regionsSchematicFolder, fileName);
     }
 
     public void loadBackup(String name) throws SchematicNotFoundException {
-        File schematicFolder = new File(AdvancedRegionMarket.getInstance().getDataFolder() + "/schematics");
-        File regionsSchematicPathWithoutFileEnding = new File(schematicFolder + "/" + this.getRegionworld().getName() + "/" + this.getRegion().getId() + "/Backups/" + name);
+        File regionsSchematicPathWithoutFileEnding = new File(getRegionSchematicFolder() + "/Backups/" + name);
         AdvancedRegionMarket.getInstance().getWorldEditInterface().restoreSchematic(this.getRegion(), this.getRegionworld(), regionsSchematicPathWithoutFileEnding);
     }
 
     public void createSchematic() {
+        AdvancedRegionMarket.getInstance().getWorldEditInterface().createSchematic(this.getRegion(), this.getRegionworld(), getRegionSchematicFolder(), "schematic");
+    }
+
+    public File getRegionSchematicFolder() {
         File schematicFolder = new File(AdvancedRegionMarket.getInstance().getDataFolder() + "/schematics");
-        File regionsSchematicFolder = new File(schematicFolder + "/" + this.getRegionworld().getName() + "/" + this.getRegion().getId());
-        AdvancedRegionMarket.getInstance().getWorldEditInterface().createSchematic(this.getRegion(), this.getRegionworld(), regionsSchematicFolder, "schematic");
+        return new File(schematicFolder + "/" + this.getRegionworld().getName() + "/" + this.getRegion().getId());
     }
 
     public void restoreRegion(ActionReason actionReason, boolean logToConsole, boolean preventBackup) throws SchematicNotFoundException, ProtectionOfContinuanceException {

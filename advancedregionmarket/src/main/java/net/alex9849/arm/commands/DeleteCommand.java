@@ -6,6 +6,7 @@ import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regions.Region;
+import net.alex9849.arm.util.UtilMethods;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -35,6 +36,7 @@ public class DeleteCommand extends BasicArmCommand {
 
         region.unsell(Region.ActionReason.DELETE, false, true);
         region.delete();
+        UtilMethods.deleteFilesRec(region.getRegionSchematicFolder());
         getPlugin().getRegionManager().remove(region);
 
         player.sendMessage(Messages.PREFIX + region.getRegion().getId() + " deleted!");

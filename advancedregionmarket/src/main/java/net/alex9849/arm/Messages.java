@@ -51,7 +51,7 @@ public class Messages {
         public int version() default 0;
     }
 
-    //Current version = 4
+    //Current version = 5
     @Message(name = "Prefix", message = "&b[ARM]&r ", version = 1)
     public static String PREFIX;
     @Message(name = "Buymessage", message = "&aRegion successfully bought!")
@@ -396,7 +396,7 @@ public class Messages {
     @Message(name = "HelpHeadline", message = "&6=====[AdvancedRegionMarket Help ]=====\n" +
             "&3Page %actualpage% / %maxpage%")
     public static String HELP_HEADLINE;
-    @Message(name = "PresetInfoSellregion", message = {"&6=========[Region Info]=========",
+    @Message(name = "PresetInfoSellregion", version = 5, message = {"&6=========[Preset Info]=========",
             "&9Autoprice: &e%presetautoprice%",
             "&9Price: &e%presetprice%",
             "&9PaybackPercentage: &e%presetpaybackpercentage%",
@@ -412,7 +412,7 @@ public class Messages {
             "&9Setup commands:",
             "%presetsetupcommands%"})
     public static List<String> PRESET_INFO_SELLREGION;
-    @Message(name = "PresetInfoContractregion", message = {"&6=========[Region Info]=========",
+    @Message(name = "PresetInfoContractregion", version = 5, message = {"&6=========[Preset Info]=========",
             "&9Autoprice: &e%presetautoprice%",
             "&9Price: &e%presetprice%",
             "&9ExtendTime: &e%extendtime%",
@@ -429,7 +429,7 @@ public class Messages {
             "&9Setup commands:",
             "%presetsetupcommands%"})
     public static List<String> PRESET_INFO_CONTRACTREGION;
-    @Message(name = "PresetInfoRentregion", version = 5, message = {"&6=========[Region Info]=========",
+    @Message(name = "PresetInfoRentregion", version = 5, message = {"&6=========[Preset Info]=========",
             "&9Autoprice: &e%presetautoprice%",
             "&9Price: &e%presetprice%",
             "&9ExtendTime: &e%extendtime%",

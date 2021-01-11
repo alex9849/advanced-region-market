@@ -30,7 +30,7 @@ public class PlayerJoinQuitEvent implements Listener {
         }
 
         if (takeoverableRegions.size() > 0) {
-            Gui.openOvertakeGUI(player, takeoverableRegions);
+            Gui.openOvertakeGUI(player, takeoverableRegions, null);
         }
     }
 

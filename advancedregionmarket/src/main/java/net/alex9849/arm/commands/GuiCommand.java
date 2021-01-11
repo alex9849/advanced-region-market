@@ -44,7 +44,7 @@ public class GuiCommand extends BasicArmCommand {
             Gui.openRegionOwnerManager(player, region, null);
             return true;
         } else if(isMember) {
-            Gui.openRegionMemberManager(player, region);
+            Gui.openRegionMemberManager(player, region, null);
             return true;
         } else {
             throw new InputException(player, Messages.NOT_A_MEMBER_OR_OWNER);

@@ -59,7 +59,7 @@ public class RestoreCommand extends BasicArmCommand {
                     throw new InputException(sender, Messages.REGION_RESTORE_PROTECTION_OF_CONTINUANCE_ERROR);
                 }
                 if ((new GregorianCalendar().getTimeInMillis()) >= getPlugin().getPluginSettings().getUserResetCooldown() + resregion.getLastreset()) {
-                    Gui.openRegionRestoreWarning(player, resregion, false);
+                    Gui.openRegionRestoreWarning(player, resregion, null);
                     return true;
                 } else {
                     String message = resregion.replaceVariables(Messages.RESET_REGION_COOLDOWN_ERROR);

@@ -28,18 +28,17 @@ public class GuiUtils {
                 .addClickAction(goBackAction));
     }
 
-    public static GuiInventory placeFillItems(GuiInventory inv) {
-        if (GuiConstants.getFillItem() != Material.AIR) {
-            for (int i = 0; i < inv.getInventory().getSize(); i++) {
-                if (inv.getIcon(i) == null) {
-                    ClickItem fillIcon = new ClickItem(GuiConstants.getFillItem())
-                            .setName(" ");
-                    inv.addIcon(fillIcon, i);
-                }
-            }
-            return inv;
+    public static void placeFillItems(GuiInventory inv) {
+        if (GuiConstants.getFillItem() == Material.AIR) {
+            return;
         }
-        return inv;
+        for (int i = 0; i < inv.getInventory().getSize(); i++) {
+            if (inv.getIcon(i) == null) {
+                ClickItem fillIcon = new ClickItem(GuiConstants.getFillItem())
+                        .setName(" ");
+                inv.addIcon(fillIcon, i);
+            }
+        }
     }
 
     public static void placeClickItems(GuiInventory inv, List<ClickItem> clickItems) {

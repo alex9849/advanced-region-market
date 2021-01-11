@@ -4,6 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,8 +37,10 @@ public class ClickItem extends ItemStack {
         return this;
     }
 
-    public ClickItem addClickAction(ClickAction clickAction) {
-        this.clickActions.add(clickAction);
+    public ClickItem addClickAction(@Nullable ClickAction clickAction) {
+        if(clickAction != null) {
+            this.clickActions.add(clickAction);
+        }
         return this;
     }
 

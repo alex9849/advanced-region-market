@@ -182,7 +182,7 @@ SignClickActions:
   RightClickNotSneakCmd: "buyaction"
   RightClickSneakCmd: "arm sellback %regionid%"
   LeftClickNotSneakCmd: "arm info %regionid%"
-  LeftClickSneakCmd: "arm flageditor %regionid%"
+  LeftClickSneakCmd: "arm gui %regionid%"
 
 Backups:
   createBackupOnRegionRestore: true

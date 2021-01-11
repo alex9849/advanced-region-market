@@ -53,7 +53,7 @@ public class SetTpLocation extends BasicArmCommand {
                     .getRegionAtPositionOrNameCommand(player, command.split(" ")[1]);
         }
 
-        if (!region.getRegion().hasOwner(player.getUniqueId()) && player.hasPermission(Permission.ADMIN_SET_TP_LOCATION)) {
+        if (!region.getRegion().hasOwner(player.getUniqueId()) && !player.hasPermission(Permission.ADMIN_SET_TP_LOCATION)) {
             throw new InputException(player, Messages.REGION_NOT_OWN);
         }
 

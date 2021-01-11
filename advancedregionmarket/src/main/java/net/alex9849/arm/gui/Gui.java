@@ -126,7 +126,7 @@ public class Gui implements Listener {
                     .setLore(lore)
                     .addClickAction(p -> {
                         if ((new GregorianCalendar().getTimeInMillis()) >= AdvancedRegionMarket.getInstance().getPluginSettings().getUserResetCooldown() + region.getLastreset()) {
-                            Gui.openRegionRestoreWarning(player, region, goBackActionForClickItems);
+                            Gui.openRegionRestoreWarning(player, region, lore, goBackActionForClickItems);
                         } else {
                             String message = region.replaceVariables(Messages.RESET_REGION_COOLDOWN_ERROR);
                             throw new InputException(player, message);
@@ -136,11 +136,12 @@ public class Gui implements Listener {
         }
 
         if (player.hasPermission(Permission.MEMBER_SELLBACK)) {
+            List<String> sellIconWarning = region.replaceVariables(Messages.GUI_USER_SELL_BUTTON_LORE);
             ClickItem sellIcon = new ClickItem(GuiConstants.getSellRegionItem())
                     .setName(Messages.GUI_USER_SELL_BUTTON)
-                    .setLore(region.replaceVariables(Messages.GUI_USER_SELL_BUTTON_LORE))
+                    .setLore(sellIconWarning)
                     .addClickAction(p ->
-                            Gui.openSellWarning(player, region, false, goBackActionForClickItems));
+                            Gui.openSellWarning(player, region, false, sellIconWarning, goBackActionForClickItems));
             items.add(sellIcon);
         }
 
@@ -450,16 +451,17 @@ public class Gui implements Listener {
             items.add(resetItem);
         }
         if (player.hasPermission(Permission.SUBREGION_UNSELL)) {
+            List<String> unsellButtonLore = region.replaceVariables(Messages.UNSELL_REGION_BUTTON_LORE);
             ClickItem unsellItem = new ClickItem(GuiConstants.getUnsellItem())
                     .setName(Messages.UNSELL_REGION_BUTTON)
-                    .setLore(region.replaceVariables(Messages.UNSELL_REGION_BUTTON_LORE))
+                    .setLore(unsellButtonLore)
                     .addClickAction(p ->
                             openWarning(player, pl -> {
                                 region.unsell(Region.ActionReason.MANUALLY_BY_PARENT_REGION_OWNER, true, false);
                                 player.closeInventory();
                                 player.sendMessage(Messages.PREFIX + Messages.REGION_NOW_AVAILABLE);
                             }, pl -> openSubregionManager(player, region, parentRegion, goBackAction),
-                                    Messages.UNSELL_REGION_WARNING_NAME, new ArrayList<>(), new ArrayList<>()));
+                                    Messages.UNSELL_REGION_WARNING_NAME, unsellButtonLore, new ArrayList<>()));
             items.add(unsellItem);
         }
         if (player.hasPermission(Permission.SUBREGION_DELETE_AVAILABLE) || player.hasPermission(Permission.SUBREGION_DELETE_SOLD)) {
@@ -606,7 +608,7 @@ public class Gui implements Listener {
             }
             membersitem.setItemMeta(membersitemmeta);
             ClickItem membersicon = new ClickItem(membersitem)
-                    .addClickAction(p -> Gui.openMemberManager(player, region, memberPlayer, pl ->
+                    .addClickAction(p -> Gui.openaddedMemberManager(player, region, memberPlayer, pl ->
                             openRegionAddedMembersList(pl, region, goBackAction)));
             clickItems.add(membersicon);
         }
@@ -624,15 +626,16 @@ public class Gui implements Listener {
 
     }
 
-    public static void openMemberManager(Player player, Region region, OfflinePlayer member, ClickAction goBackAction) {
+    public static void openaddedMemberManager(Player player, Region region, OfflinePlayer member, ClickAction goBackAction) {
         List<ClickItem> clickItems = new ArrayList<>();
 
         if (player.hasPermission(Permission.MEMBER_PROMOTE)) {
+            List<String> makeOwnerWarningLore = region.replaceVariables(Messages.GUI_MAKE_OWNER_BUTTON_LORE);
             ClickItem makeOwnerItem = new ClickItem(GuiConstants.getPromoteMemberToOwnerItem())
                     .setName(Messages.GUI_MAKE_OWNER_BUTTON)
-                    .setLore(region.replaceVariables(Messages.GUI_MAKE_OWNER_BUTTON_LORE))
-                    .addClickAction(p -> openMakeOwnerWarning(player, region, member, pl ->
-                            openMemberManager(player, region, member, goBackAction)));
+                    .setLore(makeOwnerWarningLore)
+                    .addClickAction(p -> openMakeOwnerWarning(player, region, member, makeOwnerWarningLore, pl ->
+                            openaddedMemberManager(player, region, member, goBackAction)));
             clickItems.add(makeOwnerItem);
         }
 
@@ -654,7 +657,7 @@ public class Gui implements Listener {
         player.openInventory(inv.getInventory());
     }
 
-    public static void openMakeOwnerWarning(Player player, Region region, OfflinePlayer member, ClickAction goBackAction) {
+    public static void openMakeOwnerWarning(Player player, Region region, OfflinePlayer member, List<String> yesLore, ClickAction goBackAction) {
         Player onlinemember = Bukkit.getPlayer(member.getUniqueId());
 
         openWarning(player, p -> {
@@ -678,7 +681,7 @@ public class Gui implements Listener {
             } else {
                 player.closeInventory();
             }
-        }, Messages.GUI_MAKE_OWNER_WARNING_NAME, new ArrayList<>(), new ArrayList<>());
+        }, Messages.GUI_MAKE_OWNER_WARNING_NAME, yesLore, new ArrayList<>());
     }
 
     public static void openWarning(Player player, ClickAction yesAction, ClickAction noAction, String title, List<String> yesLore, List<String> noLore) {
@@ -739,7 +742,9 @@ public class Gui implements Listener {
         GuiUtils.openInfiniteGuiList(player, clickItems, 0, Messages.GUI_TAKEOVER_MENU_NAME, goBackAction, null);
     }
 
-    public static void openRegionRestoreWarning(Player player, Region region, ClickAction goBackAction) {
+    public static void openRegionRestoreWarning(Player player, Region region, List<String> yesLore, ClickAction goBackAction) {
+        String coolDownTime = TimeUtil.timeInMsToString(AdvancedRegionMarket.getInstance()
+                .getPluginSettings().getUserResetCooldown(), true, false);
         Gui.openWarning(player, p -> {
                     player.closeInventory();
                     try {
@@ -761,10 +766,10 @@ public class Gui implements Listener {
                         player.closeInventory();
                     }
                 }, Messages.GUI_RESET_REGION_WARNING_NAME,
-                new ArrayList<>(), new ArrayList<>());
+                yesLore, new ArrayList<>());
     }
 
-    public static void openSellWarning(Player player, Region region, boolean noMoney, ClickAction goBackAction) {
+    public static void openSellWarning(Player player, Region region, boolean noMoney, List<String> yesLore, ClickAction goBackAction) {
         Gui.openWarning(player, p -> {
                     player.closeInventory();
                     if (region.getRegion().hasOwner(player.getUniqueId())) {
@@ -790,7 +795,7 @@ public class Gui implements Listener {
                         goBackAction.execute(p);
                     }
                 }, Messages.GUI_USER_SELL_WARNING,
-                new ArrayList<>(), new ArrayList<>());
+                yesLore, new ArrayList<>());
     }
 
     private static ItemStack getRegionDisplayItem(Region region, List<String> rentLore, List<String> sellLore, List<String> contractLore) {

@@ -9,6 +9,7 @@ import net.alex9849.arm.exceptions.SchematicNotFoundException;
 import net.alex9849.arm.gui.Gui;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regions.Region;
+import net.alex9849.arm.util.TimeUtil;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -17,6 +18,7 @@ import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 public class RestoreCommand extends BasicArmCommand {
     private final String regex_with_args = "(?i)restore [^;\n ]+";
@@ -59,7 +61,10 @@ public class RestoreCommand extends BasicArmCommand {
                     throw new InputException(sender, Messages.REGION_RESTORE_PROTECTION_OF_CONTINUANCE_ERROR);
                 }
                 if ((new GregorianCalendar().getTimeInMillis()) >= getPlugin().getPluginSettings().getUserResetCooldown() + resregion.getLastreset()) {
-                    Gui.openRegionRestoreWarning(player, resregion, null);
+                    String coolDownTime = TimeUtil.timeInMsToString(AdvancedRegionMarket.getInstance().getPluginSettings().getUserResetCooldown(), true, false);
+                    List<String> lore = resregion.replaceVariables(Messages.GUI_RESET_REGION_BUTTON_LORE).stream()
+                            .map(m -> m.replace("%userrestorecooldown%", coolDownTime)).collect(Collectors.toList());
+                    Gui.openRegionRestoreWarning(player, resregion, lore, null);
                     return true;
                 } else {
                     String message = resregion.replaceVariables(Messages.RESET_REGION_COOLDOWN_ERROR);

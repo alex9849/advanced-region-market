@@ -967,6 +967,8 @@ public class Messages {
             "&9AutoRestore: &e%isautorestore% &9Autoprice: &e%autoprice%",
             "&9PaybackPercentage in %: &e%paypackpercentage%"})
     public static List<String> REGION_INFO_CONTRACTREGION_SUBREGION;
+    @Message(name = "GUIWarningInfoButton", message = "&4Warning!")
+    public static String GUI_WARNING_INFO_BUTTON;
     @Message(name = "GUIFlageditorButton", message = "&6FlagEditor")
     public static String GUI_FLAGEDITOR_BUTTON;
     @Message(name = "GUIFlageditorMenuName", message = "&1FlagEditor (%region%)")
@@ -1027,7 +1029,7 @@ public class Messages {
     @Message(name = "GUIMakeOwnerButtonLore", message = {"Click to transfer your owner rights",
             "to the selected member.",
             "&4WARNING: &cYou will lose your owner",
-            "&crights and become a member'"})
+            "&crights and become a member"})
     public static List<String> GUI_MAKE_OWNER_BUTTON_LORE;
     @Message(name = "GUIRemoveMemberButtonLore", message = {"Click to remove the selected member",
             "from your region"})

@@ -82,7 +82,7 @@ public class Gui implements Listener {
                     .addClickAction(p -> Gui.openRegionOwnerManager(p, region, goBackAction));
             clickItems.add(clickItem);
         }
-        Gui.openInfiniteGuiList(player, clickItems, 0, Messages.GUI_OWN_REGIONS_MENU_NAME, goBackAction);
+        GuiUtils.openInfiniteGuiList(player, clickItems, 0, Messages.GUI_OWN_REGIONS_MENU_NAME, goBackAction, null);
     }
 
     public static void openRegionOwnerManager(Player player, Region region, @Nullable ClickAction goBackAction) {
@@ -386,7 +386,7 @@ public class Gui implements Listener {
                     .setLore(lore);
             clickItems.add(infoItem);
         }
-        Gui.openInfiniteGuiList(player, clickItems, 0, Messages.GUI_SUBREGION_LIST_MENU_NAME, goBackAction);
+        GuiUtils.openInfiniteGuiList(player, clickItems, 0, Messages.GUI_SUBREGION_LIST_MENU_NAME, goBackAction, null);
     }
 
     public static void openSubregionManager(Player player, Region region, Region parentRegion, @Nullable ClickAction goBackAction) {
@@ -511,10 +511,9 @@ public class Gui implements Listener {
                     .setName(Messages.GUI_MY_LIMITS_BUTTON)
                     .addClickAction(p -> AdvancedRegionMarket.getInstance()
                             .getLimitGroupManager().printLimitInChat(p));
-            items.add(limitItem);
         }
-        //TODO move limit item to options!!!
-        openInfiniteGuiList(player, items, 0, Messages.GUI_REGION_FINDER_MENU_NAME, goBackAction);
+
+        GuiUtils.openInfiniteGuiList(player, items, 0, Messages.GUI_REGION_FINDER_MENU_NAME, goBackAction, limitItem);
     }
 
     public static void openRegionFinderSellTypeSelector(Player player, List<Region> regions, ClickAction goBackAction) throws InputException {
@@ -538,7 +537,7 @@ public class Gui implements Listener {
                                             .addClickAction(pl -> Gui.openRegionFinderTeleportLocationSelector(pl, region));
                                     return item;
                                 }).collect(Collectors.toList());
-                        Gui.openInfiniteGuiList(player, clickItems, 0, Messages.GUI_REGION_FINDER_MENU_NAME, goBackAction);
+                        GuiUtils.openInfiniteGuiList(player, clickItems, 0, Messages.GUI_REGION_FINDER_MENU_NAME, goBackAction, null);
                     });
             guiItems.add(sellTypeClickItem);
         }
@@ -588,61 +587,6 @@ public class Gui implements Listener {
         player.openInventory(inv.getInventory());
     }
 
-    public static void openInfiniteGuiList(Player player, List<ClickItem> clickItems, int startitem, String name,
-                                           ClickAction gobackAction) {
-
-        int invsize = 0;
-        int itemsize = 0;
-
-        while (((clickItems.size() - startitem) > itemsize) && (itemsize < 45)) {
-            itemsize = itemsize + 9;
-        }
-        invsize = itemsize;
-        if (((gobackAction != null) && (clickItems.size() >= 9)) || ((startitem + 45) < (clickItems.size() - 1)) || (startitem != 0) || (itemsize == 0)) {
-            invsize = itemsize + 9;
-        }
-
-        GuiInventory inv = new GuiInventory(invsize, name);
-
-        int pos = 0;
-        for (int i = startitem; ((i < startitem + itemsize) && (i < clickItems.size())); i++) {
-            inv.addIcon(clickItems.get(i), pos);
-            pos++;
-        }
-        if (startitem != 0) {
-            int newStartItem = startitem - 45;
-            if (newStartItem < 0) {
-                newStartItem = 0;
-            }
-            final int finalnewStartItem = newStartItem;
-            ClickItem prevPageButton = new ClickItem(GuiConstants.getPrevPageItem())
-                    .setName(Messages.GUI_PREV_PAGE)
-                    .addClickAction(p -> Gui.openInfiniteGuiList(p, clickItems, finalnewStartItem, name, gobackAction));
-            inv.addIcon(prevPageButton, invsize - 9);
-        }
-        if ((startitem + 45) < clickItems.size()) {
-            int newStartItem = startitem + 45;
-            ClickItem nextPageButton = new ClickItem(GuiConstants.getNextPageItem())
-                    .setName(Messages.GUI_NEXT_PAGE)
-                    .addClickAction(p -> Gui.openInfiniteGuiList(p, clickItems, newStartItem, name, gobackAction));
-            inv.addIcon(nextPageButton, invsize - 1);
-        }
-        if (gobackAction != null) {
-            ClickItem gobackButton = new ClickItem(GuiConstants.getGoBackItem())
-                    .setName(Messages.GUI_GO_BACK)
-                    .addClickAction(gobackAction);
-            if (clickItems.size() >= 9) {
-                inv.addIcon(gobackButton, invsize - 5);
-            } else {
-                inv.addIcon(gobackButton, 8);
-            }
-
-        }
-
-        GuiUtils.placeFillItems(inv);
-        player.openInventory(inv.getInventory());
-    }
-
     public static void openRegionAddedMembersList(Player player, Region region, ClickAction goBackAction) {
         ArrayList<UUID> members = region.getRegion().getMembers();
         List<ClickItem> clickItems = new ArrayList<>();
@@ -674,9 +618,9 @@ public class Gui implements Listener {
             clickItems.add(infoButton);
         }
 
-        Gui.openInfiniteGuiList(player, clickItems, 0,
+        GuiUtils.openInfiniteGuiList(player, clickItems, 0,
                 region.replaceVariables(Messages.GUI_MEMBER_LIST_MENU_NAME), p ->
-                openRegionOwnerManager(player, region, goBackAction));
+                openRegionOwnerManager(player, region, goBackAction), null);
 
     }
 
@@ -773,7 +717,7 @@ public class Gui implements Listener {
                     .setLore(Messages.GUI_MEMBER_INFO_LORE));
         }
 
-        Gui.openInfiniteGuiList(player, clickItems, 0, Messages.GUI_MEMBER_REGIONS_MENU_NAME, goBackAction);
+        GuiUtils.openInfiniteGuiList(player, clickItems, 0, Messages.GUI_MEMBER_REGIONS_MENU_NAME, goBackAction, null);
     }
 
     public static void openOvertakeGUI(Player player, List<Region> oldRegions, ClickAction goBackAction) {
@@ -794,7 +738,7 @@ public class Gui implements Listener {
                     return regItem;
                 }).collect(Collectors.toList());
 
-        openInfiniteGuiList(player, clickItems, 0, Messages.GUI_TAKEOVER_MENU_NAME, goBackAction);
+        GuiUtils.openInfiniteGuiList(player, clickItems, 0, Messages.GUI_TAKEOVER_MENU_NAME, goBackAction, null);
     }
 
     public static void openRegionRestoreWarning(Player player, Region region, ClickAction goBackAction) {

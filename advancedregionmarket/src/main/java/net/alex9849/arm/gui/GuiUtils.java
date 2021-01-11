@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GuiUtils {
@@ -155,5 +156,80 @@ public class GuiUtils {
             return true;
         }
         return false;
+    }
+
+    public static void openInfiniteGuiList(Player player, List<ClickItem> clickItems, int startIndex, String name,
+                                           @Nullable ClickAction goBackAction, @Nullable ClickItem additionalOption) {
+
+        final int NR_OF_OPTION_ITEMS = (additionalOption != null? 1:0) + (goBackAction != null? 1:0);
+        final int MAX_ITEMS_PER_PAGE = GuiConstants.GUI_MAX_ITEM_SIZE - GuiConstants.GUI_ROW_SIZE;
+        final boolean IS_MULTIPAGE_GUI = clickItems.size() > MAX_ITEMS_PER_PAGE;
+        final boolean IS_SINGLE_ROW_GUI = !IS_MULTIPAGE_GUI && clickItems.size() + (NR_OF_OPTION_ITEMS == 0? 0:(NR_OF_OPTION_ITEMS + 1)) <= GuiConstants.GUI_ROW_SIZE;
+        final int ITEMS_TO_DISPLAY_ON_PAGE = Math.max(0, Math.min(clickItems.size() - startIndex, MAX_ITEMS_PER_PAGE));
+        final int ROWS_NEEDED_TO_DISPLAY_ITEMS = (ITEMS_TO_DISPLAY_ON_PAGE / GuiConstants.GUI_ROW_SIZE)
+                + (ITEMS_TO_DISPLAY_ON_PAGE % GuiConstants.GUI_ROW_SIZE != 0? 1:0);
+
+        int inventorySize;
+
+        if(IS_SINGLE_ROW_GUI) {
+            inventorySize = GuiConstants.GUI_ROW_SIZE;
+        } else {
+            inventorySize = ROWS_NEEDED_TO_DISPLAY_ITEMS * GuiConstants.GUI_ROW_SIZE
+                    + ((NR_OF_OPTION_ITEMS == 0)? 0:GuiConstants.GUI_ROW_SIZE);
+
+        }
+
+        GuiInventory inv = new GuiInventory(inventorySize, name);
+
+        for (int i = 0; i < ITEMS_TO_DISPLAY_ON_PAGE; i++) {
+            inv.addIcon(clickItems.get(startIndex + i), i);
+        }
+
+        if (startIndex != 0 && IS_MULTIPAGE_GUI) {
+            final int newStartIndex = Math.max(0, startIndex - MAX_ITEMS_PER_PAGE);
+            ClickItem prevPageButton = new ClickItem(GuiConstants.getPrevPageItem())
+                    .setName(Messages.GUI_PREV_PAGE)
+                    .addClickAction(p -> openInfiniteGuiList(p, clickItems, newStartIndex, name, goBackAction, additionalOption));
+            inv.addIcon(prevPageButton, inv.getSize() - GuiConstants.GUI_ROW_SIZE);
+        }
+
+        List<ClickItem> optionButtons = new ArrayList<>();
+        if (goBackAction != null) {
+            ClickItem goBackButton = new ClickItem(GuiConstants.getGoBackItem())
+                    .setName(Messages.GUI_GO_BACK)
+                    .addClickAction(goBackAction);
+            optionButtons.add(goBackButton);
+        }
+
+        if(additionalOption != null) {
+            optionButtons.add(additionalOption);
+        }
+
+        if(optionButtons.size() == 1) {
+            if(IS_SINGLE_ROW_GUI) {
+                inv.addIcon(optionButtons.get(0), inv.getSize() - 1);
+            } else {
+                inv.addIcon(optionButtons.get(0), inv.getSize() - 5);
+            }
+        } else if (optionButtons.size() == 2) {
+            if(IS_SINGLE_ROW_GUI) {
+                inv.addIcon(optionButtons.get(0), inv.getSize() - 1);
+                inv.addIcon(optionButtons.get(1), inv.getSize() - 2);
+            } else {
+                inv.addIcon(optionButtons.get(0), inv.getSize() - 3);
+                inv.addIcon(optionButtons.get(1), inv.getSize() - 7);
+            }
+        }
+
+        if (startIndex + MAX_ITEMS_PER_PAGE < clickItems.size()) {
+            final int newStartIndex = startIndex + MAX_ITEMS_PER_PAGE;
+            ClickItem nextPageButton = new ClickItem(GuiConstants.getNextPageItem())
+                    .setName(Messages.GUI_NEXT_PAGE)
+                    .addClickAction(p -> openInfiniteGuiList(p, clickItems, newStartIndex, name, goBackAction, additionalOption));
+            inv.addIcon(nextPageButton, inv.getSize() - 1);
+        }
+
+        GuiUtils.placeFillItems(inv);
+        player.openInventory(inv.getInventory());
     }
 }

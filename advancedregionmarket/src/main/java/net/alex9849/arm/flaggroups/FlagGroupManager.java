@@ -1,13 +1,12 @@
 package net.alex9849.arm.flaggroups;
 
+import net.alex9849.arm.util.ConcatedIterator;
 import net.alex9849.arm.util.YamlFileManager;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class FlagGroupManager extends YamlFileManager<FlagGroup> {
 
@@ -46,6 +45,11 @@ public class FlagGroupManager extends YamlFileManager<FlagGroup> {
     }
 
     @Override
+    public Iterator<FlagGroup> iterator() {
+        return new ConcatedIterator<>(Arrays.asList(FlagGroup.DEFAULT, FlagGroup.SUBREGION).iterator(), super.iterator());
+    }
+
+    @Override
     public boolean staticSaveQuenued() {
         return FlagGroup.DEFAULT.needsSave() || FlagGroup.SUBREGION.needsSave();
     }
@@ -64,12 +68,6 @@ public class FlagGroupManager extends YamlFileManager<FlagGroup> {
     }
 
     public FlagGroup getFlagGroup(String id) {
-        if ("default".equalsIgnoreCase(id)) {
-            return FlagGroup.DEFAULT;
-        }
-        if ("subregion".equalsIgnoreCase(id)) {
-            return FlagGroup.SUBREGION;
-        }
         for (FlagGroup flagGroup : this) {
             if (flagGroup.getName().equalsIgnoreCase(id)) {
                 return flagGroup;
@@ -86,15 +84,6 @@ public class FlagGroupManager extends YamlFileManager<FlagGroup> {
                 returnme.add(flagGroup.getName());
             }
         }
-
-        if ("default".startsWith(name)) {
-            returnme.add("Default");
-        }
-
-        if ("subregion".startsWith(name)) {
-            returnme.add("Subregion");
-        }
-
         return returnme;
     }
 }

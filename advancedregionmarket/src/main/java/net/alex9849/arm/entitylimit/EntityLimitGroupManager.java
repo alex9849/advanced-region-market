@@ -1,5 +1,6 @@
 package net.alex9849.arm.entitylimit;
 
+import net.alex9849.arm.util.ConcatedIterator;
 import net.alex9849.arm.util.YamlFileManager;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
@@ -8,6 +9,8 @@ import org.bukkit.entity.EntityType;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -120,6 +123,11 @@ public class EntityLimitGroupManager extends YamlFileManager<EntityLimitGroup> {
         EntityLimitGroup.SUBREGION.setSaved();
     }
 
+    @Override
+    public Iterator<EntityLimitGroup> iterator() {
+        return new ConcatedIterator<>(Arrays.asList(EntityLimitGroup.DEFAULT, EntityLimitGroup.SUBREGION).iterator(), super.iterator());
+    }
+
     public List<String> tabCompleteEntityLimitGroups(String name) {
         List<String> returnme = new ArrayList<>();
 
@@ -128,15 +136,6 @@ public class EntityLimitGroupManager extends YamlFileManager<EntityLimitGroup> {
                 returnme.add(entityLimitGroup.getName());
             }
         }
-
-        if ("default".startsWith(name)) {
-            returnme.add("Default");
-        }
-
-        if ("subregion".startsWith(name)) {
-            returnme.add("Subregion");
-        }
-
         return returnme;
     }
 
@@ -145,13 +144,6 @@ public class EntityLimitGroupManager extends YamlFileManager<EntityLimitGroup> {
             if (entityLimitGroup.getName().equalsIgnoreCase(name)) {
                 return entityLimitGroup;
             }
-        }
-        if (EntityLimitGroup.DEFAULT.getName().equalsIgnoreCase(name) || "default".equalsIgnoreCase(name)) {
-            return EntityLimitGroup.DEFAULT;
-        }
-
-        if (EntityLimitGroup.SUBREGION.getName().equalsIgnoreCase(name) || "subregion".equalsIgnoreCase(name)) {
-            return EntityLimitGroup.SUBREGION;
         }
 
         return null;

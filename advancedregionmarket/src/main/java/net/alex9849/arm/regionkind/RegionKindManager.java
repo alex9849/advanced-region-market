@@ -89,19 +89,11 @@ public class RegionKindManager extends YamlFileManager<RegionKind> {
 
     public List<String> completeTabRegionKinds(String arg, String returnPrefix) {
         List<String> returnme = new ArrayList<>();
-
         for (RegionKind regionkind : this) {
             if ((returnPrefix + regionkind.getName()).toLowerCase().startsWith(arg)) {
                 returnme.add(returnPrefix + regionkind.getName());
             }
         }
-        if ((returnPrefix + "default").startsWith(arg)) {
-            returnme.add(returnPrefix + "default");
-        }
-        if ((returnPrefix + "subregion").startsWith(arg)) {
-            returnme.add(returnPrefix + "subregion");
-        }
-
         return returnme;
     }
 
@@ -111,38 +103,19 @@ public class RegionKindManager extends YamlFileManager<RegionKind> {
     }
 
     public boolean kindExists(String kind) {
-
         for (RegionKind regionKind : this) {
             if (regionKind.getName().equalsIgnoreCase(kind)) {
                 return true;
             }
         }
-
-        if (kind.equalsIgnoreCase("default")) {
-            return true;
-        }
-        if (kind.equalsIgnoreCase(RegionKind.DEFAULT.getDisplayName())) {
-            return true;
-        }
-        if (kind.equalsIgnoreCase("subregion")) {
-            return true;
-        }
-        return kind.equalsIgnoreCase(RegionKind.SUBREGION.getDisplayName());
+        return false;
     }
 
     public RegionKind getRegionKind(String name) {
-
         for (RegionKind regionKind : this) {
             if (regionKind.getName().equalsIgnoreCase(name)) {
                 return regionKind;
             }
-        }
-
-        if (name.equalsIgnoreCase("default") || name.equalsIgnoreCase(RegionKind.DEFAULT.getDisplayName())) {
-            return RegionKind.DEFAULT;
-        }
-        if (name.equalsIgnoreCase("subregion") || name.equalsIgnoreCase(RegionKind.SUBREGION.getDisplayName())) {
-            return RegionKind.SUBREGION;
         }
         return null;
     }

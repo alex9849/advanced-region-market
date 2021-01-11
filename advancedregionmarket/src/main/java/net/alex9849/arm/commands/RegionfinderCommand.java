@@ -1,6 +1,7 @@
 package net.alex9849.arm.commands;
 
 import net.alex9849.arm.AdvancedRegionMarket;
+import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.CmdSyntaxException;
 import net.alex9849.arm.exceptions.InputException;
@@ -29,6 +30,12 @@ public class RegionfinderCommand extends BasicArmCommand {
         if(command.matches(regex_with_args)) {
             RegionKind regionKind = getPlugin()
                     .getRegionKindManager().getRegionKind(command.split(" ")[1]);
+            if(regionKind == null) {
+                throw new InputException(player, Messages.REGIONKIND_DOES_NOT_EXIST);
+            }
+            if(!regionKind.isDisplayInRegionfinder()) {
+                throw new InputException(player, Messages.REGIONKIND_CAN_NOT_BE_SEARCHED_IN_REGIONFINDER);
+            }
             Gui.openRegionFinderSellTypeSelector(player, getPlugin()
                     .getRegionManager().getBuyableRegions(regionKind), null);
         } else {

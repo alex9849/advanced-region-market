@@ -764,20 +764,8 @@ public class Messages {
     public static String MATERIAL_NOT_FOUND;
     @Message(name = "RegionKindLoreLineNotExist", message = "&aThe selected lore-line does not exist!")
     public static String REGIONKIND_LORE_LINE_NOT_EXIST;
-    @Message(name = "RegionKindInfoHeadline", message = "&6=========[Regionkind info]=========")
-    public static String REGIONKIND_INFO_HEADLINE;
-    @Message(name = "RegionKindInfoInternalName", message = "&6Internal name: %regionkind%")
-    public static String REGIONKIND_INFO_INTERNAL_NAME;
-    @Message(name = "RegionKindInfoDisplayName", message = "&6Displayname: %regionkinddisplay%")
-    public static String REGIONKIND_INFO_DISPLAY_NAME;
-    @Message(name = "RegionKindInfoMaterial", message = "&6Material: %regionkinditem%")
-    public static String REGIONKIND_INFO_MATERIAL;
-    @Message(name = "RegionKindInfoDisplayInGui", message = "&6DisplayInGui: %regionkinddisplayingui%")
-    public static String REGIONKIND_INFO_DISPLAY_IN_GUI;
-    @Message(name = "RegionKindInfoDisplayInLimits", message = "&6DisplayInLimits: %regionkinddisplayinlimits%")
-    public static String REGIONKIND_INFO_DISPLAY_IN_LIMITS;
-    @Message(name = "RegionKindInfoLore", message = "&6Lore:")
-    public static String REGIONKIND_INFO_LORE;
+    @Message(name = "RegionKindCanNotBeSearchedInRegionfinder", message = "&4The selected regionkind isn't available in the regionfinder!")
+    public static String REGIONKIND_CAN_NOT_BE_SEARCHED_IN_REGIONFINDER;
     @Message(name = "RegionkindInfo", message = {"&6======[Regionkind Info]======",
             "&9Name: &e%regionkind%",
             "&9DisplayName: &r%regionkinddisplay%",

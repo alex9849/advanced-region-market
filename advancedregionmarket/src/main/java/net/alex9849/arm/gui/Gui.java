@@ -611,16 +611,16 @@ public class Gui implements Listener {
             clickItems.add(membersicon);
         }
 
+        ClickItem howToAddMebersItem = null;
         if (members.size() < region.getMaxMembers() || region.getMaxMembers() == -1) {
-            ClickItem infoButton = new ClickItem(GuiConstants.getInfoItem())
+            howToAddMebersItem = new ClickItem(GuiConstants.getInfoItem())
                     .setName(Messages.GUI_OWNER_MEMBER_INFO_ITEM)
                     .setLore(region.replaceVariables(Messages.GUI_OWNER_MEMBER_INFO_LORE));
-            clickItems.add(infoButton);
         }
 
         GuiUtils.openInfiniteGuiList(player, clickItems, 0,
                 region.replaceVariables(Messages.GUI_MEMBER_LIST_MENU_NAME), p ->
-                openRegionOwnerManager(player, region, goBackAction), null);
+                openRegionOwnerManager(player, region, goBackAction), howToAddMebersItem);
 
     }
 
@@ -711,13 +711,11 @@ public class Gui implements Listener {
             clickItems.add(clickItem);
         }
 
-        if (regions.isEmpty()) {
-            clickItems.add(new ClickItem(GuiConstants.getInfoItem())
-                    .setName(Messages.GUI_MEMBER_INFO_ITEM)
-                    .setLore(Messages.GUI_MEMBER_INFO_LORE));
-        }
+        ClickItem howToBecomeAMemberItem = new ClickItem(GuiConstants.getInfoItem())
+                .setName(Messages.GUI_MEMBER_INFO_ITEM)
+                .setLore(Messages.GUI_MEMBER_INFO_LORE);
 
-        GuiUtils.openInfiniteGuiList(player, clickItems, 0, Messages.GUI_MEMBER_REGIONS_MENU_NAME, goBackAction, null);
+        GuiUtils.openInfiniteGuiList(player, clickItems, 0, Messages.GUI_MEMBER_REGIONS_MENU_NAME, goBackAction, howToBecomeAMemberItem);
     }
 
     public static void openOvertakeGUI(Player player, List<Region> oldRegions, ClickAction goBackAction) {

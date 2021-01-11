@@ -381,10 +381,9 @@ public class Gui implements Listener {
             clickItems.add(subregionClickItem);
         }
         if (clickItems.size() == 0) {
-            List<String> lore = new ArrayList<>(Messages.GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM_LORE);
             ClickItem infoItem = new ClickItem(GuiConstants.getInfoItem())
                     .setName(Messages.GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM)
-                    .setLore(lore);
+                    .setLore(region.replaceVariables(Messages.GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM_LORE));
             clickItems.add(infoItem);
         }
         GuiUtils.openInfiniteGuiList(player, clickItems, 0, Messages.GUI_SUBREGION_LIST_MENU_NAME, goBackAction, null);
@@ -801,7 +800,6 @@ public class Gui implements Listener {
     private static ItemStack getRegionDisplayItem(Region region, List<String> rentLore, List<String> sellLore, List<String> contractLore) {
         String regionDisplayName = Messages.GUI_REGION_ITEM_NAME;
         regionDisplayName = region.replaceVariables(regionDisplayName);
-        regionDisplayName = region.getRegionKind().replaceVariables(regionDisplayName);
 
         ItemStack stack = new ItemStack(region.getRegionKind().getMaterial());
         ItemMeta meta = stack.getItemMeta();

@@ -75,7 +75,7 @@ public abstract class Region implements Saveable {
         variableReplacements.put("%maxmembers%", () -> String.valueOf((this.getMaxMembers() < 0) ? Messages.UNLIMITED : this.getMaxMembers()));
         variableReplacements.put("%region%", () -> this.getRegion().getId());
         variableReplacements.put("%price%", () -> Price.formatPrice(this.getPricePerPeriod()));
-        variableReplacements.put("%dimensions%", () -> this.getDimensions());
+        variableReplacements.put("%dimensions%", this::getDimensions);
         variableReplacements.put("%priceperm2%", () -> Price.formatPrice(this.getPricePerM2()));
         variableReplacements.put("%priceperm3%", () -> Price.formatPrice(this.getPricePerM3()));
         variableReplacements.put("%remaininguserresetcooldown-date%", () ->

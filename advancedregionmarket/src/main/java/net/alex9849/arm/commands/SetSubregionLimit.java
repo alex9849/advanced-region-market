@@ -19,7 +19,7 @@ public class SetSubregionLimit extends RegionOptionModifyCommand<Integer> {
     }
 
     @Override
-    protected void applySetting(Region region, Integer setting) {
+    protected void applySetting(Player sender, Region region, Integer setting) {
         region.setAllowedSubregions(setting);
     }
 

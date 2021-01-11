@@ -19,7 +19,7 @@ public class SetWarpCommand extends RegionOptionModifyCommand<Location> {
     }
 
     @Override
-    protected void applySetting(Region region, Location setting) {
+    protected void applySetting(Player sender, Region region, Location setting) {
         region.setTeleportLocation(setting);
     }
 

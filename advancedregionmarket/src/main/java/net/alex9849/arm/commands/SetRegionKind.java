@@ -21,7 +21,7 @@ public class SetRegionKind extends RegionOptionModifyCommand<RegionKind> {
     }
 
     @Override
-    protected void applySetting(Region region, RegionKind setting) {
+    protected void applySetting(Player sender, Region region, RegionKind setting) {
         region.setRegionKind(setting);
     }
 

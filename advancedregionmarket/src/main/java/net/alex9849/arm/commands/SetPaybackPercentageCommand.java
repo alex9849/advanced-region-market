@@ -19,7 +19,7 @@ public class SetPaybackPercentageCommand extends RegionOptionModifyCommand<Integ
     }
 
     @Override
-    protected void applySetting(Region region, Integer setting) {
+    protected void applySetting(Player sender, Region region, Integer setting) {
         region.setPaybackPercentage(setting);
     }
 

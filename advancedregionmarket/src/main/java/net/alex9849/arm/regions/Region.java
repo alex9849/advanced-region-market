@@ -46,6 +46,7 @@ public abstract class Region implements Saveable {
     private Region parentRegion;
     private Set<Region> subregions;
     private Location teleportLocation;
+    private Location playerTeleportLocation;
     private StringReplacer stringReplacer;
     private boolean sold;
     private boolean inactivityReset = true;
@@ -461,6 +462,10 @@ public abstract class Region implements Saveable {
         return this.teleportLocation;
     }
 
+    public Location getPlayerTeleportLocation() {
+        return this.playerTeleportLocation;
+    }
+
     public abstract Price getPriceObject();
 
     public EntityLimitGroup getEntityLimitGroup() {
@@ -666,6 +671,11 @@ public abstract class Region implements Saveable {
         if (this.isSubregion())
             throw new IllegalArgumentException("Can't change this option for a Subregion!");
         this.teleportLocation = loc;
+        this.queueSave();
+    }
+
+    public void setPlayerTeleportLocation(Location loc) {
+        this.playerTeleportLocation = loc;
         this.queueSave();
     }
 
@@ -989,6 +999,7 @@ public abstract class Region implements Saveable {
             }
         }
         this.resetBuiltBlocks();
+        this.setPlayerTeleportLocation(null);
 
         if (logToConsole) {
             AdvancedRegionMarket.getInstance().getLogger().log(Level.INFO,
@@ -1134,6 +1145,7 @@ public abstract class Region implements Saveable {
 
         this.getRegion().deleteMembers();
         this.getRegion().deleteOwners();
+        this.setPlayerTeleportLocation(null);
         this.setSold(false);
         this.lastreset = 0;
         this.lastLogin = 0;
@@ -1284,6 +1296,15 @@ public abstract class Region implements Saveable {
             signs.add(signData.toString());
         }
         yamlConfiguration.set("signs", signs);
+        if (this.getPlayerTeleportLocation() != null) {
+            Location loc = this.getPlayerTeleportLocation();
+            String teleportloc = loc.getWorld().getName() + ";" + loc.getBlockX() + ";" +
+                    loc.getBlockY() + ";" + loc.getBlockZ() + ";" +
+                    loc.getPitch() + ";" + loc.getYaw();
+            yamlConfiguration.set("playerTeleportLoc", teleportloc);
+        } else {
+            yamlConfiguration.set("playerTeleportLoc", null);
+        }
 
         if (!this.isSubregion()) {
             yamlConfiguration.set("landlord", this.getLandlord() == null? null : this.getLandlord().toString());

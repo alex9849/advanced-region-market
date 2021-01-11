@@ -23,7 +23,7 @@ public class ApplyPresetCommand extends RegionOptionModifyCommand<Preset> {
     }
 
     @Override
-    protected void applySetting(Region region, Preset setting) {
+    protected void applySetting(Player sender, Region region, Preset setting) {
         setting.applyToRegion(region);
     }
 

@@ -170,12 +170,14 @@ public class RegionManager extends YamlFileManager<Region> {
         int maxMembers = regionSection.getInt("maxMembers");
         int paybackPercentage = regionSection.getInt("paybackPercentage");
         String teleportLocString = regionSection.getString("teleportLoc");
+        String playerTeleportLocString = regionSection.getString("playerTeleportLoc");
         int allowedSubregions = regionSection.getInt("allowedSubregions");
         int boughtExtraTotalEntitys = regionSection.getInt("boughtExtraTotalEntitys");
         boolean isProtectionOfContinuance = regionSection.getBoolean("isprotectionofcontinuance");
         List<String> boughtExtraEntitys = regionSection.getStringList("boughtExtraEntitys");
         boolean userrestorable = regionSection.getBoolean("userrestorable");
         Location teleportLoc = parseTpLocation(teleportLocString);
+        Location playerTeleportLoc = parseTpLocation(playerTeleportLocString);
         RegionKind regionKind = AdvancedRegionMarket.getInstance().getRegionKindManager().getRegionKind(kind);
         FlagGroup flagGroup = AdvancedRegionMarket.getInstance().getFlagGroupManager().getFlagGroup(flagGroupString);
         UUID landlord = null;
@@ -298,6 +300,7 @@ public class RegionManager extends YamlFileManager<Region> {
         }
         region.setUserRestorable(userrestorable);
         region.setTeleportLocation(teleportLoc);
+        region.setPlayerTeleportLocation(playerTeleportLoc);
         region.setSaved();
 
         try {

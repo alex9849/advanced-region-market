@@ -86,9 +86,9 @@ public abstract class RegionOptionModifyCommand<SettingsObj> extends OptionModif
     }
 
     @Override
-    protected final void applySetting(CommandSender sender, Tuple<String, List<Region>> tuple, SettingsObj setting) {
+    protected final void applySetting(CommandSender sender, Tuple<String, List<Region>> tuple, SettingsObj setting) throws InputException {
         for(Region region : tuple.getValue2()) {
-            applySetting(region, setting);
+            applySetting((Player) sender, region, setting);
         }
     }
 
@@ -135,7 +135,7 @@ public abstract class RegionOptionModifyCommand<SettingsObj> extends OptionModif
         sender.sendMessage(Messages.PREFIX + sendmessage);
     }
 
-    protected abstract void applySetting(Region region, SettingsObj setting);
+    protected abstract void applySetting(Player sender, Region region, SettingsObj setting) throws InputException;
 
     /**
      * Method can be let empty, if no optionregex / optiondescription has been given

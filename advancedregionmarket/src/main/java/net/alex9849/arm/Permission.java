@@ -11,6 +11,7 @@ public class Permission {
     public static final String ADMIN_BUILDEVERYWHERE = "arm.admin.buildeverywhere";
     public static final String ADMIN_UPDATESCHEMATIC = "arm.admin.updateschematic";
     public static final String ADMIN_SET_IS_HOTEL = "arm.admin.setishotel";
+    public static final String ADMIN_SET_TP_LOCATION = "arm.admin.settplocation";
     public static final String ADMIN_SET_PROTECTION_OF_CONTINUANCE = "arm.admin.setprotectionofcontinuance";
     public static final String ADMIN_SET_MAX_MEMBERS = "arm.admin.setmaxmembers";
     public static final String ADMIN_SET_AUTORESTORE = "arm.admin.setautorestore";
@@ -119,6 +120,7 @@ public class Permission {
     public static final String MEMBER_RESTORE = "arm.member.restore";
     public static final String MEMBER_RESTORE_PROTECTION_OF_CONTINUANCE = "arm.member.restoreprotectionofcontinuance";
     public static final String MEMBER_SELLBACK = "arm.member.sellback";
+    public static final String MEMBER_SET_TP_LOCATION = "arm.member.settplocation";
     public static final String MEMBER_INFO = "arm.member.info";
     public static final String MEMBER_ADDMEMBER = "arm.member.addmember";
     public static final String MEMBER_REMOVEMEMBER = "arm.member.removemember";

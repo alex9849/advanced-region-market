@@ -335,6 +335,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         commands.add(new HelpCommand(this.commandHandler, this, Messages.HELP_HEADLINE, betweencmds, Permission.ARM_HELP));
         commands.add(new SetHotelCommand(this));
         commands.add(new InfoCommand(this));
+        commands.add(new SetTpLocation(this));
         commands.add(new LimitCommand(this));
         commands.add(new OfferCommand(this));
         commands.add(new CreateBackupCommand(this));

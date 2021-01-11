@@ -1144,6 +1144,12 @@ public class Messages {
     public static String COULD_NOT_LOAD_BACKUP;
     @Message(name = "BackupListHeader", message = "&6=======[Backups of region %regionid%]=======")
     public static String BACKUP_LIST_HEADER;
+    @Message(name = "TeleportLocationHasToBeInsideRegion", message = "&4Teleport-location has to be inside your region!")
+    public static String TELEPORT_LOCATION_HAS_TO_BE_INSIDE_REGION;
+    @Message(name = "TeleportLocationUnsafe", message = "&4Teleport-location is unsafe!")
+    public static String TELEPORT_LOCATION_IS_UNSAFE;
+    @Message(name = "TeleportLocationUpdated", message = "&2Teleport-location updated!")
+    public static String TELEPORT_LOCATION_UPDATED;
 
     public static void reload(File savePath, MessageLocale locale) {
         YamlConfiguration config = updateAndWriteConfig(locale, savePath);

@@ -21,7 +21,7 @@ public class SetFlaggroupCommand extends RegionOptionModifyCommand<FlagGroup> {
     }
 
     @Override
-    protected void applySetting(Region region, FlagGroup setting) {
+    protected void applySetting(Player sender, Region region, FlagGroup setting) {
         region.setFlagGroup(setting);
         try {
             region.applyFlagGroup(FlagGroup.ResetMode.COMPLETE, false);

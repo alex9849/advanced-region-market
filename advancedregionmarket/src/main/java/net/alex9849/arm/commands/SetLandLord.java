@@ -20,7 +20,7 @@ public class SetLandLord extends RegionOptionModifyCommand<UUID> {
     }
 
     @Override
-    protected void applySetting(Region region, UUID setting) {
+    protected void applySetting(Player sender, Region region, UUID setting) {
         region.setLandlord(setting);
     }
 

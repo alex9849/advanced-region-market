@@ -20,7 +20,7 @@ public class SetEntityLimitCommand extends RegionOptionModifyCommand<EntityLimit
     }
 
     @Override
-    protected void applySetting(Region region, EntityLimitGroup setting) {
+    protected void applySetting(Player sender, Region region, EntityLimitGroup setting) {
         region.setEntityLimitGroup(setting);
     }
 

@@ -51,7 +51,7 @@ public class Messages {
         public int version() default 0;
     }
 
-    //Current version = 5
+    //Current version = 6
     @Message(name = "Prefix", message = "&b[ARM]&r ", version = 1)
     public static String PREFIX;
     @Message(name = "Buymessage", message = "&aRegion successfully bought!")
@@ -1044,12 +1044,12 @@ public class Messages {
     @Message(name = "GUIRemoveMemberButtonLore", message = {"Click to remove the selected member",
             "from your region"})
     public static List<String> GUI_REMOVE_MEMBER_BUTTON_LORE;
-    @Message(name = "GUIResetRegionButtonLore", message = {"Click to reset your region",
+    @Message(name = "GUIResetRegionButtonLore", version = 6,message = {"Click to reset your region",
             "&4WARNING: &cThis can not be undone! Your region",
             "&cwill be resetted and everything on it will",
             "&cbe deleted!",
             "",
-            "&cYou can only reset you region once every %userresetcooldown%",
+            "&cYou can only reset you region once every %userrestorecooldown%",
             "&2You and all members keep their rights on the region"})
     public static List<String> GUI_RESET_REGION_BUTTON_LORE;
     @Message(name = "TakeOverItemLore", message = {"&aYou are a member of this region.",

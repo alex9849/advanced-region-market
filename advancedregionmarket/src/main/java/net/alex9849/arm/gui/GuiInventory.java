@@ -8,7 +8,7 @@ public class GuiInventory implements InventoryHolder {
 
     private final ClickItem[] icons;
     private final String title;
-    private int size;
+    private final int size;
 
     public GuiInventory(int size, String title) {
         this.size = size;
@@ -32,14 +32,12 @@ public class GuiInventory implements InventoryHolder {
     public Inventory getInventory() {
 
         Inventory inventory = Bukkit.createInventory(this, this.size, this.title);
-
         for (int i = 0; i < this.icons.length; i++) {
             if (this.icons[i] == null) {
                 inventory.setItem(i, null);
             } else {
                 inventory.setItem(i, this.icons[i].getItemStack());
             }
-
         }
 
         return inventory;

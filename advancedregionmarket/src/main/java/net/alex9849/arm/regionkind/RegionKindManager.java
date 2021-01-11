@@ -1,5 +1,6 @@
 package net.alex9849.arm.regionkind;
 
+import net.alex9849.arm.util.ConcatedIterator;
 import net.alex9849.arm.util.YamlFileManager;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -7,6 +8,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 public class RegionKindManager extends YamlFileManager<RegionKind> {
@@ -101,6 +103,11 @@ public class RegionKindManager extends YamlFileManager<RegionKind> {
         }
 
         return returnme;
+    }
+
+    @Override
+    public Iterator<RegionKind> iterator() {
+        return new ConcatedIterator<>(super.iterator(), Arrays.asList(RegionKind.DEFAULT, RegionKind.SUBREGION).iterator());
     }
 
     public boolean kindExists(String kind) {

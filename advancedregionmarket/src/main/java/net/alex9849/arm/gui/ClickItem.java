@@ -1,5 +1,6 @@
 package net.alex9849.arm.gui;
 
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -13,23 +14,26 @@ public class ClickItem extends ItemStack {
 
     private final List<ClickAction> clickActions = new ArrayList<>();
 
+    public ClickItem(Material mat) {
+        this(new ItemStack(mat));
+    }
+
     public ClickItem(ItemStack itemStack) {
         this.itemStack = itemStack;
     }
 
-    public ClickItem(ItemStack itemStack, String name, List<String> lore) {
-        ItemMeta itemMeta = itemStack.getItemMeta();
+    public ClickItem setName(String name) {
+        ItemMeta itemMeta = this.itemStack.getItemMeta();
         itemMeta.setDisplayName(name);
-        itemMeta.setLore(lore);
         itemStack.setItemMeta(itemMeta);
-        this.itemStack = itemStack;
+        return this;
     }
 
-    public ClickItem(ItemStack itemStack, String name) {
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        itemMeta.setDisplayName(name);
+    public ClickItem setLore(List<String> lore) {
+        ItemMeta itemMeta = this.itemStack.getItemMeta();
+        itemMeta.setLore(lore);
         itemStack.setItemMeta(itemMeta);
-        this.itemStack = itemStack;
+        return this;
     }
 
     public ClickItem addClickAction(ClickAction clickAction) {

@@ -32,7 +32,7 @@ public class RegionfinderCommand extends BasicArmCommand {
             Gui.openRegionFinderSellTypeSelector(player, getPlugin()
                     .getRegionManager().getBuyableRegions(regionKind), null);
         } else {
-            Gui.openRegionFinder(player, false);
+            Gui.openRegionFinder(player, null);
         }
         return true;
     }

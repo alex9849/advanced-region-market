@@ -453,17 +453,13 @@ public class Gui implements Listener {
             ClickItem unsellItem = new ClickItem(GuiConstants.getUnsellItem())
                     .setName(Messages.UNSELL_REGION_BUTTON)
                     .setLore(region.replaceVariables(Messages.UNSELL_REGION_BUTTON_LORE))
-                    .addClickAction(p -> {
-                        {
-                            Gui.openWarning(player, pl -> {
+                    .addClickAction(p ->
+                            openWarning(player, pl -> {
                                 region.unsell(Region.ActionReason.MANUALLY_BY_PARENT_REGION_OWNER, true, false);
                                 player.closeInventory();
                                 player.sendMessage(Messages.PREFIX + Messages.REGION_NOW_AVAILABLE);
-                            }, pl -> {
-                                Gui.openSubregionManager(player, region, parentRegion, goBackAction);
-                            }, Messages.UNSELL_REGION_WARNING_NAME, new ArrayList<>(), new ArrayList<>());
-                        }
-                    });
+                            }, pl -> openSubregionManager(player, region, parentRegion, goBackAction),
+                                    Messages.UNSELL_REGION_WARNING_NAME, new ArrayList<>(), new ArrayList<>()));
             items.add(unsellItem);
         }
         if (player.hasPermission(Permission.SUBREGION_DELETE_AVAILABLE) || player.hasPermission(Permission.SUBREGION_DELETE_SOLD)) {
@@ -528,13 +524,13 @@ public class Gui implements Listener {
         List<ClickItem> guiItems = new ArrayList<>();
         Map<SellType, List<Region>> sellTypeMap = regions.stream().collect(Collectors.groupingBy(r -> r.getSellType()));
 
-        for(SellType sellType : sellTypeMap.keySet()) {
+        for(Map.Entry<SellType, List<Region>> entry : sellTypeMap.entrySet()) {
             ClickItem sellTypeClickItem = new ClickItem(MaterialFinder.getBRICKS())
-                    .setName(sellType.getName())
+                    .setName(entry.getKey().getName())
                     .addClickAction(p -> {
-                        List<Region> sellTypeRegions = sellTypeMap.get(sellType);
+                        List<Region> sellTypeRegions = entry.getValue();
                         sellTypeRegions.sort((r1, r2) -> (int) (r1.getPricePerPeriod() - r2.getPricePerPeriod()));
-                        List<ClickItem> clickItems = sellTypeMap.get(sellType).stream()
+                        List<ClickItem> clickItems = sellTypeMap.get(entry.getKey()).stream()
                                 .map(region -> {
                                     ItemStack itemStack = getRegionDisplayItem(region, Messages.GUI_REGIONFINDER_REGION_INFO_RENT,
                                             Messages.GUI_REGIONFINDER_REGION_INFO_SELL, Messages.GUI_REGIONFINDER_REGION_INFO_CONTRACT);
@@ -798,7 +794,7 @@ public class Gui implements Listener {
                     return regItem;
                 }).collect(Collectors.toList());
 
-        openInfiniteGuiList(player, null, 0, Messages.GUI_TAKEOVER_MENU_NAME, goBackAction);
+        openInfiniteGuiList(player, clickItems, 0, Messages.GUI_TAKEOVER_MENU_NAME, goBackAction);
     }
 
     public static void openRegionRestoreWarning(Player player, Region region, ClickAction goBackAction) {
@@ -875,89 +871,6 @@ public class Gui implements Listener {
         meta.setLore(region.replaceVariables(regionLore));
         stack.setItemMeta(meta);
         return stack;
-    }
-
-
-    private static int getPosition(int itemNr, int maxItems) {
-        if (maxItems < itemNr) {
-            throw new IndexOutOfBoundsException("itemNr does not have to be larger than maxItems");
-        }
-
-        if (itemNr == 0) {
-            return 4;
-        }
-        if (itemNr == 1) {
-            if (maxItems == 1) return 4;
-            if (maxItems == 2) return 2;
-            if (maxItems == 3) return 0;
-            if (maxItems == 4) return 0;
-            if (maxItems == 5) return 0;
-            if (maxItems == 6) return 0;
-            if (maxItems == 7) return 0;
-            if (maxItems == 8) return 0;
-            if (maxItems == 9) return 0;
-            if (maxItems > 9) return 0;
-        } else if (itemNr == 2) {
-            if (maxItems == 2) return 6;
-            if (maxItems == 3) return 4;
-            if (maxItems == 4) return 2;
-            if (maxItems == 5) return 2;
-            if (maxItems == 6) return 1;
-            if (maxItems == 7) return 1;
-            if (maxItems == 8) return 1;
-            if (maxItems == 9) return 1;
-            if (maxItems > 9) return 1;
-        } else if (itemNr == 3) {
-            if (maxItems == 3) return 8;
-            if (maxItems == 4) return 6;
-            if (maxItems == 5) return 4;
-            if (maxItems == 6) return 3;
-            if (maxItems == 7) return 3;
-            if (maxItems == 8) return 2;
-            if (maxItems == 9) return 2;
-            if (maxItems > 9) return 2;
-        } else if (itemNr == 4) {
-            if (maxItems == 4) return 8;
-            if (maxItems == 5) return 6;
-            if (maxItems == 6) return 5;
-            if (maxItems == 7) return 4;
-            if (maxItems == 8) return 3;
-            if (maxItems == 9) return 3;
-            if (maxItems > 9) return 3;
-        } else if (itemNr == 5) {
-            if (maxItems == 5) return 8;
-            if (maxItems == 6) return 7;
-            if (maxItems == 7) return 5;
-            if (maxItems == 8) return 5;
-            if (maxItems == 9) return 4;
-            if (maxItems > 9) return 4;
-        } else if (itemNr == 6) {
-            if (maxItems == 6) return 8;
-            if (maxItems == 7) return 7;
-            if (maxItems == 8) return 6;
-            if (maxItems == 9) return 5;
-            if (maxItems > 9) return 5;
-        } else if (itemNr == 7) {
-            if (maxItems == 7) return 8;
-            if (maxItems == 8) return 7;
-            if (maxItems == 9) return 6;
-            if (maxItems > 9) return 6;
-        } else if (itemNr == 8) {
-            if (maxItems == 8) return 8;
-            if (maxItems == 9) return 7;
-            if (maxItems > 9) return 7;
-        } else if (itemNr == 9) {
-            if (maxItems == 9) return 8;
-            if (maxItems > 9) return 8;
-        }
-
-        if (maxItems > 9) {
-            maxItems -= 9;
-        }
-        if (itemNr > 9) {
-            itemNr -= 9;
-        }
-        return getPosition(itemNr, maxItems) + 9;
     }
 
     public static ClickItem[] getFlagSettingItem(Flag flag, Region region, ClickAction afterFlagSetAction) {
@@ -1044,6 +957,7 @@ public class Gui implements Listener {
                             flagSetter.setInput(s);
                             flagSetter.execute(p);
                         });
+                        Bukkit.getPluginManager().registerEvents(gcil, AdvancedRegionMarket.getInstance());
                     });
         }
         return clickItems;

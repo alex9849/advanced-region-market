@@ -47,6 +47,7 @@ public class GuiConstants {
     }
 
     public static void setRegionOwnerItem(Material regionOwnerItem) {
+        if(regionOwnerItem == null) return;
         REGION_OWNER_ITEM = regionOwnerItem;
     }
 
@@ -55,6 +56,7 @@ public class GuiConstants {
     }
 
     public static void setRegionMemberItem(Material regionMemberItem) {
+        if(regionMemberItem == null) return;
         REGION_MEMBER_ITEM = regionMemberItem;
     }
 
@@ -63,6 +65,7 @@ public class GuiConstants {
     }
 
     public static void setRegionFinderItem(Material regionFinderItem) {
+        if(regionFinderItem == null) return;
         REGION_FINDER_ITEM = regionFinderItem;
     }
 
@@ -71,6 +74,7 @@ public class GuiConstants {
     }
 
     public static void setGoBackItem(Material goBackItem) {
+        if(goBackItem == null) return;
         GO_BACK_ITEM = goBackItem;
     }
 
@@ -79,6 +83,7 @@ public class GuiConstants {
     }
 
     public static void setWarningYesItem(Material warningYesItem) {
+        if(warningYesItem == null) return;
         WARNING_YES_ITEM = warningYesItem;
     }
 
@@ -87,6 +92,7 @@ public class GuiConstants {
     }
 
     public static void setWarningNoItem(Material warningNoItem) {
+        if(warningNoItem == null) return;
         WARNING_NO_ITEM = warningNoItem;
     }
 
@@ -95,6 +101,7 @@ public class GuiConstants {
     }
 
     public static void setTpItem(Material tpItem) {
+        if(tpItem == null) return;
         TP_ITEM = tpItem;
     }
 
@@ -103,6 +110,7 @@ public class GuiConstants {
     }
 
     public static void setSellRegionItem(Material sellRegionItem) {
+        if(sellRegionItem == null) return;
         SELL_REGION_ITEM = sellRegionItem;
     }
 
@@ -111,6 +119,7 @@ public class GuiConstants {
     }
 
     public static void setResetItem(Material resetItem) {
+        if(resetItem == null) return;
         RESET_ITEM = resetItem;
     }
 
@@ -119,6 +128,7 @@ public class GuiConstants {
     }
 
     public static void setExtendItem(Material extendItem) {
+        if(extendItem == null) return;
         EXTEND_ITEM = extendItem;
     }
 
@@ -127,6 +137,7 @@ public class GuiConstants {
     }
 
     public static void setInfoItem(Material infoItem) {
+        if(infoItem == null) return;
         INFO_ITEM = infoItem;
     }
 
@@ -135,6 +146,7 @@ public class GuiConstants {
     }
 
     public static void setPromoteMemberToOwnerItem(Material promoteMemberToOwnerItem) {
+        if(promoteMemberToOwnerItem == null) return;
         PROMOTE_MEMBER_TO_OWNER_ITEM = promoteMemberToOwnerItem;
     }
 
@@ -143,6 +155,7 @@ public class GuiConstants {
     }
 
     public static void setRemoveMemberItem(Material removeMemberItem) {
+        if(removeMemberItem == null) return;
         REMOVE_MEMBER_ITEM = removeMemberItem;
     }
 
@@ -151,6 +164,7 @@ public class GuiConstants {
     }
 
     public static void setContractItem(Material contractItem) {
+        if(contractItem == null) return;
         CONTRACT_ITEM = contractItem;
     }
 
@@ -159,6 +173,7 @@ public class GuiConstants {
     }
 
     public static void setFillItem(Material fillItem) {
+        if(fillItem == null) return;
         FILL_ITEM = fillItem;
     }
 
@@ -167,6 +182,7 @@ public class GuiConstants {
     }
 
     public static void setSubregionItem(Material subregionItem) {
+        if(subregionItem == null) return;
         SUBREGION_ITEM = subregionItem;
     }
 
@@ -175,6 +191,7 @@ public class GuiConstants {
     }
 
     public static void setDeleteItem(Material deleteItem) {
+        if(deleteItem == null) return;
         DELETE_ITEM = deleteItem;
     }
 
@@ -183,6 +200,7 @@ public class GuiConstants {
     }
 
     public static void setTeleportToSignItem(Material teleportToSignItem) {
+        if(teleportToSignItem == null) return;
         TELEPORT_TO_SIGN_ITEM = teleportToSignItem;
     }
 
@@ -191,6 +209,7 @@ public class GuiConstants {
     }
 
     public static void setTeleportToRegionItem(Material teleportToRegionItem) {
+        if(teleportToRegionItem == null) return;
         TELEPORT_TO_REGION_ITEM = teleportToRegionItem;
     }
 
@@ -199,6 +218,7 @@ public class GuiConstants {
     }
 
     public static void setNextPageItem(Material nextPageItem) {
+        if(nextPageItem == null) return;
         NEXT_PAGE_ITEM = nextPageItem;
     }
 
@@ -207,6 +227,7 @@ public class GuiConstants {
     }
 
     public static void setPrevPageItem(Material prevPageItem) {
+        if(prevPageItem == null) return;
         PREV_PAGE_ITEM = prevPageItem;
     }
 
@@ -215,6 +236,7 @@ public class GuiConstants {
     }
 
     public static void setHotelSettingItem(Material hotelSettingItem) {
+        if(hotelSettingItem == null) return;
         HOTEL_SETTING_ITEM = hotelSettingItem;
     }
 
@@ -223,6 +245,7 @@ public class GuiConstants {
     }
 
     public static void setUnsellItem(Material unsellItem) {
+        if(unsellItem == null) return;
         UNSELL_ITEM = unsellItem;
     }
 
@@ -231,6 +254,7 @@ public class GuiConstants {
     }
 
     public static void setFlagRemoveItem(Material flagRemoveItem) {
+        if(flagRemoveItem == null) return;
         FLAG_REMOVE_ITEM = flagRemoveItem;
     }
 
@@ -239,6 +263,7 @@ public class GuiConstants {
     }
 
     public static void setFlagSettingSelectedItem(Material flagSettingSelectedItem) {
+        if(flagSettingSelectedItem == null) return;
         FLAG_SETTING_SELECTED_ITEM = flagSettingSelectedItem;
     }
 
@@ -247,6 +272,7 @@ public class GuiConstants {
     }
 
     public static void setFlagSettingNotSelectedItem(Material flagSettingNotSelectedItem) {
+        if(flagSettingNotSelectedItem == null) return;
         FLAG_SETTING_NOT_SELECTED_ITEM = flagSettingNotSelectedItem;
     }
 
@@ -255,6 +281,7 @@ public class GuiConstants {
     }
 
     public static void setFlagGroupSelectedItem(Material flagGroupSelectedItem) {
+        if(flagGroupSelectedItem == null) return;
         FLAG_GROUP_SELECTED_ITEM = flagGroupSelectedItem;
     }
 
@@ -263,6 +290,7 @@ public class GuiConstants {
     }
 
     public static void setFlagGroupNotSelectedItem(Material flagGroupNotSelectedItem) {
+        if(flagGroupNotSelectedItem == null) return;
         FLAG_GROUP_NOT_SELECTED_ITEM = flagGroupNotSelectedItem;
     }
 
@@ -271,6 +299,7 @@ public class GuiConstants {
     }
 
     public static void setFlageditorItem(Material flageditorItem) {
+        if(flageditorItem == null) return;
         FLAGEDITOR_ITEM = flageditorItem;
     }
 
@@ -279,6 +308,7 @@ public class GuiConstants {
     }
 
     public static void setFlagItem(Material flagItem) {
+        if(flagItem == null) return;
         FLAG_ITEM = flagItem;
     }
 
@@ -287,6 +317,7 @@ public class GuiConstants {
     }
 
     public static void setFlagUserInputItem(Material flagUserInputItem) {
+        if(flagUserInputItem == null) return;
         FLAG_USER_INPUT_ITEM = flagUserInputItem;
     }
 
@@ -295,6 +326,7 @@ public class GuiConstants {
     }
 
     public static void setFlageditorResetItem(Material flageditorResetItem) {
+        if(flageditorResetItem == null) return;
         FLAGEDITOR_RESET_ITEM = flageditorResetItem;
     }
 }

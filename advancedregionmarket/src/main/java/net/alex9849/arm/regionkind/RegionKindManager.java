@@ -107,7 +107,7 @@ public class RegionKindManager extends YamlFileManager<RegionKind> {
 
     @Override
     public Iterator<RegionKind> iterator() {
-        return new ConcatedIterator<>(super.iterator(), Arrays.asList(RegionKind.DEFAULT, RegionKind.SUBREGION).iterator());
+        return new ConcatedIterator<>(Arrays.asList(RegionKind.DEFAULT, RegionKind.SUBREGION).iterator(), super.iterator());
     }
 
     public boolean kindExists(String kind) {

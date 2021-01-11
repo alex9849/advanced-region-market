@@ -547,7 +547,9 @@ public class Gui implements Listener {
             guiItems.add(sellTypeClickItem);
         }
 
-        GuiUtils.executeIfOnlyItem(player, guiItems);
+        if(GuiUtils.executeIfOnlyItem(player, guiItems)) {
+            return;
+        }
         GuiInventory inv = GuiUtils.generateInventory(guiItems, Messages.GUI_REGION_FINDER_MENU_NAME);
         GuiUtils.placeFillItems(inv);
         player.openInventory(inv.getInventory());
@@ -582,7 +584,9 @@ public class Gui implements Listener {
         if(clickItems.isEmpty()) {
             return;
         }
-        GuiUtils.executeIfOnlyItem(player, clickItems);
+        if(GuiUtils.executeIfOnlyItem(player, clickItems)) {
+            return;
+        }
         GuiInventory inv = GuiUtils.generateInventory(clickItems, Messages.GUI_TELEPORT_TO_SIGN_OR_REGION);
         GuiUtils.placeFillItems(inv);
         player.openInventory(inv.getInventory());

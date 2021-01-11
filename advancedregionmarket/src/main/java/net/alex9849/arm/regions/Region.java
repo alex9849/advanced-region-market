@@ -167,6 +167,9 @@ public abstract class Region implements Saveable {
             if(this.getLastLogin() == 0) {
                 return Messages.NEVER;
             }
+            if(!this.isSold()) {
+                return Messages.INFO_REGION_NOT_SOLD;
+            }
             return TimeUtil.getDate(this.getLastLogin(), false, "",
                     AdvancedRegionMarket.getInstance().getPluginSettings().getDateTimeformat());
         });

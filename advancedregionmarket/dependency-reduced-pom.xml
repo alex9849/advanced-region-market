@@ -7,7 +7,7 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>advancedregionmarket</artifactId>
-  <version>3.3</version>
+  <version>3.3.2</version>
   <build>
     <resources>
       <resource>

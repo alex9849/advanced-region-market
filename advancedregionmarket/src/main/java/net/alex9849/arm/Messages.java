@@ -144,8 +144,6 @@ public class Messages {
     public static String GUI_NO;
     @Message(name = "RegionTeleportMessage", message = "&7You have been teleported to %regionid%")
     public static String REGION_TELEPORT_MESSAGE;
-    @Message(name = "NoPermissionsToBuyThisKindOfRegion", message = "&4You do not have permission to buy this kind of region (You need the permission &6arm.buykind.%regionkind%&4)")
-    public static String NO_PERMISSIONS_TO_BUY_THIS_KIND_OF_REGION;
     @Message(name = "NoFreeRegionWithThisKind", message = "&7No free region with this type found :(")
     public static String NO_FREE_REGION_WITH_THIS_KIND;
     @Message(name = "RegionkindDoesNotExist", message = "&4The selected regionkind does not exist!")

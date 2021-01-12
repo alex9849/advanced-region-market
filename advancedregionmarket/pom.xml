@@ -14,27 +14,6 @@
     <artifactId>advancedregionmarket</artifactId>
 
     <build>
-        <!-- Uses the properties in this file for plugin.yml and config.yml -->
-        <resources>
-            <resource>
-                <directory>${basedir}/src/main/resources</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <include>plugin.yml</include>
-                    <include>config.yml</include>
-                    <include>messages_de.yml</include>
-                    <include>messages_es.yml</include>
-                    <include>messages_fr.yml</include>
-                    <include>messages_ru.yml</include>
-                    <include>regions.yml</include>
-                    <include>presets.yml</include>
-                    <include>entitylimits.yml</include>
-                    <include>regionkinds.yml</include>
-                    <include>regionkindgroups.yml</include>
-                    <include>flaggroups.yml</include>
-                </includes>
-            </resource>
-        </resources>
         <plugins>
             <!-- Sets the Java version to 8 -->
             <plugin>

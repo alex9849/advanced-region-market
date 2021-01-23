@@ -101,6 +101,11 @@ public abstract class Region implements Saveable {
                 Messages.CURRENCY);
         variableReplacements.put("%world%", () ->
                 this.getRegionworld().getName());
+        variableReplacements.put("%m2%", () -> String.valueOf(getM2Amount()));
+        variableReplacements.put("%m3%", () -> {
+            int height = (this.getRegion().getMaxPoint().getBlockY() - this.getRegion().getMinPoint().getBlockY()) + 1;
+            return String.valueOf(getM2Amount() * height);
+        });
         variableReplacements.put("%subregionlimit%", () ->
                 String.valueOf(this.getAllowedSubregions()));
         variableReplacements.put("%hotelfunctionstatus%", () ->
@@ -365,8 +370,8 @@ public abstract class Region implements Saveable {
 
     protected int getM2Amount() {
         if (this.m2Amount == null) {
-            int hight = ((this.getRegion().getMaxPoint().getBlockY() - this.getRegion().getMinPoint().getBlockY()) + 1);
-            this.m2Amount = this.getRegion().getVolume() / hight;
+            int height = ((this.getRegion().getMaxPoint().getBlockY() - this.getRegion().getMinPoint().getBlockY()) + 1);
+            this.m2Amount = this.getRegion().getVolume() / height;
         }
         return this.m2Amount;
     }

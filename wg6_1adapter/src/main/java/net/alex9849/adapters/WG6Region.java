@@ -5,6 +5,7 @@ import com.sk89q.worldedit.BlockVector2D;
 import com.sk89q.worldguard.domains.DefaultDomain;
 import com.sk89q.worldguard.protection.flags.Flag;
 import com.sk89q.worldguard.protection.flags.RegionGroupFlag;
+import com.sk89q.worldguard.protection.regions.ProtectedPolygonalRegion;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.sk89q.worldguard.protection.regions.RegionType;
 import net.alex9849.inter.WGRegion;
@@ -18,9 +19,15 @@ import java.util.UUID;
 public class WG6Region extends WGRegion {
 
     private ProtectedRegion region;
+    private int volume;
 
     WG6Region(ProtectedRegion region) {
         this.region = region;
+        if(region instanceof ProtectedPolygonalRegion){
+            volume = PolyArea(region.getPoints()) * (region.getMaximumPoint().getBlockY()-region.getMinimumPoint().getBlockY());
+        } else {
+            volume = region.volume();
+        }
     }
 
     public Vector getMaxPoint() {
@@ -125,7 +132,7 @@ public class WG6Region extends WGRegion {
 
     @Override
     public int getVolume() {
-        return this.region.volume();
+        return this.volume;
     }
 
     protected ProtectedRegion getRegion() {
@@ -174,5 +181,23 @@ public class WG6Region extends WGRegion {
 
     public boolean isCuboid() {
         return this.region.getType() == RegionType.CUBOID;
+    }
+
+    private static int PolyArea(List<BlockVector2D> points){
+        int axis = points.get(0).getBlockZ();
+        int total = 0;
+        int h,a,b;
+        a = 0;
+        for (int i = 1; i < points.size(); i++) {
+             h = points.get(i).getBlockX() - points.get(i-1).getBlockX();
+             b = a;
+             a = points.get(i).getBlockZ() - axis;
+             total += ((a+b)/2)*h;
+        }
+        h = points.get(0).getBlockX() - points.get(points.size()-1).getBlockX();
+        b = a;
+        a = points.get(0).getBlockZ() - axis;
+        total += ((a+b)/2)*h;
+        return total;
     }
 }

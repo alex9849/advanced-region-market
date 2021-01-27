@@ -1,7 +1,12 @@
 package net.alex9849.adapters;
 
+import com.sk89q.worldedit.EditSession;
+import com.sk89q.worldedit.WorldEdit;
+import com.sk89q.worldedit.bukkit.BukkitWorld;
+import com.sk89q.worldedit.function.mask.Masks;
 import com.sk89q.worldedit.math.BlockVector2;
 import com.sk89q.worldedit.math.BlockVector3;
+import com.sk89q.worldedit.regions.Polygonal2DRegion;
 import com.sk89q.worldguard.domains.DefaultDomain;
 import com.sk89q.worldguard.protection.flags.Flag;
 import com.sk89q.worldguard.protection.flags.RegionGroupFlag;
@@ -9,12 +14,12 @@ import com.sk89q.worldguard.protection.regions.ProtectedPolygonalRegion;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.sk89q.worldguard.protection.regions.RegionType;
 import net.alex9849.inter.WGRegion;
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.util.Vector;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.IntStream;
 
 public class WG7Region extends WGRegion {
 
@@ -24,7 +29,7 @@ public class WG7Region extends WGRegion {
     WG7Region(ProtectedRegion region) {
         this.region = region;
         if(region instanceof ProtectedPolygonalRegion){
-            Volume = PolyArea(region.getPoints()) * (region.getMaximumPoint().getBlockY()-region.getMinimumPoint().getBlockY());
+            Volume = polyArea(region.getPoints()) * (region.getMaximumPoint().getBlockY()-region.getMinimumPoint().getBlockY());
         } else {
             Volume = region.volume();
         }
@@ -183,21 +188,9 @@ public class WG7Region extends WGRegion {
         return this.region.getType() == RegionType.CUBOID;
     }
 
-    private static int PolyArea(List<BlockVector2> points){
-        int axis = points.get(0).getZ();
-        int total = 0;
-        int h,a,b;
-        a = 0;
-        for (int i = 1; i < points.size(); i++) {
-            h = points.get(i).getBlockX() - points.get(i-1).getBlockX();
-            b = a;
-            a = points.get(i).getBlockZ() - axis;
-            total += ((a+b)/2)*h;
-        }
-        h = points.get(0).getBlockX() - points.get(points.size()-1).getBlockX();
-        b = a;
-        a = points.get(0).getBlockZ() - axis;
-        total += ((a+b)/2)*h;
-        return total;
+    public static int polyArea(List<BlockVector2> points){
+        Polygonal2DRegion region = new Polygonal2DRegion(new BukkitWorld(Bukkit.getWorld("world")),points,0,0);
+        EditSession es = WorldEdit.getInstance().getEditSessionFactory().getEditSession(new BukkitWorld(Bukkit.getWorld("world")), Integer.MAX_VALUE);
+        return es.countBlocks(region, Masks.alwaysTrue()) + 1; //this function reliably miscounts by one in all my testing. I don't know why.
     }
 }

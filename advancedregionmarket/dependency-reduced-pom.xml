@@ -9,6 +9,27 @@
   <artifactId>advancedregionmarket</artifactId>
   <version>3.3.3</version>
   <build>
+    <resources>
+      <resource>
+        <filtering>true</filtering>
+        <directory>${basedir}/src/main/resources</directory>
+        <includes>
+          <include>plugin.yml</include>
+          <include>config.yml</include>
+          <include>messages_de.yml</include>
+          <include>messages_es.yml</include>
+          <include>messages_fr.yml</include>
+          <include>messages_ru.yml</include>
+          <include>messages_zh_cn.yml</include>
+          <include>regions.yml</include>
+          <include>presets.yml</include>
+          <include>entitylimits.yml</include>
+          <include>regionkinds.yml</include>
+          <include>regionkindgroups.yml</include>
+          <include>flaggroups.yml</include>
+        </includes>
+      </resource>
+    </resources>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>

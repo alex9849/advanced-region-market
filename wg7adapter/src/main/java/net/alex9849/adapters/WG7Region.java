@@ -5,6 +5,7 @@ import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldguard.domains.DefaultDomain;
 import com.sk89q.worldguard.protection.flags.Flag;
 import com.sk89q.worldguard.protection.flags.RegionGroupFlag;
+import com.sk89q.worldguard.protection.regions.ProtectedPolygonalRegion;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.sk89q.worldguard.protection.regions.RegionType;
 import net.alex9849.inter.WGRegion;
@@ -128,11 +129,6 @@ public class WG7Region extends WGRegion {
     }
 
     @Override
-    public int getVolume() {
-        return this.region.volume();
-    }
-
-    @Override
     public List<Vector> getPoints() {
         List<Vector> points = new ArrayList<Vector>();
         List<BlockVector2> points2D = this.region.getPoints();
@@ -174,5 +170,15 @@ public class WG7Region extends WGRegion {
 
     public boolean isCuboid() {
         return this.region.getType() == RegionType.CUBOID;
+    }
+
+    @Override
+    public boolean isPolygonal() {
+        return region instanceof ProtectedPolygonalRegion;
+    }
+
+    @Override
+    protected int getProtectedRegionVolume() {
+        return region.volume();
     }
 }

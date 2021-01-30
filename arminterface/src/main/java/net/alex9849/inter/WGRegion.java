@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 public abstract class WGRegion {
+    private Integer volume = null;
 
     public abstract Vector getMaxPoint();
 
@@ -48,8 +49,6 @@ public abstract class WGRegion {
 
     public abstract void setPriority(int priority);
 
-    public abstract int getVolume();
-
     public abstract List<Vector> getPoints();
 
     public abstract <T extends Flag<V>, V> void setFlag(Flag<V> flag, V value);
@@ -61,4 +60,31 @@ public abstract class WGRegion {
     public abstract Object getFlagSetting(Flag flag);
 
     public abstract boolean isCuboid();
+
+    public abstract boolean isPolygonal();
+
+    protected abstract int getProtectedRegionVolume();
+
+    public int getVolume() {
+        if (volume == null) {
+            if (!isPolygonal()) {
+                volume = getProtectedRegionVolume();
+            } else {
+                int tmpVolume = 0;
+                Vector min = getMinPoint();
+                Vector max = getMaxPoint();
+                int height = 1 + max.getBlockY() - min.getBlockY();
+                int minY = min.getBlockY();
+                for(int x = min.getBlockX(); x <= max.getBlockX(); x++) {
+                    for(int z = min.getBlockZ(); z <= max.getBlockZ(); z++) {
+                        if(contains(x, minY, z)) {
+                            tmpVolume++;
+                        }
+                    }
+                }
+                volume = tmpVolume * height;
+            }
+        }
+        return volume;
+    }
 }

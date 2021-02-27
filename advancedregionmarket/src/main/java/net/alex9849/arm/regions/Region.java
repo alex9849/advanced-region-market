@@ -1056,8 +1056,11 @@ public abstract class Region implements Saveable {
     }
 
     public void resetRegion(ActionReason actionReason, boolean logToConsole) throws SchematicNotFoundException, ProtectionOfContinuanceException {
-        this.restoreRegion(actionReason, logToConsole, false);
+        if (this.isProtectionOfContinuance()) {
+            throw new ProtectionOfContinuanceException();
+        }
         this.unsell(actionReason, logToConsole, true);
+        this.restoreRegion(actionReason, logToConsole, false);
         this.extraEntitys.clear();
         this.extraTotalEntitys = 0;
         this.queueSave();

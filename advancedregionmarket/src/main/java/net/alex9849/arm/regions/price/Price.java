@@ -36,7 +36,7 @@ public class Price {
     }
 
     public static String formatPrice(double price) {
-        return Price.priceFormater.format(price);
+        return Price.priceFormater.format(price).replace("\u00A0", " ");
     }
 
     public double calcPrice(WGRegion wgRegion) {

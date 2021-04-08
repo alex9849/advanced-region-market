@@ -20,6 +20,7 @@ public class RegionKind implements LimitGroupElement, Saveable {
     public static RegionKind SUBREGION = new RegionKind("Subregion", MaterialFinder.getRedBed(), new ArrayList<String>(), "Subregion", false, false);
     private String name;
     private Material material;
+    private int customItemModel;
     private List<String> lore;
     private String displayName;
     private boolean displayInRegionFinder;
@@ -73,7 +74,7 @@ public class RegionKind implements LimitGroupElement, Saveable {
         this.stringReplacer = new StringReplacer(variableReplacements, 20);
     }
 
-    public RegionKind(String name, Material material, List<String> lore, String displayName, boolean displayInRegionFinder, boolean displayInLimits) {
+    public RegionKind(String name, Material material, List<String> lore, String displayName, boolean displayInRegionFinder, boolean displayInLimits, int customItemModel) {
         this.name = name;
         this.material = material;
         this.lore = lore;
@@ -81,19 +82,23 @@ public class RegionKind implements LimitGroupElement, Saveable {
         this.displayInRegionFinder = displayInRegionFinder;
         this.displayInLimits = displayInLimits;
         this.needsSave = false;
+        this.customItemModel = customItemModel;
     }
+    
+    public RegionKind(String name, Material material, List<String> lore, String displayName, boolean displayInRegionFinder, boolean displayInLimits) { this(name, material, lore, displayName, displayInRegionFinder, displayInLimits, -1); }
 
     public static RegionKind parse(ConfigurationSection confSection, String name) {
         Material material = MaterialFinder.getMaterial(confSection.getString("item"));
         if (material == null) {
             material = MaterialFinder.getRedBed();
         }
+        int customItemModel = confSection.getInt("customItemModel", -1);
         String displayName = confSection.getString("displayName");
         boolean displayInLimits = confSection.getBoolean("displayInLimits");
         boolean displayInRegionfinder = confSection.getBoolean("displayInRegionfinder");
         List<String> lore = new ArrayList<>(confSection.getStringList("lore"));
-
-        return new RegionKind(name, material, lore, displayName, displayInRegionfinder, displayInLimits);
+        
+        return new RegionKind(name, material, lore, displayName, displayInRegionfinder, displayInLimits, customItemModel);
     }
 
     public String getName() {
@@ -161,6 +166,15 @@ public class RegionKind implements LimitGroupElement, Saveable {
         this.displayInLimits = displayInLimits;
         this.queueSave();
     }
+    
+    public int getCustomItemModel() {
+    	return customItemModel;
+    }
+    
+    public void setCustomItemModel(int customItemModel) {
+    	this.customItemModel = customItemModel;
+    	this.queueSave();
+    }
 
     public String replaceVariables(String message) {
         return this.stringReplacer.replace(message).toString();
@@ -170,6 +184,7 @@ public class RegionKind implements LimitGroupElement, Saveable {
     public ConfigurationSection toConfigurationSection() {
         ConfigurationSection confSection = new YamlConfiguration();
         confSection.set("item", this.getMaterial().toString());
+        if(this.customItemModel != -1) { confSection.set("customItemModel", this.getCustomItemModel()); }
         confSection.set("displayName", this.getRawDisplayName());
         confSection.set("displayInLimits", this.isDisplayInLimits());
         confSection.set("displayInRegionfinder", this.isDisplayInRegionfinder());

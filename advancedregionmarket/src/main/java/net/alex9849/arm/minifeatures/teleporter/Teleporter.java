@@ -19,118 +19,11 @@ import org.bukkit.util.Vector;
 public class Teleporter {
 
     public static void teleport(Player player, Region region, String message, Boolean useCountdown) throws NoSaveLocationException {
-        if (region.getPlayerTeleportLocation() != null && isSaveTeleport(region.getPlayerTeleportLocation())) {
-            teleport(player, region.getPlayerTeleportLocation(), message, useCountdown);
-            return;
+        Location tpLoc = getTeleportLocation(region);
+        if(tpLoc == null) {
+            throw new NoSaveLocationException(region.replaceVariables(Messages.TELEPORTER_NO_SAVE_LOCATION_FOUND));
         }
-        if (region.getTeleportLocation() != null && isSaveTeleport(region.getTeleportLocation())) {
-            teleport(player, region.getTeleportLocation(), message, useCountdown);
-            return;
-        }
-        World world = region.getRegionworld();
-        if (world == null) {
-            return;
-        }
-        Vector min = region.getRegion().getMinPoint();
-        Vector max = region.getRegion().getMaxPoint();
-        int maxX = max.getBlockX();
-        int maxY = max.getBlockY();
-        int maxZ = max.getBlockZ();
-        int minX = min.getBlockX();
-        int minY = min.getBlockY();
-        int minZ = min.getBlockZ();
-        int xAxis = maxX - (maxX - minX) / 2;
-        int zAxis = maxZ - (maxZ - minZ) / 2;
-        int radius = 1;
-        boolean abort = false;
-
-        for (int y = maxY; y >= minY; y--) {
-            Location loc = new Location(world, xAxis, y, zAxis);
-            if (isSaveTeleport(loc)) {
-                teleport(player, loc, message, useCountdown);
-                return;
-            }
-        }
-
-        while (!abort) {
-            boolean inRegionOneTime = false;
-
-
-            int movedX = 0;
-            do {
-                movedX++;
-                xAxis++;
-                if (!region.getRegion().contains(xAxis, maxY, zAxis)) {
-                    continue;
-                }
-                inRegionOneTime = true;
-                for (int y = maxY; y >= minY; y--) {
-                    Location loc = new Location(world, xAxis, y, zAxis);
-                    if (isSaveTeleport(loc)) {
-                        teleport(player, loc, message, useCountdown);
-                        return;
-                    }
-                }
-            } while (movedX < radius);
-
-            int movedZ = 0;
-            do {
-                movedZ++;
-                zAxis++;
-                if (!region.getRegion().contains(xAxis, maxY, zAxis)) {
-                    continue;
-                }
-                inRegionOneTime = true;
-                for (int y = maxY; y >= minY; y--) {
-                    Location loc = new Location(world, xAxis, y, zAxis);
-                    if (isSaveTeleport(loc)) {
-                        teleport(player, loc, message, useCountdown);
-                        return;
-                    }
-                }
-            } while (movedZ < radius);
-
-
-            radius++;
-            movedX = 0;
-            do {
-                movedX++;
-                xAxis--;
-                if (!region.getRegion().contains(xAxis, maxY, zAxis)) {
-                    continue;
-                }
-                inRegionOneTime = true;
-                for (int y = maxY; y >= minY; y--) {
-                    Location loc = new Location(world, xAxis, y, zAxis);
-                    if (isSaveTeleport(loc)) {
-                        teleport(player, loc, message, useCountdown);
-                        return;
-                    }
-                }
-            } while (movedX < radius);
-
-            movedZ = 0;
-            do {
-                movedZ++;
-                zAxis--;
-                if (!region.getRegion().contains(xAxis, maxY, zAxis)) {
-                    continue;
-                }
-                inRegionOneTime = true;
-                for (int y = maxY; y >= minY; y--) {
-                    Location loc = new Location(world, xAxis, y, zAxis);
-                    if (isSaveTeleport(loc)) {
-                        teleport(player, loc, message, useCountdown);
-                        return;
-                    }
-                }
-            } while (movedZ < radius);
-
-            radius++;
-            abort = !inRegionOneTime;
-        }
-
-        throw new NoSaveLocationException(region.replaceVariables(Messages.TELEPORTER_NO_SAVE_LOCATION_FOUND));
+        teleport(player, tpLoc, message, useCountdown);
     }
 
     public static void teleport(Player player, Location location, String message, boolean useCountdown) {
@@ -185,6 +78,113 @@ public class Teleporter {
         teleportLoc.setDirection(lookingDirection);
         teleport(player, teleportLoc);
         return true;
+    }
+
+    public static Location getTeleportLocation(Region region) {
+        if (region.getPlayerTeleportLocation() != null && isSaveTeleport(region.getPlayerTeleportLocation())) {
+            return region.getPlayerTeleportLocation();
+        }
+        if (region.getTeleportLocation() != null && isSaveTeleport(region.getTeleportLocation())) {
+            return region.getTeleportLocation();
+        }
+        World world = region.getRegionworld();
+        if (world == null) {
+            return null;
+        }
+        Vector min = region.getRegion().getMinPoint();
+        Vector max = region.getRegion().getMaxPoint();
+        int maxX = max.getBlockX();
+        int maxY = max.getBlockY();
+        int maxZ = max.getBlockZ();
+        int minX = min.getBlockX();
+        int minY = min.getBlockY();
+        int minZ = min.getBlockZ();
+        int xAxis = maxX - (maxX - minX) / 2;
+        int zAxis = maxZ - (maxZ - minZ) / 2;
+        int radius = 1;
+        boolean abort = false;
+
+        for (int y = maxY; y >= minY; y--) {
+            Location loc = new Location(world, xAxis, y, zAxis);
+            if (isSaveTeleport(loc)) {
+                return loc;
+            }
+        }
+
+        while (!abort) {
+            boolean inRegionOneTime = false;
+
+
+            int movedX = 0;
+            do {
+                movedX++;
+                xAxis++;
+                if (!region.getRegion().contains(xAxis, maxY, zAxis)) {
+                    continue;
+                }
+                inRegionOneTime = true;
+                for (int y = maxY; y >= minY; y--) {
+                    Location loc = new Location(world, xAxis, y, zAxis);
+                    if (isSaveTeleport(loc)) {
+                        return loc;
+                    }
+                }
+            } while (movedX < radius);
+
+            int movedZ = 0;
+            do {
+                movedZ++;
+                zAxis++;
+                if (!region.getRegion().contains(xAxis, maxY, zAxis)) {
+                    continue;
+                }
+                inRegionOneTime = true;
+                for (int y = maxY; y >= minY; y--) {
+                    Location loc = new Location(world, xAxis, y, zAxis);
+                    if (isSaveTeleport(loc)) {
+                        return loc;
+                    }
+                }
+            } while (movedZ < radius);
+
+
+            radius++;
+            movedX = 0;
+            do {
+                movedX++;
+                xAxis--;
+                if (!region.getRegion().contains(xAxis, maxY, zAxis)) {
+                    continue;
+                }
+                inRegionOneTime = true;
+                for (int y = maxY; y >= minY; y--) {
+                    Location loc = new Location(world, xAxis, y, zAxis);
+                    if (isSaveTeleport(loc)) {
+                        return loc;
+                    }
+                }
+            } while (movedX < radius);
+
+            movedZ = 0;
+            do {
+                movedZ++;
+                zAxis--;
+                if (!region.getRegion().contains(xAxis, maxY, zAxis)) {
+                    continue;
+                }
+                inRegionOneTime = true;
+                for (int y = maxY; y >= minY; y--) {
+                    Location loc = new Location(world, xAxis, y, zAxis);
+                    if (isSaveTeleport(loc)) {
+                        return loc;
+                    }
+                }
+            } while (movedZ < radius);
+
+            radius++;
+            abort = !inRegionOneTime;
+        }
+        return null;
     }
 
     public static boolean isSaveTeleport(Location loc) {

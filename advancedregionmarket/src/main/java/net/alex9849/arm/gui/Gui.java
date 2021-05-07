@@ -497,6 +497,7 @@ public class Gui implements Listener {
                 ClickItem clickItem = new ClickItem(regionKind.getMaterial())
                         .setName(regionKind.replaceVariables(Messages.GUI_REGIONFINDER_REGIONKIND_NAME))
                         .setLore(regionKind.getLore())
+                        .setCustomItemModel(regionKind.getCustomItemModel())
                         .addClickAction(p -> {
                             Gui.openRegionFinderSellTypeSelector(player, AdvancedRegionMarket.getInstance()
                                     .getRegionManager().getBuyableRegions(regionKind), pl -> Gui.openRegionFinder(player, goBackAction));
@@ -804,6 +805,7 @@ public class Gui implements Listener {
         ItemStack stack = new ItemStack(region.getRegionKind().getMaterial());
         ItemMeta meta = stack.getItemMeta();
         meta.setDisplayName(regionDisplayName);
+        if(region.getRegionKind().getCustomItemModel() != -1) { meta.setCustomModelData(region.getRegionKind().getCustomItemModel()); }
 
         List<String> regionLore = new ArrayList<>();
         if (region instanceof RentRegion) {

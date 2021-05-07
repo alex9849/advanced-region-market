@@ -36,6 +36,13 @@ public class ClickItem extends ItemStack {
         itemStack.setItemMeta(itemMeta);
         return this;
     }
+    
+    public ClickItem setCustomItemModel(int customItemModel) {
+    	ItemMeta itemMeta = this.itemStack.getItemMeta();
+        if(customItemModel != -1) { itemMeta.setCustomModelData(customItemModel); }
+        itemStack.setItemMeta(itemMeta);
+        return this;
+    }
 
     public ClickItem addClickAction(@Nullable ClickAction clickAction) {
         if(clickAction != null) {

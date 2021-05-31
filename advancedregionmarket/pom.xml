@@ -23,6 +23,7 @@
                     <include>config.yml</include>
                     <include>messages_de.yml</include>
                     <include>messages_es.yml</include>
+                    <include>messages_pl.yml</include>
                     <include>messages_fr.yml</include>
                     <include>messages_ru.yml</include>
                     <include>messages_zh_cn.yml</include>

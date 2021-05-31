@@ -169,7 +169,7 @@ Other:
   RegionInfoParticleBorder: true
   # If true all entities will be removed if the region gets resetted
   RemoveEntitiesOnRegionRestore: true
-  #The language of the plugin. Available languages:  en, de, fr, ru, es, zh_cn
+  #The language of the plugin. Available languages:  en, de, fr, ru, es, zh_cn, pl
   #You can send me your own translations of the plugin and I'll
   #include them into the plugin. You have to remove the messages.yml
   #and reload/restart the plugin if you want that arm regenerates the

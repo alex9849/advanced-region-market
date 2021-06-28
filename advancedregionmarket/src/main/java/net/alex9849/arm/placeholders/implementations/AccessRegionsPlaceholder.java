@@ -1,0 +1,36 @@
+package net.alex9849.arm.placeholders.implementations;
+
+import net.alex9849.arm.AdvancedRegionMarket;
+import net.alex9849.arm.placeholders.AbstractOfflinePlayerPlaceholder;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
+
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+public class AccessRegionsPlaceholder extends AbstractOfflinePlayerPlaceholder {
+
+    public AccessRegionsPlaceholder(AdvancedRegionMarket plugin) {
+        super(plugin);
+    }
+
+    @Override
+    public String getIdentifier() {
+        return "accessregions";
+    }
+
+    @Override
+    public String getReplacement(OfflinePlayer player, String[] arguments) {
+        UUID uuid;
+        if(arguments.length < 1) {
+            uuid = player.getUniqueId();
+        } else if (player != null){
+            uuid = Bukkit.getOfflinePlayer(arguments[0]).getUniqueId();
+        } else {
+            return "";
+        }
+        return plugin.getRegionManager().getRegionsByMember(uuid)
+                .stream().map(x -> x.getRegion().getId()).collect(Collectors.joining(", "));
+    }
+
+}

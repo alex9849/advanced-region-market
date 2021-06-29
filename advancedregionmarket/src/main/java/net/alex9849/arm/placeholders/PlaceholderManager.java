@@ -3,7 +3,6 @@ package net.alex9849.arm.placeholders;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import net.alex9849.arm.AdvancedRegionMarket;
 import org.bukkit.OfflinePlayer;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -24,7 +23,7 @@ public class PlaceholderManager extends PlaceholderExpansion {
     }
 
     @Override
-    public @NotNull String getIdentifier() {
+    public String getIdentifier() {
         return "arm";
     }
 
@@ -34,12 +33,12 @@ public class PlaceholderManager extends PlaceholderExpansion {
     }
 
     @Override
-    public @NotNull String getAuthor() {
+    public String getAuthor() {
         return plugin.getDescription().getAuthors().toString();
     }
 
     @Override
-    public @NotNull String getVersion() {
+    public String getVersion() {
         return plugin.getDescription().getVersion();
     }
 

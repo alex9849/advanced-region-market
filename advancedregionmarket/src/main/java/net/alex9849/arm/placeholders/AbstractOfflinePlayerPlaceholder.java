@@ -12,7 +12,7 @@ public abstract class AbstractOfflinePlayerPlaceholder {
         this.regex = regex;
     }
 
-    public abstract String getReplacement(OfflinePlayer player, String[] arguments);
+    public abstract String getReplacement(OfflinePlayer offlinePlayer, String[] arguments);
 
     public boolean matches(String placeholder) {
         return placeholder.matches(this.regex);

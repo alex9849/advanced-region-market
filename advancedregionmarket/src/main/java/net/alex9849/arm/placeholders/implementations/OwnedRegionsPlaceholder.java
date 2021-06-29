@@ -15,11 +15,11 @@ public class OwnedRegionsPlaceholder extends AbstractOfflinePlayerPlaceholder {
     }
 
     @Override
-    public String getReplacement(OfflinePlayer player, String[] arguments) {
+    public String getReplacement(OfflinePlayer offlinePlayer, String[] arguments) {
         UUID uuid;
         if(arguments.length < 1) {
-            uuid = player.getUniqueId();
-        } else if (player != null){
+            uuid = offlinePlayer.getUniqueId();
+        } else if (offlinePlayer != null){
             uuid = Bukkit.getOfflinePlayer(arguments[0]).getUniqueId();
         } else {
             return "";

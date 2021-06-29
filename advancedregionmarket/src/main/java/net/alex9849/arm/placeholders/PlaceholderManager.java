@@ -1,5 +1,6 @@
 package net.alex9849.arm.placeholders;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.placeholders.implementations.*;
@@ -50,6 +51,7 @@ public class PlaceholderManager extends PlaceholderExpansion {
 
     @Override
     public String onRequest(OfflinePlayer offlinePlayer, String identifier) {
+        identifier = PlaceholderAPI.setBracketPlaceholders(offlinePlayer, identifier);
         String[] identifierParts = identifier.split("_");
         if(identifierParts.length < 1) {
             return "";

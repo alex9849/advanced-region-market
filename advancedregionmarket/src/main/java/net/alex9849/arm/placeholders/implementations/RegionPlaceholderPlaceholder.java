@@ -3,6 +3,7 @@ package net.alex9849.arm.placeholders.implementations;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.placeholders.AbstractOfflinePlayerPlaceholder;
 import net.alex9849.arm.regions.Region;
+import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
@@ -22,10 +23,10 @@ public class RegionPlaceholderPlaceholder extends AbstractOfflinePlayerPlacehold
         Region region;
         String regionPlaceholder;
         if(arguments.length == 3) {
-            region = plugin.getRegionManager().getRegionByNameAndWorld(arguments[0], arguments[1]);
+            region = plugin.getRegionManager().getRegionByNameAndWorld(arguments[1], arguments[0]);
             regionPlaceholder = arguments[2];
         } else if(arguments.length == 2) {
-            region = plugin.getRegionManager().getRegionbyNameAndWorldCommands(null, arguments[0]);
+            region = plugin.getRegionManager().getRegionbyNameAndWorldCommands(arguments[0], null);
             regionPlaceholder = arguments[1];
         } else {
             if(!(offlinePlayer instanceof Player)) {
@@ -42,7 +43,7 @@ public class RegionPlaceholderPlaceholder extends AbstractOfflinePlayerPlacehold
         if(region == null) {
             return "";
         }
-        return region.replaceVariables("%" + regionPlaceholder + "%");
+        return ChatColor.stripColor(region.replaceVariables("%" + regionPlaceholder + "%"));
     }
 
 }

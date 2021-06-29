@@ -545,14 +545,14 @@ public class RegionManager extends YamlFileManager<Region> {
         return null;
     }
 
-    public Region getRegionByNameAndWorld(String name, String world) {
+    public Region getRegionByNameAndWorld(String regionId, String world) {
         for (Region region : this) {
             if (region.getRegionworld().getName().equalsIgnoreCase(world)) {
-                if (region.getRegion().getId().equalsIgnoreCase(name)) {
+                if (region.getRegion().getId().equalsIgnoreCase(regionId)) {
                     return region;
                 }
                 for (Region subregion : region.getSubregions()) {
-                    if (subregion.getRegion().getId().equalsIgnoreCase(name)) {
+                    if (subregion.getRegion().getId().equalsIgnoreCase(regionId)) {
                         return subregion;
                     }
                 }
@@ -593,24 +593,24 @@ public class RegionManager extends YamlFileManager<Region> {
         return selectedRegion;
     }
 
-    public Region getRegionbyNameAndWorldCommands(String name, String world) {
+    public Region getRegionbyNameAndWorldCommands(String regionId, String world) {
         Region mayReturn = null;
         for (Region region : this) {
             if (region.getRegionworld().getName().equalsIgnoreCase(world)) {
-                if (region.getRegion().getId().equalsIgnoreCase(name)) {
+                if (region.getRegion().getId().equalsIgnoreCase(regionId)) {
                     return region;
                 }
                 for (Region subregion : region.getSubregions()) {
-                    if (subregion.getRegion().getId().equalsIgnoreCase(name)) {
+                    if (subregion.getRegion().getId().equalsIgnoreCase(regionId)) {
                         return subregion;
                     }
                 }
             } else {
-                if (region.getRegion().getId().equalsIgnoreCase(name)) {
+                if (region.getRegion().getId().equalsIgnoreCase(regionId)) {
                     mayReturn = region;
                 }
                 for (Region subregion : region.getSubregions()) {
-                    if (subregion.getRegion().getId().equalsIgnoreCase(name)) {
+                    if (subregion.getRegion().getId().equalsIgnoreCase(regionId)) {
                         mayReturn = subregion;
                     }
                 }

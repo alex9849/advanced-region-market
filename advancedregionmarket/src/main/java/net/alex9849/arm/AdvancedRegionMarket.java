@@ -24,6 +24,7 @@ import net.alex9849.arm.inactivityexpiration.PlayerInactivityGroupMapper;
 import net.alex9849.arm.limitgroups.LimitGroupManager;
 import net.alex9849.arm.minifeatures.SignLinkMode;
 import net.alex9849.arm.minifeatures.selloffer.Offer;
+import net.alex9849.arm.placeholders.PlaceholderManager;
 import net.alex9849.arm.presets.ActivePresetManager;
 import net.alex9849.arm.presets.PresetPatternManager;
 import net.alex9849.arm.presets.commands.MaxExtendTimeCommand;
@@ -258,6 +259,10 @@ public class AdvancedRegionMarket extends JavaPlugin {
                 }
             }
         }, 1800, 6000);
+
+        if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            new PlaceholderManager(this).register();
+        }
 
         //Enable bStats
         BStatsAnalytics bStatsAnalytics = new BStatsAnalytics();

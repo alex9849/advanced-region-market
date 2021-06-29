@@ -2,6 +2,7 @@ package net.alex9849.arm.placeholders;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import net.alex9849.arm.AdvancedRegionMarket;
+import net.alex9849.arm.placeholders.implementations.*;
 import org.bukkit.OfflinePlayer;
 
 import java.util.Arrays;
@@ -15,6 +16,11 @@ public class PlaceholderManager extends PlaceholderExpansion {
     public PlaceholderManager(AdvancedRegionMarket plugin) {
         this.plugin = plugin;
         this.placeholders = new HashSet<>();
+        this.placeholders.add(new AccessRegionsPlaceholder(plugin));
+        this.placeholders.add(new MemberRegionsPlaceholder(plugin));
+        this.placeholders.add(new OwnedRegionsPlaceholder(plugin));
+        this.placeholders.add(new RegionIdAtLocationPlaceholder(plugin));
+        this.placeholders.add(new RegionPlaceholderPlaceholder(plugin));
     }
 
     @Override

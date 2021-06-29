@@ -2,7 +2,6 @@ package net.alex9849.arm.placeholders.implementations;
 
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.placeholders.AbstractOfflinePlayerPlaceholder;
-import net.alex9849.arm.regionkind.LimitGroupElement;
 import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regionkind.RegionKindGroup;
 import net.alex9849.arm.regions.Region;

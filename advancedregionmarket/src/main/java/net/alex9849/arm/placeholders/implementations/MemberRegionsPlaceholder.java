@@ -14,12 +14,7 @@ import java.util.stream.Collectors;
 public class MemberRegionsPlaceholder extends AbstractOfflinePlayerPlaceholder {
 
     public MemberRegionsPlaceholder(AdvancedRegionMarket plugin) {
-        super(plugin);
-    }
-
-    @Override
-    public String getIdentifier() {
-        return "memberregions";
+        super(plugin, "memberregions(_[^;\n_ ]+)?");
     }
 
     @Override

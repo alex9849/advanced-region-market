@@ -11,12 +11,7 @@ import java.util.stream.Collectors;
 public class OwnedRegionsPlaceholder extends AbstractOfflinePlayerPlaceholder {
 
     public OwnedRegionsPlaceholder(AdvancedRegionMarket plugin) {
-        super(plugin);
-    }
-
-    @Override
-    public String getIdentifier() {
-        return "ownedregions";
+        super(plugin, "ownedregions(_[^;\n_ ]+)?");
     }
 
     @Override

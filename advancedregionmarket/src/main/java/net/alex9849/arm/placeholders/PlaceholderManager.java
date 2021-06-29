@@ -48,11 +48,10 @@ public class PlaceholderManager extends PlaceholderExpansion {
         if(identifierParts.length < 1) {
             return "";
         }
-        final String subIdentifier = identifierParts[0];
         String[] arguments = Arrays.copyOfRange(identifierParts, 1, identifierParts.length);
 
         for(AbstractOfflinePlayerPlaceholder placeholder : this.placeholders) {
-            if(placeholder.getIdentifier().equals(subIdentifier)) {
+            if(placeholder.matches(identifier)) {
                 return placeholder.getReplacement(offlinePlayer, arguments);
             }
         }

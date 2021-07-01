@@ -23,6 +23,7 @@ public class PlaceholderManager extends PlaceholderExpansion {
         this.placeholders.add(new RegionIdAtLocationPlaceholder(plugin));
         this.placeholders.add(new RegionPlaceholderPlaceholder(plugin));
         this.placeholders.add(new RegionCountPlaceholder(plugin));
+        this.placeholders.add(new LimitPlaceholder(plugin));
     }
 
     @Override

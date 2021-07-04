@@ -12,11 +12,6 @@
     <artifactId>placeholder-api-addon</artifactId>
     <version>1.0.0</version>
 
-    <properties>
-        <maven.compiler.source>16</maven.compiler.source>
-        <maven.compiler.target>16</maven.compiler.target>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>me.clip</groupId>

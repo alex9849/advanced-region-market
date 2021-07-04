@@ -14,27 +14,23 @@ public class RegionCountPlaceholder extends AbstractOfflinePlayerPlaceholder {
 
 
     public RegionCountPlaceholder(AdvancedRegionMarket plugin) {
-        super(plugin, "regioncount_(all|free|sold)(_(regionkind|regionkindgroup)_[^;\n_ ]+)?");
+        super(plugin, "regioncount_(all|free|sold)(_[^;\n_ ]+)?");
     }
 
     @Override
     public String getReplacement(OfflinePlayer offlinePlayer, String[] arguments) {
         String regionsToCount = arguments[0];
         Iterable<Region> filteredRegions;
-        if(arguments.length == 3) {
-            if(arguments[1].equals("regionkind")) {
-                RegionKind regionKind = plugin.getRegionKindManager().getRegionKind(arguments[2]);
-                if(regionKind == null) {
-                    return "";
-                }
+        if(arguments.length == 2) {
+            RegionKind regionKind = plugin.getRegionKindManager().getRegionKind(arguments[1]);
+            if(regionKind != null) {
                 filteredRegions = plugin.getRegionManager().getRegionsByRegionKind(regionKind);
             } else {
-                RegionKindGroup regionKindGroup = plugin.getRegionKindGroupManager().getRegionKindGroup(arguments[2]);
-                Set<Region> regionkindGroupRegions = new HashSet<>();
-                for(RegionKind regionKind : regionKindGroup) {
-                    regionkindGroupRegions.addAll(plugin.getRegionManager().getRegionsByRegionKind(regionKind));
+                RegionKindGroup regionKindGroup = plugin.getRegionKindGroupManager().getRegionKindGroup(arguments[1]);
+                if(regionKindGroup == null) {
+                    return "";
                 }
-                filteredRegions = regionkindGroupRegions;
+                filteredRegions = getRegionsByRegionKindGroup(regionKindGroup);
             }
         } else {
             filteredRegions = plugin.getRegionManager();
@@ -58,5 +54,13 @@ public class RegionCountPlaceholder extends AbstractOfflinePlayerPlaceholder {
             }
         }
         return String.valueOf(foundRegions);
+    }
+
+    private Set<Region> getRegionsByRegionKindGroup(RegionKindGroup regionKindGroup) {
+        Set<Region> regionkindGroupRegions = new HashSet<>();
+        for(RegionKind regionKind : regionKindGroup) {
+            regionkindGroupRegions.addAll(plugin.getRegionManager().getRegionsByRegionKind(regionKind));
+        }
+        return regionkindGroupRegions;
     }
 }

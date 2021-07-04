@@ -57,7 +57,7 @@ public class ArmPlaceholder extends PlaceholderExpansion {
 
     @Override
     public String getVersion() {
-        return "1.0.0";
+        return "${project.version}";
     }
 
     @Override

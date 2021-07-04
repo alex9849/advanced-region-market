@@ -20,6 +20,7 @@
         <module>wg6_1adapter</module>
         <module>wg6_2adapter</module>
         <module>wg7adapter</module>
+        <module>placeholder-api-addon</module>
     </modules>
 
     <properties>

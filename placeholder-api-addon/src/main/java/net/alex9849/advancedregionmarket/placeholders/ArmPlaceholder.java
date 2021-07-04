@@ -1,22 +1,35 @@
-package net.alex9849.arm.placeholders;
+package net.alex9849.advancedregionmarket.placeholders;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import net.alex9849.arm.AdvancedRegionMarket;
-import net.alex9849.arm.placeholders.implementations.*;
+import net.alex9849.advancedregionmarket.placeholders.implementations.*;
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-public class PlaceholderManager extends PlaceholderExpansion {
-    private final AdvancedRegionMarket plugin;
+public class ArmPlaceholder extends PlaceholderExpansion {
+    private AdvancedRegionMarket plugin;
     private final Set<AbstractOfflinePlayerPlaceholder> placeholders;
 
-    public PlaceholderManager(AdvancedRegionMarket plugin) {
-        this.plugin = plugin;
+    public ArmPlaceholder() {
         this.placeholders = new HashSet<>();
+    }
+
+    @Override
+    public String getRequiredPlugin(){
+        return "AdvancedRegionMarket";
+    }
+
+    @Override
+    public boolean canRegister(){
+        this.plugin = (AdvancedRegionMarket) Bukkit.getPluginManager().getPlugin(getRequiredPlugin());
+        if(plugin == null) {
+            return false;
+        }
         this.placeholders.add(new AccessRegionsPlaceholder(plugin));
         this.placeholders.add(new MemberRegionsPlaceholder(plugin));
         this.placeholders.add(new OwnedRegionsPlaceholder(plugin));
@@ -24,10 +37,6 @@ public class PlaceholderManager extends PlaceholderExpansion {
         this.placeholders.add(new RegionPlaceholderPlaceholder(plugin));
         this.placeholders.add(new RegionCountPlaceholder(plugin));
         this.placeholders.add(new LimitPlaceholder(plugin));
-    }
-
-    @Override
-    public boolean canRegister(){
         return true;
     }
 
@@ -43,12 +52,12 @@ public class PlaceholderManager extends PlaceholderExpansion {
 
     @Override
     public String getAuthor() {
-        return plugin.getDescription().getAuthors().toString();
+        return "alex9849";
     }
 
     @Override
     public String getVersion() {
-        return plugin.getDescription().getVersion();
+        return "1.0.0";
     }
 
     @Override

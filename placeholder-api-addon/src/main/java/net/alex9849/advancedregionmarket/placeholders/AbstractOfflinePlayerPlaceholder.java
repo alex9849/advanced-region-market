@@ -1,4 +1,4 @@
-package net.alex9849.arm.placeholders;
+package net.alex9849.advancedregionmarket.placeholders;
 
 import net.alex9849.arm.AdvancedRegionMarket;
 import org.bukkit.OfflinePlayer;

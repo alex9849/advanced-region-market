@@ -1,17 +1,17 @@
-package net.alex9849.arm.placeholders.implementations;
+package net.alex9849.advancedregionmarket.placeholders.implementations;
 
 import net.alex9849.arm.AdvancedRegionMarket;
-import net.alex9849.arm.placeholders.AbstractOfflinePlayerPlaceholder;
+import net.alex9849.advancedregionmarket.placeholders.AbstractOfflinePlayerPlaceholder;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public class AccessRegionsPlaceholder extends AbstractOfflinePlayerPlaceholder {
+public class OwnedRegionsPlaceholder extends AbstractOfflinePlayerPlaceholder {
 
-    public AccessRegionsPlaceholder(AdvancedRegionMarket plugin) {
-        super(plugin, "accessregions(_[^;\n_ ]+)?");
+    public OwnedRegionsPlaceholder(AdvancedRegionMarket plugin) {
+        super(plugin, "ownedregions(_[^;\n_ ]+)?");
     }
 
     @Override
@@ -24,8 +24,7 @@ public class AccessRegionsPlaceholder extends AbstractOfflinePlayerPlaceholder {
         } else {
             return "";
         }
-        return plugin.getRegionManager().getRegionsByMember(uuid)
+        return plugin.getRegionManager().getRegionsByOwner(uuid)
                 .stream().map(x -> x.getRegion().getId()).collect(Collectors.joining(", "));
     }
-
 }

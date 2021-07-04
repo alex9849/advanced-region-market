@@ -1,8 +1,8 @@
-package net.alex9849.arm.placeholders.implementations;
+package net.alex9849.advancedregionmarket.placeholders.implementations;
 
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.limitgroups.LimitGroupManager;
-import net.alex9849.arm.placeholders.AbstractOfflinePlayerPlaceholder;
+import net.alex9849.advancedregionmarket.placeholders.AbstractOfflinePlayerPlaceholder;
 import net.alex9849.arm.regionkind.LimitGroupElement;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;

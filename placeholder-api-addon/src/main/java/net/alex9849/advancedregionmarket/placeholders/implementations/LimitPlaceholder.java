@@ -1,9 +1,11 @@
 package net.alex9849.advancedregionmarket.placeholders.implementations;
 
 import net.alex9849.arm.AdvancedRegionMarket;
+import net.alex9849.arm.Messages;
 import net.alex9849.arm.limitgroups.LimitGroupManager;
 import net.alex9849.advancedregionmarket.placeholders.AbstractOfflinePlayerPlaceholder;
 import net.alex9849.arm.regionkind.LimitGroupElement;
+import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
@@ -43,6 +45,12 @@ public class LimitPlaceholder extends AbstractOfflinePlayerPlaceholder {
             }
         }
 
-        return String.valueOf(value);
+        String returnMe;
+        if(value == -1) {
+            returnMe = ChatColor.stripColor(Messages.UNLIMITED);
+        } else {
+            returnMe = String.valueOf(value);
+        }
+        return returnMe;
     }
 }

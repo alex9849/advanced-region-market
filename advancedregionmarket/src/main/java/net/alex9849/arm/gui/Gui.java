@@ -20,6 +20,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -917,7 +918,11 @@ public class Gui implements Listener {
         List<String> lore = new ArrayList<>(Messages.GUI_ENTITYLIMIT_ITEM_LORE);
         List<String> limitlist = new ArrayList<>();
 
-        String totalstatus = region.getEntityLimitGroup().replaceVariables(Messages.GUI_ENTITYLIMIT_ITEM_INFO_PATTERN, new ArrayList<>(), region.getExtraTotalEntitys());
+        List<Entity> entities = region.getFilteredInsideEntities(false, true,
+                true, true, true, true, false,
+                false, false);
+
+        String totalstatus = region.getEntityLimitGroup().replaceVariables(Messages.GUI_ENTITYLIMIT_ITEM_INFO_PATTERN, entities, region.getExtraTotalEntitys());
         if (region.getEntityLimitGroup().getSoftLimit(region.getExtraTotalEntitys()) < region.getEntityLimitGroup().getHardLimit()) {
             totalstatus = totalstatus.replace("%entityextensioninfo%", region.getEntityLimitGroup().replaceVariables(Messages.GUI_ENTITYLIMIT_ITEM_INFO_EXTENSION_INFO, new ArrayList<>(), region.getExtraTotalEntitys()));
         } else {
@@ -927,7 +932,7 @@ public class Gui implements Listener {
         limitlist.add(totalstatus);
 
         for (EntityLimit entityLimit : region.getEntityLimitGroup().getEntityLimits()) {
-            String entitystatus = entityLimit.replaceVariables(Messages.GUI_ENTITYLIMIT_ITEM_INFO_PATTERN, new ArrayList<>(), region.getExtraEntityAmount(entityLimit.getLimitableEntityType()));
+            String entitystatus = entityLimit.replaceVariables(Messages.GUI_ENTITYLIMIT_ITEM_INFO_PATTERN, entities, region.getExtraEntityAmount(entityLimit.getLimitableEntityType()));
             if ((entityLimit.getSoftLimit(region.getExtraEntityAmount(entityLimit.getLimitableEntityType())) < entityLimit.getHardLimit()) && !region.isSubregion()) {
                 entitystatus = entitystatus.replace("%entityextensioninfo%", entityLimit.replaceVariables(Messages.GUI_ENTITYLIMIT_ITEM_INFO_EXTENSION_INFO, new ArrayList<>(), region.getExtraEntityAmount(entityLimit.getLimitableEntityType())));
             } else {

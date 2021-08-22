@@ -45,7 +45,7 @@ public class RegionKind implements LimitGroupElement, Saveable {
         variableReplacements.put("%regionkinddisplayinlimits%", () -> {
             return Messages.convertYesNo(this.isDisplayInLimits());
         });
-        variableReplacements.put("%regionkinddisplayingui%", () -> {
+        variableReplacements.put("%regionkinddisplayinregionfinder%", () -> {
             return Messages.convertYesNo(this.isDisplayInRegionfinder());
         });
         variableReplacements.put("%regionkindlore%", () -> {

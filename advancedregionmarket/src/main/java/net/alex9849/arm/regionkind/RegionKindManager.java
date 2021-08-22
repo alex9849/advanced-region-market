@@ -125,7 +125,7 @@ public class RegionKindManager extends YamlFileManager<RegionKind> {
         fileupdated |= addDefault(section, "item", "RED_BED");
         fileupdated |= addDefault(section, "displayName", "Default Displayname");
         fileupdated |= addDefault(section, "displayInLimits", true);
-        fileupdated |= addDefault(section, "displayInGUI", true);
+        fileupdated |= addDefault(section, "displayInRegionfinder", true);
         fileupdated |= addDefault(section, "lore", new ArrayList<String>(Arrays.asList("Default lore")));
         return fileupdated;
     }

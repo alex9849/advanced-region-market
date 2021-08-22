@@ -75,7 +75,9 @@ public class PlayerJoinQuitEvent implements Listener {
         for (Region region : plugin.getRegionManager().getRegionsByOwner(player.getUniqueId())) {
             if (region instanceof RentRegion) {
                 RentRegion rentRegion = (RentRegion) region;
-                if ((rentRegion.getPayedTill() - (new GregorianCalendar().getTimeInMillis())) <= plugin.getPluginSettings().getRentRegionExpirationWarningTime()) {
+                if (    rentRegion.isSold()
+                        && (rentRegion.getPayedTill() - (new GregorianCalendar().getTimeInMillis())) <= plugin.getPluginSettings().getRentRegionExpirationWarningTime()
+                ) {
                     player.sendMessage(rentRegion.replaceVariables(Messages.PREFIX + Messages.RENTREGION_EXPIRATION_WARNING));
                 }
             }

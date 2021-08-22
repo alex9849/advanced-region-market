@@ -1,4 +1,4 @@
-FileVersion: 5
+FileVersion: 7
 Messages:
   SecondsSingular: 'Sekunde'
   MinutesSingular: 'Minute'
@@ -527,13 +527,6 @@ Messages:
   RegionKindModified: '&aRegionKind bearbeitet!'
   MaterialNotFound: '&4Material nicht gefunden!'
   RegionKindLoreLineNotExist: '&aDie ausgewähte Zeile existiert nicht!'
-  RegionKindInfoHeadline: '&6=========[RegionKind Info]========='
-  RegionKindInfoInternalName: '&6Interner Name: %regionkind%'
-  RegionKindInfoDisplayName: '&6Anzeigename: %regionkinddisplay%'
-  RegionKindInfoMaterial: '&6Material: %regionkinditem%'
-  RegionKindInfoDisplayInGui: '&6In Regionfinder anzeigen: %regionkinddisplayingui%'
-  RegionKindInfoDisplayInLimits: '&6In Limits anzeigen: %regionkinddisplayinlimits%'
-  RegionKindInfoLore: '&6Beschreibung:'
   RegionKindHelpHeadline: |-
     &6=====[AdvancedRegionMarket RegionKind Hilfe ]=====
     &3Seite %actualpage% / %maxpage%

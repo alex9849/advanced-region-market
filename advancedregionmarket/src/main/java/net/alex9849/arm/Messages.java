@@ -52,7 +52,7 @@ public class Messages {
         public int version() default 0;
     }
 
-    //Current version = 6
+    //Current version = 7
     @Message(name = "Prefix", message = "&b[ARM]&r ", version = 1)
     public static String PREFIX;
     @Message(name = "Buymessage", message = "&aRegion successfully bought!")
@@ -770,10 +770,10 @@ public class Messages {
             "&9DisplayName: &r%regionkinddisplay%",
             "&9Item: &e%regionkinditem%",
             "&9Display in limits: &e%regionkinddisplayinlimits%",
-            "&9Display in gui: &e%regionkinddisplayingui%",
+            "&9Display in regionfinder: &e%regionkinddisplayinregionfinder%",
             "&9In RegionkindGroups: &e%regionkindregionkindgroups%",
             "&9Lore:",
-            "%regionkindlorelist%"})
+            "%regionkindlorelist%"}, version = 7)
     public static List<String> REGIONKIND_INFO;
     @Message(name = "RegionKindHelpHeadline", message = "&6=====[AdvancedRegionMarket RegionKind Help ]=====\n" +
             "&3Page %actualpage% / %maxpage%")

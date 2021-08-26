@@ -20,6 +20,7 @@ permissions:
     children:
       arm.inactivityexpiration.unlimited: true
       arm.admin.listbackups: true
+      arm.admin.stoptime: true
       arm.admin.restorebackup: true
       arm.admin.preset.apply: true
       arm.admin.addtime: true
@@ -181,6 +182,9 @@ permissions:
       arm.subregion.help: true
   arm.admin.setinactivityreset:
     description: Allows to enable and disable inactivityreset for specific regions
+    default: op
+  arm.admin.stoptime:
+    description: Stops/Starts all region-contdowns
     default: op
   arm.admin.addtime:
     description: Extends a sold region for a specific amount of time

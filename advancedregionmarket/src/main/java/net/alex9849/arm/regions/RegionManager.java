@@ -102,6 +102,11 @@ public class RegionManager extends YamlFileManager<Region> {
         boolean fileupdated = false;
         yamlConfiguration.options().copyDefaults(true);
 
+        CountdownRegion.setCountdownHalted(Optional.of(yamlConfiguration.getBoolean("CountdownHalted"))
+                .orElse(false));
+        CountdownRegion.setCountdownHaltedTime(Optional.of(yamlConfiguration.getLong("CountdownHaltedSince"))
+                .orElse(0L));
+
         if (yamlConfiguration.get("Regions") != null) {
             ConfigurationSection mainSection = yamlConfiguration.getConfigurationSection("Regions");
             List<String> worlds = new ArrayList<String>(mainSection.getKeys(false));
@@ -146,12 +151,14 @@ public class RegionManager extends YamlFileManager<Region> {
 
     @Override
     protected void writeStaticSettings(YamlConfiguration yamlConfiguration) {
-
+        yamlConfiguration.set("CountdownHalted", CountdownRegion.isCountdownHalted());
+        yamlConfiguration.set("CountdownHaltedSince", CountdownRegion.getCountdownHaltedTime());
+        CountdownRegion.setStaticSaved();
     }
 
     @Override
     public boolean staticSaveQuenued() {
-        return false;
+        return CountdownRegion.isStaticSaveNeeded();
     }
 
     private static Region parseRegion(ConfigurationSection regionSection, World regionWorld, WGRegion wgRegion) {

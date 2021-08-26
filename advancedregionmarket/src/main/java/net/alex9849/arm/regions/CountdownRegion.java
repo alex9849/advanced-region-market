@@ -18,6 +18,9 @@ import java.util.HashMap;
 import java.util.List;
 
 public abstract class CountdownRegion extends Region {
+    private static boolean countdownHalted = false;
+    private static long countdownHaltedTime = 0;
+    private static boolean staticSaveNeeded = false;
     private long payedTill;
     private StringReplacer stringReplacer;
 
@@ -63,32 +66,10 @@ public abstract class CountdownRegion extends Region {
         super(region, regionworld, sellsigns, sold);
     }
 
-    public static long stringToTime(String stringtime) throws IllegalArgumentException {
-        long time = 0;
-        if (stringtime.matches("[\\d]+d")) {
-            time = Long.parseLong(stringtime.split("d")[0]);
-            time = time * 1000 * 60 * 60 * 24;
-        } else if (stringtime.matches("[\\d]+h")) {
-            time = Long.parseLong(stringtime.split("h")[0]);
-            time = time * 1000 * 60 * 60;
-        } else if (stringtime.matches("[\\d]+m")) {
-            time = Long.parseLong(stringtime.split("m")[0]);
-            time = time * 1000 * 60;
-        } else if (stringtime.matches("[\\d]+s")) {
-            time = Long.parseLong(stringtime.split("s")[0]);
-            time = time * 1000;
-        } else if (stringtime.matches("[\\d]+")) {
-            time = Long.parseLong(stringtime);
-        } else {
-            throw new IllegalArgumentException();
-        }
-        return time;
-    }
-
     public abstract long getExtendTime();
 
     public long getPayedTill() {
-        return this.payedTill;
+        return this.payedTill + getTimeElapsedSinceCountdownHalted();
     }
 
     public void setPayedTill(long payedTill) {
@@ -142,7 +123,7 @@ public abstract class CountdownRegion extends Region {
 
     public void extend(long time) {
         long actualTime = new GregorianCalendar().getTimeInMillis();
-        if (this.payedTill < actualTime) {
+        if (this.getPayedTill() < actualTime) {
             this.payedTill = actualTime;
         }
         this.payedTill += time;
@@ -200,7 +181,89 @@ public abstract class CountdownRegion extends Region {
         } else {
             cofSection.set("extendTime", this.getExtendTime());
         }
-        cofSection.set("payedTill", this.getPayedTill());
+        cofSection.set("payedTill", this.payedTill);
         return cofSection;
+    }
+
+    /*
+       Static methods
+     */
+
+    public static long stringToTime(String stringtime) throws IllegalArgumentException {
+        long time = 0;
+        if (stringtime.matches("[\\d]+d")) {
+            time = Long.parseLong(stringtime.split("d")[0]);
+            time = time * 1000 * 60 * 60 * 24;
+        } else if (stringtime.matches("[\\d]+h")) {
+            time = Long.parseLong(stringtime.split("h")[0]);
+            time = time * 1000 * 60 * 60;
+        } else if (stringtime.matches("[\\d]+m")) {
+            time = Long.parseLong(stringtime.split("m")[0]);
+            time = time * 1000 * 60;
+        } else if (stringtime.matches("[\\d]+s")) {
+            time = Long.parseLong(stringtime.split("s")[0]);
+            time = time * 1000;
+        } else if (stringtime.matches("[\\d]+")) {
+            time = Long.parseLong(stringtime);
+        } else {
+            throw new IllegalArgumentException();
+        }
+        return time;
+    }
+
+    public static void haltCountdown(boolean halt) {
+        if(countdownHalted && halt) {
+            return;
+        }
+        if (halt) {
+            countdownHalted = true;
+            countdownHaltedTime = System.currentTimeMillis();
+            setStaticSaveNeeded();
+        } else {
+            long timeElapsed = System.currentTimeMillis() - countdownHaltedTime;
+            for (Region region : AdvancedRegionMarket.getInstance().getRegionManager()) {
+                if (!(region instanceof CountdownRegion) || !region.isSold()) {
+                    continue;
+                }
+                ((CountdownRegion) region).extend(timeElapsed);
+            }
+            countdownHalted = false;
+            setStaticSaveNeeded();
+        }
+    }
+
+    public static long getTimeElapsedSinceCountdownHalted() {
+        if(countdownHalted) {
+            return System.currentTimeMillis() - countdownHaltedTime;
+        }
+        return 0;
+    }
+
+    public static void setStaticSaved() {
+        staticSaveNeeded = false;
+    }
+
+    public static void setStaticSaveNeeded() {
+        staticSaveNeeded = true;
+    }
+
+    public static boolean isStaticSaveNeeded() {
+        return staticSaveNeeded;
+    }
+
+    public static boolean isCountdownHalted() {
+        return countdownHalted;
+    }
+
+    public static void setCountdownHalted(boolean countdownHalted) {
+        CountdownRegion.countdownHalted = countdownHalted;
+    }
+
+    public static long getCountdownHaltedTime() {
+        return countdownHaltedTime;
+    }
+
+    public static void setCountdownHaltedTime(long countdownHaltedTime) {
+        CountdownRegion.countdownHaltedTime = countdownHaltedTime;
     }
 }

@@ -250,6 +250,10 @@ public class Messages {
     public static String REGION_IS_NOT_A_RENT_OR_CONTRACTREGION;
     @Message(name = "RegionTimeAdded", message = "&aRegion extended! New expiration-date: %remainingtime-date%")
     public static String REGION_TIME_ADDED;
+    @Message(name = "RegionTimeHalted", message = "&aCountdown stopped for all rent- and contract-regions")
+    public static String TIME_HALTED;
+    @Message(name = "RegionTimeContinuing", message = "&aCountdown continues for all rent- and contract-regions")
+    public static String TIME_CONTINUING;
     @Message(name = "RegionNotOwn", message = "&4You do not own this region!")
     public static String REGION_NOT_OWN;
     @Message(name = "RegionNotSold", message = "&4Region not sold!")

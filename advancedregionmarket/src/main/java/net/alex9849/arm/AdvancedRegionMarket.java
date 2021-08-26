@@ -369,6 +369,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         commands.add(new SetEntityLimitCommand(this));
         commands.add(new SetLandLord(this));
         commands.add(new SetProtectionOfContinuance(this));
+        commands.add(new AddTimeCommand(this));
 
         List<String> entityLimtUsage = new ArrayList<>(Arrays.asList("entitylimit [SETTING]", "entitylimit help"));
         List<BasicArmCommand> entityLimitCommands = new ArrayList<>();

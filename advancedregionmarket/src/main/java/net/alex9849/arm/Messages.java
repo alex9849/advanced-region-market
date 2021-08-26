@@ -246,6 +246,10 @@ public class Messages {
     public static String ADD_MEMBER_MAX_MEMBERS_EXCEEDED;
     @Message(name = "RegionIsNotARentregion", message = "&4Region is not a rentregion!")
     public static String REGION_IS_NOT_A_RENTREGION;
+    @Message(name = "RegionIsNotARentOrContractregion", message = "&4Region is not a rent or contractregion!")
+    public static String REGION_IS_NOT_A_RENT_OR_CONTRACTREGION;
+    @Message(name = "RegionTimeAdded", message = "&aRegion extended! New expiration-date: %remainingtime-date%")
+    public static String REGION_TIME_ADDED;
     @Message(name = "RegionNotOwn", message = "&4You do not own this region!")
     public static String REGION_NOT_OWN;
     @Message(name = "RegionNotSold", message = "&4Region not sold!")

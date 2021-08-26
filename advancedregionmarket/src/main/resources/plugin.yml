@@ -22,6 +22,7 @@ permissions:
       arm.admin.listbackups: true
       arm.admin.restorebackup: true
       arm.admin.preset.apply: true
+      arm.admin.addtime: true
       arm.admin.settplocation: true
       arm.admin.createbackup: true
       arm.admin.setprotectionofcontinuance: true
@@ -180,6 +181,9 @@ permissions:
       arm.subregion.help: true
   arm.admin.setinactivityreset:
     description: Allows to enable and disable inactivityreset for specific regions
+    default: op
+  arm.admin.addtime:
+    description: Extends a sold region for a specific amount of time
     default: op
   arm.admin.settplocation:
     description: Allows admins to set a teleport-location for all regions

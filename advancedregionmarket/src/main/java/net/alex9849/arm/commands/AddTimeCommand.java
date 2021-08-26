@@ -56,10 +56,10 @@ public class AddTimeCommand extends BasicArmCommand {
         }
         if(args.length == 3) {
             if (args[2].matches("[0-9]+")) {
-                returnme.add(args[3] + "s");
-                returnme.add(args[3] + "m");
-                returnme.add(args[3] + "h");
-                returnme.add(args[3] + "d");
+                returnme.add(args[2] + "s");
+                returnme.add(args[2] + "m");
+                returnme.add(args[2] + "h");
+                returnme.add(args[2] + "d");
             }
         }
         return returnme;

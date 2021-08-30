@@ -1,9 +1,11 @@
 package net.alex9849.arm.presets.presets;
 
 import net.alex9849.arm.Messages;
+import net.alex9849.arm.regions.ContractRegion;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.SellRegion;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
+import net.alex9849.arm.regions.price.ContractPrice;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.signs.SignData;
@@ -39,8 +41,12 @@ public class SellPreset extends Preset {
     @Override
     public void applyToRegion(Region region) {
         super.applyToRegion(region);
-        if(this.getPrice() != null && region instanceof SellRegion)
-            ((SellRegion) region).setSellPrice(new Price(this.getPrice()));
+        if(this.getPrice() != null && region instanceof SellRegion) {
+            SellRegion sellRegion = (SellRegion) region;
+            Price oldPrice = sellRegion.getPriceObject();
+            double price = this.getPrice() != null ? this.getPrice() : oldPrice.calcPrice(region.getRegion());
+            sellRegion.setSellPrice(new Price(price));
+        }
     }
 
 }

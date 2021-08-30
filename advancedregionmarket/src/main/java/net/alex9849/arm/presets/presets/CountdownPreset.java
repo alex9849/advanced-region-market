@@ -49,15 +49,6 @@ public abstract class CountdownPreset extends Preset {
     }
 
     @Override
-    public void applyToRegion(Region region) {
-        super.applyToRegion(region);
-        if (this.getPrice() != null && this.getExtendTime() != null
-                && region instanceof ContractRegion) {
-            ((ContractRegion) region).setContractPrice(new ContractPrice(this.getPrice(), this.getExtendTime()));
-        }
-    }
-
-    @Override
     public HashMap<String, StringCreator> getVariableReplacements() {
         HashMap<String, StringCreator> variableReplacements = super.getVariableReplacements();
         variableReplacements.put("%extendtime%", () -> Messages.getStringValue(this.getExtendTime(), x ->

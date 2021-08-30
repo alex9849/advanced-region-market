@@ -2,8 +2,11 @@ package net.alex9849.arm.presets.presets;
 
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.regions.ContractRegion;
+import net.alex9849.arm.regions.Region;
+import net.alex9849.arm.regions.RentRegion;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.price.ContractPrice;
+import net.alex9849.arm.regions.price.RentPrice;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.signs.SignData;
 import org.bukkit.World;
@@ -23,6 +26,18 @@ public class ContractPreset extends CountdownPreset {
     @Override
     public PresetType getPresetType() {
         return PresetType.CONTRACTPRESET;
+    }
+
+    @Override
+    public void applyToRegion(Region region) {
+        super.applyToRegion(region);
+        if (region instanceof ContractRegion && (this.getPrice() != null || this.getExtendTime() != null)) {
+            ContractRegion contractRegion = (ContractRegion) region;
+            ContractPrice oldPrice = (ContractPrice) contractRegion.getPriceObject();
+            double price = this.getPrice() != null ? this.getPrice() : oldPrice.calcPrice(region.getRegion());
+            long extendTime = this.getExtendTime() != null ? this.getExtendTime() : oldPrice.getExtendTime();
+            contractRegion.setContractPrice(new ContractPrice(price, extendTime));
+        }
     }
 
     @Override

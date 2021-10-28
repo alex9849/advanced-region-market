@@ -3,7 +3,7 @@ name: Build Java Maven project
 on:
   create:
     tags:
-      - *
+      - '*'
 
 jobs:
   build:

@@ -8,7 +8,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-20.04
-    needs: compile
     name: Build Maven project
     steps:
       - uses: actions/checkout@v2

@@ -18,8 +18,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public abstract class CountdownRegion extends Region {
-    private static boolean countdownHalted = false;
-    private static long countdownHaltedTime = 0;
     private static boolean staticSaveNeeded = false;
     private long payedTill;
     private StringReplacer stringReplacer;
@@ -69,7 +67,7 @@ public abstract class CountdownRegion extends Region {
     public abstract long getExtendTime();
 
     public long getPayedTill() {
-        return this.payedTill + getTimeElapsedSinceCountdownHalted();
+        return this.payedTill;
     }
 
     public void setPayedTill(long payedTill) {
@@ -211,34 +209,6 @@ public abstract class CountdownRegion extends Region {
         return time;
     }
 
-    public static void haltCountdown(boolean halt) {
-        if(countdownHalted && halt) {
-            return;
-        }
-        if (halt) {
-            countdownHalted = true;
-            countdownHaltedTime = System.currentTimeMillis();
-            setStaticSaveNeeded();
-        } else {
-            long timeElapsed = System.currentTimeMillis() - countdownHaltedTime;
-            for (Region region : AdvancedRegionMarket.getInstance().getRegionManager()) {
-                if (!(region instanceof CountdownRegion) || !region.isSold()) {
-                    continue;
-                }
-                ((CountdownRegion) region).extend(timeElapsed);
-            }
-            countdownHalted = false;
-            setStaticSaveNeeded();
-        }
-    }
-
-    public static long getTimeElapsedSinceCountdownHalted() {
-        if(countdownHalted) {
-            return System.currentTimeMillis() - countdownHaltedTime;
-        }
-        return 0;
-    }
-
     public static void setStaticSaved() {
         staticSaveNeeded = false;
     }
@@ -249,21 +219,5 @@ public abstract class CountdownRegion extends Region {
 
     public static boolean isStaticSaveNeeded() {
         return staticSaveNeeded;
-    }
-
-    public static boolean isCountdownHalted() {
-        return countdownHalted;
-    }
-
-    public static void setCountdownHalted(boolean countdownHalted) {
-        CountdownRegion.countdownHalted = countdownHalted;
-    }
-
-    public static long getCountdownHaltedTime() {
-        return countdownHaltedTime;
-    }
-
-    public static void setCountdownHaltedTime(long countdownHaltedTime) {
-        CountdownRegion.countdownHaltedTime = countdownHaltedTime;
     }
 }

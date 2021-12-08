@@ -1,9 +1,8 @@
 name: Build Java Maven project
 
 on:
-  create:
-    tags:
-      - '*'
+  release:
+    types: [created]
 
 jobs:
   build:
@@ -17,8 +16,16 @@ jobs:
           distribution: 'adopt'
           java-version: '11'
           java-package: jdk
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+        shell: bash
       - name: Build project
-        run: mvn clean install
+        run: |
+          mvn versions:set -DnewVersion=${{ steps.get_version.outputs.VERSION }}
+          mvn versions:commit
+          mvn clean
+          mvn install
       - name: Get artifacts
         run: |
           mkdir push
@@ -27,7 +34,8 @@ jobs:
           rm -f ./push/*-shaded.jar
           rm -f ./push/*-sources.jar
           mv -f ./push/*-javadoc.jar ./push/JavaDocument.zip
-      - name: Upload Maven build artifact
-        uses: actions/upload-artifact@v2
+      - name: Github release
+        uses: softprops/action-gh-release@v1
         with:
-          path: push/*
+          fail_on_unmatched_files: true
+          files: push/*

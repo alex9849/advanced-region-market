@@ -127,11 +127,6 @@ public abstract class CountdownRegion extends Region {
         this.payedTill += time;
         this.queueSave();
         this.updateSigns();
-        try {
-            this.applyFlagGroup(FlagGroup.ResetMode.NON_EDITABLE, false);
-        } catch (FeatureDisabledException e) {
-            //Ignore
-        }
     }
 
     @Override

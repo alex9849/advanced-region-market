@@ -34,7 +34,7 @@
             <artifactId>worldguard-legacy</artifactId>
             <scope>system</scope>
             <version>any</version>
-            <systemPath>${project.basedir}/lib/worldguard-legacy-6.1.3-SNAPSHOT.jar</systemPath>
+            <systemPath>${project.basedir}/lib/worldguard-6.1.jar</systemPath>
         </dependency>
         <!--My interfaces-->
         <dependency>

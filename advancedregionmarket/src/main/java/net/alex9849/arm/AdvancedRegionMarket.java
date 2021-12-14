@@ -564,18 +564,17 @@ public class AdvancedRegionMarket extends JavaPlugin {
     private boolean setupWorldEdit() {
         Plugin plugin = getServer().getPluginManager().getPlugin("WorldEdit");
 
-        if (plugin == null || !(plugin instanceof WorldEditPlugin)) {
+        if (!(plugin instanceof WorldEditPlugin)) {
             return false;
         }
         WorldEditPlugin worldedit = (WorldEditPlugin) plugin;
         String version = "notSupported";
-        Boolean hasFaWeHandler = true;
+        boolean hasFaWeHandler = false;
 
         if (worldedit.getDescription().getVersion().startsWith("6.")) {
             version = "6";
         } else {
             version = "7";
-            hasFaWeHandler = false;
         }
 
         if (this.isFaWeInstalled() && hasFaWeHandler) {

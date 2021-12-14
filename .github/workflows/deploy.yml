@@ -16,15 +16,8 @@ jobs:
           distribution: 'adopt'
           java-version: '11'
           java-package: jdk
-      - name: Get the version
-        id: get_version
-        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
-        shell: bash
       - name: Build project
         run: |
-          mvn versions:set -DnewVersion=${{ steps.get_version.outputs.VERSION }}
-          mvn versions:commit
-          mvn clean
           mvn install
       - name: Get artifacts
         run: |

@@ -40,7 +40,7 @@
         </repository>
         <repository>
             <id>enginehub</id>
-            <url>https://maven.enginehub.org/repo</url>
+            <url>https://maven.enginehub.org/repo/</url>
             <releases>
                 <enabled>true</enabled> <!-- releases enabled: this specific repository also hosts release versions -->
             </releases>

@@ -30,10 +30,11 @@
         </dependency>
         <!--Worldguard API-->
         <dependency>
-            <groupId>com.sk89q</groupId>
-            <artifactId>worldguard</artifactId>
-            <scope>provided</scope>
-            <version>6.1</version>
+            <groupId>com.sk89q.worldguard</groupId>
+            <artifactId>worldguard-legacy</artifactId>
+            <scope>system</scope>
+            <version>any</version>
+            <systemPath>${project.basedir}/lib/worldguard-legacy-6.1.3-SNAPSHOT.jar</systemPath>
         </dependency>
         <!--My interfaces-->
         <dependency>

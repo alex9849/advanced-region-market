@@ -161,13 +161,6 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>net.alex9849</groupId>
-            <artifactId>we6faweadapter</artifactId>
-            <version>1.0</version>
-            <type>jar</type>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>org.bstats</groupId>
             <artifactId>bstats-bukkit</artifactId>
             <version>1.4</version>

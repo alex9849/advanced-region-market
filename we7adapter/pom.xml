@@ -35,13 +35,6 @@
             <scope>provided</scope>
             <version>7.0.2</version>
         </dependency>
-        <!--FaWe API-->
-        <dependency>
-            <groupId>com.boydti</groupId>
-            <artifactId>fawe-api</artifactId>
-            <version>latest</version>
-            <scope>provided</scope>
-        </dependency>
         <!--My interfaces-->
         <dependency>
             <groupId>net.alex9849</groupId>

@@ -10,8 +10,7 @@ import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.regions.price.RentPrice;
 import net.alex9849.arm.util.TimeUtil;
-import net.alex9849.arm.util.stringreplacer.StringCreator;
-import net.alex9849.arm.util.stringreplacer.StringReplacer;
+import net.alex9849.arm.util.StringReplacer;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.signs.SignData;
 import org.bukkit.Bukkit;
@@ -23,6 +22,7 @@ import org.bukkit.entity.Player;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.logging.Level;
 
 public class RentRegion extends CountdownRegion {
@@ -30,7 +30,7 @@ public class RentRegion extends CountdownRegion {
     private StringReplacer stringReplacer;
 
     {
-        HashMap<String, StringCreator> variableReplacements = new HashMap<>();
+        HashMap<String, Supplier<String>> variableReplacements = new HashMap<>();
         variableReplacements.put("%maxextendtime-short%", () -> {
             return TimeUtil.timeInMsToString(this.getMaxExtendTime(), false, false);
         });
@@ -47,7 +47,7 @@ public class RentRegion extends CountdownRegion {
             return Price.formatPrice(this.getCurrentExtendPrice());
         });
 
-        this.stringReplacer = new StringReplacer(variableReplacements, 50);
+        this.stringReplacer = new StringReplacer(variableReplacements);
     }
 
     public RentRegion(WGRegion region, List<SignData> sellsigns, RentPrice rentPrice, boolean sold, Region parentRegion) {

@@ -21,8 +21,7 @@ import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.util.Saveable;
 import net.alex9849.arm.util.TimeUtil;
-import net.alex9849.arm.util.stringreplacer.StringCreator;
-import net.alex9849.arm.util.stringreplacer.StringReplacer;
+import net.alex9849.arm.util.StringReplacer;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.signs.SignData;
 import org.bukkit.*;
@@ -36,12 +35,13 @@ import org.bukkit.util.Vector;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.function.Supplier;
 import java.util.logging.Level;
 
 public abstract class Region implements Saveable {
     private Integer m2Amount;
-    private WGRegion region;
-    private World regionworld;
+    private final WGRegion region;
+    private final World regionworld;
     private ArrayList<SignData> sellsign;
     private Region parentRegion;
     private Set<Region> subregions;
@@ -69,7 +69,7 @@ public abstract class Region implements Saveable {
     private HashMap<EntityLimit.LimitableEntityType, Integer> extraEntitys = new HashMap<>();
 
     {
-        HashMap<String, StringCreator> variableReplacements = new HashMap<>();
+        HashMap<String, Supplier<String>> variableReplacements = new HashMap<>();
         variableReplacements.put("%prefix%", () -> Messages.PREFIX);
         variableReplacements.put("%regionid%", () -> this.getRegion().getId());
         variableReplacements.put("%maxmembers%", () -> String.valueOf((this.getMaxMembers() < 0) ? Messages.UNLIMITED : this.getMaxMembers()));
@@ -182,7 +182,7 @@ public abstract class Region implements Saveable {
         variableReplacements.put("%inactivityresetin-countdown-writtenout-cutted%", () ->
                 this.getInactivityResetCountdown(false, true, true));
 
-        this.stringReplacer = new StringReplacer(variableReplacements, 50);
+        this.stringReplacer = new StringReplacer(variableReplacements);
 
     }
 
@@ -1141,10 +1141,10 @@ public abstract class Region implements Saveable {
     }
 
     public String replaceVariables(String message) {
-        message = this.stringReplacer.replace(message).toString();
-        message = this.getRegionKind().replaceVariables(message).toString();
-        message = this.getEntityLimitGroup().replaceVariables(message).toString();
-        return this.getFlagGroup().replaceVariables(message).toString();
+        message = this.stringReplacer.replace(message);
+        message = this.getRegionKind().replaceVariables(message);
+        message = this.getEntityLimitGroup().replaceVariables(message);
+        return this.getFlagGroup().replaceVariables(message);
     }
 
     public List<Entity> getInsideEntities(boolean includePlayers) {

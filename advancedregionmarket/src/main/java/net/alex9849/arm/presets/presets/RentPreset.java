@@ -6,7 +6,6 @@ import net.alex9849.arm.regions.RentRegion;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.price.RentPrice;
 import net.alex9849.arm.util.TimeUtil;
-import net.alex9849.arm.util.stringreplacer.StringCreator;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.signs.SignData;
 import org.bukkit.World;
@@ -15,6 +14,7 @@ import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class RentPreset extends CountdownPreset {
     private Long maxExtendTime;
@@ -84,8 +84,8 @@ public class RentPreset extends CountdownPreset {
     }
 
     @Override
-    public HashMap<String, StringCreator> getVariableReplacements() {
-        HashMap<String, StringCreator> variableReplacements = super.getVariableReplacements();
+    public HashMap<String, Supplier<String>> getVariableReplacements() {
+        HashMap<String, Supplier<String>> variableReplacements = super.getVariableReplacements();
         variableReplacements.put("%maxextendtime%", () -> Messages.getStringValue(this.getMaxExtendTime(), x ->
                 TimeUtil.timeInMsToString(x, false, false), Messages.NOT_DEFINED));
         return variableReplacements;

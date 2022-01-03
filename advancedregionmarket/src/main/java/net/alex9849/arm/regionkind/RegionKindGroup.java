@@ -2,8 +2,7 @@ package net.alex9849.arm.regionkind;
 
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.util.Saveable;
-import net.alex9849.arm.util.stringreplacer.StringCreator;
-import net.alex9849.arm.util.stringreplacer.StringReplacer;
+import net.alex9849.arm.util.StringReplacer;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -12,6 +11,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class RegionKindGroup implements Iterable<RegionKind>, LimitGroupElement, Saveable {
@@ -23,13 +23,11 @@ public class RegionKindGroup implements Iterable<RegionKind>, LimitGroupElement,
     private StringReplacer stringReplacer;
 
     {
-        HashMap<String, StringCreator> variableReplacements = new HashMap<>();
+        HashMap<String, Supplier<String>> variableReplacements = new HashMap<>();
         variableReplacements.put("%regionkindgroupdisplay%", () -> {
             return ChatColor.translateAlternateColorCodes('&', this.getDisplayName());
         });
-        variableReplacements.put("%regionkindgroup%", () -> {
-            return this.getName();
-        });
+        variableReplacements.put("%regionkindgroup%", this::getName);
         variableReplacements.put("%currency%", () -> {
             return Messages.CURRENCY;
         });
@@ -37,13 +35,13 @@ public class RegionKindGroup implements Iterable<RegionKind>, LimitGroupElement,
             return Messages.convertYesNo(this.isDisplayInLimits());
         });
         variableReplacements.put("%regionkindgroupmembers%", () -> {
-            return Messages.getStringList(this.regionKinds, x -> x.getName(), ", ");
+            return Messages.getStringList(this.regionKinds, RegionKind::getName, ", ");
         });
         variableReplacements.put("%regionkindgroupmembersdisplay%", () -> {
-            return Messages.getStringList(this.regionKinds, x -> x.getDisplayName(), ", ");
+            return Messages.getStringList(this.regionKinds, RegionKind::getDisplayName, ", ");
         });
 
-        this.stringReplacer = new StringReplacer(variableReplacements, 20);
+        this.stringReplacer = new StringReplacer(variableReplacements);
     }
 
     public RegionKindGroup(String name) {

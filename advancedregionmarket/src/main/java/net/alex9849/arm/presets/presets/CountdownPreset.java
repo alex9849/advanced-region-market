@@ -1,16 +1,13 @@
 package net.alex9849.arm.presets.presets;
 
 import net.alex9849.arm.Messages;
-import net.alex9849.arm.regions.ContractRegion;
-import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
-import net.alex9849.arm.regions.price.ContractPrice;
 import net.alex9849.arm.regions.price.RentPrice;
 import net.alex9849.arm.util.TimeUtil;
-import net.alex9849.arm.util.stringreplacer.StringCreator;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.HashMap;
+import java.util.function.Supplier;
 
 public abstract class CountdownPreset extends Preset {
     private Long extendTime;
@@ -49,8 +46,8 @@ public abstract class CountdownPreset extends Preset {
     }
 
     @Override
-    public HashMap<String, StringCreator> getVariableReplacements() {
-        HashMap<String, StringCreator> variableReplacements = super.getVariableReplacements();
+    public HashMap<String, Supplier<String>> getVariableReplacements() {
+        HashMap<String, Supplier<String>> variableReplacements = super.getVariableReplacements();
         variableReplacements.put("%extendtime%", () -> Messages.getStringValue(this.getExtendTime(), x ->
                 TimeUtil.timeInMsToString(x, false, false), Messages.NOT_DEFINED));
         return variableReplacements;

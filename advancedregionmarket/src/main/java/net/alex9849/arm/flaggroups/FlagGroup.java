@@ -7,13 +7,13 @@ import net.alex9849.arm.exceptions.FeatureDisabledException;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.SellType;
 import net.alex9849.arm.util.Saveable;
-import net.alex9849.arm.util.stringreplacer.StringCreator;
-import net.alex9849.arm.util.stringreplacer.StringReplacer;
+import net.alex9849.arm.util.StringReplacer;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.util.*;
+import java.util.function.Supplier;
 
 public class FlagGroup implements Saveable {
     public static FlagGroup DEFAULT = new FlagGroup("Default", 10, true, new ArrayList<>(), new ArrayList<>());
@@ -31,12 +31,12 @@ public class FlagGroup implements Saveable {
 
 
     {
-        HashMap<String, StringCreator> variableReplacements = new HashMap<>();
+        HashMap<String, Supplier<String>> variableReplacements = new HashMap<>();
         variableReplacements.put("%flaggroup%", () -> {
             return FlagGroup.isFeatureEnabled()? this.getName() : Messages.REGION_INFO_FEATURE_DISABLED;
         });
 
-        this.stringReplacer = new StringReplacer(variableReplacements, 20);
+        this.stringReplacer = new StringReplacer(variableReplacements);
     }
 
 

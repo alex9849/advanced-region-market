@@ -4,8 +4,7 @@ import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.util.MaterialFinder;
 import net.alex9849.arm.util.Saveable;
-import net.alex9849.arm.util.stringreplacer.StringCreator;
-import net.alex9849.arm.util.stringreplacer.StringReplacer;
+import net.alex9849.arm.util.StringReplacer;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -14,6 +13,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class RegionKind implements LimitGroupElement, Saveable {
     public static RegionKind DEFAULT = new RegionKind("Default", MaterialFinder.getRedBed(), new ArrayList<String>(), "Default", true, true);
@@ -29,7 +29,7 @@ public class RegionKind implements LimitGroupElement, Saveable {
     private StringReplacer stringReplacer;
 
     {
-        HashMap<String, StringCreator> variableReplacements = new HashMap<>();
+        HashMap<String, Supplier<String>> variableReplacements = new HashMap<>();
         variableReplacements.put("%regionkinddisplay%", () -> {
             return this.getDisplayName();
         });
@@ -71,7 +71,7 @@ public class RegionKind implements LimitGroupElement, Saveable {
             return msg.isEmpty() ? "" : "(" + msg + ")";
         });
 
-        this.stringReplacer = new StringReplacer(variableReplacements, 20);
+        this.stringReplacer = new StringReplacer(variableReplacements);
     }
 
     public RegionKind(String name, Material material, List<String> lore, String displayName, boolean displayInRegionFinder, boolean displayInLimits, int customItemModel) {

@@ -3,8 +3,7 @@ package net.alex9849.arm.entitylimit;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.util.Saveable;
-import net.alex9849.arm.util.stringreplacer.StringCreator;
-import net.alex9849.arm.util.stringreplacer.StringReplacer;
+import net.alex9849.arm.util.StringReplacer;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
@@ -13,6 +12,7 @@ import org.bukkit.entity.EntityType;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class EntityLimitGroup implements Saveable {
     public static EntityLimitGroup DEFAULT = new EntityLimitGroup(new ArrayList<>(), Integer.MAX_VALUE, Integer.MAX_VALUE, 0, "Default");
@@ -26,7 +26,7 @@ public class EntityLimitGroup implements Saveable {
     private StringReplacer stringReplacer;
 
     {
-        HashMap<String, StringCreator> variableReplacements = new HashMap<>();
+        HashMap<String, Supplier<String>> variableReplacements = new HashMap<>();
         variableReplacements.put("%entitylimitgroup%", () -> {
             return this.getName();
         });
@@ -43,7 +43,7 @@ public class EntityLimitGroup implements Saveable {
             return EntityLimitGroup.intToLimitString(this.getHardLimit());
         });
 
-        this.stringReplacer = new StringReplacer(variableReplacements, 20);
+        this.stringReplacer = new StringReplacer(variableReplacements);
     }
 
 

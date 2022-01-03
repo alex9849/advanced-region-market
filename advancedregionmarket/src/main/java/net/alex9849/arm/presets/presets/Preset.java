@@ -7,8 +7,7 @@ import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.util.Saveable;
-import net.alex9849.arm.util.stringreplacer.StringCreator;
-import net.alex9849.arm.util.stringreplacer.StringReplacer;
+import net.alex9849.arm.util.StringReplacer;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.signs.SignData;
 import org.bukkit.Bukkit;
@@ -21,6 +20,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public abstract class Preset implements Saveable, Cloneable {
@@ -39,7 +39,7 @@ public abstract class Preset implements Saveable, Cloneable {
     private EntityLimitGroup entityLimitGroup;
     private List<String> setupCommands = new ArrayList<>();
     private boolean needsSave = false;
-    private StringReplacer stringReplacer = new StringReplacer(getVariableReplacements(), 50);
+    private StringReplacer stringReplacer = new StringReplacer(getVariableReplacements());
 
     /*#########################
     ######### Getter ##########
@@ -233,13 +233,13 @@ public abstract class Preset implements Saveable, Cloneable {
             Preset preset = (Preset) obj;
             preset.setupCommands = new ArrayList<>();
             preset.setupCommands.addAll(this.getCommands());
-            preset.stringReplacer = new StringReplacer(preset.getVariableReplacements(), 50);
+            preset.stringReplacer = new StringReplacer(preset.getVariableReplacements());
         }
         return obj;
     }
 
-    public HashMap<String, StringCreator> getVariableReplacements() {
-        HashMap<String, StringCreator> variableReplacements = new HashMap<>();
+    public HashMap<String, Supplier<String>> getVariableReplacements() {
+        HashMap<String, Supplier<String>> variableReplacements = new HashMap<>();
         variableReplacements.put("%presetname%", this::getName);
         variableReplacements.put("%presetinactivityreset%", () -> Messages.getStringValue(this.isInactivityReset(), Messages::convertYesNo, Messages.NOT_DEFINED));
         variableReplacements.put("%presetishotel%", () -> Messages.getStringValue(this.isHotel(), Messages::convertYesNo, Messages.NOT_DEFINED));

@@ -2,12 +2,9 @@ package net.alex9849.arm.regions;
 
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
-import net.alex9849.arm.exceptions.FeatureDisabledException;
-import net.alex9849.arm.flaggroups.FlagGroup;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.util.TimeUtil;
-import net.alex9849.arm.util.stringreplacer.StringCreator;
-import net.alex9849.arm.util.stringreplacer.StringReplacer;
+import net.alex9849.arm.util.StringReplacer;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.signs.SignData;
 import org.bukkit.World;
@@ -16,6 +13,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.Supplier;
 
 public abstract class CountdownRegion extends Region {
     private static boolean staticSaveNeeded = false;
@@ -23,7 +21,7 @@ public abstract class CountdownRegion extends Region {
     private StringReplacer stringReplacer;
 
     {
-        HashMap<String, StringCreator> variableReplacements = new HashMap<>();
+        HashMap<String, Supplier<String>> variableReplacements = new HashMap<>();
         variableReplacements.put("%extendtime-short%", () -> {
             return TimeUtil.timeInMsToString(this.getExtendTime(), false, false);
         });
@@ -53,7 +51,7 @@ public abstract class CountdownRegion extends Region {
             return Price.formatPrice(this.getPricePerM3PerWeek());
         });
 
-        this.stringReplacer = new StringReplacer(variableReplacements, 50);
+        this.stringReplacer = new StringReplacer(variableReplacements);
     }
 
     public CountdownRegion(WGRegion region, List<SignData> sellsigns, boolean sold, Region parentRegion) {

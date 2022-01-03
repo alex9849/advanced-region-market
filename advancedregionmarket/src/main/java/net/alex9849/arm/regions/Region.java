@@ -47,7 +47,7 @@ public abstract class Region implements Saveable {
     private Set<Region> subregions;
     private Location teleportLocation;
     private Location playerTeleportLocation;
-    private StringReplacer stringReplacer;
+    private final StringReplacer stringReplacer = new StringReplacer(this.getVariableReplacements());
     private boolean sold;
     private boolean inactivityReset = true;
     private boolean isProtectionOfContinuance = false;
@@ -67,124 +67,6 @@ public abstract class Region implements Saveable {
     private EntityLimitGroup entityLimitGroup = EntityLimitGroup.DEFAULT;
     private HashSet<Integer> builtblocks = new HashSet<>();
     private HashMap<EntityLimit.LimitableEntityType, Integer> extraEntitys = new HashMap<>();
-
-    {
-        HashMap<String, Supplier<String>> variableReplacements = new HashMap<>();
-        variableReplacements.put("%prefix%", () -> Messages.PREFIX);
-        variableReplacements.put("%regionid%", () -> this.getRegion().getId());
-        variableReplacements.put("%maxmembers%", () -> String.valueOf((this.getMaxMembers() < 0) ? Messages.UNLIMITED : this.getMaxMembers()));
-        variableReplacements.put("%region%", () -> this.getRegion().getId());
-        variableReplacements.put("%price%", () -> Price.formatPrice(this.getPricePerPeriod()));
-        variableReplacements.put("%dimensions%", this::getDimensions);
-        variableReplacements.put("%priceperm2%", () -> Price.formatPrice(this.getPricePerM2()));
-        variableReplacements.put("%priceperm3%", () -> Price.formatPrice(this.getPricePerM3()));
-        variableReplacements.put("%remaininguserresetcooldown-date%", () ->
-                TimeUtil.getDate(AdvancedRegionMarket.getInstance().getPluginSettings().getUserResetCooldown() + this.getLastreset(),
-                        true, Messages.INFO_NOW, AdvancedRegionMarket.getInstance().getPluginSettings().getDateTimeformat()));
-        variableReplacements.put("%remaininguserresetcooldown-countdown-short%", () ->
-                TimeUtil.getCountdown(AdvancedRegionMarket.getInstance().getPluginSettings().getUserResetCooldown() + this.getLastreset(),
-                        false, false, false, ""));
-        variableReplacements.put("%remaininguserresetcooldown-countdown-short-cutted%", () ->
-                TimeUtil.getCountdown(AdvancedRegionMarket.getInstance().getPluginSettings().getUserResetCooldown() + this.getLastreset(),
-                        false, true, false, ""));
-        variableReplacements.put("%remaininguserresetcooldown-countdown-writtenout%", () ->
-                TimeUtil.getCountdown(AdvancedRegionMarket.getInstance().getPluginSettings().getUserResetCooldown() + this.getLastreset(),
-                        true, false, false, ""));
-        variableReplacements.put("%remaininguserresetcooldown-countdown-writtenout-cutted%", () ->
-                TimeUtil.getCountdown(AdvancedRegionMarket.getInstance().getPluginSettings().getUserResetCooldown() + this.getLastreset(),
-                        true, true, false, ""));
-        variableReplacements.put("%paybackmoney%", () ->
-                Price.formatPrice(this.getPaybackMoney()));
-        variableReplacements.put("%paypackpercentage%", () ->
-                String.valueOf(this.getPaybackPercentage()));
-        variableReplacements.put("%currency%", () ->
-                Messages.CURRENCY);
-        variableReplacements.put("%world%", () ->
-                this.getRegionworld().getName());
-        variableReplacements.put("%m2%", () -> String.valueOf(getM2Amount()));
-        variableReplacements.put("%m3%", () -> {
-            int height = (this.getRegion().getMaxPoint().getBlockY() - this.getRegion().getMinPoint().getBlockY()) + 1;
-            return String.valueOf(getM2Amount() * height);
-        });
-        variableReplacements.put("%subregionlimit%", () ->
-                String.valueOf(this.getAllowedSubregions()));
-        variableReplacements.put("%hotelfunctionstatus%", () ->
-                Messages.convertEnabledDisabled(this.isHotel));
-        variableReplacements.put("%soldstatus%", () -> {
-            if (this.isSold()) {
-                return Messages.SOLD;
-            } else {
-                return Messages.AVAILABLE;
-            }
-        });
-        variableReplacements.put("%issold%", () ->
-                Messages.convertYesNo(this.isSold()));
-        variableReplacements.put("%selltype%", () ->
-                this.getSellType().getName());
-        variableReplacements.put("%ishotel%", () ->
-                Messages.convertYesNo(this.isHotel()));
-        variableReplacements.put("%isprotectionofcontinuance%", () ->
-                Messages.convertYesNo(this.isProtectionOfContinuance()));
-        variableReplacements.put("%isuserrestorable%", () ->
-                Messages.convertYesNo(this.isUserRestorable()));
-        variableReplacements.put("%isautorestore%", () ->
-                Messages.convertYesNo(this.isAutoRestore()));
-        variableReplacements.put("%isinactivityreset%", () ->
-                Messages.convertYesNo(this.isInactivityReset()));
-        variableReplacements.put("%landlord%", () ->
-                Messages.getStringValue(this.getLandlord(), x -> Messages.getStringValue(Bukkit.getOfflinePlayer(x).getName(), y -> y, Messages.UNKNOWN_UUID), Messages.LANDLORD_SERVER));
-        variableReplacements.put("%lastownerlogin%", () -> {
-            if (this.getLastLogin() == 0) {
-                return Messages.NEVER;
-            }
-            if (!this.isSold()) {
-                return Messages.INFO_REGION_NOT_SOLD;
-            }
-            return TimeUtil.getDate(this.getLastLogin(), false, "",
-                    AdvancedRegionMarket.getInstance().getPluginSettings().getDateTimeformat());
-        });
-        variableReplacements.put("%owner%", () -> {
-            if (this.getRegion().getOwners().isEmpty()) {
-                return "";
-            }
-            return Messages.getStringValue(Bukkit.getOfflinePlayer(this.getRegion().getOwners().get(0)).getName(), x -> x, Messages.UNKNOWN_UUID);
-        });
-        variableReplacements.put("%autoprice%", () -> {
-            if (this.getPriceObject().isAutoPrice()) {
-                return this.getPriceObject().getAutoPrice().getName();
-            }
-            return Messages.convertYesNo(this.getPriceObject().isAutoPrice());
-        });
-        variableReplacements.put("%subregions%", () ->
-                Messages.getStringList(this.subregions, x -> x.getRegion().getId(), ", "));
-        variableReplacements.put("%members%", () ->
-                Messages.getStringList(this.getRegion().getMembers(), x ->
-                                Messages.getStringValue(Bukkit.getOfflinePlayer(x).getName(), y -> y, Messages.UNKNOWN_UUID)
-                        , ", "));
-        variableReplacements.put("%takeoverin-date%", () ->
-                this.getTakeoverCountdown(true, false, false));
-        variableReplacements.put("%takeoverin-countdown-short%", () ->
-                this.getTakeoverCountdown(false, false, false));
-        variableReplacements.put("%takeoverin-countdown-short-cutted%", () ->
-                this.getTakeoverCountdown(false, false, true));
-        variableReplacements.put("%takeoverin-countdown-writtenout%", () ->
-                this.getTakeoverCountdown(false, true, false));
-        variableReplacements.put("%takeoverin-countdown-writtenout-cutted%", () ->
-                this.getTakeoverCountdown(false, true, true));
-        variableReplacements.put("%inactivityresetin-date%", () ->
-                this.getInactivityResetCountdown(true, false, false));
-        variableReplacements.put("%inactivityresetin-countdown-short%", () ->
-                this.getInactivityResetCountdown(false, false, false));
-        variableReplacements.put("%inactivityresetin-countdown-short-cutted%", () ->
-                this.getInactivityResetCountdown(false, false, true));
-        variableReplacements.put("%inactivityresetin-countdown-writtenout%", () ->
-                this.getInactivityResetCountdown(false, true, false));
-        variableReplacements.put("%inactivityresetin-countdown-writtenout-cutted%", () ->
-                this.getInactivityResetCountdown(false, true, true));
-
-        this.stringReplacer = new StringReplacer(variableReplacements);
-
-    }
 
     /* ######################################
     ############### Constructors ############
@@ -730,6 +612,123 @@ public abstract class Region implements Saveable {
             AdvancedRegionMarket.getInstance().getEcon().withdrawPlayer(player, this.getPricePerPeriod());
             this.giveLandlordMoney(this.getPricePerPeriod());
         }
+    }
+
+    protected HashMap<String, Supplier<String>> getVariableReplacements() {
+        HashMap<String, Supplier<String>> variableReplacements = new HashMap<>();
+        variableReplacements.put("%prefix%", () -> Messages.PREFIX);
+        variableReplacements.put("%regionid%", () -> this.getRegion().getId());
+        variableReplacements.put("%maxmembers%", () -> String.valueOf((this.getMaxMembers() < 0) ? Messages.UNLIMITED : this.getMaxMembers()));
+        variableReplacements.put("%region%", () -> this.getRegion().getId());
+        variableReplacements.put("%price%", () -> Price.formatPrice(this.getPricePerPeriod()));
+        variableReplacements.put("%dimensions%", this::getDimensions);
+        variableReplacements.put("%priceperm2%", () -> Price.formatPrice(this.getPricePerM2()));
+        variableReplacements.put("%priceperm3%", () -> Price.formatPrice(this.getPricePerM3()));
+        variableReplacements.put("%remaininguserresetcooldown-date%", () ->
+                TimeUtil.getDate(AdvancedRegionMarket.getInstance().getPluginSettings().getUserResetCooldown() + this.getLastreset(),
+                        true, Messages.INFO_NOW, AdvancedRegionMarket.getInstance().getPluginSettings().getDateTimeformat()));
+        variableReplacements.put("%remaininguserresetcooldown-countdown-short%", () ->
+                TimeUtil.getCountdown(AdvancedRegionMarket.getInstance().getPluginSettings().getUserResetCooldown() + this.getLastreset(),
+                        false, false, false, ""));
+        variableReplacements.put("%remaininguserresetcooldown-countdown-short-cutted%", () ->
+                TimeUtil.getCountdown(AdvancedRegionMarket.getInstance().getPluginSettings().getUserResetCooldown() + this.getLastreset(),
+                        false, true, false, ""));
+        variableReplacements.put("%remaininguserresetcooldown-countdown-writtenout%", () ->
+                TimeUtil.getCountdown(AdvancedRegionMarket.getInstance().getPluginSettings().getUserResetCooldown() + this.getLastreset(),
+                        true, false, false, ""));
+        variableReplacements.put("%remaininguserresetcooldown-countdown-writtenout-cutted%", () ->
+                TimeUtil.getCountdown(AdvancedRegionMarket.getInstance().getPluginSettings().getUserResetCooldown() + this.getLastreset(),
+                        true, true, false, ""));
+        variableReplacements.put("%paybackmoney%", () ->
+                Price.formatPrice(this.getPaybackMoney()));
+        variableReplacements.put("%paypackpercentage%", () ->
+                String.valueOf(this.getPaybackPercentage()));
+        variableReplacements.put("%currency%", () ->
+                Messages.CURRENCY);
+        variableReplacements.put("%world%", () ->
+                this.getRegionworld().getName());
+        variableReplacements.put("%m2%", () -> String.valueOf(getM2Amount()));
+        variableReplacements.put("%m3%", () -> {
+            int height = (this.getRegion().getMaxPoint().getBlockY() - this.getRegion().getMinPoint().getBlockY()) + 1;
+            return String.valueOf(getM2Amount() * height);
+        });
+        variableReplacements.put("%subregionlimit%", () ->
+                String.valueOf(this.getAllowedSubregions()));
+        variableReplacements.put("%hotelfunctionstatus%", () ->
+                Messages.convertEnabledDisabled(this.isHotel));
+        variableReplacements.put("%soldstatus%", () -> {
+            if (this.isSold()) {
+                return Messages.SOLD;
+            } else {
+                return Messages.AVAILABLE;
+            }
+        });
+        variableReplacements.put("%issold%", () ->
+                Messages.convertYesNo(this.isSold()));
+        variableReplacements.put("%selltype%", () ->
+                this.getSellType().getName());
+        variableReplacements.put("%ishotel%", () ->
+                Messages.convertYesNo(this.isHotel()));
+        variableReplacements.put("%isprotectionofcontinuance%", () ->
+                Messages.convertYesNo(this.isProtectionOfContinuance()));
+        variableReplacements.put("%isuserrestorable%", () ->
+                Messages.convertYesNo(this.isUserRestorable()));
+        variableReplacements.put("%isautorestore%", () ->
+                Messages.convertYesNo(this.isAutoRestore()));
+        variableReplacements.put("%isinactivityreset%", () ->
+                Messages.convertYesNo(this.isInactivityReset()));
+        variableReplacements.put("%landlord%", () ->
+                Messages.getStringValue(this.getLandlord(), x -> Messages.getStringValue(Bukkit.getOfflinePlayer(x).getName(), y -> y, Messages.UNKNOWN_UUID), Messages.LANDLORD_SERVER));
+        variableReplacements.put("%lastownerlogin%", () -> {
+            if (this.getLastLogin() == 0) {
+                return Messages.NEVER;
+            }
+            if (!this.isSold()) {
+                return Messages.INFO_REGION_NOT_SOLD;
+            }
+            return TimeUtil.getDate(this.getLastLogin(), false, "",
+                    AdvancedRegionMarket.getInstance().getPluginSettings().getDateTimeformat());
+        });
+        variableReplacements.put("%owner%", () -> {
+            if (this.getRegion().getOwners().isEmpty()) {
+                return "";
+            }
+            return Messages.getStringValue(Bukkit.getOfflinePlayer(this.getRegion().getOwners().get(0)).getName(), x -> x, Messages.UNKNOWN_UUID);
+        });
+        variableReplacements.put("%autoprice%", () -> {
+            if (this.getPriceObject().isAutoPrice()) {
+                return this.getPriceObject().getAutoPrice().getName();
+            }
+            return Messages.convertYesNo(this.getPriceObject().isAutoPrice());
+        });
+        variableReplacements.put("%subregions%", () ->
+                Messages.getStringList(this.subregions, x -> x.getRegion().getId(), ", "));
+        variableReplacements.put("%members%", () ->
+                Messages.getStringList(this.getRegion().getMembers(), x ->
+                                Messages.getStringValue(Bukkit.getOfflinePlayer(x).getName(), y -> y, Messages.UNKNOWN_UUID)
+                        , ", "));
+        variableReplacements.put("%takeoverin-date%", () ->
+                this.getTakeoverCountdown(true, false, false));
+        variableReplacements.put("%takeoverin-countdown-short%", () ->
+                this.getTakeoverCountdown(false, false, false));
+        variableReplacements.put("%takeoverin-countdown-short-cutted%", () ->
+                this.getTakeoverCountdown(false, false, true));
+        variableReplacements.put("%takeoverin-countdown-writtenout%", () ->
+                this.getTakeoverCountdown(false, true, false));
+        variableReplacements.put("%takeoverin-countdown-writtenout-cutted%", () ->
+                this.getTakeoverCountdown(false, true, true));
+        variableReplacements.put("%inactivityresetin-date%", () ->
+                this.getInactivityResetCountdown(true, false, false));
+        variableReplacements.put("%inactivityresetin-countdown-short%", () ->
+                this.getInactivityResetCountdown(false, false, false));
+        variableReplacements.put("%inactivityresetin-countdown-short-cutted%", () ->
+                this.getInactivityResetCountdown(false, false, true));
+        variableReplacements.put("%inactivityresetin-countdown-writtenout%", () ->
+                this.getInactivityResetCountdown(false, true, false));
+        variableReplacements.put("%inactivityresetin-countdown-writtenout-cutted%", () ->
+                this.getInactivityResetCountdown(false, true, true));
+
+        return variableReplacements;
     }
 
     private void addSubRegion(Region region) {

@@ -18,41 +18,6 @@ import java.util.function.Supplier;
 public abstract class CountdownRegion extends Region {
     private static boolean staticSaveNeeded = false;
     private long payedTill;
-    private StringReplacer stringReplacer;
-
-    {
-        HashMap<String, Supplier<String>> variableReplacements = new HashMap<>();
-        variableReplacements.put("%extendtime-short%", () -> {
-            return TimeUtil.timeInMsToString(this.getExtendTime(), false, false);
-        });
-        variableReplacements.put("%extendtime-writtenout%", () -> {
-            return TimeUtil.timeInMsToString(this.getExtendTime(), true, false);
-        });
-        variableReplacements.put("%remainingtime-date%", () -> {
-            return TimeUtil.getDate(this.getPayedTill(), true, Messages.REGION_INFO_EXPIRED,
-                    AdvancedRegionMarket.getInstance().getPluginSettings().getDateTimeformat());
-        });
-        variableReplacements.put("%remainingtime-countdown-short%", () -> {
-            return TimeUtil.getCountdown(this.getPayedTill(), false, false, true, Messages.REGION_INFO_EXPIRED);
-        });
-        variableReplacements.put("%remainingtime-countdown-short-cutted%", () -> {
-            return TimeUtil.getCountdown(this.getPayedTill(), false, true, true, Messages.REGION_INFO_EXPIRED);
-        });
-        variableReplacements.put("%remainingtime-countdown-writtenout%", () -> {
-            return TimeUtil.getCountdown(this.getPayedTill(), true, false, true, Messages.REGION_INFO_EXPIRED);
-        });
-        variableReplacements.put("%remainingtime-countdown-writtenout-cutted%", () -> {
-            return TimeUtil.getCountdown(this.getPayedTill(), true, true, true, Messages.REGION_INFO_EXPIRED);
-        });
-        variableReplacements.put("%priceperm2perweek%", () -> {
-            return Price.formatPrice(this.getPricePerM2PerWeek());
-        });
-        variableReplacements.put("%priceperm3perweek%", () -> {
-            return Price.formatPrice(this.getPricePerM3PerWeek());
-        });
-
-        this.stringReplacer = new StringReplacer(variableReplacements);
-    }
 
     public CountdownRegion(WGRegion region, List<SignData> sellsigns, boolean sold, Region parentRegion) {
         super(region, sellsigns, sold, parentRegion);
@@ -160,11 +125,6 @@ public abstract class CountdownRegion extends Region {
         return pricePerM2PerWeek / (this.getRegion().getMaxPoint().getBlockY() - this.getRegion().getMinPoint().getBlockY());
     }
 
-    public String replaceVariables(String message) {
-        message = super.replaceVariables(message);
-        return this.stringReplacer.replace(message).toString();
-    }
-
     public ConfigurationSection toConfigurationSection() {
         ConfigurationSection cofSection = super.toConfigurationSection();
         if (this.getPriceObject().isAutoPrice()) {
@@ -179,6 +139,39 @@ public abstract class CountdownRegion extends Region {
     /*
        Static methods
      */
+
+    protected HashMap<String, Supplier<String>> getVariableReplacements() {
+        HashMap<String, Supplier<String>> variableReplacements = super.getVariableReplacements();
+        variableReplacements.put("%extendtime-short%", () -> {
+            return TimeUtil.timeInMsToString(this.getExtendTime(), false, false);
+        });
+        variableReplacements.put("%extendtime-writtenout%", () -> {
+            return TimeUtil.timeInMsToString(this.getExtendTime(), true, false);
+        });
+        variableReplacements.put("%remainingtime-date%", () -> {
+            return TimeUtil.getDate(this.getPayedTill(), true, Messages.REGION_INFO_EXPIRED,
+                    AdvancedRegionMarket.getInstance().getPluginSettings().getDateTimeformat());
+        });
+        variableReplacements.put("%remainingtime-countdown-short%", () -> {
+            return TimeUtil.getCountdown(this.getPayedTill(), false, false, true, Messages.REGION_INFO_EXPIRED);
+        });
+        variableReplacements.put("%remainingtime-countdown-short-cutted%", () -> {
+            return TimeUtil.getCountdown(this.getPayedTill(), false, true, true, Messages.REGION_INFO_EXPIRED);
+        });
+        variableReplacements.put("%remainingtime-countdown-writtenout%", () -> {
+            return TimeUtil.getCountdown(this.getPayedTill(), true, false, true, Messages.REGION_INFO_EXPIRED);
+        });
+        variableReplacements.put("%remainingtime-countdown-writtenout-cutted%", () -> {
+            return TimeUtil.getCountdown(this.getPayedTill(), true, true, true, Messages.REGION_INFO_EXPIRED);
+        });
+        variableReplacements.put("%priceperm2perweek%", () -> {
+            return Price.formatPrice(this.getPricePerM2PerWeek());
+        });
+        variableReplacements.put("%priceperm3perweek%", () -> {
+            return Price.formatPrice(this.getPricePerM3PerWeek());
+        });
+        return variableReplacements;
+    }
 
     public static long stringToTime(String stringtime) throws IllegalArgumentException {
         long time = 0;

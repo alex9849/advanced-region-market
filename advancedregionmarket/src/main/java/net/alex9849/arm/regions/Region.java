@@ -597,7 +597,7 @@ public abstract class Region implements Saveable {
         }
 
         this.setSold(player);
-        if (AdvancedRegionMarket.getInstance().getPluginSettings().isTeleportAfterRentRegionBought()) {
+        if (AdvancedRegionMarket.getInstance().getPluginSettings().isTeleportAfterRegionTypeBought(this.getSellType())) {
             try {
                 Teleporter.teleport(player, this, "", AdvancedRegionMarket.getInstance().getConfig().getBoolean("Other.TeleportAfterRegionBoughtCountdown"));
             } catch (NoSaveLocationException e) {

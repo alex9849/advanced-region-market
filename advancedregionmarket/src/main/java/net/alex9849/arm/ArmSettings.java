@@ -1,5 +1,7 @@
 package net.alex9849.arm;
 
+import net.alex9849.arm.regions.SellType;
+
 public class ArmSettings {
     private boolean isAllowSubRegionUserRestore = false;
     private boolean isSubregionAutoRestore = false;
@@ -8,7 +10,7 @@ public class ArmSettings {
     private int subRegionPaybackPercentage = 100;
     private boolean isSubregionInactivityReset = false;
     private boolean isTeleportAfterSellRegionBought = false;
-    private boolean teleportAfterRentRegionBought = false;
+    private boolean isTeleportAfterRentRegionBought = false;
     private boolean isTeleportAfterRentRegionExtend = false;
     private boolean isTeleportAfterContractRegionBought = false;
     private boolean isSendContractRegionExtendMessage = false;
@@ -60,20 +62,21 @@ public class ArmSettings {
         return isSubregionInactivityReset;
     }
 
-    public boolean isTeleportAfterSellRegionBought() {
-        return isTeleportAfterSellRegionBought;
-    }
-
-    public boolean isTeleportAfterRentRegionBought() {
-        return teleportAfterRentRegionBought;
+    public boolean isTeleportAfterRegionTypeBought(SellType sellType) {
+        switch (sellType) {
+            case SELL:
+                return this.isTeleportAfterSellRegionBought;
+            case RENT:
+                return this.isTeleportAfterRentRegionBought;
+            case CONTRACT:
+                return this.isTeleportAfterContractRegionBought;
+            default:
+                throw new IllegalStateException("Don't know sellType: " + sellType);
+        }
     }
 
     public boolean isTeleportAfterRentRegionExtend() {
         return isTeleportAfterRentRegionExtend;
-    }
-
-    public boolean isTeleportAfterContractRegionBought() {
-        return isTeleportAfterContractRegionBought;
     }
 
     public boolean isSendContractRegionExtendMessage() {
@@ -190,7 +193,7 @@ public class ArmSettings {
     }
 
     public void setIsTeleportAfterRentRegionBought(boolean teleportAfterRentRegionBought) {
-        this.teleportAfterRentRegionBought = teleportAfterRentRegionBought;
+        this.isTeleportAfterRentRegionBought = teleportAfterRentRegionBought;
     }
 
     public void setIsTeleportAfterRentRegionExtend(boolean isTeleportAfterRentRegionExtend) {

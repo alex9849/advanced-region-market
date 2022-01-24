@@ -1020,12 +1020,16 @@ public class Messages {
     public static String FLAGEDITOR_INTEGERFLAG_SET_NUMBER_INFO;
     @Message(name = "FlageditorDoubleflagSetMessageInfo", message = "&9Please write down a number:")
     public static String FLAGEDITOR_DOUBLEFLAG_SET_NUMBER_INFO;
+    @Message(name = "FlageditorSelectMessageInfo", message = "&9Please select a flag setting")
+    public static String FLAGEDITOR_SELECT_FLAG_INFO;
     @Message(name = "GUIFlageditorResetButton", message = "&4Reset all Flags to default settings")
     public static String GUI_FLAGEDITOR_RESET_BUTTON;
     @Message(name = "GUIFlageditorUnknownFlagSetPropertiesButton", message = "&2Set properties")
     public static String GUI_FLAGEDITOR_UNKNOWNFLAG_SET_PROPERTIES_BUTTON;
     @Message(name = "GUIFlageditorUnknownFlagSetPropertiesInfo", message = "&9Please write down your new flag properties: FlaggroupDoesNotExist: '&4Flaggroup does not exist!")
     public static String FLAGEDITOR_UNKNOWNFLAG_SET_PROPERTIES_INFO;
+    @Message(name = "GUIFlagSelectorName", message = "&1FlagSelector")
+    public static String GUI_FLAGSELECTOR_NAME;
     @Message(name = "FlaggroupDoesNotExist", message = "&4Flaggroup does not exist!")
     public static String FLAGGROUP_DOES_NOT_EXIST;
     @Message(name = "SubregionFlaggroupOnlyForSubregions", message = "&4Subregion flaggroup only for subregions")

@@ -80,6 +80,7 @@ public class FlagGroup implements Saveable {
             Set<SellType> applyTo = new TreeSet<>();
             List<String> guiDescriptionList = yamlConfiguration.getStringList(id + ".guidescription");
             List<String> guidescription = new ArrayList<>();
+            List<PresetContent> presetContents = new ArrayList<>();
             if (editPermission == null || editPermission.contains(" ")) {
                 editPermission = "";
             }
@@ -98,6 +99,16 @@ public class FlagGroup implements Saveable {
             if (guiDescriptionList != null) {
                 guidescription.addAll(guiDescriptionList);
             }
+            if (yamlConfiguration.isConfigurationSection(id + ".presetContents")) {
+                for (String key : yamlConfiguration.getConfigurationSection(id + ".presetContents").getKeys(false)) {
+                    List<String> description = new ArrayList<>();
+                    List<String> descriptionList = yamlConfiguration.getStringList(id + ".presetContents." + key + ".guidescription");
+                    if (descriptionList != null) {
+                        description.addAll(descriptionList);
+                    }
+                    presetContents.add(new PresetContent(yamlConfiguration.getString(id + ".presetContents." + key + ".setting", key), yamlConfiguration.getString(id + ".presetContents." + key + ".permission"), description));
+                }
+            }
 
 
             Flag flag = AdvancedRegionMarket.getInstance().getWorldGuardInterface().fuzzyMatchFlag(flagName);
@@ -106,7 +117,7 @@ public class FlagGroup implements Saveable {
                 Bukkit.getLogger().info("Could not find flag " + flagName + "! Please check your flaggroups.yml");
                 continue;
             }
-            flagSettingsList.add(new FlagSettings(flag, editable, settings, applyTo, guidescription, editPermission));
+            flagSettingsList.add(new FlagSettings(flag, editable, settings, applyTo, guidescription, editPermission, presetContents));
         }
         return flagSettingsList;
     }

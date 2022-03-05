@@ -15,6 +15,8 @@ import java.util.stream.Collectors;
 
 public class LimitGroupManager {
     private HashMap<String, LimitGroup> limitGroups = new HashMap<>();
+    public static final int PLUGIN_FREE_VERSION_MAX_REGIONS = 1;
+    public static final int UNLIMITED = -1;
 
     public void load(ConfigurationSection section) {
         Set<String> groupNames = section.getKeys(false);
@@ -58,9 +60,6 @@ public class LimitGroupManager {
     }
 
     private boolean isInLimit(Player player, RegionKind regionKind, int addOwnedRegionsNumber) {
-        if (player.hasPermission(Permission.ADMIN_LIMIT_BYPASS)) {
-            return true;
-        }
         boolean totalRegionsOk = isInLimit(getLimitTotal(player), getOwnedRegions(player) + addOwnedRegionsNumber);
         boolean regionsWithRegionKindOk = isInLimit(getLimit(player, regionKind), getOwnedRegions(player, regionKind) + addOwnedRegionsNumber);
         boolean regionsWithRegionGroupOK = AdvancedRegionMarket.getInstance().getRegionKindGroupManager().getRegionKindGroupsForRegionKind(regionKind)
@@ -69,43 +68,58 @@ public class LimitGroupManager {
     }
 
     public boolean isInLimit(int limit, int numberOfRegions) {
-        return numberOfRegions <= limit || limit == -1;
+        return numberOfRegions <= limit || limit == UNLIMITED;
     }
 
     public int getLimit(Player player, LimitGroupElement limitGroupElement) {
+        boolean isPluginPremium = AdvancedRegionMarket.getInstance().getPluginSettings().isPremium();
         if (player.hasPermission(Permission.ADMIN_LIMIT_BYPASS)) {
-            return -1;
+            return isPluginPremium? UNLIMITED : PLUGIN_FREE_VERSION_MAX_REGIONS;
         }
 
-        int maxregionswiththistype = -1;
+        int maxregionswiththistype = UNLIMITED;
         for (LimitGroup limitGroup : this.limitGroups.values()) {
             if (player.hasPermission(Permission.ARM_LIMIT + limitGroup.getName())) {
                 Integer limit = limitGroup.getLimit(limitGroupElement);
                 if(limit == null) {
                     continue;
                 }
-                if(limit == -1) {
-                    return -1;
+                if(limit == UNLIMITED) {
+                    return isPluginPremium? UNLIMITED : PLUGIN_FREE_VERSION_MAX_REGIONS;
                 }
                 maxregionswiththistype = Math.max(maxregionswiththistype, limit);
+            }
+        }
+        if(!isPluginPremium) {
+            maxregionswiththistype = Math.min(maxregionswiththistype, PLUGIN_FREE_VERSION_MAX_REGIONS);
+            if(maxregionswiththistype == UNLIMITED) {
+                maxregionswiththistype = PLUGIN_FREE_VERSION_MAX_REGIONS;
             }
         }
         return maxregionswiththistype;
     }
 
     public int getLimitTotal(Player player) {
+        boolean isPluginPremium = AdvancedRegionMarket.getInstance().getPluginSettings().isPremium();
         if (player.hasPermission(Permission.ADMIN_LIMIT_BYPASS)) {
-            return -1;
+            return isPluginPremium? UNLIMITED : PLUGIN_FREE_VERSION_MAX_REGIONS;
         }
 
-        int maxtotal = -1;
+        //Unlimited by default
+        int maxtotal = UNLIMITED;
         for (LimitGroup limitGroup : this.limitGroups.values()) {
             if (player.hasPermission(Permission.ARM_LIMIT + limitGroup.getName())) {
                 int limit = limitGroup.getTotalLimit();
-                if(limit == -1) {
-                    return -1;
+                if(limit == UNLIMITED) {
+                    return isPluginPremium? UNLIMITED : PLUGIN_FREE_VERSION_MAX_REGIONS;
                 }
                 maxtotal = Math.max(maxtotal, limit);
+            }
+        }
+        if(!isPluginPremium) {
+            maxtotal = Math.min(maxtotal, PLUGIN_FREE_VERSION_MAX_REGIONS);
+            if(maxtotal == UNLIMITED) {
+                maxtotal = PLUGIN_FREE_VERSION_MAX_REGIONS;
             }
         }
         return maxtotal;
@@ -131,6 +145,9 @@ public class LimitGroupManager {
 
     public void printLimitInChat(Player player) {
         player.sendMessage(Messages.LIMIT_INFO_TOP);
+        if(!AdvancedRegionMarket.getInstance().getPluginSettings().isPremium()) {
+            player.sendMessage(Messages.LIMIT_INTO_NO_PRO_VERSION_DISCLAIMER);
+        }
         printLimitInChat(player, Messages.LIMIT_INFO_TOTAL, getOwnedRegions(player), getLimitTotal(player));
 
         List<LimitGroupElement> limitGroupElements = new ArrayList<>();
@@ -157,8 +174,8 @@ public class LimitGroupManager {
 
     private void printLimitInChat(Player player, String message, int ownedRegions, int limit) {
         String replaced = message.replace("%playerownedkind%", Integer.toString(ownedRegions));
-        replaced = replaced.replace("%limitkind%", limit == -1 ? Messages.UNLIMITED:Integer.toString(limit));
-        replaced = replaced.replace("%limitreachedcolor%", (ownedRegions >= limit && limit > -1) ? Messages.LIMIT_REACHED_COLOR_CODE:"");
+        replaced = replaced.replace("%limitkind%", limit == UNLIMITED ? Messages.UNLIMITED:Integer.toString(limit));
+        replaced = replaced.replace("%limitreachedcolor%", (ownedRegions >= limit && limit > UNLIMITED) ? Messages.LIMIT_REACHED_COLOR_CODE:"");
         player.sendMessage(replaced);
     }
 }

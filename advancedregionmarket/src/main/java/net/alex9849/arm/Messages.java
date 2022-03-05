@@ -230,6 +230,8 @@ public class Messages {
     public static String GUI_USER_SELL_WARNING;
     @Message(name = "LimitInfoTop", message = "&6=========[Limit Info]=========")
     public static String LIMIT_INFO_TOP;
+    @Message(name = "LimitInfoNoProVersionDisclaimer", message = "&cThis server uses the free version of AdvancedRegionMarket. Therefore the number of regions a player can own has been set to 1!")
+    public static String LIMIT_INTO_NO_PRO_VERSION_DISCLAIMER;
     @Message(name = "LimitInfoLimitReachedColorCode", message = "&r&4")
     public static String LIMIT_REACHED_COLOR_CODE;
     @Message(name = "LimitInfoTotal", version = 2, message = "&6- Total: (&a%limitreachedcolor%%playerownedkind%/%limitkind%&6)")

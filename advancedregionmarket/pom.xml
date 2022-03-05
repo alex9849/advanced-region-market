@@ -107,10 +107,16 @@
             <version>1.7</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
+        <!--dependency>
             <groupId>com.github.alex9849.Minecraft-Plugin-Serverlist</groupId>
             <artifactId>client</artifactId>
             <version>1.0</version>
+            <scope>compile</scope>
+        </dependency-->
+        <dependency>
+            <groupId>com.github.alex9849.Minecraft-Plugin-Serverlist</groupId>
+            <artifactId>client</artifactId>
+            <version>master-ab5ed68c44-1</version>
             <scope>compile</scope>
         </dependency>
         <!--My Data-->

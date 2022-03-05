@@ -75,6 +75,7 @@ import java.util.*;
 import java.util.logging.Level;
 
 public class AdvancedRegionMarket extends JavaPlugin {
+    private final boolean IS_PREMIUM_VERSION = false;
     private Economy econ = null;
     private net.milkbowl.vault.permission.Permission vaultPerms = null;
     private WorldGuardInterface worldGuardInterface = null;
@@ -123,6 +124,11 @@ public class AdvancedRegionMarket extends JavaPlugin {
     }
 
     public void startup() {
+        if(this.IS_PREMIUM_VERSION) {
+            getLogger().log(Level.INFO, "Enabling premium version of AdvancedRegionMarket!");
+        } else {
+            getLogger().log(Level.INFO, "Enabling free version of AdvancedRegionMarket!");
+        }
 
         //Check if Worldguard is installed
         if (!setupWorldGuard()) {
@@ -148,7 +154,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
         this.generateConfigs();
         Updater.updateConfigs();
 
-        //TODO get locale from config
         String localeString = getConfig().getString("Other.Language");
         Messages.MessageLocale messageLocale = Messages.MessageLocale.byCode(localeString);
         if(messageLocale == null) {
@@ -196,6 +201,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         this.pluginSettings.setSubRegionPaybackPercentage(getConfig().getInt("Subregions.SubregionPaybackPercentage"));
         this.pluginSettings.setSendRentRegionExpirationWarning(getConfig().getBoolean("Other.SendRentRegionExpirationWarning"));
         this.pluginSettings.setRentRegionExpirationWarningTime(RentPrice.stringToTime(getConfig().getString("Other.RentRegionExpirationWarningTime")));
+        this.pluginSettings.setPremium(IS_PREMIUM_VERSION);
         FlagGroup.setFeatureEnabled(getConfig().getBoolean("FlagGroups.enabled"));
 
         try {
@@ -264,7 +270,12 @@ public class AdvancedRegionMarket extends JavaPlugin {
         bStatsAnalytics.register(this);
         //Enable own analytics
         try {
-            this.analytics = Analytics.genInstance(this, new URL("https://mc-analytics.alex9849.net"), () -> {
+            this.analytics = Analytics.genInstance(this, new URL("https://mc-analytics-dev.alex9849.net"),
+                    () -> {
+                this.pluginSettings.setPremium(true);
+                this.getLogger().log(Level.INFO, "Premium features have been enabled remotely!");
+                    },
+                    () -> {
                 Map<String, String> pluginSpecificData = new LinkedHashMap<>();
                 BStatsAnalytics.RegionStatistics rs = BStatsAnalytics.getRegionStatistics();
                 int totalRegions = rs.getAvailableContractRegions();
@@ -277,6 +288,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
                 pluginSpecificData.put("regionsSell", (rs.getAvailableSellRegions() + rs.getSoldSellRegions()) + "");
                 pluginSpecificData.put("regionsRent", (rs.getAvailableRentRegions() + rs.getSoldRentRegions()) + "");
                 pluginSpecificData.put("regionsContract", (rs.getAvailableContractRegions() + rs.getSoldContractRegions()) + "");
+                pluginSpecificData.put("premiumVersion", String.valueOf(IS_PREMIUM_VERSION));
                 return pluginSpecificData;
             });
         } catch (MalformedURLException e) {

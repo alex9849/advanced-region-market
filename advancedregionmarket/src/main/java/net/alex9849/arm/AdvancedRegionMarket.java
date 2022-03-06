@@ -114,11 +114,11 @@ public class AdvancedRegionMarket extends JavaPlugin {
         //This is a workaround to make shure that this plugin is loaded after the last world has been loaded.
         boolean doStartupWorkaround = false;
         List<String> softdependCheckPlugins = Arrays.asList("MultiWorld", "Multiverse-Core");
-        for(String pluginName : softdependCheckPlugins) {
+        for (String pluginName : softdependCheckPlugins) {
             Plugin plugin = Bukkit.getPluginManager().getPlugin(pluginName);
             doStartupWorkaround |= plugin != null && !plugin.isEnabled();
         }
-        if(doStartupWorkaround) {
+        if (doStartupWorkaround) {
             getLogger().log(Level.WARNING, "It looks like one of these plugins is installed, but not loaded yet:\n" +
                     String.join(", ", softdependCheckPlugins) + "\n" +
                     "In order to keep ARM working it scheduled its own enabling code to the end of the startup process as fallback!\n");
@@ -129,7 +129,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
     }
 
     public void startup() {
-        if(this.IS_PREMIUM_VERSION) {
+        if (this.IS_PREMIUM_VERSION) {
             getLogger().log(Level.INFO, "Enabling premium version of AdvancedRegionMarket!");
         } else {
             getLogger().log(Level.INFO, "Enabling free version of AdvancedRegionMarket!");
@@ -161,7 +161,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
 
         String localeString = getConfig().getString("Other.Language");
         Messages.MessageLocale messageLocale = Messages.MessageLocale.byCode(localeString);
-        if(messageLocale == null) {
+        if (messageLocale == null) {
             messageLocale = Messages.MessageLocale.EN;
             getLogger().log(Level.WARNING, "Could not file Message locale \"" + localeString + "\"! Using English as fallback!");
         }
@@ -277,25 +277,27 @@ public class AdvancedRegionMarket extends JavaPlugin {
         try {
             this.analytics = Analytics.genInstance(this, new URL("https://mc-analytics-dev.alex9849.net"),
                     () -> {
-                this.pluginSettings.setPremium(true);
-                this.getLogger().log(Level.INFO, "Premium features have been enabled remotely!");
+                        if (!IS_PREMIUM_VERSION) {
+                            this.pluginSettings.setPremium(true);
+                            this.getLogger().log(Level.INFO, "Premium features have been enabled remotely!");
+                        }
                     },
                     () -> {
-                Map<String, String> pluginSpecificData = new LinkedHashMap<>();
-                BStatsAnalytics.RegionStatistics rs = BStatsAnalytics.getRegionStatistics();
-                int totalRegions = rs.getAvailableContractRegions();
-                totalRegions += rs.getAvailableRentRegions();
-                totalRegions += rs.getAvailableSellRegions();
-                totalRegions += rs.getSoldContractRegions();
-                totalRegions += rs.getSoldRentRegions();
-                totalRegions += rs.getSoldSellRegions();
-                pluginSpecificData.put("regionsTotal", totalRegions + "");
-                pluginSpecificData.put("regionsSell", (rs.getAvailableSellRegions() + rs.getSoldSellRegions()) + "");
-                pluginSpecificData.put("regionsRent", (rs.getAvailableRentRegions() + rs.getSoldRentRegions()) + "");
-                pluginSpecificData.put("regionsContract", (rs.getAvailableContractRegions() + rs.getSoldContractRegions()) + "");
-                pluginSpecificData.put("premiumVersion", String.valueOf(IS_PREMIUM_VERSION));
-                return pluginSpecificData;
-            });
+                        Map<String, String> pluginSpecificData = new LinkedHashMap<>();
+                        BStatsAnalytics.RegionStatistics rs = BStatsAnalytics.getRegionStatistics();
+                        int totalRegions = rs.getAvailableContractRegions();
+                        totalRegions += rs.getAvailableRentRegions();
+                        totalRegions += rs.getAvailableSellRegions();
+                        totalRegions += rs.getSoldContractRegions();
+                        totalRegions += rs.getSoldRentRegions();
+                        totalRegions += rs.getSoldSellRegions();
+                        pluginSpecificData.put("regionsTotal", totalRegions + "");
+                        pluginSpecificData.put("regionsSell", (rs.getAvailableSellRegions() + rs.getSoldSellRegions()) + "");
+                        pluginSpecificData.put("regionsRent", (rs.getAvailableRentRegions() + rs.getSoldRentRegions()) + "");
+                        pluginSpecificData.put("regionsContract", (rs.getAvailableContractRegions() + rs.getSoldContractRegions()) + "");
+                        pluginSpecificData.put("premiumVersion", String.valueOf(IS_PREMIUM_VERSION));
+                        return pluginSpecificData;
+                    });
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -701,7 +703,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
     private void loadLimits() {
         this.limitGroupManager = new LimitGroupManager();
         ConfigurationSection limitsection = getConfig().getConfigurationSection("Limits");
-        if(limitsection != null) {
+        if (limitsection != null) {
             this.limitGroupManager.load(limitsection);
         }
     }

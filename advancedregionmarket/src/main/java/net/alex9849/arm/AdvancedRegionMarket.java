@@ -53,6 +53,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.block.*;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
@@ -68,6 +69,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.io.Reader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.NumberFormat;
@@ -75,7 +77,7 @@ import java.util.*;
 import java.util.logging.Level;
 
 public class AdvancedRegionMarket extends JavaPlugin {
-    private final boolean IS_PREMIUM_VERSION = false;
+    private boolean IS_PREMIUM_VERSION = false;
     private Economy econ = null;
     private net.milkbowl.vault.permission.Permission vaultPerms = null;
     private WorldGuardInterface worldGuardInterface = null;
@@ -106,6 +108,9 @@ public class AdvancedRegionMarket extends JavaPlugin {
     }
 
     public void onEnable() {
+        Reader pluginYmlReader = Objects.requireNonNull(getTextResource("plugin.yml"));
+        YamlConfiguration pluginYml = YamlConfiguration.loadConfiguration(pluginYmlReader);
+        this.IS_PREMIUM_VERSION = pluginYml.getBoolean("premiumVersion");
         //This is a workaround to make shure that this plugin is loaded after the last world has been loaded.
         boolean doStartupWorkaround = false;
         List<String> softdependCheckPlugins = Arrays.asList("MultiWorld", "Multiverse-Core");

@@ -49,7 +49,9 @@
             <goals>
               <goal>shade</goal>
             </goals>
-            <configuration />
+            <configuration>
+              <shadedArtifactAttached>false</shadedArtifactAttached>
+            </configuration>
           </execution>
         </executions>
         <configuration>
@@ -67,6 +69,20 @@
       </plugin>
     </plugins>
   </build>
+  <profiles>
+    <profile>
+      <id>pro-version</id>
+      <properties>
+        <isPremiumVersion>true</isPremiumVersion>
+      </properties>
+    </profile>
+    <profile>
+      <id>free-version</id>
+      <properties>
+        <isPremiumVersion>false</isPremiumVersion>
+      </properties>
+    </profile>
+  </profiles>
   <dependencies>
     <dependency>
       <groupId>org.spigotmc</groupId>

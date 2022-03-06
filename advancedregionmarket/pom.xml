@@ -15,18 +15,18 @@
 
     <profiles>
         <profile>
-            <id>pro-version</id>
-            <properties>
-                <isPremiumVersion>true</isPremiumVersion>
-            </properties>
-        </profile>
-        <profile>
             <id>free-version</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
                 <isPremiumVersion>false</isPremiumVersion>
+            </properties>
+        </profile>
+        <profile>
+            <id>pro-version</id>
+            <properties>
+                <isPremiumVersion>true</isPremiumVersion>
             </properties>
         </profile>
     </profiles>
@@ -87,7 +87,6 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <shadedArtifactAttached>false</shadedArtifactAttached>
                         </configuration>
                     </execution>
                 </executions>

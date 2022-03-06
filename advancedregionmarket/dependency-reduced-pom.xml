@@ -49,9 +49,7 @@
             <goals>
               <goal>shade</goal>
             </goals>
-            <configuration>
-              <shadedArtifactAttached>false</shadedArtifactAttached>
-            </configuration>
+            <configuration />
           </execution>
         </executions>
         <configuration>
@@ -71,15 +69,15 @@
   </build>
   <profiles>
     <profile>
-      <id>pro-version</id>
-      <properties>
-        <isPremiumVersion>true</isPremiumVersion>
-      </properties>
-    </profile>
-    <profile>
       <id>free-version</id>
       <properties>
         <isPremiumVersion>false</isPremiumVersion>
+      </properties>
+    </profile>
+    <profile>
+      <id>pro-version</id>
+      <properties>
+        <isPremiumVersion>true</isPremiumVersion>
       </properties>
     </profile>
   </profiles>

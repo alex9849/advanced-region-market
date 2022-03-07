@@ -23,6 +23,9 @@ public class RegionIdAtLocationPlaceholder extends AbstractOfflinePlayerPlacehol
         List<Region> regionList = plugin.getRegionManager().getRegionsByLocation(player.getLocation());
         Region region = null;
         for(Region currentRegion : regionList) {
+            if(currentRegion.getRegion() == null) {
+                continue;
+            }
             if(region == null || region.getRegion().getPriority() < currentRegion.getRegion().getPriority()) {
                 region = currentRegion;
             }
@@ -30,6 +33,6 @@ public class RegionIdAtLocationPlaceholder extends AbstractOfflinePlayerPlacehol
         if(region == null) {
             return "";
         }
-        return region.getRegion().getId();
+        return region.getRegionId();
     }
 }

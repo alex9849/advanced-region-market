@@ -141,6 +141,10 @@ public abstract class Region implements Saveable {
         return this.isUserRestorable;
     }
 
+    public String getRegionId() {
+        return this.regionId;
+    }
+
     public boolean isSubregion() {
         return this.parentRegion != null;
     }

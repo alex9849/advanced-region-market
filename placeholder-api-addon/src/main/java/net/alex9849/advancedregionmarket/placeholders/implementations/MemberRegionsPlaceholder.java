@@ -29,7 +29,7 @@ public class MemberRegionsPlaceholder extends AbstractOfflinePlayerPlaceholder {
         }
         Set<Region> accessRegions = new HashSet<>(plugin.getRegionManager().getRegionsByMember(uuid));
         accessRegions.addAll(plugin.getRegionManager().getRegionsByMember(uuid));
-        return accessRegions.stream().map(x -> x.getRegion().getId()).collect(Collectors.joining(", "));
+        return accessRegions.stream().map(Region::getRegionId).collect(Collectors.joining(", "));
     }
 
 }

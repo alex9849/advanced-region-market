@@ -33,7 +33,7 @@ Messages:
   Complete: '&aTerminé!'
   LoadingSchematic: '&7Chargement du Schematic...'
   LoadingSchematicComplete: '&7Schematic chargé !'
-  ResetRegionCooldownError: '&7Vous devez attendre&6 %remaininguserresetcooldown-countdown-short% &7days avant de pouvoir réinitialiser votre région'
+  ResetRegionCooldownError: '&7Vous devez attendre&6 %remaininguserrestorecooldown-countdown-short% &7days avant de pouvoir réinitialiser votre région'
   Currency: EUR
   SellSign1: '&2À vendre'
   SellSign2: '%regionid%'

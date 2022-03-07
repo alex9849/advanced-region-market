@@ -72,7 +72,7 @@ Messages:
   GUIResetRegionButton: '&4重置区域'
   GUIResetRegionWarningName: '&4&l确定重置嘛?'
   ResetComplete: '&a重置完成!'
-  ResetRegionCooldownError: '&7你需要等待&6 %remaininguserresetcooldown-countdown-writtenout%
+  ResetRegionCooldownError: '&7你需要等待&6 %remaininguserrestorecooldown-countdown-writtenout%
     &7后才能再次重置此区域'
   GUIRegionTakeOverMenuName: '&4区域接管'
   RegionTransferCompleteMessage: '&a转移完成!'

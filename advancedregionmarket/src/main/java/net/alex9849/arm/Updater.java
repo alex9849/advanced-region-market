@@ -161,13 +161,17 @@ public class Updater {
                 AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 3.1...");
                 updateTo3p1(pluginConfig);
             }
-            if(new Version(3, 2, 2).biggerThan(lastVersion)) {
+            if (new Version(3, 2, 2).biggerThan(lastVersion)) {
                 AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 3.2.2...");
                 updateTo3p2p2(pluginConfig);
             }
-            if(new Version(3, 3).biggerThan(lastVersion)) {
+            if (new Version(3, 3).biggerThan(lastVersion)) {
                 AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 3.3...");
                 updateTo3p3(pluginConfig);
+            }
+            if (new Version(3, 4).biggerThan(lastVersion)) {
+                AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 3.4...");
+                updateTo3p4(pluginConfig);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -1122,13 +1126,23 @@ public class Updater {
         File presetsConfDic = new File(AdvancedRegionMarket.getInstance().getDataFolder() + "/presets.yml");
         YamlConfiguration presetsConf = YamlConfiguration.loadConfiguration(presetsConfDic);
         ConfigurationSection rentSection = presetsConf.getConfigurationSection("rentpreset");
-        if(rentSection != null) {
-            for(String presetName : rentSection.getKeys(false)) {
+        if (rentSection != null) {
+            for (String presetName : rentSection.getKeys(false)) {
                 rentSection.set(presetName + ".maxExtendTime", rentSection.get(presetName + ".maxRentTime"));
                 rentSection.set(presetName + ".maxRentTime", null);
             }
         }
         presetsConf.save(presetsConfDic);
+    }
+
+    private static void updateTo3p4(FileConfiguration pluginConfig) throws IOException {
+        UpdateHelpMethods.replaceVariableInMessagesYML("%remaininguserresetcooldown-date%", "%remaininguserrestorecooldown-date%");
+        UpdateHelpMethods.replaceVariableInMessagesYML("%remaininguserresetcooldown-countdown-short%", "%remaininguserrestorecooldown-countdown-short%");
+        UpdateHelpMethods.replaceVariableInMessagesYML("%remaininguserresetcooldown-countdown-short-cutted%", "%remaininguserrestorecooldown-countdown-short-cutted%");
+        UpdateHelpMethods.replaceVariableInMessagesYML("%remaininguserresetcooldown-countdown-writtenout%", "%remaininguserrestorecooldown-countdown-writtenout%");
+        UpdateHelpMethods.replaceVariableInMessagesYML("%remaininguserresetcooldown-countdown-writtenout-cutted%", "%remaininguserrestorecooldown-countdown-writtenout-cutted%");
+        pluginConfig.set("Version", "3.4");
+        AdvancedRegionMarket.getInstance().saveConfig();
     }
 
     private static class UpdateHelpMethods {

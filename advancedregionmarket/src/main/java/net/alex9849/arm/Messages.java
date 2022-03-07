@@ -188,7 +188,7 @@ public class Messages {
     public static String GUI_RESET_REGION_WARNING_NAME;
     @Message(name = "ResetComplete", message = "&aReset complete!")
     public static String RESET_COMPLETE;
-    @Message(name = "ResetRegionCooldownError", message = "&7You have to wait&6 %remaininguserresetcooldown-countdown-writtenout% &7till you can reset your region again")
+    @Message(name = "ResetRegionCooldownError", message = "&7You have to wait&6 %remaininguserrestorecooldown-countdown-writtenout% &7till you can reset your region again")
     public static String RESET_REGION_COOLDOWN_ERROR;
     @Message(name = "GUIRegionTakeOverMenuName", message = "&4Region take-over")
     public static String GUI_TAKEOVER_MENU_NAME;

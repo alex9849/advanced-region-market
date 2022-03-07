@@ -67,7 +67,7 @@ Messages:
   RegionKindSet: '&aRegionkind erfolgreich gesetzt!'
   ResetComplete: '&aReset vollständig!'
   Complete: '&aVollständig!'
-  ResetRegionCooldownError: '&7Du musst noch&6 %remaininguserresetcooldown-countdown-writtenout% &7warten,
+  ResetRegionCooldownError: '&7Du musst noch&6 %remaininguserrestorecooldown-countdown-writtenout% &7warten,
     bis du deine Region wieder Resetten kannst!'
   Currency: $
   SellSign1: '&2Zu Verkaufen'

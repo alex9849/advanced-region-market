@@ -39,7 +39,7 @@ Messages:
   Complete: '&aВыполнено!'
   LoadingSchematic: '&7Загрузка схемы...'
   LoadingSchematicComplete: '&7Схема загружена!'
-  ResetRegionCooldownError: '&7Необходимо подождать&6 %remaininguserresetcooldown-countdown-short% &7дней, для
+  ResetRegionCooldownError: '&7Необходимо подождать&6 %remaininguserrestorecooldown-countdown-short% &7дней, для
    сброса своего региона'
   Currency: $
   SellSign1: '&4Продается'

@@ -78,7 +78,7 @@ Messages:
   GUIResetRegionButton: '&4Zresetuj region'
   GUIResetRegionWarningName: '&4&lZresetować twój region?'
   ResetComplete: '&aPomyślnie zresetowano!'
-  ResetRegionCooldownError: '&7Musisz odczekać&6 %remaininguserresetcooldown-countdown-writtenout%
+  ResetRegionCooldownError: '&7Musisz odczekać&6 %remaininguserrestorecooldown-countdown-writtenout%
     &7zanim będziesz w stanie znowu zresetować region'
   GUIRegionTakeOverMenuName: '&4Przejęcie regionu'
   RegionTransferCompleteMessage: '&aPomyślnie przeniesiono!'

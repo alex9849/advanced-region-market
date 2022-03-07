@@ -44,7 +44,7 @@ Messages:
   RegionKindSet: '&aLa parcela Kind ha sido establecida!'
   ResetComplete: '&a¡Borrado completado!'
   Complete: '&a¡Completado!'
-  ResetRegionCooldownerror: '&7Tienes que esperar&6 %remaininguserresetcooldown-countdown-writtenout%
+  ResetRegionCooldownerror: '&7Tienes que esperar&6 %remaininguserrestorecooldown-countdown-writtenout%
     &7hasta que puedas borrar tu parcela otra vez'
   Currency: $
   SellSign1: '&2Se vende'

@@ -629,19 +629,19 @@ public abstract class Region implements Saveable {
         variableReplacements.put("%dimensions%", this::getDimensions);
         variableReplacements.put("%priceperm2%", () -> Price.formatPrice(this.getPricePerM2()));
         variableReplacements.put("%priceperm3%", () -> Price.formatPrice(this.getPricePerM3()));
-        variableReplacements.put("%remaininguserresetcooldown-date%", () ->
+        variableReplacements.put("%remaininguserrestorecooldown-date%", () ->
                 TimeUtil.getDate(AdvancedRegionMarket.getInstance().getPluginSettings().getUserResetCooldown() + this.getLastreset(),
                         true, Messages.INFO_NOW, AdvancedRegionMarket.getInstance().getPluginSettings().getDateTimeformat()));
-        variableReplacements.put("%remaininguserresetcooldown-countdown-short%", () ->
+        variableReplacements.put("%remaininguserrestorecooldown-countdown-short%", () ->
                 TimeUtil.getCountdown(AdvancedRegionMarket.getInstance().getPluginSettings().getUserResetCooldown() + this.getLastreset(),
                         false, false, false, ""));
-        variableReplacements.put("%remaininguserresetcooldown-countdown-short-cutted%", () ->
+        variableReplacements.put("%remaininguserrestorecooldown-countdown-short-cutted%", () ->
                 TimeUtil.getCountdown(AdvancedRegionMarket.getInstance().getPluginSettings().getUserResetCooldown() + this.getLastreset(),
                         false, true, false, ""));
-        variableReplacements.put("%remaininguserresetcooldown-countdown-writtenout%", () ->
+        variableReplacements.put("%remaininguserrestorecooldown-countdown-writtenout%", () ->
                 TimeUtil.getCountdown(AdvancedRegionMarket.getInstance().getPluginSettings().getUserResetCooldown() + this.getLastreset(),
                         true, false, false, ""));
-        variableReplacements.put("%remaininguserresetcooldown-countdown-writtenout-cutted%", () ->
+        variableReplacements.put("%remaininguserrestorecooldown-countdown-writtenout-cutted%", () ->
                 TimeUtil.getCountdown(AdvancedRegionMarket.getInstance().getPluginSettings().getUserResetCooldown() + this.getLastreset(),
                         true, true, false, ""));
         variableReplacements.put("%paybackmoney%", () ->

@@ -37,7 +37,7 @@ public class WorldGuard7 extends WorldGuardInterface {
             return null;
         }
 
-        return getUniqueRegion(region);
+        return getLatestRegion(region);
     }
 
     public boolean canBuild(Player player, Location location) {
@@ -57,7 +57,7 @@ public class WorldGuard7 extends WorldGuardInterface {
         ProtectedRegion protectedRegion = new ProtectedCuboidRegion(regionID,
                 BlockVector3.at(pos1.getBlockX(), pos1.getBlockY(), pos1.getBlockZ()),
                 BlockVector3.at(pos2.getBlockX(), pos2.getBlockY(), pos2.getBlockZ()));
-        return getUniqueRegion(protectedRegion);
+        return getLatestRegion(protectedRegion);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class WorldGuard7 extends WorldGuardInterface {
                 .getApplicableRegions(BlockVector3.at(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ())).getRegions());
         List<WGRegion> wg7Regions = new ArrayList<WGRegion>();
         for (ProtectedRegion pRegion : protectedRegions) {
-            wg7Regions.add(getUniqueRegion(pRegion));
+            wg7Regions.add(getLatestRegion(pRegion));
         }
         return wg7Regions;
     }
@@ -83,7 +83,7 @@ public class WorldGuard7 extends WorldGuardInterface {
         getRegionManager(world).removeRegion(wg7Region.getRegion().getId());
     }
 
-    private WG7Region getUniqueRegion(ProtectedRegion protectedRegion) {
+    private WG7Region getLatestRegion(ProtectedRegion protectedRegion) {
         if (protectedRegion == null) {
             return null;
         }

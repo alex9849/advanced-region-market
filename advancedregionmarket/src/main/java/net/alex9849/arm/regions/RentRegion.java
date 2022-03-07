@@ -28,13 +28,13 @@ import java.util.logging.Level;
 public class RentRegion extends CountdownRegion {
     private RentPrice rentPrice;
 
-    public RentRegion(WGRegion region, List<SignData> sellsigns, RentPrice rentPrice, boolean sold, Region parentRegion) {
-        super(region, sellsigns, sold, parentRegion);
+    public RentRegion(String regionId, List<SignData> sellsigns, RentPrice rentPrice, boolean sold, Region parentRegion) {
+        super(regionId, sellsigns, sold, parentRegion);
         this.rentPrice = rentPrice;
     }
 
-    public RentRegion(WGRegion region, World regionworld, List<SignData> sellsigns, RentPrice rentPrice, boolean sold) {
-        super(region, regionworld, sellsigns, sold);
+    public RentRegion(String regionId, World regionworld, List<SignData> sellsigns, RentPrice rentPrice, boolean sold) {
+        super(regionId, regionworld, sellsigns, sold);
         this.rentPrice = rentPrice;
     }
 

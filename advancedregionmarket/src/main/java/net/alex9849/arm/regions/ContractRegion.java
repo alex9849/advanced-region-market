@@ -29,13 +29,13 @@ public class ContractRegion extends CountdownRegion {
     private ContractPrice contractPrice;
     private boolean terminated = false;
 
-    public ContractRegion(WGRegion region, List<SignData> sellsigns, ContractPrice contractPrice, boolean sold, Region parentRegion) {
-        super(region, sellsigns, sold, parentRegion);
+    public ContractRegion(String regionId, List<SignData> sellsigns, ContractPrice contractPrice, boolean sold, Region parentRegion) {
+        super(regionId, sellsigns, sold, parentRegion);
         this.contractPrice = contractPrice;
     }
 
-    public ContractRegion(WGRegion region, World regionworld, List<SignData> sellsigns, ContractPrice contractPrice, boolean sold) {
-        super(region, regionworld, sellsigns, sold);
+    public ContractRegion(String regionId, World regionworld, List<SignData> sellsigns, ContractPrice contractPrice, boolean sold) {
+        super(regionId, regionworld, sellsigns, sold);
         this.contractPrice = contractPrice;
     }
 

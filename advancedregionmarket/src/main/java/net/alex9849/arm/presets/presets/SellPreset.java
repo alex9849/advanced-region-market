@@ -35,7 +35,7 @@ public class SellPreset extends Preset {
 
     @Override
     protected SellRegion generateBasicRegion(WGRegion wgRegion, World world, List<SignData> signs) {
-        return new SellRegion(wgRegion, world, signs, new Price(AutoPrice.DEFAULT), false);
+        return new SellRegion(wgRegion.getId(), world, signs, new Price(AutoPrice.DEFAULT), false);
     }
 
     @Override

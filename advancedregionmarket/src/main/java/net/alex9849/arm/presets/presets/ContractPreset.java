@@ -42,6 +42,6 @@ public class ContractPreset extends CountdownPreset {
 
     @Override
     protected ContractRegion generateBasicRegion(WGRegion wgRegion, World world, List<SignData> signs) {
-        return new ContractRegion(wgRegion, world, signs, new ContractPrice(AutoPrice.DEFAULT), false);
+        return new ContractRegion(wgRegion.getId(), world, signs, new ContractPrice(AutoPrice.DEFAULT), false);
     }
 }

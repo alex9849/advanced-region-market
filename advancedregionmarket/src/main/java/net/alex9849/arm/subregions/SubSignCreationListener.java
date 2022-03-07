@@ -62,9 +62,9 @@ public class SubSignCreationListener implements Listener {
                 }
                 signList.add(signData);
                 Price subregPrice = new Price(price);
-                SellRegion sellRegion = new SellRegion(this.subRegionCreator.getSubRegion(), signList, subregPrice,
-                        false, this.subRegionCreator.getParentRegion());
                 this.subRegionCreator.saveWorldGuardRegion();
+                SellRegion sellRegion = new SellRegion(this.subRegionCreator.getSubRegion().getId(), signList, subregPrice,
+                        false, this.subRegionCreator.getParentRegion());
                 event.setCancelled(true);
                 sellRegion.updateSigns();
                 sellRegion.createSchematic();
@@ -108,10 +108,10 @@ public class SubSignCreationListener implements Listener {
                     throw new InputException(event.getPlayer(), "Could not import sign!");
                 }
                 signList.add(signData);
-                RentPrice rentPrice = new RentPrice(price, extendPerClick, maxExtendTime);
-                RentRegion rentRegion = new RentRegion(this.subRegionCreator.getSubRegion(), signList, rentPrice,
-                        false, this.subRegionCreator.getParentRegion());
                 this.subRegionCreator.saveWorldGuardRegion();
+                RentPrice rentPrice = new RentPrice(price, extendPerClick, maxExtendTime);
+                RentRegion rentRegion = new RentRegion(this.subRegionCreator.getSubRegion().getId(), signList, rentPrice,
+                        false, this.subRegionCreator.getParentRegion());
                 event.setCancelled(true);
                 rentRegion.updateSigns();
                 rentRegion.createSchematic();
@@ -153,9 +153,9 @@ public class SubSignCreationListener implements Listener {
                 }
                 signList.add(signData);
                 ContractPrice contractPrice = new ContractPrice(price, extendtime);
-                ContractRegion contractRegion = new ContractRegion(this.subRegionCreator.getSubRegion(), signList,
-                        contractPrice, false, this.subRegionCreator.getParentRegion());
                 this.subRegionCreator.saveWorldGuardRegion();
+                ContractRegion contractRegion = new ContractRegion(this.subRegionCreator.getSubRegion().getId(), signList,
+                        contractPrice, false, this.subRegionCreator.getParentRegion());
                 event.setCancelled(true);
                 contractRegion.updateSigns();
                 contractRegion.createSchematic();

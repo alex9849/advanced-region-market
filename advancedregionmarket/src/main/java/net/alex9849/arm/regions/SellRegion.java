@@ -17,13 +17,13 @@ public class SellRegion extends Region {
     private Price price;
 
 
-    public SellRegion(WGRegion region, List<SignData> sellsigns, Price price, boolean sold, Region parentRegion) {
-        super(region, sellsigns, sold, parentRegion);
+    public SellRegion(String regionId, List<SignData> sellSigns, Price price, boolean sold, Region parentRegion) {
+        super(regionId, sellSigns, sold, parentRegion);
         this.price = price;
     }
 
-    public SellRegion(WGRegion region, World regionworld, List<SignData> sellsigns, Price price, boolean sold) {
-        super(region, regionworld, sellsigns, sold);
+    public SellRegion(String regionId, World regionWorld, List<SignData> sellSigns, Price price, boolean sold) {
+        super(regionId, regionWorld, sellSigns, sold);
         this.price = price;
     }
 

@@ -22,10 +22,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class SignLinkMode implements Listener {
     private static List<SignLinkMode> signLinkModeList = new ArrayList<>();
@@ -121,7 +118,7 @@ public class SignLinkMode implements Listener {
                     return;
                 }
                 List<WGRegion> regions = AdvancedRegionMarket.getInstance().getWorldGuardInterface().getApplicableRegions(clicklocation.getWorld(), clicklocation);
-                Set<String> worldBlacklisted = SignLinkMode.blacklistedRegions.get(clicklocation.getWorld().getName());
+                Set<String> worldBlacklisted = SignLinkMode.blacklistedRegions.getOrDefault(clicklocation.getWorld().getName(), new HashSet<>());
                 regions.removeIf(x -> worldBlacklisted.contains(x.getId()));
                 if (regions.size() > 1) {
                     throw new InputException(event.getPlayer(), Messages.SIGN_LINK_MODE_COULD_NOT_SELECT_REGION_MULTIPLE_WG_REGIONS);

@@ -434,8 +434,8 @@ Messages:
     &4无法在区域上生成实体 &6%region%&4!
     未产生的实体将超过区域的实体限制.有关更多信息，请输入 &6/arm entitylimit check %region%&4!
     %region%地区的所有人都收到了此消息！如果您不是该区域的成员，则可以忽略此消息.
-  ArmBasicCommandMessage: |-
-    &6AdvancedRegionMarket 插件%pluginversion% 作者 Alex9849
+  ArmBasicCommandMessagePro: |-
+    &6AdvancedRegionMarket &4&lPro&r &6插件%pluginversion% 作者 Alex9849
     &6下载地址: &3https://bit.ly/2CfO3An
     &6汉化作者 (翻译)： Tom逍遥
   RegionBuyProtectionOfContinuance: '&4无法购买地区！地区无法继续保护您，因此不会再出售!'

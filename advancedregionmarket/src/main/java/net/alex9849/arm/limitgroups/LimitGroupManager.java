@@ -146,7 +146,7 @@ public class LimitGroupManager {
     public void printLimitInChat(Player player) {
         player.sendMessage(Messages.LIMIT_INFO_TOP);
         if(!AdvancedRegionMarket.getInstance().getPluginSettings().isPremium()) {
-            player.sendMessage(Messages.LIMIT_INTO_NO_PRO_VERSION_DISCLAIMER);
+            player.sendMessage(Messages.LIMIT_INTO_FREE_PLUGIN_VERSION_DISCLAIMER);
         }
         printLimitInChat(player, Messages.LIMIT_INFO_TOTAL, getOwnedRegions(player), getLimitTotal(player));
 

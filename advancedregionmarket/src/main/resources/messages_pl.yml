@@ -481,8 +481,8 @@ Messages:
     &4Could not spawn entity on region &6%region%&4!
     The not spawned entity would exceed the region's entitylimit. For more information type &6/arm entitylimit check %region%&4!
     Everybody on region %region% received this message! If you are not a member of this region, you can ignore this message.
-  ArmBasicCommandMessage: |-
-    &6AdvancedRegionMarket v%pluginversion% by Alex9849
+  ArmBasicCommandMessagePro: |-
+    &6AdvancedRegionMarket &4&lPro&r &6v%pluginversion% by Alex9849
     &6Download: &3https://bit.ly/2CfO3An
     &6Get a list with all commands with &3/arm help
   RegionBuyProtectionOfContinuance: '&4Nie można kupić Regionu! Region jest pod ochroną

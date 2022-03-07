@@ -230,8 +230,8 @@ public class Messages {
     public static String GUI_USER_SELL_WARNING;
     @Message(name = "LimitInfoTop", message = "&6=========[Limit Info]=========")
     public static String LIMIT_INFO_TOP;
-    @Message(name = "LimitInfoNoProVersionDisclaimer", message = "&cThis server uses the free version of AdvancedRegionMarket. Therefore the number of regions a player can own has been set to 1!")
-    public static String LIMIT_INTO_NO_PRO_VERSION_DISCLAIMER;
+    @Message(name = "LimitInfoFreePluginVersionDisclaimer", message = "&cThis server uses the free version of AdvancedRegionMarket. Therefore the number of regions a player can own has been set to 1!")
+    public static String LIMIT_INTO_FREE_PLUGIN_VERSION_DISCLAIMER;
     @Message(name = "LimitInfoLimitReachedColorCode", message = "&r&4")
     public static String LIMIT_REACHED_COLOR_CODE;
     @Message(name = "LimitInfoTotal", version = 2, message = "&6- Total: (&a%limitreachedcolor%%playerownedkind%/%limitkind%&6)")
@@ -747,10 +747,15 @@ public class Messages {
             "The not spawned entity would exceed the region\'s entitylimit. For more information type &6/arm entitylimit check %region%&4!\n" +
             "Everybody on region %region% received this message! If you are not a member of this region, you can ignore this message.")
     public static String ENTITYLIMITGROUP_COULD_NOT_SPAWN_ENTITY;
-    @Message(name = "ArmBasicCommandMessage", message = "&6AdvancedRegionMarket v%pluginversion% by Alex9849\n" +
+    @Message(name = "ArmBasicCommandMessagePro", message = "&6AdvancedRegionMarket &4&lPro&r &6v%pluginversion% by Alex9849\n" +
             "&6Download: &3https://bit.ly/2CfO3An\n" +
             "&6Get a list with all commands with &3/arm help")
-    public static String ARM_BASIC_COMMAND_MESSAGE;
+    public static String ARM_BASIC_COMMAND_MESSAGE_PRO;
+    @Message(name = "ArmBasicCommandMessageFree", message = "&6AdvancedRegionMarket &3&oFree&r &6v%pluginversion% by Alex9849\n" +
+            "&cThis free version limits the maximum number of regions a player can own to 1!" +
+            "&6Download: &3https://bit.ly/2CfO3An\n" +
+            "&6Get a list with all commands with &3/arm help")
+    public static String ARM_BASIC_COMMAND_MESSAGE_FREE;
     @Message(name = "RegionBuyProtectionOfContinuance", message = "&4Can't buy region! Region is unter protection of continuance and won't be for sale again!")
     public static String REGION_BUY_PROTECTION_OF_CONTINUANCE;
     @Message(name = "RegionResetProtectionOfContinuanceError", message = "&4Can't reset region! Region is unter protection of continuance!")

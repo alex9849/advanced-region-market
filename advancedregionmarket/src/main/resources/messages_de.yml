@@ -14,8 +14,14 @@ Messages:
   DaysShort: 't'
   TimeUnitSplitter: ' und '
   Prefix: '&b[ARM]&r '
-  ArmBasicCommandMessage: |-
-    &6AdvancedRegionMarket v%pluginversion% programmiert von Alex9849
+  ArmBasicCommandMessagePro: |-
+    &6AdvancedRegionMarket &4&lPro&r &6v%pluginversion% programmiert von Alex9849
+    &6Download: &3https://bit.ly/2CfO3An
+    &6Nutze &3/arm help &6um dir eine Liste mit allen verfügbaren
+    &6Befehlen anzeigen zu lassen
+  ArmBasicCommandMessageFree: |-
+    &6AdvancedRegionMarket &3&oFree&r &6v%pluginversion% programmiert von Alex9849
+    &cDiese kostenlose Version limitiert die maximale Anzahl an Regionen die ein Spieler besitzen kann auf 1! 
     &6Download: &3https://bit.ly/2CfO3An
     &6Nutze &3/arm help &6um dir eine Liste mit allen verfügbaren
     &6Befehlen anzeigen zu lassen
@@ -193,6 +199,7 @@ Messages:
   LimitInfoTop: '&6=========[Limit Info]========='
   LimitInfoTotal: '&6Insgesamt'
   LimitInfo: '&6%regionkind%: %playerownedkind%/%limitkind%'
+  LimitInfoFreePluginVersionDisclaimer: '&cDieser Server verwendet die kostenlose Version von AdvancedRegionMarket. Aus diesem Grund wurde die maximale Anzahl an Regionen die ein Spieler besitzen kann auf 1 gesetzt!'
   RegionInfoYes: '&2Ja'
   RegionInfoNo: '&4Nein'
   RegionInfoAllowedSubregions: '&6Eraubte Unterregionen: '

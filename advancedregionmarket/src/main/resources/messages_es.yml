@@ -1,8 +1,8 @@
 FileVersion: 1
 Messages:
   Prefix: '&b[ARM]&r'
-  ArmBasicCommandMessage: |-
-    &6AdvancedRegionMarket v%pluginversion% desarrollado por Alex9849
+  ArmBasicCommandMessagePro: |-
+    &6AdvancedRegionMarket &4&lPro&r &6v%pluginversion% desarrollado por Alex9849
     &6Descarga: &3https://bit.ly/2CfO3An
     &6Para ver una lista de comandos completa, escribe &3/arm help
   NoPermission: '&4¡No tienes permisos!'

@@ -118,7 +118,7 @@ Messages:
   PresetSet: '&aPreset eingestellt!'
   PresetSaved: '&aPreset gespeichert!'
   PresetAlreadyExists: '&4Ein Preset mit diesem Namen existiert bereits!'
-  PresetPlayerDontHasPreset: '&4Du hast keinen Preset!'
+  PresetPlayerDontHasPreset: '&4Du hast keinen Preset geladen!'
   PresetDeleted: '&aPreset gelöscht!'
   PresetNotFound: '&4Kein Preset mit diesem Namen gefunden!'
   PresetLoaded: '&aPreset geladen!'

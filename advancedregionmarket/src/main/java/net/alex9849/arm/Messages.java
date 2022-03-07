@@ -752,7 +752,7 @@ public class Messages {
             "&6Get a list with all commands with &3/arm help")
     public static String ARM_BASIC_COMMAND_MESSAGE_PRO;
     @Message(name = "ArmBasicCommandMessageFree", message = "&6AdvancedRegionMarket &3&oFree&r &6v%pluginversion% by Alex9849\n" +
-            "&cThis free version limits the maximum number of regions a player can own to 1!" +
+            "&cThis free version limits the maximum number of regions a player can own to 1!\n" +
             "&6Download: &3https://bit.ly/2CfO3An\n" +
             "&6Get a list with all commands with &3/arm help")
     public static String ARM_BASIC_COMMAND_MESSAGE_FREE;

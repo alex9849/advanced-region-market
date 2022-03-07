@@ -262,7 +262,7 @@ Messages:
     - '&4ATENCIÓN: &c¡Esta opción no tiene vuelta atrás! ¡Tu parcela'
     - '&cserá restaurada y todo lo que haya dentro'
     - '&cserá eliminado!'
-    - '&cSolo puedes restaurar tu parcela una vez cada %userresetcooldown%'
+    - '&cSolo puedes restaurar tu parcela una vez cada %userrestorecooldown%'
     - '&2Tú y todos los miembros mantenéis los permisos en la parcela'
   RegionTransferCompleteMessage: '&a¡Transferencia completada!'
   RegiontransferMemberNotOnline: '&4¡El miembro no está conectado!'

@@ -190,11 +190,11 @@ Messages:
   GUIWarningNo: '&4Non'
   GUIResetRegionButton: '&4Réinitialiser la région'
   GUIResetRegionButtonLore:
-  - Cliquez pour réinitialiser la région
+    - Cliquez pour réinitialiser la région
   - '&4ATTENTION : &cCela ne peut pas être annulé ! Votre région'
   - '&csera réinstallé et tout sera'
   - '&csupprimé!'
-  - '&cVous pouvez réinitialiser votre région tout les %userresetcooldown% jours'
+  - '&cVous pouvez réinitialiser votre région tout les %userrestorecooldown% jours'
   - '&2Vous et tous les membres conservez leurs droits sur la région'
   RegionTransferCompleteMessage: '&aTransfert terminé !'
   RegiontransferMemberNotOnline: '&4Membre hors ligne !'

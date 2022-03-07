@@ -283,10 +283,10 @@ Messages:
   GUIWarningNo: '&4Nein'
   GUIResetRegionButton: '&4Region zurücksetzen'
   GUIResetRegionButtonLore:
-  - '&4WARNUNG: &cDieser Vorgang kann nicht! Rückgängig'
+    - '&4WARNUNG: &cDieser Vorgang kann nicht! Rückgängig'
   - '&cgemacht werden. Alles Erbaute wird gelöscht und'
   - '&cdie Region wird auf ihren Anfangszustand zurückgesetzt!'
-  - '&cDu kannst deine Region nur einmal alle %userresetcooldown%'
+  - '&cDu kannst deine Region nur einmal alle %userrestorecooldown%'
   - '&czurücksetzen'
   - '&2Du und alle Mitglieder behalten ihre Rechte an der Region!'
   - '&2Einstellungen bleiben erhalten!'

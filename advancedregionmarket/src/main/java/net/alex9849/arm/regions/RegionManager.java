@@ -119,7 +119,7 @@ public class RegionManager extends YamlFileManager<Region> {
 
                                     if (wgRegion != null) {
                                         fileupdated |= updateDefaults(regionSection);
-                                        Region armRegion = parseRegion(regionSection, regionWorld, wgRegion.getId());
+                                        Region armRegion = parseRegion(regionSection, regionWorld, wgRegion);
                                         loadedRegions.add(armRegion);
                                     }
                                 }
@@ -153,7 +153,7 @@ public class RegionManager extends YamlFileManager<Region> {
         return false;
     }
 
-    private static Region parseRegion(ConfigurationSection regionSection, World regionWorld, String regionId) {
+    private static Region parseRegion(ConfigurationSection regionSection, World regionWorld, WGRegion wgRegion) {
         boolean sold = regionSection.getBoolean("sold");
         String kind = regionSection.getString("kind");
         String flagGroupString = regionSection.getString("flagGroup");
@@ -203,7 +203,7 @@ public class RegionManager extends YamlFileManager<Region> {
                     rentPrice = new RentPrice(AutoPrice.getAutoprice(autoPriceString));
                 } else {
                     AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Could not find Autoprice '"
-                            + autoPriceString + "' for region + '" + regionId + "'! Using Default Autoprice!");
+                            + autoPriceString + "' for region + '" + wgRegion.getId() + "'! Using Default Autoprice!");
                     rentPrice = new RentPrice(AutoPrice.DEFAULT);
                 }
             } else {
@@ -214,13 +214,13 @@ public class RegionManager extends YamlFileManager<Region> {
                     rentPrice = new RentPrice(price, extendTime, maxExtendTime);
                 } catch (IllegalArgumentException e) {
                     AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "'RentPrice for region '"
-                            + regionId + "' has an extendTime or maxExtendTime smaller than 1 second! Replacing it with "
+                            + wgRegion.getId() + "' has an extendTime or maxExtendTime smaller than 1 second! Replacing it with "
                             + "if an extendTime and maxExtendTime of one second!");
                     rentPrice = new RentPrice(price, 1000, 1000);
                 }
             }
             long payedtill = regionSection.getLong("payedTill");
-            RentRegion rentRegion = new RentRegion(regionId, regionWorld, regionsigns, rentPrice, sold);
+            RentRegion rentRegion = new RentRegion(wgRegion, regionWorld, regionsigns, rentPrice, sold);
             rentRegion.setPayedTill(payedtill);
             region = rentRegion;
 
@@ -232,7 +232,7 @@ public class RegionManager extends YamlFileManager<Region> {
                     contractPrice = new ContractPrice(AutoPrice.getAutoprice(autoPriceString));
                 } else {
                     AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Could not find Autoprice '"
-                            + autoPriceString + "' for region + '" + regionId + "'! Using Default Autoprice!");
+                            + autoPriceString + "' for region + '" + wgRegion.getId() + "'! Using Default Autoprice!");
                     contractPrice = new ContractPrice(AutoPrice.DEFAULT);
                 }
             } else {
@@ -242,14 +242,14 @@ public class RegionManager extends YamlFileManager<Region> {
                     contractPrice = new ContractPrice(price, extendTime);
                 } catch (IllegalArgumentException e) {
                     AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "ContractPrice for region '"
-                            + regionId + "' has an extendTime smaller than 1 second! Replacing it with "
+                            + wgRegion.getId() + "' has an extendTime smaller than 1 second! Replacing it with "
                             + "if an extendTime of one second!");
                     contractPrice = new ContractPrice(price, 1000);
                 }
             }
             long payedtill = regionSection.getLong("payedTill");
             Boolean terminated = regionSection.getBoolean("terminated");
-            ContractRegion contractRegion = new ContractRegion(regionId, regionWorld, regionsigns, contractPrice, sold);
+            ContractRegion contractRegion = new ContractRegion(wgRegion, regionWorld, regionsigns, contractPrice, sold);
             contractRegion.setTerminated(terminated);
             contractRegion.setPayedTill(payedtill);
             region = contractRegion;
@@ -260,14 +260,14 @@ public class RegionManager extends YamlFileManager<Region> {
                     sellPrice = new Price(AutoPrice.getAutoprice(autoPriceString));
                 } else {
                     AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Could not find Autoprice '"
-                            + autoPriceString + "' for region + '" + regionId + "'! Using Default Autoprice!");
+                            + autoPriceString + "' for region + '" + wgRegion.getId() + "'! Using Default Autoprice!");
                     sellPrice = new Price(AutoPrice.DEFAULT);
                 }
             } else {
                 double price = regionSection.getDouble("price");
                 sellPrice = new Price(price);
             }
-            region = new SellRegion(regionId, regionWorld, regionsigns, sellPrice, sold);
+            region = new SellRegion(wgRegion, regionWorld, regionsigns, sellPrice, sold);
         }
 
         if (regionSection.getConfigurationSection("subregions") != null) {
@@ -275,7 +275,7 @@ public class RegionManager extends YamlFileManager<Region> {
             for (String subregionName : subregionsection) {
                 WGRegion subWGRegion = AdvancedRegionMarket.getInstance().getWorldGuardInterface().getRegion(regionWorld, subregionName);
                 if (subWGRegion != null) {
-                    parseSubRegion(regionSection.getConfigurationSection("subregions." + subregionName), subregionName, region);
+                    parseSubRegion(regionSection.getConfigurationSection("subregions." + subregionName), subWGRegion, region);
                 }
             }
         }
@@ -319,7 +319,7 @@ public class RegionManager extends YamlFileManager<Region> {
             WGRegion subWGRegion = subRegion.getRegion();
 
             if (AdvancedRegionMarket.getInstance().getPluginSettings().isAllowParentRegionOwnersBuildOnSubregions()) {
-                if (subWGRegion.getParent() == null || !subWGRegion.getParent().equals(parentRegion)) {
+                if (subWGRegion.getParent() == null || subWGRegion.getParent().unwrap() != parentRegion.unwrap()) {
                     subWGRegion.setParent(parentRegion);
                 }
             } else {
@@ -332,7 +332,7 @@ public class RegionManager extends YamlFileManager<Region> {
         return region;
     }
 
-    private static Region parseSubRegion(ConfigurationSection section, String subregionId, Region parentRegion) {
+    private static Region parseSubRegion(ConfigurationSection section, WGRegion wgSubregion, Region parentRegion) {
         double subregPrice = section.getDouble("price");
         boolean subregIsSold = section.getBoolean("sold");
         boolean subregIsHotel = section.getBoolean("isHotel");
@@ -347,7 +347,7 @@ public class RegionManager extends YamlFileManager<Region> {
             long subregmaxExtendTime = section.getLong("maxExtendTime");
             long subregextendTime = section.getLong("extendTime");
             RentPrice subPrice = new RentPrice(subregPrice, subregextendTime, subregmaxExtendTime);
-            RentRegion rentRegion = new RentRegion(subregionId, subregionsigns, subPrice, subregIsSold, parentRegion);
+            RentRegion rentRegion = new RentRegion(wgSubregion, subregionsigns, subPrice, subregIsSold, parentRegion);
             rentRegion.setPayedTill(subregpayedtill);
             region = rentRegion;
 
@@ -356,14 +356,14 @@ public class RegionManager extends YamlFileManager<Region> {
             long subregextendTime = section.getLong("extendTime");
             Boolean subregterminated = section.getBoolean("terminated");
             ContractPrice subPrice = new ContractPrice(subregPrice, subregextendTime);
-            ContractRegion contractRegion = new ContractRegion(subregionId, subregionsigns, subPrice, subregIsSold, parentRegion);
+            ContractRegion contractRegion = new ContractRegion(wgSubregion, subregionsigns, subPrice, subregIsSold, parentRegion);
             contractRegion.setPayedTill(subregpayedtill);
             contractRegion.setTerminated(subregterminated);
             region = contractRegion;
 
         } else {
             Price subPrice = new Price(subregPrice);
-            region = new SellRegion(subregionId, subregionsigns, subPrice, subregIsSold, parentRegion);
+            region = new SellRegion(wgSubregion, subregionsigns, subPrice, subregIsSold, parentRegion);
         }
         region.setHotel(subregIsHotel);
         region.setLastReset(sublastreset);
@@ -532,11 +532,11 @@ public class RegionManager extends YamlFileManager<Region> {
 
     public Region getRegion(WGRegion wgRegion) {
         for (Region region : this) {
-            if (region.getRegion().equals(wgRegion)) {
+            if (region.getRegion().unwrap() == wgRegion.unwrap()) {
                 return region;
             }
             for (Region subregion : region.getSubregions()) {
-                if (subregion.getRegion().equals(wgRegion)) {
+                if (subregion.getRegion().unwrap() == wgRegion.unwrap()) {
                     return subregion;
                 }
             }

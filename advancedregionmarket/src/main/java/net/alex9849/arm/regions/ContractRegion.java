@@ -8,7 +8,6 @@ import net.alex9849.arm.exceptions.*;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.price.ContractPrice;
 import net.alex9849.arm.regions.price.Price;
-import net.alex9849.arm.util.StringReplacer;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.signs.SignData;
 import org.bukkit.Bukkit;
@@ -29,13 +28,13 @@ public class ContractRegion extends CountdownRegion {
     private ContractPrice contractPrice;
     private boolean terminated = false;
 
-    public ContractRegion(String regionId, List<SignData> sellsigns, ContractPrice contractPrice, boolean sold, Region parentRegion) {
-        super(regionId, sellsigns, sold, parentRegion);
+    public ContractRegion(WGRegion region, List<SignData> sellsigns, ContractPrice contractPrice, boolean sold, Region parentRegion) {
+        super(region, sellsigns, sold, parentRegion);
         this.contractPrice = contractPrice;
     }
 
-    public ContractRegion(String regionId, World regionworld, List<SignData> sellsigns, ContractPrice contractPrice, boolean sold) {
-        super(regionId, regionworld, sellsigns, sold);
+    public ContractRegion(WGRegion region, World regionworld, List<SignData> sellsigns, ContractPrice contractPrice, boolean sold) {
+        super(region, regionworld, sellsigns, sold);
         this.contractPrice = contractPrice;
     }
 

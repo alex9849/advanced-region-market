@@ -3,10 +3,8 @@ package net.alex9849.arm.presets.presets;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.regions.ContractRegion;
 import net.alex9849.arm.regions.Region;
-import net.alex9849.arm.regions.RentRegion;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.price.ContractPrice;
-import net.alex9849.arm.regions.price.RentPrice;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.signs.SignData;
 import org.bukkit.World;
@@ -42,6 +40,6 @@ public class ContractPreset extends CountdownPreset {
 
     @Override
     protected ContractRegion generateBasicRegion(WGRegion wgRegion, World world, List<SignData> signs) {
-        return new ContractRegion(wgRegion.getId(), world, signs, new ContractPrice(AutoPrice.DEFAULT), false);
+        return new ContractRegion(wgRegion, world, signs, new ContractPrice(AutoPrice.DEFAULT), false);
     }
 }

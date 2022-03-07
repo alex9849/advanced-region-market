@@ -91,9 +91,8 @@ public class WG7Region implements WGRegion {
     }
 
     @Override
-    public boolean equals(WGRegion wgRegion) {
-        WG7Region wg7Region = (WG7Region) wgRegion;
-        return wg7Region.getRegion() == this.region;
+    public Object unwrap() {
+        return region;
     }
 
     @Override

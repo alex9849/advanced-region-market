@@ -1,11 +1,9 @@
 package net.alex9849.arm.presets.presets;
 
 import net.alex9849.arm.Messages;
-import net.alex9849.arm.regions.ContractRegion;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.SellRegion;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
-import net.alex9849.arm.regions.price.ContractPrice;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.signs.SignData;
@@ -35,7 +33,7 @@ public class SellPreset extends Preset {
 
     @Override
     protected SellRegion generateBasicRegion(WGRegion wgRegion, World world, List<SignData> signs) {
-        return new SellRegion(wgRegion.getId(), world, signs, new Price(AutoPrice.DEFAULT), false);
+        return new SellRegion(wgRegion, world, signs, new Price(AutoPrice.DEFAULT), false);
     }
 
     @Override

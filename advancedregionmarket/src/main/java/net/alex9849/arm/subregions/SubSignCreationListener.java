@@ -63,7 +63,7 @@ public class SubSignCreationListener implements Listener {
                 signList.add(signData);
                 Price subregPrice = new Price(price);
                 this.subRegionCreator.saveWorldGuardRegion();
-                SellRegion sellRegion = new SellRegion(this.subRegionCreator.getSubRegion().getId(), signList, subregPrice,
+                SellRegion sellRegion = new SellRegion(this.subRegionCreator.getSubRegion(), signList, subregPrice,
                         false, this.subRegionCreator.getParentRegion());
                 event.setCancelled(true);
                 sellRegion.updateSigns();
@@ -110,7 +110,7 @@ public class SubSignCreationListener implements Listener {
                 signList.add(signData);
                 this.subRegionCreator.saveWorldGuardRegion();
                 RentPrice rentPrice = new RentPrice(price, extendPerClick, maxExtendTime);
-                RentRegion rentRegion = new RentRegion(this.subRegionCreator.getSubRegion().getId(), signList, rentPrice,
+                RentRegion rentRegion = new RentRegion(this.subRegionCreator.getSubRegion(), signList, rentPrice,
                         false, this.subRegionCreator.getParentRegion());
                 event.setCancelled(true);
                 rentRegion.updateSigns();
@@ -154,7 +154,7 @@ public class SubSignCreationListener implements Listener {
                 signList.add(signData);
                 ContractPrice contractPrice = new ContractPrice(price, extendtime);
                 this.subRegionCreator.saveWorldGuardRegion();
-                ContractRegion contractRegion = new ContractRegion(this.subRegionCreator.getSubRegion().getId(), signList,
+                ContractRegion contractRegion = new ContractRegion(this.subRegionCreator.getSubRegion(), signList,
                         contractPrice, false, this.subRegionCreator.getParentRegion());
                 event.setCancelled(true);
                 contractRegion.updateSigns();

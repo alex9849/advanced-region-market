@@ -4,7 +4,6 @@ import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.util.TimeUtil;
-import net.alex9849.arm.util.StringReplacer;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.signs.SignData;
 import org.bukkit.World;
@@ -19,12 +18,12 @@ public abstract class CountdownRegion extends Region {
     private static boolean staticSaveNeeded = false;
     private long payedTill;
 
-    public CountdownRegion(String regionId, List<SignData> sellsigns, boolean sold, Region parentRegion) {
-        super(regionId, sellsigns, sold, parentRegion);
+    public CountdownRegion(WGRegion region, List<SignData> sellsigns, boolean sold, Region parentRegion) {
+        super(region, sellsigns, sold, parentRegion);
     }
 
-    public CountdownRegion(String regionId, World regionworld, List<SignData> sellsigns, boolean sold) {
-        super(regionId, regionworld, sellsigns, sold);
+    public CountdownRegion(WGRegion region, World regionworld, List<SignData> sellsigns, boolean sold) {
+        super(region, regionworld, sellsigns, sold);
     }
 
     public abstract long getExtendTime();

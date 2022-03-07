@@ -37,13 +37,13 @@ public interface WGRegion {
 
     boolean contains(int x, int y, int z);
 
-    boolean equals(WGRegion wgRegion);
-
     WGRegion getParent();
 
     void setParent(WGRegion wgRegion);
 
     int getPriority();
+
+    Object unwrap();
 
     void setPriority(int priority);
 

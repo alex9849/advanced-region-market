@@ -23,13 +23,14 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
 public class SignLinkMode implements Listener {
     private static List<SignLinkMode> signLinkModeList = new ArrayList<>();
-    private static Set<WGRegion> blacklistedRegions = new HashSet<>();
+    //by Hashed world and regionId
+    private static HashMap<String, Set<String>> blacklistedRegions = new HashMap<>();
     private Player player;
     private Preset preset;
     private Sign sign;
@@ -46,7 +47,7 @@ public class SignLinkMode implements Listener {
 
     public static void reset() {
         SignLinkMode.signLinkModeList = new ArrayList<>();
-        SignLinkMode.blacklistedRegions = new HashSet<>();
+        SignLinkMode.blacklistedRegions = new HashMap<>();
     }
 
     public static SignLinkMode getSignLinkMode(Player player) {
@@ -70,7 +71,7 @@ public class SignLinkMode implements Listener {
         slm.register();
     }
 
-    public static void setBlacklistedRegions(Set<WGRegion> regions) {
+    public static void setBlacklistedRegions(HashMap<String, Set<String>> regions) {
         if (regions == null) {
             return;
         }
@@ -120,7 +121,8 @@ public class SignLinkMode implements Listener {
                     return;
                 }
                 List<WGRegion> regions = AdvancedRegionMarket.getInstance().getWorldGuardInterface().getApplicableRegions(clicklocation.getWorld(), clicklocation);
-                regions.removeAll(SignLinkMode.blacklistedRegions);
+                Set<String> worldBlacklisted = SignLinkMode.blacklistedRegions.get(clicklocation.getWorld().getName());
+                regions.removeIf(x -> worldBlacklisted.contains(x.getId()));
                 if (regions.size() > 1) {
                     throw new InputException(event.getPlayer(), Messages.SIGN_LINK_MODE_COULD_NOT_SELECT_REGION_MULTIPLE_WG_REGIONS);
                 }

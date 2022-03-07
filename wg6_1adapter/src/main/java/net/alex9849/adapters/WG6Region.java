@@ -87,12 +87,6 @@ public class WG6Region implements WGRegion {
     }
 
     @Override
-    public boolean equals(WGRegion wgRegion) {
-        WG6Region wg6Region = (WG6Region) wgRegion;
-        return wg6Region.getRegion() == this.region;
-    }
-
-    @Override
     public WGRegion getParent() {
         if (this.getRegion().getParent() != null) {
             return new WG6Region(this.getRegion().getParent());
@@ -162,6 +156,10 @@ public class WG6Region implements WGRegion {
     public void deleteAllFlags() {
         Flag[] flagarr = new Flag[0];
         deleteFlags(this.region.getFlags().keySet().toArray(flagarr));
+    }
+
+    public Object unwrap() {
+        return region;
     }
 
     public Object getFlagSetting(Flag flag) {

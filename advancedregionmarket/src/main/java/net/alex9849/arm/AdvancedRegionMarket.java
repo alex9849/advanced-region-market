@@ -654,7 +654,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         priceFormatter.setMaximumFractionDigits(getConfig().getInt("PriceFormatting.maximumFractionDigits"));
         priceFormatter.setMinimumIntegerDigits(getConfig().getInt("PriceFormatting.minimumIntegerDigits"));
         priceFormatter.setGroupingUsed(true);
-        Price.setPriceFormater(priceFormatter);
+        Price.setPriceFormatter(priceFormatter);
 
         if (getConfig().getConfigurationSection("AutoPrice") != null) {
             AutoPrice.loadAutoprices(getConfig().getConfigurationSection("AutoPrice"));
@@ -738,7 +738,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         if (worlds == null) {
             return;
         }
-        Set<WGRegion> wgRegions = new HashSet<>();
+        HashMap<String, Set<String>> blackListedRegions = new HashMap<>();
         for (String worldName : worlds) {
             World world = Bukkit.getWorld(worldName);
             if (world == null) {
@@ -754,10 +754,12 @@ public class AdvancedRegionMarket extends JavaPlugin {
                 if (wgRegion == null) {
                     continue;
                 }
-                wgRegions.add(wgRegion);
+                blackListedRegions.putIfAbsent(worldName, new HashSet<>());
+                Set<String> blackListedRegionsForWorld = blackListedRegions.get(worldName);
+                blackListedRegionsForWorld.add(regionName);
             }
         }
-        SignLinkMode.setBlacklistedRegions(wgRegions);
+        SignLinkMode.setBlacklistedRegions(blackListedRegions);
     }
 
     private void generateConfigs() {

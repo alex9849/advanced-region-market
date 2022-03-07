@@ -20,8 +20,8 @@ import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.util.Saveable;
-import net.alex9849.arm.util.TimeUtil;
 import net.alex9849.arm.util.StringReplacer;
+import net.alex9849.arm.util.TimeUtil;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.signs.SignData;
 import org.bukkit.*;
@@ -41,7 +41,7 @@ import java.util.logging.Level;
 public abstract class Region implements Saveable {
     private final AdvancedRegionMarket plugin = AdvancedRegionMarket.getInstance();
     private Integer m2Amount;
-    private final String regionId;
+    private WGRegion region;
     private final World regionworld;
     private ArrayList<SignData> sellsign;
     private Region parentRegion;
@@ -72,8 +72,8 @@ public abstract class Region implements Saveable {
     /* ######################################
     ############### Constructors ############
     #########################################*/
-    public Region(String regionId, List<SignData> sellsigns, boolean sold, Region parentRegion) {
-        this(regionId, parentRegion.getRegionworld(), sellsigns, sold);
+    public Region(WGRegion region, List<SignData> sellsigns, boolean sold, Region parentRegion) {
+        this(region, parentRegion.getRegionworld(), sellsigns, sold);
         if (parentRegion.isSubregion()) {
             throw new IllegalArgumentException("Subregions can't be parent regions!");
         }
@@ -91,15 +91,15 @@ public abstract class Region implements Saveable {
         parentRegion.addSubRegion(this);
     }
 
-    public Region(String regionId, World regionworld, List<SignData> sellsigns, boolean sold) {
-        this.regionId = regionId;
+    public Region(WGRegion region, World regionworld, List<SignData> sellsigns, boolean sold) {
+        this.region = region;
         this.sellsign = new ArrayList<>(sellsigns);
         this.sold = sold;
         this.regionworld = regionworld;
         this.subregions = new HashSet<>();
 
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-        File builtblocksdic = new File(pluginfolder + "/schematics/" + this.regionworld.getName() + "/" + regionId + "/builtblocks.builtblocks");
+        File builtblocksdic = new File(pluginfolder + "/schematics/" + this.regionworld.getName() + "/" + region.getId() + "/builtblocks.builtblocks");
         if (builtblocksdic.exists()) {
             try {
                 FileReader filereader = new FileReader(builtblocksdic);
@@ -139,10 +139,6 @@ public abstract class Region implements Saveable {
 
     public boolean isUserRestorable() {
         return this.isUserRestorable;
-    }
-
-    public String getRegionId() {
-        return this.regionId;
     }
 
     public boolean isSubregion() {
@@ -338,7 +334,11 @@ public abstract class Region implements Saveable {
     }
 
     public WGRegion getRegion() {
-        return plugin.getWorldGuardInterface().getRegion(this.regionworld, this.regionId);
+        WGRegion wgRegion = plugin.getWorldGuardInterface().getRegion(this.regionworld, this.region.getId());
+        if (wgRegion != null && wgRegion.unwrap() != this.region.unwrap()) {
+            this.region = wgRegion;
+        }
+        return region;
     }
 
     public Set<Region> getSubregions() {
@@ -622,9 +622,9 @@ public abstract class Region implements Saveable {
     protected HashMap<String, Supplier<String>> getVariableReplacements() {
         HashMap<String, Supplier<String>> variableReplacements = new HashMap<>();
         variableReplacements.put("%prefix%", () -> Messages.PREFIX);
-        variableReplacements.put("%regionid%", () -> this.regionId);
+        variableReplacements.put("%regionid%", () -> this.getRegion().getId());
         variableReplacements.put("%maxmembers%", () -> String.valueOf((this.getMaxMembers() < 0) ? Messages.UNLIMITED : this.getMaxMembers()));
-        variableReplacements.put("%region%", () -> this.regionId);
+        variableReplacements.put("%region%", () -> this.getRegion().getId());
         variableReplacements.put("%price%", () -> Price.formatPrice(this.getPricePerPeriod()));
         variableReplacements.put("%dimensions%", this::getDimensions);
         variableReplacements.put("%priceperm2%", () -> Price.formatPrice(this.getPricePerM2()));
@@ -707,7 +707,7 @@ public abstract class Region implements Saveable {
             return Messages.convertYesNo(this.getPriceObject().isAutoPrice());
         });
         variableReplacements.put("%subregions%", () ->
-                Messages.getStringList(this.subregions, x -> x.regionId, ", "));
+                Messages.getStringList(this.subregions, x -> x.getRegion().getId(), ", "));
         variableReplacements.put("%members%", () ->
                 Messages.getStringList(this.getRegion().getMembers(), x ->
                                 Messages.getStringValue(Bukkit.getOfflinePlayer(x).getName(), y -> y, Messages.UNKNOWN_UUID)
@@ -775,9 +775,9 @@ public abstract class Region implements Saveable {
         if (this.builtblocks.add(loc.hashCode())) {
             try {
                 File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-                File builtblocksdic = new File(pluginfolder + "/schematics/" + this.regionworld.getName() + "/" + regionId + "/builtblocks.builtblocks");
+                File builtblocksdic = new File(pluginfolder + "/schematics/" + this.regionworld.getName() + "/" + getRegion().getId() + "/builtblocks.builtblocks");
                 if (!builtblocksdic.exists()) {
-                    File builtblocksfolder = new File(pluginfolder + "/schematics/" + this.regionworld.getName() + "/" + regionId);
+                    File builtblocksfolder = new File(pluginfolder + "/schematics/" + this.regionworld.getName() + "/" + getRegion().getId());
                     builtblocksfolder.mkdirs();
                     builtblocksdic.createNewFile();
                 }
@@ -928,7 +928,7 @@ public abstract class Region implements Saveable {
 
     public File getRegionSchematicFolder() {
         File schematicFolder = new File(AdvancedRegionMarket.getInstance().getDataFolder() + "/schematics");
-        return new File(schematicFolder + "/" + this.getRegionworld().getName() + "/" + this.regionId);
+        return new File(schematicFolder + "/" + this.getRegionworld().getName() + "/" + this.getRegion().getId());
     }
 
     public void restoreRegion(ActionReason actionReason, boolean logToConsole, boolean preventBackup) throws SchematicNotFoundException, ProtectionOfContinuanceException {
@@ -951,7 +951,7 @@ public abstract class Region implements Saveable {
         }
 
         File schematicFolder = new File(AdvancedRegionMarket.getInstance().getDataFolder() + "/schematics");
-        File regionsSchematicPathWithoutFileEnding = new File(schematicFolder + "/" + this.getRegionworld().getName() + "/" + this.regionId + "/schematic");
+        File regionsSchematicPathWithoutFileEnding = new File(schematicFolder + "/" + this.getRegionworld().getName() + "/" + this.getRegion().getId() + "/schematic");
 
         AdvancedRegionMarket.getInstance().getWorldEditInterface().restoreSchematic(this.getRegion(), this.getRegionworld(), regionsSchematicPathWithoutFileEnding);
 
@@ -983,7 +983,7 @@ public abstract class Region implements Saveable {
 
     public void resetBuiltBlocks() {
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-        File builtblocksdic = new File(pluginfolder + "/schematics/" + this.regionworld.getName() + "/" + regionId + "/builtblocks.builtblocks");
+        File builtblocksdic = new File(pluginfolder + "/schematics/" + this.regionworld.getName() + "/" + getRegion().getId() + "/builtblocks.builtblocks");
         if (builtblocksdic.exists()) {
             builtblocksdic.delete();
             this.builtblocks = new HashSet<>();
@@ -1299,7 +1299,7 @@ public abstract class Region implements Saveable {
                 yamlConfiguration.set("teleportLoc", null);
             }
             for (Region subregion : this.getSubregions()) {
-                yamlConfiguration.set("subregions." + subregion.regionId, subregion.toConfigurationSection());
+                yamlConfiguration.set("subregions." + subregion.getRegion().getId(), subregion.toConfigurationSection());
             }
         }
         return yamlConfiguration;

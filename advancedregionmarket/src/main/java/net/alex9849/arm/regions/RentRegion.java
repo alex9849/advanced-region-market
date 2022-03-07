@@ -10,7 +10,6 @@ import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.regions.price.RentPrice;
 import net.alex9849.arm.util.TimeUtil;
-import net.alex9849.arm.util.StringReplacer;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.signs.SignData;
 import org.bukkit.Bukkit;
@@ -28,13 +27,13 @@ import java.util.logging.Level;
 public class RentRegion extends CountdownRegion {
     private RentPrice rentPrice;
 
-    public RentRegion(String regionId, List<SignData> sellsigns, RentPrice rentPrice, boolean sold, Region parentRegion) {
-        super(regionId, sellsigns, sold, parentRegion);
+    public RentRegion(WGRegion region, List<SignData> sellsigns, RentPrice rentPrice, boolean sold, Region parentRegion) {
+        super(region, sellsigns, sold, parentRegion);
         this.rentPrice = rentPrice;
     }
 
-    public RentRegion(String regionId, World regionworld, List<SignData> sellsigns, RentPrice rentPrice, boolean sold) {
-        super(regionId, regionworld, sellsigns, sold);
+    public RentRegion(WGRegion region, World regionworld, List<SignData> sellsigns, RentPrice rentPrice, boolean sold) {
+        super(region, regionworld, sellsigns, sold);
         this.rentPrice = rentPrice;
     }
 
@@ -44,7 +43,7 @@ public class RentRegion extends CountdownRegion {
     }
 
     public void signClickAction(Player player) throws OutOfLimitExeption, AlreadySoldException, NotSoldException, NoPermissionException, NotEnoughMoneyException, RegionNotOwnException, ProtectionOfContinuanceException {
-        if(this.isSold()) {
+        if (this.isSold()) {
             this.extend(player);
         } else {
             this.buy(player);

@@ -66,7 +66,7 @@ public class RentPreset extends CountdownPreset {
 
     @Override
     protected RentRegion generateBasicRegion(WGRegion wgRegion, World world, List<SignData> signs) {
-        return new RentRegion(wgRegion.getId(), world, signs, new RentPrice(AutoPrice.DEFAULT), false);
+        return new RentRegion(wgRegion, world, signs, new RentPrice(AutoPrice.DEFAULT), false);
     }
 
     @Override

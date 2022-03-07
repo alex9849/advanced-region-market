@@ -1,8 +1,7 @@
 package net.alex9849.advancedregionmarket.placeholders.implementations;
 
-import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.advancedregionmarket.placeholders.AbstractOfflinePlayerPlaceholder;
-import net.alex9849.arm.regions.Region;
+import net.alex9849.arm.AdvancedRegionMarket;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
@@ -26,6 +25,6 @@ public class OwnedRegionsPlaceholder extends AbstractOfflinePlayerPlaceholder {
             return "";
         }
         return plugin.getRegionManager().getRegionsByOwner(uuid)
-                .stream().map(Region::getRegionId).collect(Collectors.joining(", "));
+                .stream().map(x -> x.getRegion().getId()).collect(Collectors.joining(", "));
     }
 }

@@ -43,7 +43,7 @@ public class CheckCommand extends BasicArmCommand {
             throw new InputException(player, Messages.NOT_A_MEMBER_OR_OWNER);
         }
         List<Entity> entities = region.getFilteredInsideEntities(false, true,
-                true, true, true, true, false,
+                true, true, true, true, true, false,
                 false, false);
 
         player.sendMessage(region.replaceVariables(Messages.ENTITYLIMIT_CHECK_HEADLINE));

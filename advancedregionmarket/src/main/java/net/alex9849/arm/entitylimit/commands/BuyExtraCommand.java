@@ -49,7 +49,7 @@ public class BuyExtraCommand extends BasicArmCommand {
         }
 
         List<Entity> entities = region.getFilteredInsideEntities(false, true,
-                true, true, true, true,
+                true, true, true, true, true,
                 false, false, false);
 
         if (args[2].equalsIgnoreCase("total")) {

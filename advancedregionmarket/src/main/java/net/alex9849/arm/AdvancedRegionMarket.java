@@ -850,7 +850,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
                         Messages.getStringList(Arrays.asList(args), x -> x, " "), commandsLabel);
             } else {
                 String pluginversion = this.getDescription().getVersion();
-                final String message = this.IS_PREMIUM_VERSION? Messages.ARM_BASIC_COMMAND_MESSAGE_PRO : Messages.ARM_BASIC_COMMAND_MESSAGE_FREE;
+                final String message = this.getPluginSettings().isPremium() ? Messages.ARM_BASIC_COMMAND_MESSAGE_PRO : Messages.ARM_BASIC_COMMAND_MESSAGE_FREE;
                 sender.sendMessage(message.replace("%pluginversion%", pluginversion));
                 return true;
             }

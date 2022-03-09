@@ -3,7 +3,7 @@ name: Build Java Maven project
 on:
   push:
     tags:
-      - '[0-9]+(\.[0-9]+)+?'
+      - '[0-9]+(.[0-9]+)+?'
 
 jobs:
   build:

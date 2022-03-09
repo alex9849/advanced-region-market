@@ -335,10 +335,10 @@ public abstract class Region implements Saveable {
 
     public WGRegion getRegion() {
         WGRegion wgRegion = plugin.getWorldGuardInterface().getRegion(this.regionworld, this.region.getId());
-        if (wgRegion != null && wgRegion.unwrap() != this.region.unwrap()) {
+        if (this.region == null || (wgRegion != null && wgRegion.unwrap() != this.region.unwrap())) {
             this.region = wgRegion;
         }
-        return region;
+        return this.region;
     }
 
     public Set<Region> getSubregions() {

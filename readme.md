@@ -1,7 +1,5 @@
 ![AdvancedRegionMarket.png](https://puu.sh/DoBpE/1e0db1ed65.png)
 
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/alex9849/advanced-region-market/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/alex9849/advanced-region-market/?branch=master)
-[![Build Status](https://scrutinizer-ci.com/g/alex9849/advanced-region-market/badges/build.png?b=master)](https://scrutinizer-ci.com/g/alex9849/advanced-region-market/build-status/master)
 ![bStats Servers](https://img.shields.io/bstats/servers/2750?style=flat-square&label=current%20servers)
 ![bStats Players](https://img.shields.io/bstats/players/2750?style=flat-square&label=current%20players)
 ![Spiget Downloads](https://img.shields.io/spiget/downloads/58732?label=total%20downloads&style=flat-square)

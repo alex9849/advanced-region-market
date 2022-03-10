@@ -5,8 +5,11 @@ import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.RentRegion;
 import net.alex9849.arm.regions.SellRegion;
 import org.bstats.bukkit.Metrics;
+import org.bstats.charts.AdvancedPie;
+import org.bstats.charts.SimplePie;
+import org.bstats.charts.SingleLineChart;
 import org.bukkit.Bukkit;
-import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -45,67 +48,67 @@ public class BStatsAnalytics {
         return regionStatistics;
     }
 
-    public void register(Plugin plugin) {
+    public void register(JavaPlugin plugin, boolean isNativePremium) {
         try {
-            Metrics metrics = new Metrics(plugin);
+            final int pluginId = 2750;
+            Metrics metrics = new Metrics(plugin, pluginId);
 
-            metrics.addCustomChart(new Metrics.SingleLineChart("total_regions", new Callable<Integer>() {
+            metrics.addCustomChart(new SingleLineChart("total_regions", () -> {
+                RegionStatistics regionStatistics = BStatsAnalytics.getRegionStatistics();
+                int total_regions = regionStatistics.availableContractRegions;
+                total_regions += regionStatistics.availableRentRegions;
+                total_regions += regionStatistics.availableSellRegions;
+                total_regions += regionStatistics.soldContractRegions;
+                total_regions += regionStatistics.soldRentRegions;
+                total_regions += regionStatistics.soldSellRegions;
+                return total_regions;
+            }));
+
+            metrics.addCustomChart(new AdvancedPie("region_status", () -> {
+                RegionStatistics regionStatistics = BStatsAnalytics.getRegionStatistics();
+                Map<String, Integer> map = new HashMap<>();
+                map.put("Sellregion available", regionStatistics.availableSellRegions);
+                map.put("Sellregion sold", regionStatistics.soldSellRegions);
+                map.put("Rentregion available", regionStatistics.availableRentRegions);
+                map.put("Rentregion sold", regionStatistics.soldRentRegions);
+                map.put("Contractregion available", regionStatistics.availableContractRegions);
+                map.put("Contractregion sold", regionStatistics.soldContractRegions);
+                return map;
+            }));
+
+            metrics.addCustomChart(new SingleLineChart("total_sellregions", new Callable<Integer>() {
                 @Override
                 public Integer call() throws Exception {
                     RegionStatistics regionStatistics = BStatsAnalytics.getRegionStatistics();
-                    int total_regions = regionStatistics.availableContractRegions;
-                    total_regions += regionStatistics.availableRentRegions;
-                    total_regions += regionStatistics.availableSellRegions;
-                    total_regions += regionStatistics.soldContractRegions;
-                    total_regions += regionStatistics.soldRentRegions;
-                    total_regions += regionStatistics.soldSellRegions;
-                    return total_regions;
+                    int total_sellRegions = regionStatistics.availableSellRegions;
+                    total_sellRegions += regionStatistics.soldSellRegions;
+                    return total_sellRegions;
                 }
             }));
 
-            metrics.addCustomChart(new Metrics.AdvancedPie("region_status", new Callable<Map<String, Integer>>() {
-                @Override
-                public Map<String, Integer> call() throws Exception {
-                    RegionStatistics regionStatistics = BStatsAnalytics.getRegionStatistics();
-                    Map<String, Integer> map = new HashMap<>();
-                    map.put("Sellregion available", regionStatistics.availableSellRegions);
-                    map.put("Sellregion sold", regionStatistics.soldSellRegions);
-                    map.put("Rentregion available", regionStatistics.availableRentRegions);
-                    map.put("Rentregion sold", regionStatistics.soldRentRegions);
-                    map.put("Contractregion available", regionStatistics.availableContractRegions);
-                    map.put("Contractregion sold", regionStatistics.soldContractRegions);
-                    return map;
-                }
+            metrics.addCustomChart(new SingleLineChart("total_rentregions", () -> {
+                RegionStatistics regionStatistics = BStatsAnalytics.getRegionStatistics();
+                int total_rentRegions = regionStatistics.availableRentRegions;
+                total_rentRegions += regionStatistics.soldRentRegions;
+                return total_rentRegions;
             }));
 
-            metrics.addCustomChart(new Metrics.SingleLineChart("total_sellregions", new Callable<Integer>() {
-                @Override
-                public Integer call() throws Exception {
-                    RegionStatistics regionStatistics = BStatsAnalytics.getRegionStatistics();
-                    int total_sellregions = regionStatistics.availableSellRegions;
-                    total_sellregions += regionStatistics.soldSellRegions;
-                    return total_sellregions;
-                }
+            metrics.addCustomChart(new SingleLineChart("total_contractregions", () -> {
+                RegionStatistics regionStatistics = BStatsAnalytics.getRegionStatistics();
+                int total_contractRegions = regionStatistics.availableContractRegions;
+                total_contractRegions += regionStatistics.soldContractRegions;
+                return total_contractRegions;
             }));
 
-            metrics.addCustomChart(new Metrics.SingleLineChart("total_rentregions", new Callable<Integer>() {
-                @Override
-                public Integer call() throws Exception {
-                    RegionStatistics regionStatistics = BStatsAnalytics.getRegionStatistics();
-                    int total_rentregions = regionStatistics.availableRentRegions;
-                    total_rentregions += regionStatistics.soldRentRegions;
-                    return total_rentregions;
+            metrics.addCustomChart(new SimplePie("premium_servers", () -> {
+                boolean isPremium = AdvancedRegionMarket.getInstance().getPluginSettings().isPremium();
+                if (isNativePremium) {
+                    return "Native";
                 }
-            }));
-
-            metrics.addCustomChart(new Metrics.SingleLineChart("total_contractregions", new Callable<Integer>() {
-                @Override
-                public Integer call() throws Exception {
-                    RegionStatistics regionStatistics = BStatsAnalytics.getRegionStatistics();
-                    int total_contractregions = regionStatistics.availableContractRegions;
-                    total_contractregions += regionStatistics.soldContractRegions;
-                    return total_contractregions;
+                if (isPremium) {
+                    return "Remote";
                 }
+                return "Free";
             }));
 
         } catch (Exception e) {

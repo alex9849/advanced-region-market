@@ -39,15 +39,13 @@
         <dependency>
             <groupId>net.alex9849</groupId>
             <artifactId>arminterface</artifactId>
-            <version>1.1</version>
-            <type>jar</type>
-            <scope>compile</scope>
+            <version>${project.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>net.alex9849</groupId>
             <artifactId>wg6_1adapter</artifactId>
-            <version>1.1</version>
-            <type>jar</type>
+            <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

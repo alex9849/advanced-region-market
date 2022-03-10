@@ -5,11 +5,11 @@
     <parent>
         <artifactId>armparent</artifactId>
         <groupId>net.alex9849</groupId>
-        <version>1.0</version>
+        <version>3.3.7</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <packaging>jar</packaging>
-    <version>${project.parent.version}</version>
+    <version>3.3.7</version>
 
     <artifactId>advancedregionmarket</artifactId>
 
@@ -136,7 +136,13 @@
             <version>master-ab5ed68c44-1</version>
             <scope>compile</scope>
         </dependency>
-        <!--My Data-->
+        <dependency>
+            <groupId>org.bstats</groupId>
+            <artifactId>bstats-bukkit</artifactId>
+            <version>1.4</version>
+            <scope>compile</scope>
+        </dependency>
+        <!--Project Modules-->
         <dependency>
             <groupId>net.alex9849</groupId>
             <artifactId>arminterface</artifactId>
@@ -177,12 +183,6 @@
             <artifactId>we6adapter</artifactId>
             <version>${project.parent.version}</version>
             <type>jar</type>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.bstats</groupId>
-            <artifactId>bstats-bukkit</artifactId>
-            <version>1.4</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

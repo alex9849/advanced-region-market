@@ -5,13 +5,13 @@
     <parent>
         <artifactId>armparent</artifactId>
         <groupId>net.alex9849</groupId>
-        <version>1.0</version>
+        <version>3.3.7</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>wg7adapter</artifactId>
     <packaging>jar</packaging>
-    <version>${project.parent.version}</version>
+    <version>3.3.7</version>
 
     <dependencies>
         <!--Bukkit API-->

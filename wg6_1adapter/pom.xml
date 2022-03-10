@@ -11,7 +11,7 @@
 
     <artifactId>wg6_1adapter</artifactId>
     <packaging>jar</packaging>
-    <version>1.1</version>
+    <version>${project.parent.version}</version>
 
     <dependencies>
         <!--Bukkit API-->
@@ -40,7 +40,7 @@
         <dependency>
             <groupId>net.alex9849</groupId>
             <artifactId>arminterface</artifactId>
-            <version>${project.version}</version>
+            <version>${project.parent.version}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

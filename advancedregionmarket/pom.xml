@@ -5,11 +5,11 @@
     <parent>
         <artifactId>armparent</artifactId>
         <groupId>net.alex9849</groupId>
-        <version>3.3.7</version>
+        <version>3.4.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <packaging>jar</packaging>
-    <version>3.3.7</version>
+    <version>3.4.0</version>
 
     <artifactId>advancedregionmarket</artifactId>
 
@@ -140,63 +140,63 @@
         <dependency>
             <groupId>net.alex9849</groupId>
             <artifactId>arminterface</artifactId>
-            <version>3.3.7</version>
+            <version>3.4.0</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>net.alex9849</groupId>
             <artifactId>wg6_1adapter</artifactId>
-            <version>3.3.7</version>
+            <version>3.4.0</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>net.alex9849</groupId>
             <artifactId>wg6_2adapter</artifactId>
-            <version>3.3.7</version>
+            <version>3.4.0</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>net.alex9849</groupId>
             <artifactId>wg7adapter</artifactId>
-            <version>3.3.7</version>
+            <version>3.4.0</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>net.alex9849</groupId>
             <artifactId>we7adapter</artifactId>
-            <version>3.3.7</version>
+            <version>3.4.0</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>net.alex9849</groupId>
             <artifactId>we6adapter</artifactId>
-            <version>3.3.7</version>
+            <version>3.4.0</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>net.alex9849</groupId>
             <artifactId>mc1-12adapter</artifactId>
-            <version>3.3.7</version>
+            <version>3.4.0</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>net.alex9849</groupId>
             <artifactId>mc1-13adapter</artifactId>
-            <version>3.3.7</version>
+            <version>3.4.0</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>net.alex9849</groupId>
             <artifactId>mc1-14adapter</artifactId>
-            <version>3.3.7</version>
+            <version>3.4.0</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>

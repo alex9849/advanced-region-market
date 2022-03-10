@@ -275,7 +275,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         bStatsAnalytics.register(this);
         //Enable own analytics
         try {
-            this.analytics = Analytics.genInstance(this, new URL("https://mc-analytics-dev.alex9849.net"),
+            this.analytics = Analytics.genInstance(this, new URL("https://mc-analytics.alex9849.net"),
                     () -> {
                         if (!IS_PREMIUM_VERSION) {
                             this.pluginSettings.setPremium(true);

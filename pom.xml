@@ -26,6 +26,7 @@
         <connection>scm:git:https://github.com/alex9849/advanced-region-market.git</connection>
         <url>http://github.com/alex9849/advanced-region-market</url>
         <developerConnection>scm:git:https://github.com/alex9849/advanced-region-market.git</developerConnection>
+        <tag>@{project.version}</tag>
     </scm>
 
     <properties>

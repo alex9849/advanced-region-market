@@ -130,9 +130,9 @@ public class AdvancedRegionMarket extends JavaPlugin {
 
     public void startup() {
         if (this.IS_NATIVE_PREMIUM_VERSION) {
-            getLogger().log(Level.INFO, "Enabling premium version of AdvancedRegionMarket!");
+            getLogger().log(Level.INFO, "Enabling the premium version of AdvancedRegionMarket!");
         } else {
-            getLogger().log(Level.INFO, "Enabling free version of AdvancedRegionMarket!");
+            getLogger().log(Level.INFO, "Enabling the free version of AdvancedRegionMarket!");
         }
 
         //Check if Worldguard is installed

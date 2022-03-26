@@ -22,19 +22,7 @@ public class Updater {
         Version lastVersion = new Version(versionParts);
 
         //convert legacy versionNumbers
-        if(versionParts.length > 1) {
-            int major = versionParts[0];
-            int minor = versionParts[1];
-            if(major < 3) {
-                List<Integer> legacyVersionParts = new ArrayList<>();
-                legacyVersionParts.add(major);
-                for(char c : (minor + "").toCharArray()) {
-                    legacyVersionParts.add(Character.getNumericValue(c));
-                }
-                lastVersion = new Version(legacyVersionParts.stream().mapToInt(x -> x).toArray());
-            }
-        }
-
+        lastVersion = convertLegacyVersionNumbers(versionParts, lastVersion);
 
         try {
             if (new Version(1, 1).biggerThan(lastVersion)) {
@@ -176,6 +164,22 @@ public class Updater {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private static Version convertLegacyVersionNumbers(int[] versionParts, Version lastVersion){
+        if(versionParts.length > 1) {
+            int major = versionParts[0];
+            int minor = versionParts[1];
+            if(major < 3) {
+                List<Integer> legacyVersionParts = new ArrayList<>();
+                legacyVersionParts.add(major);
+                for(char c : (minor + "").toCharArray()) {
+                    legacyVersionParts.add(Character.getNumericValue(c));
+                }
+                lastVersion = new Version(legacyVersionParts.stream().mapToInt(x -> x).toArray());
+            }
+        }
+        return lastVersion;
     }
 
     private static void updateTo1p1(FileConfiguration pluginConfig) {

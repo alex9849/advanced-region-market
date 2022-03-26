@@ -219,10 +219,10 @@ public class SignModifyListener implements Listener {
                 block.setCancelled(true);
                 throw new InputException(block.getPlayer(), Messages.NO_PERMISSION);
             }
-            double loc_x = block.getBlock().getLocation().getX();
-            double loc_y = block.getBlock().getLocation().getY();
-            double loc_z = block.getBlock().getLocation().getZ();
-            Location loc = new Location(block.getBlock().getWorld(), loc_x, loc_y, loc_z);
+            double location_x = block.getBlock().getLocation().getX();
+            double location_y = block.getBlock().getLocation().getY();
+            double location_z = block.getBlock().getLocation().getZ();
+            Location loc = new Location(block.getBlock().getWorld(), location_x, location_y, location_z);
 
             if (block.getPlayer().hasPermission(Permission.ADMIN_REMOVE_SIGN)) {
                 this.removeSignAndSendMessages(region, loc, block.getPlayer());

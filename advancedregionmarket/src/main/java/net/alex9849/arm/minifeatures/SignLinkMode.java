@@ -12,6 +12,7 @@ import net.alex9849.inter.WGRegion;
 import net.alex9849.signs.SignData;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
@@ -21,6 +22,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 
@@ -94,13 +96,16 @@ public class SignLinkMode implements Listener {
             if ((!(event.getAction() == Action.LEFT_CLICK_BLOCK)) && (!(event.getAction() == Action.RIGHT_CLICK_BLOCK))) {
                 return;
             }
-            if ((event.getAction() == Action.RIGHT_CLICK_BLOCK) && event.getPlayer().getInventory().getItemInMainHand() != null) {
-                if (MaterialFinder.getSignMaterials().contains(event.getPlayer().getInventory().getItemInMainHand().getType())) {
-                    return;
-                }
+            List<Material> signMaterials = MaterialFinder.getSignMaterials();
+            ItemStack itemInHand = event.getPlayer().getInventory().getItemInMainHand();
+            Material clickedBlock = event.getClickedBlock().getType();
+
+            if (event.getAction() == Action.LEFT_CLICK_BLOCK && signMaterials.contains(clickedBlock)) {
+                return;
             }
-            if ((event.getAction() == Action.LEFT_CLICK_BLOCK) && event.getClickedBlock() != null) {
-                if ((MaterialFinder.getSignMaterials().contains(event.getClickedBlock().getType()))) {
+
+            if (event.getAction() == Action.RIGHT_CLICK_BLOCK && itemInHand != null) {
+                if (signMaterials.contains(itemInHand.getType()) && !signMaterials.contains(clickedBlock)) {
                     return;
                 }
             }

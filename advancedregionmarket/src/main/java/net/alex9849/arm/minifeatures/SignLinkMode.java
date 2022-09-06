@@ -14,6 +14,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -119,19 +120,7 @@ public class SignLinkMode implements Listener {
                 player.sendMessage(Messages.SIGN_LINK_MODE_SIGN_SELECTED);
             } else {
                 Location clicklocation = event.getClickedBlock().getLocation();
-                if (clicklocation == null) {
-                    return;
-                }
-                List<WGRegion> regions = AdvancedRegionMarket.getInstance().getWorldGuardInterface().getApplicableRegions(clicklocation.getWorld(), clicklocation);
-                Set<String> worldBlacklisted = SignLinkMode.blacklistedRegions.getOrDefault(clicklocation.getWorld().getName(), new HashSet<>());
-                regions.removeIf(x -> worldBlacklisted.contains(x.getId()));
-                if (regions.size() > 1) {
-                    throw new InputException(event.getPlayer(), Messages.SIGN_LINK_MODE_COULD_NOT_SELECT_REGION_MULTIPLE_WG_REGIONS);
-                }
-                if (regions.size() < 1) {
-                    throw new InputException(event.getPlayer(), Messages.SIGN_LINK_MODE_COULD_NOT_SELECT_REGION_NO_WG_REGION);
-                }
-                this.wgRegion = regions.get(0);
+                this.wgRegion = getRegionFromClickedLocation(player, clicklocation, event.getBlockFace());
                 this.world = clicklocation.getWorld();
                 this.player.sendMessage(Messages.PREFIX + Messages.SIGN_LINK_MODE_REGION_SELECTED.replace("%regionid%", this.wgRegion.getId()));
             }
@@ -141,8 +130,22 @@ public class SignLinkMode implements Listener {
         } catch (InputException e) {
             e.sendMessages(Messages.PREFIX);
         }
+    }
 
-
+    private WGRegion getRegionFromClickedLocation(Player player, Location location, BlockFace blockFace) throws InputException {
+        List<WGRegion> regions = AdvancedRegionMarket.getInstance().getWorldGuardInterface().getApplicableRegions(location.getWorld(), location);
+        Set<String> worldBlacklisted = SignLinkMode.blacklistedRegions.getOrDefault(location.getWorld().getName(), new HashSet<>());
+        regions.removeIf(x -> worldBlacklisted.contains(x.getId()));
+        if (regions.size() > 1) {
+            throw new InputException(player, Messages.SIGN_LINK_MODE_COULD_NOT_SELECT_REGION_MULTIPLE_WG_REGIONS);
+        }
+        if (regions.size() < 1) {
+            if (blockFace == null) {
+                throw new InputException(player, Messages.SIGN_LINK_MODE_COULD_NOT_SELECT_REGION_NO_WG_REGION);
+            }
+            return getRegionFromClickedLocation(player, location.add(blockFace.getDirection()), null);
+        }
+        return regions.get(0);
     }
 
     private void registerRegion() throws InputException {

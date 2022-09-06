@@ -171,6 +171,11 @@ public class SignModifyListener implements Listener {
             if (existingArmRegion != null) {
                 if (price != null) {
                     applyPrice(existingArmRegion, price, sign.getPlayer());
+                    try {
+                        existingArmRegion.applyFlagGroup(FlagGroup.ResetMode.COMPLETE, false);
+                    } catch (FeatureDisabledException e) {
+                        //Ignore
+                    }
                 }
                 existingArmRegion.addSign(signData);
                 sign.setCancelled(true);

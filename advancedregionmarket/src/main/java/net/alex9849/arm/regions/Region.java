@@ -1270,8 +1270,8 @@ public abstract class Region implements Saveable {
         yamlConfiguration.set("signs", signs);
         if (this.getPlayerTeleportLocation() != null) {
             Location loc = this.getPlayerTeleportLocation();
-            String teleportloc = loc.getWorld().getName() + ";" + loc.getBlockX() + ";" +
-                    loc.getBlockY() + ";" + loc.getBlockZ() + ";" +
+            String teleportloc = loc.getWorld().getName() + ";" + loc.getX() + ";" +
+                    loc.getY() + ";" + loc.getZ() + ";" +
                     loc.getPitch() + ";" + loc.getYaw();
             yamlConfiguration.set("playerTeleportLoc", teleportloc);
         } else {
@@ -1295,8 +1295,8 @@ public abstract class Region implements Saveable {
             }
             yamlConfiguration.set("boughtExtraEntitys", boughtExtraEntitysStringList);
             if (this.getTeleportLocation() != null) {
-                String teleportloc = this.getTeleportLocation().getWorld().getName() + ";" + this.getTeleportLocation().getBlockX() + ";" +
-                        this.getTeleportLocation().getBlockY() + ";" + this.getTeleportLocation().getBlockZ() + ";" +
+                String teleportloc = this.getTeleportLocation().getWorld().getName() + ";" + this.getTeleportLocation().getX() + ";" +
+                        this.getTeleportLocation().getY() + ";" + this.getTeleportLocation().getZ() + ";" +
                         this.getTeleportLocation().getPitch() + ";" + this.getTeleportLocation().getYaw();
                 yamlConfiguration.set("teleportLoc", teleportloc);
             } else {

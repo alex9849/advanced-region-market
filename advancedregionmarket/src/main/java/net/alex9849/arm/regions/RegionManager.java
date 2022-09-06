@@ -429,9 +429,9 @@ public class RegionManager extends YamlFileManager<Region> {
         if (teleportLocString != null) {
             String[] teleportLocarr = teleportLocString.split(";");
             World teleportLocWorld = Bukkit.getWorld(teleportLocarr[0]);
-            int teleportLocBlockX = Integer.parseInt(teleportLocarr[1]);
-            int teleportLocBlockY = Integer.parseInt(teleportLocarr[2]);
-            int teleportLocBlockZ = Integer.parseInt(teleportLocarr[3]);
+            double teleportLocBlockX = Double.parseDouble(teleportLocarr[1]);
+            double teleportLocBlockY = Double.parseDouble(teleportLocarr[2]);
+            double teleportLocBlockZ = Double.parseDouble(teleportLocarr[3]);
             float teleportLocPitch = Float.parseFloat(teleportLocarr[4]);
             float teleportLocYaw = Float.parseFloat(teleportLocarr[5]);
             teleportLoc = new Location(teleportLocWorld, teleportLocBlockX, teleportLocBlockY, teleportLocBlockZ);

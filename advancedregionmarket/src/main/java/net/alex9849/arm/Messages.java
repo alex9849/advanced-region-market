@@ -635,7 +635,7 @@ public class Messages {
     public static String GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM;
     @Message(name = "SelltypeNotExist", message = "&4The selected selltype does not exist!")
     public static String SELLTYPE_NOT_EXIST;
-    @Message(name = "SignLinkModeActivated", message = "&aSign-Link-Mode activated! Click into a region and afterwards click on a sign. ARM will automatically create a region (or will just add the sign if the region already exists) with the settings of your preset")
+    @Message(name = "SignLinkModeActivated", message = "&aSign-Link-Mode activated for current preset! Click into a region and afterwards click on a sign. ARM will automatically create a region (or will just add the sign if the region already exists) with the settings of your preset")
     public static String SIGN_LINK_MODE_ACTIVATED;
     @Message(name = "SignLinkModeDeactivated", message = "&aSign-Link-Mode deactivated!")
     public static String SIGN_LINK_MODE_DEACTIVATED;

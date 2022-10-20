@@ -272,6 +272,8 @@ public class Messages {
     public static String PRESET_PLAYER_DONT_HAS_PRESET;
     @Message(name = "PresetDeleted", message = "&aPreset deleted!")
     public static String PRESET_DELETED;
+    @Message(name = "PresetUpdated", message = "&aPreset updated!")
+    public static String PRESET_UPDATED;
     @Message(name = "PresetNotFound", message = "&4No preset with this name found!")
     public static String PRESET_NOT_FOUND;
     @Message(name = "PresetLoaded", message = "&aPreset loaded!")

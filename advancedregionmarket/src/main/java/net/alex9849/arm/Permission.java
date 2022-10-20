@@ -54,6 +54,7 @@ public class Permission {
     public static final String ADMIN_PRESET_APPLY = "arm.admin.preset.apply";
     public static final String ADMIN_PRESET_DELETE = "arm.admin.preset.delete";
     public static final String ADMIN_PRESET_SAVE = "arm.admin.preset.save";
+    public static final String ADMIN_PRESET_UPDATE = "arm.admin.preset.update";
     public static final String ADMIN_PRESET_LIST = "arm.admin.preset.list";
     public static final String ADMIN_PRESET_ADDCOMMAND = "arm.admin.preset.addcommand";
     public static final String ADMIN_PRESET_USERRESTORABLE = "arm.admin.preset.userrestorable";

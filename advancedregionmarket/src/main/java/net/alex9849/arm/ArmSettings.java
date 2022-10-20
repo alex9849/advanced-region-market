@@ -28,7 +28,6 @@ public class ArmSettings {
     private String signLeftClickSneakCommand = "buyaction";
     private String signLeftClickNotSneakCommand = "buyaction";
     private String DATE_TIMEFORMAT = "dd.MM.yyyy hh:mm";
-    private boolean isPremium = false;
 
 
     /*###################################
@@ -74,10 +73,6 @@ public class ArmSettings {
             default:
                 throw new IllegalStateException("Don't know sellType: " + sellType);
         }
-    }
-
-    public boolean isPremium() {
-        return this.isPremium;
     }
 
     public boolean isTeleportAfterRentRegionExtend() {
@@ -147,10 +142,6 @@ public class ArmSettings {
 
     public void setSubRegionPaybackPercentage(int subRegionPaybackPercentage) {
         this.subRegionPaybackPercentage = subRegionPaybackPercentage;
-    }
-
-    public void setPremium(boolean premium) {
-        isPremium = premium;
     }
 
     public void setMaxSubRegionMembers(int maxSubRegionMembers) {

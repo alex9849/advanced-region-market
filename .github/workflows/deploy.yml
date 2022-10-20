@@ -26,7 +26,7 @@ jobs:
           mvn versions:set -DnewVersion=${{ steps.get_version.outputs.VERSION }}
           mvn versions:commit
           mvn clean
-          mvn install -P free-version
+          mvn install
       - name: Get artifacts
         run: |
           mkdir push

@@ -77,7 +77,6 @@ import java.util.*;
 import java.util.logging.Level;
 
 public class AdvancedRegionMarket extends JavaPlugin {
-    private boolean IS_NATIVE_PREMIUM_VERSION = false;
     private Economy econ = null;
     private net.milkbowl.vault.permission.Permission vaultPerms = null;
     private WorldGuardInterface worldGuardInterface = null;
@@ -110,7 +109,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
     public void onEnable() {
         Reader pluginYmlReader = Objects.requireNonNull(getTextResource("plugin.yml"));
         YamlConfiguration pluginYml = YamlConfiguration.loadConfiguration(pluginYmlReader);
-        this.IS_NATIVE_PREMIUM_VERSION = pluginYml.getBoolean("premiumVersion");
         //This is a workaround to make shure that this plugin is loaded after the last world has been loaded.
         boolean doStartupWorkaround = false;
         List<String> softdependCheckPlugins = Arrays.asList("MultiWorld", "Multiverse-Core");
@@ -129,12 +127,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
     }
 
     public void startup() {
-        if (this.IS_NATIVE_PREMIUM_VERSION) {
-            getLogger().log(Level.INFO, "Enabling the premium version of AdvancedRegionMarket!");
-        } else {
-            getLogger().log(Level.INFO, "Enabling the free version of AdvancedRegionMarket!");
-        }
-
         //Check if Worldguard is installed
         if (!setupWorldGuard()) {
             getLogger().log(Level.INFO, "Please install Worldguard!");
@@ -206,7 +198,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
         this.pluginSettings.setSubRegionPaybackPercentage(getConfig().getInt("Subregions.SubregionPaybackPercentage"));
         this.pluginSettings.setSendRentRegionExpirationWarning(getConfig().getBoolean("Other.SendRentRegionExpirationWarning"));
         this.pluginSettings.setRentRegionExpirationWarningTime(RentPrice.stringToTime(getConfig().getString("Other.RentRegionExpirationWarningTime")));
-        this.pluginSettings.setPremium(IS_NATIVE_PREMIUM_VERSION);
         FlagGroup.setFeatureEnabled(getConfig().getBoolean("FlagGroups.enabled"));
 
         try {
@@ -272,15 +263,9 @@ public class AdvancedRegionMarket extends JavaPlugin {
 
         //Enable bStats
         BStatsAnalytics bStatsAnalytics = new BStatsAnalytics();
-        bStatsAnalytics.register(this, IS_NATIVE_PREMIUM_VERSION);
         //Enable own analytics
         try {
-            this.analytics = Analytics.genInstance(this, new URL("https://mc-analytics.alex9849.net"),
-                    () -> {
-                        if (!IS_NATIVE_PREMIUM_VERSION) {
-                            this.pluginSettings.setPremium(true);
-                            this.getLogger().log(Level.INFO, "Premium features have been enabled remotely!");
-                        }
+            this.analytics = Analytics.genInstance(this, new URL("https://mc-analytics.alex9849.net"), () -> {
                     },
                     () -> {
                         Map<String, String> pluginSpecificData = new LinkedHashMap<>();
@@ -295,7 +280,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
                         pluginSpecificData.put("regionsSell", (rs.getAvailableSellRegions() + rs.getSoldSellRegions()) + "");
                         pluginSpecificData.put("regionsRent", (rs.getAvailableRentRegions() + rs.getSoldRentRegions()) + "");
                         pluginSpecificData.put("regionsContract", (rs.getAvailableContractRegions() + rs.getSoldContractRegions()) + "");
-                        pluginSpecificData.put("premiumVersion", String.valueOf(IS_NATIVE_PREMIUM_VERSION));
                         return pluginSpecificData;
                     });
         } catch (MalformedURLException e) {
@@ -850,8 +834,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
                         Messages.getStringList(Arrays.asList(args), x -> x, " "), commandsLabel);
             } else {
                 String pluginversion = this.getDescription().getVersion();
-                final String message = this.getPluginSettings().isPremium() ? Messages.ARM_BASIC_COMMAND_MESSAGE_PRO : Messages.ARM_BASIC_COMMAND_MESSAGE_FREE;
-                sender.sendMessage(message.replace("%pluginversion%", pluginversion));
+                sender.sendMessage(Messages.ARM_BASIC_COMMAND_MESSAGE.replace("%pluginversion%", pluginversion));
                 return true;
             }
         } catch (InputException inputException) {

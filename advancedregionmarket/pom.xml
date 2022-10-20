@@ -13,23 +13,6 @@
 
     <artifactId>advancedregionmarket</artifactId>
 
-    <profiles>
-        <profile>
-            <id>free-version</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <isPremiumVersion>false</isPremiumVersion>
-            </properties>
-        </profile>
-        <profile>
-            <id>pro-version</id>
-            <properties>
-                <isPremiumVersion>true</isPremiumVersion>
-            </properties>
-        </profile>
-    </profiles>
     <build>
         <resources>
             <resource>

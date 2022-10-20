@@ -747,15 +747,10 @@ public class Messages {
             "The not spawned entity would exceed the region\'s entitylimit. For more information type &6/arm entitylimit check %region%&4!\n" +
             "Everybody on region %region% received this message! If you are not a member of this region, you can ignore this message.")
     public static String ENTITYLIMITGROUP_COULD_NOT_SPAWN_ENTITY;
-    @Message(name = "ArmBasicCommandMessagePro", message = "&6AdvancedRegionMarket &4&lPro&r &6v%pluginversion% by Alex9849\n" +
+    @Message(name = "ArmBasicCommandMessage", message = "&6AdvancedRegionMarket v%pluginversion% by Alex9849\n" +
             "&6Download: &3https://bit.ly/2CfO3An\n" +
             "&6Get a list with all commands with &3/arm help")
-    public static String ARM_BASIC_COMMAND_MESSAGE_PRO;
-    @Message(name = "ArmBasicCommandMessageFree", message = "&6AdvancedRegionMarket &3&oFree&r &6v%pluginversion% by Alex9849\n" +
-            "&cThis free version limits the maximum number of regions a player can own to 1!\n" +
-            "&6Download: &3https://bit.ly/2CfO3An\n" +
-            "&6Get a list with all commands with &3/arm help")
-    public static String ARM_BASIC_COMMAND_MESSAGE_FREE;
+    public static String ARM_BASIC_COMMAND_MESSAGE;
     @Message(name = "RegionBuyProtectionOfContinuance", message = "&4Can't buy region! Region is unter protection of continuance and won't be for sale again!")
     public static String REGION_BUY_PROTECTION_OF_CONTINUANCE;
     @Message(name = "RegionResetProtectionOfContinuanceError", message = "&4Can't reset region! Region is unter protection of continuance!")

@@ -6,7 +6,6 @@ import net.alex9849.arm.regions.RentRegion;
 import net.alex9849.arm.regions.SellRegion;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.AdvancedPie;
-import org.bstats.charts.SimplePie;
 import org.bstats.charts.SingleLineChart;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -98,17 +97,6 @@ public class BStatsAnalytics {
                 int total_contractRegions = regionStatistics.availableContractRegions;
                 total_contractRegions += regionStatistics.soldContractRegions;
                 return total_contractRegions;
-            }));
-
-            metrics.addCustomChart(new SimplePie("premium_servers", () -> {
-                boolean isPremium = AdvancedRegionMarket.getInstance().getPluginSettings().isPremium();
-                if (isNativePremium) {
-                    return "Native";
-                }
-                if (isPremium) {
-                    return "Remote";
-                }
-                return "Free";
             }));
 
         } catch (Exception e) {

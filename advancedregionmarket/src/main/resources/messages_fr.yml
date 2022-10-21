@@ -190,7 +190,7 @@ Messages:
   GUIWarningNo: '&4Non'
   GUIResetRegionButton: '&4Réinitialiser la région'
   GUIResetRegionButtonLore:
-    - Cliquez pour réinitialiser la région
+    - 'Cliquez pour réinitialiser la région'
   - '&4ATTENTION : &cCela ne peut pas être annulé ! Votre région'
   - '&csera réinstallé et tout sera'
   - '&csupprimé!'

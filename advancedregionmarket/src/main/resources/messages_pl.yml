@@ -384,8 +384,7 @@ Messages:
     - '&6przykładowy Czas Przedłużenia: 12h (12 hours)'
     - '&4Poleca się nie umieszczanie tego znaku w obrębie podregionu!'
   SubregionCreationSelectAreaInfo:
-    - '&aPosiadasz w swoim ekwipunku narzędzie (pióro) by zaznaczyć dwa punkty regionu
-    które będą stanowić dwa przeciwległe rogi podregionu.'
+    - '&aPosiadasz w swoim ekwipunku narzędzie (pióro) by zaznaczyć dwa punkty regionu które będą stanowić dwa przeciwległe rogi podregionu.'
     - '&aLewy przycisk, by wybrać pozycję nr 1'
     - '&aPrawy przycisk, by wybrać pozycję nr 2'
     - '&aWpisz komendę "&6/arm subregion create" &ajeśli zaznaczanie rogów zostało ukończone'

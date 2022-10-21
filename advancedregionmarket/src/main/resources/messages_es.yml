@@ -407,8 +407,7 @@ Messages:
     - '&6ejemplo para TiempoRenovación: 12h (12 horas)'
     - '&4¡Te recomedamos encarecidamente que no pusieses el cartel en la subparcela!'
   SubregionCreationSelectAreaInfo:
-    - '&aHas recibido una herramienta en tu inventario (pluma) para seleccionar 2 puntos en tu parcela
-    que marcarán las esquinas de tu nueva subparcela.'
+    - '&aHas recibido una herramienta en tu inventario (pluma) para seleccionar 2 puntos en tu parcela que marcarán las esquinas de tu nueva subparcela.'
     - '&aClic izquierdo para seleccionar posición 1'
     - '&aClic derecho para seleccionar posición 2'
     - '&aescribe "&6/arm subregion create" &asi estás listo'

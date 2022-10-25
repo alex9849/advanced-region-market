@@ -216,10 +216,10 @@ public class RentRegion extends CountdownRegion {
             return TimeUtil.timeInMsToString(this.getCurrentExtendTime(), false, false);
         });
         variableReplacements.put("%remainingtime-next-extend-countdown-writtenout%", () -> {
-            return TimeUtil.timeInMsToString(this.getPayedTill() + this.getCurrentExtendTime(), true, false);
+            return TimeUtil.getCountdown(this.getPayedTill() + this.getCurrentExtendTime(), true, false, false, Messages.REGION_INFO_EXPIRED);
         });
         variableReplacements.put("%remainingtime-next-extend-countdown-short%", () -> {
-            return TimeUtil.timeInMsToString(this.getPayedTill() + this.getCurrentExtendTime(), false, false);
+            return TimeUtil.getCountdown(this.getPayedTill() + this.getCurrentExtendTime(), false, false, false, Messages.REGION_INFO_EXPIRED);
         });
         variableReplacements.put("%price-current%", () -> {
             return Price.formatPrice(this.getCurrentExtendPrice());

@@ -52,7 +52,7 @@ public class Messages {
         public int version() default 0;
     }
 
-    //Current version = 7
+    //Current version = 8
     @Message(name = "Prefix", message = "&b[ARM]&r ", version = 1)
     public static String PREFIX;
     @Message(name = "Buymessage", message = "&aRegion successfully bought!")
@@ -212,7 +212,7 @@ public class Messages {
     public static String RENTED_SIGN3;
     @Message(name = "RentedSign4", message = "%remainingtime-countdown-short%")
     public static String RENTED_SIGN4;
-    @Message(name = "RentExtendMessage", version = 4, message = "&aRegion extended for &6%extendtime-current-writtenout%&a (For %price-current%%currency%. Remaining time: &6%remainingtime-countdown-short%")
+    @Message(name = "RentExtendMessage", version = 8, message = "&aRegion extended for &6%extendtime-current-writtenout%&a (For %price-current%%currency%. Remaining time: &6%remainingtime-next-extend-countdown-writtenout%")
     public static String RENT_EXTEND_MESSAGE;
     @Message(name = "GUIExtendRentRegionButton", message = "&1Extend region")
     public static String GUI_EXTEND_BUTTON;

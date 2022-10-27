@@ -47,7 +47,7 @@ public class BStatsAnalytics {
         return regionStatistics;
     }
 
-    public void register(JavaPlugin plugin, boolean isNativePremium) {
+    public void register(JavaPlugin plugin) {
         try {
             final int pluginId = 2750;
             Metrics metrics = new Metrics(plugin, pluginId);

@@ -40,6 +40,10 @@ import java.util.logging.Level;
 
 public abstract class Region implements Saveable {
     private final AdvancedRegionMarket plugin = AdvancedRegionMarket.getInstance();
+    // Owner Name Cache
+    private UUID ownerUUID;
+    private String ownerName;
+
     private Integer m2Amount;
     private WGRegion region;
     private final World regionworld;
@@ -698,7 +702,7 @@ public abstract class Region implements Saveable {
             if (this.getRegion().getOwners().isEmpty()) {
                 return "";
             }
-            return Messages.getStringValue(Bukkit.getOfflinePlayer(this.getRegion().getOwners().get(0)).getName(), x -> x, Messages.UNKNOWN_UUID);
+            return Messages.getStringValue(this.getOwnerName(), x -> x, Messages.UNKNOWN_UUID);
         });
         variableReplacements.put("%autoprice%", () -> {
             if (this.getPriceObject().isAutoPrice()) {
@@ -794,6 +798,17 @@ public abstract class Region implements Saveable {
                 e.printStackTrace();
             }
         }
+    }
+
+    public String getOwnerName() {
+        UUID ownerUUID = this.getOwner();
+        if (ownerUUID == null) {
+            return null;
+        }
+        if (this.ownerName == null || this.ownerUUID != ownerUUID) {
+            this.ownerName = Bukkit.getOfflinePlayer(ownerUUID).getName();
+        }
+        return this.ownerName;
     }
 
     protected void giveLandlordMoney(double amount) {

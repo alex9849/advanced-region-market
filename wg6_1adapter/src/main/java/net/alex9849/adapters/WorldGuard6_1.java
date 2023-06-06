@@ -13,12 +13,10 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class WorldGuard6_1 extends WorldGuardInterface {
-    private HashMap<ProtectedRegion, WG6Region> createdRegions = new HashMap<ProtectedRegion, WG6Region>();
 
     @Override
     public RegionManager getRegionManager(World world) {
@@ -36,7 +34,7 @@ public class WorldGuard6_1 extends WorldGuardInterface {
             return null;
         }
 
-        return getUniqueRegion(region);
+        return new WG6Region(region);
     }
 
     public boolean canBuild(Player player, Location location) {
@@ -46,8 +44,7 @@ public class WorldGuard6_1 extends WorldGuardInterface {
     @Override
     public WGRegion createRegion(String regionID, Location pos1, Location pos2) {
         ProtectedRegion protectedRegion = new ProtectedCuboidRegion(regionID, new BlockVector(pos1.getBlockX(), pos1.getBlockY(), pos1.getBlockZ()), new BlockVector(pos2.getBlockX(), pos2.getBlockY(), pos2.getBlockZ()));
-        WG6Region returnRegion = getUniqueRegion(protectedRegion);
-        return returnRegion;
+        return new WG6Region(protectedRegion);
     }
 
     @Override
@@ -55,7 +52,7 @@ public class WorldGuard6_1 extends WorldGuardInterface {
         List<ProtectedRegion> protectedRegions = new ArrayList<ProtectedRegion>(WorldGuardPlugin.inst().getRegionManager(world).getApplicableRegions(loc).getRegions());
         List<WGRegion> wg6Regions = new ArrayList<WGRegion>();
         for (ProtectedRegion pRegion : protectedRegions) {
-            wg6Regions.add(getUniqueRegion(pRegion));
+            wg6Regions.add(new WG6Region(pRegion));
         }
         return wg6Regions;
     }
@@ -70,18 +67,6 @@ public class WorldGuard6_1 extends WorldGuardInterface {
     public void removeFromRegionManager(WGRegion region, World world) {
         WG6Region wg6Region = (WG6Region) region;
         getRegionManager(world).removeRegion(wg6Region.getRegion().getId());
-    }
-
-    private WG6Region getUniqueRegion(ProtectedRegion protectedRegion) {
-        if (protectedRegion == null) {
-            return null;
-        }
-        if (createdRegions.containsKey(protectedRegion)) {
-            return createdRegions.get(protectedRegion);
-        }
-        WG6Region wg7Region = new WG6Region(protectedRegion);
-        createdRegions.put(protectedRegion, wg7Region);
-        return wg7Region;
     }
 
     public Flag fuzzyMatchFlag(String id) {

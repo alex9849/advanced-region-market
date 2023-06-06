@@ -7,7 +7,7 @@
     <groupId>net.alex9849</groupId>
     <artifactId>armparent</artifactId>
     <packaging>pom</packaging>
-    <version>1.0</version>
+    <version>3.4.4</version>
     <modules>
         <module>arminterface</module>
         <module>advancedregionmarket</module>
@@ -21,6 +21,13 @@
         <module>wg7adapter</module>
         <module>placeholder-api-addon</module>
     </modules>
+
+    <scm>
+        <connection>scm:git:https://github.com/alex9849/advanced-region-market.git</connection>
+        <url>http://github.com/alex9849/advanced-region-market</url>
+        <developerConnection>scm:git:https://github.com/alex9849/advanced-region-market.git</developerConnection>
+        <tag>@{project.version}</tag>
+    </scm>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

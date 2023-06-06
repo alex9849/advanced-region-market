@@ -48,7 +48,8 @@ public class SellBackCommand extends BasicArmCommand {
         }
         confirmQuestion = region.replaceVariables(confirmQuestion);
         player.sendMessage(Messages.PREFIX + confirmQuestion);
-        Gui.openSellWarning(player, region, noMoney, Arrays.asList(confirmQuestion.split(String.valueOf(Character.LINE_SEPARATOR))), null);
+        Gui.openSellWarning(player, region, noMoney, Arrays.asList(confirmQuestion.split(String.valueOf(Character.LINE_SEPARATOR))),
+                Player::closeInventory);
         return true;
     }
 

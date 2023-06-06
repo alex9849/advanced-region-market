@@ -78,7 +78,7 @@ Messages:
   GUIResetRegionButton: '&4Zresetuj region'
   GUIResetRegionWarningName: '&4&lZresetować twój region?'
   ResetComplete: '&aPomyślnie zresetowano!'
-  ResetRegionCooldownError: '&7Musisz odczekać&6 %remaininguserresetcooldown-countdown-writtenout%
+  ResetRegionCooldownError: '&7Musisz odczekać&6 %remaininguserrestorecooldown-countdown-writtenout%
     &7zanim będziesz w stanie znowu zresetować region'
   GUIRegionTakeOverMenuName: '&4Przejęcie regionu'
   RegionTransferCompleteMessage: '&aPomyślnie przeniesiono!'
@@ -384,8 +384,7 @@ Messages:
     - '&6przykładowy Czas Przedłużenia: 12h (12 hours)'
     - '&4Poleca się nie umieszczanie tego znaku w obrębie podregionu!'
   SubregionCreationSelectAreaInfo:
-    - '&aPosiadasz w swoim ekwipunku narzędzie (pióro) by zaznaczyć dwa punkty regionu
-    które będą stanowić dwa przeciwległe rogi podregionu.'
+    - '&aPosiadasz w swoim ekwipunku narzędzie (pióro) by zaznaczyć dwa punkty regionu które będą stanowić dwa przeciwległe rogi podregionu.'
     - '&aLewy przycisk, by wybrać pozycję nr 1'
     - '&aPrawy przycisk, by wybrać pozycję nr 2'
     - '&aWpisz komendę "&6/arm subregion create" &ajeśli zaznaczanie rogów zostało ukończone'
@@ -481,8 +480,8 @@ Messages:
     &4Could not spawn entity on region &6%region%&4!
     The not spawned entity would exceed the region's entitylimit. For more information type &6/arm entitylimit check %region%&4!
     Everybody on region %region% received this message! If you are not a member of this region, you can ignore this message.
-  ArmBasicCommandMessage: |-
-    &6AdvancedRegionMarket v%pluginversion% by Alex9849
+  ArmBasicCommandMessagePro: |-
+    &6AdvancedRegionMarket &4&lPro&r &6v%pluginversion% by Alex9849
     &6Download: &3https://bit.ly/2CfO3An
     &6Get a list with all commands with &3/arm help
   RegionBuyProtectionOfContinuance: '&4Nie można kupić Regionu! Region jest pod ochroną

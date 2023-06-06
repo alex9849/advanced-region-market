@@ -53,6 +53,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.block.*;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
@@ -68,6 +69,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.io.Reader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.NumberFormat;
@@ -105,14 +107,16 @@ public class AdvancedRegionMarket extends JavaPlugin {
     }
 
     public void onEnable() {
+        Reader pluginYmlReader = Objects.requireNonNull(getTextResource("plugin.yml"));
+        YamlConfiguration pluginYml = YamlConfiguration.loadConfiguration(pluginYmlReader);
         //This is a workaround to make shure that this plugin is loaded after the last world has been loaded.
         boolean doStartupWorkaround = false;
         List<String> softdependCheckPlugins = Arrays.asList("MultiWorld", "Multiverse-Core");
-        for(String pluginName : softdependCheckPlugins) {
+        for (String pluginName : softdependCheckPlugins) {
             Plugin plugin = Bukkit.getPluginManager().getPlugin(pluginName);
             doStartupWorkaround |= plugin != null && !plugin.isEnabled();
         }
-        if(doStartupWorkaround) {
+        if (doStartupWorkaround) {
             getLogger().log(Level.WARNING, "It looks like one of these plugins is installed, but not loaded yet:\n" +
                     String.join(", ", softdependCheckPlugins) + "\n" +
                     "In order to keep ARM working it scheduled its own enabling code to the end of the startup process as fallback!\n");
@@ -123,7 +127,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
     }
 
     public void startup() {
-
         //Check if Worldguard is installed
         if (!setupWorldGuard()) {
             getLogger().log(Level.INFO, "Please install Worldguard!");
@@ -148,10 +151,9 @@ public class AdvancedRegionMarket extends JavaPlugin {
         this.generateConfigs();
         Updater.updateConfigs();
 
-        //TODO get locale from config
         String localeString = getConfig().getString("Other.Language");
         Messages.MessageLocale messageLocale = Messages.MessageLocale.byCode(localeString);
-        if(messageLocale == null) {
+        if (messageLocale == null) {
             messageLocale = Messages.MessageLocale.EN;
             getLogger().log(Level.WARNING, "Could not file Message locale \"" + localeString + "\"! Using English as fallback!");
         }
@@ -265,20 +267,22 @@ public class AdvancedRegionMarket extends JavaPlugin {
         //Enable own analytics
         try {
             this.analytics = Analytics.genInstance(this, new URL("https://mc-analytics.alex9849.net"), () -> {
-                Map<String, String> pluginSpecificData = new LinkedHashMap<>();
-                BStatsAnalytics.RegionStatistics rs = BStatsAnalytics.getRegionStatistics();
-                int totalRegions = rs.getAvailableContractRegions();
-                totalRegions += rs.getAvailableRentRegions();
-                totalRegions += rs.getAvailableSellRegions();
-                totalRegions += rs.getSoldContractRegions();
-                totalRegions += rs.getSoldRentRegions();
-                totalRegions += rs.getSoldSellRegions();
-                pluginSpecificData.put("regionsTotal", totalRegions + "");
-                pluginSpecificData.put("regionsSell", (rs.getAvailableSellRegions() + rs.getSoldSellRegions()) + "");
-                pluginSpecificData.put("regionsRent", (rs.getAvailableRentRegions() + rs.getSoldRentRegions()) + "");
-                pluginSpecificData.put("regionsContract", (rs.getAvailableContractRegions() + rs.getSoldContractRegions()) + "");
-                return pluginSpecificData;
-            });
+                    },
+                    () -> {
+                        Map<String, String> pluginSpecificData = new LinkedHashMap<>();
+                        BStatsAnalytics.RegionStatistics rs = BStatsAnalytics.getRegionStatistics();
+                        int totalRegions = rs.getAvailableContractRegions();
+                        totalRegions += rs.getAvailableRentRegions();
+                        totalRegions += rs.getAvailableSellRegions();
+                        totalRegions += rs.getSoldContractRegions();
+                        totalRegions += rs.getSoldRentRegions();
+                        totalRegions += rs.getSoldSellRegions();
+                        pluginSpecificData.put("regionsTotal", totalRegions + "");
+                        pluginSpecificData.put("regionsSell", (rs.getAvailableSellRegions() + rs.getSoldSellRegions()) + "");
+                        pluginSpecificData.put("regionsRent", (rs.getAvailableRentRegions() + rs.getSoldRentRegions()) + "");
+                        pluginSpecificData.put("regionsContract", (rs.getAvailableContractRegions() + rs.getSoldContractRegions()) + "");
+                        return pluginSpecificData;
+                    });
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -436,6 +440,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         sellPresetCommands.add(new net.alex9849.arm.presets.commands.RegionKindCommand(PresetType.SELLPRESET, this));
         sellPresetCommands.add(new net.alex9849.arm.presets.commands.ResetCommand(PresetType.SELLPRESET, this));
         sellPresetCommands.add(new net.alex9849.arm.presets.commands.SaveCommand(PresetType.SELLPRESET, this));
+        sellPresetCommands.add(new net.alex9849.arm.presets.commands.UpdateCommand(PresetType.SELLPRESET, this));
         sellPresetCommands.add(new net.alex9849.arm.presets.commands.RemoveCommandCommand(PresetType.SELLPRESET, this));
         sellPresetCommands.add(new net.alex9849.arm.presets.commands.AllowedSubregionsCommand(PresetType.SELLPRESET, this));
         sellPresetCommands.add(new net.alex9849.arm.presets.commands.SetMaxMembersCommand(PresetType.SELLPRESET, this));
@@ -461,6 +466,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         contractPresetCommands.add(new net.alex9849.arm.presets.commands.RegionKindCommand(PresetType.CONTRACTPRESET, this));
         contractPresetCommands.add(new net.alex9849.arm.presets.commands.ResetCommand(PresetType.CONTRACTPRESET, this));
         contractPresetCommands.add(new net.alex9849.arm.presets.commands.SaveCommand(PresetType.CONTRACTPRESET, this));
+        contractPresetCommands.add(new net.alex9849.arm.presets.commands.UpdateCommand(PresetType.CONTRACTPRESET, this));
         contractPresetCommands.add(new net.alex9849.arm.presets.commands.AddCommandCommand(PresetType.CONTRACTPRESET, this));
         contractPresetCommands.add(new net.alex9849.arm.presets.commands.RemoveCommandCommand(PresetType.CONTRACTPRESET, this));
         contractPresetCommands.add(new net.alex9849.arm.presets.commands.AllowedSubregionsCommand(PresetType.CONTRACTPRESET, this));
@@ -488,6 +494,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         rentPresetCommands.add(new net.alex9849.arm.presets.commands.RegionKindCommand(PresetType.RENTPRESET, this));
         rentPresetCommands.add(new net.alex9849.arm.presets.commands.ResetCommand(PresetType.RENTPRESET, this));
         rentPresetCommands.add(new net.alex9849.arm.presets.commands.SaveCommand(PresetType.RENTPRESET, this));
+        rentPresetCommands.add(new net.alex9849.arm.presets.commands.UpdateCommand(PresetType.RENTPRESET, this));
         rentPresetCommands.add(new net.alex9849.arm.presets.commands.AddCommandCommand(PresetType.RENTPRESET, this));
         rentPresetCommands.add(new net.alex9849.arm.presets.commands.RemoveCommandCommand(PresetType.RENTPRESET, this));
         rentPresetCommands.add(new net.alex9849.arm.presets.commands.AllowedSubregionsCommand(PresetType.RENTPRESET, this));
@@ -635,7 +642,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         priceFormatter.setMaximumFractionDigits(getConfig().getInt("PriceFormatting.maximumFractionDigits"));
         priceFormatter.setMinimumIntegerDigits(getConfig().getInt("PriceFormatting.minimumIntegerDigits"));
         priceFormatter.setGroupingUsed(true);
-        Price.setPriceFormater(priceFormatter);
+        Price.setPriceFormatter(priceFormatter);
 
         if (getConfig().getConfigurationSection("AutoPrice") != null) {
             AutoPrice.loadAutoprices(getConfig().getConfigurationSection("AutoPrice"));
@@ -684,7 +691,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
     private void loadLimits() {
         this.limitGroupManager = new LimitGroupManager();
         ConfigurationSection limitsection = getConfig().getConfigurationSection("Limits");
-        if(limitsection != null) {
+        if (limitsection != null) {
             this.limitGroupManager.load(limitsection);
         }
     }
@@ -719,7 +726,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         if (worlds == null) {
             return;
         }
-        Set<WGRegion> wgRegions = new HashSet<>();
+        HashMap<String, Set<String>> blackListedRegions = new HashMap<>();
         for (String worldName : worlds) {
             World world = Bukkit.getWorld(worldName);
             if (world == null) {
@@ -735,10 +742,12 @@ public class AdvancedRegionMarket extends JavaPlugin {
                 if (wgRegion == null) {
                     continue;
                 }
-                wgRegions.add(wgRegion);
+                blackListedRegions.putIfAbsent(worldName, new HashSet<>());
+                Set<String> blackListedRegionsForWorld = blackListedRegions.get(worldName);
+                blackListedRegionsForWorld.add(regionName);
             }
         }
-        SignLinkMode.setBlacklistedRegions(wgRegions);
+        SignLinkMode.setBlacklistedRegions(blackListedRegions);
     }
 
     private void generateConfigs() {

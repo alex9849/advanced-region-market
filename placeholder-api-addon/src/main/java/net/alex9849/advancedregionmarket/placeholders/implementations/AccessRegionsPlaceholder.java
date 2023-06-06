@@ -1,7 +1,7 @@
 package net.alex9849.advancedregionmarket.placeholders.implementations;
 
-import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.advancedregionmarket.placeholders.AbstractOfflinePlayerPlaceholder;
+import net.alex9849.arm.AdvancedRegionMarket;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 

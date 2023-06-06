@@ -319,7 +319,7 @@ public class RegionManager extends YamlFileManager<Region> {
             WGRegion subWGRegion = subRegion.getRegion();
 
             if (AdvancedRegionMarket.getInstance().getPluginSettings().isAllowParentRegionOwnersBuildOnSubregions()) {
-                if (subWGRegion.getParent() == null || !subWGRegion.getParent().equals(parentRegion)) {
+                if (subWGRegion.getParent() == null || subWGRegion.getParent().unwrap() != parentRegion.unwrap()) {
                     subWGRegion.setParent(parentRegion);
                 }
             } else {
@@ -332,7 +332,7 @@ public class RegionManager extends YamlFileManager<Region> {
         return region;
     }
 
-    private static Region parseSubRegion(ConfigurationSection section, WGRegion subregion, Region parentRegion) {
+    private static Region parseSubRegion(ConfigurationSection section, WGRegion wgSubregion, Region parentRegion) {
         double subregPrice = section.getDouble("price");
         boolean subregIsSold = section.getBoolean("sold");
         boolean subregIsHotel = section.getBoolean("isHotel");
@@ -347,7 +347,7 @@ public class RegionManager extends YamlFileManager<Region> {
             long subregmaxExtendTime = section.getLong("maxExtendTime");
             long subregextendTime = section.getLong("extendTime");
             RentPrice subPrice = new RentPrice(subregPrice, subregextendTime, subregmaxExtendTime);
-            RentRegion rentRegion = new RentRegion(subregion, subregionsigns, subPrice, subregIsSold, parentRegion);
+            RentRegion rentRegion = new RentRegion(wgSubregion, subregionsigns, subPrice, subregIsSold, parentRegion);
             rentRegion.setPayedTill(subregpayedtill);
             region = rentRegion;
 
@@ -356,14 +356,14 @@ public class RegionManager extends YamlFileManager<Region> {
             long subregextendTime = section.getLong("extendTime");
             Boolean subregterminated = section.getBoolean("terminated");
             ContractPrice subPrice = new ContractPrice(subregPrice, subregextendTime);
-            ContractRegion contractRegion = new ContractRegion(subregion, subregionsigns, subPrice, subregIsSold, parentRegion);
+            ContractRegion contractRegion = new ContractRegion(wgSubregion, subregionsigns, subPrice, subregIsSold, parentRegion);
             contractRegion.setPayedTill(subregpayedtill);
             contractRegion.setTerminated(subregterminated);
             region = contractRegion;
 
         } else {
             Price subPrice = new Price(subregPrice);
-            region = new SellRegion(subregion, subregionsigns, subPrice, subregIsSold, parentRegion);
+            region = new SellRegion(wgSubregion, subregionsigns, subPrice, subregIsSold, parentRegion);
         }
         region.setHotel(subregIsHotel);
         region.setLastReset(sublastreset);
@@ -429,9 +429,9 @@ public class RegionManager extends YamlFileManager<Region> {
         if (teleportLocString != null) {
             String[] teleportLocarr = teleportLocString.split(";");
             World teleportLocWorld = Bukkit.getWorld(teleportLocarr[0]);
-            int teleportLocBlockX = Integer.parseInt(teleportLocarr[1]);
-            int teleportLocBlockY = Integer.parseInt(teleportLocarr[2]);
-            int teleportLocBlockZ = Integer.parseInt(teleportLocarr[3]);
+            double teleportLocBlockX = Double.parseDouble(teleportLocarr[1]);
+            double teleportLocBlockY = Double.parseDouble(teleportLocarr[2]);
+            double teleportLocBlockZ = Double.parseDouble(teleportLocarr[3]);
             float teleportLocPitch = Float.parseFloat(teleportLocarr[4]);
             float teleportLocYaw = Float.parseFloat(teleportLocarr[5]);
             teleportLoc = new Location(teleportLocWorld, teleportLocBlockX, teleportLocBlockY, teleportLocBlockZ);
@@ -532,11 +532,11 @@ public class RegionManager extends YamlFileManager<Region> {
 
     public Region getRegion(WGRegion wgRegion) {
         for (Region region : this) {
-            if (region.getRegion().equals(wgRegion)) {
+            if (region.getRegion().unwrap() == wgRegion.unwrap()) {
                 return region;
             }
             for (Region subregion : region.getSubregions()) {
-                if (subregion.getRegion().equals(wgRegion)) {
+                if (subregion.getRegion().unwrap() == wgRegion.unwrap()) {
                     return subregion;
                 }
             }

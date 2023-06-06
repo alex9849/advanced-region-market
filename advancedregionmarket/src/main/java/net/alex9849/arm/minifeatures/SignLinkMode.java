@@ -12,7 +12,9 @@ import net.alex9849.inter.WGRegion;
 import net.alex9849.signs.SignData;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -21,15 +23,14 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class SignLinkMode implements Listener {
     private static List<SignLinkMode> signLinkModeList = new ArrayList<>();
-    private static Set<WGRegion> blacklistedRegions = new HashSet<>();
+    //by Hashed world and regionId
+    private static HashMap<String, Set<String>> blacklistedRegions = new HashMap<>();
     private Player player;
     private Preset preset;
     private Sign sign;
@@ -46,7 +47,7 @@ public class SignLinkMode implements Listener {
 
     public static void reset() {
         SignLinkMode.signLinkModeList = new ArrayList<>();
-        SignLinkMode.blacklistedRegions = new HashSet<>();
+        SignLinkMode.blacklistedRegions = new HashMap<>();
     }
 
     public static SignLinkMode getSignLinkMode(Player player) {
@@ -70,7 +71,7 @@ public class SignLinkMode implements Listener {
         slm.register();
     }
 
-    public static void setBlacklistedRegions(Set<WGRegion> regions) {
+    public static void setBlacklistedRegions(HashMap<String, Set<String>> regions) {
         if (regions == null) {
             return;
         }
@@ -96,13 +97,16 @@ public class SignLinkMode implements Listener {
             if ((!(event.getAction() == Action.LEFT_CLICK_BLOCK)) && (!(event.getAction() == Action.RIGHT_CLICK_BLOCK))) {
                 return;
             }
-            if ((event.getAction() == Action.RIGHT_CLICK_BLOCK) && event.getPlayer().getInventory().getItemInMainHand() != null) {
-                if (MaterialFinder.getSignMaterials().contains(event.getPlayer().getInventory().getItemInMainHand().getType())) {
-                    return;
-                }
+            List<Material> signMaterials = MaterialFinder.getSignMaterials();
+            ItemStack itemInHand = event.getPlayer().getInventory().getItemInMainHand();
+            Material clickedBlock = event.getClickedBlock().getType();
+
+            if (event.getAction() == Action.LEFT_CLICK_BLOCK && signMaterials.contains(clickedBlock)) {
+                return;
             }
-            if ((event.getAction() == Action.LEFT_CLICK_BLOCK) && event.getClickedBlock() != null) {
-                if ((MaterialFinder.getSignMaterials().contains(event.getClickedBlock().getType()))) {
+
+            if (event.getAction() == Action.RIGHT_CLICK_BLOCK && itemInHand != null) {
+                if (signMaterials.contains(itemInHand.getType()) && !signMaterials.contains(clickedBlock)) {
                     return;
                 }
             }
@@ -116,18 +120,7 @@ public class SignLinkMode implements Listener {
                 player.sendMessage(Messages.SIGN_LINK_MODE_SIGN_SELECTED);
             } else {
                 Location clicklocation = event.getClickedBlock().getLocation();
-                if (clicklocation == null) {
-                    return;
-                }
-                List<WGRegion> regions = AdvancedRegionMarket.getInstance().getWorldGuardInterface().getApplicableRegions(clicklocation.getWorld(), clicklocation);
-                regions.removeAll(SignLinkMode.blacklistedRegions);
-                if (regions.size() > 1) {
-                    throw new InputException(event.getPlayer(), Messages.SIGN_LINK_MODE_COULD_NOT_SELECT_REGION_MULTIPLE_WG_REGIONS);
-                }
-                if (regions.size() < 1) {
-                    throw new InputException(event.getPlayer(), Messages.SIGN_LINK_MODE_COULD_NOT_SELECT_REGION_NO_WG_REGION);
-                }
-                this.wgRegion = regions.get(0);
+                this.wgRegion = getRegionFromClickedLocation(player, clicklocation, event.getBlockFace());
                 this.world = clicklocation.getWorld();
                 this.player.sendMessage(Messages.PREFIX + Messages.SIGN_LINK_MODE_REGION_SELECTED.replace("%regionid%", this.wgRegion.getId()));
             }
@@ -137,8 +130,22 @@ public class SignLinkMode implements Listener {
         } catch (InputException e) {
             e.sendMessages(Messages.PREFIX);
         }
+    }
 
-
+    private WGRegion getRegionFromClickedLocation(Player player, Location location, BlockFace blockFace) throws InputException {
+        List<WGRegion> regions = AdvancedRegionMarket.getInstance().getWorldGuardInterface().getApplicableRegions(location.getWorld(), location);
+        Set<String> worldBlacklisted = SignLinkMode.blacklistedRegions.getOrDefault(location.getWorld().getName(), new HashSet<>());
+        regions.removeIf(x -> worldBlacklisted.contains(x.getId()));
+        if (regions.size() > 1) {
+            throw new InputException(player, Messages.SIGN_LINK_MODE_COULD_NOT_SELECT_REGION_MULTIPLE_WG_REGIONS);
+        }
+        if (regions.size() < 1) {
+            if (blockFace == null) {
+                throw new InputException(player, Messages.SIGN_LINK_MODE_COULD_NOT_SELECT_REGION_NO_WG_REGION);
+            }
+            return getRegionFromClickedLocation(player, location.add(blockFace.getDirection()), null);
+        }
+        return regions.get(0);
     }
 
     private void registerRegion() throws InputException {

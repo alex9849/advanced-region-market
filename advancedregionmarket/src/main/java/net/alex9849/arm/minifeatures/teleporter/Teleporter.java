@@ -27,14 +27,11 @@ public class Teleporter {
     }
 
     public static void teleport(Player player, Location location, String message, boolean useCountdown) {
-        Location tpLocation = new Location(location.getWorld(),
-                location.getBlockX() + 0.5, location.getBlockY(), location.getBlockZ() + 0.5,
-                location.getYaw(), location.getPitch());
         int timer = 0;
         if (useCountdown) {
             timer = 20 * AdvancedRegionMarket.getInstance().getConfig().getInt("Other.TeleporterTimer");
         }
-        scheduleTeleport(player, tpLocation, message, timer);
+        scheduleTeleport(player, location, message, timer);
         return;
     }
 
@@ -101,13 +98,14 @@ public class Teleporter {
         int minZ = min.getBlockZ();
         int xAxis = maxX - (maxX - minX) / 2;
         int zAxis = maxZ - (maxZ - minZ) / 2;
+        Vector halfBlockVector = new Vector(0.5, 0, 0.5);
         int radius = 1;
         boolean abort = false;
 
         for (int y = maxY; y >= minY; y--) {
             Location loc = new Location(world, xAxis, y, zAxis);
             if (isSaveTeleport(loc)) {
-                return loc;
+                return loc.add(halfBlockVector);
             }
         }
 
@@ -126,7 +124,7 @@ public class Teleporter {
                 for (int y = maxY; y >= minY; y--) {
                     Location loc = new Location(world, xAxis, y, zAxis);
                     if (isSaveTeleport(loc)) {
-                        return loc;
+                        return loc.add(halfBlockVector);
                     }
                 }
             } while (movedX < radius);
@@ -142,7 +140,7 @@ public class Teleporter {
                 for (int y = maxY; y >= minY; y--) {
                     Location loc = new Location(world, xAxis, y, zAxis);
                     if (isSaveTeleport(loc)) {
-                        return loc;
+                        return loc.add(halfBlockVector);
                     }
                 }
             } while (movedZ < radius);
@@ -160,7 +158,7 @@ public class Teleporter {
                 for (int y = maxY; y >= minY; y--) {
                     Location loc = new Location(world, xAxis, y, zAxis);
                     if (isSaveTeleport(loc)) {
-                        return loc;
+                        return loc.add(halfBlockVector);
                     }
                 }
             } while (movedX < radius);
@@ -176,7 +174,7 @@ public class Teleporter {
                 for (int y = maxY; y >= minY; y--) {
                     Location loc = new Location(world, xAxis, y, zAxis);
                     if (isSaveTeleport(loc)) {
-                        return loc;
+                        return loc.add(halfBlockVector);
                     }
                 }
             } while (movedZ < radius);

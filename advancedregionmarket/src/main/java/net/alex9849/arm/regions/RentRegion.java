@@ -10,7 +10,6 @@ import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.regions.price.RentPrice;
 import net.alex9849.arm.util.TimeUtil;
-import net.alex9849.arm.util.StringReplacer;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.signs.SignData;
 import org.bukkit.Bukkit;
@@ -44,7 +43,7 @@ public class RentRegion extends CountdownRegion {
     }
 
     public void signClickAction(Player player) throws OutOfLimitExeption, AlreadySoldException, NotSoldException, NoPermissionException, NotEnoughMoneyException, RegionNotOwnException, ProtectionOfContinuanceException {
-        if(this.isSold()) {
+        if (this.isSold()) {
             this.extend(player);
         } else {
             this.buy(player);
@@ -215,6 +214,12 @@ public class RentRegion extends CountdownRegion {
         });
         variableReplacements.put("%extendtime-current-short%", () -> {
             return TimeUtil.timeInMsToString(this.getCurrentExtendTime(), false, false);
+        });
+        variableReplacements.put("%remainingtime-next-extend-countdown-writtenout%", () -> {
+            return TimeUtil.getCountdown(this.getPayedTill() + this.getCurrentExtendTime(), true, false, false, Messages.REGION_INFO_EXPIRED);
+        });
+        variableReplacements.put("%remainingtime-next-extend-countdown-short%", () -> {
+            return TimeUtil.getCountdown(this.getPayedTill() + this.getCurrentExtendTime(), false, false, false, Messages.REGION_INFO_EXPIRED);
         });
         variableReplacements.put("%price-current%", () -> {
             return Price.formatPrice(this.getCurrentExtendPrice());

@@ -8,83 +8,58 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public abstract class WGRegion {
-    private Integer volume = null;
+public interface WGRegion {
+    Vector getMaxPoint();
 
-    public abstract Vector getMaxPoint();
+    Vector getMinPoint();
 
-    public abstract Vector getMinPoint();
+    String getId();
 
-    public abstract String getId();
+    boolean hasMember(UUID uuid);
 
-    public abstract boolean hasMember(UUID uuid);
+    void addMember(UUID uuid);
 
-    public abstract void addMember(UUID uuid);
+    void deleteMembers();
 
-    public abstract void deleteMembers();
+    void removeMember(UUID uuid);
 
-    public abstract void removeMember(UUID uuid);
+    ArrayList<UUID> getMembers();
 
-    public abstract ArrayList<UUID> getMembers();
+    void setOwner(OfflinePlayer player);
 
-    public abstract void setOwner(OfflinePlayer player);
+    boolean hasOwner(UUID uuid);
 
-    public abstract boolean hasOwner(UUID uuid);
+    void deleteOwners();
 
-    public abstract void deleteOwners();
+    void removeOwner(UUID uuid);
 
-    public abstract void removeOwner(UUID uuid);
+    ArrayList<UUID> getOwners();
 
-    public abstract ArrayList<UUID> getOwners();
+    boolean contains(int x, int y, int z);
 
-    public abstract boolean contains(int x, int y, int z);
+    WGRegion getParent();
 
-    public abstract boolean equals(WGRegion wgRegion);
+    void setParent(WGRegion wgRegion);
 
-    public abstract WGRegion getParent();
+    int getPriority();
 
-    public abstract void setParent(WGRegion wgRegion);
+    Object unwrap();
 
-    public abstract int getPriority();
+    void setPriority(int priority);
 
-    public abstract void setPriority(int priority);
+    List<Vector> getPoints();
 
-    public abstract List<Vector> getPoints();
+    <T extends Flag<V>, V> void setFlag(Flag<V> flag, V value);
 
-    public abstract <T extends Flag<V>, V> void setFlag(Flag<V> flag, V value);
+    void deleteFlags(Flag... flags);
 
-    public abstract void deleteFlags(Flag... flags);
+    void deleteAllFlags();
 
-    public abstract void deleteAllFlags();
+    Object getFlagSetting(Flag flag);
 
-    public abstract Object getFlagSetting(Flag flag);
+    boolean isCuboid();
 
-    public abstract boolean isCuboid();
+    boolean isPolygonal();
 
-    public abstract boolean isPolygonal();
-
-    protected abstract int getProtectedRegionVolume();
-
-    public int getVolume() {
-        if (volume == null) {
-            if (!isPolygonal()) {
-                volume = getProtectedRegionVolume();
-            } else {
-                int tmpVolume = 0;
-                Vector min = getMinPoint();
-                Vector max = getMaxPoint();
-                int height = 1 + max.getBlockY() - min.getBlockY();
-                int minY = min.getBlockY();
-                for(int x = min.getBlockX(); x <= max.getBlockX(); x++) {
-                    for(int z = min.getBlockZ(); z <= max.getBlockZ(); z++) {
-                        if(contains(x, minY, z)) {
-                            tmpVolume++;
-                        }
-                    }
-                }
-                volume = tmpVolume * height;
-            }
-        }
-        return volume;
-    }
+    int getVolume();
 }

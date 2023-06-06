@@ -1,8 +1,8 @@
 FileVersion: 1
 Messages:
   Prefix: '&b[ARM]&r'
-  ArmBasicCommandMessage: |-
-    &6AdvancedRegionMarket v%pluginversion% desarrollado por Alex9849
+  ArmBasicCommandMessagePro: |-
+    &6AdvancedRegionMarket &4&lPro&r &6v%pluginversion% desarrollado por Alex9849
     &6Descarga: &3https://bit.ly/2CfO3An
     &6Para ver una lista de comandos completa, escribe &3/arm help
   NoPermission: '&4¡No tienes permisos!'
@@ -44,7 +44,7 @@ Messages:
   RegionKindSet: '&aLa parcela Kind ha sido establecida!'
   ResetComplete: '&a¡Borrado completado!'
   Complete: '&a¡Completado!'
-  ResetRegionCooldownerror: '&7Tienes que esperar&6 %remaininguserresetcooldown-countdown-writtenout%
+  ResetRegionCooldownerror: '&7Tienes que esperar&6 %remaininguserrestorecooldown-countdown-writtenout%
     &7hasta que puedas borrar tu parcela otra vez'
   Currency: $
   SellSign1: '&2Se vende'
@@ -262,7 +262,7 @@ Messages:
     - '&4ATENCIÓN: &c¡Esta opción no tiene vuelta atrás! ¡Tu parcela'
     - '&cserá restaurada y todo lo que haya dentro'
     - '&cserá eliminado!'
-    - '&cSolo puedes restaurar tu parcela una vez cada %userresetcooldown%'
+    - '&cSolo puedes restaurar tu parcela una vez cada %userrestorecooldown%'
     - '&2Tú y todos los miembros mantenéis los permisos en la parcela'
   RegionTransferCompleteMessage: '&a¡Transferencia completada!'
   RegiontransferMemberNotOnline: '&4¡El miembro no está conectado!'
@@ -407,8 +407,7 @@ Messages:
     - '&6ejemplo para TiempoRenovación: 12h (12 horas)'
     - '&4¡Te recomedamos encarecidamente que no pusieses el cartel en la subparcela!'
   SubregionCreationSelectAreaInfo:
-    - '&aHas recibido una herramienta en tu inventario (pluma) para seleccionar 2 puntos en tu parcela
-    que marcarán las esquinas de tu nueva subparcela.'
+    - '&aHas recibido una herramienta en tu inventario (pluma) para seleccionar 2 puntos en tu parcela que marcarán las esquinas de tu nueva subparcela.'
     - '&aClic izquierdo para seleccionar posición 1'
     - '&aClic derecho para seleccionar posición 2'
     - '&aescribe "&6/arm subregion create" &asi estás listo'

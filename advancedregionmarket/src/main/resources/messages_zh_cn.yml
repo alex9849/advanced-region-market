@@ -72,7 +72,7 @@ Messages:
   GUIResetRegionButton: '&4重置区域'
   GUIResetRegionWarningName: '&4&l确定重置嘛?'
   ResetComplete: '&a重置完成!'
-  ResetRegionCooldownError: '&7你需要等待&6 %remaininguserresetcooldown-countdown-writtenout%
+  ResetRegionCooldownError: '&7你需要等待&6 %remaininguserrestorecooldown-countdown-writtenout%
     &7后才能再次重置此区域'
   GUIRegionTakeOverMenuName: '&4区域接管'
   RegionTransferCompleteMessage: '&a转移完成!'
@@ -352,8 +352,7 @@ Messages:
     - '&6合同时间示例: 12h (12 小时)'
     - '&4强烈建议不要在区域放置标志!'
   SubregionCreationSelectAreaInfo:
-    - '&a您的库存（羽毛）中有一个工具可以选择您所在地区的2个点
-    这将标志着您的新分区的角落.'
+    - '&a您的库存（羽毛）中有一个工具可以选择您所在地区的2个点 这将标志着您的新分区的角落.'
     - '&a左键选择第一个点'
     - '&a右键选择第二个点'
     - '&a使用 "&6/arm subregion create" &a完成创建'
@@ -434,8 +433,8 @@ Messages:
     &4无法在区域上生成实体 &6%region%&4!
     未产生的实体将超过区域的实体限制.有关更多信息，请输入 &6/arm entitylimit check %region%&4!
     %region%地区的所有人都收到了此消息！如果您不是该区域的成员，则可以忽略此消息.
-  ArmBasicCommandMessage: |-
-    &6AdvancedRegionMarket 插件%pluginversion% 作者 Alex9849
+  ArmBasicCommandMessagePro: |-
+    &6AdvancedRegionMarket &4&lPro&r &6插件%pluginversion% 作者 Alex9849
     &6下载地址: &3https://bit.ly/2CfO3An
     &6汉化作者 (翻译)： Tom逍遥
   RegionBuyProtectionOfContinuance: '&4无法购买地区！地区无法继续保护您，因此不会再出售!'

@@ -1,12 +1,14 @@
 package net.alex9849.arm.regions.price;
 
+import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.inter.WGRegion;
 
 import java.text.NumberFormat;
 
 public class Price {
-    private static NumberFormat priceFormater;
+    private AdvancedRegionMarket plugin = AdvancedRegionMarket.getInstance();
+    private static NumberFormat priceFormatter;
     protected AutoPrice autoPrice;
     protected double price;
     protected Double cachedAutoPrice;
@@ -14,6 +16,7 @@ public class Price {
 
     /**
      * Creates a price Object, that can be used for SellRegions
+     *
      * @param price the price. Needs to be positive. If negative price will automatically be negated!
      */
     public Price(double price) {
@@ -31,16 +34,16 @@ public class Price {
         this.price = 0;
     }
 
-    public static void setPriceFormater(NumberFormat formater) {
-        Price.priceFormater = formater;
+    public static void setPriceFormatter(NumberFormat formatter) {
+        Price.priceFormatter = formatter;
     }
 
     public static String formatPrice(double price) {
-        return Price.priceFormater.format(price).replace("\u00A0", " ");
+        return Price.priceFormatter.format(price).replace("\u00A0", " ");
     }
 
     public double calcPrice(WGRegion wgRegion) {
-        if(this.cachedWgRegion == null || this.cachedWgRegion != wgRegion) {
+        if (this.cachedWgRegion == null || this.cachedWgRegion.unwrap() != wgRegion.unwrap()) {
             this.cachedWgRegion = wgRegion;
             this.cachedAutoPrice = null;
         }

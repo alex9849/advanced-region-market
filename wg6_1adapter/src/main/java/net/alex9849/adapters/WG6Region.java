@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class WG6Region extends WGRegion {
+public class WG6Region implements WGRegion {
 
     private ProtectedRegion region;
 
@@ -84,12 +84,6 @@ public class WG6Region extends WGRegion {
 
     public boolean contains(int x, int y, int z) {
         return this.region.contains(x, y, z);
-    }
-
-    @Override
-    public boolean equals(WGRegion wgRegion) {
-        WG6Region wg6Region = (WG6Region) wgRegion;
-        return wg6Region.getRegion() == this.region;
     }
 
     @Override
@@ -164,6 +158,10 @@ public class WG6Region extends WGRegion {
         deleteFlags(this.region.getFlags().keySet().toArray(flagarr));
     }
 
+    public Object unwrap() {
+        return region;
+    }
+
     public Object getFlagSetting(Flag flag) {
         return this.region.getFlag(flag);
     }
@@ -178,7 +176,7 @@ public class WG6Region extends WGRegion {
     }
 
     @Override
-    protected int getProtectedRegionVolume() {
+    public int getVolume() {
         return region.volume();
     }
 }

@@ -122,6 +122,23 @@ public class SignModifyListener implements Listener {
                 return;
             }
             String priceLine = sign.getLine(3);
+            Price price = null;
+            if (!priceLine.isEmpty()) {
+                switch (presetType) {
+                    case SELLPRESET:
+                        price = parseSellPrice(priceLine, sign.getPlayer());
+                        break;
+                    case CONTRACTPRESET:
+                        price = parseContractPrice(priceLine, sign.getPlayer());
+                        break;
+                    case RENTPRESET:
+                        price = parseRentPrice(priceLine, sign.getPlayer());
+                        break;
+                    default:
+                        throw new RuntimeException("This is a bug! SignModifyListener does not know how to set the " +
+                                "Price in PresetType " + presetType + "!");
+                }
+            }
 
             Preset preset = ActivePresetManager.getPreset(sign.getPlayer(), presetType);
             if (preset == null) {
@@ -152,6 +169,14 @@ public class SignModifyListener implements Listener {
 
             Region existingArmRegion = AdvancedRegionMarket.getInstance().getRegionManager().getRegion(wgRegion);
             if (existingArmRegion != null) {
+                if (price != null) {
+                    applyPrice(existingArmRegion, price, sign.getPlayer());
+                    try {
+                        existingArmRegion.applyFlagGroup(FlagGroup.ResetMode.COMPLETE, false);
+                    } catch (FeatureDisabledException e) {
+                        //Ignore
+                    }
+                }
                 existingArmRegion.addSign(signData);
                 sign.setCancelled(true);
                 existingArmRegion.updateSigns();
@@ -163,17 +188,8 @@ public class SignModifyListener implements Listener {
                 Region newArmRegion = preset.generateRegion(wgRegion, regionWorld, sign.getPlayer(), false, signDataList);
 
                 //Apply Price
-                if(!priceLine.isEmpty()) {
-                    if(newArmRegion instanceof SellRegion) {
-                        ((SellRegion) newArmRegion).setSellPrice(parseSellPrice(priceLine, sign.getPlayer()));
-                    } else if (newArmRegion instanceof ContractRegion) {
-                        ((ContractRegion) newArmRegion).setContractPrice(parseContractPrice(priceLine, sign.getPlayer()));
-                    } else if (newArmRegion instanceof RentRegion) {
-                        ((RentRegion) newArmRegion).setRentPrice(parseRentPrice(priceLine, sign.getPlayer()));
-                    } else {
-                        throw new RuntimeException("This is a bug! SignModifyListener does not know how to set the " +
-                                "Price in region-class " + newArmRegion.getClass().getName() + "!");
-                    }
+                if (price != null) {
+                    applyPrice(newArmRegion, price, sign.getPlayer());
                 } else if (!preset.canPriceLineBeLetEmpty()) {
                     sign.getPlayer().sendMessage(Messages.PREFIX + "Price not defined! Using default Autoprice!");
                 }
@@ -196,6 +212,29 @@ public class SignModifyListener implements Listener {
             inputException.sendMessages(Messages.PREFIX);
         } catch (IllegalArgumentException e) {
             sign.getPlayer().sendMessage(Messages.PREFIX + e.getMessage());
+        }
+    }
+
+    /**
+     * Applies a price to a region and used the correct method.
+     * Method doesn't perform any type checks!
+     */
+    private void applyPrice(Region region, Price price, Player player) throws InputException {
+        if (region instanceof SellRegion) {
+            ((SellRegion) region).setSellPrice(price);
+        } else if (region instanceof ContractRegion) {
+            if (!(price instanceof ContractPrice)) {
+                throw new InputException(player, "Price format doesn't not applicable region type!");
+            }
+            ((ContractRegion) region).setContractPrice((ContractPrice) price);
+        } else if (region instanceof RentRegion) {
+            if (!(price instanceof RentPrice)) {
+                throw new InputException(player, "Price format doesn't not applicable region type!");
+            }
+            ((RentRegion) region).setRentPrice((RentPrice) price);
+        } else {
+            throw new RuntimeException("This is a bug! SignModifyListener does not know how to set the " +
+                    "Price in region-class " + region.getClass().getName() + "!");
         }
     }
 

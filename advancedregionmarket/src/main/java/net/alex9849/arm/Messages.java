@@ -52,7 +52,7 @@ public class Messages {
         public int version() default 0;
     }
 
-    //Current version = 7
+    //Current version = 8
     @Message(name = "Prefix", message = "&b[ARM]&r ", version = 1)
     public static String PREFIX;
     @Message(name = "Buymessage", message = "&aRegion successfully bought!")
@@ -188,7 +188,7 @@ public class Messages {
     public static String GUI_RESET_REGION_WARNING_NAME;
     @Message(name = "ResetComplete", message = "&aReset complete!")
     public static String RESET_COMPLETE;
-    @Message(name = "ResetRegionCooldownError", message = "&7You have to wait&6 %remaininguserresetcooldown-countdown-writtenout% &7till you can reset your region again")
+    @Message(name = "ResetRegionCooldownError", message = "&7You have to wait&6 %remaininguserrestorecooldown-countdown-writtenout% &7till you can reset your region again")
     public static String RESET_REGION_COOLDOWN_ERROR;
     @Message(name = "GUIRegionTakeOverMenuName", message = "&4Region take-over")
     public static String GUI_TAKEOVER_MENU_NAME;
@@ -212,7 +212,7 @@ public class Messages {
     public static String RENTED_SIGN3;
     @Message(name = "RentedSign4", message = "%remainingtime-countdown-short%")
     public static String RENTED_SIGN4;
-    @Message(name = "RentExtendMessage", version = 4, message = "&aRegion extended for &6%extendtime-current-writtenout%&a (For %price-current%%currency%. Remaining time: &6%remainingtime-countdown-short%")
+    @Message(name = "RentExtendMessage", version = 8, message = "&aRegion extended for &6%extendtime-current-writtenout%&a (For %price-current%%currency%. Remaining time: &6%remainingtime-next-extend-countdown-writtenout%")
     public static String RENT_EXTEND_MESSAGE;
     @Message(name = "GUIExtendRentRegionButton", message = "&1Extend region")
     public static String GUI_EXTEND_BUTTON;
@@ -230,6 +230,8 @@ public class Messages {
     public static String GUI_USER_SELL_WARNING;
     @Message(name = "LimitInfoTop", message = "&6=========[Limit Info]=========")
     public static String LIMIT_INFO_TOP;
+    @Message(name = "LimitInfoFreePluginVersionDisclaimer", message = "&cThis server uses the free version of AdvancedRegionMarket. Therefore the number of regions a player can own has been set to 1!")
+    public static String LIMIT_INTO_FREE_PLUGIN_VERSION_DISCLAIMER;
     @Message(name = "LimitInfoLimitReachedColorCode", message = "&r&4")
     public static String LIMIT_REACHED_COLOR_CODE;
     @Message(name = "LimitInfoTotal", version = 2, message = "&6- Total: (&a%limitreachedcolor%%playerownedkind%/%limitkind%&6)")
@@ -270,6 +272,8 @@ public class Messages {
     public static String PRESET_PLAYER_DONT_HAS_PRESET;
     @Message(name = "PresetDeleted", message = "&aPreset deleted!")
     public static String PRESET_DELETED;
+    @Message(name = "PresetUpdated", message = "&aPreset updated!")
+    public static String PRESET_UPDATED;
     @Message(name = "PresetNotFound", message = "&4No preset with this name found!")
     public static String PRESET_NOT_FOUND;
     @Message(name = "PresetLoaded", message = "&aPreset loaded!")
@@ -633,7 +637,7 @@ public class Messages {
     public static String GUI_SUBREGION_MANAGER_NO_SUBREGION_ITEM;
     @Message(name = "SelltypeNotExist", message = "&4The selected selltype does not exist!")
     public static String SELLTYPE_NOT_EXIST;
-    @Message(name = "SignLinkModeActivated", message = "&aSign-Link-Mode activated! Click into a region and afterwards click on a sign. ARM will automatically create a region (or will just add the sign if the region already exists) with the settings of your preset")
+    @Message(name = "SignLinkModeActivated", message = "&aSign-Link-Mode activated for current preset! Click into a region and afterwards click on a sign. ARM will automatically create a region (or will just add the sign if the region already exists) with the settings of your preset")
     public static String SIGN_LINK_MODE_ACTIVATED;
     @Message(name = "SignLinkModeDeactivated", message = "&aSign-Link-Mode deactivated!")
     public static String SIGN_LINK_MODE_DEACTIVATED;
@@ -1045,12 +1049,12 @@ public class Messages {
     @Message(name = "GUIRemoveMemberButtonLore", message = {"Click to remove the selected member",
             "from your region"})
     public static List<String> GUI_REMOVE_MEMBER_BUTTON_LORE;
-    @Message(name = "GUIResetRegionButtonLore", version = 6,message = {"Click to reset your region",
+    @Message(name = "GUIResetRegionButtonLore", version = 8, message = {"Click to reset your region",
             "&4WARNING: &cThis can not be undone! Your region",
             "&cwill be resetted and everything on it will",
             "&cbe deleted!",
             "",
-            "&cYou can only reset you region once every %userrestorecooldown%",
+            "&cYou can only reset you region once every %remaininguserrestorecooldown-countdown-short%",
             "&2You and all members keep their rights on the region"})
     public static List<String> GUI_RESET_REGION_BUTTON_LORE;
     @Message(name = "TakeOverItemLore", message = {"&aYou are a member of this region.",

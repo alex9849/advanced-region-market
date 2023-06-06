@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class WG7Region extends WGRegion {
+public class WG7Region implements WGRegion {
 
     private ProtectedRegion region;
 
@@ -91,9 +91,8 @@ public class WG7Region extends WGRegion {
     }
 
     @Override
-    public boolean equals(WGRegion wgRegion) {
-        WG7Region wg7Region = (WG7Region) wgRegion;
-        return wg7Region.getRegion() == this.region;
+    public Object unwrap() {
+        return region;
     }
 
     @Override
@@ -178,7 +177,7 @@ public class WG7Region extends WGRegion {
     }
 
     @Override
-    protected int getProtectedRegionVolume() {
+    public int getVolume() {
         return region.volume();
     }
 }

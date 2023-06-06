@@ -62,77 +62,78 @@ public class GuiUtils {
     }
 
     /**
-     *
-     * @param itemNr begins at index 0 (the first item has the itemNr 0)
-     * @param itemSize the number of item that should be placed in the inventory
+     * @param itemNr   begins at index 0 (the first item has the itemNr 0)
+     * @param itemSize the number of items that should be placed in the inventory
      * @return the index where the item should be placed to
      */
     private static int getDisturbedItemPosition(int itemNr, int itemSize) {
-        if(itemSize > GuiConstants.GUI_MAX_ITEM_SIZE) {
+        if (itemSize > GuiConstants.GUI_MAX_ITEM_SIZE) {
             throw new IndexOutOfBoundsException("itemSize has to be smaller then " + GuiConstants.GUI_MAX_ITEM_SIZE);
         }
+        if (itemSize <= itemNr) {
+            throw new IndexOutOfBoundsException("itemNr does not have to be larger or equal to than itemSize");
+        }
+
         final int SKIPPED_ITEMS = (itemNr / GuiConstants.GUI_ROW_SIZE) * GuiConstants.GUI_ROW_SIZE;
-        itemSize--;
-        itemSize %= GuiConstants.GUI_ROW_SIZE;
+        itemSize -= SKIPPED_ITEMS;
+        if (itemSize >= 9) {
+            itemSize = 9;
+        }
         itemNr %= GuiConstants.GUI_ROW_SIZE;
 
-        if (itemSize < itemNr) {
-            throw new IndexOutOfBoundsException("itemNr does not have to be larger than itemSize");
-        }
-        
-        if(itemSize == 0) {
+        if (itemSize == 1) {
             return SKIPPED_ITEMS + 4;
         }
-        if(itemSize == 1) {
-            if(itemNr == 0) return SKIPPED_ITEMS + 2;
-            if(itemNr == 1) return SKIPPED_ITEMS + 6;
+        if (itemSize == 2) {
+            if (itemNr == 0) return SKIPPED_ITEMS + 2;
+            if (itemNr == 1) return SKIPPED_ITEMS + 6;
         }
-        if(itemSize == 2) {
-            if(itemNr == 0) return SKIPPED_ITEMS;
-            if(itemNr == 1) return SKIPPED_ITEMS + 4;
-            if(itemNr == 2) return SKIPPED_ITEMS + 8;
+        if (itemSize == 3) {
+            if (itemNr == 0) return SKIPPED_ITEMS;
+            if (itemNr == 1) return SKIPPED_ITEMS + 4;
+            if (itemNr == 2) return SKIPPED_ITEMS + 8;
         }
-        if(itemSize == 3) {
-            if(itemNr == 0) return SKIPPED_ITEMS;
-            if(itemNr == 1) return SKIPPED_ITEMS + 2;
-            if(itemNr == 2) return SKIPPED_ITEMS + 6;
-            if(itemNr == 3) return SKIPPED_ITEMS + 8;
+        if (itemSize == 4) {
+            if (itemNr == 0) return SKIPPED_ITEMS;
+            if (itemNr == 1) return SKIPPED_ITEMS + 2;
+            if (itemNr == 2) return SKIPPED_ITEMS + 6;
+            if (itemNr == 3) return SKIPPED_ITEMS + 8;
         }
-        if(itemSize == 4) {
-            if(itemNr == 0) return SKIPPED_ITEMS;
-            if(itemNr == 1) return SKIPPED_ITEMS + 2;
-            if(itemNr == 2) return SKIPPED_ITEMS + 4;
-            if(itemNr == 3) return SKIPPED_ITEMS + 6;
-            if(itemNr == 4) return SKIPPED_ITEMS + 8;
+        if (itemSize == 5) {
+            if (itemNr == 0) return SKIPPED_ITEMS;
+            if (itemNr == 1) return SKIPPED_ITEMS + 2;
+            if (itemNr == 2) return SKIPPED_ITEMS + 4;
+            if (itemNr == 3) return SKIPPED_ITEMS + 6;
+            if (itemNr == 4) return SKIPPED_ITEMS + 8;
         }
-        if(itemSize == 5) {
-            if(itemNr == 0) return SKIPPED_ITEMS;
-            if(itemNr == 1) return SKIPPED_ITEMS + 1;
-            if(itemNr == 2) return SKIPPED_ITEMS + 3;
-            if(itemNr == 3) return SKIPPED_ITEMS + 5;
-            if(itemNr == 4) return SKIPPED_ITEMS + 7;
-            if(itemNr == 5) return SKIPPED_ITEMS + 8;
+        if (itemSize == 6) {
+            if (itemNr == 0) return SKIPPED_ITEMS;
+            if (itemNr == 1) return SKIPPED_ITEMS + 1;
+            if (itemNr == 2) return SKIPPED_ITEMS + 3;
+            if (itemNr == 3) return SKIPPED_ITEMS + 5;
+            if (itemNr == 4) return SKIPPED_ITEMS + 7;
+            if (itemNr == 5) return SKIPPED_ITEMS + 8;
         }
-        if(itemSize == 6) {
-            if(itemNr == 0) return SKIPPED_ITEMS;
-            if(itemNr == 1) return SKIPPED_ITEMS + 1;
-            if(itemNr == 2) return SKIPPED_ITEMS + 3;
-            if(itemNr == 3) return SKIPPED_ITEMS + 4;
-            if(itemNr == 4) return SKIPPED_ITEMS + 5;
-            if(itemNr == 5) return SKIPPED_ITEMS + 7;
-            if(itemNr == 6) return SKIPPED_ITEMS + 8;
+        if (itemSize == 7) {
+            if (itemNr == 0) return SKIPPED_ITEMS;
+            if (itemNr == 1) return SKIPPED_ITEMS + 1;
+            if (itemNr == 2) return SKIPPED_ITEMS + 3;
+            if (itemNr == 3) return SKIPPED_ITEMS + 4;
+            if (itemNr == 4) return SKIPPED_ITEMS + 5;
+            if (itemNr == 5) return SKIPPED_ITEMS + 7;
+            if (itemNr == 6) return SKIPPED_ITEMS + 8;
         }
-        if(itemSize == 7) {
-            if(itemNr == 0) return SKIPPED_ITEMS;
-            if(itemNr == 1) return SKIPPED_ITEMS + 1;
+        if (itemSize == 8) {
+            if (itemNr == 0) return SKIPPED_ITEMS;
+            if (itemNr == 1) return SKIPPED_ITEMS + 1;
             if (itemNr == 2) return SKIPPED_ITEMS + 2;
-            if(itemNr == 3) return SKIPPED_ITEMS + 3;
-            if(itemNr == 4) return SKIPPED_ITEMS + 5;
-            if(itemNr == 5) return SKIPPED_ITEMS + 6;
-            if(itemNr == 6) return SKIPPED_ITEMS + 7;
-            if(itemNr == 7) return SKIPPED_ITEMS + 8;
+            if (itemNr == 3) return SKIPPED_ITEMS + 3;
+            if (itemNr == 4) return SKIPPED_ITEMS + 5;
+            if (itemNr == 5) return SKIPPED_ITEMS + 6;
+            if (itemNr == 6) return SKIPPED_ITEMS + 7;
+            if (itemNr == 7) return SKIPPED_ITEMS + 8;
         }
-        //max items has to be 8
+        //itemSize has to be 0 which means it was 9 before the modulo operation
         return SKIPPED_ITEMS + itemNr;
     }
 

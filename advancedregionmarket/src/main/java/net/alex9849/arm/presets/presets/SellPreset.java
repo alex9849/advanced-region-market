@@ -1,11 +1,9 @@
 package net.alex9849.arm.presets.presets;
 
 import net.alex9849.arm.Messages;
-import net.alex9849.arm.regions.ContractRegion;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.SellRegion;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
-import net.alex9849.arm.regions.price.ContractPrice;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.signs.SignData;

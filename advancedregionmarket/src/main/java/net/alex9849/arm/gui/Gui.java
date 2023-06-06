@@ -957,7 +957,7 @@ public class Gui implements Listener {
         List<String> limitlist = new ArrayList<>();
 
         List<Entity> entities = region.getFilteredInsideEntities(false, true,
-                true, true, true, true, false,
+                true, true, true, true, true, false,
                 false, false);
 
         String totalstatus = region.getEntityLimitGroup().replaceVariables(Messages.GUI_ENTITYLIMIT_ITEM_INFO_PATTERN, entities, region.getExtraTotalEntitys());

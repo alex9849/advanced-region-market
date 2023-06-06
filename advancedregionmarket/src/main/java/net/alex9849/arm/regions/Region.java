@@ -20,8 +20,8 @@ import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.util.Saveable;
-import net.alex9849.arm.util.TimeUtil;
 import net.alex9849.arm.util.StringReplacer;
+import net.alex9849.arm.util.TimeUtil;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.signs.SignData;
 import org.bukkit.*;
@@ -39,8 +39,13 @@ import java.util.function.Supplier;
 import java.util.logging.Level;
 
 public abstract class Region implements Saveable {
+    private final AdvancedRegionMarket plugin = AdvancedRegionMarket.getInstance();
+    // Owner Name Cache
+    private UUID ownerUUID;
+    private String ownerName;
+
     private Integer m2Amount;
-    private final WGRegion region;
+    private WGRegion region;
     private final World regionworld;
     private ArrayList<SignData> sellsign;
     private Region parentRegion;
@@ -333,7 +338,11 @@ public abstract class Region implements Saveable {
     }
 
     public WGRegion getRegion() {
-        return region;
+        WGRegion wgRegion = plugin.getWorldGuardInterface().getRegion(this.regionworld, this.region.getId());
+        if (this.region == null || (wgRegion != null && wgRegion.unwrap() != this.region.unwrap())) {
+            this.region = wgRegion;
+        }
+        return this.region;
     }
 
     public Set<Region> getSubregions() {
@@ -624,19 +633,19 @@ public abstract class Region implements Saveable {
         variableReplacements.put("%dimensions%", this::getDimensions);
         variableReplacements.put("%priceperm2%", () -> Price.formatPrice(this.getPricePerM2()));
         variableReplacements.put("%priceperm3%", () -> Price.formatPrice(this.getPricePerM3()));
-        variableReplacements.put("%remaininguserresetcooldown-date%", () ->
+        variableReplacements.put("%remaininguserrestorecooldown-date%", () ->
                 TimeUtil.getDate(AdvancedRegionMarket.getInstance().getPluginSettings().getUserResetCooldown() + this.getLastreset(),
                         true, Messages.INFO_NOW, AdvancedRegionMarket.getInstance().getPluginSettings().getDateTimeformat()));
-        variableReplacements.put("%remaininguserresetcooldown-countdown-short%", () ->
+        variableReplacements.put("%remaininguserrestorecooldown-countdown-short%", () ->
                 TimeUtil.getCountdown(AdvancedRegionMarket.getInstance().getPluginSettings().getUserResetCooldown() + this.getLastreset(),
                         false, false, false, ""));
-        variableReplacements.put("%remaininguserresetcooldown-countdown-short-cutted%", () ->
+        variableReplacements.put("%remaininguserrestorecooldown-countdown-short-cutted%", () ->
                 TimeUtil.getCountdown(AdvancedRegionMarket.getInstance().getPluginSettings().getUserResetCooldown() + this.getLastreset(),
                         false, true, false, ""));
-        variableReplacements.put("%remaininguserresetcooldown-countdown-writtenout%", () ->
+        variableReplacements.put("%remaininguserrestorecooldown-countdown-writtenout%", () ->
                 TimeUtil.getCountdown(AdvancedRegionMarket.getInstance().getPluginSettings().getUserResetCooldown() + this.getLastreset(),
                         true, false, false, ""));
-        variableReplacements.put("%remaininguserresetcooldown-countdown-writtenout-cutted%", () ->
+        variableReplacements.put("%remaininguserrestorecooldown-countdown-writtenout-cutted%", () ->
                 TimeUtil.getCountdown(AdvancedRegionMarket.getInstance().getPluginSettings().getUserResetCooldown() + this.getLastreset(),
                         true, true, false, ""));
         variableReplacements.put("%paybackmoney%", () ->
@@ -693,7 +702,7 @@ public abstract class Region implements Saveable {
             if (this.getRegion().getOwners().isEmpty()) {
                 return "";
             }
-            return Messages.getStringValue(Bukkit.getOfflinePlayer(this.getRegion().getOwners().get(0)).getName(), x -> x, Messages.UNKNOWN_UUID);
+            return Messages.getStringValue(this.getOwnerName(), x -> x, Messages.UNKNOWN_UUID);
         });
         variableReplacements.put("%autoprice%", () -> {
             if (this.getPriceObject().isAutoPrice()) {
@@ -770,9 +779,9 @@ public abstract class Region implements Saveable {
         if (this.builtblocks.add(loc.hashCode())) {
             try {
                 File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-                File builtblocksdic = new File(pluginfolder + "/schematics/" + this.regionworld.getName() + "/" + region.getId() + "/builtblocks.builtblocks");
+                File builtblocksdic = new File(pluginfolder + "/schematics/" + this.regionworld.getName() + "/" + getRegion().getId() + "/builtblocks.builtblocks");
                 if (!builtblocksdic.exists()) {
-                    File builtblocksfolder = new File(pluginfolder + "/schematics/" + this.regionworld.getName() + "/" + region.getId());
+                    File builtblocksfolder = new File(pluginfolder + "/schematics/" + this.regionworld.getName() + "/" + getRegion().getId());
                     builtblocksfolder.mkdirs();
                     builtblocksdic.createNewFile();
                 }
@@ -789,6 +798,17 @@ public abstract class Region implements Saveable {
                 e.printStackTrace();
             }
         }
+    }
+
+    public String getOwnerName() {
+        UUID ownerUUID = this.getOwner();
+        if (ownerUUID == null) {
+            return null;
+        }
+        if (this.ownerName == null || this.ownerUUID != ownerUUID) {
+            this.ownerName = Bukkit.getOfflinePlayer(ownerUUID).getName();
+        }
+        return this.ownerName;
     }
 
     protected void giveLandlordMoney(double amount) {
@@ -978,7 +998,7 @@ public abstract class Region implements Saveable {
 
     public void resetBuiltBlocks() {
         File pluginfolder = Bukkit.getPluginManager().getPlugin("AdvancedRegionMarket").getDataFolder();
-        File builtblocksdic = new File(pluginfolder + "/schematics/" + this.regionworld.getName() + "/" + region.getId() + "/builtblocks.builtblocks");
+        File builtblocksdic = new File(pluginfolder + "/schematics/" + this.regionworld.getName() + "/" + getRegion().getId() + "/builtblocks.builtblocks");
         if (builtblocksdic.exists()) {
             builtblocksdic.delete();
             this.builtblocks = new HashSet<>();
@@ -1189,7 +1209,7 @@ public abstract class Region implements Saveable {
     }
 
     public List<Entity> getFilteredInsideEntities(boolean includePlayers, boolean includeHanging, boolean includeMonsters,
-                                                  boolean includeAnimals, boolean includeVehicles,
+                                                  boolean includeAnimals, boolean includeCreatures, boolean includeVehicles,
                                                   boolean includeProjectiles, boolean includeAreaEffectCloud,
                                                   boolean includeItemFrames, boolean includePaintings) {
 
@@ -1208,6 +1228,10 @@ public abstract class Region implements Saveable {
             }
 
             if ((selectedEntity instanceof Animals) && includeAnimals) {
+                add = true;
+            }
+
+            if ((selectedEntity instanceof Creature) && includeCreatures) {
                 add = true;
             }
 
@@ -1261,8 +1285,8 @@ public abstract class Region implements Saveable {
         yamlConfiguration.set("signs", signs);
         if (this.getPlayerTeleportLocation() != null) {
             Location loc = this.getPlayerTeleportLocation();
-            String teleportloc = loc.getWorld().getName() + ";" + loc.getBlockX() + ";" +
-                    loc.getBlockY() + ";" + loc.getBlockZ() + ";" +
+            String teleportloc = loc.getWorld().getName() + ";" + loc.getX() + ";" +
+                    loc.getY() + ";" + loc.getZ() + ";" +
                     loc.getPitch() + ";" + loc.getYaw();
             yamlConfiguration.set("playerTeleportLoc", teleportloc);
         } else {
@@ -1286,8 +1310,8 @@ public abstract class Region implements Saveable {
             }
             yamlConfiguration.set("boughtExtraEntitys", boughtExtraEntitysStringList);
             if (this.getTeleportLocation() != null) {
-                String teleportloc = this.getTeleportLocation().getWorld().getName() + ";" + this.getTeleportLocation().getBlockX() + ";" +
-                        this.getTeleportLocation().getBlockY() + ";" + this.getTeleportLocation().getBlockZ() + ";" +
+                String teleportloc = this.getTeleportLocation().getWorld().getName() + ";" + this.getTeleportLocation().getX() + ";" +
+                        this.getTeleportLocation().getY() + ";" + this.getTeleportLocation().getZ() + ";" +
                         this.getTeleportLocation().getPitch() + ";" + this.getTeleportLocation().getYaw();
                 yamlConfiguration.set("teleportLoc", teleportloc);
             } else {

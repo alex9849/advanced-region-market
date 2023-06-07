@@ -94,16 +94,4 @@ public class WorldGuard7 extends WorldGuardInterface {
         return flag.parseInput(FlagContext.create().setInput(input).build());
     }
 
-    @Override
-    public List<String> tabCompleteRegions(String regionName, World world) {
-        Map<String, ProtectedRegion> regions = this.getRegionManager(world).getRegions();
-        List<String> regionIds = new ArrayList<>();
-        for(Map.Entry<String, ProtectedRegion> entry : regions.entrySet()) {
-            if(entry.getKey().toLowerCase().startsWith(regionName.toLowerCase())) {
-                regionIds.add(entry.getValue().getId());
-            }
-        }
-        return regionIds;
-    }
-
 }

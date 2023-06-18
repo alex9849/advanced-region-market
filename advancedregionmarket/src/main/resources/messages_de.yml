@@ -145,9 +145,9 @@ Messages:
     accept &6akzeptieren oder mit &c/arm offer reject &6ablehnen'
   OfferTimedOut: '&4Anfrage abgelaufen!'
   SellBackWarning: "&4Region an den Server zurückverkaufen: \n&4ACHTUNG: &cDies kann\
-    \ nicht rückgangig gemacht werden! Dein Region &6%regionid% &cwird zurückgesetzt\
+    \ nicht rückgangig gemacht werden! Deine Region &6%regionid% &cwird zurückgesetzt\
     \ und geht zurück in den Verkauf! Du und alle anderen Mitglieder dieser Region\
-    \ werden ihre Rechte an der Region verliehren. Dir werden &6%paybackmoney%%currency%\
+    \ werden ihre Rechte an der Region verlieren. Dir werden &6%paybackmoney%%currency%\
     \ &czurückgezahlt"
   SubregionInactivityResetError: '&4Die ausgewählte Region ist eine Subregion. Du
     kannst die InactivityReset Option für alle Subregionen in der config.yml einstellen!'
@@ -206,8 +206,7 @@ Messages:
   RegionInfoExpired: '&4Abgelaufen'
   RegionSelectedMultipleRegions: '&6Es gibt mehrere Regionen an deiner Position.
     Bitte wähle eine aus: &4'
-  RentRegionExpirationWarning: '&4WARNUNG! Diese RentRegionen von dir laufen bald
-    ab: &c'
+  RentRegionExpirationWarning: '&4WARNUNG! Deine Region %regionid% läuft in %remainingtime-countdown-writtenout% ab!'
   RegionDeleted: '&aRegion gelöscht!'
   RegionNotRegistred: '&4Region nicht registriert'
   FirstPositionSet: '&aErste Position gesetzt!'

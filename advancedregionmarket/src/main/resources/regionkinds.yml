@@ -19,7 +19,7 @@ RegionKinds:
     #paypackPercentage: 50
     # The paybackPercentage in the regionkinds is not a thing anymore and now needs to be set with a command. 
     # Use "/arm setpaybackpercentage rk:small 50" on your server after setting up all your small regions.
-    # The comment only mass changes all existing small regions, you need to run this command again when new regions are created.
+    # The command only mass changes all existing small regions, you need to run this command again when new regions are created.
     lore:
       - 'A bit larger and good for small'
       - 'groups'

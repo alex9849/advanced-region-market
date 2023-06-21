@@ -5,25 +5,25 @@
     <parent>
         <artifactId>armparent</artifactId>
         <groupId>net.alex9849</groupId>
-        <version>3.5</version>
+        <version>3.5.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>mc1-20adapter</artifactId>
     <packaging>jar</packaging>
-    <version>3.5</version>
+    <version>3.5.0</version>
 
     <dependencies>
         <dependency>
             <groupId>net.alex9849</groupId>
             <artifactId>arminterface</artifactId>
-            <version>3.5</version>
+            <version>3.5.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>net.alex9849</groupId>
             <artifactId>mc1-14adapter</artifactId>
-            <version>3.5</version>
+            <version>3.5.0</version>
         </dependency>
         <dependency>
             <groupId>org.spigotmc</groupId>

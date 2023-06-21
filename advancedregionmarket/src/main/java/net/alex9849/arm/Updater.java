@@ -1136,7 +1136,7 @@ public class Updater {
     private static void updateTo3p5(FileConfiguration pluginConfig) throws IOException {
         pluginConfig.set("GUI.RegionFinderSellTypeSelectorItem", "BRICK");
         pluginConfig.set("GUI.EntityLimitGroupItem", "CHICKEN_SPAWN_EGG");
-        pluginConfig.set("Version", "3.5");
+        pluginConfig.set("Version", "3.5.0");
         AdvancedRegionMarket.getInstance().saveConfig();
     }
 

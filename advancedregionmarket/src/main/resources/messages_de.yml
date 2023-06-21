@@ -189,25 +189,24 @@ Messages:
   RegionAddMemberAdded: '&aDer Spieler wurde zur Region hinzugefügt!'
   RegionRemoveMemberNotAMember: '&4Der ausgewählte Spieler ist kein Mitglied der Region!'
   RegionRemoveMemberRemoved: '&aSpieler wurde vom Region gelöscht!'
-  RegionBuyOutOfLimit: '&4Limit erreicht! Du hast &7%playerownedkind%/%limitkind%
-    &4%regionkind%-Regionen und &7%playerownedtotal%/%limittotal% &4Regionen insgesamt!'
+  RegionBuyOutOfLimit: '&4Limit erreicht! Du kannst dein Region-Limit über &6/arm limit&4 einstehen!'
   Unlimited: Unbegrenzt
   AutopriceList: '&6=========[Autopreise]========='
   SubregionHelpHeadline: |-
     &6=====[AdvancedRegionMarket Subregion Hilfe]=====
     &3Seite %actualpage% / %maxpage%
   LimitInfoTop: '&6=========[Limit Info]========='
-  LimitInfoTotal: '&6Insgesamt'
-  LimitInfo: '&6%regionkind%: %playerownedkind%/%limitkind%'
-  LimitInfoFreePluginVersionDisclaimer: '&cDieser Server verwendet die kostenlose Version von AdvancedRegionMarket. Aus diesem Grund wurde die maximale Anzahl an Regionen die ein Spieler besitzen kann auf 1 gesetzt!'
+  LimitInfoTotal: '- &6&lInsgesamt: (%playerownedkind%/%limitkind%)'
+  LimitInfo: '- &6%regionkind%: %playerownedkind%/%limitkind%'
   RegionInfoYes: '&2Ja'
   RegionInfoNo: '&4Nein'
   RegionInfoAllowedSubregions: '&6Eraubte Unterregionen: '
   RegionInfoExpired: '&4Abgelaufen'
   RegionSelectedMultipleRegions: '&6Es gibt mehrere Regionen an deiner Position.
     Bitte wähle eine aus: &4'
-  RentRegionExpirationWarning: '&4WARNUNG! Diese RentRegionen von dir laufen bald
-    ab: &c'
+  RentRegionExpirationWarning: '&4WARNUNG! Deine Region &6%regionid%&4 läuft in &6%remainingtime-countdown-writtenout%&4 ab! Verlängere die Miete mit einem Rechtsklick auf das entsprechende Schild, oder mit &6/arm extend %regionid%&4!'
+  ContractRegionExpirationWarningTerminated: '&4WARNUNG! Deine &6gekündigte &4Vertrags-Region &6%regionid% &4läuft in &6%remainingtime-countdown-writtenout%&4 ab!'
+  ContractRegionExpirationWarningLowBalance: '&4WARNUNG! Du hast nicht genug Geld um die nächste Miete zu zahlen! Deine &6&l&nNICHT&r&6-gekündigte &4Vertrags-Region &6%regionid% &4läuft in &6%remainingtime-countdown-writtenout%&4 ab!'
   RegionDeleted: '&aRegion gelöscht!'
   RegionNotRegistred: '&4Region nicht registriert'
   FirstPositionSet: '&aErste Position gesetzt!'

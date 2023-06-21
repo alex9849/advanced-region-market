@@ -18,24 +18,7 @@ public class Updater {
 
     static void updateConfigs() {
         FileConfiguration pluginConfig = AdvancedRegionMarket.getInstance().getConfig();
-        String[] versionPartsAsString = pluginConfig.getString("Version").split("\\.");
-        int[] versionParts = Arrays.stream(versionPartsAsString).mapToInt(Integer::parseInt).toArray();
-        Version lastVersion = new Version(versionParts);
-
-        //convert legacy versionNumbers
-        if(versionParts.length > 1) {
-            int major = versionParts[0];
-            int minor = versionParts[1];
-            if(major < 3) {
-                List<Integer> legacyVersionParts = new ArrayList<>();
-                legacyVersionParts.add(major);
-                for(char c : (minor + "").toCharArray()) {
-                    legacyVersionParts.add(Character.getNumericValue(c));
-                }
-                lastVersion = new Version(legacyVersionParts.stream().mapToInt(x -> x).toArray());
-            }
-        }
-
+        Version lastVersion = Version.fromString(pluginConfig.getString("Version"));
 
         try {
             if (new Version(1, 1).biggerThan(lastVersion)) {
@@ -173,6 +156,10 @@ public class Updater {
             if (new Version(3, 4).biggerThan(lastVersion)) {
                 AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 3.4...");
                 updateTo3p4(pluginConfig);
+            }
+            if (new Version(3, 5).biggerThan(lastVersion)) {
+                AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 3.5...");
+                updateTo3p5(pluginConfig);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -1143,6 +1130,13 @@ public class Updater {
         UpdateHelpMethods.replaceVariableInMessagesYML("%remaininguserresetcooldown-countdown-writtenout%", "%remaininguserrestorecooldown-countdown-writtenout%");
         UpdateHelpMethods.replaceVariableInMessagesYML("%remaininguserresetcooldown-countdown-writtenout-cutted%", "%remaininguserrestorecooldown-countdown-writtenout-cutted%");
         pluginConfig.set("Version", "3.4");
+        AdvancedRegionMarket.getInstance().saveConfig();
+    }
+
+    private static void updateTo3p5(FileConfiguration pluginConfig) throws IOException {
+        pluginConfig.set("GUI.RegionFinderSellTypeSelectorItem", "BRICK");
+        pluginConfig.set("GUI.EntityLimitGroupItem", "CHICKEN_SPAWN_EGG");
+        pluginConfig.set("Version", "3.5");
         AdvancedRegionMarket.getInstance().saveConfig();
     }
 

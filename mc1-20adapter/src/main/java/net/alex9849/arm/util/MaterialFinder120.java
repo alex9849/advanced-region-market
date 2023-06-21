@@ -17,4 +17,9 @@ public class MaterialFinder120 extends MaterialFinder114 {
     public Material getHangingSign() {
         return Material.OAK_HANGING_SIGN;
     }
+
+    @Override
+    public Material getWallHangingSign() {
+        return Material.OAK_WALL_HANGING_SIGN;
+    }
 }

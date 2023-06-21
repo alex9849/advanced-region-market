@@ -18,7 +18,7 @@ public class Version implements Comparable<Version> {
         if (!matcher.find()) {
             return null;
         }
-        String[] vParts = matcher.group(1).split("\\.");
+        String[] vParts = matcher.group().split("\\.");
         return new Version(Arrays.stream(vParts).mapToInt(Integer::parseInt).toArray());
     }
 

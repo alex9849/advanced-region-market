@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.type.HangingSign;
 import org.bukkit.block.data.type.Sign;
+import org.bukkit.block.data.type.WallHangingSign;
 import org.bukkit.block.data.type.WallSign;
 
 public class SignData120 extends SignData {
@@ -17,6 +18,7 @@ public class SignData120 extends SignData {
     public void placeSign() {
         Material signMaterial;
         Location signLoc = this.getLocation();
+
 
         switch (this.getSignAttachment()) {
             case WALL:
@@ -39,6 +41,13 @@ public class SignData120 extends SignData {
                 HangingSign hangingSign = (HangingSign) signLoc.getBlock().getBlockData();
                 hangingSign.setRotation(this.getBlockFace());
                 signLoc.getBlock().setBlockData(hangingSign, false);
+                break;
+            case HANGING_WALL:
+                signMaterial = MaterialFinder120.getInstance().getWallHangingSign();
+                signLoc.getBlock().setType(signMaterial, false);
+                WallHangingSign wallHangingSign = (WallHangingSign) signLoc.getBlock().getBlockData();
+                wallHangingSign.setFacing(this.getBlockFace());
+                signLoc.getBlock().setBlockData(wallHangingSign, false);
                 break;
         }
 

@@ -385,11 +385,9 @@ public class RegionManager extends YamlFileManager<Region> {
                 Location loc = new Location(world, x, y, z);
 
                 SignAttachment signAttachment;
-                if (locsplit[4].equalsIgnoreCase(SignAttachment.WALL.toString())) {
-                    signAttachment = SignAttachment.WALL;
-                } else if (locsplit[4].equalsIgnoreCase(SignAttachment.HANGING.toString())) {
-                    signAttachment = SignAttachment.HANGING;
-                } else {
+                try {
+                    signAttachment = SignAttachment.valueOf(locsplit[4]);
+                } catch (IllegalArgumentException e) {
                     signAttachment = SignAttachment.GROUND;
                 }
 

@@ -627,13 +627,13 @@ public class AdvancedRegionMarket extends JavaPlugin {
         }
 
         try {
-            Class<?> signDataFactoryClass = Class.forName("net.alex9849.signs.SignDataFactory" + classVersion);
+            Class<?> signDataFactoryClass = Class.forName("net.alex9849.arm.signs.SignDataFactory" + classVersion);
             if (SignDataFactory.class.isAssignableFrom(signDataFactoryClass)) {
                 this.signDataFactory = (SignDataFactory) signDataFactoryClass.newInstance();
             }
-            Class<?> materialDataFactoryClass = Class.forName("net.alex9849.util.MaterialFinder" + classVersion);
-            if (AbstractMaterialFinder.class.isAssignableFrom(signDataFactoryClass)) {
-                this.materialFinder = (AbstractMaterialFinder) signDataFactoryClass.newInstance();
+            Class<?> materialDataFactoryClass = Class.forName("net.alex9849.arm.util.MaterialFinder" + classVersion);
+            if (AbstractMaterialFinder.class.isAssignableFrom(materialDataFactoryClass)) {
+                this.materialFinder = (AbstractMaterialFinder) materialDataFactoryClass.newInstance();
             }
         } catch (Exception e) {
             getLogger().log(Level.WARNING, "Could not setup server version adapters! (Is your server compatible? Compatible versions: 1.12, 1.13, 1.14, 1.20)");

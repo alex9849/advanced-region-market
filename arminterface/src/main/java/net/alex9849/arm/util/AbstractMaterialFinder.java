@@ -37,8 +37,12 @@ public abstract class AbstractMaterialFinder {
         return material;
     }
 
+    public Material getWallHangingSign() {
+        throw new IllegalStateException("WallHangingSign doesn't exist in this minecraft version!");
+    }
+
     public Material getHangingSign() {
-        throw new IllegalStateException("Hanging sign doesn't exist in this minecraft version!");
+        throw new IllegalStateException("HangingSign doesn't exist in this minecraft version!");
     }
 
     public abstract Material getWallSign();

@@ -16,6 +16,7 @@
         <module>mc1-12adapter</module>
         <module>mc1-13adapter</module>
         <module>mc1-14adapter</module>
+        <module>mc1-20adapter</module>
         <module>wg6_1adapter</module>
         <module>wg6_2adapter</module>
         <module>wg7adapter</module>

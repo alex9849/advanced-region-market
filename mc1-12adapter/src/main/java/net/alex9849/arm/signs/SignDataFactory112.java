@@ -8,7 +8,7 @@ import org.bukkit.material.Sign;
 public class SignDataFactory112 extends SignDataFactory {
     @Override
     public SignData generateSignData(Location loc) {
-        if (!MaterialFinder112.getSignMaterials().contains(loc.getBlock().getType())) {
+        if (!MaterialFinder112.getInstance().getSignMaterials().contains(loc.getBlock().getType())) {
             return null;
         }
 

@@ -6,7 +6,7 @@ import net.alex9849.arm.Permission;
 import net.alex9849.arm.exceptions.NoSaveLocationException;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.signs.SignData;
-import net.alex9849.arm.util.MaterialFinder112;
+import net.alex9849.arm.util.AbstractMaterialFinder;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -188,14 +188,15 @@ public class Teleporter {
     public static boolean isSaveTeleport(Location loc) {
         Location locP1 = new Location(loc.getWorld(), loc.getBlockX(), loc.getBlockY() + 1, loc.getBlockZ());
         Location locM1 = new Location(loc.getWorld(), loc.getBlockX(), loc.getBlockY() - 1, loc.getBlockZ());
-        if (!((locP1.getBlock().getType() == Material.AIR) || MaterialFinder112.getSignMaterials().contains(locP1.getBlock().getType()) || (loc.getBlock().getType() == MaterialFinder112.getWallTorch()))) {
+        AbstractMaterialFinder materialFinder = AdvancedRegionMarket.getInstance().getMaterialFinder();
+        if (!((locP1.getBlock().getType() == Material.AIR) || materialFinder.getSignMaterials().contains(locP1.getBlock().getType()) || (loc.getBlock().getType() == materialFinder.getWallTorch()))) {
             return false;
         }
-        if (!((loc.getBlock().getType() == Material.AIR) || MaterialFinder112.getSignMaterials().contains(loc.getBlock().getType()) || (loc.getBlock().getType() == MaterialFinder112.getWallTorch()))) {
+        if (!((loc.getBlock().getType() == Material.AIR) || materialFinder.getSignMaterials().contains(loc.getBlock().getType()) || (loc.getBlock().getType() == materialFinder.getWallTorch()))) {
             return false;
         }
-        return (locM1.getBlock().getType() != Material.AIR) && (locM1.getBlock().getType() != Material.LAVA) && (locM1.getBlock().getType() != MaterialFinder112.getMagmaBlock())
-                && !MaterialFinder112.getSignMaterials().contains(locM1.getBlock().getType()) && (locM1.getBlock().getType() != MaterialFinder112.getWallTorch());
+        return (locM1.getBlock().getType() != Material.AIR) && (locM1.getBlock().getType() != Material.LAVA) && (locM1.getBlock().getType() != materialFinder.getMagmaBlock())
+                && !materialFinder.getSignMaterials().contains(locM1.getBlock().getType()) && (locM1.getBlock().getType() != materialFinder.getWallTorch());
     }
 
     public static void scheduleTeleport(Player player, Location loc, String message, int ticks) {

@@ -838,6 +838,10 @@ public class AdvancedRegionMarket extends JavaPlugin {
         return this.econ;
     }
 
+    public AbstractMaterialFinder getMaterialFinder() {
+        return this.materialFinder;
+    }
+
 
     /*#####################################
     ############# Other stuff #############

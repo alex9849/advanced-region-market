@@ -2,7 +2,7 @@ package net.alex9849.arm.regionkind;
 
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
-import net.alex9849.arm.util.MaterialFinder112;
+import net.alex9849.arm.util.AbstractMaterialFinder;
 import net.alex9849.arm.util.Saveable;
 import net.alex9849.arm.util.StringReplacer;
 import org.bukkit.ChatColor;
@@ -16,8 +16,8 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public class RegionKind implements LimitGroupElement, Saveable {
-    public static RegionKind DEFAULT = new RegionKind("Default", MaterialFinder112.getRedBed(), new ArrayList<String>(), "Default", true, true);
-    public static RegionKind SUBREGION = new RegionKind("Subregion", MaterialFinder112.getRedBed(), new ArrayList<String>(), "Subregion", false, false);
+    public static RegionKind DEFAULT;
+    public static RegionKind SUBREGION;
     private String name;
     private Material material;
     private int customItemModel;
@@ -88,9 +88,10 @@ public class RegionKind implements LimitGroupElement, Saveable {
     public RegionKind(String name, Material material, List<String> lore, String displayName, boolean displayInRegionFinder, boolean displayInLimits) { this(name, material, lore, displayName, displayInRegionFinder, displayInLimits, -1); }
 
     public static RegionKind parse(ConfigurationSection confSection, String name) {
-        Material material = MaterialFinder112.getMaterial(confSection.getString("item"));
+        AbstractMaterialFinder materialFinder = AdvancedRegionMarket.getInstance().getMaterialFinder();
+        Material material = materialFinder.getMaterial(confSection.getString("item"));
         if (material == null) {
-            material = MaterialFinder112.getRedBed();
+            material = materialFinder.getRedBed();
         }
         int customItemModel = confSection.getInt("customItemModel", -1);
         String displayName = confSection.getString("displayName");

@@ -380,13 +380,17 @@ public class RegionManager extends YamlFileManager<Region> {
 
             if (world != null) {
                 Double x = Double.parseDouble(locsplit[1]);
-                Double yy = Double.parseDouble(locsplit[2]);
+                Double y = Double.parseDouble(locsplit[2]);
                 Double z = Double.parseDouble(locsplit[3]);
-                Location loc = new Location(world, x, yy, z);
+                Location loc = new Location(world, x, y, z);
 
-                SignAttachment signAttachment = SignAttachment.GROUND;
-                if (locsplit[4].equalsIgnoreCase("WALL")) {
+                SignAttachment signAttachment;
+                if (locsplit[4].equalsIgnoreCase(SignAttachment.WALL.toString())) {
                     signAttachment = SignAttachment.WALL;
+                } else if (locsplit[4].equalsIgnoreCase(SignAttachment.HANGING.toString())) {
+                    signAttachment = SignAttachment.HANGING;
+                } else {
+                    signAttachment = SignAttachment.GROUND;
                 }
 
                 BlockFace facing;

@@ -8,11 +8,34 @@ import org.bukkit.block.data.type.HangingSign;
 import org.bukkit.block.data.type.Sign;
 import org.bukkit.block.data.type.WallHangingSign;
 import org.bukkit.block.data.type.WallSign;
+import org.bukkit.block.sign.Side;
+import org.bukkit.block.sign.SignSide;
 
 public class SignData120 extends SignData {
 
     public SignData120(Location signLoc, SignAttachment signAttachment, BlockFace blockFace) {
         super(signLoc, signAttachment, blockFace);
+    }
+
+    public void writeLines(String[] lines) {
+        org.bukkit.block.Sign sign = this.getSign();
+
+        if (sign == null) {
+            return;
+        }
+        for (Side side : Side.values()) {
+            SignSide signSide = sign.getSide(side);
+            signSide.setLine(0, lines[0]);
+            signSide.setLine(1, lines[1]);
+            signSide.setLine(2, lines[2]);
+            signSide.setLine(3, lines[3]);
+        }
+
+        sign.update(false, false);
+    }
+
+    public String[] getLines() {
+        return getSign().getSide(Side.FRONT).getLines();
     }
 
     public void placeSign() {

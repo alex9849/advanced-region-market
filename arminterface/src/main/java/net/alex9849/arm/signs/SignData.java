@@ -44,6 +44,10 @@ public abstract class SignData {
         sign.update(false, false);
     }
 
+    public String[] getLines() {
+        return getSign().getLines();
+    }
+
     public Location getLocation() {
         return this.signLoc;
     }

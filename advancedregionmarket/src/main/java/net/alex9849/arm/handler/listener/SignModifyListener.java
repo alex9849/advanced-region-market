@@ -105,15 +105,15 @@ public class SignModifyListener implements Listener {
         try {
             //Pick the right preset, parse price and check permissions
             PresetType presetType;
-            if (sign.getLine(0).equalsIgnoreCase("[ARM-Sell]")) {
+            if (sign.getLine(0).matches("(?i)\\[ARM\\-(Sell|s)\\]")) {
                 presetType = PresetType.SELLPRESET;
                 if (!sign.getPlayer().hasPermission(Permission.ADMIN_CREATE_SELL))
                     throw new InputException(sign.getPlayer(), Messages.NO_PERMISSION);
-            } else if (sign.getLine(0).equalsIgnoreCase("[ARM-Rent]")) {
+            } else if (sign.getLine(0).matches("(?i)\\[ARM\\-(Rent|r)\\]")) {
                 presetType = PresetType.RENTPRESET;
                 if (!sign.getPlayer().hasPermission(Permission.ADMIN_CREATE_RENT))
                     throw new InputException(sign.getPlayer(), Messages.NO_PERMISSION);
-            } else if (sign.getLine(0).equalsIgnoreCase("[ARM-Contract]")) {
+            } else if (sign.getLine(0).matches("(?i)\\[ARM\\-(Contract|c)\\]")) {
                 presetType = PresetType.CONTRACTPRESET;
                 if (!sign.getPlayer().hasPermission(Permission.ADMIN_CREATE_CONTRACT))
                     throw new InputException(sign.getPlayer(), Messages.NO_PERMISSION);
@@ -146,7 +146,7 @@ public class SignModifyListener implements Listener {
 
             //Get world
             String regionWorldName = sign.getLine(1);
-            if (regionWorldName.equalsIgnoreCase("")) {
+            if (regionWorldName.isEmpty()) {
                 regionWorldName = sign.getBlock().getWorld().getName();
             }
             World regionWorld = Bukkit.getWorld(regionWorldName);
@@ -178,9 +178,7 @@ public class SignModifyListener implements Listener {
                 }
                 existingArmRegion.addSign(signData);
                 sign.setCancelled(true);
-                existingArmRegion.updateSigns();
                 sign.getPlayer().sendMessage(Messages.PREFIX + Messages.SIGN_ADDED_TO_REGION);
-                return;
             } else {
                 List<SignData> signDataList = new ArrayList<>();
                 signDataList.add(signData);
@@ -200,10 +198,9 @@ public class SignModifyListener implements Listener {
                 }
                 AdvancedRegionMarket.getInstance().getRegionManager().add(newArmRegion);
                 newArmRegion.updateSigns();
-                preset.executeSetupCommands(sign.getPlayer(), newArmRegion);
                 sign.setCancelled(true);
+                preset.executeSetupCommands(sign.getPlayer(), newArmRegion);
                 sign.getPlayer().sendMessage(Messages.PREFIX + Messages.REGION_AND_SIGN_ADDED_TO_ARM);
-                return;
             }
 
 

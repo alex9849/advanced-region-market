@@ -13,7 +13,6 @@ import net.alex9849.arm.minifeatures.teleporter.Teleporter;
 import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.*;
 import net.alex9849.arm.regions.price.Price;
-import net.alex9849.arm.util.MaterialFinder;
 import net.alex9849.arm.util.TimeUtil;
 import net.alex9849.inter.WGRegion;
 import org.bukkit.Bukkit;
@@ -90,7 +89,7 @@ public class Gui implements Listener {
         ClickAction goBackActionForClickItems = p -> openRegionOwnerManager(player, region, goBackAction);
         List<ClickItem> items = new ArrayList<>();
 
-        ItemStack membersitem = new ItemStack(MaterialFinder.getPlayerHead(), 1, (short) 3);
+        ItemStack membersitem = new ItemStack(GuiConstants.getPlayerHeadItem(), 1, (short) 3);
         SkullMeta membersitemmeta = (SkullMeta) membersitem.getItemMeta();
         FileConfiguration config = AdvancedRegionMarket.getInstance().getConfig();
         if (config.getBoolean("GUI.DisplayPlayerSkins")) {
@@ -527,7 +526,7 @@ public class Gui implements Listener {
         Map<SellType, List<Region>> sellTypeMap = regions.stream().collect(Collectors.groupingBy(r -> r.getSellType()));
 
         for(Map.Entry<SellType, List<Region>> entry : sellTypeMap.entrySet()) {
-            ClickItem sellTypeClickItem = new ClickItem(MaterialFinder.getBRICKS())
+            ClickItem sellTypeClickItem = new ClickItem(GuiConstants.getRegionFinderSelltypeSelectorItem())
                     .setName(entry.getKey().getName())
                     .addClickAction(p -> {
                         List<Region> sellTypeRegions = entry.getValue();
@@ -598,7 +597,7 @@ public class Gui implements Listener {
         boolean showPlayerSkins = config.getBoolean("GUI.DisplayPlayerSkins");
 
         for (UUID memberUUID : members) {
-            ItemStack membersitem = new ItemStack(MaterialFinder.getPlayerHead(), 1, (short) 3);
+            ItemStack membersitem = new ItemStack(GuiConstants.getPlayerHeadItem(), 1, (short) 3);
             SkullMeta membersitemmeta = (SkullMeta) membersitem.getItemMeta();
             OfflinePlayer memberPlayer = Bukkit.getOfflinePlayer(memberUUID);
             if (memberPlayer != null) {
@@ -912,7 +911,7 @@ public class Gui implements Listener {
     }
 
     public static ItemStack getEntityLimtGroupItem(Region region) {
-        ItemStack itemStack = new ItemStack(MaterialFinder.getChickenSpawnEgg());
+        ItemStack itemStack = new ItemStack(GuiConstants.getEntityLimitGroupItem());
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.setDisplayName(Messages.GUI_ENTITYLIMIT_ITEM_BUTTON);
         List<String> lore = new ArrayList<>(Messages.GUI_ENTITYLIMIT_ITEM_LORE);

@@ -1,6 +1,5 @@
-package net.alex9849.signs;
+package net.alex9849.arm.signs;
 
-import net.alex9849.arm.util.MaterialFinder;
 import org.bukkit.Location;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
@@ -29,9 +28,7 @@ public abstract class SignData {
         return (Sign) this.getLocation().getBlock().getState();
     }
 
-    public boolean isPlaced() {
-        return MaterialFinder.getSignMaterials().contains(this.signLoc.getBlock().getType());
-    }
+    public abstract boolean isPlaced();
 
     public void writeLines(String[] lines) {
         Sign sign = this.getSign();
@@ -47,12 +44,16 @@ public abstract class SignData {
         sign.update(false, false);
     }
 
+    public String[] getLines() {
+        return getSign().getLines();
+    }
+
     public Location getLocation() {
         return this.signLoc;
     }
 
-    public boolean isWallSign() {
-        return this.signAttachment == SignAttachment.WALL_SIGN;
+    public SignAttachment getSignAttachment() {
+        return this.signAttachment;
     }
 
     public BlockFace getBlockFace() {
@@ -60,12 +61,7 @@ public abstract class SignData {
     }
 
     public String toString() {
-        String wallsignIndicator;
-        if (this.isWallSign()) {
-            wallsignIndicator = "WALL";
-        } else {
-            wallsignIndicator = "GROUND";
-        }
+        String wallsignIndicator = getSignAttachment().toString();
 
         return this.signLoc.getWorld().getName() + ";" + this.signLoc.getX() + ";" + this.signLoc.getY() + ";"
                 + this.signLoc.getZ() + ";" + wallsignIndicator + ";" + this.getBlockFace();

@@ -2,7 +2,7 @@ package net.alex9849.arm.regionkind;
 
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
-import net.alex9849.arm.util.MaterialFinder;
+import net.alex9849.arm.util.AbstractMaterialFinder;
 import net.alex9849.arm.util.Saveable;
 import net.alex9849.arm.util.StringReplacer;
 import org.bukkit.ChatColor;
@@ -16,8 +16,8 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public class RegionKind implements LimitGroupElement, Saveable {
-    public static RegionKind DEFAULT = new RegionKind("Default", MaterialFinder.getRedBed(), new ArrayList<String>(), "Default", true, true);
-    public static RegionKind SUBREGION = new RegionKind("Subregion", MaterialFinder.getRedBed(), new ArrayList<String>(), "Subregion", false, false);
+    public static RegionKind DEFAULT;
+    public static RegionKind SUBREGION;
     private String name;
     private Material material;
     private int customItemModel;
@@ -84,20 +84,21 @@ public class RegionKind implements LimitGroupElement, Saveable {
         this.needsSave = false;
         this.customItemModel = customItemModel;
     }
-    
+
     public RegionKind(String name, Material material, List<String> lore, String displayName, boolean displayInRegionFinder, boolean displayInLimits) { this(name, material, lore, displayName, displayInRegionFinder, displayInLimits, -1); }
 
     public static RegionKind parse(ConfigurationSection confSection, String name) {
-        Material material = MaterialFinder.getMaterial(confSection.getString("item"));
+        AbstractMaterialFinder materialFinder = AdvancedRegionMarket.getInstance().getMaterialFinder();
+        Material material = materialFinder.getMaterial(confSection.getString("item"));
         if (material == null) {
-            material = MaterialFinder.getRedBed();
+            material = materialFinder.getRedBed();
         }
         int customItemModel = confSection.getInt("customItemModel", -1);
         String displayName = confSection.getString("displayName");
         boolean displayInLimits = confSection.getBoolean("displayInLimits");
         boolean displayInRegionfinder = confSection.getBoolean("displayInRegionfinder");
         List<String> lore = new ArrayList<>(confSection.getStringList("lore"));
-        
+
         return new RegionKind(name, material, lore, displayName, displayInRegionfinder, displayInLimits, customItemModel);
     }
 
@@ -166,11 +167,11 @@ public class RegionKind implements LimitGroupElement, Saveable {
         this.displayInLimits = displayInLimits;
         this.queueSave();
     }
-    
+
     public int getCustomItemModel() {
     	return customItemModel;
     }
-    
+
     public void setCustomItemModel(int customItemModel) {
     	this.customItemModel = customItemModel;
     	this.queueSave();

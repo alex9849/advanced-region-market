@@ -4,6 +4,8 @@ import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.gui.Gui;
 import net.alex9849.arm.presets.ActivePresetManager;
+import net.alex9849.arm.regions.ContractRegion;
+import net.alex9849.arm.regions.CountdownRegion;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.RentRegion;
 import net.alex9849.arm.subregions.SubRegionCreator;
@@ -73,13 +75,25 @@ public class PlayerJoinQuitEvent implements Listener {
         AdvancedRegionMarket plugin = AdvancedRegionMarket.getInstance();
 
         for (Region region : plugin.getRegionManager().getRegionsByOwner(player.getUniqueId())) {
-            if (region instanceof RentRegion) {
-                RentRegion rentRegion = (RentRegion) region;
-                if (    rentRegion.isSold()
-                        && (rentRegion.getPayedTill() - (new GregorianCalendar().getTimeInMillis())) <= plugin.getPluginSettings().getRentRegionExpirationWarningTime()
-                ) {
-                    player.sendMessage(rentRegion.replaceVariables(Messages.PREFIX + Messages.RENTREGION_EXPIRATION_WARNING));
+            if (!(region instanceof CountdownRegion)) {
+                continue;
+            }
+            CountdownRegion countdownRegion = (CountdownRegion) region;
+            long remainingTime = countdownRegion.getPayedTill() - new GregorianCalendar().getTimeInMillis();
+            if (countdownRegion.isSold() && remainingTime > plugin.getPluginSettings().getRentRegionExpirationWarningTime()) {
+                continue;
+            }
+
+            if (countdownRegion instanceof ContractRegion) {
+                double pBalance = AdvancedRegionMarket.getInstance().getEcon().getBalance(player);
+                ContractRegion contractRegion = (ContractRegion) countdownRegion;
+                if (contractRegion.isTerminated()) {
+                    player.sendMessage(contractRegion.replaceVariables(Messages.PREFIX + Messages.CONTRACTREGION_EXPIRATION_WARNING_TERMINATED));
+                } else if (!contractRegion.isTerminated() && contractRegion.getPricePerPeriod() > pBalance) {
+                    player.sendMessage(contractRegion.replaceVariables(Messages.PREFIX + Messages.CONTRACTREGION_EXPIRATION_WARNING_LOW_BALANCE));
                 }
+            } else if (countdownRegion instanceof RentRegion) {
+                player.sendMessage(countdownRegion.replaceVariables(Messages.PREFIX + Messages.RENTREGION_EXPIRATION_WARNING));
             }
         }
     }

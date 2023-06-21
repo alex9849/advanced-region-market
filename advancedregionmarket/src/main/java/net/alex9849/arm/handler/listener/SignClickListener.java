@@ -4,7 +4,6 @@ import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.exceptions.*;
 import net.alex9849.arm.regions.Region;
-import net.alex9849.arm.util.MaterialFinder;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,21 +19,21 @@ public class SignClickListener implements Listener {
         if ((event.getAction() != Action.LEFT_CLICK_BLOCK) && (event.getAction() != Action.RIGHT_CLICK_BLOCK)) {
             return;
         }
-        if(event.getHand() != EquipmentSlot.HAND) {
+        if (event.getHand() != EquipmentSlot.HAND) {
+            return;
+        }
+        AdvancedRegionMarket plugin = AdvancedRegionMarket.getInstance();
+        if (!plugin.getMaterialFinder().getSignMaterials().contains(event.getClickedBlock().getType())) {
             return;
         }
 
-        if (!MaterialFinder.getSignMaterials().contains(event.getClickedBlock().getType())) {
-            return;
-        }
-
-        if (AdvancedRegionMarket.getInstance().getRegionManager() == null) {
+        if (plugin.getRegionManager() == null) {
             return;
         }
 
         Sign sign = (Sign) event.getClickedBlock().getState();
 
-        Region region = AdvancedRegionMarket.getInstance().getRegionManager().getRegion(sign);
+        Region region = plugin.getRegionManager().getRegion(sign);
 
         if (region == null) {
             return;

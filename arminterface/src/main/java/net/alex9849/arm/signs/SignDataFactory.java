@@ -1,4 +1,4 @@
-package net.alex9849.signs;
+package net.alex9849.arm.signs;
 
 import org.bukkit.Location;
 import org.bukkit.block.BlockFace;

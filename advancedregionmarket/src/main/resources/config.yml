@@ -210,6 +210,7 @@ GUI:
   RegionOwnerItem: ENDER_CHEST
   RegionMemberItem: CHEST
   RegionFinderItem: COMPASS
+  RegionFinderSellTypeSelectorItem: BRICK
   GoBackItem: OAK_DOOR
   WarningYesItem: MELON
   WarningNoItem: REDSTONE_BLOCK
@@ -230,6 +231,7 @@ GUI:
   PrevPageItem: ARROW
   HotelSettingItem: RED_BED
   UnsellItem: NAME_TAG
+  EntityLimitGroupItem: CHICKEN_SPAWN_EGG
   FlageditorItem: BANNER
   FlagItem: SIGN
   FlagSettingsSelectedItem: EMERALD_BLOCK

@@ -17,11 +17,11 @@ import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.price.ContractPrice;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.regions.price.RentPrice;
+import net.alex9849.arm.signs.SignAttachment;
+import net.alex9849.arm.signs.SignData;
+import net.alex9849.arm.signs.SignDataFactory;
 import net.alex9849.arm.util.YamlFileManager;
 import net.alex9849.inter.WGRegion;
-import net.alex9849.signs.SignAttachment;
-import net.alex9849.signs.SignData;
-import net.alex9849.signs.SignDataFactory;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -380,13 +380,15 @@ public class RegionManager extends YamlFileManager<Region> {
 
             if (world != null) {
                 Double x = Double.parseDouble(locsplit[1]);
-                Double yy = Double.parseDouble(locsplit[2]);
+                Double y = Double.parseDouble(locsplit[2]);
                 Double z = Double.parseDouble(locsplit[3]);
-                Location loc = new Location(world, x, yy, z);
+                Location loc = new Location(world, x, y, z);
 
-                SignAttachment signAttachment = SignAttachment.GROUND_SIGN;
-                if (locsplit[4].equalsIgnoreCase("WALL")) {
-                    signAttachment = SignAttachment.WALL_SIGN;
+                SignAttachment signAttachment;
+                try {
+                    signAttachment = SignAttachment.valueOf(locsplit[4]);
+                } catch (IllegalArgumentException e) {
+                    signAttachment = SignAttachment.GROUND;
                 }
 
                 BlockFace facing;

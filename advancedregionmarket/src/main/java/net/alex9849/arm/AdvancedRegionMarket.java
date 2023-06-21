@@ -38,14 +38,15 @@ import net.alex9849.arm.regions.RegionManager;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.regions.price.RentPrice;
+import net.alex9849.arm.signs.SignDataFactory;
 import net.alex9849.arm.subregions.commands.ToolCommand;
-import net.alex9849.arm.util.MaterialFinder;
+import net.alex9849.arm.util.AbstractMaterialFinder;
+import net.alex9849.arm.util.Version;
 import net.alex9849.arm.util.YamlFileManager;
 import net.alex9849.inter.WGRegion;
 import net.alex9849.inter.WorldEditInterface;
 import net.alex9849.inter.WorldGuardInterface;
 import net.alex9849.pluginstats.client.Analytics;
-import net.alex9849.signs.SignDataFactory;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -91,6 +92,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
     private FlagGroupManager flagGroupManager = null;
     private LimitGroupManager limitGroupManager = null;
     private ArmSettings pluginSettings = null;
+    private AbstractMaterialFinder materialFinder = null;
     private Analytics analytics = null;
 
 
@@ -141,7 +143,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         }
 
         setupPermissions();
-        setupSignDataFactory();
+        setupServerVersionFactories();
 
         File schematicdic = new File(getDataFolder() + "/schematics");
         if (!schematicdic.exists()) {
@@ -603,27 +605,38 @@ public class AdvancedRegionMarket extends JavaPlugin {
         return worldedit != null;
     }
 
-    private void setupSignDataFactory() {
+    private void setupServerVersionFactories() {
         String classVersion = "";
-        String serverVersion = Bukkit.getServer().getVersion();
-        if (serverVersion.equalsIgnoreCase("1.12") || serverVersion.contains("1.12")) {
+        Version serverVersion = Version.fromString(Bukkit.getServer().getVersion());
+        Version v1p12 = new Version(1, 12);
+        Version v1p13 = new Version(1, 13);
+        Version v1p14 = new Version(1, 14);
+        Version v1p20 = new Version(1, 20);
+        if (serverVersion.equals(v1p12) || (serverVersion.biggerThan(v1p12) && v1p13.biggerThan(serverVersion))) {
             classVersion = "112";
-            getLogger().log(Level.INFO, "Using MC 1.12 sign adapter");
-        } else if (serverVersion.equalsIgnoreCase("1.13") || serverVersion.contains("1.13")) {
+            getLogger().log(Level.INFO, "Using MC 1.12 adapter");
+        } else if (serverVersion.equals(v1p13) || (serverVersion.biggerThan(v1p13) && v1p13.biggerThan(serverVersion))) {
             classVersion = "113";
-            getLogger().log(Level.INFO, "Using MC 1.13 sign adapter");
-        } else {
+            getLogger().log(Level.INFO, "Using MC 1.13 adapter");
+        } else if (serverVersion.equals(v1p14) || (serverVersion.biggerThan(v1p14) && v1p20.biggerThan(serverVersion))) {
             classVersion = "114";
-            getLogger().log(Level.INFO, "Using MC 1.14 sign adapter");
+            getLogger().log(Level.INFO, "Using MC 1.14 adapter");
+        } else {
+            classVersion = "120";
+            getLogger().log(Level.INFO, "Using MC 1.20 adapter");
         }
 
         try {
-            Class<?> signDataFactoryClass = Class.forName("net.alex9849.signs.SignDataFactory" + classVersion);
+            Class<?> signDataFactoryClass = Class.forName("net.alex9849.arm.signs.SignDataFactory" + classVersion);
             if (SignDataFactory.class.isAssignableFrom(signDataFactoryClass)) {
                 this.signDataFactory = (SignDataFactory) signDataFactoryClass.newInstance();
             }
+            Class<?> materialDataFactoryClass = Class.forName("net.alex9849.arm.util.MaterialFinder" + classVersion);
+            if (AbstractMaterialFinder.class.isAssignableFrom(materialDataFactoryClass)) {
+                this.materialFinder = (AbstractMaterialFinder) materialDataFactoryClass.newInstance();
+            }
         } catch (Exception e) {
-            getLogger().log(Level.WARNING, "Could not setup SignDataFactory! (Is your server compatible? Compatible versions: 1.12, 1.13, 1.14)");
+            getLogger().log(Level.WARNING, "Could not setup server version adapters! (Is your server compatible? Compatible versions: 1.12, 1.13, 1.14, 1.20)");
         }
 
     }
@@ -654,38 +667,41 @@ public class AdvancedRegionMarket extends JavaPlugin {
 
     private void loadGUI() {
         FileConfiguration pluginConf = getConfig();
-        GuiConstants.setRegionOwnerItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.RegionOwnerItem")));
-        GuiConstants.setRegionMemberItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.RegionMemberItem")));
-        GuiConstants.setRegionFinderItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.RegionFinderItem")));
-        GuiConstants.setGoBackItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.GoBackItem")));
-        GuiConstants.setWarningYesItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.WarningYesItem")));
-        GuiConstants.setWarningNoItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.WarningNoItem")));
-        GuiConstants.setTpItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.TPItem")));
-        GuiConstants.setSellRegionItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.SellRegionItem")));
-        GuiConstants.setResetItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.ResetItem")));
-        GuiConstants.setExtendItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.ExtendItem")));
-        GuiConstants.setInfoItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.InfoItem")));
-        GuiConstants.setPromoteMemberToOwnerItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.PromoteMemberToOwnerItem")));
-        GuiConstants.setRemoveMemberItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.RemoveMemberItem")));
-        GuiConstants.setFillItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.FillItem")));
-        GuiConstants.setContractItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.ContractItem")));
-        GuiConstants.setSubregionItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.SubRegionItem")));
-        GuiConstants.setDeleteItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.DeleteItem")));
-        GuiConstants.setTeleportToSignItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.TeleportToSignItem")));
-        GuiConstants.setTeleportToRegionItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.TeleportToRegionItem")));
-        GuiConstants.setNextPageItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.NextPageItem")));
-        GuiConstants.setPrevPageItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.PrevPageItem")));
-        GuiConstants.setHotelSettingItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.HotelSettingItem")));
-        GuiConstants.setUnsellItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.UnsellItem")));
-        GuiConstants.setFlageditorItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.FlageditorItem")));
-        GuiConstants.setFlagItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.FlagItem")));
-        GuiConstants.setFlagSettingSelectedItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.FlagSettingsSelectedItem")));
-        GuiConstants.setFlagSettingNotSelectedItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.FlagSettingsNotSelectedItem")));
-        GuiConstants.setFlagGroupSelectedItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.FlagGroupSelectedItem")));
-        GuiConstants.setFlagGroupNotSelectedItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.FlagGroupNotSelectedItem")));
-        GuiConstants.setFlagRemoveItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.FlagRemoveItem")));
-        GuiConstants.setFlagUserInputItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.FlagUserInputItem")));
-        GuiConstants.setFlageditorResetItem(MaterialFinder.getMaterial(pluginConf.getString("GUI.FlageditorResetItem")));
+        GuiConstants.setRegionOwnerItem(materialFinder.firstNonNull(materialFinder.getMaterial(pluginConf.getString("GUI.RegionOwnerItem")), materialFinder.getGuiRegionOwnerItem()));
+        GuiConstants.setRegionMemberItem(materialFinder.firstNonNull(materialFinder.getMaterial(pluginConf.getString("GUI.RegionMemberItem")), materialFinder.getGuiRegionMemberItem()));
+        GuiConstants.setRegionFinderItem(materialFinder.firstNonNull(materialFinder.getMaterial(pluginConf.getString("GUI.RegionFinderItem")), materialFinder.getGuiRegionFinderItem()));
+        GuiConstants.setGoBackItem(materialFinder.firstNonNull(materialFinder.getMaterial(pluginConf.getString("GUI.GoBackItem")), materialFinder.getGuiGoBackItem()));
+        GuiConstants.setWarningYesItem(materialFinder.firstNonNull(materialFinder.getMaterial(pluginConf.getString("GUI.WarningYesItem")), materialFinder.getGuiWarningYesItem()));
+        GuiConstants.setWarningNoItem(materialFinder.firstNonNull(materialFinder.getMaterial(pluginConf.getString("GUI.WarningNoItem")), materialFinder.getGuiWarningNoItem()));
+        GuiConstants.setTpItem(materialFinder.firstNonNull(materialFinder.getMaterial(pluginConf.getString("GUI.TPItem")), materialFinder.getGuiTpItem()));
+        GuiConstants.setSellRegionItem(materialFinder.firstNonNull(materialFinder.getMaterial(pluginConf.getString("GUI.SellRegionItem")), materialFinder.getGuiSellRegionItem()));
+        GuiConstants.setResetItem(materialFinder.firstNonNull(materialFinder.getMaterial(pluginConf.getString("GUI.ResetItem")), materialFinder.getGuiResetItem()));
+        GuiConstants.setExtendItem(materialFinder.firstNonNull(materialFinder.getMaterial(pluginConf.getString("GUI.ExtendItem")), materialFinder.getGuiExtendItem()));
+        GuiConstants.setInfoItem(materialFinder.firstNonNull(materialFinder.getMaterial(pluginConf.getString("GUI.InfoItem")), materialFinder.getGuiInfoItem()));
+        GuiConstants.setPromoteMemberToOwnerItem(materialFinder.firstNonNull(materialFinder.getMaterial(pluginConf.getString("GUI.PromoteMemberToOwnerItem")), materialFinder.getGuiPromoteMemberToOwnerItem()));
+        GuiConstants.setRemoveMemberItem(materialFinder.firstNonNull(materialFinder.getMaterial(pluginConf.getString("GUI.RemoveMemberItem")), materialFinder.getGuiRemoveMemberItem()));
+        GuiConstants.setFillItem(materialFinder.firstNonNull(materialFinder.getMaterial(pluginConf.getString("GUI.FillItem")), materialFinder.getGuiFillItem()));
+        GuiConstants.setContractItem(materialFinder.firstNonNull(materialFinder.getMaterial(pluginConf.getString("GUI.ContractItem")), materialFinder.getGuiContractItem()));
+        GuiConstants.setSubregionItem(materialFinder.firstNonNull(materialFinder.getMaterial(pluginConf.getString("GUI.SubRegionItem")), materialFinder.getGuiSubregionItem()));
+        GuiConstants.setDeleteItem(materialFinder.firstNonNull(materialFinder.getMaterial(pluginConf.getString("GUI.DeleteItem")), materialFinder.getGuiDeleteItem()));
+        GuiConstants.setTeleportToSignItem(materialFinder.firstNonNull(materialFinder.getMaterial(pluginConf.getString("GUI.TeleportToSignItem")), materialFinder.getGuiTeleportToSignItem()));
+        GuiConstants.setTeleportToRegionItem(materialFinder.firstNonNull(materialFinder.getMaterial(pluginConf.getString("GUI.TeleportToRegionItem")), materialFinder.getGuiTeleportToRegionItem()));
+        GuiConstants.setNextPageItem(materialFinder.firstNonNull(materialFinder.getMaterial(pluginConf.getString("GUI.NextPageItem")), materialFinder.getGuiNextPageItem()));
+        GuiConstants.setPrevPageItem(materialFinder.firstNonNull(materialFinder.getMaterial(pluginConf.getString("GUI.PrevPageItem")), materialFinder.getGuiPrevPageItem()));
+        GuiConstants.setHotelSettingItem(materialFinder.firstNonNull(materialFinder.getMaterial(pluginConf.getString("GUI.HotelSettingItem")), materialFinder.getGuiHotelSettingItem()));
+        GuiConstants.setUnsellItem(materialFinder.firstNonNull(materialFinder.getMaterial(pluginConf.getString("GUI.UnsellItem")), materialFinder.getGuiUnsellItem()));
+        GuiConstants.setFlageditorItem(materialFinder.firstNonNull(materialFinder.getMaterial(pluginConf.getString("GUI.FlageditorItem")), materialFinder.getGuiFlageditorItem()));
+        GuiConstants.setFlagItem(materialFinder.firstNonNull(materialFinder.getMaterial(pluginConf.getString("GUI.FlagItem")), materialFinder.getGuiFlagItem()));
+        GuiConstants.setFlagSettingSelectedItem(materialFinder.firstNonNull(materialFinder.getMaterial(pluginConf.getString("GUI.FlagSettingsSelectedItem")), materialFinder.getGuiFlagSettingSelectedItem()));
+        GuiConstants.setFlagSettingNotSelectedItem(materialFinder.firstNonNull(materialFinder.getMaterial(pluginConf.getString("GUI.FlagSettingsNotSelectedItem")), materialFinder.getGuiFlagSettingNotSelectedItem()));
+        GuiConstants.setFlagGroupSelectedItem(materialFinder.firstNonNull(materialFinder.getMaterial(pluginConf.getString("GUI.FlagGroupSelectedItem")), materialFinder.getGuiFlagGroupSelectedItem()));
+        GuiConstants.setFlagGroupNotSelectedItem(materialFinder.firstNonNull(materialFinder.getMaterial(pluginConf.getString("GUI.FlagGroupNotSelectedItem")), materialFinder.getGuiFlagGroupNotSelectedItem()));
+        GuiConstants.setFlagRemoveItem(materialFinder.firstNonNull(materialFinder.getMaterial(pluginConf.getString("GUI.FlagRemoveItem")), materialFinder.getGuiFlagRemoveItem()));
+        GuiConstants.setFlagUserInputItem(materialFinder.firstNonNull(materialFinder.getMaterial(pluginConf.getString("GUI.FlagUserInputItem")), materialFinder.getGuiFlagUserInputItem()));
+        GuiConstants.setFlageditorResetItem(materialFinder.firstNonNull(materialFinder.getMaterial(pluginConf.getString("GUI.FlageditorResetItem")), materialFinder.getGuiFlageditorResetItem()));
+        GuiConstants.setEntityLimitGroupItem(materialFinder.firstNonNull(materialFinder.getMaterial(pluginConf.getString("GUI.EntityLimitGroupItem")), materialFinder.getEntityLimitGroupItem()));
+        GuiConstants.setRegionFinderSelltypeSelectorItem(materialFinder.firstNonNull(materialFinder.getMaterial(pluginConf.getString("GUI.RegionFinderSellTypeSelectorItem")), materialFinder.getRegionFinderSelltypeSelectorItem()));
+        GuiConstants.setPlayerHeadItem(materialFinder.getPlayerHead());
     }
 
     private void loadLimits() {
@@ -820,6 +836,10 @@ public class AdvancedRegionMarket extends JavaPlugin {
 
     public Economy getEcon() {
         return this.econ;
+    }
+
+    public AbstractMaterialFinder getMaterialFinder() {
+        return this.materialFinder;
     }
 
 

@@ -17,9 +17,9 @@ import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.price.ContractPrice;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.regions.price.RentPrice;
-import net.alex9849.arm.util.MaterialFinder;
+import net.alex9849.arm.signs.SignData;
+import net.alex9849.arm.util.MaterialFinder112;
 import net.alex9849.inter.WGRegion;
-import net.alex9849.signs.SignData;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -245,7 +245,7 @@ public class SignModifyListener implements Listener {
         }
 
         try {
-            if (!MaterialFinder.getSignMaterials().contains(block.getBlock().getType())) {
+            if (!MaterialFinder112.getSignMaterials().contains(block.getBlock().getType())) {
                 return;
             }
             Region region = AdvancedRegionMarket.getInstance().getRegionManager().getRegion((Sign) block.getBlock().getState());
@@ -310,7 +310,7 @@ public class SignModifyListener implements Listener {
 
     @EventHandler
     public void protectSignPhysics(BlockPhysicsEvent sign) {
-        if (MaterialFinder.getSignMaterials().contains(sign.getBlock().getType())) {
+        if (MaterialFinder112.getSignMaterials().contains(sign.getBlock().getType())) {
             if (AdvancedRegionMarket.getInstance().getRegionManager().getRegion((Sign) sign.getBlock().getState()) != null) {
                 sign.setCancelled(true);
                 return;

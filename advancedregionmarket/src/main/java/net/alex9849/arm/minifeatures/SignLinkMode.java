@@ -7,9 +7,9 @@ import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.flaggroups.FlagGroup;
 import net.alex9849.arm.presets.presets.Preset;
 import net.alex9849.arm.regions.Region;
-import net.alex9849.arm.util.MaterialFinder;
+import net.alex9849.arm.signs.SignData;
+import net.alex9849.arm.util.MaterialFinder112;
 import net.alex9849.inter.WGRegion;
-import net.alex9849.signs.SignData;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -97,7 +97,7 @@ public class SignLinkMode implements Listener {
             if ((!(event.getAction() == Action.LEFT_CLICK_BLOCK)) && (!(event.getAction() == Action.RIGHT_CLICK_BLOCK))) {
                 return;
             }
-            List<Material> signMaterials = MaterialFinder.getSignMaterials();
+            List<Material> signMaterials = MaterialFinder112.getSignMaterials();
             ItemStack itemInHand = event.getPlayer().getInventory().getItemInMainHand();
             Material clickedBlock = event.getClickedBlock().getType();
 
@@ -111,7 +111,7 @@ public class SignLinkMode implements Listener {
                 }
             }
             event.setCancelled(true);
-            if (MaterialFinder.getSignMaterials().contains(event.getClickedBlock().getType())) {
+            if (MaterialFinder112.getSignMaterials().contains(event.getClickedBlock().getType())) {
                 Sign sign = (Sign) event.getClickedBlock().getState();
                 if (AdvancedRegionMarket.getInstance().getRegionManager().getRegion(sign) != null) {
                     throw new InputException(event.getPlayer(), Messages.SIGN_LINK_MODE_SIGN_BELONGS_TO_ANOTHER_REGION);

@@ -4,7 +4,7 @@ import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.regionkind.RegionKind;
-import net.alex9849.arm.util.MaterialFinder;
+import net.alex9849.arm.util.MaterialFinder112;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -22,7 +22,7 @@ public class SetItemCommand extends RegionKindOptionModifyCommand<Material> {
 
     @Override
     protected Material getSettingsFromString(CommandSender sender, String setting) {
-        return MaterialFinder.getMaterial(setting);
+        return MaterialFinder112.getMaterial(setting);
     }
 
     @Override

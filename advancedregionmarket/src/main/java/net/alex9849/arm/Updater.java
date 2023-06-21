@@ -1,6 +1,7 @@
 package net.alex9849.arm;
 
 import net.alex9849.arm.regions.Region;
+import net.alex9849.arm.util.Version;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -1241,40 +1242,5 @@ public class Updater {
             }
         }
 
-    }
-
-    private static class Version implements Comparable<Version> {
-        private int[] version;
-
-        Version(int... version) {
-            if(version != null) {
-                this.version = version.clone();
-            }
-        }
-
-        public boolean biggerThan(Version other) {
-            return this.compareTo(other) > 0;
-        }
-
-        @Override
-        public int compareTo(Version other) {
-            for(int i = 0; i < this.version.length; i++) {
-                int thisPart = this.version[i];
-                if(other.version.length < i + 1) {
-                    if(thisPart == 0) {
-                        continue;
-                    }
-                    return 1;
-                }
-                int thatPart = other.version[i];
-                if(thisPart > thatPart) {
-                    return 1;
-                }
-                if(thisPart < thatPart) {
-                    return -1;
-                }
-            }
-            return 0;
-        }
     }
 }

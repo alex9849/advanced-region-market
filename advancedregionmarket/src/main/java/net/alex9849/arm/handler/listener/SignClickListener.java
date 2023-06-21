@@ -4,7 +4,7 @@ import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.exceptions.*;
 import net.alex9849.arm.regions.Region;
-import net.alex9849.arm.util.MaterialFinder;
+import net.alex9849.arm.util.MaterialFinder112;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -24,7 +24,7 @@ public class SignClickListener implements Listener {
             return;
         }
 
-        if (!MaterialFinder.getSignMaterials().contains(event.getClickedBlock().getType())) {
+        if (!MaterialFinder112.getSignMaterials().contains(event.getClickedBlock().getType())) {
             return;
         }
 

@@ -17,11 +17,11 @@ import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.price.ContractPrice;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.regions.price.RentPrice;
+import net.alex9849.arm.signs.SignAttachment;
+import net.alex9849.arm.signs.SignData;
+import net.alex9849.arm.signs.SignDataFactory;
 import net.alex9849.arm.util.YamlFileManager;
 import net.alex9849.inter.WGRegion;
-import net.alex9849.signs.SignAttachment;
-import net.alex9849.signs.SignData;
-import net.alex9849.signs.SignDataFactory;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -384,9 +384,9 @@ public class RegionManager extends YamlFileManager<Region> {
                 Double z = Double.parseDouble(locsplit[3]);
                 Location loc = new Location(world, x, yy, z);
 
-                SignAttachment signAttachment = SignAttachment.GROUND_SIGN;
+                SignAttachment signAttachment = SignAttachment.GROUND;
                 if (locsplit[4].equalsIgnoreCase("WALL")) {
-                    signAttachment = SignAttachment.WALL_SIGN;
+                    signAttachment = SignAttachment.WALL;
                 }
 
                 BlockFace facing;

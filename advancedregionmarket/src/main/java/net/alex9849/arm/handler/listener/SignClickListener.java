@@ -5,7 +5,6 @@ import net.alex9849.arm.Messages;
 import net.alex9849.arm.exceptions.*;
 import net.alex9849.arm.regions.Region;
 import org.bukkit.block.Sign;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -41,40 +40,38 @@ public class SignClickListener implements Listener {
 
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
             if (event.getPlayer().isSneaking()) {
-                this.handleSignCmd(region, AdvancedRegionMarket.getInstance().getPluginSettings().getSignRightClickSneakCommand(), event.getPlayer());
+                this.handleSignCmd(region, AdvancedRegionMarket.getInstance().getPluginSettings().getSignRightClickSneakCommand(), event);
             } else {
-                this.handleSignCmd(region, AdvancedRegionMarket.getInstance().getPluginSettings().getSignRightClickNotSneakCommand(), event.getPlayer());
+                this.handleSignCmd(region, AdvancedRegionMarket.getInstance().getPluginSettings().getSignRightClickNotSneakCommand(), event);
             }
         } else if (event.getAction() == Action.LEFT_CLICK_BLOCK) {
             if (event.getPlayer().isSneaking()) {
-                this.handleSignCmd(region, AdvancedRegionMarket.getInstance().getPluginSettings().getSignLeftClickSneakCommand(), event.getPlayer());
+                this.handleSignCmd(region, AdvancedRegionMarket.getInstance().getPluginSettings().getSignLeftClickSneakCommand(), event);
             } else {
-                this.handleSignCmd(region, AdvancedRegionMarket.getInstance().getPluginSettings().getSignLeftClickNotSneakCommand(), event.getPlayer());
+                this.handleSignCmd(region, AdvancedRegionMarket.getInstance().getPluginSettings().getSignLeftClickNotSneakCommand(), event);
             }
         }
     }
 
-    private void handleSignCmd(Region region, String cmd, Player player) {
+    private void handleSignCmd(Region region, String cmd, PlayerInteractEvent event) {
         if (cmd.equalsIgnoreCase("")) {
             return;
         }
         if (cmd.equalsIgnoreCase("buyaction")) {
             try {
-                region.signClickAction(player);
+                region.signClickAction(event.getPlayer());
             } catch (NoPermissionException | OutOfLimitExeption | NotEnoughMoneyException
                     | AlreadySoldException | NotSoldException | RegionNotOwnException
                     | ProtectionOfContinuanceException e) {
                 if (e.hasMessage()) {
-                    player.sendMessage(Messages.PREFIX + e.getMessage());
+                    event.getPlayer().sendMessage(Messages.PREFIX + e.getMessage());
                 }
             }
-            return;
-        } else if (cmd.equalsIgnoreCase("")) {
-            return;
         } else {
             cmd = region.replaceVariables(cmd);
-            player.performCommand(cmd);
+            event.getPlayer().performCommand(cmd);
         }
+        event.setCancelled(true);
     }
 
 }

@@ -284,6 +284,10 @@ public class Messages {
     public static String GUI_REGIONFINDER_REGIONKIND_NAME;
     @Message(name = "RentRegionExpirationWarning", version = 4, message = "&4&lWARNING! &r&4Your RentRegion &6%regionid% &4will expire in about &6%remainingtime-countdown-writtenout%&4!")
     public static String RENTREGION_EXPIRATION_WARNING;
+    @Message(name = "ContractRegionExpirationWarningTerminated", message = "&4&lWARNING! &r&4Your &6terminated &r&4ContractRegion &6%regionid% &4will expire in about &6%remainingtime-countdown-writtenout%&4!")
+    public static String CONTRACTREGION_EXPIRATION_WARNING_TERMINATED;
+    @Message(name = "ContractRegionExpirationWarningLowBalance", message = "&4&lWARNING! &r&4You don't have enough money to pay the next rent! Your &6&l&nNOT&r&6-terminated &4ContractRegion &6%regionid% &4will expire in about &6%remainingtime-countdown-writtenout%&4!")
+    public static String CONTRACTREGION_EXPIRATION_WARNING_LOW_BALANCE;
     @Message(name = "ContractSign1", message = "&2Contract")
     public static String CONTRACT_SIGN1;
     @Message(name = "ContractSign2", message = "&2available")

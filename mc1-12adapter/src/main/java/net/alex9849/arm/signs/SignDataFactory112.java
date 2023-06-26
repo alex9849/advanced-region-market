@@ -1,6 +1,6 @@
-package net.alex9849.signs;
+package net.alex9849.arm.signs;
 
-import net.alex9849.arm.util.MaterialFinder;
+import net.alex9849.arm.util.MaterialFinder112;
 import org.bukkit.Location;
 import org.bukkit.block.BlockFace;
 import org.bukkit.material.Sign;
@@ -8,7 +8,7 @@ import org.bukkit.material.Sign;
 public class SignDataFactory112 extends SignDataFactory {
     @Override
     public SignData generateSignData(Location loc) {
-        if (!MaterialFinder.getSignMaterials().contains(loc.getBlock().getType())) {
+        if (!MaterialFinder112.getInstance().getSignMaterials().contains(loc.getBlock().getType())) {
             return null;
         }
 
@@ -16,9 +16,9 @@ public class SignDataFactory112 extends SignDataFactory {
         SignAttachment signAttachment;
 
         if (sign.isWallSign()) {
-            signAttachment = SignAttachment.WALL_SIGN;
+            signAttachment = SignAttachment.WALL;
         } else {
-            signAttachment = SignAttachment.GROUND_SIGN;
+            signAttachment = SignAttachment.GROUND;
         }
 
         return new SignData112(loc, signAttachment, sign.getFacing());

@@ -7,7 +7,6 @@ import net.alex9849.arm.commands.BasicArmCommand;
 import net.alex9849.arm.exceptions.CmdSyntaxException;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.regionkind.RegionKind;
-import net.alex9849.arm.util.MaterialFinder;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -32,7 +31,7 @@ public class CreateCommand extends BasicArmCommand {
             throw new InputException(sender, Messages.REGIONKIND_ALREADY_EXISTS);
         }
 
-        Material item = MaterialFinder.getRedBed();
+        Material item = getPlugin().getMaterialFinder().getRedBed();
         String internalName = args[1];
         String displayName = args[1];
         List<String> lore = new ArrayList<>(Arrays.asList("Default Lore"));

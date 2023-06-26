@@ -1,6 +1,5 @@
 package net.alex9849.arm.gui;
 
-import net.alex9849.arm.util.MaterialFinder;
 import org.bukkit.Material;
 
 public class GuiConstants {
@@ -9,46 +8,76 @@ public class GuiConstants {
     public static final int GUI_MAX_ITEM_SIZE = GUI_ROW_SIZE * GUI_MAX_COL_SIZE;
 
     //Button Items
-    private static Material REGION_OWNER_ITEM = MaterialFinder.getGuiRegionOwnerItem();
-    private static Material REGION_MEMBER_ITEM = MaterialFinder.getGuiRegionMemberItem();
-    private static Material REGION_FINDER_ITEM = MaterialFinder.getGuiRegionFinderItem();
-    private static Material GO_BACK_ITEM = MaterialFinder.getGuiGoBackItem();
-    private static Material WARNING_YES_ITEM = MaterialFinder.getGuiWarningYesItem();
-    private static Material WARNING_NO_ITEM = MaterialFinder.getGuiWarningNoItem();
-    private static Material TP_ITEM = MaterialFinder.getGuiTpItem();
-    private static Material SELL_REGION_ITEM = MaterialFinder.getGuiSellRegionItem();
-    private static Material RESET_ITEM = MaterialFinder.getGuiResetItem();
-    private static Material EXTEND_ITEM = MaterialFinder.getGuiExtendItem();
-    private static Material INFO_ITEM = MaterialFinder.getGuiInfoItem();
-    private static Material PROMOTE_MEMBER_TO_OWNER_ITEM = MaterialFinder.getGuiPromoteMemberToOwnerItem();
-    private static Material REMOVE_MEMBER_ITEM = MaterialFinder.getGuiRemoveMemberItem();
-    private static Material CONTRACT_ITEM = MaterialFinder.getGuiContractItem();
-    private static Material FILL_ITEM = MaterialFinder.getGuiFillItem();
-    private static Material SUBREGION_ITEM = MaterialFinder.getGuiSubregionItem();
-    private static Material DELETE_ITEM = MaterialFinder.getGuiDeleteItem();
-    private static Material TELEPORT_TO_SIGN_ITEM = MaterialFinder.getGuiTeleportToSignItem();
-    private static Material TELEPORT_TO_REGION_ITEM = MaterialFinder.getGuiTeleportToRegionItem();
-    private static Material NEXT_PAGE_ITEM = MaterialFinder.getGuiNextPageItem();
-    private static Material PREV_PAGE_ITEM = MaterialFinder.getGuiPrevPageItem();
-    private static Material HOTEL_SETTING_ITEM = MaterialFinder.getGuiHotelSettingItem();
-    private static Material UNSELL_ITEM = MaterialFinder.getGuiUnsellItem();
-    private static Material FLAG_REMOVE_ITEM = MaterialFinder.getGuiFlagRemoveItem();
-    private static Material FLAG_SETTING_SELECTED_ITEM = MaterialFinder.getGuiFlagSettingSelectedItem();
-    private static Material FLAG_SETTING_NOT_SELECTED_ITEM = MaterialFinder.getGuiFlagSettingNotSelectedItem();
-    private static Material FLAG_GROUP_SELECTED_ITEM = MaterialFinder.getGuiFlagGroupSelectedItem();
-    private static Material FLAG_GROUP_NOT_SELECTED_ITEM = MaterialFinder.getGuiFlagGroupNotSelectedItem();
-    private static Material FLAGEDITOR_ITEM = MaterialFinder.getGuiFlageditorItem();
-    private static Material FLAG_ITEM = MaterialFinder.getGuiFlagItem();
-    private static Material FLAG_USER_INPUT_ITEM = MaterialFinder.getGuiFlagUserInputItem();
-    private static Material FLAGEDITOR_RESET_ITEM = MaterialFinder.getGuiFlageditorResetItem();
+    private static Material REGION_OWNER_ITEM;
+    private static Material REGION_MEMBER_ITEM;
+    private static Material REGION_FINDER_ITEM;
+    private static Material REGION_FINDER_SELLTYPE_SELECTOR_ITEM;
+    private static Material PLAYER_HEAD_ITEM;
+    private static Material GO_BACK_ITEM;
+    private static Material WARNING_YES_ITEM;
+    private static Material WARNING_NO_ITEM;
+    private static Material TP_ITEM;
+    private static Material SELL_REGION_ITEM;
+    private static Material RESET_ITEM;
+    private static Material EXTEND_ITEM;
+    private static Material INFO_ITEM;
+    private static Material PROMOTE_MEMBER_TO_OWNER_ITEM;
+    private static Material REMOVE_MEMBER_ITEM;
+    private static Material CONTRACT_ITEM;
+    private static Material FILL_ITEM;
+    private static Material ENTITY_LIMIT_GROUP_ITEM;
+    private static Material SUBREGION_ITEM;
+    private static Material DELETE_ITEM;
+    private static Material TELEPORT_TO_SIGN_ITEM;
+    private static Material TELEPORT_TO_REGION_ITEM;
+    private static Material NEXT_PAGE_ITEM;
+    private static Material PREV_PAGE_ITEM;
+    private static Material HOTEL_SETTING_ITEM;
+    private static Material UNSELL_ITEM;
+    private static Material FLAG_REMOVE_ITEM;
+    private static Material FLAG_SETTING_SELECTED_ITEM;
+    private static Material FLAG_SETTING_NOT_SELECTED_ITEM;
+    private static Material FLAG_GROUP_SELECTED_ITEM;
+    private static Material FLAG_GROUP_NOT_SELECTED_ITEM;
+    private static Material FLAGEDITOR_ITEM;
+    private static Material FLAG_ITEM;
+    private static Material FLAG_USER_INPUT_ITEM;
+    private static Material FLAGEDITOR_RESET_ITEM;
 
     public static Material getRegionOwnerItem() {
         return REGION_OWNER_ITEM;
     }
 
     public static void setRegionOwnerItem(Material regionOwnerItem) {
-        if(regionOwnerItem == null) return;
+        if (regionOwnerItem == null) return;
         REGION_OWNER_ITEM = regionOwnerItem;
+    }
+
+    public static Material getRegionFinderSelltypeSelectorItem() {
+        return REGION_FINDER_SELLTYPE_SELECTOR_ITEM;
+    }
+
+    public static void setRegionFinderSelltypeSelectorItem(Material regionFinderSelltypeSelectorItem) {
+        if (regionFinderSelltypeSelectorItem == null) return;
+        REGION_FINDER_SELLTYPE_SELECTOR_ITEM = regionFinderSelltypeSelectorItem;
+    }
+
+    public static Material getPlayerHeadItem() {
+        return PLAYER_HEAD_ITEM;
+    }
+
+    public static void setPlayerHeadItem(Material playerHeadItem) {
+        if (playerHeadItem == null) return;
+        PLAYER_HEAD_ITEM = playerHeadItem;
+    }
+
+    public static Material getEntityLimitGroupItem() {
+        return ENTITY_LIMIT_GROUP_ITEM;
+    }
+
+    public static void setEntityLimitGroupItem(Material entityLimitGroupItem) {
+        if (entityLimitGroupItem == null) return;
+        ENTITY_LIMIT_GROUP_ITEM = entityLimitGroupItem;
     }
 
     public static Material getRegionMemberItem() {
@@ -56,7 +85,7 @@ public class GuiConstants {
     }
 
     public static void setRegionMemberItem(Material regionMemberItem) {
-        if(regionMemberItem == null) return;
+        if (regionMemberItem == null) return;
         REGION_MEMBER_ITEM = regionMemberItem;
     }
 

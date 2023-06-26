@@ -1,6 +1,7 @@
 package net.alex9849.arm;
 
 import net.alex9849.arm.regions.Region;
+import net.alex9849.arm.util.Version;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -17,24 +18,7 @@ public class Updater {
 
     static void updateConfigs() {
         FileConfiguration pluginConfig = AdvancedRegionMarket.getInstance().getConfig();
-        String[] versionPartsAsString = pluginConfig.getString("Version").split("\\.");
-        int[] versionParts = Arrays.stream(versionPartsAsString).mapToInt(Integer::parseInt).toArray();
-        Version lastVersion = new Version(versionParts);
-
-        //convert legacy versionNumbers
-        if(versionParts.length > 1) {
-            int major = versionParts[0];
-            int minor = versionParts[1];
-            if(major < 3) {
-                List<Integer> legacyVersionParts = new ArrayList<>();
-                legacyVersionParts.add(major);
-                for(char c : (minor + "").toCharArray()) {
-                    legacyVersionParts.add(Character.getNumericValue(c));
-                }
-                lastVersion = new Version(legacyVersionParts.stream().mapToInt(x -> x).toArray());
-            }
-        }
-
+        Version lastVersion = Version.fromString(pluginConfig.getString("Version"));
 
         try {
             if (new Version(1, 1).biggerThan(lastVersion)) {
@@ -172,6 +156,10 @@ public class Updater {
             if (new Version(3, 4).biggerThan(lastVersion)) {
                 AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 3.4...");
                 updateTo3p4(pluginConfig);
+            }
+            if (new Version(3, 5).biggerThan(lastVersion)) {
+                AdvancedRegionMarket.getInstance().getLogger().log(Level.WARNING, "Updating AdvancedRegionMarket config to 3.5...");
+                updateTo3p5(pluginConfig);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -1145,6 +1133,13 @@ public class Updater {
         AdvancedRegionMarket.getInstance().saveConfig();
     }
 
+    private static void updateTo3p5(FileConfiguration pluginConfig) throws IOException {
+        pluginConfig.set("GUI.RegionFinderSellTypeSelectorItem", "BRICK");
+        pluginConfig.set("GUI.EntityLimitGroupItem", "CHICKEN_SPAWN_EGG");
+        pluginConfig.set("Version", "3.5.0");
+        AdvancedRegionMarket.getInstance().saveConfig();
+    }
+
     private static class UpdateHelpMethods {
 
         private static void replaceVariableInMessagesYML(String variable, String replacement) throws IOException {
@@ -1241,40 +1236,5 @@ public class Updater {
             }
         }
 
-    }
-
-    private static class Version implements Comparable<Version> {
-        private int[] version;
-
-        Version(int... version) {
-            if(version != null) {
-                this.version = version.clone();
-            }
-        }
-
-        public boolean biggerThan(Version other) {
-            return this.compareTo(other) > 0;
-        }
-
-        @Override
-        public int compareTo(Version other) {
-            for(int i = 0; i < this.version.length; i++) {
-                int thisPart = this.version[i];
-                if(other.version.length < i + 1) {
-                    if(thisPart == 0) {
-                        continue;
-                    }
-                    return 1;
-                }
-                int thatPart = other.version[i];
-                if(thisPart > thatPart) {
-                    return 1;
-                }
-                if(thisPart < thatPart) {
-                    return -1;
-                }
-            }
-            return 0;
-        }
     }
 }

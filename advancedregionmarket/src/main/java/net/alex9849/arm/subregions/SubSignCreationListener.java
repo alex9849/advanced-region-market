@@ -13,7 +13,7 @@ import net.alex9849.arm.regions.SellRegion;
 import net.alex9849.arm.regions.price.ContractPrice;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.regions.price.RentPrice;
-import net.alex9849.signs.SignData;
+import net.alex9849.arm.signs.SignData;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

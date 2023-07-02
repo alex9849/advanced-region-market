@@ -5,13 +5,13 @@
     <parent>
         <artifactId>armparent</artifactId>
         <groupId>net.alex9849</groupId>
-        <version>3.5.1</version>
+        <version>3.5.2</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>wg6_1adapter</artifactId>
     <packaging>jar</packaging>
-    <version>3.5.1</version>
+    <version>3.5.2</version>
 
     <dependencies>
         <!--Bukkit API-->
@@ -39,7 +39,7 @@
         <dependency>
             <groupId>net.alex9849</groupId>
             <artifactId>arminterface</artifactId>
-            <version>3.5.1</version>
+            <version>3.5.2</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

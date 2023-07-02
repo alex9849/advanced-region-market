@@ -7,7 +7,7 @@
     <groupId>net.alex9849</groupId>
     <artifactId>armparent</artifactId>
     <packaging>pom</packaging>
-    <version>3.5.1</version>
+    <version>3.5.2</version>
     <modules>
         <module>arminterface</module>
         <module>advancedregionmarket</module>

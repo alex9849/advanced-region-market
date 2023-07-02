@@ -39,13 +39,13 @@ public class SignClickListener implements Listener {
         }
 
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            event.setCancelled(true);
             if (event.getPlayer().isSneaking()) {
                 this.handleSignCmd(region, AdvancedRegionMarket.getInstance().getPluginSettings().getSignRightClickSneakCommand(), event);
             } else {
                 this.handleSignCmd(region, AdvancedRegionMarket.getInstance().getPluginSettings().getSignRightClickNotSneakCommand(), event);
             }
         } else if (event.getAction() == Action.LEFT_CLICK_BLOCK) {
-            event.setCancelled(true);
             if (event.getPlayer().isSneaking()) {
                 this.handleSignCmd(region, AdvancedRegionMarket.getInstance().getPluginSettings().getSignLeftClickSneakCommand(), event);
             } else {

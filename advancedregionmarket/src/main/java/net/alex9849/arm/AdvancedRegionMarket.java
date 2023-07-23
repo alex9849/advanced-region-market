@@ -546,7 +546,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         }
         version = "7";
         try {
-            final Class<?> wgClass = Class.forName("net.alex9849.adapters.WorldGuard" + version);
+            final Class<?> wgClass = Class.forName("net.alex9849.arm.adapters.WorldGuard" + version);
             if (WorldGuardInterface.class.isAssignableFrom(wgClass)) {
                 this.worldGuardInterface = (WorldGuardInterface) wgClass.newInstance();
             }
@@ -576,7 +576,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         version = "7";
 
         try {
-            final Class<?> weClass = Class.forName("net.alex9849.adapters.WorldEdit" + version);
+            final Class<?> weClass = Class.forName("net.alex9849.arm.adapters.WorldEdit" + version);
             if (WorldEditInterface.class.isAssignableFrom(weClass)) {
                 this.worldEditInterface = (WorldEditInterface) weClass.newInstance();
             }
@@ -604,11 +604,11 @@ public class AdvancedRegionMarket extends JavaPlugin {
         }
 
         try {
-            Class<?> signDataFactoryClass = Class.forName("net.alex9849.arm.signs.SignDataFactory" + classVersion);
+            Class<?> signDataFactoryClass = Class.forName("net.alex9849.arm.adapters.signs.SignDataFactory" + classVersion);
             if (SignDataFactory.class.isAssignableFrom(signDataFactoryClass)) {
                 this.signDataFactory = (SignDataFactory) signDataFactoryClass.newInstance();
             }
-            Class<?> materialDataFactoryClass = Class.forName("net.alex9849.arm.util.MaterialFinder" + classVersion);
+            Class<?> materialDataFactoryClass = Class.forName("net.alex9849.arm.adapters.util.MaterialFinder" + classVersion);
             if (AbstractMaterialFinder.class.isAssignableFrom(materialDataFactoryClass)) {
                 this.materialFinder = (AbstractMaterialFinder) materialDataFactoryClass.newInstance();
             }

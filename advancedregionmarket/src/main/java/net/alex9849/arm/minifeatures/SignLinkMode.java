@@ -2,13 +2,13 @@ package net.alex9849.arm.minifeatures;
 
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
+import net.alex9849.arm.adapters.WGRegion;
+import net.alex9849.arm.adapters.signs.SignData;
 import net.alex9849.arm.exceptions.FeatureDisabledException;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.flaggroups.FlagGroup;
 import net.alex9849.arm.presets.presets.Preset;
 import net.alex9849.arm.regions.Region;
-import net.alex9849.arm.signs.SignData;
-import net.alex9849.inter.WGRegion;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;

@@ -1,8 +1,8 @@
 package net.alex9849.arm.regions.price;
 
 import net.alex9849.arm.AdvancedRegionMarket;
+import net.alex9849.arm.adapters.WGRegion;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
-import net.alex9849.inter.WGRegion;
 
 import java.text.NumberFormat;
 

@@ -1,13 +1,13 @@
 package net.alex9849.arm.presets.presets;
 
 import net.alex9849.arm.Messages;
+import net.alex9849.arm.adapters.WGRegion;
+import net.alex9849.arm.adapters.signs.SignData;
+import net.alex9849.arm.adapters.util.TimeUtil;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.RentRegion;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.price.RentPrice;
-import net.alex9849.arm.signs.SignData;
-import net.alex9849.arm.util.TimeUtil;
-import net.alex9849.inter.WGRegion;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;

@@ -3,13 +3,13 @@ package net.alex9849.arm.commands;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
+import net.alex9849.arm.adapters.util.TimeUtil;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.exceptions.ProtectionOfContinuanceException;
 import net.alex9849.arm.exceptions.SchematicNotFoundException;
 import net.alex9849.arm.gui.Gui;
 import net.alex9849.arm.minifeatures.PlayerRegionRelationship;
 import net.alex9849.arm.regions.Region;
-import net.alex9849.arm.util.TimeUtil;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

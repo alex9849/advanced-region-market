@@ -1,7 +1,7 @@
 package net.alex9849.arm;
 
+import net.alex9849.arm.adapters.util.Version;
 import net.alex9849.arm.regions.Region;
-import net.alex9849.arm.util.Version;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;

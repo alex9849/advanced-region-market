@@ -2,10 +2,10 @@ package net.alex9849.arm.regions;
 
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
+import net.alex9849.arm.adapters.WGRegion;
+import net.alex9849.arm.adapters.signs.SignData;
+import net.alex9849.arm.adapters.util.TimeUtil;
 import net.alex9849.arm.regions.price.Price;
-import net.alex9849.arm.signs.SignData;
-import net.alex9849.arm.util.TimeUtil;
-import net.alex9849.inter.WGRegion;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 

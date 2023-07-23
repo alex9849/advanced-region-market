@@ -3,8 +3,8 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>armparent</artifactId>
-        <groupId>net.alex9849</groupId>
+        <artifactId>advancedregionmarket-parent</artifactId>
+        <groupId>net.alex9849.advancedregionmarket</groupId>
         <version>3.5.2</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -20,7 +20,7 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>net.alex9849</groupId>
+            <groupId>net.alex9849.advancedregionmarket</groupId>
             <artifactId>advancedregionmarket</artifactId>
             <version>3.5.2</version>
             <scope>provided</scope>

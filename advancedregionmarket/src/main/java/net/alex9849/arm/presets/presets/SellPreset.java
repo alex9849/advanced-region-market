@@ -1,12 +1,12 @@
 package net.alex9849.arm.presets.presets;
 
 import net.alex9849.arm.Messages;
+import net.alex9849.arm.adapters.WGRegion;
+import net.alex9849.arm.adapters.signs.SignData;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.SellRegion;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.price.Price;
-import net.alex9849.arm.signs.SignData;
-import net.alex9849.inter.WGRegion;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 

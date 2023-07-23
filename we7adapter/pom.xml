@@ -5,13 +5,13 @@
     <parent>
         <artifactId>advancedregionmarket-parent</artifactId>
         <groupId>net.alex9849.advancedregionmarket</groupId>
-        <version>3.5.2</version>
+        <version>3.5.3-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>we7adapter</artifactId>
     <packaging>jar</packaging>
-    <version>3.5.2</version>
+    <version>3.5.3-SNAPSHOT</version>
 
     <dependencies>
         <!--Bukkit API-->
@@ -39,7 +39,7 @@
         <dependency>
             <groupId>net.alex9849.advancedregionmarket</groupId>
             <artifactId>arminterface</artifactId>
-            <version>3.5.2</version>
+            <version>3.5.3-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

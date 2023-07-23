@@ -45,15 +45,6 @@ jobs:
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
         run: mvn --no-transfer-progress --batch-mode clean deploy -P release
 
-      - name: Create GitHub Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.event.inputs.releaseVersion }}
-          release_name: ${{ github.event.inputs.releaseVersion }}
-
       - name: Get artifacts
         run: |
           mkdir push
@@ -64,5 +55,6 @@ jobs:
       - name: Github release
         uses: softprops/action-gh-release@v1
         with:
+          tag_name: ${{ github.event.inputs.releaseVersion }}
           fail_on_unmatched_files: true
           files: push/*

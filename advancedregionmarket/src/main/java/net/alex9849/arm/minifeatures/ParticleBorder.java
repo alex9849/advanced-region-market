@@ -82,11 +82,11 @@ public class ParticleBorder {
         List<Location> particleLoc = new ArrayList<>();
 
         for (int i = 0; i < this.points.size(); i++) {
-            Vector point1bottem = new Vector(this.points.get(i).getBlockX(), this.depth, this.points.get(i).getBlockZ());
-            Vector point2bottem = new Vector(this.points.get(Math.floorMod(i + 1, this.points.size())).getBlockX(), this.depth, this.points.get(Math.floorMod(i + 1, this.points.size())).getBlockZ());
+            Vector point1bottom = new Vector(this.points.get(i).getBlockX(), this.depth, this.points.get(i).getBlockZ());
+            Vector point2bottom = new Vector(this.points.get(Math.floorMod(i + 1, this.points.size())).getBlockX(), this.depth, this.points.get(Math.floorMod(i + 1, this.points.size())).getBlockZ());
             Vector point1top = new Vector(this.points.get(i).getBlockX(), this.height, this.points.get(i).getBlockZ());
             Vector point2top = new Vector(this.points.get(Math.floorMod(i + 1, this.points.size())).getBlockX(), this.height, this.points.get(Math.floorMod(i + 1, this.points.size())).getBlockZ());
-            particleLoc.addAll(this.plotLine(point1bottem, point2bottem, this.world));
+            particleLoc.addAll(this.plotLine(point1bottom, point2bottom, this.world));
             particleLoc.addAll(this.plotLine(point1top, point2top, this.world));
             int pointX = this.points.get(i).getBlockX();
             int pointZ = this.points.get(i).getBlockZ();

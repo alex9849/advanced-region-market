@@ -3,6 +3,7 @@ package net.alex9849.arm.gui.handler.inventory;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.exceptions.InputException;
 import net.alex9849.arm.flaggroups.PresetContent;
+import net.alex9849.arm.gui.ClickAction;
 import net.alex9849.arm.gui.handler.GuiInputAction;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -41,15 +42,37 @@ public class GuiInventoryInputListener implements Listener {
         }
     };
 
+    private ItemStack setItem = new ItemStack(Material.PAPER) {
+        {
+            ItemMeta meta = getItemMeta();
+            meta.setDisplayName(Messages.GUI_FLAGEDITOR_SET_STRINGFLAG_SET_MESSAGE_BUTTON);
+            setItemMeta(meta);
+        }
+    };
+
+    private ItemStack cancelItem = new ItemStack(Material.BARRIER) {
+        {
+            ItemMeta meta = getItemMeta();
+            meta.setDisplayName(Messages.GUI_GO_BACK);
+            setItemMeta(meta);
+        }
+    };
+
     GuiInputAction guiInputAction;
+    ClickAction backAction;
+    String presetEditPermission;
+    Runnable executeChatInputListener;
     private final Player player;
     private final List<PresetContent> presetContents = new ArrayList<>();
     private final Inventory inventory;
     private int page;
 
-    public GuiInventoryInputListener(Player player, GuiInputAction guiInputAction, List<PresetContent> presetContents) {
+    public GuiInventoryInputListener(Player player, GuiInputAction guiInputAction, ClickAction backAction, List<PresetContent> presetContents, String presetEditPermission, Runnable executeChatInputListener) {
         this.player = player;
         this.guiInputAction = guiInputAction;
+        this.backAction = backAction;
+        this.presetEditPermission = presetEditPermission;
+        this.executeChatInputListener = executeChatInputListener;
         inventory = Bukkit.createInventory(null, 54, Messages.GUI_FLAGSELECTOR_NAME);
         player.openInventory(inventory);
         for (PresetContent presetContent : presetContents) {
@@ -89,10 +112,14 @@ public class GuiInventoryInputListener implements Listener {
         if (presetContents.size() > page * 45) {
             inventory.setItem(51, nextItem);
         }
+        if (presetEditPermission == null || player.hasPermission(presetEditPermission)) {
+            inventory.setItem(49, setItem);
+        }
+        inventory.setItem(53, cancelItem);
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
-    public void handleClick(InventoryClickEvent event) {
+    public void handleClick(InventoryClickEvent event) throws InputException {
         if (event.getWhoClicked().getUniqueId() != this.player.getUniqueId()) {
             return;
         }
@@ -114,12 +141,15 @@ public class GuiInventoryInputListener implements Listener {
         } else if (event.getRawSlot() == 51) {
             setPage(page+1);
             return;
+        } else if (event.getRawSlot() == 49 && (presetEditPermission == null || player.hasPermission(presetEditPermission))) { //ChatHandler
+            this.unregister();
+            player.closeInventory();
+            this.executeChatInputListener.run();
+            return;
+        } else if (event.getRawSlot() == 53) {
+            this.backAction.execute(player);
         } else {
-            try {
-                this.guiInputAction.runAction(presetContents.get(((page-1)*45) + event.getRawSlot()).getSettings());
-            } catch (InputException e) {
-                e.sendMessages(Messages.PREFIX);
-            }
+            this.guiInputAction.runAction(presetContents.get(((page-1)*45) + event.getRawSlot()).getSettings());
         }
 
         this.unregister();

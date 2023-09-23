@@ -1022,11 +1022,11 @@ public class Messages {
     public static String FLAGEDITOR_FLAG_HAS_BEEN_UPDATED;
     @Message(name = "FlageditorFlagCouldNotBeUpdated", message = "Could not modify flag %flag%!")
     public static String FLAGEDITOR_FLAG_COULD_NOT_BE_MODIFIED;
-    @Message(name = "FlageditorStringflagSetMessageInfo", message = "&9Please write down a message:")
+    @Message(name = "FlageditorStringflagSetMessageInfo", message = "&9Please write down a message: ('cancel' to cancel)")
     public static String FLAGEDITOR_STRINGFLAG_SET_MESSAGE_INFO;
-    @Message(name = "FlageditorIntegerflagSetMessageInfo", message = "&9Please write down a number that does not have decimals:")
+    @Message(name = "FlageditorIntegerflagSetMessageInfo", message = "&9Please write down a number that does not have decimals: ('cancel' to cancel)")
     public static String FLAGEDITOR_INTEGERFLAG_SET_NUMBER_INFO;
-    @Message(name = "FlageditorDoubleflagSetMessageInfo", message = "&9Please write down a number:")
+    @Message(name = "FlageditorDoubleflagSetMessageInfo", message = "&9Please write down a number: ('cancel' to cancel)")
     public static String FLAGEDITOR_DOUBLEFLAG_SET_NUMBER_INFO;
     @Message(name = "FlageditorSelectMessageInfo", message = "&9Please select a flag setting")
     public static String FLAGEDITOR_SELECT_FLAG_INFO;
@@ -1034,7 +1034,7 @@ public class Messages {
     public static String GUI_FLAGEDITOR_RESET_BUTTON;
     @Message(name = "GUIFlageditorUnknownFlagSetPropertiesButton", message = "&2Set properties")
     public static String GUI_FLAGEDITOR_UNKNOWNFLAG_SET_PROPERTIES_BUTTON;
-    @Message(name = "GUIFlageditorUnknownFlagSetPropertiesInfo", message = "&9Please write down your new flag properties: FlaggroupDoesNotExist: '&4Flaggroup does not exist!")
+    @Message(name = "GUIFlageditorUnknownFlagSetPropertiesInfo", message = "&9Please write down your new flag properties: ('cancel' to cancel) FlaggroupDoesNotExist: '&4Flaggroup does not exist!")
     public static String FLAGEDITOR_UNKNOWNFLAG_SET_PROPERTIES_INFO;
     @Message(name = "GUIFlagSelectorName", message = "&1FlagSelector")
     public static String GUI_FLAGSELECTOR_NAME;

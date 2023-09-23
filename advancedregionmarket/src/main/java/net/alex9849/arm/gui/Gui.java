@@ -862,14 +862,21 @@ public class Gui implements Listener {
                             GuiInventoryInputListener giil = new GuiInventoryInputListener(p, (s) -> {
                                 flagSetter.setInput(s);
                                 flagSetter.execute(p);
-                            }, flagSettings.getPresetContents());
+                            }, afterFlagSetAction, flagSettings.getPresetContents(), flagSettings.getPresetEditPermission(), () -> {
+                                p.sendMessage(region.replaceVariables(Messages.FLAGEDITOR_STRINGFLAG_SET_MESSAGE_INFO));
+                                GuiChatInputListener gcil = new GuiChatInputListener(p, (s) -> {
+                                    flagSetter.setInput(s);
+                                    flagSetter.execute(p);
+                                }, afterFlagSetAction);
+                                Bukkit.getPluginManager().registerEvents(gcil, AdvancedRegionMarket.getInstance());
+                            });
                             Bukkit.getPluginManager().registerEvents(giil, AdvancedRegionMarket.getInstance());
                         } else {
                             p.sendMessage(region.replaceVariables(Messages.FLAGEDITOR_STRINGFLAG_SET_MESSAGE_INFO));
                             GuiChatInputListener gcil = new GuiChatInputListener(p, (s) -> {
                                 flagSetter.setInput(s);
                                 flagSetter.execute(p);
-                            });
+                            }, afterFlagSetAction);
                             Bukkit.getPluginManager().registerEvents(gcil, AdvancedRegionMarket.getInstance());
                         }
                     });
@@ -886,14 +893,21 @@ public class Gui implements Listener {
                             GuiInventoryInputListener giil = new GuiInventoryInputListener(p, (s) -> {
                                 flagSetter.setInput(s);
                                 flagSetter.execute(p);
-                            }, flagSettings.getPresetContents());
+                            }, afterFlagSetAction, flagSettings.getPresetContents(), flagSettings.getPresetEditPermission(), () -> {
+                                p.sendMessage(region.replaceVariables(Messages.FLAGEDITOR_INTEGERFLAG_SET_NUMBER_INFO));
+                                GuiChatInputListener gcil = new GuiChatInputListener(p, (s) -> {
+                                    flagSetter.setInput(s);
+                                    flagSetter.execute(p);
+                                }, afterFlagSetAction);
+                                Bukkit.getPluginManager().registerEvents(gcil, AdvancedRegionMarket.getInstance());
+                            });
                             Bukkit.getPluginManager().registerEvents(giil, AdvancedRegionMarket.getInstance());
                         } else {
                             p.sendMessage(region.replaceVariables(Messages.FLAGEDITOR_INTEGERFLAG_SET_NUMBER_INFO));
                             GuiChatInputListener gcil = new GuiChatInputListener(p, (s) -> {
                                 flagSetter.setInput(s);
                                 flagSetter.execute(p);
-                            });
+                            }, afterFlagSetAction);
                             Bukkit.getPluginManager().registerEvents(gcil, AdvancedRegionMarket.getInstance());
                         }
                     });
@@ -910,14 +924,21 @@ public class Gui implements Listener {
                             GuiInventoryInputListener giil = new GuiInventoryInputListener(p, (s) -> {
                                 flagSetter.setInput(s);
                                 flagSetter.execute(p);
-                            }, flagSettings.getPresetContents());
+                            }, afterFlagSetAction, flagSettings.getPresetContents(), flagSettings.getPresetEditPermission(), () -> {
+                                p.sendMessage(region.replaceVariables(Messages.FLAGEDITOR_DOUBLEFLAG_SET_NUMBER_INFO));
+                                GuiChatInputListener gcil = new GuiChatInputListener(p, (s) -> {
+                                    flagSetter.setInput(s);
+                                    flagSetter.execute(p);
+                                }, afterFlagSetAction);
+                                Bukkit.getPluginManager().registerEvents(gcil, AdvancedRegionMarket.getInstance());
+                            });
                             Bukkit.getPluginManager().registerEvents(giil, AdvancedRegionMarket.getInstance());
                         } else {
                             p.sendMessage(region.replaceVariables(Messages.FLAGEDITOR_DOUBLEFLAG_SET_NUMBER_INFO));
                             GuiChatInputListener gcil = new GuiChatInputListener(p, (s) -> {
                                 flagSetter.setInput(s);
                                 flagSetter.execute(p);
-                            });
+                            }, afterFlagSetAction);
                             Bukkit.getPluginManager().registerEvents(gcil, AdvancedRegionMarket.getInstance());
                         }
                     });
@@ -933,14 +954,21 @@ public class Gui implements Listener {
                             GuiInventoryInputListener giil = new GuiInventoryInputListener(p, (s) -> {
                                 flagSetter.setInput(s);
                                 flagSetter.execute(p);
-                            }, flagSettings.getPresetContents());
+                            }, afterFlagSetAction, flagSettings.getPresetContents(), flagSettings.getPresetEditPermission(), () -> {
+                                p.sendMessage(region.replaceVariables(Messages.FLAGEDITOR_UNKNOWNFLAG_SET_PROPERTIES_INFO));
+                                GuiChatInputListener gcil = new GuiChatInputListener(p, (s) -> {
+                                    flagSetter.setInput(s);
+                                    flagSetter.execute(p);
+                                }, afterFlagSetAction);
+                                Bukkit.getPluginManager().registerEvents(gcil, AdvancedRegionMarket.getInstance());
+                            });
                             Bukkit.getPluginManager().registerEvents(giil, AdvancedRegionMarket.getInstance());
                         } else {
                             p.sendMessage(region.replaceVariables(Messages.FLAGEDITOR_UNKNOWNFLAG_SET_PROPERTIES_INFO));
                             GuiChatInputListener gcil = new GuiChatInputListener(p, (s) -> {
                                 flagSetter.setInput(s);
                                 flagSetter.execute(p);
-                            });
+                            }, afterFlagSetAction);
                             Bukkit.getPluginManager().registerEvents(gcil, AdvancedRegionMarket.getInstance());
                         }
                     });

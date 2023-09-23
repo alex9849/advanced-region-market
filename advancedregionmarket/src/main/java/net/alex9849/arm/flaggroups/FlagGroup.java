@@ -81,6 +81,7 @@ public class FlagGroup implements Saveable {
             List<String> guiDescriptionList = yamlConfiguration.getStringList(id + ".guidescription");
             List<String> guidescription = new ArrayList<>();
             List<PresetContent> presetContents = new ArrayList<>();
+            String presetEditPermission = yamlConfiguration.getString(id + ".presetEditPermission");
             if (editPermission == null || editPermission.contains(" ")) {
                 editPermission = "";
             }
@@ -117,7 +118,7 @@ public class FlagGroup implements Saveable {
                 Bukkit.getLogger().info("Could not find flag " + flagName + "! Please check your flaggroups.yml");
                 continue;
             }
-            flagSettingsList.add(new FlagSettings(flag, editable, settings, applyTo, guidescription, editPermission, presetContents));
+            flagSettingsList.add(new FlagSettings(flag, editable, settings, applyTo, guidescription, editPermission, presetContents, presetEditPermission));
         }
         return flagSettingsList;
     }

@@ -1,4 +1,4 @@
-package net.alex9849.arm.gui.chathandler;
+package net.alex9849.arm.gui.handler;
 
 import net.alex9849.arm.exceptions.InputException;
 

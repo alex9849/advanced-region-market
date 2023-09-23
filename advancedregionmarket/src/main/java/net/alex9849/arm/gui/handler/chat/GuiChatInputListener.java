@@ -1,7 +1,9 @@
-package net.alex9849.arm.gui.chathandler;
+package net.alex9849.arm.gui.handler.chat;
 
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.exceptions.InputException;
+import net.alex9849.arm.gui.ClickAction;
+import net.alex9849.arm.gui.handler.GuiInputAction;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -11,25 +13,29 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 public class GuiChatInputListener implements Listener {
     GuiInputAction guiInputAction;
+    ClickAction backAction;
     private Player player;
 
-    public GuiChatInputListener(Player player, GuiInputAction guiInputAction) {
+    public GuiChatInputListener(Player player, GuiInputAction guiInputAction, ClickAction backAction) {
         this.player = player;
         this.guiInputAction = guiInputAction;
+        this.backAction = backAction;
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
-    public void handleChat(PlayerChatEvent event) {
+    public void handleChat(PlayerChatEvent event) throws InputException {
         if (event.getPlayer().getUniqueId() != this.player.getUniqueId()) {
             return;
         }
         event.setCancelled(true);
 
-        try {
+        if (event.getMessage().equalsIgnoreCase("cancel")) {
+            this.backAction.execute(player);
+            return;
+        } else {
             this.guiInputAction.runAction(event.getMessage());
-        } catch (InputException e) {
-            e.sendMessages(Messages.PREFIX);
         }
+
         this.unregister();
     }
 

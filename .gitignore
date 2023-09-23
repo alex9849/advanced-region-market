@@ -17,3 +17,4 @@ local.properties
 .idea
 dependency-reduced-pom.xml
 desktop.ini
+**/target

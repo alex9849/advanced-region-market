@@ -22,13 +22,18 @@ public class FlagSettings {
     private List<String> guidescription;
     private String editPermission;
 
-    public FlagSettings(Flag flag, boolean editable, String settings, Set<SellType> applyTo, List<String> guidescription, String editPermission) {
+    private List<PresetContent> presetContents;
+    private String presetEditPermission;
+
+    public FlagSettings(Flag flag, boolean editable, String settings, Set<SellType> applyTo, List<String> guidescription, String editPermission, List<PresetContent> presetContents, String presetEditPermission) {
         this.flag = flag;
         this.editable = editable;
         this.settings = settings;
         this.applyTo = applyTo;
         this.guidescription = new ArrayList<>(guidescription);
         this.editPermission = editPermission;
+        this.presetContents = new ArrayList<>(presetContents);
+        this.presetEditPermission = presetEditPermission;
     }
 
     public Flag getFlag() {
@@ -43,6 +48,10 @@ public class FlagSettings {
         }
 
         return convertedDescription;
+    }
+
+    public List<PresetContent> getPresetContents() {
+        return new ArrayList<>(this.presetContents);
     }
 
     public List<String> getRawGuiDescription() {
@@ -63,6 +72,10 @@ public class FlagSettings {
 
     public String getEditPermission() {
         return this.editPermission;
+    }
+
+    public String getPresetEditPermission() {
+        return this.presetEditPermission;
     }
 
     public boolean hasEditPermission() {

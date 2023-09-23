@@ -1,8 +1,8 @@
 package net.alex9849.arm.regionkind;
 
 import net.alex9849.arm.Messages;
-import net.alex9849.arm.util.Saveable;
-import net.alex9849.arm.util.StringReplacer;
+import net.alex9849.arm.adapters.util.Saveable;
+import net.alex9849.arm.adapters.util.StringReplacer;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;

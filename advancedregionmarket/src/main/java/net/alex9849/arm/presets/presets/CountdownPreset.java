@@ -1,9 +1,9 @@
 package net.alex9849.arm.presets.presets;
 
 import net.alex9849.arm.Messages;
+import net.alex9849.arm.adapters.util.TimeUtil;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.price.RentPrice;
-import net.alex9849.arm.util.TimeUtil;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.HashMap;

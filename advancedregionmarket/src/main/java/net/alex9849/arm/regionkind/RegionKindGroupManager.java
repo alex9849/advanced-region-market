@@ -1,7 +1,7 @@
 package net.alex9849.arm.regionkind;
 
 import net.alex9849.arm.AdvancedRegionMarket;
-import net.alex9849.arm.util.YamlFileManager;
+import net.alex9849.arm.adapters.util.YamlFileManager;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 

@@ -1,9 +1,9 @@
 package net.alex9849.arm.entitylimit;
 
 import net.alex9849.arm.Messages;
+import net.alex9849.arm.adapters.util.Saveable;
+import net.alex9849.arm.adapters.util.StringReplacer;
 import net.alex9849.arm.regions.Region;
-import net.alex9849.arm.util.Saveable;
-import net.alex9849.arm.util.StringReplacer;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;

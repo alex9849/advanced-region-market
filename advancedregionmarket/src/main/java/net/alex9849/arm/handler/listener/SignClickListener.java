@@ -39,6 +39,7 @@ public class SignClickListener implements Listener {
         }
 
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            event.setCancelled(true);
             if (event.getPlayer().isSneaking()) {
                 this.handleSignCmd(region, AdvancedRegionMarket.getInstance().getPluginSettings().getSignRightClickSneakCommand(), event);
             } else {
@@ -71,7 +72,6 @@ public class SignClickListener implements Listener {
             cmd = region.replaceVariables(cmd);
             event.getPlayer().performCommand(cmd);
         }
-        event.setCancelled(true);
     }
 
 }

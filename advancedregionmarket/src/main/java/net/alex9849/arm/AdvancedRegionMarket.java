@@ -2,6 +2,13 @@ package net.alex9849.arm;
 
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+import net.alex9849.arm.adapters.WGRegion;
+import net.alex9849.arm.adapters.WorldEditInterface;
+import net.alex9849.arm.adapters.WorldGuardInterface;
+import net.alex9849.arm.adapters.signs.SignDataFactory;
+import net.alex9849.arm.adapters.util.AbstractMaterialFinder;
+import net.alex9849.arm.adapters.util.Version;
+import net.alex9849.arm.adapters.util.YamlFileManager;
 import net.alex9849.arm.commands.DeleteCommand;
 import net.alex9849.arm.commands.InfoCommand;
 import net.alex9849.arm.commands.*;
@@ -38,14 +45,7 @@ import net.alex9849.arm.regions.RegionManager;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.regions.price.RentPrice;
-import net.alex9849.arm.signs.SignDataFactory;
 import net.alex9849.arm.subregions.commands.ToolCommand;
-import net.alex9849.arm.util.AbstractMaterialFinder;
-import net.alex9849.arm.util.Version;
-import net.alex9849.arm.util.YamlFileManager;
-import net.alex9849.inter.WGRegion;
-import net.alex9849.inter.WorldEditInterface;
-import net.alex9849.inter.WorldGuardInterface;
 import net.alex9849.pluginstats.client.Analytics;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
@@ -532,15 +532,6 @@ public class AdvancedRegionMarket extends JavaPlugin {
         return this.vaultPerms != null;
     }
 
-    private boolean isFaWeInstalled() {
-        Plugin plugin = getServer().getPluginManager().getPlugin("FastAsyncWorldEdit");
-
-        if (plugin == null) {
-            return false;
-        }
-        return true;
-    }
-
     private boolean setupWorldGuard() {
         Plugin plugin = getServer().getPluginManager().getPlugin("WorldGuard");
 
@@ -548,16 +539,14 @@ public class AdvancedRegionMarket extends JavaPlugin {
             return false;
         }
         WorldGuardPlugin worldguard = (WorldGuardPlugin) plugin;
-        String version = "notSupported";
+        String version;
+        // Only version 7 supported currently
         if (worldguard.getDescription().getVersion().startsWith("6.1")) {
             version = "6_1";
-        } else if (worldguard.getDescription().getVersion().startsWith("6.2")) {
-            version = "6_2";
-        } else {
-            version = "7";
         }
+        version = "7";
         try {
-            final Class<?> wgClass = Class.forName("net.alex9849.adapters.WorldGuard" + version);
+            final Class<?> wgClass = Class.forName("net.alex9849.arm.adapters.WorldGuard" + version);
             if (WorldGuardInterface.class.isAssignableFrom(wgClass)) {
                 this.worldGuardInterface = (WorldGuardInterface) wgClass.newInstance();
             }
@@ -577,21 +566,17 @@ public class AdvancedRegionMarket extends JavaPlugin {
             return false;
         }
         WorldEditPlugin worldedit = (WorldEditPlugin) plugin;
-        String version = "notSupported";
-        boolean hasFaWeHandler = false;
+        String version;
 
-        if (worldedit.getDescription().getVersion().startsWith("6.")) {
-            version = "6";
-        } else {
+        //Only version 7 supported currently
+        /*if (worldedit.getDescription().getVersion().startsWith("7.")) {
             version = "7";
-        }
+        }*/
 
-        if (this.isFaWeInstalled() && hasFaWeHandler) {
-            version = version + "FaWe";
-        }
+        version = "7";
 
         try {
-            final Class<?> weClass = Class.forName("net.alex9849.adapters.WorldEdit" + version);
+            final Class<?> weClass = Class.forName("net.alex9849.arm.adapters.WorldEdit" + version);
             if (WorldEditInterface.class.isAssignableFrom(weClass)) {
                 this.worldEditInterface = (WorldEditInterface) weClass.newInstance();
             }
@@ -608,17 +593,9 @@ public class AdvancedRegionMarket extends JavaPlugin {
     private void setupServerVersionFactories() {
         String classVersion = "";
         Version serverVersion = Version.fromString(Bukkit.getServer().getVersion());
-        Version v1p12 = new Version(1, 12);
-        Version v1p13 = new Version(1, 13);
         Version v1p14 = new Version(1, 14);
         Version v1p20 = new Version(1, 20);
-        if (serverVersion.equals(v1p12) || (serverVersion.biggerThan(v1p12) && v1p13.biggerThan(serverVersion))) {
-            classVersion = "112";
-            getLogger().log(Level.INFO, "Using MC 1.12 adapter");
-        } else if (serverVersion.equals(v1p13) || (serverVersion.biggerThan(v1p13) && v1p13.biggerThan(serverVersion))) {
-            classVersion = "113";
-            getLogger().log(Level.INFO, "Using MC 1.13 adapter");
-        } else if (serverVersion.equals(v1p14) || (serverVersion.biggerThan(v1p14) && v1p20.biggerThan(serverVersion))) {
+        if (serverVersion.equals(v1p14) || (serverVersion.biggerThan(v1p14) && v1p20.biggerThan(serverVersion))) {
             classVersion = "114";
             getLogger().log(Level.INFO, "Using MC 1.14 adapter");
         } else {
@@ -627,16 +604,16 @@ public class AdvancedRegionMarket extends JavaPlugin {
         }
 
         try {
-            Class<?> signDataFactoryClass = Class.forName("net.alex9849.arm.signs.SignDataFactory" + classVersion);
+            Class<?> signDataFactoryClass = Class.forName("net.alex9849.arm.adapters.signs.SignDataFactory" + classVersion);
             if (SignDataFactory.class.isAssignableFrom(signDataFactoryClass)) {
                 this.signDataFactory = (SignDataFactory) signDataFactoryClass.newInstance();
             }
-            Class<?> materialDataFactoryClass = Class.forName("net.alex9849.arm.util.MaterialFinder" + classVersion);
+            Class<?> materialDataFactoryClass = Class.forName("net.alex9849.arm.adapters.util.MaterialFinder" + classVersion);
             if (AbstractMaterialFinder.class.isAssignableFrom(materialDataFactoryClass)) {
                 this.materialFinder = (AbstractMaterialFinder) materialDataFactoryClass.newInstance();
             }
         } catch (Exception e) {
-            getLogger().log(Level.WARNING, "Could not setup server version adapters! (Is your server compatible? Compatible versions: 1.12, 1.13, 1.14, 1.20)");
+            getLogger().log(Level.WARNING, "Could not setup server version adapters! (Is your server compatible? Compatible versions: 1.14, 1.20)");
         }
 
     }

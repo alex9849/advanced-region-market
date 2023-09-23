@@ -4,21 +4,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>net.alex9849</groupId>
-    <artifactId>armparent</artifactId>
+    <groupId>net.alex9849.advancedregionmarket</groupId>
+    <artifactId>advancedregionmarket-parent</artifactId>
     <packaging>pom</packaging>
-    <version>3.5.1</version>
+    <version>3.5.4-SNAPSHOT</version>
     <modules>
         <module>arminterface</module>
         <module>advancedregionmarket</module>
-        <module>we6adapter</module>
         <module>we7adapter</module>
-        <module>mc1-12adapter</module>
-        <module>mc1-13adapter</module>
         <module>mc1-14adapter</module>
         <module>mc1-20adapter</module>
-        <module>wg6_1adapter</module>
-        <module>wg6_2adapter</module>
         <module>wg7adapter</module>
         <module>placeholder-api-addon</module>
     </modules>
@@ -85,6 +80,88 @@
                     <finalName>${project.name}-${project.version}</finalName>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.8.1</version>
+                <executions>
+                    <execution>
+                        <id>default-deploy</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>deploy</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadoc</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.3.0</version>
+                <executions>
+                    <execution>
+                        <id>attach-source</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>3.1.0</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                                <configuration>
+                                    <gpgArguments>
+                                        <arg>--pinentry-mode</arg>
+                                        <arg>loopback</arg>
+                                    </gpgArguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>alex9849-nexus</id>
+            <url>https://nexus.alex9849.net/repository/maven-snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>alex9849-nexus</id>
+            <url>https://nexus.alex9849.net/repository/maven-releases/</url>
+        </repository>
+    </distributionManagement>
+
 </project>

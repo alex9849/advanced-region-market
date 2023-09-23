@@ -1,6 +1,6 @@
 package net.alex9849.arm.exceptions;
 
-import net.alex9849.inter.WGRegion;
+import net.alex9849.arm.adapters.WGRegion;
 
 import java.io.IOException;
 

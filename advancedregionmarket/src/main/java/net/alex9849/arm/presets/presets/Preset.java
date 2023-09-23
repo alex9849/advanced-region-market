@@ -1,15 +1,15 @@
 package net.alex9849.arm.presets.presets;
 
 import net.alex9849.arm.Messages;
+import net.alex9849.arm.adapters.WGRegion;
+import net.alex9849.arm.adapters.signs.SignData;
+import net.alex9849.arm.adapters.util.Saveable;
+import net.alex9849.arm.adapters.util.StringReplacer;
 import net.alex9849.arm.entitylimit.EntityLimitGroup;
 import net.alex9849.arm.flaggroups.FlagGroup;
 import net.alex9849.arm.regionkind.RegionKind;
 import net.alex9849.arm.regions.Region;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
-import net.alex9849.arm.signs.SignData;
-import net.alex9849.arm.util.Saveable;
-import net.alex9849.arm.util.StringReplacer;
-import net.alex9849.inter.WGRegion;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;

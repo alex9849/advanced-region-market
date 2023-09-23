@@ -2,8 +2,8 @@ package net.alex9849.arm.commands;
 
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
+import net.alex9849.arm.adapters.util.Tuple;
 import net.alex9849.arm.regions.Region;
-import net.alex9849.arm.util.Tuple;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

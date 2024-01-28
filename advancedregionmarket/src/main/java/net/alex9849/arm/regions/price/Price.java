@@ -1,7 +1,5 @@
 package net.alex9849.arm.regions.price;
 
-import com.sk89q.worldedit.regions.Polygonal2DRegion;
-import com.sk89q.worldguard.protection.regions.ProtectedPolygonalRegion;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.adapters.WGRegion;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;

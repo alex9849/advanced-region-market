@@ -2,6 +2,7 @@ package net.alex9849.arm.adapters;
 
 import com.sk89q.worldedit.math.BlockVector2;
 import com.sk89q.worldedit.math.BlockVector3;
+import com.sk89q.worldedit.math.Vector2;
 import com.sk89q.worldguard.domains.DefaultDomain;
 import com.sk89q.worldguard.protection.flags.Flag;
 import com.sk89q.worldguard.protection.flags.RegionGroupFlag;
@@ -175,8 +176,41 @@ public class WG7Region implements WGRegion {
         return region instanceof ProtectedPolygonalRegion;
     }
 
+    public static double calculatePoly2DRegionVolume(List<Vector2> polygonPoints) {
+        int numPoints = polygonPoints.size();
+        if (numPoints < 3) {
+            return 0D;
+        }
+
+        double volume = 0D;
+        Vector2 baseVector = polygonPoints.get(0);
+
+        for (int i = 1; i < numPoints - 1; i++) {
+            Vector2 vector1 = polygonPoints.get(i).subtract(baseVector);
+            Vector2 vector2 = polygonPoints.get(i + 1).subtract(baseVector);
+
+            double crossProduct = vector1.getX() * vector2.getZ() - vector1.getZ() * vector2.getX();
+            double triangleArea = crossProduct / 2F;
+            double sideLength = vector1.length();
+
+            volume += triangleArea * sideLength;
+        }
+
+        return Math.abs(volume);
+    }
+
     @Override
     public int getVolume() {
+        if (region.getPoints().size() > 4) {
+            ArrayList<Vector2> points = new ArrayList<>();
+            region.getPoints().forEach(blockVector2 -> {
+                points.add(Vector2.at(blockVector2.getX(), blockVector2.getZ()));
+            });
+
+            float surface = (float) calculatePoly2DRegionVolume(points);
+            //int height = Math.abs(region.getMaximumPoint().getBlockY() - region.getMinimumPoint().getBlockY());
+            return (int) (surface);
+        }
         return region.volume();
     }
 }

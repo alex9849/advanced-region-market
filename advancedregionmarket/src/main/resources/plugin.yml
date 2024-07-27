@@ -1,12 +1,13 @@
-name: AdvancedRegionMarket
+name: ARM-Azura
 version: ${project.version}
 main: net.alex9849.arm.AdvancedRegionMarket
 depend: ['WorldGuard', 'WorldEdit', 'Vault']
 softdepend: ['MultiWorld', 'Multiverse-Core', 'FastAsyncWorldEdit', 'LuckPerms', 'PlaceholderAPI']
 authors:
   - alex9849
+  - luucay
 api-version: 1.13
-prefix: AdvancedRegionMarket
+prefix: ARM-Azura
 commands:
   arm:
     description: Shows the help page of ARM

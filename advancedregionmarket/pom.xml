@@ -11,7 +11,7 @@
     <packaging>jar</packaging>
     <version>3.5.4-SNAPSHOT</version>
 
-    <artifactId>advancedregionmarket</artifactId>
+    <artifactId>arm-azura</artifactId>
 
     <build>
         <resources>

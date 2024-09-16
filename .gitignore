@@ -16,3 +16,4 @@ local.properties
 *.iml
 .idea
 dependency-reduced-pom.xml
+desktop.ini

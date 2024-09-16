@@ -19,10 +19,8 @@ import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
 import net.alex9849.arm.regions.price.ContractPrice;
 import net.alex9849.arm.regions.price.Price;
 import net.alex9849.arm.regions.price.RentPrice;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.World;
+import org.bukkit.*;
+import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -35,11 +33,36 @@ import org.bukkit.event.block.SignChangeEvent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class SignModifyListener implements Listener {
     private static final String SELLPRICE_LINE_REGEX = "[0-9]+";
     private static final String RENTPRICE_LINE_REGEX = "[0-9]+(;|:)[0-9]+(s|m|h|d)(;|:)[0-9]+(s|m|h|d)";
     private static final String CONTRACTPRICE_LINE_REGEX = "[0-9]+(;|:)[0-9]+(s|m|h|d)";
+
+    private static final Set<Material> signs = Set.of(
+            Material.ACACIA_HANGING_SIGN, Material.ACACIA_SIGN, Material.ACACIA_WALL_HANGING_SIGN, Material.ACACIA_WALL_SIGN,
+
+            Material.BAMBOO_HANGING_SIGN, Material.BAMBOO_SIGN, Material.BAMBOO_WALL_HANGING_SIGN, Material.BAMBOO_WALL_SIGN,
+
+            Material.BIRCH_HANGING_SIGN, Material.BIRCH_SIGN, Material.BIRCH_WALL_HANGING_SIGN, Material.BIRCH_WALL_SIGN,
+
+            Material.CHERRY_HANGING_SIGN, Material.CHERRY_SIGN, Material.CHERRY_WALL_HANGING_SIGN, Material.CHERRY_WALL_SIGN,
+
+            Material.CRIMSON_HANGING_SIGN, Material.CRIMSON_SIGN, Material.CRIMSON_WALL_HANGING_SIGN, Material.CRIMSON_WALL_SIGN,
+
+            Material.DARK_OAK_HANGING_SIGN, Material.DARK_OAK_SIGN, Material.DARK_OAK_WALL_HANGING_SIGN, Material.DARK_OAK_WALL_SIGN,
+
+            Material.JUNGLE_HANGING_SIGN, Material.JUNGLE_SIGN, Material.JUNGLE_WALL_HANGING_SIGN, Material.JUNGLE_WALL_SIGN,
+
+            Material.MANGROVE_HANGING_SIGN, Material.MANGROVE_SIGN, Material.MANGROVE_WALL_HANGING_SIGN, Material.MANGROVE_WALL_SIGN,
+
+            Material.OAK_HANGING_SIGN, Material.OAK_SIGN, Material.OAK_WALL_HANGING_SIGN, Material.OAK_WALL_SIGN,
+
+            Material.SPRUCE_HANGING_SIGN, Material.SPRUCE_SIGN, Material.SPRUCE_WALL_HANGING_SIGN, Material.SPRUCE_WALL_SIGN,
+
+            Material.WARPED_HANGING_SIGN, Material.WARPED_SIGN, Material.WARPED_WALL_HANGING_SIGN, Material.WARPED_WALL_SIGN
+    );
 
     private static Price parseSellPrice(String priceLine, CommandSender sender) throws InputException {
         AutoPrice autoPrice = AutoPrice.getAutoprice(priceLine);
@@ -304,14 +327,17 @@ public class SignModifyListener implements Listener {
         }
     }
 
-    @EventHandler
-    public void protectSignPhysics(BlockPhysicsEvent sign) {
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    public void protectSignPhysics(BlockPhysicsEvent event) {
+        Block block = event.getBlock();
+
+        if(!signs.contains(block.getType())){
+            return;
+        }
+
         AdvancedRegionMarket plugin = AdvancedRegionMarket.getInstance();
-        if (plugin.getMaterialFinder().getSignMaterials().contains(sign.getBlock().getType())) {
-            if (plugin.getRegionManager().getRegion((Sign) sign.getBlock().getState()) != null) {
-                sign.setCancelled(true);
-                return;
-            }
+        if (plugin.getRegionManager().getRegion((Sign) block.getState()) != null) {
+            event.setCancelled(true);
         }
     }
 }

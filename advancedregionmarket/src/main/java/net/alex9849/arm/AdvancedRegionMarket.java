@@ -109,23 +109,26 @@ public class AdvancedRegionMarket extends JavaPlugin {
     }
 
     public void onEnable() {
-        Reader pluginYmlReader = Objects.requireNonNull(getTextResource("plugin.yml"));
-        YamlConfiguration pluginYml = YamlConfiguration.loadConfiguration(pluginYmlReader);
-        //This is a workaround to make shure that this plugin is loaded after the last world has been loaded.
-        boolean doStartupWorkaround = false;
-        List<String> softdependCheckPlugins = Arrays.asList("MultiWorld", "Multiverse-Core");
-        for (String pluginName : softdependCheckPlugins) {
-            Plugin plugin = Bukkit.getPluginManager().getPlugin(pluginName);
-            doStartupWorkaround |= plugin != null && !plugin.isEnabled();
-        }
-        if (doStartupWorkaround) {
-            getLogger().log(Level.WARNING, "It looks like one of these plugins is installed, but not loaded yet:\n" +
-                    String.join(", ", softdependCheckPlugins) + "\n" +
-                    "In order to keep ARM working it scheduled its own enabling code to the end of the startup process as fallback!\n");
-            Bukkit.getScheduler().scheduleSyncDelayedTask(this, this::startup, 1);
-        } else {
-            startup();
-        }
+
+        Bukkit.getScheduler().runTask(this, ()->{
+            Reader pluginYmlReader = Objects.requireNonNull(getTextResource("plugin.yml"));
+            YamlConfiguration pluginYml = YamlConfiguration.loadConfiguration(pluginYmlReader);
+            //This is a workaround to make shure that this plugin is loaded after the last world has been loaded.
+            boolean doStartupWorkaround = false;
+            List<String> softdependCheckPlugins = Arrays.asList("MultiWorld", "Multiverse-Core");
+            for (String pluginName : softdependCheckPlugins) {
+                Plugin plugin = Bukkit.getPluginManager().getPlugin(pluginName);
+                doStartupWorkaround |= plugin != null && !plugin.isEnabled();
+            }
+            if (doStartupWorkaround) {
+                getLogger().log(Level.WARNING, "It looks like one of these plugins is installed, but not loaded yet:\n" +
+                        String.join(", ", softdependCheckPlugins) + "\n" +
+                        "In order to keep ARM working it scheduled its own enabling code to the end of the startup process as fallback!\n");
+                Bukkit.getScheduler().scheduleSyncDelayedTask(this, this::startup, 1);
+            } else {
+                startup();
+            }
+        });
     }
 
     public void startup() {
@@ -224,7 +227,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         loadInactivityExpirationGroups();
         this.presetPatternManager = new PresetPatternManager(new File(this.getDataFolder() + "/presets.yml"));
         this.getRegionManager().setTabCompleteRegions(getConfig().getBoolean("Other.CompleteRegionsOnTabComplete"));
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> this.getRegionManager().doTick(), 1, 1);
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> this.getRegionManager().doTick(), 1, 40);
 
         this.loadCommands();
 

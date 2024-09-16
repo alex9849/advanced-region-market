@@ -17,3 +17,9 @@ local.properties
 .idea
 dependency-reduced-pom.xml
 desktop.ini
+/advancedregionmarket
+/arminterface
+/mc1-14adapter
+/mc1-20adapter
+/we7adapter
+/wg7adapter

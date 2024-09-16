@@ -227,7 +227,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         loadInactivityExpirationGroups();
         this.presetPatternManager = new PresetPatternManager(new File(this.getDataFolder() + "/presets.yml"));
         this.getRegionManager().setTabCompleteRegions(getConfig().getBoolean("Other.CompleteRegionsOnTabComplete"));
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> this.getRegionManager().doTick(), 1, 1);
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> this.getRegionManager().doTick(), 1, 40);
 
         this.loadCommands();
 

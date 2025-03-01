@@ -1,6 +1,7 @@
 package net.alex9849.arm.inactivityexpiration;
 
 import net.alex9849.arm.AdvancedRegionMarket;
+import net.alex9849.arm.adapters.util.OfflinePlayerCache;
 import net.alex9849.arm.regions.Region;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -55,7 +56,7 @@ public class PlayerInactivityGroupMapper {
                     HashMap<UUID, InactivityExpirationGroup> resetUuidMap = newBestResetAfterMap.get(regionWorld);
                     HashMap<UUID, InactivityExpirationGroup> takeoverUuidMap = newBestTakeoverAfterMap.get(regionWorld);
                     if (resetUuidMap.get(owner) == null) {
-                        OfflinePlayer oPlayerOwner = Bukkit.getOfflinePlayer(owner);
+                        OfflinePlayer oPlayerOwner = OfflinePlayerCache.get(owner);
                         resetUuidMap.put(owner, InactivityExpirationGroup.getBestResetAfterMs(oPlayerOwner, regionWorld));
                         takeoverUuidMap.put(owner, InactivityExpirationGroup.getBestTakeOverAfterMs(oPlayerOwner, regionWorld));
                     }

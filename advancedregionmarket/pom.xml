@@ -26,7 +26,8 @@
                     <include>messages_pl.yml</include>
                     <include>messages_fr.yml</include>
                     <include>messages_ru.yml</include>
-                    <include>messages_zh_cn.yml</include>
+                    <include>messages_ru.yml</include>
+                    <include>messages_uk.yml</include>
                     <include>regions.yml</include>
                     <include>presets.yml</include>
                     <include>entitylimits.yml</include>

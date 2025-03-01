@@ -5,6 +5,7 @@ import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
 import net.alex9849.arm.adapters.WGRegion;
 import net.alex9849.arm.adapters.signs.SignData;
+import net.alex9849.arm.adapters.util.OfflinePlayerCache;
 import net.alex9849.arm.events.PreExtendEvent;
 import net.alex9849.arm.exceptions.*;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
@@ -74,7 +75,7 @@ public class ContractRegion extends CountdownRegion {
                         if (owner == null) {
                             this.extend();
                         } else {
-                            OfflinePlayer oplayer = Bukkit.getOfflinePlayer(owner);
+                            OfflinePlayer oplayer = OfflinePlayerCache.get(owner);
                             if (AdvancedRegionMarket.getInstance().getEcon().hasAccount(oplayer)) {
                                 PreExtendEvent preExtendEvent = new PreExtendEvent(this);
                                 Bukkit.getServer().getPluginManager().callEvent(preExtendEvent);

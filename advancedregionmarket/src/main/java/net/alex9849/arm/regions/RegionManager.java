@@ -30,6 +30,7 @@ import org.bukkit.block.Sign;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 
 import java.io.File;
 import java.util.*;
@@ -939,6 +940,16 @@ public class RegionManager extends YamlFileManager<Region> {
             for (Region region : RegionManager.this) {
                 for (SignData signData : region.getSellSigns()) {
                     Location sLoc = signData.getLocation();
+                    DummyChunk chunk = DummyChunk.getUniqueDummyChunk(sLoc.getBlockX() >> 4, sLoc.getBlockZ() >> 4);
+                    List<Region> regions = signMap.get(chunk);
+                    if (regions == null) {
+                        regions = new ArrayList<>();
+                        signMap.put(chunk, regions);
+                    }
+                    regions.add(region);
+                }
+                if(region.getSellSigns().isEmpty()){
+                    Vector sLoc = region.getRegion().getMaxPoint();
                     DummyChunk chunk = DummyChunk.getUniqueDummyChunk(sLoc.getBlockX() >> 4, sLoc.getBlockZ() >> 4);
                     List<Region> regions = signMap.get(chunk);
                     if (regions == null) {

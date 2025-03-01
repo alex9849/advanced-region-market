@@ -3,13 +3,12 @@ package net.alex9849.arm.adapters.util;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
 import java.time.Duration;
+import java.time.Instant;
+import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.Statistic;
+
+import org.bukkit.*;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.profile.PlayerProfile;
@@ -79,6 +78,21 @@ public class OfflinePlayerCache {
         }
 
         @Override
+        public BanEntry<PlayerProfile> ban(String s, Date date, String s1) {
+            return delegate.ban(s, date, s1);
+        }
+
+        @Override
+        public BanEntry<PlayerProfile> ban(String s, Instant instant, String s1) {
+            return delegate.ban(s, instant, s1);
+        }
+
+        @Override
+        public BanEntry<PlayerProfile> ban(String s, Duration duration, String s1) {
+            return delegate.ban(s, duration, s1);
+        }
+
+        @Override
         public boolean isWhitelisted() {
             return delegate.isWhitelisted();
         }
@@ -111,6 +125,11 @@ public class OfflinePlayerCache {
         @Override
         public Location getBedSpawnLocation() {
             return delegate.getBedSpawnLocation();
+        }
+
+        @Override
+        public Location getRespawnLocation() {
+            return delegate.getRespawnLocation();
         }
 
         @Override
@@ -206,6 +225,11 @@ public class OfflinePlayerCache {
         @Override
         public Location getLastDeathLocation() {
             return delegate.getLastDeathLocation();
+        }
+
+        @Override
+        public Location getLocation() {
+            return delegate.getLocation();
         }
 
         @Override

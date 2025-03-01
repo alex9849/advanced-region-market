@@ -108,12 +108,6 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.alex9849.Minecraft-Plugin-Serverlist</groupId>
-            <artifactId>client</artifactId>
-            <version>1.1.0</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>org.bstats</groupId>
             <artifactId>bstats-bukkit</artifactId>
             <version>3.0.0</version>

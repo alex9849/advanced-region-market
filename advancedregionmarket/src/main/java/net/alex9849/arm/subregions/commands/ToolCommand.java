@@ -42,7 +42,7 @@ public class ToolCommand extends BasicArmCommand {
             ItemMeta itemMeta = subRegionTool.getItemMeta();
             itemMeta.setDisplayName("Subregion Tool");
             itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-            itemMeta.addEnchant(Enchantment.DURABILITY, 1, true);
+            itemMeta.addEnchant(Enchantment.MULTISHOT, 1, true);
             subRegionTool.setItemMeta(itemMeta);
             player.getInventory().addItem(subRegionTool);
         }

@@ -177,7 +177,7 @@ public class ParticleBorder {
                 }
                 if (player.getWorld().getName().equals(finalWorld.getName())) {
                     for (Location location : particleSpawnPoints) {
-                        player.spawnParticle(Particle.SPELL_WITCH, location.getX() + 0.5, location.getY() + 0.5, location.getBlockZ() + 0.5, 6, 0, 0, 0);
+                        player.spawnParticle(Particle.WITCH, location.getX() + 0.5, location.getY() + 0.5, location.getBlockZ() + 0.5, 6, 0, 0, 0);
                     }
                 }
             }

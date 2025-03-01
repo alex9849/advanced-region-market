@@ -83,7 +83,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.20-R0.1-SNAPSHOT</version>
+            <version>1.21.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <!--Worldedit API-->
@@ -91,14 +91,14 @@
             <groupId>com.sk89q.worldedit</groupId>
             <artifactId>worldedit-bukkit</artifactId>
             <scope>provided</scope>
-            <version>7.2.0-SNAPSHOT</version>
+            <version>7.3.9</version>
         </dependency>
         <!--Worldguard API-->
         <dependency>
             <groupId>com.sk89q.worldguard</groupId>
             <artifactId>worldguard-bukkit</artifactId>
             <scope>provided</scope>
-            <version>7.0.3</version>
+            <version>7.0.9</version>
         </dependency>
         <!--Vault API-->
         <dependency>

@@ -1,7 +1,7 @@
 package net.alex9849.arm.regions.price;
 
+import net.alex9849.arm.adapters.util.TimeUtil;
 import net.alex9849.arm.regions.price.Autoprice.AutoPrice;
-import static net.alex9849.arm.util.TimeUtil.convertStringToTime;
 
 public class ContractPrice extends Price {
     protected long extendTime;
@@ -24,7 +24,7 @@ public class ContractPrice extends Price {
     }
 
     public static long stringToTime(String stringtime) throws IllegalArgumentException {
-        return convertStringToTime(stringtime);
+        return TimeUtil.convertStringToTime(stringtime);
     }
 
     public long getExtendTime() {

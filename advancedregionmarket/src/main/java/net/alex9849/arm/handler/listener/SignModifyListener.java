@@ -23,6 +23,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -305,13 +306,13 @@ public class SignModifyListener implements Listener {
     }
 
     @EventHandler
-    public void protectSignPhysics(BlockPhysicsEvent sign) {
+    public void protectSignPhysics(BlockPhysicsEvent event) {
         AdvancedRegionMarket plugin = AdvancedRegionMarket.getInstance();
-        if (plugin.getMaterialFinder().getSignMaterials().contains(sign.getBlock().getType())) {
-            if (plugin.getRegionManager().getRegion((Sign) sign.getBlock().getState()) != null) {
-                sign.setCancelled(true);
-                return;
-            }
+        Block block = event.getBlock();
+        if (!plugin.getMaterialFinder().getSignMaterials().contains(block.getType())) return;
+
+        if (plugin.getRegionManager().getRegion((Sign) block.getState()) != null) {
+            event.setCancelled(true);
         }
     }
 }

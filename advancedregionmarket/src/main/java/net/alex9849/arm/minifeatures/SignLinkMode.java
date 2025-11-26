@@ -97,7 +97,7 @@ public class SignLinkMode implements Listener {
             if ((!(event.getAction() == Action.LEFT_CLICK_BLOCK)) && (!(event.getAction() == Action.RIGHT_CLICK_BLOCK))) {
                 return;
             }
-            List<Material> signMaterials = plugin.getMaterialFinder().getSignMaterials();
+            EnumSet<Material> signMaterials = plugin.getMaterialFinder().getSignMaterials();
             ItemStack itemInHand = event.getPlayer().getInventory().getItemInMainHand();
             Material clickedBlock = event.getClickedBlock().getType();
 

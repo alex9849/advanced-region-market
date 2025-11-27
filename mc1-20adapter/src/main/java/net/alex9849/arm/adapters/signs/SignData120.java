@@ -1,6 +1,5 @@
 package net.alex9849.arm.adapters.signs;
 
-import com.destroystokyo.paper.event.server.PaperServerListPingEvent;
 import io.papermc.lib.PaperLib;
 import net.alex9849.arm.adapters.util.MaterialFinder120;
 import org.bukkit.Location;

@@ -4,9 +4,9 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -43,7 +43,7 @@ public final class OfflinePlayerCache {
      * @param uuid the UUID of the player
      * @return the cached or newly loaded {@link OfflinePlayer} (never null)
      */
-    public static @NotNull OfflinePlayer getPlayer(UUID uuid) {
+    public static @Nonnull OfflinePlayer getPlayer(UUID uuid) {
         try {
             return playerCache.get(uuid, () -> Bukkit.getOfflinePlayer(uuid));
         } catch (ExecutionException e) {

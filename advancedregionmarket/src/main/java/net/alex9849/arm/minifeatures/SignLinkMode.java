@@ -25,7 +25,6 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
-import java.awt.print.Paper;
 import java.util.*;
 
 public class SignLinkMode implements Listener {

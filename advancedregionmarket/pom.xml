@@ -87,6 +87,13 @@
             <version>1.21.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
+        <!-- PaperLib library for Spigot <-> Paper compatibility -->
+        <dependency>
+            <groupId>io.papermc</groupId>
+            <artifactId>paperlib</artifactId>
+            <version>1.0.8</version>
+            <scope>compile</scope>
+        </dependency>
         <!--Worldedit API-->
         <dependency>
             <groupId>com.sk89q.worldedit</groupId>

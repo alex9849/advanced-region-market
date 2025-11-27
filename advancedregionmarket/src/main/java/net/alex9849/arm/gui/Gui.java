@@ -1,6 +1,7 @@
 package net.alex9849.arm.gui;
 
 import com.sk89q.worldguard.protection.flags.*;
+import io.papermc.lib.PaperLib;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
@@ -24,6 +25,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -955,7 +957,9 @@ public class Gui implements Listener {
 
     @EventHandler
     public void onClick(InventoryClickEvent event) {
-        if (event.getView().getTopInventory().getHolder() instanceof GuiInventory) {
+        InventoryHolder holder = PaperLib.getHolder(event.getView().getTopInventory(), false).getHolder();
+        if (holder instanceof GuiInventory) {
+            GuiInventory customHolder = (GuiInventory) holder;
             event.setCancelled(true);
 
             if (event.getWhoClicked() instanceof Player) {
@@ -965,8 +969,6 @@ public class Gui implements Listener {
                 if (itemStack == null || itemStack.getType() == Material.AIR) {
                     return;
                 }
-
-                GuiInventory customHolder = (GuiInventory) event.getView().getTopInventory().getHolder();
 
                 if (customHolder.getSize() <= event.getRawSlot()) {
                     return;

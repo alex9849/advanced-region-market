@@ -75,7 +75,7 @@ public class ContractRegion extends CountdownRegion {
                         if (owner == null) {
                             this.extend();
                         } else {
-                            OfflinePlayer oplayer = OfflinePlayerCache.get(owner);
+                            OfflinePlayer oplayer = OfflinePlayerCache.getPlayer(owner);
                             if (AdvancedRegionMarket.getInstance().getEcon().hasAccount(oplayer)) {
                                 PreExtendEvent preExtendEvent = new PreExtendEvent(this);
                                 Bukkit.getServer().getPluginManager().callEvent(preExtendEvent);

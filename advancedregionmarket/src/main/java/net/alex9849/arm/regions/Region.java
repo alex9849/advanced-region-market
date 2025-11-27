@@ -688,7 +688,7 @@ public abstract class Region implements Saveable {
         variableReplacements.put("%isinactivityreset%", () ->
                 Messages.convertYesNo(this.isInactivityReset()));
         variableReplacements.put("%landlord%", () ->
-                Messages.getStringValue(this.getLandlord(), x -> Messages.getStringValue(OfflinePlayerCache.get(x).getName(), y -> y, Messages.UNKNOWN_UUID), Messages.LANDLORD_SERVER));
+                Messages.getStringValue(this.getLandlord(), x -> Messages.getStringValue(OfflinePlayerCache.getName(x), y -> y, Messages.UNKNOWN_UUID), Messages.LANDLORD_SERVER));
         variableReplacements.put("%lastownerlogin%", () -> {
             if (this.getLastLogin() == 0) {
                 return Messages.NEVER;
@@ -715,7 +715,7 @@ public abstract class Region implements Saveable {
                 Messages.getStringList(this.subregions, x -> x.getRegion().getId(), ", "));
         variableReplacements.put("%members%", () ->
                 Messages.getStringList(this.getRegion().getMembers(), x ->
-                                Messages.getStringValue(OfflinePlayerCache.get(x).getName(), y -> y, Messages.UNKNOWN_UUID)
+                                Messages.getStringValue(OfflinePlayerCache.getName(x), y -> y, Messages.UNKNOWN_UUID)
                         , ", "));
         variableReplacements.put("%takeoverin-date%", () ->
                 this.getTakeoverCountdown(true, false, false));
@@ -807,7 +807,7 @@ public abstract class Region implements Saveable {
             return null;
         }
         if (this.ownerName == null || this.ownerUUID != ownerUUID) {
-            this.ownerName = OfflinePlayerCache.get(ownerUUID).getName();
+            this.ownerName = OfflinePlayerCache.getName(ownerUUID);
         }
         return this.ownerName;
     }
@@ -817,7 +817,7 @@ public abstract class Region implements Saveable {
         if (landlordUUID == null) {
             return;
         }
-        OfflinePlayer subRegionOwner = OfflinePlayerCache.get(landlordUUID);
+        OfflinePlayer subRegionOwner = OfflinePlayerCache.getPlayer(landlordUUID);
         AdvancedRegionMarket.getInstance().getEcon().depositPlayer(subRegionOwner, amount);
     }
 
@@ -1064,12 +1064,12 @@ public abstract class Region implements Saveable {
 
         if (!noMoney && amount > 0 && owner != null) {
             if (landlord != null) {
-                if (AdvancedRegionMarket.getInstance().getEcon().getBalance(OfflinePlayerCache.get(landlord)) < amount) {
+                if (AdvancedRegionMarket.getInstance().getEcon().getBalance(OfflinePlayerCache.getPlayer(landlord)) < amount) {
                     throw new NotEnoughMoneyException(this.replaceVariables(Messages.SELLBACK_LANDLORD_NOT_ENOUGH_MONEY));
                 }
-                AdvancedRegionMarket.getInstance().getEcon().withdrawPlayer(OfflinePlayerCache.get(landlord), amount);
+                AdvancedRegionMarket.getInstance().getEcon().withdrawPlayer(OfflinePlayerCache.getPlayer(landlord), amount);
             }
-            AdvancedRegionMarket.getInstance().getEcon().depositPlayer(OfflinePlayerCache.get(owner), amount);
+            AdvancedRegionMarket.getInstance().getEcon().depositPlayer(OfflinePlayerCache.getPlayer(owner), amount);
         }
 
         this.automaticResetRegion(ActionReason.USER_SELL, true);
@@ -1330,7 +1330,7 @@ public abstract class Region implements Saveable {
 
         List<UUID> uuidList = this.getRegion().getMembers();
         for (UUID uuids : uuidList) {
-            OfflinePlayer oplayer = OfflinePlayerCache.get(uuids);
+            OfflinePlayer oplayer = OfflinePlayerCache.getPlayer(uuids);
             if (oplayer != null && oplayer.getName().toLowerCase().startsWith(args)) {
                 returnme.add(oplayer.getName());
             }

@@ -56,7 +56,7 @@ public class PlayerInactivityGroupMapper {
                     HashMap<UUID, InactivityExpirationGroup> resetUuidMap = newBestResetAfterMap.get(regionWorld);
                     HashMap<UUID, InactivityExpirationGroup> takeoverUuidMap = newBestTakeoverAfterMap.get(regionWorld);
                     if (resetUuidMap.get(owner) == null) {
-                        OfflinePlayer oPlayerOwner = OfflinePlayerCache.get(owner);
+                        OfflinePlayer oPlayerOwner = OfflinePlayerCache.getPlayer(owner);
                         resetUuidMap.put(owner, InactivityExpirationGroup.getBestResetAfterMs(oPlayerOwner, regionWorld));
                         takeoverUuidMap.put(owner, InactivityExpirationGroup.getBestTakeOverAfterMs(oPlayerOwner, regionWorld));
                     }

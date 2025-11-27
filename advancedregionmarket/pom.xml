@@ -62,6 +62,10 @@
                             <pattern>net.alex9849.pluginstats.client</pattern>
                             <shadedPattern>net.alex9849.arm.analytics</shadedPattern>
                         </relocation>
+                        <relocation>
+                            <pattern>io.papermc.lib</pattern>
+                            <shadedPattern>net.alex9849.lib.paperlib</shadedPattern>
+                        </relocation>
                     </relocations>
                 </configuration>
                 <executions>
@@ -86,13 +90,6 @@
             <artifactId>paper-api</artifactId>
             <version>1.21.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
-        </dependency>
-        <!-- PaperLib library for Spigot <-> Paper compatibility -->
-        <dependency>
-            <groupId>io.papermc</groupId>
-            <artifactId>paperlib</artifactId>
-            <version>1.0.8</version>
-            <scope>compile</scope>
         </dependency>
         <!--Worldedit API-->
         <dependency>

@@ -1,5 +1,6 @@
 package net.alex9849.arm.minifeatures;
 
+import io.papermc.lib.PaperLib;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.adapters.WGRegion;
@@ -24,6 +25,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
+import java.awt.print.Paper;
 import java.util.*;
 
 public class SignLinkMode implements Listener {
@@ -112,7 +114,7 @@ public class SignLinkMode implements Listener {
             }
             event.setCancelled(true);
             if (plugin.getMaterialFinder().getSignMaterials().contains(event.getClickedBlock().getType())) {
-                Sign sign = (Sign) event.getClickedBlock().getState();
+                Sign sign = (Sign) PaperLib.getBlockState(event.getClickedBlock(), false).getState();
                 if (plugin.getRegionManager().getRegion(sign) != null) {
                     throw new InputException(event.getPlayer(), Messages.SIGN_LINK_MODE_SIGN_BELONGS_TO_ANOTHER_REGION);
                 }

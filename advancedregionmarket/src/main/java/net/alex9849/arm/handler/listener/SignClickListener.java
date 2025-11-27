@@ -1,5 +1,6 @@
 package net.alex9849.arm.handler.listener;
 
+import io.papermc.lib.PaperLib;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.exceptions.*;
@@ -30,7 +31,7 @@ public class SignClickListener implements Listener {
             return;
         }
 
-        Sign sign = (Sign) event.getClickedBlock().getState();
+        Sign sign = (Sign) PaperLib.getBlockState(event.getClickedBlock(), false).getState();
 
         Region region = plugin.getRegionManager().getRegion(sign);
 

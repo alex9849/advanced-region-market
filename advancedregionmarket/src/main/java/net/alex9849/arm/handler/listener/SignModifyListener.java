@@ -1,5 +1,6 @@
 package net.alex9849.arm.handler.listener;
 
+import io.papermc.lib.PaperLib;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
@@ -245,7 +246,7 @@ public class SignModifyListener implements Listener {
             if (!AdvancedRegionMarket.getInstance().getMaterialFinder().getSignMaterials().contains(block.getBlock().getType())) {
                 return;
             }
-            Region region = AdvancedRegionMarket.getInstance().getRegionManager().getRegion((Sign) block.getBlock().getState());
+            Region region = AdvancedRegionMarket.getInstance().getRegionManager().getRegion((Sign) PaperLib.getBlockState(block.getBlock(), false).getState());
             if (region == null) {
                 return;
             }
@@ -311,7 +312,7 @@ public class SignModifyListener implements Listener {
         Block block = event.getBlock();
         if (!plugin.getMaterialFinder().getSignMaterials().contains(block.getType())) return;
 
-        if (plugin.getRegionManager().getRegion((Sign) block.getState()) != null) {
+        if (plugin.getRegionManager().getRegion((Sign) PaperLib.getBlockState(block, false).getState()) != null) {
             event.setCancelled(true);
         }
     }

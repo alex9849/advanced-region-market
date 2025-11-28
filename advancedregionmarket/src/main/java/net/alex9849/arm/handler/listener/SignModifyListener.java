@@ -310,7 +310,7 @@ public class SignModifyListener implements Listener {
     public void protectSignPhysics(BlockPhysicsEvent event) {
         AdvancedRegionMarket plugin = AdvancedRegionMarket.getInstance();
         Block block = event.getBlock();
-        if (!plugin.getMaterialFinder().getSignMaterials().contains(block.getType())) return;
+        if (!plugin.getMaterialFinder().getSignMaterials().contains(event.getChangedType())) return;
 
         if (plugin.getRegionManager().getRegion((Sign) PaperLib.getBlockState(block, false).getState()) != null) {
             event.setCancelled(true);

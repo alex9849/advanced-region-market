@@ -124,6 +124,10 @@ public class AdvancedRegionMarket extends JavaPlugin {
     }
 
     public void startup() {
+        if (AdvancedRegionMarket.getInstance() == null) {
+            INSTANCE = this;
+        }
+
         //Check if Worldguard is installed
         if (!setupWorldGuard()) {
             getLogger().log(Level.INFO, "Please install Worldguard!");

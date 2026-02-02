@@ -1,5 +1,6 @@
 package net.alex9849.arm.minifeatures;
 
+import io.papermc.lib.PaperLib;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.adapters.WGRegion;
@@ -97,7 +98,7 @@ public class SignLinkMode implements Listener {
             if ((!(event.getAction() == Action.LEFT_CLICK_BLOCK)) && (!(event.getAction() == Action.RIGHT_CLICK_BLOCK))) {
                 return;
             }
-            List<Material> signMaterials = plugin.getMaterialFinder().getSignMaterials();
+            EnumSet<Material> signMaterials = plugin.getMaterialFinder().getSignMaterials();
             ItemStack itemInHand = event.getPlayer().getInventory().getItemInMainHand();
             Material clickedBlock = event.getClickedBlock().getType();
 
@@ -112,7 +113,7 @@ public class SignLinkMode implements Listener {
             }
             event.setCancelled(true);
             if (plugin.getMaterialFinder().getSignMaterials().contains(event.getClickedBlock().getType())) {
-                Sign sign = (Sign) event.getClickedBlock().getState();
+                Sign sign = (Sign) PaperLib.getBlockState(event.getClickedBlock(), false).getState();
                 if (plugin.getRegionManager().getRegion(sign) != null) {
                     throw new InputException(event.getPlayer(), Messages.SIGN_LINK_MODE_SIGN_BELONGS_TO_ANOTHER_REGION);
                 }

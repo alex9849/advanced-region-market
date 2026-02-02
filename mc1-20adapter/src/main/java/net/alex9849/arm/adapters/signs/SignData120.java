@@ -1,8 +1,10 @@
 package net.alex9849.arm.adapters.signs;
 
+import io.papermc.lib.PaperLib;
 import net.alex9849.arm.adapters.util.MaterialFinder120;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.type.HangingSign;
 import org.bukkit.block.data.type.Sign;
@@ -41,40 +43,40 @@ public class SignData120 extends SignData {
     public void placeSign() {
         Material signMaterial;
         Location signLoc = this.getLocation();
-
+        Block block =  signLoc.getBlock();
 
         switch (this.getSignAttachment()) {
             case WALL:
                 signMaterial = MaterialFinder120.getInstance().getWallSign();
-                signLoc.getBlock().setType(signMaterial, false);
-                WallSign wallSign = (WallSign) signLoc.getBlock().getBlockData();
+                block.setType(signMaterial, false);
+                WallSign wallSign = (WallSign) block.getBlockData();
                 wallSign.setFacing(this.getBlockFace());
-                signLoc.getBlock().setBlockData(wallSign, false);
+                block.setBlockData(wallSign, false);
                 break;
             case GROUND:
                 signMaterial = MaterialFinder120.getInstance().getSign();
-                signLoc.getBlock().setType(signMaterial, false);
-                Sign sign = (Sign) signLoc.getBlock().getBlockData();
+                block.setType(signMaterial, false);
+                Sign sign = (Sign) block.getBlockData();
                 sign.setRotation(this.getBlockFace());
-                signLoc.getBlock().setBlockData(sign, false);
+                block.setBlockData(sign, false);
                 break;
             case HANGING:
                 signMaterial = MaterialFinder120.getInstance().getHangingSign();
-                signLoc.getBlock().setType(signMaterial, false);
-                HangingSign hangingSign = (HangingSign) signLoc.getBlock().getBlockData();
+                block.setType(signMaterial, false);
+                HangingSign hangingSign = (HangingSign) block.getBlockData();
                 hangingSign.setRotation(this.getBlockFace());
-                signLoc.getBlock().setBlockData(hangingSign, false);
+                block.setBlockData(hangingSign, false);
                 break;
             case HANGING_WALL:
                 signMaterial = MaterialFinder120.getInstance().getWallHangingSign();
-                signLoc.getBlock().setType(signMaterial, false);
-                WallHangingSign wallHangingSign = (WallHangingSign) signLoc.getBlock().getBlockData();
+                block.setType(signMaterial, false);
+                WallHangingSign wallHangingSign = (WallHangingSign) block.getBlockData();
                 wallHangingSign.setFacing(this.getBlockFace());
-                signLoc.getBlock().setBlockData(wallHangingSign, false);
+                block.setBlockData(wallHangingSign, false);
                 break;
         }
 
-        signLoc.getBlock().getState().update(false, false);
+        PaperLib.getBlockState(block, false).getState().update(false, false);
     }
 
     @Override

@@ -17,6 +17,9 @@ public class GuiInventory implements InventoryHolder {
     }
 
     public void addIcon(ClickItem icon, int position) {
+        if (position < 0 || position >= icons.length)
+            throw new IllegalArgumentException("Invalid slot " + position);
+
         this.icons[position] = icon;
     }
 

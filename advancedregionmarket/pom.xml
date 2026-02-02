@@ -62,6 +62,10 @@
                             <pattern>net.alex9849.pluginstats.client</pattern>
                             <shadedPattern>net.alex9849.arm.analytics</shadedPattern>
                         </relocation>
+                        <relocation>
+                            <pattern>io.papermc.lib</pattern>
+                            <shadedPattern>net.alex9849.lib.paperlib</shadedPattern>
+                        </relocation>
                     </relocations>
                 </configuration>
                 <executions>
@@ -92,14 +96,14 @@
             <groupId>com.sk89q.worldedit</groupId>
             <artifactId>worldedit-bukkit</artifactId>
             <scope>provided</scope>
-            <version>7.3.9</version>
+            <version>7.3.16</version>
         </dependency>
         <!--Worldguard API-->
         <dependency>
             <groupId>com.sk89q.worldguard</groupId>
             <artifactId>worldguard-bukkit</artifactId>
             <scope>provided</scope>
-            <version>7.0.9</version>
+            <version>7.0.14</version>
         </dependency>
         <!--Vault API-->
         <dependency>
@@ -111,14 +115,8 @@
         <dependency>
             <groupId>org.bstats</groupId>
             <artifactId>bstats-bukkit</artifactId>
-            <version>3.0.0</version>
+            <version>3.1.0</version>
             <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <!-- high-performance caching library -->
-            <groupId>com.github.ben-manes.caffeine</groupId>
-            <artifactId>caffeine</artifactId>
-            <version>3.2.0</version>
         </dependency>
         <!--Project Modules-->
         <dependency>

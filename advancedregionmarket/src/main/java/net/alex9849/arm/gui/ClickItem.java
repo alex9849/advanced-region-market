@@ -8,11 +8,9 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClickItem extends ItemStack {
-
+public class ClickItem {
 
     private final ItemStack itemStack;
-
     private final List<ClickAction> clickActions = new ArrayList<>();
 
     public ClickItem(Material mat) {
@@ -20,32 +18,35 @@ public class ClickItem extends ItemStack {
     }
 
     public ClickItem(ItemStack itemStack) {
-        this.itemStack = itemStack;
+        // Always clone to avoid modifying external references
+        this.itemStack = itemStack.clone();
     }
 
     public ClickItem setName(String name) {
         ItemMeta itemMeta = this.itemStack.getItemMeta();
         itemMeta.setDisplayName(name);
-        itemStack.setItemMeta(itemMeta);
+        this.itemStack.setItemMeta(itemMeta);
         return this;
     }
 
     public ClickItem setLore(List<String> lore) {
         ItemMeta itemMeta = this.itemStack.getItemMeta();
         itemMeta.setLore(lore);
-        itemStack.setItemMeta(itemMeta);
+        this.itemStack.setItemMeta(itemMeta);
         return this;
     }
-    
+
     public ClickItem setCustomItemModel(int customItemModel) {
-    	ItemMeta itemMeta = this.itemStack.getItemMeta();
-        if(customItemModel != -1) { itemMeta.setCustomModelData(customItemModel); }
-        itemStack.setItemMeta(itemMeta);
+        ItemMeta itemMeta = this.itemStack.getItemMeta();
+        if (customItemModel != -1) {
+            itemMeta.setCustomModelData(customItemModel);
+        }
+        this.itemStack.setItemMeta(itemMeta);
         return this;
     }
 
     public ClickItem addClickAction(@Nullable ClickAction clickAction) {
-        if(clickAction != null) {
+        if (clickAction != null) {
             this.clickActions.add(clickAction);
         }
         return this;
@@ -56,7 +57,7 @@ public class ClickItem extends ItemStack {
     }
 
     public ItemStack getItemStack() {
-        return this.itemStack;
+        return this.itemStack.clone();
     }
 
 }

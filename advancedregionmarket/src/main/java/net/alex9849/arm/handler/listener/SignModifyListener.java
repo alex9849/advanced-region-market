@@ -1,5 +1,6 @@
 package net.alex9849.arm.handler.listener;
 
+import io.papermc.lib.PaperLib;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
@@ -23,6 +24,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -244,7 +246,7 @@ public class SignModifyListener implements Listener {
             if (!AdvancedRegionMarket.getInstance().getMaterialFinder().getSignMaterials().contains(block.getBlock().getType())) {
                 return;
             }
-            Region region = AdvancedRegionMarket.getInstance().getRegionManager().getRegion((Sign) block.getBlock().getState());
+            Region region = AdvancedRegionMarket.getInstance().getRegionManager().getRegion((Sign) PaperLib.getBlockState(block.getBlock(), false).getState());
             if (region == null) {
                 return;
             }
@@ -305,13 +307,13 @@ public class SignModifyListener implements Listener {
     }
 
     @EventHandler
-    public void protectSignPhysics(BlockPhysicsEvent sign) {
+    public void protectSignPhysics(BlockPhysicsEvent event) {
         AdvancedRegionMarket plugin = AdvancedRegionMarket.getInstance();
-        if (plugin.getMaterialFinder().getSignMaterials().contains(sign.getBlock().getType())) {
-            if (plugin.getRegionManager().getRegion((Sign) sign.getBlock().getState()) != null) {
-                sign.setCancelled(true);
-                return;
-            }
+        Block block = event.getBlock();
+        if (!plugin.getMaterialFinder().getSignMaterials().contains(event.getChangedType())) return;
+
+        if (plugin.getRegionManager().getRegion((Sign) PaperLib.getBlockState(block, false).getState()) != null) {
+            event.setCancelled(true);
         }
     }
 }

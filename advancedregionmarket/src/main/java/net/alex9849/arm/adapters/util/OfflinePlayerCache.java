@@ -1,250 +1,90 @@
 package net.alex9849.arm.adapters.util;
 
-import com.github.benmanes.caffeine.cache.Caffeine;
-import com.github.benmanes.caffeine.cache.LoadingCache;
-import java.time.Duration;
-import java.time.Instant;
-import java.util.Date;
-import java.util.Map;
-import java.util.UUID;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 
-import org.bukkit.*;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
-import org.bukkit.profile.PlayerProfile;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.UUID;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Each call to {@link Bukkit#getOfflinePlayer(UUID)} results in a call to
- * net.minecraft.world.level.storage.PlayerDataStorage#load() which contains resource consuming IO read operations.
- * So we want to cache the retrieved offline players as well as the result of {@link OfflinePlayer#getName()}.
+ * net.minecraft.world.level.storage.PlayerDataStorage#load() which performs expensive I/O.
+ * <br>
+ * This class caches the retrieved {@link OfflinePlayer} instances as well as the result of
+ * {@link OfflinePlayer#getName()} to avoid repeated disk reads.
  */
-public class OfflinePlayerCache {
+public final class OfflinePlayerCache {
 
-    private static final LoadingCache<UUID, OfflinePlayer> playerCache = Caffeine.newBuilder()
-            .expireAfterAccess(Duration.ofMinutes(30))
-            .build(uuid -> new OfflinePlayerProxy(Bukkit.getOfflinePlayer(uuid)));
-    /**
-     * Each call to {@link OfflinePlayer#getName()} of the org.bukkit.craftbukkit.CraftOfflinePlayer implementation
-     * results in a call to net.minecraft.world.level.storage.PlayerDataStorage#load().
-     * So we also want to cache the player names to reduce IO reads.
-     */
-    private static final LoadingCache<OfflinePlayer, String> playerNameCache = Caffeine.newBuilder()
-            .expireAfterAccess(Duration.ofMinutes(30))
-            .build(OfflinePlayer::getName);
+    private OfflinePlayerCache() {}
+
+    /** Cache for OfflinePlayer lookup */
+    private static final Cache<UUID, OfflinePlayer> playerCache = CacheBuilder.newBuilder()
+            .expireAfterAccess(30, TimeUnit.MINUTES)
+            .build();
+
+    /** Cache for player names */
+    private static final Cache<UUID, String> nameCache = CacheBuilder.newBuilder()
+            .expireAfterAccess(30, TimeUnit.MINUTES)
+            .build();
 
     /**
-     * @param uuid the UUID of the player to retrieve
-     * @return The cached result of {@link Bukkit#getOfflinePlayer(UUID)} wrapped into a proxy object which allows
-     *         caching further methods that perform IO read operations (i.e. {@link OfflinePlayer#getName()}).
-     * @see Bukkit#getOfflinePlayer(UUID)
+     * Returns the cached {@link OfflinePlayer} for the given UUID,
+     * loading and caching it if necessary.
+     * <br>
+     * Calling {@link OfflinePlayer#getName()} on CraftOfflinePlayer may trigger I/O.
+     * Always use {@link #getName(UUID)} or {@link #getName(OfflinePlayer)} from {@link OfflinePlayerCache} instead of
+     * {@code getPlayer(uuid).getName()}.
+     *
+     * @param uuid the UUID of the player
+     * @return the cached or newly loaded {@link OfflinePlayer} (never null)
      */
-    public static OfflinePlayer get(UUID uuid) {
-        return playerCache.get(uuid);
+    public static @Nonnull OfflinePlayer getPlayer(UUID uuid) {
+        try {
+            return playerCache.get(uuid, () -> Bukkit.getOfflinePlayer(uuid));
+        } catch (ExecutionException e) {
+            // This should never happen
+            throw new RuntimeException("Failed to load OfflinePlayer for UUID: " + uuid, e);
+        }
     }
 
-    private static class OfflinePlayerProxy implements OfflinePlayer {
-        private final OfflinePlayer delegate;
-
-        private OfflinePlayerProxy(OfflinePlayer delegate) {
-            this.delegate = delegate;
+    /**
+     * Returns the cached name for the given UUID, or loads it if necessary.
+     * <br>
+     * This method should be used instead of calling {@code getPlayer(uuid).getName()}
+     * to avoid unnecessary I/O by CraftOfflinePlayer.
+     *
+     * @param uuid the UUID of the player
+     * @return the cached or loaded player name, or null if unknown
+     */
+    public static @Nullable String getName(UUID uuid) {
+        String cached = nameCache.getIfPresent(uuid);
+        if (cached != null) {
+            return cached;
         }
 
-        @Override
-        public boolean isOnline() {
-            return delegate.isOnline();
+        OfflinePlayer player = getPlayer(uuid);
+        String name = player.getName();
+
+        // Guava does not allow caching null values
+        if (name != null) {
+            nameCache.put(uuid, name);
         }
 
-        /**
-         * This method uses the {@link #playerNameCache} to return cached player names or cache them on demand.
-         */
-        @Override
-        public String getName() {
-            return playerNameCache.get(delegate);
-        }
+        return name;
+    }
 
-        @Override
-        public UUID getUniqueId() {
-            return delegate.getUniqueId();
-        }
-
-        @Override
-        public PlayerProfile getPlayerProfile() {
-            return delegate.getPlayerProfile();
-        }
-
-        @Override
-        public boolean isBanned() {
-            return delegate.isBanned();
-        }
-
-        @Override
-        public BanEntry<PlayerProfile> ban(String s, Date date, String s1) {
-            return delegate.ban(s, date, s1);
-        }
-
-        @Override
-        public BanEntry<PlayerProfile> ban(String s, Instant instant, String s1) {
-            return delegate.ban(s, instant, s1);
-        }
-
-        @Override
-        public BanEntry<PlayerProfile> ban(String s, Duration duration, String s1) {
-            return delegate.ban(s, duration, s1);
-        }
-
-        @Override
-        public boolean isWhitelisted() {
-            return delegate.isWhitelisted();
-        }
-
-        @Override
-        public void setWhitelisted(boolean value) {
-            delegate.setWhitelisted(value);
-        }
-
-        @Override
-        public Player getPlayer() {
-            return delegate.getPlayer();
-        }
-
-        @Override
-        public long getFirstPlayed() {
-            return delegate.getFirstPlayed();
-        }
-
-        @Override
-        public long getLastPlayed() {
-            return delegate.getLastPlayed();
-        }
-
-        @Override
-        public boolean hasPlayedBefore() {
-            return delegate.hasPlayedBefore();
-        }
-
-        @Override
-        public Location getBedSpawnLocation() {
-            return delegate.getBedSpawnLocation();
-        }
-
-        @Override
-        public Location getRespawnLocation() {
-            return delegate.getRespawnLocation();
-        }
-
-        @Override
-        public void incrementStatistic(Statistic statistic) throws IllegalArgumentException {
-            delegate.incrementStatistic(statistic);
-        }
-
-        @Override
-        public void decrementStatistic(Statistic statistic) throws IllegalArgumentException {
-            delegate.decrementStatistic(statistic);
-        }
-
-        @Override
-        public void incrementStatistic(Statistic statistic, int amount) throws IllegalArgumentException {
-            delegate.incrementStatistic(statistic, amount);
-        }
-
-        @Override
-        public void decrementStatistic(Statistic statistic, int amount) throws IllegalArgumentException {
-            delegate.decrementStatistic(statistic, amount);
-        }
-
-        @Override
-        public void setStatistic(Statistic statistic, int newValue) throws IllegalArgumentException {
-            delegate.setStatistic(statistic, newValue);
-        }
-
-        @Override
-        public int getStatistic(Statistic statistic) throws IllegalArgumentException {
-            return delegate.getStatistic(statistic);
-        }
-
-        @Override
-        public void incrementStatistic(Statistic statistic, Material material) throws IllegalArgumentException {
-            delegate.incrementStatistic(statistic, material);
-        }
-
-        @Override
-        public void decrementStatistic(Statistic statistic, Material material) throws IllegalArgumentException {
-            delegate.decrementStatistic(statistic, material);
-        }
-
-        @Override
-        public int getStatistic(Statistic statistic, Material material) throws IllegalArgumentException {
-            return delegate.getStatistic(statistic, material);
-        }
-
-        @Override
-        public void incrementStatistic(Statistic statistic, Material material, int amount) throws IllegalArgumentException {
-            delegate.incrementStatistic(statistic, material, amount);
-        }
-
-        @Override
-        public void decrementStatistic(Statistic statistic, Material material, int amount) throws IllegalArgumentException {
-            delegate.decrementStatistic(statistic, material, amount);
-        }
-
-        @Override
-        public void setStatistic(Statistic statistic, Material material, int newValue) throws IllegalArgumentException {
-            delegate.setStatistic(statistic, material, newValue);
-        }
-
-        @Override
-        public void incrementStatistic(Statistic statistic, EntityType entityType) throws IllegalArgumentException {
-            delegate.incrementStatistic(statistic, entityType);
-        }
-
-        @Override
-        public void decrementStatistic(Statistic statistic, EntityType entityType) throws IllegalArgumentException {
-            delegate.decrementStatistic(statistic, entityType);
-        }
-
-        @Override
-        public int getStatistic(Statistic statistic, EntityType entityType) throws IllegalArgumentException {
-            return delegate.getStatistic(statistic, entityType);
-        }
-
-        @Override
-        public void incrementStatistic(Statistic statistic, EntityType entityType, int amount) throws IllegalArgumentException {
-            delegate.incrementStatistic(statistic, entityType, amount);
-        }
-
-        @Override
-        public void decrementStatistic(Statistic statistic, EntityType entityType, int amount) {
-            delegate.decrementStatistic(statistic, entityType, amount);
-        }
-
-        @Override
-        public void setStatistic(Statistic statistic, EntityType entityType, int newValue) {
-            delegate.setStatistic(statistic, entityType, newValue);
-        }
-
-        @Override
-        public Location getLastDeathLocation() {
-            return delegate.getLastDeathLocation();
-        }
-
-        @Override
-        public Location getLocation() {
-            return delegate.getLocation();
-        }
-
-        @Override
-        public Map<String, Object> serialize() {
-            return delegate.serialize();
-        }
-
-        @Override
-        public boolean isOp() {
-            return delegate.isOp();
-        }
-
-        @Override
-        public void setOp(boolean value) {
-            delegate.setOp(value);
-        }
+    /**
+     * Convenience overload for retrieving the cached player name from an {@link OfflinePlayer} instance.
+     *
+     * @param player the OfflinePlayer
+     * @return the cached or loaded name, or null if unknown
+     */
+    public static @Nullable String getName(OfflinePlayer player) {
+        return getName(player.getUniqueId());
     }
 }

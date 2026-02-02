@@ -1,5 +1,6 @@
 package net.alex9849.arm.adapters.signs;
 
+import io.papermc.lib.PaperLib;
 import org.bukkit.Location;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
@@ -25,7 +26,7 @@ public abstract class SignData {
         if (!this.isPlaced()) {
             return null;
         }
-        return (Sign) this.getLocation().getBlock().getState();
+        return (Sign) PaperLib.getBlockState(this.getLocation().getBlock(), false).getState();
     }
 
     public abstract boolean isPlaced();

@@ -92,21 +92,18 @@ public class AdvancedRegionMarket extends JavaPlugin {
     private LimitGroupManager limitGroupManager = null;
     private ArmSettings pluginSettings = null;
     private AbstractMaterialFinder materialFinder = null;
+    private static AdvancedRegionMarket INSTANCE = null;
 
 
     /*#########################################
     ######### Startup / Shutdown stuff ########
     #########################################*/
     public static AdvancedRegionMarket getInstance() {
-        Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("AdvancedRegionMarket");
-        if (plugin instanceof AdvancedRegionMarket) {
-            return (AdvancedRegionMarket) plugin;
-        } else {
-            return null;
-        }
+        return INSTANCE;
     }
 
     public void onEnable() {
+        INSTANCE = this;
         Reader pluginYmlReader = Objects.requireNonNull(getTextResource("plugin.yml"));
         YamlConfiguration pluginYml = YamlConfiguration.loadConfiguration(pluginYmlReader);
         //This is a workaround to make shure that this plugin is loaded after the last world has been loaded.
@@ -127,6 +124,10 @@ public class AdvancedRegionMarket extends JavaPlugin {
     }
 
     public void startup() {
+        if (AdvancedRegionMarket.getInstance() == null) {
+            INSTANCE = this;
+        }
+
         //Check if Worldguard is installed
         if (!setupWorldGuard()) {
             getLogger().log(Level.INFO, "Please install Worldguard!");
@@ -297,6 +298,7 @@ public class AdvancedRegionMarket extends JavaPlugin {
         EntityChangeBlockEvent.getHandlerList().unregister(this);
         getServer().getScheduler().cancelTasks(this);
         HandlerList.unregisterAll(this);
+        INSTANCE = null;
     }
 
     private void loadCommands() {

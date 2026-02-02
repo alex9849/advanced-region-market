@@ -18,7 +18,6 @@ public class SignDataFactory120 extends SignDataFactory {
 
         BlockFace blockFace;
         SignAttachment signAttachment;
-        BlockState blockState = loc.getBlock().getState();
         BlockData blockData = loc.getBlock().getBlockData();
 
         if (blockData instanceof Sign) {

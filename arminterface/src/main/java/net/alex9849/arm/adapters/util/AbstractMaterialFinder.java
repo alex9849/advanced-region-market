@@ -2,15 +2,14 @@ package net.alex9849.arm.adapters.util;
 
 import org.bukkit.Material;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.EnumSet;
 
 public abstract class AbstractMaterialFinder {
-    private List<Material> signMaterials;
+    private EnumSet<Material> signMaterials;
 
-    public List<Material> getSignMaterials() {
+    public EnumSet<Material> getSignMaterials() {
         if (signMaterials == null) {
-            signMaterials = new ArrayList<Material>();
+            signMaterials = EnumSet.noneOf(Material.class);
             for (Material mat : Material.values()) {
                 if (mat.toString().contains("SIGN")) {
                     signMaterials.add(mat);

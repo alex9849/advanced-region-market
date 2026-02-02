@@ -1,5 +1,6 @@
 package net.alex9849.arm.adapters.signs;
 
+import io.papermc.lib.PaperLib;
 import net.alex9849.arm.adapters.util.MaterialFinder114;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -31,7 +32,7 @@ public class SignData114 extends SignData {
             signLoc.getBlock().setBlockData(sign, false);
         }
 
-        signLoc.getBlock().getState().update(false, false);
+        PaperLib.getBlockState(this.getLocation().getBlock(), false).getState().update(false, false);
     }
 
     @Override

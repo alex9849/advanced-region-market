@@ -35,9 +35,9 @@
         </dependency>
         <!-- PaperLib library for Spigot <-> Paper compatibility -->
         <dependency>
-            <groupId>io.papermc</groupId>
-            <artifactId>paperlib</artifactId>
-            <version>1.0.8</version>
+            <groupId>io.github.rvskele</groupId>
+            <artifactId>PaperLib</artifactId>
+            <version>2.1.0</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

@@ -1,6 +1,6 @@
 package net.alex9849.arm.adapters.signs;
 
-import io.papermc.lib.PaperLib;
+import io.github.rvskele.paperlib.PaperLib;
 import net.alex9849.arm.adapters.util.MaterialFinder114;
 import org.bukkit.Location;
 import org.bukkit.Material;

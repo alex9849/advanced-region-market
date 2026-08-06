@@ -63,7 +63,7 @@
                             <shadedPattern>net.alex9849.arm.analytics</shadedPattern>
                         </relocation>
                         <relocation>
-                            <pattern>io.papermc.lib</pattern>
+                            <pattern>io.github.rvskele.paperlib</pattern>
                             <shadedPattern>net.alex9849.lib.paperlib</shadedPattern>
                         </relocation>
                     </relocations>

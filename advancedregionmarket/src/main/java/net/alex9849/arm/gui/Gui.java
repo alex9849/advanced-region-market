@@ -1,7 +1,7 @@
 package net.alex9849.arm.gui;
 
 import com.sk89q.worldguard.protection.flags.*;
-import io.papermc.lib.PaperLib;
+import io.github.rvskele.paperlib.PaperLib;
 import net.alex9849.arm.AdvancedRegionMarket;
 import net.alex9849.arm.Messages;
 import net.alex9849.arm.Permission;
